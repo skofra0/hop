@@ -31,13 +31,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 public class SplitGraph extends BaseTransform<SplitGraphMeta, SplitGraphData> {
 
-  public SplitGraph(
-      TransformMeta transformMeta,
-      SplitGraphMeta meta,
-      SplitGraphData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SplitGraph(TransformMeta transformMeta, SplitGraphMeta meta, SplitGraphData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -58,8 +52,7 @@ public class SplitGraph extends BaseTransform<SplitGraphMeta, SplitGraphData> {
 
       data.graphFieldIndex = getInputRowMeta().indexOfValue(meta.getGraphField());
       if (data.graphFieldIndex < 0) {
-        throw new HopException(
-            "Unable to find graph field " + meta.getGraphField() + "' in the transform input");
+        throw new HopException("Unable to find graph field " + meta.getGraphField() + "' in the transform input");
       }
       IValueMeta valueMeta = getInputRowMeta().getValueMeta(data.graphFieldIndex);
       if (valueMeta.getType() != ValueMetaGraph.TYPE_GRAPH) {
@@ -80,8 +73,7 @@ public class SplitGraph extends BaseTransform<SplitGraphMeta, SplitGraphData> {
       }
     }
 
-    ValueMetaGraph valueMeta =
-        (ValueMetaGraph) getInputRowMeta().getValueMeta(data.graphFieldIndex);
+    ValueMetaGraph valueMeta = (ValueMetaGraph) getInputRowMeta().getValueMeta(data.graphFieldIndex);
     Object valueData = row[data.graphFieldIndex];
     GraphData graphData = valueMeta.getGraphData(valueData);
 

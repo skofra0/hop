@@ -44,14 +44,7 @@ public class SasInputField implements Cloneable {
    * @param groupingSymbol
    * @param trimType
    */
-  public SasInputField(
-      String name,
-      String rename,
-      int type,
-      String conversionMask,
-      String decimalSymbol,
-      String groupingSymbol,
-      int trimType) {
+  public SasInputField(String name, String rename, int type, String conversionMask, String decimalSymbol, String groupingSymbol, int trimType) {
     this.name = name;
     this.rename = rename;
     this.type = type;

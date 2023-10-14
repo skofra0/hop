@@ -50,7 +50,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PGBulkLoaderTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   private TransformMockHelper<PGBulkLoaderMeta, PGBulkLoaderData> transformMockHelper;
   private PGBulkLoader pgBulkLoader;
 
@@ -71,17 +72,10 @@ public class PGBulkLoaderTest {
   @Before
   public void setUp() throws Exception {
 
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            PostgreSqlDatabaseMeta.class.getName(),
-            DatabasePluginType.class,
-            DatabaseMetaPlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(PostgreSqlDatabaseMeta.class.getName(), DatabasePluginType.class, DatabaseMetaPlugin.class);
 
-    transformMockHelper =
-        new TransformMockHelper<>(
-            "PostgreSQL Bulk Loader", PGBulkLoaderMeta.class, PGBulkLoaderData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("PostgreSQL Bulk Loader", PGBulkLoaderMeta.class, PGBulkLoaderData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
     pgBulkLoader =
         new PGBulkLoader(
@@ -105,15 +99,7 @@ public class PGBulkLoaderTest {
     doReturn(new ArrayList<>()).when(meta).getMappings();
     PGBulkLoaderData data = mock(PGBulkLoaderData.class);
 
-    PGBulkLoader spy =
-        spy(
-            new PGBulkLoader(
-                transformMockHelper.transformMeta,
-                meta,
-                data,
-                0,
-                transformMockHelper.pipelineMeta,
-                transformMockHelper.pipeline));
+    PGBulkLoader spy = spy(new PGBulkLoader(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline));
 
     doReturn(new Object[0]).when(spy).getRow();
     doReturn("").when(spy).getCopyCommand();
@@ -198,13 +184,11 @@ public class PGBulkLoaderTest {
       // test. Fail it.
       fail("Database Connection is not null, this fails the test.");
     } catch (HopException aHopException) {
-      assertTrue(
-          aHopException.getMessage().contains("There is no connection defined in this transform."));
+      assertTrue(aHopException.getMessage().contains("There is no connection defined in this transform."));
     }
   }
 
-  private static PGBulkLoaderMeta getPgBulkLoaderMock(String DbNameOverride)
-      throws HopXmlException {
+  private static PGBulkLoaderMeta getPgBulkLoaderMock(String DbNameOverride) throws HopXmlException {
     PGBulkLoaderMeta pgBulkLoaderMetaMock = mock(PGBulkLoaderMeta.class);
     when(pgBulkLoaderMetaMock.getDbNameOverride()).thenReturn(DbNameOverride);
     DatabaseMeta databaseMeta = getDatabaseMetaSpy();
@@ -214,16 +198,7 @@ public class PGBulkLoaderTest {
 
   private static DatabaseMeta getDatabaseMetaSpy() throws HopXmlException {
     DatabaseMeta databaseMeta =
-        spy(
-            new DatabaseMeta(
-                CONNECTION_NAME,
-                "POSTGRESQL",
-                "Native",
-                CONNECTION_DB_HOST,
-                CONNECTION_DB_NAME,
-                CONNECTION_DB_PORT,
-                CONNECTION_DB_USERNAME,
-                CONNECTION_DB_PASSWORD));
+        spy(new DatabaseMeta(CONNECTION_NAME, "POSTGRESQL", "Native", CONNECTION_DB_HOST, CONNECTION_DB_NAME, CONNECTION_DB_PORT, CONNECTION_DB_USERNAME, CONNECTION_DB_PASSWORD));
     return databaseMeta;
   }
 }

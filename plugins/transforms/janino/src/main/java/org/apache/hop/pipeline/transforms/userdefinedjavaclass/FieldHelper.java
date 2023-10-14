@@ -42,10 +42,7 @@ public class FieldHelper {
     this.meta = rowMeta.searchValueMeta(fieldName);
     this.index = rowMeta.indexOfValue(fieldName);
     if (this.index == -1) {
-      throw new IllegalArgumentException(
-          String.format(
-              "FieldHelper could not be initialized. The field named '%s' not found in RowMeta: %s",
-              fieldName, rowMeta.toStringMeta()));
+      throw new IllegalArgumentException(String.format("FieldHelper could not be initialized. The field named '%s' not found in RowMeta: %s", fieldName, rowMeta.toStringMeta()));
     }
   }
 
@@ -161,20 +158,14 @@ public class FieldHelper {
       sb.append("value");
     }
     String name = getNativeDataTypeSimpleName(v);
-    sb.append(" = ")
-        .append(accessor)
-        .append(".get")
-        .append("-".equals(name) ? "Object" : name)
-        .append("(r);");
+    sb.append(" = ").append(accessor).append(".get").append("-".equals(name) ? "Object" : name).append("(r);");
 
     return sb.toString();
   }
 
   public static String getNativeDataTypeSimpleName(IValueMeta v) {
     try {
-      return v.getType() != IValueMeta.TYPE_BINARY
-          ? v.getNativeDataTypeClass().getSimpleName()
-          : "Binary";
+      return v.getType() != IValueMeta.TYPE_BINARY ? v.getNativeDataTypeClass().getSimpleName() : "Binary";
     } catch (HopValueException e) {
       ILogChannel log = new LogChannel(v);
       log.logDebug(BaseMessages.getString(PKG, "FieldHelper.Log.UnknownNativeDataTypeSimpleName"));

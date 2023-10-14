@@ -47,8 +47,7 @@ public class AppendDialog extends BaseTransformDialog implements ITransformDialo
 
   private final AppendMeta input;
 
-  public AppendDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public AppendDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (AppendMeta) in;
   }

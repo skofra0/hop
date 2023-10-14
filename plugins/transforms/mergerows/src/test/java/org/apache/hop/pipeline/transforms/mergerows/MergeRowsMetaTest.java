@@ -38,7 +38,8 @@ import java.util.Map;
 public class MergeRowsMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<MergeRowsMeta> testMetaClass = MergeRowsMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -46,8 +47,7 @@ public class MergeRowsMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes = Arrays.asList("flagField", "keyFields", "valueFields");
 
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("keyFields", stringArrayLoadSaveValidator);
@@ -55,15 +55,7 @@ public class MergeRowsMetaTest implements IInitializer<ITransformMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, new HashMap<>(), new HashMap<>(), attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

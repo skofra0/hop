@@ -52,7 +52,8 @@ public class BeamPublishMeta extends BaseTransformMeta<BeamPublish, BeamPublishD
   public static final String MESSAGE_TYPE = "message_type";
   public static final String MESSAGE_FIELD = "message_field";
 
-  @HopMetadataProperty private String topic;
+  @HopMetadataProperty
+  private String topic;
 
   @HopMetadataProperty(key = "message_type")
   private String messageType;
@@ -72,13 +73,7 @@ public class BeamPublishMeta extends BaseTransformMeta<BeamPublish, BeamPublishD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // No output
@@ -117,19 +112,10 @@ public class BeamPublishMeta extends BaseTransformMeta<BeamPublish, BeamPublishD
     // some validation
     //
     if (StringUtils.isEmpty(topic)) {
-      throw new HopException(
-          "Please specify a topic to publish to in Beam Pub/Sub Publish transform '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("Please specify a topic to publish to in Beam Pub/Sub Publish transform '" + transformMeta.getName() + "'");
     }
 
-    BeamPublishTransform beamOutputTransform =
-        new BeamPublishTransform(
-            transformMeta.getName(),
-            variables.resolve(topic),
-            messageType,
-            messageField,
-            JsonRowMeta.toJson(rowMeta));
+    BeamPublishTransform beamOutputTransform = new BeamPublishTransform(transformMeta.getName(), variables.resolve(topic), messageType, messageField, JsonRowMeta.toJson(rowMeta));
 
     // Which transform do we apply this transform to?
     // Ignore info hops until we figure that out.
@@ -142,11 +128,7 @@ public class BeamPublishMeta extends BaseTransformMeta<BeamPublish, BeamPublishD
     // No need to store this, it's PDone.
     //
     input.apply(beamOutputTransform);
-    log.logBasic(
-        "Handled transform (PUBLISH) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (PUBLISH) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   /**

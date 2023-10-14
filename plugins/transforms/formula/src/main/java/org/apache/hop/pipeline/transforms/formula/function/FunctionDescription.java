@@ -46,14 +46,7 @@ public class FunctionDescription {
    * @param semantics
    * @param functionExamples
    */
-  public FunctionDescription(
-      String category,
-      String name,
-      String description,
-      String syntax,
-      String returns,
-      String constraints,
-      String semantics,
+  public FunctionDescription(String category, String name, String description, String syntax, String returns, String constraints, String semantics,
       List<FunctionExample> functionExamples) {
     this.category = category;
     this.name = name;
@@ -210,20 +203,12 @@ public class FunctionDescription {
 
     // Then the description
     //
-    report
-        .append("<b><u>Description:</u></b> ")
-        .append(description)
-        .append("<br>")
-        .append(Const.CR);
+    report.append("<b><u>Description:</u></b> ").append(description).append("<br>").append(Const.CR);
 
     // Syntax
     //
     if (!Utils.isEmpty(syntax)) {
-      report
-          .append("<b><u>Syntax:</u></b> <pre>")
-          .append(syntax)
-          .append("</pre><br>")
-          .append(Const.CR);
+      report.append("<b><u>Syntax:</u></b> <pre>").append(syntax).append("</pre><br>").append(Const.CR);
     }
 
     // Returns
@@ -235,11 +220,7 @@ public class FunctionDescription {
     // Constraints
     //
     if (!Utils.isEmpty(constraints)) {
-      report
-          .append("<b><u>Constraints:</u></b>  ")
-          .append(constraints)
-          .append("<br>")
-          .append(Const.CR);
+      report.append("<b><u>Constraints:</u></b>  ").append(constraints).append("<br>").append(Const.CR);
     }
 
     // Semantics

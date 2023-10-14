@@ -41,12 +41,7 @@ public class DetailsDialog {
   private final Image titleImage;
   private final String details;
 
-  public DetailsDialog(
-      Shell parentShell,
-      String dialogTitle,
-      Image dialogTitleImage,
-      String dialogMessage,
-      String details) {
+  public DetailsDialog(Shell parentShell, String dialogTitle, Image dialogTitleImage, String dialogMessage, String details) {
     this.title = dialogTitle;
     this.message = dialogMessage;
     this.parent = parentShell;
@@ -66,13 +61,7 @@ public class DetailsDialog {
     PropsUi.setLook(wClose);
     wClose.setText(BaseMessages.getString("System.Button.Close"));
     wClose.addListener(SWT.Selection, e -> close());
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wClose,
-        },
-        PropsUi.getMargin(),
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wClose,}, PropsUi.getMargin(), null);
 
     Label wLabel = new Label(shell, SWT.LEFT);
     PropsUi.setLook(wLabel);

@@ -63,8 +63,8 @@ public class TreeToolbar extends Composite {
     ToolBar treeTb = new ToolBar(this, SWT.HORIZONTAL | SWT.FLAT);
     PropsUi.setLook(treeTb, Props.WIDGET_STYLE_TOOLBAR);
     /*
-     This contains a map with all the unnamed pipeline (just a filename)
-    */
+     * This contains a map with all the unnamed pipeline (just a filename)
+     */
     expandAll = new ToolItem(treeTb, SWT.PUSH);
     expandAll.setImage(GuiResource.getInstance().getImageExpandAll());
     collapseAll = new ToolItem(treeTb, SWT.PUSH);
@@ -106,18 +106,16 @@ public class TreeToolbar extends Composite {
     fdSelectionFilter.left = new FormAttachment(0, 10);
     selectionFilter.setLayoutData(fdSelectionFilter);
 
-    clearSelectionFilter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            selectionFilter.setText("");
-          }
-        });
+    clearSelectionFilter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        selectionFilter.setText("");
+      }
+    });
 
     clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText()));
 
-    selectionFilter.addModifyListener(
-        modifyEvent -> clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText())));
+    selectionFilter.addModifyListener(modifyEvent -> clearSelectionFilter.setEnabled(!Utils.isEmpty(selectionFilter.getText())));
 
     Label sep4 = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
     sep4.setBackground(GuiResource.getInstance().getColorWhite());

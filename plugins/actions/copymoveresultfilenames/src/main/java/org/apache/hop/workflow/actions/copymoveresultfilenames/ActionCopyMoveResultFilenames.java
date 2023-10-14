@@ -144,22 +144,17 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
     xml.append("      ").append(XmlHandler.addTagValue("SpecifyFormat", specifyFormat));
     xml.append("      ").append(XmlHandler.addTagValue("date_time_format", dateTimeFormat));
     xml.append("      ").append(XmlHandler.addTagValue("action", action));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("AddDateBeforeExtension", addDateBeforeExtension));
+    xml.append("      ").append(XmlHandler.addTagValue("AddDateBeforeExtension", addDateBeforeExtension));
     xml.append("      ").append(XmlHandler.addTagValue("OverwriteFile", overwriteFile));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("CreateDestinationFolder", createDestinationFolder));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("RemovedSourceFilename", removedSourceFilename));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("AddDestinationFilename", addDestinationFilename));
+    xml.append("      ").append(XmlHandler.addTagValue("CreateDestinationFolder", createDestinationFolder));
+    xml.append("      ").append(XmlHandler.addTagValue("RemovedSourceFilename", removedSourceFilename));
+    xml.append("      ").append(XmlHandler.addTagValue("AddDestinationFilename", addDestinationFilename));
 
     return xml.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       folderName = XmlHandler.getTagValue(entrynode, "foldername");
@@ -172,24 +167,18 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
       addDate = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_date"));
       addTime = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_time"));
       specifyFormat = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "SpecifyFormat"));
-      addDateBeforeExtension =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "AddDateBeforeExtension"));
+      addDateBeforeExtension = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "AddDateBeforeExtension"));
 
       dateTimeFormat = XmlHandler.getTagValue(entrynode, "date_time_format");
       action = XmlHandler.getTagValue(entrynode, "action");
 
       overwriteFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "OverwriteFile"));
-      createDestinationFolder =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "CreateDestinationFolder"));
-      removedSourceFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "RemovedSourceFilename"));
-      addDestinationFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "AddDestinationFilename"));
+      createDestinationFolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "CreateDestinationFolder"));
+      removedSourceFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "RemovedSourceFilename"));
+      addDestinationFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "AddDestinationFilename"));
 
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "ActionCopyMoveResultFilenames.CanNotLoadFromXML", xe.getMessage()));
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.CanNotLoadFromXML", xe.getMessage()));
     }
   }
 
@@ -369,36 +358,22 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
       try {
         int size = result.getResultFiles().size();
         if (isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "ActionCopyMoveResultFilenames.log.FilesFound", "" + size));
+          logBasic(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.log.FilesFound", "" + size));
         }
 
         List<ResultFile> resultFiles = result.getResultFilesList();
         if (resultFiles != null && resultFiles.size() > 0) {
-          for (Iterator<ResultFile> it = resultFiles.iterator();
-              it.hasNext() && !parentWorkflow.isStopped(); ) {
+          for (Iterator<ResultFile> it = resultFiles.iterator(); it.hasNext() && !parentWorkflow.isStopped();) {
             if (successConditionBroken) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.Error.SuccessConditionbroken",
-                      "" + nrErrors));
-              throw new Exception(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.Error.SuccessConditionbroken",
-                      "" + nrErrors));
+              logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Error.SuccessConditionbroken", "" + nrErrors));
+              throw new Exception(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Error.SuccessConditionbroken", "" + nrErrors));
             }
 
             ResultFile resultFile = it.next();
             file = resultFile.getFile();
             if (file != null && file.exists()) {
-              if (!specifyWildcard
-                  || (CheckFileWildcard(file.getName().getBaseName(), wildcardPattern, true)
-                      && !CheckFileWildcard(
-                          file.getName().getBaseName(), wildcardExcludePattern, false)
-                      && specifyWildcard)) {
+              if (!specifyWildcard || (CheckFileWildcard(file.getName().getBaseName(), wildcardPattern, true)
+                  && !CheckFileWildcard(file.getName().getBaseName(), wildcardExcludePattern, false) && specifyWildcard)) {
                 // Copy or Move file
                 if (!processFile(file, realdestinationFolder, result, parentWorkflow, deleteFile)) {
                   // Update Errors
@@ -407,11 +382,7 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
               }
 
             } else {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.log.ErrorCanNotFindFile",
-                      file.toString()));
+              logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.log.ErrorCanNotFindFile", file.toString()));
               // Update Errors
               updateErrors();
             }
@@ -450,8 +421,7 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
 
   private boolean checkIfSuccessConditionBroken() {
     boolean retval = false;
-    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrErrors >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
+    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS)) || (nrErrors >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
     return retval;
@@ -460,9 +430,7 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
   private boolean getSuccessStatus() {
     boolean retval = false;
 
-    if ((nrErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrSuccess >= limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES))
+    if ((nrErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS)) || (nrSuccess >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES))
         || (nrErrors <= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
@@ -476,34 +444,23 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
       folder = HopVfs.getFileObject(folderName);
 
       if (!folder.exists()) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionCopyMoveResultFilenames.Log.FolderNotExists", folderName));
+        logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.FolderNotExists", folderName));
         if (isCreateDestinationFolder()) {
           folder.createFolder();
         } else {
           return false;
         }
         if (isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "ActionCopyMoveResultFilenames.Log.FolderCreated", folderName));
+          logBasic(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.FolderCreated", folderName));
         }
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionCopyMoveResultFilenames.Log.FolderExists", folderName));
+          logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.FolderExists", folderName));
         }
       }
       return true;
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "ActionCopyMoveResultFilenames.Log.CanNotCreatedFolder",
-              folderName,
-              e.toString()));
+      logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.CanNotCreatedFolder", folderName, e.toString()));
 
     } finally {
       if (folder != null) {
@@ -518,12 +475,7 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
     return false;
   }
 
-  private boolean processFile(
-      FileObject sourcefile,
-      String destinationFolder,
-      Result result,
-      IWorkflowEngine<WorkflowMeta> parentWorkflow,
-      boolean deleteFile) {
+  private boolean processFile(FileObject sourcefile, String destinationFolder, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow, boolean deleteFile) {
     boolean retval = false;
 
     try {
@@ -531,26 +483,18 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
         // delete file
         if (sourcefile.delete()) {
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCopyMoveResultFilenames.log.DeletedFile", sourcefile.toString()));
+            logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.log.DeletedFile", sourcefile.toString()));
           }
 
           // Remove source file from result files list
           result.getResultFiles().remove(sourcefile.toString());
           nrSuccess++;
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionCopyMoveResultFilenames.RemovedFileFromResult",
-                    sourcefile.toString()));
+            logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedFileFromResult", sourcefile.toString()));
           }
 
         } else {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionCopyMoveResultFilenames.CanNotDeletedFile", sourcefile.toString()));
+          logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.CanNotDeletedFile", sourcefile.toString()));
         }
       } else {
         // return destination short filename
@@ -561,9 +505,7 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
         boolean filexists = destinationfile.exists();
         if (filexists) {
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCopyMoveResultFilenames.Log.FileExists", destinationFilename));
+            logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.FileExists", destinationFilename));
           }
         }
         if ((!filexists) || (filexists && isOverwriteFile())) {
@@ -572,61 +514,36 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
             FileUtil.copyContent(sourcefile, destinationfile);
             nrSuccess++;
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.log.CopiedFile",
-                      sourcefile.toString(),
-                      destinationFolder));
+              logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.log.CopiedFile", sourcefile.toString(), destinationFolder));
             }
           } else {
             // Move file
             sourcefile.moveTo(destinationfile);
             nrSuccess++;
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.log.MovedFile",
-                      sourcefile.toString(),
-                      destinationFolder));
+              logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.log.MovedFile", sourcefile.toString(), destinationFolder));
             }
           }
           if (isRemovedSourceFilename()) {
             // Remove source file from result files list
             result.getResultFiles().remove(sourcefile.toString());
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.RemovedFileFromResult",
-                      sourcefile.toString()));
+              logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedFileFromResult", sourcefile.toString()));
             }
           }
           if (isAddDestinationFilename()) {
             // Add destination filename to Resultfilenames ...
-            ResultFile resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_GENERAL,
-                    HopVfs.getFileObject(destinationfile.toString()),
-                    parentWorkflow.getWorkflowName(),
-                    toString());
+            ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(destinationfile.toString()), parentWorkflow.getWorkflowName(), toString());
             result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionCopyMoveResultFilenames.AddedFileToResult",
-                      destinationfile.toString()));
+              logDetailed(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddedFileToResult", destinationfile.toString()));
             }
           }
         }
       }
       retval = true;
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionCopyMoveResultFilenames.Log.ErrorProcessing", e.toString()));
+      logError(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Log.ErrorProcessing", e.toString()));
     }
 
     return retval;
@@ -688,17 +605,10 @@ public class ActionCopyMoveResultFilenames extends ActionBase implements Cloneab
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx,
-        ActionValidatorUtils.notNullValidator(),
-        ActionValidatorUtils.fileDoesNotExistValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileDoesNotExistValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
   }
 }

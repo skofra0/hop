@@ -32,11 +32,9 @@ public class ExtensionPointHandler {
    * @param id The ID of the extension point to call
    * @param object The parent object that is passed to the plugin
    * @throws HopException In case something goes wrong in the plugin and we need to stop what we're
-   *     doing.
+   *         doing.
    */
-  public static void callExtensionPoint(
-      final ILogChannel log, IVariables variables, final String id, final Object object)
-      throws HopException {
+  public static void callExtensionPoint(final ILogChannel log, IVariables variables, final String id, final Object object) throws HopException {
     ExtensionPointMap.getInstance().callExtensionPoint(log, variables, id, object);
   }
 }

@@ -52,11 +52,8 @@ import java.util.List;
     image = "SFI.svg",
     keywords = "i18n::SalesforceInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/salesforceinput.html")
-@InjectionSupported(
-    localizationPrefix = "SalesforceInputMeta.Injection.",
-    groups = {"FIELDS"})
-public class SalesforceInputMeta
-    extends SalesforceTransformMeta<SalesforceInput, SalesforceInputData> {
+@InjectionSupported(localizationPrefix = "SalesforceInputMeta.Injection.", groups = {"FIELDS"})
+public class SalesforceInputMeta extends SalesforceTransformMeta<SalesforceInput, SalesforceInputData> {
   public static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
   private static final Class<?> PKG = SalesforceInputMeta.class; // For Translator
@@ -118,7 +115,8 @@ public class SalesforceInputMeta
   private String rowLimit;
 
   /** The fields to return... */
-  @InjectionDeep private SalesforceInputField[] inputFields;
+  @InjectionDeep
+  private SalesforceInputField[] inputFields;
 
   /** option: specify query */
   @Injection(name = "USE_SPECIFIED_QUERY")
@@ -361,8 +359,7 @@ public class SalesforceInputMeta
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
     readData(transformNode);
   }
@@ -395,13 +392,9 @@ public class SalesforceInputMeta
     retval.append("    ").append(XmlHandler.addTagValue("include_module", includeModule()));
     retval.append("    ").append(XmlHandler.addTagValue("module_field", getModuleField()));
     retval.append("    ").append(XmlHandler.addTagValue("include_rownum", includeRowNumber()));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("include_deletion_date", includeDeletionDate()));
+    retval.append("    ").append(XmlHandler.addTagValue("include_deletion_date", includeDeletionDate()));
 
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("deletion_date_field", getDeletionDateField()));
+    retval.append("    ").append(XmlHandler.addTagValue("deletion_date_field", getDeletionDateField()));
     retval.append("    ").append(XmlHandler.addTagValue("rownum_field", getRowNumberField()));
     retval.append("    ").append(XmlHandler.addTagValue("include_sql", includeSQL()));
     retval.append("    ").append(XmlHandler.addTagValue("sql_field", getSQLField()));
@@ -409,12 +402,7 @@ public class SalesforceInputMeta
     retval.append("    ").append(XmlHandler.addTagValue("timestamp_field", getTimestampField()));
     retval.append("    ").append(XmlHandler.addTagValue("read_from", getReadFrom()));
     retval.append("    ").append(XmlHandler.addTagValue("read_to", getReadTo()));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "records_filter",
-                SalesforceConnectionUtils.getRecordsFilterCode(getRecordsFilter())));
+    retval.append("    ").append(XmlHandler.addTagValue("records_filter", SalesforceConnectionUtils.getRecordsFilterCode(getRecordsFilter())));
     retval.append("    ").append(XmlHandler.addTagValue("queryAll", isQueryAll()));
 
     retval.append("    ").append(XmlHandler.openTag("fields")).append(Const.CR);
@@ -432,29 +420,22 @@ public class SalesforceInputMeta
       setCondition(XmlHandler.getTagValue(transformNode, "condition"));
       setQuery(XmlHandler.getTagValue(transformNode, "query"));
       setSpecifyQuery("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "specifyQuery")));
-      setIncludeTargetURL(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_targeturl")));
+      setIncludeTargetURL("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_targeturl")));
       setTargetURLField(XmlHandler.getTagValue(transformNode, "targeturl_field"));
-      setIncludeModule(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_module")));
+      setIncludeModule("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_module")));
       setModuleField(XmlHandler.getTagValue(transformNode, "module_field"));
-      setIncludeRowNumber(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_rownum")));
-      setIncludeDeletionDate(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_deletion_date")));
+      setIncludeRowNumber("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_rownum")));
+      setIncludeDeletionDate("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_deletion_date")));
       setRowNumberField(XmlHandler.getTagValue(transformNode, "rownum_field"));
       setDeletionDateField(XmlHandler.getTagValue(transformNode, "deletion_date_field"));
 
       setIncludeSQL("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_sql")));
       setSQLField(XmlHandler.getTagValue(transformNode, "sql_field"));
-      setIncludeTimestamp(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_Timestamp")));
+      setIncludeTimestamp("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_Timestamp")));
       setTimestampField(XmlHandler.getTagValue(transformNode, "timestamp_field"));
       setReadFrom(XmlHandler.getTagValue(transformNode, "read_from"));
       setReadTo(XmlHandler.getTagValue(transformNode, "read_to"));
-      setRecordsFilter(
-          SalesforceConnectionUtils.getRecordsFilterByCode(
-              Const.NVL(XmlHandler.getTagValue(transformNode, "records_filter"), "")));
+      setRecordsFilter(SalesforceConnectionUtils.getRecordsFilterByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "records_filter"), "")));
       setQueryAll("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "queryAll")));
 
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
@@ -510,13 +491,7 @@ public class SalesforceInputMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     int i;
     for (i = 0; i < inputFields.length; i++) {
@@ -593,97 +568,48 @@ public class SalesforceInputMeta
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    super.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        input,
-        output,
-        info,
-        variables,
-        metadataProvider);
+    super.check(remarks, pipelineMeta, transformMeta, prev, input, output, info, variables, metadataProvider);
     CheckResult cr;
 
     // See if we get input...
     if (input != null && input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
 
     // check return fields
     if (getInputFields().length == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.FieldsOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.FieldsOk"), transformMeta);
     }
     remarks.add(cr);
 
     // check additional fields
     if (includeTargetURL() && Utils.isEmpty(getTargetURLField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoTargetURLField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoTargetURLField"), transformMeta);
       remarks.add(cr);
     }
     if (includeSQL() && Utils.isEmpty(getSQLField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoSQLField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoSQLField"), transformMeta);
       remarks.add(cr);
     }
     if (includeModule() && Utils.isEmpty(moduleField)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoModuleField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoModuleField"), transformMeta);
       remarks.add(cr);
     }
     if (includeTimestamp() && Utils.isEmpty(getTimestampField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoTimestampField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoTimestampField"), transformMeta);
       remarks.add(cr);
     }
     if (includeRowNumber() && Utils.isEmpty(getRowNumberField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoRowNumberField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoRowNumberField"), transformMeta);
       remarks.add(cr);
     }
     if (includeDeletionDate() && Utils.isEmpty(getDeletionDateField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoDeletionDateField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceInputMeta.CheckResult.NoDeletionDateField"), transformMeta);
       remarks.add(cr);
     }
   }

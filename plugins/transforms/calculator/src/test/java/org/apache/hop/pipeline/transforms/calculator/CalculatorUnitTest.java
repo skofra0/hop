@@ -67,7 +67,8 @@ public class CalculatorUnitTest {
   private static final Class<?> PKG = CalculatorUnitTest.class; // For Translator
   private TransformMockHelper<CalculatorMeta, CalculatorData> smh;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void init() throws HopException {
@@ -77,8 +78,7 @@ public class CalculatorUnitTest {
   @Before
   public void setUp() {
     smh = new TransformMockHelper<>("Calculator", CalculatorMeta.class, CalculatorData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -99,28 +99,12 @@ public class CalculatorUnitTest {
     inputRowSet.setRowMeta(inputRowMeta);
 
     CalculatorMeta meta = new CalculatorMeta();
-    meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                "result",
-                CalculationType.MD5,
-                "Path",
-                null,
-                null,
-                "String",
-                0,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+    meta.getFunctions().add(new CalculatorMetaFunction("result", CalculationType.MD5, "Path", null, null, "String", 0, 0, "", "", "", "", false));
     meta.setFailIfNoFile(true);
 
     CalculatorData data = new CalculatorData();
 
-    Calculator calculator =
-        spy(new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline));
+    Calculator calculator = spy(new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline));
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
@@ -142,15 +126,8 @@ public class CalculatorUnitTest {
       inputRowSet =
           smh.getMockInputRowSet(
               new Object[][] {
-                {
-                  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-01-01 00:00:00"),
-                  new Long(10)
-                },
-                {
-                  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-10-31 23:59:50"),
-                  new Long(30)
-                }
-              });
+                  {new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-01-01 00:00:00"), new Long(10)},
+                  {new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-10-31 23:59:50"), new Long(30)}});
     } catch (ParseException pe) {
       pe.printStackTrace();
       fail();
@@ -158,47 +135,27 @@ public class CalculatorUnitTest {
     inputRowSet.setRowMeta(inputRowMeta);
 
     CalculatorMeta meta = new CalculatorMeta();
-    meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                "new_day",
-                CalculationType.ADD_SECONDS,
-                "Day",
-                "Seconds",
-                null,
-                "Date",
-                0,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+    meta.getFunctions().add(new CalculatorMetaFunction("new_day", CalculationType.ADD_SECONDS, "Day", "Seconds", null, "Date", 0, 0, "", "", "", "", false));
 
     CalculatorData data = new CalculatorData();
 
-    Calculator calculator =
-        new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    Calculator calculator = new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
 
     // Verify output
     try {
-      calculator.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              try {
-                assertEquals(
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-01-01 00:00:10"),
-                    row[2]);
-              } catch (ParseException pe) {
-                throw new HopTransformException(pe);
-              }
-            }
-          });
+      calculator.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          try {
+            assertEquals(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2014-01-01 00:00:10"), row[2]);
+          } catch (ParseException pe) {
+            throw new HopTransformException(pe);
+          }
+        }
+      });
       calculator.processRow();
     } catch (HopException ke) {
       ke.printStackTrace();
@@ -214,46 +171,27 @@ public class CalculatorUnitTest {
     ValueMetaString valueMeta = new ValueMetaString("Value");
     inputRowMeta.addValueMeta(valueMeta);
 
-    IRowSet inputRowSet =
-        smh.getMockInputRowSet(new Object[][] {{"name1", "qwe123asd456zxc"}, {"name2", null}});
+    IRowSet inputRowSet = smh.getMockInputRowSet(new Object[][] {{"name1", "qwe123asd456zxc"}, {"name2", null}});
     inputRowSet.setRowMeta(inputRowMeta);
 
     CalculatorMeta meta = new CalculatorMeta();
-    meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                "digits",
-                CalculationType.GET_ONLY_DIGITS,
-                "Value",
-                null,
-                null,
-                "String",
-                0,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+    meta.getFunctions().add(new CalculatorMetaFunction("digits", CalculationType.GET_ONLY_DIGITS, "Value", null, null, "String", 0, 0, "", "", "", "", false));
 
     CalculatorData data = new CalculatorData();
 
-    Calculator calculator =
-        new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    Calculator calculator = new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
 
     // Verify output
     try {
-      calculator.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              assertEquals("123456", row[2]);
-            }
-          });
+      calculator.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          assertEquals("123456", row[2]);
+        }
+      });
       calculator.processRow();
     } catch (HopException ke) {
       ke.printStackTrace();
@@ -271,27 +209,11 @@ public class CalculatorUnitTest {
     inputRowSet.setRowMeta(inputRowMeta);
 
     CalculatorMeta meta = new CalculatorMeta();
-    meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                "test",
-                CalculationType.ABS,
-                "Value",
-                null,
-                null,
-                "String",
-                0,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+    meta.getFunctions().add(new CalculatorMetaFunction("test", CalculationType.ABS, "Value", null, null, "String", 0, 0, "", "", "", "", false));
 
     CalculatorData data = spy(new CalculatorData());
 
-    Calculator calculator =
-        new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    Calculator calculator = new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
@@ -640,8 +562,7 @@ public class CalculatorUnitTest {
       final int functionDataType)
       throws HopException {
 
-    final String msg =
-        getHopTypeName(valueDataType) + "->" + getHopTypeName(functionDataType) + " ";
+    final String msg = getHopTypeName(valueDataType) + "->" + getHopTypeName(functionDataType) + " ";
 
     final RowMeta inputRowMeta = new RowMeta();
     final List<Object> inputValues = new ArrayList<>(3);
@@ -659,11 +580,7 @@ public class CalculatorUnitTest {
         valueMeta = new ValueMetaInteger(fieldValue);
         break;
       default:
-        throw new IllegalArgumentException(
-            msg
-                + "Unexpected value dataType: "
-                + value.getClass().getName()
-                + ". Long, Double or BigDecimal expected.");
+        throw new IllegalArgumentException(msg + "Unexpected value dataType: " + value.getClass().getName() + ". Long, Double or BigDecimal expected.");
     }
     inputRowMeta.addValueMeta(valueMeta);
     inputValues.add(value);
@@ -694,12 +611,9 @@ public class CalculatorUnitTest {
 
     IRowSet inputRowSet = smh.getMockInputRowSet(inputValues.toArray());
     inputRowSet.setRowMeta(inputRowMeta);
-    final String fieldA =
-        inputRowMeta.size() > 0 ? inputRowMeta.getValueMetaList().get(0).getName() : null;
-    final String fieldB =
-        inputRowMeta.size() > 1 ? inputRowMeta.getValueMetaList().get(1).getName() : null;
-    final String fieldC =
-        inputRowMeta.size() > 2 ? inputRowMeta.getValueMetaList().get(2).getName() : null;
+    final String fieldA = inputRowMeta.size() > 0 ? inputRowMeta.getValueMetaList().get(0).getName() : null;
+    final String fieldB = inputRowMeta.size() > 1 ? inputRowMeta.getValueMetaList().get(1).getName() : null;
+    final String fieldC = inputRowMeta.size() > 2 ? inputRowMeta.getValueMetaList().get(2).getName() : null;
 
     final int resultDataType = functionDataType;
 
@@ -708,46 +622,26 @@ public class CalculatorUnitTest {
 
     CalculatorMeta meta = new CalculatorMeta();
     meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                fieldResult,
-                calcFunction,
-                fieldA,
-                fieldB,
-                fieldC,
-                ValueMetaFactory.getValueMetaName(resultDataType),
-                2,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+        .add(new CalculatorMetaFunction(fieldResult, calcFunction, fieldA, fieldB, fieldC, ValueMetaFactory.getValueMetaName(resultDataType), 2, 0, "", "", "", "", false));
 
     CalculatorData data = new CalculatorData();
 
-    Calculator calculator =
-        new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    Calculator calculator = new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
 
     // Verify output
     try {
-      calculator.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              assertEquals(msg + " resultRowSize", expectedResultRowSize, rowMeta.size());
-              final int fieldResultIndex = rowMeta.size() - 1;
-              assertEquals(
-                  msg + " fieldResult",
-                  fieldResult,
-                  rowMeta.getValueMeta(fieldResultIndex).getName());
-              assertEquals(msg, expectedResult, row[fieldResultIndex]);
-            }
-          });
+      calculator.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          assertEquals(msg + " resultRowSize", expectedResultRowSize, rowMeta.size());
+          final int fieldResultIndex = rowMeta.size() - 1;
+          assertEquals(msg + " fieldResult", fieldResult, rowMeta.getValueMeta(fieldResultIndex).getName());
+          assertEquals(msg, expectedResult, row[fieldResultIndex]);
+        }
+      });
       calculator.processRow();
     } catch (HopException ke) {
       ke.printStackTrace();
@@ -767,100 +661,35 @@ public class CalculatorUnitTest {
    * @param roundingMode
    * @throws HopException
    */
-  public void assertRoundEveryDataType(
-      final Number expectedResult,
-      final CalculationType calcFunction,
-      final Number value,
-      final Long precision,
-      final Long roundingMode)
+  public void assertRoundEveryDataType(final Number expectedResult, final CalculationType calcFunction, final Number value, final Long precision, final Long roundingMode)
       throws HopException {
     // CHECKSTYLE IGNORE AvoidNestedBlocks FOR NEXT 3 LINES
     {
       final double resultValue = expectedResult.doubleValue();
+      assertRoundGeneral(resultValue, calcFunction, value.doubleValue(), precision, roundingMode, IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER);
       assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          value.doubleValue(),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_NUMBER,
-          IValueMeta.TYPE_NUMBER);
-      assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          new BigDecimal(String.valueOf(value.doubleValue())),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_BIGNUMBER,
-          IValueMeta.TYPE_NUMBER);
+          resultValue, calcFunction, new BigDecimal(String.valueOf(value.doubleValue())), precision, roundingMode, IValueMeta.TYPE_BIGNUMBER, IValueMeta.TYPE_NUMBER);
       if (isInt(value)) {
-        assertRoundGeneral(
-            resultValue,
-            calcFunction,
-            value.longValue(),
-            precision,
-            roundingMode,
-            IValueMeta.TYPE_INTEGER,
-            IValueMeta.TYPE_NUMBER);
+        assertRoundGeneral(resultValue, calcFunction, value.longValue(), precision, roundingMode, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER);
       }
     }
     // CHECKSTYLE IGNORE AvoidNestedBlocks FOR NEXT 3 LINES
     {
       final BigDecimal resultValue = BigDecimal.valueOf(expectedResult.doubleValue());
+      assertRoundGeneral(resultValue, calcFunction, value.doubleValue(), precision, roundingMode, IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_BIGNUMBER);
       assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          value.doubleValue(),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_NUMBER,
-          IValueMeta.TYPE_BIGNUMBER);
-      assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          new BigDecimal(String.valueOf(value.doubleValue())),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_BIGNUMBER,
-          IValueMeta.TYPE_BIGNUMBER);
+          resultValue, calcFunction, new BigDecimal(String.valueOf(value.doubleValue())), precision, roundingMode, IValueMeta.TYPE_BIGNUMBER, IValueMeta.TYPE_BIGNUMBER);
       if (isInt(value)) {
-        assertRoundGeneral(
-            resultValue,
-            calcFunction,
-            value.longValue(),
-            precision,
-            roundingMode,
-            IValueMeta.TYPE_INTEGER,
-            IValueMeta.TYPE_BIGNUMBER);
+        assertRoundGeneral(resultValue, calcFunction, value.longValue(), precision, roundingMode, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_BIGNUMBER);
       }
     }
     if (isInt(expectedResult)) {
       final Long resultValue = expectedResult.longValue();
+      assertRoundGeneral(resultValue, calcFunction, value.doubleValue(), precision, roundingMode, IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_INTEGER);
       assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          value.doubleValue(),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_NUMBER,
-          IValueMeta.TYPE_INTEGER);
-      assertRoundGeneral(
-          resultValue,
-          calcFunction,
-          new BigDecimal(String.valueOf(value.doubleValue())),
-          precision,
-          roundingMode,
-          IValueMeta.TYPE_BIGNUMBER,
-          IValueMeta.TYPE_INTEGER);
+          resultValue, calcFunction, new BigDecimal(String.valueOf(value.doubleValue())), precision, roundingMode, IValueMeta.TYPE_BIGNUMBER, IValueMeta.TYPE_INTEGER);
       if (isInt(value)) {
-        assertRoundGeneral(
-            resultValue,
-            calcFunction,
-            value.longValue(),
-            precision,
-            roundingMode,
-            IValueMeta.TYPE_INTEGER,
-            IValueMeta.TYPE_INTEGER);
+        assertRoundGeneral(resultValue, calcFunction, value.longValue(), precision, roundingMode, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_INTEGER);
       }
     }
   }
@@ -869,46 +698,24 @@ public class CalculatorUnitTest {
     assertRoundEveryDataType(expectedResult, CalculationType.ROUND_1, value, null, null);
   }
 
-  public void assertRound2(final Number expectedResult, final Number value, final long precision)
-      throws HopException {
-    assertRoundEveryDataType(
-        expectedResult, CalculatorMetaFunction.CalculationType.ROUND_2, value, precision, null);
+  public void assertRound2(final Number expectedResult, final Number value, final long precision) throws HopException {
+    assertRoundEveryDataType(expectedResult, CalculatorMetaFunction.CalculationType.ROUND_2, value, precision, null);
   }
 
   public void assertRoundStd1(final Number expectedResult, final Number value) throws HopException {
-    assertRoundEveryDataType(
-        expectedResult, CalculatorMetaFunction.CalculationType.ROUND_STD_1, value, null, null);
+    assertRoundEveryDataType(expectedResult, CalculatorMetaFunction.CalculationType.ROUND_STD_1, value, null, null);
   }
 
-  public void assertRoundStd2(final Number expectedResult, final Number value, final long precision)
-      throws HopException {
-    assertRoundEveryDataType(
-        expectedResult, CalculatorMetaFunction.CalculationType.ROUND_STD_2, value, precision, null);
+  public void assertRoundStd2(final Number expectedResult, final Number value, final long precision) throws HopException {
+    assertRoundEveryDataType(expectedResult, CalculatorMetaFunction.CalculationType.ROUND_STD_2, value, precision, null);
   }
 
-  public void assertRoundCustom1(
-      final Number expectedResult, final Number value, final long roundingMode)
-      throws HopException {
-    assertRoundEveryDataType(
-        expectedResult,
-        CalculatorMetaFunction.CalculationType.ROUND_CUSTOM_1,
-        value,
-        null,
-        roundingMode);
+  public void assertRoundCustom1(final Number expectedResult, final Number value, final long roundingMode) throws HopException {
+    assertRoundEveryDataType(expectedResult, CalculatorMetaFunction.CalculationType.ROUND_CUSTOM_1, value, null, roundingMode);
   }
 
-  public void assertRoundCustom2(
-      final Number expectedResult,
-      final Number value,
-      final long precision,
-      final long roundingMode)
-      throws HopException {
-    assertRoundEveryDataType(
-        expectedResult,
-        CalculatorMetaFunction.CalculationType.ROUND_CUSTOM_2,
-        value,
-        precision,
-        roundingMode);
+  public void assertRoundCustom2(final Number expectedResult, final Number value, final long precision, final long roundingMode) throws HopException {
+    assertRoundEveryDataType(expectedResult, CalculatorMetaFunction.CalculationType.ROUND_CUSTOM_2, value, precision, roundingMode);
   }
 
   /**
@@ -918,11 +725,7 @@ public class CalculatorUnitTest {
    * @return
    */
   private static boolean isInt(Number value) {
-    if (value instanceof Long
-        || value instanceof Integer
-        || value instanceof Short
-        || value instanceof Byte
-        || value instanceof BigInteger) {
+    if (value instanceof Long || value instanceof Integer || value instanceof Short || value instanceof Byte || value instanceof BigInteger) {
       return true;
     }
     final BigDecimal bigDecimalValue;
@@ -975,26 +778,13 @@ public class CalculatorUnitTest {
 
   @Test
   public void calculatorReminder() throws Exception {
-    assertCalculatorReminder(
-        new Double("0.10000000000000053"),
-        new Object[] {new Long("10"), new Double("3.3")},
-        new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
-    assertCalculatorReminder(
-        new Double("1.0"),
-        new Object[] {new Long("10"), new Double("4.5")},
-        new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
-    assertCalculatorReminder(
-        new Double("4.0"),
-        new Object[] {new Double("12.5"), new Double("4.25")},
-        new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
-    assertCalculatorReminder(
-        new Double("2.6000000000000005"),
-        new Object[] {new Double("12.5"), new Double("3.3")},
-        new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
+    assertCalculatorReminder(new Double("0.10000000000000053"), new Object[] {new Long("10"), new Double("3.3")}, new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
+    assertCalculatorReminder(new Double("1.0"), new Object[] {new Long("10"), new Double("4.5")}, new int[] {IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
+    assertCalculatorReminder(new Double("4.0"), new Object[] {new Double("12.5"), new Double("4.25")}, new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
+    assertCalculatorReminder(new Double("2.6000000000000005"), new Object[] {new Double("12.5"), new Double("3.3")}, new int[] {IValueMeta.TYPE_NUMBER, IValueMeta.TYPE_NUMBER});
   }
 
-  private void assertCalculatorReminder(
-      final Object expectedResult, final Object[] values, final int[] types) throws Exception {
+  private void assertCalculatorReminder(final Object expectedResult, final Object[] values, final int[] types) throws Exception {
     RowMeta inputRowMeta = new RowMeta();
     for (int i = 0; i < types.length; i++) {
       switch (types[i]) {
@@ -1008,8 +798,7 @@ public class CalculatorUnitTest {
           inputRowMeta.addValueMeta(new ValueMetaInteger("f" + i));
           break;
         default:
-          throw new IllegalArgumentException(
-              "Unexpected value dataType: " + types[i] + ". Long, Double or BigDecimal expected.");
+          throw new IllegalArgumentException("Unexpected value dataType: " + types[i] + ". Long, Double or BigDecimal expected.");
       }
     }
 
@@ -1023,45 +812,27 @@ public class CalculatorUnitTest {
     inputRowSet.setRowMeta(inputRowMeta);
 
     CalculatorMeta meta = new CalculatorMeta();
-    meta.getFunctions()
-        .add(
-            new CalculatorMetaFunction(
-                "res",
-                CalculationType.REMAINDER,
-                "f0",
-                "f1",
-                null,
-                "Number",
-                0,
-                0,
-                "",
-                "",
-                "",
-                "",
-                false));
+    meta.getFunctions().add(new CalculatorMetaFunction("res", CalculationType.REMAINDER, "f0", "f1", null, "Number", 0, 0, "", "", "", "", false));
 
     CalculatorData data = new CalculatorData();
 
-    Calculator calculator =
-        new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    Calculator calculator = new Calculator(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     calculator.addRowSetToInputRowSets(inputRowSet);
     calculator.setInputRowMeta(inputRowMeta);
     calculator.init();
 
     // Verify output
     try {
-      calculator.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              try {
-                assertEquals(expectedResult, row[2]);
-              } catch (Exception pe) {
-                throw new HopTransformException(pe);
-              }
-            }
-          });
+      calculator.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          try {
+            assertEquals(expectedResult, row[2]);
+          } catch (Exception pe) {
+            throw new HopTransformException(pe);
+          }
+        }
+      });
       calculator.processRow();
     } catch (HopException ke) {
       ke.printStackTrace();

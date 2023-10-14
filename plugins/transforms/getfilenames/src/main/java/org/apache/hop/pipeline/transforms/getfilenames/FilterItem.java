@@ -23,9 +23,7 @@ import java.util.Objects;
 public class FilterItem {
 
   /** The file filter type selection */
-  @HopMetadataProperty(
-      key = "filterfiletype",
-      injectionKeyDescription = "GetFileNames.Injection.FilterItemTypeSelected.Label")
+  @HopMetadataProperty(key = "filterfiletype", injectionKeyDescription = "GetFileNames.Injection.FilterItemTypeSelected.Label")
   private String fileTypeFilterSelection;
 
   public FilterItem() {}
@@ -44,8 +42,10 @@ public class FilterItem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     FilterItem that = (FilterItem) o;
     return Objects.equals(fileTypeFilterSelection, that.fileTypeFilterSelection);
   }

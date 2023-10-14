@@ -62,13 +62,11 @@ public class ExecutionResource extends BaseResource {
   public Response executeSynchronously(SyncRequest request) {
     try {
       if (StringUtils.isEmpty(request.getService())) {
-        throw new HopException(
-            "Please specify the name of the service in the JSON you post: service");
+        throw new HopException("Please specify the name of the service in the JSON you post: service");
       }
 
       MultiMetadataProvider metadataProvider = hop.getMetadataProvider();
-      IHopMetadataSerializer<WebService> serializer =
-          metadataProvider.getSerializer(WebService.class);
+      IHopMetadataSerializer<WebService> serializer = metadataProvider.getSerializer(WebService.class);
       WebService service = serializer.load(request.getService());
       if (service == null) {
         throw new HopException("Unable to find service with name '" + request.getService() + "'");
@@ -87,10 +85,7 @@ public class ExecutionResource extends BaseResource {
 
       if (StringUtils.isEmpty(runConfigurationName)) {
         throw new HopException(
-            "Please specify the name of the run configuration to use, "
-                + "either in the request (runConfig) or in the Web Service metadata element '"
-                + service.getName()
-                + "'");
+            "Please specify the name of the run configuration to use, " + "either in the request (runConfig) or in the Web Service metadata element '" + service.getName() + "'");
       }
 
       String filename = variables.resolve(service.getFilename());
@@ -108,8 +103,7 @@ public class ExecutionResource extends BaseResource {
       // Load and execute the pipeline.
       //
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject("/service/sync/", LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject("/service/sync/", LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
 
       // Load and start the pipeline
@@ -120,9 +114,7 @@ public class ExecutionResource extends BaseResource {
       if (StringUtils.isEmpty(runConfigurationName)) {
         pipeline = new LocalPipelineEngine(pipelineMeta, variables, servletLoggingObject);
       } else {
-        pipeline =
-            PipelineEngineFactory.createPipelineEngine(
-                variables, runConfigurationName, metadataProvider, pipelineMeta);
+        pipeline = PipelineEngineFactory.createPipelineEngine(variables, runConfigurationName, metadataProvider, pipelineMeta);
       }
       pipeline.setContainerId(serverObjectId);
 
@@ -154,23 +146,16 @@ public class ExecutionResource extends BaseResource {
       //
       final StringBuilder output = new StringBuilder();
       IEngineComponent component = pipeline.findComponent(transformName, 0);
-      component.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              try {
-                output.append(rowMeta.getString(row, fieldName, ""));
-              } catch (HopValueException e) {
-                throw new HopTransformException(
-                    "Error getting output field '"
-                        + fieldName
-                        + " from row: "
-                        + rowMeta.toStringMeta(),
-                    e);
-              }
-            }
-          });
+      component.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          try {
+            output.append(rowMeta.getString(row, fieldName, ""));
+          } catch (HopValueException e) {
+            throw new HopTransformException("Error getting output field '" + fieldName + " from row: " + rowMeta.toStringMeta(), e);
+          }
+        }
+      });
 
       pipeline.startThreads();
       pipeline.waitUntilFinished();
@@ -179,9 +164,7 @@ public class ExecutionResource extends BaseResource {
       //
       return Response.ok(output.toString()).type(contentType).encoding(Const.XML_ENCODING).build();
     } catch (Exception e) {
-      String errorMessage =
-          "Unexpected error executing synchronous web service (pipeline) with name "
-              + request.getService();
+      String errorMessage = "Unexpected error executing synchronous web service (pipeline) with name " + request.getService();
       return getServerError(errorMessage, e);
     }
   }

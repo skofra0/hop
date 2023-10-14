@@ -43,21 +43,14 @@ import java.util.Map;
  * Read data from Salesforce module, convert them to rows and writes these to one or more output
  * streams.
  */
-public class SalesforceUpsert
-    extends SalesforceTransform<SalesforceUpsertMeta, SalesforceUpsertData> {
+public class SalesforceUpsert extends SalesforceTransform<SalesforceUpsertMeta, SalesforceUpsertData> {
   private static final Class<?> PKG = SalesforceUpsertMeta.class; // For Translator
 
   private static final String BOOLEAN = "boolean";
   private static final String STRING = "string";
   private static final String INT = "int";
 
-  public SalesforceUpsert(
-      TransformMeta transformMeta,
-      SalesforceUpsertMeta meta,
-      SalesforceUpsertData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceUpsert(TransformMeta transformMeta, SalesforceUpsertMeta meta, SalesforceUpsertData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -88,8 +81,7 @@ public class SalesforceUpsert
 
       // Check if field list is filled
       if (data.nrFields == 0) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceUpsertDialog.FieldsMissing.DialogMessage"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceUpsertDialog.FieldsMissing.DialogMessage"));
       }
 
       // Create the output row meta-data
@@ -102,9 +94,7 @@ public class SalesforceUpsert
       for (int i = 0; i < meta.getUpdateStream().length; i++) {
         data.fieldnrs[i] = getInputRowMeta().indexOfValue(meta.getUpdateStream()[i]);
         if (data.fieldnrs[i] < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "SalesforceUpsert.FieldNotFound", meta.getUpdateStream()[i]));
+          throw new HopException(BaseMessages.getString(PKG, "SalesforceUpsert.FieldNotFound", meta.getUpdateStream()[i]));
         }
       }
     }
@@ -112,8 +102,7 @@ public class SalesforceUpsert
     try {
       writeToSalesForce(outputRowData);
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "SalesforceUpsert.log.Exception"), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "SalesforceUpsert.log.Exception"), e);
     }
     return true;
   }
@@ -123,9 +112,7 @@ public class SalesforceUpsert
     try {
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "SalesforceUpsert.CalledWrite", data.iBufferPos, meta.getBatchSizeInt()));
+        logDetailed(BaseMessages.getString(PKG, "SalesforceUpsert.CalledWrite", data.iBufferPos, meta.getBatchSizeInt()));
       }
       // if there is room in the buffer
       if (data.iBufferPos < meta.getBatchSizeInt()) {
@@ -140,27 +127,20 @@ public class SalesforceUpsert
 
           // Only if the upsert field's value is null do not consider that field in this loop at all
           // (Issue #2820)
-          if (meta.getUpsertField() != null
-              && valueMeta.isNull(object)
-                  & meta.getUpsertField().equals(meta.getUpdateLookup()[i])) {
+          if (meta.getUpsertField() != null && valueMeta.isNull(object) & meta.getUpsertField().equals(meta.getUpdateLookup()[i])) {
             continue;
           }
 
           if (valueMeta.isNull(object)) {
             // The value is null
             // We need to keep track of this field
-            fieldsToNull.add(
-                SalesforceUtils.getFieldToNullName(
-                    log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
+            fieldsToNull.add(SalesforceUtils.getFieldToNullName(log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
           } else {
             Object normalObject = normalizeValue(valueMeta, rowData[data.fieldnrs[i]]);
             if (data.mapData && data.dataTypeMap != null) {
-              normalObject =
-                  mapDataTypes(valueMeta.getType(), meta.getUpdateLookup()[i], normalObject);
+              normalObject = mapDataTypes(valueMeta.getType(), meta.getUpdateLookup()[i], normalObject);
             }
-            upsertfields.add(
-                SalesforceConnection.createMessageElement(
-                    meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
+            upsertfields.add(SalesforceConnection.createMessageElement(meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
           }
         }
 
@@ -191,8 +171,7 @@ public class SalesforceUpsert
     } catch (HopException ke) {
       throw ke;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceUpsert.FailedInWrite", e.toString()));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceUpsert.FailedInWrite", e.toString()));
     }
   }
 
@@ -237,8 +216,7 @@ public class SalesforceUpsert
             }
           }
           // write out the row with the SalesForce ID
-          Object[] newRow =
-              RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
+          Object[] newRow = RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
 
           if (data.realSalesforceFieldName != null) {
             int newIndex = data.inputRowMeta.size();
@@ -251,8 +229,7 @@ public class SalesforceUpsert
           putRow(data.outputRowMeta, newRow); // copy row to output rowset(s)
 
           if (checkFeedback(getLinesInput()) && log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "SalesforceUpsert.log.LineRow", "" + getLinesInput()));
+            logDetailed(BaseMessages.getString(PKG, "SalesforceUpsert.log.LineRow", "" + getLinesInput()));
           }
 
         } else {
@@ -268,39 +245,21 @@ public class SalesforceUpsert
             // Only throw the first error
             //
             com.sforce.soap.partner.Error err = data.upsertResult[j].getErrors()[0];
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpsert.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage()));
+            throw new HopException(BaseMessages.getString(PKG, "SalesforceUpsert.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage()));
           }
 
           String errorMessage = "";
           for (int i = 0; i < data.upsertResult[j].getErrors().length; i++) {
             // get the next error
             com.sforce.soap.partner.Error err = data.upsertResult[j].getErrors()[i];
-            errorMessage +=
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpsert.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage());
+            errorMessage += BaseMessages.getString(PKG, "SalesforceUpsert.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage());
           }
 
           // Simply add this row to the error row
           if (log.isDebug()) {
             logDebug(BaseMessages.getString(PKG, "SalesforceUpsert.PassingRowToErrorTransform"));
           }
-          putError(
-              getInputRowMeta(),
-              data.outputBuffer[j],
-              1,
-              errorMessage,
-              null,
-              "SalesforceUpsert001");
+          putError(getInputRowMeta(), data.outputBuffer[j], 1, errorMessage, null, "SalesforceUpsert001");
         }
       }
 
@@ -315,8 +274,7 @@ public class SalesforceUpsert
           // I know, bad form usually. But I didn't want to duplicate the logic with a
           throw (HopException) e;
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "SalesforceUpsert.FailedUpsert", e.getMessage()), e);
+          throw new HopException(BaseMessages.getString(PKG, "SalesforceUpsert.FailedUpsert", e.getMessage()), e);
         }
       }
       // Simply add this row to the error row
@@ -325,13 +283,7 @@ public class SalesforceUpsert
       }
 
       for (int i = 0; i < data.iBufferPos; i++) {
-        putError(
-            data.inputRowMeta,
-            data.outputBuffer[i],
-            1,
-            e.getMessage(),
-            null,
-            "SalesforceUpsert002");
+        putError(data.inputRowMeta, data.outputBuffer[i], 1, e.getMessage(), null, "SalesforceUpsert002");
       }
     } finally {
       if (data.upsertResult != null) {
@@ -342,10 +294,7 @@ public class SalesforceUpsert
 
   @Override
   public boolean init() {
-    data.mapData =
-        "true"
-            .equalsIgnoreCase(
-                System.getProperties().getProperty("MAP_SALESFORCE_UPSERT_DATA_TYPES"));
+    data.mapData = "true".equalsIgnoreCase(System.getProperties().getProperty("MAP_SALESFORCE_UPSERT_DATA_TYPES"));
 
     if (super.init()) {
 
@@ -368,10 +317,7 @@ public class SalesforceUpsert
         }
         return true;
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SalesforceUpsert.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SalesforceUpsert.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
         return false;
       }
     }
@@ -399,12 +345,8 @@ public class SalesforceUpsert
     Map<String, String> mappedFields = new HashMap<>();
     for (Field f : fields) {
       String fieldType = f.getType().toString();
-      if ("base64".equalsIgnoreCase(fieldType)
-          || "date".equalsIgnoreCase(fieldType)
-          || "datetime".equalsIgnoreCase(fieldType)
-          || INT.equalsIgnoreCase(fieldType)
-          || "double".equalsIgnoreCase(fieldType)
-          || BOOLEAN.equalsIgnoreCase(fieldType)) {
+      if ("base64".equalsIgnoreCase(fieldType) || "date".equalsIgnoreCase(fieldType) || "datetime".equalsIgnoreCase(fieldType) || INT.equalsIgnoreCase(fieldType)
+          || "double".equalsIgnoreCase(fieldType) || BOOLEAN.equalsIgnoreCase(fieldType)) {
         mappedFields.put(f.getName(), fieldType);
       } else {
         mappedFields.put(f.getName(), STRING);
@@ -453,8 +395,7 @@ public class SalesforceUpsert
           if (INT.equalsIgnoreCase(data.dataTypeMap.get(name))) {
             value = Integer.valueOf((String) value);
           } else if (BOOLEAN.equalsIgnoreCase(data.dataTypeMap.get(name))) {
-            if ("true".equalsIgnoreCase((String) value)
-                || "false".equalsIgnoreCase((String) value)) {
+            if ("true".equalsIgnoreCase((String) value) || "false".equalsIgnoreCase((String) value)) {
               value = Boolean.valueOf((String) value);
             } else if (!((String) value).startsWith("-")) {
               Double d = Double.parseDouble((String) value);

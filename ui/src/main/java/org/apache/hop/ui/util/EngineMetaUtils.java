@@ -30,7 +30,6 @@ public class EngineMetaUtils {
    */
   public static boolean isJobOrPipeline(IEngineMeta engineMetaInterface) {
 
-    return (engineMetaInterface instanceof PipelineMeta)
-        || (engineMetaInterface instanceof WorkflowMeta);
+    return (engineMetaInterface instanceof PipelineMeta) || (engineMetaInterface instanceof WorkflowMeta);
   }
 }

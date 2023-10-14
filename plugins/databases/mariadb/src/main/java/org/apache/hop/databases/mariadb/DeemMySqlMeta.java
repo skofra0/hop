@@ -25,7 +25,6 @@ import org.apache.hop.core.exception.HopDatabaseException;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
-
 @DatabaseMetaPlugin(type = "DEEM_MYSQL", typeDescription = "Deem MySQL")
 @GuiPlugin(id = "GUI-DeemMySqlDatabaseMeta")
 public class DeemMySqlMeta extends MariaDBDatabaseMeta {
@@ -146,7 +145,8 @@ public class DeemMySqlMeta extends MariaDBDatabaseMeta {
   }
 
   /**
-   * This method allows a database dialect to convert database specific data types to Kettle data types.
+   * This method allows a database dialect to convert database specific data types to Kettle data
+   * types.
    *
    * @param resultSet
    *        The result set to use

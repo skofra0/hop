@@ -70,8 +70,7 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
   private Label wlResultType;
   private CCombo wResultType;
 
-  public CheckSumDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public CheckSumDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (CheckSumMeta) in;
   }
@@ -134,14 +133,13 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
     fdType.top = new FormAttachment(wTransformName, margin);
     fdType.right = new FormAttachment(100, 0);
     wType.setLayoutData(fdType);
-    wType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activeResultType();
-          }
-        });
+    wType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activeResultType();
+      }
+    });
 
     // ResultType
     wlResultType = new Label(shell, SWT.RIGHT);
@@ -161,14 +159,13 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
     fdResultType.top = new FormAttachment(wType, 2 * margin);
     fdResultType.right = new FormAttachment(100, 0);
     wResultType.setLayoutData(fdResultType);
-    wResultType.addSelectionListener(
-        new SelectionAdapter() {
+    wResultType.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Result line...
     Label wlResult = new Label(shell, SWT.RIGHT);
@@ -210,21 +207,8 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
     final int nrFields = input.getFields().size();
 
     colinf = new ColumnInfo[nrCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CheckSumDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            nrFields,
-            lsMod,
-            props);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "CheckSumDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, nrFields, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -236,23 +220,22 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -271,12 +254,7 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
   private void activeResultType() {
     int currentType = wType.getSelectionIndex();
     // Only available for type MD5 and SHA
-    boolean active =
-        currentType == 2
-            || currentType == 3
-            || currentType == 4
-            || currentType == 5
-            || currentType == 6;
+    boolean active = currentType == 2 || currentType == 3 || currentType == 4 || currentType == 5 || currentType == 6;
     wlResultType.setEnabled(active);
     wResultType.setEnabled(active);
   }
@@ -292,20 +270,14 @@ public class CheckSumDialog extends BaseTransformDialog implements ITransformDia
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener insertListener =
-            (tableItem, v) -> {
-              tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        ITableItemInsertListener insertListener = (tableItem, v) -> {
+          tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 

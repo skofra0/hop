@@ -38,11 +38,7 @@ public class HopGuiWorkflowNoteContext extends BaseGuiContextHandler implements 
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowNoteContext> lambdaBuilder;
 
-  public HopGuiWorkflowNoteContext(
-      WorkflowMeta workflowMeta,
-      NotePadMeta notePadMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowNoteContext(WorkflowMeta workflowMeta, NotePadMeta notePadMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.notePadMeta = notePadMeta;
     this.workflowGraph = workflowGraph;

@@ -37,13 +37,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
 
   private static final Class<?> PKG = GetTableNamesMeta.class; // For Translator
 
-  public GetTableNames(
-      TransformMeta transformMeta,
-      GetTableNamesMeta meta,
-      GetTableNamesData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetTableNames(TransformMeta transformMeta, GetTableNamesMeta meta, GetTableNamesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -79,14 +73,8 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
           data.indexOfSchemaField = data.inputRowMeta.indexOfValue(meta.getSchemaNameField());
           if (data.indexOfSchemaField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "GetTableNames.Log.ErrorFindingField")
-                    + "["
-                    + meta.getSchemaNameField()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "GetTableNames.Exception.CouldnotFindField", meta.getSchemaNameField()));
+            logError(BaseMessages.getString(PKG, "GetTableNames.Log.ErrorFindingField") + "[" + meta.getSchemaNameField() + "]");
+            throw new HopException(BaseMessages.getString(PKG, "GetTableNames.Exception.CouldnotFindField", meta.getSchemaNameField()));
           }
         }
 
@@ -121,8 +109,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     }
   }
 
-  private void processIncludeSynonym(Object[] outputRow)
-      throws HopDatabaseException, HopTransformException, HopValueException {
+  private void processIncludeSynonym(Object[] outputRow) throws HopDatabaseException, HopTransformException, HopValueException {
     if (meta.isIncludeSynonym()) {
       String[] synonyms = data.db.getSynonyms(data.realSchemaName, meta.isAddSchemaInOutput());
       String objectType = BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectType.Synonym");
@@ -152,8 +139,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     }
   }
 
-  private void processIncludeProcedure(Object[] outputRow)
-      throws HopDatabaseException, HopTransformException, HopValueException {
+  private void processIncludeProcedure(Object[] outputRow) throws HopDatabaseException, HopTransformException, HopValueException {
     if (meta.isIncludeProcedure()) {
       String[] procNames = data.db.getProcedures();
       String objectType = BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectType.Procedure");
@@ -219,8 +205,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
   }
 
   @VisibleForTesting
-  void processIncludeTable(Object[] outputRow)
-      throws HopDatabaseException, HopTransformException, HopValueException {
+  void processIncludeTable(Object[] outputRow) throws HopDatabaseException, HopTransformException, HopValueException {
     if (meta.isIncludeTable()) {
       // Tables
 
@@ -252,14 +237,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
         }
         // return sql creation
         // handle simple primary key (one field)
-        String sql =
-            data.db.getCreateTableStatement(
-                tableName,
-                data.db.getTableFieldsMeta(data.realSchemaName, tableNameWithoutSchema),
-                null,
-                false,
-                pk,
-                true);
+        String sql = data.db.getCreateTableStatement(tableName, data.db.getTableFieldsMeta(data.realSchemaName, tableNameWithoutSchema), null, false, pk, true);
 
         if (pkc != null) {
           // add composite primary key (several fields in primary key)
@@ -288,8 +266,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     }
   }
 
-  private void processIncludeSchema(Object[] outputRow)
-      throws HopDatabaseException, HopTransformException, HopValueException {
+  private void processIncludeSchema(Object[] outputRow) throws HopDatabaseException, HopTransformException, HopValueException {
     // Schemas
     if (meta.isIncludeSchema()) {
       String objectType = BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectType.Schema");
@@ -327,8 +304,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     }
   }
 
-  private void processIncludeCatalog(Object[] outputRow)
-      throws HopDatabaseException, HopTransformException, HopValueException {
+  private void processIncludeCatalog(Object[] outputRow) throws HopDatabaseException, HopTransformException, HopValueException {
     // Catalogs
     if (meta.isIncludeCatalog()) {
       String objectType = BaseMessages.getString(PKG, "GetTableNames.ObjectType.Catalog");
@@ -367,9 +343,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
       logDetailed(BaseMessages.getString(PKG, "GetTableNames.LineNumber", "" + getLinesRead()));
     }
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG, "GetTableNames.Log.PutoutRow", data.outputRowMeta.getString(outputRow)));
+      logRowlevel(BaseMessages.getString(PKG, "GetTableNames.Log.PutoutRow", data.outputRowMeta.getString(outputRow)));
     }
   }
 
@@ -391,12 +365,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     data.realObjectTypeFieldName = resolve(meta.getObjectTypeFieldName());
     data.realIsSystemObjectFieldName = resolve(meta.isSystemObjectFieldName());
     data.realSqlCreationFieldName = resolve(meta.getSqlCreationFieldName());
-    if (!meta.isIncludeCatalog()
-        && !meta.isIncludeSchema()
-        && !meta.isIncludeTable()
-        && !meta.isIncludeView()
-        && !meta.isIncludeProcedure()
-        && !meta.isIncludeSynonym()) {
+    if (!meta.isIncludeCatalog() && !meta.isIncludeSchema() && !meta.isIncludeTable() && !meta.isIncludeView() && !meta.isIncludeProcedure() && !meta.isIncludeSynonym()) {
       logError(BaseMessages.getString(PKG, "GetTableNames.Error.IncludeAtLeastOneType"));
       return false;
     }
@@ -404,8 +373,7 @@ public class GetTableNames extends BaseTransform<GetTableNamesMeta, GetTableName
     try {
       // Create the output row meta-data
       data.outputRowMeta = new RowMeta();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
       // metadata
       // populated
     } catch (Exception e) {

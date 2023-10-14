@@ -51,18 +51,10 @@ import java.util.List;
 
 /** Bulk loads data to Snowflake */
 @SuppressWarnings({"UnusedAssignment", "ConstantConditions"})
-public class SnowflakeBulkLoader
-    extends BaseTransform<SnowflakeBulkLoaderMeta, SnowflakeBulkLoaderData> {
-  private static final Class<?> PKG =
-      SnowflakeBulkLoaderMeta.class; // For Translator
+public class SnowflakeBulkLoader extends BaseTransform<SnowflakeBulkLoaderMeta, SnowflakeBulkLoaderData> {
+  private static final Class<?> PKG = SnowflakeBulkLoaderMeta.class; // For Translator
 
-  public SnowflakeBulkLoader(
-      TransformMeta transformMeta,
-      SnowflakeBulkLoaderMeta meta,
-      SnowflakeBulkLoaderData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SnowflakeBulkLoader(TransformMeta transformMeta, SnowflakeBulkLoaderMeta meta, SnowflakeBulkLoaderData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -90,62 +82,42 @@ public class SnowflakeBulkLoader
       data.oneFileOpened = true;
       initBinaryDataFields();
 
-      if (meta.isSpecifyFields()
-          && meta.getDataType()
-              .equals(
-                  SnowflakeBulkLoaderMeta.DATA_TYPE_CODES[SnowflakeBulkLoaderMeta.DATA_TYPE_CSV])) {
+      if (meta.isSpecifyFields() && meta.getDataType().equals(SnowflakeBulkLoaderMeta.DATA_TYPE_CODES[SnowflakeBulkLoaderMeta.DATA_TYPE_CSV])) {
         // Get input field mapping
         data.fieldnrs = new HashMap<>();
         getDbFields();
         for (int i = 0; i < meta.getSnowflakeBulkLoaderFields().size(); i++) {
-          int streamFieldLocation =
-              data.outputRowMeta.indexOfValue(
-                  meta.getSnowflakeBulkLoaderFields().get(i).getStreamField());
+          int streamFieldLocation = data.outputRowMeta.indexOfValue(meta.getSnowflakeBulkLoaderFields().get(i).getStreamField());
           if (streamFieldLocation < 0) {
-            throw new HopTransformException(
-                "Field ["
-                    + meta.getSnowflakeBulkLoaderFields().get(i).getStreamField()
-                    + "] couldn't be found in the input stream!");
+            throw new HopTransformException("Field [" + meta.getSnowflakeBulkLoaderFields().get(i).getStreamField() + "] couldn't be found in the input stream!");
           }
 
           int dbFieldLocation = -1;
           for (int e = 0; e < data.dbFields.size(); e++) {
             String[] field = data.dbFields.get(e);
-            if (field[0].equalsIgnoreCase(
-                meta.getSnowflakeBulkLoaderFields().get(i).getTableField())) {
+            if (field[0].equalsIgnoreCase(meta.getSnowflakeBulkLoaderFields().get(i).getTableField())) {
               dbFieldLocation = e;
               break;
             }
           }
           if (dbFieldLocation < 0) {
-            throw new HopException(
-                "Field ["
-                    + meta.getSnowflakeBulkLoaderFields().get(i).getTableField()
-                    + "] couldn't be found in the table!");
+            throw new HopException("Field [" + meta.getSnowflakeBulkLoaderFields().get(i).getTableField() + "] couldn't be found in the table!");
           }
 
-          data.fieldnrs.put(
-              meta.getSnowflakeBulkLoaderFields().get(i).getTableField().toUpperCase(),
-              streamFieldLocation);
+          data.fieldnrs.put(meta.getSnowflakeBulkLoaderFields().get(i).getTableField().toUpperCase(), streamFieldLocation);
         }
-      } else if (meta.getDataType()
-          .equals(
-              SnowflakeBulkLoaderMeta.DATA_TYPE_CODES[SnowflakeBulkLoaderMeta.DATA_TYPE_JSON])) {
+      } else if (meta.getDataType().equals(SnowflakeBulkLoaderMeta.DATA_TYPE_CODES[SnowflakeBulkLoaderMeta.DATA_TYPE_JSON])) {
         data.fieldnrs = new HashMap<>();
         int streamFieldLocation = data.outputRowMeta.indexOfValue(meta.getJsonField());
         if (streamFieldLocation < 0) {
-          throw new HopTransformException(
-              "Field [" + meta.getJsonField() + "] couldn't be found in the input stream!");
+          throw new HopTransformException("Field [" + meta.getJsonField() + "] couldn't be found in the input stream!");
         }
         data.fieldnrs.put("json", streamFieldLocation);
       }
     }
 
     // Create a new split?
-    if ((row != null
-        && data.outputCount > 0
-        && Const.toInt(resolve(meta.getSplitSize()), 0) > 0
-        && (data.outputCount % Const.toInt(resolve(meta.getSplitSize()), 0)) == 0)) {
+    if ((row != null && data.outputCount > 0 && Const.toInt(resolve(meta.getSplitSize()), 0) > 0 && (data.outputCount % Const.toInt(resolve(meta.getSplitSize()), 0)) == 0)) {
 
       // Done with this part or with everything.
       closeFile();
@@ -225,9 +197,7 @@ public class SnowflakeBulkLoader
    * @throws HopValueException
    */
   private void loadDatabase() throws HopDatabaseException, HopFileException, HopValueException {
-    boolean endsWithSlash =
-        resolve(meta.getWorkDirectory()).endsWith("\\")
-            || resolve(meta.getWorkDirectory()).endsWith("/");
+    boolean endsWithSlash = resolve(meta.getWorkDirectory()).endsWith("\\") || resolve(meta.getWorkDirectory()).endsWith("/");
     String sql =
         "PUT 'file://"
             + resolve(meta.getWorkDirectory()).replaceAll("\\\\", "/")
@@ -241,27 +211,24 @@ public class SnowflakeBulkLoader
 
     logDebug("Executing SQL " + sql);
     try (ResultSet putResultSet = data.db.openQuery(sql, null, null, ResultSet.FETCH_FORWARD, false)) {
-        IRowMeta putRowMeta = data.db.getReturnRowMeta();
-        Object[] putRow = data.db.getRow(putResultSet);
-        logDebug("=========================Put File Results======================");
-        int fileNum = 0;
-        while (putRow != null) {
-          logDebug("------------------------ File " + fileNum + "--------------------------");
-          for (int i = 0; i < putRowMeta.getFieldNames().length; i++) {
-            logDebug(putRowMeta.getFieldNames()[i] + " = " + putRowMeta.getString(putRow, i));
-            if (putRowMeta.getFieldNames()[i].equalsIgnoreCase("status")
-                && putRowMeta.getString(putRow, i).equalsIgnoreCase("ERROR")) {
-              throw new HopDatabaseException(
-                  "Error putting file to Snowflake stage \n"
-                      + putRowMeta.getString(putRow, "message", ""));
-            }
+      IRowMeta putRowMeta = data.db.getReturnRowMeta();
+      Object[] putRow = data.db.getRow(putResultSet);
+      logDebug("=========================Put File Results======================");
+      int fileNum = 0;
+      while (putRow != null) {
+        logDebug("------------------------ File " + fileNum + "--------------------------");
+        for (int i = 0; i < putRowMeta.getFieldNames().length; i++) {
+          logDebug(putRowMeta.getFieldNames()[i] + " = " + putRowMeta.getString(putRow, i));
+          if (putRowMeta.getFieldNames()[i].equalsIgnoreCase("status") && putRowMeta.getString(putRow, i).equalsIgnoreCase("ERROR")) {
+            throw new HopDatabaseException("Error putting file to Snowflake stage \n" + putRowMeta.getString(putRow, "message", ""));
           }
-          fileNum++;
+        }
+        fileNum++;
 
-          putRow = data.db.getRow(putResultSet);
+        putRow = data.db.getRow(putResultSet);
       }
       data.db.closeQuery(putResultSet);
-    } catch(SQLException exception) {
+    } catch (SQLException exception) {
       throw new HopDatabaseException(exception);
     }
     String copySQL = meta.getCopyStatement(this, data.getPreviouslyOpenedFiles());
@@ -296,7 +263,7 @@ public class SnowflakeBulkLoader
       data.db.closeQuery(resultSet);
       setLinesOutput(rowsLoaded);
       setLinesRejected(rowsError);
-    } catch(SQLException exception) {
+    } catch (SQLException exception) {
       throw new HopDatabaseException(exception);
     }
     data.db.execStatement("commit");
@@ -311,8 +278,7 @@ public class SnowflakeBulkLoader
    */
   private void writeRowToFile(IRowMeta rowMeta, Object[] row) throws HopTransformException {
     try {
-      if (meta.getDataTypeId() == SnowflakeBulkLoaderMeta.DATA_TYPE_CSV
-          && !meta.isSpecifyFields()) {
+      if (meta.getDataTypeId() == SnowflakeBulkLoaderMeta.DATA_TYPE_CSV && !meta.isSpecifyFields()) {
         /*
          * Write all values in stream to text file.
          */
@@ -351,8 +317,7 @@ public class SnowflakeBulkLoader
             } else if (field[1].toUpperCase().startsWith("TIME")) {
               v = new ValueMetaDate();
               v.setConversionMask("HH:mm:ss.SSS");
-            } else if (field[1].toUpperCase().startsWith("NUMBER")
-                || field[1].toUpperCase().startsWith("FLOAT")) {
+            } else if (field[1].toUpperCase().startsWith("NUMBER") || field[1].toUpperCase().startsWith("FLOAT")) {
               v = new ValueMetaBigNumber();
             } else {
               v = new ValueMetaString();
@@ -367,10 +332,7 @@ public class SnowflakeBulkLoader
             if (fieldIndex >= 0) {
               valueData = v.convertData(rowMeta.getValueMeta(fieldIndex), row[fieldIndex]);
             } else if (meta.isErrorColumnMismatch()) {
-              throw new HopException(
-                  "Error column mismatch: Database field "
-                      + data.dbFields.get(i)[0]
-                      + " not found on stream.");
+              throw new HopException("Error column mismatch: Database field " + data.dbFields.get(i)[0] + " not found on stream.");
             }
             writeField(v, valueData, data.binaryNullValue);
           }
@@ -378,8 +340,7 @@ public class SnowflakeBulkLoader
         data.writer.write(data.binaryNewline);
       } else {
         int jsonField = data.fieldnrs.get("json");
-        data.writer.write(
-            data.outputRowMeta.getString(row, jsonField).getBytes(StandardCharsets.UTF_8));
+        data.writer.write(data.outputRowMeta.getString(row, jsonField).getBytes(StandardCharsets.UTF_8));
         data.writer.write(data.binaryNewline);
       }
 
@@ -399,10 +360,7 @@ public class SnowflakeBulkLoader
    */
   private byte[] formatField(IValueMeta v, Object valueData) throws HopValueException {
     if (v.isString()) {
-      if (v.isStorageBinaryString()
-          && v.getTrimType() == IValueMeta.TRIM_TYPE_NONE
-          && v.getLength() < 0
-          && StringUtils.isEmpty(v.getStringEncoding())) {
+      if (v.isStorageBinaryString() && v.getTrimType() == IValueMeta.TRIM_TYPE_NONE && v.getLength() < 0 && StringUtils.isEmpty(v.getStringEncoding())) {
         return (byte[]) valueData;
       } else {
         String svalue = (valueData instanceof String) ? (String) valueData : v.getString(valueData);
@@ -476,8 +434,7 @@ public class SnowflakeBulkLoader
    * @param nullString The bytes to put in the temp file if the value is null
    * @throws HopTransformException
    */
-  private void writeField(IValueMeta v, Object valueData, byte[] nullString)
-      throws HopTransformException {
+  private void writeField(IValueMeta v, Object valueData, byte[] nullString) throws HopTransformException {
     try {
       byte[] str;
 
@@ -495,8 +452,7 @@ public class SnowflakeBulkLoader
         boolean writeEnclosures = false;
 
         if (v.isString()) {
-          if (containsSeparatorOrEnclosure(
-              str, data.binarySeparator, data.binaryEnclosure, data.escapeCharacters)) {
+          if (containsSeparatorOrEnclosure(str, data.binarySeparator, data.binaryEnclosure, data.escapeCharacters)) {
             writeEnclosures = true;
           }
         }
@@ -587,8 +543,7 @@ public class SnowflakeBulkLoader
    */
   private void openNewFile(String baseFilename) throws HopException {
     if (baseFilename == null) {
-      throw new HopFileException(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Exception.FileNameNotSet"));
+      throw new HopFileException(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Exception.FileNameNotSet"));
     }
 
     data.writer = null;
@@ -596,8 +551,7 @@ public class SnowflakeBulkLoader
     String filename = resolve(baseFilename);
 
     try {
-      ICompressionProvider compressionProvider =
-          CompressionProviderFactory.getInstance().getCompressionProviderByName("GZip");
+      ICompressionProvider compressionProvider = CompressionProviderFactory.getInstance().getCompressionProviderByName("GZip");
 
       if (compressionProvider == null) {
         throw new HopException("No compression provider found with name = GZip");
@@ -731,14 +685,10 @@ public class SnowflakeBulkLoader
       data.binaryNewline = new byte[] {};
       data.escapeCharacters = new byte[] {};
 
-      data.binarySeparator =
-          resolve(SnowflakeBulkLoaderMeta.CSV_DELIMITER).getBytes(StandardCharsets.UTF_8);
-      data.binaryEnclosure =
-          resolve(SnowflakeBulkLoaderMeta.ENCLOSURE).getBytes(StandardCharsets.UTF_8);
-      data.binaryNewline =
-          SnowflakeBulkLoaderMeta.CSV_RECORD_DELIMITER.getBytes(StandardCharsets.UTF_8);
-      data.escapeCharacters =
-          SnowflakeBulkLoaderMeta.CSV_ESCAPE_CHAR.getBytes(StandardCharsets.UTF_8);
+      data.binarySeparator = resolve(SnowflakeBulkLoaderMeta.CSV_DELIMITER).getBytes(StandardCharsets.UTF_8);
+      data.binaryEnclosure = resolve(SnowflakeBulkLoaderMeta.ENCLOSURE).getBytes(StandardCharsets.UTF_8);
+      data.binaryNewline = SnowflakeBulkLoaderMeta.CSV_RECORD_DELIMITER.getBytes(StandardCharsets.UTF_8);
+      data.escapeCharacters = SnowflakeBulkLoaderMeta.CSV_ESCAPE_CHAR.getBytes(StandardCharsets.UTF_8);
 
       data.binaryNullValue = "".getBytes(StandardCharsets.UTF_8);
     } catch (Exception e) {
@@ -799,8 +749,7 @@ public class SnowflakeBulkLoader
    * @return True if the string contains separators or enclosures
    */
   @SuppressWarnings("Duplicates")
-  private boolean containsSeparatorOrEnclosure(
-      byte[] source, byte[] separator, byte[] enclosure, byte[] escape) {
+  private boolean containsSeparatorOrEnclosure(byte[] source, byte[] separator, byte[] enclosure, byte[] escape) {
     boolean result = false;
 
     boolean enclosureExists = enclosure != null && enclosure.length > 0;
@@ -884,8 +833,7 @@ public class SnowflakeBulkLoader
    * @throws HopFileException
    */
   @SuppressWarnings("unused")
-  protected FileObject getFileObject(String vfsFilename, IVariables variables)
-      throws HopFileException {
+  protected FileObject getFileObject(String vfsFilename, IVariables variables) throws HopFileException {
     return HopVfs.getFileObject(vfsFilename);
   }
 
@@ -898,8 +846,7 @@ public class SnowflakeBulkLoader
    * @return The output stream to write to
    * @throws HopFileException
    */
-  private OutputStream getOutputStream(String vfsFilename, IVariables variables, boolean append)
-      throws HopFileException {
+  private OutputStream getOutputStream(String vfsFilename, IVariables variables, boolean append) throws HopFileException {
     return HopVfs.getOutputStream(vfsFilename, append);
   }
 }

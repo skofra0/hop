@@ -40,13 +40,7 @@ import java.util.List;
 public class GetSubFolders extends BaseTransform<GetSubFoldersMeta, GetSubFoldersData> {
   private static final Class<?> PKG = GetSubFoldersMeta.class; // For Translator
 
-  public GetSubFolders(
-      TransformMeta transformMeta,
-      GetSubFoldersMeta meta,
-      GetSubFoldersData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetSubFolders(TransformMeta transformMeta, GetSubFoldersMeta meta, GetSubFoldersData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -153,8 +147,7 @@ public class GetSubFolders extends BaseTransform<GetSubFoldersMeta, GetSubFolder
         // Send row
         putRow(data.outputRowMeta, outputRow);
 
-        if (meta.getRowLimit() > 0
-            && data.rowNumber >= meta.getRowLimit()) { // limit has been reached: stop now.
+        if (meta.getRowLimit() > 0 && data.rowNumber >= meta.getRowLimit()) { // limit has been reached: stop now.
           setOutputDone();
           return true;
         }
@@ -186,21 +179,14 @@ public class GetSubFolders extends BaseTransform<GetSubFoldersMeta, GetSubFolder
         data.indexOfFolderNameField = data.inputRowMeta.indexOfValue(realDynamicFolderName);
         if (data.indexOfFolderNameField < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(PKG, "GetSubFolders.Log.ErrorFindingField")
-                  + "["
-                  + realDynamicFolderName
-                  + "]");
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "GetSubFolders.Exception.CouldnotFindField", realDynamicFolderName));
+          logError(BaseMessages.getString(PKG, "GetSubFolders.Log.ErrorFindingField") + "[" + realDynamicFolderName + "]");
+          throw new HopException(BaseMessages.getString(PKG, "GetSubFolders.Exception.CouldnotFindField", realDynamicFolderName));
         }
       }
     } else {
       // Create the output row meta-data
       data.outputRowMeta = new RowMeta();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
       // metadata
       // populated
 
@@ -217,16 +203,14 @@ public class GetSubFolders extends BaseTransform<GetSubFoldersMeta, GetSubFolder
     if (!nonExistantFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
       logError(BaseMessages.getString(PKG, "GetSubFolders.Error.MissingFiles", message));
-      throw new HopException(
-          BaseMessages.getString(PKG, "GetSubFolders.Exception.MissingFiles", message));
+      throw new HopException(BaseMessages.getString(PKG, "GetSubFolders.Exception.MissingFiles", message));
     }
 
     List<FileObject> nonAccessibleFiles = data.files.getNonAccessibleFiles();
     if (!nonAccessibleFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
       logError(BaseMessages.getString(PKG, "GetSubFolders.Error.NoAccessibleFiles", message));
-      throw new HopException(
-          BaseMessages.getString(PKG, "GetSubFolders.Exception.NoAccessibleFiles", message));
+      throw new HopException(BaseMessages.getString(PKG, "GetSubFolders.Exception.NoAccessibleFiles", message));
     }
   }
 

@@ -80,8 +80,7 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
   }
 
   @Override
-  public String getURL(String hostname, String port, String databaseName)
-      throws HopDatabaseException {
+  public String getURL(String hostname, String port, String databaseName) throws HopDatabaseException {
     return "jdbc:rdbThin://" + hostname + ":" + port + "/" + databaseName;
   }
 
@@ -113,9 +112,7 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
    */
   @Override
   public String getSqlSequenceExists(String sequenceName) {
-    return "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = '"
-        + sequenceName.toUpperCase()
-        + "'";
+    return "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = '" + sequenceName.toUpperCase() + "'";
   }
 
   /**
@@ -142,7 +139,7 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
 
   /**
    * @return true if we need to supply the schema-name to getTables in order to get a correct list
-   *     of items.
+   *         of items.
    */
   @Override
   public boolean useSchemaNameForTableList() {
@@ -167,13 +164,8 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD ( "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false)
-        + " ) ";
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD ( " + getFieldDefinition(v, tk, pk, useAutoinc, true, false) + " ) ";
   }
 
   /**
@@ -188,8 +180,7 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
    * @return the SQL statement to drop a column from the specified table
    */
   @Override
-  public String getDropColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     return "ALTER TABLE " + tableName + " DROP ( " + v.getName() + " ) " + Const.CR;
   }
 
@@ -205,18 +196,12 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY ("
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false)
-        + " )";
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY (" + getFieldDefinition(v, tk, pk, useAutoinc, true, false) + " )";
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     StringBuilder retval = new StringBuilder(128);
 
     String fieldname = v.getName();
@@ -282,129 +267,125 @@ public class OracleRDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ACCESS",
-      "ADD",
-      "ALL",
-      "ALTER",
-      "AND",
-      "ANY",
-      "ARRAYLEN",
-      "AS",
-      "ASC",
-      "AUDIT",
-      "BETWEEN",
-      "BY",
-      "CHAR",
-      "CHECK",
-      "CLUSTER",
-      "COLUMN",
-      "COMMENT",
-      "COMPRESS",
-      "CONNECT",
-      "CREATE",
-      "CURRENT",
-      "DATE",
-      "DECIMAL",
-      "DEFAULT",
-      "DELETE",
-      "DESC",
-      "DISTINCT",
-      "DROP",
-      "ELSE",
-      "EXCLUSIVE",
-      "EXISTS",
-      "FILE",
-      "FLOAT",
-      "FOR",
-      "FROM",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "IDENTIFIED",
-      "IMMEDIATE",
-      "IN",
-      "INCREMENT",
-      "INDEX",
-      "INITIAL",
-      "INSERT",
-      "INTEGER",
-      "INTERSECT",
-      "INTO",
-      "IS",
-      "LEVEL",
-      "LIKE",
-      "LOCK",
-      "LONG",
-      "MAXEXTENTS",
-      "MINUS",
-      "MODE",
-      "MODIFY",
-      "NOAUDIT",
-      "NOCOMPRESS",
-      "NOT",
-      "NOTFOUND",
-      "NOWAIT",
-      "NULL",
-      "NUMBER",
-      "OF",
-      "OFFLINE",
-      "ON",
-      "ONLINE",
-      "OPTION",
-      "OR",
-      "ORDER",
-      "PCTFREE",
-      "PRIOR",
-      "PRIVILEGES",
-      "PUBLIC",
-      "RAW",
-      "RENAME",
-      "RESOURCE",
-      "REVOKE",
-      "ROW",
-      "ROWID",
-      "ROWLABEL",
-      "ROWNUM",
-      "ROWS",
-      "SELECT",
-      "SESSION",
-      "SET",
-      "SHARE",
-      "SIZE",
-      "SMALLINT",
-      "SQLBUF",
-      "START",
-      "SUCCESSFUL",
-      "SYNONYM",
-      "SYSDATE",
-      "TABLE",
-      "THEN",
-      "TO",
-      "TRIGGER",
-      "UID",
-      "UNION",
-      "UNIQUE",
-      "UPDATE",
-      "USER",
-      "VALIDATE",
-      "VALUES",
-      "VARCHAR",
-      "VARCHAR2",
-      "VIEW",
-      "WHENEVER",
-      "WHERE",
-      "WITH"
-    };
+        "ACCESS",
+        "ADD",
+        "ALL",
+        "ALTER",
+        "AND",
+        "ANY",
+        "ARRAYLEN",
+        "AS",
+        "ASC",
+        "AUDIT",
+        "BETWEEN",
+        "BY",
+        "CHAR",
+        "CHECK",
+        "CLUSTER",
+        "COLUMN",
+        "COMMENT",
+        "COMPRESS",
+        "CONNECT",
+        "CREATE",
+        "CURRENT",
+        "DATE",
+        "DECIMAL",
+        "DEFAULT",
+        "DELETE",
+        "DESC",
+        "DISTINCT",
+        "DROP",
+        "ELSE",
+        "EXCLUSIVE",
+        "EXISTS",
+        "FILE",
+        "FLOAT",
+        "FOR",
+        "FROM",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "IDENTIFIED",
+        "IMMEDIATE",
+        "IN",
+        "INCREMENT",
+        "INDEX",
+        "INITIAL",
+        "INSERT",
+        "INTEGER",
+        "INTERSECT",
+        "INTO",
+        "IS",
+        "LEVEL",
+        "LIKE",
+        "LOCK",
+        "LONG",
+        "MAXEXTENTS",
+        "MINUS",
+        "MODE",
+        "MODIFY",
+        "NOAUDIT",
+        "NOCOMPRESS",
+        "NOT",
+        "NOTFOUND",
+        "NOWAIT",
+        "NULL",
+        "NUMBER",
+        "OF",
+        "OFFLINE",
+        "ON",
+        "ONLINE",
+        "OPTION",
+        "OR",
+        "ORDER",
+        "PCTFREE",
+        "PRIOR",
+        "PRIVILEGES",
+        "PUBLIC",
+        "RAW",
+        "RENAME",
+        "RESOURCE",
+        "REVOKE",
+        "ROW",
+        "ROWID",
+        "ROWLABEL",
+        "ROWNUM",
+        "ROWS",
+        "SELECT",
+        "SESSION",
+        "SET",
+        "SHARE",
+        "SIZE",
+        "SMALLINT",
+        "SQLBUF",
+        "START",
+        "SUCCESSFUL",
+        "SYNONYM",
+        "SYSDATE",
+        "TABLE",
+        "THEN",
+        "TO",
+        "TRIGGER",
+        "UID",
+        "UNION",
+        "UNIQUE",
+        "UPDATE",
+        "USER",
+        "VALIDATE",
+        "VALUES",
+        "VARCHAR",
+        "VARCHAR2",
+        "VIEW",
+        "WHENEVER",
+        "WHERE",
+        "WITH"};
   }
 
   @Override
   public String getSqlLockTables(String[] tableNames) {
     StringBuilder sql = new StringBuilder(128);
     for (int i = 0; i < tableNames.length; i++) {
-      sql.append("LOCK TABLE ")
-          .append(tableNames[i])
-          .append(" IN EXCLUSIVE MODE;")
-          .append(Const.CR);
+      sql.append("LOCK TABLE ").append(tableNames[i]).append(" IN EXCLUSIVE MODE;").append(Const.CR);
     }
     return sql.toString();
   }

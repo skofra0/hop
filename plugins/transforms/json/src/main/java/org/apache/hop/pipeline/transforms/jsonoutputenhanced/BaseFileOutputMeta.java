@@ -25,8 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /** A base implementation for all output file based metas. */
-public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends JsonOutputData>
-    extends BaseTransformMeta<Main, Data> {
+public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends JsonOutputData> extends BaseTransformMeta<Main, Data> {
 
   /** Flag: add the stepnr in the filename */
   @Injection(name = "INC_TRANSFORMNR_IN_FILENAME")
@@ -160,8 +159,7 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
     return getFiles(realFileName, realExtension, showSamples);
   }
 
-  public String[] getFiles(
-      final String realFileName, final String realExtension, final boolean showSamples) {
+  public String[] getFiles(final String realFileName, final String realExtension, final boolean showSamples) {
     final Date now = new Date();
 
     if (showSamples) {
@@ -188,16 +186,7 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
       for (int copy = 0; copy < copies; copy++) {
         for (int part = 0; part < parts; part++) {
           for (int split = 0; split < splits; split++) {
-            retval[i] =
-                buildFilename(
-                    realFileName,
-                    realExtension,
-                    copy + "",
-                    getPartPrefix() + part,
-                    split + "",
-                    now,
-                    false,
-                    showSamples);
+            retval[i] = buildFilename(realFileName, realExtension, copy + "", getPartPrefix() + part, split + "", now, false, showSamples);
             i++;
           }
         }
@@ -208,17 +197,7 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
 
       return retval;
     } else {
-      return new String[] {
-        buildFilename(
-            realFileName,
-            realExtension,
-            "<transform>",
-            "<partition>",
-            "<split>",
-            now,
-            false,
-            showSamples)
-      };
+      return new String[] {buildFilename(realFileName, realExtension, "<transform>", "<partition>", "<split>", now, false, showSamples)};
     }
   }
 
@@ -226,28 +205,16 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
     return "";
   }
 
-  public String buildFilename(
-      final IVariables variables,
-      final String copyNr,
-      final String partitionNr,
-      final String splitNr,
-      final boolean ziparchive) {
+  public String buildFilename(final IVariables variables, final String copyNr, final String partitionNr, final String splitNr, final boolean ziparchive) {
     return buildFilename(variables, copyNr, partitionNr, splitNr, ziparchive, true);
   }
 
-  public String buildFilename(
-      final IVariables variables,
-      final String stepnr,
-      final String partnr,
-      final String splitnr,
-      final boolean ziparchive,
-      final boolean showSamples) {
+  public String buildFilename(final IVariables variables, final String stepnr, final String partnr, final String splitnr, final boolean ziparchive, final boolean showSamples) {
 
     String realFileName = variables.resolve(fileName);
     String realExtension = variables.resolve(extension);
 
-    return buildFilename(
-        realFileName, realExtension, stepnr, partnr, splitnr, new Date(), ziparchive, showSamples);
+    return buildFilename(realFileName, realExtension, stepnr, partnr, splitnr, new Date(), ziparchive, showSamples);
   }
 
   private String buildFilename(
@@ -259,8 +226,7 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
       final Date date,
       final boolean ziparchive,
       final boolean showSamples) {
-    return buildFilename(
-        realFileName, realExtension, stepnr, partnr, splitnr, date, ziparchive, showSamples, this);
+    return buildFilename(realFileName, realExtension, stepnr, partnr, splitnr, date, ziparchive, showSamples, this);
   }
 
   protected String buildFilename(
@@ -273,17 +239,7 @@ public abstract class BaseFileOutputMeta<Main extends JsonOutput, Data extends J
       final boolean ziparchive,
       final boolean showSamples,
       final BaseFileOutputMeta meta) {
-    return buildFilename(
-        null,
-        realFileName,
-        realExtension,
-        stepnr,
-        partnr,
-        splitnr,
-        date,
-        ziparchive,
-        showSamples,
-        meta);
+    return buildFilename(null, realFileName, realExtension, stepnr, partnr, splitnr, date, ziparchive, showSamples, meta);
   }
 
   protected String buildFilename(

@@ -29,12 +29,10 @@ import org.apache.hop.pipeline.transform.TransformInitThread;
 @ExtensionPoint(
     id = "TransformCreatedXp",
     extensionPointId = "TransformBeforeInitialize",
-    description =
-        "If a transform is being created and before it's initialized we copy the connection group")
+    description = "If a transform is being created and before it's initialized we copy the connection group")
 public class TransformCreatedXp implements IExtensionPoint<TransformInitThread> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, TransformInitThread initThread) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, TransformInitThread initThread) throws HopException {
     ITransform transform = initThread.getCombi().transform;
     Pipeline pipeline = initThread.getPipeline();
     String connectionGroup = (String) pipeline.getExtensionDataMap().get(Const.CONNECTION_GROUP);

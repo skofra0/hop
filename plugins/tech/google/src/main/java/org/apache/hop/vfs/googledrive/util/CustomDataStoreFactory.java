@@ -64,8 +64,7 @@ public class CustomDataStoreFactory extends AbstractDataStoreFactory {
     private HashMap keyValueMap = Maps.newHashMap();
     private final Lock lock = new ReentrantLock();
 
-    CustomDataStore(CustomDataStoreFactory dataStore, File dataDirectory, String id)
-        throws IOException {
+    CustomDataStore(CustomDataStoreFactory dataStore, File dataDirectory, String id) throws IOException {
       super(dataStore, id);
       this.dataDirectory = dataDirectory;
       this.dataFile = new File(this.dataDirectory, getId());

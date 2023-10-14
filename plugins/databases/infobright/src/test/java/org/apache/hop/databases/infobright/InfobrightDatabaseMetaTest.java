@@ -53,8 +53,7 @@ public class InfobrightDatabaseMetaTest {
 
   @Test
   public void testAddOptionsInfobright() {
-    DatabaseMeta databaseMeta =
-        new DatabaseMeta("", "Infobright", "JDBC", null, "stub:stub", null, null, null);
+    DatabaseMeta databaseMeta = new DatabaseMeta("", "Infobright", "JDBC", null, "stub:stub", null, null, null);
     Map<String, String> options = databaseMeta.getExtraOptions();
     if (!options.keySet().contains("INFOBRIGHT.characterEncoding")) {
       fail();
@@ -64,8 +63,7 @@ public class InfobrightDatabaseMetaTest {
   @Test
   public void testAttributesVariable() throws HopDatabaseException {
     IVariables variables = new Variables();
-    DatabaseMeta databaseMeta =
-        new DatabaseMeta("", "Infobright", "JDBC", null, "stub:stub", null, null, null);
+    DatabaseMeta databaseMeta = new DatabaseMeta("", "Infobright", "JDBC", null, "stub:stub", null, null, null);
     variables.setVariable("someVar", "someValue");
     databaseMeta.setAttributes(new HashMap<>());
     Map<String, String> props = databaseMeta.getAttributes();
@@ -77,12 +75,9 @@ public class InfobrightDatabaseMetaTest {
   @Test
   public void testfindDatabase() throws HopDatabaseException {
     List<DatabaseMeta> databases = new ArrayList<>();
-    databases.add(
-        new DatabaseMeta("  1", "Infobright", "JDBC", null, "stub:stub", null, null, null));
-    databases.add(
-        new DatabaseMeta("  1  ", "Infobright", "JDBC", null, "stub:stub", null, null, null));
-    databases.add(
-        new DatabaseMeta("1  ", "Infobright", "JDBC", null, "stub:stub", null, null, null));
+    databases.add(new DatabaseMeta("  1", "Infobright", "JDBC", null, "stub:stub", null, null, null));
+    databases.add(new DatabaseMeta("  1  ", "Infobright", "JDBC", null, "stub:stub", null, null, null));
+    databases.add(new DatabaseMeta("1  ", "Infobright", "JDBC", null, "stub:stub", null, null, null));
     Assert.assertNotNull(DatabaseMeta.findDatabase(databases, "1"));
     Assert.assertNotNull(DatabaseMeta.findDatabase(databases, "1 "));
     Assert.assertNotNull(DatabaseMeta.findDatabase(databases, " 1"));

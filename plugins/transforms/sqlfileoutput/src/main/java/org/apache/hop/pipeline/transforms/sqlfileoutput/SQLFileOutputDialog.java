@@ -108,8 +108,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
   private final SQLFileOutputMeta input;
 
-  public SQLFileOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SQLFileOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SQLFileOutputMeta) in;
   }
@@ -192,8 +191,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
     Group wGConnection = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wGConnection);
-    wGConnection.setText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.Group.ConnectionInfos.Label"));
+    wGConnection.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.Group.ConnectionInfos.Label"));
 
     FormLayout groupLayout = new FormLayout();
     groupLayout.marginWidth = 10;
@@ -285,22 +283,20 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlAddCreate.right = new FormAttachment(middle, -margin);
     wlAddCreate.setLayoutData(fdlAddCreate);
     wAddCreate = new Button(wFileName, SWT.CHECK);
-    wAddCreate.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateTable.Tooltip"));
+    wAddCreate.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateTable.Tooltip"));
     PropsUi.setLook(wAddCreate);
     FormData fdAddCreate = new FormData();
     fdAddCreate.left = new FormAttachment(middle, 0);
     fdAddCreate.top = new FormAttachment(wlAddCreate, 0, SWT.CENTER);
     fdAddCreate.right = new FormAttachment(100, 0);
     wAddCreate.setLayoutData(fdAddCreate);
-    SelectionAdapter lsSelMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateTruncate();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateTruncate();
+        input.setChanged();
+      }
+    };
     wAddCreate.addSelectionListener(lsSelMod);
 
     // Truncate table
@@ -313,21 +309,19 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlTruncate.right = new FormAttachment(middle, -margin);
     wlTruncate.setLayoutData(fdlTruncate);
     wTruncate = new Button(wFileName, SWT.CHECK);
-    wTruncate.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.TruncateTable.Tooltip"));
+    wTruncate.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.TruncateTable.Tooltip"));
     PropsUi.setLook(wTruncate);
     FormData fdTruncate = new FormData();
     fdTruncate.left = new FormAttachment(middle, 0);
     fdTruncate.top = new FormAttachment(wlTruncate, 0, SWT.CENTER);
     fdTruncate.right = new FormAttachment(100, 0);
     wTruncate.setLayoutData(fdTruncate);
-    SelectionAdapter lsSelTMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelTMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wTruncate.addSelectionListener(lsSelTMod);
 
     // Start New Line For each statement
@@ -340,21 +334,19 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlStartNewLine.right = new FormAttachment(middle, -margin);
     wlStartNewLine.setLayoutData(fdlStartNewLine);
     wStartNewLine = new Button(wFileName, SWT.CHECK);
-    wStartNewLine.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.StartNewLine.Label"));
+    wStartNewLine.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.StartNewLine.Label"));
     PropsUi.setLook(wStartNewLine);
     FormData fdStartNewLine = new FormData();
     fdStartNewLine.left = new FormAttachment(middle, 0);
     fdStartNewLine.top = new FormAttachment(wlStartNewLine, 0, SWT.CENTER);
     fdStartNewLine.right = new FormAttachment(100, 0);
     wStartNewLine.setLayoutData(fdStartNewLine);
-    SelectionAdapter lsSelSMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelSMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wStartNewLine.addSelectionListener(lsSelSMod);
 
     // Filename line
@@ -386,8 +378,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
     // Create Parent Folder
     Label wlCreateParentFolder = new Label(wFileName, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -395,26 +386,23 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlCreateParentFolder.right = new FormAttachment(middle, -margin);
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wFileName, SWT.CHECK);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.CreateParentFolder.Tooltip"));
     PropsUi.setLook(wCreateParentFolder);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
     fdCreateParentFolder.right = new FormAttachment(100, 0);
     wCreateParentFolder.setLayoutData(fdCreateParentFolder);
-    wCreateParentFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wCreateParentFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Open new File at Init
     Label wlDoNotOpenNewFileInit = new Label(wFileName, SWT.RIGHT);
-    wlDoNotOpenNewFileInit.setText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.DoNotOpenNewFileInit.Label"));
+    wlDoNotOpenNewFileInit.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.DoNotOpenNewFileInit.Label"));
     PropsUi.setLook(wlDoNotOpenNewFileInit);
     FormData fdlDoNotOpenNewFileInit = new FormData();
     fdlDoNotOpenNewFileInit.left = new FormAttachment(0, 0);
@@ -422,21 +410,19 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlDoNotOpenNewFileInit.right = new FormAttachment(middle, -margin);
     wlDoNotOpenNewFileInit.setLayoutData(fdlDoNotOpenNewFileInit);
     wDoNotOpenNewFileInit = new Button(wFileName, SWT.CHECK);
-    wDoNotOpenNewFileInit.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.DoNotOpenNewFileInit.Tooltip"));
+    wDoNotOpenNewFileInit.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.DoNotOpenNewFileInit.Tooltip"));
     PropsUi.setLook(wDoNotOpenNewFileInit);
     FormData fdDoNotOpenNewFileInit = new FormData();
     fdDoNotOpenNewFileInit.left = new FormAttachment(middle, 0);
     fdDoNotOpenNewFileInit.top = new FormAttachment(wlDoNotOpenNewFileInit, 0, SWT.CENTER);
     fdDoNotOpenNewFileInit.right = new FormAttachment(100, 0);
     wDoNotOpenNewFileInit.setLayoutData(fdDoNotOpenNewFileInit);
-    wDoNotOpenNewFileInit.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDoNotOpenNewFileInit.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Extension line
     Label wlExtension = new Label(wFileName, SWT.RIGHT);
@@ -459,8 +445,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
     // Create multi-part file?
     Label wlAddTransformNr = new Label(wFileName, SWT.RIGHT);
-    wlAddTransformNr.setText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.AddTransformnr.Label"));
+    wlAddTransformNr.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.AddTransformnr.Label"));
     PropsUi.setLook(wlAddTransformNr);
     FormData fdlAddTransformNr = new FormData();
     fdlAddTransformNr.left = new FormAttachment(0, 0);
@@ -474,13 +459,12 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdAddTransformNr.top = new FormAttachment(wlAddTransformNr, 0, SWT.CENTER);
     fdAddTransformNr.right = new FormAttachment(100, 0);
     wAddTransformNr.setLayoutData(fdAddTransformNr);
-    wAddTransformNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTransformNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Create multi-part file?
     Label wlAddDate = new Label(wFileName, SWT.RIGHT);
@@ -498,13 +482,12 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
     // Create multi-part file?
     Label wlAddTime = new Label(wFileName, SWT.RIGHT);
     wlAddTime.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.AddTime.Label"));
@@ -521,13 +504,12 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Append to end of file?
     Label wlAppend = new Label(wFileName, SWT.RIGHT);
@@ -546,13 +528,12 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdAppend.top = new FormAttachment(wlAppend, 0, SWT.CENTER);
     fdAppend.right = new FormAttachment(100, 0);
     wAppend.setLayoutData(fdAppend);
-    wAppend.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAppend.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlSplitEvery = new Label(wFileName, SWT.RIGHT);
     wlSplitEvery.setText(BaseMessages.getString(PKG, "SQLFileOutputDialog.SplitEvery.Label"));
@@ -579,33 +560,29 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdbShowFiles.left = new FormAttachment(middle, 0);
     fdbShowFiles.top = new FormAttachment(wSplitEvery, margin * 2);
     wbShowFiles.setLayoutData(fdbShowFiles);
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            SQLFileOutputMeta tfoi = new SQLFileOutputMeta();
-            getInfo(tfoi);
-            String[] files = tfoi.getFiles(variables, variables.resolve(wFilename.getText()));
-            if (files != null && files.length > 0) {
-              EnterSelectionDialog esd =
-                  new EnterSelectionDialog(
-                      shell,
-                      files,
-                      BaseMessages.getString(
-                          PKG, "SQLFileOutputDialog.SelectOutputFiles.DialogTitle"),
-                      BaseMessages.getString(
-                          PKG, "SQLFileOutputDialog.SelectOutputFiles.DialogMessage"));
-              esd.setViewOnly();
-              esd.open();
-            } else {
-              MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-              mb.setMessage(
-                  BaseMessages.getString(PKG, "SQLFileOutputDialog.NoFilesFound.DialogMessage"));
-              mb.setText(BaseMessages.getString(PKG, "System.DialogTitle.Error"));
-              mb.open();
-            }
-          }
-        });
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        SQLFileOutputMeta tfoi = new SQLFileOutputMeta();
+        getInfo(tfoi);
+        String[] files = tfoi.getFiles(variables, variables.resolve(wFilename.getText()));
+        if (files != null && files.length > 0) {
+          EnterSelectionDialog esd =
+              new EnterSelectionDialog(
+                  shell,
+                  files,
+                  BaseMessages.getString(PKG, "SQLFileOutputDialog.SelectOutputFiles.DialogTitle"),
+                  BaseMessages.getString(PKG, "SQLFileOutputDialog.SelectOutputFiles.DialogMessage"));
+          esd.setViewOnly();
+          esd.open();
+        } else {
+          MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+          mb.setMessage(BaseMessages.getString(PKG, "SQLFileOutputDialog.NoFilesFound.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "System.DialogTitle.Error"));
+          mb.open();
+        }
+      }
+    });
 
     // Add File to the result files name
     Label wlAddToResult = new Label(wFileName, SWT.RIGHT);
@@ -617,21 +594,19 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdlAddToResult.right = new FormAttachment(middle, -margin);
     wlAddToResult.setLayoutData(fdlAddToResult);
     wAddToResult = new Button(wFileName, SWT.CHECK);
-    wAddToResult.setToolTipText(
-        BaseMessages.getString(PKG, "SQLFileOutputDialog.AddFileToResult.Tooltip"));
+    wAddToResult.setToolTipText(BaseMessages.getString(PKG, "SQLFileOutputDialog.AddFileToResult.Tooltip"));
     PropsUi.setLook(wAddToResult);
     FormData fdAddToResult = new FormData();
     fdAddToResult.left = new FormAttachment(middle, 0);
     fdAddToResult.top = new FormAttachment(wlAddToResult, 0, SWT.CENTER);
     fdAddToResult.right = new FormAttachment(100, 0);
     wAddToResult.setLayoutData(fdAddToResult);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddToResult.addSelectionListener(lsSelR);
 
     FormData fdFileName = new FormData();
@@ -718,20 +693,19 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     fdEncoding.top = new FormAttachment(wFormat, margin);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdContentComp = new FormData();
     fdContentComp.left = new FormAttachment(0, 0);
@@ -755,24 +729,15 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     wTabFolder.setLayoutData(fdTabFolder);
 
     // Add listeners
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
     wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                true,
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.sql", "*"},
-                new String[] {"SQL File", BaseMessages.getString(PKG, "System.FileType.AllFiles")},
-                true));
+        SWT.Selection, e -> BaseDialog.presentFileDialog(
+            true, shell, wFilename, variables, new String[] {"*.sql", "*"}, new String[] {"SQL File", BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     wTabFolder.setSelection(0);
 
@@ -897,8 +862,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
     if (input.getDatabaseMeta() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SQLFileOutputDialog.ConnectionError.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SQLFileOutputDialog.ConnectionError.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return;
@@ -915,13 +879,9 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
 
-      logDebug(
-          BaseMessages.getString(
-              PKG, "SQLFileOutputDialog.Log.LookingAtConnection", databaseMeta.toString()));
+      logDebug(BaseMessages.getString(PKG, "SQLFileOutputDialog.Log.LookingAtConnection", databaseMeta.toString()));
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -929,8 +889,7 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SQLFileOutputDialog.ConnectionError2.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SQLFileOutputDialog.ConnectionError2.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
     }
@@ -947,18 +906,10 @@ public class SQLFileOutputDialog extends BaseTransformDialog implements ITransfo
 
       TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);

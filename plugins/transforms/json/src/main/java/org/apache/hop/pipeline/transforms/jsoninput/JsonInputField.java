@@ -78,15 +78,12 @@ public class JsonInputField extends BaseFileField implements Cloneable {
     setRepeated(!"N".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "repeat")));
   }
 
-  public IValueMeta toValueMeta(String fieldOriginTransformName, IVariables vspace)
-      throws HopPluginException {
+  public IValueMeta toValueMeta(String fieldOriginTransformName, IVariables vspace) throws HopPluginException {
     int type = getType();
     if (type == IValueMeta.TYPE_NONE) {
       type = IValueMeta.TYPE_STRING;
     }
-    IValueMeta v =
-        ValueMetaFactory.createValueMeta(
-            vspace != null ? vspace.resolve(getName()) : getName(), type);
+    IValueMeta v = ValueMetaFactory.createValueMeta(vspace != null ? vspace.resolve(getName()) : getName(), type);
     v.setLength(getLength());
     v.setPrecision(getPrecision());
     v.setOrigin(fieldOriginTransformName);

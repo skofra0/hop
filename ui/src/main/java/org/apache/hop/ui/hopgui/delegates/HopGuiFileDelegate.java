@@ -75,12 +75,7 @@ public class HopGuiFileDelegate {
       //
       HopFileTypeRegistry fileRegistry = HopFileTypeRegistry.getInstance();
 
-      String filename =
-          BaseDialog.presentFileDialog(
-              hopGui.getShell(),
-              fileRegistry.getFilterExtensions(),
-              fileRegistry.getFilterNames(),
-              true);
+      String filename = BaseDialog.presentFileDialog(hopGui.getShell(), fileRegistry.getFilterExtensions(), fileRegistry.getFilterNames(), true);
       if (filename == null) {
         return;
       }
@@ -95,12 +90,7 @@ public class HopGuiFileDelegate {
 
     IHopFileType hopFile = fileRegistry.findHopFileType(filename);
     if (hopFile == null) {
-      throw new HopException(
-          "We looked at "
-              + fileRegistry.getFileTypes().size()
-              + " different Hop GUI file types but none know how to open file '"
-              + filename
-              + "'");
+      throw new HopException("We looked at " + fileRegistry.getFileTypes().size() + " different Hop GUI file types but none know how to open file '" + filename + "'");
     }
 
     IHopFileTypeHandler fileTypeHandler = hopFile.openFile(hopGui, filename, hopGui.getVariables());
@@ -126,7 +116,8 @@ public class HopGuiFileDelegate {
    * We then know the filter extension and name so we can show a dialog.
    * We can then also have the {@link IHopFileType to save the file.
    *
-   * @return The original filename, not having any variables replaced.  It returns null if no file was saved
+   * @return The original filename, not having any variables replaced. It returns null if no file was
+   *         saved
    */
   public String fileSaveAs() {
     try {
@@ -136,13 +127,7 @@ public class HopGuiFileDelegate {
         return null;
       }
 
-      String filename =
-          BaseDialog.presentFileDialog(
-              true,
-              hopGui.getShell(),
-              fileType.getFilterExtensions(),
-              fileType.getFilterNames(),
-              true);
+      String filename = BaseDialog.presentFileDialog(true, hopGui.getShell(), fileType.getFilterExtensions(), fileType.getFilterNames(), true);
       if (filename == null) {
         return null;
       }
@@ -169,8 +154,7 @@ public class HopGuiFileDelegate {
       if (fileType.hasCapability(IHopFileType.CAPABILITY_SAVE)) {
         // Metadata just needs to be saved.
         //
-        if (StringUtils.isEmpty(typeHandler.getFilename())
-            && !fileType.hasCapability(IHopFileType.CAPABILITY_HANDLE_METADATA)) {
+        if (StringUtils.isEmpty(typeHandler.getFilename()) && !fileType.hasCapability(IHopFileType.CAPABILITY_HANDLE_METADATA)) {
           // Ask for the filename: saveAs
           //
           fileSaveAs();
@@ -253,8 +237,7 @@ public class HopGuiFileDelegate {
     try {
       // Let's limit ourselves to 100 operations...
       //
-      List<AuditEvent> events =
-          AuditManager.findEvents(HopNamespace.getNamespace(), "file", "open", 100, true);
+      List<AuditEvent> events = AuditManager.findEvents(HopNamespace.getNamespace(), "file", "open", 100, true);
       Set<String> filenames = new HashSet<>();
       List<RowMetaAndData> rows = new ArrayList<>();
       IRowMeta rowMeta = new RowMeta();
@@ -272,8 +255,7 @@ public class HopGuiFileDelegate {
         }
       }
 
-      SelectRowDialog rowDialog =
-          new SelectRowDialog(hopGui.getShell(), hopGui.getVariables(), SWT.NONE, rows);
+      SelectRowDialog rowDialog = new SelectRowDialog(hopGui.getShell(), hopGui.getVariables(), SWT.NONE, rows);
       rowDialog.setTitle("Select the file to open");
       RowMetaAndData row = rowDialog.open();
       if (row != null) {
@@ -297,9 +279,7 @@ public class HopGuiFileDelegate {
         PipelineMeta pipelineMeta = pipelineGraph.getPipelineMeta();
         variables = pipelineGraph.getVariables();
 
-        svgXml =
-            PipelineSvgPainter.generatePipelineSvg(
-                pipelineMeta, 1.0f, pipelineGraph.getVariables());
+        svgXml = PipelineSvgPainter.generatePipelineSvg(pipelineMeta, 1.0f, pipelineGraph.getVariables());
 
         proposedName = pipelineMeta.getName() + ".svg";
       }
@@ -309,36 +289,23 @@ public class HopGuiFileDelegate {
         WorkflowMeta workflowMeta = workflowGraph.getWorkflowMeta();
         variables = workflowGraph.getVariables();
 
-        svgXml =
-            WorkflowSvgPainter.generateWorkflowSvg(
-                workflowMeta, 1.0f, workflowGraph.getVariables());
+        svgXml = WorkflowSvgPainter.generateWorkflowSvg(workflowMeta, 1.0f, workflowGraph.getVariables());
 
         proposedName = workflowMeta.getName() + ".svg";
       }
 
       if (svgXml != null) {
 
-        String proposedFilename =
-            variables.getVariable("user.home") + File.separator + proposedName;
+        String proposedFilename = variables.getVariable("user.home") + File.separator + proposedName;
         FileObject proposedFile = HopVfs.getFileObject(proposedFilename);
 
-        String filename =
-            BaseDialog.presentFileDialog(
-                true,
-                hopGui.getShell(),
-                null,
-                variables,
-                proposedFile,
-                new String[] {"*.svg"},
-                new String[] {"SVG Files"},
-                true);
+        String filename = BaseDialog.presentFileDialog(true, hopGui.getShell(), null, variables, proposedFile, new String[] {"*.svg"}, new String[] {"SVG Files"}, true);
         if (filename != null) {
           String realFilename = variables.resolve(filename);
 
           FileObject file = HopVfs.getFileObject(realFilename);
           if (file.exists()) {
-            MessageBox box =
-                new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+            MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
             box.setText("File exists");
             box.setMessage("This file already exists. Do you want to overwrite it?");
             int answer = box.open();

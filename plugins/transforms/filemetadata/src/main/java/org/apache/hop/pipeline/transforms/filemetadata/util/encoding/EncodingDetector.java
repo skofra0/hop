@@ -24,8 +24,7 @@ import java.nio.charset.Charset;
 
 public class EncodingDetector {
 
-  public static Charset detectEncoding(
-      InputStream inputStream, Charset defaultCharset, long limitSize) throws IOException {
+  public static Charset detectEncoding(InputStream inputStream, Charset defaultCharset, long limitSize) throws IOException {
 
     UniversalDetector detector = new UniversalDetector(null);
     byte[] buf = new byte[4096];
@@ -35,9 +34,7 @@ public class EncodingDetector {
 
     try {
       int bytesRead = 0;
-      while ((limitSize <= 0 || totalBytesRead <= limitSize)
-          && (bytesRead = inputStream.read(buf)) > 0
-          && !detector.isDone()) {
+      while ((limitSize <= 0 || totalBytesRead <= limitSize) && (bytesRead = inputStream.read(buf)) > 0 && !detector.isDone()) {
         detector.handleData(buf, 0, bytesRead);
         totalBytesRead += bytesRead;
       }

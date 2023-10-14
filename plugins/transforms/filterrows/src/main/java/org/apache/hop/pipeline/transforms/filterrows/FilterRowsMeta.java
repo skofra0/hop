@@ -66,16 +66,10 @@ public class FilterRowsMeta extends BaseTransformMeta<FilterRows, FilterRowsData
       injectionStringObjectConverter = ConditionXmlConverter.class)
   private FRCompare compare;
 
-  @HopMetadataProperty(
-      key = "send_true_to",
-      injectionKey = "SEND_TRUE_TRANSFORM",
-      injectionKeyDescription = "FilterRowsMeta.Injection.SEND_TRUE_TRANSFORM")
+  @HopMetadataProperty(key = "send_true_to", injectionKey = "SEND_TRUE_TRANSFORM", injectionKeyDescription = "FilterRowsMeta.Injection.SEND_TRUE_TRANSFORM")
   private String trueTransformName;
 
-  @HopMetadataProperty(
-      key = "send_false_to",
-      injectionKey = "SEND_FALSE_TRANSFORM",
-      injectionKeyDescription = "FilterRowsMeta.Injection.SEND_FALSE_TRANSFORM")
+  @HopMetadataProperty(key = "send_false_to", injectionKey = "SEND_FALSE_TRANSFORM", injectionKeyDescription = "FilterRowsMeta.Injection.SEND_FALSE_TRANSFORM")
   private String falseTransformName;
 
   public FilterRowsMeta() {
@@ -114,13 +108,7 @@ public class FilterRowsMeta extends BaseTransformMeta<FilterRows, FilterRowsData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Clear the sortedDescending flag on fields used within the condition - otherwise the
     // comparisons will be
@@ -153,88 +141,49 @@ public class FilterRowsMeta extends BaseTransformMeta<FilterRows, FilterRowsData
     checkTarget(transformMeta, "false", getFalseTransformName(), output).ifPresent(remarks::add);
 
     if (getCondition().isEmpty()) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.NoConditionSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.NoConditionSpecified"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.ConditionSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.ConditionSpecified"), transformMeta);
     }
     remarks.add(cr);
 
     // Look up fields in the input stream <prev>
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FilterRowsMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       List<String> orphanFields = getOrphanFields(getCondition(), prev);
       if (!orphanFields.isEmpty()) {
-        errorMessage = new StringBuilder(BaseMessages.getString(
-                PKG, "FilterRowsMeta.CheckResult.FieldsNotFoundFromPreviousTransform")
-                + Const.CR);
+        errorMessage = new StringBuilder(BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.FieldsNotFoundFromPreviousTransform") + Const.CR);
         for (String field : orphanFields) {
           errorMessage.append("\t\t").append(field).append(Const.CR);
         }
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage.toString(), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "FilterRowsMeta.CheckResult.AllFieldsFoundInInputStream"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.AllFieldsFoundInInputStream"), transformMeta);
       }
       remarks.add(cr);
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FilterRowsMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"),
-              transformMeta));
+      remarks
+          .add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"), transformMeta));
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FilterRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FilterRowsMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta));
     }
   }
 
-  private Optional<CheckResult> checkTarget(
-      TransformMeta transformMeta, String target, String targetTransformName, String[] output) {
+  private Optional<CheckResult> checkTarget(TransformMeta transformMeta, String target, String targetTransformName, String[] output) {
     if (targetTransformName != null) {
       int trueTargetIdx = Const.indexOfString(targetTransformName, output);
       if (trueTargetIdx < 0) {
         return Optional.of(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "FilterRowsMeta.CheckResult.TargetTransformInvalid",
-                    target,
-                    targetTransformName),
+                BaseMessages.getString(PKG, "FilterRowsMeta.CheckResult.TargetTransformInvalid", target, targetTransformName),
                 transformMeta));
       }
     }
@@ -249,20 +198,8 @@ public class FilterRowsMeta extends BaseTransformMeta<FilterRows, FilterRowsData
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              null,
-              BaseMessages.getString(PKG, "FilterRowsMeta.InfoStream.True.Description"),
-              StreamIcon.TRUE,
-              null));
-      ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              null,
-              BaseMessages.getString(PKG, "FilterRowsMeta.InfoStream.False.Description"),
-              StreamIcon.FALSE,
-              null));
+      ioMeta.addStream(new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "FilterRowsMeta.InfoStream.True.Description"), StreamIcon.TRUE, null));
+      ioMeta.addStream(new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "FilterRowsMeta.InfoStream.False.Description"), StreamIcon.FALSE, null));
       setTransformIOMeta(ioMeta);
     }
 
@@ -349,11 +286,7 @@ public class FilterRowsMeta extends BaseTransformMeta<FilterRows, FilterRowsData
 
   private String getTargetTransformName(int streamIndex) {
     IStream stream = getTransformIOMeta().getTargetStreams().get(streamIndex);
-    return java.util.stream.Stream.of(stream.getTransformName(), stream.getSubject())
-        .filter(Objects::nonNull)
-        .findFirst()
-        .map(Object::toString)
-        .orElse(null);
+    return java.util.stream.Stream.of(stream.getTransformName(), stream.getSubject()).filter(Objects::nonNull).findFirst().map(Object::toString).orElse(null);
   }
 
   public String getConditionXml() {

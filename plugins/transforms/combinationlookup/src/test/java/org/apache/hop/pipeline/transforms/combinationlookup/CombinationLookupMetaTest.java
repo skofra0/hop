@@ -40,29 +40,26 @@ public class CombinationLookupMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    TransformSerializationTestUtil.testSerialization(
-        "/combination-lookup-transform.xml", CombinationLookupMeta.class);
+    TransformSerializationTestUtil.testSerialization("/combination-lookup-transform.xml", CombinationLookupMeta.class);
   }
 
   @Test
   public void testProvidesModelerMeta() throws Exception {
     final IVariables variables = new Variables();
     final RowMeta rowMeta = Mockito.mock(RowMeta.class);
-    final CombinationLookupMeta meta =
-        new CombinationLookupMeta() {
-          @Override
-          Database createDatabaseObject(IVariables variables) {
-            return Mockito.mock(Database.class);
-          }
+    final CombinationLookupMeta meta = new CombinationLookupMeta() {
+      @Override
+      Database createDatabaseObject(IVariables variables) {
+        return Mockito.mock(Database.class);
+      }
 
-          @Override
-          protected IRowMeta getDatabaseTableFields(
-              Database db, String schemaName, String tableName) throws HopDatabaseException {
-            assertEquals("aSchema", schemaName);
-            assertEquals("aDimTable", tableName);
-            return rowMeta;
-          }
-        };
+      @Override
+      protected IRowMeta getDatabaseTableFields(Database db, String schemaName, String tableName) throws HopDatabaseException {
+        assertEquals("aSchema", schemaName);
+        assertEquals("aDimTable", tableName);
+        return rowMeta;
+      }
+    };
     meta.getFields().getKeyFields().add(new KeyField("f1", "s4"));
     meta.getFields().getKeyFields().add(new KeyField("f2", "s5"));
     meta.getFields().getKeyFields().add(new KeyField("f3", "s6"));

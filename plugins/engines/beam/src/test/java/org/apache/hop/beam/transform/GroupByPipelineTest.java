@@ -25,9 +25,7 @@ public class GroupByPipelineTest extends PipelineTestBase {
   @Test
   public void testGroupByPipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateBeamGroupByPipelineMeta(
-            "io-group-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateBeamGroupByPipelineMeta("io-group-output", "INPUT", "OUTPUT", metadataProvider);
 
     try {
       createRunPipeline(variables, pipelineMeta);

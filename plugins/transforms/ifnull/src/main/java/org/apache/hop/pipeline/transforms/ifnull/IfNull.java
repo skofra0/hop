@@ -35,13 +35,7 @@ public class IfNull extends BaseTransform<IfNullMeta, IfNullData> {
 
   private static final Class<?> PKG = IfNullMeta.class; // For Translator
 
-  public IfNull(
-      TransformMeta transformMeta,
-      IfNullMeta meta,
-      IfNullData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public IfNull(TransformMeta transformMeta, IfNullMeta meta, IfNullData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -81,12 +75,8 @@ public class IfNull extends BaseTransform<IfNullMeta, IfNullData> {
             Field field = meta.getFields().get(i);
             data.fieldnrs[i] = data.outputRowMeta.indexOfValue(field.getName());
             if (data.fieldnrs[i] < 0) {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "IfNull.Log.CanNotFindField", field.getName()));
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG, "IfNull.Log.CanNotFindField", field.getName()));
+              logError(BaseMessages.getString(PKG, "IfNull.Log.CanNotFindField", field.getName()));
+              throw new HopException(BaseMessages.getString(PKG, "IfNull.Log.CanNotFindField", field.getName()));
             }
             data.defaultValues[i] = resolve(field.getValue());
             data.defaultMasks[i] = resolve(field.getMask());
@@ -113,11 +103,7 @@ public class IfNull extends BaseTransform<IfNullMeta, IfNullData> {
           for (int i = 0; i < meta.getValueTypes().size(); i++) {
             ValueType valueType = meta.getValueTypes().get(i);
             if (!alllistTypes.contains(valueType.getName())) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "IfNull.Log.CanNotFindValueType",
-                      valueType.getName()));
+              throw new HopException(BaseMessages.getString(PKG, "IfNull.Log.CanNotFindValueType", valueType.getName()));
             }
 
             data.ListTypes.put(valueType.getName(), i);
@@ -194,52 +180,21 @@ public class IfNull extends BaseTransform<IfNullMeta, IfNullData> {
           IValueMeta fieldMeta = data.outputRowMeta.getValueMeta(data.fieldnrs[i]);
           int pos = data.ListTypes.get(fieldMeta.getTypeDesc());
 
-          replaceNull(
-              r,
-              sourceValueMeta,
-              data.fieldnrs[i],
-              data.defaultValues[pos],
-              data.defaultMasks[pos],
-              data.setEmptyString[pos]);
+          replaceNull(r, sourceValueMeta, data.fieldnrs[i], data.defaultValues[pos], data.defaultMasks[pos], data.setEmptyString[pos]);
         } else if (meta.isSelectFields()) {
-          replaceNull(
-              r,
-              sourceValueMeta,
-              data.fieldnrs[i],
-              data.defaultValues[i],
-              data.defaultMasks[i],
-              data.setEmptyString[i]);
+          replaceNull(r, sourceValueMeta, data.fieldnrs[i], data.defaultValues[i], data.defaultMasks[i], data.setEmptyString[i]);
         } else { // all
           if (data.outputRowMeta.getValueMeta(data.fieldnrs[i]).isDate()) {
-            replaceNull(
-                r,
-                sourceValueMeta,
-                data.fieldnrs[i],
-                data.realReplaceByValue,
-                data.realconversionMask,
-                false);
+            replaceNull(r, sourceValueMeta, data.fieldnrs[i], data.realReplaceByValue, data.realconversionMask, false);
           } else { // don't use any special date format when not a date
-            replaceNull(
-                r,
-                sourceValueMeta,
-                data.fieldnrs[i],
-                data.realReplaceByValue,
-                null,
-                data.realSetEmptyString);
+            replaceNull(r, sourceValueMeta, data.fieldnrs[i], data.realReplaceByValue, null, data.realSetEmptyString);
           }
         }
       }
     }
   }
 
-  public void replaceNull(
-      Object[] row,
-      IValueMeta sourceValueMeta,
-      int i,
-      String realReplaceByValue,
-      String realconversionMask,
-      boolean setEmptystring)
-      throws Exception {
+  public void replaceNull(Object[] row, IValueMeta sourceValueMeta, int i, String realReplaceByValue, String realconversionMask, boolean setEmptystring) throws Exception {
     if (setEmptystring) {
       row[i] = StringUtil.EMPTY_STRING;
     } else {

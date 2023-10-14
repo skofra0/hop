@@ -62,8 +62,7 @@ public class GetServerStatusDialog extends BaseTransformDialog implements ITrans
   private Text wAvailable;
   private Text wResponseNs;
 
-  public GetServerStatusDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetServerStatusDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (GetServerStatusMeta) in;
   }
@@ -140,8 +139,7 @@ public class GetServerStatusDialog extends BaseTransformDialog implements ITrans
     lastControl = wErrorMessage;
 
     Label wlStatusDescription = new Label(shell, SWT.RIGHT);
-    wlStatusDescription.setText(
-        BaseMessages.getString(PKG, "GetServerStatusDialog.StatusDescription"));
+    wlStatusDescription.setText(BaseMessages.getString(PKG, "GetServerStatusDialog.StatusDescription"));
     PropsUi.setLook(wlStatusDescription);
     FormData fdlStatusDescription = new FormData();
     fdlStatusDescription.left = new FormAttachment(0, 0);
@@ -372,8 +370,7 @@ public class GetServerStatusDialog extends BaseTransformDialog implements ITrans
     // Get field names...
     //
     try {
-      wServerField.setItems(
-          pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
+      wServerField.setItems(pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
     } catch (Exception e) {
       log.logError("Error getting field names", e);
     }

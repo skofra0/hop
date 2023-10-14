@@ -43,8 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface IWorkflowEngine<T extends WorkflowMeta>
-    extends IVariables, ILoggingObject, INamedParameters, IExtensionData {
+public interface IWorkflowEngine<T extends WorkflowMeta> extends IVariables, ILoggingObject, INamedParameters, IExtensionData {
 
   String getWorkflowName();
 

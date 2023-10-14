@@ -44,11 +44,7 @@ public class ParquetReadSupport extends ReadSupport<RowMetaAndData> {
   }
 
   @Override
-  public RecordMaterializer<RowMetaAndData> prepareForRead(
-      Configuration configuration,
-      Map<String, String> keyValueMetaData,
-      MessageType messageType,
-      ReadContext readContext) {
+  public RecordMaterializer<RowMetaAndData> prepareForRead(Configuration configuration, Map<String, String> keyValueMetaData, MessageType messageType, ReadContext readContext) {
     return new ParquetRecordMaterializer(messageType, fields);
   }
 

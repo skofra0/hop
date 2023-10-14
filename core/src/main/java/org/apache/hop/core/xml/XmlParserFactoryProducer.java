@@ -36,8 +36,7 @@ public class XmlParserFactoryProducer {
    *
    * @throws ParserConfigurationException if feature can't be enabled
    */
-  public static DocumentBuilderFactory createSecureDocBuilderFactory()
-      throws ParserConfigurationException {
+  public static DocumentBuilderFactory createSecureDocBuilderFactory() throws ParserConfigurationException {
     DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
     docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     docBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -51,14 +50,13 @@ public class XmlParserFactoryProducer {
    * attacks (e.g. XML bomb)
    *
    * @throws ParserConfigurationException if a parser cannot be created which satisfies the
-   *     requested configuration.
+   *         requested configuration.
    * @throws SAXNotRecognizedException When the underlying XMLReader does not recognize the property
-   *     name.
+   *         name.
    * @throws SAXNotSupportedException When the underlying XMLReader recognizes the property name but
-   *     doesn't support the property.
+   *         doesn't support the property.
    */
-  public static SAXParserFactory createSecureSAXParserFactory()
-      throws SAXNotSupportedException, SAXNotRecognizedException, ParserConfigurationException {
+  public static SAXParserFactory createSecureSAXParserFactory() throws SAXNotSupportedException, SAXNotRecognizedException, ParserConfigurationException {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     factory.setFeature("http://xml.org/sax/features/external-general-entities", false);

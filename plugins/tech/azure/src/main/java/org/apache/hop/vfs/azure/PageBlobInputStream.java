@@ -56,7 +56,7 @@ public class PageBlobInputStream extends InputStream {
     int readSize = inputStream.read(bytes, i, i1);
     if (readSize > 0) {
       // This blob is padded to a page boundary
-      // Just return the remainder.  The rest are 0 anyway
+      // Just return the remainder. The rest are 0 anyway
       //
       if (totalRead + readSize > fileSize) {
         int actuallyRead = (int) (fileSize - totalRead);
@@ -73,7 +73,7 @@ public class PageBlobInputStream extends InputStream {
     if (skippedLength > 0) {
       totalRead += skippedLength;
       // This blob is padded to a page boundary
-      // Just return the remainder.  The rest are 0 anyway
+      // Just return the remainder. The rest are 0 anyway
       //
       if (totalRead + skippedLength > fileSize) {
         int actuallyRead = (int) (fileSize - totalRead);

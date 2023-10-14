@@ -31,17 +31,14 @@ import java.util.Map;
 
 @ExtensionPoint(
     id = "DrawAsyncLoggingIconExtensionPoint",
-    description =
-        "Draw the logging icon next to an action which has debug level information stored",
+    description = "Draw the logging icon next to an action which has debug level information stored",
     extensionPointId = "WorkflowPainterAction")
-public class DrawAsyncLoggingIconExtensionPoint
-    implements IExtensionPoint<WorkflowPainterExtension> {
+public class DrawAsyncLoggingIconExtensionPoint implements IExtensionPoint<WorkflowPainterExtension> {
 
   public static final String STRING_AREA_OWNER_PREFIX = "Report pipeline async stats to service ";
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, WorkflowPainterExtension ext) {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, WorkflowPainterExtension ext) {
 
     // Only the Pipeline action can have this...
     //
@@ -52,8 +49,7 @@ public class DrawAsyncLoggingIconExtensionPoint
     try {
       // This next map contains a simple "true" flag for every pipeline that contains a status
       //
-      Map<String, String> pipelineMap =
-          ext.actionMeta.getAttributesMap().get(Defaults.ASYNC_STATUS_GROUP);
+      Map<String, String> pipelineMap = ext.actionMeta.getAttributesMap().get(Defaults.ASYNC_STATUS_GROUP);
       if (pipelineMap == null) {
         return;
       }
@@ -65,18 +61,8 @@ public class DrawAsyncLoggingIconExtensionPoint
 
       // Draw an icon
       //
-      Rectangle r =
-          drawLogIcon(ext.gc, ext.x1, ext.y1, ext.iconSize, this.getClass().getClassLoader());
-      ext.areaOwners.add(
-          new AreaOwner(
-              AreaOwner.AreaType.CUSTOM,
-              r.x,
-              r.y,
-              r.width,
-              r.height,
-              ext.offset,
-              ext.actionMeta,
-              STRING_AREA_OWNER_PREFIX + serviceName));
+      Rectangle r = drawLogIcon(ext.gc, ext.x1, ext.y1, ext.iconSize, this.getClass().getClassLoader());
+      ext.areaOwners.add(new AreaOwner(AreaOwner.AreaType.CUSTOM, r.x, r.y, r.width, r.height, ext.offset, ext.actionMeta, STRING_AREA_OWNER_PREFIX + serviceName));
 
     } catch (Exception e) {
       // Just log the error, not that important
@@ -84,25 +70,13 @@ public class DrawAsyncLoggingIconExtensionPoint
     }
   }
 
-  public Rectangle drawLogIcon(IGc gc, int x, int y, int iconSize, ClassLoader classLoader)
-      throws Exception {
+  public Rectangle drawLogIcon(IGc gc, int x, int y, int iconSize, ClassLoader classLoader) throws Exception {
     int imageWidth = 16;
     int imageHeight = 16;
     int locationX = x + iconSize;
-    int locationY =
-        y
-            + iconSize
-            - imageHeight
-            - 5; // -5 to prevent us from hitting the left bottom circle of the icon
+    int locationY = y + iconSize - imageHeight - 5; // -5 to prevent us from hitting the left bottom circle of the icon
 
-    gc.drawImage(
-        new SvgFile("ui/images/log.svg", classLoader),
-        locationX,
-        locationY,
-        imageWidth,
-        imageHeight,
-        gc.getMagnification(),
-        0);
+    gc.drawImage(new SvgFile("ui/images/log.svg", classLoader), locationX, locationY, imageWidth, imageHeight, gc.getMagnification(), 0);
     return new Rectangle(locationX, locationY, imageWidth, imageHeight);
   }
 }

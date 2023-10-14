@@ -44,8 +44,7 @@ import org.eclipse.swt.widgets.Text;
 
 import java.util.List;
 
-public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection>
-    implements IMetadataEditor<MongoDbConnection> {
+public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection> implements IMetadataEditor<MongoDbConnection> {
 
   private static final Class<?> PKG = MongoDbConnectionEditor.class; // For Translator
 
@@ -55,8 +54,7 @@ public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection>
   private Text wName;
   private GuiCompositeWidgets widgets;
 
-  public MongoDbConnectionEditor(
-      HopGui hopGui, MetadataManager<MongoDbConnection> manager, MongoDbConnection metadata) {
+  public MongoDbConnectionEditor(HopGui hopGui, MetadataManager<MongoDbConnection> manager, MongoDbConnection metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -97,14 +95,12 @@ public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection>
 
     // Add changed listeners
     wName.addListener(SWT.Modify, e -> setChanged());
-    widgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    widgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
   }
 
   @Override
@@ -134,9 +130,7 @@ public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection>
     wbTest.setText("Test");
     wbTest.addListener(SWT.Selection, e -> test());
 
-    return new Button[] {
-      wbTest, wbGetDbs,
-    };
+    return new Button[] {wbTest, wbGetDbs,};
   }
 
   public void test() {
@@ -182,17 +176,11 @@ public class MongoDbConnectionEditor extends MetadataEditor<MongoDbConnection>
         }
       } catch (Exception e) {
         log.logError("Error connecting to MongoDB connection " + getName(), e);
-        new ErrorDialog(
-            parent.getShell(), "Error", "Error connecting to MongoDB connection " + getName(), e);
+        new ErrorDialog(parent.getShell(), "Error", "Error connecting to MongoDB connection " + getName(), e);
       }
     } else {
       // popup some feedback
-      ShowMessageDialog smd =
-          new ShowMessageDialog(
-              parent.getShell(),
-              SWT.ICON_WARNING | SWT.OK,
-              "Warning",
-              "Please provide a hostname to connect to");
+      ShowMessageDialog smd = new ShowMessageDialog(parent.getShell(), SWT.ICON_WARNING | SWT.OK, "Warning", "Please provide a hostname to connect to");
       smd.open();
     }
 

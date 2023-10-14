@@ -56,13 +56,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
 
   private static final Class<?> PKG = CsvInput.class; // For Translator
 
-  public CsvInput(
-      TransformMeta transformMeta,
-      CsvInputMeta meta,
-      CsvInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CsvInput(TransformMeta transformMeta, CsvInputMeta meta, CsvInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -148,9 +142,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         putRow(data.outputRowMeta, outputRowData); // copy row to possible alternate rowset(s).
         if (checkFeedback(getLinesInput())) {
           if (log.isBasic()) {
-            logBasic(
-                BaseMessages.getString(
-                    PKG, "CsvInput.Log.LineNumber", Long.toString(getLinesInput())));
+            logBasic(BaseMessages.getString(PKG, "CsvInput.Log.LineNumber", Long.toString(getLinesInput())));
           }
         }
       }
@@ -167,13 +159,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
           errorFields.append(e.getFields().get(i).toStringMeta());
         }
 
-        putError(
-            data.outputRowMeta,
-            e.getRowData(),
-            e.getCauses().size(),
-            errorDescriptions.toString(),
-            errorFields.toString(),
-            "CSVINPUT001");
+        putError(data.outputRowMeta, e.getRowData(), e.getCauses().size(), errorDescriptions.toString(), errorFields.toString(), "CSVINPUT001");
       } else {
         // Only forward the first cause.
         //
@@ -203,8 +189,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
       //
       // The size of the block to read (25000 in the example) :
       //
-      data.blockToRead =
-          Math.round((double) data.totalFileSize / (double) data.totalNumberOfTransforms);
+      data.blockToRead = Math.round((double) data.totalFileSize / (double) data.totalNumberOfTransforms);
 
       // Now we calculate the position to read (0 and 25000 in our sample) :
       //
@@ -248,16 +233,11 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
       if (data.filenames.length > 0) {
         logBasic(
             BaseMessages.getString(
-                PKG,
-                "CsvInput.Log.ParallelFileNrAndPositionFeedback",
-                data.filenames[data.filenr],
-                Long.toString(data.fileSizes.get(data.filenr)),
-                Long.toString(data.bytesToSkipInFirstFile),
-                Long.toString(data.blockToRead)));
+                PKG, "CsvInput.Log.ParallelFileNrAndPositionFeedback", data.filenames[data.filenr], Long.toString(data.fileSizes.get(data.filenr)),
+                Long.toString(data.bytesToSkipInFirstFile), Long.toString(data.blockToRead)));
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "CsvInput.Exception.ErrorPreparingParallelRun"), e);
+      throw new HopException(BaseMessages.getString(PKG, "CsvInput.Exception.ErrorPreparingParallelRun"), e);
     }
   }
 
@@ -276,9 +256,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         String filenameField = resolve(meta.getFilenameField());
         index = getInputRowMeta().indexOfValue(filenameField);
         if (index < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "CsvInput.Exception.FilenameFieldNotFound", filenameField));
+          throw new HopException(BaseMessages.getString(PKG, "CsvInput.Exception.FilenameFieldNotFound", filenameField));
         }
       }
 
@@ -290,9 +268,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
 
     data.filenames = filenames.toArray(new String[filenames.size()]);
 
-    logBasic(
-        BaseMessages.getString(
-            PKG, "CsvInput.Log.ReadingFromNrFiles", Integer.toString(data.filenames.length)));
+    logBasic(BaseMessages.getString(PKG, "CsvInput.Log.ReadingFromNrFiles", Integer.toString(data.filenames.length)));
   }
 
   @Override
@@ -336,8 +312,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
       if (!(fileObject instanceof LocalFile)) {
         // We can only use NIO on local files at the moment, so that's what we limit ourselves to.
         //
-        throw new HopException(
-            BaseMessages.getString(PKG, "CsvInput.Log.OnlyLocalFilesAreSupported"));
+        throw new HopException(BaseMessages.getString(PKG, "CsvInput.Log.OnlyLocalFilesAreSupported"));
       }
 
       if (meta.isLazyConversionActive()) {
@@ -390,9 +365,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
 
       // Add filename to result filenames ?
       if (meta.isAddResultFile()) {
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL, fileObject, getPipelineMeta().getName(), toString());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, fileObject, getPipelineMeta().getName(), toString());
         resultFile.setComment("File was read by a Csv input transform");
         addResultFile(resultFile);
       }
@@ -410,9 +383,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         // Standard flat file : skip header
         if (!data.parallel || data.bytesToSkipInFirstFile <= 0) {
           readOneRow(true, false); // skip this row.
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "CsvInput.Log.HeaderRowSkipped", data.filenames[data.filenr - 1]));
+          logBasic(BaseMessages.getString(PKG, "CsvInput.Log.HeaderRowSkipped", data.filenames[data.filenr - 1]));
           if (data.fieldsMapping.size() == 0) {
             return false;
           }
@@ -436,8 +407,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
 
   protected int getBOMSize(String vfsFilename) throws Exception {
     int bomSize = 0;
-    try (FileInputStream fis = new FileInputStream(vfsFilename);
-        BufferedInputStream bis = new BufferedInputStream(fis)) {
+    try (FileInputStream fis = new FileInputStream(vfsFilename); BufferedInputStream bis = new BufferedInputStream(fis)) {
       BOMDetector bom = new BOMDetector(bis);
 
       if (bom.bomExist()) {
@@ -448,15 +418,13 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
     return bomSize;
   }
 
-  IFieldsMapping createFieldMapping(String fileName, CsvInputMeta csvInputMeta)
-      throws HopException {
+  IFieldsMapping createFieldMapping(String fileName, CsvInputMeta csvInputMeta) throws HopException {
     IFieldsMapping mapping = null;
     if (csvInputMeta.isHeaderPresent()) {
       String[] fieldNames = readFieldNamesFromFile(fileName, csvInputMeta);
       mapping = NamedFieldsMapping.mapping(fieldNames, fieldNames(csvInputMeta));
     } else {
-      int fieldsCount =
-          csvInputMeta.getInputFields() == null ? 0 : csvInputMeta.getInputFields().length;
+      int fieldsCount = csvInputMeta.getInputFields() == null ? 0 : csvInputMeta.getInputFields().length;
       mapping = UnnamedFieldsMapping.mapping(fieldsCount);
     }
     return mapping;
@@ -468,12 +436,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
     String realEncoding = resolve(csvInputMeta.getEncoding());
 
     try (FileObject fileObject = HopVfs.getFileObject(fileName);
-        BOMInputStream inputStream =
-            new BOMInputStream(
-                HopVfs.getInputStream(fileObject),
-                ByteOrderMark.UTF_8,
-                ByteOrderMark.UTF_16LE,
-                ByteOrderMark.UTF_16BE)) {
+        BOMInputStream inputStream = new BOMInputStream(HopVfs.getInputStream(fileObject), ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE)) {
       InputStreamReader reader = null;
       if (Utils.isEmpty(realEncoding)) {
         reader = new InputStreamReader(inputStream);
@@ -481,24 +444,15 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         reader = new InputStreamReader(inputStream, realEncoding);
       }
       EncodingType encodingType = EncodingType.guessEncodingType(reader.getEncoding());
-      String line =
-          TextFileInput.getLine(
-              log,
-              reader,
-              encodingType,
-              TextFileInputMeta.FILE_FORMAT_UNIX,
-              new StringBuilder(1000));
-      String[] fieldNames =
-          TextFileLineUtil.guessStringsFromLine(
-              log, line, delimiter, enclosure, csvInputMeta.getEscapeCharacter());
+      String line = TextFileInput.getLine(log, reader, encodingType, TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000));
+      String[] fieldNames = TextFileLineUtil.guessStringsFromLine(log, line, delimiter, enclosure, csvInputMeta.getEscapeCharacter());
       if (!Utils.isEmpty(csvInputMeta.getEnclosure())) {
         removeEnclosure(fieldNames, csvInputMeta.getEnclosure());
       }
       trimFieldNames(fieldNames);
       return fieldNames;
     } catch (IOException e) {
-      throw new HopFileException(
-          BaseMessages.getString(PKG, "CsvInput.Exception.CreateFieldMappingError"), e);
+      throw new HopFileException(BaseMessages.getString(PKG, "CsvInput.Exception.CreateFieldMappingError"), e);
     }
   }
 
@@ -524,9 +478,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
   static void removeEnclosure(String[] fields, String enclosure) {
     if (fields != null) {
       for (int i = 0; i < fields.length; i++) {
-        if (fields[i].startsWith(enclosure)
-            && fields[i].endsWith(enclosure)
-            && fields[i].length() > 1) {
+        if (fields[i].startsWith(enclosure) && fields[i].endsWith(enclosure) && fields[i].length() > 1) {
           fields[i] = fields[i].substring(1, fields[i].length() - 1);
         }
       }
@@ -541,7 +493,8 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
    * where new line is indicated by '\r\n' construction. And if we are <b>between</b> this
    * construction, we want to skip last '\n', and don't want to include it in our line.
    *
-   * <p>So, we DON'T skip line only if the previous char is new line indicator AND we are not
+   * <p>
+   * So, we DON'T skip line only if the previous char is new line indicator AND we are not
    * between '\r\n'.
    */
   private boolean needToSkipRow() {
@@ -585,7 +538,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
    *
    * @param skipRow if row should be skipped: header row or part of row in case of parallel read
    * @param ignoreEnclosures if enclosures should be ignored, i.e. in case of we need to skip part
-   *     of the row during parallel read
+   *        of the row during parallel read
    * @return a row of data...
    * @throws HopException
    */
@@ -658,9 +611,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
           //
           if (data.delimiterFound()) {
             delimiterFound = true;
-          } else if ((!meta.isNewlinePossibleInFields()
-                  || outputIndex == data.fieldsMapping.size() - 1)
-              && data.newLineFound()) {
+          } else if ((!meta.isNewlinePossibleInFields() || outputIndex == data.fieldsMapping.size() - 1) && data.newLineFound()) {
             // Perhaps we found a (pre-mature) new line?
             //
             // In case we are not using an enclosure and in case fields contain new lines
@@ -768,8 +719,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
               //
               IValueMeta sourceValueMeta = data.convertRowMeta.getValueMeta(actualFieldIndex);
               try {
-                outputRowData[actualFieldIndex] =
-                    sourceValueMeta.convertBinaryStringToNativeType(field);
+                outputRowData[actualFieldIndex] = sourceValueMeta.convertBinaryStringToNativeType(field);
               } catch (HopValueException e) {
                 // There was a conversion error,
                 //
@@ -796,8 +746,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         // do-while loop below) and possibly skipping a newline character. This can occur if there
         // is an
         // empty column at the end of the row (see the Jira case for details)
-        if ((!newLineFound && outputIndex < meta.getInputFields().length)
-            || (newLineFound && doubleLineEnd)) {
+        if ((!newLineFound && outputIndex < meta.getInputFields().length) || (newLineFound && doubleLineEnd)) {
 
           int i = 0;
           while ((!data.newLineFound() && (i < data.delimiter.length))) {
@@ -866,10 +815,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
         // Forward the first exception
         //
         throw new HopConversionException(
-            "There were "
-                + conversionExceptions.size()
-                + " conversion errors on line "
-                + getLinesInput(),
+            "There were " + conversionExceptions.size() + " conversion errors on line " + getLinesInput(),
             conversionExceptions,
             exceptionFields,
             outputRowData);
@@ -902,10 +848,7 @@ public class CsvInput extends BaseTransform<CsvInputMeta, CsvInputData> {
           return false;
         }
 
-        data.filenames =
-            new String[] {
-              filename,
-            };
+        data.filenames = new String[] {filename,};
       } else {
         data.filenames = null;
         data.filenr = 0;

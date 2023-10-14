@@ -58,8 +58,7 @@ public class BaseMetadataProvider {
       PluginRegistry registry = PluginRegistry.getInstance();
       IPlugin plugin = registry.findPluginWithId(MetadataPluginType.class, key);
       if (plugin == null) {
-        throw new HopException(
-            "The metadata plugin for key " + key + " could not be found in the plugin registry");
+        throw new HopException("The metadata plugin for key " + key + " could not be found in the plugin registry");
       }
       String className = plugin.getClassMap().get(plugin.getMainType());
       Class<?> pluginClass = registry.getClassLoader(plugin).loadClass(className);
@@ -81,7 +80,7 @@ public class BaseMetadataProvider {
 
   /**
    * @param variables The variables which get inherited by all loaded objects which implement
-   *     IVariables
+   *        IVariables
    */
   public void setVariables(IVariables variables) {
     this.variables = variables;

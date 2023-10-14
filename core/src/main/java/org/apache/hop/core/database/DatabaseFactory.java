@@ -30,28 +30,21 @@ public class DatabaseFactory implements IDatabaseFactory {
   private static final Class<?> PKG = Database.class; // For Translator
   private boolean success;
 
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Database factory", LoggingObjectType.GENERAL, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Database factory", LoggingObjectType.GENERAL, null);
 
   public DatabaseFactory() {}
 
   @Override
-  public String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta)
-      throws HopDatabaseException {
+  public String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
     success = true; // default
 
     StringBuilder report = new StringBuilder();
     Database db = new Database(loggingObject, variables, databaseMeta);
     try {
       db.connect();
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionOk", databaseMeta.getName())
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionOk", databaseMeta.getName()) + Const.CR);
     } catch (HopException e) {
-      report.append(
-          BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", databaseMeta.getName())
-              + e.toString()
-              + Const.CR);
+      report.append(BaseMessages.getString(PKG, "DatabaseMeta.report.ConnectionError", databaseMeta.getName()) + e.toString() + Const.CR);
       report.append(Const.getStackTracker(e) + Const.CR);
       success = false;
     } finally {
@@ -65,8 +58,7 @@ public class DatabaseFactory implements IDatabaseFactory {
   }
 
   @Override
-  public DatabaseTestResults getConnectionTestResults(
-      IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
+  public DatabaseTestResults getConnectionTestResults(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
     DatabaseTestResults databaseTestResults = new DatabaseTestResults();
     String message = getConnectionTestReport(variables, databaseMeta);
     databaseTestResults.setMessage(message);
@@ -74,24 +66,20 @@ public class DatabaseFactory implements IDatabaseFactory {
     return databaseTestResults;
   }
 
-  private StringBuilder appendConnectionInfo(IVariables variables, StringBuilder report,
-      Database db, DatabaseMeta databaseMeta) {
+  private StringBuilder appendConnectionInfo(IVariables variables, StringBuilder report, Database db, DatabaseMeta databaseMeta) {
 
     // Check to see if the interface is of a type GenericDatabaseMeta, since it does not have
     // hostname and port fields
-    if ( "GENERIC".equals(databaseMeta.getPluginId()) ) {
-      String customDriverClass =
-          databaseMeta.getAttributes().get(NoneDatabaseMeta.ATRRIBUTE_CUSTOM_DRIVER_CLASS);
-      append(report, "GenericDatabaseMeta.report.customUrl",
-          db.resolve(databaseMeta.getManualUrl()));
+    if ("GENERIC".equals(databaseMeta.getPluginId())) {
+      String customDriverClass = databaseMeta.getAttributes().get(NoneDatabaseMeta.ATRRIBUTE_CUSTOM_DRIVER_CLASS);
+      append(report, "GenericDatabaseMeta.report.customUrl", db.resolve(databaseMeta.getManualUrl()));
       append(report, "GenericDatabaseMeta.report.customDriverClass", db.resolve(customDriverClass));
 
       return report;
     } else {
       append(report, "DatabaseMeta.report.Hostname", db.resolve(databaseMeta.getHostname()));
       append(report, "DatabaseMeta.report.Port", db.resolve(databaseMeta.getPort()));
-      append(report, "DatabaseMeta.report.DatabaseName",
-          db.resolve(databaseMeta.getDatabaseName()));
+      append(report, "DatabaseMeta.report.DatabaseName", db.resolve(databaseMeta.getDatabaseName()));
 
       String url = "";
       try {

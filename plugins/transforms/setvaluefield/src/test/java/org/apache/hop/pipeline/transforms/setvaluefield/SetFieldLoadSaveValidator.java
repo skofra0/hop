@@ -22,13 +22,12 @@ import org.apache.hop.pipeline.transforms.loadsave.validator.IFieldLoadSaveValid
 import java.util.Random;
 import java.util.UUID;
 
-public class SetFieldLoadSaveValidator implements IFieldLoadSaveValidator<SetField>  {
+public class SetFieldLoadSaveValidator implements IFieldLoadSaveValidator<SetField> {
   final Random rand = new Random();
 
   @Override
   public SetField getTestObject() {
-    SetField field =
-        new SetField(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+    SetField field = new SetField(UUID.randomUUID().toString(), UUID.randomUUID().toString());
 
     return field;
   }
@@ -39,9 +38,6 @@ public class SetFieldLoadSaveValidator implements IFieldLoadSaveValidator<SetFie
       return false;
     }
     SetField another = (SetField) actual;
-    return new EqualsBuilder()
-        .append(testObject.getFieldName(), another.getFieldName())
-        .append(testObject.getReplaceByField(), another.getReplaceByField())
-        .isEquals();
+    return new EqualsBuilder().append(testObject.getFieldName(), another.getFieldName()).append(testObject.getReplaceByField(), another.getReplaceByField()).isEquals();
   }
 }

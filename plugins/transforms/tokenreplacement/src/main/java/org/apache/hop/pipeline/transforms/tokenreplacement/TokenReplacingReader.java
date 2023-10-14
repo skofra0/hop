@@ -40,17 +40,12 @@ public class TokenReplacingReader extends Reader {
   private String resolvedToken = null;
   private int resolvedTokenIndex = 0;
 
-  public TokenReplacingReader(
-      final TokenResolver resolver,
-      final Reader source,
-      final String tokenStartMarker,
-      final String tokenEndMarker) {
+  public TokenReplacingReader(final TokenResolver resolver, final Reader source, final String tokenStartMarker, final String tokenEndMarker) {
     if (resolver == null) {
       throw new IllegalArgumentException("Token resolver may not be null");
     }
 
-    if ((tokenStartMarker == null || tokenStartMarker.length() < 1)
-        || (tokenEndMarker == null || tokenEndMarker.length() < 1)) {
+    if ((tokenStartMarker == null || tokenStartMarker.length() < 1) || (tokenEndMarker == null || tokenEndMarker.length() < 1)) {
       throw new IllegalArgumentException("Token start / end marker may not be null or empty");
     }
 
@@ -60,8 +55,7 @@ public class TokenReplacingReader extends Reader {
     this.tokenEndMarkerChars = tokenEndMarker.toCharArray();
     this.tmpTokenStartMarkerChars = new char[tokenStartMarker.length()];
     this.tmpTokenEndMarkerChars = new char[tokenEndMarker.length()];
-    this.pushbackReader =
-        new PushbackReader(source, Math.max(tokenStartMarker.length(), tokenEndMarker.length()));
+    this.pushbackReader = new PushbackReader(source, Math.max(tokenStartMarker.length(), tokenEndMarker.length()));
     this.tokenResolver = resolver;
   }
 
@@ -210,8 +204,7 @@ public class TokenReplacingReader extends Reader {
 
   @Override
   public void mark(int readAheadLimit) throws IOException {
-    throw new UnsupportedOperationException(
-        "Method void mark(int readAheadLimit) is not supported");
+    throw new UnsupportedOperationException("Method void mark(int readAheadLimit) is not supported");
   }
 
   @Override

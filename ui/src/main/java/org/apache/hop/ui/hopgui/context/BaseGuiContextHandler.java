@@ -56,8 +56,7 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
 
     // Get the list of filters for the parent context ID...
     //
-    List<GuiActionFilter> actionFilters =
-        GuiRegistry.getInstance().getGuiContextActionFilters(getContextId());
+    List<GuiActionFilter> actionFilters = GuiRegistry.getInstance().getGuiContextActionFilters(getContextId());
 
     // Evaluate all the actions and see if any of the filters remove it from the list...
     //
@@ -74,12 +73,7 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
               break;
             }
           } catch (HopException e) {
-            LogChannel.UI.logError(
-                "Error filtering out action "
-                    + action.getId()
-                    + " with filter "
-                    + actionFilter.getId(),
-                e);
+            LogChannel.UI.logError("Error filtering out action " + action.getId() + " with filter " + actionFilter.getId(), e);
           }
         }
       }
@@ -111,11 +105,7 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
       //
       Class<?> filterClass = classLoader.loadClass(actionFilter.getGuiPluginClassName());
       if (filterClass == null) {
-        throw new HopException(
-            "Couldn't load class "
-                + actionFilter.getGuiPluginClassName()
-                + " for action filter "
-                + actionFilter.getId());
+        throw new HopException("Couldn't load class " + actionFilter.getGuiPluginClassName() + " for action filter " + actionFilter.getId());
       }
 
       // Get (or create) the instance of that class...
@@ -137,25 +127,17 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
 
       return guiPlugin;
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding, loading or creating object for action filter " + actionFilter.getId(), e);
+      throw new HopException("Error finding, loading or creating object for action filter " + actionFilter.getId(), e);
     }
   }
 
-  public Method getFilterMethod(Class<?> filterClass, GuiActionFilter actionFilter)
-      throws HopException {
+  public Method getFilterMethod(Class<?> filterClass, GuiActionFilter actionFilter) throws HopException {
     try {
 
-      Method method =
-          filterClass.getMethod(actionFilter.getGuiPluginMethodName(), String.class, getClass());
+      Method method = filterClass.getMethod(actionFilter.getGuiPluginMethodName(), String.class, getClass());
       if (method == null) {
         throw new HopException(
-            "Couldn't find method "
-                + actionFilter.getGuiPluginMethodName()
-                + " class "
-                + actionFilter.getGuiPluginClassName()
-                + " for action filter "
-                + actionFilter.getId());
+            "Couldn't find method " + actionFilter.getGuiPluginMethodName() + " class " + actionFilter.getGuiPluginClassName() + " for action filter " + actionFilter.getId());
       }
       return method;
     } catch (Exception e) {
@@ -163,8 +145,7 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
     }
   }
 
-  public boolean evaluateActionFilter(GuiAction action, GuiActionFilter actionFilter)
-      throws HopException {
+  public boolean evaluateActionFilter(GuiAction action, GuiActionFilter actionFilter) throws HopException {
 
     try {
       Object guiPlugin = getFilterObject(actionFilter);
@@ -175,12 +156,7 @@ public abstract class BaseGuiContextHandler<T extends IGuiContextHandler> {
       return (boolean) method.invoke(guiPlugin, action.getId(), this);
 
     } catch (Exception e) {
-      throw new HopException(
-          "Error filtering out action with ID "
-              + action.getId()
-              + " against filter "
-              + actionFilter.getId(),
-          e);
+      throw new HopException("Error filtering out action with ID " + action.getId() + " against filter " + actionFilter.getId(), e);
     }
   }
 }

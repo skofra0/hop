@@ -31,13 +31,13 @@ public class ClosureGeneratorMetaTest {
   LoadSaveTester<ClosureGeneratorMeta> loadSaveTester;
   Class<ClosureGeneratorMeta> testMetaClass = ClosureGeneratorMeta.class;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
-    List<String> attributes =
-        Arrays.asList("rootIdZero", "parentIdFieldName", "childIdFieldName", "distanceFieldName");
+    List<String> attributes = Arrays.asList("rootIdZero", "parentIdFieldName", "childIdFieldName", "distanceFieldName");
 
     loadSaveTester = new LoadSaveTester<>(testMetaClass, attributes);
   }

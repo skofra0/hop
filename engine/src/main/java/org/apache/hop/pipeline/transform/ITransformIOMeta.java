@@ -85,7 +85,7 @@ public interface ITransformIOMeta {
 
   /**
    * @param inputDynamic set to true if the input info sources of this transform are dynamic
-   *     (variable)
+   *        (variable)
    */
   void setInputDynamic(boolean inputDynamic);
 

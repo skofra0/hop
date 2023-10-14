@@ -38,16 +38,13 @@ public class SalesforceInputFieldTest {
     assertEquals(0, SalesforceInputField.getTrimTypeByDesc("invalid"));
 
     assertEquals("none", SalesforceInputField.getTrimTypeCode(-1));
-    assertEquals(
-        "none", SalesforceInputField.getTrimTypeCode(SalesforceInputField.trimTypeCode.length + 1));
+    assertEquals("none", SalesforceInputField.getTrimTypeCode(SalesforceInputField.trimTypeCode.length + 1));
     assertEquals("none", SalesforceInputField.getTrimTypeCode(0));
     assertEquals("left", SalesforceInputField.getTrimTypeCode(1));
     assertEquals("right", SalesforceInputField.getTrimTypeCode(2));
     assertEquals("both", SalesforceInputField.getTrimTypeCode(3));
 
     assertEquals(SalesforceInputField.getTrimTypeDesc(0), SalesforceInputField.getTrimTypeDesc(-1));
-    assertEquals(
-        SalesforceInputField.getTrimTypeDesc(0),
-        SalesforceInputField.getTrimTypeDesc(SalesforceInputField.trimTypeCode.length + 1));
+    assertEquals(SalesforceInputField.getTrimTypeDesc(0), SalesforceInputField.getTrimTypeDesc(SalesforceInputField.trimTypeCode.length + 1));
   }
 }

@@ -36,15 +36,11 @@ import static org.apache.hop.git.HopDiff.ATTR_STATUS;
 import static org.apache.hop.git.HopDiff.CHANGED;
 import static org.apache.hop.git.HopDiff.REMOVED;
 
-@ExtensionPoint(
-    id = "DrawDiffOnTransExtensionPoint",
-    description = "Draws a marker on top of a transform if it has some change",
-    extensionPointId = "PipelinePainterEnd")
+@ExtensionPoint(id = "DrawDiffOnTransExtensionPoint", description = "Draws a marker on top of a transform if it has some change", extensionPointId = "PipelinePainterEnd")
 public class DrawDiffOnTransformExtensionPoint implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object) throws HopException {
     if (!(object instanceof PipelinePainter)) {
       return;
     }
@@ -53,48 +49,37 @@ public class DrawDiffOnTransformExtensionPoint implements IExtensionPoint {
     IGc gc = painter.getGc();
     PipelineMeta pipelineMeta = painter.getPipelineMeta();
     try {
-      pipelineMeta.getTransforms().stream()
-          .filter(transform -> transform.getAttribute(ATTR_GIT, ATTR_STATUS) != null)
-          .forEach(
-              transform -> {
-                if (pipelineMeta.getPipelineVersion() != null
-                    && pipelineMeta.getPipelineVersion().startsWith("git")) {
-                  String status = transform.getAttribute(ATTR_GIT, ATTR_STATUS);
-                  Point n = transform.getLocation();
-                  String location;
-                  if (status.equals(REMOVED)) {
-                    location = "removed.svg";
-                  } else if (status.equals(CHANGED)) {
-                    location = "changed.svg";
-                  } else if (status.equals(ADDED)) {
-                    location = "added.svg";
-                  } else { // Unchanged
-                    return;
-                  }
-                  int iconSize = ConstUi.ICON_SIZE;
-                  try {
-                    iconSize = PropsUi.getInstance().getIconSize();
-                  } catch (Exception e) {
-                    // Exception when accessed from Hop Server
-                  }
-                  double x = (n.x + iconSize + offset.x) - (iconSize / 4);
-                  double y = n.y + offset.y - (iconSize / 4);
-                  try {
-                    gc.drawImage(
-                        new SvgFile(location, getClass().getClassLoader()),
-                        (int) x,
-                        (int) y,
-                        iconSize / 2,
-                        iconSize / 2,
-                        gc.getMagnification(),
-                        0);
-                  } catch (Exception e) {
-                    throw new RuntimeException(e);
-                  }
-                } else {
-                  transform.getAttributesMap().remove(ATTR_GIT);
-                }
-              });
+      pipelineMeta.getTransforms().stream().filter(transform -> transform.getAttribute(ATTR_GIT, ATTR_STATUS) != null).forEach(transform -> {
+        if (pipelineMeta.getPipelineVersion() != null && pipelineMeta.getPipelineVersion().startsWith("git")) {
+          String status = transform.getAttribute(ATTR_GIT, ATTR_STATUS);
+          Point n = transform.getLocation();
+          String location;
+          if (status.equals(REMOVED)) {
+            location = "removed.svg";
+          } else if (status.equals(CHANGED)) {
+            location = "changed.svg";
+          } else if (status.equals(ADDED)) {
+            location = "added.svg";
+          } else { // Unchanged
+            return;
+          }
+          int iconSize = ConstUi.ICON_SIZE;
+          try {
+            iconSize = PropsUi.getInstance().getIconSize();
+          } catch (Exception e) {
+            // Exception when accessed from Hop Server
+          }
+          double x = (n.x + iconSize + offset.x) - (iconSize / 4);
+          double y = n.y + offset.y - (iconSize / 4);
+          try {
+            gc.drawImage(new SvgFile(location, getClass().getClassLoader()), (int) x, (int) y, iconSize / 2, iconSize / 2, gc.getMagnification(), 0);
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        } else {
+          transform.getAttributesMap().remove(ATTR_GIT);
+        }
+      });
     } catch (Exception e) {
       throw new HopException("Error drawing status on transform", e);
     }

@@ -92,8 +92,7 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
   private final Map<String, Integer> inputFields;
 
-  public XsltDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public XsltDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (XsltMeta) in;
     inputFields = new HashMap<>();
@@ -186,22 +185,21 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     fdField.top = new FormAttachment(wTransformName, 2 * margin);
     fdField.right = new FormAttachment(100, -margin);
     wField.setLayoutData(fdField);
-    wField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-            // Disable FocusLost
-          }
+    wField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+        // Disable FocusLost
+      }
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            populateFields(wField);
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        populateFields(wField);
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Transform Ouput field grouping?
     // ////////////////////////
@@ -219,11 +217,7 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
     // Output Fieldame
     wResultField =
-        new LabelTextVar(
-            variables,
-            wOutputField,
-            BaseMessages.getString(PKG, "XsltDialog.ResultField.Label"),
-            BaseMessages.getString(PKG, "XsltDialog.ResultField.Tooltip"));
+        new LabelTextVar(variables, wOutputField, BaseMessages.getString(PKG, "XsltDialog.ResultField.Label"), BaseMessages.getString(PKG, "XsltDialog.ResultField.Tooltip"));
     PropsUi.setLook(wResultField);
     wResultField.addModifyListener(lsMod);
     FormData fdResultField = new FormData();
@@ -267,21 +261,19 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     wlXSLFileField.setLayoutData(fdlXSLFileField);
     wXSLFileField = new Button(wXSLFileGroup, SWT.CHECK);
     PropsUi.setLook(wXSLFileField);
-    wXSLFileField.setToolTipText(
-        BaseMessages.getString(PKG, "XsltDialog.XSLFilenameFileField.Tooltip"));
+    wXSLFileField.setToolTipText(BaseMessages.getString(PKG, "XsltDialog.XSLFilenameFileField.Tooltip"));
     FormData fdXSLFileField = new FormData();
     fdXSLFileField.left = new FormAttachment(middle, margin);
     fdXSLFileField.top = new FormAttachment(wlXSLFileField, 0, SWT.CENTER);
     wXSLFileField.setLayoutData(fdXSLFileField);
 
-    SelectionAdapter lsXslFile =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateWlXSLField();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsXslFile = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateWlXSLField();
+        input.setChanged();
+      }
+    };
     wXSLFileField.addSelectionListener(lsXslFile);
 
     // If XSL File name defined in a Field
@@ -302,22 +294,21 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     fdXSLField.top = new FormAttachment(wXSLFileField, margin);
     fdXSLField.right = new FormAttachment(100, -margin);
     wXSLField.setLayoutData(fdXSLField);
-    wXSLField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-            // Disable FocusLost
-          }
+    wXSLField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+        // Disable FocusLost
+      }
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            populateFields(wXSLField);
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        populateFields(wXSLField);
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Is XSL field defined in a Field is a file?
     wlXSLFieldIsAFile = new Label(wXSLFileGroup, SWT.RIGHT);
@@ -330,19 +321,17 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     wlXSLFieldIsAFile.setLayoutData(fdlXSLFieldIsAFile);
     wXSLFieldIsAFile = new Button(wXSLFileGroup, SWT.CHECK);
     PropsUi.setLook(wXSLFieldIsAFile);
-    wXSLFieldIsAFile.setToolTipText(
-        BaseMessages.getString(PKG, "XsltDialog.XSLFieldIsAFile.Tooltip"));
+    wXSLFieldIsAFile.setToolTipText(BaseMessages.getString(PKG, "XsltDialog.XSLFieldIsAFile.Tooltip"));
     FormData fdXSLFieldIsAFile = new FormData();
     fdXSLFieldIsAFile.left = new FormAttachment(middle, margin);
     fdXSLFieldIsAFile.top = new FormAttachment(wlXSLFieldIsAFile, 0, SWT.CENTER);
     wXSLFieldIsAFile.setLayoutData(fdXSLFieldIsAFile);
-    wXSLFieldIsAFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        });
+    wXSLFieldIsAFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    });
 
     // XSL Filename
     wlFilename = new Label(wXSLFileGroup, SWT.RIGHT);
@@ -357,8 +346,7 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     wbbFilename = new Button(wXSLFileGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "XsltDialog.FilenameBrowse.Button"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbXSLFilename = new FormData();
     fdbXSLFilename.right = new FormAttachment(100, 0);
     fdbXSLFilename.top = new FormAttachment(wXSLFieldIsAFile, 2 * margin);
@@ -446,28 +434,12 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[0].setComboValues(XsltMeta.outputProperties);
     colinf[1].setUsingVariables(true);
 
-    wOutputProperties =
-        new TableView(
-            variables,
-            wAdditionalComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            OutputPropertiesRows,
-            lsMod,
-            props);
+    wOutputProperties = new TableView(variables, wAdditionalComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, OutputPropertiesRows, lsMod, props);
     FormData fdOutputProperties = new FormData();
     fdOutputProperties.left = new FormAttachment(0, 0);
     fdOutputProperties.top = new FormAttachment(wlOutputProperties, margin);
@@ -496,27 +468,11 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[1].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            wAdditionalComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wAdditionalComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
     fdFields.top = new FormAttachment(wlFields, margin);
@@ -526,23 +482,22 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.put(row.getValueMeta(i).getName(), i);
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.put(row.getValueMeta(i).getName(), i);
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdAdditionalComp = new FormData();
@@ -568,22 +523,14 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
 
     // Whenever something changes, set the tooltip to the expanded version
     // of the filename:
-    wXSLFilename.addModifyListener(
-        e -> wXSLFilename.setToolTipText(variables.resolve(wXSLFilename.getText())));
+    wXSLFilename.addModifyListener(e -> wXSLFilename.setToolTipText(variables.resolve(wXSLFilename.getText())));
 
     // Listen to the Browse... button
     wbbFilename.addListener(
         SWT.Selection,
         e -> BaseDialog.presentFileDialog(
-            shell,
-            wXSLFilename,
-            variables,
-            new String[] {"*.xsl;*.XSL", "*.xslt;.*XSLT", "*"},
-            new String[] {
-              BaseMessages.getString(PKG, "XsltDialog.FileType"),
-              BaseMessages.getString(PKG, "System.FileType.AllFiles")
-            },
-            true));
+            shell, wXSLFilename, variables, new String[] {"*.xsl;*.XSL", "*.xslt;.*XSLT", "*"},
+            new String[] {BaseMessages.getString(PKG, "XsltDialog.FileType"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     wTabFolder.setSelection(0);
 
@@ -703,8 +650,7 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     input.allocate(nrparams, nroutputprops);
 
     if (isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "HTTPDialog.Log.FoundArguments", String.valueOf(nrparams)));
+      logDebug(BaseMessages.getString(PKG, "HTTPDialog.Log.FoundArguments", String.valueOf(nrparams)));
     }
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrparams; i++) {
@@ -742,8 +688,7 @@ public class XsltDialog extends BaseTransformDialog implements ITransformDialog 
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

@@ -77,44 +77,12 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
   private Map<String, RowBuffer> outputRowsMap;
   private Map<String, Object> stateMap;
 
-  public static final String[] magnificationDescriptions =
-      new String[] {"1000%", "800%", "600%", "400%", "200%", "150%", "100%", "75%", "50%", "25%"};
+  public static final String[] magnificationDescriptions = new String[] {"1000%", "800%", "600%", "400%", "200%", "150%", "100%", "75%", "50%", "25%"};
 
-  public PipelinePainter(
-      IGc gc,
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      Point area,
-      DPoint offset,
-      PipelineHopMeta candidate,
-      Rectangle selectRectangle,
-      List<AreaOwner> areaOwners,
-      int iconSize,
-      int lineWidth,
-      int gridSize,
-      String noteFontName,
-      int noteFontHeight,
-      IPipelineEngine<PipelineMeta> pipeline,
-      boolean slowTransformIndicatorEnabled,
-      double zoomFactor,
-      Map<String, RowBuffer> outputRowsMap,
-      boolean drawingEditIcons,
-      Map<String, Object> stateMap) {
-    super(
-        gc,
-        variables,
-        pipelineMeta,
-        area,
-        offset,
-        selectRectangle,
-        areaOwners,
-        iconSize,
-        lineWidth,
-        gridSize,
-        noteFontName,
-        noteFontHeight,
-        zoomFactor,
-        drawingEditIcons);
+  public PipelinePainter(IGc gc, IVariables variables, PipelineMeta pipelineMeta, Point area, DPoint offset, PipelineHopMeta candidate, Rectangle selectRectangle,
+      List<AreaOwner> areaOwners, int iconSize, int lineWidth, int gridSize, String noteFontName, int noteFontHeight, IPipelineEngine<PipelineMeta> pipeline,
+      boolean slowTransformIndicatorEnabled, double zoomFactor, Map<String, RowBuffer> outputRowsMap, boolean drawingEditIcons, Map<String, Object> stateMap) {
+    super(gc, variables, pipelineMeta, area, offset, selectRectangle, areaOwners, iconSize, lineWidth, gridSize, noteFontName, noteFontHeight, zoomFactor, drawingEditIcons);
     this.pipelineMeta = pipelineMeta;
 
     this.candidate = candidate;
@@ -129,60 +97,28 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
     this.stateMap = stateMap;
   }
 
-  public PipelinePainter(
-      IGc gc,
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      Point area,
-      DPoint offset,
-      PipelineHopMeta candidate,
-      Rectangle selectionRectangle,
-      List<AreaOwner> areaOwners,
-      int iconSize,
-      int lineWidth,
-      int gridSize,
-      String noteFontName,
-      int noteFontHeight,
-      double zoomFactor,
-      boolean drawingEditIcons,
+  public PipelinePainter(IGc gc, IVariables variables, PipelineMeta pipelineMeta, Point area, DPoint offset, PipelineHopMeta candidate, Rectangle selectionRectangle,
+      List<AreaOwner> areaOwners, int iconSize, int lineWidth, int gridSize, String noteFontName, int noteFontHeight, double zoomFactor, boolean drawingEditIcons,
       Map<String, Object> stateMap) {
-    this(
-        gc,
-        variables,
-        pipelineMeta,
-        area,
-        offset,
-        candidate,
-        selectionRectangle,
-        areaOwners,
-        iconSize,
-        lineWidth,
-        gridSize,
-        noteFontName,
-        noteFontHeight,
-        null,
-        false,
-        zoomFactor,
-        new HashMap<>(),
-        drawingEditIcons,
-        stateMap);
+    this(gc, variables, pipelineMeta, area, offset, candidate, selectionRectangle, areaOwners, iconSize, lineWidth, gridSize, noteFontName, noteFontHeight, null, false, zoomFactor,
+        new HashMap<>(), drawingEditIcons, stateMap);
   }
 
   private static String[] getPeekTitles() {
-    String[] titles = {
-      BaseMessages.getString(PKG, "PeekMetric.Column.Copynr"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Read"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Written"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Input"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Output"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Updated"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Rejected"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Errors"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Active"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Time"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.Speed"),
-      BaseMessages.getString(PKG, "PeekMetric.Column.PriorityBufferSizes")
-    };
+    String[] titles =
+        {
+            BaseMessages.getString(PKG, "PeekMetric.Column.Copynr"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Read"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Written"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Input"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Output"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Updated"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Rejected"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Errors"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Active"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Time"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.Speed"),
+            BaseMessages.getString(PKG, "PeekMetric.Column.PriorityBufferSizes")};
     return titles;
   }
 
@@ -213,8 +149,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
     }
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterStart.id, this);
     } catch (HopException e) {
       LogChannel.GENERAL.logError("Error in PipelinePainterStart extension point", e);
     }
@@ -251,18 +186,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
         }
         Point start = real2screen(fr.x + iconSize / 2, fr.y + iconSize / 2);
         Point end = real2screen(to.x, to.y);
-        drawArrow(
-            arrow,
-            start.x,
-            start.y,
-            end.x,
-            end.y,
-            theta,
-            calcArrowLength(),
-            1.2,
-            null,
-            startHopTransform,
-            endHopTransform == null ? endHopLocation : endHopTransform);
+        drawArrow(arrow, start.x, start.y, end.x, end.y, theta, calcArrowLength(), 1.2, null, startHopTransform, endHopTransform == null ? endHopLocation : endHopTransform);
       } else if (endHopTransform != null && endHopLocation != null) {
         Point fr = endHopLocation;
         Point to = endHopTransform.getLocation();
@@ -275,18 +199,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
         }
         Point start = real2screen(fr.x, fr.y);
         Point end = real2screen(to.x + iconSize / 2, to.y + iconSize / 2);
-        drawArrow(
-            arrow,
-            start.x,
-            start.y,
-            end.x,
-            end.y,
-            theta,
-            calcArrowLength(),
-            1.2,
-            null,
-            startHopTransform == null ? endHopLocation : startHopTransform,
-            endHopTransform);
+        drawArrow(arrow, start.x, start.y, end.x, end.y, theta, calcArrowLength(), 1.2, null, startHopTransform == null ? endHopLocation : startHopTransform, endHopTransform);
       }
     }
 
@@ -337,8 +250,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
     }
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterEnd.id, this);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterEnd.id, this);
     } catch (HopException e) {
       LogChannel.GENERAL.logError("Error in PipelinePainterEnd extension point", e);
     }
@@ -555,19 +467,18 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
 
     String[] fields =
         new String[] {
-          Integer.toString(component.getCopyNr()),
-          Long.toString(component.getLinesRead()),
-          Long.toString(component.getLinesWritten()),
-          Long.toString(component.getLinesInput()),
-          Long.toString(component.getLinesOutput()),
-          Long.toString(component.getLinesUpdated()),
-          Long.toString(component.getLinesRejected()),
-          Long.toString(component.getErrors()),
-          active ? "Yes" : "No",
-          duration,
-          speed,
-          component.getInputBufferSize() + "/" + component.getOutputBufferSize()
-        };
+            Integer.toString(component.getCopyNr()),
+            Long.toString(component.getLinesRead()),
+            Long.toString(component.getLinesWritten()),
+            Long.toString(component.getLinesInput()),
+            Long.toString(component.getLinesOutput()),
+            Long.toString(component.getLinesUpdated()),
+            Long.toString(component.getLinesRejected()),
+            Long.toString(component.getErrors()),
+            active ? "Yes" : "No",
+            duration,
+            speed,
+            component.getInputBufferSize() + "/" + component.getOutputBufferSize()};
     return fields;
   }
 
@@ -594,14 +505,8 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
 
         for (IEngineComponent transform : transforms) {
           String transformStatus = transform.getStatusDescription();
-          if (transformStatus != null
-              && transformStatus.equalsIgnoreCase(
-                  EngineComponent.ComponentExecutionStatus.STATUS_FINISHED.getDescription())) {
-            gc.drawImage(
-                EImage.SUCCESS,
-                (x + iconSize) - (miniIconSize / 2) + 1,
-                y - (miniIconSize / 2) - 1,
-                magnification);
+          if (transformStatus != null && transformStatus.equalsIgnoreCase(EngineComponent.ComponentExecutionStatus.STATUS_FINISHED.getDescription())) {
+            gc.drawImage(EImage.SUCCESS, (x + iconSize) - (miniIconSize / 2) + 1, y - (miniIconSize / 2) - 1, magnification);
           }
         }
       }
@@ -632,16 +537,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
         int iconX = x + iconSize - (miniIconSize / 2) + 1;
         int iconY = y + iconSize - (miniIconSize / 2) + 1;
         gc.drawImage(EImage.DATA, iconX, iconY, magnification);
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.TRANSFORM_OUTPUT_DATA,
-                iconX,
-                iconY,
-                iconWidth,
-                iconWidth,
-                offset,
-                transformMeta,
-                rowBuffer));
+        areaOwners.add(new AreaOwner(AreaType.TRANSFORM_OUTPUT_DATA, iconX, iconY, iconWidth, iconWidth, offset, transformMeta, rowBuffer));
       }
     }
   }
@@ -699,8 +595,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       gc.setBackground(EColor.BACKGROUND);
       gc.setFont(EFont.GRAPH);
 
-      PartitionSchema partitionSchema =
-          transformMeta.getTransformPartitioningMeta().getPartitionSchema();
+      PartitionSchema partitionSchema = transformMeta.getTransformPartitioningMeta().getPartitionSchema();
       if (partitionSchema != null) {
         String nrInput = "Px";
         if (partitionSchema.isDynamicallyDefined()) {
@@ -722,30 +617,16 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
 
         // Now we draw an arrow from the rectangle to the transform...
         //
-        gc.drawLine(
-            point.x + textExtent.x / 2, point.y + textExtent.y, x + iconSize / 2, y + iconSize / 2);
+        gc.drawLine(point.x + textExtent.x / 2, point.y + textExtent.y, x + iconSize / 2, y + iconSize / 2);
 
         // Also draw the name of the partition schema below the box
         //
         gc.setForeground(EColor.PURPULE);
-        gc.drawText(
-            Const.NVL(partitionSchema.getName(), "<no partition name>"),
-            point.x,
-            point.y + textExtent.y + 3,
-            true);
+        gc.drawText(Const.NVL(partitionSchema.getName(), "<no partition name>"), point.x, point.y + textExtent.y + 3, true);
 
         // Add to the list of areas...
         //
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.TRANSFORM_PARTITIONING,
-                point.x,
-                point.y,
-                textExtent.x,
-                textExtent.y,
-                offset,
-                transformMeta,
-                STRING_PARTITIONING_CURRENT_TRANSFORM));
+        areaOwners.add(new AreaOwner(AreaType.TRANSFORM_PARTITIONING, point.x, point.y, textExtent.x, textExtent.y, offset, transformMeta, STRING_PARTITIONING_CURRENT_TRANSFORM));
       }
     }
 
@@ -758,16 +639,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
     }
 
     // Add to the list of areas...
-    areaOwners.add(
-        new AreaOwner(
-            AreaType.TRANSFORM_ICON,
-            x,
-            y,
-            iconSize,
-            iconSize,
-            offset,
-            pipelineMeta,
-            transformMeta));
+    areaOwners.add(new AreaOwner(AreaType.TRANSFORM_ICON, x, y, iconSize, iconSize, offset, pipelineMeta, transformMeta));
 
     gc.setBackground(EColor.BACKGROUND);
     gc.fillRoundRectangle(x - 1, y - 1, iconSize + 1, iconSize + 1, 8, 8);
@@ -787,16 +659,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       int xInfo = x - (miniIconSize / 2) - 1;
       int yInfo = y - (miniIconSize / 2) - 1;
       gc.drawImage(EImage.INFO_DISABLED, xInfo, yInfo, magnification);
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.TRANSFORM_INFO_ICON,
-              xInfo,
-              yInfo,
-              miniIconSize,
-              miniIconSize,
-              offset,
-              pipelineMeta,
-              transformMeta));
+      areaOwners.add(new AreaOwner(AreaType.TRANSFORM_INFO_ICON, xInfo, yInfo, miniIconSize, miniIconSize, offset, pipelineMeta, transformMeta));
     }
 
     Point namePosition = getNamePosition(name, screen, iconSize);
@@ -813,25 +676,10 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       gc.drawImage(EImage.EDIT, namePosition.x - 6, namePosition.y - 2, magnification);
 
       gc.setBackground(EColor.LIGHTGRAY);
-      gc.fillRoundRectangle(
-          namePosition.x - 8,
-          namePosition.y - 2,
-          nameExtent.x + 15,
-          nameExtent.y + 8,
-          BasePainter.CORNER_RADIUS_5 + 15,
-          BasePainter.CORNER_RADIUS_5 + 15);
+      gc.fillRoundRectangle(namePosition.x - 8, namePosition.y - 2, nameExtent.x + 15, nameExtent.y + 8, BasePainter.CORNER_RADIUS_5 + 15, BasePainter.CORNER_RADIUS_5 + 15);
       gc.setAlpha(tmpAlpha);
 
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.TRANSFORM_NAME,
-              namePosition.x - 8,
-              namePosition.y - 2,
-              nameExtent.x + 15,
-              nameExtent.y + 8,
-              offset,
-              transformMeta,
-              name));
+      areaOwners.add(new AreaOwner(AreaType.TRANSFORM_NAME, namePosition.x - 8, namePosition.y - 2, nameExtent.x + 15, nameExtent.y + 8, offset, transformMeta, name));
     }
 
     gc.setForeground(EColor.BLACK);
@@ -851,16 +699,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       Point textExtent = gc.textExtent(copies);
 
       gc.drawText(copies, x - textExtent.x + 1, y - textExtent.y - 4, false);
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.TRANSFORM_COPIES_TEXT,
-              x - textExtent.x + 1,
-              y - textExtent.y - 4,
-              textExtent.x,
-              textExtent.y,
-              offset,
-              pipelineMeta,
-              transformMeta));
+      areaOwners.add(new AreaOwner(AreaType.TRANSFORM_COPIES_TEXT, x - textExtent.x + 1, y - textExtent.y - 4, textExtent.x, textExtent.y, offset, pipelineMeta, transformMeta));
     }
 
     // If there was an error during the run, the map "transformLogMap" is not empty and not null.
@@ -874,40 +713,14 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       int yError = y - (miniIconSize / 2) - 1;
       gc.drawImage(EImage.FAILURE, xError, yError, magnification);
 
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.TRANSFORM_FAILURE_ICON,
-              xError,
-              yError,
-              16,
-              16,
-              offset,
-              log,
-              STRING_TRANSFORM_ERROR_LOG));
+      areaOwners.add(new AreaOwner(AreaType.TRANSFORM_FAILURE_ICON, xError, yError, 16, 16, offset, log, STRING_TRANSFORM_ERROR_LOG));
     }
 
-    PipelinePainterExtension extension =
-        new PipelinePainterExtension(
-            gc,
-            areaOwners,
-            pipelineMeta,
-            transformMeta,
-            null,
-            x,
-            y,
-            0,
-            0,
-            0,
-            0,
-            offset,
-            iconSize,
-            stateMap);
+    PipelinePainterExtension extension = new PipelinePainterExtension(gc, areaOwners, pipelineMeta, transformMeta, null, x, y, 0, 0, 0, 0, offset, iconSize, stateMap);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterTransform.id, extension);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterTransform.id, extension);
     } catch (Exception e) {
-      LogChannel.GENERAL.logError(
-          "Error calling extension point(s) for the pipeline painter transform", e);
+      LogChannel.GENERAL.logError("Error calling extension point(s) for the pipeline painter transform", e);
     }
 
     // Restore the previous alpha value
@@ -924,8 +737,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
     return new Point(xpos, ypos);
   }
 
-  private void drawLine(TransformMeta fs, TransformMeta ts, PipelineHopMeta hi, boolean isCandidate)
-      throws HopException {
+  private void drawLine(TransformMeta fs, TransformMeta ts, PipelineHopMeta hi, boolean isCandidate) throws HopException {
     int[] line = getLine(fs, ts);
 
     EColor color;
@@ -1012,18 +824,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
   }
 
   @Override
-  protected void drawArrow(
-      EImage arrow,
-      int x1,
-      int y1,
-      int x2,
-      int y2,
-      double theta,
-      int size,
-      double factor,
-      PipelineHopMeta pipelineHop,
-      Object startObject,
-      Object endObject)
+  protected void drawArrow(EImage arrow, int x1, int y1, int x2, int y2, double theta, int size, double factor, PipelineHopMeta pipelineHop, Object startObject, Object endObject)
       throws HopException {
     int mx;
     int my;
@@ -1077,30 +878,19 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       mx = (int) (x1 + factor * (x2 - x1) / 2) - miniIconSize / 2;
       my = (int) (y1 + factor * (y2 - y1) / 2) - miniIconSize / 2;
 
-      boolean errorHop =
-          fs.isSendingErrorRowsToTransform(ts)
-              || (startErrorHopTransform && fs.equals(startHopTransform));
-      boolean targetHop =
-          Const.indexOfString(
-                  ts.getName(), fs.getTransform().getTransformIOMeta().getTargetTransformNames())
-              >= 0;
+      boolean errorHop = fs.isSendingErrorRowsToTransform(ts) || (startErrorHopTransform && fs.equals(startHopTransform));
+      boolean targetHop = Const.indexOfString(ts.getName(), fs.getTransform().getTransformIOMeta().getTargetTransformNames()) >= 0;
 
       if (targetHop) {
         ITransformIOMeta ioMeta = fs.getTransform().getTransformIOMeta();
         IStream targetStream = ioMeta.findTargetStream(ts);
         if (targetStream != null) {
-          EImage image =
-              BasePainter.getStreamIconImage(targetStream.getStreamIcon(), pipelineHop.isEnabled());
+          EImage image = BasePainter.getStreamIconImage(targetStream.getStreamIcon(), pipelineHop.isEnabled());
           gc.drawImage(image, mx, my, magnification);
 
-          areaOwners.add(
-              new AreaOwner(
-                  AreaType.TRANSFORM_TARGET_HOP_ICON, mx, my, 16, 16, offset, fs, targetStream));
+          areaOwners.add(new AreaOwner(AreaType.TRANSFORM_TARGET_HOP_ICON, mx, my, 16, 16, offset, fs, targetStream));
         }
-      } else if (fs.isDistributes()
-          && fs.getRowDistribution() != null
-          && !ts.getTransformPartitioningMeta().isMethodMirror()
-          && !errorHop) {
+      } else if (fs.isDistributes() && fs.getRowDistribution() != null && !ts.getTransformPartitioningMeta().isMethodMirror() && !errorHop) {
 
         // Draw the custom row distribution plugin icon
         //
@@ -1108,31 +898,18 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
         if (svgFile != null) {
           //
           gc.drawImage(svgFile, mx, my, 16, 16, magnification, 0);
-          areaOwners.add(
-              new AreaOwner(
-                  AreaType.ROW_DISTRIBUTION_ICON,
-                  mx,
-                  my,
-                  16,
-                  16,
-                  offset,
-                  fs,
-                  STRING_ROW_DISTRIBUTION));
+          areaOwners.add(new AreaOwner(AreaType.ROW_DISTRIBUTION_ICON, mx, my, 16, 16, offset, fs, STRING_ROW_DISTRIBUTION));
           mx += 16;
         }
 
-      } else if (!fs.isDistributes()
-          && !ts.getTransformPartitioningMeta().isMethodMirror()
-          && !errorHop) {
+      } else if (!fs.isDistributes() && !ts.getTransformPartitioningMeta().isMethodMirror() && !errorHop) {
 
         // Draw the copy icon on the hop
         //
         EImage image = (pipelineHop.isEnabled()) ? EImage.COPY_ROWS : EImage.COPY_ROWS_DISABLED;
         gc.drawImage(image, mx, my, magnification);
 
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.HOP_COPY_ICON, mx, my, 16, 16, offset, fs, STRING_HOP_TYPE_COPY));
+        areaOwners.add(new AreaOwner(AreaType.HOP_COPY_ICON, mx, my, 16, 16, offset, fs, STRING_HOP_TYPE_COPY));
         mx += 16;
       }
 
@@ -1146,10 +923,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       ITransformIOMeta ioMeta = ts.getTransform().getTransformIOMeta();
       String[] infoTransformNames = ioMeta.getInfoTransformNames();
 
-      if ((candidateHopType == StreamType.INFO
-              && ts.equals(endHopTransform)
-              && fs.equals(startHopTransform))
-          || Const.indexOfString(fs.getName(), infoTransformNames) >= 0) {
+      if ((candidateHopType == StreamType.INFO && ts.equals(endHopTransform) && fs.equals(startHopTransform)) || Const.indexOfString(fs.getName(), infoTransformNames) >= 0) {
         EImage image = (pipelineHop.isEnabled()) ? EImage.INFO : EImage.INFO_DISABLED;
         gc.drawImage(image, mx, my, magnification);
         areaOwners.add(new AreaOwner(AreaType.HOP_INFO_ICON, mx, my, 16, 16, offset, fs, ts));
@@ -1171,16 +945,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
               // TODO explain in the UI what's going on.
               //
               gc.drawImage(EImage.PARALLEL, mx, my, magnification);
-              areaOwners.add(
-                  new AreaOwner(
-                      AreaType.HOP_INFO_TRANSFORMS_PARTITIONED,
-                      mx,
-                      my,
-                      miniIconSize,
-                      miniIconSize,
-                      offset,
-                      fs,
-                      ts));
+              areaOwners.add(new AreaOwner(AreaType.HOP_INFO_TRANSFORMS_PARTITIONED, mx, my, miniIconSize, miniIconSize, offset, fs, ts));
               mx += 16;
             } else if (fs.getCopies(variables) > 1) {
               // This is not a desirable situation, it will always end in error.
@@ -1188,16 +953,7 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
               // We do this by drawing an error icon over the hop...
               //
               gc.drawImage(EImage.ERROR, mx, my, magnification);
-              areaOwners.add(
-                  new AreaOwner(
-                      AreaType.HOP_INFO_TRANSFORM_COPIES_ERROR,
-                      mx,
-                      my,
-                      miniIconSize,
-                      miniIconSize,
-                      offset,
-                      fs,
-                      ts));
+              areaOwners.add(new AreaOwner(AreaType.HOP_INFO_TRANSFORM_COPIES_ERROR, mx, my, miniIconSize, miniIconSize, offset, fs, ts));
               mx += 16;
             }
           }
@@ -1205,28 +961,11 @@ public class PipelinePainter extends BasePainter<PipelineHopMeta, TransformMeta>
       }
     }
 
-    PipelinePainterExtension extension =
-        new PipelinePainterExtension(
-            gc,
-            areaOwners,
-            pipelineMeta,
-            null,
-            pipelineHop,
-            x1,
-            y1,
-            x2,
-            y2,
-            mx,
-            my,
-            offset,
-            iconSize,
-            stateMap);
+    PipelinePainterExtension extension = new PipelinePainterExtension(gc, areaOwners, pipelineMeta, null, pipelineHop, x1, y1, x2, y2, mx, my, offset, iconSize, stateMap);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterArrow.id, extension);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.PipelinePainterArrow.id, extension);
     } catch (Exception e) {
-      LogChannel.GENERAL.logError(
-          "Error calling extension point(s) for the pipeline painter arrow", e);
+      LogChannel.GENERAL.logError("Error calling extension point(s) for the pipeline painter arrow", e);
     }
   }
 

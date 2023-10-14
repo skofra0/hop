@@ -46,7 +46,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PluginRegistryUnitTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   public void getGetPluginInformation() throws HopPluginException {
@@ -93,13 +94,11 @@ public class PluginRegistryUnitTest {
     when(mockPlugin1.getIds()).thenReturn(new String[] {"mockPlugin"});
     when(mockPlugin1.matches("mockPlugin")).thenReturn(true);
     when(mockPlugin1.getName()).thenReturn("mockPlugin");
-    when(mockPlugin1.getClassMap())
-        .thenReturn(
-            new HashMap<Class<?>, String>() {
-              {
-                put(IPluginType.class, String.class.getName());
-              }
-            });
+    when(mockPlugin1.getClassMap()).thenReturn(new HashMap<Class<?>, String>() {
+      {
+        put(IPluginType.class, String.class.getName());
+      }
+    });
     when(mockPlugin1.getClassLoaderGroup()).thenReturn("groupPlugin");
     doReturn(BasePluginType.class).when(mockPlugin1).getPluginType();
 
@@ -107,13 +106,11 @@ public class PluginRegistryUnitTest {
     when(mockPlugin2.getIds()).thenReturn(new String[] {"mockPlugin2"});
     when(mockPlugin2.matches("mockPlugin2")).thenReturn(true);
     when(mockPlugin2.getName()).thenReturn("mockPlugin2");
-    when(mockPlugin2.getClassMap())
-        .thenReturn(
-            new HashMap<Class<?>, String>() {
-              {
-                put(IPluginType.class, Integer.class.getName());
-              }
-            });
+    when(mockPlugin2.getClassMap()).thenReturn(new HashMap<Class<?>, String>() {
+      {
+        put(IPluginType.class, Integer.class.getName());
+      }
+    });
     when(mockPlugin2.getClassLoaderGroup()).thenReturn("groupPlugin");
     doReturn(BasePluginType.class).when(mockPlugin2).getPluginType();
 
@@ -142,45 +139,42 @@ public class PluginRegistryUnitTest {
     // setup
     // initialize Fragment Type
     PluginRegistry registry = PluginRegistry.getInstance();
-    BaseFragmentType<ValueMetaPlugin> fragmentType =
-        new BaseFragmentType<ValueMetaPlugin>(
-            ValueMetaPlugin.class, "", "", ValueMetaPluginType.class) {
-          @Override
-          protected void initListeners(
-              Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
-            super.initListeners(BaseFragmentType.class, typeToTrack);
-          }
+    BaseFragmentType<ValueMetaPlugin> fragmentType = new BaseFragmentType<ValueMetaPlugin>(ValueMetaPlugin.class, "", "", ValueMetaPluginType.class) {
+      @Override
+      protected void initListeners(Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
+        super.initListeners(BaseFragmentType.class, typeToTrack);
+      }
 
-          @Override
-          protected String extractID(ValueMetaPlugin annotation) {
-            return null;
-          }
+      @Override
+      protected String extractID(ValueMetaPlugin annotation) {
+        return null;
+      }
 
-          @Override
-          protected String extractImageFile(ValueMetaPlugin annotation) {
-            return null;
-          }
+      @Override
+      protected String extractImageFile(ValueMetaPlugin annotation) {
+        return null;
+      }
 
-          @Override
-          protected String extractDocumentationUrl(ValueMetaPlugin annotation) {
-            return null;
-          }
+      @Override
+      protected String extractDocumentationUrl(ValueMetaPlugin annotation) {
+        return null;
+      }
 
-          @Override
-          protected String extractCasesUrl(ValueMetaPlugin annotation) {
-            return null;
-          }
+      @Override
+      protected String extractCasesUrl(ValueMetaPlugin annotation) {
+        return null;
+      }
 
-          @Override
-          protected String extractForumUrl(ValueMetaPlugin annotation) {
-            return null;
-          }
+      @Override
+      protected String extractForumUrl(ValueMetaPlugin annotation) {
+        return null;
+      }
 
-          @Override
-          protected String extractSuggestion(ValueMetaPlugin annotation) {
-            return null;
-          }
-        };
+      @Override
+      protected String extractSuggestion(ValueMetaPlugin annotation) {
+        return null;
+      }
+    };
     assertTrue(fragmentType.isFragment());
 
     IPlugin plugin = mock(IPlugin.class);

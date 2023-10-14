@@ -18,8 +18,7 @@ package org.apache.hop.neo4j.actions.constraint;
 
 public enum UpdateType {
   CREATE,
-  DROP,
-  ;
+  DROP,;
 
   public static final String[] getNames() {
     String[] names = new String[values().length];

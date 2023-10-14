@@ -33,8 +33,7 @@ public class RowOutputDataMapper extends RowAdapter {
   private IRowMeta renamedRowMeta;
   private IPutRow iPutRow;
 
-  public RowOutputDataMapper(
-      MappingIODefinition inputDefinition, MappingIODefinition outputDefinition, IPutRow iPutRow) {
+  public RowOutputDataMapper(MappingIODefinition inputDefinition, MappingIODefinition outputDefinition, IPutRow iPutRow) {
     this.inputDefinition = inputDefinition;
     this.outputDefinition = outputDefinition;
     this.iPutRow = iPutRow;

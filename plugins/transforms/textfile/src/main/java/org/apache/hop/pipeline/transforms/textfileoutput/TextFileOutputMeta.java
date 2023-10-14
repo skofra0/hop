@@ -57,9 +57,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Output",
     keywords = "i18n::TextFileOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/textfileoutput.html")
-@InjectionSupported(
-    localizationPrefix = "TextFileOutput.Injection.",
-    groups = {"OUTPUT_FIELDS"})
+@InjectionSupported(localizationPrefix = "TextFileOutput.Injection.", groups = {"OUTPUT_FIELDS"})
 public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFileOutputData> {
 
   private static final Class<?> PKG = TextFileOutputMeta.class; // For Translator
@@ -70,8 +68,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
   protected static final String[] fileCompressionTypeCodes = new String[] {"None", "Zip"};
 
-  public static final String[] formatMapperLineTerminator =
-      new String[] {"DOS", "UNIX", "CR", "None"};
+  public static final String[] formatMapperLineTerminator = new String[] {"DOS", "UNIX", "CR", "None"};
 
   /** Flag: add the transformnr in the filename */
   @Injection(name = "INC_TRANSFORMNR_IN_FILENAME")
@@ -181,7 +178,8 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
   /* THE FIELD SPECIFICATIONS ... */
 
   /** The output fields */
-  @InjectionDeep private TextFileField[] outputFields;
+  @InjectionDeep
+  private TextFileField[] outputFields;
 
   /** The encoding to use for reading: null or empty string means system default encoding */
   @Injection(name = "ENCODING")
@@ -515,7 +513,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
   /**
    * @return The desired encoding of output file, null or empty if the default system encoding needs
-   *     to be used.
+   *         to be used.
    */
   public String getEncoding() {
     return encoding;
@@ -523,7 +521,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
   /**
    * @param encoding The desired encoding of output file, null or empty if the default system
-   *     encoding needs to be used.
+   *        encoding needs to be used.
    */
   public void setEncoding(String encoding) {
     this.encoding = encoding;
@@ -538,7 +536,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
   /**
    * @param endedLine The desired last line in the output file, null or empty if nothing has to be
-   *     added.
+   *        added.
    */
   public void setEndedLine(String endedLine) {
     this.endedLine = endedLine;
@@ -573,8 +571,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -596,8 +593,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
     return retval;
   }
 
-  protected void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  protected void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       separator = XmlHandler.getTagValue(transformNode, "separator");
       if (separator == null) {
@@ -609,8 +605,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
         enclosure = "";
       }
 
-      enclosureForced =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enclosure_forced"));
+      enclosureForced = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enclosure_forced"));
 
       String sDisableEnclosureFix = XmlHandler.getTagValue(transformNode, "enclosure_fix_disabled");
       // Default this value to true for backwards compatibility
@@ -621,12 +616,8 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
       }
 
       // Default createparentfolder to true if the tag is missing
-      String createParentFolderTagValue =
-          XmlHandler.getTagValue(transformNode, "create_parent_folder");
-      createparentfolder =
-          (createParentFolderTagValue == null)
-              ? true
-              : "Y".equalsIgnoreCase(createParentFolderTagValue);
+      String createParentFolderTagValue = XmlHandler.getTagValue(transformNode, "create_parent_folder");
+      createparentfolder = (createParentFolderTagValue == null) ? true : "Y".equalsIgnoreCase(createParentFolderTagValue);
 
       headerEnabled = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "header"));
       footerEnabled = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "footer"));
@@ -647,28 +638,18 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
       }
 
       fileName = loadSource(transformNode, metadataProvider);
-      servletOutput =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "servlet_output"));
-      doNotOpenNewFileInit =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "do_not_open_new_file_init"));
+      servletOutput = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "servlet_output"));
+      doNotOpenNewFileInit = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "do_not_open_new_file_init"));
       extension = XmlHandler.getTagValue(transformNode, "file", "extention");
       fileAppended = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "append"));
-      transformNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
-      partNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
-      dateInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
-      timeInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
-      setSpecifyingFormat(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "SpecifyFormat")));
+      transformNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
+      partNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
+      dateInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
+      timeInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
+      setSpecifyingFormat("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "SpecifyFormat")));
       setDateTimeFormat(XmlHandler.getTagValue(transformNode, "file", "date_time_format"));
 
-      String addToResultFiles =
-          XmlHandler.getTagValue(transformNode, "file", "add_to_result_filenames");
+      String addToResultFiles = XmlHandler.getTagValue(transformNode, "file", "add_to_result_filenames");
       if (Utils.isEmpty(addToResultFiles)) {
         addToResultFilenames = true;
       } else {
@@ -681,8 +662,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
       newline = getNewLine(fileFormat);
 
-      fileNameInField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "fileNameInField"));
+      fileNameInField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "fileNameInField"));
       fileNameField = XmlHandler.getTagValue(transformNode, "fileNameField");
 
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
@@ -700,8 +680,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
         outputFields[i].setCurrencySymbol(XmlHandler.getTagValue(fnode, "currency"));
         outputFields[i].setDecimalSymbol(XmlHandler.getTagValue(fnode, "decimal"));
         outputFields[i].setGroupingSymbol(XmlHandler.getTagValue(fnode, "group"));
-        outputFields[i].setTrimType(
-            ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
+        outputFields[i].setTrimType(ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
         outputFields[i].setNullString(XmlHandler.getTagValue(fnode, "nullif"));
         outputFields[i].setLength(Const.toInt(XmlHandler.getTagValue(fnode, "length"), -1));
         outputFields[i].setPrecision(Const.toInt(XmlHandler.getTagValue(fnode, "precision"), -1));
@@ -797,29 +776,12 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
     final String realFileName = variables.resolve(filename);
     final String realExtension = variables.resolve(extension);
     return buildFilename(
-        variables,
-        realFileName,
-        realExtension,
-        Integer.toString(transformnr),
-        partnr,
-        Integer.toString(splitnr),
-        beamContext,
-        transformId,
-        bundleNr,
-        new Date(),
-        ziparchive,
-        true,
+        variables, realFileName, realExtension, Integer.toString(transformnr), partnr, Integer.toString(splitnr), beamContext, transformId, bundleNr, new Date(), ziparchive, true,
         meta);
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // No values are added to the row in this type of transform
     // However, in case of Fixed length records,
@@ -857,9 +819,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
     retval.append("    ").append(XmlHandler.addTagValue("separator", separator));
     retval.append("    ").append(XmlHandler.addTagValue("enclosure", enclosure));
     retval.append("    ").append(XmlHandler.addTagValue("enclosure_forced", enclosureForced));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("enclosure_fix_disabled", disableEnclosureFix));
+    retval.append("    ").append(XmlHandler.addTagValue("enclosure_fix_disabled", disableEnclosureFix));
     retval.append("    ").append(XmlHandler.addTagValue("header", headerEnabled));
     retval.append("    ").append(XmlHandler.addTagValue("footer", footerEnabled));
     retval.append("    ").append(XmlHandler.addTagValue("format", fileFormat));
@@ -882,19 +842,11 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
         retval.append("        ").append(XmlHandler.addTagValue("name", field.getName()));
         retval.append("        ").append(XmlHandler.addTagValue("type", field.getTypeDesc()));
         retval.append("        ").append(XmlHandler.addTagValue("format", field.getFormat()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("group", field.getGroupingSymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("group", field.getGroupingSymbol()));
         retval.append("        ").append(XmlHandler.addTagValue("nullif", field.getNullString()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("trim_type", field.getTrimTypeCode()));
+        retval.append("        ").append(XmlHandler.addTagValue("trim_type", field.getTrimTypeCode()));
         retval.append("        ").append(XmlHandler.addTagValue("length", field.getLength()));
         retval.append("        ").append(XmlHandler.addTagValue("precision", field.getPrecision()));
         retval.append("      </field>").append(Const.CR);
@@ -908,9 +860,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
   protected void saveFileOptions(StringBuilder retval) {
     saveSource(retval, fileName);
     retval.append("      ").append(XmlHandler.addTagValue("servlet_output", servletOutput));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("do_not_open_new_file_init", doNotOpenNewFileInit));
+    retval.append("      ").append(XmlHandler.addTagValue("do_not_open_new_file_init", doNotOpenNewFileInit));
     retval.append("      ").append(XmlHandler.addTagValue("extention", extension));
     retval.append("      ").append(XmlHandler.addTagValue("append", fileAppended));
     retval.append("      ").append(XmlHandler.addTagValue("split", transformNrInFilename));
@@ -920,9 +870,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
     retval.append("      ").append(XmlHandler.addTagValue("SpecifyFormat", isSpecifyingFormat()));
     retval.append("      ").append(XmlHandler.addTagValue("date_time_format", getDateTimeFormat()));
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("add_to_result_filenames", addToResultFilenames));
+    retval.append("      ").append(XmlHandler.addTagValue("add_to_result_filenames", addToResultFilenames));
     retval.append("      ").append(XmlHandler.addTagValue("pad", padded));
     retval.append("      ").append(XmlHandler.addTagValue("fast_dump", fastDump));
     retval.append("      ").append(XmlHandler.addTagValue("splitevery", splitEveryRows));
@@ -943,12 +891,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "TextFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -963,43 +906,25 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "TextFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 
@@ -1014,11 +939,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -1134,8 +1055,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
   }
 
   @VisibleForTesting
-  String[] getFiles(
-      final String realFileName, final String realExtension, final boolean showSamples) {
+  String[] getFiles(final String realFileName, final String realExtension, final boolean showSamples) {
     final Date now = new Date();
 
     if (showSamples) {
@@ -1166,19 +1086,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
       for (int transform = 0; transform < copies; transform++) {
         for (int part = 0; part < parts; part++) {
           for (int split = 0; split < splits; split++) {
-            retval[i] =
-                buildFilename(
-                    realFileName,
-                    realExtension,
-                    transform + "",
-                    getPartPrefix() + part,
-                    split + "",
-                    false,
-                    "",
-                    1,
-                    now,
-                    false,
-                    showSamples);
+            retval[i] = buildFilename(realFileName, realExtension, transform + "", getPartPrefix() + part, split + "", false, "", 1, now, false, showSamples);
             i++;
           }
         }
@@ -1189,20 +1097,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
 
       return retval;
     } else {
-      return new String[] {
-        buildFilename(
-            realFileName,
-            realExtension,
-            "<transform>",
-            "<partition>",
-            "<split>",
-            false,
-            "",
-            1,
-            now,
-            false,
-            showSamples)
-      };
+      return new String[] {buildFilename(realFileName, realExtension, "<transform>", "<partition>", "<split>", false, "", 1, now, false, showSamples)};
     }
   }
 
@@ -1222,19 +1117,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
       final Date date,
       final boolean ziparchive,
       final boolean showSamples) {
-    return buildFilename(
-        realFileName,
-        realExtension,
-        transformnr,
-        partnr,
-        splitnr,
-        beamContext,
-        transformId,
-        bundleNr,
-        date,
-        ziparchive,
-        showSamples,
-        this);
+    return buildFilename(realFileName, realExtension, transformnr, partnr, splitnr, beamContext, transformId, bundleNr, date, ziparchive, showSamples, this);
   }
 
   protected String buildFilename(
@@ -1250,20 +1133,7 @@ public class TextFileOutputMeta extends BaseTransformMeta<TextFileOutput, TextFi
       final boolean ziparchive,
       final boolean showSamples,
       final TextFileOutputMeta meta) {
-    return buildFilename(
-        null,
-        realFileName,
-        realExtension,
-        transformnr,
-        partnr,
-        splitnr,
-        beamContext,
-        transformId,
-        bundleNr,
-        date,
-        ziparchive,
-        showSamples,
-        meta);
+    return buildFilename(null, realFileName, realExtension, transformnr, partnr, splitnr, beamContext, transformId, bundleNr, date, ziparchive, showSamples, meta);
   }
 
   protected String buildFilename(

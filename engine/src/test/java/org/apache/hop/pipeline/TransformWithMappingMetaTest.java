@@ -32,7 +32,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TransformWithMappingMetaTest {
 
-  @Mock PipelineMeta pipelineMeta;
+  @Mock
+  PipelineMeta pipelineMeta;
 
   @Before
   public void setupBefore() throws Exception {
@@ -58,19 +59,11 @@ public class TransformWithMappingMetaTest {
     PipelineMeta childVariableSpace = new PipelineMeta();
     childVariableSpace.addParameterDefinition(childParam, "", "");
 
-    LocalPipelineEngine pipeline =
-        new LocalPipelineEngine(pipelineMeta, parent, new LoggingObject("Test"));
+    LocalPipelineEngine pipeline = new LocalPipelineEngine(pipelineMeta, parent, new LoggingObject("Test"));
     pipeline.setParameterValue(childParam, childValue);
 
     String[] parameters = pipeline.listParameters();
-    TransformWithMappingMeta.activateParams(
-        pipeline,
-        pipeline,
-        parent,
-        parameters,
-        new String[] {childParam, paramOverwrite},
-        new String[] {childValue, transformValue},
-        true);
+    TransformWithMappingMeta.activateParams(pipeline, pipeline, parent, parameters, new String[] {childParam, paramOverwrite}, new String[] {childValue, transformValue}, true);
 
     Assert.assertEquals(childValue, pipeline.getVariable(childParam));
     // the transform parameter prevails
@@ -94,20 +87,12 @@ public class TransformWithMappingMetaTest {
     childVariableSpace.addParameterDefinition(childParam, "", "");
     childVariableSpace.addParameterDefinition(parentAndChildParameter, "", "");
 
-    LocalPipelineEngine pipeline =
-        new LocalPipelineEngine(pipelineMeta, parent, new LoggingObject("Test"));
+    LocalPipelineEngine pipeline = new LocalPipelineEngine(pipelineMeta, parent, new LoggingObject("Test"));
     pipeline.setParameterValue(childParam, childValue);
     pipeline.setParameterValue(parentAndChildParameter, childValue);
 
     String[] parameters = pipeline.listParameters();
-    TransformWithMappingMeta.activateParams(
-        pipeline,
-        pipeline,
-        parent,
-        parameters,
-        new String[] {childParam, paramOverwrite},
-        new String[] {childValue, transformValue},
-        true);
+    TransformWithMappingMeta.activateParams(pipeline, pipeline, parent, parameters, new String[] {childParam, paramOverwrite}, new String[] {childValue, transformValue}, true);
 
     // childVariableSpace.setVariable( parentAndChildParameter, parentValue);
 
@@ -136,8 +121,7 @@ public class TransformWithMappingMetaTest {
 
     TransformWithMappingMeta.replaceVariableValues(ChildVariables, replaceByParentVariables);
     // do not replace internal variables
-    Assert.assertEquals(
-        "childValue", ChildVariables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    Assert.assertEquals("childValue", ChildVariables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
     // replace non internal variables
     Assert.assertEquals("parentNotInternalValue", ChildVariables.getVariable(variableOverwrite));
     // keep child only variables
@@ -162,8 +146,7 @@ public class TransformWithMappingMetaTest {
 
     TransformWithMappingMeta.replaceVariableValues(ChildVariables, replaceByParentVariables);
     // do not replace internal variables
-    Assert.assertEquals(
-        "childValue", ChildVariables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    Assert.assertEquals("childValue", ChildVariables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
     // replace non internal variables
     Assert.assertEquals("parentNotInternalValue", ChildVariables.getVariable(variableOverwrite));
     // keep child only variables

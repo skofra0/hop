@@ -61,10 +61,8 @@ public class SwitchCaseTest {
 
   @Before
   public void setUp() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>("Switch Case", SwitchCaseMeta.class, SwitchCaseData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Switch Case", SwitchCaseMeta.class, SwitchCaseData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -82,8 +80,7 @@ public class SwitchCaseTest {
    * @throws SAXException
    * @throws IOException
    */
-  private static Node loadTransformXmlMetadata(String fileName)
-      throws URISyntaxException, ParserConfigurationException, SAXException, IOException {
+  private static Node loadTransformXmlMetadata(String fileName) throws URISyntaxException, ParserConfigurationException, SAXException, IOException {
     String PKG = SwitchCaseTest.class.getPackage().getName().replace(".", "/");
     PKG = PKG + "/";
     URL url = SwitchCaseTest.class.getClassLoader().getResource(PKG + fileName);
@@ -97,14 +94,12 @@ public class SwitchCaseTest {
 
   @Test
   public void prepareObjectTypeBinaryTest_Equals() throws Exception {
-    assertEquals(
-        Arrays.hashCode(new byte[] {1, 2, 3}), SwitchCase.prepareObjectType(new byte[] {1, 2, 3}));
+    assertEquals(Arrays.hashCode(new byte[] {1, 2, 3}), SwitchCase.prepareObjectType(new byte[] {1, 2, 3}));
   }
 
   @Test
   public void prepareObjectTypeBinaryTest_NotEquals() throws Exception {
-    assertNotEquals(
-        Arrays.hashCode(new byte[] {1, 2, 4}), SwitchCase.prepareObjectType(new byte[] {1, 2, 3}));
+    assertNotEquals(Arrays.hashCode(new byte[] {1, 2, 4}), SwitchCase.prepareObjectType(new byte[] {1, 2, 3}));
   }
 
   @Test
@@ -145,61 +140,44 @@ public class SwitchCaseTest {
 
     Map<String, IRowSet> map = new HashMap<>();
 
-    SwitchCaseCustom(TransformMockHelper<SwitchCaseMeta, SwitchCaseData> mockHelper)
-        throws HopValueException {
-      super(
-          mockHelper.transformMeta,
-          mockHelper.iTransformMeta,
-          mockHelper.iTransformData,
-          0,
-          mockHelper.pipelineMeta,
-          mockHelper.pipeline);
+    SwitchCaseCustom(TransformMockHelper<SwitchCaseMeta, SwitchCaseData> mockHelper) throws HopValueException {
+      super(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
       // this.mockHelper = mockHelper;
       init();
 
       // call to convert value will returns same value.
       data.valueMeta = mock(IValueMeta.class);
-      when(data.valueMeta.convertData(any(IValueMeta.class), any()))
-          .thenAnswer(
-              invocation -> {
-                Object[] objArr = invocation.getArguments();
-                return (objArr != null && objArr.length > 1) ? objArr[1] : null;
-              });
+      when(data.valueMeta.convertData(any(IValueMeta.class), any())).thenAnswer(invocation -> {
+        Object[] objArr = invocation.getArguments();
+        return (objArr != null && objArr.length > 1) ? objArr[1] : null;
+      });
       // same when call to convertDataFromString
-      when(data.valueMeta.convertDataFromString(
-              Mockito.anyString(),
-              any(IValueMeta.class),
-              Mockito.anyString(),
-              Mockito.anyString(),
-              Mockito.anyInt()))
-          .thenAnswer(
-              // CHECKSTYLE:Indentation:OFF
-              invocation -> {
-                Object[] objArr = invocation.getArguments();
-                return (objArr != null && objArr.length > 1) ? objArr[0] : null;
-              });
+      when(data.valueMeta.convertDataFromString(Mockito.anyString(), any(IValueMeta.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenAnswer(
+          // CHECKSTYLE:Indentation:OFF
+          invocation -> {
+            Object[] objArr = invocation.getArguments();
+            return (objArr != null && objArr.length > 1) ? objArr[0] : null;
+          });
       // null-check
-      when(data.valueMeta.isNull(any()))
-          .thenAnswer(
-              invocation -> {
-                Object[] objArr = invocation.getArguments();
-                Object obj = objArr[0];
-                if (obj == null) {
-                  return true;
-                }
-                if (EMPTY_STRING_AND_NULL_ARE_DIFFERENT) {
-                  return false;
-                }
+      when(data.valueMeta.isNull(any())).thenAnswer(invocation -> {
+        Object[] objArr = invocation.getArguments();
+        Object obj = objArr[0];
+        if (obj == null) {
+          return true;
+        }
+        if (EMPTY_STRING_AND_NULL_ARE_DIFFERENT) {
+          return false;
+        }
 
-                // If it's a string and the string is empty, it's a null value as well
-                //
-                if (obj instanceof String) {
-                  if (((String) obj).length() == 0) {
-                    return true;
-                  }
-                }
-                return false;
-              });
+        // If it's a string and the string is empty, it's a null value as well
+        //
+        if (obj instanceof String) {
+          if (((String) obj).length() == 0) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
 
     /**

@@ -23,12 +23,8 @@ import org.apache.hop.pipeline.config.IPipelineEngineRunConfiguration;
 import org.apache.hop.pipeline.engine.IPipelineEngine;
 import org.apache.hop.pipeline.engine.PipelineEnginePlugin;
 
-@PipelineEnginePlugin(
-    id = "BeamFlinkPipelineEngine",
-    name = "Beam Flink pipeline engine",
-    description = "This is a Flink pipeline engine provided by the Apache Beam community")
-public class BeamFlinkPipelineEngine extends BeamPipelineEngine
-    implements IPipelineEngine<PipelineMeta> {
+@PipelineEnginePlugin(id = "BeamFlinkPipelineEngine", name = "Beam Flink pipeline engine", description = "This is a Flink pipeline engine provided by the Apache Beam community")
+public class BeamFlinkPipelineEngine extends BeamPipelineEngine implements IPipelineEngine<PipelineMeta> {
   @Override
   public IPipelineEngineRunConfiguration createDefaultPipelineEngineRunConfiguration() {
     BeamFlinkPipelineRunConfiguration runConfiguration = new BeamFlinkPipelineRunConfiguration();
@@ -37,12 +33,9 @@ public class BeamFlinkPipelineEngine extends BeamPipelineEngine
   }
 
   @Override
-  public void validatePipelineRunConfigurationClass(
-      IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
+  public void validatePipelineRunConfigurationClass(IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
     if (!(engineRunConfiguration instanceof BeamFlinkPipelineRunConfiguration)) {
-      throw new HopException(
-          "A Beam Direct pipeline engine needs a direct run configuration, not of class "
-              + engineRunConfiguration.getClass().getName());
+      throw new HopException("A Beam Direct pipeline engine needs a direct run configuration, not of class " + engineRunConfiguration.getClass().getName());
     }
   }
 }

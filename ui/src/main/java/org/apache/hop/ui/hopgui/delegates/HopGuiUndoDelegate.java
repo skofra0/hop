@@ -52,14 +52,12 @@ public class HopGuiUndoDelegate implements IAddUndoPosition {
 
   // Change of transform, connection, hop or note...
   @Override
-  public void addUndoPosition(
-      IUndo undoInterface, Object[] obj, int[] pos, Point[] prev, Point[] curr) {
+  public void addUndoPosition(IUndo undoInterface, Object[] obj, int[] pos, Point[] prev, Point[] curr) {
     addUndoPosition(undoInterface, obj, pos, prev, curr, false);
   }
 
   // Change of transform, connection, hop or note...
-  public void addUndoPosition(
-      IUndo undoInterface, Object[] obj, int[] pos, Point[] prev, Point[] curr, boolean nextAlso) {
+  public void addUndoPosition(IUndo undoInterface, Object[] obj, int[] pos, Point[] prev, Point[] curr, boolean nextAlso) {
     // It's better to store the indexes of the objects, not the objects
     // itself!
     undoInterface.addUndo(obj, null, pos, prev, curr, WorkflowMeta.TYPE_UNDO_POSITION, false);
@@ -72,8 +70,7 @@ public class HopGuiUndoDelegate implements IAddUndoPosition {
   }
 
   // Change of transform, connection, hop or note...
-  public void addUndoChange(
-      IUndo undoInterface, Object[] from, Object[] to, int[] pos, boolean nextAlso) {
+  public void addUndoChange(IUndo undoInterface, Object[] from, Object[] to, int[] pos, boolean nextAlso) {
     undoInterface.addUndo(from, to, pos, null, null, WorkflowMeta.TYPE_UNDO_CHANGE, nextAlso);
     hopGui.setUndoMenu(undoInterface);
   }

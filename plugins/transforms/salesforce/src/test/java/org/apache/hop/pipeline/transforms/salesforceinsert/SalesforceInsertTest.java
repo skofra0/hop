@@ -53,10 +53,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SalesforceInsertTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
-  private static final String ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT =
-      "Account:ExtID_AccountId__c/Account";
+  private static final String ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT = "Account:ExtID_AccountId__c/Account";
   private static final String ACCOUNT_ID = "AccountId";
   private TransformMockHelper<SalesforceInsertMeta, SalesforceInsertData> smh;
 
@@ -64,18 +64,14 @@ public class SalesforceInsertTest {
   public static void setUpBeforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
   @Before
   public void setUp() throws Exception {
-    smh =
-        new TransformMockHelper<>(
-            "SalesforceInsert", SalesforceInsertMeta.class, SalesforceInsertData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("SalesforceInsert", SalesforceInsertMeta.class, SalesforceInsertData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
   }
 
   @After
@@ -85,12 +81,10 @@ public class SalesforceInsertTest {
 
   @Test
   public void testWriteToSalesForceForNullExtIdField_WithExtIdNO() throws Exception {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceInsertData data = generateSalesforceInsertData();
 
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -106,12 +100,9 @@ public class SalesforceInsertTest {
 
   @Test
   public void testWriteToSalesForceForNullExtIdField_WithExtIdYES() throws Exception {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(
-            new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
     SalesforceInsertData data = generateSalesforceInsertData();
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -127,11 +118,9 @@ public class SalesforceInsertTest {
 
   @Test
   public void testWriteToSalesForceForNotNullExtIdField_WithExtIdNO() throws Exception {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceInsertData data = generateSalesforceInsertData();
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -142,24 +131,17 @@ public class SalesforceInsertTest {
     sfInputTransform.writeToSalesForce(new Object[] {"001i000001c5Nv9AAE"});
     assertEquals(0, data.sfBuffer[0].getFieldsToNull().length);
     assertEquals(1, SalesforceConnection.getChildren(data.sfBuffer[0]).length);
-    assertEquals(
-        Constants.PARTNER_SOBJECT_NS,
-        SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getNamespaceURI());
-    assertEquals(
-        ACCOUNT_ID, SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getLocalPart());
-    assertEquals(
-        "001i000001c5Nv9AAE", SalesforceConnection.getChildren(data.sfBuffer[0])[0].getValue());
+    assertEquals(Constants.PARTNER_SOBJECT_NS, SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getNamespaceURI());
+    assertEquals(ACCOUNT_ID, SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getLocalPart());
+    assertEquals("001i000001c5Nv9AAE", SalesforceConnection.getChildren(data.sfBuffer[0])[0].getValue());
     assertFalse(SalesforceConnection.getChildren(data.sfBuffer[0])[0].hasChildren());
   }
 
   @Test
   public void testWriteToSalesForceForNotNullExtIdField_WithExtIdYES() throws Exception {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(
-            new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
     SalesforceInsertData data = generateSalesforceInsertData();
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -170,22 +152,17 @@ public class SalesforceInsertTest {
     sfInputTransform.writeToSalesForce(new Object[] {"tkas88"});
     assertEquals(0, data.sfBuffer[0].getFieldsToNull().length);
     assertEquals(1, SalesforceConnection.getChildren(data.sfBuffer[0]).length);
-    assertEquals(
-        Constants.PARTNER_SOBJECT_NS,
-        SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getNamespaceURI());
-    assertEquals(
-        "Account", SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getLocalPart());
+    assertEquals(Constants.PARTNER_SOBJECT_NS, SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getNamespaceURI());
+    assertEquals("Account", SalesforceConnection.getChildren(data.sfBuffer[0])[0].getName().getLocalPart());
     assertNull(SalesforceConnection.getChildren(data.sfBuffer[0])[0].getValue());
     assertFalse(SalesforceConnection.getChildren(data.sfBuffer[0])[0].hasChildren());
   }
 
   @Test
   public void testLogMessageInDetailedModeFotWriteToSalesForce() throws HopException {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceInsertData data = generateSalesforceInsertData();
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
     when(sfInputTransform.getLogChannel().isDetailed()).thenReturn(true);
 
@@ -196,8 +173,7 @@ public class SalesforceInsertTest {
 
     verify(sfInputTransform.getLogChannel(), never()).logDetailed(anyString());
     sfInputTransform.writeToSalesForce(new Object[] {"001i000001c5Nv9AAE"});
-    verify(sfInputTransform.getLogChannel())
-        .logDetailed("Called writeToSalesForce with 0 out of 2");
+    verify(sfInputTransform.getLogChannel()).logDetailed("Called writeToSalesForce with 0 out of 2");
   }
 
   private SalesforceInsertData generateSalesforceInsertData() {
@@ -209,8 +185,7 @@ public class SalesforceInsertTest {
     return data;
   }
 
-  private SalesforceInsertMeta generateSalesforceInsertMeta(
-      String[] updateLookup, Boolean[] useExternalId) {
+  private SalesforceInsertMeta generateSalesforceInsertMeta(String[] updateLookup, Boolean[] useExternalId) {
     SalesforceInsertMeta meta = smh.iTransformMeta;
     doReturn(2).when(meta).getBatchSizeInt();
     doReturn(updateLookup).when(meta).getUpdateLookup();
@@ -225,11 +200,9 @@ public class SalesforceInsertTest {
 
   @Test
   public void testWriteToSalesForceHopIntegerValue() throws Exception {
-    SalesforceInsertMeta meta =
-        generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceInsertMeta meta = generateSalesforceInsertMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceInsertData data = generateSalesforceInsertData();
-    SalesforceInsert sfInputTransform =
-        new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceInsert sfInputTransform = new SalesforceInsert(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();

@@ -35,14 +35,10 @@ import java.util.List;
 @ExtensionPoint(
     id = "HopGuiWorkflowHwfFilenamePastedExtensionPoint",
     extensionPointId = "HopGuiWorkflowClipboardFilePaste",
-    description =
-        "Handle pasting of a workflow filename on a workflow.  This code turns it into a workflow action.")
-public class HopGuiWorkflowHwfFilenamePastedExtensionPoint
-    implements IExtensionPoint<HopGuiWorkflowClipboardExtension> {
+    description = "Handle pasting of a workflow filename on a workflow.  This code turns it into a workflow action.")
+public class HopGuiWorkflowHwfFilenamePastedExtensionPoint implements IExtensionPoint<HopGuiWorkflowClipboardExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiWorkflowClipboardExtension wce)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiWorkflowClipboardExtension wce) throws HopException {
 
     HopGuiWorkflowClipboardDelegate clipboardDelegate = wce.workflowGraph.workflowClipboardDelegate;
     WorkflowMeta workflowMeta = wce.workflowMeta;
@@ -62,11 +58,7 @@ public class HopGuiWorkflowHwfFilenamePastedExtensionPoint
 
       // Pick the first run configuration available...
       //
-      List<String> names =
-          hopGui
-              .getMetadataProvider()
-              .getSerializer(WorkflowRunConfiguration.class)
-              .listObjectNames();
+      List<String> names = hopGui.getMetadataProvider().getSerializer(WorkflowRunConfiguration.class).listObjectNames();
       if (!names.isEmpty()) {
         actionWorkflow.setRunConfiguration(names.get(0));
       }
@@ -76,10 +68,7 @@ public class HopGuiWorkflowHwfFilenamePastedExtensionPoint
 
       workflowMeta.addAction(actionMeta);
 
-      hopGui.undoDelegate.addUndoNew(
-          workflowMeta,
-          new ActionMeta[] {actionMeta},
-          new int[] {workflowMeta.indexOfAction(actionMeta)});
+      hopGui.undoDelegate.addUndoNew(workflowMeta, new ActionMeta[] {actionMeta}, new int[] {workflowMeta.indexOfAction(actionMeta)});
 
       // Shift the location for the next action
       //

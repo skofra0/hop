@@ -37,10 +37,8 @@ public class RegexEvalUnitTest {
 
   @Before
   public void setup() throws Exception {
-    transformMockHelper =
-        new TransformMockHelper<>("REGEX EVAL TEST", RegexEvalMeta.class, RegexEvalData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("REGEX EVAL TEST", RegexEvalMeta.class, RegexEvalData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -50,8 +48,7 @@ public class RegexEvalUnitTest {
   }
 
   @Test
-  public void testOutputIsMuchBiggerThanInputDoesntThrowArrayIndexOutOfBounds()
-      throws HopException {
+  public void testOutputIsMuchBiggerThanInputDoesntThrowArrayIndexOutOfBounds() throws HopException {
     RegexEval regexEval =
         new RegexEval(
             transformMockHelper.transformMeta,
@@ -64,8 +61,7 @@ public class RegexEvalUnitTest {
     String[] outFields = new String[] {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
     when(transformMockHelper.iTransformMeta.getFieldName()).thenReturn(outFields);
     when(transformMockHelper.iTransformMeta.getMatcher()).thenReturn("\\.+");
-    transformMockHelper.iTransformData.pattern =
-        Pattern.compile("(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)");
+    transformMockHelper.iTransformData.pattern = Pattern.compile("(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)");
     Object[] inputRow = new Object[] {};
     IRowSet inputRowSet = transformMockHelper.getMockInputRowSet(inputRow);
     IRowMeta mockInputRowMeta = mock(IRowMeta.class);

@@ -44,10 +44,7 @@ public class ServerConnectionManager {
     if (needToInitializeSSLContext()) {
       try {
         SSLContext context = SSLContext.getInstance(SSL);
-        context.init(
-            new KeyManager[0],
-            new X509TrustManager[] {getDefaultTrustManager()},
-            new SecureRandom());
+        context.init(new KeyManager[0], new X509TrustManager[] {getDefaultTrustManager()}, new SecureRandom());
         SSLContext.setDefault(context);
       } catch (Exception ignored) {
       }
@@ -79,12 +76,10 @@ public class ServerConnectionManager {
   private static X509TrustManager getDefaultTrustManager() {
     return new X509TrustManager() {
       @Override
-      public void checkClientTrusted(X509Certificate[] certs, String param)
-          throws CertificateException {}
+      public void checkClientTrusted(X509Certificate[] certs, String param) throws CertificateException {}
 
       @Override
-      public void checkServerTrusted(X509Certificate[] certs, String param)
-          throws CertificateException {
+      public void checkServerTrusted(X509Certificate[] certs, String param) throws CertificateException {
         for (X509Certificate cert : certs) {
           cert.checkValidity(); // validate date
         }

@@ -45,15 +45,15 @@ import org.eclipse.swt.widgets.Shell;
  * open()
  * </pre>
  *
- * <p>method on the dialog. SWT is the native windowing environment of HopGui, and it is typically
+ * <p>
+ * method on the dialog. SWT is the native windowing environment of HopGui, and it is typically
  * the framework used for implementing action dialogs.
  */
 public abstract class ActionDialog extends Dialog {
   private static final Class<?> PKG = ITransform.class; // For Translator
 
   /** The loggingObject for the dialog */
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Action dialog", LoggingObjectType.ACTION_DIALOG, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Action dialog", LoggingObjectType.ACTION_DIALOG, null);
 
   /** The Metadata provider */
   protected IHopMetadataProvider metadataProvider;
@@ -111,8 +111,7 @@ public abstract class ActionDialog extends Dialog {
    * @param
    * @return the combo box UI component
    */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
 
     final MetaSelectionLine<DatabaseMeta> wConnection =
         new MetaSelectionLine<>(
@@ -137,8 +136,7 @@ public abstract class ActionDialog extends Dialog {
    * @param lsMod
    * @return the combo box UI component
    */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, String connection, ModifyListener lsMod) {
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, String connection, ModifyListener lsMod) {
 
     DatabaseMeta databaseMeta = getWorkflowMeta().findDatabase(connection, variables);
     // If we are unable to find the database metadata, display only a warning message so that the
@@ -146,11 +144,7 @@ public abstract class ActionDialog extends Dialog {
     // can proceed to correct the issue in the affected pipeline
     if (databaseMeta == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG,
-              "BaseTransformDialog.InvalidConnection.DialogMessage",
-              variables.resolve(connection)));
+      mb.setMessage(BaseMessages.getString(PKG, "BaseTransformDialog.InvalidConnection.DialogMessage", variables.resolve(connection)));
       mb.setText(BaseMessages.getString(PKG, "BaseTransformDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }

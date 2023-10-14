@@ -46,8 +46,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionWaitForFileDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionWaitForFile.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionWaitForFile.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionWaitForFile.Filetype.All")};
 
   private Text wName;
 
@@ -67,8 +66,7 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
 
   private boolean changed;
 
-  public ActionWaitForFileDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionWaitForFileDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionWaitForFile) action;
     if (this.action.getName() == null) {
@@ -145,14 +143,9 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
 
     // Maximum timeout
     Label wlMaximumTimeout = new Label(shell, SWT.RIGHT);
@@ -165,8 +158,7 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wlMaximumTimeout.setLayoutData(fdlMaximumTimeout);
     wMaximumTimeout = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wMaximumTimeout);
-    wMaximumTimeout.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.MaximumTimeout.Tooltip"));
+    wMaximumTimeout.setToolTipText(BaseMessages.getString(PKG, "ActionWaitForFile.MaximumTimeout.Tooltip"));
     wMaximumTimeout.addModifyListener(lsMod);
     FormData fdMaximumTimeout = new FormData();
     fdMaximumTimeout.left = new FormAttachment(middle, 0);
@@ -185,8 +177,7 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wlCheckCycleTime.setLayoutData(fdlCheckCycleTime);
     wCheckCycleTime = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wCheckCycleTime);
-    wCheckCycleTime.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.CheckCycleTime.Tooltip"));
+    wCheckCycleTime.setToolTipText(BaseMessages.getString(PKG, "ActionWaitForFile.CheckCycleTime.Tooltip"));
     wCheckCycleTime.addModifyListener(lsMod);
     FormData fdCheckCycleTime = new FormData();
     fdCheckCycleTime.left = new FormAttachment(middle, 0);
@@ -196,8 +187,7 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
 
     // Success on timeout
     Label wlSuccessOnTimeout = new Label(shell, SWT.RIGHT);
-    wlSuccessOnTimeout.setText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.SuccessOnTimeout.Label"));
+    wlSuccessOnTimeout.setText(BaseMessages.getString(PKG, "ActionWaitForFile.SuccessOnTimeout.Label"));
     PropsUi.setLook(wlSuccessOnTimeout);
     FormData fdlSuccessOnTimeout = new FormData();
     fdlSuccessOnTimeout.left = new FormAttachment(0, 0);
@@ -206,20 +196,18 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wlSuccessOnTimeout.setLayoutData(fdlSuccessOnTimeout);
     wSuccessOnTimeout = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wSuccessOnTimeout);
-    wSuccessOnTimeout.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.SuccessOnTimeout.Tooltip"));
+    wSuccessOnTimeout.setToolTipText(BaseMessages.getString(PKG, "ActionWaitForFile.SuccessOnTimeout.Tooltip"));
     FormData fdSuccessOnTimeout = new FormData();
     fdSuccessOnTimeout.left = new FormAttachment(middle, 0);
     fdSuccessOnTimeout.top = new FormAttachment(wlSuccessOnTimeout, 0, SWT.CENTER);
     fdSuccessOnTimeout.right = new FormAttachment(100, 0);
     wSuccessOnTimeout.setLayoutData(fdSuccessOnTimeout);
-    wSuccessOnTimeout.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wSuccessOnTimeout.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Check file size
     Label wlFileSizeCheck = new Label(shell, SWT.RIGHT);
@@ -232,25 +220,22 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wlFileSizeCheck.setLayoutData(fdlFileSizeCheck);
     wFileSizeCheck = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wFileSizeCheck);
-    wFileSizeCheck.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.FileSizeCheck.Tooltip"));
+    wFileSizeCheck.setToolTipText(BaseMessages.getString(PKG, "ActionWaitForFile.FileSizeCheck.Tooltip"));
     FormData fdFileSizeCheck = new FormData();
     fdFileSizeCheck.left = new FormAttachment(middle, 0);
     fdFileSizeCheck.top = new FormAttachment(wlFileSizeCheck, 0, SWT.CENTER);
     fdFileSizeCheck.right = new FormAttachment(100, 0);
     wFileSizeCheck.setLayoutData(fdFileSizeCheck);
-    wFileSizeCheck.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wFileSizeCheck.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Add filename to result filenames
     Label wlAddFilenameResult = new Label(shell, SWT.RIGHT);
-    wlAddFilenameResult.setText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.AddFilenameResult.Label"));
+    wlAddFilenameResult.setText(BaseMessages.getString(PKG, "ActionWaitForFile.AddFilenameResult.Label"));
     PropsUi.setLook(wlAddFilenameResult);
     FormData fdlAddFilenameResult = new FormData();
     fdlAddFilenameResult.left = new FormAttachment(0, 0);
@@ -259,20 +244,18 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     wlAddFilenameResult.setLayoutData(fdlAddFilenameResult);
     wAddFilenameResult = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddFilenameResult);
-    wAddFilenameResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWaitForFile.AddFilenameResult.Tooltip"));
+    wAddFilenameResult.setToolTipText(BaseMessages.getString(PKG, "ActionWaitForFile.AddFilenameResult.Tooltip"));
     FormData fdAddFilenameResult = new FormData();
     fdAddFilenameResult.left = new FormAttachment(middle, 0);
     fdAddFilenameResult.top = new FormAttachment(wlAddFilenameResult, 0, SWT.CENTER);
     fdAddFilenameResult.right = new FormAttachment(100, 0);
     wAddFilenameResult.setLayoutData(fdAddFilenameResult);
-    wAddFilenameResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddFilenameResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Buttons go at the very bottom
     //
@@ -282,8 +265,7 @@ public class ActionWaitForFileDialog extends ActionDialog implements IActionDial
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, 2 * margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, 2 * margin, null);
 
     getData();
 

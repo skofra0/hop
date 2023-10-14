@@ -91,12 +91,7 @@ public class ProjectDialog extends Dialog {
   private final String originalName;
   private final Boolean editMode;
 
-  public ProjectDialog(
-      Shell parent,
-      Project project,
-      ProjectConfig projectConfig,
-      IVariables variables,
-      Boolean editMode) {
+  public ProjectDialog(Shell parent, Project project, ProjectConfig projectConfig, IVariables variables, Boolean editMode) {
     super(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
     this.project = project;
@@ -284,8 +279,7 @@ public class ProjectDialog extends Dialog {
 
     Label wlMetadataBaseFolder = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlMetadataBaseFolder);
-    wlMetadataBaseFolder.setText(
-        BaseMessages.getString(PKG, "ProjectDialog.Label.MetadataBaseFolder"));
+    wlMetadataBaseFolder.setText(BaseMessages.getString(PKG, "ProjectDialog.Label.MetadataBaseFolder"));
     FormData fdlMetadataBaseFolder = new FormData();
     fdlMetadataBaseFolder.left = new FormAttachment(0, 0);
     fdlMetadataBaseFolder.right = new FormAttachment(middle, 0);
@@ -303,8 +297,7 @@ public class ProjectDialog extends Dialog {
 
     Label wlUnitTestsBasePath = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlUnitTestsBasePath);
-    wlUnitTestsBasePath.setText(
-        BaseMessages.getString(PKG, "ProjectDialog.Label.UnitTestBaseFolder"));
+    wlUnitTestsBasePath.setText(BaseMessages.getString(PKG, "ProjectDialog.Label.UnitTestBaseFolder"));
     FormData fdlUnitTestsBasePath = new FormData();
     fdlUnitTestsBasePath.left = new FormAttachment(0, 0);
     fdlUnitTestsBasePath.right = new FormAttachment(middle, 0);
@@ -340,8 +333,7 @@ public class ProjectDialog extends Dialog {
 
     Label wlEnforceHomeExecution = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlEnforceHomeExecution);
-    wlEnforceHomeExecution.setText(
-        BaseMessages.getString(PKG, "ProjectDialog.Label.EnforceExecutionInHome"));
+    wlEnforceHomeExecution.setText(BaseMessages.getString(PKG, "ProjectDialog.Label.EnforceExecutionInHome"));
     FormData fdlEnforceHomeExecution = new FormData();
     fdlEnforceHomeExecution.left = new FormAttachment(0, 0);
     fdlEnforceHomeExecution.right = new FormAttachment(middle, 0);
@@ -358,8 +350,7 @@ public class ProjectDialog extends Dialog {
 
     Label wlVariables = new Label(shell, SWT.LEFT);
     PropsUi.setLook(wlVariables);
-    wlVariables.setText(
-        BaseMessages.getString(PKG, "ProjectDialog.Group.Label.ProjectVariablesToSet"));
+    wlVariables.setText(BaseMessages.getString(PKG, "ProjectDialog.Group.Label.ProjectVariablesToSet"));
     FormData fdlVariables = new FormData();
     fdlVariables.left = new FormAttachment(0, 0);
     fdlVariables.right = new FormAttachment(100, 0);
@@ -368,34 +359,13 @@ public class ProjectDialog extends Dialog {
 
     ColumnInfo[] columnInfo =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableValue"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableDescription"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableName"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableValue"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ProjectDialog.DetailTable.Label.VariableDescription"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columnInfo[0].setUsingVariables(true);
     columnInfo[1].setUsingVariables(true);
 
-    wVariables =
-        new TableView(
-            new Variables(),
-            shell,
-            SWT.BORDER,
-            columnInfo,
-            project.getDescribedVariables().size(),
-            null,
-            props);
+    wVariables = new TableView(new Variables(), shell, SWT.BORDER, columnInfo, project.getDescribedVariables().size(), null, props);
     PropsUi.setLook(wVariables);
     FormData fdVariables = new FormData();
     fdVariables.left = new FormAttachment(0, 0);
@@ -438,33 +408,17 @@ public class ProjectDialog extends Dialog {
     // Set the root of the possible path to config file to project's root
     String rootPath = wHome.getText();
 
-    File configFile =
-        new File(
-            wHome.getText()
-                + File.separator
-                + "config"
-                + File.separator
-                + ProjectsConfig.DEFAULT_PROJECT_CONFIG_FILENAME);
+    File configFile = new File(wHome.getText() + File.separator + "config" + File.separator + ProjectsConfig.DEFAULT_PROJECT_CONFIG_FILENAME);
     wConfigFile.setText(rootPath);
 
     if (configFile.exists()) {
       configFileStr =
           BaseDialog.presentFileDialog(
-              shell,
-              wConfigFile,
-              variables,
-              new String[] {"*.json", "*.*"},
-              new String[] {
-                BaseMessages.getString(PKG, "ProjectDialog.FileList.PrjFiles.Text"),
-                BaseMessages.getString(PKG, "ProjectDialog.FileList.AllFiles.Text")
-              },
-              true);
+              shell, wConfigFile, variables, new String[] {"*.json", "*.*"},
+              new String[] {BaseMessages.getString(PKG, "ProjectDialog.FileList.PrjFiles.Text"), BaseMessages.getString(PKG, "ProjectDialog.FileList.AllFiles.Text")}, true);
     } else {
       String configDir = BaseDialog.presentDirectoryDialog(shell, wConfigFile, variables);
-      configFileStr =
-          (configDir != null ? configDir : "")
-              + File.separator
-              + ProjectsConfig.DEFAULT_PROJECT_CONFIG_FILENAME;
+      configFileStr = (configDir != null ? configDir : "") + File.separator + ProjectsConfig.DEFAULT_PROJECT_CONFIG_FILENAME;
     }
 
     // Set the name to the base folder if the name is empty
@@ -474,14 +428,12 @@ public class ProjectDialog extends Dialog {
       if (!configFileStr.startsWith(rootPath)) {
         MessageBox box = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
         box.setText(BaseMessages.getString(PKG, "ProjectGuiPlugin.WrongConfigPath.Dialog.Header"));
-        box.setMessage(
-            BaseMessages.getString(PKG, "ProjectGuiPlugin.WrongConfigPath.Dialog.Message"));
+        box.setMessage(BaseMessages.getString(PKG, "ProjectGuiPlugin.WrongConfigPath.Dialog.Message"));
         box.open();
       } else {
         // Calculate relative path to existing config file
         String tmpConfigFile = StringUtils.difference(rootPath + File.separator, configFileStr);
-        relativeConfigFile =
-            (tmpConfigFile.startsWith("/") ? tmpConfigFile.substring(1) : tmpConfigFile);
+        relativeConfigFile = (tmpConfigFile.startsWith("/") ? tmpConfigFile.substring(1) : tmpConfigFile);
         relativeConfigFile.replace("\\", "/");
       }
       wConfigFile.setText(Const.NVL(relativeConfigFile, ""));
@@ -515,11 +467,9 @@ public class ProjectDialog extends Dialog {
 
       // If the home folder doesn't exist and project is new aks if want it created
       if (!HopVfs.getFileObject(variables.resolve(homeFolder)).exists() && !this.editMode) {
-        MessageBox box =
-            new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+        MessageBox box = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
         box.setText(BaseMessages.getString(PKG, "ProjectDialog.CreateHome.Dialog.Header"));
-        box.setMessage(
-            BaseMessages.getString(PKG, "ProjectDialog.CreateHome.Dialog.Message", homeFolder));
+        box.setMessage(BaseMessages.getString(PKG, "ProjectDialog.CreateHome.Dialog.Message", homeFolder));
         int anwser = box.open();
         if ((anwser & SWT.YES) != 0) {
           HopVfs.getFileObject(homeFolder).createFolder();
@@ -551,11 +501,8 @@ public class ProjectDialog extends Dialog {
         throw new HopException("Please specify project's configuration file relative path!");
       }
 
-      if (wParentProject.getText() != null
-          && wParentProject.getText().length() > 0
-          && projectName.equals(wParentProject.getText())) {
-        throw new HopException(
-            "Project '" + projectName + "' cannot be set as a parent project of itself");
+      if (wParentProject.getText() != null && wParentProject.getText().length() > 0 && projectName.equals(wParentProject.getText())) {
+        throw new HopException("Project '" + projectName + "' cannot be set as a parent project of itself");
       }
 
       ProjectsConfig prjsCfg = ProjectsConfigSingleton.getConfig();
@@ -563,12 +510,10 @@ public class ProjectDialog extends Dialog {
       String prevProjectName = projectConfig.getProjectName();
 
       // Check if project name is unique otherwise force the user to change it!
-      if (StringUtils.isEmpty(originalName)
-          || (StringUtils.isNotEmpty(originalName) && !projectName.equals(originalName))) {
+      if (StringUtils.isEmpty(originalName) || (StringUtils.isNotEmpty(originalName) && !projectName.equals(originalName))) {
         for (String prj : prjs) {
           if (projectName.equals(prj)) {
-            throw new HopException(
-                "Project '" + projectName + "' already exists. Project name must be unique!");
+            throw new HopException("Project '" + projectName + "' already exists. Project name must be unique!");
           }
         }
       }
@@ -578,21 +523,13 @@ public class ProjectDialog extends Dialog {
 
         boolean parentPrjExists = ProjectsUtil.projectExists(wParentProject.getText());
         if (!parentPrjExists)
-          throw new HopException(
-              "Project '"
-                  + wParentProject.getText()
-                  + "' cannot be set as parent project because it does not exists!");
+          throw new HopException("Project '" + wParentProject.getText() + "' cannot be set as parent project because it does not exists!");
 
         ProjectConfig parentPrjCfg = prjsCfg.findProjectConfig(wParentProject.getText());
         Project parentPrj = parentPrjCfg.loadProject(hopGui.getVariables());
-        if (parentPrj.getParentProjectName() != null
-            && parentPrj.getParentProjectName().equals(projectName))
+        if (parentPrj.getParentProjectName() != null && parentPrj.getParentProjectName().equals(projectName))
           throw new HopException(
-              "Project '"
-                  + projectName
-                  + "' cannot reference '"
-                  + wParentProject.getText()
-                  + "' as parent project because we are going to create a circular reference!");
+              "Project '" + projectName + "' cannot reference '" + wParentProject.getText() + "' as parent project because we are going to create a circular reference!");
       }
 
       if (!prevProjectName.equals(projectName)) {
@@ -600,12 +537,7 @@ public class ProjectDialog extends Dialog {
 
         if (!refs.isEmpty()) {
           throw new HopException(
-              "Project '"
-                  + prevProjectName
-                  + "' cannot cannot be renamed in '"
-                  + projectName
-                  + "' because is referenced in following projects: "
-                  + String.join(",", refs));
+              "Project '" + prevProjectName + "' cannot cannot be renamed in '" + projectName + "' because is referenced in following projects: " + String.join(",", refs));
         }
       }
 
@@ -696,14 +628,13 @@ public class ProjectDialog extends Dialog {
               item.getText(1), // name
               item.getText(2), // value
               item.getText(3) // description
-              );
+          );
       project.getDescribedVariables().add(variable);
     }
 
     // Update the project to the right absolute configuration file
     //
-    if (StringUtils.isNotEmpty(projectConfig.getProjectHome())
-        && StringUtils.isNotEmpty(projectConfig.configFilename)) {
+    if (StringUtils.isNotEmpty(projectConfig.getProjectHome()) && StringUtils.isNotEmpty(projectConfig.configFilename)) {
       project.setConfigFilename(projectConfig.getActualProjectConfigFilename(variables));
     }
 

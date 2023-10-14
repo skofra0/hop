@@ -38,11 +38,7 @@ public class HopGuiPipelineHopContext extends BaseGuiContextHandler implements I
   private Point click;
   private GuiActionLambdaBuilder<HopGuiPipelineHopContext> lambdaBuilder;
 
-  public HopGuiPipelineHopContext(
-      PipelineMeta pipelineMeta,
-      PipelineHopMeta hopMeta,
-      HopGuiPipelineGraph pipelineGraph,
-      Point click) {
+  public HopGuiPipelineHopContext(PipelineMeta pipelineMeta, PipelineHopMeta hopMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
     this.pipelineMeta = pipelineMeta;
     this.hopMeta = hopMeta;
     this.pipelineGraph = pipelineGraph;

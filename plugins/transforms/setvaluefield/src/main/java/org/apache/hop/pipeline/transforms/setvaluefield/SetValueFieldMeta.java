@@ -42,13 +42,10 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/setvaluefield.html")
 public class SetValueFieldMeta extends BaseTransformMeta<SetValueField, SetValueFieldData> {
   private static final Class<?> PKG = SetValueFieldMeta.class; // For Translator
-  
-  @HopMetadataProperty(
-      key = "field",
-      groupKey = "fields",
-      injectionGroupDescription = "SetValueField.Injection.SetFields")
+
+  @HopMetadataProperty(key = "field", groupKey = "fields", injectionGroupDescription = "SetValueField.Injection.SetFields")
   private List<SetField> fields = new ArrayList<>();
-    
+
   public SetValueFieldMeta() {
     super();
   }
@@ -59,7 +56,7 @@ public class SetValueFieldMeta extends BaseTransformMeta<SetValueField, SetValue
       fields.add(new SetField(field));
     }
   }
-  
+
   public List<SetField> getFields() {
     return fields;
   }
@@ -91,59 +88,31 @@ public class SetValueFieldMeta extends BaseTransformMeta<SetValueField, SetValue
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.NoReceivingFieldsError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.NoReceivingFieldsError"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "SetValueFieldMeta.CheckResult.TransformReceivingFieldsOK",
-                  prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""), transformMeta);
     }
     remarks.add(cr);
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SetValueFieldMeta.CheckResult.TransformRecevingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.TransformRecevingInfoFromOtherTransforms"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.NoInputReceivedError"), transformMeta);
     }
     remarks.add(cr);
 
-    if (fields==null || fields.isEmpty()) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.FieldsSelectionEmpty"),
-              transformMeta);
+    if (fields == null || fields.isEmpty()) {
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.FieldsSelectionEmpty"), transformMeta);
       remarks.add(cr);
     } else {
       int i = 1;
-      for (SetField field:fields) {
+      for (SetField field : fields) {
         if (Utils.isEmpty(field.getReplaceByField())) {
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(
-                      PKG,
-                      "SetValueFieldMeta.CheckResult.ReplaceByValueMissing",
-                      field.getFieldName(),
-                      "" + i),
+                  BaseMessages.getString(PKG, "SetValueFieldMeta.CheckResult.ReplaceByValueMissing", field.getFieldName(), "" + i),
                   transformMeta);
           remarks.add(cr);
         }

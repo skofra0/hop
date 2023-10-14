@@ -72,20 +72,13 @@ public class HopServerSingleton {
         try {
           port = Integer.parseInt(hopServer.getPort());
         } catch (Exception e) {
-          log.logError(
-              BaseMessages.getString(
-                  PKG, "HopServer.Error.CanNotPartPort", hopServer.getHostname(), "" + port),
-              e);
+          log.logError(BaseMessages.getString(PKG, "HopServer.Error.CanNotPartPort", hopServer.getHostname(), "" + port), e);
         }
       }
     }
   }
 
-  public static void installPurgeTimer(
-      final HopServerConfig config,
-      final ILogChannel log,
-      final PipelineMap pipelineMap,
-      final WorkflowMap workflowMap) {
+  public static void installPurgeTimer(final HopServerConfig config, final ILogChannel log, final PipelineMap pipelineMap, final WorkflowMap workflowMap) {
 
     final int objectTimeout;
     String systemTimeout = EnvUtil.getSystemProperty(Const.HOP_SERVER_OBJECT_TIMEOUT_MINUTES, null);
@@ -110,99 +103,69 @@ public class HopServerSingleton {
       Timer timer = new Timer(true);
 
       final AtomicBoolean busy = new AtomicBoolean(false);
-      TimerTask timerTask =
-          new TimerTask() {
-            @Override
-            public void run() {
-              if (!busy.get()) {
-                busy.set(true);
+      TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+          if (!busy.get()) {
+            busy.set(true);
 
-                try {
-                  // Check all pipelines...
+            try {
+              // Check all pipelines...
+              //
+              for (HopServerObjectEntry entry : pipelineMap.getPipelineObjects()) {
+                IPipelineEngine<PipelineMeta> pipeline = pipelineMap.getPipeline(entry);
+
+                // See if the pipeline is finished or stopped.
+                //
+                if (pipeline != null && (pipeline.isFinished() || pipeline.isStopped()) && pipeline.getExecutionStartDate() != null) {
+                  // check the last log time
                   //
-                  for (HopServerObjectEntry entry : pipelineMap.getPipelineObjects()) {
-                    IPipelineEngine<PipelineMeta> pipeline = pipelineMap.getPipeline(entry);
-
-                    // See if the pipeline is finished or stopped.
+                  int diffInMinutes = (int) Math.floor((System.currentTimeMillis() - pipeline.getExecutionStartDate().getTime()) / 60000);
+                  if (diffInMinutes >= objectTimeout) {
+                    // Let's remove this from the pipeline map...
                     //
-                    if (pipeline != null
-                        && (pipeline.isFinished() || pipeline.isStopped())
-                        && pipeline.getExecutionStartDate() != null) {
-                      // check the last log time
-                      //
-                      int diffInMinutes =
-                          (int)
-                              Math.floor(
-                                  (System.currentTimeMillis()
-                                          - pipeline.getExecutionStartDate().getTime())
-                                      / 60000);
-                      if (diffInMinutes >= objectTimeout) {
-                        // Let's remove this from the pipeline map...
-                        //
-                        pipelineMap.removePipeline(entry);
+                    pipelineMap.removePipeline(entry);
 
-                        // Remove the logging information from the log registry & central log store
-                        //
-                        LoggingRegistry.getInstance()
-                            .removeIncludingChildren(pipeline.getLogChannelId());
-                        HopLogStore.discardLines(pipeline.getLogChannelId(), false);
-
-                        log.logBasic(
-                            "Cleaned up pipeline "
-                                + entry.getName()
-                                + " with id "
-                                + entry.getId()
-                                + " from "
-                                + pipeline.getExecutionStartDate()
-                                + ", diff="
-                                + diffInMinutes);
-                      }
-                    }
-                  }
-
-                  // And the workflows...
-                  //
-                  for (HopServerObjectEntry entry : workflowMap.getWorkflowObjects()) {
-                    IWorkflowEngine<WorkflowMeta> workflow = workflowMap.getWorkflow(entry);
-
-                    // See if the workflow is finished or stopped.
+                    // Remove the logging information from the log registry & central log store
                     //
-                    if (workflow != null
-                        && (workflow.isFinished() || workflow.isStopped())
-                        && workflow.getExecutionStartDate() != null) {
-                      // check the last log time
-                      //
-                      int diffInMinutes =
-                          (int)
-                              Math.floor(
-                                  (System.currentTimeMillis()
-                                          - workflow.getExecutionStartDate().getTime())
-                                      / 60000);
-                      if (diffInMinutes >= objectTimeout) {
-                        // Let's remove this from the workflow map...
-                        //
-                        String id = workflowMap.getWorkflow(entry).getLogChannelId();
-                        LoggingRegistry.getInstance().removeLogChannelFileWriterBuffer(id);
+                    LoggingRegistry.getInstance().removeIncludingChildren(pipeline.getLogChannelId());
+                    HopLogStore.discardLines(pipeline.getLogChannelId(), false);
 
-                        workflowMap.removeWorkflow(entry);
-
-                        log.logBasic(
-                            "Cleaned up workflow "
-                                + entry.getName()
-                                + " with id "
-                                + entry.getId()
-                                + " from "
-                                + workflow.getExecutionStartDate());
-                      }
-                    }
+                    log.logBasic("Cleaned up pipeline " + entry.getName() + " with id " + entry.getId() + " from " + pipeline.getExecutionStartDate() + ", diff=" + diffInMinutes);
                   }
-
-                } finally {
-                  busy.set(false);
                 }
               }
+
+              // And the workflows...
+              //
+              for (HopServerObjectEntry entry : workflowMap.getWorkflowObjects()) {
+                IWorkflowEngine<WorkflowMeta> workflow = workflowMap.getWorkflow(entry);
+
+                // See if the workflow is finished or stopped.
+                //
+                if (workflow != null && (workflow.isFinished() || workflow.isStopped()) && workflow.getExecutionStartDate() != null) {
+                  // check the last log time
+                  //
+                  int diffInMinutes = (int) Math.floor((System.currentTimeMillis() - workflow.getExecutionStartDate().getTime()) / 60000);
+                  if (diffInMinutes >= objectTimeout) {
+                    // Let's remove this from the workflow map...
+                    //
+                    String id = workflowMap.getWorkflow(entry).getLogChannelId();
+                    LoggingRegistry.getInstance().removeLogChannelFileWriterBuffer(id);
+
+                    workflowMap.removeWorkflow(entry);
+
+                    log.logBasic("Cleaned up workflow " + entry.getName() + " with id " + entry.getId() + " from " + workflow.getExecutionStartDate());
+                  }
+                }
+              }
+
+            } finally {
+              busy.set(false);
             }
-          };
+          }
+        }
+      };
 
       // Search for stale objects every 20 seconds:
       //
@@ -222,8 +185,7 @@ public class HopServerSingleton {
         hopServerSingleton = new HopServerSingleton(hopServerConfig);
 
         String serverObjectId = UUID.randomUUID().toString();
-        SimpleLoggingObject servletLoggingObject =
-            new SimpleLoggingObject("HopServerSingleton", LoggingObjectType.HOP_SERVER, null);
+        SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject("HopServerSingleton", LoggingObjectType.HOP_SERVER, null);
         servletLoggingObject.setContainerObjectId(serverObjectId);
         servletLoggingObject.setLogLevel(LogLevel.BASIC);
 

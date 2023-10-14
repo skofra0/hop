@@ -61,20 +61,11 @@ public class SwingUniversalImageSvg extends SwingUniversalImage {
 
   /** Draw SVG image to Graphics2D. */
   @Override
-  protected void render(
-      Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
+  protected void render(Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
     render(gc, svgGraphicsNode, svgGraphicsSize, centerX, centerY, width, height, angleRadians);
   }
 
-  public static void render(
-      Graphics2D gc,
-      GraphicsNode svgGraphicsNode,
-      Dimension2D svgGraphicsSize,
-      int centerX,
-      int centerY,
-      int width,
-      int height,
-      double angleRadians) {
+  public static void render(Graphics2D gc, GraphicsNode svgGraphicsNode, Dimension2D svgGraphicsSize, int centerX, int centerY, int width, int height, double angleRadians) {
     double scaleX = width / svgGraphicsSize.getWidth();
     double scaleY = height / svgGraphicsSize.getHeight();
 

@@ -46,21 +46,15 @@ import java.util.List;
 public class FileLockedMeta extends BaseTransformMeta<FileLocked, FileLockedData> {
   private static final Class<?> PKG = FileLockedMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "addresultfilenames",
-      injectionKeyDescription = "FileLockedDialog.AddResult.Label")
+  @HopMetadataProperty(key = "addresultfilenames", injectionKeyDescription = "FileLockedDialog.AddResult.Label")
   private boolean addresultfilenames;
 
   /** dynamic filename */
-  @HopMetadataProperty(
-      key = "filenamefield",
-      injectionKeyDescription = "FileLockedDialog.FileName.Label")
+  @HopMetadataProperty(key = "filenamefield", injectionKeyDescription = "FileLockedDialog.FileName.Label")
   private String filenamefield;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "resultfieldname",
-      injectionKeyDescription = "FileLockedDialog.ResultField.Label")
+  @HopMetadataProperty(key = "resultfieldname", injectionKeyDescription = "FileLockedDialog.ResultField.Label")
   private String resultfieldname;
 
   public FileLockedMeta() {
@@ -109,13 +103,7 @@ public class FileLockedMeta extends BaseTransformMeta<FileLocked, FileLockedData
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!Utils.isEmpty(resultfieldname)) {
       IValueMeta v = new ValueMetaBoolean(resultfieldname);
@@ -158,19 +146,10 @@ public class FileLockedMeta extends BaseTransformMeta<FileLocked, FileLockedData
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FileLockedMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FileLockedMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "FileLockedMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FileLockedMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

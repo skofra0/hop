@@ -83,8 +83,7 @@ public class BaseTransformMetaCloningTest {
     final String refTransformName = "referenced transform";
     final TransformMeta refTransformMeta = mock(TransformMeta.class);
     doReturn(refTransformName).when(refTransformMeta).getName();
-    IStream stream =
-        new Stream(IStream.StreamType.INFO, refTransformMeta, null, null, refTransformName);
+    IStream stream = new Stream(IStream.StreamType.INFO, refTransformMeta, null, null, refTransformName);
     ioMeta.addStream(stream);
     meta.parentTransformMeta = transformMeta;
 

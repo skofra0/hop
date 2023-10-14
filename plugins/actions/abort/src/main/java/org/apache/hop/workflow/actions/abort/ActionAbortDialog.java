@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-
 /** This dialog allows you to edit a Action Abort object. */
 public class ActionAbortDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionAbortDialog.class; // For Translator
@@ -57,8 +56,7 @@ public class ActionAbortDialog extends ActionDialog implements IActionDialog {
 
   private Button wAlwaysLogRows;
 
-  public ActionAbortDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionAbortDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionAbort) action;
     if (this.action.getName() == null) {
@@ -120,8 +118,7 @@ public class ActionAbortDialog extends ActionDialog implements IActionDialog {
 
     wMessageAbort = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wMessageAbort);
-    wMessageAbort.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAbortDialog.MessageAbort.Tooltip"));
+    wMessageAbort.setToolTipText(BaseMessages.getString(PKG, "ActionAbortDialog.MessageAbort.Tooltip"));
     wMessageAbort.addModifyListener(lsMod);
     FormData fdMessageAbort = new FormData();
     fdMessageAbort.left = new FormAttachment(middle, 0);
@@ -135,8 +132,7 @@ public class ActionAbortDialog extends ActionDialog implements IActionDialog {
     wAlwaysLogRows.setSelection(true);
     PropsUi.setLook(wAlwaysLogRows);
     wAlwaysLogRows.setText(BaseMessages.getString(PKG, "ActionAbortDialog.AlwaysLogRows.Label"));
-    wAlwaysLogRows.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAbortDialog.AlwaysLogRows.Tooltip"));
+    wAlwaysLogRows.setToolTipText(BaseMessages.getString(PKG, "ActionAbortDialog.AlwaysLogRows.Tooltip"));
     wAlwaysLogRows.addSelectionListener(slMod);
     FormData fdAlwaysLogRows = new FormData();
     fdAlwaysLogRows.left = new FormAttachment(middle, 0);
@@ -150,8 +146,7 @@ public class ActionAbortDialog extends ActionDialog implements IActionDialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, (Event e) -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, 0, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, 0, null);
 
     getData();
 

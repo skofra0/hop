@@ -38,28 +38,25 @@ class Cql3SSTableWriter extends AbstractSSTableWriter {
     writer = getCQLSSTableWriter();
   }
 
-  /*void purgeSchemaInstance() {
-    // Since the unload function only cares about the keyspace and table name,
-    // the partition key and class don't matter (however, creating the CFMetaData
-    // will fail unless something is passed in
-    //
-    Schema.instance.truncateSchemaKeyspace();
-
-    CFMetaDataElements.
-    CFMetaData cfm =
-        CFMetaData.Builder.create()
-            .withPartitioner(CassandraUtils.getPartitionerClassInstance(getPartitionerClass()))
-            .addPartitionKey(getPartitionKey(), UTF8Type.instance)
-            .build();
-    Schema.instance.unload(cfm);
-  }
-*/
+  /*
+   * void purgeSchemaInstance() {
+   * // Since the unload function only cares about the keyspace and table name,
+   * // the partition key and class don't matter (however, creating the CFMetaData
+   * // will fail unless something is passed in
+   * //
+   * Schema.instance.truncateSchemaKeyspace();
+   * 
+   * CFMetaDataElements.
+   * CFMetaData cfm =
+   * CFMetaData.Builder.create()
+   * .withPartitioner(CassandraUtils.getPartitionerClassInstance(getPartitionerClass()))
+   * .addPartitionKey(getPartitionKey(), UTF8Type.instance)
+   * .build();
+   * Schema.instance.unload(cfm);
+   * }
+   */
   CQLSSTableWriter getCQLSSTableWriter() {
-    return CQLSSTableWriter.builder()
-        .inDirectory(getDirectory())
-        .forTable(buildCreateTableCQLStatement())
-        .using(buildInsertCQLStatement())
-        .withBufferSizeInMB(getBufferSize())
+    return CQLSSTableWriter.builder().inDirectory(getDirectory()).forTable(buildCreateTableCQLStatement()).using(buildInsertCQLStatement()).withBufferSizeInMB(getBufferSize())
         .build();
   }
 
@@ -82,20 +79,12 @@ class Cql3SSTableWriter extends AbstractSSTableWriter {
   String buildCreateTableCQLStatement() {
     StringBuilder tableColumnsSpecification = new StringBuilder();
     for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-      tableColumnsSpecification
-          .append(CassandraUtils.cql3MixedCaseQuote(valueMeta.getName()))
-          .append(" ")
-          .append(CassandraUtils.getCQLTypeForValueMeta(valueMeta))
-          .append(",");
+      tableColumnsSpecification.append(CassandraUtils.cql3MixedCaseQuote(valueMeta.getName())).append(" ").append(CassandraUtils.getCQLTypeForValueMeta(valueMeta)).append(",");
     }
 
-    tableColumnsSpecification
-        .append("PRIMARY KEY (\"")
-        .append(getPrimaryKey().replaceAll(",", "\",\""))
-        .append("\" )");
+    tableColumnsSpecification.append("PRIMARY KEY (\"").append(getPrimaryKey().replaceAll(",", "\",\"")).append("\" )");
 
-    return String.format(
-        "CREATE TABLE %s.%s (%s);", getKeyspace(), getTable(), tableColumnsSpecification);
+    return String.format("CREATE TABLE %s.%s (%s);", getKeyspace(), getTable(), tableColumnsSpecification);
   }
 
   String buildInsertCQLStatement() {
@@ -104,11 +93,6 @@ class Cql3SSTableWriter extends AbstractSSTableWriter {
     String[] columnNames = rowMeta.getFieldNames();
     String[] valuePlaceholders = new String[columnNames.length];
     Arrays.fill(valuePlaceholders, "?");
-    return String.format(
-        "INSERT INTO %s.%s (\"%s\") VALUES (%s);",
-        getKeyspace(),
-        getTable(),
-        columnsJoiner.join(columnNames),
-        valuesJoiner.join(valuePlaceholders));
+    return String.format("INSERT INTO %s.%s (\"%s\") VALUES (%s);", getKeyspace(), getTable(), columnsJoiner.join(columnNames), valuesJoiner.join(valuePlaceholders));
   }
 }

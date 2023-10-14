@@ -44,7 +44,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertTrue;
 
 public class ActionHttp_PDI208_Test {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static final String HTTP_HOST = "localhost";
   public static final int HTTP_PORT = 9998;
@@ -70,12 +71,7 @@ public class ActionHttp_PDI208_Test {
     localFileForUpload.deleteOnExit();
     tempFileForDownload.deleteOnExit();
 
-    Object[] r =
-        new Object[] {
-          HTTP_SERVER_BASEURL + "/uploadFile",
-          localFileForUpload.getCanonicalPath(),
-          tempFileForDownload.getCanonicalPath()
-        };
+    Object[] r = new Object[] {HTTP_SERVER_BASEURL + "/uploadFile", localFileForUpload.getCanonicalPath(), tempFileForDownload.getCanonicalPath()};
     RowMeta rowMetaDefault = new RowMeta();
     rowMetaDefault.addValueMeta(new ValueMetaString("URL"));
     rowMetaDefault.addValueMeta(new ValueMetaString("UPLOAD"));
@@ -100,12 +96,7 @@ public class ActionHttp_PDI208_Test {
     localFileForUpload.deleteOnExit();
     tempFileForDownload.deleteOnExit();
 
-    Object[] r =
-        new Object[] {
-          HTTP_SERVER_BASEURL + "/uploadFile",
-          localFileForUpload.getCanonicalPath(),
-          tempFileForDownload.getCanonicalPath()
-        };
+    Object[] r = new Object[] {HTTP_SERVER_BASEURL + "/uploadFile", localFileForUpload.getCanonicalPath(), tempFileForDownload.getCanonicalPath()};
     RowMeta rowMetaDefault = new RowMeta();
     rowMetaDefault.addValueMeta(new ValueMetaString("MyURL"));
     rowMetaDefault.addValueMeta(new ValueMetaString("MyUpload"));
@@ -133,28 +124,22 @@ public class ActionHttp_PDI208_Test {
   }
 
   private static void startHttpServer() throws IOException {
-    httpServer =
-        HttpServer.create(
-            new InetSocketAddress(
-                ActionHttp_PDI208_Test.HTTP_HOST, ActionHttp_PDI208_Test.HTTP_PORT),
-            10);
-    httpServer.createContext(
-        "/uploadFile",
-        httpExchange -> {
-          Headers h = httpExchange.getResponseHeaders();
-          h.add("Content-Type", "application/octet-stream");
-          httpExchange.sendResponseHeaders(200, 0);
-          InputStream is = httpExchange.getRequestBody();
-          OutputStream os = httpExchange.getResponseBody();
-          int inputChar = -1;
-          while ((inputChar = is.read()) >= 0) {
-            os.write(inputChar);
-          }
-          is.close();
-          os.flush();
-          os.close();
-          httpExchange.close();
-        });
+    httpServer = HttpServer.create(new InetSocketAddress(ActionHttp_PDI208_Test.HTTP_HOST, ActionHttp_PDI208_Test.HTTP_PORT), 10);
+    httpServer.createContext("/uploadFile", httpExchange -> {
+      Headers h = httpExchange.getResponseHeaders();
+      h.add("Content-Type", "application/octet-stream");
+      httpExchange.sendResponseHeaders(200, 0);
+      InputStream is = httpExchange.getRequestBody();
+      OutputStream os = httpExchange.getResponseBody();
+      int inputChar = -1;
+      while ((inputChar = is.read()) >= 0) {
+        os.write(inputChar);
+      }
+      is.close();
+      os.flush();
+      os.close();
+      httpExchange.close();
+    });
     httpServer.start();
   }
 

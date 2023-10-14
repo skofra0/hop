@@ -53,8 +53,7 @@ public class HopURLClassLoader extends URLClassLoader {
     return name;
   }
 
-  protected Class<?> loadClassFromThisLoader(String arg0, boolean arg1)
-      throws ClassNotFoundException {
+  protected Class<?> loadClassFromThisLoader(String arg0, boolean arg1) throws ClassNotFoundException {
     Class<?> clz;
     if ((clz = findLoadedClass(arg0)) != null) {
       if (arg1) {
@@ -72,8 +71,7 @@ public class HopURLClassLoader extends URLClassLoader {
     return clz;
   }
 
-  protected Class<?> loadClassFromParent(String name, boolean resolve)
-      throws ClassNotFoundException {
+  protected Class<?> loadClassFromParent(String name, boolean resolve) throws ClassNotFoundException {
     Class<?> clz;
     if ((clz = getParent().loadClass(name)) != null) {
       if (resolve) {
@@ -85,22 +83,21 @@ public class HopURLClassLoader extends URLClassLoader {
   }
 
   @Override
-  protected synchronized Class<?> loadClass(String name, boolean resolve)
-      throws ClassNotFoundException {
+  protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
     try {
       return loadClassFromThisLoader(name, resolve);
     } catch (ClassNotFoundException | NoClassDefFoundError | SecurityException exception) {
       try {
         return loadClassFromParent(name, resolve);
       } catch (Exception parentException) {
-        throw new ClassNotFoundException(
-            "Unable to load class '" + name + "' in this classloader or in the parent", exception);
+        throw new ClassNotFoundException("Unable to load class '" + name + "' in this classloader or in the parent", exception);
       }
     }
   }
 
   /*
-   * Cglib doe's not creates custom class loader (to access package methods and classes ) it uses reflection to invoke
+   * Cglib doe's not creates custom class loader (to access package methods and classes ) it uses
+   * reflection to invoke
    * "defineClass", but you can call protected method in subclass without problems:
    */
   public Class<?> loadClass(String name, ProtectionDomain protectionDomain) {

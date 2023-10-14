@@ -43,11 +43,7 @@ public class DropboxConfigSingleton {
         ObjectMapper mapper = HopJson.newMapper();
         config = mapper.readValue(new Gson().toJson(configObject), DropboxConfig.class);
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error reading Dropbox configuration, check property '"
-                + HOP_CONFIG_DROPBOX_KEY
-                + "' in the Hop config json file",
-            e);
+        LogChannel.GENERAL.logError("Error reading Dropbox configuration, check property '" + HOP_CONFIG_DROPBOX_KEY + "' in the Hop config json file", e);
         config = new DropboxConfig();
       }
     }

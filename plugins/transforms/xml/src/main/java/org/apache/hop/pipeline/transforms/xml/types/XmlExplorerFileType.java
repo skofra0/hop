@@ -29,37 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "XmlExplorerFileType",
-    name = "XML File Type",
-    description = "XML file handling in the explorer perspective",
-    image = "add_xml.svg")
-public class XmlExplorerFileType extends BaseTextExplorerFileType<XmlExplorerFileTypeHandler>
-    implements IExplorerFileType<XmlExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "XmlExplorerFileType", name = "XML File Type", description = "XML file handling in the explorer perspective", image = "add_xml.svg")
+public class XmlExplorerFileType extends BaseTextExplorerFileType<XmlExplorerFileTypeHandler> implements IExplorerFileType<XmlExplorerFileTypeHandler> {
 
   public XmlExplorerFileType() {
-    super(
-        "XML file",
-        ".xml",
-        new String[] {"*.xml"},
-        new String[] {"XML files"},
-        FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+    super("XML file", ".xml", new String[] {"*.xml"}, new String[] {"XML files"}, FileTypeCapabilities.getCapabilities(
+        IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 
   @Override
-  public XmlExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public XmlExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new XmlExplorerFileTypeHandler(hopGui, perspective, file);
   }
 }

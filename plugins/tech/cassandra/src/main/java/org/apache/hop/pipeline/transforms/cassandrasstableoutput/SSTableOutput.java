@@ -48,13 +48,7 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
   /** List of field indices (optimization) */
   private int[] fieldValueIndices;
 
-  public SSTableOutput(
-      TransformMeta transformMeta,
-      SSTableOutputMeta meta,
-      SSTableOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SSTableOutput(TransformMeta transformMeta, SSTableOutputMeta meta, SSTableOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
 
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -72,11 +66,9 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
     String bufferSize = resolve(getMeta().getBufferSize());
 
     if (Utils.isEmpty(yamlPath)) {
-      throw new Exception(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoPathToYAML"));
+      throw new Exception(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoPathToYAML"));
     }
-    logBasic(
-        BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Message.YAMLPath", yamlPath));
+    logBasic(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Message.YAMLPath", yamlPath));
 
     File outputDir;
     if (Utils.isEmpty(directory)) {
@@ -87,20 +79,16 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
 
     if (!outputDir.exists()) {
       if (!outputDir.mkdirs()) {
-        throw new HopException(
-            BaseMessages.getString(
-                SSTableOutputMeta.PKG, "SSTableOutput.Error.OutputDirDoesntExist"));
+        throw new HopException(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.OutputDirDoesntExist"));
       }
     }
 
     if (Utils.isEmpty(table)) {
-      throw new HopException(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoTableSpecified"));
+      throw new HopException(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoTableSpecified"));
     }
 
     if (Utils.isEmpty(keyField)) {
-      throw new HopException(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoKeySpecified"));
+      throw new HopException(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.NoKeySpecified"));
     }
 
     // what are the fields? where are they?
@@ -115,19 +103,12 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
     }
 
     SSTableWriterBuilder builder =
-        new SSTableWriterBuilder()
-            .withConfig(yamlPath)
-            .withDirectory(outputDir.getAbsolutePath())
-            .withKeyspace(keyspace)
-            .withTable(table)
-            .withRowMeta(getInputRowMeta())
-            .withPrimaryKey(keyField)
-            .withCqlVersion(3);
+        new SSTableWriterBuilder().withConfig(yamlPath).withDirectory(outputDir.getAbsolutePath()).withKeyspace(keyspace).withTable(table).withRowMeta(getInputRowMeta())
+            .withPrimaryKey(keyField).withCqlVersion(3);
     try {
       builder.withBufferSize(Integer.parseInt(bufferSize));
     } catch (NumberFormatException nfe) {
-      logBasic(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Message.DefaultBufferSize"));
+      logBasic(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Message.DefaultBufferSize"));
     }
 
     writer = builder.build();
@@ -135,8 +116,7 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
       disableSystemExit(sm, log);
       writer.init();
     } catch (Exception e) {
-      throw new RuntimeException(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.InvalidConfig"), e);
+      throw new RuntimeException(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.InvalidConfig"), e);
     } finally {
       // Restore original security manager if needed
       if (System.getSecurityManager() != sm) {
@@ -154,9 +134,7 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
     try {
       System.setSecurityManager(new NoSystemExitDelegatingSecurityManager(sm));
     } catch (SecurityException se) {
-      log.logError(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.JVMExitProtection"),
-          se);
+      log.logError(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.JVMExitProtection"), se);
     }
   }
 
@@ -173,9 +151,7 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
       try {
         initialize();
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.WriterInitFailed"),
-            e);
+        throw new HopException(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.WriterInitFailed"), e);
       }
     }
 
@@ -199,9 +175,7 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
       writer.processRow(record);
       incrementLinesWritten();
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.FailedToProcessRow"),
-          e);
+      logError(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.FailedToProcessRow"), e);
       // single error row - found it!
       putError(getInputRowMeta(), r, 1L, e.getMessage(), null, "ERR_SSTABLE_OUTPUT_01");
       incrementLinesRejected();
@@ -226,15 +200,13 @@ public class SSTableOutput extends BaseTransform<SSTableOutputMeta, SSTableOutpu
         writer = null;
       } catch (Exception e) {
         // YUM!!
-        logError(
-            BaseMessages.getString(
-                SSTableOutputMeta.PKG, "SSTableOutput.Error.FailedToCloseWriter"),
-            e);
+        logError(BaseMessages.getString(SSTableOutputMeta.PKG, "SSTableOutput.Error.FailedToCloseWriter"), e);
       }
     }
   }
 
-  private class JVMShutdownAttemptedException extends SecurityException {}
+  private class JVMShutdownAttemptedException extends SecurityException {
+  }
 
   private class NoSystemExitDelegatingSecurityManager extends SecurityManager {
     private SecurityManager delegate;

@@ -23,7 +23,7 @@ public interface IResourceXmlPropertyEmitter {
    *
    * @param ref The Resource Reference Holder (a transform, or a action)
    * @param indention If -1, then no indenting, otherwise, it's the indent level to indent the XML
-   *     strings
+   *        strings
    * @return String of injected XML
    */
   String getExtraResourceProperties(IResourceHolder ref, int indention);

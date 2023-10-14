@@ -49,7 +49,7 @@ public class ConfigFileSerializer implements IHopConfigSerializer {
       outputStream.write(niceJson.getBytes(StandardCharsets.UTF_8));
       outputStream.close();
 
-      // if this worked, delete the old file  (hop.config.old)
+      // if this worked, delete the old file (hop.config.old)
       //
       FileObject oldFile = HopVfs.getFileObject(filename + ".old");
       if (oldFile.exists() && !oldFile.delete()) {
@@ -57,7 +57,7 @@ public class ConfigFileSerializer implements IHopConfigSerializer {
         throw new HopException("Unable to delete old config file " + oldFile.getName().getURI());
       }
 
-      // If this worked, rename the file to the old file  (hop.config -> hop.config.old)
+      // If this worked, rename the file to the old file (hop.config -> hop.config.old)
       //
       FileObject file = HopVfs.getFileObject(filename);
       if (file.exists() && !file.canRenameTo(oldFile)) { // could be a new file
@@ -82,8 +82,7 @@ public class ConfigFileSerializer implements IHopConfigSerializer {
         return new HashMap<>();
       }
       ObjectMapper objectMapper = HopJson.newMapper();
-      TypeReference<HashMap<String, Object>> typeRef =
-          new TypeReference<HashMap<String, Object>>() {};
+      TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {};
       try (InputStream inputStream = HopVfs.getInputStream(file)) {
         HashMap<String, Object> configMap = objectMapper.readValue(inputStream, typeRef);
         return configMap;

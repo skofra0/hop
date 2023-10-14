@@ -45,15 +45,13 @@ public class HelpUtils {
 
   public static Button createHelpButton(final Composite parent, final String url) {
     Button button = newButton(parent);
-    button.addListener(
-        SWT.Selection,
-        e -> {
-          try {
-            EnvironmentUtils.getInstance().openUrl(url);
-          } catch (Exception ex) {
-            new ErrorDialog(parent.getShell(), "Error", "Error opening URL", ex);
-          }
-        });
+    button.addListener(SWT.Selection, e -> {
+      try {
+        EnvironmentUtils.getInstance().openUrl(url);
+      } catch (Exception ex) {
+        new ErrorDialog(parent.getShell(), "Error", "Error opening URL", ex);
+      }
+    });
     return button;
   }
 

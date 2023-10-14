@@ -76,8 +76,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
     DOMImplementation domImplementation = GenericDOMImplementation.getDOMImplementation();
 
     // Create an instance of org.w3c.dom.Document.
-    Document document =
-        domImplementation.createDocument(SVGDOMImplementation.SVG_NAMESPACE_URI, "svg", null);
+    Document document = domImplementation.createDocument(SVGDOMImplementation.SVG_NAMESPACE_URI, "svg", null);
 
     return new HopSvgGraphics2D(document);
   }
@@ -109,16 +108,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
    * @param yMagnification The vertical magnification
    * @param angleDegrees The rotation angle in degrees (not radians)
    */
-  public void embedSvg(
-      Node svgNode,
-      String filename,
-      int x,
-      int y,
-      float width,
-      float height,
-      float xMagnification,
-      float yMagnification,
-      double angleDegrees) {
+  public void embedSvg(Node svgNode, String filename, int x, int y, float width, float height, float xMagnification, float yMagnification, double angleDegrees) {
 
     Document domFactory = getDOMFactory();
     float centreX = width / 2;
@@ -127,8 +117,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
     // Add a <g> group tag
     // Do the magnification, translation and rotation in that group
     //
-    Element svgG =
-        domFactory.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_G_TAG);
+    Element svgG = domFactory.createElementNS(SVGConstants.SVG_NAMESPACE_URI, SVGConstants.SVG_G_TAG);
     getDomGroupManager().addElement(svgG, (short) (DRAW | FILL));
 
     svgG.setAttributeNS(null, SVGConstants.SVG_STROKE_ATTRIBUTE, SVGConstants.SVG_NONE_VALUE);
@@ -136,8 +125,7 @@ public class HopSvgGraphics2D extends SVGGraphics2D {
 
     String transformString = "translate(" + x + " " + y + ") ";
     transformString += "scale(" + format(xMagnification) + " " + format(yMagnification) + ") ";
-    transformString +=
-        "rotate(" + format(angleDegrees) + " " + format(centreX) + " " + format(centreY) + ")";
+    transformString += "rotate(" + format(angleDegrees) + " " + format(centreX) + " " + format(centreY) + ")";
     svgG.setAttributeNS(null, SVGConstants.SVG_TRANSFORM_ATTRIBUTE, transformString);
 
     if (filename != null) {

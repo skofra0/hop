@@ -63,8 +63,7 @@ public class FileExistsDialog extends BaseTransformDialog implements ITransformD
 
   private final FileExistsMeta input;
 
-  public FileExistsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public FileExistsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (FileExistsMeta) in;
   }
@@ -137,22 +136,21 @@ public class FileExistsDialog extends BaseTransformDialog implements ITransformD
     fdFileName.top = new FormAttachment(wTransformName, margin);
     fdFileName.right = new FormAttachment(100, -margin);
     wFileName.setLayoutData(fdFileName);
-    wFileName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Do nothing on focusLost
-          }
+    wFileName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Do nothing on focusLost
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Result fieldname ...
     Label wlResult = new Label(shell, SWT.RIGHT);
@@ -198,8 +196,7 @@ public class FileExistsDialog extends BaseTransformDialog implements ITransformD
 
     Group wAdditionalFields = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalFields);
-    wAdditionalFields.setText(
-        BaseMessages.getString(PKG, "FileExistsDialog.wAdditionalFields.Label"));
+    wAdditionalFields.setText(BaseMessages.getString(PKG, "FileExistsDialog.wAdditionalFields.Label"));
 
     FormLayout additionalFieldsgroupLayout = new FormLayout();
     additionalFieldsgroupLayout.marginWidth = 10;
@@ -217,8 +214,7 @@ public class FileExistsDialog extends BaseTransformDialog implements ITransformD
     wlInclFileType.setLayoutData(fdlInclFileType);
     wInclFileType = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclFileType);
-    wInclFileType.setToolTipText(
-        BaseMessages.getString(PKG, "FileExistsDialog.InclFileType.Tooltip"));
+    wInclFileType.setToolTipText(BaseMessages.getString(PKG, "FileExistsDialog.InclFileType.Tooltip"));
     FormData fdInclFileType = new FormData();
     fdInclFileType.left = new FormAttachment(middle, 0);
     fdInclFileType.top = new FormAttachment(wlInclFileType, 0, SWT.CENTER);
@@ -226,13 +222,12 @@ public class FileExistsDialog extends BaseTransformDialog implements ITransformD
     wInclFileType.addSelectionListener(new ComponentSelectionListener(input));
 
     // Enable/disable the right fields to allow a filename to be added to each row...
-    wInclFileType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeFileType();
-          }
-        });
+    wInclFileType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeFileType();
+      }
+    });
 
     // FileType fieldname ...
     wlFileType = new Label(wAdditionalFields, SWT.RIGHT);

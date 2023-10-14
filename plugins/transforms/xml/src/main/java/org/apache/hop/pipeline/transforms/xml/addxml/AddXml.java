@@ -53,13 +53,7 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
   private DOMImplementation domImplentation;
   private Transformer serializer;
 
-  public AddXml(
-      TransformMeta transformMeta,
-      AddXmlMeta meta,
-      AddXmlData sdi,
-      int copyNr,
-      PipelineMeta tm,
-      Pipeline trans) {
+  public AddXml(TransformMeta transformMeta, AddXmlMeta meta, AddXmlData sdi, int copyNr, PipelineMeta tm, Pipeline trans) {
     super(transformMeta, meta, sdi, copyNr, tm, trans);
   }
 
@@ -86,8 +80,7 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
         String fieldsName = meta.getOutputFields()[i].getFieldName();
         data.fieldIndexes[i] = getInputRowMeta().indexOfValue(fieldsName);
         if (data.fieldIndexes[i] < 0) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "AddXML.Exception.FieldNotFound", fieldsName));
+          throw new HopException(BaseMessages.getString(PKG, "AddXML.Exception.FieldNotFound", fieldsName));
         }
       }
     }
@@ -163,8 +156,7 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
     return true;
   }
 
-  private String formatField(IValueMeta valueMeta, Object valueData, XmlField field)
-      throws HopValueException {
+  private String formatField(IValueMeta valueMeta, Object valueData, XmlField field) throws HopValueException {
     String retval = "";
     if (field == null) {
       return "";
@@ -212,9 +204,7 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
         retval = data.df.format(valueMeta.getInteger(valueData));
       }
     } else if (valueMeta.isDate()) {
-      if (field != null
-          && !Utils.isEmpty(field.getFormat())
-          && valueMeta.getDate(valueData) != null) {
+      if (field != null && !Utils.isEmpty(field.getFormat()) && valueMeta.getDate(valueData) != null) {
         if (!Utils.isEmpty(field.getFormat())) {
           data.daf.applyPattern(field.getFormat());
         } else {
@@ -266,10 +256,7 @@ public class AddXml extends BaseTransform<AddXmlMeta, AddXmlData> {
     try {
       setSerializer(XmlHandler.createSecureTransformerFactory().newTransformer());
 
-      setDomImplentation(
-          XmlParserFactoryProducer.createSecureDocBuilderFactory()
-              .newDocumentBuilder()
-              .getDOMImplementation());
+      setDomImplentation(XmlParserFactoryProducer.createSecureDocBuilderFactory().newDocumentBuilder().getDOMImplementation());
 
       if (meta.getEncoding() != null) {
         getSerializer().setOutputProperty(OutputKeys.ENCODING, meta.getEncoding());

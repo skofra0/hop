@@ -23,9 +23,7 @@ import org.junit.Test;
 public class DBProcMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    DBProcMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/db-proc-transform.xml", DBProcMeta.class);
+    DBProcMeta meta = TransformSerializationTestUtil.testSerialization("/db-proc-transform.xml", DBProcMeta.class);
     Assert.assertNotNull(meta.getProcedure());
   }
 }

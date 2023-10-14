@@ -112,9 +112,7 @@ public class SqlScriptParser {
              * Pass the hard-coded backslash through, and skip over the real backslash on the next loop
              */
             i = i + 1;
-          } else if (ch == '\\'
-              && nextCh == currentStringChar
-              && usingBackslashAsEscapeCharForQuotation) {
+          } else if (ch == '\\' && nextCh == currentStringChar && usingBackslashAsEscapeCharForQuotation) {
             /*
              * The user is hard-coding a quote character into the string.
              * Pass the hard-coded quote character through, and skip over the quote on next loop
@@ -123,10 +121,13 @@ public class SqlScriptParser {
             /*
              * usingBackslashAsEscapeCharForQuotation
              *
-             * ANSI standards specify that using the backslash character (\) to escape single (' ') or double (" ")
-             * quotation marks is invalid. For example, the following attempt to find a quotation mark does not conform to ANSI standards:
+             * ANSI standards specify that using the backslash character (\) to escape single (' ') or double
+             * (" ")
+             * quotation marks is invalid. For example, the following attempt to find a quotation mark does not
+             * conform to ANSI standards:
              * where col1 = '\'';"
-             * In any way a construction '\'|| is correct for Oracle but for others DBs (ex. MySQl) isn't correct.
+             * In any way a construction '\'|| is correct for Oracle but for others DBs (ex. MySQl) isn't
+             * correct.
              *
              */
             i = i + 1;
@@ -214,10 +215,13 @@ public class SqlScriptParser {
             /*
              * usingBackslashAsEscapeCharForQuotation
              *
-             * ANSI standards specify that using the backslash character (\) to escape single (' ') or double (" ")
-             * quotation marks is invalid. For example, the following attempt to find a quotation mark does not conform to ANSI standards:
+             * ANSI standards specify that using the backslash character (\) to escape single (' ') or double
+             * (" ")
+             * quotation marks is invalid. For example, the following attempt to find a quotation mark does not
+             * conform to ANSI standards:
              * where col1 = '\'';"
-             * In any way a construction '\'|| is correct for Oracle but for others DBs (ex. MySQl) isn't correct.
+             * In any way a construction '\'|| is correct for Oracle but for others DBs (ex. MySQl) isn't
+             * correct.
              *
              */
 

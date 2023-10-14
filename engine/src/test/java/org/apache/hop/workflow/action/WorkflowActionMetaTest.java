@@ -51,30 +51,21 @@ public class WorkflowActionMetaTest {
   public void testReplaceMetaCloneEntryOfOrigin() throws Exception {
 
     copyActionMeta.replaceMeta(originActionMeta);
-    assertNotSame(
-        "Entry of origin and copy Action should be different objects: ",
-        copyActionMeta.getAction(),
-        originActionMeta.getAction());
+    assertNotSame("Entry of origin and copy Action should be different objects: ", copyActionMeta.getAction(), originActionMeta.getAction());
   }
 
   @Test
   public void testReplaceMetaDoesNotChangeEntryOfOrigin() throws Exception {
 
     copyActionMeta.replaceMeta(originActionMeta);
-    assertEquals(
-        "hasChanged in Entry of origin Action should not be changed. ",
-        false,
-        originActionMeta.getAction().hasChanged());
+    assertEquals("hasChanged in Entry of origin Action should not be changed. ", false, originActionMeta.getAction().hasChanged());
   }
 
   @Test
   public void testReplaceMetaChangesEntryOfCopy() throws Exception {
 
     copyActionMeta.replaceMeta(originActionMeta);
-    assertEquals(
-        "hasChanged in Entry of copy Action should be changed. ",
-        true,
-        copyActionMeta.getAction().hasChanged());
+    assertEquals("hasChanged in Entry of copy Action should be changed. ", true, copyActionMeta.getAction().hasChanged());
   }
 
   @Test
@@ -89,9 +80,7 @@ public class WorkflowActionMetaTest {
 
     ActionMeta clonedActionMeta = (ActionMeta) originActionMeta.clone();
     assertNotNull(clonedActionMeta.getAttributesMap());
-    assertEquals(
-        originActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY),
-        clonedActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY));
+    assertEquals(originActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY), clonedActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY));
   }
 
   @Test
@@ -99,8 +88,6 @@ public class WorkflowActionMetaTest {
 
     ActionMeta deepClonedActionMeta = (ActionMeta) originActionMeta.cloneDeep();
     assertNotNull(deepClonedActionMeta.getAttributesMap());
-    assertEquals(
-        originActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY),
-        deepClonedActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY));
+    assertEquals(originActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY), deepClonedActionMeta.getAttribute(ATTRIBUTE_GROUP, ATTRIBUTE_KEY));
   }
 }

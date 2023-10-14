@@ -74,8 +74,7 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
    * @param manager
    * @param profile The execution info profile to edit
    */
-  public ExecutionDataProfileEditor(
-      HopGui hopGui, MetadataManager<ExecutionDataProfile> manager, ExecutionDataProfile profile) {
+  public ExecutionDataProfileEditor(HopGui hopGui, MetadataManager<ExecutionDataProfile> manager, ExecutionDataProfile profile) {
     super(hopGui, manager, profile);
 
     this.executionDataProfile = profile;
@@ -91,7 +90,6 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
     //
     int middle = props.getMiddlePct();
     int margin = props.getMargin();
-
 
     // The generic widgets: name, description and pipeline engine type
     //
@@ -116,8 +114,7 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
 
     Label wlDescription = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlDescription);
-    wlDescription.setText(
-        BaseMessages.getString(PKG, "ExecutionDataProfileEditor.label.description"));
+    wlDescription.setText(BaseMessages.getString(PKG, "ExecutionDataProfileEditor.label.description"));
     FormData fdlDescription = new FormData();
     fdlDescription.top = new FormAttachment(lastControl, margin * 2);
     fdlDescription.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -145,13 +142,11 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
     ToolBar wSamplersToolBar = new ToolBar(parent, SWT.NONE);
     ToolItem addSamplersItem = new ToolItem(wSamplersToolBar, SWT.PUSH);
     addSamplersItem.setImage(GuiResource.getInstance().getImageAdd());
-    addSamplersItem.setToolTipText(
-        BaseMessages.getString(PKG, "ExecutionDataProfileEditor.Button.AddSamplers"));
+    addSamplersItem.setToolTipText(BaseMessages.getString(PKG, "ExecutionDataProfileEditor.Button.AddSamplers"));
     addSamplersItem.addListener(SWT.Selection, e -> addSamplers());
     ToolItem deleteSamplerItem = new ToolItem(wSamplersToolBar, SWT.PUSH);
     deleteSamplerItem.setImage(GuiResource.getInstance().getImageDelete());
-    deleteSamplerItem.setToolTipText(
-        BaseMessages.getString(PKG, "ExecutionDataProfileEditor.Button.DeleteSampler"));
+    deleteSamplerItem.setToolTipText(BaseMessages.getString(PKG, "ExecutionDataProfileEditor.Button.DeleteSampler"));
     deleteSamplerItem.addListener(SWT.Selection, e -> deleteSampler());
     FormData fdSamplersToolBar = new FormData();
     fdSamplersToolBar.left = new FormAttachment(0, 0);
@@ -219,28 +214,20 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
     // Draw the sampler
     //
     guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-    guiCompositeWidgets.createCompositeWidgets(
-        sampler,
-        null,
-        wPluginSpecificComp,
-        ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID,
-        wDescription);
+    guiCompositeWidgets.createCompositeWidgets(sampler, null, wPluginSpecificComp, ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID, wDescription);
 
     // Set the content while we're at it.
     //
-    guiCompositeWidgets.setWidgetsContents(
-        sampler, wPluginSpecificComp, ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    guiCompositeWidgets.setWidgetsContents(sampler, wPluginSpecificComp, ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID);
 
     // Flag as changed if anything is modified
     //
-    guiCompositeWidgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
 
     previousSampler = sampler;
   }
@@ -256,8 +243,7 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
     if (previousSampler != null) {
       // Grab the settings before removing the widgets.
       //
-      guiCompositeWidgets.getWidgetsContents(
-          previousSampler, ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID);
+      guiCompositeWidgets.getWidgetsContents(previousSampler, ExecutionDataProfile.GUI_PLUGIN_ELEMENT_PARENT_ID);
     }
   }
 
@@ -273,7 +259,7 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
       wSamplers.add(sampler.getPluginName());
     }
 
-    // Select the first by default.  This will fill in content and widgets automatically
+    // Select the first by default. This will fill in content and widgets automatically
     //
     if (wSamplers.getItemCount() > 0) {
       wSamplers.setSelection(0);
@@ -304,10 +290,8 @@ public class ExecutionDataProfileEditor extends MetadataEditor<ExecutionDataProf
       // We start with all the samplers and then remove the ones we alread have.
       //
       java.util.List<IExecutionDataSampler> samplers = new ArrayList<>();
-      for (IPlugin plugin :
-          PluginRegistry.getInstance().getPlugins(ExecutionDataSamplerPluginType.class)) {
-        IExecutionDataSampler sampler =
-            PluginRegistry.getInstance().loadClass(plugin, IExecutionDataSampler.class);
+      for (IPlugin plugin : PluginRegistry.getInstance().getPlugins(ExecutionDataSamplerPluginType.class)) {
+        IExecutionDataSampler sampler = PluginRegistry.getInstance().loadClass(plugin, IExecutionDataSampler.class);
         sampler.setPluginId(plugin.getIds()[0]);
         sampler.setPluginName(plugin.getName());
         samplers.add(sampler);

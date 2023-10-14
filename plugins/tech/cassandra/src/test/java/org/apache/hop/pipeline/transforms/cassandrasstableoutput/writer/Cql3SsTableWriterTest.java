@@ -66,31 +66,25 @@ public class Cql3SsTableWriterTest {
       assertEquals(KEY_FIELD, getPrimaryKey());
       CQLSSTableWriter ssWriter = mock(CQLSSTableWriter.class);
       try {
-        doAnswer(
-                new Answer<Void>() {
-                  @Override
-                  public Void answer(InvocationOnMock invocation) throws Throwable {
-                    checker.set(false);
-                    return null;
-                  }
-                })
-            .when(ssWriter)
-            .close();
+        doAnswer(new Answer<Void>() {
+          @Override
+          public Void answer(InvocationOnMock invocation) throws Throwable {
+            checker.set(false);
+            return null;
+          }
+        }).when(ssWriter).close();
       } catch (IOException e) {
         fail(e.toString());
       }
 
       try {
-        doAnswer(
-                new Answer<Void>() {
-                  @Override
-                  public Void answer(InvocationOnMock invocation) throws Throwable {
-                    checker.set(true);
-                    return null;
-                  }
-                })
-            .when(ssWriter)
-            .addRow(anyMapOf(String.class, Object.class));
+        doAnswer(new Answer<Void>() {
+          @Override
+          public Void answer(InvocationOnMock invocation) throws Throwable {
+            checker.set(true);
+            return null;
+          }
+        }).when(ssWriter).addRow(anyMapOf(String.class, Object.class));
       } catch (Exception e) {
         fail(e.toString());
       }
@@ -151,18 +145,13 @@ public class Cql3SsTableWriterTest {
   public void testBuildCreateTableCQLStatement() throws Exception {
     Cql3SSTableWriter writer = getCql3SSTableWriter();
     writer.init();
-    assertEquals(
-        "CREATE TABLE KEY_SPACE.TABLE (\"KEY_FIELD\" bigint,\"someColumn\" varchar,PRIMARY KEY "
-            + "(\"KEY_FIELD\" ));",
-        writer.buildCreateTableCQLStatement());
+    assertEquals("CREATE TABLE KEY_SPACE.TABLE (\"KEY_FIELD\" bigint,\"someColumn\" varchar,PRIMARY KEY " + "(\"KEY_FIELD\" ));", writer.buildCreateTableCQLStatement());
   }
 
   @Test
   public void testBuildInsertCQLStatement() throws Exception {
     Cql3SSTableWriter writer = getCql3SSTableWriter();
     writer.init();
-    assertEquals(
-        "INSERT INTO KEY_SPACE.TABLE (\"key\",\"two\") VALUES (?,?);",
-        writer.buildInsertCQLStatement());
+    assertEquals("INSERT INTO KEY_SPACE.TABLE (\"key\",\"two\") VALUES (?,?);", writer.buildInsertCQLStatement());
   }
 }

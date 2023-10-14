@@ -29,20 +29,14 @@ import picocli.CommandLine;
 @ConfigPlugin(id = "SetHopConfigVariables", description = "Set system properties")
 public class SetHopConfigVariables implements IConfigOptions {
 
-  @CommandLine.Option(
-      names = {"-sv", "--set-variable"},
-      description = "Set a variable, use format VAR=Value")
+  @CommandLine.Option(names = {"-sv", "--set-variable"}, description = "Set a variable, use format VAR=Value")
   private String setVariable = null;
 
-  @CommandLine.Option(
-      names = {"-dv", "--describe-variable"},
-      description = "Describe a variable, use format VARIABLE=Description")
+  @CommandLine.Option(names = {"-dv", "--describe-variable"}, description = "Describe a variable, use format VARIABLE=Description")
   private String describeVariable = null;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     // Is this an option we want to handle?
     //
     boolean changed = false;
@@ -78,8 +72,7 @@ public class SetHopConfigVariables implements IConfigOptions {
         }
         HopConfig.getInstance().setDescribedVariable(describedVariable);
       } else {
-        throw new HopException(
-            "Please set a variable description in the format 'VARIABLE_NAME=DESCRIPTION'");
+        throw new HopException("Please set a variable description in the format 'VARIABLE_NAME=DESCRIPTION'");
       }
     }
     return false;

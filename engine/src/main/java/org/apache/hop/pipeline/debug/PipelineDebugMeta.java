@@ -83,90 +83,87 @@ public class PipelineDebugMeta {
         //
         if (component instanceof ITransform) {
           ITransform baseTransform = (ITransform) component;
-          baseTransform.addRowListener(
-              new RowAdapter() {
-                @Override
-                public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                    throws HopTransformException {
-                  try {
-                    synchronized (transformDebugMeta) {
-                      // This block of code is called whenever there is a row written by the
-                      // transform
-                      // So we want to execute the debugging actions that are specified by the
-                      // transform...
+          baseTransform.addRowListener(new RowAdapter() {
+            @Override
+            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+              try {
+                synchronized (transformDebugMeta) {
+                  // This block of code is called whenever there is a row written by the
+                  // transform
+                  // So we want to execute the debugging actions that are specified by the
+                  // transform...
+                  //
+                  int rowCount = transformDebugMeta.getRowCount();
+
+                  if (transformDebugMeta.isReadingFirstRows() && rowCount > 0) {
+
+                    int bufferSize = transformDebugMeta.getRowBuffer().size();
+                    if (bufferSize < rowCount) {
+
+                      // This is the classic preview mode.
+                      // We add simply add the row to the buffer.
                       //
-                      int rowCount = transformDebugMeta.getRowCount();
+                      transformDebugMeta.setRowBufferMeta(rowMeta);
+                      transformDebugMeta.getRowBuffer().add(rowMeta.cloneRow(row));
+                    } else {
+                      // pause the pipeline...
+                      //
+                      pipeline.pauseExecution();
 
-                      if (transformDebugMeta.isReadingFirstRows() && rowCount > 0) {
+                      // Also call the pause / break-point listeners on the transform
+                      // debugger...
+                      //
+                      dataShown = true;
+                      transformDebugMeta.fireBreakPointListeners(PipelineDebugMeta.this);
+                    }
+                  } else if (transformDebugMeta.isPausingOnBreakPoint() && transformDebugMeta.getCondition() != null) {
+                    // A break-point is set
+                    // Verify the condition and pause if required
+                    // Before we do that, see if a row count is set.
+                    // If so, keep the last rowCount rows in memory
+                    //
+                    if (rowCount > 0) {
+                      // Keep a number of rows in memory
+                      // Store them in a reverse order to keep it intuitive for the user.
+                      //
+                      transformDebugMeta.setRowBufferMeta(rowMeta);
+                      transformDebugMeta.getRowBuffer().add(0, rowMeta.cloneRow(row));
 
-                        int bufferSize = transformDebugMeta.getRowBuffer().size();
-                        if (bufferSize < rowCount) {
-
-                          // This is the classic preview mode.
-                          // We add simply add the row to the buffer.
-                          //
-                          transformDebugMeta.setRowBufferMeta(rowMeta);
-                          transformDebugMeta.getRowBuffer().add(rowMeta.cloneRow(row));
-                        } else {
-                          // pause the pipeline...
-                          //
-                          pipeline.pauseExecution();
-
-                          // Also call the pause / break-point listeners on the transform
-                          // debugger...
-                          //
-                          dataShown = true;
-                          transformDebugMeta.fireBreakPointListeners(PipelineDebugMeta.this);
-                        }
-                      } else if (transformDebugMeta.isPausingOnBreakPoint()
-                          && transformDebugMeta.getCondition() != null) {
-                        // A break-point is set
-                        // Verify the condition and pause if required
-                        // Before we do that, see if a row count is set.
-                        // If so, keep the last rowCount rows in memory
-                        //
-                        if (rowCount > 0) {
-                          // Keep a number of rows in memory
-                          // Store them in a reverse order to keep it intuitive for the user.
-                          //
-                          transformDebugMeta.setRowBufferMeta(rowMeta);
-                          transformDebugMeta.getRowBuffer().add(0, rowMeta.cloneRow(row));
-
-                          // Only keep a number of rows in memory
-                          // If we have too many, remove the last (oldest)
-                          //
-                          int bufferSize = transformDebugMeta.getRowBuffer().size();
-                          if (bufferSize > rowCount) {
-                            transformDebugMeta.getRowBuffer().remove(bufferSize - 1);
-                          }
-                        } else {
-                          // Just keep one row...
-                          //
-                          if (transformDebugMeta.getRowBuffer().isEmpty()) {
-                            transformDebugMeta.getRowBuffer().add(rowMeta.cloneRow(row));
-                          } else {
-                            transformDebugMeta.getRowBuffer().set(0, rowMeta.cloneRow(row));
-                          }
-                        }
-
-                        // Now evaluate the condition and see if we need to pause the pipeline
-                        //
-                        if (transformDebugMeta.getCondition().evaluate(rowMeta, row)) {
-                          // We hit the break-point: pause the pipeline
-                          //
-                          pipeline.pauseExecution();
-
-                          // Also fire off the break point listeners...
-                          //
-                          transformDebugMeta.fireBreakPointListeners(PipelineDebugMeta.this);
-                        }
+                      // Only keep a number of rows in memory
+                      // If we have too many, remove the last (oldest)
+                      //
+                      int bufferSize = transformDebugMeta.getRowBuffer().size();
+                      if (bufferSize > rowCount) {
+                        transformDebugMeta.getRowBuffer().remove(bufferSize - 1);
+                      }
+                    } else {
+                      // Just keep one row...
+                      //
+                      if (transformDebugMeta.getRowBuffer().isEmpty()) {
+                        transformDebugMeta.getRowBuffer().add(rowMeta.cloneRow(row));
+                      } else {
+                        transformDebugMeta.getRowBuffer().set(0, rowMeta.cloneRow(row));
                       }
                     }
-                  } catch (HopException e) {
-                    throw new HopTransformException(e);
+
+                    // Now evaluate the condition and see if we need to pause the pipeline
+                    //
+                    if (transformDebugMeta.getCondition().evaluate(rowMeta, row)) {
+                      // We hit the break-point: pause the pipeline
+                      //
+                      pipeline.pauseExecution();
+
+                      // Also fire off the break point listeners...
+                      //
+                      transformDebugMeta.fireBreakPointListeners(PipelineDebugMeta.this);
+                    }
                   }
                 }
-              });
+              } catch (HopException e) {
+                throw new HopTransformException(e);
+              }
+            }
+          });
         }
       }
     }
@@ -175,21 +172,20 @@ public class PipelineDebugMeta {
     // If no preview rows are shown before the end of the pipeline we can do this now...
     //
     try {
-      pipeline.addExecutionFinishedListener(
-          p -> {
-            if (dataShown) {
-              return;
+      pipeline.addExecutionFinishedListener(p -> {
+        if (dataShown) {
+          return;
+        }
+        for (TransformMeta transformMeta : transformDebugMetaMap.keySet()) {
+          TransformDebugMeta transformDebugMeta = transformDebugMetaMap.get(transformMeta);
+          if (transformDebugMeta != null) {
+            List<Object[]> rowBuffer = transformDebugMeta.getRowBuffer();
+            if (rowBuffer != null && !rowBuffer.isEmpty()) {
+              transformDebugMeta.fireBreakPointListeners(this);
             }
-            for (TransformMeta transformMeta : transformDebugMetaMap.keySet()) {
-              TransformDebugMeta transformDebugMeta = transformDebugMetaMap.get(transformMeta);
-              if (transformDebugMeta != null) {
-                List<Object[]> rowBuffer = transformDebugMeta.getRowBuffer();
-                if (rowBuffer != null && !rowBuffer.isEmpty()) {
-                  transformDebugMeta.fireBreakPointListeners(this);
-                }
-              }
-            }
-          });
+          }
+        }
+      });
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -208,7 +204,7 @@ public class PipelineDebugMeta {
 
   /**
    * @return the number of times the break-point listeners got called. This is the total for all the
-   *     transforms.
+   *         transforms.
    */
   public int getTotalNumberOfHits() {
     int total = 0;
@@ -225,9 +221,7 @@ public class PipelineDebugMeta {
     for (TransformDebugMeta transformDebugMeta : transformDebugMetaMap.values()) {
       if (transformDebugMeta.isReadingFirstRows() && transformDebugMeta.getRowCount() > 0) {
         nr++;
-      } else if (transformDebugMeta.isPausingOnBreakPoint()
-          && transformDebugMeta.getCondition() != null
-          && !transformDebugMeta.getCondition().isEmpty()) {
+      } else if (transformDebugMeta.isPausingOnBreakPoint() && transformDebugMeta.getCondition() != null && !transformDebugMeta.getCondition().isEmpty()) {
         nr++;
       }
     }

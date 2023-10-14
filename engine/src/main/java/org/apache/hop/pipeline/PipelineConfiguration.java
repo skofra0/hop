@@ -39,10 +39,7 @@ public class PipelineConfiguration {
    * @param pipelineMeta
    * @param pipelineExecutionConfiguration
    */
-  public PipelineConfiguration(
-      PipelineMeta pipelineMeta,
-      PipelineExecutionConfiguration pipelineExecutionConfiguration,
-      SerializableMetadataProvider metadataProvider) {
+  public PipelineConfiguration(PipelineMeta pipelineMeta, PipelineExecutionConfiguration pipelineExecutionConfiguration, SerializableMetadataProvider metadataProvider) {
     this.pipelineMeta = pipelineMeta;
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
     this.metadataProvider = metadataProvider;
@@ -64,19 +61,16 @@ public class PipelineConfiguration {
     return xml.toString();
   }
 
-  public PipelineConfiguration(Node configNode)
-      throws HopException, HopException, ParseException, IOException {
+  public PipelineConfiguration(Node configNode) throws HopException, HopException, ParseException, IOException {
     Node trecNode = XmlHandler.getSubNode(configNode, PipelineExecutionConfiguration.XML_TAG);
     pipelineExecutionConfiguration = new PipelineExecutionConfiguration(trecNode);
-    String metaStoreJson =
-        HttpUtil.decodeBase64ZippedString(XmlHandler.getTagValue(configNode, "metastore_json"));
+    String metaStoreJson = HttpUtil.decodeBase64ZippedString(XmlHandler.getTagValue(configNode, "metastore_json"));
     metadataProvider = new SerializableMetadataProvider(metaStoreJson);
     Node pipelineNode = XmlHandler.getSubNode(configNode, PipelineMeta.XML_TAG);
     pipelineMeta = new PipelineMeta(pipelineNode, metadataProvider);
   }
 
-  public static final PipelineConfiguration fromXml(String xml)
-      throws HopException, HopException, ParseException, IOException {
+  public static final PipelineConfiguration fromXml(String xml) throws HopException, HopException, ParseException, IOException {
     Document document = XmlHandler.loadXmlString(xml);
     Node configNode = XmlHandler.getSubNode(document, XML_TAG);
     return new PipelineConfiguration(configNode);
@@ -88,8 +82,7 @@ public class PipelineConfiguration {
   }
 
   /** @param pipelineExecutionConfiguration the pipelineExecutionConfiguration to set */
-  public void setPipelineExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineExecutionConfiguration) {
+  public void setPipelineExecutionConfiguration(PipelineExecutionConfiguration pipelineExecutionConfiguration) {
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
   }
 

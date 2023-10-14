@@ -105,8 +105,7 @@ public class HopGuiWorkflowClipboardDelegate {
       // Load the entries...
       for (int i = 0; i < nr; i++) {
         Node actionNode = XmlHandler.getSubNodeByNr(actionsNode, ActionMeta.XML_TAG, i);
-        actions[i] =
-            new ActionMeta(actionNode, hopGui.getMetadataProvider(), workflowGraph.getVariables());
+        actions[i] = new ActionMeta(actionNode, hopGui.getMetadataProvider(), workflowGraph.getVariables());
 
         if (locaction != null) {
           Point p = actions[i].getLocation();
@@ -197,8 +196,7 @@ public class HopGuiWorkflowClipboardDelegate {
     workflowGraph.redraw();
   }
 
-  private void pasteNoXmlContent(
-      WorkflowMeta workflowMeta, String clipboardContent, Point location) {
+  private void pasteNoXmlContent(WorkflowMeta workflowMeta, String clipboardContent, Point location) {
     try {
       // Are we pasting filenames?
       //
@@ -212,13 +210,8 @@ public class HopGuiWorkflowClipboardDelegate {
           // See if the filename needs to be treated somehow...
           // We don't have a file dialog so we pass in null.
           //
-          HopGuiFileOpenedExtension ext =
-              new HopGuiFileOpenedExtension(null, hopGui.getVariables(), cleanFilename);
-          ExtensionPointHandler.callExtensionPoint(
-              LogChannel.UI,
-              workflowGraph.getVariables(),
-              HopGuiExtensionPoint.HopGuiFileOpenedDialog.id,
-              ext);
+          HopGuiFileOpenedExtension ext = new HopGuiFileOpenedExtension(null, hopGui.getVariables(), cleanFilename);
+          ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
           if (ext.filename != null) {
             cleanFilename = ext.filename;
           }
@@ -234,27 +227,14 @@ public class HopGuiWorkflowClipboardDelegate {
 
           // Try the plugins to see which one responds
           //
-          ExtensionPointHandler.callExtensionPoint(
-              LogChannel.UI,
-              workflowGraph.getVariables(),
-              HopGuiExtensionPoint.HopGuiWorkflowClipboardFilePaste.id,
-              wce);
+          ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopGuiExtensionPoint.HopGuiWorkflowClipboardFilePaste.id, wce);
         }
       } else {
         // Add a notepad
         //
-        NotePadMeta notePadMeta =
-            new NotePadMeta(
-                clipboardContent,
-                location.x,
-                location.y,
-                ConstUi.NOTE_MIN_SIZE,
-                ConstUi.NOTE_MIN_SIZE);
+        NotePadMeta notePadMeta = new NotePadMeta(clipboardContent, location.x, location.y, ConstUi.NOTE_MIN_SIZE, ConstUi.NOTE_MIN_SIZE);
         workflowMeta.addNote(notePadMeta);
-        hopGui.undoDelegate.addUndoNew(
-            workflowMeta,
-            new NotePadMeta[] {notePadMeta},
-            new int[] {workflowMeta.indexOfNote(notePadMeta)});
+        hopGui.undoDelegate.addUndoNew(workflowMeta, new NotePadMeta[] {notePadMeta}, new int[] {workflowMeta.indexOfNote(notePadMeta)});
         shiftLocation(location);
       }
 
@@ -294,8 +274,7 @@ public class HopGuiWorkflowClipboardDelegate {
     return uniqueName;
   }
 
-  public void copySelected(
-      WorkflowMeta workflowMeta, List<ActionMeta> actions, List<NotePadMeta> notes) {
+  public void copySelected(WorkflowMeta workflowMeta, List<ActionMeta> actions, List<NotePadMeta> notes) {
     if (actions == null || actions.size() == 0) {
       return;
     }

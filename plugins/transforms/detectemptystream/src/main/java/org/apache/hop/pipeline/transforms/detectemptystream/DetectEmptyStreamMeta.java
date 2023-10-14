@@ -48,8 +48,7 @@ public class DetectEmptyStreamMeta extends BaseTransformMeta<DetectEmptyStream, 
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -77,46 +76,25 @@ public class DetectEmptyStreamMeta extends BaseTransformMeta<DetectEmptyStream, 
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "DetectEmptyStreamMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "DetectEmptyStreamMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DetectEmptyStreamMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DetectEmptyStreamMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DetectEmptyStreamMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DetectEmptyStreamMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "DetectEmptyStreamMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DetectEmptyStreamMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 }

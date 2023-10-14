@@ -40,104 +40,66 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@ConfigPlugin(
-    id = "ManageProjectsOptionPlugin",
-    description = "Allows command line editing of the projects")
+@ConfigPlugin(id = "ManageProjectsOptionPlugin", description = "Allows command line editing of the projects")
 public class ManageProjectsOptionPlugin implements IConfigOptions {
 
-  @CommandLine.Option(
-      names = {"-pc", "--project-create"},
-      description = "Create a new project. Also specify the name and its home")
+  @CommandLine.Option(names = {"-pc", "--project-create"}, description = "Create a new project. Also specify the name and its home")
   private boolean createProject;
 
-  @CommandLine.Option(
-      names = {"-p", "--project"},
-      description = "The name of the project to manage")
+  @CommandLine.Option(names = {"-p", "--project"}, description = "The name of the project to manage")
   private String projectName;
 
-  @CommandLine.Option(
-      names = {"-ph", "--project-home"},
-      description = "The home directory of the project")
+  @CommandLine.Option(names = {"-ph", "--project-home"}, description = "The home directory of the project")
   private String projectHome;
 
-  @CommandLine.Option(
-      names = {"-pr", "--project-parent"},
-      description = "The name of the parent project to inherit metadata and variables from")
+  @CommandLine.Option(names = {"-pr", "--project-parent"}, description = "The name of the parent project to inherit metadata and variables from")
   private String projectParent;
 
-  @CommandLine.Option(
-      names = {"-pf", "--project-config-file"},
-      description =
-          "The configuration file relative to the home folder. The default value is project-config.json")
+  @CommandLine.Option(names = {"-pf", "--project-config-file"}, description = "The configuration file relative to the home folder. The default value is project-config.json")
   private String projectConfigFile;
 
-  @CommandLine.Option(
-      names = {"-ps", "--project-description"},
-      description = "The description of the project")
+  @CommandLine.Option(names = {"-ps", "--project-description"}, description = "The description of the project")
   private String projectDescription;
 
-  @CommandLine.Option(
-      names = {"-pp", "--project-company"},
-      description = "The company")
+  @CommandLine.Option(names = {"-pp", "--project-company"}, description = "The company")
   private String projectCompany;
 
-  @CommandLine.Option(
-      names = {"-pt", "--project-department"},
-      description = "The department")
+  @CommandLine.Option(names = {"-pt", "--project-department"}, description = "The department")
   private String projectDepartment;
 
-  @CommandLine.Option(
-      names = {"-pa", "--project-metadata-base"},
-      description = "The metadata base folder (relative to home)")
+  @CommandLine.Option(names = {"-pa", "--project-metadata-base"}, description = "The metadata base folder (relative to home)")
   private String projectMetadataBaseFolder;
 
-  @CommandLine.Option(
-      names = {"-pu", "--project-unit-tests-base"},
-      description = "The unit tests base folder (relative to home)")
+  @CommandLine.Option(names = {"-pu", "--project-unit-tests-base"}, description = "The unit tests base folder (relative to home)")
   private String projectUnitTestsBasePath;
 
-  @CommandLine.Option(
-      names = {"-pb", "--project-datasets-base"},
-      description = "The data sets CSV folder (relative to home)")
+  @CommandLine.Option(names = {"-pb", "--project-datasets-base"}, description = "The data sets CSV folder (relative to home)")
   private String projectDataSetsCsvFolder;
 
   @CommandLine.Option(
       names = {"-px", "--project-enforce-execution"},
-      description =
-          "Validate before execution that a workflow or pipeline is located in the project home folder or a sub-folder (true/false).")
+      description = "Validate before execution that a workflow or pipeline is located in the project home folder or a sub-folder (true/false).")
   private String projectEnforceExecutionInHome;
 
-  @CommandLine.Option(
-      names = {"-pv", "--project-variables"},
-      description = "A list of variable=value combinations separated by a comma",
-      split = ",")
+  @CommandLine.Option(names = {"-pv", "--project-variables"}, description = "A list of variable=value combinations separated by a comma", split = ",")
   private String[] projectVariables;
 
-  @CommandLine.Option(
-      names = {"-pm", "--project-modify"},
-      description = "Modify a project")
+  @CommandLine.Option(names = {"-pm", "--project-modify"}, description = "Modify a project")
   private boolean modifyProject;
 
-  @CommandLine.Option(
-      names = {"-pd", "--project-delete"},
-      description = "Delete a project")
+  @CommandLine.Option(names = {"-pd", "--project-delete"}, description = "Delete a project")
   private boolean deleteProject;
 
-  @CommandLine.Option(
-      names = {"-pl", "--projects-list"},
-      description = "List the defined projects")
+  @CommandLine.Option(names = {"-pl", "--projects-list"}, description = "List the defined projects")
   private boolean listProjects;
 
   @CommandLine.Option(
       names = {"-xm", "--export-metadata"},
-      description =
-          "Export project metadata to a single JSON file which you can specify with this option. Also specify the -p option.")
+      description = "Export project metadata to a single JSON file which you can specify with this option. Also specify the -p option.")
   private String metadataJsonFilename;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     ProjectsConfig config = ProjectsConfigSingleton.getConfig();
     try {
       boolean changed = false;
@@ -163,8 +125,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     }
   }
 
-  private void listProjects(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws HopException {
+  private void listProjects(ILogChannel log, ProjectsConfig config, IVariables variables) throws HopException {
     log.logBasic("Projects:");
     List<String> names = config.listProjectConfigNames();
     for (String name : names) {
@@ -179,33 +140,22 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     }
   }
 
-  private void logProjectDetails(ILogChannel log, ProjectConfig projectConfig, Project project)
-      throws HopException {
+  private void logProjectDetails(ILogChannel log, ProjectConfig projectConfig, Project project) throws HopException {
     String projectHome = projectConfig.getProjectHome();
     log.logBasic("  " + projectConfig.getProjectName() + " : " + projectHome);
     if (StringUtils.isNotEmpty(project.getParentProjectName())) {
       log.logBasic("    Parent project: " + project.getParentProjectName());
     }
-    log.logBasic(
-        "    Configuration file: "
-            + projectConfig.getActualProjectConfigFilename(Variables.getADefaultVariableSpace()));
+    log.logBasic("    Configuration file: " + projectConfig.getActualProjectConfigFilename(Variables.getADefaultVariableSpace()));
     if (!project.getDescribedVariables().isEmpty()) {
       log.logBasic("    Described variables: ");
       for (DescribedVariable variable : project.getDescribedVariables()) {
-        log.logBasic(
-            "      "
-                + variable.getName()
-                + " = "
-                + variable.getValue()
-                + (StringUtils.isEmpty(variable.getDescription())
-                    ? ""
-                    : " (" + variable.getDescription() + ")"));
+        log.logBasic("      " + variable.getName() + " = " + variable.getValue() + (StringUtils.isEmpty(variable.getDescription()) ? "" : " (" + variable.getDescription() + ")"));
       }
     }
   }
 
-  private void deleteProject(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws Exception {
+  private void deleteProject(ILogChannel log, ProjectsConfig config, IVariables variables) throws Exception {
     validateProjectNameSpecified();
 
     ProjectConfig projectConfig = config.findProjectConfig(projectName);
@@ -218,8 +168,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     log.logBasic("Project '" + projectName + " was removed from the configuration");
   }
 
-  private void modifyProject(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws Exception {
+  private void modifyProject(ILogChannel log, ProjectsConfig config, IVariables variables) throws Exception {
     validateProjectNameSpecified();
 
     ProjectConfig projectConfig = config.findProjectConfig(projectName);
@@ -241,11 +190,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
 
     Project project = projectConfig.loadProject(variables);
 
-    log.logBasic(
-        "Project configuration for '"
-            + projectName
-            + "' was modified in "
-            + HopConfig.getInstance().getConfigFilename());
+    log.logBasic("Project configuration for '" + projectName + "' was modified in " + HopConfig.getInstance().getConfigFilename());
 
     if (modifyProjectSettings(project)) {
 
@@ -255,11 +200,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
 
       project.saveToFile();
 
-      log.logBasic(
-          "Project settings for '"
-              + projectName
-              + "' were modified in file "
-              + projectConfigFilename);
+      log.logBasic("Project settings for '" + projectName + "' were modified in file " + projectConfigFilename);
     }
   }
 
@@ -294,9 +235,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
       changed = true;
     }
     if (StringUtils.isNotEmpty(projectEnforceExecutionInHome)) {
-      boolean enabled =
-          "y".equalsIgnoreCase(projectEnforceExecutionInHome)
-              || "true".equalsIgnoreCase(projectEnforceExecutionInHome);
+      boolean enabled = "y".equalsIgnoreCase(projectEnforceExecutionInHome) || "true".equalsIgnoreCase(projectEnforceExecutionInHome);
       project.setEnforcingExecutionInHome(enabled);
       changed = true;
     }
@@ -319,8 +258,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     return changed;
   }
 
-  private void createProject(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws Exception {
+  private void createProject(ILogChannel log, ProjectsConfig config, IVariables variables) throws Exception {
     validateProjectNameSpecified();
     validateProjectHomeSpecified();
 
@@ -333,9 +271,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
 
     String defaultProjectConfigFilename = variables.resolve(config.getDefaultProjectConfigFile());
 
-    projectConfig =
-        new ProjectConfig(
-            projectName, projectHome, Const.NVL(projectConfigFile, defaultProjectConfigFilename));
+    projectConfig = new ProjectConfig(projectName, projectHome, Const.NVL(projectConfigFile, defaultProjectConfigFilename));
 
     config.addProjectConfig(projectConfig);
     ProjectsConfigSingleton.saveConfig();
@@ -354,11 +290,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     //
     project.saveToFile();
 
-    log.logBasic(
-        "Configuration file for project '"
-            + projectName
-            + "' was saved to : "
-            + project.getConfigFilename());
+    log.logBasic("Configuration file for project '" + projectName + "' was saved to : " + project.getConfigFilename());
   }
 
   private void validateProjectNameSpecified() throws Exception {
@@ -373,26 +305,18 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
     }
   }
 
-  private void exportMetadataToJson(
-      ILogChannel log,
-      ProjectsConfig config,
-      IVariables variables,
-      IHasHopMetadataProvider hasHopMetadataProvider)
-      throws HopException {
+  private void exportMetadataToJson(ILogChannel log, ProjectsConfig config, IVariables variables, IHasHopMetadataProvider hasHopMetadataProvider) throws HopException {
 
     if (StringUtils.isEmpty(projectName)) {
-      throw new HopException(
-          "Please specify the name of the project for which you want to export the metadata");
+      throw new HopException("Please specify the name of the project for which you want to export the metadata");
     }
 
     ProjectConfig projectConfig = config.findProjectConfig(projectName);
     if (projectConfig == null) {
-      throw new HopException(
-          "Project '" + projectName + "' couldn't be found in the Hop configuration");
+      throw new HopException("Project '" + projectName + "' couldn't be found in the Hop configuration");
     }
     Project project = projectConfig.loadProject(Variables.getADefaultVariableSpace());
-    ProjectsUtil.enableProject(
-        log, projectName, project, variables, new ArrayList<>(), null, hasHopMetadataProvider);
+    ProjectsUtil.enableProject(log, projectName, project, variables, new ArrayList<>(), null, hasHopMetadataProvider);
     log.logBasic("Enabled project " + projectName);
 
     String realFilename = variables.resolve(metadataJsonFilename);
@@ -400,8 +324,7 @@ public class ManageProjectsOptionPlugin implements IConfigOptions {
 
     // This is the metadata to export
     //
-    SerializableMetadataProvider metadataProvider =
-        new SerializableMetadataProvider(hasHopMetadataProvider.getMetadataProvider());
+    SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(hasHopMetadataProvider.getMetadataProvider());
     String jsonString = metadataProvider.toJson();
 
     try {

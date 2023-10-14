@@ -34,8 +34,7 @@ public class ProjectsConfigSingleton {
   private ProjectsConfigSingleton() {
     // Load from the HopConfig store
     //
-    Object configObject =
-        HopConfig.getInstance().getConfigMap().get(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY);
+    Object configObject = HopConfig.getInstance().getConfigMap().get(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY);
     if (configObject == null) {
       projectsConfig = new ProjectsConfig();
     } else {
@@ -47,17 +46,12 @@ public class ProjectsConfigSingleton {
         ObjectMapper mapper = HopJson.newMapper();
         projectsConfig = mapper.readValue(new Gson().toJson(configObject), ProjectsConfig.class);
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error reading environments configuration, check property '"
-                + ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY
-                + "' in the Hop config json file",
-            e);
+        LogChannel.GENERAL
+            .logError("Error reading environments configuration, check property '" + ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY + "' in the Hop config json file", e);
         projectsConfig = new ProjectsConfig();
       }
     }
-    HopConfig.getInstance()
-        .getConfigMap()
-        .put(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY, projectsConfig);
+    HopConfig.getInstance().getConfigMap().put(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY, projectsConfig);
   }
 
   public static ProjectsConfigSingleton getInstance() {
@@ -72,8 +66,7 @@ public class ProjectsConfigSingleton {
   }
 
   public static void saveConfig() throws HopException {
-    HopConfig.getInstance()
-        .saveOption(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY, configSingleton.projectsConfig);
+    HopConfig.getInstance().saveOption(ProjectsConfig.HOP_CONFIG_PROJECTS_CONFIG_KEY, configSingleton.projectsConfig);
     HopConfig.getInstance().saveToFile();
   }
 

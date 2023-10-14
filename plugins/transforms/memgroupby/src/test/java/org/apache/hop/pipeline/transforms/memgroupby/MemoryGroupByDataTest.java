@@ -36,20 +36,20 @@ public class MemoryGroupByDataTest {
 
   private MemoryGroupByData data = new MemoryGroupByData();
 
-  @Mock private IRowMeta groupMeta;
-  @Mock private IValueMeta valueMeta;
+  @Mock
+  private IRowMeta groupMeta;
+  @Mock
+  private IValueMeta valueMeta;
 
   @Before
   public void setUp() throws Exception {
     data.groupMeta = groupMeta;
     when(groupMeta.size()).thenReturn(1);
     when(groupMeta.getValueMeta(anyInt())).thenReturn(valueMeta);
-    when(valueMeta.convertToNormalStorageType(anyObject()))
-        .then(
-            invocation -> {
-              Object argument = invocation.getArguments()[0];
-              return new String((byte[]) argument);
-            });
+    when(valueMeta.convertToNormalStorageType(anyObject())).then(invocation -> {
+      Object argument = invocation.getArguments()[0];
+      return new String((byte[]) argument);
+    });
   }
 
   @Test

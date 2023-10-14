@@ -27,20 +27,27 @@ import java.util.List;
 @HopMetadata(
     key = "pipeline-log",
     name = "Pipeline Log",
-    description =
-        "This metadata object type allows you to log activity of a pipeline with another pipeline",
+    description = "This metadata object type allows you to log activity of a pipeline with another pipeline",
     image = "pipeline-log.svg",
     documentationUrl = "/metadata-types/pipeline-log.html")
 public class PipelineLog extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private boolean loggingParentsOnly;
-  @HopMetadataProperty private String pipelineFilename;
-  @HopMetadataProperty private boolean executingAtStart;
-  @HopMetadataProperty private boolean executingPeriodically;
-  @HopMetadataProperty private String intervalInSeconds;
-  @HopMetadataProperty private boolean executingAtEnd;
-  @HopMetadataProperty private List<PipelineToLogLocation> pipelinesToLog;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private boolean loggingParentsOnly;
+  @HopMetadataProperty
+  private String pipelineFilename;
+  @HopMetadataProperty
+  private boolean executingAtStart;
+  @HopMetadataProperty
+  private boolean executingPeriodically;
+  @HopMetadataProperty
+  private String intervalInSeconds;
+  @HopMetadataProperty
+  private boolean executingAtEnd;
+  @HopMetadataProperty
+  private List<PipelineToLogLocation> pipelinesToLog;
 
   public PipelineLog() {
     enabled = true;
@@ -57,16 +64,8 @@ public class PipelineLog extends HopMetadataBase implements IHopMetadata {
     pipelinesToLog = new ArrayList<>();
   }
 
-  public PipelineLog(
-      String name,
-      boolean enabled,
-      boolean loggingParentsOnly,
-      String pipelineFilename,
-      boolean executingAtStart,
-      boolean executingPeriodically,
-      String intervalInSeconds,
-      boolean executingAtEnd,
-      List<PipelineToLogLocation> pipelinesToLog) {
+  public PipelineLog(String name, boolean enabled, boolean loggingParentsOnly, String pipelineFilename, boolean executingAtStart, boolean executingPeriodically,
+      String intervalInSeconds, boolean executingAtEnd, List<PipelineToLogLocation> pipelinesToLog) {
     super(name);
     this.enabled = enabled;
     this.loggingParentsOnly = loggingParentsOnly;
@@ -176,11 +175,11 @@ public class PipelineLog extends HopMetadataBase implements IHopMetadata {
     this.executingAtEnd = executingAtEnd;
   }
 
-  public List<PipelineToLogLocation> getPipelinesToLog(){
+  public List<PipelineToLogLocation> getPipelinesToLog() {
     return pipelinesToLog;
   }
 
-  public void setPipelinesToLog(List<PipelineToLogLocation> pipelinesToLog){
+  public void setPipelinesToLog(List<PipelineToLogLocation> pipelinesToLog) {
     this.pipelinesToLog = pipelinesToLog;
   }
 }

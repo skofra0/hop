@@ -50,11 +50,8 @@ public class MemoryGroupByNewAggregateTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>(
-            "Memory Group By", MemoryGroupByMeta.class, MemoryGroupByData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Memory Group By", MemoryGroupByMeta.class, MemoryGroupByData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
 
     // In this transform we will distinct String aggregations from numeric ones
@@ -82,10 +79,10 @@ public class MemoryGroupByNewAggregateTest {
 
     data.subjectnrs = new int[types.length];
 
-    int i=0;
+    int i = 0;
     for (GroupType type : types) {
       data.subjectnrs[i] = i++;
-      new GAggregate("x"+1, "x", type, null);
+      new GAggregate("x" + 1, "x", type, null);
     }
 
     MemoryGroupByMeta meta = new MemoryGroupByMeta();
@@ -98,14 +95,7 @@ public class MemoryGroupByNewAggregateTest {
     when(rmi.getValueMeta(Mockito.anyInt())).thenReturn(vmi);
     data.aggMeta = rmi;
 
-    transform =
-        new MemoryGroupBy(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            data,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    transform = new MemoryGroupBy(mockHelper.transformMeta, mockHelper.iTransformMeta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
   }
 
   @Test
@@ -124,8 +114,7 @@ public class MemoryGroupByNewAggregateTest {
     for (int i = 0; i < agg.agg.length; i++) {
       int type = i + 1;
       if (strings.contains(type)) {
-        Assert.assertTrue(
-            "This is appendable type, type=" + type, agg.agg[i] instanceof Appendable);
+        Assert.assertTrue("This is appendable type, type=" + type, agg.agg[i] instanceof Appendable);
       } else if (statistics.contains(type)) {
         Assert.assertTrue("This is collection, type=" + type, agg.agg[i] instanceof Collection);
       } else {

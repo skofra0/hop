@@ -44,7 +44,8 @@ public abstract class ConfigFile implements IConfigFile {
   @JsonProperty("config")
   protected Map<String, Object> configMap;
 
-  @JsonIgnore protected IHopConfigSerializer serializer;
+  @JsonIgnore
+  protected IHopConfigSerializer serializer;
 
   public ConfigFile() {
     configMap = new HashMap<>();
@@ -58,16 +59,14 @@ public abstract class ConfigFile implements IConfigFile {
         //
         this.serializer = new ConfigFileSerializer();
       } else {
-        boolean createWhenMissing =
-            "Y".equalsIgnoreCase(System.getProperty(Const.HOP_AUTO_CREATE_CONFIG, "N"));
+        boolean createWhenMissing = "Y".equalsIgnoreCase(System.getProperty(Const.HOP_AUTO_CREATE_CONFIG, "N"));
         if (createWhenMissing) {
           System.out.println("Creating new default Hop configuration file: " + getConfigFilename());
           this.serializer = new ConfigFileSerializer();
         } else {
           // Doesn't serialize anything really, reads an empty map with an empty file
           //
-          System.out.println(
-              "Hop configuration file not found, not serializing: " + getConfigFilename());
+          System.out.println("Hop configuration file not found, not serializing: " + getConfigFilename());
           this.serializer = new ConfigNoFileSerializer();
         }
       }
@@ -106,16 +105,11 @@ public abstract class ConfigFile implements IConfigFile {
       try {
         for (Object dvObject : (List) variablesObject) {
           String dvJson = new Gson().toJson(dvObject);
-          DescribedVariable describedVariable =
-                  HopJson.newMapper().readValue(dvJson, DescribedVariable.class);
+          DescribedVariable describedVariable = HopJson.newMapper().readValue(dvJson, DescribedVariable.class);
           variables.add(describedVariable);
         }
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error parsing described variables from configuration file '"
-                + getConfigFilename()
-                + "'",
-            e);
+        LogChannel.GENERAL.logError("Error parsing described variables from configuration file '" + getConfigFilename() + "'", e);
         variables = new ArrayList<>();
       }
     }

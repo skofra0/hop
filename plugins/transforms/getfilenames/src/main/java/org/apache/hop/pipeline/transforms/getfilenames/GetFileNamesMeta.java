@@ -61,11 +61,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
 
   private static final String YES = "Y";
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
 
   /** Filter indicating file filter */
@@ -74,67 +70,41 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
   @HopMetadataProperty(
       key = "file",
       injectionKeyDescription = "GetFileNames.Injection.File.Label",
-      inlineListTags = {
-        "name",
-        "filemask",
-        "exclude_filemask",
-        "file_required",
-        "include_subfolders"
-      })
+      inlineListTags = {"name", "filemask", "exclude_filemask", "file_required", "include_subfolders"})
   private List<FileItem> filesList;
 
-  @HopMetadataProperty(
-      key = "filter",
-      injectionKeyDescription = "GetFileNames.Injection.FilterItemType.Label")
+  @HopMetadataProperty(key = "filter", injectionKeyDescription = "GetFileNames.Injection.FilterItemType.Label")
   private List<FilterItem> filterItemList;
 
   /** Flag indicating that a row number field should be included in the output */
-  @HopMetadataProperty(
-      key = "rownum",
-      injectionKeyDescription = "GetFileNames.Injection.InclRownum.Label")
+  @HopMetadataProperty(key = "rownum", injectionKeyDescription = "GetFileNames.Injection.InclRownum.Label")
   private boolean includeRowNumber;
 
   /** The name of the field in the output containing the row number */
-  @HopMetadataProperty(
-      key = "rownum_field",
-      injectionKeyDescription = "GetFileNames.Injection.InclRownumField.Label")
+  @HopMetadataProperty(key = "rownum_field", injectionKeyDescription = "GetFileNames.Injection.InclRownumField.Label")
   private String rowNumberField;
 
-  @HopMetadataProperty(
-      key = "filename_Field",
-      injectionKeyDescription = "GetFileNames.Injection.FilenameField.Label")
+  @HopMetadataProperty(key = "filename_Field", injectionKeyDescription = "GetFileNames.Injection.FilenameField.Label")
   private String dynamicFilenameField;
 
-  @HopMetadataProperty(
-      key = "wildcard_Field",
-      injectionKeyDescription = "GetFileNames.Injection.WildcardField.Label")
+  @HopMetadataProperty(key = "wildcard_Field", injectionKeyDescription = "GetFileNames.Injection.WildcardField.Label")
   private String dynamicWildcardField;
 
-  @HopMetadataProperty(
-      key = "exclude_wildcard_Field",
-      injectionKeyDescription = "GetFileNames.Injection.ExcludeWildcardField.Label")
+  @HopMetadataProperty(key = "exclude_wildcard_Field", injectionKeyDescription = "GetFileNames.Injection.ExcludeWildcardField.Label")
   private String dynamicExcludeWildcardField;
 
   /** file name from previous fields */
-  @HopMetadataProperty(
-      key = "filefield",
-      injectionKeyDescription = "GetFileNames.Injection.FilenameInField.Label")
+  @HopMetadataProperty(key = "filefield", injectionKeyDescription = "GetFileNames.Injection.FilenameInField.Label")
   private boolean fileField;
 
-  @HopMetadataProperty(
-      key = "dynamic_include_subfolders",
-      injectionKeyDescription = "GetFileNames.Injection.IncludeSubFolder.Label")
+  @HopMetadataProperty(key = "dynamic_include_subfolders", injectionKeyDescription = "GetFileNames.Injection.IncludeSubFolder.Label")
   private boolean dynamicIncludeSubFolders;
 
-  @HopMetadataProperty(
-      key = "isaddresult",
-      injectionKeyDescription = "GetFileNames.Injection.AddResult.Label")
+  @HopMetadataProperty(key = "isaddresult", injectionKeyDescription = "GetFileNames.Injection.AddResult.Label")
   private boolean addResultFile;
 
   /** The maximum number or lines to read */
-  @HopMetadataProperty(
-      key = "limit",
-      injectionKeyDescription = "GetFileNames.Injection.Limit.Label")
+  @HopMetadataProperty(key = "limit", injectionKeyDescription = "GetFileNames.Injection.Limit.Label")
   private long rowLimit;
 
   /** Flag : do not fail if no file */
@@ -142,8 +112,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
   private boolean doNotFailIfNoFile;
 
   /** Flag : raise an exception if no file */
-  @HopMetadataProperty(
-      injectionKeyDescription = "GetFileNames.Injection.RaiseAnExceptionIfNoFiles.Label")
+  @HopMetadataProperty(injectionKeyDescription = "GetFileNames.Injection.RaiseAnExceptionIfNoFiles.Label")
   private boolean raiseAnExceptionIfNoFile;
 
   public GetFileNamesMeta() {
@@ -344,13 +313,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // the filename
@@ -436,9 +399,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
 
   private FileInputList.FileTypeFilter[] buildFileTypeFiltersArray() {
     FileInputList.FileTypeFilter[] filters = new FileInputList.FileTypeFilter[filesList.size()];
-    FileInputList.FileTypeFilter elementTypeToGet =
-        FileInputList.FileTypeFilter.getByName(
-            getFilterItemList().get(0).getFileTypeFilterSelection());
+    FileInputList.FileTypeFilter elementTypeToGet = FileInputList.FileTypeFilter.getByName(getFilterItemList().get(0).getFileTypeFilterSelection());
 
     for (int i = 0; i < filesList.size(); i++) {
       filters[i] = elementTypeToGet;
@@ -448,24 +409,12 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
 
   public String[] getFilePaths(IVariables variables) {
     return FileInputList.createFilePathList(
-        variables,
-        buildFilenamesArray(),
-        buildMasksArray(),
-        buildExcludeMasksArray(),
-        buildFileRequiredArray(),
-        includeSubFolderBoolean(),
-        buildFileTypeFiltersArray());
+        variables, buildFilenamesArray(), buildMasksArray(), buildExcludeMasksArray(), buildFileRequiredArray(), includeSubFolderBoolean(), buildFileTypeFiltersArray());
   }
 
   public FileInputList getFileList(IVariables variables) {
     return FileInputList.createFileList(
-        variables,
-        buildFilenamesArray(),
-        buildMasksArray(),
-        buildExcludeMasksArray(),
-        buildFileRequiredArray(),
-        includeSubFolderBoolean(),
-        buildFileTypeFiltersArray());
+        variables, buildFilenamesArray(), buildMasksArray(), buildExcludeMasksArray(), buildFileRequiredArray(), includeSubFolderBoolean(), buildFileTypeFiltersArray());
   }
 
   public FileInputList getDynamicFileList(
@@ -475,14 +424,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
       String[] excludeFilemask,
       String[] fileRequired,
       boolean[] includeSubFolders) {
-    return FileInputList.createFileList(
-        variables,
-        filename,
-        fileMask,
-        excludeFilemask,
-        fileRequired,
-        includeSubFolders,
-        buildFileTypeFiltersArray());
+    return FileInputList.createFileList(variables, filename, fileMask, excludeFilemask, fileRequired, includeSubFolders, buildFileTypeFiltersArray());
   }
 
   protected String[] buildFilenamesArray() {
@@ -543,49 +485,25 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
     // See if we get input...
     if (fileField) {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.InputOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.InputOk"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.InputErrorKo"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.InputErrorKo"), transformMeta);
       }
       remarks.add(cr);
 
       if (Utils.isEmpty(dynamicFilenameField)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.FolderFieldnameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.FolderFieldnameMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.FolderFieldnameOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.FolderFieldnameOk"), transformMeta);
       }
       remarks.add(cr);
 
     } else {
 
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.NoInputError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.NoInputError"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.NoInputOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.NoInputOk"), transformMeta);
       }
 
       remarks.add(cr);
@@ -593,26 +511,16 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
       // check specified file names
       FileInputList fileList = getFileList(variables);
       if (fileList.nrOfFiles() == 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.ExpectedFilesError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.ExpectedFilesError"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "GetFileNamesMeta.CheckResult.ExpectedFilesOk", "" + fileList.nrOfFiles()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFileNamesMeta.CheckResult.ExpectedFilesOk", "" + fileList.nrOfFiles()), transformMeta);
       }
       remarks.add(cr);
     }
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     List<ResourceReference> references = new ArrayList<>(5);
     ResourceReference reference = new ResourceReference(transformMeta);
     references.add(reference);
@@ -639,11 +547,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -657,8 +561,7 @@ public class GetFileNamesMeta extends BaseTransformMeta<GetFileNames, GetFileNam
         for (int i = 0; i < filesList.size(); i++) {
           FileItem fi = filesList.get(i);
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(fi.getFileName()));
-          fi.setFileName(
-              iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(fi.getFileMask())));
+          fi.setFileName(iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(fi.getFileMask())));
         }
       }
       return null;

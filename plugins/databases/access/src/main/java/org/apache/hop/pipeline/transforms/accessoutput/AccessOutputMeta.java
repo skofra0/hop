@@ -63,46 +63,30 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
 
   public static final int COMMIT_SIZE = 500;
 
-  @HopMetadataProperty(
-      key = "filename",
-      injectionKeyDescription = "AccessOutputMeta.Injection.FILE_NAME")
+  @HopMetadataProperty(key = "filename", injectionKeyDescription = "AccessOutputMeta.Injection.FILE_NAME")
   private String fileName;
 
-  @HopMetadataProperty(
-      key = "tablename",
-      injectionKeyDescription = "AccessOutputMeta.Injection.TABLE_NAME")
+  @HopMetadataProperty(key = "tablename", injectionKeyDescription = "AccessOutputMeta.Injection.TABLE_NAME")
   private String tableName;
 
-  @HopMetadataProperty(
-      key = "create_table",
-      injectionKeyDescription = "AccessOutputMeta.Injection.CREATE_TABLE")
+  @HopMetadataProperty(key = "create_table", injectionKeyDescription = "AccessOutputMeta.Injection.CREATE_TABLE")
   private boolean createTable;
 
-  @HopMetadataProperty(
-      key = "create_file",
-      injectionKeyDescription = "AccessOutputMeta.Injection.CREATE_FILE")
+  @HopMetadataProperty(key = "create_file", injectionKeyDescription = "AccessOutputMeta.Injection.CREATE_FILE")
   private boolean createFile;
 
-  @HopMetadataProperty(
-      key = "truncate",
-      injectionKeyDescription = "AccessOutputMeta.Injection.TRUNCATE")
+  @HopMetadataProperty(key = "truncate", injectionKeyDescription = "AccessOutputMeta.Injection.TRUNCATE")
   private boolean truncateTable;
 
-  @HopMetadataProperty(
-      key = "commit_size",
-      injectionKeyDescription = "AccessOutputMeta.Injection.COMMIT_SIZE")
+  @HopMetadataProperty(key = "commit_size", injectionKeyDescription = "AccessOutputMeta.Injection.COMMIT_SIZE")
   private int commitSize;
 
   /** Flag: add the filename to result filenames */
-  @HopMetadataProperty(
-      key = "add_to_result_filenames",
-      injectionKeyDescription = "AccessOutputMeta.Injection.ADD_TO_RESULT_FILE")
+  @HopMetadataProperty(key = "add_to_result_filenames", injectionKeyDescription = "AccessOutputMeta.Injection.ADD_TO_RESULT_FILE")
   private boolean addToResultFile;
 
   /** Flag : Do not create new file when transformation start, wait the first row */
-  @HopMetadataProperty(
-      key = "do_not_open_newfile_init",
-      injectionKeyDescription = "AccessOutputMeta.Injection.WAIT_FIRST_ROW_TO_CREATE_FILE")
+  @HopMetadataProperty(key = "do_not_open_newfile_init", injectionKeyDescription = "AccessOutputMeta.Injection.WAIT_FIRST_ROW_TO_CREATE_FILE")
   private boolean waitFirstRowToCreateFile;
 
   public AccessOutputMeta() {
@@ -160,36 +144,20 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
 
     // See if we have input streams leading to this transformation
     if (input.length > 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
     if (Utils.isEmpty(fileName)) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.MissingDatabaseFileName"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.MissingDatabaseFileName"), transformMeta);
       remarks.add(cr);
     }
 
     if (Utils.isEmpty(tableName)) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.MissingTableName"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AccessOutputMeta.CheckResult.MissingTableName"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -201,9 +169,7 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
     Database db = null;
     try {
       if (!file.exists() || !file.isFile()) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "AccessOutputMeta.Exception.FileDoesNotExist", realFilename));
+        throw new HopException(BaseMessages.getString(PKG, "AccessOutputMeta.Exception.FileDoesNotExist", realFilename));
       }
 
       // open the database and get the table
@@ -211,23 +177,19 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
       String realTablename = variables.resolve(tableName);
       Table table = db.getTable(realTablename);
       if (table == null) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "AccessOutputMeta.Exception.TableDoesNotExist", realTablename));
+        throw new HopException(BaseMessages.getString(PKG, "AccessOutputMeta.Exception.TableDoesNotExist", realTablename));
       }
 
       return getLayout(table);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "AccessOutputMeta.Exception.ErrorGettingFields"), e);
+      throw new HopException(BaseMessages.getString(PKG, "AccessOutputMeta.Exception.ErrorGettingFields"), e);
     } finally {
       try {
         if (db != null) {
           db.close();
         }
       } catch (IOException e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "AccessOutputMeta.Exception.ErrorClosingDatabase"), e);
+        throw new HopException(BaseMessages.getString(PKG, "AccessOutputMeta.Exception.ErrorClosingDatabase"), e);
       }
     }
   }
@@ -295,16 +257,12 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
             precision = -1;
           }
 
-          if (type == java.sql.Types.DOUBLE
-              || type == java.sql.Types.FLOAT
-              || type == java.sql.Types.REAL) {
+          if (type == java.sql.Types.DOUBLE || type == java.sql.Types.FLOAT || type == java.sql.Types.REAL) {
             if (precision == 0) {
               precision = -1; // precision is obviously incorrect if the type if Double/Float/Real
             }
           } else {
-            if (precision == 0
-                && length < 18
-                && length > 0) { // Among others Oracle is affected here.
+            if (precision == 0 && length < 18 && length > 0) { // Among others Oracle is affected here.
               valtype = IValueMeta.TYPE_INTEGER;
             }
           }
@@ -443,11 +401,7 @@ public class AccessOutputMeta extends BaseTransformMeta<AccessOutput, AccessOutp
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     // The object that we're modifying here is a copy of the original!
     // So let's change the filename from relative to absolute by grabbing the file object...

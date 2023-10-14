@@ -34,11 +34,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /*
-
- Disabled for now
- HOP-3420 : Read logging in a standardized way
-
-@GuiPlugin
+ * 
+ * Disabled for now
+ * HOP-3420 : Read logging in a standardized way
+ * 
+ * @GuiPlugin
  */
 public class LogReaderEditor extends MetadataEditor<LogReader> {
   private static final Class<?> PKG = LogReaderEditor.class; // For Translator
@@ -55,8 +55,7 @@ public class LogReaderEditor extends MetadataEditor<LogReader> {
    * @param manager
    * @param hopDocumentation The object to edit
    */
-  public LogReaderEditor(
-      HopGui hopGui, MetadataManager<LogReader> manager, LogReader hopDocumentation) {
+  public LogReaderEditor(HopGui hopGui, MetadataManager<LogReader> manager, LogReader hopDocumentation) {
     super(hopGui, manager, hopDocumentation);
 
     this.hopDocumentation = hopDocumentation;
@@ -106,44 +105,37 @@ public class LogReaderEditor extends MetadataEditor<LogReader> {
     // Add the plugin specific widgets
     //
     guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-    guiCompositeWidgets.createCompositeWidgets(
-        hopDocumentation, null, wPluginSpecificComp, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
-    guiCompositeWidgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    guiCompositeWidgets.createCompositeWidgets(hopDocumentation, null, wPluginSpecificComp, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
+    guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
 
     setWidgetsContent();
 
     // Add changed listeners
     //
     wName.addListener(SWT.Modify, e -> setChanged());
-    guiCompositeWidgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
   }
 
   @Override
   public void setWidgetsContent() {
     LogReader hopDocumentation = getMetadata();
     wName.setText(Const.NVL(hopDocumentation.getName(), ""));
-    guiCompositeWidgets.setWidgetsContents(
-        hopDocumentation, wPluginSpecificComp, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    guiCompositeWidgets.setWidgetsContents(hopDocumentation, wPluginSpecificComp, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID);
   }
 
   @Override
   public void getWidgetsContent(LogReader hopDocumentation) {
     hopDocumentation.setName(wName.getText());
-    guiCompositeWidgets.getWidgetsContents(
-        hopDocumentation, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    guiCompositeWidgets.getWidgetsContents(hopDocumentation, LogReader.GUI_PLUGIN_ELEMENT_PARENT_ID);
   }
 }

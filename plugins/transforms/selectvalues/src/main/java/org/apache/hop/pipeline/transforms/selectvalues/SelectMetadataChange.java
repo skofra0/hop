@@ -79,21 +79,8 @@ public class SelectMetadataChange implements Cloneable {
     storageType = -1; // storage type is not used by default!
   }
 
-  public SelectMetadataChange(
-      String name,
-      String rename,
-      int type,
-      int length,
-      int precision,
-      int storageType,
-      String conversionMask,
-      boolean dateFormatLenient,
-      String dateFormatLocale,
-      String dateFormatTimeZone,
-      boolean lenientStringToNumber,
-      String decimalSymbol,
-      String groupingSymbol,
-      String currencySymbol) {
+  public SelectMetadataChange(String name, String rename, int type, int length, int precision, int storageType, String conversionMask, boolean dateFormatLenient,
+      String dateFormatLocale, String dateFormatTimeZone, boolean lenientStringToNumber, String decimalSymbol, String groupingSymbol, String currencySymbol) {
     this();
     this.name = name;
     this.rename = rename;
@@ -116,27 +103,19 @@ public class SelectMetadataChange implements Cloneable {
     xml.append("      ").append(XmlHandler.openTag(XML_TAG));
     xml.append("        ").append(XmlHandler.addTagValue("name", name));
     xml.append("        ").append(XmlHandler.addTagValue("rename", rename));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type)));
+    xml.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type)));
     xml.append("        ").append(XmlHandler.addTagValue("length", length));
     xml.append("        ").append(XmlHandler.addTagValue("precision", precision));
     xml.append("        ").append(XmlHandler.addTagValue("conversion_mask", conversionMask));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("date_format_lenient", Boolean.toString(dateFormatLenient)));
+    xml.append("        ").append(XmlHandler.addTagValue("date_format_lenient", Boolean.toString(dateFormatLenient)));
     xml.append("        ").append(XmlHandler.addTagValue("date_format_locale", dateFormatLocale));
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("date_format_timezone", dateFormatTimeZone));
-    xml.append("        ")
-        .append(
-            XmlHandler.addTagValue(
-                "lenient_string_to_number", Boolean.toString(lenientStringToNumber)));
+    xml.append("        ").append(XmlHandler.addTagValue("date_format_timezone", dateFormatTimeZone));
+    xml.append("        ").append(XmlHandler.addTagValue("lenient_string_to_number", Boolean.toString(lenientStringToNumber)));
     xml.append("        ").append(XmlHandler.addTagValue("encoding", encoding));
     xml.append("        ").append(XmlHandler.addTagValue("decimal_symbol", decimalSymbol));
     xml.append("        ").append(XmlHandler.addTagValue("grouping_symbol", groupingSymbol));
     xml.append("        ").append(XmlHandler.addTagValue("currency_symbol", currencySymbol));
-    xml.append("        ")
-        .append(
-            XmlHandler.addTagValue("storage_type", ValueMetaBase.getStorageTypeCode(storageType)));
+    xml.append("        ").append(XmlHandler.addTagValue("storage_type", ValueMetaBase.getStorageTypeCode(storageType)));
     xml.append("      ").append(XmlHandler.closeTag(XML_TAG));
     return xml.toString();
   }
@@ -149,13 +128,11 @@ public class SelectMetadataChange implements Cloneable {
     precision = Const.toInt(XmlHandler.getTagValue(metaNode, "precision"), -2);
     storageType = ValueMetaBase.getStorageType(XmlHandler.getTagValue(metaNode, "storage_type"));
     conversionMask = XmlHandler.getTagValue(metaNode, "conversion_mask");
-    dateFormatLenient =
-        Boolean.parseBoolean(XmlHandler.getTagValue(metaNode, "date_format_lenient"));
+    dateFormatLenient = Boolean.parseBoolean(XmlHandler.getTagValue(metaNode, "date_format_lenient"));
     dateFormatLocale = XmlHandler.getTagValue(metaNode, "date_format_locale");
     dateFormatTimeZone = XmlHandler.getTagValue(metaNode, "date_format_timezone");
     encoding = XmlHandler.getTagValue(metaNode, "encoding");
-    lenientStringToNumber =
-        Boolean.parseBoolean(XmlHandler.getTagValue(metaNode, "lenient_string_to_number"));
+    lenientStringToNumber = Boolean.parseBoolean(XmlHandler.getTagValue(metaNode, "lenient_string_to_number"));
     decimalSymbol = XmlHandler.getTagValue(metaNode, "decimal_symbol");
     groupingSymbol = XmlHandler.getTagValue(metaNode, "grouping_symbol");
     currencySymbol = XmlHandler.getTagValue(metaNode, "currency_symbol");

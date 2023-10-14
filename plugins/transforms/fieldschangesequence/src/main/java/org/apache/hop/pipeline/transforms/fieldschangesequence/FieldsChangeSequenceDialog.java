@@ -72,8 +72,7 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
 
   public static final String STRING_CHANGE_SEQUENCE_WARNING_PARAMETER = "ChangeSequenceSortWarning";
 
-  public FieldsChangeSequenceDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public FieldsChangeSequenceDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (FieldsChangeSequenceMeta) in;
   }
@@ -102,8 +101,7 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -194,21 +192,8 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
     final int FieldsRows = input.getFields().size();
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -228,43 +213,36 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
-              if (row != null) {
-                // Remember these fields...
-                for (int i = 0; i < row.size(); i++) {
-                  inputFields.add(row.getValueMeta(i).getName());
-                }
-                setComboBoxes();
-              }
-
-              // Dislay in red missing field names
-              display.asyncExec(
-                  () -> {
-                    if (!wFields.isDisposed()) {
-                      for (int i = 0; i < wFields.table.getItemCount(); i++) {
-                        TableItem it = wFields.table.getItem(i);
-                        if (!Utils.isEmpty(it.getText(1))
-                            && (!inputFields.contains(it.getText(1)))) {
-                          it.setBackground(GuiResource.getInstance().getColorRed());
-                        }
-                      }
-                    }
-                  });
-
-            } catch (HopException e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "FieldsChangeSequenceDialog.ErrorGettingPreviousFields",
-                      e.getMessage()));
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+          if (row != null) {
+            // Remember these fields...
+            for (int i = 0; i < row.size(); i++) {
+              inputFields.add(row.getValueMeta(i).getName());
             }
+            setComboBoxes();
           }
-        };
+
+          // Dislay in red missing field names
+          display.asyncExec(() -> {
+            if (!wFields.isDisposed()) {
+              for (int i = 0; i < wFields.table.getItemCount(); i++) {
+                TableItem it = wFields.table.getItem(i);
+                if (!Utils.isEmpty(it.getText(1)) && (!inputFields.contains(it.getText(1)))) {
+                  it.setBackground(GuiResource.getInstance().getColorRed());
+                }
+              }
+            }
+          });
+
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.ErrorGettingPreviousFields", e.getMessage()));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     input.setChanged(changed);
@@ -285,20 +263,14 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener insertListener =
-            (tableItem, v) -> {
-              tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        ITableItemInsertListener insertListener = (tableItem, v) -> {
+          tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 
@@ -351,27 +323,18 @@ public class FieldsChangeSequenceDialog extends BaseTransformDialog implements I
     }
     input.setFields(fieldName);
 
-    if ("Y"
-        .equalsIgnoreCase(
-            props.getCustomParameter(STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, "Y"))) {
+    if ("Y".equalsIgnoreCase(props.getCustomParameter(STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, "Y"))) {
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.InputNeedSort.DialogTitle"),
-              BaseMessages.getString(
-                      PKG, "FieldsChangeSequenceDialog.InputNeedSort.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.InputNeedSort.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.InputNeedSort.Option1")
-              },
+              new String[] {BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.InputNeedSort.Option1")},
               BaseMessages.getString(PKG, "FieldsChangeSequenceDialog.InputNeedSort.Option2"),
-              "N"
-                  .equalsIgnoreCase(
-                      props.getCustomParameter(STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, "Y")));
+              "N".equalsIgnoreCase(props.getCustomParameter(STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, "Y")));
       md.open();
-      props.setCustomParameter(
-          STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, md.getToggleState() ? "N" : "Y");
+      props.setCustomParameter(STRING_CHANGE_SEQUENCE_WARNING_PARAMETER, md.getToggleState() ? "N" : "Y");
     }
 
     dispose();

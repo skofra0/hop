@@ -32,22 +32,12 @@ public abstract class AbstractFileValidator implements IActionValidator {
     return context;
   }
 
-  protected IVariables getVariableSpace(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  protected IVariables getVariableSpace(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
     Object obj = context.get(KEY_VARIABLE_SPACE);
     if (obj instanceof IVariables) {
       return (IVariables) obj;
     } else {
-      ActionValidatorUtils.addGeneralRemark(
-          source,
-          propertyName,
-          getName(),
-          remarks,
-          "messages.failed.missingKey",
-          ICheckResult.TYPE_RESULT_ERROR);
+      ActionValidatorUtils.addGeneralRemark(source, propertyName, getName(), remarks, "messages.failed.missingKey", ICheckResult.TYPE_RESULT_ERROR);
       return null;
     }
   }

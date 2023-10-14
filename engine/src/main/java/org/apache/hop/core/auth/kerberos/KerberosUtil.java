@@ -65,11 +65,9 @@ public class KerberosUtil {
   public static final Map<String, String> LOGIN_CONFIG_BASE = createLoginConfigBaseMap();
 
   /** Login Configuration options for KERBEROS_USER mode. */
-  private static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_USER =
-      getLoginConfigOptsKerberosUser();
+  private static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_USER = getLoginConfigOptsKerberosUser();
 
-  private static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_USER_NOPASS =
-      getLoginConfigOptsKerberosNoPassword();
+  private static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_USER_NOPASS = getLoginConfigOptsKerberosNoPassword();
 
   private static Map<String, String> createLoginConfigBaseMap() {
     Map<String, String> result = new HashMap<>();
@@ -99,8 +97,7 @@ public class KerberosUtil {
   }
 
   /** Login Configuration options for KERBEROS_KEYTAB mode. */
-  public static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_KEYTAB =
-      createLoginConfigOptsKerberosKeytabMap();
+  public static final Map<String, String> LOGIN_CONFIG_OPTS_KERBEROS_KEYTAB = createLoginConfigOptsKerberosKeytabMap();
 
   private static Map<String, String> createLoginConfigOptsKerberosKeytabMap() {
     Map<String, String> result = new HashMap<>(LOGIN_CONFIG_BASE);
@@ -115,62 +112,45 @@ public class KerberosUtil {
     return Collections.unmodifiableMap(result);
   }
 
-  public LoginContext getLoginContextFromKeytab(String principal, String keytab)
-      throws LoginException {
+  public LoginContext getLoginContextFromKeytab(String principal, String keytab) throws LoginException {
     Map<String, String> keytabConfig = new HashMap<>(LOGIN_CONFIG_OPTS_KERBEROS_KEYTAB);
     keytabConfig.put("keyTab", keytab);
     keytabConfig.put("principal", principal);
 
     // Create the configuration and from them, a new login context
-    AppConfigurationEntry config =
-        new AppConfigurationEntry(
-            Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, keytabConfig);
+    AppConfigurationEntry config = new AppConfigurationEntry(Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, keytabConfig);
     AppConfigurationEntry[] configEntries = new AppConfigurationEntry[] {config};
     Subject subject = new Subject();
-    return new LoginContext(
-        KERBEROS_APP_NAME, subject, null, new HopLoginConfiguration(configEntries));
+    return new LoginContext(KERBEROS_APP_NAME, subject, null, new HopLoginConfiguration(configEntries));
   }
 
-  public LoginContext getLoginContextFromUsernamePassword(
-      final String principal, final String password) throws LoginException {
+  public LoginContext getLoginContextFromUsernamePassword(final String principal, final String password) throws LoginException {
     Map<String, String> opts = new HashMap<>(LOGIN_CONFIG_OPTS_KERBEROS_USER);
     opts.put("principal", principal);
     AppConfigurationEntry[] appConfigurationEntries =
-        new AppConfigurationEntry[] {
-          new AppConfigurationEntry(
-              Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, opts)
-        };
-    return new LoginContext(
-        KERBEROS_APP_NAME,
-        new Subject(),
-        new CallbackHandler() {
+        new AppConfigurationEntry[] {new AppConfigurationEntry(Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, opts)};
+    return new LoginContext(KERBEROS_APP_NAME, new Subject(), new CallbackHandler() {
 
-          @Override
-          public void handle(Callback[] callbacks)
-              throws IOException, UnsupportedCallbackException {
-            for (Callback callback : callbacks) {
-              if (callback instanceof NameCallback) {
-                ((NameCallback) callback).setName(principal);
-              } else if (callback instanceof PasswordCallback) {
-                ((PasswordCallback) callback).setPassword(password.toCharArray());
-              } else {
-                throw new UnsupportedCallbackException(callback);
-              }
-            }
+      @Override
+      public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+        for (Callback callback : callbacks) {
+          if (callback instanceof NameCallback) {
+            ((NameCallback) callback).setName(principal);
+          } else if (callback instanceof PasswordCallback) {
+            ((PasswordCallback) callback).setPassword(password.toCharArray());
+          } else {
+            throw new UnsupportedCallbackException(callback);
           }
-        },
-        new HopLoginConfiguration(appConfigurationEntries));
+        }
+      }
+    }, new HopLoginConfiguration(appConfigurationEntries));
   }
 
   public LoginContext getLoginContextFromKerberosCache(String principal) throws LoginException {
     Map<String, String> opts = new HashMap<>(LOGIN_CONFIG_OPTS_KERBEROS_USER_NOPASS);
     opts.put("principal", principal);
     AppConfigurationEntry[] appConfigurationEntries =
-        new AppConfigurationEntry[] {
-          new AppConfigurationEntry(
-              Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, opts)
-        };
-    return new LoginContext(
-        KERBEROS_APP_NAME, new Subject(), null, new HopLoginConfiguration(appConfigurationEntries));
+        new AppConfigurationEntry[] {new AppConfigurationEntry(Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, opts)};
+    return new LoginContext(KERBEROS_APP_NAME, new Subject(), null, new HopLoginConfiguration(appConfigurationEntries));
   }
 }

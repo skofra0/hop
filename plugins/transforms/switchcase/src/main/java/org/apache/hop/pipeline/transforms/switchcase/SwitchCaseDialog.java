@@ -67,8 +67,7 @@ public class SwitchCaseDialog extends BaseTransformDialog implements ITransformD
 
   private final SwitchCaseMeta input;
 
-  public SwitchCaseDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SwitchCaseDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (SwitchCaseMeta) in;
   }
@@ -82,13 +81,12 @@ public class SwitchCaseDialog extends BaseTransformDialog implements ITransformD
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    SelectionAdapter lsSel =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSel = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     backupChanged = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -147,10 +145,8 @@ public class SwitchCaseDialog extends BaseTransformDialog implements ITransformD
     } catch (HopTransformException ex) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SwitchCaseDialog.Exception.CantGetFieldsFromPreviousTransforms.Title"),
-          BaseMessages.getString(
-              PKG, "SwitchCaseDialog.Exception.CantGetFieldsFromPreviousTransforms.Message"),
+          BaseMessages.getString(PKG, "SwitchCaseDialog.Exception.CantGetFieldsFromPreviousTransforms.Title"),
+          BaseMessages.getString(PKG, "SwitchCaseDialog.Exception.CantGetFieldsFromPreviousTransforms.Message"),
           ex);
     }
 
@@ -264,26 +260,10 @@ public class SwitchCaseDialog extends BaseTransformDialog implements ITransformD
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SwitchCaseDialog.ColumnInfo.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SwitchCaseDialog.ColumnInfo.TargetTransform"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              nextTransformNames,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "SwitchCaseDialog.ColumnInfo.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SwitchCaseDialog.ColumnInfo.TargetTransform"), ColumnInfo.COLUMN_TYPE_CCOMBO, nextTransformNames, false),};
 
-    wValues =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            input.getCaseTargets().size(),
-            lsMod,
-            props);
+    wValues = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, input.getCaseTargets().size(), lsMod, props);
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);

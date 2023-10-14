@@ -30,24 +30,14 @@ public class SvgLabelFacadeImpl extends SvgLabelFacade {
     try {
       String src = RWT.getResourceManager().getLocation(imageFile);
       label.setData(RWT.MARKUP_ENABLED, Boolean.TRUE);
-      label.setText(
-          "<img id='"
-              + id
-              + "' width='"
-              + size
-              + "' height='"
-              + size
-              + "' style='background-color: transparent' src='"
-              + src
-              + "'/>");
+      label.setText("<img id='" + id + "' width='" + size + "' height='" + size + "' style='background-color: transparent' src='" + src + "'/>");
 
       JsonObject jsonProps = new JsonObject();
       jsonProps.add("id", id);
       jsonProps.add("enabled", true);
       label.setData("props", jsonProps);
     } catch (Exception e) {
-      System.err.println(
-          "Error setting internal data on tool-item " + id + " label for filename: " + imageFile);
+      System.err.println("Error setting internal data on tool-item " + id + " label for filename: " + imageFile);
       System.err.println(Const.getSimpleStackTrace(e));
     }
   }

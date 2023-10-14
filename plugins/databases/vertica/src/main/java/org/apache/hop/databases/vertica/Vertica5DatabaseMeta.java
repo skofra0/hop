@@ -52,8 +52,7 @@ public class Vertica5DatabaseMeta extends VerticaDatabaseMeta {
    * @throws HopDatabaseException
    */
   @Override
-  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int index)
-      throws HopDatabaseException {
+  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int index) throws HopDatabaseException {
     Object data;
 
     try {
@@ -77,12 +76,7 @@ public class Vertica5DatabaseMeta extends VerticaDatabaseMeta {
         data = null;
       }
     } catch (SQLException e) {
-      throw new HopDatabaseException(
-          "Unable to get value '"
-              + val.toStringMeta()
-              + "' from database resultset, index "
-              + index,
-          e);
+      throw new HopDatabaseException("Unable to get value '" + val.toStringMeta() + "' from database resultset, index " + index, e);
     }
 
     return data;

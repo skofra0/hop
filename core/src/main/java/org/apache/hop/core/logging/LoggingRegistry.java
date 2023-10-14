@@ -47,8 +47,7 @@ public class LoggingRegistry {
     this.fileWriterBuffers = new ConcurrentHashMap<>();
 
     this.lastModificationTime = new Date();
-    this.maxSize =
-        Const.toInt(EnvUtil.getSystemProperty("HOP_MAX_LOGGING_REGISTRY_SIZE"), DEFAULT_MAX_SIZE);
+    this.maxSize = Const.toInt(EnvUtil.getSystemProperty("HOP_MAX_LOGGING_REGISTRY_SIZE"), DEFAULT_MAX_SIZE);
   }
 
   public static LoggingRegistry getInstance() {
@@ -77,9 +76,7 @@ public class LoggingRegistry {
         if (foundParent != null && loggingSourceParent != null) {
           String foundParentLogChannelId = foundParent.getLogChannelId();
           String sourceParentLogChannelId = loggingSourceParent.getLogChannelId();
-          if (foundParentLogChannelId != null
-                  && foundParentLogChannelId.equals(sourceParentLogChannelId)
-                  && foundLogChannelId != null) {
+          if (foundParentLogChannelId != null && foundParentLogChannelId.equals(sourceParentLogChannelId) && foundLogChannelId != null) {
             return foundLogChannelId;
           }
         }
@@ -96,8 +93,7 @@ public class LoggingRegistry {
       if (loggingSource.getParent() != null) {
         String parentLogChannelId = loggingSource.getParent().getLogChannelId();
         if (parentLogChannelId != null) {
-          List<String> parentChildren =
-              this.childrenMap.computeIfAbsent(parentLogChannelId, k -> new ArrayList<>());
+          List<String> parentChildren = this.childrenMap.computeIfAbsent(parentLogChannelId, k -> new ArrayList<>());
           parentChildren.add(logChannelId);
         }
       }
@@ -107,29 +103,27 @@ public class LoggingRegistry {
 
       if ((this.maxSize > 0) && (this.map.size() > this.maxSize)) {
         List<ILoggingObject> all = new ArrayList<>(this.map.values());
-        Collections.sort(
-            all,
-            (o1, o2) -> {
-              if ((o1 == null) && (o2 != null)) {
-                return -1;
-              }
-              if ((o1 != null) && (o2 == null)) {
-                return 1;
-              }
-              if ((o1 == null) && (o2 == null)) {
-                return 0;
-              }
-              if (o1.getRegistrationDate() == null && o2.getRegistrationDate() != null) {
-                return -1;
-              }
-              if (o1.getRegistrationDate() != null && o2.getRegistrationDate() == null) {
-                return 1;
-              }
-              if (o1.getRegistrationDate() == null && o2.getRegistrationDate() == null) {
-                return 0;
-              }
-              return (o1.getRegistrationDate().compareTo(o2.getRegistrationDate()));
-            });
+        Collections.sort(all, (o1, o2) -> {
+          if ((o1 == null) && (o2 != null)) {
+            return -1;
+          }
+          if ((o1 != null) && (o2 == null)) {
+            return 1;
+          }
+          if ((o1 == null) && (o2 == null)) {
+            return 0;
+          }
+          if (o1.getRegistrationDate() == null && o2.getRegistrationDate() != null) {
+            return -1;
+          }
+          if (o1.getRegistrationDate() != null && o2.getRegistrationDate() == null) {
+            return 1;
+          }
+          if (o1.getRegistrationDate() == null && o2.getRegistrationDate() == null) {
+            return 0;
+          }
+          return (o1.getRegistrationDate().compareTo(o2.getRegistrationDate()));
+        });
         int cutCount = this.maxSize < 1000 ? this.maxSize : 1000;
         Set<String> channelsNotToRemove = getLogChannelFileWriterBufferIds();
         for (int i = 0; i < cutCount; i++) {

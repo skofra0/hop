@@ -99,8 +99,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
     private Button wInheritAll;
 
-    public MappingParametersTab(
-        TableView wMappingParameters, Button wInheritAll, MappingParameters parameters) {
+    public MappingParametersTab(TableView wMappingParameters, Button wInheritAll, MappingParameters parameters) {
       this.wMappingParameters = wMappingParameters;
       this.wInheritAll = wInheritAll;
       this.parameters = parameters;
@@ -111,9 +110,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
       parameters.getVariableMappings().clear();
       for (TableItem item : wMappingParameters.getNonEmptyItems()) {
-        parameters
-            .getVariableMappings()
-            .add(new MappingVariableMapping(item.getText(1), item.getText(2)));
+        parameters.getVariableMappings().add(new MappingVariableMapping(item.getText(1), item.getText(2)));
       }
       parameters.setInheritingAllVariables(wInheritAll.getSelection());
     }
@@ -145,8 +142,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
   private List<ApplyChanges> changeList;
 
-  public SimpleMappingDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SimpleMappingDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     mappingMeta = (SimpleMappingMeta) in;
     transModified = false;
@@ -303,21 +299,14 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
   }
 
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "MAP.svg",
-        ConstUi.ICON_SIZE,
-        ConstUi.ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "MAP.svg", ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
   }
 
   private void selectFilePipeline() {
 
     try {
       HopPipelineFileType fileType = new HopPipelineFileType();
-      String filename =
-          BaseDialog.presentFileDialog(
-              false, shell, fileType.getFilterExtensions(), fileType.getFilterNames(), true);
+      String filename = BaseDialog.presentFileDialog(false, shell, fileType.getFilterExtensions(), fileType.getFilterNames(), true);
       if (filename != null) {
         loadPipelineFile(filename);
         wPath.setText(filename);
@@ -366,8 +355,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
     try {
       // Load the run configurations.
-      List<PipelineRunConfiguration> runConfigs =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class).loadAll();
+      List<PipelineRunConfiguration> runConfigs = metadataProvider.getSerializer(PipelineRunConfiguration.class).loadAll();
       for (PipelineRunConfiguration runConfig : runConfigs) {
         if (runConfig.getEngineRunConfiguration() instanceof LocalPipelineRunConfiguration) {
           wRunConfig.add(runConfig.getName());
@@ -384,24 +372,14 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
   private void addOutputMappingDefinitionTab(MappingIODefinition definition, int index) {
     addMappingDefinitionTab(
-        definition,
-        index + 1,
-        BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.Title"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.Tooltip"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.column.SourceField"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.column.TargetField"),
-        false);
+        definition, index + 1, BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.Title"), BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.Tooltip"),
+        BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.column.SourceField"), BaseMessages.getString(PKG, "SimpleMappingDialog.OutputTab.column.TargetField"), false);
   }
 
   private void addInputMappingDefinitionTab(MappingIODefinition definition, int index) {
     addMappingDefinitionTab(
-        definition,
-        index + 1,
-        BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.Title"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.Tooltip"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.column.SourceField"),
-        BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.column.TargetField"),
-        true);
+        definition, index + 1, BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.Title"), BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.Tooltip"),
+        BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.column.SourceField"), BaseMessages.getString(PKG, "SimpleMappingDialog.InputTab.column.TargetField"), true);
   }
 
   private void addParametersTab(final MappingParameters parameters) {
@@ -409,8 +387,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     CTabItem wParametersTab = new CTabItem(wTabFolder, SWT.NONE);
     wParametersTab.setFont(GuiResource.getInstance().getFontDefault());
     wParametersTab.setText(BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.Title"));
-    wParametersTab.setToolTipText(
-        BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.Tooltip"));
+    wParametersTab.setToolTipText(BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.Tooltip"));
 
     Composite wParametersComposite = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wParametersComposite);
@@ -437,30 +414,12 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] colinfo =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.column.Variable"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.column.ValueOrField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.column.Variable"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SimpleMappingDialog.Parameters.column.ValueOrField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     colinfo[1].setUsingVariables(true);
 
     final TableView wMappingParameters =
-        new TableView(
-            variables,
-            wParametersComposite,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            parameters.getVariableMappings().size(),
-            false,
-            lsMod,
-            props,
-            false);
+        new TableView(variables, wParametersComposite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, parameters.getVariableMappings().size(), false, lsMod, props, false);
     PropsUi.setLook(wMappingParameters);
     FormData fdMappings = new FormData();
     fdMappings.left = new FormAttachment(0, 0);
@@ -494,8 +453,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     changeList.add(new MappingParametersTab(wMappingParameters, wInheritAll, parameters));
   }
 
-  public static String[] getMappingTransforms(
-      PipelineMeta mappingPipelineMeta, boolean mappingInput) {
+  public static String[] getMappingTransforms(PipelineMeta mappingPipelineMeta, boolean mappingInput) {
     List<TransformMeta> transforms = new ArrayList<>();
     for (TransformMeta transformMeta : mappingPipelineMeta.getTransforms()) {
       if (mappingInput && transformMeta.getTransformPluginId().equals("MappingInput")) {
@@ -521,18 +479,15 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
         return pipelineMeta.getPrevTransformFields(variables, transformMeta);
       } else {
         if (mappingPipelineMeta == null) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "SimpleMappingDialog.Exception.NoMappingSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "SimpleMappingDialog.Exception.NoMappingSpecified"));
         }
-        TransformMeta mappingInputTransformMeta =
-            mappingPipelineMeta.findMappingInputTransform(null);
+        TransformMeta mappingInputTransformMeta = mappingPipelineMeta.findMappingInputTransform(null);
         return mappingPipelineMeta.getTransformFields(variables, mappingInputTransformMeta);
       }
     } else {
       // OUTPUT
       //
-      TransformMeta mappingOutputTransformMeta =
-          mappingPipelineMeta.findMappingOutputTransform(null);
+      TransformMeta mappingOutputTransformMeta = mappingPipelineMeta.findMappingOutputTransform(null);
       return mappingPipelineMeta.getTransformFields(variables, mappingOutputTransformMeta);
     }
   }
@@ -569,8 +524,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     final Button wbEnterMapping = new Button(wInputComposite, SWT.PUSH);
     PropsUi.setLook(wbEnterMapping);
     if (input) {
-      wbEnterMapping.setText(
-          BaseMessages.getString(PKG, "SimpleMappingDialog.button.EnterMapping"));
+      wbEnterMapping.setText(BaseMessages.getString(PKG, "SimpleMappingDialog.button.EnterMapping"));
     } else {
       wbEnterMapping.setText(BaseMessages.getString(PKG, "SimpleMappingDialog.button.GetFields"));
     }
@@ -581,20 +535,9 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
 
     ColumnInfo[] colinfo =
         new ColumnInfo[] {
-          new ColumnInfo(sourceColumnLabel, ColumnInfo.COLUMN_TYPE_TEXT, false, false),
-          new ColumnInfo(targetColumnLabel, ColumnInfo.COLUMN_TYPE_TEXT, false, false),
-        };
-    final TableView wFieldMappings =
-        new TableView(
-            variables,
-            wInputComposite,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            1,
-            false,
-            lsMod,
-            props,
-            false);
+            new ColumnInfo(sourceColumnLabel, ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(targetColumnLabel, ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    final TableView wFieldMappings = new TableView(variables, wInputComposite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, 1, false, lsMod, props, false);
     PropsUi.setLook(wFieldMappings);
     FormData fdMappings = new FormData();
     fdMappings.left = new FormAttachment(0);
@@ -613,93 +556,76 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     wFieldMappings.setRowNums();
     wFieldMappings.optWidth(true);
 
-    wbEnterMapping.addSelectionListener(
-        new SelectionAdapter() {
+    wbEnterMapping.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            try {
-              if (input) {
-                // INPUT
-                //
-                IRowMeta sourceRowMeta = getFieldsFromTransform(true, input);
-                IRowMeta targetRowMeta = getFieldsFromTransform(false, input);
-                String[] sourceFields = sourceRowMeta.getFieldNames();
-                String[] targetFields = targetRowMeta.getFieldNames();
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        try {
+          if (input) {
+            // INPUT
+            //
+            IRowMeta sourceRowMeta = getFieldsFromTransform(true, input);
+            IRowMeta targetRowMeta = getFieldsFromTransform(false, input);
+            String[] sourceFields = sourceRowMeta.getFieldNames();
+            String[] targetFields = targetRowMeta.getFieldNames();
 
-                EnterMappingDialog dialog =
-                    new EnterMappingDialog(shell, sourceFields, targetFields);
-                List<SourceToTargetMapping> mappings = dialog.open();
-                if (mappings != null) {
-                  // first clear the dialog...
-                  wFieldMappings.clearAll(false);
+            EnterMappingDialog dialog = new EnterMappingDialog(shell, sourceFields, targetFields);
+            List<SourceToTargetMapping> mappings = dialog.open();
+            if (mappings != null) {
+              // first clear the dialog...
+              wFieldMappings.clearAll(false);
 
-                  //
-                  definition.getValueRenames().clear();
+              //
+              definition.getValueRenames().clear();
 
-                  // Now add the new values...
-                  for (int i = 0; i < mappings.size(); i++) {
-                    SourceToTargetMapping mapping = mappings.get(i);
-                    TableItem item = new TableItem(wFieldMappings.table, SWT.NONE);
-                    item.setText(1, mapping.getSourceString(sourceFields));
-                    item.setText(2, mapping.getTargetString(targetFields));
+              // Now add the new values...
+              for (int i = 0; i < mappings.size(); i++) {
+                SourceToTargetMapping mapping = mappings.get(i);
+                TableItem item = new TableItem(wFieldMappings.table, SWT.NONE);
+                item.setText(1, mapping.getSourceString(sourceFields));
+                item.setText(2, mapping.getTargetString(targetFields));
 
-                    String source = input ? item.getText(1) : item.getText(2);
-                    String target = input ? item.getText(2) : item.getText(1);
-                    definition.getValueRenames().add(new MappingValueRename(source, target));
-                  }
-                  wFieldMappings.removeEmptyRows();
-                  wFieldMappings.setRowNums();
-                  wFieldMappings.optWidth(true);
-                }
-              } else {
-                // OUTPUT
-                //
-                IRowMeta sourceRowMeta = getFieldsFromTransform(true, input);
-                BaseTransformDialog.getFieldsFromPrevious(
-                    sourceRowMeta,
-                    wFieldMappings,
-                    1,
-                    new int[] {
-                      1,
-                    },
-                    new int[] {},
-                    -1,
-                    -1,
-                    null);
+                String source = input ? item.getText(1) : item.getText(2);
+                String target = input ? item.getText(2) : item.getText(1);
+                definition.getValueRenames().add(new MappingValueRename(source, target));
               }
-            } catch (HopException e) {
-              new ErrorDialog(
-                  shell,
-                  BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-                  BaseMessages.getString(
-                      PKG,
-                      "SimpleMappingDialog.Exception.ErrorGettingMappingSourceAndTargetFields",
-                      e.toString()),
-                  e);
+              wFieldMappings.removeEmptyRows();
+              wFieldMappings.setRowNums();
+              wFieldMappings.optWidth(true);
             }
+          } else {
+            // OUTPUT
+            //
+            IRowMeta sourceRowMeta = getFieldsFromTransform(true, input);
+            BaseTransformDialog.getFieldsFromPrevious(sourceRowMeta, wFieldMappings, 1, new int[] {1,}, new int[] {}, -1, -1, null);
           }
-        });
+        } catch (HopException e) {
+          new ErrorDialog(
+              shell,
+              BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
+              BaseMessages.getString(PKG, "SimpleMappingDialog.Exception.ErrorGettingMappingSourceAndTargetFields", e.toString()),
+              e);
+        }
+      }
+    });
 
     if (input) {
       Button wRenameOutput = new Button(wInputComposite, SWT.CHECK);
       PropsUi.setLook(wRenameOutput);
-      wRenameOutput.setText(
-          BaseMessages.getString(PKG, "SimpleMappingDialog.input.RenamingOnOutput"));
+      wRenameOutput.setText(BaseMessages.getString(PKG, "SimpleMappingDialog.input.RenamingOnOutput"));
       FormData fdRenameOutput = new FormData();
       fdRenameOutput.top = new FormAttachment(wFieldMappings, 10);
       fdRenameOutput.left = new FormAttachment(0, 0);
       wRenameOutput.setLayoutData(fdRenameOutput);
 
       wRenameOutput.setSelection(definition.isRenamingOnOutput());
-      wRenameOutput.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-              // flip the switch
-              definition.setRenamingOnOutput(!definition.isRenamingOnOutput());
-            }
-          });
+      wRenameOutput.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          // flip the switch
+          definition.setRenamingOnOutput(!definition.isRenamingOnOutput());
+        }
+      });
     }
 
     FormData fdParametersComposite = new FormData();
@@ -718,12 +644,7 @@ public class SimpleMappingDialog extends BaseTransformDialog implements ITransfo
     wTabFolder.setSelection(wTab);
   }
 
-  private void setMappingDefinitionTabNameAndToolTip(
-      CTabItem wTab,
-      String tabTitle,
-      String tabTooltip,
-      MappingIODefinition definition,
-      boolean input) {
+  private void setMappingDefinitionTabNameAndToolTip(CTabItem wTab, String tabTitle, String tabTooltip, MappingIODefinition definition, boolean input) {
 
     String transformName;
     if (input) {

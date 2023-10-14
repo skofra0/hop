@@ -22,6 +22,5 @@ import org.apache.hop.testing.PipelineUnitTest;
 
 public interface IExceptionEvaluator {
 
-  void evaluateTestException(PipelineUnitTest test, PipelineMeta pipelineMeta, Exception e)
-      throws HopException;
+  void evaluateTestException(PipelineUnitTest test, PipelineMeta pipelineMeta, Exception e) throws HopException;
 }

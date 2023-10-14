@@ -29,23 +29,13 @@ public class CypherMatchBuilder extends BaseCypherBuilder {
   }
 
   public CypherMatchBuilder withMatch(String label, String alias, String id1, Object value1) {
-    String key1=alias+"_"+id1;
-    cypher
-        .append("MATCH(")
-        .append(alias)
-        .append(":")
-        .append(label)
-        .append("{ ")
-        .append(id1)
-        .append(" : $")
-        .append(key1)
-        .append(" }) ");
+    String key1 = alias + "_" + id1;
+    cypher.append("MATCH(").append(alias).append(":").append(label).append("{ ").append(id1).append(" : $").append(key1).append(" }) ");
     addParameter(key1, value1);
     return this;
   }
 
-  public CypherMatchBuilder withMatch(
-      String nodeLabel, String nodeAlias, Map<String, Object> keyValueMap) {
+  public CypherMatchBuilder withMatch(String nodeLabel, String nodeAlias, Map<String, Object> keyValueMap) {
     cypher.append("MATCH(").append(nodeAlias).append(":").append(nodeLabel).append(" {");
 
     boolean firstKey = true;

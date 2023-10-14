@@ -36,7 +36,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class AccessDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   AccessDatabaseMeta nativeMeta;
 
@@ -53,185 +54,125 @@ public class AccessDatabaseMetaTest {
     assertArrayEquals(aTypes, nativeMeta.getAccessTypeList());
     assertEquals("net.ucanaccess.jdbc.UcanaccessDriver", nativeMeta.getDriverClass());
     assertEquals(8388607, nativeMeta.getMaxTextFieldLength());
-    assertEquals(
-        "jdbc:ucanaccess://e://Dir//Contacts.accdb;showSchema=true;newDatabaseVersion=V2010",
-        nativeMeta.getURL(null, null, "e://Dir//Contacts.accdb")); // note - MS Access driver ignores the server and port
+    assertEquals("jdbc:ucanaccess://e://Dir//Contacts.accdb;showSchema=true;newDatabaseVersion=V2010", nativeMeta.getURL(null, null, "e://Dir//Contacts.accdb")); // note - MS
+                                                                                                                                                                  // Access driver
+                                                                                                                                                                  // ignores the
+                                                                                                                                                                  // server and port
     String[] expectedReservedWords =
         new String[] {
             "AND",
-            "ANY", 
-            "AS", 
+            "ANY",
+            "AS",
             "ALL",
-            "AT", 
-            "AVG", 
-            "BETWEEN", 
-            "BOTH", 
-            "BY", 
-            "CALL", 
-            "CASE", 
-            "CAST", 
-            "COALESCE", 
-            "CONSTRAINT", 
-            "CORRESPONDING", 
-            "CONVERT", 
-            "COUNT", 
-            "CREATE", 
-            "CROSS", 
-            "DEFAULT", 
+            "AT",
+            "AVG",
+            "BETWEEN",
+            "BOTH",
+            "BY",
+            "CALL",
+            "CASE",
+            "CAST",
+            "COALESCE",
+            "CONSTRAINT",
+            "CORRESPONDING",
+            "CONVERT",
+            "COUNT",
+            "CREATE",
+            "CROSS",
+            "DEFAULT",
             "DISTINCT",
-            "DO", 
-            "DROP", 
-            "ELSE", 
-            "EVERY", 
-            "EXISTS", 
-            "EXCEPT", 
-            "FOR", 
-            "FROM", 
-            "FULL", 
-            "GRANT", 
-            "GROUP", 
-            "HAVING", 
-            "IN", 
-            "INNER", 
-            "INTERSECT", 
-            "INTO", 
-            "IS", 
-            "JOIN", 
-            "LEFT", 
-            "LEADING", 
-            "LIKE", 
-            "MAX", 
-            "MIN", 
-            "NATURAL", 
-            "NOT", 
-            "NULLIF", 
-            "ON", 
+            "DO",
+            "DROP",
+            "ELSE",
+            "EVERY",
+            "EXISTS",
+            "EXCEPT",
+            "FOR",
+            "FROM",
+            "FULL",
+            "GRANT",
+            "GROUP",
+            "HAVING",
+            "IN",
+            "INNER",
+            "INTERSECT",
+            "INTO",
+            "IS",
+            "JOIN",
+            "LEFT",
+            "LEADING",
+            "LIKE",
+            "MAX",
+            "MIN",
+            "NATURAL",
+            "NOT",
+            "NULLIF",
+            "ON",
             "ORDER",
             "OR",
             "OUTER",
             "PRIMARY",
-            "REFERENCES", 
-            "RIGHT", 
-            "SELECT", 
-            "SET", 
-            "SOME", 
-            "STDDEV_POP", 
-            "STDDEV_SAMP", 
-            "SUM", 
-            "TABLE", 
-            "THEN", 
-            "TO", 
-            "TRAILING", 
-            "TRIGGER", 
-            "UNION", 
-            "UNIQUE", 
-            "USING", 
-            "USER", 
-            "VALUES", 
-            "VAR_POP", 
-            "VAR_SAMP", 
-            "WHEN", 
-            "WHERE", 
-            "WITH", 
-            "END"
-        };
+            "REFERENCES",
+            "RIGHT",
+            "SELECT",
+            "SET",
+            "SOME",
+            "STDDEV_POP",
+            "STDDEV_SAMP",
+            "SUM",
+            "TABLE",
+            "THEN",
+            "TO",
+            "TRAILING",
+            "TRIGGER",
+            "UNION",
+            "UNIQUE",
+            "USING",
+            "USER",
+            "VALUES",
+            "VAR_POP",
+            "VAR_SAMP",
+            "WHEN",
+            "WHERE",
+            "WITH",
+            "END"};
 
     assertArrayEquals(expectedReservedWords, nativeMeta.getReservedWords());
     assertFalse(nativeMeta.isSupportsFloatRoundingOnUpdate());
     assertEquals(255, nativeMeta.getMaxVARCHARLength());
-    assertFalse(nativeMeta.isSupportsSequences());  
+    assertFalse(nativeMeta.isSupportsSequences());
   }
 
   @Test
   public void testSqlStatements() {
     assertEquals("DELETE FROM FOO", nativeMeta.getTruncateTableStatement("FOO"));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TEXT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 100, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TEXT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 100, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ALTER COLUMN BAR SET DATETIME",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ALTER COLUMN BAR SET DATETIME", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
   }
 
   @Test
   public void testGetFieldDefinition() {
-    assertEquals(
-        "FOO DATETIME",
-        nativeMeta.getFieldDefinition(new ValueMetaDate("FOO"), "", "", false, true, false));
-    assertEquals(
-        "DATETIME",
-        nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
-    assertEquals(
-        "YESNO",
-        nativeMeta.getFieldDefinition(new ValueMetaBoolean("FOO"), "", "", false, false, false));
+    assertEquals("FOO DATETIME", nativeMeta.getFieldDefinition(new ValueMetaDate("FOO"), "", "", false, true, false));
+    assertEquals("DATETIME", nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
+    assertEquals("YESNO", nativeMeta.getFieldDefinition(new ValueMetaBoolean("FOO"), "", "", false, false, false));
 
-    assertEquals(
-        "DOUBLE",
-        nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO"), "", "", false, false, false));
-    assertEquals(
-        "LONG",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInteger("FOO", 5, 0), "", "", false, false, false));
-    assertEquals(
-        "DOUBLE",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaNumber("FOO", 5, 3), "", "", false, false, false));
+    assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO"), "", "", false, false, false));
+    assertEquals("LONG", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 5, 0), "", "", false, false, false));
+    assertEquals("DOUBLE", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 5, 3), "", "", false, false, false));
 
-    assertEquals(
-        "NUMERIC",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaBigNumber("FOO", 0, 3), "", "", false, false, false)); // This is a bug
+    assertEquals("NUMERIC", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 0, 3), "", "", false, false, false)); // This is a bug
 
-    assertEquals(
-        "MEMO",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH + 1, 0),
-            "",
-            "",
-            false,
-            false,
-            false));
+    assertEquals("MEMO", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH + 1, 0), "", "", false, false, false));
 
-    assertEquals("TEXT",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() - 1, 0),
-            "",
-            "",
-            false,
-            false,
-            false));
+    assertEquals("TEXT", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() - 1, 0), "", "", false, false, false));
 
-    assertEquals(
-        "MEMO",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0),
-            "",
-            "",
-            false,
-            false,
-            false));
+    assertEquals("MEMO", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0), "", "", false, false, false));
 
-    assertEquals(
-        "MEMO",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH - 1, 0),
-            "",
-            "",
-            false,
-            false,
-            false));
+    assertEquals("MEMO", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH - 1, 0), "", "", false, false, false));
 
-    assertEquals(
-        " UNKNOWN",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
+    assertEquals(" UNKNOWN", nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
 
-    assertEquals(
-        " UNKNOWN" + System.getProperty("line.separator"),
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInternetAddress("FOO"), "", "", false, false, true));
+    assertEquals(" UNKNOWN" + System.getProperty("line.separator"), nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, true));
   }
 }

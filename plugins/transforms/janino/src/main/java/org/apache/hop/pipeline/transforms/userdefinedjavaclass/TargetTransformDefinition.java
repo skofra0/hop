@@ -35,8 +35,7 @@ public class TargetTransformDefinition extends TransformDefinition {
     super();
   }
 
-  public TargetTransformDefinition(
-      String tag, String transformName, TransformMeta transformMeta, String description) {
+  public TargetTransformDefinition(String tag, String transformName, TransformMeta transformMeta, String description) {
     super(tag, transformName, transformMeta, description);
   }
 

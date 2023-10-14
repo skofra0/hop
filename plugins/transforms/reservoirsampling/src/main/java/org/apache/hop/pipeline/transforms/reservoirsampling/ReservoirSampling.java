@@ -34,13 +34,16 @@ public class ReservoirSampling extends BaseTransform<ReservoirSamplingMeta, Rese
    *
    * <p>
    *
-   * <p>Implements the reservoir sampling algorithm "R" by Jeffrey Scott Vitter. (algorithm is
+   * <p>
+   * Implements the reservoir sampling algorithm "R" by Jeffrey Scott Vitter. (algorithm is
    * implemented in ReservoirSamplingData.java
    *
-   * <p>For more information see:<br>
+   * <p>
+   * For more information see:<br>
    * <br>
    *
-   * <p>Vitter, J. S. Random Sampling with a Reservoir. ACM Transactions on Mathematical Software,
+   * <p>
+   * Vitter, J. S. Random Sampling with a Reservoir. ACM Transactions on Mathematical Software,
    * Vol. 11, No. 1, March 1985. Pages 37-57.
    *
    * @param transformMeta holds the transform's meta data
@@ -50,13 +53,7 @@ public class ReservoirSampling extends BaseTransform<ReservoirSamplingMeta, Rese
    * @param pipelineMeta meta data for the pipeline
    * @param pipeline a <code>Pipeline</code> value
    */
-  public ReservoirSampling(
-      TransformMeta transformMeta,
-      ReservoirSamplingMeta meta,
-      ReservoirSamplingData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ReservoirSampling(TransformMeta transformMeta, ReservoirSamplingMeta meta, ReservoirSamplingData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -126,14 +123,7 @@ public class ReservoirSampling extends BaseTransform<ReservoirSamplingMeta, Rese
       List<Object[]> samples = data.getSamples();
 
       int numRows = (samples != null) ? samples.size() : 0;
-      logBasic(
-          this.getTransformName()
-              + " Actual/Sample: "
-              + numRows
-              + "/"
-              + data.sampleSize
-              + " Seed:"
-              + resolve(meta.seed));
+      logBasic(this.getTransformName() + " Actual/Sample: " + numRows + "/" + data.sampleSize + " Seed:" + resolve(meta.seed));
       if (samples != null) {
         for (Object[] sample : samples) {
           if (sample != null) {

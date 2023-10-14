@@ -21,13 +21,13 @@ import java.util.Objects;
 
 public class NormaliserField {
 
-  @HopMetadataProperty(key="name", injectionKey = "NAME", injectionKeyDescription = "NormaliserMeta.Injection.NAME")
+  @HopMetadataProperty(key = "name", injectionKey = "NAME", injectionKeyDescription = "NormaliserMeta.Injection.NAME")
   private String name;
 
-  @HopMetadataProperty(key="value", injectionKey = "VALUE", injectionKeyDescription = "NormaliserMeta.Injection.VALUE")
+  @HopMetadataProperty(key = "value", injectionKey = "VALUE", injectionKeyDescription = "NormaliserMeta.Injection.VALUE")
   private String value;
 
-  @HopMetadataProperty(key="norm", injectionKey = "NORMALISED", injectionKeyDescription = "NormaliserMeta.Injection.NORMALISED")
+  @HopMetadataProperty(key = "norm", injectionKey = "NORMALISED", injectionKeyDescription = "NormaliserMeta.Injection.NORMALISED")
   private String norm;
 
   public NormaliserField() {
@@ -39,7 +39,7 @@ public class NormaliserField {
     this.value = field.value;
     this.norm = field.norm;
   }
-  
+
   /** @return the name */
   public String getName() {
     return name;

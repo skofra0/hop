@@ -28,7 +28,8 @@ import static org.mockito.Mockito.verify;
 
 public class WorkflowActionShellTest {
 
-  @Mock private ActionShell jobEntryShellMock;
+  @Mock
+  private ActionShell jobEntryShellMock;
 
   @Before
   public void setUp() {
@@ -39,8 +40,7 @@ public class WorkflowActionShellTest {
   @Test
   public void replaceWinEOLtest() {
     // string is shell content
-    String content =
-        "#!/bin/bash\r\n" + "\r\n" + "echo `date` > /home/project-hop/test_output/output.txt";
+    String content = "#!/bin/bash\r\n" + "\r\n" + "echo `date` > /home/project-hop/test_output/output.txt";
     doCallRealMethod().when(jobEntryShellMock).replaceWinEOL(anyString());
     content = jobEntryShellMock.replaceWinEOL(content);
     verify(jobEntryShellMock).replaceWinEOL(anyString());

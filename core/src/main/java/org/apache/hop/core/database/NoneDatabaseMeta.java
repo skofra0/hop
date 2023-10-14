@@ -35,13 +35,7 @@ public class NoneDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v,
-      String tk,
-      String pk,
-      boolean useAutoIncrement,
-      boolean addFieldName,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoIncrement, boolean addFieldName, boolean addCr) {
     return null;
   }
 
@@ -51,30 +45,17 @@ public class NoneDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getURL(String hostname, String port, String databaseName)
-      throws HopDatabaseException {
+  public String getURL(String hostname, String port, String databaseName) throws HopDatabaseException {
     return "jdbc://none";
   }
 
   @Override
-  public String getAddColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     return "";
   }
 
   @Override
-  public String getModifyColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     return "";
   }
 }

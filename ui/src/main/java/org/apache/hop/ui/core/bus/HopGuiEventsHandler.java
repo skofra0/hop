@@ -27,7 +27,8 @@ import java.util.Map;
  * are present in {@link HopGuiEvents} The GUI ID can be anything you want but we suggest using the
  * class name of the dialog or perspective you're using.
  *
- * <p>When you no longer need to listener for events make sure to remove a listener when you close
+ * <p>
+ * When you no longer need to listener for events make sure to remove a listener when you close
  * GUI component like a dialog for example. This way you're not going to try to update a dialog
  * which was disposed off earlier.
  */
@@ -39,15 +40,12 @@ public class HopGuiEventsHandler {
     this.guiEventListenerMap = new HashMap<>();
   }
 
-  public <T> void addEventListener(
-      String guiId, IHopGuiEventListener<T> listener, String... eventIds) {
+  public <T> void addEventListener(String guiId, IHopGuiEventListener<T> listener, String... eventIds) {
     if (StringUtils.isEmpty(guiId)) {
-      throw new RuntimeException(
-          "Please provide a GUI id to allow you to remove the listener when you're no longer need it");
+      throw new RuntimeException("Please provide a GUI id to allow you to remove the listener when you're no longer need it");
     }
     if (eventIds == null || eventIds.length == 0) {
-      throw new RuntimeException(
-          "Please provide an event ID so we know what to be on the lookout for");
+      throw new RuntimeException("Please provide an event ID so we know what to be on the lookout for");
     }
     for (String eventId : eventIds) {
       if (StringUtils.isEmpty(eventId)) {
@@ -78,8 +76,7 @@ public class HopGuiEventsHandler {
    */
   public void removeEventListener(String guiId, String... eventIds) {
     if (StringUtils.isEmpty(guiId)) {
-      throw new RuntimeException(
-          "Please provide a GUI ID of the component you're done with being informed about.");
+      throw new RuntimeException("Please provide a GUI ID of the component you're done with being informed about.");
     }
     if (eventIds == null || eventIds.length == 0) {
       throw new RuntimeException("Please provide the event IDs of the listeners to remove.");
@@ -117,8 +114,7 @@ public class HopGuiEventsHandler {
    */
   public void removeEventListeners(String guiId) {
     if (StringUtils.isEmpty(guiId)) {
-      throw new RuntimeException(
-          "Please provide a GUI ID of the component you're done with being informed about.");
+      throw new RuntimeException("Please provide a GUI ID of the component you're done with being informed about.");
     }
 
     // We simply remove all the listeners from our GUI event listeners map
@@ -131,7 +127,7 @@ public class HopGuiEventsHandler {
    *
    * @param eventSubject The subject to pass in the event
    * @param all Set to true if you want to fire on all the given eventIds. Use false if you only
-   *     want to stop after you found the first registered listener
+   *        want to stop after you found the first registered listener
    * @param eventIds The event IDs to look up
    * @param <T> The type of the event subject
    * @throws HopException In case something goes wrong executing the listener lambdas.
@@ -152,7 +148,7 @@ public class HopGuiEventsHandler {
       for (String eventId : eventIds) {
         IHopGuiEventListener<T> listener = eventListenerMap.get(eventId);
         if (listener != null) {
-          // We found the listener for the event ID!   Fire it!
+          // We found the listener for the event ID! Fire it!
           //
           listener.event(new HopGuiEvent<>(eventId, eventSubject));
           if (!all) {
@@ -167,7 +163,7 @@ public class HopGuiEventsHandler {
    * Fire one or more events without a subject.
    *
    * @param all Set to true if you want to fire on all the given eventIds. Use false if you only
-   *     want to stop after you found the first registered listener
+   *        want to stop after you found the first registered listener
    * @param eventIds The event IDs to look up
    * @throws HopException In case something goes wrong executing the listener lambdas.
    */
@@ -209,8 +205,7 @@ public class HopGuiEventsHandler {
   }
 
   /** @param guiEventListenerMap The guiEventListenerMap to set */
-  public void setGuiEventListenerMap(
-      Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap) {
+  public void setGuiEventListenerMap(Map<String, Map<String, IHopGuiEventListener>> guiEventListenerMap) {
     this.guiEventListenerMap = guiEventListenerMap;
   }
 }

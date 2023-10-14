@@ -25,12 +25,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /*
-This looks a little scary, but isn't so bad.  Pretty much all that needs to be done here is to
-parse a NAMED complex type in the wsdl's types section.  We really only care about the <element>'s
-contained within the complex type.  The semantics don't matter (choice, sequence, etc).  The end result
-should be a ComplexType object which contains only elements.  This type will be used during client
-type registration.
-*/
+ * This looks a little scary, but isn't so bad. Pretty much all that needs to be done here is to
+ * parse a NAMED complex type in the wsdl's types section. We really only care about the <element>'s
+ * contained within the complex type. The semantics don't matter (choice, sequence, etc). The end
+ * result
+ * should be a ComplexType object which contains only elements. This type will be used during client
+ * type registration.
+ */
 
 /**
  * A ComplexType contians a map of the elementName -> elementXmlType of all the elements in a named
@@ -114,7 +115,7 @@ public final class ComplexType implements java.io.Serializable {
   private void processAll(Element all) {
     // annotation?, element*
     List<Element> elements = DomUtils.getChildElementsByName(all, "element");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processElement(itr.next());
     }
   }
@@ -234,27 +235,27 @@ public final class ComplexType implements java.io.Serializable {
   private void processSequence(Element sequence) {
     // annotation?, (element | group | choice | sequence | any)*
     List<Element> elements = DomUtils.getChildElementsByName(sequence, "element");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processElement(itr.next());
     }
 
     elements = DomUtils.getChildElementsByName(sequence, "group");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processGroup(itr.next());
     }
 
     elements = DomUtils.getChildElementsByName(sequence, "choice");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processChoice(itr.next());
     }
 
     elements = DomUtils.getChildElementsByName(sequence, "sequence");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processSequence(itr.next());
     }
 
     elements = DomUtils.getChildElementsByName(sequence, "any");
-    for (Iterator<Element> itr = elements.iterator(); itr.hasNext(); ) {
+    for (Iterator<Element> itr = elements.iterator(); itr.hasNext();) {
       processAny(itr.next());
     }
   }

@@ -32,19 +32,13 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import java.util.Arrays;
 import java.util.Set;
 
-public class StandardizePhoneNumber
-    extends BaseTransform<StandardizePhoneNumberMeta, StandardizePhoneNumberData> {
+public class StandardizePhoneNumber extends BaseTransform<StandardizePhoneNumberMeta, StandardizePhoneNumberData> {
   private static final Class<?> PKG = StandardizePhoneNumber.class; // For Translator
 
   private PhoneNumberUtil phoneNumberService;
   private Set<String> supportedRegions;
 
-  public StandardizePhoneNumber(
-      TransformMeta transformMeta,
-      StandardizePhoneNumberMeta meta,
-      StandardizePhoneNumberData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
+  public StandardizePhoneNumber(TransformMeta transformMeta, StandardizePhoneNumberMeta meta, StandardizePhoneNumberData data, int copyNr, PipelineMeta pipelineMeta,
       Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -96,11 +90,7 @@ public class StandardizePhoneNumber
 
         // if country field not found
         if (index < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "StandardizePhoneNumber.Log.CountryFieldNotFound",
-                  standardize.getCountryField()));
+          logError(BaseMessages.getString(PKG, "StandardizePhoneNumber.Log.CountryFieldNotFound", standardize.getCountryField()));
           this.setErrors(1);
           return false;
         }
@@ -111,9 +101,7 @@ public class StandardizePhoneNumber
         } else if (supportedRegions.contains(country.toUpperCase())) {
           region = country.toUpperCase();
         } else {
-          logError(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumber.Log.RegionNotSupported", country));
+          logError(BaseMessages.getString(PKG, "StandardizePhoneNumber.Log.RegionNotSupported", country));
           region = standardize.getDefaultCountry();
         }
       }
@@ -124,9 +112,7 @@ public class StandardizePhoneNumber
 
       // if input field not found
       if (index < 0) {
-        this.logError(
-            BaseMessages.getString(
-                PKG, "StandardizePhoneNumber.Log.InputFieldNotFound", standardize.getInputField()));
+        this.logError(BaseMessages.getString(PKG, "StandardizePhoneNumber.Log.InputFieldNotFound", standardize.getInputField()));
         this.setErrors(1);
         return false;
       }
@@ -149,25 +135,24 @@ public class StandardizePhoneNumber
           outputRow[index] = phoneNumberService.format(phoneNumber, format);
         } catch (NumberParseException e) {
           if (log.isRowLevel()) {
-            logRowlevel(
-                BaseMessages.getString(
-                    PKG,
-                    "StandardizePhoneNumber.Log.ProcessPhoneNumberError",
-                    standardize.getInputField(),
-                    value));
+            logRowlevel(BaseMessages.getString(PKG, "StandardizePhoneNumber.Log.ProcessPhoneNumberError", standardize.getInputField(), value));
           }
         }
 
         if (!Utils.isEmpty(standardize.getNumberTypeField())) {
           int i = data.outputRowMeta.indexOfValue(standardize.getNumberTypeField());
-          if (phoneNumber != null) outputRow[i] = phoneNumberService.getNumberType(phoneNumber);
-          else outputRow[i] = "ERROR";
+          if (phoneNumber != null)
+            outputRow[i] = phoneNumberService.getNumberType(phoneNumber);
+          else
+            outputRow[i] = "ERROR";
         }
 
         if (!Utils.isEmpty(standardize.getIsValidNumberField())) {
           int i = data.outputRowMeta.indexOfValue(standardize.getIsValidNumberField());
-          if (phoneNumber != null) outputRow[i] = phoneNumberService.isValidNumber(phoneNumber);
-          else outputRow[i] = false;
+          if (phoneNumber != null)
+            outputRow[i] = phoneNumberService.isValidNumber(phoneNumber);
+          else
+            outputRow[i] = false;
         }
       } else {
         if (!Utils.isEmpty(standardize.getIsValidNumberField())) {
@@ -181,9 +166,7 @@ public class StandardizePhoneNumber
     putRow(data.outputRowMeta, outputRow);
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG, "StandardizePhoneNumber.Log.WroteRowToNextTransform", outputRow));
+      logRowlevel(BaseMessages.getString(PKG, "StandardizePhoneNumber.Log.WroteRowToNextTransform", outputRow));
     }
 
     // log progress if it is time to to so

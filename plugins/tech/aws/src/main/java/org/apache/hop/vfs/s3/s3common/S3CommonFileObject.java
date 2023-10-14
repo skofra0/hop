@@ -124,15 +124,10 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
     return childrenList;
   }
 
-  private void getObjectsFromNonRootFolder(
-      String key, String bucketName, List<String> childrenList, String realKey) {
+  private void getObjectsFromNonRootFolder(String key, String bucketName, List<String> childrenList, String realKey) {
     // Getting files/folders in a folder/bucket
     String prefix = key.isEmpty() || key.endsWith(DELIMITER) ? key : key + DELIMITER;
-    ListObjectsRequest listObjectsRequest =
-        new ListObjectsRequest()
-            .withBucketName(bucketName)
-            .withPrefix(prefix)
-            .withDelimiter(DELIMITER);
+    ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(bucketName).withPrefix(prefix).withDelimiter(DELIMITER);
 
     ObjectListing ol = fileSystem.getS3Client().listObjects(listObjectsRequest);
 
@@ -199,8 +194,7 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
     try {
       // 1. Is it an existing file?
       s3ObjectMetadata = fileSystem.getS3Client().getObjectMetadata(bucketName, key);
-      injectType(
-          getName().getType()); // if this worked then the automatically detected type is right
+      injectType(getName().getType()); // if this worked then the automatically detected type is right
     } catch (AmazonS3Exception e) { // S3 object doesn't exist
       // 2. Is it in reality a folder?
       handleAttachException(key, bucketName);
@@ -238,14 +232,8 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
     }
   }
 
-  private void handleAttachExceptionFallback(
-      String bucket, String keyWithDelimiter, AmazonS3Exception exception)
-      throws FileSystemException {
-    ListObjectsRequest listObjectsRequest =
-        new ListObjectsRequest()
-            .withBucketName(bucket)
-            .withPrefix(keyWithDelimiter)
-            .withDelimiter(DELIMITER);
+  private void handleAttachExceptionFallback(String bucket, String keyWithDelimiter, AmazonS3Exception exception) throws FileSystemException {
+    ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(bucket).withPrefix(keyWithDelimiter).withDelimiter(DELIMITER);
     ObjectListing ol = fileSystem.getS3Client().listObjects(listObjectsRequest);
 
     if (!(ol.getCommonPrefixes().isEmpty() && ol.getObjectSummaries().isEmpty())) {
@@ -256,9 +244,7 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
       String errorCode = exception.getErrorCode();
       if (!errorCode.equals("NoSuchKey")) {
         // bubbling up other connection errors
-        LogChannel.GENERAL.logError(
-            "Could not get information on " + getQualifiedName(),
-            exception); // make sure this gets printed for the user
+        LogChannel.GENERAL.logError("Could not get information on " + getQualifiedName(), exception); // make sure this gets printed for the user
         throw new FileSystemException("vfs.provider/get-type.error", getQualifiedName(), exception);
       }
     }
@@ -329,8 +315,7 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
       InputStream emptyContent = new ByteArrayInputStream(new byte[0]);
 
       // create a PutObjectRequest passing the folder name suffixed by /
-      PutObjectRequest putObjectRequest =
-          createPutObjectRequest(bucketName, key + DELIMITER, emptyContent, metadata);
+      PutObjectRequest putObjectRequest = createPutObjectRequest(bucketName, key + DELIMITER, emptyContent, metadata);
 
       // send request to S3 to create folder
       try {
@@ -343,8 +328,7 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
     }
   }
 
-  protected PutObjectRequest createPutObjectRequest(
-      String bucketName, String key, InputStream inputStream, ObjectMetadata objectMetadata) {
+  protected PutObjectRequest createPutObjectRequest(String bucketName, String key, InputStream inputStream, ObjectMetadata objectMetadata) {
     return new PutObjectRequest(bucketName, key, inputStream, objectMetadata);
   }
 
@@ -365,16 +349,14 @@ public abstract class S3CommonFileObject extends AbstractFileObject {
     S3CommonFileObject dest = (S3CommonFileObject) newFile;
 
     // 1. copy the file
-    CopyObjectRequest copyObjRequest =
-        createCopyObjectRequest(bucketName, key, dest.bucketName, dest.key);
+    CopyObjectRequest copyObjRequest = createCopyObjectRequest(bucketName, key, dest.bucketName, dest.key);
     fileSystem.getS3Client().copyObject(copyObjRequest);
 
     // 2. delete self
     delete();
   }
 
-  protected CopyObjectRequest createCopyObjectRequest(
-      String sourceBucket, String sourceKey, String destBucket, String destKey) {
+  protected CopyObjectRequest createCopyObjectRequest(String sourceBucket, String sourceKey, String destBucket, String destKey) {
     return new CopyObjectRequest(sourceBucket, sourceKey, destBucket, destKey);
   }
 

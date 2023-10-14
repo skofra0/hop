@@ -27,15 +27,9 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Return the structure of the stream */
-public class TransformMetaStructure
-    extends BaseTransform<TransformMetaStructureMeta, TransformMetaStructureData> {
+public class TransformMetaStructure extends BaseTransform<TransformMetaStructureMeta, TransformMetaStructureData> {
 
-  public TransformMetaStructure(
-      TransformMeta transformMeta,
-      TransformMetaStructureMeta meta,
-      TransformMetaStructureData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
+  public TransformMetaStructure(TransformMeta transformMeta, TransformMetaStructureMeta meta, TransformMetaStructureData data, int copyNr, PipelineMeta pipelineMeta,
       Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -85,11 +79,7 @@ public class TransformMetaStructure
 
         if (meta.isIncludePositionField()) {
           IValueMeta vPosition = data.outputRowMeta.getValueMeta(pos);
-          outputRow =
-              RowDataUtil.addValueData(
-                  outputRow,
-                  pos++,
-                  vPosition.convertDataCompatible(vPosition, Long.valueOf(i + 1)));
+          outputRow = RowDataUtil.addValueData(outputRow, pos++, vPosition.convertDataCompatible(vPosition, Long.valueOf(i + 1)));
         }
 
         if (meta.isIncludeFieldnameField()) {
@@ -106,20 +96,12 @@ public class TransformMetaStructure
 
         if (meta.isIncludeLengthField()) {
           IValueMeta vLength = data.outputRowMeta.getValueMeta(pos);
-          outputRow =
-              RowDataUtil.addValueData(
-                  outputRow,
-                  pos++,
-                  vLength.convertDataCompatible(vLength, Long.valueOf(v.getLength())));
+          outputRow = RowDataUtil.addValueData(outputRow, pos++, vLength.convertDataCompatible(vLength, Long.valueOf(v.getLength())));
         }
 
         if (meta.isIncludePrecisionField()) {
           IValueMeta vPrecision = data.outputRowMeta.getValueMeta(pos);
-          outputRow =
-              RowDataUtil.addValueData(
-                  outputRow,
-                  pos++,
-                  vPrecision.convertDataCompatible(vPrecision, Long.valueOf(v.getPrecision())));
+          outputRow = RowDataUtil.addValueData(outputRow, pos++, vPrecision.convertDataCompatible(vPrecision, Long.valueOf(v.getPrecision())));
         }
 
         if (meta.isIncludeOriginField()) {
@@ -128,11 +110,7 @@ public class TransformMetaStructure
 
         if (meta.isOutputRowcount()) {
           IValueMeta vRowCount = data.outputRowMeta.getValueMeta(pos);
-          outputRow =
-              RowDataUtil.addValueData(
-                  outputRow,
-                  pos,
-                  vRowCount.convertDataCompatible(vRowCount, Long.valueOf(data.rowCount)));
+          outputRow = RowDataUtil.addValueData(outputRow, pos, vRowCount.convertDataCompatible(vRowCount, Long.valueOf(data.rowCount)));
         }
         putRow(data.outputRowMeta, outputRow.clone());
       }

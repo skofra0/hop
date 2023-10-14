@@ -156,11 +156,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   static {
     try {
       valueMetaPluginClasses = ValueMetaFactory.getValueMetaPluginClasses();
-      Collections.sort(
-          valueMetaPluginClasses,
-          (o1, o2) ->
-              // Reverse the sort list
-              (Integer.valueOf(o1.getType()).compareTo(Integer.valueOf(o2.getType()))) * -1);
+      Collections.sort(valueMetaPluginClasses, (o1, o2) ->
+      // Reverse the sort list
+      (Integer.valueOf(o1.getType()).compareTo(Integer.valueOf(o2.getType()))) * -1);
     } catch (Exception e) {
       throw new RuntimeException("Unable to get list of instantiated value meta plugin classes", e);
     }
@@ -168,7 +166,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   // DEEM-MOD
   public static Database connect(ILoggingObject parentObject, IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException {
-    Database db = new Database(parentObject,variables, databaseMeta);
+    Database db = new Database(parentObject, variables, databaseMeta);
     db.connect();
     return db;
   }
@@ -203,11 +201,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     opened = copy = 0;
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.DatabaseCreated.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.DatabaseCreated.id, this);
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error calling extension point while creating database connection", e);
+      throw new RuntimeException("Error calling extension point while creating database connection", e);
     }
 
     if (log.isDetailed()) {
@@ -219,7 +215,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * This implementation is NullPointerException subject, and may not follow fundamental equals
    * contract.
    *
-   * <p>Databases equality is based on {@link DatabaseMeta} equality.
+   * <p>
+   * Databases equality is based on {@link DatabaseMeta} equality.
    */
   @Override
   public boolean equals(Object obj) {
@@ -299,9 +296,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       if (!Utils.isEmpty(connectionGroup)) {
 
         // Try to find the connection for the group
-        Database lookup =
-            DatabaseConnectionMap.getInstance()
-                .getOrStoreIfAbsent(connectionGroup, partitionId, this);
+        Database lookup = DatabaseConnectionMap.getInstance().getOrStoreIfAbsent(connectionGroup, partitionId, this);
         if (lookup == null) {
           // There was no mapped value before
           lookup = this;
@@ -313,8 +308,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            log, this, HopExtensionPoint.DatabaseConnected.id, this);
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.DatabaseConnected.id, this);
       } catch (HopException e) {
         throw new HopDatabaseException(e);
       }
@@ -324,8 +318,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  private synchronized void shareConnectionWith(String partitionId, Database anotherDb)
-      throws HopDatabaseException {
+  private synchronized void shareConnectionWith(String partitionId, Database anotherDb) throws HopDatabaseException {
     // inside synchronized block we can increment 'opened' directly
     this.opened++;
 
@@ -346,9 +339,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * Open the database connection. The algorithm is:
    *
    * <ol>
-   *   <li>If <code>databaseMeta.isUsingConnectionPool()</code>, then the connection's datasource is
-   *       looked up in the pool
-   *   <li>otherwise, the connection is established via {@linkplain DriverManager}
+   * <li>If <code>databaseMeta.isUsingConnectionPool()</code>, then the connection's datasource is
+   * looked up in the pool
+   * <li>otherwise, the connection is established via {@linkplain DriverManager}
    * </ol>
    *
    * @param partitionId the partition ID in the cluster to connect to.
@@ -390,9 +383,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    */
   private void connectUsingClass(String classname, String partitionId) throws HopDatabaseException {
     // Install and load the jdbc Driver
-    IPlugin plugin =
-        PluginRegistry.getInstance()
-            .getPlugin(DatabasePluginType.class, databaseMeta.getIDatabase());
+    IPlugin plugin = PluginRegistry.getInstance().getPlugin(DatabasePluginType.class, databaseMeta.getIDatabase());
 
     try {
       synchronized (DriverManager.class) {
@@ -401,9 +392,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         // Only need DelegatingDriver for drivers not from our classloader
         if (driverClass.getClassLoader() != this.getClass().getClassLoader()) {
-          String pluginId =
-              PluginRegistry.getInstance()
-                  .getPluginId(DatabasePluginType.class, databaseMeta.getIDatabase());
+          String pluginId = PluginRegistry.getInstance().getPluginId(DatabasePluginType.class, databaseMeta.getIDatabase());
           Set<String> registeredDriversFromPlugin = registeredDrivers.get(pluginId);
           if (registeredDriversFromPlugin == null) {
             registeredDriversFromPlugin = new HashSet<>();
@@ -411,8 +400,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           }
           // Prevent registering multiple delegating drivers for same class, plugin
           if (!registeredDriversFromPlugin.contains(driverClass.getCanonicalName())) {
-            DriverManager.registerDriver(
-                new DelegatingDriver((Driver) driverClass.getDeclaredConstructor().newInstance()));
+            DriverManager.registerDriver(new DelegatingDriver((Driver) driverClass.getDeclaredConstructor().newInstance()));
             registeredDriversFromPlugin.add(driverClass.getCanonicalName());
           }
         } else {
@@ -421,13 +409,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         }
       }
     } catch (NoClassDefFoundError | ClassNotFoundException e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG,
-              "Database.Exception.UnableToFindClassMissingDriver",
-              classname,
-              plugin.getName()),
-          e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToFindClassMissingDriver", classname, plugin.getName()), e);
     } catch (Exception e) {
       throw new HopDatabaseException("Exception while loading class", e);
     }
@@ -437,8 +419,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       log.logDebug("Connecting to database using URL: " + url);
 
       String username = resolve(databaseMeta.getUsername());
-      String password =
-          Encr.decryptPasswordOptionallyEncrypted(resolve(databaseMeta.getPassword()));
+      String password = Encr.decryptPasswordOptionallyEncrypted(resolve(databaseMeta.getPassword()));
 
       Properties properties = databaseMeta.getConnectionProperties(this);
 
@@ -473,8 +454,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         connection = DriverManager.getConnection(url, properties);
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Error connecting to database: (using class " + classname + ")", e);
+      throw new HopDatabaseException("Error connecting to database: (using class " + classname + ")", e);
     }
   }
 
@@ -571,8 +551,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
     }
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          log, this, HopExtensionPoint.DatabaseDisconnected.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.DatabaseDisconnected.id, this);
     } catch (HopException e) {
       log.logError("Error disconnecting from database:" + Const.CR + e.getMessage());
       log.logError(Const.getStackTracker(e));
@@ -581,10 +560,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       try {
         closeConnectionOnly();
       } catch (HopDatabaseException hde) {
-        log.logError(
-            "Error disconnecting from database - closeConnectionOnly failed:"
-                + Const.CR
-                + hde.getMessage());
+        log.logError("Error disconnecting from database - closeConnectionOnly failed:" + Const.CR + hde.getMessage());
         log.logError(Const.getStackTracker(hde));
       }
     }
@@ -620,9 +596,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     // Canceling statements only if we're not streaming results on MySQL with
     // the v3 driver
     //
-    if (databaseMeta.isMySqlVariant()
-        && databaseMeta.isStreamingResults()
-        && getDatabaseMetaData().getDriverMajorVersion() == 3) {
+    if (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
       return;
     }
 
@@ -664,13 +638,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
     } catch (Exception e) {
       if (log.isDebug()) {
-        log.logDebug(
-            "Can't turn auto commit "
-                + onOff
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e));
+        log.logDebug("Can't turn auto commit " + onOff + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e));
       }
     }
   }
@@ -680,12 +648,9 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       connection.setAutoCommit(useAutoCommit);
     } catch (SQLException e) {
       if (useAutoCommit) {
-        throw new HopDatabaseException(
-            BaseMessages.getString(PKG, "Database.Exception.UnableToEnableAutoCommit", toString()));
+        throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToEnableAutoCommit", toString()));
       } else {
-        throw new HopDatabaseException(
-            BaseMessages.getString(
-                PKG, "Database.Exception.UnableToDisableAutoCommit", toString()));
+        throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToDisableAutoCommit", toString()));
       }
     }
   }
@@ -771,8 +736,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param tableName The name of the table in which we want to insert rows
    * @throws HopDatabaseException if something went wrong.
    */
-  public void prepareInsert(IRowMeta rowMeta, String schemaName, String tableName)
-      throws HopDatabaseException {
+  public void prepareInsert(IRowMeta rowMeta, String schemaName, String tableName) throws HopDatabaseException {
     if (rowMeta.size() == 0) {
       throw new HopDatabaseException("No fields in row, can't insert!");
     }
@@ -810,8 +774,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
     try {
       if (returnKeys && supportsAutoGeneratedKeys) {
-        return connection.prepareStatement(
-            databaseMeta.stripCR(sql), Statement.RETURN_GENERATED_KEYS);
+        return connection.prepareStatement(databaseMeta.stripCR(sql), Statement.RETURN_GENERATED_KEYS);
       } else {
         return connection.prepareStatement(databaseMeta.stripCR(sql));
       }
@@ -881,9 +844,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     setValues(rowMeta, data, prepStatementLookup);
   }
 
-  public void setProcValues(
-      IRowMeta rowMeta, Object[] data, int[] argnrs, String[] argdir, boolean result)
-      throws HopDatabaseException {
+  public void setProcValues(IRowMeta rowMeta, Object[] data, int[] argnrs, String[] argdir, boolean result) throws HopDatabaseException {
     int pos;
 
     if (result) {
@@ -905,8 +866,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public void setValue(PreparedStatement ps, IValueMeta v, Object object, int pos)
-      throws HopDatabaseException {
+  public void setValue(PreparedStatement ps, IValueMeta v, Object object, int pos) throws HopDatabaseException {
 
     v.setPreparedStatementValue(databaseMeta, ps, pos, object);
   }
@@ -915,8 +875,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     setValues(row.getRowMeta(), row.getData(), ps);
   }
 
-  public void setValues(IRowMeta rowMeta, Object[] data, PreparedStatement ps)
-      throws HopDatabaseException {
+  public void setValues(IRowMeta rowMeta, Object[] data, PreparedStatement ps) throws HopDatabaseException {
     // now set the values in the row!
     for (int i = 0; i < rowMeta.size(); i++) {
       IValueMeta v = rowMeta.getValueMeta(i);
@@ -936,9 +895,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param rowMeta
    * @param data
    */
-  public void setValues(
-      IRowMeta rowMeta, Object[] data, PreparedStatement ps, int ignoreThisValueIndex)
-      throws HopDatabaseException {
+  public void setValues(IRowMeta rowMeta, Object[] data, PreparedStatement ps, int ignoreThisValueIndex) throws HopDatabaseException {
     // now set the values in the row!
     int index = 0;
     for (int i = 0; i < rowMeta.size(); i++) {
@@ -991,23 +948,18 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public Long getNextSequenceValue(String sequenceName, String keyfield)
-      throws HopDatabaseException {
+  public Long getNextSequenceValue(String sequenceName, String keyfield) throws HopDatabaseException {
     return getNextSequenceValue(null, sequenceName, keyfield);
   }
 
-  public Long getNextSequenceValue(String schemaName, String sequenceName, String keyfield)
-      throws HopDatabaseException {
+  public Long getNextSequenceValue(String schemaName, String sequenceName, String keyfield) throws HopDatabaseException {
     Long retval = null;
 
-    String schemaSequence =
-        databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
+    String schemaSequence = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
 
     try {
       if (pstmtSeq == null) {
-        pstmtSeq =
-            connection.prepareStatement(
-                databaseMeta.getSeqNextvalSql(databaseMeta.stripCR(schemaSequence)));
+        pstmtSeq = connection.prepareStatement(databaseMeta.getSeqNextvalSql(databaseMeta.stripCR(schemaSequence)));
       }
       ResultSet rs = null;
       try {
@@ -1021,20 +973,17 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         }
       }
     } catch (SQLException ex) {
-      throw new HopDatabaseException(
-          "Unable to get next value for sequence : " + schemaSequence, ex);
+      throw new HopDatabaseException("Unable to get next value for sequence : " + schemaSequence, ex);
     }
 
     return retval;
   }
 
-  public void insertRow(String tableName, IRowMeta fields, Object[] data)
-      throws HopDatabaseException {
+  public void insertRow(String tableName, IRowMeta fields, Object[] data) throws HopDatabaseException {
     insertRow(null, tableName, fields, data);
   }
 
-  public void insertRow(String schemaName, String tableName, IRowMeta fields, Object[] data)
-      throws HopDatabaseException {
+  public void insertRow(String schemaName, String tableName, IRowMeta fields, Object[] data) throws HopDatabaseException {
     prepareInsert(fields, schemaName, tableName);
     setValuesInsert(fields, data);
     insertRow();
@@ -1053,8 +1002,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
     // See if the database dialect requires any additional clause
     //
-    String beforeFieldsClause =
-        databaseMeta.getIDatabase().getSqlInsertClauseBeforeFields(this, schemaTable);
+    String beforeFieldsClause = databaseMeta.getIDatabase().getSqlInsertClauseBeforeFields(this, schemaTable);
     if (StringUtils.isNotEmpty(beforeFieldsClause)) {
       ins.append(beforeFieldsClause).append(" ");
     }
@@ -1105,7 +1053,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param ps The prepared statement
    * @param batch True if you want to use batch inserts (size = commit size)
    * @return true if the rows are safe: if batch of rows was sent to the database OR if a commit was
-   *     done.
+   *         done.
    * @throws HopDatabaseException
    */
   public boolean insertRow(PreparedStatement ps, boolean batch) throws HopDatabaseException {
@@ -1114,10 +1062,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   public boolean getUseBatchInsert(boolean batch) throws HopDatabaseException {
     try {
-      return batch
-          && getDatabaseMetaData().supportsBatchUpdates()
-          && databaseMeta.supportsBatchUpdates()
-          && Utils.isEmpty(connectionGroup);
+      return batch && getDatabaseMetaData().supportsBatchUpdates() && databaseMeta.supportsBatchUpdates() && Utils.isEmpty(connectionGroup);
     } catch (SQLException e) {
       throw createHopDatabaseBatchException("Error determining whether to use batch", e);
     }
@@ -1129,13 +1074,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param ps The prepared statement
    * @param batch True if you want to use batch inserts (size = commit size)
    * @param handleCommit True if you want to handle the commit here after the commit size (False
-   *     e.g. in case the transform handles this, see TableOutput)
+   *        e.g. in case the transform handles this, see TableOutput)
    * @return true if the rows are safe: if batch of rows was sent to the database OR if a commit was
-   *     done.
+   *         done.
    * @throws HopDatabaseException
    */
-  public boolean insertRow(PreparedStatement ps, boolean batch, boolean handleCommit)
-      throws HopDatabaseException {
+  public boolean insertRow(PreparedStatement ps, boolean batch, boolean handleCommit) throws HopDatabaseException {
     String debug = "insertRow start";
     boolean rowsAreSafe = false;
     boolean isBatchUpdate = false;
@@ -1164,10 +1108,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
       written++;
 
-      if (handleCommit
-          && !isAutoCommit()
-          && (written % commitsize)
-              == 0) { // some transforms handle the commit themselves (see e.g.
+      if (handleCommit && !isAutoCommit() && (written % commitsize) == 0) { // some transforms handle the commit themselves (see e.g.
         // TableOutput transform)
 
         if (useBatchInsert) {
@@ -1194,8 +1135,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         throw new HopDatabaseException("Error inserting/updating row", ex);
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unexpected error inserting/updating row in part [" + debug + "]", e);
+      throw new HopDatabaseException("Unexpected error inserting/updating row in part [" + debug + "]", e);
     }
   }
 
@@ -1207,8 +1147,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public void executeAndClearBatch(PreparedStatement preparedStatement)
-      throws HopDatabaseException {
+  public void executeAndClearBatch(PreparedStatement preparedStatement) throws HopDatabaseException {
     try {
       if (written > 0 && getDatabaseMetaData().supportsBatchUpdates()) {
         preparedStatement.executeBatch();
@@ -1241,8 +1180,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param batchCounter The number of rows on the batch queue
    * @throws HopDatabaseException
    */
-  public void emptyAndCommit(PreparedStatement ps, boolean batch, int batchCounter)
-      throws HopDatabaseException {
+  public void emptyAndCommit(PreparedStatement ps, boolean batch, int batchCounter) throws HopDatabaseException {
     emptyAndCommit(ps, batch, batchCounter, true);
   }
 
@@ -1255,9 +1193,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param closeStatement Set to true if we want to close the statement
    * @throws HopDatabaseException
    */
-  public void emptyAndCommit(
-      PreparedStatement ps, boolean batch, int batchCounter, boolean closeStatement)
-      throws HopDatabaseException {
+  public void emptyAndCommit(PreparedStatement ps, boolean batch, int batchCounter, boolean closeStatement) throws HopDatabaseException {
     boolean isBatchUpdate = false;
     try {
       if (ps != null) {
@@ -1284,7 +1220,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         // Close statement only if explicitly needed
         //
-        if (closeStatement) ps.close();
+        if (closeStatement)
+          ps.close();
       }
     } catch (BatchUpdateException ex) {
       throw createHopDatabaseBatchException("Error updating batch", ex);
@@ -1297,8 +1234,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public static HopDatabaseBatchException createHopDatabaseBatchException(
-      String message, SQLException ex) {
+  public static HopDatabaseBatchException createHopDatabaseBatchException(String message, SQLException ex) {
     HopDatabaseBatchException kdbe = new HopDatabaseBatchException(message, ex);
     if (ex instanceof BatchUpdateException) {
       kdbe.setUpdateCounts(((BatchUpdateException) ex).getUpdateCounts());
@@ -1335,8 +1271,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return execStatement(sql, null, null);
   }
 
-  public Result execStatement(String rawsql, IRowMeta params, Object[] data)
-      throws HopDatabaseException {
+  public Result execStatement(String rawsql, IRowMeta params, Object[] data) throws HopDatabaseException {
     Result result = new Result();
 
     // Replace existing code with a class that removes comments from the raw
@@ -1380,9 +1315,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
 
       // See if a cache needs to be cleared...
-      if (upperSql.startsWith("ALTER TABLE")
-          || upperSql.startsWith("DROP TABLE")
-          || upperSql.startsWith("CREATE TABLE")) {
+      if (upperSql.startsWith("ALTER TABLE") || upperSql.startsWith("DROP TABLE") || upperSql.startsWith("CREATE TABLE")) {
         DbCache.getInstance().clear(databaseMeta.getName());
       }
     } catch (SQLException ex) {
@@ -1397,11 +1330,14 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   /**
    * Execute a series of SQL statements, separated by ;
    *
-   * <p>We are already connected...
+   * <p>
+   * We are already connected...
    *
-   * <p>Multiple statements have to be split into parts We use the ";" to separate statements...
+   * <p>
+   * Multiple statements have to be split into parts We use the ";" to separate statements...
    *
-   * <p>We keep the results in Result object from Workflows
+   * <p>
+   * We keep the results in Result object from Workflows
    *
    * @param script The SQL script to be execute
    * @return A result with counts of the number or records updates, inserted, deleted or read.
@@ -1414,11 +1350,14 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   /**
    * Execute a series of SQL statements, separated by ;
    *
-   * <p>We are already connected...
+   * <p>
+   * We are already connected...
    *
-   * <p>Multiple statements have to be split into parts We use the ";" to separate statements...
+   * <p>
+   * Multiple statements have to be split into parts We use the ";" to separate statements...
    *
-   * <p>We keep the results in Result object from Workflows
+   * <p>
+   * We keep the results in Result object from Workflows
    *
    * @param script The SQL script to be execute
    * @param params Parameters Meta
@@ -1426,8 +1365,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @return A result with counts of the number or records updates, inserted, deleted or read.
    * @throws HopDatabaseException In case an error occurs
    */
-  public Result execStatements(String script, IRowMeta params, Object[] data)
-      throws HopDatabaseException {
+  public Result execStatements(String script, IRowMeta params, Object[] data) throws HopDatabaseException {
     Result result = new Result();
 
     SqlScriptParser sqlScriptParser = databaseMeta.getIDatabase().createSqlScriptParser();
@@ -1441,8 +1379,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         if (!Const.onlySpaces(stat)) {
           String sql = Const.trim(stat);
-          if (sql.toUpperCase().startsWith("SELECT")
-              && !sql.toUpperCase().matches("(?is)^(select\\s.*\\sinto\\s).*")) {
+          if (sql.toUpperCase().startsWith("SELECT") && !sql.toUpperCase().matches("(?is)^(select\\s.*\\sinto\\s).*")) {
             // A Query
             if (log.isDetailed()) {
               log.logDetailed("launch SELECT statement: " + Const.CR + sql);
@@ -1516,19 +1453,15 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @throws HopDatabaseException when something goes wrong with the query.
    * @data the parameter data to open the query with
    */
-  public ResultSet openQuery(String sql, IRowMeta params, Object[] data)
-      throws HopDatabaseException {
+  public ResultSet openQuery(String sql, IRowMeta params, Object[] data) throws HopDatabaseException {
     return openQuery(sql, params, data, ResultSet.FETCH_FORWARD);
   }
 
-  public ResultSet openQuery(String sql, IRowMeta params, Object[] data, int fetchMode)
-      throws HopDatabaseException {
+  public ResultSet openQuery(String sql, IRowMeta params, Object[] data, int fetchMode) throws HopDatabaseException {
     return openQuery(sql, params, data, fetchMode, false);
   }
 
-  public ResultSet openQuery(
-      String sql, IRowMeta params, Object[] data, int fetchMode, boolean lazyConversion)
-      throws HopDatabaseException {
+  public ResultSet openQuery(String sql, IRowMeta params, Object[] data, int fetchMode, boolean lazyConversion) throws HopDatabaseException {
     ResultSet res;
 
     // Create a Statement
@@ -1536,9 +1469,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       log.snap(Metrics.METRIC_DATABASE_OPEN_QUERY_START, databaseMeta.getName());
       if (params != null) {
         log.snap(Metrics.METRIC_DATABASE_PREPARE_SQL_START, databaseMeta.getName());
-        pstmt =
-            connection.prepareStatement(
-                databaseMeta.stripCR(sql), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        pstmt = connection.prepareStatement(databaseMeta.stripCR(sql), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         log.snap(Metrics.METRIC_DATABASE_PREPARE_SQL_STOP, databaseMeta.getName());
 
         log.snap(Metrics.METRIC_DATABASE_SQL_VALUES_START, databaseMeta.getName());
@@ -1569,8 +1500,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         selStmt = connection.createStatement();
         log.snap(Metrics.METRIC_DATABASE_CREATE_SQL_STOP, databaseMeta.getName());
         if (canWeSetFetchSize(selStmt)) {
-          int fs =
-              Const.FETCH_SIZE <= selStmt.getMaxRows() ? selStmt.getMaxRows() : Const.FETCH_SIZE;
+          int fs = Const.FETCH_SIZE <= selStmt.getMaxRows() ? selStmt.getMaxRows() : Const.FETCH_SIZE;
           if (databaseMeta.getIDatabase().isMySqlVariant() && databaseMeta.isStreamingResults()) {
             selStmt.setFetchSize(Integer.MIN_VALUE);
           } else {
@@ -1606,13 +1536,10 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   private boolean canWeSetFetchSize(Statement statement) throws SQLException {
     return databaseMeta.isFetchSizeSupported()
-        && (statement.getMaxRows() > 0
-            || databaseMeta.getIDatabase().isPostgresVariant()
-            || (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults()));
+        && (statement.getMaxRows() > 0 || databaseMeta.getIDatabase().isPostgresVariant() || (databaseMeta.isMySqlVariant() && databaseMeta.isStreamingResults()));
   }
 
-  public ResultSet openQuery(PreparedStatement ps, IRowMeta params, Object[] data)
-      throws HopDatabaseException {
+  public ResultSet openQuery(PreparedStatement ps, IRowMeta params, Object[] data) throws HopDatabaseException {
     ResultSet res;
 
     // Create a Statement
@@ -1664,8 +1591,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return res;
   }
 
-  void setMysqlFetchSize(PreparedStatement ps, int fs, int getMaxRows)
-      throws SQLException, HopDatabaseException {
+  void setMysqlFetchSize(PreparedStatement ps, int fs, int getMaxRows) throws SQLException, HopDatabaseException {
     if (databaseMeta.isStreamingResults() && getDatabaseMetaData().getDriverMajorVersion() == 3) {
       ps.setFetchSize(Integer.MIN_VALUE);
     } else if (fs <= getMaxRows) {
@@ -1677,11 +1603,13 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   /**
    * Returns a RowMeta describing the fields of a table expression.
    *
-   * <p>Note that this implementation makes use of a SQL statement in order to populate the
+   * <p>
+   * Note that this implementation makes use of a SQL statement in order to populate the
    * ValueMeta object in the RowMeta it returns. This is sometimes necessary when the caller needs
    * the ValueMeta values to be properly casted.
    *
-   * <p>In cases where a simple list of columns is required, it is preferable to use {@link
+   * <p>
+   * In cases where a simple list of columns is required, it is preferable to use {@link
    * #getTableFieldsMeta(String, String)}. This other method will not use a SQL query and will
    * populate whatever information it can using @link {@link DatabaseMetaData#getColumns(String,
    * String, String, String)}.
@@ -1700,8 +1628,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * See if the table specified exists by reading
    *
    * @param tableName The name of the table to check.<br>
-   *     This is supposed to be the properly quoted name of the table or the complete schema-table
-   *     name combination.
+   *        This is supposed to be the properly quoted name of the table or the complete schema-table
+   *        name combination.
    * @return true if the table exists, false if it doesn't.
    */
   // DEEM-MOD (bublic)
@@ -1719,28 +1647,24 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         return false;
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unable to check if table ["
-              + tableName
-              + "] exists on connection ["
-              + databaseMeta.getName()
-              + "]",
-          e);
+      throw new HopDatabaseException("Unable to check if table [" + tableName + "] exists on connection [" + databaseMeta.getName() + "]", e);
     }
   }
 
   /**
    * See if the table specified exists.
    *
-   * <p>This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
+   * <p>
+   * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
    * first and we only use statements when absolutely necessary.
    *
-   * <p>Contrary to previous versions of similar duplicated methods, this implementation does not
+   * <p>
+   * Contrary to previous versions of similar duplicated methods, this implementation does not
    * require quoted identifiers.
    *
    * @param tableName The unquoted name of the table to check.<br>
-   *     This is NOT the properly quoted name of the table or the complete schema-table name
-   *     combination.
+   *        This is NOT the properly quoted name of the table or the complete schema-table name
+   *        combination.
    * @param schema The unquoted name of the schema.
    * @return true if the table exists, false if it doesn't.
    */
@@ -1748,7 +1672,6 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return checkTableExists(databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName));
   }
 
-  
   /**
    * See if the table specified exists.
    * <p>
@@ -1784,10 +1707,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   /**
    * See if the column specified exists by reading the metadata first, execution last.
    *
-   * <p>This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
+   * <p>
+   * This is a smarter implementation of {@link #checkTableExists(String)} where metadata is used
    * first and we only use statements when absolutely necessary.
    *
-   * <p>Contrary to previous versions of similar duplicated methods, this implementation does not
+   * <p>
+   * Contrary to previous versions of similar duplicated methods, this implementation does not
    * require quoted identifiers.
    *
    * @param schemaname The name of the schema to check.
@@ -1795,11 +1720,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param columnName The name of the column to check.
    * @return true if the table exists, false if it doesn't.
    */
-  public boolean checkColumnExists(String schemaname, String tableName, String columnName)
-      throws HopDatabaseException {
-    return checkColumnExists(
-        databaseMeta.quoteField(columnName),
-        databaseMeta.getQuotedSchemaTableCombination(this, schemaname, tableName));
+  public boolean checkColumnExists(String schemaname, String tableName, String columnName) throws HopDatabaseException {
+    return checkColumnExists(databaseMeta.quoteField(columnName), databaseMeta.getQuotedSchemaTableCombination(this, schemaname, tableName));
   }
 
   /**
@@ -1807,16 +1729,14 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *
    * @param columnName The name of the column to check.
    * @param tableName The name of the table to check.<br>
-   *     This is supposed to be the properly quoted name of the table or the complete schema-table
-   *     name combination.
+   *        This is supposed to be the properly quoted name of the table or the complete schema-table
+   *        name combination.
    * @return true if the table exists, false if it doesn't.
    */
-  private boolean checkColumnExists(String columnName, String tableName)
-      throws HopDatabaseException {
+  private boolean checkColumnExists(String columnName, String tableName) throws HopDatabaseException {
     try {
       if (log.isDebug()) {
-        log.logDebug(
-            "Checking if column [" + columnName + "] exists in table [" + tableName + "] !");
+        log.logDebug("Checking if column [" + columnName + "] exists in table [" + tableName + "] !");
       }
 
       // Just try to read from the table.
@@ -1829,15 +1749,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         return false;
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unable to check if column ["
-              + columnName
-              + "] exists in table ["
-              + tableName
-              + "] on connection ["
-              + databaseMeta.getName()
-              + "]",
-          e);
+      throw new HopDatabaseException("Unable to check if column [" + columnName + "] exists in table [" + tableName + "] on connection [" + databaseMeta.getName() + "]", e);
     }
   }
 
@@ -1857,16 +1769,14 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param sequenceName The name of the sequence
    * @return true if the sequence exists.
    */
-  public boolean checkSequenceExists(String schemaName, String sequenceName)
-      throws HopDatabaseException {
+  public boolean checkSequenceExists(String schemaName, String sequenceName) throws HopDatabaseException {
     boolean retval = false;
 
     if (!databaseMeta.supportsSequences()) {
       return retval;
     }
 
-    String schemaSequence =
-        databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
+    String schemaSequence = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
     try {
       //
       // Get the info from the data dictionary...
@@ -1881,8 +1791,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         closeQuery(res);
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unexpected error checking whether or not sequence [" + schemaSequence + "] exists", e);
+      throw new HopDatabaseException("Unexpected error checking whether or not sequence [" + schemaSequence + "] exists", e);
     }
 
     return retval;
@@ -1895,8 +1804,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param idxFields The fields on which the indexe is checked
    * @return True if the index exists
    */
-  public boolean checkIndexExists(String tableName, String[] idxFields)
-      throws HopDatabaseException {
+  public boolean checkIndexExists(String tableName, String[] idxFields) throws HopDatabaseException {
     return checkIndexExists(null, tableName, idxFields);
   }
 
@@ -1908,42 +1816,24 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param idxFields The fields on which the indexe is checked
    * @return True if the index exists
    */
-  public boolean checkIndexExists(String schemaName, String tableName, String[] idxFields)
-      throws HopDatabaseException {
+  public boolean checkIndexExists(String schemaName, String tableName, String[] idxFields) throws HopDatabaseException {
     String schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
     if (!checkTableExists(schemaTable)) {
       return false;
     }
 
     if (log.isDebug()) {
-      log.logDebug(
-          "CheckIndexExists() table = " + schemaTable + " type = " + databaseMeta.getPluginId());
+      log.logDebug("CheckIndexExists() table = " + schemaTable + " type = " + databaseMeta.getPluginId());
     }
 
     return databaseMeta.getIDatabase().hasIndex(this, schemaName, schemaTable, idxFields);
   }
 
-  public String getCreateIndexStatement(
-      String tableName,
-      String indexname,
-      String[] idxFields,
-      boolean tk,
-      boolean unique,
-      boolean bitmap,
-      boolean semiColon) {
-    return getCreateIndexStatement(
-        null, tableName, indexname, idxFields, tk, unique, bitmap, semiColon);
+  public String getCreateIndexStatement(String tableName, String indexname, String[] idxFields, boolean tk, boolean unique, boolean bitmap, boolean semiColon) {
+    return getCreateIndexStatement(null, tableName, indexname, idxFields, tk, unique, bitmap, semiColon);
   }
 
-  public String getCreateIndexStatement(
-      String schemaname,
-      String tableName,
-      String indexname,
-      String[] idxFields,
-      boolean tk,
-      boolean unique,
-      boolean bitmap,
-      boolean semiColon) {
+  public String getCreateIndexStatement(String schemaname, String tableName, String indexname, String[] idxFields, boolean tk, boolean unique, boolean bitmap, boolean semiColon) {
     String crIndex = "";
     IDatabase iDatabase = databaseMeta.getIDatabase();
 
@@ -1984,45 +1874,19 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return crIndex;
   }
 
-  public String getCreateSequenceStatement(
-      String sequence, long startAt, long incrementBy, long maxValue, boolean semiColon) {
-    return getCreateSequenceStatement(
-        null,
-        sequence,
-        Long.toString(startAt),
-        Long.toString(incrementBy),
-        Long.toString(maxValue),
-        semiColon);
+  public String getCreateSequenceStatement(String sequence, long startAt, long incrementBy, long maxValue, boolean semiColon) {
+    return getCreateSequenceStatement(null, sequence, Long.toString(startAt), Long.toString(incrementBy), Long.toString(maxValue), semiColon);
   }
 
-  public String getCreateSequenceStatement(
-      String sequence, String startAt, String incrementBy, String maxValue, boolean semiColon) {
+  public String getCreateSequenceStatement(String sequence, String startAt, String incrementBy, String maxValue, boolean semiColon) {
     return getCreateSequenceStatement(null, sequence, startAt, incrementBy, maxValue, semiColon);
   }
 
-  public String getCreateSequenceStatement(
-      String schemaName,
-      String sequence,
-      long startAt,
-      long incrementBy,
-      long maxValue,
-      boolean semiColon) {
-    return getCreateSequenceStatement(
-        schemaName,
-        sequence,
-        Long.toString(startAt),
-        Long.toString(incrementBy),
-        Long.toString(maxValue),
-        semiColon);
+  public String getCreateSequenceStatement(String schemaName, String sequence, long startAt, long incrementBy, long maxValue, boolean semiColon) {
+    return getCreateSequenceStatement(schemaName, sequence, Long.toString(startAt), Long.toString(incrementBy), Long.toString(maxValue), semiColon);
   }
 
-  public String getCreateSequenceStatement(
-      String schemaName,
-      String sequenceName,
-      String startAt,
-      String incrementBy,
-      String maxValue,
-      boolean semiColon) {
+  public String getCreateSequenceStatement(String schemaName, String sequenceName, String startAt, String incrementBy, String maxValue, boolean semiColon) {
     String crSeq = "";
 
     if (Utils.isEmpty(sequenceName)) {
@@ -2030,8 +1894,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
 
     if (databaseMeta.supportsSequences()) {
-      String schemaSequence =
-          databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
+      String schemaSequence = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, sequenceName);
       crSeq += "CREATE SEQUENCE " + schemaSequence + " " + Const.CR; // Works
       // for
       // both
@@ -2065,28 +1928,29 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   /**
    * Returns a RowMeta describing the fields of a table.
    *
-   * <p>This is a lighter implementation of {@link #getTableFields(String)} where metadata is used
+   * <p>
+   * This is a lighter implementation of {@link #getTableFields(String)} where metadata is used
    * first and we only use statements when absolutely necessary.
    *
-   * <p>Note that the ValueMeta returned here will not contain any actual values and as such, this
+   * <p>
+   * Note that the ValueMeta returned here will not contain any actual values and as such, this
    * method should be used whenever a simple list of columns is required, and we're not planning on
    * looking at the actual data.
    *
-   * <p>Contrary to previous versions of similar duplicated methods, this implementation does not
+   * <p>
+   * Contrary to previous versions of similar duplicated methods, this implementation does not
    * require quoted identifiers.
    *
    * @param schemaName The unquoted schema name. Can be null.
    * @param tableName The unquoted table name. Cannot be null.
    */
-  public IRowMeta getTableFieldsMeta(String schemaName, String tableName)
-      throws HopDatabaseException {
+  public IRowMeta getTableFieldsMeta(String schemaName, String tableName) throws HopDatabaseException {
     String tableSchema = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
     String sql = databaseMeta.getSqlQueryFields(tableSchema);
     return getQueryFields(sql, false);
   }
 
-  public IRowMeta getQueryFields(String sql, boolean param, IRowMeta inform, Object[] data)
-      throws HopDatabaseException {
+  public IRowMeta getQueryFields(String sql, boolean param, IRowMeta inform, Object[] data) throws HopDatabaseException {
     IRowMeta fields;
     DbCache dbcache = DbCache.getInstance();
 
@@ -2149,9 +2013,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   public IRowMeta getQueryFieldsFromPreparedStatement(String sql) throws Exception {
     PreparedStatement preparedStatement = null;
     try {
-      preparedStatement =
-          connection.prepareStatement(
-              databaseMeta.stripCR(sql), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+      preparedStatement = connection.prepareStatement(databaseMeta.stripCR(sql), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
       preparedStatement.setMaxRows(1);
       ResultSetMetaData rsmd = preparedStatement.getMetaData();
       return getRowInfo(rsmd, false, false);
@@ -2162,8 +2024,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         try {
           preparedStatement.close();
         } catch (SQLException e) {
-          throw new HopDatabaseException(
-              "Unable to close prepared statement after determining SQL layout", e);
+          throw new HopDatabaseException("Unable to close prepared statement after determining SQL layout", e);
         }
       }
     }
@@ -2175,10 +2036,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
   private IRowMeta getQueryFieldsFromDatabaseMetaData(String sql) throws Exception {
 
-    ResultSet columns =
-        connection
-            .getMetaData()
-            .getColumns("", "", StringUtils.isNotBlank(sql) ? sql : databaseMeta.getName(), "");
+    ResultSet columns = connection.getMetaData().getColumns("", "", StringUtils.isNotBlank(sql) ? sql : databaseMeta.getName(), "");
     IRowMeta rowMeta = new RowMeta();
     while (columns.next()) {
       IValueMeta valueMeta = null;
@@ -2217,8 +2075,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
 
         rowMeta.addValueMeta(valueMeta);
       } else {
-        log.logBasic(
-            "Database.getQueryFields() IValueMeta mapping not resolved for the column " + name);
+        log.logBasic("Database.getQueryFields() IValueMeta mapping not resolved for the column " + name);
         rowMeta = null;
         break;
       }
@@ -2230,18 +2087,15 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public IRowMeta getQueryFieldsFallback(String sql, boolean param, IRowMeta inform, Object[] data)
-      throws HopDatabaseException {
+  public IRowMeta getQueryFieldsFallback(String sql, boolean param, IRowMeta inform, Object[] data) throws HopDatabaseException {
     IRowMeta fields;
 
     try {
       if ((inform == null
-              // Hack for MSSQL jtds 1.2 when using xxx NOT IN yyy we have to use a
-              // prepared statement (see BugID 3214)
-              && databaseMeta.getIDatabase().isMsSqlServerVariant())
-          || databaseMeta.getIDatabase().isSupportsResultSetMetadataRetrievalOnly()) {
-        selStmt =
-            connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+          // Hack for MSSQL jtds 1.2 when using xxx NOT IN yyy we have to use a
+          // prepared statement (see BugID 3214)
+          && databaseMeta.getIDatabase().isMsSqlServerVariant()) || databaseMeta.getIDatabase().isSupportsResultSetMetadataRetrievalOnly()) {
+        selStmt = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         try {
           if (databaseMeta.isFetchSizeSupported() && selStmt.getMaxRows() >= 1) {
             if (databaseMeta.getIDatabase().isMySqlVariant()) {
@@ -2335,14 +2189,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param ignoreLength true if you want to ignore the length (workaround for MySQL bug/problem)
    * @param lazyConversion true if lazy conversion needs to be enabled where possible
    */
-  private IRowMeta getRowInfo(ResultSetMetaData rm, boolean ignoreLength, boolean lazyConversion)
-      throws HopDatabaseException {
+  private IRowMeta getRowInfo(ResultSetMetaData rm, boolean ignoreLength, boolean lazyConversion) throws HopDatabaseException {
     try {
       log.snap(Metrics.METRIC_DATABASE_GET_ROW_META_START, databaseMeta.getName());
 
       if (rm == null) {
-        throw new HopDatabaseException(
-            "No result set metadata available to retrieve row metadata!");
+        throw new HopDatabaseException("No result set metadata available to retrieve row metadata!");
       }
 
       IRowMeta rowMeta = new RowMeta();
@@ -2362,9 +2214,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  private IValueMeta getValueFromSqlType(
-      ResultSetMetaData rm, int i, boolean ignoreLength, boolean lazyConversion)
-      throws HopDatabaseException, SQLException {
+  private IValueMeta getValueFromSqlType(ResultSetMetaData rm, int i, boolean ignoreLength, boolean lazyConversion) throws HopDatabaseException, SQLException {
     // TODO If we do lazy conversion, we need to find out about the encoding
     //
 
@@ -2388,9 +2238,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     //
     IValueMeta valueMeta = null;
     for (IValueMeta valueMetaClass : valueMetaPluginClasses) {
-      IValueMeta v =
-          valueMetaClass.getValueFromSqlType(
-              this, databaseMeta, name, rm, i, ignoreLength, lazyConversion);
+      IValueMeta v = valueMetaClass.getValueFromSqlType(this, databaseMeta, name, rm, i, ignoreLength, lazyConversion);
       if (v != null) {
         valueMeta = v;
         break;
@@ -2401,12 +2249,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       return valueMeta;
     }
 
-    throw new HopDatabaseException(
-        "Unable to handle database column '"
-            + name
-            + "', on column index "
-            + i
-            + " : not a handled data type");
+    throw new HopDatabaseException("Unable to handle database column '" + name + "', on column index " + i + " : not a handled data type");
   }
 
   public boolean absolute(ResultSet rs, int position) throws HopDatabaseException {
@@ -2479,8 +2322,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param rs The resultset to get the row from
    * @return one row or null if no row was found on the resultset or if an error occurred.
    */
-  public Object[] getRow(ResultSet rs, ResultSetMetaData dummy, IRowMeta rowInfo)
-      throws HopDatabaseException {
+  public Object[] getRow(ResultSet rs, ResultSetMetaData dummy, IRowMeta rowInfo) throws HopDatabaseException {
     long startTime = System.currentTimeMillis();
 
     try {
@@ -2523,51 +2365,21 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public void setLookup(
-      String table,
-      String[] codes,
-      String[] condition,
-      String[] gets,
-      String[] rename,
-      String orderby)
-      throws HopDatabaseException {
+  public void setLookup(String table, String[] codes, String[] condition, String[] gets, String[] rename, String orderby) throws HopDatabaseException {
     setLookup(table, codes, condition, gets, rename, orderby, false);
   }
 
-  public void setLookup(
-      String schema,
-      String table,
-      String[] codes,
-      String[] condition,
-      String[] gets,
-      String[] rename,
-      String orderby)
-      throws HopDatabaseException {
+  public void setLookup(String schema, String table, String[] codes, String[] condition, String[] gets, String[] rename, String orderby) throws HopDatabaseException {
     setLookup(schema, table, codes, condition, gets, rename, orderby, false);
   }
 
-  public void setLookup(
-      String tableName,
-      String[] codes,
-      String[] condition,
-      String[] gets,
-      String[] rename,
-      String orderby,
-      boolean checkForMultipleResults)
+  public void setLookup(String tableName, String[] codes, String[] condition, String[] gets, String[] rename, String orderby, boolean checkForMultipleResults)
       throws HopDatabaseException {
     setLookup(null, tableName, codes, condition, gets, rename, orderby, checkForMultipleResults);
   }
 
   // Lookup certain fields in a table
-  public void setLookup(
-      String schemaName,
-      String tableName,
-      String[] codes,
-      String[] condition,
-      String[] gets,
-      String[] rename,
-      String orderby,
-      boolean checkForMultipleResults)
+  public void setLookup(String schemaName, String tableName, String[] codes, String[] condition, String[] gets, String[] rename, String orderby, boolean checkForMultipleResults)
       throws HopDatabaseException {
     try {
       log.snap(Metrics.METRIC_DATABASE_SET_LOOKUP_START, databaseMeta.getName());
@@ -2595,8 +2407,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         sql += databaseMeta.quoteField(codes[i]);
         if ("BETWEEN".equalsIgnoreCase(condition[i])) {
           sql += " BETWEEN ? AND ? ";
-        } else if ("IS NULL".equalsIgnoreCase(condition[i])
-            || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
+        } else if ("IS NULL".equalsIgnoreCase(condition[i]) || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
           sql += " " + condition[i] + " ";
         } else {
           sql += " " + condition[i] + " ? ";
@@ -2628,15 +2439,13 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   }
 
   // Lookup certain fields in a table
-  public boolean prepareUpdate(
-      String schemaName, String tableName, String[] codes, String[] condition, String[] sets) {
+  public boolean prepareUpdate(String schemaName, String tableName, String[] codes, String[] condition, String[] sets) {
     try {
       log.snap(Metrics.METRIC_DATABASE_PREPARE_UPDATE_START, databaseMeta.getName());
 
       StringBuilder sql = new StringBuilder(128);
 
-      String schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
+      String schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
 
       sql.append(databaseMeta.getSqlUpdateStmt(schemaTable));
 
@@ -2657,8 +2466,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         sql.append(databaseMeta.quoteField(codes[i]));
         if ("BETWEEN".equalsIgnoreCase(condition[i])) {
           sql.append(" BETWEEN ? AND ? ");
-        } else if ("IS NULL".equalsIgnoreCase(condition[i])
-            || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
+        } else if ("IS NULL".equalsIgnoreCase(condition[i]) || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
           sql.append(' ').append(condition[i]).append(' ');
         } else {
           sql.append(' ').append(condition[i]).append(" ? ");
@@ -2703,8 +2511,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param condition
    * @return true when everything went OK, false when something went wrong.
    */
-  public boolean prepareDelete(
-      String schemaName, String tableName, String[] codes, String[] condition) {
+  public boolean prepareDelete(String schemaName, String tableName, String[] codes, String[] condition) {
     try {
       log.snap(Metrics.METRIC_DATABASE_PREPARE_DELETE_START, databaseMeta.getName());
 
@@ -2721,8 +2528,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         sql += codes[i];
         if ("BETWEEN".equalsIgnoreCase(condition[i])) {
           sql += " BETWEEN ? AND ? ";
-        } else if ("IS NULL".equalsIgnoreCase(condition[i])
-            || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
+        } else if ("IS NULL".equalsIgnoreCase(condition[i]) || "IS NOT NULL".equalsIgnoreCase(condition[i])) {
           sql += " " + condition[i] + " ";
         } else {
           sql += " " + condition[i] + " ? ";
@@ -2745,9 +2551,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public void setProcLookup(
-      String proc, String[] arg, String[] argdir, int[] argtype, String returnvalue, int returntype)
-      throws HopDatabaseException {
+  public void setProcLookup(String proc, String[] arg, String[] argdir, int[] argtype, String returnvalue, int returntype) throws HopDatabaseException {
     try {
       log.snap(Metrics.METRIC_DATABASE_PREPARE_DBPROC_START, databaseMeta.getName());
       String sql;
@@ -2849,8 +2653,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getLookup(failOnMultipleResults, false);
   }
 
-  public Object[] getLookup(boolean failOnMultipleResults, boolean lazyConversion)
-      throws HopDatabaseException {
+  public Object[] getLookup(boolean failOnMultipleResults, boolean lazyConversion) throws HopDatabaseException {
     return getLookup(prepStatementLookup, failOnMultipleResults, lazyConversion);
   }
 
@@ -2861,14 +2664,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getLookup(ps, false);
   }
 
-  public Object[] getLookup(PreparedStatement ps, boolean failOnMultipleResults)
-      throws HopDatabaseException {
+  public Object[] getLookup(PreparedStatement ps, boolean failOnMultipleResults) throws HopDatabaseException {
     return getLookup(ps, failOnMultipleResults, false);
   }
 
-  public Object[] getLookup(
-      PreparedStatement ps, boolean failOnMultipleResults, boolean lazyConversion)
-      throws HopDatabaseException {
+  public Object[] getLookup(PreparedStatement ps, boolean failOnMultipleResults, boolean lazyConversion) throws HopDatabaseException {
     ResultSet res = null;
     try {
       log.snap(Metrics.METRIC_DATABASE_GET_LOOKUP_START, databaseMeta.getName());
@@ -2881,8 +2681,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         // again.
         // on DB2 this will even cause an exception (because of the buggy DB2
         // JDBC driver).
-        throw new HopDatabaseException(
-            "Only 1 row was expected as a result of a lookup, and at least 2 were found!");
+        throw new HopDatabaseException("Only 1 row was expected as a result of a lookup, and at least 2 were found!");
       }
       return ret;
     } catch (SQLException ex) {
@@ -2906,15 +2705,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         log.snap(Metrics.METRIC_DATABASE_GET_DBMETA_START, databaseMeta.getName());
 
         if (connection == null) {
-          throw new HopDatabaseException(
-              BaseMessages.getString(
-                  PKG, "Database.Exception.EmptyConnectionError", databaseMeta.getDatabaseName()));
+          throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.EmptyConnectionError", databaseMeta.getDatabaseName()));
         }
 
         dbmd = connection.getMetaData(); // Only get the metadata once!
       } catch (Exception e) {
-        throw new HopDatabaseException(
-            BaseMessages.getString(PKG, "Database.Exception.UnableToGetMetadata"), e);
+        throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToGetMetadata"), e);
       } finally {
         log.snap(Metrics.METRIC_DATABASE_GET_DBMETA_STOP, databaseMeta.getName());
       }
@@ -2926,20 +2722,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getDDL(tableName, fields, null, false, null, true);
   }
 
-  public String getDDL(
-      String tableName, IRowMeta fields, String tk, boolean useAutoIncrement, String pk)
-      throws HopDatabaseException {
+  public String getDDL(String tableName, IRowMeta fields, String tk, boolean useAutoIncrement, String pk) throws HopDatabaseException {
     return getDDL(tableName, fields, tk, useAutoIncrement, pk, true);
   }
 
-  public String getDDL(
-      String tableName,
-      IRowMeta fields,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon)
-      throws HopDatabaseException {
+  public String getDDL(String tableName, IRowMeta fields, String tk, boolean useAutoIncrement, String pk, boolean semicolon) throws HopDatabaseException {
     String retval;
 
     // First, check for reserved SQL in the input row r...
@@ -2949,8 +2736,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     if (checkTableExists(tableName)) {
       retval = getAlterTableStatement(tableName, fields, quotedTk, useAutoIncrement, pk, semicolon);
     } else {
-      retval =
-          getCreateTableStatement(tableName, fields, quotedTk, useAutoIncrement, pk, semicolon);
+      retval = getCreateTableStatement(tableName, fields, quotedTk, useAutoIncrement, pk, semicolon);
     }
 
     return retval;
@@ -2960,7 +2746,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * Generates SQL
    *
    * @param tableName the table name or schema/table combination: this needs to be quoted properly
-   *     in advance.
+   *        in advance.
    * @param fields the fields
    * @param tk the name of the technical key field
    * @param useAutoIncrement true if we need to use auto-increment fields for a primary key
@@ -2968,13 +2754,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param semicolon append semicolon to the statement
    * @return the SQL needed to create the specified table and fields.
    */
-  public String getCreateTableStatement(
-      String tableName,
-      IRowMeta fields,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getCreateTableStatement(String tableName, IRowMeta fields, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     StringBuilder retval = new StringBuilder();
     IDatabase iDatabase = databaseMeta.getIDatabase();
     retval.append(iDatabase.getCreateTableStatement());
@@ -3018,14 +2798,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return retval.toString();
   }
 
-  public String getAlterTableStatement(
-      String tableName,
-      IRowMeta fields,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon)
-      throws HopDatabaseException {
+  public String getAlterTableStatement(String tableName, IRowMeta fields, String tk, boolean useAutoIncrement, String pk, boolean semicolon) throws HopDatabaseException {
     String retval = "";
 
     // Get the fields that are in the table now:
@@ -3090,8 +2863,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     if (modify.size() > 0) {
       for (int i = 0; i < modify.size(); i++) {
         IValueMeta v = modify.getValueMeta(i);
-        retval +=
-            databaseMeta.getModifyColumnStatement(tableName, v, tk, useAutoIncrement, pk, true);
+        retval += databaseMeta.getModifyColumnStatement(tableName, v, tk, useAutoIncrement, pk, true);
       }
     }
 
@@ -3102,8 +2874,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     if (Utils.isEmpty(connectionGroup)) {
       String truncateStatement = databaseMeta.getTruncateTableStatement(this, null, tableName);
       if (truncateStatement == null) {
-        throw new HopDatabaseException(
-            "Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
+        throw new HopDatabaseException("Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
       }
       execStatement(truncateStatement);
     } else {
@@ -3115,14 +2886,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     if (Utils.isEmpty(connectionGroup)) {
       String truncateStatement = databaseMeta.getTruncateTableStatement(this, schema, tableName);
       if (truncateStatement == null) {
-        throw new HopDatabaseException(
-            "Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
+        throw new HopDatabaseException("Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
       }
       execStatement(truncateStatement);
     } else {
-      execStatement(
-          databaseMeta.getSqlDeleteStmt(
-              databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName)));
+      execStatement(databaseMeta.getSqlDeleteStmt(databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName)));
     }
   }
 
@@ -3165,8 +2933,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     }
   }
 
-  public RowMeta getMetaFromRow(Object[] row, ResultSetMetaData md)
-      throws SQLException, HopDatabaseException {
+  public RowMeta getMetaFromRow(Object[] row, ResultSetMetaData md) throws SQLException, HopDatabaseException {
     RowMeta meta = new RowMeta();
 
     for (int i = 0; i < md.getColumnCount(); i++) {
@@ -3177,8 +2944,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return meta;
   }
 
-  public RowMetaAndData getOneRow(String sql, IRowMeta param, Object[] data)
-      throws HopDatabaseException {
+  public RowMetaAndData getOneRow(String sql, IRowMeta param, Object[] data) throws HopDatabaseException {
     ResultSet rs = openQuery(sql, param, data);
     if (rs != null) {
       Object[] row = getRow(rs); // One value: a number
@@ -3237,10 +3003,10 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         switch (sqltype) {
           case java.sql.Types.CHAR:
           case java.sql.Types.VARCHAR:
-          case java.sql.Types.NVARCHAR:      // DEEM-MOD
-          case java.sql.Types.NCHAR:         // DEEM-MOD
-          case java.sql.Types.LONGVARCHAR:   // DEEM-MOD
-          case java.sql.Types.LONGNVARCHAR:  // DEEM-MOD
+          case java.sql.Types.NVARCHAR: // DEEM-MOD
+          case java.sql.Types.NCHAR: // DEEM-MOD
+          case java.sql.Types.LONGVARCHAR: // DEEM-MOD
+          case java.sql.Types.LONGNVARCHAR: // DEEM-MOD
             val = new ValueMetaString(name);
             break;
           case java.sql.Types.BIGINT:
@@ -3259,8 +3025,8 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           case java.sql.Types.DATE:
           case java.sql.Types.TIME:
           case java.sql.Types.TIMESTAMP:
-          case java.sql.Types.TIME_WITH_TIMEZONE:       // DEEM-MOD
-          case java.sql.Types.TIMESTAMP_WITH_TIMEZONE:  // DEEM-MOD
+          case java.sql.Types.TIME_WITH_TIMEZONE: // DEEM-MOD
+          case java.sql.Types.TIMESTAMP_WITH_TIMEZONE: // DEEM-MOD
             val = new ValueMetaDate(name);
             break;
           case java.sql.Types.BOOLEAN:
@@ -3341,8 +3107,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return par;
   }
 
-  public synchronized Long getNextValue(String schemaName, String tableName, String valKey)
-      throws HopDatabaseException {
+  public synchronized Long getNextValue(String schemaName, String tableName, String valKey) throws HopDatabaseException {
     Long nextValue = null;
 
     String schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
@@ -3353,8 +3118,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     //
     Counter counter = Counters.getInstance().getCounter(lookup);
     if (counter == null) {
-      RowMetaAndData rmad =
-          getOneRow("SELECT MAX(" + databaseMeta.quoteField(valKey) + ") FROM " + schemaTable);
+      RowMetaAndData rmad = getOneRow("SELECT MAX(" + databaseMeta.quoteField(valKey) + ") FROM " + schemaTable);
       if (rmad != null) {
         long previous;
         try {
@@ -3368,9 +3132,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
             previous = 0L;
           }
         } catch (HopValueException e) {
-          throw new HopDatabaseException(
-              "Error getting the first long value from the max value returned from table : "
-                  + schemaTable);
+          throw new HopDatabaseException("Error getting the first long value from the max value returned from table : " + schemaTable);
         }
         counter = new Counter(previous + 1, 1);
         nextValue = Long.valueOf(counter.getAndNext());
@@ -3420,8 +3182,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @return An ArrayList of rows.
    * @throws HopDatabaseException if something goes wrong.
    */
-  public List<Object[]> getRows(String sql, int limit, IProgressMonitor monitor)
-      throws HopDatabaseException {
+  public List<Object[]> getRows(String sql, int limit, IProgressMonitor monitor) throws HopDatabaseException {
 
     return getRows(sql, null, null, ResultSet.FETCH_FORWARD, false, limit, monitor);
   }
@@ -3439,14 +3200,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @return An ArrayList of rows.
    * @throws HopDatabaseException if something goes wrong.
    */
-  public List<Object[]> getRows(
-      String sql,
-      IRowMeta params,
-      Object[] data,
-      int fetchMode,
-      boolean lazyConversion,
-      int limit,
-      IProgressMonitor monitor)
+  public List<Object[]> getRows(String sql, IRowMeta params, Object[] data, int fetchMode, boolean lazyConversion, int limit, IProgressMonitor monitor)
       throws HopDatabaseException {
     if (monitor != null) {
       monitor.setTaskName("Opening query...");
@@ -3465,8 +3219,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @return An ArrayList of rows.
    * @throws HopDatabaseException if something goes wrong.
    */
-  public List<Object[]> getRows(ResultSet rset, int limit, IProgressMonitor monitor)
-      throws HopDatabaseException {
+  public List<Object[]> getRows(ResultSet rset, int limit, IProgressMonitor monitor) throws HopDatabaseException {
     try {
       List<Object[]> result = new ArrayList<>();
       boolean stop = false;
@@ -3512,13 +3265,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *
    * @param tableName The table name (or schema/table combination): this needs to be quoted properly
    * @param limit limit <=0 means unlimited, otherwise this specifies the maximum number of rows
-   *     read.
+   *        read.
    * @param monitor The progress monitor to update while getting the rows.
    * @return An ArrayList of rows.
    * @throws HopDatabaseException in case something goes wrong
    */
-  public List<Object[]> getFirstRows(String tableName, int limit, IProgressMonitor monitor)
-      throws HopDatabaseException {
+  public List<Object[]> getFirstRows(String tableName, int limit, IProgressMonitor monitor) throws HopDatabaseException {
     String sql = "SELECT";
     if (databaseMeta.getIDatabase().isNeoviewVariant()) {
       sql += " [FIRST " + limit + "]";
@@ -3563,14 +3315,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getTablenames(null, includeSchema);
   }
 
-  public String[] getTablenames(String schemanamein, boolean includeSchema)
-      throws HopDatabaseException {
+  public String[] getTablenames(String schemanamein, boolean includeSchema) throws HopDatabaseException {
     return getTablenames(schemanamein, includeSchema, null);
   }
 
-  public String[] getTablenames(
-      String schemanamein, boolean includeSchema, Map<String, String> props)
-      throws HopDatabaseException {
+  public String[] getTablenames(String schemanamein, boolean includeSchema, Map<String, String> props) throws HopDatabaseException {
     Map<String, Collection<String>> tableMap = getTableMap(schemanamein, props);
     List<String> res = new ArrayList<>();
     for (String schema : tableMap.keySet()) {
@@ -3591,13 +3340,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getTableMap(null);
   }
 
-  public Map<String, Collection<String>> getTableMap(String schemanamein)
-      throws HopDatabaseException {
+  public Map<String, Collection<String>> getTableMap(String schemanamein) throws HopDatabaseException {
     return getTableMap(schemanamein, null);
   }
 
-  public Map<String, Collection<String>> getTableMap(String schemanamein, Map<String, String> props)
-      throws HopDatabaseException {
+  public Map<String, Collection<String>> getTableMap(String schemanamein, Map<String, String> props) throws HopDatabaseException {
     String schemaname = schemanamein;
     if (schemaname == null && databaseMeta.useSchemaNameForTableList()) {
 
@@ -3606,8 +3353,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     Map<String, Collection<String>> tableMap = new HashMap<>();
     ResultSet alltables = null;
     try {
-      alltables =
-          getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getTableTypes());
+      alltables = getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getTableTypes());
       while (alltables.next()) {
         String cat = "";
         try {
@@ -3636,10 +3382,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         String table = alltables.getString(TABLES_META_DATA_TABLE_NAME);
 
         if (log.isRowLevel()) {
-          log.logRowlevel(
-              toString(),
-              "got table from meta-data: "
-                  + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
+          log.logRowlevel(toString(), "got table from meta-data: " + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
         }
 
         // Check for any extra properties that might require validation
@@ -3668,8 +3411,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           alltables.close();
         }
       } catch (SQLException e) {
-        throw new HopDatabaseException(
-            "Error closing resultset after getting views from schema [" + schemaname + "]", e);
+        throw new HopDatabaseException("Error closing resultset after getting views from schema [" + schemaname + "]", e);
       }
     }
 
@@ -3709,8 +3451,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getViewMap(null);
   }
 
-  public Map<String, Collection<String>> getViewMap(String schemanamein)
-      throws HopDatabaseException {
+  public Map<String, Collection<String>> getViewMap(String schemanamein) throws HopDatabaseException {
     if (!databaseMeta.supportsViews()) {
       return Collections.emptyMap();
     }
@@ -3723,8 +3464,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     Map<String, Collection<String>> viewMap = new HashMap<>();
     ResultSet allviews = null;
     try {
-      allviews =
-          getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getViewTypes());
+      allviews = getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getViewTypes());
       while (allviews.next()) {
         String cat = "";
         try {
@@ -3753,10 +3493,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         String table = allviews.getString(TABLES_META_DATA_TABLE_NAME);
 
         if (log.isRowLevel()) {
-          log.logRowlevel(
-              toString(),
-              "got view from meta-data: "
-                  + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
+          log.logRowlevel(toString(), "got view from meta-data: " + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
         }
         multimapPut(schema, table, viewMap);
       }
@@ -3768,8 +3505,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           allviews.close();
         }
       } catch (SQLException e) {
-        throw new HopDatabaseException(
-            "Error closing resultset after getting views from schema [" + schemaname + "]", e);
+        throw new HopDatabaseException("Error closing resultset after getting views from schema [" + schemaname + "]", e);
       }
     }
 
@@ -3788,8 +3524,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getSynonyms(null, includeSchema);
   }
 
-  public String[] getSynonyms(String schemanamein, boolean includeSchema)
-      throws HopDatabaseException {
+  public String[] getSynonyms(String schemanamein, boolean includeSchema) throws HopDatabaseException {
     Map<String, Collection<String>> synonymMap = getSynonymMap(schemanamein);
     List<String> res = new ArrayList<>();
     for (String schema : synonymMap.keySet()) {
@@ -3810,8 +3545,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     return getSynonymMap(null);
   }
 
-  public Map<String, Collection<String>> getSynonymMap(String schemanamein)
-      throws HopDatabaseException {
+  public Map<String, Collection<String>> getSynonymMap(String schemanamein) throws HopDatabaseException {
     if (!databaseMeta.supportsSynonyms()) {
       return Collections.emptyMap();
     }
@@ -3823,8 +3557,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     Map<String, Collection<String>> synonymMap = new HashMap<>();
     ResultSet alltables = null;
     try {
-      alltables =
-          getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getSynonymTypes());
+      alltables = getDatabaseMetaData().getTables(null, schemaname, null, databaseMeta.getSynonymTypes());
       while (alltables.next()) {
         String cat = "";
         try {
@@ -3853,10 +3586,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         String table = alltables.getString(TABLES_META_DATA_TABLE_NAME);
 
         if (log.isRowLevel()) {
-          log.logRowlevel(
-              toString(),
-              "got synonym from meta-data: "
-                  + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
+          log.logRowlevel(toString(), "got synonym from meta-data: " + databaseMeta.getQuotedSchemaTableCombination(this, schema, table));
         }
         multimapPut(schema, table, synonymMap);
       }
@@ -3868,8 +3598,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           alltables.close();
         }
       } catch (SQLException e) {
-        throw new HopDatabaseException(
-            "Error closing resultset after getting synonyms from schema [" + schemaname + "]", e);
+        throw new HopDatabaseException("Error closing resultset after getting synonyms from schema [" + schemaname + "]", e);
       }
     }
 
@@ -3989,8 +3718,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         }
         return result;
       } catch (Exception e) {
-        throw new HopDatabaseException(
-            "Unable to get list of procedures from database meta-data: ", e);
+        throw new HopDatabaseException("Unable to get list of procedures from database meta-data: ", e);
       } finally {
         if (rs != null) {
           try {
@@ -4018,7 +3746,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * Lock a tables in the database for write operations
    *
    * @param tableNames The tables to lock. These need to be the appropriately quoted fully qualified
-   *     (schema+table) names.
+   *        (schema+table) names.
    * @throws HopDatabaseException
    */
   public void lockTables(String[] tableNames) throws HopDatabaseException {
@@ -4132,8 +3860,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
@@ -4193,9 +3920,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     variables.setVariables(map);
   }
 
-  public RowMetaAndData callProcedure(
-      String[] arg, String[] argdir, int[] argtype, String resultname, int resulttype)
-      throws HopDatabaseException {
+  public RowMetaAndData callProcedure(String[] arg, String[] argdir, int[] argtype, String resultname, int resulttype) throws HopDatabaseException {
     RowMetaAndData ret;
     try {
       boolean moreResults = cstmt.execute();
@@ -4337,8 +4062,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
         cstmt = null;
       }
     } catch (SQLException ex) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "Database.Exception.ErrorClosingCallableStatement"), ex);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.ErrorClosingCallableStatement"), ex);
     }
   }
 
@@ -4370,13 +4094,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     if (Utils.isEmpty(connectionGroup)) {
       String truncateStatement = databaseMeta.getTruncateTableStatement(this, schema, tableName);
       if (truncateStatement == null) {
-        throw new HopDatabaseException(
-            "Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
+        throw new HopDatabaseException("Truncate table not supported by " + databaseMeta.getIDatabase().getPluginName());
       }
       return truncateStatement;
     } else {
-      return (databaseMeta.getSqlDeleteStmt(
-          databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName)));
+      return (databaseMeta.getSqlDeleteStmt(databaseMeta.getQuotedSchemaTableCombination(this, schema, tableName)));
     }
   }
 
@@ -4389,14 +4111,11 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    * @param dateFormat date format of field
    * @throws HopDatabaseException
    */
-  public String getSqlOutput(
-      String schemaName, String tableName, IRowMeta fields, Object[] r, String dateFormat)
-      throws HopDatabaseException {
+  public String getSqlOutput(String schemaName, String tableName, IRowMeta fields, Object[] r, String dateFormat) throws HopDatabaseException {
     StringBuilder ins = new StringBuilder(128);
 
     try {
-      String schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
+      String schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, schemaName, tableName);
       ins.append("INSERT INTO ").append(schemaTable).append('(');
 
       // now add the names in the row:
@@ -4409,8 +4128,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
       }
       ins.append(") VALUES (");
 
-      java.text.SimpleDateFormat[] fieldDateFormatters =
-          new java.text.SimpleDateFormat[fields.size()];
+      java.text.SimpleDateFormat[] fieldDateFormatters = new java.text.SimpleDateFormat[fields.size()];
 
       // new add values ...
       for (int i = 0; i < fields.size(); i++) {
@@ -4447,9 +4165,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
                   if (fieldDateFormatters[i] == null) {
                     fieldDateFormatters[i] = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                   }
-                  ins.append("TO_DATE('")
-                      .append(fieldDateFormatters[i].format(date))
-                      .append("', 'YYYY/MM/DD HH24:MI:SS')");
+                  ins.append("TO_DATE('").append(fieldDateFormatters[i].format(date)).append("', 'YYYY/MM/DD HH24:MI:SS')");
                 } else {
                   ins.append("'" + fields.getString(r, i) + "'");
                 }
@@ -4479,8 +4195,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     try {
       return connection.setSavepoint();
     } catch (SQLException e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "Database.Exception.UnableToSetSavepoint"), e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToSetSavepoint"), e);
     }
   }
 
@@ -4488,9 +4203,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     try {
       return connection.setSavepoint(savePointName);
     } catch (SQLException e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "Database.Exception.UnableToSetSavepointName", savePointName),
-          e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToSetSavepointName", savePointName), e);
     }
   }
 
@@ -4498,8 +4211,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     try {
       connection.releaseSavepoint(savepoint);
     } catch (SQLException e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "Database.Exception.UnableToReleaseSavepoint"), e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToReleaseSavepoint"), e);
     }
   }
 
@@ -4507,8 +4219,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
     try {
       connection.rollback(savepoint);
     } catch (SQLException e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "Database.Exception.UnableToRollbackToSavepoint"), e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "Database.Exception.UnableToRollbackToSavepoint"), e);
     }
   }
 
@@ -4545,9 +4256,7 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
           allkeys.close();
         }
       } catch (SQLException e) {
-        log.logError(
-            "Error closing connection while searching primary keys in table [" + tableName + "]",
-            e);
+        log.logError("Error closing connection while searching primary keys in table [" + tableName + "]", e);
       }
     }
     return names.toArray(new String[0]);
@@ -4656,13 +4365,12 @@ public class Database implements IVariables, ILoggingObject, AutoCloseable {
    *
    * @param filename the file containing the SQL to execute
    * @param sendSinglestatement set to true if you want to send the whole file as a single
-   *     statement. If false separate statements will be isolated and executed.
+   *        statement. If false separate statements will be isolated and executed.
    * @return a Result object indicating the number of lines read, deleted, inserted, updated, ...
    * @throws HopDatabaseException in case anything goes wrong.
    * @sendSinglestatement send one statement
    */
-  public Result execStatementsFromFile(String filename, boolean sendSinglestatement)
-      throws HopException {
+  public Result execStatementsFromFile(String filename, boolean sendSinglestatement) throws HopException {
     FileObject sqlFile = null;
     InputStream is = null;
     InputStreamReader bis = null;

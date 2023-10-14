@@ -40,10 +40,7 @@ public class CalculatorMetaTest {
     // Re-load it into a new meta
     //
     CalculatorMeta meta2 = new CalculatorMeta();
-    String transformXml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + xml
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String transformXml = XmlHandler.openTag(TransformMeta.XML_TAG) + xml + XmlHandler.closeTag(TransformMeta.XML_TAG);
     meta2.loadXml(XmlHandler.loadXmlString(transformXml, TransformMeta.XML_TAG), null);
 
     // Verify the functions...
@@ -59,8 +56,7 @@ public class CalculatorMetaTest {
   private static final Random rand = new Random();
 
   private static CalculatorMetaFunction generateTestFunction() {
-    CalculatorMetaFunction.CalculationType[] types =
-        CalculatorMetaFunction.CalculationType.values();
+    CalculatorMetaFunction.CalculationType[] types = CalculatorMetaFunction.CalculationType.values();
     String[] valueTypes = {"String", "Number", "Date", "Integer", "Boolean"};
 
     CalculatorMetaFunction rtn = new CalculatorMetaFunction();

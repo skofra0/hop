@@ -51,22 +51,17 @@ public class Clipboard extends Widget {
     remoteObject = connection.createRemoteObject("webSpoon.Clipboard");
     remoteObject.set("parent", WidgetUtil.getId(this));
     remoteObject.set("self", remoteObject.getId());
-    remoteObject.setHandler(
-        new AbstractOperationHandler() {
-          @Override
-          public void handleNotify(String event, JsonObject properties) {
-            String widgetId = properties.get("widgetId").asString();
-            if (event.equals("paste")) {
-              listeners.stream()
-                  .filter(l -> l.getWidgetId().equals(widgetId))
-                  .forEach(l -> l.pasteListener(properties.get("text").asString()));
-            } else if (event.equals("cut")) {
-              listeners.stream()
-                  .filter(l -> l.getWidgetId().equals(widgetId))
-                  .forEach(l -> l.cutListener());
-            }
-          }
-        });
+    remoteObject.setHandler(new AbstractOperationHandler() {
+      @Override
+      public void handleNotify(String event, JsonObject properties) {
+        String widgetId = properties.get("widgetId").asString();
+        if (event.equals("paste")) {
+          listeners.stream().filter(l -> l.getWidgetId().equals(widgetId)).forEach(l -> l.pasteListener(properties.get("text").asString()));
+        } else if (event.equals("cut")) {
+          listeners.stream().filter(l -> l.getWidgetId().equals(widgetId)).forEach(l -> l.cutListener());
+        }
+      }
+    });
     remoteObject.listen("paste", true);
     remoteObject.listen("copy", true);
     remoteObject.listen("cut", true);
@@ -94,12 +89,7 @@ public class Clipboard extends Widget {
   public void attachToClipboard(Widget widget) {
     String widgetId = WidgetUtil.getId(widget);
     JavaScriptExecutor executor = RWT.getClient().getService(JavaScriptExecutor.class);
-    executor.execute(
-        "var x = document.getElementById( 'input-clipboard' );\n"
-            + "x.value='"
-            + widgetId
-            + "';\n"
-            + "x.focus();");
+    executor.execute("var x = document.getElementById( 'input-clipboard' );\n" + "x.value='" + widgetId + "';\n" + "x.focus();");
   }
 
   public void addClipboardListener(ClipboardListener listener) {

@@ -31,8 +31,7 @@ public class PipelineUnitTestDatabaseReplacement {
   @HopMetadataProperty(key = "replacement_connection")
   private String replacementDatabaseName;
 
-  public PipelineUnitTestDatabaseReplacement(
-      String originalDatabaseName, String replacementDatabaseName) {
+  public PipelineUnitTestDatabaseReplacement(String originalDatabaseName, String replacementDatabaseName) {
     this();
     this.originalDatabaseName = originalDatabaseName;
     this.replacementDatabaseName = replacementDatabaseName;

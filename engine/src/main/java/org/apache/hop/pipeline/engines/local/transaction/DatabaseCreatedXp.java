@@ -28,12 +28,10 @@ import org.apache.hop.core.variables.IVariables;
 @ExtensionPoint(
     id = "DatabaseCreatedXp",
     extensionPointId = "DatabaseCreated",
-    description =
-        "Pass the connection group to a relational database from a parent pipeline, workflow, action or transform")
+    description = "Pass the connection group to a relational database from a parent pipeline, workflow, action or transform")
 public class DatabaseCreatedXp implements IExtensionPoint<Database> {
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Database database)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Database database) throws HopException {
 
     // Can we figure out the connection group?
     //
@@ -42,8 +40,7 @@ public class DatabaseCreatedXp implements IExtensionPoint<Database> {
     }
 
     IExtensionData extensionData = (IExtensionData) database.getParentObject();
-    String connectionGroup =
-        (String) extensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+    String connectionGroup = (String) extensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
     if (connectionGroup != null) {
       database.setConnectionGroup(connectionGroup);
     }

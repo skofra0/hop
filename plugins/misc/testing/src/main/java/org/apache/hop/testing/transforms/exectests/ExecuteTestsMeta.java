@@ -62,13 +62,7 @@ public class ExecuteTestsMeta extends BaseTransformMeta<ExecuteTests, ExecuteTes
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     IRowMeta rowMeta = UnitTestResult.getRowMeta();
     int index = 0;
     rowMeta.getValueMeta(index++).setName(variables.resolve(pipelineNameField));
@@ -86,10 +80,7 @@ public class ExecuteTestsMeta extends BaseTransformMeta<ExecuteTests, ExecuteTes
   public String getXml() throws HopException {
     StringBuilder xml = new StringBuilder();
     xml.append(XmlHandler.addTagValue(TAG_TEST_NAME_INPUT_FIELD, testNameInputField));
-    xml.append(
-        XmlHandler.addTagValue(
-            TAG_TYPE_TO_EXECUTE,
-            typeToExecute == null ? TestType.DEVELOPMENT.name() : typeToExecute.name()));
+    xml.append(XmlHandler.addTagValue(TAG_TYPE_TO_EXECUTE, typeToExecute == null ? TestType.DEVELOPMENT.name() : typeToExecute.name()));
     xml.append(XmlHandler.addTagValue(TAG_PIPELINE_NAME_FIELD, pipelineNameField));
     xml.append(XmlHandler.addTagValue(TAG_UNIT_TEST_NAME_FIELD, unitTestNameField));
     xml.append(XmlHandler.addTagValue(TAG_DATASET_NAME_FIELD, dataSetNameField));
@@ -101,8 +92,7 @@ public class ExecuteTestsMeta extends BaseTransformMeta<ExecuteTests, ExecuteTes
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
 
       testNameInputField = XmlHandler.getTagValue(transformNode, TAG_TEST_NAME_INPUT_FIELD);

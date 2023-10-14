@@ -27,9 +27,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setKeyField("some_key");
-    assertTrue(
-        "getXml() does not cover setKeyField() ",
-        ssTableOutputMeta.getXml().contains("<key_field>some_key</key_field>"));
+    assertTrue("getXml() does not cover setKeyField() ", ssTableOutputMeta.getXml().contains("<key_field>some_key</key_field>"));
   }
 
   @Test
@@ -37,9 +35,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setTable("someTableName");
-    assertTrue(
-        "getXml() does not cover setTableName() ",
-        ssTableOutputMeta.getXml().contains("<table>someTableName</table>"));
+    assertTrue("getXml() does not cover setTableName() ", ssTableOutputMeta.getXml().contains("<table>someTableName</table>"));
   }
 
   @Test
@@ -47,9 +43,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setBufferSize("some_buffer_size");
-    assertTrue(
-        "getXml() does not cover setBufferSize() ",
-        ssTableOutputMeta.getXml().contains("<buffer_size_mb>some_buffer_size</buffer_size_mb>"));
+    assertTrue("getXml() does not cover setBufferSize() ", ssTableOutputMeta.getXml().contains("<buffer_size_mb>some_buffer_size</buffer_size_mb>"));
   }
 
   @Test
@@ -57,11 +51,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setCassandraKeyspace("someCassandraKeyspace");
-    assertTrue(
-        "getXml() does not cover setCassandraKeyspace() ",
-        ssTableOutputMeta
-            .getXml()
-            .contains("<cassandra_keyspace>someCassandraKeyspace</cassandra_keyspace>"));
+    assertTrue("getXml() does not cover setCassandraKeyspace() ", ssTableOutputMeta.getXml().contains("<cassandra_keyspace>someCassandraKeyspace</cassandra_keyspace>"));
   }
 
   @Test
@@ -69,9 +59,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setYamlPath("some_YamlPath");
-    assertTrue(
-        "getXml() does not cover setYamlPath() ",
-        ssTableOutputMeta.getXml().contains("<yaml_path>some_YamlPath</yaml_path>"));
+    assertTrue("getXml() does not cover setYamlPath() ", ssTableOutputMeta.getXml().contains("<yaml_path>some_YamlPath</yaml_path>"));
   }
 
   @Test
@@ -79,9 +67,7 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     ssTableOutputMeta.setDirectory("someDirectory");
-    assertTrue(
-        "getXml() does not cover setDirectory() ",
-        ssTableOutputMeta.getXml().contains("<output_directory>someDirectory</output_directory>"));
+    assertTrue("getXml() does not cover setDirectory() ", ssTableOutputMeta.getXml().contains("<output_directory>someDirectory</output_directory>"));
   }
 
   @Test
@@ -89,15 +75,13 @@ public class SSTableOutputMetaTest {
     SSTableOutputMeta ssTableOutputMeta = new SSTableOutputMeta();
     ssTableOutputMeta.setDefault();
     String xml = ssTableOutputMeta.getXml();
-    assertTrue(
-        "getXml() does not cover defaults ", xml.contains("<buffer_size_mb>16</buffer_size_mb>"));
-    String defDirectory =
-        "<output_directory>" + System.getProperty("java.io.tmpdir") + "</output_directory>";
-    //  ( "<output_directory>" + System.getProperty( "java.io.tmpdir" ) + "</output_directory>"
+    assertTrue("getXml() does not cover defaults ", xml.contains("<buffer_size_mb>16</buffer_size_mb>"));
+    String defDirectory = "<output_directory>" + System.getProperty("java.io.tmpdir") + "</output_directory>";
+    // ( "<output_directory>" + System.getProperty( "java.io.tmpdir" ) + "</output_directory>"
     // ).replace( ":", "&#x3a;" )
-    //    .replace( "\\", "&#x5c;" );
+    // .replace( "\\", "&#x5c;" );
     // assertTrue( defDirectory,
-    //    xml.contains( defDirectory ) );
+    // xml.contains( defDirectory ) );
     assertTrue("getXml() does not cover defaults ", xml.contains(defDirectory));
   }
 }

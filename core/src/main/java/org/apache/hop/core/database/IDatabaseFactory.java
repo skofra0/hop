@@ -21,9 +21,7 @@ import org.apache.hop.core.variables.IVariables;
 
 public interface IDatabaseFactory {
 
-  String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta)
-      throws HopDatabaseException;
+  String getConnectionTestReport(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException;
 
-  DatabaseTestResults getConnectionTestResults(IVariables variables, DatabaseMeta databaseMeta)
-      throws HopDatabaseException;
+  DatabaseTestResults getConnectionTestResults(IVariables variables, DatabaseMeta databaseMeta) throws HopDatabaseException;
 }

@@ -79,18 +79,15 @@ public class TransformDebugGuiPlugin {
         attributesMap.put(Defaults.DEBUG_GROUP, debugGroupAttributesMap);
       }
 
-      TransformDebugLevel debugLevel =
-          DebugLevelUtil.getTransformDebugLevel(debugGroupAttributesMap, transformMeta.getName());
+      TransformDebugLevel debugLevel = DebugLevelUtil.getTransformDebugLevel(debugGroupAttributesMap, transformMeta.getName());
       if (debugLevel == null) {
         debugLevel = new TransformDebugLevel();
       }
 
       IRowMeta inputRowMeta = pipelineMeta.getPrevTransformFields(variables, transformMeta);
-      TransformDebugLevelDialog dialog =
-          new TransformDebugLevelDialog(hopGui.getShell(), debugLevel, inputRowMeta);
+      TransformDebugLevelDialog dialog = new TransformDebugLevelDialog(hopGui.getShell(), debugLevel, inputRowMeta);
       if (dialog.open()) {
-        DebugLevelUtil.storeTransformDebugLevel(
-            debugGroupAttributesMap, transformMeta.getName(), debugLevel);
+        DebugLevelUtil.storeTransformDebugLevel(debugGroupAttributesMap, transformMeta.getName(), debugLevel);
       }
 
       pipelineMeta.setChanged();

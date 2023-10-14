@@ -32,7 +32,7 @@ public class GuiActionLambdaBuilder<T> {
    * @param guiAction
    * @param methodParameter
    * @return The action with the appropriate lambda capable of executing the provided method in the
-   *     given parent object
+   *         given parent object
    */
   public GuiAction createLambda(GuiAction guiAction, T methodParameter, IGuiRefresher refresher) {
     if (guiAction.getGuiPluginMethodName() == null) {
@@ -57,8 +57,7 @@ public class GuiActionLambdaBuilder<T> {
       try {
         guiPluginClass = classLoader.loadClass(guiAction.getGuiPluginClassName());
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to find class '" + guiAction.getGuiPluginClassName() + "'", e);
+        throw new HopException("Unable to find class '" + guiAction.getGuiPluginClassName() + "'", e);
       }
 
       Object guiPlugin;
@@ -77,8 +76,7 @@ public class GuiActionLambdaBuilder<T> {
         }
       }
 
-      Method method =
-          guiPluginClass.getMethod(action.getGuiPluginMethodName(), methodParameter.getClass());
+      Method method = guiPluginClass.getMethod(action.getGuiPluginMethodName(), methodParameter.getClass());
       if (method == null) {
         throw new RuntimeException(
             "Unable to find method "
@@ -89,22 +87,16 @@ public class GuiActionLambdaBuilder<T> {
                 + guiAction.getGuiPluginClassName());
       }
       final Object finalGuiPlugin = guiPlugin;
-      IGuiActionLambda<T> actionLambda =
-          (shiftClicked, controlClicked, objects) -> {
-            try {
-              method.invoke(finalGuiPlugin, methodParameter);
-              if (refresher != null) {
-                refresher.updateGui();
-              }
-            } catch (Exception e) {
-              throw new RuntimeException(
-                  "Error executing method : "
-                      + action.getGuiPluginMethodName()
-                      + " in class "
-                      + guiAction.getGuiPluginClassName(),
-                  e);
-            }
-          };
+      IGuiActionLambda<T> actionLambda = (shiftClicked, controlClicked, objects) -> {
+        try {
+          method.invoke(finalGuiPlugin, methodParameter);
+          if (refresher != null) {
+            refresher.updateGui();
+          }
+        } catch (Exception e) {
+          throw new RuntimeException("Error executing method : " + action.getGuiPluginMethodName() + " in class " + guiAction.getGuiPluginClassName(), e);
+        }
+      };
       action.setActionLambda(actionLambda);
       return action;
     } catch (Exception e) {

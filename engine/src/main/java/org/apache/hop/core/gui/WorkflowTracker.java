@@ -52,9 +52,7 @@ public class WorkflowTracker<T extends WorkflowMeta> {
 
   /** @param workflowMeta the workflow metadata to keep track of (with maximum 5000 children) */
   public WorkflowTracker(T workflowMeta) {
-    this(
-        workflowMeta,
-        Const.toInt(EnvUtil.getSystemProperty(Const.HOP_MAX_WORKFLOW_TRACKER_SIZE), 5000));
+    this(workflowMeta, Const.toInt(EnvUtil.getSystemProperty(Const.HOP_MAX_WORKFLOW_TRACKER_SIZE), 5000));
   }
 
   /**

@@ -140,18 +140,10 @@ public class SvgCache {
       }
 
       if (width <= 1 || height <= 1) {
-        throw new HopException(
-            "Couldn't determine width or height of file : " + svgFile.getFilename());
+        throw new HopException("Couldn't determine width or height of file : " + svgFile.getFilename());
       }
 
-      cacheEntry =
-          new SvgCacheEntry(
-              svgFile.getFilename(),
-              svgDocument,
-              Math.round(width),
-              Math.round(height),
-              Math.round(x),
-              Math.round(y));
+      cacheEntry = new SvgCacheEntry(svgFile.getFilename(), svgDocument, Math.round(width), Math.round(height), Math.round(x), Math.round(y));
       getInstance().fileDocumentMap.put(svgFile.getFilename(), cacheEntry);
       return cacheEntry;
     } catch (Exception e) {
@@ -159,11 +151,8 @@ public class SvgCache {
     }
   }
 
-  public static synchronized void addSvg(
-      String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
-    getInstance()
-        .fileDocumentMap
-        .put(filename, new SvgCacheEntry(filename, svgDocument, width, height, x, y));
+  public static synchronized void addSvg(String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
+    getInstance().fileDocumentMap.put(filename, new SvgCacheEntry(filename, svgDocument, width, height, x, y));
   }
 
   public void clear() {

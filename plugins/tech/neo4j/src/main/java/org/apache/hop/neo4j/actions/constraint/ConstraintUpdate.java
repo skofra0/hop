@@ -51,13 +51,7 @@ public class ConstraintUpdate {
     this.constraintType = u.constraintType;
   }
 
-  public ConstraintUpdate(
-      UpdateType updateType,
-      ObjectType objectType,
-      ConstraintType constraintType,
-      String constraintName,
-      String objectName,
-      String objectProperties) {
+  public ConstraintUpdate(UpdateType updateType, ObjectType objectType, ConstraintType constraintType, String constraintName, String objectName, String objectProperties) {
     this.updateType = updateType;
     this.objectType = objectType;
     this.constraintName = constraintName;

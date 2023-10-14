@@ -41,11 +41,7 @@ public class RegisterPipelineServlet extends BaseWorkflowServlet {
   }
 
   @Override
-  WebResult generateBody(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      boolean useXML,
-      IVariables variables)
+  WebResult generateBody(HttpServletRequest request, HttpServletResponse response, boolean useXML, IVariables variables)
       throws IOException, HopException, HopException, ParseException {
 
     final String xml = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
@@ -55,11 +51,7 @@ public class RegisterPipelineServlet extends BaseWorkflowServlet {
 
     IPipelineEngine<PipelineMeta> pipeline = createPipeline(pipelineConfiguration);
 
-    String message =
-        "Pipeline '"
-            + pipeline.getPipelineMeta().getName()
-            + "' was added to HopServer with id "
-            + pipeline.getContainerId();
+    String message = "Pipeline '" + pipeline.getPipelineMeta().getName() + "' was added to HopServer with id " + pipeline.getContainerId();
     return new WebResult(WebResult.STRING_OK, message, pipeline.getContainerId());
   }
 }

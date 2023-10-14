@@ -48,29 +48,19 @@ import java.util.List;
 public class RowGeneratorMeta extends BaseTransformMeta<RowGenerator, RowGeneratorData> {
   private static final Class<?> PKG = RowGeneratorMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "never_ending",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.NeverEnding")
+  @HopMetadataProperty(key = "never_ending", injectionKeyDescription = "RowGeneratorMeta.Injection.NeverEnding")
   private boolean neverEnding;
 
-  @HopMetadataProperty(
-      key = "interval_in_ms",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.IntervalInMs")
+  @HopMetadataProperty(key = "interval_in_ms", injectionKeyDescription = "RowGeneratorMeta.Injection.IntervalInMs")
   private String intervalInMs;
 
-  @HopMetadataProperty(
-      key = "row_time_field",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.RowTimeField")
+  @HopMetadataProperty(key = "row_time_field", injectionKeyDescription = "RowGeneratorMeta.Injection.RowTimeField")
   private String rowTimeField;
 
-  @HopMetadataProperty(
-      key = "last_time_field",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.LastTimeField")
+  @HopMetadataProperty(key = "last_time_field", injectionKeyDescription = "RowGeneratorMeta.Injection.LastTimeField")
   private String lastTimeField;
 
-  @HopMetadataProperty(
-      key = "limit",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.RowLimit")
+  @HopMetadataProperty(key = "limit", injectionKeyDescription = "RowGeneratorMeta.Injection.RowLimit")
   private String rowLimit;
 
   @HopMetadataProperty(
@@ -111,13 +101,7 @@ public class RowGeneratorMeta extends BaseTransformMeta<RowGenerator, RowGenerat
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       List<ICheckResult> remarks = new ArrayList<>();
@@ -153,53 +137,28 @@ public class RowGeneratorMeta extends BaseTransformMeta<RowGenerator, RowGenerat
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputStreamsError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputStreamsError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputStreamOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputStreamOk"), transformMeta);
       remarks.add(cr);
 
       String strLimit = variables.resolve(rowLimit);
       if (Const.toLong(strLimit, -1L) <= 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.WarnNoRows"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.WarnNoRows"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "RowGeneratorMeta.CheckResult.WillReturnRows", strLimit),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.WillReturnRows", strLimit), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RowGeneratorMeta.CheckResult.NoInputOk"), transformMeta);
       remarks.add(cr);
     }
   }

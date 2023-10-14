@@ -56,8 +56,7 @@ public class BeamKinesisProduceDialog extends BaseTransformDialog implements ITr
 
   private TableView wConfigOptions;
 
-  public BeamKinesisProduceDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamKinesisProduceDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamKinesisProduceMeta) in;
   }
@@ -190,10 +189,7 @@ public class BeamKinesisProduceDialog extends BaseTransformDialog implements ITr
     fdlDataType.right = new FormAttachment(middle, -margin);
     wlDataType.setLayoutData(fdlDataType);
     wDataType = new ComboVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wDataType.setItems(
-        new String[] {
-          "String",
-        }); // TODO add "Avro Record"
+    wDataType.setItems(new String[] {"String",}); // TODO add "Avro Record"
     PropsUi.setLook(wDataType);
     FormData fdDataType = new FormData();
     fdDataType.left = new FormAttachment(middle, 0);
@@ -231,21 +227,12 @@ public class BeamKinesisProduceDialog extends BaseTransformDialog implements ITr
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamKinesisProduceDialog.ConfigOptions.Column.Property"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamKinesisProduceDialog.ConfigOptions.Column.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamKinesisProduceDialog.ConfigOptions.Column.Property"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamKinesisProduceDialog.ConfigOptions.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     columns[0].setUsingVariables(true);
     columns[1].setUsingVariables(true);
 
-    wConfigOptions =
-        new TableView(
-            variables, shell, SWT.NONE, columns, input.getConfigOptions().size(), null, props);
+    wConfigOptions = new TableView(variables, shell, SWT.NONE, columns, input.getConfigOptions().size(), null, props);
     PropsUi.setLook(wConfigOptions);
     FormData fdConfigOptions = new FormData();
     fdConfigOptions.left = new FormAttachment(0, 0);

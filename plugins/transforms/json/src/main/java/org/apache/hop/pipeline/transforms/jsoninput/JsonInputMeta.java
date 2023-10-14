@@ -65,40 +65,29 @@ import java.util.Map;
     localizationPrefix = "JsonInput.Injection.",
     groups = {"FILENAME_LINES", "FIELDS"},
     hide = {
-      "ACCEPT_FILE_NAMES",
-      "ACCEPT_FILE_TRANSFORM",
-      "PASS_THROUGH_FIELDS",
-      "ACCEPT_FILE_FIELD",
-      "ADD_FILES_TO_RESULT",
-      "IGNORE_ERRORS",
-      "FILE_ERROR_FIELD",
-      "FILE_ERROR_MESSAGE_FIELD",
-      "SKIP_BAD_FILES",
-      "WARNING_FILES_TARGET_DIR",
-      "WARNING_FILES_EXTENTION",
-      "ERROR_FILES_TARGET_DIR",
-      "ERROR_FILES_EXTENTION",
-      "LINE_NR_FILES_TARGET_DIR",
-      "LINE_NR_FILES_EXTENTION",
-      "FIELD_NULL_STRING",
-      "FIELD_POSITION",
-      "FIELD_IGNORE",
-      "FIELD_IF_NULL"
-    })
-public class JsonInputMeta
-    extends BaseFileInputMeta<
-        JsonInput,
-        JsonInputData,
-        JsonInputMeta.AdditionalFileOutputFields,
-        JsonInputMeta.InputFiles,
-        JsonInputField> {
+        "ACCEPT_FILE_NAMES",
+        "ACCEPT_FILE_TRANSFORM",
+        "PASS_THROUGH_FIELDS",
+        "ACCEPT_FILE_FIELD",
+        "ADD_FILES_TO_RESULT",
+        "IGNORE_ERRORS",
+        "FILE_ERROR_FIELD",
+        "FILE_ERROR_MESSAGE_FIELD",
+        "SKIP_BAD_FILES",
+        "WARNING_FILES_TARGET_DIR",
+        "WARNING_FILES_EXTENTION",
+        "ERROR_FILES_TARGET_DIR",
+        "ERROR_FILES_EXTENTION",
+        "LINE_NR_FILES_TARGET_DIR",
+        "LINE_NR_FILES_EXTENTION",
+        "FIELD_NULL_STRING",
+        "FIELD_POSITION",
+        "FIELD_IGNORE",
+        "FIELD_IF_NULL"})
+public class JsonInputMeta extends BaseFileInputMeta<JsonInput, JsonInputData, JsonInputMeta.AdditionalFileOutputFields, JsonInputMeta.InputFiles, JsonInputField> {
   private static final Class<?> PKG = JsonInputMeta.class; // For Translator
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   // TextFileInputMeta.Content.includeFilename
   /** Flag indicating that we should include the filename in the output */
@@ -156,13 +145,7 @@ public class JsonInputMeta
 
   public static class AdditionalFileOutputFields extends BaseFileInputAdditionalField {
 
-    public void getFields(
-        IRowMeta r,
-        String name,
-        IRowMeta[] info,
-        IVariables variables,
-        IHopMetadataProvider metadataProvider)
-        throws HopTransformException {
+    public void getFields(IRowMeta r, String name, IRowMeta[] info, IVariables variables, IHopMetadataProvider metadataProvider) throws HopTransformException {
       // TextFileInput is the same, this can be refactored further
       if (shortFilenameField != null) {
         IValueMeta v = new ValueMetaString(variables.resolve(shortFilenameField));
@@ -580,8 +563,7 @@ public class JsonInputMeta
   }
 
   @Override
-  public void loadXml(Node transformnode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformnode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformnode, metadataProvider);
   }
 
@@ -620,13 +602,9 @@ public class JsonInputMeta
     for (int i = 0; i < getFileName().length; i++) {
       retval.append("      ").append(XmlHandler.addTagValue("name", getFileName()[i]));
       retval.append("      ").append(XmlHandler.addTagValue("filemask", getFileMask()[i]));
-      retval
-          .append("      ")
-          .append(XmlHandler.addTagValue("exclude_filemask", getExcludeFileMask()[i]));
+      retval.append("      ").append(XmlHandler.addTagValue("exclude_filemask", getExcludeFileMask()[i]));
       retval.append("      ").append(XmlHandler.addTagValue("file_required", getFileRequired()[i]));
-      retval
-          .append("      ")
-          .append(XmlHandler.addTagValue("include_subfolders", getIncludeSubFolders()[i]));
+      retval.append("      ").append(XmlHandler.addTagValue("include_subfolders", getIncludeSubFolders()[i]));
     }
     retval.append("    </file>").append(Const.CR);
 
@@ -643,16 +621,10 @@ public class JsonInputMeta
     retval.append("    ").append(XmlHandler.addTagValue("IsAFile", isAFile));
     retval.append("    ").append(XmlHandler.addTagValue("valueField", valueField));
 
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("shortFileFieldName", getShortFileNameField()));
+    retval.append("    ").append(XmlHandler.addTagValue("shortFileFieldName", getShortFileNameField()));
     retval.append("    ").append(XmlHandler.addTagValue("pathFieldName", getPathField()));
     retval.append("    ").append(XmlHandler.addTagValue("hiddenFieldName", isHiddenField()));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "lastModificationTimeFieldName", getLastModificationDateField()));
+    retval.append("    ").append(XmlHandler.addTagValue("lastModificationTimeFieldName", getLastModificationDateField()));
     retval.append("    ").append(XmlHandler.addTagValue("uriNameFieldName", getUriField()));
     retval.append("    ").append(XmlHandler.addTagValue("rootUriNameFieldName", getUriField()));
     retval.append("    ").append(XmlHandler.addTagValue("extensionFieldName", getExtensionField()));
@@ -671,22 +643,17 @@ public class JsonInputMeta
     }
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       includeFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include"));
       filenameField = XmlHandler.getTagValue(transformNode, "include_field");
       addResultFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "addresultfile"));
       readurl = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "readurl"));
-      removeSourceField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "removeSourceField"));
-      isIgnoreEmptyFile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "IsIgnoreEmptyFile"));
-      ignoreMissingPath =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "ignoreMissingPath"));
+      removeSourceField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "removeSourceField"));
+      isIgnoreEmptyFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "IsIgnoreEmptyFile"));
+      ignoreMissingPath = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "ignoreMissingPath"));
       defaultPathLeafToNull = getDefaultPathLeafToNull(transformNode);
-      doNotFailIfNoFile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "doNotFailIfNoFile"));
+      doNotFailIfNoFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "doNotFailIfNoFile"));
       includeRowNumber = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rownum"));
       rowNumberField = XmlHandler.getTagValue(transformNode, "rownum_field");
 
@@ -725,15 +692,13 @@ public class JsonInputMeta
       setShortFileNameField(XmlHandler.getTagValue(transformNode, "shortFileFieldName"));
       setPathField(XmlHandler.getTagValue(transformNode, "pathFieldName"));
       setIsHiddenField(XmlHandler.getTagValue(transformNode, "hiddenFieldName"));
-      setLastModificationDateField(
-          XmlHandler.getTagValue(transformNode, "lastModificationTimeFieldName"));
+      setLastModificationDateField(XmlHandler.getTagValue(transformNode, "lastModificationTimeFieldName"));
       setUriField(XmlHandler.getTagValue(transformNode, "uriNameFieldName"));
       setRootUriField(XmlHandler.getTagValue(transformNode, "rootUriNameFieldName"));
       setExtensionField(XmlHandler.getTagValue(transformNode, "extensionFieldName"));
       setSizeField(XmlHandler.getTagValue(transformNode, "sizeFieldName"));
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "JsonInputMeta.Exception.ErrorLoadingXml", e.toString()));
+      throw new HopXmlException(BaseMessages.getString(PKG, "JsonInputMeta.Exception.ErrorLoadingXml", e.toString()));
     }
   }
 
@@ -754,7 +719,7 @@ public class JsonInputMeta
    * @param nrFiles
    * @param nrFields
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   public void allocate(int nrFiles, int nrFields) {
     initArrayFields(nrFiles, nrFields);
   }
@@ -800,13 +765,7 @@ public class JsonInputMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (inFields && removeSourceField && !Utils.isEmpty(valueField)) {
@@ -844,13 +803,7 @@ public class JsonInputMeta
   }
 
   public FileInputList getFiles(IVariables variables) {
-    return FileInputList.createFileList(
-        variables,
-        getFileName(),
-        getFileMask(),
-        getExcludeFileMask(),
-        getFileRequired(),
-        inputFiles.includeSubFolderBoolean());
+    return FileInputList.createFileList(variables, getFileName(), getFileMask(), getExcludeFileMask(), getFileRequired(), inputFiles.includeSubFolderBoolean());
   }
 
   @Override
@@ -869,63 +822,34 @@ public class JsonInputMeta
     if (!isInFields()) {
       // See if we get input...
       if (input.length <= 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInputExpected"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInputExpected"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInput"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInput"), transformMeta);
         remarks.add(cr);
       }
     }
 
     if (getInputFields().length <= 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInputField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoInputField"), transformMeta);
       remarks.add(cr);
     }
 
     if (isInFields()) {
       if (Utils.isEmpty(getFieldValue())) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoField"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoField"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.FieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.FieldOk"), transformMeta);
         remarks.add(cr);
       }
     } else {
       FileInputList fileInputList = getFiles(variables);
       if (fileInputList == null || fileInputList.getFiles().size() == 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoFiles"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.NoFiles"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "JsonInputMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonInputMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()), transformMeta);
         remarks.add(cr);
       }
     }
@@ -949,11 +873,7 @@ public class JsonInputMeta
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming resourceNamingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming resourceNamingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -981,8 +901,7 @@ public class JsonInputMeta
           // Still here: set a new list of absolute filenames!
           //
           setFileName(newFilenames.toArray(new String[newFilenames.size()]));
-          setFileMask(
-              new String[newFilenames.size()]); // all null since converted to absolute path.
+          setFileMask(new String[newFilenames.size()]); // all null since converted to absolute path.
           setFileRequired(new String[newFilenames.size()]); // all null, turn to "Y" :
           Arrays.fill(getFileRequired(), YES);
         }

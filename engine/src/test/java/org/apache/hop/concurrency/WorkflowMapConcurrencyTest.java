@@ -52,11 +52,7 @@ public class WorkflowMapConcurrencyTest {
   public static void init() {
     workflowMap = new WorkflowMap();
     for (int i = 0; i < INITIAL_WORKFLOW_MAP_SIZE; i++) {
-      workflowMap.addWorkflow(
-          WORKFLOW_NAME_STRING + i,
-          WORKFLOW_ID_STRING + i,
-          mockWorkflow(i),
-          mock(WorkflowConfiguration.class));
+      workflowMap.addWorkflow(WORKFLOW_NAME_STRING + i, WORKFLOW_ID_STRING + i, mockWorkflow(i), mock(WorkflowConfiguration.class));
     }
   }
 
@@ -88,9 +84,8 @@ public class WorkflowMapConcurrencyTest {
       replacers.add(new Replacer(workflowMap, condition));
     }
 
-    //noinspection unchecked
-    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(
-        updaters, ListUtils.union(replacers, getters), condition);
+    // noinspection unchecked
+    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(updaters, ListUtils.union(replacers, getters), condition);
   }
 
   private static class Getter extends StopOnErrorCallable<Object> {
@@ -111,24 +106,18 @@ public class WorkflowMapConcurrencyTest {
         HopServerObjectEntry entry = workflowMap.getWorkflowObjects().get(i);
 
         if (entry == null) {
-          throw new IllegalStateException(
-              String.format("Returned HopServerObjectEntry must not be null. EntryId = %d", i));
+          throw new IllegalStateException(String.format("Returned HopServerObjectEntry must not be null. EntryId = %d", i));
         }
         final String workflowName = WORKFLOW_NAME_STRING + i;
 
         IWorkflowEngine<WorkflowMeta> workflow = workflowMap.getWorkflow(entry.getName());
         if (workflow == null) {
-          throw new IllegalStateException(
-              String.format(
-                  "Returned workflow must not be null. Workflow name = %s", workflowName));
+          throw new IllegalStateException(String.format("Returned workflow must not be null. Workflow name = %s", workflowName));
         }
 
         WorkflowConfiguration workflowConfiguration = workflowMap.getConfiguration(entry.getName());
         if (workflowConfiguration == null) {
-          throw new IllegalStateException(
-              String.format(
-                  "Returned workflowConfiguration must not be null. Workflow name = %s",
-                  workflowName));
+          throw new IllegalStateException(String.format("Returned workflowConfiguration must not be null. Workflow name = %s", workflowName));
         }
       }
 
@@ -153,11 +142,7 @@ public class WorkflowMapConcurrencyTest {
       try {
         for (int i = 0; i < cycles; i++) {
           int id = generator.get();
-          workflowMap.addWorkflow(
-              WORKFLOW_NAME_STRING + id,
-              WORKFLOW_ID_STRING + id,
-              mockWorkflow(id),
-              mock(WorkflowConfiguration.class));
+          workflowMap.addWorkflow(WORKFLOW_NAME_STRING + id, WORKFLOW_ID_STRING + id, mockWorkflow(id), mock(WorkflowConfiguration.class));
         }
       } catch (Exception e) {
         exception = e;
@@ -186,8 +171,7 @@ public class WorkflowMapConcurrencyTest {
 
       HopServerObjectEntry entry = new HopServerObjectEntry(workflowName, workflowId);
 
-      workflowMap.replaceWorkflow(
-          mockWorkflow(i + 1), mockWorkflow(i + 1), mock(WorkflowConfiguration.class));
+      workflowMap.replaceWorkflow(mockWorkflow(i + 1), mockWorkflow(i + 1), mock(WorkflowConfiguration.class));
 
       return null;
     }

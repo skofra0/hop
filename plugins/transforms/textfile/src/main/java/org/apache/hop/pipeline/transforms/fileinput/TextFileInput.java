@@ -65,7 +65,7 @@ import java.util.Map;
  * streams.
  * @deprecated replaced by implementation in the ...transforms.fileinput.text package
  */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInputData> {
   private static final Class<?> PKG = TextFileInputMeta.class; // For Translator
 
@@ -73,30 +73,16 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
 
   private long lineNumberInFile;
 
-  public TextFileInput(
-      TransformMeta transformMeta,
-      TextFileInputMeta meta,
-      TextFileInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TextFileInput(TransformMeta transformMeta, TextFileInputMeta meta, TextFileInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static final String getLine(
-      ILogChannel log, InputStreamReader reader, int formatNr, StringBuilder line)
-      throws HopFileException {
+  public static final String getLine(ILogChannel log, InputStreamReader reader, int formatNr, StringBuilder line) throws HopFileException {
     EncodingType type = EncodingType.guessEncodingType(reader.getEncoding());
     return getLine(log, reader, type, formatNr, line);
   }
 
-  public static final String getLine(
-      ILogChannel log,
-      InputStreamReader reader,
-      EncodingType encodingType,
-      int formatNr,
-      StringBuilder line)
-      throws HopFileException {
+  public static final String getLine(ILogChannel log, InputStreamReader reader, EncodingType encodingType, int formatNr, StringBuilder line) throws HopFileException {
     int c = 0;
     line.setLength(0);
     try {
@@ -111,8 +97,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
                 // make sure its really a linefeed or cariage return
                 // raise an error this is not a DOS file
                 // so we have pulled a character from the next line
-                throw new HopFileException(
-                    BaseMessages.getString(PKG, "TextFileInput.Log.SingleLineFound"));
+                throw new HopFileException(BaseMessages.getString(PKG, "TextFileInput.Log.SingleLineFound"));
               }
               return line.toString();
             }
@@ -155,10 +140,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       throw e;
     } catch (Exception e) {
       if (line.length() == 0) {
-        throw new HopFileException(
-            BaseMessages.getString(
-                PKG, "TextFileInput.Log.Error.ExceptionReadingLine", e.toString()),
-            e);
+        throw new HopFileException(BaseMessages.getString(PKG, "TextFileInput.Log.Error.ExceptionReadingLine", e.toString()), e);
       }
       return line.toString();
     }
@@ -169,17 +151,9 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
     return null;
   }
 
-  @Deprecated(since="2.0")
-  public static final String[] guessStringsFromLine(
-      ILogChannel log, String line, TextFileInputMeta inf, String delimiter) throws HopException {
-    return guessStringsFromLine(
-        new Variables(),
-        log,
-        line,
-        inf,
-        delimiter,
-        StringUtil.substituteHex(inf.getEnclosure()),
-        StringUtil.substituteHex(inf.getEscapeCharacter()));
+  @Deprecated(since = "2.0")
+  public static final String[] guessStringsFromLine(ILogChannel log, String line, TextFileInputMeta inf, String delimiter) throws HopException {
+    return guessStringsFromLine(new Variables(), log, line, inf, delimiter, StringUtil.substituteHex(inf.getEnclosure()), StringUtil.substituteHex(inf.getEscapeCharacter()));
   }
 
   public static final String[] guessStringsFromLine(
@@ -225,22 +199,13 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             if (log.isRowLevel()) {
               log.logRowlevel(
                   BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileInput.Log.ConvertLineToRow",
-                      line.substring(from, from + lenEncl)));
+                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRow", line.substring(from, from + lenEncl)));
             }
             enclFound = true;
             int p = from + lenEncl;
 
-            boolean isEnclosure =
-                lenEncl > 0
-                    && p + lenEncl < length
-                    && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
-            boolean isEscape =
-                lenEsc > 0
-                    && p + lenEsc < length
-                    && line.substring(p, p + lenEsc).equalsIgnoreCase(escapeCharacter);
+            boolean isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
+            boolean isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equalsIgnoreCase(escapeCharacter);
 
             boolean enclosureAfter = false;
 
@@ -263,14 +228,8 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             while ((!isEnclosure || enclosureAfter) && p < line.length()) {
               p++;
               enclosureAfter = false;
-              isEnclosure =
-                  lenEncl > 0
-                      && p + lenEncl < length
-                      && line.substring(p, p + lenEncl).equals(enclosure);
-              isEscape =
-                  lenEsc > 0
-                      && p + lenEsc < length
-                      && line.substring(p, p + lenEsc).equals(escapeCharacter);
+              isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equals(enclosure);
+              isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equals(escapeCharacter);
 
               // Is it really an enclosure? See if it's not repeated twice or escaped!
               if ((isEnclosure || isEscape) && p < length - 1) {
@@ -296,9 +255,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             }
 
             if (log.isRowLevel()) {
-              log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEnclosure", "" + p));
+              log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEnclosure", "" + p));
             }
           } else {
             enclFound = false;
@@ -331,15 +288,12 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             pol = line.substring(from + lenEncl, next - lenEncl);
             if (log.isRowLevel()) {
               log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.EnclosureFieldFound", "" + pol));
+                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EnclosureFieldFound", "" + pol));
             }
           } else {
             pol = line.substring(from, next);
             if (log.isRowLevel()) {
-              log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.NormalFieldFound", "" + pol));
+              log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.NormalFieldFound", "" + pol));
             }
           }
 
@@ -376,9 +330,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
         if (pos == length) {
           if (log.isRowLevel()) {
-            log.logRowlevel(
-                BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEmptyLineFound"));
+            log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEmptyLineFound"));
           }
           strings.add("");
         }
@@ -390,8 +342,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
           int length = line.length();
 
           if (field.getPosition() + field.getLength() <= length) {
-            strings.add(
-                line.substring(field.getPosition(), field.getPosition() + field.getLength()));
+            strings.add(line.substring(field.getPosition(), field.getPosition() + field.getLength()));
           } else {
             if (field.getPosition() < length) {
               strings.add(line.substring(field.getPosition()));
@@ -402,21 +353,13 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLine", e.toString()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLine", e.toString()), e);
     }
 
     return strings.toArray(new String[strings.size()]);
   }
 
-  public static final String[] convertLineToStrings(
-      ILogChannel log,
-      String line,
-      IInputFileMeta inf,
-      String delimiter,
-      String enclosure,
-      String escapeCharacters)
+  public static final String[] convertLineToStrings(ILogChannel log, String line, IInputFileMeta inf, String delimiter, String enclosure, String escapeCharacters)
       throws HopException {
     String[] strings = new String[inf.getInputFields().length];
     int fieldnr;
@@ -453,20 +396,13 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             if (log.isRowLevel()) {
               log.logRowlevel(
                   BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(
-                      PKG, "TextFileInput.Log.Encloruse", line.substring(from, from + lenEncl)));
+                  BaseMessages.getString(PKG, "TextFileInput.Log.Encloruse", line.substring(from, from + lenEncl)));
             }
             enclFound = true;
             int p = from + lenEncl;
 
-            boolean isEnclosure =
-                lenEncl > 0
-                    && p + lenEncl < length
-                    && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
-            boolean isEscape =
-                lenEsc > 0
-                    && p + lenEsc < length
-                    && line.substring(p, p + lenEsc).equalsIgnoreCase(inf.getEscapeCharacter());
+            boolean isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
+            boolean isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equalsIgnoreCase(inf.getEscapeCharacter());
 
             boolean enclosureAfter = false;
 
@@ -489,14 +425,8 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             while ((!isEnclosure || enclosureAfter) && p < line.length()) {
               p++;
               enclosureAfter = false;
-              isEnclosure =
-                  lenEncl > 0
-                      && p + lenEncl < length
-                      && line.substring(p, p + lenEncl).equals(enclosure);
-              isEscape =
-                  lenEsc > 0
-                      && p + lenEsc < length
-                      && line.substring(p, p + lenEsc).equals(inf.getEscapeCharacter());
+              isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equals(enclosure);
+              isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equals(inf.getEscapeCharacter());
 
               // Is it really an enclosure? See if it's not repeated twice or escaped!
               if ((isEnclosure || isEscape) && p < length - 1) {
@@ -522,9 +452,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             }
 
             if (log.isRowLevel()) {
-              log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEnclosure", "" + p));
+              log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEnclosure", "" + p));
             }
           } else {
             enclFound = false;
@@ -557,15 +485,12 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             pol = line.substring(from + lenEncl, next - lenEncl);
             if (log.isRowLevel()) {
               log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.EnclosureFieldFound", "" + pol));
+                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EnclosureFieldFound", "" + pol));
             }
           } else {
             pol = line.substring(from, next);
             if (log.isRowLevel()) {
-              log.logRowlevel(
-                  BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                  BaseMessages.getString(PKG, "TextFileInput.Log.NormalFieldFound", "" + pol));
+              log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.NormalFieldFound", "" + pol));
             }
           }
 
@@ -616,9 +541,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
         if (pos == length) {
           if (log.isRowLevel()) {
-            log.logRowlevel(
-                BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEmptyLineFound"));
+            log.logRowlevel(BaseMessages.getString(PKG, "TextFileInput.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileInput.Log.EndOfEmptyLineFound"));
           }
           if (fieldnr < strings.length) {
             strings[fieldnr] = Const.EMPTY_STRING;
@@ -633,8 +556,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
           int length = line.length();
 
           if (field.getPosition() + field.getLength() <= length) {
-            strings[i] =
-                line.substring(field.getPosition(), field.getPosition() + field.getLength());
+            strings[i] = line.substring(field.getPosition(), field.getPosition() + field.getLength());
           } else {
             if (field.getPosition() < length) {
               strings[i] = line.substring(field.getPosition());
@@ -645,9 +567,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLine", e.toString()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLine", e.toString()), e);
     }
 
     return strings;
@@ -655,9 +575,9 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
 
   /**
    * @deprecated Use {@link #convertLineToRow(ILogChannel, TextFileLine, IInputFileMeta, Object[],
-   *     int, IRowMeta, IRowMeta, String, long, String, String, String, IFileErrorHandler, boolean,
-   *     boolean, boolean, boolean, boolean, boolean, boolean, boolean, String, String, boolean,
-   *     Date, String, String, String, long)} instead.
+   *             int, IRowMeta, IRowMeta, String, long, String, String, String, IFileErrorHandler, boolean,
+   *             boolean, boolean, boolean, boolean, boolean, boolean, boolean, String, String, boolean,
+   *             Date, String, String, String, long)} instead.
    */
   @Deprecated
   public static final Object[] convertLineToRow(
@@ -688,35 +608,9 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       long size)
       throws HopException {
     return convertLineToRow(
-        log,
-        textFileLine,
-        info,
-        null,
-        0,
-        outputRowMeta,
-        convertRowMeta,
-        fname,
-        rowNr,
-        delimiter,
-        StringUtil.substituteHex(info.getEnclosure()),
-        StringUtil.substituteHex(info.getEscapeCharacter()),
-        errorHandler,
-        addShortFilename,
-        addExtension,
-        addPath,
-        addSize,
-        addIsHidden,
-        addLastModificationDate,
-        addUri,
-        addRootUri,
-        shortFilename,
-        path,
-        hidden,
-        modificationDateTime,
-        uri,
-        rooturi,
-        extension,
-        size);
+        log, textFileLine, info, null, 0, outputRowMeta, convertRowMeta, fname, rowNr, delimiter, StringUtil.substituteHex(info.getEnclosure()),
+        StringUtil.substituteHex(info.getEscapeCharacter()), errorHandler, addShortFilename, addExtension, addPath, addSize, addIsHidden, addLastModificationDate, addUri,
+        addRootUri, shortFilename, path, hidden, modificationDateTime, uri, rooturi, extension, size);
   }
 
   public static Object[] convertLineToRow(
@@ -751,36 +645,9 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       long size)
       throws HopException {
     return convertLineToRow(
-        log,
-        textFileLine,
-        info,
-        passThruFields,
-        nrPassThruFields,
-        outputRowMeta,
-        convertRowMeta,
-        fname,
-        rowNr,
-        delimiter,
-        enclosure,
-        escapeCharacter,
-        errorHandler,
-        addShortFilename,
-        addExtension,
-        addPath,
-        addSize,
-        addIsHidden,
-        addLastModificationDate,
-        addUri,
-        addRootUri,
-        shortFilename,
-        path,
-        hidden,
-        modificationDateTime,
-        uri,
-        rooturi,
-        extension,
-        size,
-        true);
+        log, textFileLine, info, passThruFields, nrPassThruFields, outputRowMeta, convertRowMeta, fname, rowNr, delimiter, enclosure, escapeCharacter, errorHandler,
+        addShortFilename, addExtension, addPath, addSize, addIsHidden, addLastModificationDate, addUri, addRootUri, shortFilename, path, hidden, modificationDateTime, uri, rooturi,
+        extension, size, true);
   }
 
   public static Object[] convertLineToRow(
@@ -819,36 +686,27 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       return null;
     }
 
-    Object[] r =
-        RowDataUtil.allocateRowData(
-            outputRowMeta.size()); // over-allocate a bit in the row producing
+    Object[] r = RowDataUtil.allocateRowData(outputRowMeta.size()); // over-allocate a bit in the row producing
     // transforms...
 
     int nrFields = info.getInputFields().length;
     int fieldnr;
 
     Long errorCount = null;
-    if (info.isErrorIgnored()
-        && info.getErrorCountField() != null
-        && info.getErrorCountField().length() > 0) {
+    if (info.isErrorIgnored() && info.getErrorCountField() != null && info.getErrorCountField().length() > 0) {
       errorCount = new Long(0L);
     }
     String errorFields = null;
-    if (info.isErrorIgnored()
-        && info.getErrorFieldsField() != null
-        && info.getErrorFieldsField().length() > 0) {
+    if (info.isErrorIgnored() && info.getErrorFieldsField() != null && info.getErrorFieldsField().length() > 0) {
       errorFields = "";
     }
     String errorText = null;
-    if (info.isErrorIgnored()
-        && info.getErrorTextField() != null
-        && info.getErrorTextField().length() > 0) {
+    if (info.isErrorIgnored() && info.getErrorTextField() != null && info.getErrorTextField().length() > 0) {
       errorText = "";
     }
 
     try {
-      String[] strings =
-          convertLineToStrings(log, textFileLine.line, info, delimiter, enclosure, escapeCharacter);
+      String[] strings = convertLineToStrings(log, textFileLine.line, info, delimiter, enclosure, escapeCharacter);
       int shiftFields = (passThruFields == null ? 0 : nrPassThruFields);
       for (fieldnr = 0; fieldnr < nrFields; fieldnr++) {
         TextFileInputField f = info.getInputFields()[fieldnr];
@@ -875,23 +733,10 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             // to prevent us from analyzing other fields, we simply leave the string value as is
             if (failOnParseError) {
               // OK, give some feedback!
-              String message =
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileInput.Log.CoundNotParseField",
-                      valueMeta.toStringMeta(),
-                      "" + pol,
-                      valueMeta.getConversionMask(),
-                      "" + rowNr);
+              String message = BaseMessages.getString(PKG, "TextFileInput.Log.CoundNotParseField", valueMeta.toStringMeta(), "" + pol, valueMeta.getConversionMask(), "" + rowNr);
 
               if (info.isErrorIgnored()) {
-                log.logDetailed(
-                    fname,
-                    BaseMessages.getString(PKG, "TextFileInput.Log.Warning")
-                        + ": "
-                        + message
-                        + " : "
-                        + e.getMessage());
+                log.logDetailed(fname, BaseMessages.getString(PKG, "TextFileInput.Log.Warning") + ": " + message + " : " + e.getMessage());
 
                 value = null;
 
@@ -915,8 +760,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
                   errorText = sb.toString();
                 }
                 if (errorHandler != null) {
-                  errorHandler.handleLineError(
-                      textFileLine.lineNumber, AbstractFileErrorHandler.NO_PARTS);
+                  errorHandler.handleLineError(textFileLine.lineNumber, AbstractFileErrorHandler.NO_PARTS);
                 }
 
                 if (info.isErrorLineSkipped()) {
@@ -1026,8 +870,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
       } // End if r != null
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLineText"), e);
+      throw new HopException(BaseMessages.getString(PKG, "TextFileInput.Log.Error.ErrorConvertingLineText"), e);
     }
 
     return r;
@@ -1065,11 +908,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
             }
             idx = prevInfoFields.indexOfValue(meta.getAcceptingField());
             if (idx < 0) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileInput.Log.Error.UnableToFindFilenameField",
-                      meta.getAcceptingField()));
+              logError(BaseMessages.getString(PKG, "TextFileInput.Log.Error.UnableToFindFilenameField", meta.getAcceptingField()));
               setErrors(getErrors() + 1);
               stopAll();
               return false;
@@ -1083,10 +922,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
               data.passThruFields.put(fileObject, fileRow);
             }
           } catch (HopFileException e) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "TextFileInput.Log.Error.UnableToCreateFileObject", fileValue),
-                e);
+            logError(BaseMessages.getString(PKG, "TextFileInput.Log.Error.UnableToCreateFileObject", fileValue), e);
           }
 
           // Grab another row
@@ -1103,8 +939,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       }
 
       // // get the metadata populated. Simple and easy.
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), infoTransform, null, this, metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), infoTransform, null, this, metadataProvider);
       // Create convert meta-data objects that will contain Date & Number formatters
       //
       data.convertRowMeta = data.outputRowMeta.cloneToType(IValueMeta.TYPE_STRING);
@@ -1209,35 +1044,10 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
           long useNumber = meta.isRowNumberByFile() ? data.lineInFile : getLinesWritten() + 1;
           r =
               convertLineToRow(
-                  log,
-                  textLine,
-                  meta,
-                  data.currentPassThruFieldsRow,
-                  data.nrPassThruFields,
-                  data.outputRowMeta,
-                  data.convertRowMeta,
-                  data.filename,
-                  useNumber,
-                  data.separator,
-                  data.enclosure,
-                  data.escapeCharacter,
-                  data.dataErrorLineHandler,
-                  data.addShortFilename,
-                  data.addExtension,
-                  data.addPath,
-                  data.addSize,
-                  data.addIsHidden,
-                  data.addLastModificationDate,
-                  data.addUri,
-                  data.addRootUri,
-                  data.shortFilename,
-                  data.path,
-                  data.hidden,
-                  data.lastModificationDateTime,
-                  data.uriName,
-                  data.rootUriName,
-                  data.extension,
-                  data.size);
+                  log, textLine, meta, data.currentPassThruFieldsRow, data.nrPassThruFields, data.outputRowMeta, data.convertRowMeta, data.filename, useNumber, data.separator,
+                  data.enclosure, data.escapeCharacter, data.dataErrorLineHandler, data.addShortFilename, data.addExtension, data.addPath, data.addSize, data.addIsHidden,
+                  data.addLastModificationDate, data.addUri, data.addRootUri, data.shortFilename, data.path, data.hidden, data.lastModificationDateTime, data.uriName,
+                  data.rootUriName, data.extension, data.size);
           if (r != null) {
             putrow = true;
           }
@@ -1293,12 +1103,11 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         }
       } else {
         /*
-         * IF we are done reading and we have a footer AND the number of lines in the buffer is smaller then the number
+         * IF we are done reading and we have a footer AND the number of lines in the buffer is smaller then
+         * the number
          * of footer lines THEN we can remove the remaining rows from the buffer: they are all footer rows.
          */
-        if (data.doneReading
-            && meta.hasFooter()
-            && data.lineBuffer.size() < meta.getNrFooterLines()) {
+        if (data.doneReading && meta.hasFooter() && data.lineBuffer.size() < meta.getNrFooterLines()) {
           data.lineBuffer.clear();
         } else {
           // Not yet a footer line: it's a normal data line.
@@ -1319,41 +1128,15 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
               textLine.line += extra;
             }
           }
-          if (data.filePlayList.isProcessingNeeded(
-              textLine.file, textLine.lineNumber, AbstractFileErrorHandler.NO_PARTS)) {
+          if (data.filePlayList.isProcessingNeeded(textLine.file, textLine.lineNumber, AbstractFileErrorHandler.NO_PARTS)) {
             data.lineInFile++;
             long useNumber = meta.isRowNumberByFile() ? data.lineInFile : getLinesWritten() + 1;
             r =
                 convertLineToRow(
-                    log,
-                    textLine,
-                    meta,
-                    data.currentPassThruFieldsRow,
-                    data.nrPassThruFields,
-                    data.outputRowMeta,
-                    data.convertRowMeta,
-                    data.filename,
-                    useNumber,
-                    data.separator,
-                    data.enclosure,
-                    data.escapeCharacter,
-                    data.dataErrorLineHandler,
-                    data.addShortFilename,
-                    data.addExtension,
-                    data.addPath,
-                    data.addSize,
-                    data.addIsHidden,
-                    data.addLastModificationDate,
-                    data.addUri,
-                    data.addRootUri,
-                    data.shortFilename,
-                    data.path,
-                    data.hidden,
-                    data.lastModificationDateTime,
-                    data.uriName,
-                    data.rootUriName,
-                    data.extension,
-                    data.size);
+                    log, textLine, meta, data.currentPassThruFieldsRow, data.nrPassThruFields, data.outputRowMeta, data.convertRowMeta, data.filename, useNumber, data.separator,
+                    data.enclosure, data.escapeCharacter, data.dataErrorLineHandler, data.addShortFilename, data.addExtension, data.addPath, data.addSize, data.addIsHidden,
+                    data.addLastModificationDate, data.addUri, data.addRootUri, data.shortFilename, data.path, data.hidden, data.lastModificationDateTime, data.uriName,
+                    data.rootUriName, data.extension, data.size);
             if (r != null) {
               if (log.isRowLevel()) {
                 logRowlevel("Found data row: " + data.outputRowMeta.getString(r));
@@ -1417,9 +1200,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
    */
   private boolean failAfterBadFile(String errorMsg) {
 
-    if (getTransformMeta().isDoingErrorHandling()
-        && data.filename != null
-        && !data.rejectedFiles.containsKey(data.filename)) {
+    if (getTransformMeta().isDoingErrorHandling() && data.filename != null && !data.rejectedFiles.containsKey(data.filename)) {
       data.rejectedFiles.put(data.filename, true);
       rejectCurrentFile(errorMsg);
     }
@@ -1433,22 +1214,15 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
    * @param errorMsg Message to send to rejected row if enabled
    */
   private void rejectCurrentFile(String errorMsg) {
-    if (StringUtils.isNotBlank(meta.getFileErrorField())
-        || StringUtils.isNotBlank(meta.getFileErrorMessageField())) {
+    if (StringUtils.isNotBlank(meta.getFileErrorField()) || StringUtils.isNotBlank(meta.getFileErrorMessageField())) {
       IRowMeta rowMeta = getInputRowMeta();
       if (rowMeta == null) {
         rowMeta = new RowMeta();
       }
 
-      int errorFileIndex =
-          (StringUtils.isBlank(meta.getFileErrorField()))
-              ? -1
-              : addValueMeta(rowMeta, this.resolve(meta.getFileErrorField()));
+      int errorFileIndex = (StringUtils.isBlank(meta.getFileErrorField())) ? -1 : addValueMeta(rowMeta, this.resolve(meta.getFileErrorField()));
 
-      int errorMessageIndex =
-          StringUtils.isBlank(meta.getFileErrorMessageField())
-              ? -1
-              : addValueMeta(rowMeta, this.resolve(meta.getFileErrorMessageField()));
+      int errorMessageIndex = StringUtils.isBlank(meta.getFileErrorMessageField()) ? -1 : addValueMeta(rowMeta, this.resolve(meta.getFileErrorMessageField()));
 
       try {
         Object[] rowData = getRow();
@@ -1567,8 +1341,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       }
       data.dataErrorLineHandler.close();
     } catch (Exception e) {
-      String errorMsg =
-          "Couldn't close file : " + data.file.getName().getFriendlyURI() + " --> " + e.toString();
+      String errorMsg = "Couldn't close file : " + data.file.getName().getFriendlyURI() + " --> " + e.toString();
       logError(errorMsg);
       if (failAfterBadFile(errorMsg)) {
         stopAll();
@@ -1633,9 +1406,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       // Add this files to the result of this pipeline.
       //
       if (meta.isAddResultFile()) {
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), toString());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), toString());
         resultFile.setComment("File was read by an Text File input transform");
         addResultFile(resultFile);
       }
@@ -1643,26 +1414,20 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         logBasic("Opening file: " + data.file.getName().getFriendlyURI());
       }
 
-      ICompressionProvider provider =
-          CompressionProviderFactory.getInstance()
-              .getCompressionProviderByName(meta.getFileCompression());
+      ICompressionProvider provider = CompressionProviderFactory.getInstance().getCompressionProviderByName(meta.getFileCompression());
 
       data.in = provider.createInputStream(HopVfs.getInputStream(data.file));
       data.dataErrorLineHandler.handleFile(data.file);
       data.in.nextEntry();
 
       if (log.isDetailed()) {
-        logDetailed(
-            "This is a compressed file being handled by the " + provider.getName() + " provider");
+        logDetailed("This is a compressed file being handled by the " + provider.getName() + " provider");
       }
 
       if (meta.getEncoding() != null && meta.getEncoding().length() > 0) {
-        data.isr =
-            new InputStreamReader(
-                new BufferedInputStream(data.in, BUFFER_SIZE_INPUT_STREAM), meta.getEncoding());
+        data.isr = new InputStreamReader(new BufferedInputStream(data.in, BUFFER_SIZE_INPUT_STREAM), meta.getEncoding());
       } else {
-        data.isr =
-            new InputStreamReader(new BufferedInputStream(data.in, BUFFER_SIZE_INPUT_STREAM));
+        data.isr = new InputStreamReader(new BufferedInputStream(data.in, BUFFER_SIZE_INPUT_STREAM));
       }
 
       String encoding = data.isr.getEncoding();
@@ -1677,14 +1442,13 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       data.doneReading = false;
 
       /*
-       * OK, read a number of lines in the buffer: The header rows The nr rows in the page : optional The footer rows
+       * OK, read a number of lines in the buffer: The header rows The nr rows in the page : optional The
+       * footer rows
        */
       int bufferSize = 1;
       bufferSize += meta.hasHeader() ? meta.getNrHeaderLines() : 0;
-      bufferSize +=
-          meta.isLayoutPaged()
-              ? meta.getNrLinesPerPage() * (Math.max(0, meta.getNrWraps()) + 1)
-              : Math.max(0, meta.getNrWraps()); // it helps when we have wrapped input w/o header
+      bufferSize += meta.isLayoutPaged() ? meta.getNrLinesPerPage() * (Math.max(0, meta.getNrWraps()) + 1) : Math.max(0, meta.getNrWraps()); // it helps when we have wrapped input
+                                                                                                                                             // w/o header
 
       bufferSize += meta.hasFooter() ? meta.getNrFooterLines() : 0;
 
@@ -1692,12 +1456,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       if (meta.isLayoutPaged()) {
         for (int i = 0; i < meta.getNrLinesDocHeader(); i++) {
           // Just skip these...
-          getLine(
-              log,
-              data.isr,
-              data.encodingType,
-              data.fileFormatType,
-              data.lineStringBuilder); // header and
+          getLine(log, data.isr, data.encodingType, data.fileFormatType, data.lineStringBuilder); // header and
           // footer: not
           // wrapped
           lineNumberInFile++;
@@ -1720,13 +1479,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       // Set a flags
       data.doneWithHeader = !meta.hasHeader();
     } catch (Exception e) {
-      String errorMsg =
-          "Couldn't open file #"
-              + data.filenr
-              + " : "
-              + data.file.getName().getFriendlyURI()
-              + " --> "
-              + e.toString();
+      String errorMsg = "Couldn't open file #" + data.filenr + " : " + data.file.getName().getFriendlyURI() + " --> " + e.toString();
       logError(errorMsg);
       if (failAfterBadFile(errorMsg)) {
         stopAll();
@@ -1747,8 +1500,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
         boolean isFilterLastLine = false;
         boolean filterOK = checkFilterRow(line, isFilterLastLine);
         if (filterOK) {
-          data.lineBuffer.add(
-              new TextFileLine(line, lineNumberInFile, data.file)); // Store it in the
+          data.lineBuffer.add(new TextFileLine(line, lineNumberInFile, data.file)); // Store it in the
           // line buffer...
         } else {
           return false;
@@ -1756,8 +1508,7 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       } else { // don't checkFilterRow
 
         if (!meta.noEmptyLines() || line.length() != 0) {
-          data.lineBuffer.add(
-              new TextFileLine(line, lineNumberInFile, data.file)); // Store it in the line
+          data.lineBuffer.add(new TextFileLine(line, lineNumberInFile, data.file)); // Store it in the line
           // buffer...
         }
       }
@@ -1781,12 +1532,9 @@ public class TextFileInput extends BaseTransform<TextFileInputMeta, TextFileInpu
       // fail if we don't ignore errors
       //
       Result previousResult = getPipeline().getPreviousResult();
-      Map<String, ResultFile> resultFiles =
-          (previousResult != null) ? previousResult.getResultFiles() : null;
+      Map<String, ResultFile> resultFiles = (previousResult != null) ? previousResult.getResultFiles() : null;
 
-      if ((previousResult == null || resultFiles == null || resultFiles.size() == 0)
-          && data.getFiles().nrOfMissingFiles() > 0
-          && !meta.isAcceptingFilenames()
+      if ((previousResult == null || resultFiles == null || resultFiles.size() == 0) && data.getFiles().nrOfMissingFiles() > 0 && !meta.isAcceptingFilenames()
           && !meta.isErrorIgnored()) {
         logError(BaseMessages.getString(PKG, "TextFileInput.Log.Error.NoFilesSpecified"));
         return false;

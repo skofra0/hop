@@ -29,26 +29,19 @@ import java.util.List;
 import java.util.Map;
 
 public class MetadataInputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "providerFieldName",
-            "typeKeyFieldName",
-            "typeNameFieldName",
-            "typeDescriptionFieldName",
-            "typeClassFieldName",
-            "nameFieldName",
-            "jsonFieldName",
-            "typeKeyFilters");
+            "providerFieldName", "typeKeyFieldName", "typeNameFieldName", "typeDescriptionFieldName", "typeClassFieldName", "nameFieldName", "jsonFieldName", "typeKeyFilters");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(MetadataInputMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(MetadataInputMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

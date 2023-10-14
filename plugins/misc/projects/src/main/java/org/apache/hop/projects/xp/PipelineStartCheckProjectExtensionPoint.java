@@ -30,21 +30,17 @@ import org.apache.hop.projects.util.ProjectsUtil;
     description = "At the start of a pipeline, verify it lives in the active project",
     extensionPointId = "PipelinePrepareExecution")
 /** validate whether or not the pipeline about to be executed is part of the current project */
-public class PipelineStartCheckProjectExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+public class PipelineStartCheckProjectExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     String filename = pipeline.getFilename();
 
     try {
       ProjectsUtil.validateFileInProject(log, filename, pipeline);
     } catch (Exception e) {
-      throw new HopException(
-          "Validation error against pipeline '" + filename + "' in active project", e);
+      throw new HopException("Validation error against pipeline '" + filename + "' in active project", e);
     }
   }
 }

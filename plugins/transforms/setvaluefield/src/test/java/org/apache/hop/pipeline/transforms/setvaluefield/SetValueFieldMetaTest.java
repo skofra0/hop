@@ -36,7 +36,8 @@ import java.util.Map;
 public class SetValueFieldMetaTest implements IInitializer<SetValueFieldMeta> {
   LoadSaveTester<SetValueFieldMeta> loadSaveTester;
   Class<SetValueFieldMeta> testMetaClass = SetValueFieldMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -48,18 +49,10 @@ public class SetValueFieldMetaTest implements IInitializer<SetValueFieldMeta> {
     Map<String, String> setterMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fields", new ListLoadSaveValidator<>(new SetFieldLoadSaveValidator(), 5));
-        
+
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   @Test
@@ -72,15 +65,10 @@ public class SetValueFieldMetaTest implements IInitializer<SetValueFieldMeta> {
   public void modify(SetValueFieldMeta someMeta) {
     if (someMeta instanceof SetValueFieldMeta) {
       ((SetValueFieldMeta) someMeta).getFields().clear();
-      ((SetValueFieldMeta) someMeta)
-          .getFields()
-          .addAll(
-              Arrays.asList(
-                  new SetField("Field1", "RepalceBy1"),
-                  new SetField("Field2", "RepalceBy2"),
-                  new SetField("Field3", "RepalceBy3"),
-                  new SetField("Field4", "RepalceBy4"),
-                  new SetField("Field5", "RepalceBy5")));
+      ((SetValueFieldMeta) someMeta).getFields().addAll(
+          Arrays.asList(
+              new SetField("Field1", "RepalceBy1"), new SetField("Field2", "RepalceBy2"), new SetField("Field3", "RepalceBy3"), new SetField("Field4", "RepalceBy4"),
+              new SetField("Field5", "RepalceBy5")));
     }
   }
 }

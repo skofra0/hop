@@ -52,13 +52,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
 
   private static final Class<?> PKG = SortRows.class; // For Translator
 
-  public SortRows(
-      TransformMeta transformMeta,
-      SortRowsMeta meta,
-      SortRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SortRows(TransformMeta transformMeta, SortRowsMeta meta, SortRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -85,9 +79,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
         data.memoryReporting++;
         if (data.memoryReporting >= 10) {
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "SortRows.Detailed.AvailableMemory", data.freeMemoryPct));
+            logDetailed(BaseMessages.getString(PKG, "SortRows.Detailed.AvailableMemory", data.freeMemoryPct));
           }
           data.memoryReporting = 0;
         }
@@ -96,14 +88,9 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
 
     // Buffer is full: sort & dump to disk
     boolean doSort = data.buffer.size() == data.sortSize;
-    doSort |=
-        data.freeMemoryPctLimit > 0
-            && data.freeMemoryPct < data.freeMemoryPctLimit
-            && data.buffer.size() >= data.minSortSize;
+    doSort |= data.freeMemoryPctLimit > 0 && data.freeMemoryPct < data.freeMemoryPctLimit && data.buffer.size() >= data.minSortSize;
     if (log.isDebug()) {
-      this.logDebug(
-          BaseMessages.getString(
-              PKG, "SortRows.Debug.StartDumpToDisk", data.freeMemoryPct, data.buffer.size()));
+      this.logDebug(BaseMessages.getString(PKG, "SortRows.Debug.StartDumpToDisk", data.freeMemoryPct, data.buffer.size()));
     }
     // time to sort the buffer and write the data to disk...
     if (doSort) {
@@ -128,8 +115,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
     int p;
 
     try {
-      FileObject fileObject =
-          HopVfs.createTempFile(meta.getPrefix(), ".tmp", resolve(meta.getDirectory()));
+      FileObject fileObject = HopVfs.createTempFile(meta.getPrefix(), ".tmp", resolve(meta.getDirectory()));
 
       data.files.add(fileObject); // Remember the files!
       OutputStream outputStream = HopVfs.getOutputStream(fileObject, false);
@@ -153,11 +139,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
             if (result == 0) {
               duplicates.add(index);
               if (log.isRowLevel()) {
-                logRowlevel(
-                    BaseMessages.getString(
-                        PKG,
-                        "SortRows.RowLevel.DuplicateRowRemoved",
-                        data.outputRowMeta.getString(row)));
+                logRowlevel(BaseMessages.getString(PKG, "SortRows.RowLevel.DuplicateRowRemoved", data.outputRowMeta.getString(row)));
               }
             }
           }
@@ -207,8 +189,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
       data.freeMemoryPct = Const.getPercentageFreeMemory();
       data.freeCounter = 0;
       if (data.sortSize <= 0 && log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "SortRows.Detailed.AvailableMemory", data.freeMemoryPct));
+        logDetailed(BaseMessages.getString(PKG, "SortRows.Detailed.AvailableMemory", data.freeMemoryPct));
       }
 
     } catch (Exception e) {
@@ -257,9 +238,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
           int buffersize = data.bufferSizes.get(f);
 
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "SortRows.Detailed.FromFileExpectingRows", filename, buffersize));
+            logDetailed(BaseMessages.getString(PKG, "SortRows.Detailed.FromFileExpectingRows", filename, buffersize));
           }
 
           if (buffersize > 0) {
@@ -296,9 +275,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
         if (log.isRowLevel()) {
           for (int i = 0; i < data.rowbuffer.size() && !isStopped(); i++) {
             Object[] b = data.rowbuffer.get(i);
-            logRowlevel(
-                BaseMessages.getString(
-                    PKG, "SortRows.RowLevel.PrintRow", i, data.outputRowMeta.getString(b)));
+            logRowlevel(BaseMessages.getString(PKG, "SortRows.RowLevel.PrintRow", i, data.outputRowMeta.getString(b)));
           }
         }
 
@@ -332,9 +309,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
             }
             file.delete();
           } catch (IOException e) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "SortRows.Error.UnableToCloseFile", smallest, file.toString()));
+            logError(BaseMessages.getString(PKG, "SortRows.Error.UnableToCloseFile", smallest, file.toString()));
             setErrors(1);
             stopAll();
             return null;
@@ -395,9 +370,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
         for (int i = 0; i < groupFields.size(); i++) {
           data.groupnrs[i] = inputRowMeta.indexOfValue(groupFields.get(i));
           if (data.groupnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "SortRows.Error.PresortedFieldNotFound", groupFields.get(i)));
+            logError(BaseMessages.getString(PKG, "SortRows.Error.PresortedFieldNotFound", groupFields.get(i)));
             setErrors(1);
             stopAll();
             return false;
@@ -417,12 +390,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
       for (int i = 0; i < fieldNames.length; i++) {
         data.fieldnrs[i] = inputRowMeta.indexOfValue(fieldNames[i]);
         if (data.fieldnrs[i] < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "SortRowsMeta.CheckResult.TransformFieldNotInInputStream",
-                  meta.getFieldName()[i],
-                  getTransformName()));
+          throw new HopException(BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.TransformFieldNotInInputStream", meta.getFieldName()[i], getTransformName()));
         }
         // do we need binary conversion for this type?
         if (inputRowMeta.getValueMeta(data.fieldnrs[i]).isStorageBinaryString()) {
@@ -504,9 +472,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
 
     while (r != null && !isStopped()) {
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG, "SortRows.RowLevel.ReadRow", data.outputRowMeta.getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "SortRows.RowLevel.ReadRow", data.outputRowMeta.getString(r)));
       }
 
       // Do another verification pass for unique rows...
@@ -565,8 +531,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
     //
     data.rowbuffer = new ArrayList<>(5000);
 
-    data.compressFiles =
-        getVariableBoolean(meta.getCompressFilesVariable(), meta.getCompressFiles());
+    data.compressFiles = getVariableBoolean(meta.getCompressFilesVariable(), meta.getCompressFiles());
 
     data.tempRows = new ArrayList<>();
 
@@ -624,16 +589,13 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
         valueMeta.setNumberOfBinaryStringConversions(0L);
       }
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "SortRows.Detailed.ReportNumberOfBinaryStringConv", nrConversions));
+        logDetailed(BaseMessages.getString(PKG, "SortRows.Detailed.ReportNumberOfBinaryStringConv", nrConversions));
       }
     }
   }
 
   @Override
-  public void startBundle() throws HopException {
-  }
+  public void startBundle() throws HopException {}
 
   /**
    * Calling this method will alert the transform that we finished passing records to the transform.
@@ -693,8 +655,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
     }
   }
 
-  private class RowTemapFileComparator extends SortRowsComparator
-      implements Comparator<RowTempFile> {
+  private class RowTemapFileComparator extends SortRowsComparator implements Comparator<RowTempFile> {
     RowTemapFileComparator(IRowMeta rowMeta, int[] fieldNrs) {
       super(rowMeta, fieldNrs);
     }
@@ -710,8 +671,7 @@ public class SortRows extends BaseTransform<SortRowsMeta, SortRowsData> {
     }
   }
 
-  private class RowObjectArrayComparator extends SortRowsComparator
-      implements Comparator<Object[]> {
+  private class RowObjectArrayComparator extends SortRowsComparator implements Comparator<Object[]> {
     RowObjectArrayComparator(IRowMeta rowMeta, int[] fieldNrs) {
       super(rowMeta, fieldNrs);
     }

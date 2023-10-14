@@ -23,10 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReleaseSavePointTest {
 
-  IDatabase[] support =
-      new IDatabase[] {
-        new GreenplumDatabaseMeta(),
-      };
+  IDatabase[] support = new IDatabase[] {new GreenplumDatabaseMeta(),};
 
   @Test
   public void testReleaseSavePointBooleans() {

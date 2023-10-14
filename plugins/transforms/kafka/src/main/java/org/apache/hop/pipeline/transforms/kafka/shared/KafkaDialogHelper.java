@@ -58,13 +58,7 @@ public class KafkaDialogHelper {
   private TableView optionsTable;
   private TransformMeta parentMeta;
 
-  public KafkaDialogHelper(
-      IVariables variables,
-      ComboVar wTopic,
-      TextVar wBootstrapServers,
-      KafkaFactory kafkaFactory,
-      TableView optionsTable,
-      TransformMeta parentMeta) {
+  public KafkaDialogHelper(IVariables variables, ComboVar wTopic, TextVar wBootstrapServers, KafkaFactory kafkaFactory, TableView optionsTable, TransformMeta parentMeta) {
     this.variables = variables;
     this.wTopic = wTopic;
     this.wBootstrapServers = wBootstrapServers;
@@ -81,30 +75,24 @@ public class KafkaDialogHelper {
     String directBootstrapServers = wBootstrapServers.getText();
     Map<String, String> config = getConfig(optionsTable);
     CompletableFuture.supplyAsync(() -> listTopics(directBootstrapServers, config))
-        .thenAccept(
-            topicMap -> HopGui.getInstance().getDisplay().syncExec(() -> populateTopics(topicMap, current)));
+        .thenAccept(topicMap -> HopGui.getInstance().getDisplay().syncExec(() -> populateTopics(topicMap, current)));
   }
 
   private void populateTopics(Map<String, List<PartitionInfo>> topicMap, String current) {
     if (!wTopic.getCComboWidget().isDisposed()) {
       wTopic.getCComboWidget().removeAll();
     }
-    topicMap.keySet().stream()
-        .filter(key -> !key.startsWith("_"))
-        .sorted()
-        .forEach(
-            key -> {
-              if (!wTopic.isDisposed()) {
-                wTopic.add(key);
-              }
-            });
+    topicMap.keySet().stream().filter(key -> !key.startsWith("_")).sorted().forEach(key -> {
+      if (!wTopic.isDisposed()) {
+        wTopic.add(key);
+      }
+    });
     if (!wTopic.getCComboWidget().isDisposed()) {
       wTopic.getCComboWidget().setText(current);
     }
   }
 
-  private Map<String, List<PartitionInfo>> listTopics(
-      final String directBootstrapServers, Map<String, String> config) {
+  private Map<String, List<PartitionInfo>> listTopics(final String directBootstrapServers, Map<String, String> config) {
     Consumer kafkaConsumer = null;
     try {
       KafkaConsumerInputMeta localMeta = new KafkaConsumerInputMeta();
@@ -123,17 +111,16 @@ public class KafkaDialogHelper {
     }
   }
 
-  public static void populateFieldsList(
-      IVariables variables, PipelineMeta pipelineMeta, ComboVar comboVar, String transformName) {
+  public static void populateFieldsList(IVariables variables, PipelineMeta pipelineMeta, ComboVar comboVar, String transformName) {
     String current = comboVar.getText();
     comboVar.getCComboWidget().removeAll();
     comboVar.setText(current);
     try {
       IRowMeta rmi = pipelineMeta.getPrevTransformFields(variables, transformName);
-        for (int i = 0; i < rmi.size(); i++) {
-          IValueMeta vmb = rmi.getValueMeta(i);
-          comboVar.add(vmb.getName());
-        }
+      for (int i = 0; i < rmi.size(); i++) {
+        IValueMeta vmb = rmi.getValueMeta(i);
+        comboVar.add(vmb.getName());
+      }
     } catch (HopTransformException ex) {
       // do nothing
       LogChannel.UI.logError("Error getting fields", ex);
@@ -142,53 +129,32 @@ public class KafkaDialogHelper {
 
   public static List<String> getConsumerConfigOptionNames() {
     List<String> optionNames = getConfigOptionNames(ConsumerConfig.class);
-    Stream.of(
-            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-            ConsumerConfig.GROUP_ID_CONFIG,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG)
+    Stream.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConsumerConfig.GROUP_ID_CONFIG, ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG)
         .forEach(optionNames::remove);
     return optionNames;
   }
 
   public static List<String> getProducerConfigOptionNames() {
     List<String> optionNames = getConfigOptionNames(ProducerConfig.class);
-    Stream.of(
-            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-            ProducerConfig.CLIENT_ID_CONFIG,
-            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-            ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG)
+    Stream.of(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ProducerConfig.CLIENT_ID_CONFIG, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG)
         .forEach(optionNames::remove);
     return optionNames;
   }
 
   public static List<String> getConsumerAdvancedConfigOptionNames() {
     return Arrays.asList(
-        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,
-        SslConfigs.SSL_KEY_PASSWORD_CONFIG,
-        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG,
-        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG,
-        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,
-        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG);
+        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, SslConfigs.SSL_KEY_PASSWORD_CONFIG, SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG,
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG);
   }
 
   public static List<String> getProducerAdvancedConfigOptionNames() {
     return Arrays.asList(
-        ProducerConfig.COMPRESSION_TYPE_CONFIG,
-        SslConfigs.SSL_KEY_PASSWORD_CONFIG,
-        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG,
-        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG,
-        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,
-        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG);
+        ProducerConfig.COMPRESSION_TYPE_CONFIG, SslConfigs.SSL_KEY_PASSWORD_CONFIG, SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG,
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG);
   }
 
   private static List<String> getConfigOptionNames(Class cl) {
-    return getStaticField(cl, "CONFIG")
-        .map(
-            config ->
-                ((ConfigDef) config)
-                    .configKeys().keySet().stream().sorted().collect(Collectors.toList()))
-        .orElse(new ArrayList<>());
+    return getStaticField(cl, "CONFIG").map(config -> ((ConfigDef) config).configKeys().keySet().stream().sorted().collect(Collectors.toList())).orElse(new ArrayList<>());
   }
 
   private static Optional<Object> getStaticField(Class cl, String fieldName) {

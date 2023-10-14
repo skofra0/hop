@@ -46,31 +46,21 @@ import java.util.List;
 public class FileExistsMeta extends BaseTransformMeta<FileExists, FileExistsData> {
   private static final Class<?> PKG = FileExistsMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "addresultfilenames",
-      injectionKeyDescription = "FileExists.Injection.AddResultFileNames")
+  @HopMetadataProperty(key = "addresultfilenames", injectionKeyDescription = "FileExists.Injection.AddResultFileNames")
   private boolean addresultfilenames;
 
   /** dynamic filename */
-  @HopMetadataProperty(
-      key = "filenamefield",
-      injectionKeyDescription = "FileExists.Injection.FilenameField")
+  @HopMetadataProperty(key = "filenamefield", injectionKeyDescription = "FileExists.Injection.FilenameField")
   private String filenamefield;
 
-  @HopMetadataProperty(
-      key = "filetypefieldname",
-      injectionKeyDescription = "FileExists.Injection.FileTypeFieldName")
+  @HopMetadataProperty(key = "filetypefieldname", injectionKeyDescription = "FileExists.Injection.FileTypeFieldName")
   private String filetypefieldname;
 
-  @HopMetadataProperty(
-      key = "includefiletype",
-      injectionKeyDescription = "FileExists.Injection.IncludeFileType")
+  @HopMetadataProperty(key = "includefiletype", injectionKeyDescription = "FileExists.Injection.IncludeFileType")
   private boolean includefiletype;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "resultfieldname",
-      injectionKeyDescription = "FileExists.Injection.ResultFieldName")
+  @HopMetadataProperty(key = "resultfieldname", injectionKeyDescription = "FileExists.Injection.ResultFieldName")
   private String resultfieldname;
 
   public FileExistsMeta() {
@@ -138,13 +128,7 @@ public class FileExistsMeta extends BaseTransformMeta<FileExists, FileExistsData
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output fields (String)
     if (!Utils.isEmpty(resultfieldname)) {
@@ -194,19 +178,10 @@ public class FileExistsMeta extends BaseTransformMeta<FileExists, FileExistsData
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FileExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FileExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "FileExistsMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FileExistsMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

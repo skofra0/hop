@@ -28,15 +28,11 @@ import org.apache.hop.ui.core.dialog.MessageBox;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.eclipse.swt.SWT;
 
-@ExtensionPoint(
-    id = "HopGuiUnitTestCreated",
-    extensionPointId = "HopGuiMetadataObjectCreated",
-    description = "When HopGui create a new metadata object somewhere")
+@ExtensionPoint(id = "HopGuiUnitTestCreated", extensionPointId = "HopGuiMetadataObjectCreated", description = "When HopGui create a new metadata object somewhere")
 public class HopGuiUnitTestCreated extends HopGuiUnitTestChanged implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object) throws HopException {
 
     // Refresh the tests list
     //
@@ -61,10 +57,7 @@ public class HopGuiUnitTestCreated extends HopGuiUnitTestChanged implements IExt
 
     MessageBox messageBox = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
     messageBox.setText("Attach?");
-    messageBox.setMessage(
-        "Do you want to use this unit test for the active pipeline '"
-            + pipelineMeta.getName()
-            + "'?");
+    messageBox.setMessage("Do you want to use this unit test for the active pipeline '" + pipelineMeta.getName() + "'?");
     int answer = messageBox.open();
     if ((answer & SWT.YES) == 0) {
       return;

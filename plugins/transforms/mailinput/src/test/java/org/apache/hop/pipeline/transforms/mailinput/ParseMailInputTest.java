@@ -85,10 +85,8 @@ public class ParseMailInputTest {
 
   @BeforeClass
   public static void setup() {
-    transformMockHelper =
-        new TransformMockHelper<>("ABORT TEST", MailInputMeta.class, ITransformData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("ABORT TEST", MailInputMeta.class, ITransformData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -104,20 +102,12 @@ public class ParseMailInputTest {
     MailConnection conn = mock(MailConnection.class);
     when(conn.getMessageBody(any(Message.class))).thenReturn(MSG_BODY);
     when(conn.getFolderName()).thenReturn(FLD_NAME);
-    when(conn.getAttachedFilesCount(any(Message.class), any(Pattern.class)))
-        .thenReturn(ATTCH_COUNT);
+    when(conn.getAttachedFilesCount(any(Message.class), any(Pattern.class))).thenReturn(ATTCH_COUNT);
     when(conn.getMessageBodyContentType(any(Message.class))).thenReturn(CNTNT_TYPE);
     data = mock(MailInputData.class);
     data.mailConn = conn;
 
-    mailInput =
-        new MailInput(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    mailInput = new MailInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
 
     Address addrFrom1 = mock(Address.class);
     when(addrFrom1.toString()).thenReturn(FROM1);
@@ -152,12 +142,9 @@ public class ParseMailInputTest {
     Header ex1 = new Header(HDR_EX1, HDR_EX1V);
     Header ex2 = new Header(HDR_EX2, HDR_EX2V);
 
-    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX1})))
-        .thenReturn(getEnum(new Header[] {ex1}));
-    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX2})))
-        .thenReturn(getEnum(new Header[] {ex2}));
-    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX1, HDR_EX2})))
-        .thenReturn(getEnum(new Header[] {ex1, ex2}));
+    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX1}))).thenReturn(getEnum(new Header[] {ex1}));
+    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX2}))).thenReturn(getEnum(new Header[] {ex2}));
+    when(message.getMatchingHeaders(AdditionalMatchers.aryEq(new String[] {HDR_EX1, HDR_EX2}))).thenReturn(getEnum(new Header[] {ex1, ex2}));
 
     // for previous implementation
     when(message.getHeader(eq(HDR_EX1))).thenReturn(new String[] {ex1.getValue()});
@@ -427,8 +414,7 @@ public class ParseMailInputTest {
     Object[] r = RowDataUtil.allocateRowData(data.nrFields);
     underTest.parseToArray(r, message);
 
-    Assert.assertEquals(
-        "Message Content type is correct", CNTNT_TYPE_EMAIL, String.class.cast(r[0]));
+    Assert.assertEquals("Message Content type is correct", CNTNT_TYPE_EMAIL, String.class.cast(r[0]));
   }
 
   /**
@@ -520,8 +506,7 @@ public class ParseMailInputTest {
     Object[] r = RowDataUtil.allocateRowData(data.nrFields);
     underTest.parseToArray(r, message);
 
-    Assert.assertEquals(
-        "Message Attached files count is correct", new Long(ATTCH_COUNT), Long.class.cast(r[0]));
+    Assert.assertEquals("Message Attached files count is correct", new Long(ATTCH_COUNT), Long.class.cast(r[0]));
   }
 
   /**
@@ -544,8 +529,7 @@ public class ParseMailInputTest {
     Object[] r = RowDataUtil.allocateRowData(data.nrFields);
     underTest.parseToArray(r, message);
 
-    Assert.assertEquals(
-        "Message body content type is correct", CNTNT_TYPE, String.class.cast(r[0]));
+    Assert.assertEquals("Message body content type is correct", CNTNT_TYPE, String.class.cast(r[0]));
   }
 
   private void mockMailInputMeta(MailInputField[] arr) {

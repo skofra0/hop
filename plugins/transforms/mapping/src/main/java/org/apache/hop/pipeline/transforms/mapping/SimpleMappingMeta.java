@@ -53,8 +53,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Mapping",
     keywords = "i18n::SimpleMappingMeta.keyword",
     documentationUrl = "/pipeline/transforms/simple-mapping.html")
-public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, SimpleMappingData>
-    implements ISubPipelineAwareMeta {
+public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, SimpleMappingData> implements ISubPipelineAwareMeta {
 
   private static final Class<?> PKG = SimpleMappingMeta.class; // For Translator
 
@@ -93,13 +92,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // First load some interesting data...
 
@@ -109,9 +102,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
     try {
       mappingPipelineMeta = loadMappingMeta(this, metadataProvider, variables);
     } catch (HopException e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "SimpleMappingMeta.Exception.UnableToLoadMappingPipeline"),
-          e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "SimpleMappingMeta.Exception.UnableToLoadMappingPipeline"), e);
     }
 
     // Before we ask the mapping outputs anything, we should teach the mapping
@@ -128,11 +119,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
       for (MappingValueRename valueRename : ioMappings.getInputMapping().getValueRenames()) {
         IValueMeta valueMeta = inputRowMeta.searchValueMeta(valueRename.getSourceValueName());
         if (valueMeta == null) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG,
-                  "SimpleMappingMeta.Exception.UnableToFindField",
-                  valueRename.getSourceValueName()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SimpleMappingMeta.Exception.UnableToFindField", valueRename.getSourceValueName()));
         }
         valueMeta.setName(valueRename.getTargetValueName());
       }
@@ -154,8 +141,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
     // Now we know wat's going to come out of the mapping pipeline...
     // This is going to be the full row that's being written.
     //
-    IRowMeta mappingOutputRowMeta =
-        mappingPipelineMeta.getTransformFields(variables, mappingOutputTransform);
+    IRowMeta mappingOutputRowMeta = mappingPipelineMeta.getTransformFields(variables, mappingOutputTransform);
 
     // We're renaming some stuff back:
     //
@@ -202,37 +188,19 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.NotReceivingAnyFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.NotReceivingAnyFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SimpleMappingMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SimpleMappingMeta.CheckResult.TransformReceivingFieldsFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.TransformReceivingFieldsFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SimpleMappingMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -252,8 +220,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     List<ResourceReference> references = new ArrayList<>(5);
     String realFilename = variables.resolve(filename);
     ResourceReference reference = new ResourceReference(transformMeta);
@@ -288,9 +255,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**
@@ -298,9 +263,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      BaseMessages.getString(PKG, "SimpleMappingMeta.ReferencedObject.Description"),
-    };
+    return new String[] {BaseMessages.getString(PKG, "SimpleMappingMeta.ReferencedObject.Description"),};
   }
 
   private boolean isMapppingDefined() {
@@ -309,9 +272,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isMapppingDefined(),
-    };
+    return new boolean[] {isMapppingDefined(),};
   }
 
   /**
@@ -324,8 +285,7 @@ public class SimpleMappingMeta extends TransformWithMappingMeta<SimpleMapping, S
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return loadMappingMeta(this, metadataProvider, variables);
   }
 

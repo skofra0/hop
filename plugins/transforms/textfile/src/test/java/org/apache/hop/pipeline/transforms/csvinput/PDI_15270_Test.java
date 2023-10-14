@@ -35,20 +35,19 @@ import static org.junit.Assert.assertNull;
 /**
  * Csv data is taken from the attachment to the issue.
  *
-**/
+ **/
 public class PDI_15270_Test extends CsvInputUnitTestBase {
   private CsvInput csvInput;
   private String[] expected;
   private String content;
   private TransformMockHelper<CsvInputMeta, CsvInputData> transformMockHelper;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUp() throws Exception {
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y");
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "Pdi15270Test");
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "Pdi15270Test");
   }
 
   @After
@@ -81,9 +80,7 @@ public class PDI_15270_Test extends CsvInputUnitTestBase {
     String field1 = "Tom Tom";
     String field2 = "the";
     String field3 = "Piper's Son";
-    content =
-        ENCLOSURE + field1 + ENCLOSURE + DELIMITER + ENCLOSURE + field2 + ENCLOSURE + DELIMITER
-            + ENCLOSURE + field3 + ENCLOSURE;
+    content = ENCLOSURE + field1 + ENCLOSURE + DELIMITER + ENCLOSURE + field2 + ENCLOSURE + DELIMITER + ENCLOSURE + field3 + ENCLOSURE;
     expected = new String[] {field1, field2, field3};
     doTest(content, expected);
   }
@@ -115,14 +112,7 @@ public class PDI_15270_Test extends CsvInputUnitTestBase {
     try {
       CsvInputMeta meta = createMeta(tmp, createInputFileFields("f1", "f2", "f3"));
       CsvInputData data = new CsvInputData();
-      csvInput =
-          new CsvInput(
-              transformMockHelper.transformMeta,
-              meta,
-              data,
-              0,
-              transformMockHelper.pipelineMeta,
-              transformMockHelper.pipeline);
+      csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
       csvInput.init();
 
       csvInput.addRowSetToOutputRowSets(output);

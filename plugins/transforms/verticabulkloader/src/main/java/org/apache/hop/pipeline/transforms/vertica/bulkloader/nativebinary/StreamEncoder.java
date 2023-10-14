@@ -114,19 +114,12 @@ public class StreamEncoder {
    */
   int countMainByteBufferSize() {
     long bufferSize = (long) getRowMaxSize() * NUM_ROWS_TO_BUFFER;
-    return (int)
-        (bufferSize > 0 && bufferSize < MAXIMUM_BUFFER_SIZE ? bufferSize : MAXIMUM_BUFFER_SIZE);
+    return (int) (bufferSize > 0 && bufferSize < MAXIMUM_BUFFER_SIZE ? bufferSize : MAXIMUM_BUFFER_SIZE);
   }
 
   public void writeHeader() throws IOException {
     // File signature
-    buffer
-        .put("NATIVE".getBytes(charset))
-        .put(BYTE_LF)
-        .put(BYTE_FULL)
-        .put(BYTE_CR)
-        .put(BYTE_LF)
-        .put(BYTE_ZERO);
+    buffer.put("NATIVE".getBytes(charset)).put(BYTE_LF).put(BYTE_FULL).put(BYTE_CR).put(BYTE_LF).put(BYTE_ZERO);
 
     // Header area length (5 bytes for next three puts + (4 * N columns))
     buffer.putInt(5 + (4 * columnCount));

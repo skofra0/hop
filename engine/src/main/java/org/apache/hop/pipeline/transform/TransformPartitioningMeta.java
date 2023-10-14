@@ -39,12 +39,8 @@ public class TransformPartitioningMeta implements Cloneable {
   public static final int PARTITIONING_METHOD_MIRROR = 1;
   public static final int PARTITIONING_METHOD_SPECIAL = 2;
 
-  public static final String[] methodCodes =
-      new String[] {
-        "none", "Mirror",
-      };
-  public static final String[] methodDescriptions =
-      new String[] {"None", "Mirror to all partitions"};
+  public static final String[] methodCodes = new String[] {"none", "Mirror",};
+  public static final String[] methodDescriptions = new String[] {"None", "Mirror to all partitions"};
 
   private int methodType;
 
@@ -70,8 +66,7 @@ public class TransformPartitioningMeta implements Cloneable {
    * @param method
    * @param partitionSchema
    */
-  public TransformPartitioningMeta(String method, PartitionSchema partitionSchema)
-      throws HopPluginException {
+  public TransformPartitioningMeta(String method, PartitionSchema partitionSchema) throws HopPluginException {
     setMethod(method);
     this.partitionSchema = partitionSchema;
     hasChanged = false;
@@ -80,9 +75,7 @@ public class TransformPartitioningMeta implements Cloneable {
   @Override
   public TransformPartitioningMeta clone() {
     try {
-      TransformPartitioningMeta transformPartitioningMeta =
-          new TransformPartitioningMeta(
-              method, partitionSchema != null ? (PartitionSchema) partitionSchema.clone() : null);
+      TransformPartitioningMeta transformPartitioningMeta = new TransformPartitioningMeta(method, partitionSchema != null ? (PartitionSchema) partitionSchema.clone() : null);
       transformPartitioningMeta.setMethodType(methodType);
       transformPartitioningMeta.setPartitioner(partitioner == null ? null : partitioner.clone());
       return transformPartitioningMeta;
@@ -104,8 +97,7 @@ public class TransformPartitioningMeta implements Cloneable {
     if (partitionSchema == null && meta.partitionSchema == null) {
       return true;
     }
-    if (partitionSchema != null && meta.partitionSchema == null
-        || partitionSchema == null && meta.partitionSchema != null) {
+    if (partitionSchema != null && meta.partitionSchema == null || partitionSchema == null && meta.partitionSchema != null) {
       return false;
     }
     String schemaName = partitionSchema.getName();
@@ -161,10 +153,7 @@ public class TransformPartitioningMeta implements Cloneable {
 
     xml.append("    ").append(XmlHandler.openTag("partitioning")).append(Const.CR);
     xml.append("      ").append(XmlHandler.addTagValue("method", getMethodCode()));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "schema_name", partitionSchema != null ? partitionSchema.getName() : ""));
+    xml.append("      ").append(XmlHandler.addTagValue("schema_name", partitionSchema != null ? partitionSchema.getName() : ""));
     if (partitioner != null) {
       xml.append(partitioner.getXml());
     }
@@ -173,8 +162,7 @@ public class TransformPartitioningMeta implements Cloneable {
     return xml.toString();
   }
 
-  public TransformPartitioningMeta(
-      Node partitioningMethodNode, IHopMetadataProvider metadataProvider) throws HopException {
+  public TransformPartitioningMeta(Node partitioningMethodNode, IHopMetadataProvider metadataProvider) throws HopException {
     this();
     setMethod(getMethod(XmlHandler.getTagValue(partitioningMethodNode, "method")));
     String partitionSchemaName = XmlHandler.getTagValue(partitioningMethodNode, "schema_name");
@@ -182,12 +170,10 @@ public class TransformPartitioningMeta implements Cloneable {
       partitionSchema = new PartitionSchema();
     } else {
       try {
-        IHopMetadataSerializer<PartitionSchema> serializer =
-            metadataProvider.getSerializer(PartitionSchema.class);
+        IHopMetadataSerializer<PartitionSchema> serializer = metadataProvider.getSerializer(PartitionSchema.class);
         partitionSchema = serializer.load(partitionSchemaName);
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to load partition schema with name '" + partitionSchemaName + "'", e);
+        throw new HopException("Unable to load partition schema with name '" + partitionSchemaName + "'", e);
       }
     }
     hasChanged = false;
@@ -262,8 +248,7 @@ public class TransformPartitioningMeta implements Cloneable {
       }
     }
 
-    IPlugin plugin =
-        PluginRegistry.getInstance().findPluginWithId(PartitionerPluginType.class, description);
+    IPlugin plugin = PluginRegistry.getInstance().findPluginWithId(PartitionerPluginType.class, description);
     if (plugin != null) {
       return PARTITIONING_METHOD_SPECIAL;
     }
@@ -288,14 +273,13 @@ public class TransformPartitioningMeta implements Cloneable {
   public void createPartitioner(String method) throws HopPluginException {
     methodType = getMethodType(method);
     switch (methodType) {
-      case PARTITIONING_METHOD_SPECIAL:
-        {
-          PluginRegistry registry = PluginRegistry.getInstance();
-          IPlugin plugin = registry.findPluginWithId(PartitionerPluginType.class, method);
-          partitioner = (IPartitioner) registry.loadClass(plugin);
-          partitioner.setId(plugin.getIds()[0]);
-          break;
-        }
+      case PARTITIONING_METHOD_SPECIAL: {
+        PluginRegistry registry = PluginRegistry.getInstance();
+        IPlugin plugin = registry.findPluginWithId(PartitionerPluginType.class, method);
+        partitioner = (IPartitioner) registry.loadClass(plugin);
+        partitioner.setId(plugin.getIds()[0]);
+        break;
+      }
       case PARTITIONING_METHOD_NONE:
       default:
         partitioner = null;
@@ -309,8 +293,7 @@ public class TransformPartitioningMeta implements Cloneable {
     return methodType == PARTITIONING_METHOD_MIRROR;
   }
 
-  public int getPartition(IVariables variables, IRowMeta rowMeta, Object[] row)
-      throws HopException {
+  public int getPartition(IVariables variables, IRowMeta rowMeta, Object[] row) throws HopException {
     if (partitioner != null) {
       return partitioner.getPartition(variables, rowMeta, row);
     }

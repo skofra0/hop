@@ -45,9 +45,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
     keywords = "i18n::SplunkInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/splunkinput.html")
-@InjectionSupported(
-    localizationPrefix = "Splunk.Injection.",
-    groups = {"PARAMETERS", "RETURNS"})
+@InjectionSupported(localizationPrefix = "Splunk.Injection.", groups = {"PARAMETERS", "RETURNS"})
 public class SplunkInputMeta extends BaseTransformMeta<SplunkInput, SplunkInputData> {
 
   public static final String CONNECTION = "connection";
@@ -66,7 +64,8 @@ public class SplunkInputMeta extends BaseTransformMeta<SplunkInput, SplunkInputD
   @Injection(name = QUERY)
   private String query;
 
-  @InjectionDeep private List<ReturnValue> returnValues;
+  @InjectionDeep
+  private List<ReturnValue> returnValues;
 
   public SplunkInputMeta() {
     super();
@@ -79,13 +78,7 @@ public class SplunkInputMeta extends BaseTransformMeta<SplunkInput, SplunkInputD
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     for (ReturnValue returnValue : returnValues) {
@@ -96,12 +89,7 @@ public class SplunkInputMeta extends BaseTransformMeta<SplunkInput, SplunkInputD
         valueMeta.setOrigin(name);
         rowMeta.addValueMeta(valueMeta);
       } catch (HopPluginException e) {
-        throw new HopTransformException(
-            "Unknown data type '"
-                + returnValue.getType()
-                + "' for value named '"
-                + returnValue.getName()
-                + "'");
+        throw new HopTransformException("Unknown data type '" + returnValue.getType() + "' for value named '" + returnValue.getName() + "'");
       }
     }
   }

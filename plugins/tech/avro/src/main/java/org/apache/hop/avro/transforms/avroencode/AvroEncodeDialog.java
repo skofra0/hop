@@ -53,12 +53,7 @@ public class AvroEncodeDialog extends BaseTransformDialog implements ITransformD
   private TextVar wDocumentation;
   private TableView wFields;
 
-  public AvroEncodeDialog(
-      Shell parent,
-      IVariables variables,
-      Object baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public AvroEncodeDialog(Shell parent, IVariables variables, Object baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) baseTransformMeta, pipelineMeta, transformName);
 
     input = (AvroEncodeMeta) baseTransformMeta;
@@ -185,7 +180,7 @@ public class AvroEncodeDialog extends BaseTransformDialog implements ITransformD
     fdDocumentation.right = new FormAttachment(100, 0);
     wDocumentation.setLayoutData(fdDocumentation);
     lastControl = wDocumentation;
-    
+
     Label wlFields = new Label(shell, SWT.RIGHT);
     wlFields.setText(BaseMessages.getString(PKG, "AvroEncodeDialog.Fields.Label"));
     PropsUi.setLook(wlFields);
@@ -197,28 +192,10 @@ public class AvroEncodeDialog extends BaseTransformDialog implements ITransformD
 
     ColumnInfo[] fieldsColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroEncodeDialog.Fields.Column.SourceField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroEncodeDialog.Fields.Column.TargetField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroEncodeDialog.Fields.Column.SourceField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroEncodeDialog.Fields.Column.TargetField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.NONE,
-            fieldsColumns,
-            input.getSourceFields().size(),
-            false,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.NONE, fieldsColumns, input.getSourceFields().size(), false, null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -287,8 +264,7 @@ public class AvroEncodeDialog extends BaseTransformDialog implements ITransformD
   private void getFields() {
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
-      BaseTransformDialog.getFieldsFromPrevious(
-          r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
+      BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
     } catch (Exception e) {
       new ErrorDialog(shell, "Error", "Error getting fields", e);
     }

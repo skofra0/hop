@@ -194,16 +194,13 @@ public class ConstUi {
     return findTreeItem(null, parent, parentName, name);
   }
 
-  private static final TreeItem findTreeItem(
-      TreeItem grandParent, TreeItem parent, String parentName, String name) {
+  private static final TreeItem findTreeItem(TreeItem grandParent, TreeItem parent, String parentName, String name) {
     if (Utils.isEmpty(parentName)) {
       if (parent.getText().equalsIgnoreCase(name)) {
         return parent;
       }
     } else {
-      if (grandParent != null
-          && grandParent.getText().equalsIgnoreCase(parentName)
-          && parent.getText().equalsIgnoreCase(name)) {
+      if (grandParent != null && grandParent.getText().equalsIgnoreCase(parentName) && parent.getText().equalsIgnoreCase(name)) {
         return parent;
       }
     }
@@ -225,7 +222,7 @@ public class ConstUi {
     }
     menu.setVisible(true);
   }
-  
+
   /**
    * Sort field names if options is enabled
    * 
@@ -233,7 +230,7 @@ public class ConstUi {
    */
   public static String[] sortFieldNames(List<String> names) {
     String[] result = names.toArray(new String[0]);
-    if ( PropsUi.getInstance().isSortFieldByName() ) {
+    if (PropsUi.getInstance().isSortFieldByName()) {
       Arrays.sort(result);
     }
     return result;

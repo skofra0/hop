@@ -73,11 +73,7 @@ public abstract class BaseDialog extends Dialog {
 
   public static final String NO_DEFAULT_HANDLER = "NoDefaultHandler";
 
-  @Variable(
-      scope = VariableScope.APPLICATION,
-      value = "N",
-      description =
-          "Set this value to 'Y' if you want to use the system file open/save dialog when browsing files.")
+  @Variable(scope = VariableScope.APPLICATION, value = "N", description = "Set this value to 'Y' if you want to use the system file open/save dialog when browsing files.")
   public static final String HOP_USE_NATIVE_FILE_DIALOG = "HOP_USE_NATIVE_FILE_DIALOG";
 
   public static final int MARGIN_SIZE = 15;
@@ -88,11 +84,9 @@ public abstract class BaseDialog extends Dialog {
   public static final int SMALL_FIELD = 50;
   public static final int SHELL_WIDTH_OFFSET = 16;
   @Deprecated
-  public static final int VAR_ICON_WIDTH =
-      GuiResource.getInstance().getImageVariableMini().getBounds().width;
+  public static final int VAR_ICON_WIDTH = GuiResource.getInstance().getImageVariableMini().getBounds().width;
   @Deprecated
-  public static final int VAR_ICON_HEIGHT =
-      GuiResource.getInstance().getImageVariableMini().getBounds().height;
+  public static final int VAR_ICON_HEIGHT = GuiResource.getInstance().getImageVariableMini().getBounds().height;
 
   protected Map<String, Listener> buttons = new HashMap<>();
 
@@ -115,31 +109,16 @@ public abstract class BaseDialog extends Dialog {
     this.width = width;
   }
 
-  public static final String presentFileDialog(
-      Shell shell, String[] filterExtensions, String[] filterNames, boolean folderAndFile) {
-    return presentFileDialog(
-        false, shell, null, null, null, filterExtensions, filterNames, folderAndFile);
+  public static final String presentFileDialog(Shell shell, String[] filterExtensions, String[] filterNames, boolean folderAndFile) {
+    return presentFileDialog(false, shell, null, null, null, filterExtensions, filterNames, folderAndFile);
   }
 
-  public static final String presentFileDialog(
-      boolean save,
-      Shell shell,
-      String[] filterExtensions,
-      String[] filterNames,
-      boolean folderAndFile) {
-    return presentFileDialog(
-        save, shell, null, null, null, filterExtensions, filterNames, folderAndFile);
+  public static final String presentFileDialog(boolean save, Shell shell, String[] filterExtensions, String[] filterNames, boolean folderAndFile) {
+    return presentFileDialog(save, shell, null, null, null, filterExtensions, filterNames, folderAndFile);
   }
 
-  public static final String presentFileDialog(
-      Shell shell,
-      TextVar textVar,
-      FileObject fileObject,
-      String[] filterExtensions,
-      String[] filterNames,
-      boolean folderAndFile) {
-    return presentFileDialog(
-        false, shell, textVar, null, fileObject, filterExtensions, filterNames, folderAndFile);
+  public static final String presentFileDialog(Shell shell, TextVar textVar, FileObject fileObject, String[] filterExtensions, String[] filterNames, boolean folderAndFile) {
+    return presentFileDialog(false, shell, textVar, null, fileObject, filterExtensions, filterNames, folderAndFile);
   }
 
   public static final String presentFileDialog(
@@ -150,19 +129,11 @@ public abstract class BaseDialog extends Dialog {
       String[] filterExtensions,
       String[] filterNames,
       boolean folderAndFile) {
-    return presentFileDialog(
-        save, shell, textVar, null, fileObject, filterExtensions, filterNames, folderAndFile);
+    return presentFileDialog(save, shell, textVar, null, fileObject, filterExtensions, filterNames, folderAndFile);
   }
 
-  public static final String presentFileDialog(
-      Shell shell,
-      TextVar textVar,
-      IVariables variables,
-      String[] filterExtensions,
-      String[] filterNames,
-      boolean folderAndFile) {
-    return presentFileDialog(
-        false, shell, textVar, variables, null, filterExtensions, filterNames, folderAndFile);
+  public static final String presentFileDialog(Shell shell, TextVar textVar, IVariables variables, String[] filterExtensions, String[] filterNames, boolean folderAndFile) {
+    return presentFileDialog(false, shell, textVar, variables, null, filterExtensions, filterNames, folderAndFile);
   }
 
   public static final String presentFileDialog(
@@ -173,8 +144,7 @@ public abstract class BaseDialog extends Dialog {
       String[] filterExtensions,
       String[] filterNames,
       boolean folderAndFile) {
-    return presentFileDialog(
-        save, shell, textVar, variables, null, filterExtensions, filterNames, folderAndFile);
+    return presentFileDialog(save, shell, textVar, variables, null, filterExtensions, filterNames, folderAndFile);
   }
 
   public static final String presentFileDialog(
@@ -185,8 +155,7 @@ public abstract class BaseDialog extends Dialog {
       String[] filterExtensions,
       String[] filterNames,
       boolean folderAndFile) {
-    return presentFileDialog(
-        false, shell, textVar, variables, fileObject, filterExtensions, filterNames, folderAndFile);
+    return presentFileDialog(false, shell, textVar, variables, fileObject, filterExtensions, filterNames, folderAndFile);
   }
 
   public static final String presentFileDialog(
@@ -199,8 +168,7 @@ public abstract class BaseDialog extends Dialog {
       String[] filterNames,
       boolean folderAndFile) {
 
-    boolean useNativeFileDialog =
-        HopGui.getInstance().getVariables().getVariableBoolean(HOP_USE_NATIVE_FILE_DIALOG, false);
+    boolean useNativeFileDialog = HopGui.getInstance().getVariables().getVariableBoolean(HOP_USE_NATIVE_FILE_DIALOG, false);
 
     IFileDialog dialog;
 
@@ -251,11 +219,7 @@ public abstract class BaseDialog extends Dialog {
 
     AtomicBoolean doIt = new AtomicBoolean(true);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          variables,
-          HopGuiExtensionPoint.HopGuiFileOpenDialog.id,
-          new HopGuiFileDialogExtension(doIt, dialog));
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenDialog.id, new HopGuiFileDialogExtension(doIt, dialog));
     } catch (Exception xe) {
       LogChannel.UI.logError("Error handling extension point 'HopGuiFileOpenDialog'", xe);
     }
@@ -269,13 +233,8 @@ public abstract class BaseDialog extends Dialog {
       }
 
       try {
-        HopGuiFileOpenedExtension openedExtension =
-            new HopGuiFileOpenedExtension(dialog, variables, filename);
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.UI,
-            variables,
-            HopGuiExtensionPoint.HopGuiFileOpenedDialog.id,
-            openedExtension);
+        HopGuiFileOpenedExtension openedExtension = new HopGuiFileOpenedExtension(dialog, variables, filename);
+        ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, openedExtension);
         if (openedExtension.filename != null) {
           filename = openedExtension.filename;
         }
@@ -298,13 +257,9 @@ public abstract class BaseDialog extends Dialog {
     return presentDirectoryDialog(shell, textVar, null, variables);
   }
 
-  public static String presentDirectoryDialog(
-      Shell shell, TextVar textVar, String message, IVariables variables) {
+  public static String presentDirectoryDialog(Shell shell, TextVar textVar, String message, IVariables variables) {
 
-    boolean useNativeFileDialog =
-        "Y"
-            .equalsIgnoreCase(
-                HopGui.getInstance().getVariables().getVariable("HOP_USE_NATIVE_FILE_DIALOG", "N"));
+    boolean useNativeFileDialog = "Y".equalsIgnoreCase(HopGui.getInstance().getVariables().getVariable("HOP_USE_NATIVE_FILE_DIALOG", "N"));
 
     IDirectoryDialog directoryDialog;
     if (useNativeFileDialog) {
@@ -324,11 +279,8 @@ public abstract class BaseDialog extends Dialog {
 
     AtomicBoolean doIt = new AtomicBoolean(true);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          variables,
-          HopGuiExtensionPoint.HopGuiFileDirectoryDialog.id,
-          new HopGuiDirectoryDialogExtension(doIt, directoryDialog));
+      ExtensionPointHandler
+          .callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileDirectoryDialog.id, new HopGuiDirectoryDialogExtension(doIt, directoryDialog));
     } catch (Exception xe) {
       LogChannel.UI.logError("Error handling extension point 'HopGuiFileDirectoryDialog'", xe);
     }
@@ -336,10 +288,8 @@ public abstract class BaseDialog extends Dialog {
     if (!doIt.get() || directoryDialog.open() != null) {
       directoryName = directoryDialog.getFilterPath();
       try {
-        HopGuiDirectorySelectedExtension ext =
-            new HopGuiDirectorySelectedExtension(directoryDialog, variables, directoryName);
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiDirectorySelected.id, ext);
+        HopGuiDirectorySelectedExtension ext = new HopGuiDirectorySelectedExtension(directoryDialog, variables, directoryName);
+        ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiDirectorySelected.id, ext);
         if (ext.folderName != null) {
           directoryName = ext.folderName;
         }
@@ -369,13 +319,12 @@ public abstract class BaseDialog extends Dialog {
     shell.setImage(GuiResource.getInstance().getImageHopUi());
     PropsUi.setLook(shell);
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            dispose();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        dispose();
+      }
+    });
 
     final FormLayout formLayout = new FormLayout();
     formLayout.marginWidth = MARGIN_SIZE;
@@ -447,14 +396,9 @@ public abstract class BaseDialog extends Dialog {
     for (int i = buttonArr.length - 1; i >= 0; i--) {
       final Button button = buttonArr[i];
       if (previousButton == null) {
-        button.setLayoutData(
-            new FormDataBuilder().top(anchorElement, footerTopPadding).right(100, 0).result());
+        button.setLayoutData(new FormDataBuilder().top(anchorElement, footerTopPadding).right(100, 0).result());
       } else {
-        button.setLayoutData(
-            new FormDataBuilder()
-                .top(anchorElement, footerTopPadding)
-                .right(previousButton, Const.isOSX() ? 0 : -BaseDialog.LABEL_SPACING)
-                .result());
+        button.setLayoutData(new FormDataBuilder().top(anchorElement, footerTopPadding).right(previousButton, Const.isOSX() ? 0 : -BaseDialog.LABEL_SPACING).result());
       }
       previousButton = button;
     }
@@ -478,14 +422,14 @@ public abstract class BaseDialog extends Dialog {
    * add default selection handlers on fields. Set the appropriate size for the shell. If you have
    * widgets on which you don't want to have this default selection handler to okConsumer, do:
    *
-   * <p>widget.setData(NO_DEFAULT_HANDLER, true)
+   * <p>
+   * widget.setData(NO_DEFAULT_HANDLER, true)
    *
    * @param shell The shell to handle.
    * @param okConsumer What to do when the dialog information needs to be retained after closing.
    * @param cancelConsumer What to do when the dialog is cancelled.
    */
-  public static void defaultShellHandling(
-      Shell shell, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
+  public static void defaultShellHandling(Shell shell, Consumer<Void> okConsumer, Consumer<Void> cancelConsumer) {
 
     // If the shell is closed, cancel the dialog
     //
@@ -547,11 +491,7 @@ public abstract class BaseDialog extends Dialog {
       }
       // Some of these are composites so check first
       //
-      if ((control instanceof Text)
-          || (control instanceof Combo)
-          || (control instanceof CCombo)
-          || (control instanceof TextVar)
-          || (control instanceof ComboVar)
+      if ((control instanceof Text) || (control instanceof Combo) || (control instanceof CCombo) || (control instanceof TextVar) || (control instanceof ComboVar)
           || (control instanceof List)) {
         control.addListener(SWT.DefaultSelection, e -> okConsumer.accept(null));
       } else if (control instanceof Composite) {

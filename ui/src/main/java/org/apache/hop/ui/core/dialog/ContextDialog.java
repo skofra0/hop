@@ -82,8 +82,7 @@ public class ContextDialog extends Dialog {
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "ContextDialog-Toolbar";
   public static final String TOOLBAR_ITEM_COLLAPSE_ALL = "ContextDialog-Toolbar-10010-CollapseAll";
   public static final String TOOLBAR_ITEM_EXPAND_ALL = "ContextDialog-Toolbar-10020-ExpandAll";
-  public static final String TOOLBAR_ITEM_ENABLE_CATEGORIES =
-      "ContextDialog-Toolbar-10030-EnableCategories";
+  public static final String TOOLBAR_ITEM_ENABLE_CATEGORIES = "ContextDialog-Toolbar-10030-EnableCategories";
   public static final String TOOLBAR_ITEM_FIXED_WIDTH = "ContextDialog-Toolbar-10040-FixedWidth";
   public static final String TOOLBAR_ITEM_CLEAR_SEARCH = "ContextDialog-Toolbar-10040-ClearSearch";
 
@@ -297,8 +296,7 @@ public class ContextDialog extends Dialog {
     }
   }
 
-  public ContextDialog(
-      Shell parent, String title, Point location, List<GuiAction> actions, String contextId) {
+  public ContextDialog(Shell parent, String title, Point location, List<GuiAction> actions, String contextId) {
     super(parent);
 
     this.setText(title);
@@ -335,8 +333,7 @@ public class ContextDialog extends Dialog {
     for (GuiAction action : actions) {
       CategoryAndOrder categoryAndOrder;
       if (StringUtils.isNotEmpty(action.getCategory())) {
-        categoryAndOrder = new CategoryAndOrder(
-                action.getCategory(), Const.NVL(action.getCategoryOrder(), "0"), false);
+        categoryAndOrder = new CategoryAndOrder(action.getCategory(), Const.NVL(action.getCategoryOrder(), "0"), false);
       } else {
         // Add an "Other" category
         categoryAndOrder = new CategoryAndOrder(CATEGORY_OTHER, "9999", false);
@@ -362,9 +359,7 @@ public class ContextDialog extends Dialog {
       }
       // Load or get from the image cache...
       //
-      Image image =
-          GuiResource.getInstance()
-              .getImage(action.getImage(), classLoader, correctedIconSize, correctedIconSize);
+      Image image = GuiResource.getInstance().getImage(action.getImage(), classLoader, correctedIconSize, correctedIconSize);
       items.add(new Item(action, image));
     }
 
@@ -383,10 +378,7 @@ public class ContextDialog extends Dialog {
     wlSearch.setText(BaseMessages.getString(PKG, "ContextDialog.Search.Label.Text"));
     PropsUi.setLook(wlSearch, Props.WIDGET_STYLE_TOOLBAR);
 
-    wSearch =
-        new Text(
-            searchComposite,
-            SWT.LEFT | SWT.BORDER | SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH | SWT.ICON_CANCEL);
+    wSearch = new Text(searchComposite, SWT.LEFT | SWT.BORDER | SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH | SWT.ICON_CANCEL);
     wSearch.setLayoutData(new GridData(GridData.FILL_BOTH));
     PropsUi.setLook(wSearch, Props.WIDGET_STYLE_TOOLBAR);
 
@@ -439,12 +431,7 @@ public class ContextDialog extends Dialog {
     itemsFont = GuiResource.getInstance().getFontDefault();
 
     int fontHeight = itemsFont.getFontData()[0].getHeight() + 1;
-    headerFont =
-        new Font(
-            getParent().getDisplay(),
-            props.getDefaultFont().getName(),
-            fontHeight,
-            props.getGraphFont().getStyle() | SWT.BOLD | SWT.ITALIC);
+    headerFont = new Font(getParent().getDisplay(), props.getDefaultFont().getName(), fontHeight, props.getGraphFont().getStyle() | SWT.BOLD | SWT.ITALIC);
 
     // TODO: Calculate a more dynamic size based on number of actions, screen size
     // and so on
@@ -455,14 +442,13 @@ public class ContextDialog extends Dialog {
     // Position the dialog where there was a click to be more intuitive
     //
     if (location != null) {
-      /*Adapt to the monitor */
+      /* Adapt to the monitor */
       Monitor monitor = shell.getMonitor();
       boolean fitOtherMonitors = false;
       for (Monitor monitorCheck : shell.getDisplay().getMonitors()) {
         org.eclipse.swt.graphics.Rectangle displayPositionCheck = monitorCheck.getBounds();
         if (((location.x - displayPositionCheck.x) <= monitorCheck.getClientArea().width - width)
-            && (location.y - displayPositionCheck.y
-                <= monitorCheck.getClientArea().height - height)) {
+            && (location.y - displayPositionCheck.y <= monitorCheck.getClientArea().height - height)) {
           fitOtherMonitors = true;
           break;
         }
@@ -501,23 +487,21 @@ public class ContextDialog extends Dialog {
 
     wSearch.addListener(SWT.KeyDown, event -> onKeyPressed(event));
     wSearch.addListener(SWT.Modify, event -> onModifySearch());
-    wSearch.addListener(
-        SWT.DefaultSelection,
-        event -> {
+    wSearch.addListener(SWT.DefaultSelection, event -> {
 
-          // Ignore this event
-          //
-          if (event.detail == SWT.ICON_SEARCH || event.detail == SWT.ICON_CANCEL) {
-            return;
-          }
+      // Ignore this event
+      //
+      if (event.detail == SWT.ICON_SEARCH || event.detail == SWT.ICON_CANCEL) {
+        return;
+      }
 
-          // Pressed enter
-          //
-          if (selectedItem != null) {
-            selectedAction = selectedItem.getAction();
-          }
-          dispose();
-        });
+      // Pressed enter
+      //
+      if (selectedItem != null) {
+        selectedAction = selectedItem.getAction();
+      }
+      dispose();
+    });
 
     wCanvas.addListener(SWT.KeyDown, event -> onKeyPressed(event));
     wCanvas.addListener(SWT.Paint, event -> onPaint(event));
@@ -529,13 +513,11 @@ public class ContextDialog extends Dialog {
     // OS Specific listeners...
     //
     if (OsHelper.isMac()) {
-      wCanvas.addListener(
-          SWT.MouseVerticalWheel,
-          event -> {
-            org.eclipse.swt.graphics.Point origin = wScrolledComposite.getOrigin();
-            origin.y -= event.count;
-            wScrolledComposite.setOrigin(origin);
-          });
+      wCanvas.addListener(SWT.MouseVerticalWheel, event -> {
+        org.eclipse.swt.graphics.Point origin = wScrolledComposite.getOrigin();
+        origin.y -= event.count;
+        wScrolledComposite.setOrigin(origin);
+      });
     }
 
     // Layout all the widgets in the shell.
@@ -596,12 +578,7 @@ public class ContextDialog extends Dialog {
       fixedWidthCheckBox.setSelection("Y".equalsIgnoreCase(Const.NVL(strUseFixedWidth, "Y")));
     }
 
-    AuditState auditState =
-        AuditManager.retrieveState(
-            LogChannel.UI,
-            HopNamespace.getNamespace(),
-            AUDIT_TYPE_CONTEXT_DIALOG,
-            AUDIT_NAME_CATEGORY_STATES);
+    AuditState auditState = AuditManager.retrieveState(LogChannel.UI, HopNamespace.getNamespace(), AUDIT_TYPE_CONTEXT_DIALOG, AUDIT_NAME_CATEGORY_STATES);
     if (auditState != null) {
       Map<String, Object> states = auditState.getStateMap();
       for (CategoryAndOrder category : categories) {
@@ -624,14 +601,12 @@ public class ContextDialog extends Dialog {
 
     Button categoriesCheckBox = getCategoriesCheckBox();
     if (categoriesCheckBox != null) {
-      HopConfig.setGuiProperty(
-          AUDIT_TYPE_TOOLBAR_SHOW_CATEGORIES, categoriesCheckBox.getSelection() ? "Y" : "N");
+      HopConfig.setGuiProperty(AUDIT_TYPE_TOOLBAR_SHOW_CATEGORIES, categoriesCheckBox.getSelection() ? "Y" : "N");
     }
 
     Button fixedWidthCheckBox = getFixedWidthCheckBox();
     if (fixedWidthCheckBox != null) {
-      HopConfig.setGuiProperty(
-          AUDIT_TYPE_TOOLBAR_FIXED_WIDTH, fixedWidthCheckBox.getSelection() ? "Y" : "N");
+      HopConfig.setGuiProperty(AUDIT_TYPE_TOOLBAR_FIXED_WIDTH, fixedWidthCheckBox.getSelection() ? "Y" : "N");
     }
 
     try {
@@ -650,12 +625,7 @@ public class ContextDialog extends Dialog {
     for (CategoryAndOrder category : categories) {
       states.put(category.getCategory(), category.isCollapsed() ? "N" : "Y");
     }
-    AuditManager.storeState(
-        LogChannel.UI,
-        HopNamespace.getNamespace(),
-        AUDIT_TYPE_CONTEXT_DIALOG,
-        AUDIT_NAME_CATEGORY_STATES,
-        states);
+    AuditManager.storeState(LogChannel.UI, HopNamespace.getNamespace(), AUDIT_TYPE_CONTEXT_DIALOG, AUDIT_NAME_CATEGORY_STATES, states);
   }
 
   public boolean isDisposed() {
@@ -751,8 +721,7 @@ public class ContextDialog extends Dialog {
   }
 
   private void onMouseUp(Event event) {
-    AreaOwner<OwnerType, Object> areaOwner =
-        AreaOwner.getVisibleAreaOwner(areaOwners, event.x, event.y);
+    AreaOwner<OwnerType, Object> areaOwner = AreaOwner.getVisibleAreaOwner(areaOwners, event.x, event.y);
     if (areaOwner == null) {
       return;
     }
@@ -772,9 +741,7 @@ public class ContextDialog extends Dialog {
           selectedAction = item.getAction();
 
           shiftClicked = (event.stateMask & SWT.SHIFT) != 0;
-          ctrlClicked =
-              (event.stateMask & SWT.CONTROL) != 0
-                  || (Const.isOSX() && (event.stateMask & SWT.COMMAND) != 0);
+          ctrlClicked = (event.stateMask & SWT.CONTROL) != 0 || (Const.isOSX() && (event.stateMask & SWT.COMMAND) != 0);
 
           dispose();
         }
@@ -843,8 +810,7 @@ public class ContextDialog extends Dialog {
 
     firstShownItem = null;
 
-    while ((useCategories && categoryNr < categories.size())
-        || (!useCategories || categories.isEmpty()) && (categoryNr == 0)) {
+    while ((useCategories && categoryNr < categories.size()) || (!useCategories || categories.isEmpty()) && (categoryNr == 0)) {
 
       CategoryAndOrder categoryAndOrder;
       if (!useCategories || categories.isEmpty()) {
@@ -869,16 +835,7 @@ public class ContextDialog extends Dialog {
           }
           org.eclipse.swt.graphics.Point categoryExtent = gc.textExtent(categoryAndOrder.category);
           gc.drawText(categoryAndOrder.category, x, y);
-          areaOwners.add(
-              new AreaOwner<>(
-                  AreaOwner.AreaType.CUSTOM,
-                  x,
-                  y,
-                  categoryExtent.x,
-                  categoryExtent.y,
-                  new DPoint(0, 0),
-                  OwnerType.CATEGORY,
-                  categoryAndOrder));
+          areaOwners.add(new AreaOwner<>(AreaOwner.AreaType.CUSTOM, x, y, categoryExtent.x, categoryExtent.y, new DPoint(0, 0), OwnerType.CATEGORY, categoryAndOrder));
           y += categoryExtent.y + yMargin;
           gc.setLineWidth(1);
           gc.drawLine(margin, y - yMargin, area.width - xMargin, y - yMargin);
@@ -936,13 +893,7 @@ public class ContextDialog extends Dialog {
             if (item.isSelected()) {
               gc.setLineWidth(2);
               gc.setBackground(highlightColor);
-              gc.fillRoundRectangle(
-                  x - xMargin / 2,
-                  y - yMargin / 2,
-                  width + xMargin,
-                  height + yMargin,
-                  margin,
-                  margin);
+              gc.fillRoundRectangle(x - xMargin / 2, y - yMargin / 2, width + xMargin, height + yMargin, margin, margin);
             }
 
             // So we draw the icon in the centre of the width...
@@ -962,16 +913,7 @@ public class ContextDialog extends Dialog {
 
             // The drawn area is the complete rectangle
             //
-            AreaOwner<OwnerType, Object> areaOwner =
-                new AreaOwner<>(
-                    AreaOwner.AreaType.CUSTOM,
-                    x,
-                    y,
-                    width,
-                    height,
-                    new DPoint(0, 0),
-                    OwnerType.ITEM,
-                    item);
+            AreaOwner<OwnerType, Object> areaOwner = new AreaOwner<>(AreaOwner.AreaType.CUSTOM, x, y, width, height, new DPoint(0, 0), OwnerType.ITEM, item);
             areaOwners.add(areaOwner);
             item.setAreaOwner(areaOwner);
 
@@ -1019,11 +961,9 @@ public class ContextDialog extends Dialog {
   private List<Item> findItemsForCategory(CategoryAndOrder categoryAndOrder) {
     List<Item> list = new ArrayList<>();
     for (Item filteredItem : filteredItems) {
-      if (categoryAndOrder == null
-          || categoryAndOrder.category.equalsIgnoreCase(filteredItem.action.getCategory())) {
+      if (categoryAndOrder == null || categoryAndOrder.category.equalsIgnoreCase(filteredItem.action.getCategory())) {
         list.add(filteredItem);
-      } else if (CATEGORY_OTHER.equals(categoryAndOrder.category)
-          && StringUtils.isEmpty(filteredItem.action.getCategory())) {
+      } else if (CATEGORY_OTHER.equals(categoryAndOrder.category) && StringUtils.isEmpty(filteredItem.action.getCategory())) {
         list.add(filteredItem);
       }
     }
@@ -1054,20 +994,14 @@ public class ContextDialog extends Dialog {
           ScrollBar verticalBar = wScrolledComposite.getVerticalBar();
           // Scroll down
           //
-          while (itemArea.y + itemArea.height + 2 * yMargin
-              > verticalBar.getSelection() + clientArea.height) {
-            wScrolledComposite.setOrigin(
-                0,
-                Math.min(
-                    verticalBar.getSelection() + verticalBar.getPageIncrement(),
-                    verticalBar.getMaximum() - verticalBar.getThumb()));
+          while (itemArea.y + itemArea.height + 2 * yMargin > verticalBar.getSelection() + clientArea.height) {
+            wScrolledComposite.setOrigin(0, Math.min(verticalBar.getSelection() + verticalBar.getPageIncrement(), verticalBar.getMaximum() - verticalBar.getThumb()));
           }
 
           // Scroll up
           //
           while (itemArea.y < verticalBar.getSelection()) {
-            wScrolledComposite.setOrigin(
-                0, Math.max(verticalBar.getSelection() - verticalBar.getPageIncrement(), 0));
+            wScrolledComposite.setOrigin(0, Math.max(verticalBar.getSelection() - verticalBar.getPageIncrement(), 0));
           }
         }
       }
@@ -1292,7 +1226,8 @@ public class ContextDialog extends Dialog {
         }
       }
     }
-    if (topAreas.isEmpty()) topAreas.add(firstShownItem.getAreaOwner());
+    if (topAreas.isEmpty())
+      topAreas.add(firstShownItem.getAreaOwner());
 
     selectClosest(area, topAreas);
   }
@@ -1311,7 +1246,8 @@ public class ContextDialog extends Dialog {
       }
     }
 
-    if (bottomAreas.isEmpty()) bottomAreas.add(lastShownItem.getAreaOwner());
+    if (bottomAreas.isEmpty())
+      bottomAreas.add(lastShownItem.getAreaOwner());
 
     selectClosest(area, bottomAreas);
   }

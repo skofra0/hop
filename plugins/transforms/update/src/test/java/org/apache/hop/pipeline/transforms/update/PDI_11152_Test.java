@@ -45,8 +45,7 @@ public class PDI_11152_Test {
   @Before
   public void setUp() {
     smh = new TransformMockHelper<>("Update", UpdateMeta.class, UpdateData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -60,9 +59,7 @@ public class PDI_11152_Test {
   public void testInputLazyConversion() throws HopException {
     Database db = mock(Database.class);
     RowMeta returnRowMeta = new RowMeta();
-    doReturn(new Object[] {new Timestamp(System.currentTimeMillis())})
-        .when(db)
-        .getLookup(any(PreparedStatement.class));
+    doReturn(new Object[] {new Timestamp(System.currentTimeMillis())}).when(db).getLookup(any(PreparedStatement.class));
     returnRowMeta.addValueMeta(new ValueMetaDate("TimeStamp"));
     doReturn(returnRowMeta).when(db).getReturnRowMeta();
 
@@ -85,17 +82,9 @@ public class PDI_11152_Test {
     transformData.keynrs2 = new int[] {-1};
     transformData.updateParameterRowMeta = when(mock(RowMeta.class).size()).thenReturn(2).getMock();
 
-    Update transform =
-        new Update(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    Update transform = new Update(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.setInputRowMeta(inputRowMeta);
-    transform.addRowSetToInputRowSets(
-        smh.getMockInputRowSet(new Object[] {"2013-12-20".getBytes()}));
+    transform.addRowSetToInputRowSets(smh.getMockInputRowSet(new Object[] {"2013-12-20".getBytes()}));
     transform.init();
     transform.first = false;
     Assert.assertTrue("Failure during row processing", transform.processRow());

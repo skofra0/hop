@@ -39,7 +39,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class SnappyCompressionProviderTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static final String PROVIDER_NAME = "Snappy";
 
@@ -70,16 +71,14 @@ public class SnappyCompressionProviderTest {
 
   @Test
   public void testGetName() {
-    SnappyCompressionProvider provider =
-        (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    SnappyCompressionProvider provider = (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertNotNull(provider);
     assertEquals(PROVIDER_NAME, provider.getName());
   }
 
   @Test
   public void testGetProviderAttributes() {
-    SnappyCompressionProvider provider =
-        (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    SnappyCompressionProvider provider = (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertEquals("Snappy compression", provider.getDescription());
     assertTrue(provider.supportsInput());
     assertTrue(provider.supportsOutput());
@@ -88,8 +87,7 @@ public class SnappyCompressionProviderTest {
 
   @Test
   public void testCreateInputStream() throws IOException {
-    SnappyCompressionProvider provider =
-        (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    SnappyCompressionProvider provider = (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     SnappyInputStream in = createSnappyInputStream();
     SnappyCompressionInputStream inStream = new SnappyCompressionInputStream(in, provider);
     assertNotNull(inStream);
@@ -99,8 +97,7 @@ public class SnappyCompressionProviderTest {
 
   @Test
   public void testCreateOutputStream() throws IOException {
-    SnappyCompressionProvider provider =
-        (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    SnappyCompressionProvider provider = (SnappyCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     SnappyCompressionOutputStream outStream = new SnappyCompressionOutputStream(out, provider);
     assertNotNull(outStream);

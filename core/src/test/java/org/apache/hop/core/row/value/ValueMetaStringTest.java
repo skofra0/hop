@@ -42,7 +42,8 @@ public class ValueMetaStringTest {
 
   private ConfigurableMeta meta;
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Before
   public void setUp() {
@@ -122,7 +123,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("1  ", meta.getNativeDataType("  1  "));
 
@@ -130,7 +131,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("  1", meta.getNativeDataType("  1  "));
 
@@ -138,7 +139,7 @@ public class ValueMetaStringTest {
     // assertEquals( null, meta.getNativeDataType( "" ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("1"));
-    // assertEquals( null, meta.getNativeDataType( "    " ) ); //TODO: is it correct?
+    // assertEquals( null, meta.getNativeDataType( " " ) ); //TODO: is it correct?
     assertEquals("", meta.getNativeDataType("    ")); // TODO: is it correct?
     assertEquals("1", meta.getNativeDataType("  1  "));
   }
@@ -186,7 +187,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_LEFT);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -194,7 +195,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_RIGHT);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -202,7 +203,7 @@ public class ValueMetaStringTest {
     assertEquals(false, meta.isNull(meta.getString("  1  ")));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_BOTH);
-    // assertEquals( true, meta.isNull( "    " ) ); //TODO: is it correct?
+    // assertEquals( true, meta.isNull( " " ) ); //TODO: is it correct?
     assertEquals(false, meta.isNull("    ")); // TODO: is it correct?
     assertEquals(true, meta.isNull(meta.getString("    ")));
 
@@ -247,17 +248,17 @@ public class ValueMetaStringTest {
     assertEquals("  1  ", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_LEFT);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("1  ", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_RIGHT);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("  1", meta.getString("  1  "));
 
     meta.setTrimType(IValueMeta.TRIM_TYPE_BOTH);
-    // assertEquals( null, meta.getString( "    " ) ); // TODO: is it correct?
+    // assertEquals( null, meta.getString( " " ) ); // TODO: is it correct?
     assertEquals("", meta.getString("    ")); // TODO: is it correct?
     assertEquals("1", meta.getString("  1  "));
   }

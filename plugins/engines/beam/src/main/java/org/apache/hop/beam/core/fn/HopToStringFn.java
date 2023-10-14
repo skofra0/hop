@@ -45,12 +45,7 @@ public class HopToStringFn extends DoFn<HopRow, String> {
   // Log and count parse errors.
   private static final Logger LOG = LoggerFactory.getLogger(HopToStringFn.class);
 
-  public HopToStringFn(
-      String counterName,
-      String outputLocation,
-      String separator,
-      String enclosure,
-      String rowMetaJson) {
+  public HopToStringFn(String counterName, String outputLocation, String separator, String enclosure, String rowMetaJson) {
     this.counterName = counterName;
     this.outputLocation = outputLocation;
     this.separator = separator;

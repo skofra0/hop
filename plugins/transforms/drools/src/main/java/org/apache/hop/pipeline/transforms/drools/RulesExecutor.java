@@ -29,13 +29,7 @@ import java.util.Arrays;
 public class RulesExecutor extends BaseTransform<RulesExecutorMeta, RulesExecutorData> {
   private static final Class<?> PKG = Rules.class; // for i18n purposes
 
-  public RulesExecutor(
-      TransformMeta transformMeta,
-      RulesExecutorMeta meta,
-      RulesExecutorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public RulesExecutor(TransformMeta transformMeta, RulesExecutorMeta meta, RulesExecutorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

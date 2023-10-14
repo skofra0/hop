@@ -61,21 +61,14 @@ public class AvroDecodeMeta extends BaseTransformMeta<AvroDecode, AvroDecodeData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String transformName,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String transformName, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (TargetField targetField : targetFields) {
       try {
         IValueMeta valueMeta = targetField.createTargetValueMeta(variables);
         rowMeta.addValueMeta(valueMeta);
       } catch (HopException e) {
-        throw new HopTransformException(
-            "Error creating target field with name " + targetField.getTargetFieldName(), e);
+        throw new HopTransformException("Error creating target field with name " + targetField.getTargetFieldName(), e);
       }
     }
   }

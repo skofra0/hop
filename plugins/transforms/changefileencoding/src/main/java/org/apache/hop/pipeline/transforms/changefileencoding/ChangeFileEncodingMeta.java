@@ -43,40 +43,26 @@ public class ChangeFileEncodingMeta extends BaseTransformMeta<ChangeFileEncoding
 
   private static final Class<?> PKG = ChangeFileEncoding.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "addsourceresultfilenames",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.AddSourceResultFilenames")
+  @HopMetadataProperty(key = "addsourceresultfilenames", injectionKeyDescription = "ChangeFileEncoding.Injection.AddSourceResultFilenames")
   private boolean addSourceResultFilenames;
 
-  @HopMetadataProperty(
-      key = "addtargetresultfilenames",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.AddTargetResultFilenames")
+  @HopMetadataProperty(key = "addtargetresultfilenames", injectionKeyDescription = "ChangeFileEncoding.Injection.AddTargetResultFilenames")
   private boolean addTargetResultFilenames;
 
   /** dynamic filename */
-  @HopMetadataProperty(
-      key = "filenamefield",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.FilenameField")
+  @HopMetadataProperty(key = "filenamefield", injectionKeyDescription = "ChangeFileEncoding.Injection.FilenameField")
   private String filenameField;
 
-  @HopMetadataProperty(
-      key = "targetfilenamefield",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.TargetFilenameField")
+  @HopMetadataProperty(key = "targetfilenamefield", injectionKeyDescription = "ChangeFileEncoding.Injection.TargetFilenameField")
   private String targetFilenameField;
 
-  @HopMetadataProperty(
-      key = "targetencoding",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.TargetEncoding")
+  @HopMetadataProperty(key = "targetencoding", injectionKeyDescription = "ChangeFileEncoding.Injection.TargetEncoding")
   private String targetEncoding;
 
-  @HopMetadataProperty(
-      key = "sourceencoding",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.SourceEncoding")
+  @HopMetadataProperty(key = "sourceencoding", injectionKeyDescription = "ChangeFileEncoding.Injection.SourceEncoding")
   private String sourceEncoding;
 
-  @HopMetadataProperty(
-      key = "createparentfolder",
-      injectionKeyDescription = "ChangeFileEncoding.Injection.CreateParentFolder")
+  @HopMetadataProperty(key = "createparentfolder", injectionKeyDescription = "ChangeFileEncoding.Injection.CreateParentFolder")
   private boolean createParentFolder;
 
   public ChangeFileEncodingMeta() {
@@ -179,8 +165,7 @@ public class ChangeFileEncodingMeta extends BaseTransformMeta<ChangeFileEncoding
     String errorMessage = "";
 
     if (Utils.isEmpty(filenameField)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.FileFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.FileFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -189,56 +174,41 @@ public class ChangeFileEncodingMeta extends BaseTransformMeta<ChangeFileEncoding
       remarks.add(cr);
     }
     if (Utils.isEmpty(targetFilenameField)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetFileFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetFileFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetFileFieldOK");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetFileFieldOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
     String realSourceEncoding = variables.resolve(getSourceEncoding());
     if (Utils.isEmpty(realSourceEncoding)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.SourceEncodingMissing");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.SourceEncodingMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.SourceEncodingOK");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.SourceEncodingOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
     String realTargetEncoding = variables.resolve(getTargetEncoding());
     if (Utils.isEmpty(realTargetEncoding)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetEncodingMissing");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetEncodingMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetEncodingOK");
+      errorMessage = BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.TargetEncodingOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ChangeFileEncodingMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ChangeFileEncodingMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

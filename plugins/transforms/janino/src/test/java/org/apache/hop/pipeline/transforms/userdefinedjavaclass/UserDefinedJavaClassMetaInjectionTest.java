@@ -29,9 +29,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class UserDefinedJavaClassMetaInjectionTest
-    extends BaseMetadataInjectionTest<UserDefinedJavaClassMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class UserDefinedJavaClassMetaInjectionTest extends BaseMetadataInjectionTest<UserDefinedJavaClassMeta> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -73,8 +73,7 @@ public class UserDefinedJavaClassMetaInjectionTest
     assertEquals(-1, meta.getFieldInfo().get(0).length);
     injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaString("5"), "5"), "5");
     assertEquals(5, meta.getFieldInfo().get(0).length);
-    injector.setProperty(
-        meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("4"), new Long(4)), "4");
+    injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("4"), new Long(4)), "4");
     assertEquals(4, meta.getFieldInfo().get(0).length);
 
     injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaString(""), ""), "");
@@ -83,13 +82,11 @@ public class UserDefinedJavaClassMetaInjectionTest
     assertEquals(-1, meta.getFieldInfo().get(0).precision);
     injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaString("5"), "5"), "5");
     assertEquals(5, meta.getFieldInfo().get(0).precision);
-    injector.setProperty(
-        meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("4"), new Long(4)), "4");
+    injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("4"), new Long(4)), "4");
     assertEquals(4, meta.getFieldInfo().get(0).precision);
 
     ArrayList<UserDefinedJavaClassDef> definitions = new ArrayList<>();
-    definitions.add(
-        new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "Test", ""));
+    definitions.add(new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "Test", ""));
     meta.replaceDefinitions(definitions);
     check("CLASS_NAME", () -> meta.getDefinitions().get(0).getClassName());
     check("CLASS_SOURCE", () -> meta.getDefinitions().get(0).getSource());

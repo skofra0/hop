@@ -57,8 +57,7 @@ public class StreamLookupTest {
   @Before
   public void setUp() {
     smh = new TransformMockHelper<>("StreamLookup", StreamLookupMeta.class, StreamLookupData.class);
-    when(smh.logChannelFactory.create(any(), nullable(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), nullable(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -76,8 +75,7 @@ public class StreamLookupTest {
   }
 
   private IRowSet mockLookupRowSet(boolean binary) {
-    final int storageType =
-        binary ? IValueMeta.STORAGE_TYPE_BINARY_STRING : IValueMeta.STORAGE_TYPE_NORMAL;
+    final int storageType = binary ? IValueMeta.STORAGE_TYPE_BINARY_STRING : IValueMeta.STORAGE_TYPE_NORMAL;
     Object[][] data = {{"Value1", "1"}, {"Value2", "2"}};
 
     if (binary) {
@@ -104,8 +102,7 @@ public class StreamLookupTest {
   }
 
   private IRowSet mockDataRowSet(boolean binary) {
-    final int storageType =
-        binary ? IValueMeta.STORAGE_TYPE_BINARY_STRING : IValueMeta.STORAGE_TYPE_NORMAL;
+    final int storageType = binary ? IValueMeta.STORAGE_TYPE_BINARY_STRING : IValueMeta.STORAGE_TYPE_NORMAL;
     Object[][] data = {{"Name1", "1"}, {"Name2", "2"}};
 
     if (binary) {
@@ -129,17 +126,14 @@ public class StreamLookupTest {
     return dataRowSet;
   }
 
-  private StreamLookupMeta mockProcessRowMeta(boolean memoryPreservationActive)
-      throws HopTransformException {
+  private StreamLookupMeta mockProcessRowMeta(boolean memoryPreservationActive) throws HopTransformException {
     StreamLookupMeta meta = smh.iTransformMeta;
 
-    TransformMeta lookupTransformMeta =
-        when(mock(TransformMeta.class).getName()).thenReturn("Lookup").getMock();
+    TransformMeta lookupTransformMeta = when(mock(TransformMeta.class).getName()).thenReturn("Lookup").getMock();
     doReturn(lookupTransformMeta).when(smh.pipelineMeta).findTransform("Lookup");
 
     TransformIOMeta transformIOMeta = new TransformIOMeta(true, true, false, false, false, false);
-    transformIOMeta.addStream(
-        new Stream(IStream.StreamType.INFO, lookupTransformMeta, null, StreamIcon.INFO, null));
+    transformIOMeta.addStream(new Stream(IStream.StreamType.INFO, lookupTransformMeta, null, StreamIcon.INFO, null));
 
     doReturn(transformIOMeta).when(meta).getTransformIOMeta();
     doReturn(new String[] {"Id"}).when(meta).getKeylookup();
@@ -152,30 +146,15 @@ public class StreamLookupTest {
     doReturn(new String[] {""}).when(meta).getValueDefault();
     doReturn(new String[] {"Value"}).when(meta).getValueName();
     doReturn(new String[] {"Value"}).when(meta).getValue();
-    doCallRealMethod()
-        .when(meta)
-        .getFields(
-            nullable(IRowMeta.class),
-            nullable(String.class),
-            nullable(IRowMeta[].class),
-            nullable(TransformMeta.class),
-            nullable(IVariables.class),
-            nullable(IHopMetadataProvider.class));
+    doCallRealMethod().when(meta).getFields(
+        nullable(IRowMeta.class), nullable(String.class), nullable(IRowMeta[].class), nullable(TransformMeta.class), nullable(IVariables.class),
+        nullable(IHopMetadataProvider.class));
 
     return meta;
   }
 
-  private void doTest(
-      boolean memoryPreservationActive, boolean binaryLookupStream, boolean binaryDataStream)
-      throws HopException {
-    StreamLookup transform =
-        new StreamLookup(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+  private void doTest(boolean memoryPreservationActive, boolean binaryLookupStream, boolean binaryDataStream) throws HopException {
+    StreamLookup transform = new StreamLookup(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.init();
     transform.addRowSetToInputRowSets(mockLookupRowSet(binaryLookupStream));
     transform.addRowSetToInputRowSets(mockDataRowSet(binaryDataStream));
@@ -199,12 +178,8 @@ public class StreamLookupTest {
         // Verify output
         for (int valueIndex = 0; valueIndex < rowMeta.size(); valueIndex++) {
           String expectedValue = expectedOutput[valueIndex] + rowNumber;
-          Object actualValue =
-              rowMeta.getValueMeta(valueIndex).convertToNormalStorageType(rowData[valueIndex]);
-          assertEquals(
-              "Unexpected value at row " + rowNumber + " position " + valueIndex,
-              expectedValue,
-              actualValue);
+          Object actualValue = rowMeta.getValueMeta(valueIndex).convertToNormalStorageType(rowData[valueIndex]);
+          assertEquals("Unexpected value at row " + rowNumber + " position " + valueIndex, expectedValue, actualValue);
         }
       }
     }

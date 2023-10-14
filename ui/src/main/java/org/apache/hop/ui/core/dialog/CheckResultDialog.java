@@ -45,15 +45,11 @@ import java.util.List;
 public class CheckResultDialog extends Dialog {
   private static final Class<?> PKG = CheckResultDialog.class; // For Translator
 
-  private static final String STRING_HIDE_SUCESSFUL =
-      BaseMessages.getString(PKG, "CheckResultDialog.HideSuccessful.Label");
-  private static final String STRING_SHOW_SUCESSFUL =
-      BaseMessages.getString(PKG, "CheckResultDialog.ShowSuccessful.Label");
+  private static final String STRING_HIDE_SUCESSFUL = BaseMessages.getString(PKG, "CheckResultDialog.HideSuccessful.Label");
+  private static final String STRING_SHOW_SUCESSFUL = BaseMessages.getString(PKG, "CheckResultDialog.ShowSuccessful.Label");
 
-  private static final String STRING_HIDE_REMARKS =
-      BaseMessages.getString(PKG, "CheckResultDialog.Remarks.Label");
-  private static final String STRING_SHOW_REMARKS =
-      BaseMessages.getString(PKG, "CheckResultDialog.WarningsErrors.Label");
+  private static final String STRING_HIDE_REMARKS = BaseMessages.getString(PKG, "CheckResultDialog.Remarks.Label");
+  private static final String STRING_SHOW_REMARKS = BaseMessages.getString(PKG, "CheckResultDialog.WarningsErrors.Label");
 
   private final List<ICheckResult> remarks;
 
@@ -112,8 +108,7 @@ public class CheckResultDialog extends Dialog {
     Button wEdit = new Button(shell, SWT.PUSH);
     wEdit.setText(BaseMessages.getString(PKG, "CheckResultDialog.Button.EditOriginTransform"));
     wEdit.addListener(SWT.Selection, e -> edit());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wClose, wView, wEdit}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wClose, wView, wEdit}, margin, null);
 
     wNoOK = new Button(shell, SWT.CHECK);
     wNoOK.setText(STRING_SHOW_SUCESSFUL);
@@ -137,35 +132,11 @@ public class CheckResultDialog extends Dialog {
     int nrRows = 1;
 
     ColumnInfo[] columns = new ColumnInfo[nrColumns];
-    columns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CheckResultDialog.TransformName.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
-    columns[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CheckResultDialog.Result.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
-    columns[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CheckResultDialog.Remark.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
+    columns[0] = new ColumnInfo(BaseMessages.getString(PKG, "CheckResultDialog.TransformName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    columns[1] = new ColumnInfo(BaseMessages.getString(PKG, "CheckResultDialog.Result.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    columns[2] = new ColumnInfo(BaseMessages.getString(PKG, "CheckResultDialog.Remark.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
 
-    wFields =
-        new TableView(
-            HopGui.getInstance().getVariables(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrRows,
-            true,
-            null,
-            props);
+    wFields = new TableView(HopGui.getInstance().getVariables(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrRows, true, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -269,31 +240,15 @@ public class CheckResultDialog extends Dialog {
 
     for (int i = 0; i < item.length; i++) {
       if (i > 0) {
-        message
-            .append(
-                "_______________________________________________________________________________")
-            .append(Const.CR)
-            .append(Const.CR);
+        message.append("_______________________________________________________________________________").append(Const.CR).append(Const.CR);
       }
-      message
-          .append("[")
-          .append(item[i].getText(2))
-          .append("] ")
-          .append(item[i].getText(1))
-          .append(Const.CR);
+      message.append("[").append(item[i].getText(2)).append("] ").append(item[i].getText(1)).append(Const.CR);
       message.append("  ").append(item[i].getText(3)).append(Const.CR).append(Const.CR);
     }
 
     String subtitle =
-        (item.length != 1
-            ? BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.SubtitlePlural")
-            : BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.Subtitle"));
-    EnterTextDialog etd =
-        new EnterTextDialog(
-            shell,
-            BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.Title"),
-            subtitle,
-            message.toString());
+        (item.length != 1 ? BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.SubtitlePlural") : BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.Subtitle"));
+    EnterTextDialog etd = new EnterTextDialog(shell, BaseMessages.getString(PKG, "CheckResultDialog.TextDialog.Title"), subtitle, message.toString());
     etd.setReadOnly();
     etd.open();
   }

@@ -62,8 +62,7 @@ public class FilterRowsDialog extends BaseTransformDialog implements ITransformD
 
   private Condition backupCondition;
 
-  public FilterRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public FilterRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta<FilterRows, FilterRowsData>) in, tr, sname);
     input = (FilterRowsMeta) in;
     condition = new Condition(input.getCondition());

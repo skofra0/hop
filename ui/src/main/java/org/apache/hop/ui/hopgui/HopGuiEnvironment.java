@@ -50,12 +50,7 @@ import java.util.List;
 public class HopGuiEnvironment extends HopClientEnvironment {
 
   public static void init() throws HopException {
-    init(
-        List.of(
-            GuiPluginType.getInstance(),
-            HopPerspectivePluginType.getInstance(),
-            HopFileTypePluginType.getInstance(),
-            SearchableAnalyserPluginType.getInstance()));
+    init(List.of(GuiPluginType.getInstance(), HopPerspectivePluginType.getInstance(), HopFileTypePluginType.getInstance(), SearchableAnalyserPluginType.getInstance()));
   }
 
   public static void init(List<IPluginType> pluginTypes) throws HopException {
@@ -109,8 +104,7 @@ public class HopGuiEnvironment extends HopClientEnvironment {
           }
           GuiToolbarElement toolbarElement = method.getAnnotation(GuiToolbarElement.class);
           if (toolbarElement != null) {
-            guiRegistry.addGuiToolbarElement(
-                guiPluginClassName, toolbarElement, method, classLoader);
+            guiRegistry.addGuiToolbarElement(guiPluginClassName, toolbarElement, method, classLoader);
           }
           GuiToolbarElementFilter toolbarElementFilter = method.getAnnotation(GuiToolbarElementFilter.class);
           if (toolbarElementFilter != null) {
@@ -152,13 +146,12 @@ public class HopGuiEnvironment extends HopClientEnvironment {
             if (guiWidgetElement.type() == GuiElementType.COMPOSITE) {
               guiRegistry.addCompositeGuiWidgetElement(guiWidgetElement, method, classLoader);
             } else {
-              guiRegistry.addGuiWidgetElement(
-                      guiWidgetElement, method, guiPluginClassName, classLoader);
+              guiRegistry.addGuiWidgetElement(guiWidgetElement, method, guiPluginClassName, classLoader);
             }
           }
 
           GuiTab guiTab = method.getAnnotation(GuiTab.class);
-          if(guiTab != null){
+          if (guiTab != null) {
             guiRegistry.addGuiTab(guiPluginClassName, method, guiTab, classLoader);
           }
         }
@@ -179,12 +172,7 @@ public class HopGuiEnvironment extends HopClientEnvironment {
           IHopFileType hopFileTypeInterface = registry.loadClass(plugin, IHopFileType.class);
           HopFileTypeRegistry.getInstance().registerHopFile(hopFileTypeInterface);
         } catch (HopPluginException e) {
-          throw new HopException(
-              "Unable to load plugin with ID '"
-                  + plugin.getIds()[0]
-                  + "' and type : "
-                  + plugin.getPluginType().getName(),
-              e);
+          throw new HopException("Unable to load plugin with ID '" + plugin.getIds()[0] + "' and type : " + plugin.getPluginType().getName(), e);
         }
       }
     } catch (Exception e) {

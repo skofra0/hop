@@ -32,13 +32,7 @@ public class SampleRows extends BaseTransform<SampleRowsMeta, SampleRowsData> {
 
   private static final Class<?> PKG = SampleRowsMeta.class; // For Translator
 
-  public SampleRows(
-      TransformMeta transformMeta,
-      SampleRowsMeta meta,
-      SampleRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SampleRows(TransformMeta transformMeta, SampleRowsMeta meta, SampleRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -110,11 +104,7 @@ public class SampleRows extends BaseTransform<SampleRowsMeta, SampleRowsData> {
       putRow(data.outputRowMeta, data.outputRow);
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "SampleRows.Log.LineNumber",
-                linesRead + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "SampleRows.Log.LineNumber", linesRead + " : " + getInputRowMeta().getString(r)));
       }
     }
 

@@ -100,19 +100,13 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
   private boolean lookupToolbarItemFilter(GuiToolbarItem toolbarItem, String root) {
     boolean show = true;
     try {
-      Object guiPluginInstance =
-          findGuiPluginInstance(toolbarItem.getClassLoader(), guiPluginClassName, instanceId);
-      List<GuiToolbarItemFilter> itemFilters =
-          GuiRegistry.getInstance().getToolbarItemFiltersMap().get(root);
+      Object guiPluginInstance = findGuiPluginInstance(toolbarItem.getClassLoader(), guiPluginClassName, instanceId);
+      List<GuiToolbarItemFilter> itemFilters = GuiRegistry.getInstance().getToolbarItemFiltersMap().get(root);
       if (itemFilters != null && !itemFilters.isEmpty()) {
         for (GuiToolbarItemFilter itemFilter : itemFilters) {
-          Class<?> guiPluginClass =
-              itemFilter.getClassLoader().loadClass(itemFilter.getGuiPluginClassName());
-          Method guiPluginMethod =
-              guiPluginClass.getMethod(
-                  itemFilter.getGuiPluginMethodName(), String.class, Object.class);
-          boolean showItem =
-              (boolean) guiPluginMethod.invoke(null, toolbarItem.getId(), guiPluginInstance);
+          Class<?> guiPluginClass = itemFilter.getClassLoader().loadClass(itemFilter.getGuiPluginClassName());
+          Method guiPluginMethod = guiPluginClass.getMethod(itemFilter.getGuiPluginMethodName(), String.class, Object.class);
+          boolean showItem = (boolean) guiPluginMethod.invoke(null, toolbarItem.getId(), guiPluginInstance);
           if (!showItem) {
             show = false;
             break;
@@ -120,12 +114,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
         }
       }
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error finding GUI plugin instance for class "
-              + toolbarItem.getListenerClass()
-              + " and instanceId="
-              + instanceId,
-          e);
+      LogChannel.UI.logError("Error finding GUI plugin instance for class " + toolbarItem.getListenerClass() + " and instanceId=" + instanceId, e);
     }
     return show;
   }
@@ -140,8 +129,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
     guiToolBarMap.put(toolbarItem.getId(), toolbarItem);
 
     if (!(parent instanceof ToolBar)) {
-      throw new RuntimeException(
-          "We can only add toolbar items to a toolbar, not class " + parent.getClass().getName());
+      throw new RuntimeException("We can only add toolbar items to a toolbar, not class " + parent.getClass().getName());
     }
     ToolBar toolBar = (ToolBar) parent;
 
@@ -154,12 +142,9 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
     // Add a label in front of the item
     //
-    if (toolbarItem.getType() != GuiToolbarElementType.LABEL
-        && toolbarItem.getType() != GuiToolbarElementType.CHECKBOX
-        && StringUtils.isNotEmpty(toolbarItem.getLabel())) {
+    if (toolbarItem.getType() != GuiToolbarElementType.LABEL && toolbarItem.getType() != GuiToolbarElementType.CHECKBOX && StringUtils.isNotEmpty(toolbarItem.getLabel())) {
       ToolItem labelSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-      CLabel label =
-          new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+      CLabel label = new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
       label.setText(Const.NVL(toolbarItem.getLabel(), ""));
       label.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
       PropsUi.setLook(label, Props.WIDGET_STYLE_TOOLBAR);
@@ -198,8 +183,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
   private void addToolbarLabel(Composite parent, GuiToolbarItem toolbarItem, ToolBar toolBar) {
     ToolItem labelSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-    CLabel label =
-        new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+    CLabel label = new CLabel(parent, SWT.CENTER | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
     label.setText(Const.NVL(toolbarItem.getLabel(), ""));
     label.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
     PropsUi.setLook(label, Props.WIDGET_STYLE_TOOLBAR);
@@ -214,15 +198,12 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
   private void addToolbarCombo(Composite parent, GuiToolbarItem toolbarItem, ToolBar toolBar) {
     ToolItem comboSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-    Combo combo =
-        new Combo(parent, SWT.SINGLE | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+    Combo combo = new Combo(parent, SWT.SINGLE | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
     combo.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
     combo.setItems(getComboItems(toolbarItem));
     PropsUi.setLook(combo);
     combo.pack();
-    comboSeparator.setWidth(
-        calculateComboWidth(combo)
-            + toolbarItem.getExtraWidth()); // extra room for widget decorations
+    comboSeparator.setWidth(calculateComboWidth(combo) + toolbarItem.getExtraWidth()); // extra room for widget decorations
     comboSeparator.setControl(combo);
 
     Listener listener = getListener(toolbarItem);
@@ -235,14 +216,12 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
   private void addToolbarCheckbox(Composite parent, GuiToolbarItem toolbarItem, ToolBar toolBar) {
     ToolItem checkboxSeparator = new ToolItem(toolBar, SWT.SEPARATOR);
-    Button checkbox =
-        new Button(parent, SWT.CHECK | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
+    Button checkbox = new Button(parent, SWT.CHECK | (toolbarItem.isAlignRight() ? SWT.RIGHT : SWT.LEFT));
     checkbox.setToolTipText(Const.NVL(toolbarItem.getToolTip(), ""));
     checkbox.setText(Const.NVL(toolbarItem.getLabel(), ""));
     PropsUi.setLook(checkbox);
     checkbox.pack();
-    checkboxSeparator.setWidth(
-        checkbox.getSize().x + toolbarItem.getExtraWidth()); // extra room for widget decorations
+    checkboxSeparator.setWidth(checkbox.getSize().x + toolbarItem.getExtraWidth()); // extra room for widget decorations
     checkboxSeparator.setControl(checkbox);
     Listener listener = getListener(toolbarItem);
     checkbox.addListener(SWT.Selection, listener);
@@ -274,24 +253,16 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
       // Call the GUI plugin
       //
       try {
-        Class<?> imageMethodClass =
-            toolbarItem.getClassLoader().loadClass(toolbarItem.getListenerClass());
+        Class<?> imageMethodClass = toolbarItem.getClassLoader().loadClass(toolbarItem.getListenerClass());
         // A static method which receives the GUI plugin object which can help determine the icon
         // filename
         Method imageMethod = imageMethodClass.getMethod(toolbarItem.getImageMethod(), Object.class);
         // Find the registered GUI plugin object
-        Object guiPluginInstance =
-            findGuiPluginInstance(
-                toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), instanceId);
+        Object guiPluginInstance = findGuiPluginInstance(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), instanceId);
         imageLocation = (String) imageMethod.invoke(null, guiPluginInstance);
       } catch (Exception e) {
         imageLocation = null;
-        LogChannel.UI.logError(
-            "Error getting toolbar image filename with method "
-                + toolbarItem.getListenerClass()
-                + "."
-                + toolbarItem.getImageMethod(),
-            e);
+        LogChannel.UI.logError("Error getting toolbar image filename with method " + toolbarItem.getListenerClass() + "." + toolbarItem.getImageMethod(), e);
       }
     }
     return imageLocation;
@@ -315,9 +286,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
 
     // Take into account zooming and the extra room for widget decorations
     //
-    int size =
-        (int)
-            (ConstUi.SMALL_ICON_SIZE * PropsUi.getNativeZoomFactor() + toolbarItem.getExtraWidth());
+    int size = (int) (ConstUi.SMALL_ICON_SIZE * PropsUi.getNativeZoomFactor() + toolbarItem.getExtraWidth());
 
     String imageFilename = findImageFilename(toolbarItem);
     SvgLabelFacade.setData(toolbarItem.getId(), label, imageFilename, size);
@@ -335,12 +304,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
    * @param guiToolbarItem
    */
   private void setToolItemKeyboardShortcut(ToolItem toolItem, GuiToolbarItem guiToolbarItem) {
-    KeyboardShortcut shortcut =
-        GuiRegistry.getInstance()
-            .findKeyboardShortcut(
-                guiToolbarItem.getListenerClass(),
-                guiToolbarItem.getListenerMethod(),
-                Const.isOSX());
+    KeyboardShortcut shortcut = GuiRegistry.getInstance().findKeyboardShortcut(guiToolbarItem.getListenerClass(), guiToolbarItem.getListenerMethod(), Const.isOSX());
     if (shortcut != null) {
       toolItem.setToolTipText(toolItem.getToolTipText() + " (" + shortcut.toString() + ')');
     }
@@ -411,8 +375,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
    * @param active The state if the permission is available
    * @return The toolbar item or null if nothing is found
    */
-  public ToolItem enableToolbarItem(
-      IHopFileType fileType, String id, String permission, boolean active) {
+  public ToolItem enableToolbarItem(IHopFileType fileType, String id, String permission, boolean active) {
     ToolItem item = findToolItem(id);
     if (item == null || item.isDisposed()) {
       return null;
@@ -447,8 +410,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
           LogChannel.UI.logError("toolbar item with id '" + id + "' : widget not of instance Combo");
         }
       } else {
-        LogChannel.UI.logError(
-            "toolbar item with id '" + id + "' : control not found when refreshing combo");
+        LogChannel.UI.logError("toolbar item with id '" + id + "' : control not found when refreshing combo");
       }
     } else {
       LogChannel.UI.logError("toolbar item with id '" + id + "' : not found when refreshing combo");
@@ -471,10 +433,7 @@ public class GuiToolbarWidgets extends BaseGuiWidgets {
   }
 
   protected Listener getListener(GuiToolbarItem toolbarItem) {
-    return getListener(
-        toolbarItem.getClassLoader(),
-        toolbarItem.getListenerClass(),
-        toolbarItem.getListenerMethod());
+    return getListener(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), toolbarItem.getListenerMethod());
   }
 
   /**

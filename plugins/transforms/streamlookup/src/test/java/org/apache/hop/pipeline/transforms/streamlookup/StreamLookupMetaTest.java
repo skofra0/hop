@@ -48,7 +48,8 @@ import static org.mockito.Mockito.when;
 public class StreamLookupMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<StreamLookupMeta> testMetaClass = StreamLookupMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -56,19 +57,9 @@ public class StreamLookupMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "inputSorted",
-            "memoryPreservationActive",
-            "usingSortedList",
-            "usingIntegerPair",
-            "keystream",
-            "keylookup",
-            "value",
-            "valueName",
-            "valueDefault",
-            "valueDefaultType");
+            "inputSorted", "memoryPreservationActive", "usingSortedList", "usingIntegerPair", "keystream", "keylookup", "value", "valueName", "valueDefault", "valueDefaultType");
 
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("keystream", stringArrayLoadSaveValidator);
@@ -76,20 +67,11 @@ public class StreamLookupMetaTest implements IInitializer<ITransformMeta> {
     attrValidatorMap.put("value", stringArrayLoadSaveValidator);
     attrValidatorMap.put("valueName", stringArrayLoadSaveValidator);
     attrValidatorMap.put("valueDefault", stringArrayLoadSaveValidator);
-    attrValidatorMap.put(
-        "valueDefaultType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(7), 5));
+    attrValidatorMap.put("valueDefaultType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(7), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, new HashMap<>(), new HashMap<>(), attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -116,11 +98,8 @@ public class StreamLookupMetaTest implements IInitializer<ITransformMeta> {
     meta.getTransformIOMeta().getInfoStreams().get(0).setTransformMeta(infoTransform);
 
     StreamLookupMeta cloned = (StreamLookupMeta) meta.clone();
-    assertEquals(
-        transformName, cloned.getTransformIOMeta().getInfoStreams().get(0).getTransformName());
-    assertNotSame(
-        meta.getTransformIOMeta().getInfoStreams().get(0),
-        cloned.getTransformIOMeta().getInfoStreams().get(0));
+    assertEquals(transformName, cloned.getTransformIOMeta().getInfoStreams().get(0).getTransformName());
+    assertNotSame(meta.getTransformIOMeta().getInfoStreams().get(0), cloned.getTransformIOMeta().getInfoStreams().get(0));
   }
 
   @Test
@@ -137,11 +116,8 @@ public class StreamLookupMetaTest implements IInitializer<ITransformMeta> {
     streamLookupMeta.afterInjectionSynchronization();
     streamLookupMeta.getXml();
 
-    Assert.assertEquals(
-        streamLookupMeta.getKeystream().length, streamLookupMeta.getValueName().length);
-    Assert.assertEquals(
-        streamLookupMeta.getKeystream().length, streamLookupMeta.getValueDefault().length);
-    Assert.assertEquals(
-        streamLookupMeta.getKeystream().length, streamLookupMeta.getValueDefaultType().length);
+    Assert.assertEquals(streamLookupMeta.getKeystream().length, streamLookupMeta.getValueName().length);
+    Assert.assertEquals(streamLookupMeta.getKeystream().length, streamLookupMeta.getValueDefault().length);
+    Assert.assertEquals(streamLookupMeta.getKeystream().length, streamLookupMeta.getValueDefaultType().length);
   }
 }

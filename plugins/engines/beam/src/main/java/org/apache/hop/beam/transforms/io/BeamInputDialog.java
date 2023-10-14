@@ -51,8 +51,7 @@ public class BeamInputDialog extends BaseTransformDialog implements ITransformDi
   private TextVar wInputLocation;
   private MetaSelectionLine<FileDefinition> wFileDefinition;
 
-  public BeamInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamInputMeta) in;
   }
@@ -145,8 +144,7 @@ public class BeamInputDialog extends BaseTransformDialog implements ITransformDi
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 

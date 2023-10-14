@@ -68,14 +68,14 @@ public class MailConnectionTest {
   public void setDestinationFolderTest() throws HopException, MessagingException {
     conn.setDestinationFolder("a/b/c", true);
     Assert.assertTrue("Folder C created", conn.cCreated);
-    Assert.assertEquals(
-        "Folder created with holds messages mode", Folder.HOLDS_MESSAGES, conn.mode.intValue());
+    Assert.assertEquals("Folder created with holds messages mode", Folder.HOLDS_MESSAGES, conn.mode.intValue());
   }
 
   /**
    * Test {@link MailConnection#findValidTarget(String, String) }
    *
-   * <p>Note - this test case relies on the ability to create temporary files of zero-byte size in
+   * <p>
+   * Note - this test case relies on the ability to create temporary files of zero-byte size in
    * the java.io.tmpdir folder.
    */
   @Test
@@ -111,16 +111,13 @@ public class MailConnectionTest {
     String validTargetTestRtn = MailConnection.findValidTarget(tmpFileLocation, aBaseFile);
     // Tests that if the base file doesn't already exist (like IMG00003.png), it will use that one
 
-    Assert.assertTrue(
-        "Original file name should be tried first.", validTargetTestRtn.endsWith(aBaseFile));
+    Assert.assertTrue("Original file name should be tried first.", validTargetTestRtn.endsWith(aBaseFile));
 
     // Make sure that the target file already exists so it has to try to find the next available one
     makeAFile(tmpFileLocation + aBaseFile);
     validTargetTestRtn = MailConnection.findValidTarget(tmpFileLocation, aBaseFile);
     // Tests that next available file has a "-3" because 0, 1, and 2 are taken
-    Assert.assertTrue(
-        "File extension test failed - expected pdi17713-3.junk as file name",
-        validTargetTestRtn.endsWith("pdi17713-3.junk"));
+    Assert.assertTrue("File extension test failed - expected pdi17713-3.junk as file name", validTargetTestRtn.endsWith("pdi17713-3.junk"));
 
     // **********************************
     // Now test without file extensions
@@ -129,29 +126,24 @@ public class MailConnectionTest {
     aBaseFile = "pdi17713-";
     validTargetTestRtn = MailConnection.findValidTarget(tmpFileLocation, aBaseFile);
     // Makes sure that it will still use the base file, even with no file extension
-    Assert.assertTrue(
-        "Original file name should be tried first.", validTargetTestRtn.endsWith(aBaseFile));
+    Assert.assertTrue("Original file name should be tried first.", validTargetTestRtn.endsWith(aBaseFile));
     makeAFile(tmpFileLocation + aBaseFile);
     // Make sure that the target file already exists so it has to try to find the next available one
     validTargetTestRtn = MailConnection.findValidTarget(tmpFileLocation, aBaseFile);
     // Tests that next available file has a "-3" because 0, 1, and 2 are taken, even without a file
     // extension
-    Assert.assertTrue(
-        "File without extension test failed - expected pdi17713-3.junk as file name",
-        validTargetTestRtn.endsWith("pdi17713-3"));
+    Assert.assertTrue("File without extension test failed - expected pdi17713-3.junk as file name", validTargetTestRtn.endsWith("pdi17713-3"));
 
     try {
       validTargetTestRtn = MailConnection.findValidTarget(null, "wibble");
-      Assert.fail(
-          "Expected an IllegalArgumentException with a null parameter for folderName to findValidTarget");
+      Assert.fail("Expected an IllegalArgumentException with a null parameter for folderName to findValidTarget");
     } catch (IllegalArgumentException expected) {
       // Expect this exception
     }
 
     try {
       validTargetTestRtn = MailConnection.findValidTarget("wibble", null);
-      Assert.fail(
-          "Expected an IllegalArgumentException with a null parameter for fileName to findValidTarget");
+      Assert.fail("Expected an IllegalArgumentException with a null parameter for fileName to findValidTarget");
     } catch (IllegalArgumentException expected) {
       // Expect this exception
     }
@@ -188,17 +180,7 @@ public class MailConnectionTest {
     boolean cCreated = false;
 
     public Mconn(ILogChannel log) throws HopException, MessagingException {
-      super(
-          log,
-          MailConnectionMeta.PROTOCOL_IMAP,
-          "junit",
-          0,
-          "junit",
-          "junit",
-          false,
-          false,
-          false,
-          "junit");
+      super(log, MailConnectionMeta.PROTOCOL_IMAP, "junit", 0, "junit", "junit", false, false, false, "junit");
 
       store = Mockito.mock(Store.class);
 
@@ -214,15 +196,12 @@ public class MailConnectionTest {
       when(a.exists()).thenReturn(true);
       when(b.exists()).thenReturn(true);
       when(c.exists()).thenReturn(cCreated);
-      when(c.create(Mockito.anyInt()))
-          .thenAnswer(
-              (Answer<Boolean>)
-                  invocation -> {
-                    Object arg0 = invocation.getArguments()[0];
-                    mode = Integer.class.cast(arg0);
-                    cCreated = true;
-                    return true;
-                  });
+      when(c.create(Mockito.anyInt())).thenAnswer((Answer<Boolean>) invocation -> {
+        Object arg0 = invocation.getArguments()[0];
+        mode = Integer.class.cast(arg0);
+        cCreated = true;
+        return true;
+      });
 
       when(inbox.getFolder("a")).thenReturn(a);
       when(a.getFolder("b")).thenReturn(b);

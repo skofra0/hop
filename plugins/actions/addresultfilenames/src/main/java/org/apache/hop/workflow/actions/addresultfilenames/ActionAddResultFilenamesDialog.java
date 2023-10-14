@@ -51,8 +51,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionAddResultFilenamesDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionAddResultFilenamesDialog.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionAddResultFilenames.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionAddResultFilenames.Filetype.All")};
 
   private Text wName;
 
@@ -81,8 +80,7 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
   private Button wbeFilename; // Edit
   private Button wbaFilename; // Add or change
 
-  public ActionAddResultFilenamesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionAddResultFilenamesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionAddResultFilenames) action;
 
@@ -155,8 +153,7 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wgSettings.setLayout(groupLayout);
 
     Label wlIncludeSubfolders = new Label(wgSettings, SWT.RIGHT);
-    wlIncludeSubfolders.setText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.IncludeSubfolders.Label"));
+    wlIncludeSubfolders.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.IncludeSubfolders.Label"));
     PropsUi.setLook(wlIncludeSubfolders);
     FormData fdlIncludeSubfolders = new FormData();
     fdlIncludeSubfolders.left = new FormAttachment(0, 0);
@@ -165,20 +162,18 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wlIncludeSubfolders.setLayoutData(fdlIncludeSubfolders);
     wIncludeSubfolders = new Button(wgSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubfolders);
-    wIncludeSubfolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.IncludeSubfolders.Tooltip"));
+    wIncludeSubfolders.setToolTipText(BaseMessages.getString(PKG, "ActionAddResultFilenames.IncludeSubfolders.Tooltip"));
     FormData fdIncludeSubfolders = new FormData();
     fdIncludeSubfolders.left = new FormAttachment(middle, 0);
     fdIncludeSubfolders.top = new FormAttachment(wlIncludeSubfolders, 0, SWT.CENTER);
     fdIncludeSubfolders.right = new FormAttachment(100, 0);
     wIncludeSubfolders.setLayoutData(fdIncludeSubfolders);
-    wIncludeSubfolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubfolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     Label wlPrevious = new Label(wgSettings, SWT.RIGHT);
     wlPrevious.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.Previous.Label"));
@@ -191,26 +186,23 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wPrevious = new Button(wgSettings, SWT.CHECK);
     PropsUi.setLook(wPrevious);
     wPrevious.setSelection(action.isArgFromPrevious());
-    wPrevious.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.Previous.Tooltip"));
+    wPrevious.setToolTipText(BaseMessages.getString(PKG, "ActionAddResultFilenames.Previous.Tooltip"));
     FormData fdPrevious = new FormData();
     fdPrevious.left = new FormAttachment(middle, 0);
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            setPrevious();
-            action.setChanged();
-          }
-        });
+        setPrevious();
+        action.setChanged();
+      }
+    });
 
     Label wlDeleteAllBefore = new Label(wgSettings, SWT.RIGHT);
-    wlDeleteAllBefore.setText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.DeleteAllBefore.Label"));
+    wlDeleteAllBefore.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.DeleteAllBefore.Label"));
     PropsUi.setLook(wlDeleteAllBefore);
     FormData fdlDeleteAllBefore = new FormData();
     fdlDeleteAllBefore.left = new FormAttachment(0, 0);
@@ -219,20 +211,18 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wlDeleteAllBefore.setLayoutData(fdlDeleteAllBefore);
     wDeleteAllBefore = new Button(wgSettings, SWT.CHECK);
     PropsUi.setLook(wDeleteAllBefore);
-    wDeleteAllBefore.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.DeleteAllBefore.Tooltip"));
+    wDeleteAllBefore.setToolTipText(BaseMessages.getString(PKG, "ActionAddResultFilenames.DeleteAllBefore.Tooltip"));
     FormData fdDeleteAllBefore = new FormData();
     fdDeleteAllBefore.left = new FormAttachment(middle, 0);
     fdDeleteAllBefore.top = new FormAttachment(wlDeleteAllBefore, 0, SWT.CENTER);
     fdDeleteAllBefore.right = new FormAttachment(100, 0);
     wDeleteAllBefore.setLayoutData(fdDeleteAllBefore);
-    wDeleteAllBefore.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wDeleteAllBefore.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
@@ -257,15 +247,13 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     // Browse Source folders button ...
     wbDirectory = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbDirectory);
-    wbDirectory.setText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.BrowseFolders.Label"));
+    wbDirectory.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.BrowseFolders.Label"));
     FormData fdbDirectory = new FormData();
     fdbDirectory.right = new FormAttachment(100, margin);
     fdbDirectory.top = new FormAttachment(wgSettings, margin);
     wbDirectory.setLayoutData(fdbDirectory);
 
-    wbDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFilename, variables));
+    wbDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFilename, variables));
 
     wbFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbFilename);
@@ -294,14 +282,9 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
 
     // Filemask
     wlFilemask = new Label(shell, SWT.RIGHT);
@@ -312,12 +295,7 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     fdlFilemask.top = new FormAttachment(wFilename, margin);
     fdlFilemask.right = new FormAttachment(middle, -margin);
     wlFilemask.setLayoutData(fdlFilemask);
-    wFilemask =
-        new TextVar(
-            variables,
-            shell,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionAddResultFilenames.Wildcard.Tooltip"));
+    wFilemask = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionAddResultFilenames.Wildcard.Tooltip"));
     PropsUi.setLook(wFilemask);
     wFilemask.addModifyListener(lsMod);
     FormData fdFilemask = new FormData();
@@ -338,10 +316,8 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     // Buttons to the right of the screen...
     wbdFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
-    wbdFilename.setText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameDelete.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameDelete.Tooltip"));
+    wbdFilename.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameDelete.Button"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameDelete.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wlFields, margin);
@@ -349,10 +325,8 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
 
     wbeFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFilename);
-    wbeFilename.setText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameEdit.Button"));
-    wbeFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameEdit.Tooltip"));
+    wbeFilename.setText(BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameEdit.Button"));
+    wbeFilename.setToolTipText(BaseMessages.getString(PKG, "ActionAddResultFilenames.FilenameEdit.Tooltip"));
     FormData fdbeFilename = new FormData();
     fdbeFilename.right = new FormAttachment(100, 0);
     fdbeFilename.left = new FormAttachment(wbdFilename, 0, SWT.LEFT);
@@ -361,30 +335,15 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionAddResultFilenames.Fields.Argument.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionAddResultFilenames.Fields.Wildcard.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionAddResultFilenames.Fields.Argument.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionAddResultFilenames.Fields.Wildcard.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[0].setUsingVariables(true);
     colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionAddResultFilenames.Fields.Column"));
     colinf[1].setUsingVariables(true);
     colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionAddResultFilenames.Wildcard.Column"));
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            action.getArguments().size(),
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, action.getArguments().size(), lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -397,49 +356,46 @@ public class ActionAddResultFilenamesDialog extends ActionDialog implements IAct
     wFields.setEnabled(!action.isArgFromPrevious());
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFields.add(wFilename.getText(), wFilemask.getText());
-            wFilename.setText("");
-            wFilemask.setText("");
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-            wFields.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFields.add(wFilename.getText(), wFilemask.getText());
+        wFilename.setText("");
+        wFilemask.setText("");
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+        wFields.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFields.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFields.getItem(idx);
-              wFilename.setText(string[0]);
-              wFilemask.setText(string[1]);
-              wFields.remove(idx);
-            }
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbeFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFields.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFields.getItem(idx);
+          wFilename.setText(string[0]);
+          wFilemask.setText(string[1]);
+          wFields.remove(idx);
+        }
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     getData();
     setPrevious();

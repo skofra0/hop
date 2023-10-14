@@ -38,13 +38,7 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
 
   private static final Class<?> PKG = JavaFilterMeta.class; // For Translator
 
-  public JavaFilter(
-      TransformMeta transformMeta,
-      JavaFilterMeta meta,
-      JavaFilterData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public JavaFilter(TransformMeta transformMeta, JavaFilterMeta meta, JavaFilterData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,26 +62,14 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
       //
       if (data.chosesTargetTransforms) {
         List<IStream> targetStreams = meta.getTransformIOMeta().getTargetStreams();
-        data.trueRowSet =
-            findOutputRowSet(
-                getTransformName(), getCopy(), targetStreams.get(0).getTransformName(), 0);
+        data.trueRowSet = findOutputRowSet(getTransformName(), getCopy(), targetStreams.get(0).getTransformName(), 0);
         if (data.trueRowSet == null) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "JavaFilter.Log.TargetTransformInvalid",
-                  targetStreams.get(0).getTransformName()));
+          throw new HopException(BaseMessages.getString(PKG, "JavaFilter.Log.TargetTransformInvalid", targetStreams.get(0).getTransformName()));
         }
 
-        data.falseRowSet =
-            findOutputRowSet(
-                getTransformName(), getCopy(), targetStreams.get(1).getTransformName(), 0);
+        data.falseRowSet = findOutputRowSet(getTransformName(), getCopy(), targetStreams.get(1).getTransformName(), 0);
         if (data.falseRowSet == null) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "JavaFilter.Log.TargetTransformInvalid",
-                  targetStreams.get(1).getTransformName()));
+          throw new HopException(BaseMessages.getString(PKG, "JavaFilter.Log.TargetTransformInvalid", targetStreams.get(1).getTransformName()));
         }
       }
     }
@@ -105,20 +87,12 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
     } else {
       if (keep) {
         if (log.isRowLevel()) {
-          logRowlevel(
-              "Sending row to true  :"
-                  + data.trueTransformName
-                  + " : "
-                  + getInputRowMeta().getString(r));
+          logRowlevel("Sending row to true  :" + data.trueTransformName + " : " + getInputRowMeta().getString(r));
         }
         putRowTo(data.outputRowMeta, r, data.trueRowSet);
       } else {
         if (log.isRowLevel()) {
-          logRowlevel(
-              "Sending row to false :"
-                  + data.falseTransformName
-                  + " : "
-                  + getInputRowMeta().getString(r));
+          logRowlevel("Sending row to false :" + data.falseTransformName + " : " + getInputRowMeta().getString(r));
         }
         putRowTo(data.outputRowMeta, r, data.falseRowSet);
       }
@@ -189,9 +163,7 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
         // Create the expression evaluator: is relatively slow so we do it only for the first row...
         //
         data.expressionEvaluator = new ExpressionEvaluator();
-        data.expressionEvaluator.setParameters(
-            parameterNames.toArray(new String[parameterNames.size()]),
-            parameterTypes.toArray(new Class<?>[parameterTypes.size()]));
+        data.expressionEvaluator.setParameters(parameterNames.toArray(new String[parameterNames.size()]), parameterTypes.toArray(new Class<?>[parameterTypes.size()]));
         data.expressionEvaluator.setReturnType(Object.class);
         data.expressionEvaluator.setThrownExceptions(new Class<?>[] {Exception.class});
         data.expressionEvaluator.cook(realCondition);
@@ -214,9 +186,7 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
       if (formulaResult instanceof Boolean) {
         return (Boolean) formulaResult;
       } else {
-        throw new HopException(
-            "The result of the filter expression must be a boolean and we got back : "
-                + formulaResult.getClass().getName());
+        throw new HopException("The result of the filter expression must be a boolean and we got back : " + formulaResult.getClass().getName());
       }
     } catch (Exception e) {
       throw new HopValueException(e);
@@ -231,13 +201,10 @@ public class JavaFilter extends BaseTransform<JavaFilterMeta, JavaFilterData> {
       data.trueTransformName = targetStreams.get(0).getTransformName();
       data.falseTransformName = targetStreams.get(1).getTransformName();
 
-      if (targetStreams.get(0).getTransformMeta() != null
-          ^ targetStreams.get(1).getTransformMeta() != null) {
+      if (targetStreams.get(0).getTransformMeta() != null ^ targetStreams.get(1).getTransformMeta() != null) {
         logError(BaseMessages.getString(PKG, "JavaFilter.Log.BothTrueAndFalseNeeded"));
       } else {
-        data.chosesTargetTransforms =
-            targetStreams.get(0).getTransformMeta() != null
-                && targetStreams.get(1).getTransformMeta() != null;
+        data.chosesTargetTransforms = targetStreams.get(0).getTransformMeta() != null && targetStreams.get(1).getTransformMeta() != null;
 
         return true;
       }

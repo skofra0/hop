@@ -54,7 +54,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SelectValuesTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static final String SELECTED_FIELD = "field";
 
@@ -70,26 +71,15 @@ public class SelectValuesTest {
 
   @Before
   public void setUp() throws Exception {
-    helper =
-        TransformMockUtil.getTransformMockHelper(
-            SelectValuesMeta.class, SelectValuesData.class, "SelectValuesTest");
+    helper = TransformMockUtil.getTransformMockHelper(SelectValuesMeta.class, SelectValuesData.class, "SelectValuesTest");
     when(helper.transformMeta.isDoingErrorHandling()).thenReturn(true);
   }
 
   private void configureTransform(SelectValuesMeta meta, SelectValuesData data) throws Exception {
-    transform =
-        new SelectValues(helper.transformMeta, meta, data, 1, helper.pipelineMeta, helper.pipeline);
+    transform = new SelectValues(helper.transformMeta, meta, data, 1, helper.pipelineMeta, helper.pipeline);
     transform = spy(transform);
     doReturn(inputRow).when(transform).getRow();
-    doNothing()
-        .when(transform)
-        .putError(
-            any(IRowMeta.class),
-            any(Object[].class),
-            anyLong(),
-            anyString(),
-            anyString(),
-            anyString());
+    doNothing().when(transform).putError(any(IRowMeta.class), any(Object[].class), anyLong(), anyString(), anyString(), anyString());
 
     RowMeta inputRowMeta = new RowMeta();
     inputRowMeta.addValueMeta(new ValueMetaString(SELECTED_FIELD));
@@ -117,21 +107,16 @@ public class SelectValuesTest {
     transformMeta.getSelectFields()[0] = new SelectField();
     transformMeta.getSelectFields()[0].setName(SELECTED_FIELD);
     transformMeta.getMeta()[0] =
-        new SelectMetadataChange(
-            SELECTED_FIELD,
-            null,
-            IValueMeta.TYPE_INTEGER,
-            -2,
-            -2,
-            IValueMeta.STORAGE_TYPE_NORMAL,
-            null,
-            false,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null); // no specified conversion type so should have default conversion mask.
+        new SelectMetadataChange(SELECTED_FIELD, null, IValueMeta.TYPE_INTEGER, -2, -2, IValueMeta.STORAGE_TYPE_NORMAL, null, false, null, null, false, null, null, null); // no
+                                                                                                                                                                           // specified
+                                                                                                                                                                           // conversion
+                                                                                                                                                                           // type
+                                                                                                                                                                           // so
+                                                                                                                                                                           // should
+                                                                                                                                                                           // have
+                                                                                                                                                                           // default
+                                                                                                                                                                           // conversion
+                                                                                                                                                                           // mask.
 
     transformData = new SelectValuesData();
     transformData.select = true;
@@ -139,26 +124,11 @@ public class SelectValuesTest {
     transformData.firstselect = true;
     transformData.firstmetadata = true;
 
-    transform2 =
-        new SelectValuesHandler(
-            helper.transformMeta,
-            transformMeta,
-            transformData,
-            1,
-            helper.pipelineMeta,
-            helper.pipeline);
+    transform2 = new SelectValuesHandler(helper.transformMeta, transformMeta, transformData, 1, helper.pipelineMeta, helper.pipeline);
     transform2 = spy(transform2);
     inputRow2 = new Object[] {new BigDecimal("589")}; // Starting with a BigDecimal (no places)
     doReturn(inputRow2).when(transform2).getRow();
-    doNothing()
-        .when(transform2)
-        .putError(
-            any(IRowMeta.class),
-            any(Object[].class),
-            anyLong(),
-            anyString(),
-            anyString(),
-            anyString());
+    doNothing().when(transform2).putError(any(IRowMeta.class), any(Object[].class), anyLong(), anyString(), anyString(), anyString());
     inputRowMeta = new RowMeta();
     inputRowMeta.addValueMeta(new ValueMetaBigNumber(SELECTED_FIELD));
     transform2.setInputRowMeta(inputRowMeta);
@@ -175,21 +145,16 @@ public class SelectValuesTest {
     transformMeta.getSelectFields()[0] = new SelectField();
     transformMeta.getSelectFields()[0].setName(SELECTED_FIELD);
     transformMeta.getMeta()[0] =
-        new SelectMetadataChange(
-            SELECTED_FIELD,
-            null,
-            IValueMeta.TYPE_NUMBER,
-            -2,
-            -2,
-            IValueMeta.STORAGE_TYPE_NORMAL,
-            null,
-            false,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null); // no specified conversion type so should have default conversion mask for
+        new SelectMetadataChange(SELECTED_FIELD, null, IValueMeta.TYPE_NUMBER, -2, -2, IValueMeta.STORAGE_TYPE_NORMAL, null, false, null, null, false, null, null, null); // no
+                                                                                                                                                                          // specified
+                                                                                                                                                                          // conversion
+                                                                                                                                                                          // type so
+                                                                                                                                                                          // should
+                                                                                                                                                                          // have
+                                                                                                                                                                          // default
+                                                                                                                                                                          // conversion
+                                                                                                                                                                          // mask
+                                                                                                                                                                          // for
     // Double.
 
     transformData = new SelectValuesData();
@@ -198,25 +163,10 @@ public class SelectValuesTest {
     transformData.firstselect = true;
     transformData.firstmetadata = true;
 
-    transform2 =
-        new SelectValuesHandler(
-            helper.transformMeta,
-            transformMeta,
-            transformData,
-            1,
-            helper.pipelineMeta,
-            helper.pipeline);
+    transform2 = new SelectValuesHandler(helper.transformMeta, transformMeta, transformData, 1, helper.pipelineMeta, helper.pipeline);
     transform2 = spy(transform2);
     doReturn(inputRow2).when(transform2).getRow();
-    doNothing()
-        .when(transform2)
-        .putError(
-            any(IRowMeta.class),
-            any(Object[].class),
-            anyLong(),
-            anyString(),
-            anyString(),
-            anyString());
+    doNothing().when(transform2).putError(any(IRowMeta.class), any(Object[].class), anyLong(), anyString(), anyString(), anyString());
 
     inputRowMeta = new RowMeta();
     inputRowMeta.addValueMeta(new ValueMetaBigNumber(SELECTED_FIELD));
@@ -235,21 +185,7 @@ public class SelectValuesTest {
     transformMeta.getSelectFields()[0].setName(SELECTED_FIELD);
     // no specified conversion type so should have default conversion mask for BigNumber
     transformMeta.getMeta()[0] =
-        new SelectMetadataChange(
-            SELECTED_FIELD,
-            null,
-            IValueMeta.TYPE_BIGNUMBER,
-            -2,
-            -2,
-            IValueMeta.STORAGE_TYPE_NORMAL,
-            null,
-            false,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null);
+        new SelectMetadataChange(SELECTED_FIELD, null, IValueMeta.TYPE_BIGNUMBER, -2, -2, IValueMeta.STORAGE_TYPE_NORMAL, null, false, null, null, false, null, null, null);
 
     transformData = new SelectValuesData();
     transformData.select = true;
@@ -257,26 +193,11 @@ public class SelectValuesTest {
     transformData.firstselect = true;
     transformData.firstmetadata = true;
 
-    transform2 =
-        new SelectValuesHandler(
-            helper.transformMeta,
-            transformMeta,
-            transformData,
-            1,
-            helper.pipelineMeta,
-            helper.pipeline);
+    transform2 = new SelectValuesHandler(helper.transformMeta, transformMeta, transformData, 1, helper.pipelineMeta, helper.pipeline);
     transform2 = spy(transform2);
     inputRow2 = new Object[] {new Long("589")}; // Starting with a Long
     doReturn(inputRow2).when(transform2).getRow();
-    doNothing()
-        .when(transform2)
-        .putError(
-            any(IRowMeta.class),
-            any(Object[].class),
-            anyLong(),
-            anyString(),
-            anyString(),
-            anyString());
+    doNothing().when(transform2).putError(any(IRowMeta.class), any(Object[].class), anyLong(), anyString(), anyString(), anyString());
 
     inputRowMeta = new RowMeta();
     inputRowMeta.addValueMeta(new ValueMetaInteger(SELECTED_FIELD));
@@ -295,21 +216,7 @@ public class SelectValuesTest {
     transformMeta.getSelectFields()[0] = new SelectField();
     transformMeta.getSelectFields()[0].setName(SELECTED_FIELD);
     transformMeta.getMeta()[0] =
-        new SelectMetadataChange(
-            SELECTED_FIELD,
-            null,
-            IValueMeta.TYPE_INTEGER,
-            -2,
-            -2,
-            IValueMeta.STORAGE_TYPE_NORMAL,
-            null,
-            false,
-            null,
-            null,
-            false,
-            null,
-            null,
-            null);
+        new SelectMetadataChange(SELECTED_FIELD, null, IValueMeta.TYPE_INTEGER, -2, -2, IValueMeta.STORAGE_TYPE_NORMAL, null, false, null, null, false, null, null, null);
 
     SelectValuesData transformData = new SelectValuesData();
     transformData.select = true;
@@ -321,14 +228,7 @@ public class SelectValuesTest {
 
     transform.processRow();
 
-    verify(transform)
-        .putError(
-            any(IRowMeta.class),
-            any(Object[].class),
-            anyLong(),
-            anyString(),
-            eq(SELECTED_FIELD),
-            anyString());
+    verify(transform).putError(any(IRowMeta.class), any(Object[].class), anyLong(), anyString(), eq(SELECTED_FIELD), anyString());
 
     // additionally ensure conversion error causes HopConversionError
     boolean properException = false;
@@ -345,13 +245,7 @@ public class SelectValuesTest {
     private IRowMeta rowMeta;
     private IRowSet rowset;
 
-    public SelectValuesHandler(
-        TransformMeta transformMeta,
-        SelectValuesMeta meta,
-        SelectValuesData data,
-        int copyNr,
-        PipelineMeta pipelineMeta,
-        Pipeline pipeline) {
+    public SelectValuesHandler(TransformMeta transformMeta, SelectValuesMeta meta, SelectValuesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
       super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     }
 

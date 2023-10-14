@@ -64,8 +64,7 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
 
   private final TableExistsMeta input;
 
-  public TableExistsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public TableExistsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (TableExistsMeta) in;
   }
@@ -133,13 +132,12 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
     fdbSchema.top = new FormAttachment(wConnection, 2 * margin);
     fdbSchema.right = new FormAttachment(100, 0);
     wbSchema.setLayoutData(fdbSchema);
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
 
     wSchemaname = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaname);
@@ -168,22 +166,21 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
     fdTableName.top = new FormAttachment(wbSchema, margin);
     fdTableName.right = new FormAttachment(100, -margin);
     wTableName.setLayoutData(fdTableName);
-    wTableName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // disable focuslost even
-          }
+    wTableName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // disable focuslost even
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Result fieldname ...
     Label wlResult = new Label(shell, SWT.RIGHT);
@@ -260,8 +257,7 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
 
     if (Utils.isEmpty(wConnection.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-              BaseMessages.getString(PKG, "TableExistsDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "TableExistsDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "TableExistsDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -314,8 +310,7 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Message"));
           String d = dialog.open();
           if (d != null) {
@@ -324,17 +319,12 @@ public class TableExistsDialog extends BaseTransformDialog implements ITransform
 
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
+          mb.setMessage(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
           mb.setText(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Title"));
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"), e);
       }
     }
   }

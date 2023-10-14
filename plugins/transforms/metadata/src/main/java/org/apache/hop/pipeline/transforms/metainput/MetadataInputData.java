@@ -19,4 +19,5 @@ package org.apache.hop.pipeline.transforms.metainput;
 import org.apache.hop.pipeline.transform.BaseTransformData;
 import org.apache.hop.pipeline.transform.ITransformData;
 
-public class MetadataInputData extends BaseTransformData implements ITransformData {}
+public class MetadataInputData extends BaseTransformData implements ITransformData {
+}

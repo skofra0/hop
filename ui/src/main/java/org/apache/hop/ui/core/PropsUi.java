@@ -61,8 +61,7 @@ public class PropsUi extends Props {
 
   private static double nativeZoomFactor;
 
-  private static final String STRING_SHOW_COPY_OR_DISTRIBUTE_WARNING =
-      "ShowCopyOrDistributeWarning";
+  private static final String STRING_SHOW_COPY_OR_DISTRIBUTE_WARNING = "ShowCopyOrDistributeWarning";
 
   private static final String SHOW_TOOL_TIPS = "ShowToolTips";
 
@@ -128,8 +127,7 @@ public class PropsUi extends Props {
       // We take the default font and render it, calculate the height.
       // Compare that to the standard small icon size of 16
       //
-      org.eclipse.swt.graphics.Point extent =
-          TextSizeUtilFacade.textExtent("The quick brown fox jumped over the lazy dog!");
+      org.eclipse.swt.graphics.Point extent = TextSizeUtilFacade.textExtent("The quick brown fox jumped over the lazy dog!");
       nativeZoomFactor = (extent.y / (double) ConstUi.SMALL_ICON_SIZE) * globalZoom;
     }
   }
@@ -142,7 +140,7 @@ public class PropsUi extends Props {
     populateContrastingColors();
 
     // Only set OS look shown once in case we switch to dark mode
-    // and vice versa.  We don't want to override user choices all the time.
+    // and vice versa. We don't want to override user choices all the time.
     // If we do it like before it becomes impossible to choose your own font and colors.
     //
     if (!EnvironmentUtils.getInstance().isWeb() && !OsHelper.isWindows()) {
@@ -161,29 +159,15 @@ public class PropsUi extends Props {
     if (OsHelper.isWindows() && isDarkMode()) {
       display.setData("org.eclipse.swt.internal.win32.useDarkModeExplorerTheme", true);
       display.setData("org.eclipse.swt.internal.win32.useShellTitleColoring", true);
-      display.setData(
-          "org.eclipse.swt.internal.win32.menuBarForegroundColor",
-          new Color(display, 0xD0, 0xD0, 0xD0));
-      display.setData(
-          "org.eclipse.swt.internal.win32.menuBarBackgroundColor",
-          new Color(display, 0x30, 0x30, 0x30));
-      display.setData(
-          "org.eclipse.swt.internal.win32.menuBarBorderColor",
-          new Color(display, 0x50, 0x50, 0x50));
+      display.setData("org.eclipse.swt.internal.win32.menuBarForegroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
+      display.setData("org.eclipse.swt.internal.win32.menuBarBackgroundColor", new Color(display, 0x30, 0x30, 0x30));
+      display.setData("org.eclipse.swt.internal.win32.menuBarBorderColor", new Color(display, 0x50, 0x50, 0x50));
       display.setData("org.eclipse.swt.internal.win32.all.use_WS_BORDER", true);
-      display.setData(
-          "org.eclipse.swt.internal.win32.Table.headerLineColor",
-          new Color(display, 0x50, 0x50, 0x50));
-      display.setData(
-          "org.eclipse.swt.internal.win32.Label.disabledForegroundColor",
-          new Color(display, 0x80, 0x80, 0x80));
+      display.setData("org.eclipse.swt.internal.win32.Table.headerLineColor", new Color(display, 0x50, 0x50, 0x50));
+      display.setData("org.eclipse.swt.internal.win32.Label.disabledForegroundColor", new Color(display, 0x80, 0x80, 0x80));
       display.setData("org.eclipse.swt.internal.win32.Combo.useDarkTheme", true);
-      display.setData(
-          "org.eclipse.swt.internal.win32.ToolBar.backgroundColor",
-          new Color(display, 0xD0, 0xD0, 0xD0));
-      display.setData(
-          "org.eclipse.swt.internal.win32.Combo.backgroundColor",
-          new Color(display, 0xD0, 0xD0, 0xD0));
+      display.setData("org.eclipse.swt.internal.win32.ToolBar.backgroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
+      display.setData("org.eclipse.swt.internal.win32.Combo.backgroundColor", new Color(display, 0xD0, 0xD0, 0xD0));
       display.setData("org.eclipse.swt.internal.win32.ProgressBar.useColors", true);
     }
 
@@ -383,21 +367,14 @@ public class PropsUi extends Props {
   }
 
   public void setScreen(WindowProperty windowProperty) {
-    AuditManager.storeState(
-        LogChannel.UI,
-        HopGui.DEFAULT_HOP_GUI_NAMESPACE,
-        "shells",
-        windowProperty.getName(),
-        windowProperty.getStateProperties());
+    AuditManager.storeState(LogChannel.UI, HopGui.DEFAULT_HOP_GUI_NAMESPACE, "shells", windowProperty.getName(), windowProperty.getStateProperties());
   }
 
   public WindowProperty getScreen(String windowName) {
     if (windowName == null) {
       return null;
     }
-    AuditState auditState =
-        AuditManager.retrieveState(
-            LogChannel.UI, HopGui.DEFAULT_HOP_GUI_NAMESPACE, "shells", windowName);
+    AuditState auditState = AuditManager.retrieveState(LogChannel.UI, HopGui.DEFAULT_HOP_GUI_NAMESPACE, "shells", windowName);
     if (auditState == null) {
       return null;
     }
@@ -612,13 +589,11 @@ public class PropsUi extends Props {
         foreground = gui.getColorBlack();
         font = gui.getFontDefault();
         Group group = ((Group) widget);
-        group.addPaintListener(
-            paintEvent -> {
-              paintEvent.gc.setForeground(gui.getColorBlack());
-              paintEvent.gc.setBackground(gui.getColorWhite());
-              paintEvent.gc.fillRectangle(
-                  2, 0, group.getBounds().width - 8, group.getBounds().height - 20);
-            });
+        group.addPaintListener(paintEvent -> {
+          paintEvent.gc.setForeground(gui.getColorBlack());
+          paintEvent.gc.setBackground(gui.getColorWhite());
+          paintEvent.gc.fillRectangle(2, 0, group.getBounds().width - 8, group.getBounds().height - 20);
+        });
         break;
       case WIDGET_STYLE_FIXED:
         font = gui.getFontFixed();
@@ -813,8 +788,7 @@ public class PropsUi extends Props {
   }
 
   public boolean isHidingMenuBar() {
-    return YES.equalsIgnoreCase(
-        System.getProperty(ConstUi.HOP_GUI_HIDE_MENU, getProperty(HIDE_MENU_BAR, YES)));
+    return YES.equalsIgnoreCase(System.getProperty(ConstUi.HOP_GUI_HIDE_MENU, getProperty(HIDE_MENU_BAR, YES)));
   }
 
   public void setSortFieldByName(boolean sort) {
@@ -822,8 +796,7 @@ public class PropsUi extends Props {
   }
 
   public boolean isSortFieldByName() {
-    return YES.equalsIgnoreCase(
-        System.getProperty(SORT_FIELD_BY_NAME, getProperty(SORT_FIELD_BY_NAME, YES)));
+    return YES.equalsIgnoreCase(System.getProperty(SORT_FIELD_BY_NAME, getProperty(SORT_FIELD_BY_NAME, YES)));
   }
 
   public void setShowingHelpToolTips(boolean show) {
@@ -876,9 +849,7 @@ public class PropsUi extends Props {
     if (gridSize > 1) {
       // Snap to grid...
       //
-      return new Point(
-          gridSize * Math.round((float) p.x / gridSize),
-          gridSize * Math.round((float) p.y / gridSize));
+      return new Point(gridSize * Math.round((float) p.x / gridSize), gridSize * Math.round((float) p.y / gridSize));
     } else {
       // Normal draw
       //
@@ -945,8 +916,7 @@ public class PropsUi extends Props {
     // Add all the inverse color mappings as well
     //
     Map<RGB, RGB> inverse = new HashMap<>();
-    contrastingColors.keySet().stream()
-        .forEach(key -> inverse.put(contrastingColors.get(key), key));
+    contrastingColors.keySet().stream().forEach(key -> inverse.put(contrastingColors.get(key), key));
     contrastingColors.putAll(inverse);
   }
 
@@ -1027,21 +997,14 @@ public class PropsUi extends Props {
   }
 
   public int getMaxExecutionLoggingTextSize() {
-    return Const.toInt(
-        getProperty(
-            MAX_EXECUTION_LOGGING_TEXT_SIZE,
-            Integer.toString(DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE)),
-        DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE);
+    return Const.toInt(getProperty(MAX_EXECUTION_LOGGING_TEXT_SIZE, Integer.toString(DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE)), DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE);
   }
 
   public void setMaxExecutionLoggingTextSize(int maxExecutionLoggingTextSize) {
     setProperty(MAX_EXECUTION_LOGGING_TEXT_SIZE, Integer.toString(maxExecutionLoggingTextSize));
   }
 
-  protected static final String[] globalZoomFactorLevels =
-      new String[] {
-        "200%", "175%", "150%", "140%", "130%", "120%", "110%", "100%", "90%", "80%", "70%"
-      };
+  protected static final String[] globalZoomFactorLevels = new String[] {"200%", "175%", "150%", "140%", "130%", "120%", "110%", "100%", "90%", "80%", "70%"};
 
   public static final String[] getGlobalZoomFactorLevels() {
     return globalZoomFactorLevels;

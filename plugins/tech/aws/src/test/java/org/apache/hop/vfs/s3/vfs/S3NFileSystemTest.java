@@ -46,9 +46,7 @@ public class S3NFileSystemTest {
 
   @Test
   public void testCreateFile() throws Exception {
-    assertNotNull(
-        fileSystem.createFile(
-            new S3FileName("s3n", "bucketName", "/bucketName/key", FileType.FILE)));
+    assertNotNull(fileSystem.createFile(new S3FileName("s3n", "bucketName", "/bucketName/key", FileType.FILE)));
   }
 
   @Test
@@ -58,8 +56,7 @@ public class S3NFileSystemTest {
     FileSystemOptions options = new FileSystemOptions();
     UserAuthenticator authenticator = mock(UserAuthenticator.class);
     UserAuthenticationData authData = mock(UserAuthenticationData.class);
-    when(authenticator.requestAuthentication(S3FileProvider.AUTHENTICATOR_TYPES))
-        .thenReturn(authData);
+    when(authenticator.requestAuthentication(S3FileProvider.AUTHENTICATOR_TYPES)).thenReturn(authData);
     when(authData.getData(UserAuthenticationData.USERNAME)).thenReturn("username".toCharArray());
     when(authData.getData(UserAuthenticationData.PASSWORD)).thenReturn("password".toCharArray());
     DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(options, authenticator);

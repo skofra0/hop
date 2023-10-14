@@ -93,8 +93,7 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -182,8 +181,7 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
       compareStream.setSubject(XmlHandler.getTagValue(transformNode, "compare"));
       referenceStream.setSubject(XmlHandler.getTagValue(transformNode, "reference"));
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "MergeRowsMeta.Exception.UnableToLoadTransformMeta"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "MergeRowsMeta.Exception.UnableToLoadTransformMeta"), e);
     }
   }
 
@@ -197,8 +195,7 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     List<IStream> infoStreams = getTransformIOMeta().getInfoStreams();
     for (IStream stream : infoStreams) {
-      stream.setTransformMeta(
-          TransformMeta.findTransform(transforms, (String) stream.getSubject()));
+      stream.setTransformMeta(TransformMeta.findTransform(transforms, (String) stream.getSubject()));
     }
   }
 
@@ -211,13 +208,7 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // We don't have any input fields here in "r" as they are all info fields.
     // So we just merge in the info fields.
@@ -233,8 +224,7 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
     }
 
     if (Utils.isEmpty(flagField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "MergeRowsMeta.Exception.FlagFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "MergeRowsMeta.Exception.FlagFieldNotSpecified"));
     }
     IValueMeta flagFieldValue = new ValueMetaString(flagField);
     flagFieldValue.setOrigin(name);
@@ -259,41 +249,23 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
     IStream compareStream = infoStreams.get(1);
 
     if (referenceStream.getTransformName() != null && compareStream.getTransformName() != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.SourceTransformsOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.SourceTransformsOK"), transformMeta);
       remarks.add(cr);
-    } else if (referenceStream.getTransformName() == null
-        && compareStream.getTransformName() == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.SourceTransformsMissing"),
-              transformMeta);
+    } else if (referenceStream.getTransformName() == null && compareStream.getTransformName() == null) {
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.SourceTransformsMissing"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.OneSourceTransformMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.OneSourceTransformMissing"), transformMeta);
       remarks.add(cr);
     }
 
     IRowMeta referenceRowMeta = null;
     IRowMeta compareRowMeta = null;
     try {
-      referenceRowMeta =
-          pipelineMeta.getPrevTransformFields(variables, referenceStream.getTransformName());
-      compareRowMeta =
-          pipelineMeta.getPrevTransformFields(variables, compareStream.getTransformName());
+      referenceRowMeta = pipelineMeta.getPrevTransformFields(variables, referenceStream.getTransformName());
+      compareRowMeta = pipelineMeta.getPrevTransformFields(variables, compareStream.getTransformName());
     } catch (HopTransformException kse) {
-      new CheckResult(
-          ICheckResult.TYPE_RESULT_ERROR,
-          BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.ErrorGettingPrevTransformFields"),
-          transformMeta);
+      new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.ErrorGettingPrevTransformFields"), transformMeta);
     }
     if (referenceRowMeta != null && compareRowMeta != null) {
       boolean rowsMatch = false;
@@ -304,18 +276,10 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
         rowsMatch = false;
       }
       if (rowsMatch) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.RowDefinitionMatch"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.RowDefinitionMatch"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.RowDefinitionNotMatch"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MergeRowsMeta.CheckResult.RowDefinitionNotMatch"), transformMeta);
         remarks.add(cr);
       }
     }
@@ -329,20 +293,8 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      ioMeta.addStream(
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "MergeRowsMeta.InfoStream.FirstStream.Description"),
-              StreamIcon.INFO,
-              null));
-      ioMeta.addStream(
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "MergeRowsMeta.InfoStream.SecondStream.Description"),
-              StreamIcon.INFO,
-              null));
+      ioMeta.addStream(new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "MergeRowsMeta.InfoStream.FirstStream.Description"), StreamIcon.INFO, null));
+      ioMeta.addStream(new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "MergeRowsMeta.InfoStream.SecondStream.Description"), StreamIcon.INFO, null));
       setTransformIOMeta(ioMeta);
     }
 
@@ -354,8 +306,6 @@ public class MergeRowsMeta extends BaseTransformMeta<MergeRows, MergeRowsData> {
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 }

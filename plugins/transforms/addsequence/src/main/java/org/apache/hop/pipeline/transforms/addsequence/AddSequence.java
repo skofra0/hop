@@ -33,43 +33,28 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Adds a sequential number to a stream of rows. */
-public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
-{
+public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData> {
 
   private static final Class<?> PKG = AddSequence.class; // For Translator
 
-  public AddSequence(
-      TransformMeta transformMeta,
-      AddSequenceMeta meta,
-      AddSequenceData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AddSequence(TransformMeta transformMeta, AddSequenceMeta meta, AddSequenceData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public synchronized Object[] addSequence(IRowMeta inputRowMeta, Object[] inputRowData)
-      throws HopException {
+  public synchronized Object[] addSequence(IRowMeta inputRowMeta, Object[] inputRowData) throws HopException {
     Object next;
 
     if (meta.isCounterUsed()) {
       next = data.counter.getAndNext();
     } else if (meta.isDatabaseUsed()) {
       try {
-        next =
-            data.getDb()
-                .getNextSequenceValue(
-                    data.realSchemaName, data.realSequenceName, meta.getValueName());
+        next = data.getDb().getNextSequenceValue(data.realSchemaName, data.realSequenceName, meta.getValueName());
       } catch (HopDatabaseException dbe) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "AddSequence.Exception.ErrorReadingSequence", data.realSequenceName),
-            dbe);
+        throw new HopTransformException(BaseMessages.getString(PKG, "AddSequence.Exception.ErrorReadingSequence", data.realSequenceName), dbe);
       }
     } else {
       // This should never happen, but if it does, don't continue!!!
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "AddSequence.Exception.NoSpecifiedMethod"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "AddSequence.Exception.NoSpecifiedMethod"));
     }
 
     if (next != null) {
@@ -80,9 +65,7 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
       outputRowData[inputRowMeta.size()] = next;
       return outputRowData;
     } else {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "AddSequence.Exception.CouldNotFindNextValueForSequence")
-              + meta.getValueName());
+      throw new HopTransformException(BaseMessages.getString(PKG, "AddSequence.Exception.CouldNotFindNextValueForSequence") + meta.getValueName());
     }
   }
 
@@ -103,22 +86,14 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "AddSequence.Log.ReadRow")
-              + getLinesRead()
-              + " : "
-              + getInputRowMeta().getString(r));
+      logRowlevel(BaseMessages.getString(PKG, "AddSequence.Log.ReadRow") + getLinesRead() + " : " + getInputRowMeta().getString(r));
     }
 
     try {
       putRow(data.outputRowMeta, addSequence(getInputRowMeta(), r));
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "AddSequence.Log.WriteRow")
-                + getLinesWritten()
-                + " : "
-                + getInputRowMeta().getString(r));
+        logRowlevel(BaseMessages.getString(PKG, "AddSequence.Log.WriteRow") + getLinesWritten() + " : " + getInputRowMeta().getString(r));
       }
       if (checkFeedback(getLinesRead())) {
         if (log.isBasic()) {
@@ -145,9 +120,7 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
       if (meta.isDatabaseUsed()) {
 
         if (Utils.isEmpty(meta.getConnection())) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "InsertUpdate.Init.ConnectionMissing", getTransformName()));
+          logError(BaseMessages.getString(PKG, "InsertUpdate.Init.ConnectionMissing", getTransformName()));
           return false;
         }
 
@@ -161,9 +134,7 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
           }
           return true;
         } catch (HopDatabaseException dbe) {
-          logError(
-              BaseMessages.getString(PKG, "AddSequence.Log.CouldNotConnectToDB")
-                  + dbe.getMessage());
+          logError(BaseMessages.getString(PKG, "AddSequence.Log.CouldNotConnectToDB") + dbe.getMessage());
         }
       } else if (meta.isCounterUsed()) {
         // Do the environment translations of the counter values.
@@ -171,42 +142,21 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
         try {
           data.start = Long.parseLong(resolve(meta.getStartAt()));
         } catch (NumberFormatException ex) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "AddSequence.Log.CouldNotParseCounterValue",
-                  "start",
-                  meta.getStartAt(),
-                  resolve(meta.getStartAt()),
-                  ex.getMessage()));
+          logError(BaseMessages.getString(PKG, "AddSequence.Log.CouldNotParseCounterValue", "start", meta.getStartAt(), resolve(meta.getStartAt()), ex.getMessage()));
           doAbort = true;
         }
 
         try {
           data.increment = Long.parseLong(resolve(meta.getIncrementBy()));
         } catch (NumberFormatException ex) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "AddSequence.Log.CouldNotParseCounterValue",
-                  "increment",
-                  meta.getIncrementBy(),
-                  resolve(meta.getIncrementBy()),
-                  ex.getMessage()));
+          logError(BaseMessages.getString(PKG, "AddSequence.Log.CouldNotParseCounterValue", "increment", meta.getIncrementBy(), resolve(meta.getIncrementBy()), ex.getMessage()));
           doAbort = true;
         }
 
         try {
           data.maximum = Long.parseLong(resolve(meta.getMaxValue()));
         } catch (NumberFormatException ex) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "AddSequence.Log.CouldNotParseCounterValue",
-                  "increment",
-                  meta.getMaxValue(),
-                  resolve(meta.getMaxValue()),
-                  ex.getMessage()));
+          logError(BaseMessages.getString(PKG, "AddSequence.Log.CouldNotParseCounterValue", "increment", meta.getMaxValue(), resolve(meta.getMaxValue()), ex.getMessage()));
           doAbort = true;
         }
 
@@ -226,15 +176,11 @@ public class AddSequence extends BaseTransform<AddSequenceMeta, AddSequenceData>
         // regardless of the number of transform copies asking for it.
         //
         synchronized (getPipeline()) {
-          data.counter =
-              Counters.getInstance()
-                  .getOrUpdateCounter(
-                      data.getLookup(), new Counter(data.start, data.increment, data.maximum));
+          data.counter = Counters.getInstance().getOrUpdateCounter(data.getLookup(), new Counter(data.start, data.increment, data.maximum));
         }
         return true;
       } else {
-        logError(
-            BaseMessages.getString(PKG, "AddSequence.Log.PipelineCountersHashtableNotAllocated"));
+        logError(BaseMessages.getString(PKG, "AddSequence.Log.PipelineCountersHashtableNotAllocated"));
       }
     } else {
       logError(BaseMessages.getString(PKG, "AddSequence.Log.NeedToSelectSequence"));

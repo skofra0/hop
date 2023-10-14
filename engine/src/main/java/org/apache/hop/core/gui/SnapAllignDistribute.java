@@ -27,12 +27,7 @@ public class SnapAllignDistribute {
   private IRedrawable redrawable;
   private IUndo undoInterface;
 
-  public SnapAllignDistribute(
-      IUndo undoInterface,
-      List<? extends IGuiPosition> elements,
-      int[] indices,
-      IAddUndoPosition addUndoPositionInterface,
-      IRedrawable redrawable) {
+  public SnapAllignDistribute(IUndo undoInterface, List<? extends IGuiPosition> elements, int[] indices, IAddUndoPosition addUndoPositionInterface, IRedrawable redrawable) {
     this.undoInterface = undoInterface;
     this.elements = elements;
     this.indices = indices;

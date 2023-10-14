@@ -107,8 +107,7 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       String nbrPaquets;
       super.loadXml(entrynode);
@@ -201,14 +200,10 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
         status = systemPing(hostname, timeoutInt);
         if (status) {
           if (log.isDetailed()) {
-            log.logDetailed(
-                BaseMessages.getString(PKG, "ActionPing.SystemPing"),
-                BaseMessages.getString(PKG, "ActionPing.OK.Label", hostname));
+            log.logDetailed(BaseMessages.getString(PKG, "ActionPing.SystemPing"), BaseMessages.getString(PKG, "ActionPing.OK.Label", hostname));
           }
         } else {
-          log.logError(
-              BaseMessages.getString(PKG, "ActionPing.SystemPing"),
-              BaseMessages.getString(PKG, "ActionPing.NOK.Label", hostname));
+          log.logError(BaseMessages.getString(PKG, "ActionPing.SystemPing"), BaseMessages.getString(PKG, "ActionPing.NOK.Label", hostname));
         }
       }
       if ((ipingtype == iclassicPing) || (ipingtype == ibothPings && !status)) {
@@ -216,14 +211,10 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
         status = classicPing(hostname, packets);
         if (status) {
           if (log.isDetailed()) {
-            log.logDetailed(
-                BaseMessages.getString(PKG, "ActionPing.ClassicPing"),
-                BaseMessages.getString(PKG, "ActionPing.OK.Label", hostname));
+            log.logDetailed(BaseMessages.getString(PKG, "ActionPing.ClassicPing"), BaseMessages.getString(PKG, "ActionPing.OK.Label", hostname));
           }
         } else {
-          log.logError(
-              BaseMessages.getString(PKG, "ActionPing.ClassicPing"),
-              BaseMessages.getString(PKG, "ActionPing.NOK.Label", hostname));
+          log.logError(BaseMessages.getString(PKG, "ActionPing.ClassicPing"), BaseMessages.getString(PKG, "ActionPing.NOK.Label", hostname));
         }
       }
     } catch (Exception ex) {
@@ -259,8 +250,7 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
 
       if (log.isDetailed()) {
         logDetailed(BaseMessages.getString(PKG, "ActionPing.HostName", address.getHostName()));
-        logDetailed(
-            BaseMessages.getString(PKG, "ActionPing.HostAddress", address.getHostAddress()));
+        logDetailed(BaseMessages.getString(PKG, "ActionPing.HostAddress", address.getHostAddress()));
       }
 
       retval = address.isReachable(timeout);
@@ -314,8 +304,7 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(hostname)) {
       String realServername = resolve(hostname);
@@ -327,16 +316,7 @@ public class ActionPing extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "hostname",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "hostname", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

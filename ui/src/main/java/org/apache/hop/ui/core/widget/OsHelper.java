@@ -104,15 +104,13 @@ public class OsHelper {
     display.addListener(SWT.OpenDocument, event -> HopGui.getInstance().fileDelegate.fileOpen());
 
     // Handle Shell close i.e. CMD+Q on Mac, for example
-    display.addListener(
-        SWT.Close,
-        event -> {
-          try {
-            HopGui.getInstance().menuFileExit();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+    display.addListener(SWT.Close, event -> {
+      try {
+        HopGui.getInstance().menuFileExit();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    });
 
     // hook into the system menu on mac
     if (isMac()) {

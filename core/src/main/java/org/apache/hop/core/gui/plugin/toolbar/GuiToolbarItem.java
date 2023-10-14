@@ -58,11 +58,7 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
 
   public GuiToolbarItem() {}
 
-  public GuiToolbarItem(
-      GuiToolbarElement toolbarElement,
-      String listenerClass,
-      Method method,
-      ClassLoader classLoader) {
+  public GuiToolbarItem(GuiToolbarElement toolbarElement, String listenerClass, Method method, ClassLoader classLoader) {
     this();
 
     this.root = toolbarElement.root();
@@ -77,16 +73,8 @@ public class GuiToolbarItem extends BaseGuiElements implements Comparable<GuiToo
     this.singleTon = true;
     this.listenerClass = listenerClass;
     this.listenerMethod = method.getName();
-    this.label =
-        getTranslation(
-            toolbarElement.label(),
-            method.getDeclaringClass().getPackage().getName(),
-            method.getDeclaringClass());
-    this.toolTip =
-        getTranslation(
-            toolbarElement.toolTip(),
-            method.getDeclaringClass().getPackage().getName(),
-            method.getDeclaringClass());
+    this.label = getTranslation(toolbarElement.label(), method.getDeclaringClass().getPackage().getName(), method.getDeclaringClass());
+    this.toolTip = getTranslation(toolbarElement.toolTip(), method.getDeclaringClass().getPackage().getName(), method.getDeclaringClass());
     this.classLoader = classLoader;
     this.extraWidth = toolbarElement.extraWidth();
     this.alignRight = toolbarElement.alignRight();

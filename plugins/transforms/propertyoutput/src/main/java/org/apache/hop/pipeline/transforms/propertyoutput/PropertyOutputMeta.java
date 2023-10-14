@@ -93,8 +93,7 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
   private boolean append;
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -285,25 +284,16 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
 
       fileName = XmlHandler.getTagValue(transformNode, "file", "name");
 
-      createparentfolder =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "create_parent_folder"));
+      createparentfolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "create_parent_folder"));
       extension = XmlHandler.getTagValue(transformNode, "file", "extention");
-      transformNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
-      partNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
-      dateInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
-      timeInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
-      addToResult =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "AddToResult"));
+      transformNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
+      partNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
+      dateInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
+      timeInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
+      addToResult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "AddToResult"));
       append = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "append"));
       fileName = XmlHandler.getTagValue(transformNode, "file", "name");
-      fileNameInField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "fileNameInField"));
+      fileNameInField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "fileNameInField"));
       fileNameField = XmlHandler.getTagValue(transformNode, "fileNameField");
 
     } catch (Exception e) {
@@ -365,53 +355,28 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
     CheckResult cr;
     // Now see what we can find as previous transform...
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "PropertyOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.NoFields"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
     // Check if filename is given
     if (!Utils.isEmpty(fileName)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.FilenameOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.FilenameOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.FilenameError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.FilenameError"), transformMeta);
       remarks.add(cr);
     }
 
@@ -419,18 +384,10 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
 
     IValueMeta v = prev.searchValueMeta(keyfield);
     if (v == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.KeyFieldMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.KeyFieldMissing"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.KeyFieldOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.KeyFieldOk"), transformMeta);
       remarks.add(cr);
     }
 
@@ -438,18 +395,10 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
 
     v = prev.searchValueMeta(valuefield);
     if (v == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ValueFieldMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ValueFieldMissing"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ValueFieldOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyOutputMeta.CheckResult.ValueFieldOk"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -492,11 +441,7 @@ public class PropertyOutputMeta extends BaseTransformMeta<PropertyOutput, Proper
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

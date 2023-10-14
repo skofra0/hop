@@ -26,13 +26,7 @@ import org.apache.hop.pipeline.transforms.dummy.DummyData;
 
 public class BeamKinesisProduce extends BaseTransform implements ITransform {
 
-  public BeamKinesisProduce(
-      TransformMeta transformMeta,
-      BeamKinesisProduceMeta meta,
-      DummyData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamKinesisProduce(TransformMeta transformMeta, BeamKinesisProduceMeta meta, DummyData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

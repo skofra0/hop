@@ -80,10 +80,8 @@ public class XmlHandler {
 
   // These formats are static and not configurable unlike the default date formats of Hop itself
   //
-  private static final SimpleDateFormat simpleDateFormat =
-      new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-  private static final SimpleTimestampFormat simpleTimeStampFormat =
-      new SimpleTimestampFormat("yyyy/MM/dd HH:mm:ss.SSSSSSSSS");
+  private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+  private static final SimpleTimestampFormat simpleTimeStampFormat = new SimpleTimestampFormat("yyyy/MM/dd HH:mm:ss.SSSSSSSSS");
 
   private XmlHandler() {}
 
@@ -189,9 +187,7 @@ public class XmlHandler {
     children = n.getChildNodes();
     for (int i = 0; i < children.getLength(); i++) {
       childnode = children.item(i);
-      if (childnode.getNodeName().equalsIgnoreCase(tag)
-          && childnode.getAttributes().getNamedItem(attribute) != null
-          && childnode.getFirstChild() != null) {
+      if (childnode.getNodeName().equalsIgnoreCase(tag) && childnode.getAttributes().getNamedItem(attribute) != null && childnode.getFirstChild() != null) {
         return childnode.getFirstChild().getNodeValue();
       }
     }
@@ -290,8 +286,7 @@ public class XmlHandler {
    * @param nr The nr of occurance of the value
    * @return The node found or null if we couldn't find anything.
    */
-  public static Node getNodeWithTagValue(
-      Node n, String tag, String subtag, String subtagvalue, int nr) {
+  public static Node getNodeWithTagValue(Node n, String tag, String subtag, String subtagvalue, int nr) {
     int count = 0;
     NodeList children = n.getChildNodes();
     for (int i = 0; i < children.getLength(); i++) {
@@ -320,8 +315,7 @@ public class XmlHandler {
    * @param attributeValue the value the subtag should have
    * @return the node found or null if we couldn't find anything
    */
-  public static Node getNodeWithAttributeValue(
-      Node n, String tag, String attributeName, String attributeValue) {
+  public static Node getNodeWithAttributeValue(Node n, String tag, String attributeName, String attributeValue) {
     NodeList children = n.getChildNodes();
     for (int i = 0; i < children.getLength(); i++) {
       Node childnode = children.item(i);
@@ -425,7 +419,7 @@ public class XmlHandler {
    * @param tag The tag to count
    * @param nr The position in the node
    * @param useCache set this to false if you don't want to use caching. For example in cases where
-   *     you want to loop over subnodes of a certain tag in reverse or random order.
+   *        you want to loop over subnodes of a certain tag in reverse or random order.
    * @return The subnode found or null in case the position was invalid.
    */
   public static Node getSubNodeByNr(Node n, String tag, int nr, boolean useCache) {
@@ -540,12 +534,9 @@ public class XmlHandler {
    * @param namespaceAware support XML namespaces.
    * @return the Document if all went well, null if an error occured!
    */
-  public static Document loadXmlFile(
-      FileObject fileObject, String systemID, boolean ignoreEntities, boolean namespaceAware)
-      throws HopXmlException {
+  public static Document loadXmlFile(FileObject fileObject, String systemID, boolean ignoreEntities, boolean namespaceAware) throws HopXmlException {
     try {
-      return loadXmlFile(
-          HopVfs.getInputStream(fileObject), systemID, ignoreEntities, namespaceAware);
+      return loadXmlFile(HopVfs.getInputStream(fileObject), systemID, ignoreEntities, namespaceAware);
     } catch (IOException e) {
       throw new HopXmlException("Unable to read file [" + fileObject.toString() + "]", e);
     }
@@ -570,9 +561,7 @@ public class XmlHandler {
    * @param namespaceAware support XML namespaces.
    * @return the Document if all went well, null if an error occured!
    */
-  public static Document loadXmlFile(
-      InputStream inputStream, String systemID, boolean ignoreEntities, boolean namespaceAware)
-      throws HopXmlException {
+  public static Document loadXmlFile(InputStream inputStream, String systemID, boolean ignoreEntities, boolean namespaceAware) throws HopXmlException {
     try {
       // Check and open XML document
       //
@@ -692,8 +681,7 @@ public class XmlHandler {
    * @param deferNodeExpansion true to defer node expansion, false to not defer.
    * @return the Document if all went well, null if an error occurred!
    */
-  public static Document loadXmlString(
-      String string, Boolean namespaceAware, Boolean deferNodeExpansion) throws HopXmlException {
+  public static Document loadXmlString(String string, Boolean namespaceAware, Boolean deferNodeExpansion) throws HopXmlException {
     DocumentBuilder db = createDocumentBuilder(namespaceAware, deferNodeExpansion);
     return loadXmlString(db, string);
   }
@@ -715,13 +703,11 @@ public class XmlHandler {
 
       return doc;
     } catch (Exception e) {
-      throw new HopXmlException(
-          "Error reading information from XML string : " + Const.CR + string, e);
+      throw new HopXmlException("Error reading information from XML string : " + Const.CR + string, e);
     }
   }
 
-  public static DocumentBuilder createDocumentBuilder(
-      boolean namespaceAware, boolean deferNodeExpansion) throws HopXmlException {
+  public static DocumentBuilder createDocumentBuilder(boolean namespaceAware, boolean deferNodeExpansion) throws HopXmlException {
     try {
       DocumentBuilderFactory dbf = XmlParserFactoryProducer.createSecureDocBuilderFactory();
       dbf.setFeature("http://apache.org/xml/features/dom/defer-node-expansion", deferNodeExpansion);
@@ -735,24 +721,22 @@ public class XmlHandler {
   public static TransformerFactory createSecureTransformerFactory() {
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     try {
-    transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-    transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-    } catch(IllegalArgumentException e) {
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+    } catch (IllegalArgumentException e) {
       // Ignore this: the library doesn't support these features.
       // We don't need to disable them.
     }
     return transformerFactory;
   }
 
-  public static String getXmlString(Node document, boolean omitXmlDeclaration, boolean indent)
-      throws HopException {
+  public static String getXmlString(Node document, boolean omitXmlDeclaration, boolean indent) throws HopException {
     TransformerFactory transformerFactory = createSecureTransformerFactory();
 
     Transformer transformer;
     try {
       transformer = transformerFactory.newTransformer();
-      transformer.setOutputProperty(
-          OutputKeys.OMIT_XML_DECLARATION, omitXmlDeclaration ? "yes" : "no");
+      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXmlDeclaration ? "yes" : "no");
       transformer.setOutputProperty(OutputKeys.INDENT, indent ? "yes" : "no");
       StringWriter writer = new StringWriter();
       transformer.transform(new DOMSource(document), new StreamResult(writer));
@@ -780,12 +764,7 @@ public class XmlHandler {
     value.append(Encode.forXml(tag));
 
     for (int i = 0; i < attributes.length; i += 2) {
-      value
-          .append(" ")
-          .append(Encode.forXml(attributes[i]))
-          .append("=\"")
-          .append(Encode.forXmlAttribute(attributes[i + 1]))
-          .append("\" ");
+      value.append(" ").append(Encode.forXml(attributes[i])).append("=\"").append(Encode.forXmlAttribute(attributes[i + 1])).append("\" ");
     }
 
     if (val != null && val.length() > 0) {
@@ -1237,12 +1216,11 @@ public class XmlHandler {
   }
 }
 
+
 /** Handle external references and return an empty dummy document. */
 class DTDIgnoringEntityResolver implements EntityResolver {
   @Override
-  public InputSource resolveEntity(java.lang.String publicID, java.lang.String systemID)
-      throws IOException {
-    return new InputSource(
-        new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes()));
+  public InputSource resolveEntity(java.lang.String publicID, java.lang.String systemID) throws IOException {
+    return new InputSource(new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes()));
   }
 }

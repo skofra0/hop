@@ -68,15 +68,14 @@ public final class WsdlTypes implements Serializable {
    * @param elementName Name of element to find.
    * @return The element node.
    * @throws HopTransformException If schema or element in schema can't be found for the given
-   *     element name
+   *         element name
    */
   protected Element findNamedElement(QName elementName) throws HopTransformException {
 
     Element namedElement = null;
     Schema s = getSchema(elementName.getNamespaceURI());
     if (s == null) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "Wsdl.Error.MissingSchemaException", elementName));
+      throw new HopTransformException(BaseMessages.getString(PKG, "Wsdl.Error.MissingSchemaException", elementName));
     }
 
     Element schemaRoot = s.getElement();
@@ -91,8 +90,7 @@ public final class WsdlTypes implements Serializable {
     }
 
     if (namedElement == null) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "Wsdl.Error.ElementMissingException", elementName));
+      throw new HopTransformException(BaseMessages.getString(PKG, "Wsdl.Error.ElementMissingException", elementName));
     }
     return namedElement;
   }
@@ -173,8 +171,7 @@ public final class WsdlTypes implements Serializable {
     if (Types == null) {
       return Collections.emptyList();
     }
-    return WsdlUtils.findExtensibilityElements(
-        (ElementExtensible) Types, WsdlUtils.SCHEMA_ELEMENT_NAME);
+    return WsdlUtils.findExtensibilityElements((ElementExtensible) Types, WsdlUtils.SCHEMA_ELEMENT_NAME);
   }
 
   /**
@@ -191,7 +188,7 @@ public final class WsdlTypes implements Serializable {
    * Build a list of schema target name spaces which are element form qualified.
    *
    * @return All target name spaces for schemas defined in the WSDL which are element form
-   *     qualified.
+   *         qualified.
    */
   private List<String> getElementFormQualifiedNamespaces() {
 
@@ -223,8 +220,7 @@ public final class WsdlTypes implements Serializable {
       return null;
     }
 
-    List<ExtensibilityElement> schemas =
-        WsdlUtils.findExtensibilityElements((ElementExtensible) Types, "schema");
+    List<ExtensibilityElement> schemas = WsdlUtils.findExtensibilityElements((ElementExtensible) Types, "schema");
 
     for (ExtensibilityElement e : schemas) {
       Element schemaRoot = ((Schema) e).getElement();

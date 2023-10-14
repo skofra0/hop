@@ -64,8 +64,7 @@ public class GAggregate {
     this.valueField = a.valueField;
   }
 
-  public GAggregate(
-      String field, String subject, MemoryGroupByMeta.GroupType type, String valueField) {
+  public GAggregate(String field, String subject, MemoryGroupByMeta.GroupType type, String valueField) {
     this.field = field;
     this.subject = subject;
     this.type = type;

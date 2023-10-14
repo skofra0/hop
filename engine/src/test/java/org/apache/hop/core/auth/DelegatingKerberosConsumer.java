@@ -19,18 +19,15 @@ package org.apache.hop.core.auth;
 import org.apache.hop.core.auth.core.AuthenticationConsumptionException;
 import org.apache.hop.core.auth.core.IAuthenticationConsumer;
 
-public class DelegatingKerberosConsumer
-    implements IAuthenticationConsumer<Object, KerberosAuthenticationProvider> {
+public class DelegatingKerberosConsumer implements IAuthenticationConsumer<Object, KerberosAuthenticationProvider> {
   private IAuthenticationConsumer<Object, KerberosAuthenticationProvider> delegate;
 
-  public DelegatingKerberosConsumer(
-      IAuthenticationConsumer<Object, KerberosAuthenticationProvider> delegate) {
+  public DelegatingKerberosConsumer(IAuthenticationConsumer<Object, KerberosAuthenticationProvider> delegate) {
     this.delegate = delegate;
   }
 
   @Override
-  public Object consume(KerberosAuthenticationProvider authenticationProvider)
-      throws AuthenticationConsumptionException {
+  public Object consume(KerberosAuthenticationProvider authenticationProvider) throws AuthenticationConsumptionException {
     return delegate.consume(authenticationProvider);
   }
 }

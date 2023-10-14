@@ -39,24 +39,23 @@ import java.util.List;
     documentationUrl = "/metadata-types/beam-file-definition.html")
 public class FileDefinition extends HopMetadataBase implements Serializable, IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private List<FieldDefinition> fieldDefinitions;
+  @HopMetadataProperty
+  private List<FieldDefinition> fieldDefinitions;
 
-  @HopMetadataProperty private String separator;
+  @HopMetadataProperty
+  private String separator;
 
-  @HopMetadataProperty private String enclosure;
+  @HopMetadataProperty
+  private String enclosure;
 
   public FileDefinition() {
     fieldDefinitions = new ArrayList<>();
   }
 
-  public FileDefinition(
-      String name,
-      String description,
-      List<FieldDefinition> fieldDefinitions,
-      String separator,
-      String enclosure) {
+  public FileDefinition(String name, String description, List<FieldDefinition> fieldDefinitions, String separator, String enclosure) {
     this.name = name;
     this.description = description;
     this.fieldDefinitions = fieldDefinitions;
@@ -72,17 +71,16 @@ public class FileDefinition extends HopMetadataBase implements Serializable, IHo
     return rowMeta;
   }
 
-
-  public void validate() throws HopException  {
+  public void validate() throws HopException {
     if (StringUtils.isEmpty(separator)) {
-      throw new HopException("Please specify a separator in file definition "+name);
+      throw new HopException("Please specify a separator in file definition " + name);
     }
     for (IValueMeta valueMeta : getRowMeta().getValueMetaList()) {
       if (StringUtils.isEmpty(valueMeta.getName())) {
-        throw new HopException("File definition "+name+" should not contain fields without a name");
+        throw new HopException("File definition " + name + " should not contain fields without a name");
       }
-      if (valueMeta.getType()==IValueMeta.TYPE_NONE) {
-        throw new HopException("File definition "+name+" should not contain fields without a type");
+      if (valueMeta.getType() == IValueMeta.TYPE_NONE) {
+        throw new HopException("File definition " + name + " should not contain fields without a type");
       }
     }
   }

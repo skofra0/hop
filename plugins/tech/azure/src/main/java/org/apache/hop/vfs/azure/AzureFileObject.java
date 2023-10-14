@@ -59,8 +59,7 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
     private int blockIncrement;
     private long blobSize;
 
-    private PageBlobOutputStream(
-        CloudPageBlob pb, OutputStream outputStream, int blockIncrement, long blobSize) {
+    private PageBlobOutputStream(CloudPageBlob pb, OutputStream outputStream, int blockIncrement, long blobSize) {
       if (blockIncrement % Constants.PAGE_SIZE != 0)
         throw new IllegalArgumentException("Block increment must be in multiple of 512.");
       if (blobSize % Constants.PAGE_SIZE != 0)
@@ -158,9 +157,7 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   private CloudBlobDirectory cloudDir;
   private String markerFileName = ".cvfs.temp";
 
-  public AzureFileObject(
-      AbstractFileName fileName, AzureFileSystem fileSystem, CloudBlobClient service)
-      throws FileSystemException {
+  public AzureFileObject(AbstractFileName fileName, AzureFileSystem fileSystem, CloudBlobClient service) throws FileSystemException {
     super(fileName, fileSystem);
     this.service = service;
   }
@@ -181,7 +178,8 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
           cloudBlob.getProperties().setContentDisposition(value.toString());
         else if (attrName.equals("contentEncoding"))
           cloudBlob.getProperties().setContentEncoding(value.toString());
-        else cloudBlob.getMetadata().put(attrName, value.toString());
+        else
+          cloudBlob.getMetadata().put(attrName, value.toString());
       }
     } else {
       throw new FileSystemException("Setting of attributes not supported on this file.");
@@ -215,19 +213,8 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   protected void doRemoveAttribute(String attrName) throws Exception {
     if (container != null && !containerPath.equals("") && cloudBlob != null) {
       if (Arrays.asList(
-              "cacheControl",
-              "blobType",
-              "contentDisposition",
-              "contentEncoding",
-              "contentLanguage",
-              "contentType",
-              "copyState",
-              "etag",
-              "leaseDuration",
-              "leaseState",
-              "leaseStatus",
-              "pageBlobSequenceNumber")
-          .contains(attrName)) {
+          "cacheControl", "blobType", "contentDisposition", "contentEncoding", "contentLanguage", "contentType", "copyState", "etag", "leaseDuration", "leaseState", "leaseStatus",
+          "pageBlobSequenceNumber").contains(attrName)) {
         throw new FileSystemException("Removal of this attributes not supported on this file.");
       }
       cloudBlob.getMetadata().remove(attrName);
@@ -276,11 +263,8 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
              */
             cloudBlob = null;
             cloudDir = null;
-            String relpath =
-                removeLeadingSlash(
-                    ((AzureFileName) (getName().getParent())).getPathAfterContainer());
-            for (ListBlobItem item :
-                relpath.equals("") ? container.listBlobs() : container.listBlobs(relpath + "/")) {
+            String relpath = removeLeadingSlash(((AzureFileName) (getName().getParent())).getPathAfterContainer());
+            for (ListBlobItem item : relpath.equals("") ? container.listBlobs() : container.listBlobs(relpath + "/")) {
               String itemPath = removeTrailingSlash(item.getUri().getPath());
               if (itemPath.equals(thisPath)) {
                 if (item instanceof CloudBlob) {
@@ -290,9 +274,11 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
                   for (ListBlobItem blob : cloudDir.listBlobs()) {
                     URI blobUri = blob.getUri();
                     String path = blobUri.getPath();
-                    while (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+                    while (path.endsWith("/"))
+                      path = path.substring(0, path.length() - 1);
                     int idx = path.lastIndexOf('/');
-                    if (idx != -1) path = path.substring(idx + 1);
+                    if (idx != -1)
+                      path = path.substring(idx + 1);
                     children.add(path);
                   }
                 }
@@ -367,10 +353,10 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
         if (containerPath.equals("")) {
           container.delete();
         } else {
-          if (cloudBlob != null) cloudBlob.delete();
+          if (cloudBlob != null)
+            cloudBlob.delete();
           else if (cloudDir != null) {
-            for (ListBlobItem item :
-                container.listBlobs(((AzureFileName) getName()).getPathAfterContainer(), true)) {
+            for (ListBlobItem item : container.listBlobs(((AzureFileName) getName()).getPathAfterContainer(), true)) {
               String path = item.getUri().getPath();
               if (item instanceof CloudBlob && path.startsWith(getName().getPath())) {
                 ((CloudBlob) item).delete();
@@ -413,12 +399,10 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
        * Azure doesn't actually have folders, so we create a temporary
        * 'file' in the 'folder'
        */
-      CloudBlockBlob blob =
-          container.getBlockBlobReference(containerPath.substring(1) + "/" + markerFileName);
+      CloudBlockBlob blob = container.getBlockBlobReference(containerPath.substring(1) + "/" + markerFileName);
       byte[] buf =
           ("This is a temporary blob created by a Commons VFS application to simulate a folder. It "
-                  + "may be safely deleted, but this will hide the folder in the application if it is empty.")
-              .getBytes("UTF-8");
+              + "may be safely deleted, but this will hide the folder in the application if it is empty.").getBytes("UTF-8");
       blob.uploadFromByteArray(buf, 0, buf.length);
       type = FileType.FOLDER;
       children = new ArrayList<>();
@@ -433,7 +417,8 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   @Override
   protected OutputStream doGetOutputStream(boolean bAppend) throws Exception {
     if (container != null && !containerPath.equals("")) {
-      if (bAppend) throw new UnsupportedOperationException();
+      if (bAppend)
+        throw new UnsupportedOperationException();
       final CloudPageBlob pb = container.getPageBlobReference(removeLeadingSlash(containerPath));
 
       // Get the block increment...
@@ -444,11 +429,9 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
 
       if (type == FileType.IMAGINARY) {
         type = FileType.FILE;
-        return new PageBlobOutputStream(
-            pb, pb.openWriteNew(DEFAULT_BLOB_SIZE), blockIncrement, DEFAULT_BLOB_SIZE);
+        return new PageBlobOutputStream(pb, pb.openWriteNew(DEFAULT_BLOB_SIZE), blockIncrement, DEFAULT_BLOB_SIZE);
       } else {
-        return new PageBlobOutputStream(
-            pb, pb.openWriteExisting(), blockIncrement, pb.getProperties().getLength());
+        return new PageBlobOutputStream(pb, pb.openWriteExisting(), blockIncrement, pb.getProperties().getLength());
       }
     } else {
       throw new UnsupportedOperationException();
@@ -480,8 +463,7 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   }
 
   private void closeBlob() {
-    String pathAfterContainer =
-        removeLeadingSlash(((AzureFileName) getName().getParent()).getPathAfterContainer()) + "/";
+    String pathAfterContainer = removeLeadingSlash(((AzureFileName) getName().getParent()).getPathAfterContainer()) + "/";
     for (ListBlobItem item : container.listBlobs(pathAfterContainer)) {
       String itemPath = item.getUri().getPath();
       itemPath = removeTrailingSlash(itemPath);
@@ -494,12 +476,14 @@ public class AzureFileObject extends AbstractFileObject<AzureFileSystem> {
   }
 
   private static String removeTrailingSlash(String itemPath) {
-    while (itemPath.endsWith("/")) itemPath = itemPath.substring(0, itemPath.length() - 1);
+    while (itemPath.endsWith("/"))
+      itemPath = itemPath.substring(0, itemPath.length() - 1);
     return itemPath;
   }
 
   private static String removeLeadingSlash(String relpath) {
-    while (relpath.startsWith("/")) relpath = relpath.substring(1);
+    while (relpath.startsWith("/"))
+      relpath = relpath.substring(1);
     return relpath;
   }
 }

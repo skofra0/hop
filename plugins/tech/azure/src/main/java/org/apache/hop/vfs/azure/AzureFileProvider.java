@@ -45,21 +45,12 @@ public class AzureFileProvider extends AbstractOriginatingFileProvider {
   public static final Collection<Capability> capabilities =
       Collections.unmodifiableCollection(
           Arrays.asList(
-              Capability.CREATE,
-              Capability.DELETE,
+              Capability.CREATE, Capability.DELETE,
               // Capability.RENAME,
-              Capability.ATTRIBUTES,
-              Capability.GET_TYPE,
-              Capability.GET_LAST_MODIFIED,
-              Capability.LIST_CHILDREN,
-              Capability.READ_CONTENT,
-              Capability.URI,
+              Capability.ATTRIBUTES, Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI,
               Capability.WRITE_CONTENT));
 
-  public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES =
-      new UserAuthenticationData.Type[] {
-        UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-      };
+  public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD};
 
   private static FileSystemOptions defaultOptions = new FileSystemOptions();
 
@@ -75,11 +66,9 @@ public class AzureFileProvider extends AbstractOriginatingFileProvider {
   }
 
   @Override
-  protected FileSystem doCreateFileSystem(FileName fileName, FileSystemOptions fileSystemOptions)
-      throws FileSystemException {
+  protected FileSystem doCreateFileSystem(FileName fileName, FileSystemOptions fileSystemOptions) throws FileSystemException {
 
-    FileSystemOptions fsOptions =
-        fileSystemOptions != null ? fileSystemOptions : getDefaultFileSystemOptions();
+    FileSystemOptions fsOptions = fileSystemOptions != null ? fileSystemOptions : getDefaultFileSystemOptions();
     UserAuthenticationData authData = null;
     CloudBlobClient service;
     try {
@@ -90,12 +79,10 @@ public class AzureFileProvider extends AbstractOriginatingFileProvider {
       AzureConfig config = AzureConfigSingleton.getConfig();
 
       if (StringUtils.isEmpty(config.getAccount())) {
-        throw new FileSystemException(
-            "Please configure the Azure account to use in the configuration (Options dialog or with hop-conf)");
+        throw new FileSystemException("Please configure the Azure account to use in the configuration (Options dialog or with hop-conf)");
       }
       if (StringUtils.isEmpty(config.getKey())) {
-        throw new FileSystemException(
-            "Please configure the Azure key to use in the configuration (Options dialog or with hop-conf)");
+        throw new FileSystemException("Please configure the Azure key to use in the configuration (Options dialog or with hop-conf)");
       }
       IVariables variables = Variables.getADefaultVariableSpace();
 
@@ -103,10 +90,7 @@ public class AzureFileProvider extends AbstractOriginatingFileProvider {
 
       String key = variables.resolve(config.getKey());
 
-      String storageConnectionString =
-          String.format(
-              "DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
-              account, key);
+      String storageConnectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net", account, key);
       CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
 
       service = storageAccount.createCloudBlobClient();

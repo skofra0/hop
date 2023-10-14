@@ -53,181 +53,137 @@ public class MongoDbOutputMetaInjectionTest extends BaseMetadataInjectionTest<Mo
 
   @Test
   public void test() throws Exception {
-    check(
-        "TRUNCATE",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.truncate;
-          }
-        });
-    check(
-        "UPDATE",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.update;
-          }
-        });
-    check(
-        "UPSERT",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.upsert;
-          }
-        });
-    check(
-        "MULTI",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.multi;
-          }
-        });
-    check(
-        "MODIFIER_UPDATE",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.modifierUpdate;
-          }
-        });
-    check(
-        "BATCH_INSERT_SIZE",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.batchInsertSize;
-          }
-        });
-    check(
-        "RETRY_NUMBER",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getWriteRetries();
-          }
-        });
-    check(
-        "RETRY_DELAY",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getWriteRetryDelay();
-          }
-        });
-    check(
-        "CONNECTION",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getConnectionName();
-          }
-        });
-    check(
-        "COLLECTION",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getCollection();
-          }
-        });
-    check(
-        "INCOMING_FIELD_NAME",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getMongoFields().get(0).incomingFieldName;
-          }
-        });
-    check(
-        "MONGO_DOCUMENT_PATH",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getMongoFields().get(0).mongoDocPath;
-          }
-        });
-    check(
-        "INCOMING_AS_MONGO",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoFields().get(0).useIncomingFieldNameAsMongoFieldName;
-          }
-        });
-    check(
-        "UPDATE_MATCH_FIELD",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoFields().get(0).updateMatchField;
-          }
-        });
-    check(
-        "MODIFIER_OPERATION",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getMongoFields().get(0).modifierUpdateOperation;
-          }
-        });
-    check(
-        "MODIFIER_POLICY",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getMongoFields().get(0).modifierOperationApplyPolicy;
-          }
-        });
-    check(
-        "INSERT_NULL",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoFields().get(0).insertNull;
-          }
-        });
-    check(
-        "JSON",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoFields().get(0).inputJson;
-          }
-        });
-    check(
-        "INDEX_FIELD",
-        new IStringGetter() {
-          @Override
-          public String get() {
-            return meta.getMongoIndexes().get(0).pathToFields;
-          }
-        });
-    check(
-        "DROP",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoIndexes().get(0).drop;
-          }
-        });
-    check(
-        "UNIQUE",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoIndexes().get(0).unique;
-          }
-        });
-    check(
-        "SPARSE",
-        new IBooleanGetter() {
-          @Override
-          public boolean get() {
-            return meta.getMongoIndexes().get(0).sparse;
-          }
-        });
+    check("TRUNCATE", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.truncate;
+      }
+    });
+    check("UPDATE", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.update;
+      }
+    });
+    check("UPSERT", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.upsert;
+      }
+    });
+    check("MULTI", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.multi;
+      }
+    });
+    check("MODIFIER_UPDATE", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.modifierUpdate;
+      }
+    });
+    check("BATCH_INSERT_SIZE", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.batchInsertSize;
+      }
+    });
+    check("RETRY_NUMBER", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getWriteRetries();
+      }
+    });
+    check("RETRY_DELAY", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getWriteRetryDelay();
+      }
+    });
+    check("CONNECTION", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getConnectionName();
+      }
+    });
+    check("COLLECTION", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getCollection();
+      }
+    });
+    check("INCOMING_FIELD_NAME", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getMongoFields().get(0).incomingFieldName;
+      }
+    });
+    check("MONGO_DOCUMENT_PATH", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getMongoFields().get(0).mongoDocPath;
+      }
+    });
+    check("INCOMING_AS_MONGO", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoFields().get(0).useIncomingFieldNameAsMongoFieldName;
+      }
+    });
+    check("UPDATE_MATCH_FIELD", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoFields().get(0).updateMatchField;
+      }
+    });
+    check("MODIFIER_OPERATION", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getMongoFields().get(0).modifierUpdateOperation;
+      }
+    });
+    check("MODIFIER_POLICY", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getMongoFields().get(0).modifierOperationApplyPolicy;
+      }
+    });
+    check("INSERT_NULL", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoFields().get(0).insertNull;
+      }
+    });
+    check("JSON", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoFields().get(0).inputJson;
+      }
+    });
+    check("INDEX_FIELD", new IStringGetter() {
+      @Override
+      public String get() {
+        return meta.getMongoIndexes().get(0).pathToFields;
+      }
+    });
+    check("DROP", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoIndexes().get(0).drop;
+      }
+    });
+    check("UNIQUE", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoIndexes().get(0).unique;
+      }
+    });
+    check("SPARSE", new IBooleanGetter() {
+      @Override
+      public boolean get() {
+        return meta.getMongoIndexes().get(0).sparse;
+      }
+    });
   }
 }

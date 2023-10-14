@@ -109,8 +109,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
   private TextVar wLimit;
 
-  public ActionEvalTableContentDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionEvalTableContentDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionEvalTableContent) action;
     if (this.action.getName() == null) {
@@ -182,8 +181,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
     wSchemaname = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaname);
-    wSchemaname.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.Schemaname.Tooltip"));
+    wSchemaname.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.Schemaname.Tooltip"));
     wSchemaname.addModifyListener(lsMod);
     FormData fdSchemaname = new FormData();
     fdSchemaname.left = new FormAttachment(middle, 0);
@@ -208,18 +206,16 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     fdbTable.right = new FormAttachment(100, 0);
     fdbTable.top = new FormAttachment(wSchemaname, margin / 2);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wTablename = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTablename);
-    wTablename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.Tablename.Tooltip"));
+    wTablename.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.Tablename.Tooltip"));
     wTablename.addModifyListener(lsMod);
     FormData fdTablename = new FormData();
     fdTablename.left = new FormAttachment(middle, 0);
@@ -232,8 +228,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     // ///////////////////////////////
     Group wSuccessGroup = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wSuccessGroup);
-    wSuccessGroup.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessGroup.Group.Label"));
+    wSuccessGroup.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessGroup.Group.Label"));
 
     FormLayout successGroupLayout = new FormLayout();
     successGroupLayout.marginWidth = 10;
@@ -242,8 +237,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
     // Success Condition
     Label wlSuccessCondition = new Label(wSuccessGroup, SWT.RIGHT);
-    wlSuccessCondition.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessCondition.Label"));
+    wlSuccessCondition.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessCondition.Label"));
     PropsUi.setLook(wlSuccessCondition);
     FormData fdlSuccessCondition = new FormData();
     fdlSuccessCondition.left = new FormAttachment(0, -margin);
@@ -260,13 +254,12 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     fdSuccessCondition.top = new FormAttachment(0, margin);
     fdSuccessCondition.right = new FormAttachment(100, 0);
     wSuccessCondition.setLayoutData(fdSuccessCondition);
-    wSuccessCondition.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            // disable selection event
-          }
-        });
+    wSuccessCondition.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        // disable selection event
+      }
+    });
 
     // Success when number of errors less than
     Label wlLimit = new Label(wSuccessGroup, SWT.RIGHT);
@@ -278,12 +271,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     fdlLimit.right = new FormAttachment(middle, -2 * margin);
     wlLimit.setLayoutData(fdlLimit);
 
-    wLimit =
-        new TextVar(
-            variables,
-            wSuccessGroup,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionEvalTableContent.Limit.Tooltip"));
+    wLimit = new TextVar(variables, wSuccessGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionEvalTableContent.Limit.Tooltip"));
     PropsUi.setLook(wLimit);
     wLimit.addModifyListener(lsMod);
     FormData fdLimit = new FormData();
@@ -306,8 +294,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     // ///////////////////////////////
     Group wCustomGroup = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wCustomGroup);
-    wCustomGroup.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.CustomGroup.Group.Label"));
+    wCustomGroup.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.CustomGroup.Group.Label"));
 
     FormLayout customGroupLayout = new FormLayout();
     customGroupLayout.marginWidth = 10;
@@ -325,22 +312,20 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     wlCustomSql.setLayoutData(fdlCustomSql);
     wCustomSql = new Button(wCustomGroup, SWT.CHECK);
     PropsUi.setLook(wCustomSql);
-    wCustomSql.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.customSQL.Tooltip"));
+    wCustomSql.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.customSQL.Tooltip"));
     FormData fdCustomSql = new FormData();
     fdCustomSql.left = new FormAttachment(middle, -margin);
     fdCustomSql.top = new FormAttachment(wlCustomSql, 0, SWT.CENTER);
     fdCustomSql.right = new FormAttachment(100, 0);
     wCustomSql.setLayoutData(fdCustomSql);
-    wCustomSql.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wCustomSql.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            setCustomSql();
-            action.setChanged();
-          }
-        });
+        setCustomSql();
+        action.setChanged();
+      }
+    });
     // use Variable substitution?
     wlUseSubs = new Label(wCustomGroup, SWT.RIGHT);
     wlUseSubs.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.UseVariableSubst.Label"));
@@ -352,25 +337,22 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     wlUseSubs.setLayoutData(fdlUseSubs);
     wUseSubs = new Button(wCustomGroup, SWT.CHECK);
     PropsUi.setLook(wUseSubs);
-    wUseSubs.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.UseVariableSubst.Tooltip"));
+    wUseSubs.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.UseVariableSubst.Tooltip"));
     FormData fdUseSubs = new FormData();
     fdUseSubs.left = new FormAttachment(middle, -margin);
     fdUseSubs.top = new FormAttachment(wlUseSubs, 0, SWT.CENTER);
     fdUseSubs.right = new FormAttachment(100, 0);
     wUseSubs.setLayoutData(fdUseSubs);
-    wUseSubs.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wUseSubs.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // clear result rows ?
     wlClearResultList = new Label(wCustomGroup, SWT.RIGHT);
-    wlClearResultList.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.ClearResultList.Label"));
+    wlClearResultList.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.ClearResultList.Label"));
     PropsUi.setLook(wlClearResultList);
     FormData fdlClearResultList = new FormData();
     fdlClearResultList.left = new FormAttachment(0, -margin);
@@ -379,25 +361,22 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     wlClearResultList.setLayoutData(fdlClearResultList);
     wClearResultList = new Button(wCustomGroup, SWT.CHECK);
     PropsUi.setLook(wClearResultList);
-    wClearResultList.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.ClearResultList.Tooltip"));
+    wClearResultList.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.ClearResultList.Tooltip"));
     FormData fdClearResultList = new FormData();
     fdClearResultList.left = new FormAttachment(middle, -margin);
     fdClearResultList.top = new FormAttachment(wlClearResultList, 0, SWT.CENTER);
     fdClearResultList.right = new FormAttachment(100, 0);
     wClearResultList.setLayoutData(fdClearResultList);
-    wClearResultList.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wClearResultList.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // add rows to result?
     wlAddRowsToResult = new Label(wCustomGroup, SWT.RIGHT);
-    wlAddRowsToResult.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.AddRowsToResult.Label"));
+    wlAddRowsToResult.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.AddRowsToResult.Label"));
     PropsUi.setLook(wlAddRowsToResult);
     FormData fdlAddRowsToResult = new FormData();
     fdlAddRowsToResult.left = new FormAttachment(0, -margin);
@@ -406,20 +385,18 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     wlAddRowsToResult.setLayoutData(fdlAddRowsToResult);
     wAddRowsToResult = new Button(wCustomGroup, SWT.CHECK);
     PropsUi.setLook(wAddRowsToResult);
-    wAddRowsToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.AddRowsToResult.Tooltip"));
+    wAddRowsToResult.setToolTipText(BaseMessages.getString(PKG, "ActionEvalTableContent.AddRowsToResult.Tooltip"));
     FormData fdAddRowsToResult = new FormData();
     fdAddRowsToResult.left = new FormAttachment(middle, -margin);
     fdAddRowsToResult.top = new FormAttachment(wlAddRowsToResult, 0, SWT.CENTER);
     fdAddRowsToResult.right = new FormAttachment(100, 0);
     wAddRowsToResult.setLayoutData(fdAddRowsToResult);
-    wAddRowsToResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddRowsToResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     wlPosition = new Label(wCustomGroup, SWT.NONE);
     PropsUi.setLook(wlPosition);
@@ -440,17 +417,14 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
     wbSqlTable = new Button(wCustomGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbSqlTable);
-    wbSqlTable.setText(
-        BaseMessages.getString(PKG, "ActionEvalTableContent.GetSQLAndSelectStatement"));
+    wbSqlTable.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.GetSQLAndSelectStatement"));
     FormData fdbSqlTable = new FormData();
     fdbSqlTable.right = new FormAttachment(100, 0);
     fdbSqlTable.top = new FormAttachment(wAddRowsToResult, margin);
     wbSqlTable.setLayoutData(fdbSqlTable);
     wbSqlTable.addListener(SWT.Selection, e -> getSql());
 
-    wSql =
-        new StyledTextComp(
-            action, wCustomGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wSql = new StyledTextComp(action, wCustomGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
     wSql.addModifyListener(lsMod);
     FormData fdSql = new FormData();
@@ -462,47 +436,44 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
     wSql.addModifyListener(arg0 -> setPosition());
 
-    wSql.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wSql.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wSql.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wSql.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wSql.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wSql.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
     wSql.addModifyListener(lsMod);
 
     FormData fdCustomGroup = new FormData();
@@ -526,17 +497,9 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
   private void getSql() {
     DatabaseMeta inf = getWorkflowMeta().findDatabase(wConnection.getText(), variables);
     if (inf != null) {
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, inf, getWorkflowMeta().getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, inf, getWorkflowMeta().getDatabases());
       if (std.open()) {
-        String sql =
-            "SELECT *"
-                + Const.CR
-                + "FROM "
-                + inf.getQuotedSchemaTableCombination(
-                    variables, std.getSchemaName(), std.getTableName())
-                + Const.CR;
+        String sql = "SELECT *" + Const.CR + "FROM " + inf.getQuotedSchemaTableCombination(variables, std.getSchemaName(), std.getTableName()) + Const.CR;
         wSql.setText(sql);
 
         MessageBox yn = new MessageBox(shell, SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
@@ -549,7 +512,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
           case SWT.NO:
             wSql.setText(sql);
             break;
-          case SWT.YES:            
+          case SWT.YES:
             try (Database db = new Database(loggingObject, variables, inf)) {
               db.connect();
               IRowMeta fields = db.getQueryFields(sql, false);
@@ -564,31 +527,20 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
                   }
                   sql += inf.quoteField(field.getName()) + Const.CR;
                 }
-                sql +=
-                    "FROM "
-                        + inf.getQuotedSchemaTableCombination(
-                            variables, std.getSchemaName(), std.getTableName())
-                        + Const.CR;
+                sql += "FROM " + inf.getQuotedSchemaTableCombination(variables, std.getSchemaName(), std.getTableName()) + Const.CR;
                 wSql.setText(sql);
               } else {
                 MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
                 mb.setMessage(
-                    BaseMessages.getString(
-                            PKG, "ActionEvalTableContent.ERROR_CouldNotRetrieveFields")
-                        + Const.CR
-                        + BaseMessages.getString(
-                            PKG, "ActionEvalTableContent.PerhapsNoPermissions"));
-                mb.setText(
-                    BaseMessages.getString(PKG, "ActionEvalTableContent.DialogCaptionError2"));
+                    BaseMessages.getString(PKG, "ActionEvalTableContent.ERROR_CouldNotRetrieveFields") + Const.CR
+                        + BaseMessages.getString(PKG, "ActionEvalTableContent.PerhapsNoPermissions"));
+                mb.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.DialogCaptionError2"));
                 mb.open();
               }
             } catch (HopException e) {
               MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
               mb.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.DialogCaptionError3"));
-              mb.setMessage(
-                  BaseMessages.getString(PKG, "ActionEvalTableContent.AnErrorOccurred")
-                      + Const.CR
-                      + e.getMessage());
+              mb.setMessage(BaseMessages.getString(PKG, "ActionEvalTableContent.AnErrorOccurred") + Const.CR + e.getMessage());
               mb.open();
             }
             break;
@@ -598,8 +550,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionEvalTableContent.ConnectionNoLongerAvailable"));
+      mb.setMessage(BaseMessages.getString(PKG, "ActionEvalTableContent.ConnectionNoLongerAvailable"));
       mb.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.DialogCaptionError4"));
       mb.open();
     }
@@ -608,9 +559,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
   public void setPosition() {
     int lineNumber = wSql.getLineNumber();
     int columnNumber = wSql.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "ActionEvalTableContent.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "ActionEvalTableContent.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   private void setCustomSql() {
@@ -647,8 +596,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
       wTablename.setText(action.getTablename());
     }
 
-    wSuccessCondition.setText(
-        ActionEvalTableContent.getSuccessConditionDesc(action.getSuccessCondition()));
+    wSuccessCondition.setText(ActionEvalTableContent.getSuccessConditionDesc(action.getSuccessCondition()));
     if (action.getLimit() != null) {
       wLimit.setText(action.getLimit());
     } else {
@@ -686,8 +634,7 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
 
     action.setSchemaname(wSchemaname.getText());
     action.setTablename(wTablename.getText());
-    action.setSuccessCondition(
-        ActionEvalTableContent.getSuccessConditionByDesc(wSuccessCondition.getText()));
+    action.setSuccessCondition(ActionEvalTableContent.getSuccessConditionByDesc(wSuccessCondition.getText()));
     action.setLimit(wLimit.getText());
     action.setUseCustomSql(wCustomSql.getSelection());
     action.setUseVars(wUseSubs.getSelection());
@@ -703,17 +650,14 @@ public class ActionEvalTableContentDialog extends ActionDialog implements IActio
     if (StringUtils.isNotEmpty(databaseName)) {
       DatabaseMeta databaseMeta = getWorkflowMeta().findDatabase(databaseName, variables);
       if (databaseMeta != null) {
-        DatabaseExplorerDialog std =
-            new DatabaseExplorerDialog(
-                shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
+        DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
         std.setSelectedSchemaAndTable(wSchemaname.getText(), wTablename.getText());
         if (std.open()) {
           wTablename.setText(Const.NVL(std.getTableName(), ""));
         }
       } else {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "ActionEvalTableContent.ConnectionError2.DialogMessage"));
+        mb.setMessage(BaseMessages.getString(PKG, "ActionEvalTableContent.ConnectionError2.DialogMessage"));
         mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
         mb.open();
       }

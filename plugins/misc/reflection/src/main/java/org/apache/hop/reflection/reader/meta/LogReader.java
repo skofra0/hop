@@ -24,16 +24,17 @@ import org.apache.hop.metadata.api.IHopMetadata;
 import org.apache.hop.ui.hopgui.file.pipeline.extension.TypePipelineFile;
 
 /*
-
- Disabled for now
- HOP-3420 : Read logging in a standardized way
-
-@HopMetadata(
-    key = "log-reader",
-    name = "Log Reader",
-    description = "Allows for a standardized way to read back logging information",
-    image = "ui/images/log.svg")
-@GuiPlugin
+ * 
+ * Disabled for now
+ * HOP-3420 : Read logging in a standardized way
+ * 
+ * @HopMetadata(
+ * key = "log-reader",
+ * name = "Log Reader",
+ * description = "Allows for a standardized way to read back logging information",
+ * image = "ui/images/log.svg")
+ * 
+ * @GuiPlugin
  */
 public class LogReader extends HopMetadataBase implements IHopMetadata {
 

@@ -45,11 +45,7 @@ public class HopRowToKVStringStringFn extends DoFn<HopRow, KV<String, String>> {
   private transient Counter inputCounter;
   private transient Counter writtenCounter;
 
-  public HopRowToKVStringStringFn(
-      String transformName,
-      int keyIndex,
-      int valueIndex,
-      String rowMetaJson) {
+  public HopRowToKVStringStringFn(String transformName, int keyIndex, int valueIndex, String rowMetaJson) {
     this.transformName = transformName;
     this.keyIndex = keyIndex;
     this.valueIndex = valueIndex;

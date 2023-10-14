@@ -35,21 +35,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /** Change file encoding * */
-public class ChangeFileEncoding
-    extends BaseTransform<ChangeFileEncodingMeta, ChangeFileEncodingData> {
+public class ChangeFileEncoding extends BaseTransform<ChangeFileEncodingMeta, ChangeFileEncodingData> {
 
   private static final Class<?> PKG = ChangeFileEncoding.class; // For Translator
 
-  private static final String COULD_NOT_FIND_FIELD =
-      "ChangeFileEncoding.Exception.CouldnotFindField";
+  private static final String COULD_NOT_FIND_FIELD = "ChangeFileEncoding.Exception.CouldnotFindField";
 
-  public ChangeFileEncoding(
-      TransformMeta transformMeta,
-      ChangeFileEncodingMeta meta,
-      ChangeFileEncodingData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ChangeFileEncoding(TransformMeta transformMeta, ChangeFileEncodingMeta meta, ChangeFileEncodingData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -71,39 +63,27 @@ public class ChangeFileEncoding
       // Check is source filename field is provided
       if (Utils.isEmpty(meta.getFilenameField())) {
         logError(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.FilenameFieldMissing"));
-        throw new HopException(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.Error.FilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.FilenameFieldMissing"));
       }
 
       // Check is target filename field is provided
       if (Utils.isEmpty(meta.getTargetFilenameField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.Error.TargetFilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.TargetFilenameFieldMissing"));
       }
 
       // cache the position of the field
       data.indexOfFileename = data.inputRowMeta.indexOfValue(meta.getFilenameField());
       if (data.indexOfFileename < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD)
-                + "["
-                + meta.getFilenameField()
-                + "]");
-        throw new HopException(
-            BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD, meta.getFilenameField()));
+        logError(BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD) + "[" + meta.getFilenameField() + "]");
+        throw new HopException(BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD, meta.getFilenameField()));
       }
       // cache the position of the field
       data.indexOfTargetFileename = data.inputRowMeta.indexOfValue(meta.getTargetFilenameField());
       if (data.indexOfTargetFileename < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD)
-                + "["
-                + meta.getTargetFilenameField()
-                + "]");
-        throw new HopException(
-            BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD, meta.getTargetFilenameField()));
+        logError(BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD) + "[" + meta.getTargetFilenameField() + "]");
+        throw new HopException(BaseMessages.getString(PKG, COULD_NOT_FIND_FIELD, meta.getTargetFilenameField()));
       }
 
       // Check source encoding
@@ -113,8 +93,7 @@ public class ChangeFileEncoding
       data.targetEncoding = resolve(meta.getTargetEncoding());
 
       if (Utils.isEmpty(data.targetEncoding)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.Exception.TargetEncodingEmpty"));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Exception.TargetEncodingEmpty"));
       }
 
       // End If first
@@ -124,33 +103,25 @@ public class ChangeFileEncoding
       // get source filename
       String sourceFilename = data.inputRowMeta.getString(outputRow, data.indexOfFileename);
       if (Utils.isEmpty(sourceFilename)) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ChangeFileEncoding.Error.SourceFileIsEmpty", meta.getFilenameField()));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.SourceFileIsEmpty", meta.getFilenameField()));
       }
 
       // get target filename
       String targetFilename = data.inputRowMeta.getString(outputRow, data.indexOfTargetFileename);
       if (Utils.isEmpty(targetFilename)) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ChangeFileEncoding.Error.TargetFileIsEmpty", meta.getTargetFilenameField()));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.TargetFileIsEmpty", meta.getTargetFilenameField()));
       }
 
       data.sourceFile = HopVfs.getFileObject(sourceFilename);
 
       // Check if source file exists
       if (!data.sourceFile.exists()) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ChangeFileEncoding.Error.SourceFileNotExists", sourceFilename));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.SourceFileNotExists", sourceFilename));
       }
 
       // Check if source file is a file
       if (data.sourceFile.getType() != FileType.FILE) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ChangeFileEncoding.Error.SourceFileNotAFile", sourceFilename));
+        throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.SourceFileNotAFile", sourceFilename));
       }
 
       // create directory only if not exists
@@ -158,11 +129,7 @@ public class ChangeFileEncoding
         if (meta.isCreateParentFolder()) {
           data.sourceFile.getParent().createFolder();
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ChangeFileEncoding.Error.ParentFolderNotExist",
-                  data.sourceFile.getParent().toString()));
+          throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.ParentFolderNotExist", data.sourceFile.getParent().toString()));
         }
       }
 
@@ -172,11 +139,7 @@ public class ChangeFileEncoding
       putRow(data.inputRowMeta, outputRow); // copy row to output rowset(s)
 
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ChangeFileEncoding.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(outputRow)));
+        logDetailed(BaseMessages.getString(PKG, "ChangeFileEncoding.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(outputRow)));
       }
     } catch (Exception e) {
       boolean sendToErrorRow = false;
@@ -186,9 +149,7 @@ public class ChangeFileEncoding
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "ChangeFileEncoding.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -196,13 +157,7 @@ public class ChangeFileEncoding
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(),
-            outputRow,
-            1,
-            errorMessage,
-            meta.getFilenameField(),
-            "ChangeFileEncoding001");
+        putError(getInputRowMeta(), outputRow, 1, errorMessage, meta.getFilenameField(), "ChangeFileEncoding001");
       }
     }
 
@@ -215,16 +170,11 @@ public class ChangeFileEncoding
     BufferedReader buffReader = null;
 
     try {
-      buffWriter =
-          new BufferedWriter(
-              new OutputStreamWriter(
-                  new FileOutputStream(targetFilename, false), data.targetEncoding));
+      buffWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilename, false), data.targetEncoding));
       if (Utils.isEmpty(data.sourceEncoding)) {
         buffReader = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFilename)));
       } else {
-        buffReader =
-            new BufferedReader(
-                new InputStreamReader(new FileInputStream(sourceFilename), data.sourceEncoding));
+        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream(sourceFilename), data.sourceEncoding));
       }
 
       char[] cBuf = new char[8192];
@@ -236,45 +186,28 @@ public class ChangeFileEncoding
       // add filename to result filenames?
       if (meta.isAddSourceResultFilenames()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                data.sourceFile,
-                getPipelineMeta().getName(),
-                getTransformName());
-        resultFile.setComment(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FileAddedResult"));
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.sourceFile, getPipelineMeta().getName(), getTransformName());
+        resultFile.setComment(BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FileAddedResult"));
         addResultFile(resultFile);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ChangeFileEncoding.Log.FilenameAddResult", data.sourceFile.toString()));
+          logDetailed(BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FilenameAddResult", data.sourceFile.toString()));
         }
       }
       // add filename to result filenames?
       if (meta.isAddTargetResultFilenames()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(targetFilename),
-                getPipelineMeta().getName(),
-                getTransformName());
-        resultFile.setComment(
-            BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FileAddedResult"));
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(targetFilename), getPipelineMeta().getName(), getTransformName());
+        resultFile.setComment(BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FileAddedResult"));
         addResultFile(resultFile);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ChangeFileEncoding.Log.FilenameAddResult", targetFilename));
+          logDetailed(BaseMessages.getString(PKG, "ChangeFileEncoding.Log.FilenameAddResult", targetFilename));
         }
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ChangeFileEncoding.Error.CreatingFile"), e);
+      throw new HopException(BaseMessages.getString(PKG, "ChangeFileEncoding.Error.CreatingFile"), e);
     } finally {
       try {
         if (buffWriter != null) {

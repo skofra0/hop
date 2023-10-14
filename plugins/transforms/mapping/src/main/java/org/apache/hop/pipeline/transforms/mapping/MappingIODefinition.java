@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Helps to define the input or output specifications for the Mapping transform. */
-@HopMetadataWrapper(tag="mapping")
+@HopMetadataWrapper(tag = "mapping")
 public class MappingIODefinition implements Cloneable {
 
   public static final String XML_TAG = "mapping";
@@ -74,11 +74,11 @@ public class MappingIODefinition implements Cloneable {
 
   /**
    * @param inputTransformName the name of the transform to "connect" to. If no name is given,
-   *     detect the source transform automatically: use all input transforms for this mapping
-   *     transform.
+   *        detect the source transform automatically: use all input transforms for this mapping
+   *        transform.
    * @param outputTransformName the name of the transform in the mapping to accept the data from the
-   *     input transform. If no name is given, detect the output transform automatically: there can
-   *     only be one MappingInput transform in the mapping in this specific case.
+   *        input transform. If no name is given, detect the output transform automatically: there can
+   *        only be one MappingInput transform in the mapping in this specific case.
    */
   public MappingIODefinition(String inputTransformName, String outputTransformName) {
     this();
@@ -106,63 +106,59 @@ public class MappingIODefinition implements Cloneable {
   public MappingIODefinition(Node mappingNode) throws HopXmlException {
     this();
 
-    XmlMetadataUtil.deSerializeFromXml(
-        this,
-        mappingNode,
-        MappingIODefinition.class,
-        new MemoryMetadataProvider());
+    XmlMetadataUtil.deSerializeFromXml(this, mappingNode, MappingIODefinition.class, new MemoryMetadataProvider());
   }
   /*
-    inputTransformName = XmlHandler.getTagValue(mappingNode, "input_transform");
-    outputTransformName = XmlHandler.getTagValue(mappingNode, "output_transform");
-    mainDataPath = "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, "main_path"));
-    renamingOnOutput =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, "rename_on_output"));
-    description = XmlHandler.getTagValue(mappingNode, "description");
-
-    int nrConnectors = XmlHandler.countNodes(mappingNode, "connector");
-
-    for (int i = 0; i < nrConnectors; i++) {
-      Node inputConnector = XmlHandler.getSubNodeByNr(mappingNode, "connector", i);
-      String parentField = XmlHandler.getTagValue(inputConnector, "parent");
-      String childField = XmlHandler.getTagValue(inputConnector, "child");
-      valueRenames.add(new MappingValueRename(parentField, childField));
-    }
-  }
-  */
+   * inputTransformName = XmlHandler.getTagValue(mappingNode, "input_transform");
+   * outputTransformName = XmlHandler.getTagValue(mappingNode, "output_transform");
+   * mainDataPath = "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, "main_path"));
+   * renamingOnOutput =
+   * "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, "rename_on_output"));
+   * description = XmlHandler.getTagValue(mappingNode, "description");
+   * 
+   * int nrConnectors = XmlHandler.countNodes(mappingNode, "connector");
+   * 
+   * for (int i = 0; i < nrConnectors; i++) {
+   * Node inputConnector = XmlHandler.getSubNodeByNr(mappingNode, "connector", i);
+   * String parentField = XmlHandler.getTagValue(inputConnector, "parent");
+   * String childField = XmlHandler.getTagValue(inputConnector, "child");
+   * valueRenames.add(new MappingValueRename(parentField, childField));
+   * }
+   * }
+   */
 
   public String getXml() throws HopException {
 
     return XmlMetadataUtil.serializeObjectToXml(this);
   }
   /*
-
-    StringBuilder xml = new StringBuilder(200);
-
-    xml.append("    ").append(XmlHandler.openTag(XML_TAG));
-
-    xml.append("    ").append(XmlHandler.addTagValue("input_transform", inputTransformName));
-    xml.append("    ").append(XmlHandler.addTagValue("output_transform", outputTransformName));
-    xml.append("    ").append(XmlHandler.addTagValue("main_path", mainDataPath));
-    xml.append("    ").append(XmlHandler.addTagValue("rename_on_output", renamingOnOutput));
-    xml.append("    ").append(XmlHandler.addTagValue("description", description));
-
-    for (MappingValueRename valueRename : valueRenames) {
-      xml.append("       ").append(XmlHandler.openTag("connector"));
-      xml.append(XmlHandler.addTagValue("parent", valueRename.getSourceValueName(), false));
-      xml.append(XmlHandler.addTagValue("child", valueRename.getTargetValueName(), false));
-      xml.append(XmlHandler.closeTag("connector")).append(Const.CR);
-    }
-
-    xml.append("    ").append(XmlHandler.closeTag(XML_TAG));
-
-    return xml.toString();
-  }
+   * 
+   * StringBuilder xml = new StringBuilder(200);
+   * 
+   * xml.append("    ").append(XmlHandler.openTag(XML_TAG));
+   * 
+   * xml.append("    ").append(XmlHandler.addTagValue("input_transform", inputTransformName));
+   * xml.append("    ").append(XmlHandler.addTagValue("output_transform", outputTransformName));
+   * xml.append("    ").append(XmlHandler.addTagValue("main_path", mainDataPath));
+   * xml.append("    ").append(XmlHandler.addTagValue("rename_on_output", renamingOnOutput));
+   * xml.append("    ").append(XmlHandler.addTagValue("description", description));
+   * 
+   * for (MappingValueRename valueRename : valueRenames) {
+   * xml.append("       ").append(XmlHandler.openTag("connector"));
+   * xml.append(XmlHandler.addTagValue("parent", valueRename.getSourceValueName(), false));
+   * xml.append(XmlHandler.addTagValue("child", valueRename.getTargetValueName(), false));
+   * xml.append(XmlHandler.closeTag("connector")).append(Const.CR);
+   * }
+   * 
+   * xml.append("    ").append(XmlHandler.closeTag(XML_TAG));
+   * 
+   * return xml.toString();
+   * }
    */
 
   /**
    * @return the TransformName, the name of the transform to "connect" to. If no transform name is
-   *     given, detect the Mapping Input/Output transform automatically.
+   *         given, detect the Mapping Input/Output transform automatically.
    */
   public String getInputTransformName() {
     return inputTransformName;

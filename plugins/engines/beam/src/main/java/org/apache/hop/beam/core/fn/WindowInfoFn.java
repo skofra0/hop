@@ -55,12 +55,7 @@ public class WindowInfoFn extends DoFn<HopRow, HopRow> {
   private transient IRowMeta inputRowMeta;
   private transient IValueMeta fieldValueMeta;
 
-  public WindowInfoFn(
-      String transformName,
-      String maxWindowField,
-      String startWindowField,
-      String endWindowField,
-      String rowMetaJson) {
+  public WindowInfoFn(String transformName, String maxWindowField, String startWindowField, String endWindowField, String rowMetaJson) {
     this.transformName = transformName;
     this.maxWindowField = maxWindowField;
     this.startWindowField = startWindowField;
@@ -142,11 +137,7 @@ public class WindowInfoFn extends DoFn<HopRow, HopRow> {
 
     } catch (Exception e) {
       errorCounter.inc();
-      LOG.error(
-          "Error adding window information to rows : "
-              + processContext.element()
-              + ", "
-              + e.getMessage());
+      LOG.error("Error adding window information to rows : " + processContext.element() + ", " + e.getMessage());
       throw new RuntimeException("Error adding window information to rows", e);
     }
   }

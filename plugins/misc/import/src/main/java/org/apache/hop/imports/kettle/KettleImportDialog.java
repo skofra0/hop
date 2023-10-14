@@ -69,10 +69,8 @@ public class KettleImportDialog extends Dialog {
   public static final String LAST_USED_IMPORT_SKIP_EXISTING = "ImportSkipExisting";
   public static final String LAST_USED_IMPORT_SKIP_HIDDEN = "ImportSkipHidden";
   public static final String LAST_USED_IMPORT_SKIP_FOLDERS = "ImportSkipFolders";
-  public static final String LAST_USED_IMPORT_PIPELINE_RUN_CONFIGURATION =
-      "ImportPipelineRunConfiguration";
-  public static final String LAST_USED_IMPORT_WORKFLOW_RUN_CONFIGURATION =
-      "ImportWorkflowRunConfiguration";
+  public static final String LAST_USED_IMPORT_PIPELINE_RUN_CONFIGURATION = "ImportPipelineRunConfiguration";
+  public static final String LAST_USED_IMPORT_WORKFLOW_RUN_CONFIGURATION = "ImportWorkflowRunConfiguration";
 
   private final IVariables variables;
 
@@ -98,8 +96,7 @@ public class KettleImportDialog extends Dialog {
   private Button wSkipHidden;
   private Button wSkipFolders;
 
-  public KettleImportDialog(Shell parent, IVariables variables, KettleImport kettleImport)
-      throws HopException {
+  public KettleImportDialog(Shell parent, IVariables variables, KettleImport kettleImport) throws HopException {
     super(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
     props = PropsUi.getInstance();
@@ -108,11 +105,7 @@ public class KettleImportDialog extends Dialog {
     this.kettleImport = kettleImport;
 
     try {
-      projectNames =
-          SingletonUtil.getValuesList(
-              "org.apache.hop.projects.gui.ProjectsGuiPlugin",
-              "org.apache.hop.projects.config.ProjectsConfigSingleton",
-              "listProjectNames");
+      projectNames = SingletonUtil.getValuesList("org.apache.hop.projects.gui.ProjectsGuiPlugin", "org.apache.hop.projects.config.ProjectsConfigSingleton", "listProjectNames");
     } catch (HopException e) {
       throw new HopException("Error getting project names list", e);
     }
@@ -165,8 +158,7 @@ public class KettleImportDialog extends Dialog {
     // Import in existing project?
     Label wlImportInExisting = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlImportInExisting);
-    wlImportInExisting.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.ImportInExistingProject"));
+    wlImportInExisting.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.ImportInExistingProject"));
     FormData fdlImportInExisting = new FormData();
     fdlImportInExisting.left = new FormAttachment(0, 0);
     fdlImportInExisting.right = new FormAttachment(middle, 0);
@@ -188,8 +180,7 @@ public class KettleImportDialog extends Dialog {
     // Import in project
     Label wlImportProject = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlImportProject);
-    wlImportProject.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.ImportInProject"));
+    wlImportProject.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.ImportInProject"));
     FormData fdlImportProject = new FormData();
     fdlImportProject.left = new FormAttachment(0, 0);
     fdlImportProject.right = new FormAttachment(middle, 0);
@@ -239,8 +230,7 @@ public class KettleImportDialog extends Dialog {
     // Kettle properties path
     Label wlKettleProps = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlKettleProps);
-    wlKettleProps.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.PathToKettleProperties"));
+    wlKettleProps.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.PathToKettleProperties"));
     FormData fdlKettleProps = new FormData();
     fdlKettleProps.left = new FormAttachment(0, 0);
     fdlKettleProps.right = new FormAttachment(middle, 0);
@@ -295,8 +285,7 @@ public class KettleImportDialog extends Dialog {
     // Jdbc properties path
     Label wlJdbcProps = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlJdbcProps);
-    wlJdbcProps.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.PathToJDBCProperties"));
+    wlJdbcProps.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.PathToJDBCProperties"));
     FormData fdlJdbcProps = new FormData();
     fdlJdbcProps.left = new FormAttachment(0, 0);
     fdlJdbcProps.right = new FormAttachment(middle, 0);
@@ -324,8 +313,7 @@ public class KettleImportDialog extends Dialog {
     // Skip existing target files?
     Label wlSkipExisting = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlSkipExisting);
-    wlSkipExisting.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.SkipExistingTargetFiles"));
+    wlSkipExisting.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.SkipExistingTargetFiles"));
     FormData fdlSkipExisting = new FormData();
     fdlSkipExisting.left = new FormAttachment(0, 0);
     fdlSkipExisting.right = new FormAttachment(middle, 0);
@@ -386,8 +374,7 @@ public class KettleImportDialog extends Dialog {
     // Target environment configuration file
     Label wlTargetConfigFile = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlTargetConfigFile);
-    wlTargetConfigFile.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Label.TargetConfigFile"));
+    wlTargetConfigFile.setText(BaseMessages.getString(PKG, "KettleImportDialog.Label.TargetConfigFile"));
     FormData fdlTargetConfigFile = new FormData();
     fdlTargetConfigFile.left = new FormAttachment(0, 0);
     fdlTargetConfigFile.right = new FormAttachment(middle, 0);
@@ -406,8 +393,7 @@ public class KettleImportDialog extends Dialog {
     lastControl = wTargetConfigFile;
 
     Label wlPipelineRunConfiguration = new Label(shell, SWT.RIGHT);
-    wlPipelineRunConfiguration.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Pipeline.RunConfiguration.Label"));
+    wlPipelineRunConfiguration.setText(BaseMessages.getString(PKG, "KettleImportDialog.Pipeline.RunConfiguration.Label"));
     PropsUi.setLook(wlPipelineRunConfiguration);
     FormData fdlPipelineRunConfiguration = new FormData();
     fdlPipelineRunConfiguration.left = new FormAttachment(0, 0);
@@ -428,15 +414,11 @@ public class KettleImportDialog extends Dialog {
     IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
 
     try {
-      List<String> runConfigurations =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class).listObjectNames();
+      List<String> runConfigurations = metadataProvider.getSerializer(PipelineRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, PipelineMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, PipelineMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }
@@ -449,8 +431,7 @@ public class KettleImportDialog extends Dialog {
     lastControl = wPipelineRunConfiguration;
 
     Label wlWorkflowRunConfiguration = new Label(shell, SWT.RIGHT);
-    wlWorkflowRunConfiguration.setText(
-        BaseMessages.getString(PKG, "KettleImportDialog.Workflow.RunConfiguration.Label"));
+    wlWorkflowRunConfiguration.setText(BaseMessages.getString(PKG, "KettleImportDialog.Workflow.RunConfiguration.Label"));
     PropsUi.setLook(wlWorkflowRunConfiguration);
     FormData fdlWorkflowRunConfiguration = new FormData();
     fdlWorkflowRunConfiguration.left = new FormAttachment(0, 0);
@@ -468,15 +449,11 @@ public class KettleImportDialog extends Dialog {
     PropsUi.setLook(wWorkflowRunConfiguration);
 
     try {
-      List<String> runConfigurations =
-          metadataProvider.getSerializer(WorkflowRunConfiguration.class).listObjectNames();
+      List<String> runConfigurations = metadataProvider.getSerializer(WorkflowRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, PipelineMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, PipelineMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }
@@ -505,50 +482,21 @@ public class KettleImportDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, event -> dispose());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wImport, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wImport, wCancel}, margin, lastControl);
 
     // See if we need to remember previous settings...
     //
-    wImportFrom.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SOURCE_FOLDER),
-            Const.NVL(kettleImport.getInputFolderName(), "")));
-    wImportInExisting.setSelection(
-        !"false"
-            .equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_INTO_PROJECT)));
-    wImportProject.setText(
-        Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_TARGET_PROJECT), ""));
-    wImportPath.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_TARGET_FOLDER),
-            Const.NVL(kettleImport.getOutputFolderName(), "")));
-    wKettleProps.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_PROPS_FILE),
-            Const.NVL(kettleImport.getKettlePropertiesFilename(), "")));
-    wShared.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SHARED_FILE),
-            Const.NVL(kettleImport.getSharedXmlFilename(), "")));
-    wJdbcProps.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_JDBC_FILE),
-            Const.NVL(kettleImport.getJdbcPropertiesFilename(), "")));
-    wTargetConfigFile.setText(
-        Const.NVL(
-            AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_CONFIG_FILE),
-            Const.NVL(kettleImport.getTargetConfigFilename(), "")));
-    wSkipExisting.setSelection(
-        !"false"
-            .equalsIgnoreCase(
-                AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_EXISTING)));
-    wSkipHidden.setSelection(
-        !"false"
-            .equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_HIDDEN)));
-    wSkipFolders.setSelection(
-        !"false"
-            .equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_FOLDERS)));
+    wImportFrom.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SOURCE_FOLDER), Const.NVL(kettleImport.getInputFolderName(), "")));
+    wImportInExisting.setSelection(!"false".equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_INTO_PROJECT)));
+    wImportProject.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_TARGET_PROJECT), ""));
+    wImportPath.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_TARGET_FOLDER), Const.NVL(kettleImport.getOutputFolderName(), "")));
+    wKettleProps.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_PROPS_FILE), Const.NVL(kettleImport.getKettlePropertiesFilename(), "")));
+    wShared.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SHARED_FILE), Const.NVL(kettleImport.getSharedXmlFilename(), "")));
+    wJdbcProps.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_JDBC_FILE), Const.NVL(kettleImport.getJdbcPropertiesFilename(), "")));
+    wTargetConfigFile.setText(Const.NVL(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_CONFIG_FILE), Const.NVL(kettleImport.getTargetConfigFilename(), "")));
+    wSkipExisting.setSelection(!"false".equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_EXISTING)));
+    wSkipHidden.setSelection(!"false".equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_HIDDEN)));
+    wSkipFolders.setSelection(!"false".equalsIgnoreCase(AuditManagerGuiUtil.getLastUsedValue(LAST_USED_IMPORT_SKIP_FOLDERS)));
 
     wImportFrom.setFocus();
 
@@ -558,24 +506,18 @@ public class KettleImportDialog extends Dialog {
   public void dispose() {
     props.setScreen(new WindowProperty(shell));
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_SOURCE_FOLDER, wImportFrom.getText());
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_INTO_PROJECT, wImportInExisting.getSelection() ? "true" : "false");
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_INTO_PROJECT, wImportInExisting.getSelection() ? "true" : "false");
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_TARGET_PROJECT, wImportProject.getText());
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_TARGET_FOLDER, wImportPath.getText());
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_PROPS_FILE, wKettleProps.getText());
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_SHARED_FILE, wShared.getText());
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_JDBC_FILE, wJdbcProps.getText());
     AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_CONFIG_FILE, wTargetConfigFile.getText());
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_PIPELINE_RUN_CONFIGURATION, wPipelineRunConfiguration.getText());
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_WORKFLOW_RUN_CONFIGURATION, wWorkflowRunConfiguration.getText());
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_SKIP_EXISTING, wSkipExisting.getSelection() ? "true" : "false");
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_SKIP_HIDDEN, wSkipHidden.getSelection() ? "true" : "false");
-    AuditManagerGuiUtil.addLastUsedValue(
-        LAST_USED_IMPORT_SKIP_FOLDERS, wSkipFolders.getSelection() ? "true" : "false");
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_PIPELINE_RUN_CONFIGURATION, wPipelineRunConfiguration.getText());
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_WORKFLOW_RUN_CONFIGURATION, wWorkflowRunConfiguration.getText());
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_SKIP_EXISTING, wSkipExisting.getSelection() ? "true" : "false");
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_SKIP_HIDDEN, wSkipHidden.getSelection() ? "true" : "false");
+    AuditManagerGuiUtil.addLastUsedValue(LAST_USED_IMPORT_SKIP_FOLDERS, wSkipFolders.getSelection() ? "true" : "false");
     shell.dispose();
   }
 
@@ -588,33 +530,15 @@ public class KettleImportDialog extends Dialog {
   }
 
   private void browseKettlePropsFile(Event event) {
-    BaseDialog.presentFileDialog(
-        shell,
-        wKettleProps,
-        variables,
-        new String[] {"*.properties", "*.*"},
-        new String[] {"Properties files (*.properties)", "All Files (*.*)"},
-        true);
+    BaseDialog.presentFileDialog(shell, wKettleProps, variables, new String[] {"*.properties", "*.*"}, new String[] {"Properties files (*.properties)", "All Files (*.*)"}, true);
   }
 
   private void browseJdbcPropsFile(Event event) {
-    BaseDialog.presentFileDialog(
-        shell,
-        wJdbcProps,
-        variables,
-        new String[] {"*.properties", "*.*"},
-        new String[] {"Properties files (*.properties)", "All Files (*.*)"},
-        true);
+    BaseDialog.presentFileDialog(shell, wJdbcProps, variables, new String[] {"*.properties", "*.*"}, new String[] {"Properties files (*.properties)", "All Files (*.*)"}, true);
   }
 
   private void browseXmlFile(Event event) {
-    BaseDialog.presentFileDialog(
-        shell,
-        wShared,
-        variables,
-        new String[] {"*.xml", "*.*"},
-        new String[] {"XML files (*.xml)", "All Files (*.*)"},
-        true);
+    BaseDialog.presentFileDialog(shell, wShared, variables, new String[] {"*.xml", "*.*"}, new String[] {"XML files (*.xml)", "All Files (*.*)"}, true);
   }
 
   private void doImport() {
@@ -626,11 +550,7 @@ public class KettleImportDialog extends Dialog {
       if (!wImportInExisting.getSelection()) {
         projectName = "Hop Import Project";
         try {
-          ExtensionPointHandler.callExtensionPoint(
-              HopGui.getInstance().getLog(),
-              variables,
-              "HopImportCreateProject",
-              wImportPath.getText());
+          ExtensionPointHandler.callExtensionPoint(HopGui.getInstance().getLog(), variables, "HopImportCreateProject", wImportPath.getText());
         } catch (HopException e) {
           throw new HopException("Error creating project", e);
         }
@@ -650,8 +570,7 @@ public class KettleImportDialog extends Dialog {
         objects[0] = projectName;
         objects[1] = targetFolder;
         try {
-          ExtensionPointHandler.callExtensionPoint(
-              HopGui.getInstance().getLog(), variables, "ProjectHome", objects);
+          ExtensionPointHandler.callExtensionPoint(HopGui.getInstance().getLog(), variables, "ProjectHome", objects);
 
           // Grab it back (or leave unchanged)
           targetFolder = (String) objects[1];
@@ -675,43 +594,34 @@ public class KettleImportDialog extends Dialog {
       kettleImport.setDefaultWorkflowRunConfiguration(defaultWRC);
 
       boolean goForImport = true;
-      if ((Utils.isEmpty(defaultPRC) && Utils.isEmpty(defaultWRC))
-          || Utils.isEmpty(defaultPRC)
-          || Utils.isEmpty(defaultWRC)) {
+      if ((Utils.isEmpty(defaultPRC) && Utils.isEmpty(defaultWRC)) || Utils.isEmpty(defaultPRC) || Utils.isEmpty(defaultWRC)) {
         MessageBox box = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
         box.setText(BaseMessages.getString(PKG, "KettleImportDialog.NoDefaultRC.Title"));
         box.setMessage(
             BaseMessages.getString(
                 PKG,
                 "KettleImportDialog.NoDefaultRC"
-                    + ((Utils.isEmpty(defaultPRC) && Utils.isEmpty(defaultWRC))
-                        ? "All"
-                        : (Utils.isEmpty(defaultPRC)
-                            ? "Prc"
-                            : (Utils.isEmpty(defaultWRC) ? "Wrc" : "")))
+                    + ((Utils.isEmpty(defaultPRC) && Utils.isEmpty(defaultWRC)) ? "All" : (Utils.isEmpty(defaultPRC) ? "Prc" : (Utils.isEmpty(defaultWRC) ? "Wrc" : "")))
                     + ".Message"));
         int answer = box.open();
 
-        if (answer == SWT.CANCEL) goForImport = false;
+        if (answer == SWT.CANCEL)
+          goForImport = false;
       }
 
       if (goForImport) {
         // We're going to run the import in a progress dialog with a monitor...
         //
-        ProgressMonitorDialog monitorDialog =
-            new ProgressMonitorDialog(HopGui.getInstance().getShell());
-        monitorDialog.run(
-            true,
-            monitor -> {
-              try {
-                monitor.beginTask("Importing files", 4);
-                kettleImport.runImport(monitor);
-                monitor.done();
-              } catch (Throwable e) {
-                throw new InvocationTargetException(
-                    e, "Error importing " + Const.getStackTracker(e));
-              }
-            });
+        ProgressMonitorDialog monitorDialog = new ProgressMonitorDialog(HopGui.getInstance().getShell());
+        monitorDialog.run(true, monitor -> {
+          try {
+            monitor.beginTask("Importing files", 4);
+            kettleImport.runImport(monitor);
+            monitor.done();
+          } catch (Throwable e) {
+            throw new InvocationTargetException(e, "Error importing " + Const.getStackTracker(e));
+          }
+        });
 
         // Show some statistics after the import...
         //

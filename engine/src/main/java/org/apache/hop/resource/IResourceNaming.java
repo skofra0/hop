@@ -36,16 +36,15 @@ public interface IResourceNaming {
    *
    * @param prefix The prefix, usually the name of the object that is being exported
    * @param originalFilePath The original path to the file. This will be used in the naming of the
-   *     resource to ensure that the same GUID will be returned for the same file.
+   *        resource to ensure that the same GUID will be returned for the same file.
    * @param extension The extension of the filename to be created. For now this also gives a clue as
-   *     to what kind of data is being exported and named..
+   *        to what kind of data is being exported and named..
    * @param namingType the file naming type to use, in case of DATA_FILE for example, the return
-   *     value might not be the complete file, but rather
+   *        value might not be the complete file, but rather
    * @return The filename, typically including a GUID, but always the same when given the same
-   *     prefix and extension as input.
+   *         prefix and extension as input.
    */
-  String nameResource(
-      String prefix, String originalFilePath, String extension, FileNamingType namingType);
+  String nameResource(String prefix, String originalFilePath, String extension, FileNamingType namingType);
 
   /**
    * Create a (file) name based on the passed FileObject
@@ -54,10 +53,9 @@ public interface IResourceNaming {
    * @param variables variable(variables) of the pipeline or workflow.
    * @param pathOnly Set to true to just return the path, false to return file name and path
    * @return String The file name with the path set as a variable. If pathOnly is set to true then
-   *     the file name will be left out.
+   *         the file name will be left out.
    */
-  String nameResource(FileObject fileObject, IVariables variables, boolean pathOnly)
-      throws FileSystemException;
+  String nameResource(FileObject fileObject, IVariables variables, boolean pathOnly) throws FileSystemException;
 
   /** @return the map of folders mapped to created parameters during the resource naming. */
   Map<String, String> getDirectoryMap();

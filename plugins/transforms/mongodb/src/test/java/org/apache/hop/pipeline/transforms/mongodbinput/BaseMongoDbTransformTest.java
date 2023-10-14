@@ -46,18 +46,29 @@ import static org.mockito.Mockito.when;
 /** Common mock setup for MongoDbOutputTest and MongoDbInput */
 public class BaseMongoDbTransformTest {
 
-  @Mock protected TransformMeta transformMeta;
-  @Mock protected PipelineMeta pipelineMeta;
+  @Mock
+  protected TransformMeta transformMeta;
+  @Mock
+  protected PipelineMeta pipelineMeta;
   protected Pipeline pipeline = spy(new LocalPipelineEngine());
-  @Mock protected ILogChannel mockLog;
-  @Mock protected MongoWrapperClientFactory mongoClientWrapperFactory;
-  @Mock protected MongoClientWrapper mongoClientWrapper;
-  @Mock protected MongoCollectionWrapper mongoCollectionWrapper;
-  @Mock protected ILogChannelFactory logChannelFactory;
-  @Mock protected Cursor cursor;
-  @Captor protected ArgumentCaptor<String> stringCaptor;
-  @Captor protected ArgumentCaptor<DBObject> dbObjectCaptor;
-  @Captor protected ArgumentCaptor<Throwable> throwableCaptor;
+  @Mock
+  protected ILogChannel mockLog;
+  @Mock
+  protected MongoWrapperClientFactory mongoClientWrapperFactory;
+  @Mock
+  protected MongoClientWrapper mongoClientWrapper;
+  @Mock
+  protected MongoCollectionWrapper mongoCollectionWrapper;
+  @Mock
+  protected ILogChannelFactory logChannelFactory;
+  @Mock
+  protected Cursor cursor;
+  @Captor
+  protected ArgumentCaptor<String> stringCaptor;
+  @Captor
+  protected ArgumentCaptor<DBObject> dbObjectCaptor;
+  @Captor
+  protected ArgumentCaptor<Throwable> throwableCaptor;
 
   protected RowMeta rowMeta = new RowMeta();
   protected Object[] rowData;
@@ -65,14 +76,11 @@ public class BaseMongoDbTransformTest {
   @Before
   public void before() throws Exception {
     MockitoAnnotations.initMocks(this);
-    when(mongoClientWrapperFactory.createMongoClientWrapper(
-            any(MongoProperties.class), any(MongoUtilLogger.class)))
-        .thenReturn(mongoClientWrapper);
+    when(mongoClientWrapperFactory.createMongoClientWrapper(any(MongoProperties.class), any(MongoUtilLogger.class))).thenReturn(mongoClientWrapper);
 
     when(transformMeta.getName()).thenReturn("transformMetaName");
     when(pipelineMeta.findTransform(anyString())).thenReturn(transformMeta);
-    when(logChannelFactory.create(any(BaseTransform.class), any(Pipeline.class)))
-        .thenReturn(mockLog);
+    when(logChannelFactory.create(any(BaseTransform.class), any(Pipeline.class))).thenReturn(mockLog);
     HopLogStore.setLogChannelFactory(logChannelFactory);
   }
 }

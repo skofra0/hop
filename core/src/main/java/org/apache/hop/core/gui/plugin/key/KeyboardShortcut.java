@@ -85,10 +85,10 @@ public class KeyboardShortcut {
       str.append("Delete");
     }
     // Digit
-    else if ( (keyCode >= 48 && keyCode <= 57) || "+-/*".indexOf(keyCode)>=0) {
+    else if ((keyCode >= 48 && keyCode <= 57) || "+-/*".indexOf(keyCode) >= 0) {
       str.append(((char) keyCode));
     }
-     
+
     if ((keyCode & (1 << 24)) != 0) {
       switch (keyCode & (0xFFFF)) {
         case 1:
@@ -180,7 +180,7 @@ public class KeyboardShortcut {
           break;
       }
     }
-    
+
     return str.toString();
   }
 
@@ -193,11 +193,7 @@ public class KeyboardShortcut {
       return false;
     }
     KeyboardShortcut that = (KeyboardShortcut) o;
-    return alt == that.alt
-        && control == that.control
-        && shift == that.shift
-        && command == that.command
-        && keyCode == that.keyCode
+    return alt == that.alt && control == that.control && shift == that.shift && command == that.command && keyCode == that.keyCode
         && parentMethodName.equals(that.parentMethodName);
   }
 

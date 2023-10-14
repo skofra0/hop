@@ -31,24 +31,23 @@ import org.apache.hop.metadata.api.IHopMetadataProvider;
     documentationUrl = "/metadata-types/workflow-run-config.html")
 public class WorkflowRunConfiguration extends HopMetadataBase implements Cloneable, IHopMetadata {
 
-  public static final String GUI_PLUGIN_ELEMENT_PARENT_ID =
-      "WorkflowRunConfiguration-PluginSpecific-Options";
+  public static final String GUI_PLUGIN_ELEMENT_PARENT_ID = "WorkflowRunConfiguration-PluginSpecific-Options";
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private IWorkflowEngineRunConfiguration engineRunConfiguration;
+  @HopMetadataProperty
+  private IWorkflowEngineRunConfiguration engineRunConfiguration;
 
-  @HopMetadataProperty private String executionInfoLocationName;
+  @HopMetadataProperty
+  private String executionInfoLocationName;
 
-  @HopMetadataProperty protected boolean defaultSelection;
+  @HopMetadataProperty
+  protected boolean defaultSelection;
 
   public WorkflowRunConfiguration() {}
 
-  public WorkflowRunConfiguration(
-      String name,
-      String description,
-      String executionInfoLocationName,
-      IWorkflowEngineRunConfiguration engineRunConfiguration,
+  public WorkflowRunConfiguration(String name, String description, String executionInfoLocationName, IWorkflowEngineRunConfiguration engineRunConfiguration,
       boolean defaultSelection) {
     this();
     this.name = name;
@@ -149,10 +148,8 @@ public class WorkflowRunConfiguration extends HopMetadataBase implements Cloneab
    * @return The default run configuration or null if none is specified.
    * @throws HopException
    */
-  public static final WorkflowRunConfiguration findDefault(IHopMetadataProvider metadataProvider)
-      throws HopException {
-    for (WorkflowRunConfiguration runConfiguration :
-        metadataProvider.getSerializer(WorkflowRunConfiguration.class).loadAll()) {
+  public static final WorkflowRunConfiguration findDefault(IHopMetadataProvider metadataProvider) throws HopException {
+    for (WorkflowRunConfiguration runConfiguration : metadataProvider.getSerializer(WorkflowRunConfiguration.class).loadAll()) {
       if (runConfiguration.isDefaultSelection()) {
         return runConfiguration;
       }

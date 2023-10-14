@@ -106,8 +106,7 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.ignored = guiElement.ignored();
     this.addingSeparator = guiElement.separator();
     this.label = getTranslation(guiElement.label(), fieldPackageName, field.getDeclaringClass());
-    this.toolTip =
-        getTranslation(guiElement.toolTip(), fieldPackageName, field.getDeclaringClass());
+    this.toolTip = getTranslation(guiElement.toolTip(), fieldPackageName, field.getDeclaringClass());
     this.typeFilename = guiElement.typeFilename();
     this.typeMetadata = guiElement.typeMetadata();
     this.buttonMethod = null;
@@ -145,8 +144,7 @@ public class GuiElements extends BaseGuiElements implements Comparable<GuiElemen
     this.ignored = guiElement.ignored();
     this.addingSeparator = guiElement.separator();
     this.label = getTranslation(guiElement.label(), methodPackageName, method.getDeclaringClass());
-    this.toolTip =
-        getTranslation(guiElement.toolTip(), methodPackageName, method.getDeclaringClass());
+    this.toolTip = getTranslation(guiElement.toolTip(), methodPackageName, method.getDeclaringClass());
     this.typeFilename = guiElement.typeFilename();
     this.typeMetadata = guiElement.typeMetadata();
 

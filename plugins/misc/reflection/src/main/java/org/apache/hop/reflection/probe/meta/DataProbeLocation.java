@@ -22,9 +22,11 @@ import java.util.Objects;
 
 public class DataProbeLocation {
 
-  @HopMetadataProperty private String sourcePipelineFilename;
+  @HopMetadataProperty
+  private String sourcePipelineFilename;
 
-  @HopMetadataProperty private String sourceTransformName;
+  @HopMetadataProperty
+  private String sourceTransformName;
 
   public DataProbeLocation() {}
 
@@ -42,8 +44,7 @@ public class DataProbeLocation {
       return false;
     }
     DataProbeLocation that = (DataProbeLocation) o;
-    return Objects.equals(sourcePipelineFilename, that.sourcePipelineFilename)
-        && Objects.equals(sourceTransformName, that.sourceTransformName);
+    return Objects.equals(sourcePipelineFilename, that.sourcePipelineFilename) && Objects.equals(sourceTransformName, that.sourceTransformName);
   }
 
   @Override

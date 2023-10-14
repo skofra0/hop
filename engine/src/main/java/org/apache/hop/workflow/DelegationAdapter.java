@@ -24,12 +24,8 @@ import org.apache.hop.workflow.engine.IWorkflowEngine;
 public class DelegationAdapter implements IDelegationListener {
 
   @Override
-  public void workflowDelegationStarted(
-      IWorkflowEngine<WorkflowMeta> delegatedWorkflow,
-      WorkflowExecutionConfiguration workflowExecutionConfiguration) {}
+  public void workflowDelegationStarted(IWorkflowEngine<WorkflowMeta> delegatedWorkflow, WorkflowExecutionConfiguration workflowExecutionConfiguration) {}
 
   @Override
-  public void pipelineDelegationStarted(
-      IPipelineEngine<PipelineMeta> delegatedPipeline,
-      PipelineExecutionConfiguration pipelineExecutionConfiguration) {}
+  public void pipelineDelegationStarted(IPipelineEngine<PipelineMeta> delegatedPipeline, PipelineExecutionConfiguration pipelineExecutionConfiguration) {}
 }

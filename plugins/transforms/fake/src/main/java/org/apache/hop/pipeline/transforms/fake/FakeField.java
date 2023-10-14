@@ -44,9 +44,7 @@ public class FakeField {
   }
 
   public boolean isValid() {
-    return (StringUtils.isNotEmpty(name)
-        && StringUtils.isNotEmpty(type)
-        && StringUtils.isNotEmpty(topic));
+    return (StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(type) && StringUtils.isNotEmpty(topic));
   }
 
   /**

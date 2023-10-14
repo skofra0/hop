@@ -52,37 +52,9 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
   private List<ActionMeta> activeActions;
   private List<ActionResult> actionResults;
 
-  public WorkflowPainter(
-      IGc gc,
-      IVariables variables,
-      WorkflowMeta workflowMeta,
-      Point area,
-      DPoint offset,
-      WorkflowHopMeta candidate,
-      Rectangle selrect,
-      List<AreaOwner> areaOwners,
-      int iconSize,
-      int lineWidth,
-      int gridSize,
-      String noteFontName,
-      int noteFontHeight,
-      double zoomFactor,
-      boolean drawingEditIcons) {
-    super(
-        gc,
-        variables,
-        workflowMeta,
-        area,
-        offset,
-        selrect,
-        areaOwners,
-        iconSize,
-        lineWidth,
-        gridSize,
-        noteFontName,
-        noteFontHeight,
-        zoomFactor,
-        drawingEditIcons);
+  public WorkflowPainter(IGc gc, IVariables variables, WorkflowMeta workflowMeta, Point area, DPoint offset, WorkflowHopMeta candidate, Rectangle selrect,
+      List<AreaOwner> areaOwners, int iconSize, int lineWidth, int gridSize, String noteFontName, int noteFontHeight, double zoomFactor, boolean drawingEditIcons) {
+    super(gc, variables, workflowMeta, area, offset, selrect, areaOwners, iconSize, lineWidth, gridSize, noteFontName, noteFontHeight, zoomFactor, drawingEditIcons);
     this.workflowMeta = workflowMeta;
 
     this.candidate = candidate;
@@ -98,7 +70,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
     // Draw the pipeline onto the image
     //
     gc.setAlpha(255);
-    gc.setTransform((float)offset.x, (float)offset.y, magnification);
+    gc.setTransform((float) offset.x, (float) offset.y, magnification);
     drawActions();
 
     // Draw the navigation view in native pixels to make calculation a bit easier.
@@ -115,8 +87,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
     }
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterStart.id, this);
     } catch (HopException e) {
       LogChannel.GENERAL.logError("Error in JobPainterStart extension point", e);
     }
@@ -153,18 +124,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
         }
         Point start = real2screen(fr.x + iconSize / 2, fr.y + iconSize / 2);
         Point end = real2screen(to.x, to.y);
-        drawArrow(
-            arrow,
-            start.x,
-            start.y,
-            end.x,
-            end.y,
-            theta,
-            calcArrowLength(),
-            1.2,
-            null,
-            startHopAction,
-            endHopAction == null ? endHopLocation : endHopAction);
+        drawArrow(arrow, start.x, start.y, end.x, end.y, theta, calcArrowLength(), 1.2, null, startHopAction, endHopAction == null ? endHopLocation : endHopAction);
       } else if (endHopAction != null && endHopLocation != null) {
         Point fr = endHopLocation;
         Point to = endHopAction.getLocation();
@@ -178,17 +138,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
         Point start = real2screen(fr.x, fr.y);
         Point end = real2screen(to.x + iconSize / 2, to.y + iconSize / 2);
         drawArrow(
-            arrow,
-            start.x,
-            start.y,
-            end.x,
-            end.y + iconSize / 2,
-            theta,
-            calcArrowLength(),
-            1.2,
-            null,
-            startHopAction == null ? endHopLocation : startHopAction,
-            endHopAction);
+            arrow, start.x, start.y, end.x, end.y + iconSize / 2, theta, calcArrowLength(), 1.2, null, startHopAction == null ? endHopLocation : startHopAction, endHopAction);
       }
     }
 
@@ -204,21 +154,12 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
       gc.setLineWidth(2);
       gc.setForeground(EColor.RED);
       Point n = noInputAction.getLocation();
-      gc.drawLine(
-          round(offset.x + n.x - 5),
-          round(offset.y + n.y - 5),
-          round(offset.x + n.x + iconSize + 5),
-          round(offset.y + n.y + iconSize + 5));
-      gc.drawLine(
-              round(offset.x + n.x - 5),
-              round(offset.y + n.y + iconSize + 5),
-              round(offset.x + n.x + iconSize + 5),
-              round(offset.y + n.y - 5));
+      gc.drawLine(round(offset.x + n.x - 5), round(offset.y + n.y - 5), round(offset.x + n.x + iconSize + 5), round(offset.y + n.y + iconSize + 5));
+      gc.drawLine(round(offset.x + n.x - 5), round(offset.y + n.y + iconSize + 5), round(offset.x + n.x + iconSize + 5), round(offset.y + n.y - 5));
     }
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterEnd.id, this);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterEnd.id, this);
     } catch (HopException e) {
       LogChannel.GENERAL.logError("Error in JobPainterEnd extension point", e);
     }
@@ -249,8 +190,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
     gc.fillRoundRectangle(x - 1, y - 1, iconSize + 1, iconSize + 1, 7, 7);
     gc.drawActionIcon(x, y, actionMeta, magnification);
 
-    areaOwners.add(
-        new AreaOwner(AreaType.ACTION_ICON, x, y, iconSize, iconSize, offset, subject, actionMeta));
+    areaOwners.add(new AreaOwner(AreaType.ACTION_ICON, x, y, iconSize, iconSize, offset, subject, actionMeta));
 
     if (actionMeta.isMissing()) {
       gc.setForeground(EColor.RED);
@@ -283,25 +223,10 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
       gc.drawImage(EImage.EDIT, xPos - 6, yPos - 2, magnification);
 
       gc.setBackground(EColor.LIGHTGRAY);
-      gc.fillRoundRectangle(
-          xPos - 8,
-          yPos - 2,
-          nameExtent.x + 15,
-          nameExtent.y + 8,
-          BasePainter.CORNER_RADIUS_5 + 15,
-          BasePainter.CORNER_RADIUS_5 + 15);
+      gc.fillRoundRectangle(xPos - 8, yPos - 2, nameExtent.x + 15, nameExtent.y + 8, BasePainter.CORNER_RADIUS_5 + 15, BasePainter.CORNER_RADIUS_5 + 15);
       gc.setAlpha(tmpAlpha);
 
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.ACTION_NAME,
-              xPos - 8,
-              yPos - 2,
-              nameExtent.x + 15,
-              nameExtent.y + 4,
-              offset,
-              actionMeta,
-              name));
+      areaOwners.add(new AreaOwner(AreaType.ACTION_NAME, xPos - 8, yPos - 2, nameExtent.x + 15, nameExtent.y + 4, offset, actionMeta, name));
     }
 
     gc.drawText(name, xPos, yPos, true);
@@ -311,36 +236,18 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
       int iconX = (x + iconSize) - (miniIconSize / 2) + 1;
       int iconY = y - (miniIconSize / 2) - 1;
       gc.drawImage(EImage.BUSY, iconX, iconY, magnification);
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.ACTION_BUSY,
-              iconX,
-              iconY,
-              miniIconSize,
-              miniIconSize,
-              offset,
-              subject,
-              actionMeta));
+      areaOwners.add(new AreaOwner(AreaType.ACTION_BUSY, iconX, iconY, miniIconSize, miniIconSize, offset, subject, actionMeta));
     } else {
       gc.setForeground(EColor.BLACK);
     }
-    
+
     // Show an information icon in the upper left corner of the action...
     //
-    if ( !Utils.isEmpty(actionMeta.getDescription()) ) {
+    if (!Utils.isEmpty(actionMeta.getDescription())) {
       int xInfo = x - (miniIconSize / 2) - 1;
       int yInfo = y - (miniIconSize / 2) - 1;
       gc.drawImage(EImage.INFO_DISABLED, xInfo, yInfo, magnification);
-      areaOwners.add(
-          new AreaOwner(
-              AreaType.ACTION_INFO_ICON,
-              xInfo,
-              yInfo,
-              miniIconSize,
-              miniIconSize,
-              offset,
-              workflowMeta,
-              actionMeta));
+      areaOwners.add(new AreaOwner(AreaType.ACTION_INFO_ICON, xInfo, yInfo, miniIconSize, miniIconSize, offset, workflowMeta, actionMeta));
     }
 
     ActionResult actionResult = findActionResult(actionMeta);
@@ -353,54 +260,23 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
       //
       if (actionResult.isCheckpoint()) {
         gc.drawImage(EImage.CHECKPOINT, iconX, iconY, magnification);
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.ACTION_RESULT_CHECKPOINT,
-                iconX,
-                iconY,
-                miniIconSize,
-                miniIconSize,
-                offset,
-                actionMeta,
-                actionResult));
+        areaOwners.add(new AreaOwner(AreaType.ACTION_RESULT_CHECKPOINT, iconX, iconY, miniIconSize, miniIconSize, offset, actionMeta, actionResult));
       } else {
         if (result.getResult()) {
           gc.drawImage(EImage.SUCCESS, iconX, iconY, magnification);
-          areaOwners.add(
-              new AreaOwner(
-                  AreaType.ACTION_RESULT_SUCCESS,
-                  iconX,
-                  iconY,
-                  miniIconSize,
-                  miniIconSize,
-                  offset,
-                  actionMeta,
-                  actionResult));
+          areaOwners.add(new AreaOwner(AreaType.ACTION_RESULT_SUCCESS, iconX, iconY, miniIconSize, miniIconSize, offset, actionMeta, actionResult));
         } else {
           gc.drawImage(EImage.FAILURE, iconX, iconY, magnification);
-          areaOwners.add(
-              new AreaOwner(
-                  AreaType.ACTION_RESULT_FAILURE,
-                  iconX,
-                  iconY,
-                  miniIconSize,
-                  miniIconSize,
-                  offset,
-                  actionMeta,
-                  actionResult));
+          areaOwners.add(new AreaOwner(AreaType.ACTION_RESULT_FAILURE, iconX, iconY, miniIconSize, miniIconSize, offset, actionMeta, actionResult));
         }
       }
     }
 
-    WorkflowPainterExtension extension =
-        new WorkflowPainterExtension(
-            gc, areaOwners, workflowMeta, null, actionMeta, x, y, 0, 0, 0, 0, offset, iconSize);
+    WorkflowPainterExtension extension = new WorkflowPainterExtension(gc, areaOwners, workflowMeta, null, actionMeta, x, y, 0, 0, 0, 0, offset, iconSize);
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterAction.id, extension);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterAction.id, extension);
     } catch (Exception e) {
-      LogChannel.GENERAL.logError(
-          "Error calling extension point(s) for the workflow painter action", e);
+      LogChannel.GENERAL.logError("Error calling extension point(s) for the workflow painter action", e);
     }
 
     // Restore the previous alpha value
@@ -483,24 +359,12 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
     gc.setLineStyle(ELineStyle.SOLID);
   }
 
-  private void drawArrow(EImage arrow, int[] line, WorkflowHopMeta workflowHop)
-      throws HopException {
+  private void drawArrow(EImage arrow, int[] line, WorkflowHopMeta workflowHop) throws HopException {
     drawArrow(arrow, line, workflowHop, workflowHop.getFromAction(), workflowHop.getToAction());
   }
 
   @Override
-  protected void drawArrow(
-      EImage arrow,
-      int x1,
-      int y1,
-      int x2,
-      int y2,
-      double theta,
-      int size,
-      double factor,
-      WorkflowHopMeta workflowHop,
-      Object startObject,
-      Object endObject)
+  protected void drawArrow(EImage arrow, int x1, int y1, int x2, int y2, double theta, int size, double factor, WorkflowHopMeta workflowHop, Object startObject, Object endObject)
       throws HopException {
     int mx;
     int my;
@@ -561,16 +425,7 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
         my = (int) (y1 + factor * (y2 - y1) / 2);
         EImage image = (workflowHop.isEnabled()) ? EImage.PARALLEL : EImage.PARALLEL_DISABLED;
         gc.drawImage(image, mx, my, magnification, angle);
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.WORKFLOW_HOP_PARALLEL_ICON,
-                mx,
-                my,
-                miniIconSize,
-                miniIconSize,
-                offset,
-                subject,
-                workflowHop));
+        areaOwners.add(new AreaOwner(AreaType.WORKFLOW_HOP_PARALLEL_ICON, mx, my, miniIconSize, miniIconSize, offset, subject, workflowHop));
       } else {
         EImage image;
         if (workflowHop.isUnconditional()) {
@@ -584,39 +439,14 @@ public class WorkflowPainter extends BasePainter<WorkflowHopMeta, ActionMeta> {
         }
 
         gc.drawImage(image, mx, my, magnification);
-        areaOwners.add(
-            new AreaOwner(
-                AreaType.WORKFLOW_HOP_ICON,
-                mx,
-                my,
-                miniIconSize,
-                miniIconSize,
-                offset,
-                subject,
-                workflowHop));
+        areaOwners.add(new AreaOwner(AreaType.WORKFLOW_HOP_ICON, mx, my, miniIconSize, miniIconSize, offset, subject, workflowHop));
       }
 
-      WorkflowPainterExtension extension =
-          new WorkflowPainterExtension(
-              gc,
-              areaOwners,
-              workflowMeta,
-              workflowHop,
-              null,
-              x1,
-              y1,
-              x2,
-              y2,
-              mx,
-              my,
-              offset,
-              iconSize);
+      WorkflowPainterExtension extension = new WorkflowPainterExtension(gc, areaOwners, workflowMeta, workflowHop, null, x1, y1, x2, y2, mx, my, offset, iconSize);
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterArrow.id, extension);
+        ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowPainterArrow.id, extension);
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error calling extension point(s) for the workflow painter arrow", e);
+        LogChannel.GENERAL.logError("Error calling extension point(s) for the workflow painter arrow", e);
       }
     }
   }

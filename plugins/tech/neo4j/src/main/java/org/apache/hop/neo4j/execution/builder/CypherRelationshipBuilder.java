@@ -34,36 +34,19 @@ public class CypherRelationshipBuilder extends CypherMatchBuilder {
   }
 
   @Override
-  public CypherRelationshipBuilder withMatch(
-          String label, String alias, Map<String, Object> keyValueMap) {
+  public CypherRelationshipBuilder withMatch(String label, String alias, Map<String, Object> keyValueMap) {
     return (CypherRelationshipBuilder) super.withMatch(label, alias, keyValueMap);
   }
 
-  public CypherRelationshipBuilder withMerge(
-      String alias1, String alias2, String relationshipLabel) {
+  public CypherRelationshipBuilder withMerge(String alias1, String alias2, String relationshipLabel) {
 
-    cypher
-        .append("MERGE(")
-        .append(alias1)
-        .append(")-[rel:")
-        .append(relationshipLabel)
-        .append("]->(")
-        .append(alias2)
-        .append(")");
+    cypher.append("MERGE(").append(alias1).append(")-[rel:").append(relationshipLabel).append("]->(").append(alias2).append(")");
     return this;
   }
 
-  public CypherRelationshipBuilder withCreate(
-          String alias1, String alias2, String relationshipLabel) {
+  public CypherRelationshipBuilder withCreate(String alias1, String alias2, String relationshipLabel) {
 
-    cypher
-            .append("CREATE(")
-            .append(alias1)
-            .append(")-[rel:")
-            .append(relationshipLabel)
-            .append("]->(")
-            .append(alias2)
-            .append(")");
+    cypher.append("CREATE(").append(alias1).append(")-[rel:").append(relationshipLabel).append("]->(").append(alias2).append(")");
     return this;
   }
 }

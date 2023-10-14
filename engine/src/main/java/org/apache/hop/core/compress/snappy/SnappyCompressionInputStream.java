@@ -25,8 +25,7 @@ import java.io.InputStream;
 
 public class SnappyCompressionInputStream extends CompressionInputStream {
 
-  public SnappyCompressionInputStream(InputStream in, ICompressionProvider provider)
-      throws IOException {
+  public SnappyCompressionInputStream(InputStream in, ICompressionProvider provider) throws IOException {
     super(getDelegate(in), provider);
   }
 

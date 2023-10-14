@@ -28,9 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionShellLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionShell> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionShellLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionShell> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionShell> getActionClass() {
@@ -40,20 +40,8 @@ public class WorkflowActionShellLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "filename",
-            "workDirectory",
-            "argFromPrevious",
-            "execPerRow",
-            "setLogfile",
-            "logfile",
-            "setAppendLogfile",
-            "logext",
-            "addDate",
-            "addTime",
-            "insertScript",
-            "script",
-            "logFileLevel",
-            "arguments");
+        "filename", "workDirectory", "argFromPrevious", "execPerRow", "setLogfile", "logfile", "setAppendLogfile", "logext", "addDate", "addTime", "insertScript", "script",
+        "logFileLevel", "arguments");
   }
 
   @Override

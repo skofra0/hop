@@ -40,8 +40,7 @@ public class DetectEmptyStreamDialog extends BaseTransformDialog implements ITra
 
   private final DetectEmptyStreamMeta input;
 
-  public DetectEmptyStreamDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public DetectEmptyStreamDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (DetectEmptyStreamMeta) in;
   }
@@ -69,8 +68,7 @@ public class DetectEmptyStreamDialog extends BaseTransformDialog implements ITra
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "DetectEmptyStreamDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "DetectEmptyStreamDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);

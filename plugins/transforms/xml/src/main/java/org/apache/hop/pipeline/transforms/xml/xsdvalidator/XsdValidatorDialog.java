@@ -78,8 +78,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
   private boolean gotPrevious = false;
 
-  public XsdValidatorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public XsdValidatorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (XsdValidatorMeta) in;
   }
@@ -177,8 +176,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     wlXMLSourceFile.setLayoutData(fdlXMLSourceFile);
     wXMLSourceFile = new Button(wXML, SWT.CHECK);
     PropsUi.setLook(wXMLSourceFile);
-    wXMLSourceFile.setToolTipText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.XMLSourceFile.Tooltip"));
+    wXMLSourceFile.setToolTipText(BaseMessages.getString(PKG, "XsdValidatorDialog.XMLSourceFile.Tooltip"));
     FormData fdXMLSourceFile = new FormData();
     fdXMLSourceFile.left = new FormAttachment(middle, margin);
     fdXMLSourceFile.top = new FormAttachment(wlXMLSourceFile, 0, SWT.CENTER);
@@ -203,20 +201,19 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     fdXMLStream.top = new FormAttachment(wXMLSourceFile, margin);
     fdXMLStream.right = new FormAttachment(100, -margin);
     wXMLStream.setLayoutData(fdXMLStream);
-    wXMLStream.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wXMLStream.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            PopulateFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        PopulateFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdXML = new FormData();
     fdXML.left = new FormAttachment(0, margin);
@@ -258,8 +255,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
     // Output String Field ?
     Label wlOutputStringField = new Label(wOutputFields, SWT.RIGHT);
-    wlOutputStringField.setText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.OutputStringField.Label"));
+    wlOutputStringField.setText(BaseMessages.getString(PKG, "XsdValidatorDialog.OutputStringField.Label"));
     PropsUi.setLook(wlOutputStringField);
     FormData fdlOutputStringField = new FormData();
     fdlOutputStringField.left = new FormAttachment(0, 0);
@@ -268,20 +264,18 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     wlOutputStringField.setLayoutData(fdlOutputStringField);
     wOutputStringField = new Button(wOutputFields, SWT.CHECK);
     PropsUi.setLook(wOutputStringField);
-    wOutputStringField.setToolTipText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.OutputStringField.Tooltip"));
+    wOutputStringField.setToolTipText(BaseMessages.getString(PKG, "XsdValidatorDialog.OutputStringField.Tooltip"));
     FormData fdOutputStringField = new FormData();
     fdOutputStringField.left = new FormAttachment(middle, margin);
     fdOutputStringField.top = new FormAttachment(wlOutputStringField, 0, SWT.CENTER);
     wOutputStringField.setLayoutData(fdOutputStringField);
-    wOutputStringField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activateOutputStringField();
-            input.setChanged();
-          }
-        });
+    wOutputStringField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activateOutputStringField();
+        input.setChanged();
+      }
+    });
 
     // Output if XML is valid field
     wIfXMLValid =
@@ -315,8 +309,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
     // Add validation message ?
     Label wlAddValidationMsg = new Label(wOutputFields, SWT.RIGHT);
-    wlAddValidationMsg.setText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.AddValidationMsg.Label"));
+    wlAddValidationMsg.setText(BaseMessages.getString(PKG, "XsdValidatorDialog.AddValidationMsg.Label"));
     PropsUi.setLook(wlAddValidationMsg);
     FormData fdlAddValidationMsg = new FormData();
     fdlAddValidationMsg.left = new FormAttachment(0, 0);
@@ -325,20 +318,18 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     wlAddValidationMsg.setLayoutData(fdlAddValidationMsg);
     wAddValidationMsg = new Button(wOutputFields, SWT.CHECK);
     PropsUi.setLook(wAddValidationMsg);
-    wAddValidationMsg.setToolTipText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.AddValidationMsg.Tooltip"));
+    wAddValidationMsg.setToolTipText(BaseMessages.getString(PKG, "XsdValidatorDialog.AddValidationMsg.Tooltip"));
     FormData fdAddValidationMsg = new FormData();
     fdAddValidationMsg.left = new FormAttachment(middle, margin);
     fdAddValidationMsg.top = new FormAttachment(wlAddValidationMsg, 0, SWT.CENTER);
     wAddValidationMsg.setLayoutData(fdAddValidationMsg);
-    wAddValidationMsg.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activateValidationMsg();
-            input.setChanged();
-          }
-        });
+    wAddValidationMsg.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activateValidationMsg();
+        input.setChanged();
+      }
+    });
 
     // Validation Msg Fieldame
     wValidationMsg =
@@ -380,8 +371,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
     // Enable/Disable external entity for XSD validation.
     Label wlAllowExternalEntities = new Label(wXSD, SWT.RIGHT);
-    wlAllowExternalEntities.setText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.AllowExternalEntities.Label"));
+    wlAllowExternalEntities.setText(BaseMessages.getString(PKG, "XsdValidatorDialog.AllowExternalEntities.Label"));
     PropsUi.setLook(wlAllowExternalEntities);
     FormData fdlAllowExternalEntities = new FormData();
     fdlAllowExternalEntities.left = new FormAttachment(0, 0);
@@ -395,13 +385,12 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     fdAllowExternalEntities.top = new FormAttachment(wlAllowExternalEntities, 0, SWT.CENTER);
     fdAllowExternalEntities.right = new FormAttachment(100, -margin);
     wAllowExternalEntities.setLayoutData(fdAllowExternalEntities);
-    wAllowExternalEntities.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAllowExternalEntities.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // XSD Source?
     Label wlXSDSource = new Label(wXSD, SWT.RIGHT);
@@ -424,13 +413,12 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     wXSDSource.add(BaseMessages.getString(PKG, "XsdValidatorDialog.XSDSource.IS_A_FILE"));
     wXSDSource.add(BaseMessages.getString(PKG, "XsdValidatorDialog.XSDSource.IS_A_FIELD"));
     wXSDSource.add(BaseMessages.getString(PKG, "XsdValidatorDialog.XSDSource.NO_NEED"));
-    wXSDSource.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setXSDSource();
-          }
-        });
+    wXSDSource.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setXSDSource();
+      }
+    });
 
     // XSD Filename
     wlFilename = new Label(wXSD, SWT.RIGHT);
@@ -445,8 +433,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     wbbFilename = new Button(wXSD, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "XsdValidatorDialog.FilenameBrowse.Button"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wXSDSource, margin);
@@ -463,8 +450,7 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
     // XSD file defined in a column
     wlXSDDefinedColumn = new Label(wXSD, SWT.RIGHT);
-    wlXSDDefinedColumn.setText(
-        BaseMessages.getString(PKG, "XsdValidatorDialog.XSDDefinedColumn.Label"));
+    wlXSDDefinedColumn.setText(BaseMessages.getString(PKG, "XsdValidatorDialog.XSDDefinedColumn.Label"));
     PropsUi.setLook(wlXSDDefinedColumn);
     FormData fdlXSDDefinedColumn = new FormData();
     fdlXSDDefinedColumn.left = new FormAttachment(0, 0);
@@ -480,20 +466,19 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
     fdXSDDefinedColumn.top = new FormAttachment(wFilename, 2 * margin);
     fdXSDDefinedColumn.right = new FormAttachment(100, -margin);
     wXSDDefinedColumn.setLayoutData(fdXSDDefinedColumn);
-    wXSDDefinedColumn.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wXSDDefinedColumn.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            PopulateFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        PopulateFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdXSD = new FormData();
     fdXSD.left = new FormAttachment(0, margin);
@@ -533,24 +518,14 @@ public class XsdValidatorDialog extends BaseTransformDialog implements ITransfor
 
     // Whenever something changes, set the tooltip to the expanded version
     // of the filename:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
     // Listen to the Browse... button
-    wbbFilename.addListener(
-        SWT.Selection,
-        e -> {
-          BaseDialog.presentFileDialog(
-              shell,
-              wFilename,
-              variables,
-              new String[] {"*xsd;*.XSD", "*"},
-              new String[] {
-                BaseMessages.getString(PKG, "XsdValidatorDialog.FileType"),
-                BaseMessages.getString(PKG, "System.FileType.AllFiles")
-              },
-              true);
-        });
+    wbbFilename.addListener(SWT.Selection, e -> {
+      BaseDialog.presentFileDialog(
+          shell, wFilename, variables, new String[] {"*xsd;*.XSD", "*"},
+          new String[] {BaseMessages.getString(PKG, "XsdValidatorDialog.FileType"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true);
+    });
 
     wTabFolder.setSelection(0);
 

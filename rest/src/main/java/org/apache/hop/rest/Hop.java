@@ -79,7 +79,7 @@ public class Hop implements IHasHopMetadataProvider, IRestServicesProvider {
       loggingObject = new LoggingObject("Hop REST API v1");
       log = new LogChannel("Hop REST");
 
-      // Load configuration details.  We need to know where the metadata is, and so on.
+      // Load configuration details. We need to know where the metadata is, and so on.
       //
       properties = new Properties();
       String propertyPath;
@@ -95,7 +95,7 @@ public class Hop implements IHasHopMetadataProvider, IRestServicesProvider {
         if (configFile.exists()) {
           try (InputStream inputStream = new FileInputStream(configFile)) {
             properties.load(inputStream);
-            log.logBasic("Configuration file " + configFileName+" was successfully loaded.");
+            log.logBasic("Configuration file " + configFileName + " was successfully loaded.");
           }
         } else {
           try (InputStream inputStream = getClass().getResourceAsStream("/hop-rest.properties")) {
@@ -108,9 +108,7 @@ public class Hop implements IHasHopMetadataProvider, IRestServicesProvider {
 
       // Set a logging level for the application
       //
-      log.setLogLevel(
-          LogLevel.getLogLevelForCode(
-              Const.NVL(properties.getProperty(OPTION_LOG_LEVEL), "BASIC")));
+      log.setLogLevel(LogLevel.getLogLevelForCode(Const.NVL(properties.getProperty(OPTION_LOG_LEVEL), "BASIC")));
       log.logBasic("Starting the Apache Hop REST services application.");
 
       variables = new Variables();
@@ -130,8 +128,7 @@ public class Hop implements IHasHopMetadataProvider, IRestServicesProvider {
       // Allow plugins to modify the elements loaded so far, before a pipeline or workflow is even
       // loaded
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopRestServiceStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRestServiceStart.id, this);
 
       // Optionally we can configure metadata to come from a JSON export file.
       //
@@ -144,8 +141,7 @@ public class Hop implements IHasHopMetadataProvider, IRestServicesProvider {
           SerializableMetadataProvider exportedProvider = new SerializableMetadataProvider(json);
           metadataProvider.getProviders().add(exportedProvider);
 
-          log.logBasic(
-              "Added metadata provider from export file: " + metadataProvider.getDescription());
+          log.logBasic("Added metadata provider from export file: " + metadataProvider.getDescription());
         }
       }
 

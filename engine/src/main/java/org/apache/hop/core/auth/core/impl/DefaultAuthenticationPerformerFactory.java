@@ -26,18 +26,13 @@ public class DefaultAuthenticationPerformerFactory implements IAuthenticationPer
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
-  public <ReturnType, CreateArgType, ConsumedType>
-      IAuthenticationPerformer<ReturnType, CreateArgType> create(
-          IAuthenticationProvider authenticationProvider,
-          IAuthenticationConsumerFactory<ReturnType, CreateArgType, ConsumedType>
-              authenticationConsumerFactory) {
+  public <ReturnType, CreateArgType, ConsumedType> IAuthenticationPerformer<ReturnType, CreateArgType> create(
+      IAuthenticationProvider authenticationProvider,
+      IAuthenticationConsumerFactory<ReturnType, CreateArgType, ConsumedType> authenticationConsumerFactory) {
     if (authenticationConsumerFactory.getConsumedType().isInstance(authenticationProvider)) {
-      return new DefaultAuthenticationPerformer(
-          authenticationProvider, authenticationConsumerFactory);
-    } else if (AuthenticationConsumerInvocationHandler.isCompatible(
-        authenticationConsumerFactory.getConsumedType(), authenticationProvider)) {
-      return new ClassloaderBridgingAuthenticationPerformer<>(
-          authenticationProvider, authenticationConsumerFactory);
+      return new DefaultAuthenticationPerformer(authenticationProvider, authenticationConsumerFactory);
+    } else if (AuthenticationConsumerInvocationHandler.isCompatible(authenticationConsumerFactory.getConsumedType(), authenticationProvider)) {
+      return new ClassloaderBridgingAuthenticationPerformer<>(authenticationProvider, authenticationConsumerFactory);
     }
     return null;
   }

@@ -77,8 +77,7 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
 
   private static final String SYSTEM_COMBO_YES = "System.Combo.Yes";
 
-  public DataGridDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public DataGridDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (DataGridMeta) in;
 
@@ -159,60 +158,20 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Format.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              2),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Currency.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Decimal.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Group.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataGridDialog.Value.SetEmptyString"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, SYSTEM_COMBO_YES),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              }),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 2),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataGridDialog.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "DataGridDialog.Value.SetEmptyString"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, SYSTEM_COMBO_YES), BaseMessages.getString(PKG, "System.Combo.No")}),};
 
-    wFields =
-        new TableView(
-            variables,
-            wMetaComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            false,
-            lsMod,
-            props,
-            true,
-            null,
-            false);
+    wFields = new TableView(variables, wMetaComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, false, lsMod, props, true, null, false);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
     fdFields.top = new FormAttachment(0, 0);
@@ -258,25 +217,23 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
     fdTabFolder.bottom = new FormAttachment(wOk, -2 * margin);
     wTabFolder.setLayoutData(fdTabFolder);
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();
     wTabFolder.setSelection(0);
 
-    wTabFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            addDataGrid(true);
-          }
-        });
+    wTabFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        addDataGrid(true);
+      }
+    });
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
 
@@ -305,12 +262,7 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
 
     ColumnInfo[] columns = new ColumnInfo[dataGridMeta.getDataGridFields().size()];
     for (int i = 0; i < columns.length; i++) {
-      columns[i] =
-          new ColumnInfo(
-              dataGridMeta.getDataGridFields().get(i).getName(),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false);
+      columns[i] = new ColumnInfo(dataGridMeta.getDataGridFields().get(i).getName(), ColumnInfo.COLUMN_TYPE_TEXT, false, false);
     }
     List<DataGridDataMeta> lines = dataGridMeta.getDataLines();
     wData = new TableView(variables, wDataComp, SWT.NONE, columns, lines.size(), lsMod, props);
@@ -338,104 +290,99 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
     wTabFolder.layout(true, true);
 
     wFields.nrNonEmpty();
-    wFields.setTableViewModifyListener(
-        new TableView.ITableViewModifyListener() {
+    wFields.setTableViewModifyListener(new TableView.ITableViewModifyListener() {
 
-          private Integer getIdxByValue(List<Integer> list, Integer value) {
-            for (int i = 0; i < list.size(); i++) {
-              if (list.get(i).equals(value)) {
-                return i;
-              }
-            }
-            return null;
+      private Integer getIdxByValue(List<Integer> list, Integer value) {
+        for (int i = 0; i < list.size(); i++) {
+          if (list.get(i).equals(value)) {
+            return i;
+          }
+        }
+        return null;
+      }
+
+      @Override
+      public void moveRow(int position1, int position2) {
+        // if one of rows is empty -- don't move data
+        if (!wFields.getNonEmptyIndexes().contains(position1) || !wFields.getNonEmptyIndexes().contains(position2)) {
+          wFields.nrNonEmpty();
+          return;
+        }
+
+        Integer fieldRealPosition1 = getIdxByValue(wFields.getNonEmptyIndexes(), position1);
+        Integer fieldRealPosition2 = getIdxByValue(wFields.getNonEmptyIndexes(), position2);
+        if (fieldRealPosition1 == null || fieldRealPosition2 == null) {
+          return; // can not happen (prevent warnings)
+        }
+        // data table have one technical column
+        int dataPosition1 = fieldRealPosition1 + 1;
+        int dataPosition2 = fieldRealPosition2 + 1;
+
+        for (TableItem item : wData.table.getItems()) {
+          String value1 = item.getText(dataPosition1);
+          String value2 = item.getText(dataPosition2);
+          item.setText(dataPosition2, value1);
+          item.setText(dataPosition1, value2);
+        }
+        wFields.nrNonEmpty();
+      }
+
+      @Override
+      public void insertRow(int rowIndex) {
+        wFields.nrNonEmpty();
+      }
+
+      @Override
+      public void cellFocusLost(int rowIndex) {
+        List<Integer> nonEmptyIndexesBeforeChanges = wFields.getNonEmptyIndexes();
+        wFields.nrNonEmpty();
+        List<Integer> nonEmptyIndexesAfterChanges = wFields.getNonEmptyIndexes();
+        if (CollectionUtils.isEqualCollection(nonEmptyIndexesBeforeChanges, nonEmptyIndexesAfterChanges)) {
+          // count of fields rows didn't change
+          return;
+        }
+        Collection<Integer> disjunction = CollectionUtils.disjunction(nonEmptyIndexesBeforeChanges, nonEmptyIndexesAfterChanges);
+        Integer disjunctionIdx = (Integer) disjunction.toArray()[0];
+        if (nonEmptyIndexesAfterChanges.contains(disjunctionIdx)) {
+          // new Field was added
+          Integer idxByValue = getIdxByValue(nonEmptyIndexesAfterChanges, disjunctionIdx);
+          if (idxByValue == null) {
+            return; // can not happen (preventing warnings)
           }
 
-          @Override
-          public void moveRow(int position1, int position2) {
-            // if one of rows is empty -- don't move data
-            if (!wFields.getNonEmptyIndexes().contains(position1)
-                || !wFields.getNonEmptyIndexes().contains(position2)) {
-              wFields.nrNonEmpty();
-              return;
-            }
-
-            Integer fieldRealPosition1 = getIdxByValue(wFields.getNonEmptyIndexes(), position1);
-            Integer fieldRealPosition2 = getIdxByValue(wFields.getNonEmptyIndexes(), position2);
-            if (fieldRealPosition1 == null || fieldRealPosition2 == null) {
-              return; // can not happen (prevent warnings)
-            }
-            // data table have one technical column
-            int dataPosition1 = fieldRealPosition1 + 1;
-            int dataPosition2 = fieldRealPosition2 + 1;
-
-            for (TableItem item : wData.table.getItems()) {
-              String value1 = item.getText(dataPosition1);
-              String value2 = item.getText(dataPosition2);
-              item.setText(dataPosition2, value1);
-              item.setText(dataPosition1, value2);
-            }
-            wFields.nrNonEmpty();
+          idxByValue++; // data table have one technical column
+          TableColumn column = new TableColumn(wData.table, SWT.NONE, idxByValue);
+          column.pack();
+        } else {
+          // Field was deleted
+          Integer removeColumn = getIdxByValue(nonEmptyIndexesBeforeChanges, disjunctionIdx);
+          if (removeColumn == null) {
+            return; // can not happen (preventing warnings)
           }
+          removeColumn++; // data table have one technical column
+          wData.table.getColumn(removeColumn).dispose();
+          wFields.nrNonEmpty();
+        }
+      }
 
-          @Override
-          public void insertRow(int rowIndex) {
-            wFields.nrNonEmpty();
+      @Override
+      public void delete(int[] items) {
+        Arrays.sort(items);
+        for (int i = items.length - 1; i >= 0; i--) {
+          int index = items[i];
+          if (!wFields.getNonEmptyIndexes().contains(index)) {
+            continue;
           }
-
-          @Override
-          public void cellFocusLost(int rowIndex) {
-            List<Integer> nonEmptyIndexesBeforeChanges = wFields.getNonEmptyIndexes();
-            wFields.nrNonEmpty();
-            List<Integer> nonEmptyIndexesAfterChanges = wFields.getNonEmptyIndexes();
-            if (CollectionUtils.isEqualCollection(
-                nonEmptyIndexesBeforeChanges, nonEmptyIndexesAfterChanges)) {
-              // count of fields rows didn't change
-              return;
-            }
-            Collection<Integer> disjunction =
-                CollectionUtils.disjunction(
-                    nonEmptyIndexesBeforeChanges, nonEmptyIndexesAfterChanges);
-            Integer disjunctionIdx = (Integer) disjunction.toArray()[0];
-            if (nonEmptyIndexesAfterChanges.contains(disjunctionIdx)) {
-              // new Field was added
-              Integer idxByValue = getIdxByValue(nonEmptyIndexesAfterChanges, disjunctionIdx);
-              if (idxByValue == null) {
-                return; // can not happen (preventing warnings)
-              }
-
-              idxByValue++; // data table have one technical column
-              TableColumn column = new TableColumn(wData.table, SWT.NONE, idxByValue);
-              column.pack();
-            } else {
-              // Field was deleted
-              Integer removeColumn = getIdxByValue(nonEmptyIndexesBeforeChanges, disjunctionIdx);
-              if (removeColumn == null) {
-                return; // can not happen (preventing warnings)
-              }
-              removeColumn++; // data table have one technical column
-              wData.table.getColumn(removeColumn).dispose();
-              wFields.nrNonEmpty();
-            }
+          Integer removeColumn = getIdxByValue(wFields.getNonEmptyIndexes(), index);
+          if (removeColumn == null) {
+            return; // can not happen (preventing warnings)
           }
-
-          @Override
-          public void delete(int[] items) {
-            Arrays.sort(items);
-            for (int i = items.length - 1; i >= 0; i--) {
-              int index = items[i];
-              if (!wFields.getNonEmptyIndexes().contains(index)) {
-                continue;
-              }
-              Integer removeColumn = getIdxByValue(wFields.getNonEmptyIndexes(), index);
-              if (removeColumn == null) {
-                return; // can not happen (preventing warnings)
-              }
-              removeColumn++; // data table have one technical column
-              wData.table.getColumn(removeColumn).dispose();
-            }
-            wFields.nrNonEmpty();
-          }
-        });
+          removeColumn++; // data table have one technical column
+          wData.table.getColumn(removeColumn).dispose();
+        }
+        wFields.nrNonEmpty();
+      }
+    });
 
     wFields.setContentListener(modifyEvent -> wFields.nrNonEmpty());
   }
@@ -459,14 +406,8 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
         item.setText(col++, input.getDataGridFields().get(i).getName());
         String type = input.getDataGridFields().get(i).getType();
         String format = input.getDataGridFields().get(i).getFormat();
-        String length =
-            input.getDataGridFields().get(i).getLenght() < 0
-                ? ""
-                : ("" + input.getDataGridFields().get(i).getLenght());
-        String prec =
-            input.getDataGridFields().get(i).getPrecision() < 0
-                ? ""
-                : ("" + input.getDataGridFields().get(i).getPrecision());
+        String length = input.getDataGridFields().get(i).getLenght() < 0 ? "" : ("" + input.getDataGridFields().get(i).getLenght());
+        String prec = input.getDataGridFields().get(i).getPrecision() < 0 ? "" : ("" + input.getDataGridFields().get(i).getPrecision());
 
         String curr = input.getDataGridFields().get(i).getCurrency();
         String group = input.getDataGridFields().get(i).getGroup();
@@ -481,9 +422,7 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
         item.setText(col++, Const.NVL(group, ""));
         item.setText(
             col,
-            Boolean.TRUE.equals(input.getDataGridFields().get(i).isEmptyString())
-                ? BaseMessages.getString(PKG, SYSTEM_COMBO_YES)
-                : BaseMessages.getString(PKG, "System.Combo.No"));
+            Boolean.TRUE.equals(input.getDataGridFields().get(i).isEmptyString()) ? BaseMessages.getString(PKG, SYSTEM_COMBO_YES) : BaseMessages.getString(PKG, "System.Combo.No"));
       }
     }
 
@@ -545,8 +484,7 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
       } catch (Exception e) {
         field.setPrecision(-1);
       }
-      field.setEmptyString(
-          BaseMessages.getString(PKG, SYSTEM_COMBO_YES).equalsIgnoreCase(item.getText(col)));
+      field.setEmptyString(BaseMessages.getString(PKG, SYSTEM_COMBO_YES).equalsIgnoreCase(item.getText(col)));
 
       if (Boolean.TRUE.equals(field.isEmptyString())) {
         field.setType("String");
@@ -582,9 +520,7 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
     DataGridMeta oneMeta = new DataGridMeta();
     getInfo(oneMeta);
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -595,20 +531,13 @@ public class DataGridDialog extends BaseTransformDialog implements ITransformDia
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       Pipeline pipeline = progressDialog.getPipeline();
       String loggingText = progressDialog.getLoggingText();
 
-      if (!progressDialog.isCancelled()
-          && pipeline.getResult() != null
-          && pipeline.getResult().getNrErrors() > 0) {
+      if (!progressDialog.isCancelled() && pipeline.getResult() != null && pipeline.getResult().getNrErrors() > 0) {
         EnterTextDialog etd =
             new EnterTextDialog(
                 shell,

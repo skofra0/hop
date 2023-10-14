@@ -52,10 +52,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@WorkflowEnginePlugin(
-    id = "Local",
-    name = "Hop local workflow engine",
-    description = "Executes your workflow locally")
+@WorkflowEnginePlugin(id = "Local", name = "Hop local workflow engine", description = "Executes your workflow locally")
 public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<WorkflowMeta> {
 
   private ExecutionInfoLocation executionInfoLocation;
@@ -82,16 +79,13 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
   }
 
   private void setDefaultRunConfiguration() {
-    setWorkflowRunConfiguration(
-        new WorkflowRunConfiguration(
-            "local", "", "", createDefaultWorkflowEngineRunConfiguration(), false));
+    setWorkflowRunConfiguration(new WorkflowRunConfiguration("local", "", "", createDefaultWorkflowEngineRunConfiguration(), false));
   }
 
   @Override
   public Result startExecution() {
 
-    if (!(workflowRunConfiguration.getEngineRunConfiguration()
-        instanceof LocalWorkflowRunConfiguration)) {
+    if (!(workflowRunConfiguration.getEngineRunConfiguration() instanceof LocalWorkflowRunConfiguration)) {
       log.logError(
           "Error starting workflow",
           new HopException(
@@ -102,8 +96,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
       return result;
     }
 
-    LocalWorkflowRunConfiguration config =
-        (LocalWorkflowRunConfiguration) workflowRunConfiguration.getEngineRunConfiguration();
+    LocalWorkflowRunConfiguration config = (LocalWorkflowRunConfiguration) workflowRunConfiguration.getEngineRunConfiguration();
 
     // See if we need to enable transactions...
     //
@@ -113,8 +106,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
     }
     String connectionGroup = null;
     if (parentExtensionData != null && parentExtensionData.getExtensionDataMap() != null) {
-      connectionGroup =
-          (String) parentExtensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+      connectionGroup = (String) parentExtensionData.getExtensionDataMap().get(Const.CONNECTION_GROUP);
     }
 
     // Create a new transaction group?
@@ -126,78 +118,49 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
 
       // We also need to commit/rollback at the end of this workflow...
       //
-      addWorkflowFinishedListener(
-          workflow -> {
-            String group = (String) workflow.getExtensionDataMap().get(Const.CONNECTION_GROUP);
-            List<Database> databases = DatabaseConnectionMap.getInstance().getDatabases(group);
-            Result result = workflow.getResult();
+      addWorkflowFinishedListener(workflow -> {
+        String group = (String) workflow.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+        List<Database> databases = DatabaseConnectionMap.getInstance().getDatabases(group);
+        Result result = workflow.getResult();
 
-            for (Database database : databases) {
-              // All fine?  Commit!
-              //
+        for (Database database : databases) {
+          // All fine? Commit!
+          //
+          try {
+            if (result.getResult() && !result.isStopped() && result.getNrErrors() == 0) {
               try {
-                if (result.getResult() && !result.isStopped() && result.getNrErrors() == 0) {
-                  try {
-                    database.commit(true);
-                    workflow
-                        .getLogChannel()
-                        .logBasic(
-                            "All transactions of database connection '"
-                                + database.getDatabaseMeta().getName()
-                                + "' were committed at the end of the workflow!");
-                  } catch (HopDatabaseException e) {
-                    workflow
-                        .getLogChannel()
-                        .logError(
-                            "Error committing database connection "
-                                + database.getDatabaseMeta().getName(),
-                            e);
-                    result.setNrErrors(result.getNrErrors() + 1);
-                  }
-                } else {
-                  // Error? Rollback!
-                  try {
-                    database.rollback(true);
-                    workflow
-                        .getLogChannel()
-                        .logBasic(
-                            "All transactions of database connection '"
-                                + database.getDatabaseMeta().getName()
-                                + "' were rolled back at the end of the workflow!");
-                  } catch (HopDatabaseException e) {
-                    workflow
-                        .getLogChannel()
-                        .logError(
-                            "Error rolling back database connection "
-                                + database.getDatabaseMeta().getName(),
-                            e);
-                    result.setNrErrors(result.getNrErrors() + 1);
-                  }
-                }
-              } finally {
-                // Always close connection!
-                try {
-                  database.closeConnectionOnly();
-                  workflow
-                      .getLogChannel()
-                      .logDebug(
-                          "Database connection '"
-                              + database.getDatabaseMeta().getName()
-                              + "' closed successfully!");
-                } catch (HopDatabaseException hde) {
-                  workflow
-                      .getLogChannel()
-                      .logError(
-                          "Error disconnecting from database - closeConnectionOnly failed:"
-                              + Const.CR
-                              + hde.getMessage());
-                  workflow.getLogChannel().logError(Const.getStackTracker(hde));
-                }
-                // Definitely remove the connection reference the connections map
-                DatabaseConnectionMap.getInstance().removeConnection(group, null, database);
+                database.commit(true);
+                workflow.getLogChannel()
+                    .logBasic("All transactions of database connection '" + database.getDatabaseMeta().getName() + "' were committed at the end of the workflow!");
+              } catch (HopDatabaseException e) {
+                workflow.getLogChannel().logError("Error committing database connection " + database.getDatabaseMeta().getName(), e);
+                result.setNrErrors(result.getNrErrors() + 1);
+              }
+            } else {
+              // Error? Rollback!
+              try {
+                database.rollback(true);
+                workflow.getLogChannel()
+                    .logBasic("All transactions of database connection '" + database.getDatabaseMeta().getName() + "' were rolled back at the end of the workflow!");
+              } catch (HopDatabaseException e) {
+                workflow.getLogChannel().logError("Error rolling back database connection " + database.getDatabaseMeta().getName(), e);
+                result.setNrErrors(result.getNrErrors() + 1);
               }
             }
-          });
+          } finally {
+            // Always close connection!
+            try {
+              database.closeConnectionOnly();
+              workflow.getLogChannel().logDebug("Database connection '" + database.getDatabaseMeta().getName() + "' closed successfully!");
+            } catch (HopDatabaseException hde) {
+              workflow.getLogChannel().logError("Error disconnecting from database - closeConnectionOnly failed:" + Const.CR + hde.getMessage());
+              workflow.getLogChannel().logError(Const.getStackTracker(hde));
+            }
+            // Definitely remove the connection reference the connections map
+            DatabaseConnectionMap.getInstance().removeConnection(group, null, database);
+          }
+        }
+      });
     }
 
     // Signal that we're dealing with a connection group
@@ -212,38 +175,33 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
 
     // Pass down the value of the connection group value to actions before they're executed...
     //
-    addActionListener(
-        new IActionListener() {
-          @Override
-          public void beforeExecution(
-              IWorkflowEngine workflow, ActionMeta actionMeta, IAction action) {
-            String connectionGroup =
-                (String) workflow.getExtensionDataMap().get(Const.CONNECTION_GROUP);
-            if (connectionGroup != null) {
-              action.getExtensionDataMap().put(Const.CONNECTION_GROUP, connectionGroup);
-            }
-          }
+    addActionListener(new IActionListener() {
+      @Override
+      public void beforeExecution(IWorkflowEngine workflow, ActionMeta actionMeta, IAction action) {
+        String connectionGroup = (String) workflow.getExtensionDataMap().get(Const.CONNECTION_GROUP);
+        if (connectionGroup != null) {
+          action.getExtensionDataMap().put(Const.CONNECTION_GROUP, connectionGroup);
+        }
+      }
 
-          @Override
-          public void afterExecution(
-              IWorkflowEngine workflow, ActionMeta actionMeta, IAction action, Result result) {
-            // Nothing
-          }
-        });
+      @Override
+      public void afterExecution(IWorkflowEngine workflow, ActionMeta actionMeta, IAction action, Result result) {
+        // Nothing
+      }
+    });
 
     // Do the lookup of the execution information only once
     lookupExecutionInformationLocation();
 
-    addWorkflowStartedListener(
-        l -> {
-          // Register the pipeline after start
-          //
-          registerWorkflowExecutionInformation();
+    addWorkflowStartedListener(l -> {
+      // Register the pipeline after start
+      //
+      registerWorkflowExecutionInformation();
 
-          // Start the update timer for the execution information
-          //
-          startExecutionInfoTimer();
-        });
+      // Start the update timer for the execution information
+      //
+      startExecutionInfoTimer();
+    });
 
     return super.startExecution();
   }
@@ -258,23 +216,19 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
     try {
       String locationName = resolve(workflowRunConfiguration.getExecutionInfoLocationName());
       if (StringUtils.isNotEmpty(locationName)) {
-        ExecutionInfoLocation location =
-            metadataProvider.getSerializer(ExecutionInfoLocation.class).load(locationName);
+        ExecutionInfoLocation location = metadataProvider.getSerializer(ExecutionInfoLocation.class).load(locationName);
         if (location != null) {
           executionInfoLocation = location;
 
           IExecutionInfoLocation iLocation = executionInfoLocation.getExecutionInfoLocation();
           // Initialize the location.
-          // This location is closed when nothing else needs to be done.  This is when the timer is
+          // This location is closed when nothing else needs to be done. This is when the timer is
           // stopped in
           // stopExecutionInfoTimer().
           //
           iLocation.initialize(this, metadataProvider);
         } else {
-          log.logError(
-              "Execution information location '"
-                  + locationName
-                  + "' could not be found in the metadata (non-fatal)");
+          log.logError("Execution information location '" + locationName + "' could not be found in the metadata (non-fatal)");
         }
       }
     } catch (Exception e) {
@@ -293,9 +247,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
       if (executionInfoLocation != null) {
         // Register the execution at this location
         // This adds metadata, variables, parameters, ...
-        executionInfoLocation
-            .getExecutionInfoLocation()
-            .registerExecution(ExecutionBuilder.fromExecutor(this).build());
+        executionInfoLocation.getExecutionInfoLocation().registerExecution(ExecutionBuilder.fromExecutor(this).build());
       }
     } catch (Exception e) {
       log.logError("Error registering workflow execution information (non-fatal)", e);
@@ -317,28 +269,22 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
     referenceVariables.copyFrom(this);
 
     //
-    TimerTask sampleTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            try {
-              // Update the workflow execution state regularly
-              //
-              ExecutionState executionState =
-                  ExecutionStateBuilder.fromExecutor(LocalWorkflowEngine.this, lastLogLineNr.get())
-                      .build();
-              iLocation.updateExecutionState(executionState);
-              if (executionState.getLastLogLineNr() != null) {
-                lastLogLineNr.set(executionState.getLastLogLineNr());
-              }
-            } catch (Exception e) {
-              throw new RuntimeException(
-                  "Error registering execution info data from transforms at location "
-                      + executionInfoLocation.getName(),
-                  e);
-            }
+    TimerTask sampleTask = new TimerTask() {
+      @Override
+      public void run() {
+        try {
+          // Update the workflow execution state regularly
+          //
+          ExecutionState executionState = ExecutionStateBuilder.fromExecutor(LocalWorkflowEngine.this, lastLogLineNr.get()).build();
+          iLocation.updateExecutionState(executionState);
+          if (executionState.getLastLogLineNr() != null) {
+            lastLogLineNr.set(executionState.getLastLogLineNr());
           }
-        };
+        } catch (Exception e) {
+          throw new RuntimeException("Error registering execution info data from transforms at location " + executionInfoLocation.getName(), e);
+        }
+      }
+    };
 
     // After every action is finished, grab the information...
     //
@@ -351,10 +297,9 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
 
     // When the workflow is done, register one more time and stop the timer
     //
-    addWorkflowFinishedListener(
-        listener -> {
-          stopExecutionInfoTimer();
-        });
+    addWorkflowFinishedListener(listener -> {
+      stopExecutionInfoTimer();
+    });
   }
 
   private static class ExecutionInfoActionListener implements IActionListener<WorkflowMeta> {
@@ -364,8 +309,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
 
     private IVariables beforeVariables;
 
-    public ExecutionInfoActionListener(
-        IExecutionInfoLocation iLocation, IVariables referenceVariables, ILogChannel log) {
+    public ExecutionInfoActionListener(IExecutionInfoLocation iLocation, IVariables referenceVariables, ILogChannel log) {
       this.iLocation = iLocation;
       this.referenceVariables = referenceVariables;
       this.log = log;
@@ -373,8 +317,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
     }
 
     @Override
-    public void beforeExecution(
-        IWorkflowEngine<WorkflowMeta> workflow, ActionMeta actionMeta, IAction action) {
+    public void beforeExecution(IWorkflowEngine<WorkflowMeta> workflow, ActionMeta actionMeta, IAction action) {
 
       // Keep the variables from before the action started...
       //
@@ -385,51 +328,27 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
         // Register the execution of the action
         //
         iLocation.registerExecution(
-            ExecutionBuilder.of()
-                .withId(action.getLogChannel().getLogChannelId())
-                .withParentId(workflow.getLogChannelId())
-                .withExecutionStartDate(new Date())
-                .withRegistrationDate(new Date())
-                .withExecutorType(ExecutionType.Action)
-                .withLogLevel(action.getLogChannel().getLogLevel())
-                .build());
+            ExecutionBuilder.of().withId(action.getLogChannel().getLogChannelId()).withParentId(workflow.getLogChannelId()).withExecutionStartDate(new Date())
+                .withRegistrationDate(new Date()).withExecutorType(ExecutionType.Action).withLogLevel(action.getLogChannel().getLogLevel()).build());
 
         // Register all the data we can for this action
-        iLocation.registerData(
-            ExecutionDataBuilder.beforeActionExecution(
-                    workflow, actionMeta, action, referenceVariables)
-                .build());
+        iLocation.registerData(ExecutionDataBuilder.beforeActionExecution(workflow, actionMeta, action, referenceVariables).build());
 
         // Also register the execution node itself
         //
-        iLocation.registerExecution(
-            ExecutionBuilder.fromAction(workflow, actionMeta, action, new Date()).build());
+        iLocation.registerExecution(ExecutionBuilder.fromAction(workflow, actionMeta, action, new Date()).build());
       } catch (Exception e) {
-        log.logError(
-            "Error registering execution data before action "
-                + actionMeta.getName()
-                + " (non-fatal)",
-            e);
+        log.logError("Error registering execution data before action " + actionMeta.getName() + " (non-fatal)", e);
       }
     }
 
     @Override
-    public void afterExecution(
-        IWorkflowEngine<WorkflowMeta> workflow,
-        ActionMeta actionMeta,
-        IAction action,
-        Result result) {
-      ExecutionDataBuilder dataBuilder =
-          ExecutionDataBuilder.afterActionExecution(
-              workflow, actionMeta, action, result, referenceVariables, beforeVariables);
+    public void afterExecution(IWorkflowEngine<WorkflowMeta> workflow, ActionMeta actionMeta, IAction action, Result result) {
+      ExecutionDataBuilder dataBuilder = ExecutionDataBuilder.afterActionExecution(workflow, actionMeta, action, result, referenceVariables, beforeVariables);
       try {
         iLocation.registerData(dataBuilder.build());
       } catch (Exception e) {
-        log.logError(
-            "Error registering execution data after action "
-                + actionMeta.getName()
-                + " (non-fatal)",
-            e);
+        log.logError("Error registering execution data after action " + actionMeta.getName() + " (non-fatal)", e);
       }
     }
   }
@@ -448,8 +367,7 @@ public class LocalWorkflowEngine extends Workflow implements IWorkflowEngine<Wor
 
       // Register one final last state of the workflow
       //
-      ExecutionState executionState =
-          ExecutionStateBuilder.fromExecutor(LocalWorkflowEngine.this, -1).build();
+      ExecutionState executionState = ExecutionStateBuilder.fromExecutor(LocalWorkflowEngine.this, -1).build();
       iLocation.updateExecutionState(executionState);
     } finally {
       // Nothing more needs to be done. We can now close the location.

@@ -42,8 +42,7 @@ public class TargetTransformAttribute {
     }
 
     TargetTransformAttribute target = (TargetTransformAttribute) obj;
-    return transformName.equalsIgnoreCase(target.getTransformName())
-        && attributeKey.equals(target.getAttributeKey());
+    return transformName.equalsIgnoreCase(target.getTransformName()) && attributeKey.equals(target.getAttributeKey());
   }
 
   @Override

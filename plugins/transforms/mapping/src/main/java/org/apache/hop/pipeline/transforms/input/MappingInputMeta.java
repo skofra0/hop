@@ -76,13 +76,7 @@ public class MappingInputMeta extends BaseTransformMeta<MappingInput, MappingInp
   public void setDefault() {}
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Row should normally be empty when we get here.
     // That is because there is no previous transform to this mapping input transform from the
@@ -104,9 +98,7 @@ public class MappingInputMeta extends BaseTransformMeta<MappingInput, MappingInp
       if (!row.isEmpty()) {
         for (InputField field : fields) {
           if (row.indexOfValue(field.getName()) < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "MappingInputMeta.Exception.UnknownField", field.getName()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "MappingInputMeta.Exception.UnknownField", field.getName()));
           }
         }
       }
@@ -153,39 +145,23 @@ public class MappingInputMeta extends BaseTransformMeta<MappingInput, MappingInp
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.NotReceivingFieldsError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.NotReceivingFieldsError"), transformMeta);
       remarks.add(cr);
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "MappingInputMeta.CheckResult.TransformReceivingDatasFromPreviousOne",
-                  prev.size() + ""),
+              BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.TransformReceivingDatasFromPreviousOne", prev.size() + ""),
               transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "MappingInputMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MappingInputMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }

@@ -50,8 +50,7 @@ public class Edi2XmlDialog extends BaseTransformDialog implements ITransformDial
 
   private ComboVar wEdiField;
 
-  public Edi2XmlDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public Edi2XmlDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (Edi2XmlMeta) in;
   }
@@ -116,21 +115,19 @@ public class Edi2XmlDialog extends BaseTransformDialog implements ITransformDial
     fdEdiField.top = new FormAttachment(wTransformName, margin);
     fdEdiField.right = new FormAttachment(100, 0);
     wEdiField.setLayoutData(fdEdiField);
-    wEdiField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wEdiField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            BaseTransformDialog.getFieldsFromPrevious(
-                variables, wEdiField, pipelineMeta, transformMeta);
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        BaseTransformDialog.getFieldsFromPrevious(variables, wEdiField, pipelineMeta, transformMeta);
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // xml output field value
     // output field name
@@ -159,8 +156,7 @@ public class Edi2XmlDialog extends BaseTransformDialog implements ITransformDial
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, wXmlField);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, wXmlField);
 
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());

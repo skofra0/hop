@@ -29,7 +29,7 @@ public interface IHopMetadataObjectFactory {
    *
    * @param id The ID to use to create the object
    * @param parentObject The optional parent object if certain things like variables need to be
-   *     inherited from it.
+   *        inherited from it.
    * @return The instantiated object
    */
   Object createObject(String id, Object parentObject) throws HopException;

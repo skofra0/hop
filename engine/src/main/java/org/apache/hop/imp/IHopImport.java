@@ -110,6 +110,7 @@ public interface IHopImport {
 
   /** @param kettlePropertiesFilename The kettlePropertiesFilename to set */
   void setKettlePropertiesFilename(String kettlePropertiesFilename);
+
   /**
    * Gets jdbcPropertiesFilename
    *

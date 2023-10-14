@@ -29,8 +29,10 @@ import static org.junit.Assert.assertThat;
 
 public class MongoClientWrapperFactoryTest {
 
-  @Mock DefaultMongoClientFactory mongoClientFactory;
-  @Mock MongoUtilLogger logger;
+  @Mock
+  DefaultMongoClientFactory mongoClientFactory;
+  @Mock
+  MongoUtilLogger logger;
 
   @Before
   public void before() {
@@ -42,17 +44,10 @@ public class MongoClientWrapperFactoryTest {
   public void testCreateMongoClientWrapper() throws Exception {
     MongoClientWrapper wrapper =
         MongoClientWrapperFactory.createMongoClientWrapper(
-            new MongoProperties.Builder()
-                .set(MongoProp.USERNAME, "user")
-                .set(MongoProp.PASSWORD, "password")
-                .set(MongoProp.DBNAME, "dbname")
-                .build(),
-            logger);
+            new MongoProperties.Builder().set(MongoProp.USERNAME, "user").set(MongoProp.PASSWORD, "password").set(MongoProp.DBNAME, "dbname").build(), logger);
     assertThat(wrapper, CoreMatchers.instanceOf(UsernamePasswordMongoClientWrapper.class));
 
-    wrapper =
-        MongoClientWrapperFactory.createMongoClientWrapper(
-            new MongoProperties.Builder().set(MongoProp.USE_KERBEROS, "false").build(), logger);
+    wrapper = MongoClientWrapperFactory.createMongoClientWrapper(new MongoProperties.Builder().set(MongoProp.USE_KERBEROS, "false").build(), logger);
     assertThat(wrapper, CoreMatchers.instanceOf(NoAuthMongoClientWrapper.class));
   }
 }

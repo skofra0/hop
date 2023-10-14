@@ -30,20 +30,13 @@ import org.apache.hop.pipeline.transforms.ldapinput.LdapConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Write to LDAP.
  */
 public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
   private static Class<?> classFromResourcesPackage = LdapOutputMeta.class; // For Translator
 
-  public LdapOutput(
-      TransformMeta transformMeta,
-      LdapOutputMeta meta,
-      LdapOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public LdapOutput(TransformMeta transformMeta, LdapOutputMeta meta, LdapOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -60,17 +53,14 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
     if (first) {
       first = false;
 
-      if (meta.getOperationType() != LdapOutputMeta.OPERATION_TYPE_DELETE
-          && meta.getOperationType() != LdapOutputMeta.OPERATION_TYPE_RENAME) {
+      if (meta.getOperationType() != LdapOutputMeta.OPERATION_TYPE_DELETE && meta.getOperationType() != LdapOutputMeta.OPERATION_TYPE_RENAME) {
 
         // get total fields in the grid
         data.nrFields = meta.getUpdateLookup().length;
 
         // Check if field list is filled
         if (data.nrFields == 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutputUpdateDialog.FieldsMissing.DialogMessage"));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutputUpdateDialog.FieldsMissing.DialogMessage"));
         }
 
         // Take care of variable
@@ -86,13 +76,11 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
 
           data.fieldStream[i] = getInputRowMeta().indexOfValue(resolve(meta.getUpdateStream()[i]));
           if (data.fieldStream[i] < 0) {
-            throw new HopException(
-                "Field [" + meta.getUpdateStream()[i] + "] couldn't be found in the input stream!");
+            throw new HopException("Field [" + meta.getUpdateStream()[i] + "] couldn't be found in the input stream!");
           }
           data.fieldsAttribute[i] = resolve(meta.getUpdateLookup()[i]);
 
-          if (meta.getOperationType() == LdapOutputMeta.OPERATION_TYPE_UPSERT
-              && meta.getUpdate()[i].booleanValue()) {
+          if (meta.getOperationType() == LdapOutputMeta.OPERATION_TYPE_UPSERT && meta.getUpdate()[i].booleanValue()) {
             // We need also to keep care of the fields to update
             fieldsToUpdateInStreaml.add(data.fieldStream[i]);
             fieldsToUpdateAttributel.add(data.fieldsAttribute[i]);
@@ -110,8 +98,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
         }
 
         data.attributes = new String[data.nrFields];
-        if (meta.getOperationType() == LdapOutputMeta.OPERATION_TYPE_UPSERT
-            && data.nrFieldsToUpdate > 0) {
+        if (meta.getOperationType() == LdapOutputMeta.OPERATION_TYPE_UPSERT && data.nrFieldsToUpdate > 0) {
           data.attributesToUpdate = new String[data.nrFieldsToUpdate];
         }
       }
@@ -119,16 +106,12 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
       if (meta.getOperationType() == LdapOutputMeta.OPERATION_TYPE_RENAME) {
         String oldDnField = resolve(meta.getOldDnFieldName());
         if (Utils.isEmpty(oldDnField)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutput.Error.OldDNFieldMissing"));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.OldDNFieldMissing"));
         }
 
         String newDnField = resolve(meta.getNewDnFieldName());
         if (Utils.isEmpty(newDnField)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutput.Error.NewDNFieldMissing"));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.NewDNFieldMissing"));
         }
 
         // return the index of the field in the input stream
@@ -136,26 +119,21 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
 
         if (data.indexOfOldDNField < 0) {
           // the field is unreachable!
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", oldDnField));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", oldDnField));
         }
         // return the index of the field in the input stream
         data.indexOfNewDNField = getInputRowMeta().indexOfValue(newDnField);
 
         if (data.indexOfNewDNField < 0) {
           // the field is unreachable!
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", newDnField));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", newDnField));
         }
 
       } else {
         String dnField = resolve(meta.getDnField());
         // Check Dn field
         if (Utils.isEmpty(dnField)) {
-          throw new HopException(
-              BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.DNFieldMissing"));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.DNFieldMissing"));
         }
 
         // return the index of the field in the input stream
@@ -163,9 +141,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
 
         if (data.indexOfDNField < 0) {
           // the field is unreachable!
-          throw new HopException(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", dnField));
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Error.CanNotFindField", dnField));
         }
       }
     }
@@ -193,17 +169,9 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
         case LdapOutputMeta.OPERATION_TYPE_UPSERT:
           // handle fields to update
           for (int i = 0; i < data.nrFieldsToUpdate; i++) {
-            data.attributesToUpdate[i] =
-                getInputRowMeta().getString(outputRowData, data.fieldStreamToUpdate[i]);
+            data.attributesToUpdate[i] = getInputRowMeta().getString(outputRowData, data.fieldStreamToUpdate[i]);
           }
-          int status =
-              data.connection.upsert(
-                  dn,
-                  data.fieldsAttribute,
-                  data.attributes,
-                  data.fieldsAttributeToUpdate,
-                  data.attributesToUpdate,
-                  data.separator);
+          int status = data.connection.upsert(dn, data.fieldsAttribute, data.attributes, data.fieldsAttributeToUpdate, data.attributesToUpdate, data.separator);
           switch (status) {
             case LdapConnection.STATUS_INSERTED:
               incrementLinesOutput();
@@ -217,9 +185,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
           }
           break;
         case LdapOutputMeta.OPERATION_TYPE_UPDATE:
-          status =
-              data.connection.update(
-                  dn, data.fieldsAttribute, data.attributes, meta.isFailIfNotExist());
+          status = data.connection.update(dn, data.fieldsAttribute, data.attributes, meta.isFailIfNotExist());
           if (status == LdapConnection.STATUS_UPDATED) {
             incrementLinesUpdated();
           } else {
@@ -227,13 +193,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
           }
           break;
         case LdapOutputMeta.OPERATION_TYPE_ADD:
-          status =
-              data.connection.add(
-                  dn,
-                  data.fieldsAttribute,
-                  data.attributes,
-                  data.separator,
-                  meta.isFailIfNotExist());
+          status = data.connection.add(dn, data.fieldsAttribute, data.attributes, data.separator, meta.isFailIfNotExist());
           if (status == LdapConnection.STATUS_ADDED) {
             incrementLinesUpdated();
           } else {
@@ -265,15 +225,11 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
       putRow(getInputRowMeta(), outputRowData); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(classFromResourcesPackage, "LdapOutput.log.ReadRow"),
-            getInputRowMeta().getString(outputRowData));
+        logRowlevel(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.log.ReadRow"), getInputRowMeta().getString(outputRowData));
       }
 
       if (checkFeedback(getLinesInput()) && log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(classFromResourcesPackage, "LdapOutput.log.LineRow")
-                + getLinesInput());
+        logDetailed(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.log.LineRow") + getLinesInput());
       }
 
       return true;
@@ -287,9 +243,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapOutput.log.Exception", e.getMessage()));
+        logError(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.log.Exception", e.getMessage()));
         setErrors(1);
         logError(Const.getStackTracker(e));
         stopAll();
@@ -338,9 +292,7 @@ public class LdapOutput extends BaseTransform<LdapOutputMeta, LdapOutputData> {
         // Close connection
         data.connection.close();
       } catch (HopException e) {
-        logError(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapOutput.Exception.ErrorDisconecting", e.toString()));
+        logError(BaseMessages.getString(classFromResourcesPackage, "LdapOutput.Exception.ErrorDisconecting", e.toString()));
       }
     }
 

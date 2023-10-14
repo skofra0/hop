@@ -27,7 +27,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OracleRDBSequenceAndReleaseSavePointTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   final String sequenceName = "sequence_name";
 
@@ -39,10 +40,8 @@ public class OracleRDBSequenceAndReleaseSavePointTest {
   @Test
   public void testSequenceSupport() {
     assertSupports(db, sequenceSupport);
-    assertEquals(
-        "SELECT sequence_name.nextval FROM dual", db.getSqlNextSequenceValue(sequenceName));
-    assertEquals(
-        "SELECT sequence_name.currval FROM DUAL", db.getSqlCurrentSequenceValue(sequenceName));
+    assertEquals("SELECT sequence_name.nextval FROM dual", db.getSqlNextSequenceValue(sequenceName));
+    assertEquals("SELECT sequence_name.currval FROM DUAL", db.getSqlCurrentSequenceValue(sequenceName));
   }
 
   @Test
@@ -60,15 +59,13 @@ public class OracleRDBSequenceAndReleaseSavePointTest {
       assertTrue(dbType, db.isSupportsSequences());
       assertFalse(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertFalse(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertFalse(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertFalse(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertFalse(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     } else {
       assertFalse(db.getClass().getSimpleName(), db.isSupportsSequences());
       assertTrue(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertTrue(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertTrue(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertTrue(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertTrue(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     }
   }

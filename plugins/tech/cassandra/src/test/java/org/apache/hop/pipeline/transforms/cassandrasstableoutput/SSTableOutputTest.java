@@ -35,11 +35,8 @@ public class SSTableOutputTest {
   @BeforeClass
   public static void setUp() throws HopException {
     HopEnvironment.init();
-    helper =
-        new TransformMockHelper<>(
-            "SSTableOutputIT", SSTableOutputMeta.class, SSTableOutputData.class);
-    when(helper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(helper.logChannel);
+    helper = new TransformMockHelper<>("SSTableOutputIT", SSTableOutputMeta.class, SSTableOutputData.class);
+    when(helper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(helper.logChannel);
     when(helper.pipeline.isRunning()).thenReturn(true);
     when(helper.pipeline.getVariableNames()).thenReturn(new String[0]);
   }
@@ -60,14 +57,7 @@ public class SSTableOutputTest {
 
   @Test(expected = SecurityException.class)
   public void testDisableSystemExit() throws Exception {
-    SSTableOutput ssTableOutput =
-        new SSTableOutput(
-            helper.transformMeta,
-            helper.iTransformMeta,
-            helper.data,
-            0,
-            helper.pipelineMeta,
-            helper.pipeline);
+    SSTableOutput ssTableOutput = new SSTableOutput(helper.transformMeta, helper.iTransformMeta, helper.data, 0, helper.pipelineMeta, helper.pipeline);
     ssTableOutput.disableSystemExit(sm, helper.logChannel);
     System.exit(1);
   }

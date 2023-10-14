@@ -32,10 +32,7 @@ public class HopGuiMetadataSearchable implements ISearchable<IHopMetadata> {
   private IHopMetadata searchableObject;
   private Class<IHopMetadata> managedClass;
 
-  public HopGuiMetadataSearchable(
-      IHopMetadataProvider metadataProvider,
-      IHopMetadataSerializer<IHopMetadata> serializer,
-      IHopMetadata searchableObject,
+  public HopGuiMetadataSearchable(IHopMetadataProvider metadataProvider, IHopMetadataSerializer<IHopMetadata> serializer, IHopMetadata searchableObject,
       Class<IHopMetadata> managedClass) {
     this.metadataProvider = metadataProvider;
     this.serializer = serializer;
@@ -69,14 +66,9 @@ public class HopGuiMetadataSearchable implements ISearchable<IHopMetadata> {
   @Override
   public ISearchableCallback getSearchCallback() {
     return (searchable, searchResult) ->
-        // Open the metadata object...
-        //
-        new MetadataManager(
-                HopGui.getInstance().getVariables(),
-                metadataProvider,
-                managedClass,
-                HopGui.getInstance().getShell())
-            .editMetadata(searchable.getName());
+    // Open the metadata object...
+    //
+    new MetadataManager(HopGui.getInstance().getVariables(), metadataProvider, managedClass, HopGui.getInstance().getShell()).editMetadata(searchable.getName());
   }
 
   /**

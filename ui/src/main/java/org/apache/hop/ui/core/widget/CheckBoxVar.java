@@ -49,8 +49,7 @@ public class CheckBoxVar extends Composite {
     this(variables, composite, flags, null);
   }
 
-  public CheckBoxVar(
-      final IVariables variables, final Composite composite, int flags, String variable) {
+  public CheckBoxVar(final IVariables variables, final Composite composite, int flags, String variable) {
     super(composite, SWT.NONE);
 
     PropsUi.setLook(this);
@@ -67,13 +66,9 @@ public class CheckBoxVar extends Composite {
     wBox = new Button(this, flags);
     PropsUi.setLook(wBox);
     wText = new TextVar(variables, this, flags | SWT.NO_BACKGROUND);
-    wText
-        .getTextWidget()
-        .setForeground(GuiResource.getInstance().getColorRed()); // Put it in a red color to make it
+    wText.getTextWidget().setForeground(GuiResource.getInstance().getColorRed()); // Put it in a red color to make it
     // shine...
-    wText
-        .getTextWidget()
-        .setBackground(composite.getBackground()); // make it blend in with the rest...
+    wText.getTextWidget().setBackground(composite.getBackground()); // make it blend in with the rest...
     wText.setText(Const.NVL(variable, ""));
 
     FormData fdBox = new FormData();

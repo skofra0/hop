@@ -32,8 +32,7 @@ import java.util.Map;
 public class Edi2XmlMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    Edi2XmlMeta meta = TransformSerializationTestUtil.testSerialization(
-            "/edi-to-xml-transform.xml", Edi2XmlMeta.class);
+    Edi2XmlMeta meta = TransformSerializationTestUtil.testSerialization("/edi-to-xml-transform.xml", Edi2XmlMeta.class);
 
     Assert.assertNotNull(meta.getInputField());
     Assert.assertNotNull(meta.getOutputField());

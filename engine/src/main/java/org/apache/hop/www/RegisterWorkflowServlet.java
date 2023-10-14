@@ -41,11 +41,7 @@ public class RegisterWorkflowServlet extends BaseWorkflowServlet {
   }
 
   @Override
-  WebResult generateBody(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      boolean useXml,
-      IVariables variables)
+  WebResult generateBody(HttpServletRequest request, HttpServletResponse response, boolean useXml, IVariables variables)
       throws IOException, HopException, HopException, ParseException {
 
     final String xml = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
@@ -55,11 +51,7 @@ public class RegisterWorkflowServlet extends BaseWorkflowServlet {
 
     IWorkflowEngine<WorkflowMeta> workflow = createWorkflow(workflowConfiguration);
 
-    String message =
-        "Workflow '"
-            + workflow.getWorkflowName()
-            + "' was added to the list with id "
-            + workflow.getContainerId();
+    String message = "Workflow '" + workflow.getWorkflowName() + "' was added to the list with id " + workflow.getContainerId();
     return new WebResult(WebResult.STRING_OK, message, workflow.getContainerId());
   }
 }

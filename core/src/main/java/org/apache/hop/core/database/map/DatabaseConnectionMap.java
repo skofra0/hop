@@ -28,11 +28,14 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * This class contains a map between on the one hand
  *
- * <p>the pipeline name/thread the partition ID the connection group
+ * <p>
+ * the pipeline name/thread the partition ID the connection group
  *
- * <p>And on the other hand
+ * <p>
+ * And on the other hand
  *
- * <p>The database connection The number of times it was opened
+ * <p>
+ * The database connection The number of times it was opened
  */
 public class DatabaseConnectionMap {
   private final ConcurrentMap<String, Database> map;
@@ -58,8 +61,7 @@ public class DatabaseConnectionMap {
    * @param database database
    * @return <tt>null</tt> or previous value
    */
-  public Database getOrStoreIfAbsent(
-      String connectionGroup, String partitionID, Database database) {
+  public Database getOrStoreIfAbsent(String connectionGroup, String partitionID, Database database) {
     String key = createEntryKey(connectionGroup, partitionID, database);
     return map.putIfAbsent(key, database);
   }
@@ -69,8 +71,7 @@ public class DatabaseConnectionMap {
     map.remove(key);
   }
 
-  private String createEntryKey(
-      String connectionGroup, String partitionID, Database database) {
+  private String createEntryKey(String connectionGroup, String partitionID, Database database) {
     StringBuilder key = new StringBuilder(connectionGroup);
 
     key.append(':').append(database.getDatabaseMeta().getName());

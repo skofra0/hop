@@ -75,8 +75,7 @@ final class WsdlUtils {
    * @return The SOAP address URI.
    */
   protected static String getSOAPAddress(Port p) {
-    ExtensibilityElement e =
-        findExtensibilityElement((ElementExtensible) p, SOAP_PORT_ADDRESS_NAME);
+    ExtensibilityElement e = findExtensibilityElement((ElementExtensible) p, SOAP_PORT_ADDRESS_NAME);
     if (e instanceof SOAP12Address) {
       return ((SOAP12Address) e).getLocationURI();
     } else if (e instanceof SOAPAddress) {
@@ -94,8 +93,7 @@ final class WsdlUtils {
    */
   protected static String getSOAPBindingStyle(Binding binding) throws HopException {
     String style = SOAP_BINDING_DEFAULT;
-    ExtensibilityElement soapBindingElem =
-        findExtensibilityElement((ElementExtensible) binding, SOAP_BINDING_ELEMENT_NAME);
+    ExtensibilityElement soapBindingElem = findExtensibilityElement((ElementExtensible) binding, SOAP_BINDING_ELEMENT_NAME);
 
     if (soapBindingElem != null) {
       if (soapBindingElem instanceof SOAP12Binding) {
@@ -103,10 +101,7 @@ final class WsdlUtils {
       } else if (soapBindingElem instanceof SOAPBinding) {
         style = ((SOAPBinding) soapBindingElem).getStyle();
       } else {
-        throw new HopException(
-            "Binding type "
-                + soapBindingElem
-                + " encountered. The Web Service Lookup transform only supports SOAP Bindings!");
+        throw new HopException("Binding type " + soapBindingElem + " encountered. The Web Service Lookup transform only supports SOAP Bindings!");
       }
     }
     return style;
@@ -131,9 +126,7 @@ final class WsdlUtils {
     // first try getting the use setting from the input message
     BindingInput bindingInput = bindingOperation.getBindingInput();
     if (bindingInput != null) {
-      ExtensibilityElement soapBodyElem =
-          WsdlUtils.findExtensibilityElement(
-              (ElementExtensible) bindingInput, SOAP_BODY_ELEMENT_NAME);
+      ExtensibilityElement soapBodyElem = WsdlUtils.findExtensibilityElement((ElementExtensible) bindingInput, SOAP_BODY_ELEMENT_NAME);
       if (soapBodyElem != null) {
         if (soapBodyElem instanceof SOAP12BodyImpl) {
           return ((SOAP12BodyImpl) soapBodyElem).getUse();
@@ -146,9 +139,7 @@ final class WsdlUtils {
     // if there was no input message try getting the use from the output message
     BindingOutput bindingOutput = bindingOperation.getBindingOutput();
     if (bindingOutput != null) {
-      ExtensibilityElement soapBodyElem =
-          WsdlUtils.findExtensibilityElement(
-              (ElementExtensible) bindingOutput, SOAP_BODY_ELEMENT_NAME);
+      ExtensibilityElement soapBodyElem = WsdlUtils.findExtensibilityElement((ElementExtensible) bindingOutput, SOAP_BODY_ELEMENT_NAME);
       if (soapBodyElem != null) {
         if (soapBodyElem instanceof SOAP12BodyImpl) {
           return ((SOAP12BodyImpl) soapBodyElem).getUse();
@@ -168,8 +159,7 @@ final class WsdlUtils {
    * @return Soap action URI as string, null if not defined.
    */
   protected static String getSOAPAction(BindingOperation operation) {
-    ExtensibilityElement e =
-        findExtensibilityElement((ElementExtensible) operation, SOAP_OPERATION_ELEMENT_NAME);
+    ExtensibilityElement e = findExtensibilityElement((ElementExtensible) operation, SOAP_OPERATION_ELEMENT_NAME);
     if (e != null) {
       if (e instanceof SOAP12Operation) {
         return ((SOAP12Operation) e).getSoapActionURI();
@@ -189,8 +179,7 @@ final class WsdlUtils {
    * @param messagePartName Name of the message part.
    * @return true if parameter style is wrapped.
    */
-  protected static boolean isWrappedParameterStyle(
-      String operationName, boolean outputParam, String messagePartName) {
+  protected static boolean isWrappedParameterStyle(String operationName, boolean outputParam, String messagePartName) {
 
     if (outputParam) {
       if (messagePartName.equals(operationName + "Response")) {
@@ -221,16 +210,12 @@ final class WsdlUtils {
 
     BindingInput bindingInput = bindingOperation.getBindingInput();
     if (bindingInput != null) {
-      headers.addAll(
-          WsdlUtils.findExtensibilityElements(
-              (ElementExtensible) bindingInput, SOAP_HEADER_ELEMENT_NAME));
+      headers.addAll(WsdlUtils.findExtensibilityElements((ElementExtensible) bindingInput, SOAP_HEADER_ELEMENT_NAME));
     }
 
     BindingOutput bindingOutput = bindingOperation.getBindingOutput();
     if (bindingOutput != null) {
-      headers.addAll(
-          WsdlUtils.findExtensibilityElements(
-              (ElementExtensible) bindingOutput, SOAP_HEADER_ELEMENT_NAME));
+      headers.addAll(WsdlUtils.findExtensibilityElements((ElementExtensible) bindingOutput, SOAP_HEADER_ELEMENT_NAME));
     }
 
     HashSet<String> headerSet = new HashSet<>(headers.size());
@@ -254,8 +239,7 @@ final class WsdlUtils {
    * @return ExtensibilityElement The ExtensiblityElement, if not found return null.
    */
   @SuppressWarnings("unchecked")
-  protected static ExtensibilityElement findExtensibilityElement(
-      ElementExtensible extensibleElement, String elementType) {
+  protected static ExtensibilityElement findExtensibilityElement(ElementExtensible extensibleElement, String elementType) {
 
     List<ExtensibilityElement> extensibilityElements = extensibleElement.getExtensibilityElements();
     if (extensibilityElements != null) {
@@ -276,8 +260,7 @@ final class WsdlUtils {
    * @return List of ExtensibilityElements, may be empty.
    */
   @SuppressWarnings("unchecked")
-  protected static List<ExtensibilityElement> findExtensibilityElements(
-      ElementExtensible extensibleElement, String elementType) {
+  protected static List<ExtensibilityElement> findExtensibilityElements(ElementExtensible extensibleElement, String elementType) {
 
     List<ExtensibilityElement> elements = new ArrayList<>();
     List<ExtensibilityElement> extensibilityElements = extensibleElement.getExtensibilityElements();

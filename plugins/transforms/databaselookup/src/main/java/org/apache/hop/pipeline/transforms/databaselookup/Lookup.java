@@ -23,49 +23,31 @@ import java.util.List;
 
 public class Lookup {
   /** what's the lookup schema name? */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.SchemaName")
+  @HopMetadataProperty(key = "schema", injectionKeyDescription = "DatabaseLookupMeta.Injection.SchemaName")
   private String schemaName;
 
   /** what's the lookup table? */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.TableName")
+  @HopMetadataProperty(key = "table", injectionKeyDescription = "DatabaseLookupMeta.Injection.TableName")
   private String tableName;
 
-  @HopMetadataProperty(
-      key = "key",
-      injectionGroupKey = "keys",
-      injectionGroupDescription = "DatabaseLookupMeta.Injection.Keys")
+  @HopMetadataProperty(key = "key", injectionGroupKey = "keys", injectionGroupDescription = "DatabaseLookupMeta.Injection.Keys")
   private List<KeyField> keyFields;
 
-  @HopMetadataProperty(
-      key = "value",
-      injectionGroupKey = "values",
-      injectionGroupDescription = "DatabaseLookupMeta.Injection.Returns")
+  @HopMetadataProperty(key = "value", injectionGroupKey = "values", injectionGroupDescription = "DatabaseLookupMeta.Injection.Returns")
   private List<ReturnValue> returnValues;
 
-  @HopMetadataProperty(
-      key = "orderby",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.OrderBy")
+  @HopMetadataProperty(key = "orderby", injectionKeyDescription = "DatabaseLookupMeta.Injection.OrderBy")
   private String orderByClause;
 
-  @HopMetadataProperty(
-      key = "where",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
+  @HopMetadataProperty(key = "where", injectionKeyDescription = "DatabaseLookupMeta.Injection.Where")
   private String whereClause; // DEEM-MOD
 
   /** Have the lookup fail if multiple results were found, renders the orderByClause useless */
-  @HopMetadataProperty(
-      key = "fail_on_multiple",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.FailOnMultiple")
+  @HopMetadataProperty(key = "fail_on_multiple", injectionKeyDescription = "DatabaseLookupMeta.Injection.FailOnMultiple")
   private boolean failingOnMultipleResults;
 
   /** Have the lookup eat the incoming row when nothing gets found */
-  @HopMetadataProperty(
-      key = "eat_row_on_failure",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.EatRowOnFailure")
+  @HopMetadataProperty(key = "eat_row_on_failure", injectionKeyDescription = "DatabaseLookupMeta.Injection.EatRowOnFailure")
   private boolean eatingRowOnLookupFailure;
 
   public Lookup() {
@@ -167,14 +149,14 @@ public class Lookup {
    * @return Returns the whereClause.
    */
   public String getWhereClause() { // DEEM-MOD
-      return whereClause;
+    return whereClause;
   }
 
   /**
    * @param whereClause The whereClause to set.
    */
   public void setWhereClause(String whereClause) { // DEEM-MOD
-      this.whereClause = whereClause;
+    this.whereClause = whereClause;
   }
 
   /**

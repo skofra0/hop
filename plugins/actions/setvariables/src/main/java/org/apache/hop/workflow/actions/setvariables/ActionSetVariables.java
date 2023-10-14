@@ -73,8 +73,7 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
 
   public enum VariableType implements IEnumHasCodeAndDescription {
     JVM(BaseMessages.getString(PKG, "ActionSetVariables.VariableType.JVM")),
-    CURRENT_WORKFLOW(
-        BaseMessages.getString(PKG, "ActionSetVariables.VariableType.CurrentWorkflow")),
+    CURRENT_WORKFLOW(BaseMessages.getString(PKG, "ActionSetVariables.VariableType.CurrentWorkflow")),
     PARENT_WORKFLOW(BaseMessages.getString(PKG, "ActionSetVariables.VariableType.ParentWorkflow")),
     ROOT_WORKFLOW(BaseMessages.getString(PKG, "ActionSetVariables.VariableType.RootWorkflow"));
 
@@ -190,18 +189,14 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
         try (InputStream is = HopVfs.getInputStream(realFilename);
             // for UTF8 properties files
             InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-            BufferedReader reader = new BufferedReader(isr); ) {
+            BufferedReader reader = new BufferedReader(isr);) {
           Properties properties = new Properties();
           properties.load(reader);
           for (Object key : properties.keySet()) {
-            definitions.add(
-                new VariableDefinition(
-                    (String) key, (String) properties.get(key), fileVariableType));
+            definitions.add(new VariableDefinition((String) key, (String) properties.get(key), fileVariableType));
           }
         } catch (Exception e) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ActionSetVariables.Error.UnableReadPropertiesFile", realFilename));
+          throw new HopException(BaseMessages.getString(PKG, "ActionSetVariables.Error.UnableReadPropertiesFile", realFilename));
         }
       }
 
@@ -218,7 +213,7 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
             parentWorkflow.setVariable(key, "");
             setVariable(key, "");
           } else {
-            // if it is a parameter, then get the initial saved value of parent -  saved in
+            // if it is a parameter, then get the initial saved value of parent - saved in
             // entryTransformSetVariables Map
             parentWorkflow.setVariable(key, getEntryTransformSetVariable(key));
             setVariable(key, getEntryTransformSetVariable(key));
@@ -272,18 +267,14 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
               } else {
                 // if parameter, save the initial parameter value for use in reset/clear variables
                 // in future calls
-                if (parameterValue != null
-                    && !parameterValue.equals(value)
-                    && !entryTransformSetVariablesMap.containsKey(name)) {
+                if (parameterValue != null && !parameterValue.equals(value) && !entryTransformSetVariablesMap.containsKey(name)) {
                   setEntryTransformSetVariable(name, parameterValue);
                 }
               }
               parentWorkflow.setVariable(name, value);
 
             } else {
-              throw new HopWorkflowException(
-                  BaseMessages.getString(
-                      PKG, "ActionSetVariables.Error.UnableSetVariableCurrentWorkflow", name));
+              throw new HopWorkflowException(BaseMessages.getString(PKG, "ActionSetVariables.Error.UnableSetVariableCurrentWorkflow", name));
             }
             break;
 
@@ -296,14 +287,10 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
               if (gpWorkflow != null) {
                 gpWorkflow.setVariable(name, value);
               } else {
-                throw new HopWorkflowException(
-                    BaseMessages.getString(
-                        PKG, "ActionSetVariables.Error.UnableSetVariableParentWorkflow", name));
+                throw new HopWorkflowException(BaseMessages.getString(PKG, "ActionSetVariables.Error.UnableSetVariableParentWorkflow", name));
               }
             } else {
-              throw new HopWorkflowException(
-                  BaseMessages.getString(
-                      PKG, "ActionSetVariables.Error.UnableSetVariableCurrentWorkflow", name));
+              throw new HopWorkflowException(BaseMessages.getString(PKG, "ActionSetVariables.Error.UnableSetVariableCurrentWorkflow", name));
             }
             break;
 
@@ -313,9 +300,7 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
 
         // ok we can process this line
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionSetVariables.Log.SetVariableToValue", name, value));
+          logDetailed(BaseMessages.getString(PKG, "ActionSetVariables.Log.SetVariableToValue", name, value));
         }
       }
     } catch (Exception e) {
@@ -350,18 +335,8 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean res =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "variableName",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean res = ActionValidatorUtils.andValidator().validate(this, "variableName", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (!res) {
       return;
@@ -369,13 +344,11 @@ public class ActionSetVariables extends ActionBase implements Cloneable, IAction
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
 
     String realFilename = resolve(this.filename);

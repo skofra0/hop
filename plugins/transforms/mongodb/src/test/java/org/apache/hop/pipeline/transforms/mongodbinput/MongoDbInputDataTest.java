@@ -93,18 +93,9 @@ public class MongoDbInputDataTest {
     // Mock the discoverFields call so that it returns a list of mongofields from the expected input
     MongoDbInputDiscoverFields mongoDbInputDiscoverFields = mock(MongoDbInputDiscoverFields.class);
 
-    doThrow(new HopException())
-        .when(mongoDbInputDiscoverFields)
-        .discoverFields(
-            any(IVariables.class),
-            any(MongoDbConnection.class),
-            anyString(),
-            anyString(),
-            anyString(),
-            anyBoolean(),
-            anyInt(),
-            any(MongoDbInputMeta.class),
-            any(DiscoverFieldsCallback.class));
+    doThrow(new HopException()).when(mongoDbInputDiscoverFields).discoverFields(
+        any(IVariables.class), any(MongoDbConnection.class), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), any(MongoDbInputMeta.class),
+        any(DiscoverFieldsCallback.class));
 
     try {
       MongoDbInputDialog.discoverFields(meta, vars, docsToSample, metadataProvider);
@@ -136,15 +127,9 @@ public class MongoDbInputDataTest {
 
     // Mock the discoverFields call so that it returns a list of mongofields from the expected input
     MongoDbInputDiscoverFields mongoDbInputDiscoverFields = mock(MongoDbInputDiscoverFields.class);
-    when(mongoDbInputDiscoverFields.discoverFields(
-            any(IVariables.class),
-            any(MongoDbConnection.class),
-            anyString(),
-            anyString(),
-            anyString(),
-            anyBoolean(),
-            anyInt(),
-            any(MongoDbInputMeta.class)))
+    when(
+        mongoDbInputDiscoverFields
+            .discoverFields(any(IVariables.class), any(MongoDbConnection.class), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), any(MongoDbInputMeta.class)))
         .thenThrow(new HopException("testException"));
 
     try {
@@ -177,15 +162,9 @@ public class MongoDbInputDataTest {
 
     // Mock the discoverFields call so that it returns a list of mongofields from the expected input
     MongoDbInputDiscoverFields mongoDbInputDiscoverFields = mock(MongoDbInputDiscoverFields.class);
-    when(mongoDbInputDiscoverFields.discoverFields(
-            any(IVariables.class),
-            any(MongoDbConnection.class),
-            anyString(),
-            anyString(),
-            anyString(),
-            anyBoolean(),
-            anyInt(),
-            any(MongoDbInputMeta.class)))
+    when(
+        mongoDbInputDiscoverFields
+            .discoverFields(any(IVariables.class), any(MongoDbConnection.class), anyString(), anyString(), anyString(), anyBoolean(), anyInt(), any(MongoDbInputMeta.class)))
         .thenThrow(new NullPointerException());
 
     try {
@@ -369,18 +348,12 @@ public class MongoDbInputDataTest {
   @Test
   public void testCleansePath() {
     // param at end of path
-    assertEquals(
-        MongoDbInputData.cleansePath("my.path.with.${a.dot.param}"), "my.path.with.${a_dot_param}");
+    assertEquals(MongoDbInputData.cleansePath("my.path.with.${a.dot.param}"), "my.path.with.${a_dot_param}");
     // param at start of path
-    assertEquals(
-        MongoDbInputData.cleansePath("${a.dot.param}.my.path.with"), "${a_dot_param}.my.path.with");
+    assertEquals(MongoDbInputData.cleansePath("${a.dot.param}.my.path.with"), "${a_dot_param}.my.path.with");
     // param in middle of path
-    assertEquals(
-        MongoDbInputData.cleansePath("my.path.with.${a.dot.param}.otherstuff"),
-        "my.path.with.${a_dot_param}.otherstuff");
+    assertEquals(MongoDbInputData.cleansePath("my.path.with.${a.dot.param}.otherstuff"), "my.path.with.${a_dot_param}.otherstuff");
     // multiple params
-    assertEquals(
-        MongoDbInputData.cleansePath("my.${oneparam}.with.${a.dot.param}.otherstuff"),
-        "my.${oneparam}.with.${a_dot_param}.otherstuff");
+    assertEquals(MongoDbInputData.cleansePath("my.${oneparam}.with.${a.dot.param}.otherstuff"), "my.${oneparam}.with.${a_dot_param}.otherstuff");
   }
 }

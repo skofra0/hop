@@ -21,10 +21,7 @@ import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.svg.SvgFile;
 import org.apache.hop.laf.BasePropertyHandler;
 
-@RowDistributionPlugin(
-    code = "FakeDistribution",
-    name = "Fake distribution",
-    description = "Useful only for unit testing")
+@RowDistributionPlugin(code = "FakeDistribution", name = "Fake distribution", description = "Useful only for unit testing")
 public class FakeRowDistribution implements IRowDistribution {
 
   @Override
@@ -38,17 +35,12 @@ public class FakeRowDistribution implements IRowDistribution {
   }
 
   @Override
-  public void distributeRow(
-      IRowMeta paramRowMetaInterface,
-      Object[] paramArrayOfObject,
-      ITransform paramTransformInterface)
-      throws HopTransformException {
+  public void distributeRow(IRowMeta paramRowMetaInterface, Object[] paramArrayOfObject, ITransform paramTransformInterface) throws HopTransformException {
     // TODO: Implement some distribution for test cases
   }
 
   @Override
   public SvgFile getDistributionImage() {
-    return new SvgFile(
-        BasePropertyHandler.getProperty("LoadBalance_image"), this.getClass().getClassLoader());
+    return new SvgFile(BasePropertyHandler.getProperty("LoadBalance_image"), this.getClass().getClassLoader());
   }
 }

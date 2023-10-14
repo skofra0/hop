@@ -46,14 +46,7 @@ public abstract class WorkflowActionLoadSaveTestSupport<T extends IAction> {
     Map<String, IFieldLoadSaveValidator<?>> attributeValidators = createAttributeValidatorsMap();
     Map<String, IFieldLoadSaveValidator<?>> typeValidators = createTypeValidatorsMap();
 
-    tester =
-        new LoadSaveTester<>(
-            getActionClass(),
-            attributes,
-            getters,
-            setters,
-            attributeValidators,
-            typeValidators);
+    tester = new LoadSaveTester<>(getActionClass(), attributes, getters, setters, attributeValidators, typeValidators);
   }
 
   @Test

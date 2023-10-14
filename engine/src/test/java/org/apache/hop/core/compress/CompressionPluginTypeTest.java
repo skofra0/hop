@@ -70,5 +70,6 @@ public class CompressionPluginTypeTest {
   }
 
   @CompressionPlugin(id = "Fake", name = "FakePlugin")
-  private class FakePlugin {}
+  private class FakePlugin {
+  }
 }

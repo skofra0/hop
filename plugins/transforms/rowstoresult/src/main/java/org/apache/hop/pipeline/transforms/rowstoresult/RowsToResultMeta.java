@@ -48,8 +48,7 @@ public class RowsToResultMeta extends BaseTransformMeta<RowsToResult, RowsToResu
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -65,13 +64,7 @@ public class RowsToResultMeta extends BaseTransformMeta<RowsToResult, RowsToResu
   public void setDefault() {}
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: nothing changes to rowMeta
   }
@@ -90,18 +83,10 @@ public class RowsToResultMeta extends BaseTransformMeta<RowsToResult, RowsToResu
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
       CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "RowsToResultMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RowsToResultMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RowsToResultMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RowsToResultMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

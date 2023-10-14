@@ -43,13 +43,7 @@ import java.util.Map;
 /** Get information from the System or the supervising pipeline. */
 public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLoggingInfoData> {
 
-  public GetLoggingInfo(
-      TransformMeta transformMeta,
-      GetLoggingInfoMeta meta,
-      GetLoggingInfoData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetLoggingInfo(TransformMeta transformMeta, GetLoggingInfoMeta meta, GetLoggingInfoData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -71,26 +65,24 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
       }
 
       switch (meta.getFieldType()[i]) {
-        case TYPE_SYSTEM_INFO_PIPELINE_DATE_FROM:
-          {
-            Date previousSuccess = getPreviousPipelineSuccess(argument);
-            if (previousSuccess == null) {
-              previousSuccess = Const.MIN_DATE;
-            }
-            row[index] = previousSuccess;
+        case TYPE_SYSTEM_INFO_PIPELINE_DATE_FROM: {
+          Date previousSuccess = getPreviousPipelineSuccess(argument);
+          if (previousSuccess == null) {
+            previousSuccess = Const.MIN_DATE;
           }
+          row[index] = previousSuccess;
+        }
           break;
         case TYPE_SYSTEM_INFO_PIPELINE_DATE_TO:
           row[index] = getPipeline().getExecutionStartDate();
           break;
-        case TYPE_SYSTEM_INFO_WORKFLOW_DATE_FROM:
-          {
-            Date previousSuccess = getPreviousWorkflowSuccess(argument);
-            if (previousSuccess == null) {
-              previousSuccess = Const.MIN_DATE;
-            }
-            row[index] = previousSuccess;
+        case TYPE_SYSTEM_INFO_WORKFLOW_DATE_FROM: {
+          Date previousSuccess = getPreviousWorkflowSuccess(argument);
+          if (previousSuccess == null) {
+            previousSuccess = Const.MIN_DATE;
           }
+          row[index] = previousSuccess;
+        }
           break;
         case TYPE_SYSTEM_INFO_WORKFLOW_DATE_TO:
           row[index] = getPipeline().getExecutionStartDate();
@@ -192,13 +184,9 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
 
   private Date getPreviousPipelineExecution(String pipelineName) throws Exception {
 
-    final NeoConnection connection =
-        LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
+    final NeoConnection connection = LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
     if (connection == null) {
-      throw new HopException(
-          "Unable to find logging Neo4j connection (variable "
-              + Defaults.NEO4J_LOGGING_CONNECTION
-              + ")");
+      throw new HopException("Unable to find logging Neo4j connection (variable " + Defaults.NEO4J_LOGGING_CONNECTION + ")");
     }
 
     Map<String, Object> parameters = new HashMap<>();
@@ -218,13 +206,9 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
 
   private Date getPreviousPipelineSuccess(String pipelineName) throws Exception {
 
-    final NeoConnection connection =
-        LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
+    final NeoConnection connection = LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
     if (connection == null) {
-      throw new HopException(
-          "Unable to find logging Neo4j connection (variable "
-              + Defaults.NEO4J_LOGGING_CONNECTION
-              + ")");
+      throw new HopException("Unable to find logging Neo4j connection (variable " + Defaults.NEO4J_LOGGING_CONNECTION + ")");
     }
 
     Map<String, Object> parameters = new HashMap<>();
@@ -245,13 +229,9 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
 
   private Date getPreviousWorkflowExecution(String jobName) throws Exception {
 
-    final NeoConnection connection =
-        LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
+    final NeoConnection connection = LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
     if (connection == null) {
-      throw new HopException(
-          "Unable to find logging Neo4j connection (variable "
-              + Defaults.NEO4J_LOGGING_CONNECTION
-              + ")");
+      throw new HopException("Unable to find logging Neo4j connection (variable " + Defaults.NEO4J_LOGGING_CONNECTION + ")");
     }
 
     Map<String, Object> parameters = new HashMap<>();
@@ -271,13 +251,9 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
 
   private Date getPreviousWorkflowSuccess(String jobName) throws Exception {
 
-    final NeoConnection connection =
-        LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
+    final NeoConnection connection = LoggingCore.getConnection(getPipeline().getMetadataProvider(), getPipeline());
     if (connection == null) {
-      throw new HopException(
-          "Unable to find logging Neo4j connection (variable "
-              + Defaults.NEO4J_LOGGING_CONNECTION
-              + ")");
+      throw new HopException("Unable to find logging Neo4j connection (variable " + Defaults.NEO4J_LOGGING_CONNECTION + ")");
     }
 
     Map<String, Object> parameters = new HashMap<>();
@@ -296,22 +272,14 @@ public class GetLoggingInfo extends BaseTransform<GetLoggingInfoMeta, GetLogging
     return getResultStartDate(log, connection, cypher, parameters);
   }
 
-  private Date getResultStartDate(
-      ILogChannel log, NeoConnection connection, String cypher, Map<String, Object> parameters)
-      throws Exception {
-    return LoggingCore.executeCypher(
-        log,
-        this,
-        connection,
-        cypher,
-        parameters,
-        result -> {
-          try {
-            return getResultDate(result, "startDate");
-          } catch (ParseException e) {
-            throw new RuntimeException("Unable to get start date with cypher : " + cypher, e);
-          }
-        });
+  private Date getResultStartDate(ILogChannel log, NeoConnection connection, String cypher, Map<String, Object> parameters) throws Exception {
+    return LoggingCore.executeCypher(log, this, connection, cypher, parameters, result -> {
+      try {
+        return getResultDate(result, "startDate");
+      } catch (ParseException e) {
+        throw new RuntimeException("Unable to get start date with cypher : " + cypher, e);
+      }
+    });
   }
 
   private Date getResultDate(Result result, String startDate) throws ParseException {

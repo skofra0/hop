@@ -28,8 +28,7 @@ public class PrimitiveBooleanArrayLoadSaveValidator implements IFieldLoadSaveVal
     this(fieldValidator, null);
   }
 
-  public PrimitiveBooleanArrayLoadSaveValidator(
-      IFieldLoadSaveValidator<Boolean> fieldValidator, Integer elements) {
+  public PrimitiveBooleanArrayLoadSaveValidator(IFieldLoadSaveValidator<Boolean> fieldValidator, Integer elements) {
     validator = fieldValidator;
     this.elements = elements;
   }

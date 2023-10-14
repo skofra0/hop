@@ -36,42 +36,13 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExp
     name = "Text files without extensions",
     description = "No extension files handling in the explorer perspective",
     image = "ui/images/script-active.svg")
-public class NoExtensionExplorerFileType
-    extends BaseTextExplorerFileType<NoExtensionExplorerFileTypeHandler>
-    implements IExplorerFileType<NoExtensionExplorerFileTypeHandler> {
+public class NoExtensionExplorerFileType extends BaseTextExplorerFileType<NoExtensionExplorerFileTypeHandler> implements IExplorerFileType<NoExtensionExplorerFileTypeHandler> {
 
   public NoExtensionExplorerFileType() {
-    super(
-        "Text files without extensions",
-        "",
-        new String[] {
-          "config",
-          ".gitignore",
-          ".profile",
-          ".bashrc",
-          ".gitconfig",
-          "Dockerfile",
-          "Jenkinsfile",
-          "README",
-          "READ.me"
-        },
-        new String[] {
-          "Config file",
-          "Git ignore file",
-          "Profile config",
-          "Bash startup script",
-          "Git config file",
-          "Docker file",
-          "Jenkins file",
-          "README file",
-          "README file"
-        },
+    super("Text files without extensions", "", new String[] {"config", ".gitignore", ".profile", ".bashrc", ".gitconfig", "Dockerfile", "Jenkinsfile", "README", "READ.me"},
+        new String[] {"Config file", "Git ignore file", "Profile config", "Bash startup script", "Git config file", "Docker file", "Jenkins file", "README file", "README file"},
         FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+            IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
@@ -88,14 +59,12 @@ public class NoExtensionExplorerFileType
   }
 
   @Override
-  public NoExtensionExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public NoExtensionExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new NoExtensionExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     // Not implemented
     return new EmptyHopFileTypeHandler();
   }

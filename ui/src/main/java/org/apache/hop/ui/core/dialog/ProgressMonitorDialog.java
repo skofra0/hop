@@ -67,13 +67,11 @@ public class ProgressMonitorDialog {
     return progressMonitor;
   }
 
-  public void run(boolean cancelable, IRunnableWithProgress runnable)
-      throws InvocationTargetException, InterruptedException {
+  public void run(boolean cancelable, IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException {
 
     PropsUi props = PropsUi.getInstance();
 
-    shell =
-        new Shell(parent, SWT.RESIZE | SWT.APPLICATION_MODAL | (cancelable ? SWT.CLOSE : SWT.NONE));
+    shell = new Shell(parent, SWT.RESIZE | SWT.APPLICATION_MODAL | (cancelable ? SWT.CLOSE : SWT.NONE));
     shell.setText(BaseMessages.getString(PKG, "ProgressMonitorDialog.Shell.Title"));
     shell.setImage(GuiResource.getInstance().getImageHopUi());
     PropsUi.setLook(shell);
@@ -133,18 +131,15 @@ public class ProgressMonitorDialog {
       Button wCancel = new Button(shell, SWT.PUSH);
       wCancel.setText(BaseMessages.getString("System.Button.Cancel"));
       wCancel.addListener(SWT.Selection, e -> isCancelled = true);
-      BaseTransformDialog.positionBottomButtons(
-          shell, new Button[] {wCancel}, margin, wProgressBar);
+      BaseTransformDialog.positionBottomButtons(shell, new Button[] {wCancel}, margin, wProgressBar);
     }
 
     BaseTransformDialog.setSize(shell);
 
-    shell.addListener(
-        SWT.Close,
-        e -> {
-          e.doit = false;
-          isCancelled = true;
-        });
+    shell.addListener(SWT.Close, e -> {
+      e.doit = false;
+      isCancelled = true;
+    });
 
     shell.open();
 
@@ -154,23 +149,20 @@ public class ProgressMonitorDialog {
 
     // Execute the long running task
     //
-    Runnable longRunnable =
-        () ->
-            // Always do the work in a different thread...
-            // This keeps the shell updating properly as long as
-            // display.asyncExec is used
-            //
-            new Thread(
-                    () -> {
-                      try {
-                        runnable.run(progressMonitor);
-                      } catch (InvocationTargetException e) {
-                        targetException = e;
-                      } catch (InterruptedException e) {
-                        interruptedException = e;
-                      }
-                    })
-                .start();
+    Runnable longRunnable = () ->
+    // Always do the work in a different thread...
+    // This keeps the shell updating properly as long as
+    // display.asyncExec is used
+    //
+    new Thread(() -> {
+      try {
+        runnable.run(progressMonitor);
+      } catch (InvocationTargetException e) {
+        targetException = e;
+      } catch (InterruptedException e) {
+        interruptedException = e;
+      }
+    }).start();
     display.asyncExec(longRunnable);
 
     // Handle the event loop until we're done with this shell...
@@ -200,48 +192,45 @@ public class ProgressMonitorDialog {
   }
 
   private void dispose() {
-    display.asyncExec(
-        () -> {
-          PropsUi.getInstance().setScreen(new WindowProperty(shell));
-          shell.dispose();
-        });
+    display.asyncExec(() -> {
+      PropsUi.getInstance().setScreen(new WindowProperty(shell));
+      shell.dispose();
+    });
   }
 
   private class ProgressMonitor implements IProgressMonitor {
 
     @Override
     public void beginTask(String message, int nrWorks) {
-      display.asyncExec(
-          () -> {
-            synchronized (shell) {
-              if (shell.isDisposed() || wlTask.isDisposed()) {
-                return;
-              }
-              try {
-                wlTask.setText(Const.NVL(message, ""));
-                wProgressBar.setMaximum(nrWorks);
-              } catch (Throwable e) {
-                // Ignore race condition
-              }
-            }
-          });
+      display.asyncExec(() -> {
+        synchronized (shell) {
+          if (shell.isDisposed() || wlTask.isDisposed()) {
+            return;
+          }
+          try {
+            wlTask.setText(Const.NVL(message, ""));
+            wProgressBar.setMaximum(nrWorks);
+          } catch (Throwable e) {
+            // Ignore race condition
+          }
+        }
+      });
     }
 
     @Override
     public void subTask(String message) {
-      display.asyncExec(
-          () -> {
-            synchronized (shell) {
-              if (shell.isDisposed() || wlSubTask.isDisposed()) {
-                return;
-              }
-              try {
-                wlSubTask.setText(Const.NVL(message, ""));
-              } catch (Throwable e) {
-                // Ignore race condition
-              }
-            }
-          });
+      display.asyncExec(() -> {
+        synchronized (shell) {
+          if (shell.isDisposed() || wlSubTask.isDisposed()) {
+            return;
+          }
+          try {
+            wlSubTask.setText(Const.NVL(message, ""));
+          } catch (Throwable e) {
+            // Ignore race condition
+          }
+        }
+      });
     }
 
     @Override
@@ -251,19 +240,18 @@ public class ProgressMonitorDialog {
 
     @Override
     public void worked(int nrWorks) {
-      display.asyncExec(
-          () -> {
-            synchronized (shell) {
-              if (shell.isDisposed() || wlTask.isDisposed()) {
-                return;
-              }
-              try {
-                wProgressBar.setSelection(nrWorks);
-              } catch (Throwable e) {
-                // Ignore race condition
-              }
-            }
-          });
+      display.asyncExec(() -> {
+        synchronized (shell) {
+          if (shell.isDisposed() || wlTask.isDisposed()) {
+            return;
+          }
+          try {
+            wProgressBar.setSelection(nrWorks);
+          } catch (Throwable e) {
+            // Ignore race condition
+          }
+        }
+      });
     }
 
     @Override
@@ -273,19 +261,18 @@ public class ProgressMonitorDialog {
 
     @Override
     public void setTaskName(String taskName) {
-      display.asyncExec(
-          () -> {
-            synchronized (shell) {
-              if (shell.isDisposed() || wlTask.isDisposed()) {
-                return;
-              }
-              try {
-                wlTask.setText(Const.NVL(taskName, ""));
-              } catch (Throwable e) {
-                // Ignore race condition
-              }
-            }
-          });
+      display.asyncExec(() -> {
+        synchronized (shell) {
+          if (shell.isDisposed() || wlTask.isDisposed()) {
+            return;
+          }
+          try {
+            wlTask.setText(Const.NVL(taskName, ""));
+          } catch (Throwable e) {
+            // Ignore race condition
+          }
+        }
+      });
     }
   }
 }

@@ -57,7 +57,8 @@ public class BeamProduceMeta extends BaseTransformMeta<BeamProduce, DummyData> i
   @HopMetadataProperty(key = "bootstrap_servers")
   private String bootstrapServers;
 
-  @HopMetadataProperty private String topic;
+  @HopMetadataProperty
+  private String topic;
 
   @HopMetadataProperty(key = "key_field")
   private String keyField;
@@ -82,13 +83,7 @@ public class BeamProduceMeta extends BaseTransformMeta<BeamProduce, DummyData> i
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // No output
@@ -131,19 +126,18 @@ public class BeamProduceMeta extends BaseTransformMeta<BeamProduce, DummyData> i
       ConfigOption option = getConfigOptions().get(i);
       parameters[i] = variables.resolve(option.getParameter());
       values[i] = variables.resolve(option.getValue());
-      types[i] =
-              option.getType() == null ? ConfigOption.Type.String.name() : option.getType().name();
+      types[i] = option.getType() == null ? ConfigOption.Type.String.name() : option.getType().name();
     }
 
     String messageFieldName = variables.resolve(getMessageField());
     IValueMeta messageValueMeta = rowMeta.searchValueMeta(messageFieldName);
-    if (messageValueMeta==null) {
-      throw new HopException("Error finding message/value field "+messageFieldName+" in the input rows");
+    if (messageValueMeta == null) {
+      throw new HopException("Error finding message/value field " + messageFieldName + " in the input rows");
     }
 
     // Register a coder for the short time that KV<HopRow, GenericRecord> exists in Beam
     //
-    if (messageValueMeta.getType()==IValueMeta.TYPE_AVRO) {
+    if (messageValueMeta.getType() == IValueMeta.TYPE_AVRO) {
       ValueMetaAvroRecord valueMetaAvroRecord = (ValueMetaAvroRecord) messageValueMeta;
       Schema schema = valueMetaAvroRecord.getSchema();
       AvroCoder<GenericRecord> coder = AvroCoder.of(schema);
@@ -173,11 +167,7 @@ public class BeamProduceMeta extends BaseTransformMeta<BeamProduce, DummyData> i
     // No need to store this, it's PDone.
     //
     input.apply(beamOutputTransform);
-    log.logBasic(
-        "Handled transform (KAFKA OUTPUT) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (KAFKA OUTPUT) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   /**

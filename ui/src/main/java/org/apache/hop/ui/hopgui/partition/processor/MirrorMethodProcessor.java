@@ -24,12 +24,8 @@ import org.eclipse.swt.widgets.Shell;
 public class MirrorMethodProcessor extends AbstractMethodProcessor {
 
   @Override
-  public void schemaSelection(
-      PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection)
-      throws HopPluginException {
-    String schema =
-        super.askForSchema(
-            settings.getSchemaNamesArray(), shell, settings.getDefaultSelectedSchemaIndex());
+  public void schemaSelection(PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection) throws HopPluginException {
+    String schema = super.askForSchema(settings.getSchemaNamesArray(), shell, settings.getDefaultSelectedSchemaIndex());
     super.processForKnownSchema(schema, settings);
   }
 }

@@ -100,8 +100,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
   private Label wlAddDestinationFilename;
   private Button wAddDestinationFilename;
 
-  public ActionCopyMoveResultFilenamesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCopyMoveResultFilenamesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCopyMoveResultFilenames) action;
 
@@ -170,19 +169,17 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     fdAction.top = new FormAttachment(wName, 2 * margin);
     fdAction.right = new FormAttachment(100, 0);
     wAction.setLayoutData(fdAction);
-    wAction.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            enableAction();
-            action.setChanged();
-          }
-        });
+    wAction.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        enableAction();
+        action.setChanged();
+      }
+    });
 
     // Foldername line
     wlFoldername = new Label(shell, SWT.RIGHT);
-    wlFoldername.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Foldername.Label"));
+    wlFoldername.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Foldername.Label"));
     PropsUi.setLook(wlFoldername);
     FormData fdlFoldername = new FormData();
     fdlFoldername.left = new FormAttachment(0, 0);
@@ -208,16 +205,13 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wFoldername.setLayoutData(fdFoldername);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFoldername.addModifyListener(
-        e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
+    wFoldername.addModifyListener(e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
 
-    wbFoldername.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
+    wbFoldername.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
 
     // Create destination folder
     wlCreateDestinationFolder = new Label(shell, SWT.RIGHT);
-    wlCreateDestinationFolder.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.CreateDestinationFolder.Label"));
+    wlCreateDestinationFolder.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.CreateDestinationFolder.Label"));
     PropsUi.setLook(wlCreateDestinationFolder);
     FormData fdlCreateDestinationFolder = new FormData();
     fdlCreateDestinationFolder.left = new FormAttachment(0, 0);
@@ -226,26 +220,22 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlCreateDestinationFolder.setLayoutData(fdlCreateDestinationFolder);
     wCreateDestinationFolder = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wCreateDestinationFolder);
-    wCreateDestinationFolder.setToolTipText(
-        BaseMessages.getString(
-            PKG, "ActionCopyMoveResultFilenames.CreateDestinationFolder.Tooltip"));
+    wCreateDestinationFolder.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.CreateDestinationFolder.Tooltip"));
     FormData fdCreateDestinationFolder = new FormData();
     fdCreateDestinationFolder.left = new FormAttachment(middle, 0);
     fdCreateDestinationFolder.top = new FormAttachment(wlCreateDestinationFolder, 0, SWT.CENTER);
     fdCreateDestinationFolder.right = new FormAttachment(100, 0);
     wCreateDestinationFolder.setLayoutData(fdCreateDestinationFolder);
-    wCreateDestinationFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wCreateDestinationFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Overwrite files
     wlOverwriteFile = new Label(shell, SWT.RIGHT);
-    wlOverwriteFile.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.OverwriteFile.Label"));
+    wlOverwriteFile.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.OverwriteFile.Label"));
     PropsUi.setLook(wlOverwriteFile);
     FormData fdlOverwriteFile = new FormData();
     fdlOverwriteFile.left = new FormAttachment(0, 0);
@@ -254,25 +244,22 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlOverwriteFile.setLayoutData(fdlOverwriteFile);
     wOverwriteFile = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wOverwriteFile);
-    wOverwriteFile.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.OverwriteFile.Tooltip"));
+    wOverwriteFile.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.OverwriteFile.Tooltip"));
     FormData fdOverwriteFile = new FormData();
     fdOverwriteFile.left = new FormAttachment(middle, 0);
     fdOverwriteFile.top = new FormAttachment(wlOverwriteFile, 0, SWT.CENTER);
     fdOverwriteFile.right = new FormAttachment(100, 0);
     wOverwriteFile.setLayoutData(fdOverwriteFile);
-    wOverwriteFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wOverwriteFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Remove source filename from result filenames
     wlRemovedSourceFilename = new Label(shell, SWT.RIGHT);
-    wlRemovedSourceFilename.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedSourceFilename.Label"));
+    wlRemovedSourceFilename.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedSourceFilename.Label"));
     PropsUi.setLook(wlRemovedSourceFilename);
     FormData fdlRemovedSourceFilename = new FormData();
     fdlRemovedSourceFilename.left = new FormAttachment(0, 0);
@@ -281,25 +268,22 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlRemovedSourceFilename.setLayoutData(fdlRemovedSourceFilename);
     wRemovedSourceFilename = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wRemovedSourceFilename);
-    wRemovedSourceFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedSourceFilename.Tooltip"));
+    wRemovedSourceFilename.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.RemovedSourceFilename.Tooltip"));
     FormData fdRemovedSourceFilename = new FormData();
     fdRemovedSourceFilename.left = new FormAttachment(middle, 0);
     fdRemovedSourceFilename.top = new FormAttachment(wlRemovedSourceFilename, 0, SWT.CENTER);
     fdRemovedSourceFilename.right = new FormAttachment(100, 0);
     wRemovedSourceFilename.setLayoutData(fdRemovedSourceFilename);
-    wRemovedSourceFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wRemovedSourceFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Add destination filename to result filenames
     wlAddDestinationFilename = new Label(shell, SWT.RIGHT);
-    wlAddDestinationFilename.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDestinationFilename.Label"));
+    wlAddDestinationFilename.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDestinationFilename.Label"));
     PropsUi.setLook(wlAddDestinationFilename);
     FormData fdlAddDestinationFilename = new FormData();
     fdlAddDestinationFilename.left = new FormAttachment(0, 0);
@@ -308,21 +292,18 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlAddDestinationFilename.setLayoutData(fdlAddDestinationFilename);
     wAddDestinationFilename = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddDestinationFilename);
-    wAddDestinationFilename.setToolTipText(
-        BaseMessages.getString(
-            PKG, "ActionCopyMoveResultFilenames.AddDestinationFilename.Tooltip"));
+    wAddDestinationFilename.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDestinationFilename.Tooltip"));
     FormData fdAddDestinationFilename = new FormData();
     fdAddDestinationFilename.left = new FormAttachment(middle, 0);
     fdAddDestinationFilename.top = new FormAttachment(wlAddDestinationFilename, 0, SWT.CENTER);
     fdAddDestinationFilename.right = new FormAttachment(100, 0);
     wAddDestinationFilename.setLayoutData(fdAddDestinationFilename);
-    wAddDestinationFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddDestinationFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddDate = new Label(shell, SWT.RIGHT);
@@ -335,21 +316,19 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlAddDate.setLayoutData(fdlAddDate);
     wAddDate = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddDate);
-    wAddDate.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDate.Tooltip"));
+    wAddDate.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDate.Tooltip"));
     FormData fdAddDate = new FormData();
     fdAddDate.left = new FormAttachment(middle, 0);
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setAddDateBeforeExtension();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setAddDateBeforeExtension();
+      }
+    });
     // Create multi-part file?
     wlAddTime = new Label(shell, SWT.RIGHT);
     wlAddTime.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddTime.Label"));
@@ -361,26 +340,23 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlAddTime.setLayoutData(fdlAddTime);
     wAddTime = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddTime);
-    wAddTime.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddTime.Tooltip"));
+    wAddTime.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddTime.Tooltip"));
     FormData fdAddTime = new FormData();
     fdAddTime.left = new FormAttachment(middle, 0);
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setAddDateBeforeExtension();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setAddDateBeforeExtension();
+      }
+    });
 
     // Specify date time format?
     wlSpecifyFormat = new Label(shell, SWT.RIGHT);
-    wlSpecifyFormat.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyFormat.Label"));
+    wlSpecifyFormat.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyFormat.Label"));
     PropsUi.setLook(wlSpecifyFormat);
     FormData fdlSpecifyFormat = new FormData();
     fdlSpecifyFormat.left = new FormAttachment(0, 0);
@@ -389,30 +365,27 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlSpecifyFormat.setLayoutData(fdlSpecifyFormat);
     wSpecifyFormat = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wSpecifyFormat);
-    wSpecifyFormat.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyFormat.Tooltip"));
+    wSpecifyFormat.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyFormat.Tooltip"));
     FormData fdSpecifyFormat = new FormData();
     fdSpecifyFormat.left = new FormAttachment(middle, 0);
     fdSpecifyFormat.top = new FormAttachment(wlSpecifyFormat, 0, SWT.CENTER);
     fdSpecifyFormat.right = new FormAttachment(100, 0);
     wSpecifyFormat.setLayoutData(fdSpecifyFormat);
-    wSpecifyFormat.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setDateTimeFormat();
-            setAddDateBeforeExtension();
-          }
-        });
+    wSpecifyFormat.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setDateTimeFormat();
+        setAddDateBeforeExtension();
+      }
+    });
 
     // Prepare a list of possible DateTimeFormats...
     String[] dats = Const.getDateFormats();
 
     // DateTimeFormat
     wlDateTimeFormat = new Label(shell, SWT.RIGHT);
-    wlDateTimeFormat.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.DateTimeFormat.Label"));
+    wlDateTimeFormat.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.DateTimeFormat.Label"));
     PropsUi.setLook(wlDateTimeFormat);
     FormData fdlDateTimeFormat = new FormData();
     fdlDateTimeFormat.left = new FormAttachment(0, 0);
@@ -434,8 +407,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
 
     // Add Date before extension?
     wlAddDateBeforeExtension = new Label(shell, SWT.RIGHT);
-    wlAddDateBeforeExtension.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDateBeforeExtension.Label"));
+    wlAddDateBeforeExtension.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDateBeforeExtension.Label"));
     PropsUi.setLook(wlAddDateBeforeExtension);
     FormData fdlAddDateBeforeExtension = new FormData();
     fdlAddDateBeforeExtension.left = new FormAttachment(0, 0);
@@ -444,22 +416,19 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlAddDateBeforeExtension.setLayoutData(fdlAddDateBeforeExtension);
     wAddDateBeforeExtension = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddDateBeforeExtension);
-    wAddDateBeforeExtension.setToolTipText(
-        BaseMessages.getString(
-            PKG, "ActionCopyMoveResultFilenames.AddDateBeforeExtension.Tooltip"));
+    wAddDateBeforeExtension.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.AddDateBeforeExtension.Tooltip"));
     FormData fdAddDateBeforeExtension = new FormData();
     fdAddDateBeforeExtension.left = new FormAttachment(middle, 0);
     fdAddDateBeforeExtension.top = new FormAttachment(wlAddDateBeforeExtension, 0, SWT.CENTER);
     fdAddDateBeforeExtension.right = new FormAttachment(100, 0);
     wAddDateBeforeExtension.setLayoutData(fdAddDateBeforeExtension);
-    wAddDateBeforeExtension.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            CheckLimit();
-          }
-        });
+    wAddDateBeforeExtension.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        CheckLimit();
+      }
+    });
 
     // LimitTo grouping?
     // ////////////////////////
@@ -468,8 +437,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
 
     Group wLimitTo = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wLimitTo);
-    wLimitTo.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Group.LimitTo.Label"));
+    wLimitTo.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Group.LimitTo.Label"));
 
     FormLayout groupLayout = new FormLayout();
     groupLayout.marginWidth = 10;
@@ -478,8 +446,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
 
     // Specify wildcard?
     Label wlSpecifyWildcard = new Label(wLimitTo, SWT.RIGHT);
-    wlSpecifyWildcard.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyWildcard.Label"));
+    wlSpecifyWildcard.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyWildcard.Label"));
     PropsUi.setLook(wlSpecifyWildcard);
     FormData fdlSpecifyWildcard = new FormData();
     fdlSpecifyWildcard.left = new FormAttachment(0, 0);
@@ -488,21 +455,19 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlSpecifyWildcard.setLayoutData(fdlSpecifyWildcard);
     wSpecifyWildcard = new Button(wLimitTo, SWT.CHECK);
     PropsUi.setLook(wSpecifyWildcard);
-    wSpecifyWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyWildcard.Tooltip"));
+    wSpecifyWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SpecifyWildcard.Tooltip"));
     FormData fdSpecifyWildcard = new FormData();
     fdSpecifyWildcard.left = new FormAttachment(middle, 0);
     fdSpecifyWildcard.top = new FormAttachment(wlSpecifyWildcard, 0, SWT.CENTER);
     fdSpecifyWildcard.right = new FormAttachment(100, 0);
     wSpecifyWildcard.setLayoutData(fdSpecifyWildcard);
-    wSpecifyWildcard.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            CheckLimit();
-          }
-        });
+    wSpecifyWildcard.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        CheckLimit();
+      }
+    });
 
     // Wildcard line
     wlWildcard = new Label(wLimitTo, SWT.RIGHT);
@@ -514,8 +479,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     fdlWildcard.right = new FormAttachment(middle, -margin);
     wlWildcard.setLayoutData(fdlWildcard);
     wWildcard = new TextVar(variables, wLimitTo, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Wildcard.Tooltip"));
+    wWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.Wildcard.Tooltip"));
     PropsUi.setLook(wWildcard);
     wWildcard.addModifyListener(lsMod);
     FormData fdWildcard = new FormData();
@@ -525,13 +489,11 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wWildcard.setLayoutData(fdWildcard);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wWildcard.addModifyListener(
-        e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
+    wWildcard.addModifyListener(e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
 
     // wWildcardExclude
     wlWildcardExclude = new Label(wLimitTo, SWT.RIGHT);
-    wlWildcardExclude.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.WildcardExclude.Label"));
+    wlWildcardExclude.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.WildcardExclude.Label"));
     PropsUi.setLook(wlWildcardExclude);
     FormData fdlWildcardExclude = new FormData();
     fdlWildcardExclude.left = new FormAttachment(0, 0);
@@ -539,8 +501,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     fdlWildcardExclude.right = new FormAttachment(middle, -margin);
     wlWildcardExclude.setLayoutData(fdlWildcardExclude);
     wWildcardExclude = new TextVar(variables, wLimitTo, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wWildcardExclude.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.WildcardExclude.Tooltip"));
+    wWildcardExclude.setToolTipText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.WildcardExclude.Tooltip"));
     PropsUi.setLook(wWildcardExclude);
     wWildcardExclude.addModifyListener(lsMod);
     FormData fdWildcardExclude = new FormData();
@@ -550,8 +511,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wWildcardExclude.setLayoutData(fdWildcardExclude);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wWildcardExclude.addModifyListener(
-        e -> wWildcardExclude.setToolTipText(variables.resolve(wWildcardExclude.getText())));
+    wWildcardExclude.addModifyListener(e -> wWildcardExclude.setToolTipText(variables.resolve(wWildcardExclude.getText())));
 
     FormData fdLimitTo = new FormData();
     fdLimitTo.left = new FormAttachment(0, margin);
@@ -569,8 +529,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     // /
     Group wSuccessOn = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wSuccessOn);
-    wSuccessOn.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessOn.Group.Label"));
+    wSuccessOn.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessOn.Group.Label"));
 
     FormLayout successongroupLayout = new FormLayout();
     successongroupLayout.marginWidth = 10;
@@ -580,8 +539,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
 
     // Success Condition
     Label wlSuccessCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessCondition.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessCondition.Label"));
+    wlSuccessCondition.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessCondition.Label"));
     PropsUi.setLook(wlSuccessCondition);
     FormData fdlSuccessCondition = new FormData();
     fdlSuccessCondition.left = new FormAttachment(0, 0);
@@ -589,13 +547,9 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     fdlSuccessCondition.top = new FormAttachment(wLimitTo, 2 * margin);
     wlSuccessCondition.setLayoutData(fdlSuccessCondition);
     wSuccessCondition = new CCombo(wSuccessOn, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessWhenAllWorksFine.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessWhenAtLeat.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(
-            PKG, "ActionCopyMoveResultFilenames.SuccessWhenErrorsLessThan.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessWhenAllWorksFine.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessWhenAtLeat.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.SuccessWhenErrorsLessThan.Label"));
     wSuccessCondition.select(0); // +1: starts at -1
 
     PropsUi.setLook(wSuccessCondition);
@@ -604,18 +558,16 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     fdSuccessCondition.top = new FormAttachment(wLimitTo, 2 * margin);
     fdSuccessCondition.right = new FormAttachment(100, 0);
     wSuccessCondition.setLayoutData(fdSuccessCondition);
-    wSuccessCondition.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeSuccessCondition();
-          }
-        });
+    wSuccessCondition.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeSuccessCondition();
+      }
+    });
 
     // Success when number of errors less than
     wlNrErrorsLessThan = new Label(wSuccessOn, SWT.RIGHT);
-    wlNrErrorsLessThan.setText(
-        BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.NrErrorsLessThan.Label"));
+    wlNrErrorsLessThan.setText(BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.NrErrorsLessThan.Label"));
     PropsUi.setLook(wlNrErrorsLessThan);
     FormData fdlNrErrorsLessThan = new FormData();
     fdlNrErrorsLessThan.left = new FormAttachment(0, 0);
@@ -624,11 +576,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wlNrErrorsLessThan.setLayoutData(fdlNrErrorsLessThan);
 
     wNrErrorsLessThan =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.NrErrorsLessThan.Tooltip"));
+        new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionCopyMoveResultFilenames.NrErrorsLessThan.Tooltip"));
     PropsUi.setLook(wNrErrorsLessThan);
     wNrErrorsLessThan.addModifyListener(lsMod);
     FormData fdNrErrorsLessThan = new FormData();
@@ -653,8 +601,7 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, wSuccessOn);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, wSuccessOn);
 
     getData();
     CheckLimit();
@@ -669,10 +616,8 @@ public class ActionCopyMoveResultFilenamesDialog extends ActionDialog implements
   }
 
   private void setAddDateBeforeExtension() {
-    wlAddDateBeforeExtension.setEnabled(
-        wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
-    wAddDateBeforeExtension.setEnabled(
-        wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
+    wlAddDateBeforeExtension.setEnabled(wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
+    wAddDateBeforeExtension.setEnabled(wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
     if (!wAddDate.getSelection() && !wAddTime.getSelection() && !wSpecifyFormat.getSelection()) {
       wAddDateBeforeExtension.setSelection(false);
     }

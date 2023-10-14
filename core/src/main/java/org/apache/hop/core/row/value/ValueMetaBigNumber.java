@@ -21,11 +21,7 @@ import org.apache.hop.core.row.IValueMeta;
 
 import java.math.BigDecimal;
 
-@ValueMetaPlugin(
-    id = "6",
-    name = "BigNumber",
-    description = "BigNumber",
-    image = "images/number.svg")
+@ValueMetaPlugin(id = "6", name = "BigNumber", description = "BigNumber", image = "images/number.svg")
 public class ValueMetaBigNumber extends ValueMetaBase implements IValueMeta {
 
   public ValueMetaBigNumber() {

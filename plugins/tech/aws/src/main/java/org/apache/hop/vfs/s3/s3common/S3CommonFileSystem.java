@@ -60,8 +60,7 @@ public abstract class S3CommonFileSystem extends AbstractFileSystem {
 
   public AmazonS3 getS3Client() {
     if (client == null && getFileSystemOptions() != null) {
-      S3CommonFileSystemConfigBuilder s3CommonFileSystemConfigBuilder =
-          new S3CommonFileSystemConfigBuilder(getFileSystemOptions());
+      S3CommonFileSystemConfigBuilder s3CommonFileSystemConfigBuilder = new S3CommonFileSystemConfigBuilder(getFileSystemOptions());
       String accessKey = s3CommonFileSystemConfigBuilder.getAccessKey();
       String secretKey = s3CommonFileSystemConfigBuilder.getSecretKey();
       String sessionToken = s3CommonFileSystemConfigBuilder.getSessionToken();
@@ -90,25 +89,12 @@ public abstract class S3CommonFileSystem extends AbstractFileSystem {
 
       if (!S3Util.isEmpty(endpoint)) {
         ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setSignerOverride(
-            S3Util.isEmpty(signatureVersion)
-                ? S3Util.SIGNATURE_VERSION_SYSTEM_PROPERTY
-                : signatureVersion);
+        clientConfiguration.setSignerOverride(S3Util.isEmpty(signatureVersion) ? S3Util.SIGNATURE_VERSION_SYSTEM_PROPERTY : signatureVersion);
         client =
-            AmazonS3ClientBuilder.standard()
-                .withEndpointConfiguration(
-                    new AwsClientBuilder.EndpointConfiguration(endpoint, regions.getName()))
-                .withPathStyleAccessEnabled(access)
-                .withClientConfiguration(clientConfiguration)
-                .withCredentials(awsCredentialsProvider)
-                .build();
+            AmazonS3ClientBuilder.standard().withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, regions.getName())).withPathStyleAccessEnabled(access)
+                .withClientConfiguration(clientConfiguration).withCredentials(awsCredentialsProvider).build();
       } else {
-        client =
-            AmazonS3ClientBuilder.standard()
-                .enableForceGlobalBucketAccess()
-                .withRegion(regions)
-                .withCredentials(awsCredentialsProvider)
-                .build();
+        client = AmazonS3ClientBuilder.standard().enableForceGlobalBucketAccess().withRegion(regions).withCredentials(awsCredentialsProvider).build();
       }
     }
     if (client == null || hasClientChangedCredentials()) {
@@ -116,11 +102,7 @@ public abstract class S3CommonFileSystem extends AbstractFileSystem {
         if (isRegionSet()) {
           client = AmazonS3ClientBuilder.standard().enableForceGlobalBucketAccess().build();
         } else {
-          client =
-              AmazonS3ClientBuilder.standard()
-                  .enableForceGlobalBucketAccess()
-                  .withRegion(Regions.DEFAULT_REGION)
-                  .build();
+          client = AmazonS3ClientBuilder.standard().enableForceGlobalBucketAccess().withRegion(Regions.DEFAULT_REGION).build();
         }
         awsAccessKeyCache = System.getProperty(S3Util.ACCESS_KEY_SYSTEM_PROPERTY);
         awsSecretKeyCache = System.getProperty(S3Util.SECRET_KEY_SYSTEM_PROPERTY);
@@ -132,11 +114,8 @@ public abstract class S3CommonFileSystem extends AbstractFileSystem {
   }
 
   private boolean hasClientChangedCredentials() {
-    return client != null
-        && (S3Util.hasChanged(
-                awsAccessKeyCache, System.getProperty(S3Util.ACCESS_KEY_SYSTEM_PROPERTY))
-            || S3Util.hasChanged(
-                awsSecretKeyCache, System.getProperty(S3Util.SECRET_KEY_SYSTEM_PROPERTY)));
+    return client != null && (S3Util.hasChanged(awsAccessKeyCache, System.getProperty(S3Util.ACCESS_KEY_SYSTEM_PROPERTY))
+        || S3Util.hasChanged(awsSecretKeyCache, System.getProperty(S3Util.SECRET_KEY_SYSTEM_PROPERTY)));
   }
 
   private boolean isRegionSet() {
@@ -145,13 +124,7 @@ public abstract class S3CommonFileSystem extends AbstractFileSystem {
       return true;
     }
     // check if configuration file exists in default location
-    File awsConfigFolder =
-        new File(
-            System.getProperty("user.home")
-                + File.separator
-                + S3Util.AWS_FOLDER
-                + File.separator
-                + S3Util.CONFIG_FILE);
+    File awsConfigFolder = new File(System.getProperty("user.home") + File.separator + S3Util.AWS_FOLDER + File.separator + S3Util.CONFIG_FILE);
     return awsConfigFolder.exists();
   }
 }

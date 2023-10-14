@@ -90,8 +90,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   private static final IValueMeta COL_NULLABLE = new ValueMetaInteger("NULLABLE");
   private static final IValueMeta COL_CASE_SENSITIVE = new ValueMetaBoolean("CASE_SENSITIVE");
   private static final IValueMeta COL_SEARCHABLE = new ValueMetaInteger("SEARCHABLE");
-  private static final IValueMeta COL_UNSIGNED_ATTRIBUTE =
-      new ValueMetaBoolean("UNSIGNED_ATTRIBUTE");
+  private static final IValueMeta COL_UNSIGNED_ATTRIBUTE = new ValueMetaBoolean("UNSIGNED_ATTRIBUTE");
   private static final IValueMeta COL_FIXED_PREC_SCALE = new ValueMetaBoolean("FIXED_PREC_SCALE");
   private static final IValueMeta COL_AUTO_INCREMENT = new ValueMetaBoolean("AUTO_INCREMENT");
   private static final IValueMeta COL_LOCAL_TYPE_NAME = new ValueMetaString("LOCAL_TYPE_NAME");
@@ -105,8 +104,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   private static final IValueMeta COL_REMARKS = new ValueMetaString("REMARKS");
   private static final IValueMeta COL_TYPE_CAT = new ValueMetaString("TYPE_CAT");
   private static final IValueMeta COL_TYPE_SCHEM = new ValueMetaString("TYPE_SCHEM");
-  private static final IValueMeta COL_SELF_REFERENCING_COL_NAME =
-      new ValueMetaString("SELF_REFERENCING_COL_NAME");
+  private static final IValueMeta COL_SELF_REFERENCING_COL_NAME = new ValueMetaString("SELF_REFERENCING_COL_NAME");
   private static final IValueMeta COL_REF_GENERATION = new ValueMetaString("REF_GENERATION");
   private static final IValueMeta COL_SCOPE = new ValueMetaInteger("SCOPE");
   private static final IValueMeta COL_PSEUDO_COLUMN = new ValueMetaInteger("COL_PSEUDO_COLUMN");
@@ -122,8 +120,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   private static final IValueMeta COL_SCOPE_SCHEMA = new ValueMetaString("SCOPE_SCHEMA");
   private static final IValueMeta COL_SCOPE_TABLE = new ValueMetaString("SCOPE_TABLE");
   private static final IValueMeta COL_IS_AUTOINCREMENT = new ValueMetaString("IS_AUTOINCREMENT");
-  private static final IValueMeta COL_IS_GENERATEDCOLUMN =
-      new ValueMetaString("IS_GENERATEDCOLUMN");
+  private static final IValueMeta COL_IS_GENERATEDCOLUMN = new ValueMetaString("IS_GENERATEDCOLUMN");
 
   // following of argument descriptors describe arguments to metdata methods
   // 1) name of the argument
@@ -131,15 +128,12 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   private static final Object[] ARG_CATALOG = new Object[] {"catalog", String.class};
   private static final Object[] ARG_SCHEMA = new Object[] {"schema", String.class};
   private static final Object[] ARG_TABLE = new Object[] {"table", String.class};
-  private static final Object[] ARG_COLUMN_NAME_PATTERN =
-      new Object[] {"columnNamePattern", String.class};
-  private static final Object[] ARG_NULLABLE =
-      new Object[] {"nullable", Boolean.class, new Object[] {}};
+  private static final Object[] ARG_COLUMN_NAME_PATTERN = new Object[] {"columnNamePattern", String.class};
+  private static final Object[] ARG_NULLABLE = new Object[] {"nullable", Boolean.class, new Object[] {}};
   private static final Object[] ARG_SCHEMA_PATTERN = new Object[] {"schemaPattern", String.class};
   private static final Object[] ARG_SCOPE = new Object[] {"scope", Integer.class, OPTIONS_SCOPE};
   private static final Object[] ARG_TABLE_TYPES = new Object[] {"tableTypes", String[].class};
-  private static final Object[] ARG_TABLE_NAME_PATTERN =
-      new Object[] {"tableNamePattern", String.class};
+  private static final Object[] ARG_TABLE_NAME_PATTERN = new Object[] {"tableNamePattern", String.class};
   private static final Object[] ARG_PARENT_CATALOG = new Object[] {"parentCatalog", String.class};
   private static final Object[] ARG_PARENT_SCHEMA = new Object[] {"parentSchema", String.class};
   private static final Object[] ARG_PARENT_TABLE = new Object[] {"parentTable", String.class};
@@ -154,215 +148,168 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   // 4) initially empty slot where the actual Method object is lazily stored.
   public static final Object[] methodDescriptors =
       new Object[] {
-        new Object[] {"getCatalogs", new Object[] {}, new IValueMeta[] {COL_TABLE_CAT}, null},
-        new Object[] {
-          "getBestRowIdentifier",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE, ARG_SCOPE, ARG_NULLABLE},
-          new IValueMeta[] {
-            COL_SCOPE, COL_COLUMN_NAME, COL_DATA_TYPE, COL_TYPE_NAME,
-            COL_COLUMN_SIZE, COL_BUFFER_LENGTH, COL_DECIMAL_DIGITS, COL_PSEUDO_COLUMN
-          },
-          null
-        },
-        new Object[] {
-          "getColumnPrivileges",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE, ARG_COLUMN_NAME_PATTERN},
-          new IValueMeta[] {
-            COL_TABLE_CAT, COL_TABLE_SCHEM, COL_TABLE_NAME, COL_COLUMN_NAME,
-            COL_GRANTOR, COL_GRANTEE, COL_PRIVILEGE, COL_IS_GRANTABLE
-          },
-          null
-        },
-        new Object[] {
-          "getColumns",
+          new Object[] {"getCatalogs", new Object[] {}, new IValueMeta[] {COL_TABLE_CAT}, null},
           new Object[] {
-            ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN, ARG_COLUMN_NAME_PATTERN
-          },
-          new IValueMeta[] {
-            COL_TABLE_CAT,
-            COL_TABLE_SCHEM,
-            COL_TABLE_NAME,
-            COL_COLUMN_NAME,
-            COL_DATA_TYPE,
-            COL_TYPE_NAME,
-            COL_COLUMN_SIZE,
-            COL_BUFFER_LENGTH,
-            COL_DECIMAL_DIGITS,
-            COL_NUM_PREC_RADIX,
-            COL_NULLABLE,
-            COL_REMARKS,
-            COL_COLUMN_DEF,
-            COL_SQL_DATA_TYPE,
-            COL_SQL_DATETIME_SUB,
-            COL_CHAR_OCTET_LENGTH,
-            COL_ORDINAL_POSITION,
-            COL_IS_NULLABLE,
-            COL_SCOPE_CATALOG,
-            COL_SCOPE_SCHEMA,
-            COL_SCOPE_TABLE,
-            COL_SOURCE_DATA_TYPE,
-            COL_IS_AUTOINCREMENT,
-            COL_IS_GENERATEDCOLUMN
-          },
-          null
-        },
-        new Object[] {
-          "getCrossReference",
+              "getBestRowIdentifier",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE, ARG_SCOPE, ARG_NULLABLE},
+              new IValueMeta[] {COL_SCOPE, COL_COLUMN_NAME, COL_DATA_TYPE, COL_TYPE_NAME, COL_COLUMN_SIZE, COL_BUFFER_LENGTH, COL_DECIMAL_DIGITS, COL_PSEUDO_COLUMN},
+              null},
           new Object[] {
-            ARG_PARENT_CATALOG, ARG_PARENT_SCHEMA, ARG_PARENT_TABLE,
-            ARG_FOREIGN_CATALOG, ARG_FOREIGN_SCHEMA, ARG_FOREIGN_TABLE,
-          },
-          new IValueMeta[] {
-            COL_PKTABLE_CAT,
-            COL_PKTABLE_SCHEM,
-            COL_PKTABLE_NAME,
-            COL_PKCOLUMN_NAME,
-            COL_FKTABLE_CAT,
-            COL_FKTABLE_SCHEM,
-            COL_FKTABLE_NAME,
-            COL_FKCOLUMN_NAME,
-            COL_KEY_SEQ,
-            COL_UPDATE_RULE,
-            COL_DELETE_RULE,
-            COL_FK_NAME,
-            COL_PK_NAME,
-            COL_DEFERRABILITY
-          },
-          null
-        },
-        new Object[] {
-          "getExportedKeys",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
-          new IValueMeta[] {
-            COL_PKTABLE_CAT,
-            COL_PKTABLE_SCHEM,
-            COL_PKTABLE_NAME,
-            COL_PKCOLUMN_NAME,
-            COL_FKTABLE_CAT,
-            COL_FKTABLE_SCHEM,
-            COL_FKTABLE_NAME,
-            COL_FKCOLUMN_NAME,
-            COL_KEY_SEQ,
-            COL_UPDATE_RULE,
-            COL_DELETE_RULE,
-            COL_FK_NAME,
-            COL_PK_NAME,
-            COL_DEFERRABILITY
-          },
-          null
-        },
-        new Object[] {
-          "getImportedKeys",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
-          new IValueMeta[] {
-            COL_PKTABLE_CAT,
-            COL_PKTABLE_SCHEM,
-            COL_PKTABLE_NAME,
-            COL_PKCOLUMN_NAME,
-            COL_FKTABLE_CAT,
-            COL_FKTABLE_SCHEM,
-            COL_FKTABLE_NAME,
-            COL_FKCOLUMN_NAME,
-            COL_KEY_SEQ,
-            COL_UPDATE_RULE,
-            COL_DELETE_RULE,
-            COL_FK_NAME,
-            COL_PK_NAME,
-            COL_DEFERRABILITY
-          },
-          null
-        },
-        new Object[] {
-          "getPrimaryKeys",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
-          new IValueMeta[] {
-            COL_TABLE_CAT,
-            COL_TABLE_SCHEM,
-            COL_TABLE_NAME,
-            COL_COLUMN_NAME,
-            COL_KEY_SEQ,
-            COL_PK_NAME
-          },
-          null
-        },
-        new Object[] {
-          "getSchemas", new Object[] {}, new IValueMeta[] {COL_TABLE_SCHEM, COL_TABLE_CATALOG}, null
-        },
-        /*  We'd love to use this version of getSchemas, but we found that calling it throws AbstractMethodError in h2 and sqlite (possibly others)
-        new Object[]{
-          "getSchemas",
-          new Object[]{ARG_CATALOG, ARG_SCHEMA_PATTERN},
-          new IValueMeta[]{COL_TABLE_SCHEM, COL_TABLE_CATALOG},
-          null
-        },
-        */
-        new Object[] {
-          "getTablePrivileges",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN},
-          new IValueMeta[] {
-            COL_TABLE_CAT,
-            COL_TABLE_SCHEM,
-            COL_TABLE_NAME,
-            COL_GRANTOR,
-            COL_GRANTEE,
-            COL_PRIVILEGE,
-            COL_IS_GRANTABLE
-          },
-          null
-        },
-        new Object[] {"getTableTypes", new Object[] {}, new IValueMeta[] {COL_TABLE_TYPE}, null},
-        new Object[] {
-          "getTables",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN, ARG_TABLE_TYPES},
-          new IValueMeta[] {
-            COL_TABLE_CAT,
-            COL_TABLE_SCHEM,
-            COL_TABLE_NAME,
-            COL_TABLE_TYPE,
-            COL_REMARKS,
-            COL_TYPE_CAT,
-            COL_TYPE_SCHEM,
-            COL_TYPE_NAME,
-            COL_SELF_REFERENCING_COL_NAME,
-            COL_REF_GENERATION
-          },
-          null
-        },
-        new Object[] {
-          "getTypeInfo",
-          new Object[] {},
-          new IValueMeta[] {
-            COL_TYPE_NAME,
-            COL_DATA_TYPE,
-            COL_PRECISION,
-            COL_LITERAL_PREFIX,
-            COL_LITERAL_SUFFIX,
-            COL_CREATE_PARAMS,
-            COL_NULLABLE,
-            COL_CASE_SENSITIVE,
-            COL_SEARCHABLE,
-            COL_UNSIGNED_ATTRIBUTE,
-            COL_FIXED_PREC_SCALE,
-            COL_AUTO_INCREMENT,
-            COL_LOCAL_TYPE_NAME,
-            COL_MINIMUM_SCALE,
-            COL_MAXIMUM_SCALE,
-            COL_SQL_DATA_TYPE,
-            COL_SQL_DATETIME_SUB,
-            COL_NUM_PREC_RADIX
-          },
-          null
-        },
-        new Object[] {
-          "getVersionColumns",
-          new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
-          new IValueMeta[] {
-            COL_SCOPE, COL_COLUMN_NAME, COL_DATA_TYPE, COL_TYPE_NAME,
-            COL_COLUMN_SIZE, COL_BUFFER_LENGTH, COL_DECIMAL_DIGITS, COL_PSEUDO_COLUMN
-          },
-          null
-        }
-      };
+              "getColumnPrivileges",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE, ARG_COLUMN_NAME_PATTERN},
+              new IValueMeta[] {COL_TABLE_CAT, COL_TABLE_SCHEM, COL_TABLE_NAME, COL_COLUMN_NAME, COL_GRANTOR, COL_GRANTEE, COL_PRIVILEGE, COL_IS_GRANTABLE},
+              null},
+          new Object[] {
+              "getColumns",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN, ARG_COLUMN_NAME_PATTERN},
+              new IValueMeta[] {
+                  COL_TABLE_CAT,
+                  COL_TABLE_SCHEM,
+                  COL_TABLE_NAME,
+                  COL_COLUMN_NAME,
+                  COL_DATA_TYPE,
+                  COL_TYPE_NAME,
+                  COL_COLUMN_SIZE,
+                  COL_BUFFER_LENGTH,
+                  COL_DECIMAL_DIGITS,
+                  COL_NUM_PREC_RADIX,
+                  COL_NULLABLE,
+                  COL_REMARKS,
+                  COL_COLUMN_DEF,
+                  COL_SQL_DATA_TYPE,
+                  COL_SQL_DATETIME_SUB,
+                  COL_CHAR_OCTET_LENGTH,
+                  COL_ORDINAL_POSITION,
+                  COL_IS_NULLABLE,
+                  COL_SCOPE_CATALOG,
+                  COL_SCOPE_SCHEMA,
+                  COL_SCOPE_TABLE,
+                  COL_SOURCE_DATA_TYPE,
+                  COL_IS_AUTOINCREMENT,
+                  COL_IS_GENERATEDCOLUMN},
+              null},
+          new Object[] {
+              "getCrossReference",
+              new Object[] {ARG_PARENT_CATALOG, ARG_PARENT_SCHEMA, ARG_PARENT_TABLE, ARG_FOREIGN_CATALOG, ARG_FOREIGN_SCHEMA, ARG_FOREIGN_TABLE,},
+              new IValueMeta[] {
+                  COL_PKTABLE_CAT,
+                  COL_PKTABLE_SCHEM,
+                  COL_PKTABLE_NAME,
+                  COL_PKCOLUMN_NAME,
+                  COL_FKTABLE_CAT,
+                  COL_FKTABLE_SCHEM,
+                  COL_FKTABLE_NAME,
+                  COL_FKCOLUMN_NAME,
+                  COL_KEY_SEQ,
+                  COL_UPDATE_RULE,
+                  COL_DELETE_RULE,
+                  COL_FK_NAME,
+                  COL_PK_NAME,
+                  COL_DEFERRABILITY},
+              null},
+          new Object[] {
+              "getExportedKeys",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
+              new IValueMeta[] {
+                  COL_PKTABLE_CAT,
+                  COL_PKTABLE_SCHEM,
+                  COL_PKTABLE_NAME,
+                  COL_PKCOLUMN_NAME,
+                  COL_FKTABLE_CAT,
+                  COL_FKTABLE_SCHEM,
+                  COL_FKTABLE_NAME,
+                  COL_FKCOLUMN_NAME,
+                  COL_KEY_SEQ,
+                  COL_UPDATE_RULE,
+                  COL_DELETE_RULE,
+                  COL_FK_NAME,
+                  COL_PK_NAME,
+                  COL_DEFERRABILITY},
+              null},
+          new Object[] {
+              "getImportedKeys",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
+              new IValueMeta[] {
+                  COL_PKTABLE_CAT,
+                  COL_PKTABLE_SCHEM,
+                  COL_PKTABLE_NAME,
+                  COL_PKCOLUMN_NAME,
+                  COL_FKTABLE_CAT,
+                  COL_FKTABLE_SCHEM,
+                  COL_FKTABLE_NAME,
+                  COL_FKCOLUMN_NAME,
+                  COL_KEY_SEQ,
+                  COL_UPDATE_RULE,
+                  COL_DELETE_RULE,
+                  COL_FK_NAME,
+                  COL_PK_NAME,
+                  COL_DEFERRABILITY},
+              null},
+          new Object[] {
+              "getPrimaryKeys",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
+              new IValueMeta[] {COL_TABLE_CAT, COL_TABLE_SCHEM, COL_TABLE_NAME, COL_COLUMN_NAME, COL_KEY_SEQ, COL_PK_NAME},
+              null},
+          new Object[] {"getSchemas", new Object[] {}, new IValueMeta[] {COL_TABLE_SCHEM, COL_TABLE_CATALOG}, null},
+          /*
+           * We'd love to use this version of getSchemas, but we found that calling it throws
+           * AbstractMethodError in h2 and sqlite (possibly others)
+           * new Object[]{
+           * "getSchemas",
+           * new Object[]{ARG_CATALOG, ARG_SCHEMA_PATTERN},
+           * new IValueMeta[]{COL_TABLE_SCHEM, COL_TABLE_CATALOG},
+           * null
+           * },
+           */
+          new Object[] {
+              "getTablePrivileges",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN},
+              new IValueMeta[] {COL_TABLE_CAT, COL_TABLE_SCHEM, COL_TABLE_NAME, COL_GRANTOR, COL_GRANTEE, COL_PRIVILEGE, COL_IS_GRANTABLE},
+              null},
+          new Object[] {"getTableTypes", new Object[] {}, new IValueMeta[] {COL_TABLE_TYPE}, null},
+          new Object[] {
+              "getTables",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA_PATTERN, ARG_TABLE_NAME_PATTERN, ARG_TABLE_TYPES},
+              new IValueMeta[] {
+                  COL_TABLE_CAT,
+                  COL_TABLE_SCHEM,
+                  COL_TABLE_NAME,
+                  COL_TABLE_TYPE,
+                  COL_REMARKS,
+                  COL_TYPE_CAT,
+                  COL_TYPE_SCHEM,
+                  COL_TYPE_NAME,
+                  COL_SELF_REFERENCING_COL_NAME,
+                  COL_REF_GENERATION},
+              null},
+          new Object[] {
+              "getTypeInfo",
+              new Object[] {},
+              new IValueMeta[] {
+                  COL_TYPE_NAME,
+                  COL_DATA_TYPE,
+                  COL_PRECISION,
+                  COL_LITERAL_PREFIX,
+                  COL_LITERAL_SUFFIX,
+                  COL_CREATE_PARAMS,
+                  COL_NULLABLE,
+                  COL_CASE_SENSITIVE,
+                  COL_SEARCHABLE,
+                  COL_UNSIGNED_ATTRIBUTE,
+                  COL_FIXED_PREC_SCALE,
+                  COL_AUTO_INCREMENT,
+                  COL_LOCAL_TYPE_NAME,
+                  COL_MINIMUM_SCALE,
+                  COL_MAXIMUM_SCALE,
+                  COL_SQL_DATA_TYPE,
+                  COL_SQL_DATETIME_SUB,
+                  COL_NUM_PREC_RADIX},
+              null},
+          new Object[] {
+              "getVersionColumns",
+              new Object[] {ARG_CATALOG, ARG_SCHEMA, ARG_TABLE},
+              new IValueMeta[] {COL_SCOPE, COL_COLUMN_NAME, COL_DATA_TYPE, COL_TYPE_NAME, COL_COLUMN_SIZE, COL_BUFFER_LENGTH, COL_DECIMAL_DIGITS, COL_PSEUDO_COLUMN},
+              null}};
 
   /**
    * Constructor should call super() to make sure the base class has a chance to initialize
@@ -373,8 +320,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
     super();
     if (JdbcMetadataMeta.databaseMetaDataClass == null) {
       try {
-        JdbcMetadataMeta.databaseMetaDataClass =
-            (Class<DatabaseMetaData>) Class.forName("java.sql.DatabaseMetaData");
+        JdbcMetadataMeta.databaseMetaDataClass = (Class<DatabaseMetaData>) Class.forName("java.sql.DatabaseMetaData");
       } catch (Exception exception) {
         throw new IllegalArgumentException(exception);
       }
@@ -386,7 +332,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
     methodName = "getCatalogs";
     argumentSourceFields = false;
     outputFields = new ArrayList<>();
-    outputFields.add(new OutputField("TABLE_CAT","TABLE_CAT"));
+    outputFields.add(new OutputField("TABLE_CAT", "TABLE_CAT"));
   }
 
   @HopMetadataProperty
@@ -403,6 +349,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   /** Stores the whether the input row should be returned even if no metadata was found */
   @HopMetadataProperty
   private boolean alwaysPassInputRow;
+
   /**
    * @return whether fields are to be used as arguments
    */
@@ -420,6 +367,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   /** Stores the name of the method used to get the metadata */
   @HopMetadataProperty
   private String methodName;
+
   /**
    * Getter for the name method used to get metadata
    *
@@ -428,6 +376,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   public String getMethodName() {
     return methodName;
   }
+
   /**
    * Setter for the name of the method used to get metadata
    *
@@ -440,7 +389,8 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   private static Object[] getMethodDescriptor(String methodName) {
     for (Object o : JdbcMetadataMeta.methodDescriptors) {
       Object[] oo = (Object[]) o;
-      if (!oo[0].toString().equals(methodName)) continue;
+      if (!oo[0].toString().equals(methodName))
+        continue;
       return oo;
     }
     return null;
@@ -467,14 +417,14 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
     for (int i = 0; i < n; i++) {
       methodDescriptor = (Object[]) methods[i];
       name = (String) methodDescriptor[0];
-      if (name.equals(methodName)) return i;
+      if (name.equals(methodName))
+        return i;
     }
     return -1;
   }
 
   public static String getMethodName(int methodDescriptorIndex) {
-    Object[] methodDescriptor =
-        (Object[]) JdbcMetadataMeta.methodDescriptors[methodDescriptorIndex];
+    Object[] methodDescriptor = (Object[]) JdbcMetadataMeta.methodDescriptors[methodDescriptorIndex];
     String methodName = (String) methodDescriptor[0];
     return methodName;
   }
@@ -495,7 +445,8 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
     Method method;
     Object[] methodDescriptor = getMethodDescriptor(methodName);
     method = (Method) methodDescriptor[3];
-    if (method != null) return method;
+    if (method != null)
+      return method;
     Class<?> dbmd = Class.forName("java.sql.DatabaseMetaData");
     Class<?>[] parameterTypes = getMethodParameterTypes(methodDescriptor);
     method = dbmd.getDeclaredMethod(methodName, parameterTypes);
@@ -510,12 +461,14 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   /** Stores the whether fields are to be used for method arguments */
   @HopMetadataProperty
   private boolean argumentSourceFields;
+
   /**
    * @return whether fields are to be used as arguments
    */
   public boolean isArgumentSourceFields() {
     return argumentSourceFields;
   }
+
   /**
    * @param argumentSourceFields whether fields should be used as arguments
    */
@@ -526,15 +479,17 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   /** Stores the whether to remove the fields used as arguments from the output row */
   @HopMetadataProperty
   private boolean removeArgumentFields;
+
   /**
    * @return whether to remove the fields used as arguments from the output row
    */
   public boolean isRemoveArgumentFields() {
     return removeArgumentFields;
   }
+
   /**
    * @param removeArgumentFields whether fields used as arguments should be removed from the output
-   *     row
+   *        row
    */
   public void setRemoveArgumentFields(boolean removeArgumentFields) {
     this.removeArgumentFields = removeArgumentFields;
@@ -543,6 +498,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   /** Stores method arguments */
   @HopMetadataProperty(groupKey = "arguments", key = "argument")
   private List<String> arguments;
+
   /**
    * @return get method arguments
    */
@@ -558,8 +514,9 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   }
 
   /** Stores the selection of fields that are added to the stream */
-  @HopMetadataProperty(groupKey = "outputFields", key="outputField")
+  @HopMetadataProperty(groupKey = "outputFields", key = "outputField")
   private List<OutputField> outputFields;
+
   /**
    * @return the selection of fields added to the stream
    */
@@ -579,7 +536,8 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
    * step meta object. Be sure to create proper deep copies if the step configuration is stored in
    * modifiable objects.
    *
-   * <p>See org.pentaho.di.trans.steps.rowgenerator.RowGeneratorMeta.clone() for an example on
+   * <p>
+   * See org.pentaho.di.trans.steps.rowgenerator.RowGeneratorMeta.clone() for an example on
    * creating a deep copy.
    *
    * @return a deep copy of this
@@ -591,13 +549,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // remove argument source fields coming from the input
     if (argumentSourceFields && removeArgumentFields) {
@@ -631,8 +583,7 @@ public class JdbcMetadataMeta extends BaseTransformMeta<JdbcMetadata, JdbcMetada
         if (!fieldName.equals(outputField.getName())) {
           continue;
         }
-        field =
-            new ValueMetaBase(outputField.getRename() == null ? fieldName : outputField.getRename(), field.getType());
+        field = new ValueMetaBase(outputField.getRename() == null ? fieldName : outputField.getRename(), field.getType());
         field.setOrigin(origin);
         rowMeta.addValueMeta(field);
         break;

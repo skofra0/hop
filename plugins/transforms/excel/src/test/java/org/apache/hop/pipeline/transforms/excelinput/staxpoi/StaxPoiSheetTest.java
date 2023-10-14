@@ -83,8 +83,7 @@ public class StaxPoiSheetTest {
               + "    <c r=\"D5\"><v>93</v></c><c r=\"E5\" t=\"b\"><v>1</v></c><c r=\"F5\"><f>F4+D5</f><v>210</v></c></row>"
               + " </sheetData>");
 
-  private static final String SHEET_EMPTY =
-      String.format(BP_SHEET, "<dimension ref=\"A1\"/><sheetData/>");
+  private static final String SHEET_EMPTY = String.format(BP_SHEET, "<dimension ref=\"A1\"/><sheetData/>");
 
   private static final String SHEET_INLINE_STRINGS =
       String.format(
@@ -156,12 +155,7 @@ public class StaxPoiSheetTest {
     final String sheetId = "1";
     final String sheetName = "Sheet 1";
     XSSFReader reader =
-        mockXSSFReader(
-            sheetId,
-            SHEET_DATE_NO_V,
-            mockSharedStringsTable("Some Date"),
-            mockStylesTable(
-                Collections.singletonMap(2, 165), Collections.singletonMap(165, "M/D/YYYY")));
+        mockXSSFReader(sheetId, SHEET_DATE_NO_V, mockSharedStringsTable("Some Date"), mockStylesTable(Collections.singletonMap(2, 165), Collections.singletonMap(165, "M/D/YYYY")));
     StaxPoiSheet spSheet = spy(new StaxPoiSheet(reader, sheetName, sheetId));
     doReturn(true).when(spSheet).isDateCell(any());
     IKCell cell = spSheet.getRow(1)[0];
@@ -173,9 +167,7 @@ public class StaxPoiSheetTest {
 
   @Test
   public void testEmptySheet() throws Exception {
-    XSSFReader reader =
-        mockXSSFReader(
-            "sheet1", SHEET_EMPTY, mock(SharedStringsTable.class), mock(StylesTable.class));
+    XSSFReader reader = mockXSSFReader("sheet1", SHEET_EMPTY, mock(SharedStringsTable.class), mock(StylesTable.class));
     // check no exceptions
     StaxPoiSheet sheet = new StaxPoiSheet(reader, "empty", "sheet1");
     for (int j = 0; j < sheet.getRows(); j++) {
@@ -278,56 +270,33 @@ public class StaxPoiSheetTest {
     String sheetId = "sheet1";
     XSSFReader reader =
         mockXSSFReader(
-            sheetId,
-            SHEET_1,
-            mockSharedStringsTable(
-                "Col1Label",
-                "Col2Date",
-                "Col3Number",
-                "Col4Boolean",
-                "Col5NumFormula",
-                "One",
-                "Two",
-                "Three"),
-            mockStylesTable(
-                Collections.singletonMap(1, 14), Collections.<Integer, String>emptyMap()));
+            sheetId, SHEET_1, mockSharedStringsTable("Col1Label", "Col2Date", "Col3Number", "Col4Boolean", "Col5NumFormula", "One", "Two", "Three"),
+            mockStylesTable(Collections.singletonMap(1, 14), Collections.<Integer, String>emptyMap()));
     return new StaxPoiSheet(reader, "Sheet 1", sheetId);
   }
 
-  private XSSFReader mockXSSFReader(
-      final String sheetId,
-      final String sheetContent,
-      final SharedStringsTable sst,
-      final StylesTable styles)
-      throws Exception {
+  private XSSFReader mockXSSFReader(final String sheetId, final String sheetContent, final SharedStringsTable sst, final StylesTable styles) throws Exception {
     XSSFReader reader = mock(XSSFReader.class);
     when(reader.getSharedStringsTable()).thenReturn(sst);
     when(reader.getStylesTable()).thenReturn(styles);
-    when(reader.getSheet(sheetId))
-        .thenAnswer(
-            (Answer<InputStream>) invocation -> IOUtils.toInputStream(sheetContent, "UTF-8"));
+    when(reader.getSheet(sheetId)).thenAnswer((Answer<InputStream>) invocation -> IOUtils.toInputStream(sheetContent, "UTF-8"));
     return reader;
   }
 
-  private StylesTable mockStylesTable(
-      final Map<Integer, Integer> styleToNumFmtId, final Map<Integer, String> numFmts) {
+  private StylesTable mockStylesTable(final Map<Integer, Integer> styleToNumFmtId, final Map<Integer, String> numFmts) {
     StylesTable styles = mock(StylesTable.class);
-    when(styles.getCellXfAt(any(Integer.class)))
-        .then(
-            (Answer<CTXf>)
-                invocation -> {
-                  int style = (int) invocation.getArguments()[0];
-                  Integer numFmtId = styleToNumFmtId.get(style);
-                  if (numFmtId != null) {
-                    CTXf ctxf = CTXf.Factory.newInstance();
-                    ctxf.setNumFmtId(numFmtId);
-                    return ctxf;
-                  } else {
-                    return null;
-                  }
-                });
-    when(styles.getNumberFormatAt(any(Short.class)))
-        .then((Answer<String>) invocation -> numFmts.get(invocation.getArguments()[0]));
+    when(styles.getCellXfAt(any(Integer.class))).then((Answer<CTXf>) invocation -> {
+      int style = (int) invocation.getArguments()[0];
+      Integer numFmtId = styleToNumFmtId.get(style);
+      if (numFmtId != null) {
+        CTXf ctxf = CTXf.Factory.newInstance();
+        ctxf.setNumFmtId(numFmtId);
+        return ctxf;
+      } else {
+        return null;
+      }
+    });
+    when(styles.getNumberFormatAt(any(Short.class))).then((Answer<String>) invocation -> numFmts.get(invocation.getArguments()[0]));
     return styles;
   }
 
@@ -344,9 +313,7 @@ public class StaxPoiSheetTest {
   public void testInlineString() throws Exception {
     final String sheetId = "1";
     final String sheetName = "Sheet 1";
-    XSSFReader reader =
-        mockXSSFReader(
-            sheetId, SHEET_INLINE_STRINGS, mock(SharedStringsTable.class), mock(StylesTable.class));
+    XSSFReader reader = mockXSSFReader(sheetId, SHEET_INLINE_STRINGS, mock(SharedStringsTable.class), mock(StylesTable.class));
     StaxPoiSheet spSheet = new StaxPoiSheet(reader, sheetName, sheetId);
     IKCell[] rowCells = spSheet.getRow(0);
     assertEquals("Test1", rowCells[0].getValue());
@@ -377,21 +344,8 @@ public class StaxPoiSheetTest {
     final String sheetName = "Sheet 1";
     SharedStringsTable sharedStringsTableMock =
         mockSharedStringsTable(
-            "Report ID",
-            "Report ID",
-            "Approval Status",
-            "Total Report Amount",
-            "Policy",
-            "ReportIdValue_1",
-            "ReportIdValue_1",
-            "ApprovalStatusValue_1",
-            "PolicyValue_1");
-    XSSFReader reader =
-        mockXSSFReader(
-            sheetId,
-            SHEET_NO_USED_RANGE_SPECIFIED,
-            sharedStringsTableMock,
-            mock(StylesTable.class));
+            "Report ID", "Report ID", "Approval Status", "Total Report Amount", "Policy", "ReportIdValue_1", "ReportIdValue_1", "ApprovalStatusValue_1", "PolicyValue_1");
+    XSSFReader reader = mockXSSFReader(sheetId, SHEET_NO_USED_RANGE_SPECIFIED, sharedStringsTableMock, mock(StylesTable.class));
     StaxPoiSheet spSheet = new StaxPoiSheet(reader, sheetName, sheetId);
     // The first row is empty - it should have empty rowCells
     IKCell[] rowCells = spSheet.getRow(0);

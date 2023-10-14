@@ -43,11 +43,8 @@ public class SetValueConstantTest {
 
   @Before
   public void setUp() {
-    smh =
-        new TransformMockHelper<>(
-            "SetValueConstant", SetValueConstantMeta.class, SetValueConstantData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("SetValueConstant", SetValueConstantMeta.class, SetValueConstantData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
   }
 
   @After
@@ -57,14 +54,7 @@ public class SetValueConstantTest {
 
   @Test
   public void testUpdateField() throws Exception {
-    SetValueConstant transform =
-        new SetValueConstant(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    SetValueConstant transform = new SetValueConstant(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
 
     IValueMeta valueMeta = new ValueMetaString("Field1");
     valueMeta.setStorageType(IValueMeta.STORAGE_TYPE_BINARY_STRING);

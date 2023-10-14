@@ -32,7 +32,8 @@ import java.util.List;
 public class UsernamePasswordMongoClientWrapperTest {
 
   /** Mocked MongoUtilLogger for UsernamePasswordMongoClientWrapper initialization. */
-  @Mock private MongoUtilLogger log;
+  @Mock
+  private MongoUtilLogger log;
 
   /** Builder for MongoProperties initialization. */
   private MongoProperties.Builder mongoPropertiesBuilder;
@@ -55,13 +56,8 @@ public class UsernamePasswordMongoClientWrapperTest {
     final String dbName = "database";
 
     mongoPropertiesBuilder =
-        new MongoProperties.Builder()
-            .set(MongoProp.USERNAME, username)
-            .set(MongoProp.PASSWORD, password)
-            .set(MongoProp.AUTH_DATABASE, authDb)
-            .set(MongoProp.DBNAME, dbName);
-    UsernamePasswordMongoClientWrapper mongoClientWrapper =
-        new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
+        new MongoProperties.Builder().set(MongoProp.USERNAME, username).set(MongoProp.PASSWORD, password).set(MongoProp.AUTH_DATABASE, authDb).set(MongoProp.DBNAME, dbName);
+    UsernamePasswordMongoClientWrapper mongoClientWrapper = new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
     List<MongoCredential> credentials = mongoClientWrapper.getCredentialList();
     Assert.assertEquals(1, credentials.size());
     Assert.assertEquals(null, credentials.get(0).getMechanism());
@@ -80,12 +76,8 @@ public class UsernamePasswordMongoClientWrapperTest {
   public void getCredentialListUsernameOnlyTest() throws Exception {
     final String username = "testuser";
     final String source = "dbname";
-    mongoPropertiesBuilder =
-        new MongoProperties.Builder()
-            .set(MongoProp.USERNAME, username)
-            .set(MongoProp.DBNAME, source);
-    UsernamePasswordMongoClientWrapper mongoClientWrapper =
-        new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
+    mongoPropertiesBuilder = new MongoProperties.Builder().set(MongoProp.USERNAME, username).set(MongoProp.DBNAME, source);
+    UsernamePasswordMongoClientWrapper mongoClientWrapper = new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
     List<MongoCredential> credentials = mongoClientWrapper.getCredentialList();
     Assert.assertEquals(1, credentials.size());
     Assert.assertEquals(null, credentials.get(0).getMechanism());
@@ -109,13 +101,8 @@ public class UsernamePasswordMongoClientWrapperTest {
 
     // MongoProp.AUTH_DATABASE is null
     mongoPropertiesBuilder =
-        new MongoProperties.Builder()
-            .set(MongoProp.USERNAME, username)
-            .set(MongoProp.PASSWORD, password)
-            .set(MongoProp.AUTH_DATABASE, "")
-            .set(MongoProp.DBNAME, dbName);
-    UsernamePasswordMongoClientWrapper mongoClientWrapper =
-        new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
+        new MongoProperties.Builder().set(MongoProp.USERNAME, username).set(MongoProp.PASSWORD, password).set(MongoProp.AUTH_DATABASE, "").set(MongoProp.DBNAME, dbName);
+    UsernamePasswordMongoClientWrapper mongoClientWrapper = new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
     List<MongoCredential> credentials = mongoClientWrapper.getCredentialList();
     Assert.assertEquals(1, credentials.size());
     Assert.assertEquals(null, credentials.get(0).getMechanism());
@@ -125,8 +112,7 @@ public class UsernamePasswordMongoClientWrapperTest {
 
     // MongoProp.AUTH_DATABASE is empty string
     mongoPropertiesBuilder.set(MongoProp.AUTH_DATABASE, null);
-    mongoClientWrapper =
-        new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
+    mongoClientWrapper = new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
     credentials = mongoClientWrapper.getCredentialList();
     Assert.assertEquals(1, credentials.size());
     Assert.assertEquals(null, credentials.get(0).getMechanism());
@@ -147,15 +133,10 @@ public class UsernamePasswordMongoClientWrapperTest {
 
       // MongoProp.AUTH_DATABASE is null
       mongoPropertiesBuilder =
-          new MongoProperties.Builder()
-              .set(MongoProp.USERNAME, username)
-              .set(MongoProp.PASSWORD, password)
-              .set(MongoProp.AUTH_DATABASE, "")
-              .set(MongoProp.DBNAME, dbName)
+          new MongoProperties.Builder().set(MongoProp.USERNAME, username).set(MongoProp.PASSWORD, password).set(MongoProp.AUTH_DATABASE, "").set(MongoProp.DBNAME, dbName)
               .set(MongoProp.AUTH_MECHA, authMecha);
 
-      UsernamePasswordMongoClientWrapper mongoClientWrapper =
-          new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
+      UsernamePasswordMongoClientWrapper mongoClientWrapper = new UsernamePasswordMongoClientWrapper(mongoPropertiesBuilder.build(), log);
       List<MongoCredential> credentials = mongoClientWrapper.getCredentialList();
       Assert.assertEquals(1, credentials.size());
       Assert.assertEquals(authMecha, credentials.get(0).getMechanism());

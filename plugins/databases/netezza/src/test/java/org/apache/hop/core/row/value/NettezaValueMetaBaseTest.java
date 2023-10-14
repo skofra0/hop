@@ -49,7 +49,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class NettezaValueMetaBaseTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME = "TEST_NAME";
   private static final String LOG_FIELD = "LOG_FIELD";
@@ -59,7 +60,8 @@ public class NettezaValueMetaBaseTest {
   private Class<?> PKG = ValueMetaBase.PKG;
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;

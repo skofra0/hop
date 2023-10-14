@@ -142,32 +142,27 @@ public class HopGuiWorkflowGridDelegate {
     wTree.setLayoutData(fdTree);
 
     final Timer tim = new Timer("JobGrid: " + workflowGraph.getMeta().getName());
-    TimerTask timtask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            Display display = workflowGraph.getDisplay();
-            if (display != null && !display.isDisposed()) {
-              display.asyncExec(
-                  () -> {
-                    // Check if the widgets are not disposed.
-                    // This happens is the rest of the window is not yet disposed.
-                    // We ARE running in a different thread after all.
-                    //
-                    // TODO: add a "auto refresh" check box somewhere
-                    if (!wTree.isDisposed()) {
-                      refreshTreeTable();
-                    }
-                  });
+    TimerTask timtask = new TimerTask() {
+      @Override
+      public void run() {
+        Display display = workflowGraph.getDisplay();
+        if (display != null && !display.isDisposed()) {
+          display.asyncExec(() -> {
+            // Check if the widgets are not disposed.
+            // This happens is the rest of the window is not yet disposed.
+            // We ARE running in a different thread after all.
+            //
+            // TODO: add a "auto refresh" check box somewhere
+            if (!wTree.isDisposed()) {
+              refreshTreeTable();
             }
-          }
-        };
+          });
+        }
+      }
+    };
     tim.schedule(timtask, 10L, 2000L); // refresh every 2 seconds...
 
-    workflowGraph
-        .workflowLogDelegate
-        .getWorkflowLogTab()
-        .addDisposeListener(disposeEvent -> tim.cancel());
+    workflowGraph.workflowLogDelegate.getWorkflowLogTab().addDisposeListener(disposeEvent -> tim.cancel());
   }
 
   /** Refresh the data in the tree-table... Use the data from the WorkflowTracker in the workflow */
@@ -187,14 +182,11 @@ public class HopGuiWorkflowGridDelegate {
           if (!Utils.isEmpty(workflowTracker.getWorfkflowFilename())) {
             workflowName = workflowTracker.getWorfkflowFilename();
           } else {
-            workflowName =
-                BaseMessages.getString(
-                    PKG, "WorkflowLog.Tree.StringToDisplayWhenWorkflowHasNoName");
+            workflowName = BaseMessages.getString(PKG, "WorkflowLog.Tree.StringToDisplayWhenWorkflowHasNoName");
           }
         }
         treeItem.setText(0, workflowName);
-        TreeMemory.getInstance()
-            .storeExpanded(STRING_CHEF_LOG_TREE_NAME, new String[] {workflowName}, true);
+        TreeMemory.getInstance().storeExpanded(STRING_CHEF_LOG_TREE_NAME, new String[] {workflowName}, true);
 
         for (int i = 0; i < workflowTracker.nrWorkflowTrackers(); i++) {
           addTrackerToTree(workflowTracker.getWorkflowTracker(i), treeItem);
@@ -216,10 +208,7 @@ public class HopGuiWorkflowGridDelegate {
         nrRow++;
         if (workflowTracker.nrWorkflowTrackers() > 0) {
           // This is a sub-workflow: display the name at the top of the list...
-          treeItem.setText(
-              0,
-              BaseMessages.getString(PKG, "WorkflowLog.Tree.WorkflowPrefix")
-                  + workflowTracker.getWorkflowName());
+          treeItem.setText(0, BaseMessages.getString(PKG, "WorkflowLog.Tree.WorkflowPrefix") + workflowTracker.getWorkflowName());
 
           // then populate the sub-actions ...
           for (int i = 0; i < workflowTracker.nrWorkflowTrackers(); i++) {
@@ -233,10 +222,7 @@ public class HopGuiWorkflowGridDelegate {
               treeItem.setText(0, jobEntryName);
               treeItem.setText(4, Const.NVL(result.getActionFilename(), ""));
             } else {
-              treeItem.setText(
-                  0,
-                  BaseMessages.getString(PKG, "WorkflowLog.Tree.WorkflowPrefix2")
-                      + workflowTracker.getWorkflowName());
+              treeItem.setText(0, BaseMessages.getString(PKG, "WorkflowLog.Tree.WorkflowPrefix2") + workflowTracker.getWorkflowName());
             }
             String comment = result.getComment();
             if (comment != null) {
@@ -244,11 +230,7 @@ public class HopGuiWorkflowGridDelegate {
             }
             Result res = result.getResult();
             if (res != null) {
-              treeItem.setText(
-                  2,
-                  res.getResult()
-                      ? BaseMessages.getString(PKG, "WorkflowLog.Tree.Success")
-                      : BaseMessages.getString(PKG, "WorkflowLog.Tree.Failure"));
+              treeItem.setText(2, res.getResult() ? BaseMessages.getString(PKG, "WorkflowLog.Tree.Success") : BaseMessages.getString(PKG, "WorkflowLog.Tree.Failure"));
               treeItem.setText(5, Long.toString(res.getEntryNr()));
               if (res.getResult()) {
                 treeItem.setForeground(GuiResource.getInstance().getColorSuccessGreen());

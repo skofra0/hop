@@ -29,37 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "LogExplorerFileType",
-    name = "LOG File Type",
-    description = "Log file handling in the explorer perspective",
-    image = "ui/images/log.svg")
-public class LogExplorerFileType extends BaseTextExplorerFileType<LogExplorerFileTypeHandler>
-    implements IExplorerFileType<LogExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "LogExplorerFileType", name = "LOG File Type", description = "Log file handling in the explorer perspective", image = "ui/images/log.svg")
+public class LogExplorerFileType extends BaseTextExplorerFileType<LogExplorerFileTypeHandler> implements IExplorerFileType<LogExplorerFileTypeHandler> {
 
   public LogExplorerFileType() {
-    super(
-        "Log File",
-        ".log",
-        new String[] {"*.log"},
-        new String[] {"Log files"},
-        FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+    super("Log File", ".log", new String[] {"*.log"}, new String[] {"Log files"}, FileTypeCapabilities.getCapabilities(
+        IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
-  public LogExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public LogExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new LogExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     // Not implemented
     return new EmptyHopFileTypeHandler();
   }

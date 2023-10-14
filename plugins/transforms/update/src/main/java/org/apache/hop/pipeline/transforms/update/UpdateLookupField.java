@@ -40,17 +40,11 @@ public class UpdateLookupField {
   private List<UpdateField> updateFields;
 
   /** The lookup table's schema name */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKeyDescription = "UpdateMeta.Injection.SchemaName",
-      injectionKey = "SCHEMA_NAME")
+  @HopMetadataProperty(key = "schema", injectionKeyDescription = "UpdateMeta.Injection.SchemaName", injectionKey = "SCHEMA_NAME")
   private String schemaName;
 
   /** The lookup table name */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKeyDescription = "UpdateMeta.Injection.TableName",
-      injectionKey = "TABLE_NAME")
+  @HopMetadataProperty(key = "table", injectionKeyDescription = "UpdateMeta.Injection.TableName", injectionKey = "TABLE_NAME")
   private String tableName;
 
   public UpdateLookupField() {
@@ -63,11 +57,7 @@ public class UpdateLookupField {
     init();
   }
 
-  public UpdateLookupField(
-      String schemaName,
-      String tableName,
-      List<UpdateKeyField> lookupKeys,
-      List<UpdateField> updateFields) {
+  public UpdateLookupField(String schemaName, String tableName, List<UpdateKeyField> lookupKeys, List<UpdateField> updateFields) {
     this.schemaName = schemaName;
     this.tableName = tableName;
     this.lookupKeys = lookupKeys;

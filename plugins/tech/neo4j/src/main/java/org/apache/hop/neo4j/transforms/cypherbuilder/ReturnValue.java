@@ -27,36 +27,36 @@ import java.util.Objects;
 public class ReturnValue implements Cloneable {
 
   /** The node or relationship alias */
-  @HopMetadataProperty private String alias;
+  @HopMetadataProperty
+  private String alias;
 
   /** The name of the property to return */
-  @HopMetadataProperty private String property;
+  @HopMetadataProperty
+  private String property;
 
   /** A manual expression is returned */
-  @HopMetadataProperty private String expression;
+  @HopMetadataProperty
+  private String expression;
 
   /** If you want to return the value of a parameter you provided (pass-through) */
-  @HopMetadataProperty private String parameter;
+  @HopMetadataProperty
+  private String parameter;
 
   /** Optionally you can rename the output */
-  @HopMetadataProperty private String rename;
+  @HopMetadataProperty
+  private String rename;
 
   /** The expected Neo4j data type */
-  @HopMetadataProperty private String neoType;
+  @HopMetadataProperty
+  private String neoType;
 
   /** The target Hop data type */
-  @HopMetadataProperty private String hopType;
+  @HopMetadataProperty
+  private String hopType;
 
   public ReturnValue() {}
 
-  public ReturnValue(
-      String alias,
-      String property,
-      String expression,
-      String parameter,
-      String rename,
-      String neoType,
-      String hopType) {
+  public ReturnValue(String alias, String property, String expression, String parameter, String rename, String neoType, String hopType) {
     this.alias = alias;
     this.property = property;
     this.expression = expression;
@@ -85,13 +85,12 @@ public class ReturnValue implements Cloneable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ReturnValue that = (ReturnValue) o;
-    return Objects.equals(alias, that.alias)
-        && Objects.equals(property, that.property)
-        && Objects.equals(expression, that.expression)
-        && Objects.equals(rename, that.rename)
+    return Objects.equals(alias, that.alias) && Objects.equals(property, that.property) && Objects.equals(expression, that.expression) && Objects.equals(rename, that.rename)
         && Objects.equals(hopType, that.hopType);
   }
 
@@ -115,7 +114,7 @@ public class ReturnValue implements Cloneable {
     } else if (StringUtils.isEmpty(parameter)) {
       return expression;
     } else {
-      return "{"+parameter+"}";
+      return "{" + parameter + "}";
     }
   }
 

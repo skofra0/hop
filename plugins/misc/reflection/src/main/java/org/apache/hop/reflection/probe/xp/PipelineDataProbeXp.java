@@ -44,17 +44,13 @@ import org.apache.hop.reflection.probe.transform.PipelineDataProbe;
 
 import java.util.List;
 
-@ExtensionPoint(
-    id = "PipelineDataProbeXp",
-    extensionPointId = "PipelineStartThreads",
-    description = "Before the start of a pipeline, after init, attach the data probes needed")
+@ExtensionPoint(id = "PipelineDataProbeXp", extensionPointId = "PipelineStartThreads", description = "Before the start of a pipeline, after init, attach the data probes needed")
 public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
 
   public static final String PIPELINE_DATA_PROBE_FLAG = "PipelineDataProbeActive";
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Pipeline pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Pipeline pipeline) throws HopException {
 
     // Prevent recursive data probing of the pipeline
     //
@@ -63,8 +59,7 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
     }
 
     IHopMetadataProvider metadataProvider = pipeline.getMetadataProvider();
-    IHopMetadataSerializer<PipelineProbe> serializer =
-        metadataProvider.getSerializer(PipelineProbe.class);
+    IHopMetadataSerializer<PipelineProbe> serializer = metadataProvider.getSerializer(PipelineProbe.class);
     List<PipelineProbe> pipelineDataProbes = serializer.loadAll();
 
     for (PipelineProbe pipelineProbe : pipelineDataProbes) {
@@ -72,11 +67,7 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
     }
   }
 
-  private void handlePipelineProbe(
-      final ILogChannel log,
-      final PipelineProbe pipelineProbe,
-      final IPipelineEngine<PipelineMeta> pipeline,
-      final IVariables variables)
+  private void handlePipelineProbe(final ILogChannel log, final PipelineProbe pipelineProbe, final IPipelineEngine<PipelineMeta> pipeline, final IVariables variables)
       throws HopException {
     try {
 
@@ -93,10 +84,7 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
       // See if the file exists...
       FileObject probingFileObject = HopVfs.getFileObject(probingPipelineFilename);
       if (!probingFileObject.exists()) {
-        log.logBasic(
-            "WARNING: The Pipeline Probe pipeline file '"
-                + probingPipelineFilename
-                + "' couldn't be found to execute.");
+        log.logBasic("WARNING: The Pipeline Probe pipeline file '" + probingPipelineFilename + "' couldn't be found to execute.");
         return;
       }
 
@@ -111,27 +99,17 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
           // Execute a probing pipeline in the background.
           // We do not wait for the pipeline to finish!
           //
-          executeProbingPipeline(
-              pipelineProbe, dataProbeLocation, probingPipelineFilename, pipeline, variables);
+          executeProbingPipeline(pipelineProbe, dataProbeLocation, probingPipelineFilename, pipeline, variables);
         }
       }
 
     } catch (Exception e) {
       pipeline.stopAll();
-      throw new HopException(
-          "Error handling Pipeline Probe metadata object '"
-              + pipelineProbe.getName()
-              + "' at the start of pipeline: "
-              + pipeline,
-          e);
+      throw new HopException("Error handling Pipeline Probe metadata object '" + pipelineProbe.getName() + "' at the start of pipeline: " + pipeline, e);
     }
   }
 
-  private boolean probeLocationExists(
-      IVariables variables,
-      DataProbeLocation dataProbeLocation,
-      IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  private boolean probeLocationExists(IVariables variables, DataProbeLocation dataProbeLocation, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     // Not saved to a file, let's not probe.
     //
@@ -144,16 +122,14 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
     FileObject parentFileObject = HopVfs.getFileObject(pipeline.getFilename());
     String parentFilename = parentFileObject.getName().getPath();
 
-    FileObject locationFileObject =
-        HopVfs.getFileObject(variables.resolve(dataProbeLocation.getSourcePipelineFilename()));
+    FileObject locationFileObject = HopVfs.getFileObject(variables.resolve(dataProbeLocation.getSourcePipelineFilename()));
     String locationFilename = locationFileObject.getName().getPath();
     if (!parentFilename.equals(locationFilename)) {
       // No match
       return false;
     }
 
-    List<IEngineComponent> componentCopies =
-        pipeline.getComponentCopies(dataProbeLocation.getSourceTransformName());
+    List<IEngineComponent> componentCopies = pipeline.getComponentCopies(dataProbeLocation.getSourceTransformName());
     if (componentCopies == null || componentCopies.isEmpty()) {
       return false;
     }
@@ -180,13 +156,11 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
       IVariables variables)
       throws HopException {
 
-    PipelineMeta probingPipelineMeta =
-        new PipelineMeta(loggingPipelineFilename, pipeline.getMetadataProvider(), variables);
+    PipelineMeta probingPipelineMeta = new PipelineMeta(loggingPipelineFilename, pipeline.getMetadataProvider(), variables);
 
     // Create a local pipeline engine...
     //
-    LocalPipelineEngine probingPipeline =
-        new LocalPipelineEngine(probingPipelineMeta, variables, pipeline);
+    LocalPipelineEngine probingPipeline = new LocalPipelineEngine(probingPipelineMeta, variables, pipeline);
 
     // Flag it as a probing and logging pipeline so we don't try to probe or log ourselves...
     //
@@ -198,8 +172,7 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
     probingPipeline.setLogLevel(LogLevel.ERROR);
     probingPipeline.prepareExecution();
 
-    List<IEngineComponent> componentCopies =
-        pipeline.getComponentCopies(dataProbeLocation.getSourceTransformName());
+    List<IEngineComponent> componentCopies = pipeline.getComponentCopies(dataProbeLocation.getSourceTransformName());
     for (IEngineComponent componentCopy : componentCopies) {
 
       // We need to send rows from this component copy to
@@ -216,29 +189,25 @@ public class PipelineDataProbeXp implements IExtensionPoint<Pipeline> {
           pipelineDataProbe.setSourceTransformCopy(componentCopy.getCopyNr());
 
           try {
-            final RowProducer rowProducer =
-                probingPipeline.addRowProducer(combi.transformName, combi.copy);
+            final RowProducer rowProducer = probingPipeline.addRowProducer(combi.transformName, combi.copy);
 
             // For every copy of the component, add an input row set to the parent pipeline...
             //
-            componentCopy.addRowListener(
-                new RowAdapter() {
-                  @Override
-                  public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                      throws HopTransformException {
-                    // Pass this row to the row producer...
-                    //
-                    rowProducer.putRow(rowMeta, row);
-                  }
-                });
+            componentCopy.addRowListener(new RowAdapter() {
+              @Override
+              public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+                // Pass this row to the row producer...
+                //
+                rowProducer.putRow(rowMeta, row);
+              }
+            });
 
             // If the pipeline we're the transform is and we can safely stop streaming...
             //
             pipeline.addExecutionFinishedListener(pe -> rowProducer.finished());
 
           } catch (HopException e) {
-            throw new HopTransformException(
-                "Error adding row producer to transform '" + combi.transformName + "'", e);
+            throw new HopTransformException("Error adding row producer to transform '" + combi.transformName + "'", e);
           }
         }
       }

@@ -40,13 +40,7 @@ public class UnitTestResult {
     super();
   }
 
-  public UnitTestResult(
-      String pipelineName,
-      String unitTestName,
-      String dataSetName,
-      String transformName,
-      boolean error,
-      String comment) {
+  public UnitTestResult(String pipelineName, String unitTestName, String dataSetName, String transformName, boolean error, String comment) {
     super();
     this.pipelineName = pipelineName;
     this.unitTestName = unitTestName;
@@ -107,18 +101,12 @@ public class UnitTestResult {
   public static final IRowMeta getRowMeta() {
     IRowMeta rowMeta = new RowMeta();
 
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.PipelineName")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.UnitTestName")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.DataSetName")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.TransformName")));
-    rowMeta.addValueMeta(
-        new ValueMetaBoolean(BaseMessages.getString(PKG, "UnitTestResult.FieldName.Error")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.Comment")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.PipelineName")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.UnitTestName")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.DataSetName")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.TransformName")));
+    rowMeta.addValueMeta(new ValueMetaBoolean(BaseMessages.getString(PKG, "UnitTestResult.FieldName.Error")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "UnitTestResult.FieldName.Comment")));
 
     return rowMeta;
   }

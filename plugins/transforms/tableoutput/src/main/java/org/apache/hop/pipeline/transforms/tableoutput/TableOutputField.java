@@ -35,17 +35,11 @@ public class TableOutputField {
   }
 
   /** Fields containing the values in the input stream to insert */
-  @HopMetadataProperty(
-      key = "stream_name",
-      injectionKey = "STREAM_FIELDNAME",
-      injectionKeyDescription = "TableOutputMeta.Injection.FieldStream.Field")
+  @HopMetadataProperty(key = "stream_name", injectionKey = "STREAM_FIELDNAME", injectionKeyDescription = "TableOutputMeta.Injection.FieldStream.Field")
   private String fieldStream;
 
   /** Fields in the table to insert */
-  @HopMetadataProperty(
-      key = "column_name",
-      injectionKey = "DATABASE_FIELDNAME",
-      injectionKeyDescription = "TableOutputMeta.Injection.FieldDatabase.Field")
+  @HopMetadataProperty(key = "column_name", injectionKey = "DATABASE_FIELDNAME", injectionKeyDescription = "TableOutputMeta.Injection.FieldDatabase.Field")
   private String fieldDatabase;
 
   /** @return Fields containing the values in the input stream to insert. */
@@ -72,8 +66,10 @@ public class TableOutputField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     TableOutputField that = (TableOutputField) o;
     return fieldStream.equals(that.fieldStream) && fieldDatabase.equals(that.fieldDatabase);
   }

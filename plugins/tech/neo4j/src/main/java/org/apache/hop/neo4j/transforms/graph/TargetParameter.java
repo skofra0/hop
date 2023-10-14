@@ -27,11 +27,7 @@ public class TargetParameter {
 
   public TargetParameter() {}
 
-  public TargetParameter(
-      String inputField,
-      int inputFieldIndex,
-      String parameterName,
-      GraphPropertyType parameterType) {
+  public TargetParameter(String inputField, int inputFieldIndex, String parameterName, GraphPropertyType parameterType) {
     this.inputField = inputField;
     this.inputFieldIndex = inputFieldIndex;
     this.parameterName = parameterName;

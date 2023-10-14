@@ -64,13 +64,7 @@ public class GenerateCsvMeta extends BaseTransformMeta<GenerateCsv, GenerateCsvD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider) {
 
     inputRowMeta.clear();
 
@@ -88,9 +82,7 @@ public class GenerateCsvMeta extends BaseTransformMeta<GenerateCsv, GenerateCsvD
     StringBuffer xml = new StringBuffer();
     xml.append(XmlHandler.addTagValue(GRAPH_FIELD_NAME, graphFieldName));
     xml.append(XmlHandler.addTagValue(BASE_FOLDER, baseFolder));
-    xml.append(
-        XmlHandler.addTagValue(
-            UNIQUENESS_STRATEGY, uniquenessStrategy != null ? uniquenessStrategy.name() : null));
+    xml.append(XmlHandler.addTagValue(UNIQUENESS_STRATEGY, uniquenessStrategy != null ? uniquenessStrategy.name() : null));
     xml.append(XmlHandler.addTagValue(FILES_PREFIX, filesPrefix));
     xml.append(XmlHandler.addTagValue(FILENAME_FIELD, filenameField));
     xml.append(XmlHandler.addTagValue(FILE_TYPE_FIELD, fileTypeField));
@@ -98,13 +90,10 @@ public class GenerateCsvMeta extends BaseTransformMeta<GenerateCsv, GenerateCsvD
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     graphFieldName = XmlHandler.getTagValue(transformNode, GRAPH_FIELD_NAME);
     baseFolder = XmlHandler.getTagValue(transformNode, BASE_FOLDER);
-    uniquenessStrategy =
-        UniquenessStrategy.getStrategyFromName(
-            XmlHandler.getTagValue(transformNode, UNIQUENESS_STRATEGY));
+    uniquenessStrategy = UniquenessStrategy.getStrategyFromName(XmlHandler.getTagValue(transformNode, UNIQUENESS_STRATEGY));
     filesPrefix = XmlHandler.getTagValue(transformNode, FILES_PREFIX);
     filenameField = XmlHandler.getTagValue(transformNode, FILENAME_FIELD);
     fileTypeField = XmlHandler.getTagValue(transformNode, FILE_TYPE_FIELD);

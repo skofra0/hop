@@ -46,8 +46,7 @@ public class FormulaParser {
   private Row sheetRow;
   private FormulaEvaluator evaluator;
 
-  public FormulaParser(
-      FormulaMetaFunction formulaMetaFunction, IRowMeta rowMeta, Object[] dataRow, Row sheetRow, IVariables variables) {
+  public FormulaParser(FormulaMetaFunction formulaMetaFunction, IRowMeta rowMeta, Object[] dataRow, Row sheetRow, IVariables variables) {
     this.formulaMetaFunction = formulaMetaFunction;
     this.rowMeta = rowMeta;
     this.dataRow = dataRow;
@@ -55,8 +54,8 @@ public class FormulaParser {
     fieldNames = rowMeta.getFieldNames();
     formula = formulaMetaFunction.getFormula();
     // DEEM-MOD
-    if (variables!=null) {
-        formula = variables.resolve(formula);
+    if (variables != null) {
+      formula = variables.resolve(formula);
     }
     evaluator = sheetRow.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 

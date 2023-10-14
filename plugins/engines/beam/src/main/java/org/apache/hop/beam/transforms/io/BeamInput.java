@@ -31,18 +31,12 @@ public class BeamInput extends BaseTransform<BeamInputMeta, BeamInputData> {
    * @param transformMeta The TransformMeta object to run.
    * @param meta the meta object containing all metadata
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The TransInfo of which the transform transformMeta is part of.
    * @param pipeline The (running) transformation to obtain information shared among the transforms.
    */
-  public BeamInput(
-      TransformMeta transformMeta,
-      BeamInputMeta meta,
-      BeamInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamInput(TransformMeta transformMeta, BeamInputMeta meta, BeamInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

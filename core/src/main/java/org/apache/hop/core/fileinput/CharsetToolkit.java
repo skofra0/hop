@@ -28,19 +28,24 @@ import java.util.Collection;
 
 /**
  * <p>
- * Utility class to guess the encoding of a given byte array. The guess is unfortunately not 100% sure. Especially for
- * 8-bit charsets. It's not possible to know which 8-bit charset is used. Except through statistical analysis. We will
+ * Utility class to guess the encoding of a given byte array. The guess is unfortunately not 100%
+ * sure. Especially for
+ * 8-bit charsets. It's not possible to know which 8-bit charset is used. Except through statistical
+ * analysis. We will
  * then infer that the charset encountered is the same as the default standard charset.
  * </p>
  *
  * <p>
- * On the other hand, unicode files encoded in UTF-16 (low or big endian) or UTF-8 files with a Byte Order Marker are
+ * On the other hand, unicode files encoded in UTF-16 (low or big endian) or UTF-8 files with a Byte
+ * Order Marker are
  * easy to find. For UTF-8 files with no BOM, if the buffer is wide enough, it's easy to guess.
  * </p>
  *
  * <p>
- * Tested against a complicated UTF-8 file, Sun's implementation does not render bad UTF-8 constructs as expected by the
- * specification. But with a buffer wide enough, the method guessEncoding() did behave correctly and recognized the
+ * Tested against a complicated UTF-8 file, Sun's implementation does not render bad UTF-8
+ * constructs as expected by the
+ * specification. But with a buffer wide enough, the method guessEncoding() did behave correctly and
+ * recognized the
  * UTF-8 charset.
  * </p>
  *
@@ -103,13 +108,11 @@ public class CharsetToolkit {
     }
   }
 
-  public static Charset guessEncoding(FileObject file, int bufferLength)
-      throws FileNotFoundException, IOException {
+  public static Charset guessEncoding(FileObject file, int bufferLength) throws FileNotFoundException, IOException {
     return guessEncoding(new File(file.getName().getPathDecoded()), bufferLength);
   }
 
-  public static String guessEncodingName(FileObject file)
-      throws FileNotFoundException, IOException {
+  public static String guessEncodingName(FileObject file) throws FileNotFoundException, IOException {
     return guessEncodingName(new File(file.getName().getPathDecoded()));
   }
 
@@ -151,11 +154,13 @@ public class CharsetToolkit {
    * beginning of the buffer, we immidiately return the charset implied by this BOM. Otherwise, the
    * file would not be a human readable text file.
    *
-   * <p>If there is no BOM, this method tries to discern whether the file is UTF-8 or not. If it is
+   * <p>
+   * If there is no BOM, this method tries to discern whether the file is UTF-8 or not. If it is
    * not UTF-8, we assume the encoding is the default system encoding (of course, it might be any
    * 8-bit charset, but usually, an 8-bit charset is the default one).
    *
-   * <p>It is possible to discern UTF-8 thanks to the pattern of characters with a multi-byte
+   * <p>
+   * It is possible to discern UTF-8 thanks to the pattern of characters with a multi-byte
    * sequence.
    *
    * <pre>
@@ -168,7 +173,8 @@ public class CharsetToolkit {
    * 0400 0000-7FFF FFFF       1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
    * </pre>
    *
-   * <p>With UTF-8, 0xFE and 0xFF never appear.
+   * <p>
+   * With UTF-8, 0xFE and 0xFF never appear.
    *
    * @return the Charset recognized.
    */
@@ -239,10 +245,7 @@ public class CharsetToolkit {
           // a five-bytes sequence was encoutered
           // there must be four continuation bytes of the form 10xxxxxx,
           // otherwise the following characteris is not a valid UTF-8 construct
-          if (!(isContinuationChar(b1)
-              && isContinuationChar(b2)
-              && isContinuationChar(b3)
-              && isContinuationChar(b4))) {
+          if (!(isContinuationChar(b1) && isContinuationChar(b2) && isContinuationChar(b3) && isContinuationChar(b4))) {
             validU8Char = false;
           } else {
             i += 4;
@@ -251,11 +254,7 @@ public class CharsetToolkit {
           // a six-bytes sequence was encoutered
           // there must be five continuation bytes of the form 10xxxxxx,
           // otherwise the following characteris is not a valid UTF-8 construct
-          if (!(isContinuationChar(b1)
-              && isContinuationChar(b2)
-              && isContinuationChar(b3)
-              && isContinuationChar(b4)
-              && isContinuationChar(b5))) {
+          if (!(isContinuationChar(b1) && isContinuationChar(b2) && isContinuationChar(b3) && isContinuationChar(b4) && isContinuationChar(b5))) {
             validU8Char = false;
           } else {
             i += 5;

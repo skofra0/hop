@@ -60,8 +60,7 @@ public class ActionWriteToLogDialog extends ActionDialog implements IActionDialo
 
   private Combo wLoglevel;
 
-  public ActionWriteToLogDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionWriteToLogDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionWriteToLog) action;
     if (this.action.getName() == null) {
@@ -167,10 +166,8 @@ public class ActionWriteToLogDialog extends ActionDialog implements IActionDialo
     fdlLogMessage.top = new FormAttachment(wLogSubject, margin);
     fdlLogMessage.right = new FormAttachment(middle, -margin);
     wlLogMessage.setLayoutData(fdlLogMessage);
-  
-    wLogMessage =
-        new TextVar(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+
+    wLogMessage = new TextVar(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wLogMessage.setText(BaseMessages.getString(PKG, "WriteToLog.Name.Default"));
     PropsUi.setLook(wLogMessage, Props.WIDGET_STYLE_FIXED);
     wLogMessage.addModifyListener(lsMod);

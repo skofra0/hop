@@ -31,24 +31,13 @@ public class CypherQueryBuilder extends BaseCypherBuilder {
     return new CypherQueryBuilder();
   }
 
-  public CypherQueryBuilder withLabelAndKey(
-      String nodeAlias, String label, String key, Object keyValue) {
-    cypher
-        .append("(")
-        .append(nodeAlias)
-        .append(":")
-        .append(label)
-        .append(" {")
-        .append(key)
-        .append(" : $")
-        .append(key)
-        .append(" }) ");
+  public CypherQueryBuilder withLabelAndKey(String nodeAlias, String label, String key, Object keyValue) {
+    cypher.append("(").append(nodeAlias).append(":").append(label).append(" {").append(key).append(" : $").append(key).append(" }) ");
     parameters.put(key, keyValue);
     return this;
   }
 
-  public CypherQueryBuilder withLabelAndKeys(
-      String nodeAlias, String label, Map<String, Object> keyValueMap) {
+  public CypherQueryBuilder withLabelAndKeys(String nodeAlias, String label, Map<String, Object> keyValueMap) {
     cypher.append("(").append(nodeAlias).append(":").append(label).append(" {");
 
     boolean firstKey = true;
@@ -107,18 +96,11 @@ public class CypherQueryBuilder extends BaseCypherBuilder {
   }
 
   public CypherQueryBuilder withOrderBy(String nodeAlias, String property, boolean ascending) {
-    cypher
-        .append("ORDER BY ")
-        .append(nodeAlias)
-        .append(".")
-        .append(property)
-        .append(" ")
-        .append(ascending ? " " : "DESC ");
+    cypher.append("ORDER BY ").append(nodeAlias).append(".").append(property).append(" ").append(ascending ? " " : "DESC ");
     return this;
   }
 
-  public CypherQueryBuilder withMatch(
-      String nodeAlias, String nodeLabel, Map<String, Object> nodeKeys) {
+  public CypherQueryBuilder withMatch(String nodeAlias, String nodeLabel, Map<String, Object> nodeKeys) {
     cypher.append("MATCH(").append(nodeAlias).append(":").append(nodeLabel).append(" {");
     boolean firstKey = true;
     for (String otherKey : nodeKeys.keySet()) {
@@ -136,16 +118,8 @@ public class CypherQueryBuilder extends BaseCypherBuilder {
     return this;
   }
 
-  public CypherQueryBuilder withRelationship(
-      String alias1, String alias2, String relationshipLabel) {
-    cypher
-        .append("MATCH(")
-        .append(alias1)
-        .append(")-[rel:")
-        .append(relationshipLabel)
-        .append("]->(")
-        .append(alias2)
-        .append(") ");
+  public CypherQueryBuilder withRelationship(String alias1, String alias2, String relationshipLabel) {
+    cypher.append("MATCH(").append(alias1).append(")-[rel:").append(relationshipLabel).append("]->(").append(alias2).append(") ");
     return this;
   }
 }

@@ -52,19 +52,13 @@ public class JavaFilterMeta extends BaseTransformMeta<JavaFilter, JavaFilterData
   private static final Class<?> PKG = JavaFilterMeta.class; // For Translator
 
   /** The formula calculations to be performed */
-  @HopMetadataProperty(
-      key = "condition",
-      injectionKeyDescription = "JavaFilterMeta.Injection.Condition")
+  @HopMetadataProperty(key = "condition", injectionKeyDescription = "JavaFilterMeta.Injection.Condition")
   private String condition;
 
-  @HopMetadataProperty(
-      key = "send_true_to",
-      injectionKeyDescription = "JavaFilterMeta.Injection.TrueTransform")
+  @HopMetadataProperty(key = "send_true_to", injectionKeyDescription = "JavaFilterMeta.Injection.TrueTransform")
   private String trueTransform;
 
-  @HopMetadataProperty(
-      key = "send_false_to",
-      injectionKeyDescription = "JavaFilterMeta.Injection.FalseTransform")
+  @HopMetadataProperty(key = "send_false_to", injectionKeyDescription = "JavaFilterMeta.Injection.FalseTransform")
   private String falseTransform;
 
   public String getTrueTransform() {
@@ -141,31 +135,14 @@ public class JavaFilterMeta extends BaseTransformMeta<JavaFilter, JavaFilterData
 
     List<IStream> targetStreams = getTransformIOMeta().getTargetStreams();
 
-    if (targetStreams.get(0).getTransformName() != null
-        && targetStreams.get(1).getTransformName() != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.BothTrueAndFalseTransformSpecified"),
-              transformMeta);
+    if (targetStreams.get(0).getTransformName() != null && targetStreams.get(1).getTransformName() != null) {
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.BothTrueAndFalseTransformSpecified"), transformMeta);
       remarks.add(cr);
-    } else if (targetStreams.get(0).getTransformName() == null
-        && targetStreams.get(1).getTransformName() == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.NeitherTrueAndFalseTransformSpecified"),
-              transformMeta);
+    } else if (targetStreams.get(0).getTransformName() == null && targetStreams.get(1).getTransformName() == null) {
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.NeitherTrueAndFalseTransformSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.PlsSpecifyBothTrueAndFalseTransform"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.PlsSpecifyBothTrueAndFalseTransform"), transformMeta);
       remarks.add(cr);
     }
 
@@ -175,11 +152,7 @@ public class JavaFilterMeta extends BaseTransformMeta<JavaFilter, JavaFilterData
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "JavaFilterMeta.CheckResult.TargetTransformInvalid",
-                    "true",
-                    targetStreams.get(0).getTransformName()),
+                BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.TargetTransformInvalid", "true", targetStreams.get(0).getTransformName()),
                 transformMeta);
         remarks.add(cr);
       }
@@ -191,69 +164,39 @@ public class JavaFilterMeta extends BaseTransformMeta<JavaFilter, JavaFilterData
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "JavaFilterMeta.CheckResult.TargetTransformInvalid",
-                    "false",
-                    targetStreams.get(1).getTransformName()),
+                BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.TargetTransformInvalid", "false", targetStreams.get(1).getTransformName()),
                 transformMeta);
         remarks.add(cr);
       }
     }
 
     if (Utils.isEmpty(condition)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.NoConditionSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.NoConditionSpecified"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.ConditionSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.ConditionSpecified"), transformMeta);
     }
     remarks.add(cr);
 
     // Look up fields in the input stream <prev>
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       // What fields are used in the condition?
       // TODO: verify condition, parse it
       //
     } else {
-      errorMessage =
-          BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform")
-              + Const.CR;
+      errorMessage = BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform") + Const.CR;
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "JavaFilterMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JavaFilterMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -266,20 +209,8 @@ public class JavaFilterMeta extends BaseTransformMeta<JavaFilter, JavaFilterData
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              null,
-              BaseMessages.getString(PKG, "JavaFilterMeta.InfoStream.True.Description"),
-              StreamIcon.TRUE,
-              null));
-      ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              null,
-              BaseMessages.getString(PKG, "JavaFilterMeta.InfoStream.False.Description"),
-              StreamIcon.FALSE,
-              null));
+      ioMeta.addStream(new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "JavaFilterMeta.InfoStream.True.Description"), StreamIcon.TRUE, null));
+      ioMeta.addStream(new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "JavaFilterMeta.InfoStream.False.Description"), StreamIcon.FALSE, null));
       setTransformIOMeta(ioMeta);
     }
 

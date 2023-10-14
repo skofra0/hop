@@ -88,11 +88,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@HopPerspectivePlugin(
-    id = "HopNeo4jPerspective",
-    name = "Neo4j",
-    description = "Neo4j Perspective",
-    image = "neo4j_logo.svg")
+@HopPerspectivePlugin(id = "HopNeo4jPerspective", name = "Neo4j", description = "Neo4j Perspective", image = "neo4j_logo.svg")
 @GuiPlugin
 public class HopNeo4jPerspective implements IHopPerspective {
 
@@ -164,12 +160,8 @@ public class HopNeo4jPerspective implements IHopPerspective {
     PropsUi props = PropsUi.getInstance();
 
     int size = (int) Math.round((double) ConstUi.SMALL_ICON_SIZE * props.getZoomFactor());
-    Image neo4jImage =
-        SwtSvgImageUtil.getImage(
-            hopGui.getDisplay(), this.getClass().getClassLoader(), "neo4j_logo.svg", size, size);
-    Image lineageImage =
-        SwtSvgImageUtil.getImage(
-            hopGui.getDisplay(), this.getClass().getClassLoader(), "lineage.svg", size, size);
+    Image neo4jImage = SwtSvgImageUtil.getImage(hopGui.getDisplay(), this.getClass().getClassLoader(), "neo4j_logo.svg", size, size);
+    Image lineageImage = SwtSvgImageUtil.getImage(hopGui.getDisplay(), this.getClass().getClassLoader(), "lineage.svg", size, size);
     errorLineBackground = new Color(hopGui.getDisplay(), 201, 232, 251);
 
     composite = new Composite(parent, SWT.NONE);
@@ -214,8 +206,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
 
     Label wlUsedConnection = new Label(composite, SWT.LEFT);
     PropsUi.setLook(wlUsedConnection);
-    wlUsedConnection.setText(
-        BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Neo4J.Logging.Path.Label"));
+    wlUsedConnection.setText(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Neo4J.Logging.Path.Label"));
     FormData fdlLoggingConnection = new FormData();
     fdlLoggingConnection.left = new FormAttachment(0, 0);
     fdlLoggingConnection.top = new FormAttachment(lastControl, margin);
@@ -223,8 +214,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
     wUsedConnection = new Text(composite, SWT.SINGLE | SWT.BORDER);
     wUsedConnection.setEditable(false);
     PropsUi.setLook(wUsedConnection);
-    wUsedConnection.setText(
-        BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Neo4J.Logging.Path.Label"));
+    wUsedConnection.setText(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Neo4J.Logging.Path.Label"));
     wUsedConnection.setFont(GuiResource.getInstance().getFontBold());
     FormData fdLoggingConnection = new FormData();
     fdLoggingConnection.left = new FormAttachment(wlUsedConnection, margin);
@@ -237,8 +227,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
     //
     Label wlExecutions = new Label(composite, SWT.LEFT);
     PropsUi.setLook(wlExecutions);
-    wlExecutions.setText(
-        BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.PipelineActionName.Label"));
+    wlExecutions.setText(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.PipelineActionName.Label"));
     FormData fdlExecutions = new FormData();
     fdlExecutions.left = new FormAttachment(0, 0);
     fdlExecutions.top = new FormAttachment(lastControl, margin);
@@ -318,73 +307,21 @@ public class HopNeo4jPerspective implements IHopPerspective {
 
     // A table with the execution history results...
     //
-    ColumnInfo[] resultsColumns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.ID.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Name.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Type.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Read.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Written.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Input.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Output.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Rejected.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Errors.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Date.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Duration.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-    };
+    ColumnInfo[] resultsColumns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.ID.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Name.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Type.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Read.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Written.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Input.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Output.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Rejected.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Errors.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Date.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Column.Duration.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
-    wResults =
-        new TableView(
-            hopGui.getVariables(),
-            sashForm,
-            SWT.V_SCROLL | SWT.V_SCROLL | SWT.SINGLE | SWT.BORDER,
-            resultsColumns,
-            0,
-            null,
-            props);
+    wResults = new TableView(hopGui.getVariables(), sashForm, SWT.V_SCROLL | SWT.V_SCROLL | SWT.SINGLE | SWT.BORDER, resultsColumns, 0, null, props);
     PropsUi.setLook(wResults);
     wResults.setReadonly(true);
     FormData fdResults = new FormData();
@@ -503,8 +440,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
       try (Driver driver = connection.getDriver(log, hopGui.getVariables())) {
         try (Session session = connection.getSession(log, driver, hopGui.getVariables())) {
           analyzeLogging(session, id, name, type);
-          List<List<HistoryResult>> shortestPaths =
-              analyzeErrorLineage(session, id, name, type, errors);
+          List<List<HistoryResult>> shortestPaths = analyzeErrorLineage(session, id, name, type, errors);
           analyzeCypherStatements(connection, session, id, name, type, errors, shortestPaths);
         }
       }
@@ -532,21 +468,19 @@ public class HopNeo4jPerspective implements IHopPerspective {
     loggingCypher.append("AND   e.type = $type ");
     loggingCypher.append("RETURN e.loggingText ");
 
-    session.readTransaction(
-        tx -> {
-          Result result = tx.run(loggingCypher.toString(), loggingParameters);
-          while (result.hasNext()) {
-            Record record = result.next();
-            Value value = record.get(0);
-            String loggingText = value.asString();
-            wLogging.setText(Const.NVL(loggingText, "<no logging found>"));
-          }
-          return null;
-        });
+    session.readTransaction(tx -> {
+      Result result = tx.run(loggingCypher.toString(), loggingParameters);
+      while (result.hasNext()) {
+        Record record = result.next();
+        Value value = record.get(0);
+        String loggingText = value.asString();
+        wLogging.setText(Const.NVL(loggingText, "<no logging found>"));
+      }
+      return null;
+    });
   }
 
-  private List<List<HistoryResult>> analyzeErrorLineage(
-      Session session, String id, String name, String type, int errors) {
+  private List<List<HistoryResult>> analyzeErrorLineage(Session session, String id, String name, String type, int errors) {
 
     // List of shortest paths to errors...
     //
@@ -573,8 +507,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
       errorPathParams.put("subjectId", id);
 
       StringBuilder errorPathCypher = new StringBuilder();
-      errorPathCypher.append(
-          "MATCH(top:Execution { name : $subjectName, type : $subjectType, id : $subjectId })-[rel:EXECUTES*]-(err:Execution) ");
+      errorPathCypher.append("MATCH(top:Execution { name : $subjectName, type : $subjectType, id : $subjectId })-[rel:EXECUTES*]-(err:Execution) ");
       errorPathCypher.append("   , p=shortestpath((top)-[:EXECUTES*]-(err)) ");
       errorPathCypher.append("WHERE top.registrationDate IS NOT NULL ");
       errorPathCypher.append("  AND err.errors > 0 ");
@@ -583,87 +516,78 @@ public class HopNeo4jPerspective implements IHopPerspective {
       errorPathCypher.append("ORDER BY size(RELATIONSHIPS(p)) DESC ");
       errorPathCypher.append("LIMIT 10");
 
-      session.readTransaction(
-          tx -> {
-            Result pathResult = tx.run(errorPathCypher.toString(), errorPathParams);
+      session.readTransaction(tx -> {
+        Result pathResult = tx.run(errorPathCypher.toString(), errorPathParams);
 
-            while (pathResult.hasNext()) {
-              Record pathRecord = pathResult.next();
-              Value pathValue = pathRecord.get(0);
-              Path path = pathValue.asPath();
-              List<HistoryResult> shortestPath = new ArrayList<>();
-              for (Node node : path.nodes()) {
-                HistoryResult pathExecution = new HistoryResult();
-                pathExecution.setId(LoggingCore.getStringValue(node, "id"));
-                pathExecution.setName(LoggingCore.getStringValue(node, "name"));
-                pathExecution.setType(LoggingCore.getStringValue(node, "type"));
-                pathExecution.setCopy(LoggingCore.getStringValue(node, "copy"));
-                pathExecution.setRegistrationDate(
-                    LoggingCore.getStringValue(node, "registrationDate"));
-                pathExecution.setWritten(LoggingCore.getLongValue(node, "linesWritten"));
-                pathExecution.setRead(LoggingCore.getLongValue(node, "linesRead"));
-                pathExecution.setInput(LoggingCore.getLongValue(node, "linesInput"));
-                pathExecution.setOutput(LoggingCore.getLongValue(node, "linesOutput"));
-                pathExecution.setRejected(LoggingCore.getLongValue(node, "linesRejected"));
-                pathExecution.setErrors(LoggingCore.getLongValue(node, "errors"));
-                pathExecution.setLoggingText(LoggingCore.getStringValue(node, "loggingText"));
-                pathExecution.setDurationMs(LoggingCore.getLongValue(node, "durationMs"));
+        while (pathResult.hasNext()) {
+          Record pathRecord = pathResult.next();
+          Value pathValue = pathRecord.get(0);
+          Path path = pathValue.asPath();
+          List<HistoryResult> shortestPath = new ArrayList<>();
+          for (Node node : path.nodes()) {
+            HistoryResult pathExecution = new HistoryResult();
+            pathExecution.setId(LoggingCore.getStringValue(node, "id"));
+            pathExecution.setName(LoggingCore.getStringValue(node, "name"));
+            pathExecution.setType(LoggingCore.getStringValue(node, "type"));
+            pathExecution.setCopy(LoggingCore.getStringValue(node, "copy"));
+            pathExecution.setRegistrationDate(LoggingCore.getStringValue(node, "registrationDate"));
+            pathExecution.setWritten(LoggingCore.getLongValue(node, "linesWritten"));
+            pathExecution.setRead(LoggingCore.getLongValue(node, "linesRead"));
+            pathExecution.setInput(LoggingCore.getLongValue(node, "linesInput"));
+            pathExecution.setOutput(LoggingCore.getLongValue(node, "linesOutput"));
+            pathExecution.setRejected(LoggingCore.getLongValue(node, "linesRejected"));
+            pathExecution.setErrors(LoggingCore.getLongValue(node, "errors"));
+            pathExecution.setLoggingText(LoggingCore.getStringValue(node, "loggingText"));
+            pathExecution.setDurationMs(LoggingCore.getLongValue(node, "durationMs"));
 
-                shortestPath.add(0, pathExecution);
-              }
-              shortestPaths.add(shortestPath);
-            }
+            shortestPath.add(0, pathExecution);
+          }
+          shortestPaths.add(shortestPath);
+        }
 
-            // Populate the tree...
-            //
-            String treeName = "Execution History of " + name + "(" + type + ")";
+        // Populate the tree...
+        //
+        String treeName = "Execution History of " + name + "(" + type + ")";
 
-            for (int p = shortestPaths.size() - 1; p >= 0; p--) {
-              List<HistoryResult> shortestPath = shortestPaths.get(p);
+        for (int p = shortestPaths.size() - 1; p >= 0; p--) {
+          List<HistoryResult> shortestPath = shortestPaths.get(p);
 
-              TreeItem pathItem = new TreeItem(wTree, SWT.NONE);
-              pathItem.setText(0, Integer.toString(p + 1));
+          TreeItem pathItem = new TreeItem(wTree, SWT.NONE);
+          pathItem.setText(0, Integer.toString(p + 1));
 
-              for (int e = 0; e < shortestPath.size(); e++) {
-                HistoryResult exec = shortestPath.get(e);
-                TreeItem execItem = new TreeItem(pathItem, SWT.NONE);
-                int x = 0;
-                execItem.setText(x++, Integer.toString(e + 1));
-                execItem.setText(x++, Const.NVL(exec.getId(), ""));
-                execItem.setText(x++, Const.NVL(exec.getName(), ""));
-                execItem.setText(x++, Const.NVL(exec.getType(), ""));
-                execItem.setText(x++, toString(exec.getErrors()));
-                execItem.setText(x++, Const.NVL(exec.getRegistrationDate(), "").replace("T", " "));
-                execItem.setText(x++, LoggingCore.getFancyDurationFromMs(exec.getDurationMs()));
-                execItem.setExpanded(true);
-              }
-              if (p == shortestPaths.size() - 1) {
-                TreeMemory.getInstance().storeExpanded(treeName, pathItem, true);
-              }
-            }
+          for (int e = 0; e < shortestPath.size(); e++) {
+            HistoryResult exec = shortestPath.get(e);
+            TreeItem execItem = new TreeItem(pathItem, SWT.NONE);
+            int x = 0;
+            execItem.setText(x++, Integer.toString(e + 1));
+            execItem.setText(x++, Const.NVL(exec.getId(), ""));
+            execItem.setText(x++, Const.NVL(exec.getName(), ""));
+            execItem.setText(x++, Const.NVL(exec.getType(), ""));
+            execItem.setText(x++, toString(exec.getErrors()));
+            execItem.setText(x++, Const.NVL(exec.getRegistrationDate(), "").replace("T", " "));
+            execItem.setText(x++, LoggingCore.getFancyDurationFromMs(exec.getDurationMs()));
+            execItem.setExpanded(true);
+          }
+          if (p == shortestPaths.size() - 1) {
+            TreeMemory.getInstance().storeExpanded(treeName, pathItem, true);
+          }
+        }
 
-            TreeMemory.setExpandedFromMemory(wTree, treeName);
+        TreeMemory.setExpandedFromMemory(wTree, treeName);
 
-            if (wTree.getItemCount() > 0) {
-              TreeItem firstItem = wTree.getItem(0);
-              wTree.setSelection(firstItem);
-            }
+        if (wTree.getItemCount() > 0) {
+          TreeItem firstItem = wTree.getItem(0);
+          wTree.setSelection(firstItem);
+        }
 
-            //
-            return null;
-          });
+        //
+        return null;
+      });
     }
     return shortestPaths;
   }
 
-  private void analyzeCypherStatements(
-      NeoConnection connection,
-      Session session,
-      String id,
-      String name,
-      String type,
-      int errors,
-      List<List<HistoryResult>> shortestPaths) {
+  private void analyzeCypherStatements(NeoConnection connection, Session session, String id, String name, String type, int errors, List<List<HistoryResult>> shortestPaths) {
 
     HistoryResult result = new HistoryResult();
     result.setId(id);
@@ -765,8 +689,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
     }
     String connectionName = variables.getVariable(Defaults.NEO4J_LOGGING_CONNECTION);
 
-    final NeoConnection connection =
-        LoggingCore.getConnection(hopGui.getMetadataProvider(), variables);
+    final NeoConnection connection = LoggingCore.getConnection(hopGui.getMetadataProvider(), variables);
     if (connection == null) {
       log.logBasic("Warning! Unable to find Neo4j connection to log to : " + connectionName);
       return null;
@@ -806,8 +729,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
       if (onlyRoot) {
         resultsCypher.append("AND e.root = true ");
       }
-      resultsCypher.append(
-          "RETURN e.id, e.name, e.type, e.linesRead, e.linesWritten, e.linesInput, e.linesOutput, e.linesRejected, e.errors,  e.executionStart, e.durationMs ");
+      resultsCypher.append("RETURN e.id, e.name, e.type, e.linesRead, e.linesWritten, e.linesInput, e.linesOutput, e.linesRejected, e.errors,  e.executionStart, e.durationMs ");
       resultsCypher.append("ORDER BY e.executionStart desc ");
       resultsCypher.append("LIMIT " + amount);
 
@@ -815,67 +737,63 @@ public class HopNeo4jPerspective implements IHopPerspective {
       try (Driver driver = connection.getDriver(log, hopGui.getVariables())) {
         try (Session session = connection.getSession(log, driver, hopGui.getVariables())) {
 
-          session.readTransaction(
-              tx -> {
-                Result result = tx.run(resultsCypher.toString(), resultsParameters);
-                while (result.hasNext()) {
-                  Record record = result.next();
-                  TableItem item = new TableItem(wResults.table, SWT.NONE);
-                  int pos = 0;
-                  Value vId = record.get(pos++);
-                  item.setText(pos, Const.NVL(vId.asString(), ""));
-                  Value vName = record.get(pos++);
-                  item.setText(pos, Const.NVL(vName.asString(), ""));
-                  Value vType = record.get(pos++);
-                  item.setText(pos, Const.NVL(vType.asString(), ""));
-                  Value vLinesRead = record.get(pos++);
-                  item.setText(pos, Long.toString(vLinesRead.asLong(0)));
-                  Value vLinesWritten = record.get(pos++);
-                  item.setText(pos, Long.toString(vLinesWritten.asLong(0)));
-                  Value vLinesInput = record.get(pos++);
-                  item.setText(pos, Long.toString(vLinesInput.asLong(0)));
-                  Value vLinesOutput = record.get(pos++);
-                  item.setText(pos, Long.toString(vLinesOutput.asLong(0)));
-                  Value vLinesRejected = record.get(pos++);
-                  item.setText(pos, Long.toString(vLinesRejected.asLong(0)));
-                  Value vErrors = record.get(pos++);
-                  long errors = vErrors.asLong(0);
-                  item.setText(pos, Long.toString(vErrors.asLong(0)));
-                  Value vExecutionStart = record.get(pos++);
-                  item.setText(pos, Const.NVL(vExecutionStart.asString(), "").replace("T", " "));
-                  Value vDurationMs = record.get(pos++);
-                  String durationHMS =
-                      LoggingCore.getFancyDurationFromMs(Long.valueOf(vDurationMs.asLong(0)));
-                  item.setText(pos, durationHMS);
+          session.readTransaction(tx -> {
+            Result result = tx.run(resultsCypher.toString(), resultsParameters);
+            while (result.hasNext()) {
+              Record record = result.next();
+              TableItem item = new TableItem(wResults.table, SWT.NONE);
+              int pos = 0;
+              Value vId = record.get(pos++);
+              item.setText(pos, Const.NVL(vId.asString(), ""));
+              Value vName = record.get(pos++);
+              item.setText(pos, Const.NVL(vName.asString(), ""));
+              Value vType = record.get(pos++);
+              item.setText(pos, Const.NVL(vType.asString(), ""));
+              Value vLinesRead = record.get(pos++);
+              item.setText(pos, Long.toString(vLinesRead.asLong(0)));
+              Value vLinesWritten = record.get(pos++);
+              item.setText(pos, Long.toString(vLinesWritten.asLong(0)));
+              Value vLinesInput = record.get(pos++);
+              item.setText(pos, Long.toString(vLinesInput.asLong(0)));
+              Value vLinesOutput = record.get(pos++);
+              item.setText(pos, Long.toString(vLinesOutput.asLong(0)));
+              Value vLinesRejected = record.get(pos++);
+              item.setText(pos, Long.toString(vLinesRejected.asLong(0)));
+              Value vErrors = record.get(pos++);
+              long errors = vErrors.asLong(0);
+              item.setText(pos, Long.toString(vErrors.asLong(0)));
+              Value vExecutionStart = record.get(pos++);
+              item.setText(pos, Const.NVL(vExecutionStart.asString(), "").replace("T", " "));
+              Value vDurationMs = record.get(pos++);
+              String durationHMS = LoggingCore.getFancyDurationFromMs(Long.valueOf(vDurationMs.asLong(0)));
+              item.setText(pos, durationHMS);
 
-                  if (errors != 0) {
-                    item.setBackground(errorLineBackground);
-                  }
-                }
+              if (errors != 0) {
+                item.setBackground(errorLineBackground);
+              }
+            }
 
-                wResults.removeEmptyRows();
-                wResults.setRowNums();
-                wResults.optWidth(true);
+            wResults.removeEmptyRows();
+            wResults.setRowNums();
+            wResults.optWidth(true);
 
-                return null;
-              });
+            return null;
+          });
 
           // Also populate the executions combo box for pipelines and workflows
           //
-          String execCypher =
-              "match(e:Execution) where e.type in ['PIPELINE', 'WORKFLOW'] return distinct e.name order by e.name";
-          session.readTransaction(
-              tx -> {
-                List<String> list = new ArrayList<>();
-                Result result = tx.run(execCypher);
-                while (result.hasNext()) {
-                  Record record = result.next();
-                  Value value = record.get(0);
-                  list.add(value.asString());
-                }
-                wExecutions.setItems(list.toArray(new String[0]));
-                return null;
-              });
+          String execCypher = "match(e:Execution) where e.type in ['PIPELINE', 'WORKFLOW'] return distinct e.name order by e.name";
+          session.readTransaction(tx -> {
+            List<String> list = new ArrayList<>();
+            Result result = tx.run(execCypher);
+            while (result.hasNext()) {
+              Record record = result.next();
+              Value value = record.get(0);
+              list.add(value.asString());
+            }
+            wExecutions.setItems(list.toArray(new String[0]));
+            return null;
+          });
         }
       } finally {
         wExecutions.setText(Const.NVL(searchName, ""));
@@ -922,8 +840,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
   private void openItem(NeoConnection connection, String id, String name, String type) throws HopConfigException {
 
     try (Driver driver = connection.getDriver(hopGui.getLog(), hopGui.getVariables())) {
-      try (Session session =
-          connection.getSession(hopGui.getLog(), driver, hopGui.getVariables())) {
+      try (Session session = connection.getSession(hopGui.getLog(), driver, hopGui.getVariables())) {
 
         if ("PIPELINE".equals(type)) {
           openPipelineOrWorkflow(session, name, type, id, "Pipeline", "EXECUTION_OF_PIPELINE");
@@ -948,29 +865,25 @@ public class HopNeo4jPerspective implements IHopPerspective {
     params.put("subjectId", id);
 
     StringBuilder cypher = new StringBuilder();
-    cypher.append(
-        "MATCH(e:Execution { name : $subjectName, type : $subjectType, id : $subjectId } )"); // TRANSFORM
-    cypher.append(
-        "-[:EXECUTION_OF_TRANSFORM]->(t:Transform { name : $subjectName } )"); // Transform
+    cypher.append("MATCH(e:Execution { name : $subjectName, type : $subjectType, id : $subjectId } )"); // TRANSFORM
+    cypher.append("-[:EXECUTION_OF_TRANSFORM]->(t:Transform { name : $subjectName } )"); // Transform
     cypher.append("-[:TRANSFORM_OF_PIPELINE]->(p:Pipeline) ");
     cypher.append("RETURN p.filename, t.name ");
 
-    String[] names =
-        session.readTransaction(
-            tx -> {
-              Result statementResult = tx.run(cypher.toString(), params);
-              if (!statementResult.hasNext()) {
-                statementResult.consume();
-                return null; // No file found
-              }
-              Record record = statementResult.next();
-              statementResult.consume();
+    String[] names = session.readTransaction(tx -> {
+      Result statementResult = tx.run(cypher.toString(), params);
+      if (!statementResult.hasNext()) {
+        statementResult.consume();
+        return null; // No file found
+      }
+      Record record = statementResult.next();
+      statementResult.consume();
 
-              String filename = LoggingCore.getStringValue(record, 0);
-              String transformName = LoggingCore.getStringValue(record, 1);
+      String filename = LoggingCore.getStringValue(record, 0);
+      String transformName = LoggingCore.getStringValue(record, 1);
 
-              return new String[] {filename, transformName};
-            });
+      return new String[] {filename, transformName};
+    });
 
     if (names == null) {
       return;
@@ -1023,28 +936,25 @@ public class HopNeo4jPerspective implements IHopPerspective {
     params.put("subjectId", id);
 
     StringBuilder cypher = new StringBuilder();
-    cypher.append(
-        "MATCH(e:Execution { name : $subjectName, type : $subjectType, id : $subjectId } )"); // ACTION
+    cypher.append("MATCH(e:Execution { name : $subjectName, type : $subjectType, id : $subjectId } )"); // ACTION
     cypher.append("-[:EXECUTION_OF_ACTION]->(a:Action { name : $subjectName } )"); // Action
     cypher.append("-[:ACTION_OF_WORKFLOW]->(w:Workflow) "); // Workflow
     cypher.append("RETURN w.filename, a.name ");
 
-    String[] names =
-        session.readTransaction(
-            tx -> {
-              Result statementResult = tx.run(cypher.toString(), params);
-              if (!statementResult.hasNext()) {
-                statementResult.consume();
-                return null; // No file found
-              }
-              Record record = statementResult.next();
-              statementResult.consume();
+    String[] names = session.readTransaction(tx -> {
+      Result statementResult = tx.run(cypher.toString(), params);
+      if (!statementResult.hasNext()) {
+        statementResult.consume();
+        return null; // No file found
+      }
+      Record record = statementResult.next();
+      statementResult.consume();
 
-              return new String[] {
-                LoggingCore.getStringValue(record, 0), // filename
-                LoggingCore.getStringValue(record, 1) // action name
-              };
-            });
+      return new String[] {
+          LoggingCore.getStringValue(record, 0), // filename
+          LoggingCore.getStringValue(record, 1) // action name
+      };
+    });
     if (names == null) {
       return;
     }
@@ -1059,8 +969,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
     try {
       hopGui.fileDelegate.fileOpen(filename);
       if (StringUtils.isNotEmpty(actionName)) {
-        IHopFileTypeHandler typeHandler =
-            HopGui.getDataOrchestrationPerspective().getActiveFileTypeHandler();
+        IHopFileTypeHandler typeHandler = HopGui.getDataOrchestrationPerspective().getActiveFileTypeHandler();
         if (typeHandler == null || !(typeHandler instanceof HopGuiWorkflowGraph)) {
           return;
         }
@@ -1082,34 +991,30 @@ public class HopNeo4jPerspective implements IHopPerspective {
     }
   }
 
-  private void openPipelineOrWorkflow(
-      Session session, String name, String type, String id, String nodeLabel, String relationship) {
+  private void openPipelineOrWorkflow(Session session, String name, String type, String id, String nodeLabel, String relationship) {
     Map<String, Object> params = new HashMap<>();
     params.put("subjectName", name);
     params.put("subjectType", type);
     params.put("subjectId", id);
 
     StringBuilder cypher = new StringBuilder();
-    cypher.append(
-        "MATCH(ex:Execution { name : $subjectName, type : $subjectType, id : $subjectId }) ");
+    cypher.append("MATCH(ex:Execution { name : $subjectName, type : $subjectType, id : $subjectId }) ");
     cypher.append("MATCH(tr:" + nodeLabel + " { name : $subjectName }) ");
     cypher.append("MATCH(ex)-[:" + relationship + "]->(tr) ");
     cypher.append("RETURN tr.filename ");
 
-    String filename =
-        session.readTransaction(
-            tx -> {
-              Result statementResult = tx.run(cypher.toString(), params);
-              if (!statementResult.hasNext()) {
-                statementResult.consume();
-                return null; // No file found
-              }
-              Record record = statementResult.next();
-              statementResult.consume();
+    String filename = session.readTransaction(tx -> {
+      Result statementResult = tx.run(cypher.toString(), params);
+      if (!statementResult.hasNext()) {
+        statementResult.consume();
+        return null; // No file found
+      }
+      Record record = statementResult.next();
+      statementResult.consume();
 
-              // The filename
-              return LoggingCore.getStringValue(record, 0);
-            });
+      // The filename
+      return LoggingCore.getStringValue(record, 0);
+    });
 
     if (StringUtils.isNotEmpty(filename)) {
       try {
@@ -1118,8 +1023,7 @@ public class HopNeo4jPerspective implements IHopPerspective {
         new ErrorDialog(
             hopGui.getShell(),
             BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.OpeningFile.Dialog.Header"),
-            BaseMessages.getString(
-                PKG, "Neo4jPerspectiveDialog.OpeningFile.Dialog.Message", filename),
+            BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.OpeningFile.Dialog.Message", filename),
             e);
       }
     }

@@ -47,8 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
-    implements IBeamPipelineTransformHandler {
+public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler implements IBeamPipelineTransformHandler {
 
   @Override
   public boolean isInput() {
@@ -86,8 +85,7 @@ public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
     List<ICheckResult> remarks = new ArrayList<>();
     final RowMetaAndData rowMetaAndData = RowGenerator.buildRow(meta, remarks, "");
     if (!remarks.isEmpty()) {
-      String message =
-          "There are " + remarks.size() + " remarks concerning the generated rows:" + Const.CR;
+      String message = "There are " + remarks.size() + " remarks concerning the generated rows:" + Const.CR;
       for (ICheckResult remark : remarks) {
         message += remark.getText() + Const.CR;
       }
@@ -104,10 +102,7 @@ public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
 
     long intervalMs = Const.toLong(variables.resolve(meta.getIntervalInMs()), -1L);
     if (intervalMs < 0) {
-      throw new HopException(
-          "The interval in milliseconds is expected to be >= 0, not '"
-              + meta.getIntervalInMs()
-              + "'");
+      throw new HopException("The interval in milliseconds is expected to be >= 0, not '" + meta.getIntervalInMs() + "'");
     }
 
     PCollection<HopRow> afterInput;
@@ -129,8 +124,7 @@ public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
       try {
         options = SyntheticSourceOptions.fromJsonString(json, SyntheticSourceOptions.class);
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to parse options for the Beam unbounded synthetic source, JSON: " + json, e);
+        throw new HopException("Unable to parse options for the Beam unbounded synthetic source, JSON: " + json, e);
       }
 
       SyntheticUnboundedSource unboundedSource = new SyntheticUnboundedSource(options);
@@ -141,16 +135,7 @@ public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
       String previousTimeField = variables.resolve(meta.getLastTimeField());
       int previousTimeFieldIndex = rowMeta.indexOfValue(previousTimeField);
 
-      afterInput =
-          sourceInput.apply(
-              ParDo.of(
-                  new StaticHopRowFn(
-                      transformMeta.getName(),
-                      rowMetaJson,
-                      rowDataXml,
-                      true,
-                      currentTimeFieldIndex,
-                      previousTimeFieldIndex)));
+      afterInput = sourceInput.apply(ParDo.of(new StaticHopRowFn(transformMeta.getName(), rowMetaJson, rowDataXml, true, currentTimeFieldIndex, previousTimeFieldIndex)));
 
     } else {
 
@@ -158,42 +143,23 @@ public class BeamRowGeneratorTransformHandler extends BeamBaseTransformHandler
       //
       long numRecords = Const.toLong(variables.resolve(meta.getRowLimit()), -1L);
       if (numRecords < 0) {
-        throw new HopException(
-            "Please specify a valid number of records to generate, not '"
-                + meta.getRowLimit()
-                + "'");
+        throw new HopException("Please specify a valid number of records to generate, not '" + meta.getRowLimit() + "'");
       }
 
-      String json =
-          "{"
-              + "\"numRecords\" : "
-              + numRecords
-              + ", \"forceNumInitialBundles\" : "
-              + transformMeta.getCopies(variables)
-              + "}";
+      String json = "{" + "\"numRecords\" : " + numRecords + ", \"forceNumInitialBundles\" : " + transformMeta.getCopies(variables) + "}";
 
       SyntheticSourceOptions options;
       try {
         options = SyntheticSourceOptions.fromJsonString(json, SyntheticSourceOptions.class);
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to parse options for the Beam unbounded synthetic source, JSON: " + json, e);
+        throw new HopException("Unable to parse options for the Beam unbounded synthetic source, JSON: " + json, e);
       }
 
       SyntheticBoundedSource boundedSource = new SyntheticBoundedSource(options);
       Read.Bounded<KV<byte[], byte[]>> boundedReader = Read.from(boundedSource);
       PCollection<KV<byte[], byte[]>> sourceInput = pipeline.apply(boundedReader);
 
-      afterInput =
-          sourceInput.apply(
-              ParDo.of(
-                  new StaticHopRowFn(
-                      transformMeta.getName(),
-                      rowMetaJson,
-                      rowDataXml,
-                      false,
-                      -1,
-                      -1)));
+      afterInput = sourceInput.apply(ParDo.of(new StaticHopRowFn(transformMeta.getName(), rowMetaJson, rowDataXml, false, -1, -1)));
     }
 
     transformCollectionMap.put(transformMeta.getName(), afterInput);

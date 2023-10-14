@@ -75,8 +75,7 @@ public class CheckConnections extends ActionBase implements IAction {
   }
 
   @Override
-  public void loadXml(Node node, IHopMetadataProvider iHopMetadataProvider, IVariables iVariables)
-      throws HopXmlException {
+  public void loadXml(Node node, IHopMetadataProvider iHopMetadataProvider, IVariables iVariables) throws HopXmlException {
     super.loadXml(node);
 
     connectionNames = new ArrayList<>();
@@ -91,8 +90,7 @@ public class CheckConnections extends ActionBase implements IAction {
   @Override
   public Result execute(Result result, int nr) throws HopException {
 
-    IHopMetadataSerializer<NeoConnection> serializer =
-        getMetadataProvider().getSerializer(NeoConnection.class);
+    IHopMetadataSerializer<NeoConnection> serializer = getMetadataProvider().getSerializer(NeoConnection.class);
 
     // Replace variables & parameters
     //
@@ -101,7 +99,7 @@ public class CheckConnections extends ActionBase implements IAction {
       realConnectionNames.add(resolve(connectionName));
     }
 
-    // Check all the connections.  If any one fails, fail the transform
+    // Check all the connections. If any one fails, fail the transform
     // Check 'm all though, report on all, nr of errors is nr of failed connections
     //
     int testCount = 0;

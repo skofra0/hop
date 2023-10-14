@@ -103,8 +103,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "ExecutionPerspective-Toolbar";
 
   public static final String TOOLBAR_ITEM_EDIT = "ExecutionPerspective-Toolbar-10010-Edit";
-  public static final String TOOLBAR_ITEM_DUPLICATE =
-      "ExecutionPerspective-Toolbar-10030-Duplicate";
+  public static final String TOOLBAR_ITEM_DUPLICATE = "ExecutionPerspective-Toolbar-10030-Duplicate";
   public static final String TOOLBAR_ITEM_DELETE = "ExecutionPerspective-Toolbar-10040-Delete";
   public static final String TOOLBAR_ITEM_REFRESH = "ExecutionPerspective-Toolbar-10100-Refresh";
 
@@ -194,8 +193,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
   protected MetadataManager<IHopMetadata> getMetadataManager(String objectKey) throws HopException {
     IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
     Class<IHopMetadata> metadataClass = metadataProvider.getMetadataClassForKey(objectKey);
-    return new MetadataManager<>(
-        HopGui.getInstance().getVariables(), metadataProvider, metadataClass, hopGui.getShell());
+    return new MetadataManager<>(HopGui.getInstance().getVariables(), metadataProvider, metadataClass, hopGui.getShell());
   }
 
   protected void createTree(Composite parent) {
@@ -225,14 +223,12 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
 
     tree = new Tree(composite, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
     tree.setHeaderVisible(false);
-    tree.addListener(
-        SWT.DefaultSelection,
-        event -> {
-          TreeItem treeItem = tree.getSelection()[0];
-          if (treeItem != null) {
-            onNewViewer();
-          }
-        });
+    tree.addListener(SWT.DefaultSelection, event -> {
+      TreeItem treeItem = tree.getSelection()[0];
+      if (treeItem != null) {
+        onNewViewer();
+      }
+    });
 
     PropsUi.setLook(tree);
 
@@ -251,13 +247,12 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
     PropsUi props = PropsUi.getInstance();
 
     tabFolder = new CTabFolder(parent, SWT.MULTI | SWT.BORDER);
-    tabFolder.addCTabFolder2Listener(
-        new CTabFolder2Adapter() {
-          @Override
-          public void close(CTabFolderEvent event) {
-            onTabClose(event);
-          }
-        });
+    tabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+      @Override
+      public void close(CTabFolderEvent event) {
+        onTabClose(event);
+      }
+    });
     PropsUi.setLook(tabFolder, Props.WIDGET_STYLE_TAB);
 
     // Show/Hide tree
@@ -265,17 +260,15 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
     ToolBar toolBar = new ToolBar(tabFolder, SWT.FLAT);
     final ToolItem item = new ToolItem(toolBar, SWT.PUSH);
     item.setImage(GuiResource.getInstance().getImageMinimizePanel());
-    item.addListener(
-        SWT.Selection,
-        e -> {
-          if (sash.getMaximizedControl() == null) {
-            sash.setMaximizedControl(tabFolder);
-            item.setImage(GuiResource.getInstance().getImageMaximizePanel());
-          } else {
-            sash.setMaximizedControl(null);
-            item.setImage(GuiResource.getInstance().getImageMinimizePanel());
-          }
-        });
+    item.addListener(SWT.Selection, e -> {
+      if (sash.getMaximizedControl() == null) {
+        sash.setMaximizedControl(tabFolder);
+        item.setImage(GuiResource.getInstance().getImageMaximizePanel());
+      } else {
+        sash.setMaximizedControl(null);
+        item.setImage(GuiResource.getInstance().getImageMinimizePanel());
+      }
+    });
     tabFolder.setTopRight(toolBar, SWT.RIGHT);
 
     new TabCloseHandler(this);
@@ -320,7 +313,8 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
    * @return the metadata editor or null if not found
    */
   public IExecutionViewer findViewer(String logChannelId, String name) {
-    if (logChannelId == null || name == null) return null;
+    if (logChannelId == null || name == null)
+      return null;
 
     for (IExecutionViewer viewer : viewers) {
       if (logChannelId.equals(viewer.getLogChannelId()) && name.equals(viewer.getName())) {
@@ -373,10 +367,8 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       if (treeItem != null) {
         if (treeItem.getData() instanceof Execution) {
           Execution execution = (Execution) treeItem.getData();
-          ExecutionInfoLocation location =
-              (ExecutionInfoLocation) treeItem.getParentItem().getData();
-          ExecutionState executionState =
-              location.getExecutionInfoLocation().getExecutionState(execution.getId());
+          ExecutionInfoLocation location = (ExecutionInfoLocation) treeItem.getParentItem().getData();
+          ExecutionState executionState = location.getExecutionInfoLocation().getExecutionState(execution.getId());
           createExecutionViewer(location.getName(), execution, executionState);
         } else if (treeItem.getData("error") instanceof Exception) {
           Exception e = (Exception) treeItem.getData("error");
@@ -389,8 +381,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
     }
   }
 
-  public void createExecutionViewer(
-      String locationName, Execution execution, ExecutionState executionState) throws Exception {
+  public void createExecutionViewer(String locationName, Execution execution, ExecutionState executionState) throws Exception {
     Cursor busyCursor = getBusyCursor();
 
     try {
@@ -413,27 +404,19 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       variables.setVariables(execution.getVariableValues());
 
       switch (execution.getExecutionType()) {
-        case Pipeline:
-          {
-            Node pipelineNode =
-                XmlHandler.loadXmlString(execution.getExecutorXml(), PipelineMeta.XML_TAG);
-            PipelineMeta pipelineMeta = new PipelineMeta(pipelineNode, provider);
-            PipelineExecutionViewer viewer =
-                new PipelineExecutionViewer(
-                    tabFolder, hopGui, pipelineMeta, locationName, this, execution, executionState);
-            addViewer(viewer);
-          }
+        case Pipeline: {
+          Node pipelineNode = XmlHandler.loadXmlString(execution.getExecutorXml(), PipelineMeta.XML_TAG);
+          PipelineMeta pipelineMeta = new PipelineMeta(pipelineNode, provider);
+          PipelineExecutionViewer viewer = new PipelineExecutionViewer(tabFolder, hopGui, pipelineMeta, locationName, this, execution, executionState);
+          addViewer(viewer);
+        }
           break;
-        case Workflow:
-          {
-            Node workflowNode =
-                XmlHandler.loadXmlString(execution.getExecutorXml(), WorkflowMeta.XML_TAG);
-            WorkflowMeta workflowMeta = new WorkflowMeta(workflowNode, provider, variables);
-            WorkflowExecutionViewer viewer =
-                new WorkflowExecutionViewer(
-                    tabFolder, hopGui, workflowMeta, locationName, this, execution, executionState);
-            addViewer(viewer);
-          }
+        case Workflow: {
+          Node workflowNode = XmlHandler.loadXmlString(execution.getExecutorXml(), WorkflowMeta.XML_TAG);
+          WorkflowMeta workflowMeta = new WorkflowMeta(workflowNode, provider, variables);
+          WorkflowExecutionViewer viewer = new WorkflowExecutionViewer(tabFolder, hopGui, workflowMeta, locationName, this, execution, executionState);
+          addViewer(viewer);
+        }
           break;
       }
     } finally {
@@ -454,8 +437,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
    * @param name The name of the pipeline
    * @return The execution or null if none was found
    */
-  public void createLastExecutionView(String locationName, ExecutionType executionType, String name)
-      throws Exception {
+  public void createLastExecutionView(String locationName, ExecutionType executionType, String name) throws Exception {
     try {
       ExecutionInfoLocation location = locationMap.get(locationName);
       if (location == null) {
@@ -477,12 +459,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       return;
     }
     final IHopFileTypeHandler activeHandler = getActiveFileTypeHandler();
-    hopGui
-        .getDisplay()
-        .asyncExec(
-            () ->
-                hopGui.handleFileCapabilities(
-                    activeHandler.getFileType(), activeHandler.hasChanged(), false, false));
+    hopGui.getDisplay().asyncExec(() -> hopGui.handleFileCapabilities(activeHandler.getFileType(), activeHandler.hasChanged(), false, false));
   }
 
   @GuiToolbarElement(
@@ -511,8 +488,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       // top level: the execution information locations
       //
       IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-      IHopMetadataSerializer<ExecutionInfoLocation> serializer =
-          metadataProvider.getSerializer(ExecutionInfoLocation.class);
+      IHopMetadataSerializer<ExecutionInfoLocation> serializer = metadataProvider.getSerializer(ExecutionInfoLocation.class);
 
       List<ExecutionInfoLocation> locations = serializer.loadAll();
       Collections.sort(locations, Comparator.comparing(HopMetadataBase::getName));
@@ -578,8 +554,7 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
           // We couldn't initialize a location
           //
           TreeItem locationItem = new TreeItem(tree, SWT.NONE);
-          locationItem.setText(
-              0, Const.NVL(location.getName(), "") + " (error: double click for details)");
+          locationItem.setText(0, Const.NVL(location.getName(), "") + " (error: double click for details)");
           locationItem.setForeground(GuiResource.getInstance().getColorRed());
           locationItem.setImage(GuiResource.getInstance().getImageLocation());
           locationItem.setData("error", e);
@@ -607,14 +582,11 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       executionItem.setImage(GuiResource.getInstance().getImagePipeline());
 
       String label = execution.getName();
-      label +=
-          " - "
-              + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(execution.getExecutionStartDate());
+      label += " - " + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(execution.getExecutionStartDate());
       executionItem.setText(label);
       executionItem.setData(execution);
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(), "Error", "Error drawing pipeline execution information tree item", e);
+      new ErrorDialog(getShell(), "Error", "Error drawing pipeline execution information tree item", e);
     }
   }
 
@@ -623,14 +595,11 @@ public class ExecutionPerspective implements IHopPerspective, TabClosable {
       executionItem.setImage(GuiResource.getInstance().getImageWorkflow());
 
       String label = execution.getName();
-      label +=
-          " - "
-              + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(execution.getExecutionStartDate());
+      label += " - " + new SimpleDateFormat("yyyy/MM/dd HH:mm").format(execution.getExecutionStartDate());
       executionItem.setText(label);
       executionItem.setData(execution);
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(), "Error", "Error drawing workflow execution information tree item", e);
+      new ErrorDialog(getShell(), "Error", "Error drawing workflow execution information tree item", e);
     }
   }
 

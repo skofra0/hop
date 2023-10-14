@@ -25,9 +25,7 @@ public class MergeJoinPipelineTest extends PipelineTestBase {
   @Test
   public void testMergeJoinPipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateMergeJoinPipelineMeta(
-            "inputs-merge-join-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateMergeJoinPipelineMeta("inputs-merge-join-output", "INPUT", "OUTPUT", metadataProvider);
 
     try {
       createRunPipeline(variables, pipelineMeta);

@@ -60,14 +60,7 @@ public class RestTest {
     PipelineMeta pipelineMeta = new PipelineMeta();
     pipelineMeta.setName("TestRest");
     pipelineMeta.addTransform(transformMeta);
-    Rest rest =
-        new Rest(
-            transformMeta,
-            mock(RestMeta.class),
-            mock(RestData.class),
-            1,
-            pipelineMeta,
-            spy(new LocalPipelineEngine()));
+    Rest rest = new Rest(transformMeta, mock(RestMeta.class), mock(RestData.class), 1, pipelineMeta, spy(new LocalPipelineEngine()));
     MultivaluedHashMap map = rest.createMultivalueMap("param1", "{a:{[val1]}}");
     String val1 = map.getFirst("param1").toString();
     assertTrue(val1.contains("%7D"));

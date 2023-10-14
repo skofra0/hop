@@ -55,39 +55,30 @@ public abstract class WidgetUtils {
    * @param transformMeta - transformMeta of the current transform
    * @param formData - FormData to use for placement
    */
-  public static ComboVar createFieldDropDown(
-      Composite parentComposite,
-      PropsUi props,
-      IVariables variables,
-      BaseTransformMeta transformMeta,
-      FormData formData) {
+  public static ComboVar createFieldDropDown(Composite parentComposite, PropsUi props, IVariables variables, BaseTransformMeta transformMeta, FormData formData) {
     PipelineMeta pipelineMeta = transformMeta.getParentTransformMeta().getParentPipelineMeta();
-    ComboVar fieldDropDownCombo =
-        new ComboVar(variables, parentComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    ComboVar fieldDropDownCombo = new ComboVar(variables, parentComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(fieldDropDownCombo);
     fieldDropDownCombo.addModifyListener(e -> transformMeta.setChanged());
 
     fieldDropDownCombo.setLayoutData(formData);
-    Listener focusListener =
-        e -> {
-          String current = fieldDropDownCombo.getText();
-          fieldDropDownCombo.getCComboWidget().removeAll();
-          fieldDropDownCombo.setText(current);
+    Listener focusListener = e -> {
+      String current = fieldDropDownCombo.getText();
+      fieldDropDownCombo.getCComboWidget().removeAll();
+      fieldDropDownCombo.setText(current);
 
-          try {
-            IRowMeta rmi =
-                pipelineMeta.getPrevTransformFields(
-                    variables, transformMeta.getParentTransformMeta().getName());
-            List ls = rmi.getValueMetaList();
-            for (Object l : ls) {
-              ValueMetaBase vmb = (ValueMetaBase) l;
-              fieldDropDownCombo.add(vmb.getName());
-            }
-          } catch (HopTransformException ex) {
-            // can be ignored, since previous transform may not be set yet.
-            transformMeta.logDebug(ex.getMessage(), ex);
-          }
-        };
+      try {
+        IRowMeta rmi = pipelineMeta.getPrevTransformFields(variables, transformMeta.getParentTransformMeta().getName());
+        List ls = rmi.getValueMetaList();
+        for (Object l : ls) {
+          ValueMetaBase vmb = (ValueMetaBase) l;
+          fieldDropDownCombo.add(vmb.getName());
+        }
+      } catch (HopTransformException ex) {
+        // can be ignored, since previous transform may not be set yet.
+        transformMeta.logDebug(ex.getMessage(), ex);
+      }
+    };
     fieldDropDownCombo.getCComboWidget().addListener(SWT.FocusIn, focusListener);
     return fieldDropDownCombo;
   }

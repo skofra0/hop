@@ -175,8 +175,7 @@ public class ActionColumnsExist extends ActionBase implements Cloneable, IAction
 
         if (db.checkTableExists(realSchemaname, realTablename)) {
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ActionColumnsExist.Log.TableExists", realTablename));
+            logDetailed(BaseMessages.getString(PKG, "ActionColumnsExist.Log.TableExists", realTablename));
           }
 
           for (ColumnExist column : columns) {
@@ -188,29 +187,19 @@ public class ActionColumnsExist extends ActionBase implements Cloneable, IAction
 
             if (db.checkColumnExists(realSchemaname, realTablename, realColumnname)) {
               if (isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionColumnsExist.Log.ColumnExists", realColumnname, realTablename));
+                logDetailed(BaseMessages.getString(PKG, "ActionColumnsExist.Log.ColumnExists", realColumnname, realTablename));
               }
               nrexistcolums++;
             } else {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionColumnsExist.Log.ColumnNotExists",
-                      realColumnname,
-                      realTablename));
+              logError(BaseMessages.getString(PKG, "ActionColumnsExist.Log.ColumnNotExists", realColumnname, realTablename));
               nrnotexistcolums++;
             }
           }
         } else {
-          logError(
-              BaseMessages.getString(PKG, "ActionColumnsExist.Log.TableNotExists", realTablename));
+          logError(BaseMessages.getString(PKG, "ActionColumnsExist.Log.TableNotExists", realTablename));
         }
       } catch (HopDatabaseException dbe) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionColumnsExist.Error.UnexpectedError", dbe.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionColumnsExist.Error.UnexpectedError", dbe.getMessage()));
       }
     } else {
       logError(BaseMessages.getString(PKG, "ActionColumnsExist.Error.NoDbConnection"));
@@ -228,45 +217,24 @@ public class ActionColumnsExist extends ActionBase implements Cloneable, IAction
 
   @Override
   public DatabaseMeta[] getUsedDatabaseConnections() {
-    return new DatabaseMeta[] {
-      databaseMeta,
-    };
+    return new DatabaseMeta[] {databaseMeta,};
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (databaseMeta != null) {
       ResourceReference reference = new ResourceReference(this);
-      reference
-          .getEntries()
-          .add(new ResourceEntry(databaseMeta.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(databaseMeta.getHostname(), ResourceType.SERVER));
+      reference.getEntries().add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "columnname",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "columnname", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

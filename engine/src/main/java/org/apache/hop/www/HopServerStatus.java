@@ -69,10 +69,7 @@ public class HopServerStatus {
    * @param pipelineStatusList
    * @param jobStatusList
    */
-  public HopServerStatus(
-      String statusDescription,
-      List<HopServerPipelineStatus> pipelineStatusList,
-      List<HopServerWorkflowStatus> jobStatusList) {
+  public HopServerStatus(String statusDescription, List<HopServerPipelineStatus> pipelineStatusList, List<HopServerWorkflowStatus> jobStatusList) {
     this.statusDescription = statusDescription;
     this.pipelineStatusList = pipelineStatusList;
     this.workflowStatusList = jobStatusList;
@@ -146,14 +143,12 @@ public class HopServerStatus {
     int nrWorkflows = XmlHandler.countNodes(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG);
 
     for (int i = 0; i < nrPipelines; i++) {
-      Node pipelineStatusNode =
-          XmlHandler.getSubNodeByNr(listPipelineNode, HopServerPipelineStatus.XML_TAG, i);
+      Node pipelineStatusNode = XmlHandler.getSubNodeByNr(listPipelineNode, HopServerPipelineStatus.XML_TAG, i);
       pipelineStatusList.add(new HopServerPipelineStatus(pipelineStatusNode));
     }
 
     for (int i = 0; i < nrWorkflows; i++) {
-      Node jobStatusNode =
-          XmlHandler.getSubNodeByNr(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG, i);
+      Node jobStatusNode = XmlHandler.getSubNodeByNr(listWorkflowsNode, HopServerWorkflowStatus.XML_TAG, i);
       workflowStatusList.add(new HopServerWorkflowStatus(jobStatusNode));
     }
   }
@@ -196,8 +191,7 @@ public class HopServerStatus {
   public HopServerPipelineStatus findPipelineStatus(String pipelineName, String id) {
     for (int i = 0; i < pipelineStatusList.size(); i++) {
       HopServerPipelineStatus pipelineStatus = pipelineStatusList.get(i);
-      if (pipelineStatus.getPipelineName().equalsIgnoreCase(pipelineName)
-          && (Utils.isEmpty(id) || pipelineStatus.getId().equals(id))) {
+      if (pipelineStatus.getPipelineName().equalsIgnoreCase(pipelineName) && (Utils.isEmpty(id) || pipelineStatus.getId().equals(id))) {
         return pipelineStatus;
       }
     }
@@ -207,8 +201,7 @@ public class HopServerStatus {
   public HopServerWorkflowStatus findJobStatus(String workflowName, String id) {
     for (int i = 0; i < workflowStatusList.size(); i++) {
       HopServerWorkflowStatus jobStatus = workflowStatusList.get(i);
-      if (jobStatus.getWorkflowName().equalsIgnoreCase(workflowName)
-          && (Utils.isEmpty(id) || jobStatus.getId().equals(id))) {
+      if (jobStatus.getWorkflowName().equalsIgnoreCase(workflowName) && (Utils.isEmpty(id) || jobStatus.getId().equals(id))) {
         return jobStatus;
       }
     }

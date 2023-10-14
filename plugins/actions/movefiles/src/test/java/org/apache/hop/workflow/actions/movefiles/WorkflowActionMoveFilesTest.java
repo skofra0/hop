@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionMoveFilesTest
-    extends WorkflowActionLoadSaveTestSupport<ActionMoveFiles> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionMoveFilesTest extends WorkflowActionLoadSaveTestSupport<ActionMoveFiles> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionMoveFiles> getActionClass() {
@@ -36,60 +36,25 @@ public class WorkflowActionMoveFilesTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-        "addDate",
-        "addTime",
-        "specifyFormat",
-        "dateTimeFormat",
-        "addDateBeforeExtension",
-        "doNotKeepFolderStructure",
-        "ifFileExists",
-        "destinationFolder",
-        "ifMovedFileExists",
-        "movedDateTimeFormat",
-        "addMovedDateBeforeExtension",
-        "addMovedDate",
-        "addMovedTime",
-        "specifyMoveFormat",
-        "createMoveToFolder",
-        "simulate");
+        "addDate", "addTime", "specifyFormat", "dateTimeFormat", "addDateBeforeExtension", "doNotKeepFolderStructure", "ifFileExists", "destinationFolder", "ifMovedFileExists",
+        "movedDateTimeFormat", "addMovedDateBeforeExtension", "addMovedDate", "addMovedTime", "specifyMoveFormat", "createMoveToFolder", "simulate");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "add_date", "isAddDate",
-        "add_time", "isAddTime",
-        "SpecifyFormat", "isSpecifyFormat",
-        "date_time_format", "getDateTimeFormat",
-        "AddDateBeforeExtension", "isAddDateBeforeExtension",
-        "DoNotKeepFolderStructure", "isDoNotKeepFolderStructure",
-        "iffileexists", "getIfFileExists",
-        "destinationFolder", "getDestinationFolder",
-        "ifmovedfileexists", "getIfMovedFileExists",
-        "moved_date_time_format", "getMovedDateTimeFormat",
-        "AddMovedDateBeforeExtension", "isAddMovedDateBeforeExtension",
-        "add_moved_date", "isAddMovedDate",
-        "add_moved_time", "isAddMovedTime",
-        "SpecifyMoveFormat", "isSpecifyMoveFormat");
+        "add_date", "isAddDate", "add_time", "isAddTime", "SpecifyFormat", "isSpecifyFormat", "date_time_format", "getDateTimeFormat", "AddDateBeforeExtension",
+        "isAddDateBeforeExtension", "DoNotKeepFolderStructure", "isDoNotKeepFolderStructure", "iffileexists", "getIfFileExists", "destinationFolder", "getDestinationFolder",
+        "ifmovedfileexists", "getIfMovedFileExists", "moved_date_time_format", "getMovedDateTimeFormat", "AddMovedDateBeforeExtension", "isAddMovedDateBeforeExtension",
+        "add_moved_date", "isAddMovedDate", "add_moved_time", "isAddMovedTime", "SpecifyMoveFormat", "isSpecifyMoveFormat");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "add_date", "setAddDate",
-        "add_time", "setAddTime",
-        "SpecifyFormat", "setSpecifyFormat",
-        "date_time_format", "setDateTimeFormat",
-        "AddDateBeforeExtension", "setAddDateBeforeExtension",
-        "DoNotKeepFolderStructure", "setDoNotKeepFolderStructure",
-        "iffileexists", "setIfFileExists",
-        "destinationFolder", "setDestinationFolder",
-        "ifmovedfileexists", "setIfMovedFileExists",
-        "moved_date_time_format", "setMovedDateTimeFormat",
-        "AddMovedDateBeforeExtension", "setAddMovedDateBeforeExtension",
-        "add_moved_date", "setAddMovedDate",
-        "add_moved_time", "setAddMovedTime",
-        "SpecifyMoveFormat", "setSpecifyMoveFormat",
-        "simulate", "setSimulate");
+        "add_date", "setAddDate", "add_time", "setAddTime", "SpecifyFormat", "setSpecifyFormat", "date_time_format", "setDateTimeFormat", "AddDateBeforeExtension",
+        "setAddDateBeforeExtension", "DoNotKeepFolderStructure", "setDoNotKeepFolderStructure", "iffileexists", "setIfFileExists", "destinationFolder", "setDestinationFolder",
+        "ifmovedfileexists", "setIfMovedFileExists", "moved_date_time_format", "setMovedDateTimeFormat", "AddMovedDateBeforeExtension", "setAddMovedDateBeforeExtension",
+        "add_moved_date", "setAddMovedDate", "add_moved_time", "setAddMovedTime", "SpecifyMoveFormat", "setSpecifyMoveFormat", "simulate", "setSimulate");
   }
 }

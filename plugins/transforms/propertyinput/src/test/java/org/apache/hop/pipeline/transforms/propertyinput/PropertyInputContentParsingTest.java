@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class PropertyInputContentParsingTest extends BasePropertyParsingTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testDefaultOptions() throws Exception {

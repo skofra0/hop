@@ -36,13 +36,7 @@ import java.util.List;
 
 public class SplunkInput extends BaseTransform<SplunkInputMeta, SplunkInputData> {
 
-  public SplunkInput(
-      TransformMeta stepMeta,
-      SplunkInputMeta meta,
-      SplunkInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SplunkInput(TransformMeta stepMeta, SplunkInputMeta meta, SplunkInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(stepMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -65,19 +59,13 @@ public class SplunkInput extends BaseTransform<SplunkInputMeta, SplunkInputData>
     try {
       // Load the metadata
       //
-      IHopMetadataSerializer<SplunkConnection> serializer =
-          metadataProvider.getSerializer(SplunkConnection.class);
+      IHopMetadataSerializer<SplunkConnection> serializer = metadataProvider.getSerializer(SplunkConnection.class);
       if (!serializer.exists(connectionName)) {
-        throw new HopException(
-            "The referenced Splunk connection with name '"
-                + connectionName
-                + "' does not exist in the metadata");
+        throw new HopException("The referenced Splunk connection with name '" + connectionName + "' does not exist in the metadata");
       }
       data.splunkConnection = serializer.load(connectionName);
     } catch (HopException e) {
-      log.logError(
-          "Could not load Splunk connection '" + meta.getConnectionName() + "' from the metastore",
-          e);
+      log.logError("Could not load Splunk connection '" + meta.getConnectionName() + "' from the metastore", e);
       return false;
     }
 
@@ -88,11 +76,7 @@ public class SplunkInput extends BaseTransform<SplunkInputMeta, SplunkInputData>
       data.service = Service.connect(data.serviceArgs);
 
     } catch (Exception e) {
-      log.logError(
-          "Unable to get or create a connection to Splunk connection named '"
-              + data.splunkConnection.getName()
-              + "'",
-          e);
+      log.logError("Unable to get or create a connection to Splunk connection named '" + data.splunkConnection.getName() + "'", e);
       return false;
     }
 
@@ -108,8 +92,7 @@ public class SplunkInput extends BaseTransform<SplunkInputMeta, SplunkInputData>
       // get the output fields...
       //
       data.outputRowMeta = new RowMeta();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
 
       // Run a one shot search in blocking mode
       //

@@ -67,14 +67,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * does not implement IAction (although it implements most of the same methods), so individual
  * action classes must implement IAction and specifically the <code>execute()</code> method.
  */
-public abstract class ActionBase
-    implements IAction,
-        Cloneable,
-        ILoggingObject,
-        IAttributes,
-        IExtensionData,
-        ICheckResultSource,
-        IResourceHolder {
+public abstract class ActionBase implements IAction, Cloneable, ILoggingObject, IAttributes, IExtensionData, ICheckResultSource, IResourceHolder {
 
   /** The name of the action */
   private String name;
@@ -163,7 +156,6 @@ public abstract class ActionBase
     this(b.name, b.description);
   }
 
-
   /**
    * Checks if the Action object is equal to the specified object
    *
@@ -201,8 +193,7 @@ public abstract class ActionBase
    * @return the plug-in type description
    */
   public String getTypeDesc() {
-    IPlugin plugin =
-        PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
+    IPlugin plugin = PluginRegistry.getInstance().findPluginWithId(ActionPluginType.class, pluginId);
     return plugin.getDescription();
   }
 
@@ -357,8 +348,7 @@ public abstract class ActionBase
 
       // Load the attribute groups map
       //
-      attributesMap =
-          AttributesUtil.loadAttributes(XmlHandler.getSubNode(node, AttributesUtil.XML_TAG));
+      attributesMap = AttributesUtil.loadAttributes(XmlHandler.getSubNode(node, AttributesUtil.XML_TAG));
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load base info for action", e);
@@ -366,8 +356,7 @@ public abstract class ActionBase
   }
 
   @Override
-  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     // Load name, description
     //
     loadXml(entryNode);
@@ -447,8 +436,7 @@ public abstract class ActionBase
    * @throws HopException if any errors occur during the generation of SQL statements
    */
   @Override
-  public List<SqlStatement> getSqlStatements(
-      IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return new ArrayList<>();
   }
 
@@ -517,8 +505,7 @@ public abstract class ActionBase
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
@@ -550,7 +537,7 @@ public abstract class ActionBase
    * Gets the value of the specified variable, or returns a default value if no such variable exists
    *
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
+   *         exists
    * @see IVariables#getVariable(String, String)
    */
   @Override
@@ -562,7 +549,7 @@ public abstract class ActionBase
    * Gets the value of the specified variable, or returns a default value if no such variable exists
    *
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
+   *         exists
    * @see IVariables#getVariable(String)
    */
   @Override
@@ -576,7 +563,7 @@ public abstract class ActionBase
    *
    * @param variableName the name of the variable to interrogate
    * @return a boolean representation of the specified variable after performing any necessary
-   *     substitution
+   *         substitution
    * @boolean defaultValue the value to use if the specified variable is unassigned.
    * @see IVariables#getVariableBoolean(String, boolean)
    */
@@ -655,11 +642,7 @@ public abstract class ActionBase
    * @param metadataProvider the MetaStore to load common elements from
    */
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 
   /**
    * Gets a list of all the resource dependencies that the transform is depending on. In ActionBase,
@@ -669,8 +652,7 @@ public abstract class ActionBase
    * @see ResourceReference
    */
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     return new ArrayList<>(5); // default: return an empty resource dependency list. Lower the
     // initial capacity
   }
@@ -683,17 +665,13 @@ public abstract class ActionBase
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     return null;
   }
@@ -1038,7 +1016,7 @@ public abstract class ActionBase
 
   /**
    * @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
-   *     reducer, a combiner, ...
+   *         reducer, a combiner, ...
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
@@ -1063,8 +1041,7 @@ public abstract class ActionBase
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return null;
   }
 

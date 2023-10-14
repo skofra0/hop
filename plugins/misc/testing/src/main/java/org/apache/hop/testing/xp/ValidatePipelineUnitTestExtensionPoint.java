@@ -36,23 +36,16 @@ import org.eclipse.swt.SWT;
 import java.util.ArrayList;
 import java.util.List;
 
-@ExtensionPoint(
-    extensionPointId = "PipelineFinish",
-    id = "ValidatePipelineUnitTestExtensionPoint",
-    description = "Inject a bunch of rows into a transform during preview")
-public class ValidatePipelineUnitTestExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+@ExtensionPoint(extensionPointId = "PipelineFinish", id = "ValidatePipelineUnitTestExtensionPoint", description = "Inject a bunch of rows into a transform during preview")
+public class ValidatePipelineUnitTestExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   public static final Class<?> PKG = ValidatePipelineUnitTestExtensionPoint.class; // i18n
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     final PipelineMeta pipelineMeta = pipeline.getPipelineMeta();
-    boolean runUnitTest =
-        "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
+    boolean runUnitTest = "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
     if (!runUnitTest) {
       return;
     }
@@ -73,31 +66,20 @@ public class ValidatePipelineUnitTestExtensionPoint
       // If the pipeline has a variable set with the unit test in it, we're dealing with a unit test
       // situation.
       //
-      PipelineUnitTest unitTest =
-          metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
+      PipelineUnitTest unitTest = metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
 
       final List<UnitTestResult> results = new ArrayList<>();
       pipeline.getExtensionDataMap().put(DataSetConst.UNIT_TEST_RESULTS, results);
 
       // Validate execution results with what's in the data sets...
       //
-      int errors =
-          DataSetConst.validateTransformResultAgainstUnitTest(
-              pipeline, unitTest, metadataProvider, results);
+      int errors = DataSetConst.validateTransformResultAgainstUnitTest(pipeline, unitTest, metadataProvider, results);
       if (errors == 0) {
         log.logBasic("Unit test '" + unitTest.getName() + "' passed successfully");
       } else {
-        log.logBasic(
-            "Unit test '"
-                + unitTest.getName()
-                + "' failed, "
-                + errors
-                + " errors detected, "
-                + results.size()
-                + " comments to report.");
+        log.logBasic("Unit test '" + unitTest.getName() + "' failed, " + errors + " errors detected, " + results.size() + " comments to report.");
 
-        String dontShowResults =
-            pipeline.getVariable(DataSetConst.VAR_DO_NOT_SHOW_UNIT_TEST_ERRORS, "N");
+        String dontShowResults = pipeline.getVariable(DataSetConst.VAR_DO_NOT_SHOW_UNIT_TEST_ERRORS, "N");
         if ("N".equalsIgnoreCase(dontShowResults)) {
           final HopGui hopGui = HopGui.getInstance();
           if (hopGui != null) {
@@ -108,12 +90,7 @@ public class ValidatePipelineUnitTestExtensionPoint
       log.logBasic("----------------------------------------------");
       for (UnitTestResult result : results) {
         if (result.getDataSetName() != null) {
-          log.logBasic(
-              result.getTransformName()
-                  + " - "
-                  + result.getDataSetName()
-                  + " : "
-                  + result.getComment());
+          log.logBasic(result.getTransformName() + " - " + result.getDataSetName() + " : " + result.getComment());
         } else {
           log.logBasic(result.getComment());
         }
@@ -124,28 +101,14 @@ public class ValidatePipelineUnitTestExtensionPoint
     }
   }
 
-  public static final void showUnitTestErrors(
-      IPipelineEngine<PipelineMeta> pipeline, List<UnitTestResult> results, HopGui hopGui) {
-    hopGui
-        .getShell()
-        .getDisplay()
-        .asyncExec(
-            () -> {
-              PreviewRowsDialog dialog =
-                  new PreviewRowsDialog(
-                      hopGui.getShell(),
-                      pipeline,
-                      SWT.NONE,
-                      "Unit test results",
-                      UnitTestResult.getRowMeta(),
-                      UnitTestResult.getRowData(results));
-              dialog.setDynamic(false);
-              dialog.setProposingToGetMoreRows(false);
-              dialog.setProposingToStop(false);
-              dialog.setTitleMessage(
-                  BaseMessages.getString(PKG, "UnitTestsResult.Dialog.Header"),
-                  BaseMessages.getString(PKG, "UnitTestsResult.Dialog.Message"));
-              dialog.open();
-            });
+  public static final void showUnitTestErrors(IPipelineEngine<PipelineMeta> pipeline, List<UnitTestResult> results, HopGui hopGui) {
+    hopGui.getShell().getDisplay().asyncExec(() -> {
+      PreviewRowsDialog dialog = new PreviewRowsDialog(hopGui.getShell(), pipeline, SWT.NONE, "Unit test results", UnitTestResult.getRowMeta(), UnitTestResult.getRowData(results));
+      dialog.setDynamic(false);
+      dialog.setProposingToGetMoreRows(false);
+      dialog.setProposingToStop(false);
+      dialog.setTitleMessage(BaseMessages.getString(PKG, "UnitTestsResult.Dialog.Header"), BaseMessages.getString(PKG, "UnitTestsResult.Dialog.Message"));
+      dialog.open();
+    });
   }
 }

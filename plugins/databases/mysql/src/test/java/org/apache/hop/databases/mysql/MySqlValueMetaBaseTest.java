@@ -58,8 +58,8 @@ public class MySqlValueMetaBaseTest {
   protected static final String TEST_NAME = "TEST_NAME";
   protected static final String LOG_FIELD = "LOG_FIELD";
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
-  ;
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();;
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta databaseMeta;
@@ -82,8 +82,7 @@ public class MySqlValueMetaBaseTest {
     variables = spy(new Variables());
   }
 
-  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data)
-      throws HopDatabaseException {
+  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data) throws HopDatabaseException {
     IValueMeta valueMetaString = new ValueMetaString(LOG_FIELD, length, 0);
     databaseMeta.setIDatabase(dbMeta);
     valueMetaString.setPreparedStatementValue(databaseMeta, preparedStatementMock, 0, data);
@@ -111,16 +110,13 @@ public class MySqlValueMetaBaseTest {
     when(resultSet.getMetaData()).thenReturn(metaData);
     when(metaData.getColumnType(binaryColumnIndex)).thenReturn(Types.LONGVARBINARY);
 
-    IValueMeta binaryValueMeta =
-        valueMetaBase.getValueFromSqlType(
-            variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
+    IValueMeta binaryValueMeta = valueMetaBase.getValueFromSqlType(variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
     assertEquals(IValueMeta.TYPE_BINARY, binaryValueMeta.getType());
     assertTrue(binaryValueMeta.isBinary());
   }
 
   @Test
-  public void testMetdataPreviewSqlDoubleWithPrecisionGreaterThanLengthUsingMySqlVariant()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDoubleWithPrecisionGreaterThanLengthUsingMySqlVariant() throws SQLException, HopDatabaseException {
     doReturn(Types.DOUBLE).when(resultSet).getInt("DATA_TYPE");
     doReturn(4).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -134,14 +130,12 @@ public class MySqlValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlTimeToHopIntegerUsingMySqlVariant()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlTimeToHopIntegerUsingMySqlVariant() throws SQLException, HopDatabaseException {
     doReturn(Types.TIME).when(resultSet).getInt("DATA_TYPE");
     doReturn(mock(MySqlDatabaseMeta.class)).when(databaseMeta).getIDatabase();
     doReturn(true).when(databaseMeta).isMySqlVariant();
     doReturn(mock(Properties.class)).when(databaseMeta).getConnectionProperties(variables);
-    when(databaseMeta.getConnectionProperties(variables).getProperty("yearIsDateType"))
-        .thenReturn("false");
+    when(databaseMeta.getConnectionProperties(variables).getProperty("yearIsDateType")).thenReturn("false");
     doReturn("YEAR").when(resultSet).getString("TYPE_NAME");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, databaseMeta, resultSet);
     assertTrue(valueMeta.isInteger());
@@ -150,8 +144,7 @@ public class MySqlValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlVarBinaryToHopBinaryUsingMySqlVariant()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlVarBinaryToHopBinaryUsingMySqlVariant() throws SQLException, HopDatabaseException {
     doReturn(Types.VARBINARY).when(resultSet).getInt("DATA_TYPE");
     doReturn(16).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(MySqlDatabaseMeta.class)).when(databaseMeta).getIDatabase();
@@ -162,8 +155,7 @@ public class MySqlValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDoubleToHopNumberUsingMySql()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDoubleToHopNumberUsingMySql() throws SQLException, HopDatabaseException {
     doReturn(Types.DOUBLE).when(resultSet).getInt("DATA_TYPE");
     doReturn(22).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(MySqlDatabaseMeta.class)).when(databaseMeta).getIDatabase();

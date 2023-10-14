@@ -26,6 +26,5 @@ import java.util.Iterator;
 public interface ISearchablesLocation {
   String getLocationDescription();
 
-  Iterator<ISearchable> getSearchables(IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException;
+  Iterator<ISearchable> getSearchables(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 }

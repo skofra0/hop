@@ -46,14 +46,14 @@ import java.util.List;
 public class NumberRangeMeta extends BaseTransformMeta<NumberRange, NumberRangeData> {
 
   private static final Class<?> PKG = NumberRangeMeta.class; // For Translator
-  
-  @HopMetadataProperty(key ="inputField", injectionKey = "INPUT_FIELD", injectionKeyDescription = "NumberRangeMeta.Injection.INPUT_FIELD")
+
+  @HopMetadataProperty(key = "inputField", injectionKey = "INPUT_FIELD", injectionKeyDescription = "NumberRangeMeta.Injection.INPUT_FIELD")
   private String inputField;
 
-  @HopMetadataProperty(key ="outputField", injectionKey = "OUTPUT_FIELD", injectionKeyDescription = "NumberRangeMeta.Injection.OUTPUT_FIELD")
+  @HopMetadataProperty(key = "outputField", injectionKey = "OUTPUT_FIELD", injectionKeyDescription = "NumberRangeMeta.Injection.OUTPUT_FIELD")
   private String outputField;
 
-  @HopMetadataProperty(key ="fallBackValue", injectionKey = "FALL_BACK_VALUE", injectionKeyDescription = "NumberRangeMeta.Injection.FALL_BACK_VALUE")
+  @HopMetadataProperty(key = "fallBackValue", injectionKey = "FALL_BACK_VALUE", injectionKeyDescription = "NumberRangeMeta.Injection.FALL_BACK_VALUE")
   private String fallBackValue;
 
   @HopMetadataProperty(groupKey = "rules", key = "rule", injectionGroupKey = "RULES", injectionGroupDescription = "NumberRangeMeta.Injection.RULES")
@@ -69,13 +69,7 @@ public class NumberRangeMeta extends BaseTransformMeta<NumberRange, NumberRangeD
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     IValueMeta mcValue = new ValueMetaString(outputField);
     mcValue.setOrigin(name);
@@ -113,41 +107,23 @@ public class NumberRangeMeta extends BaseTransformMeta<NumberRange, NumberRangeD
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "NumberRangeMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"),
-              transforminfo);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"), transforminfo);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "NumberRangeMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""), transforminfo);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.TransformReceivingInfoOK"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.TransformReceivingInfoOK"), transforminfo);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.NoInputReceivedError"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.NoInputReceivedError"), transforminfo);
       remarks.add(cr);
     }
-    
-    // Check that the lower and upper bounds are numerics    
+
+    // Check that the lower and upper bounds are numerics
     for (NumberRangeRule rule : this.rules) {
       try {
         if (!Utils.isEmpty(rule.getLowerBound())) {
@@ -157,10 +133,10 @@ public class NumberRangeMeta extends BaseTransformMeta<NumberRange, NumberRangeD
           Double.valueOf(rule.getUpperBound());
         }
       } catch (NumberFormatException e) {
-        cr = new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,                
-                BaseMessages.getString(
-                    PKG, "NumberRangeMeta.CheckResult.NotNumericRule", rule.getLowerBound(), rule.getUpperBound(), rule.getValue()),
+        cr =
+            new CheckResult(
+                ICheckResult.TYPE_RESULT_ERROR,
+                BaseMessages.getString(PKG, "NumberRangeMeta.CheckResult.NotNumericRule", rule.getLowerBound(), rule.getUpperBound(), rule.getValue()),
                 transforminfo);
         remarks.add(cr);
       }

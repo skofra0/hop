@@ -39,17 +39,16 @@ import java.util.List;
     categoryDescription = "i18n::Rules.Category",
     keywords = "i18n::RulesAccumulator.keyword",
     documentationUrl = "/pipeline/transforms/rulesaccumulator.html")
-public class RulesAccumulatorMeta
-    extends BaseTransformMeta<RulesAccumulator, RulesAccumulatorData> {
+public class RulesAccumulatorMeta extends BaseTransformMeta<RulesAccumulator, RulesAccumulatorData> {
   private static Class<?> PKG = Rules.class; // for i18n purposes
 
   @HopMetadataProperty(groupKey = "fields", key = "field")
   private List<RuleResultItem> ruleResultColumns = new ArrayList<>();
 
-  @HopMetadataProperty(key="rule-file")
+  @HopMetadataProperty(key = "rule-file")
   private String ruleFile;
 
-  @HopMetadataProperty(key="rule-definition")
+  @HopMetadataProperty(key = "rule-definition")
   private String ruleDefinition;
 
   private boolean keepInputFields = true;
@@ -90,14 +89,8 @@ public class RulesAccumulatorMeta
   public void setDefault() {}
 
   @Override
-  public void getFields(
-          IRowMeta inputRowMeta,
-          String name,
-          IRowMeta[] info,
-          TransformMeta nextTransform,
-          IVariables variables,
-          IHopMetadataProvider metadataProvider)
-          throws HopTransformException {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
+      throws HopTransformException {
 
     if (!keepInputFields) {
       inputRowMeta.clear();
@@ -105,16 +98,15 @@ public class RulesAccumulatorMeta
     try {
       if (ruleResultColumns != null) {
         for (int i = 0; i < ruleResultColumns.size(); i++) {
-          int type = ValueMetaFactory.getIdForValueMeta( ruleResultColumns.get(i).getType() ) ;
-          IValueMeta vm = ValueMetaFactory.createValueMeta( ruleResultColumns.get(i).getName(), type );
+          int type = ValueMetaFactory.getIdForValueMeta(ruleResultColumns.get(i).getType());
+          IValueMeta vm = ValueMetaFactory.createValueMeta(ruleResultColumns.get(i).getName(), type);
 
           vm.setOrigin(name);
           inputRowMeta.addValueMeta(vm);
         }
       }
     } catch (HopPluginException e) {
-      throw new HopTransformException(
-              "Unable to get rule result columns");
+      throw new HopTransformException("Unable to get rule result columns");
     }
   }
 

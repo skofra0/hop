@@ -20,8 +20,7 @@ public enum RunnerType {
   Direct,
   DataFlow,
   Spark,
-  Flink,
-  ;
+  Flink,;
 
   public static String[] getNames() {
     String[] names = new String[values().length];

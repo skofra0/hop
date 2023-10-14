@@ -159,8 +159,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
 
   private boolean gotPreviousFields = false;
 
-  public TextFileOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public TextFileOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (TextFileOutputMeta) in;
   }
@@ -265,8 +264,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     // Output to servlet (browser, ws)
     //
     Label wlServletOutput = new Label(wFileComp, SWT.RIGHT);
-    wlServletOutput.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.ServletOutput.Label"));
+    wlServletOutput.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.ServletOutput.Label"));
     PropsUi.setLook(wlServletOutput);
     FormData fdlServletOutput = new FormData();
     fdlServletOutput.left = new FormAttachment(0, 0);
@@ -274,27 +272,24 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdlServletOutput.right = new FormAttachment(middle, -margin);
     wlServletOutput.setLayoutData(fdlServletOutput);
     wServletOutput = new Button(wFileComp, SWT.CHECK);
-    wServletOutput.setToolTipText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.ServletOutput.Tooltip"));
+    wServletOutput.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.ServletOutput.Tooltip"));
     PropsUi.setLook(wServletOutput);
     FormData fdServletOutput = new FormData();
     fdServletOutput.left = new FormAttachment(middle, 0);
     fdServletOutput.top = new FormAttachment(wlServletOutput, 0, SWT.CENTER);
     fdServletOutput.right = new FormAttachment(100, 0);
     wServletOutput.setLayoutData(fdServletOutput);
-    wServletOutput.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setFlagsServletOption();
-          }
-        });
+    wServletOutput.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setFlagsServletOption();
+      }
+    });
 
     // Create Parent Folder
     wlCreateParentFolder = new Label(wFileComp, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -302,26 +297,23 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdlCreateParentFolder.right = new FormAttachment(middle, -margin);
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wFileComp, SWT.CHECK);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.CreateParentFolder.Tooltip"));
     PropsUi.setLook(wCreateParentFolder);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
     fdCreateParentFolder.right = new FormAttachment(100, 0);
     wCreateParentFolder.setLayoutData(fdCreateParentFolder);
-    wCreateParentFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wCreateParentFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Open new File at Init
     wlDoNotOpenNewFileInit = new Label(wFileComp, SWT.RIGHT);
-    wlDoNotOpenNewFileInit.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.DoNotOpenNewFileInit.Label"));
+    wlDoNotOpenNewFileInit.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.DoNotOpenNewFileInit.Label"));
     PropsUi.setLook(wlDoNotOpenNewFileInit);
     FormData fdlDoNotOpenNewFileInit = new FormData();
     fdlDoNotOpenNewFileInit.left = new FormAttachment(0, 0);
@@ -329,28 +321,25 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdlDoNotOpenNewFileInit.right = new FormAttachment(middle, -margin);
     wlDoNotOpenNewFileInit.setLayoutData(fdlDoNotOpenNewFileInit);
     wDoNotOpenNewFileInit = new Button(wFileComp, SWT.CHECK);
-    wDoNotOpenNewFileInit.setToolTipText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.DoNotOpenNewFileInit.Tooltip"));
+    wDoNotOpenNewFileInit.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.DoNotOpenNewFileInit.Tooltip"));
     PropsUi.setLook(wDoNotOpenNewFileInit);
     FormData fdDoNotOpenNewFileInit = new FormData();
     fdDoNotOpenNewFileInit.left = new FormAttachment(middle, 0);
     fdDoNotOpenNewFileInit.top = new FormAttachment(wlDoNotOpenNewFileInit, 0, SWT.CENTER);
     fdDoNotOpenNewFileInit.right = new FormAttachment(100, 0);
     wDoNotOpenNewFileInit.setLayoutData(fdDoNotOpenNewFileInit);
-    wDoNotOpenNewFileInit.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDoNotOpenNewFileInit.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     /* next Lines */
     // FileNameInField line
     /* Additional fields */
     Label wlFileNameInField = new Label(wFileComp, SWT.RIGHT);
-    wlFileNameInField.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.FileNameInField.Label"));
+    wlFileNameInField.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.FileNameInField.Label"));
     PropsUi.setLook(wlFileNameInField);
     FormData fdlFileNameInField = new FormData();
     fdlFileNameInField.left = new FormAttachment(0, 0);
@@ -364,19 +353,17 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdFileNameInField.top = new FormAttachment(wlFileNameInField, 0, SWT.CENTER);
     fdFileNameInField.right = new FormAttachment(100, 0);
     wFileNameInField.setLayoutData(fdFileNameInField);
-    wFileNameInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activeFileNameField();
-          }
-        });
+    wFileNameInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activeFileNameField();
+      }
+    });
 
     // FileNameField Line
     wlFileNameField = new Label(wFileComp, SWT.RIGHT);
-    wlFileNameField.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.FileNameField.Label"));
+    wlFileNameField.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.FileNameField.Label"));
     PropsUi.setLook(wlFileNameField);
     FormData fdlFileNameField = new FormData();
     fdlFileNameField.left = new FormAttachment(0, 0);
@@ -393,20 +380,19 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdFileNameField.right = new FormAttachment(100, 0);
     wFileNameField.setLayoutData(fdFileNameField);
     wFileNameField.setEnabled(false);
-    wFileNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wFileNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
     /* End */
 
     // Extension line
@@ -430,8 +416,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
 
     // Create multi-part file?
     wlAddTransformNr = new Label(wFileComp, SWT.RIGHT);
-    wlAddTransformNr.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.AddTransformnr.Label"));
+    wlAddTransformNr.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.AddTransformnr.Label"));
     PropsUi.setLook(wlAddTransformNr);
     FormData fdlAddTransformNr = new FormData();
     fdlAddTransformNr.left = new FormAttachment(0, 0);
@@ -445,13 +430,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdAddTransformNr.top = new FormAttachment(wlAddTransformNr, 0, SWT.CENTER);
     fdAddTransformNr.right = new FormAttachment(100, 0);
     wAddTransformNr.setLayoutData(fdAddTransformNr);
-    wAddTransformNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTransformNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddPartnr = new Label(wFileComp, SWT.RIGHT);
@@ -469,13 +453,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdAddPartnr.top = new FormAttachment(wlAddPartnr, 0, SWT.CENTER);
     fdAddPartnr.right = new FormAttachment(100, 0);
     wAddPartnr.setLayoutData(fdAddPartnr);
-    wAddPartnr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddPartnr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddDate = new Label(wFileComp, SWT.RIGHT);
@@ -493,13 +476,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
     // Create multi-part file?
     wlAddTime = new Label(wFileComp, SWT.RIGHT);
     wlAddTime.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.AddTime.Label"));
@@ -516,18 +498,16 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Specify date time format?
     wlSpecifyFormat = new Label(wFileComp, SWT.RIGHT);
-    wlSpecifyFormat.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.SpecifyFormat.Label"));
+    wlSpecifyFormat.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.SpecifyFormat.Label"));
     PropsUi.setLook(wlSpecifyFormat);
     FormData fdlSpecifyFormat = new FormData();
     fdlSpecifyFormat.left = new FormAttachment(0, 0);
@@ -536,26 +516,23 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     wlSpecifyFormat.setLayoutData(fdlSpecifyFormat);
     wSpecifyFormat = new Button(wFileComp, SWT.CHECK);
     PropsUi.setLook(wSpecifyFormat);
-    wSpecifyFormat.setToolTipText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.SpecifyFormat.Tooltip"));
+    wSpecifyFormat.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.SpecifyFormat.Tooltip"));
     FormData fdSpecifyFormat = new FormData();
     fdSpecifyFormat.left = new FormAttachment(middle, 0);
     fdSpecifyFormat.top = new FormAttachment(wlSpecifyFormat, 0, SWT.CENTER);
     fdSpecifyFormat.right = new FormAttachment(100, 0);
     wSpecifyFormat.setLayoutData(fdSpecifyFormat);
-    wSpecifyFormat.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setDateTimeFormat();
-          }
-        });
+    wSpecifyFormat.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setDateTimeFormat();
+      }
+    });
 
     // DateTimeFormat
     wlDateTimeFormat = new Label(wFileComp, SWT.RIGHT);
-    wlDateTimeFormat.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.DateTimeFormat.Label"));
+    wlDateTimeFormat.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.DateTimeFormat.Label"));
     PropsUi.setLook(wlDateTimeFormat);
     FormData fdlDateTimeFormat = new FormData();
     fdlDateTimeFormat.left = new FormAttachment(0, 0);
@@ -583,38 +560,33 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdbShowFiles.left = new FormAttachment(middle, 0);
     fdbShowFiles.top = new FormAttachment(wDateTimeFormat, margin * 2);
     wbShowFiles.setLayoutData(fdbShowFiles);
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            TextFileOutputMeta tfoi = new TextFileOutputMeta();
-            saveInfoInMeta(tfoi);
-            String[] files = tfoi.getFiles(variables);
-            if (files != null && files.length > 0) {
-              EnterSelectionDialog esd =
-                  new EnterSelectionDialog(
-                      shell,
-                      files,
-                      BaseMessages.getString(
-                          PKG, "TextFileOutputDialog.SelectOutputFiles.DialogTitle"),
-                      BaseMessages.getString(
-                          PKG, "TextFileOutputDialog.SelectOutputFiles.DialogMessage"));
-              esd.setViewOnly();
-              esd.open();
-            } else {
-              MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-              mb.setMessage(
-                  BaseMessages.getString(PKG, "TextFileOutputDialog.NoFilesFound.DialogMessage"));
-              mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-              mb.open();
-            }
-          }
-        });
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        TextFileOutputMeta tfoi = new TextFileOutputMeta();
+        saveInfoInMeta(tfoi);
+        String[] files = tfoi.getFiles(variables);
+        if (files != null && files.length > 0) {
+          EnterSelectionDialog esd =
+              new EnterSelectionDialog(
+                  shell,
+                  files,
+                  BaseMessages.getString(PKG, "TextFileOutputDialog.SelectOutputFiles.DialogTitle"),
+                  BaseMessages.getString(PKG, "TextFileOutputDialog.SelectOutputFiles.DialogMessage"));
+          esd.setViewOnly();
+          esd.open();
+        } else {
+          MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+          mb.setMessage(BaseMessages.getString(PKG, "TextFileOutputDialog.NoFilesFound.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+          mb.open();
+        }
+      }
+    });
 
     // Add File to the result files name
     wlAddToResult = new Label(wFileComp, SWT.RIGHT);
-    wlAddToResult.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.AddFileToResult.Label"));
+    wlAddToResult.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.AddFileToResult.Label"));
     PropsUi.setLook(wlAddToResult);
     FormData fdlAddToResult = new FormData();
     fdlAddToResult.left = new FormAttachment(0, 0);
@@ -622,21 +594,19 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdlAddToResult.right = new FormAttachment(middle, -margin);
     wlAddToResult.setLayoutData(fdlAddToResult);
     wAddToResult = new Button(wFileComp, SWT.CHECK);
-    wAddToResult.setToolTipText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.AddFileToResult.Tooltip"));
+    wAddToResult.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.AddFileToResult.Tooltip"));
     PropsUi.setLook(wAddToResult);
     FormData fdAddToResult = new FormData();
     fdAddToResult.left = new FormAttachment(middle, 0);
     fdAddToResult.top = new FormAttachment(wlAddToResult, 0, SWT.CENTER);
     fdAddToResult.right = new FormAttachment(100, 0);
     wAddToResult.setLayoutData(fdAddToResult);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddToResult.addSelectionListener(lsSelR);
 
     FormData fdFileComp = new FormData();
@@ -684,18 +654,17 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdAppend.top = new FormAttachment(wlAppend, 0, SWT.CENTER);
     fdAppend.right = new FormAttachment(100, 0);
     wAppend.setLayoutData(fdAppend);
-    wAppend.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
+    wAppend.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
 
-          private void headerDisabling() {
-            wHeader.setSelection(false);
-            wHeader.setEnabled(!wAppend.getSelection());
-          }
-        });
+      private void headerDisabling() {
+        wHeader.setSelection(false);
+        wHeader.setEnabled(!wAppend.getSelection());
+      }
+    });
 
     Label wlSeparator = new Label(wContentComp, SWT.RIGHT);
     wlSeparator.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.Separator.Label"));
@@ -713,13 +682,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdbSeparator.right = new FormAttachment(100, 0);
     fdbSeparator.top = new FormAttachment(wAppend, 0);
     wbSeparator.setLayoutData(fdbSeparator);
-    wbSeparator.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent se) {
-            wSeparator.getTextWidget().insert("\t");
-          }
-        });
+    wbSeparator.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        wSeparator.getTextWidget().insert("\t");
+      }
+    });
 
     wSeparator = new TextVar(variables, wContentComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSeparator);
@@ -763,17 +731,15 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdEnclForced.top = new FormAttachment(wlEnclForced, 0, SWT.CENTER);
     fdEnclForced.right = new FormAttachment(100, 0);
     wEnclForced.setLayoutData(fdEnclForced);
-    wEnclForced.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wEnclForced.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlDisableEnclosureFix = new Label(wContentComp, SWT.RIGHT);
-    wlDisableEnclosureFix.setText(
-        BaseMessages.getString(PKG, "TextFileOutputDialog.DisableEnclosureFix.Label"));
+    wlDisableEnclosureFix.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.DisableEnclosureFix.Label"));
     PropsUi.setLook(wlDisableEnclosureFix);
     FormData fdlDisableEnclosureFix = new FormData();
     fdlDisableEnclosureFix.left = new FormAttachment(0, 0);
@@ -787,13 +753,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdDisableEnclosureFix.top = new FormAttachment(wlDisableEnclosureFix, 0, SWT.CENTER);
     fdDisableEnclosureFix.right = new FormAttachment(100, 0);
     wDisableEnclosureFix.setLayoutData(fdDisableEnclosureFix);
-    wDisableEnclosureFix.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDisableEnclosureFix.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlHeader = new Label(wContentComp, SWT.RIGHT);
     wlHeader.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.Header.Label"));
@@ -810,13 +775,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdHeader.top = new FormAttachment(wlHeader, 0, SWT.CENTER);
     fdHeader.right = new FormAttachment(100, 0);
     wHeader.setLayoutData(fdHeader);
-    wHeader.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wHeader.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
     Label wlFooter = new Label(wContentComp, SWT.RIGHT);
     wlFooter.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.Footer.Label"));
     PropsUi.setLook(wlFooter);
@@ -832,13 +796,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdFooter.top = new FormAttachment(wlFooter, 0, SWT.CENTER);
     fdFooter.right = new FormAttachment(100, 0);
     wFooter.setLayoutData(fdFooter);
-    wFooter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wFooter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlFormat = new Label(wContentComp, SWT.RIGHT);
     wlFormat.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.Format.Label"));
@@ -854,10 +817,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
 
     for (int i = 0; i < TextFileOutputMeta.formatMapperLineTerminator.length; i++) {
       // add e.g. TextFileOutputDialog.Format.DOS, .UNIX, .CR, .None
-      wFormat.add(
-          BaseMessages.getString(
-              PKG,
-              "TextFileOutputDialog.Format." + TextFileOutputMeta.formatMapperLineTerminator[i]));
+      wFormat.add(BaseMessages.getString(PKG, "TextFileOutputDialog.Format." + TextFileOutputMeta.formatMapperLineTerminator[i]));
     }
     wFormat.select(0);
     wFormat.addModifyListener(lsMod);
@@ -904,20 +864,19 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdEncoding.top = new FormAttachment(wCompression, margin);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     Label wlPad = new Label(wContentComp, SWT.RIGHT);
     wlPad.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.Pad.Label"));
@@ -934,13 +893,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdPad.top = new FormAttachment(wlPad, 0, SWT.CENTER);
     fdPad.right = new FormAttachment(100, 0);
     wPad.setLayoutData(fdPad);
-    wPad.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wPad.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlFastDump = new Label(wContentComp, SWT.RIGHT);
     wlFastDump.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.FastDump.Label"));
@@ -957,13 +915,12 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     fdFastDump.top = new FormAttachment(wlFastDump, 0, SWT.CENTER);
     fdFastDump.right = new FormAttachment(100, 0);
     wFastDump.setLayoutData(fdFastDump);
-    wFastDump.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wFastDump.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     wlSplitEvery = new Label(wContentComp, SWT.RIGHT);
     wlSplitEvery.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.SplitEvery.Label"));
@@ -1035,81 +992,30 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     Button wMinWidth = new Button(wFieldsComp, SWT.PUSH);
     wMinWidth.setText(BaseMessages.getString(PKG, "TextFileOutputDialog.MinWidth.Button"));
     wMinWidth.setToolTipText(BaseMessages.getString(PKG, "TextFileOutputDialog.MinWidth.Tooltip"));
-    wMinWidth.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wMinWidth.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
     setButtonPositions(new Button[] {wGet, wMinWidth}, margin, null);
 
     final int FieldsCols = 10;
     final int FieldsRows = input.getOutputFields().length;
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.NameColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.TypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaFactory.getValueMetaNames());
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.FormatColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_FORMAT,
-            2);
-    colinf[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.LengthColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.PrecisionColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[5] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.CurrencyColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[6] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.DecimalColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[7] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.GroupColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[8] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.TrimTypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaString.trimTypeDesc,
-            true);
-    colinf[9] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "TextFileOutputDialog.NullColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.TypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames());
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.FormatColumn.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 2);
+    colinf[3] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.LengthColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[4] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.PrecisionColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[5] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.CurrencyColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[6] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.DecimalColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[7] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.GroupColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[8] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.TrimTypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaString.trimTypeDesc, true);
+    colinf[9] = new ColumnInfo(BaseMessages.getString(PKG, "TextFileOutputDialog.NullColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1121,23 +1027,22 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFieldsComp = new FormData();
@@ -1161,32 +1066,24 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     wMinWidth.addListener(SWT.Selection, e -> setMinimalWidth());
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
     wbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                true,
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.txt", "*.csv", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.TextFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            true, shell, wFilename, variables, new String[] {"*.txt", "*.csv", "*"},
+            new String[] {
+                BaseMessages.getString(PKG, "System.FileType.TextFiles"),
+                BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
+                BaseMessages.getString(PKG, "System.FileType.AllFiles")},
+            true));
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -1206,8 +1103,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     return BaseMessages.getString(PKG, "TextFileOutputDialog.DialogTitle");
   }
 
-  protected Control addAdditionalComponentIfNeed(
-      int middle, int margin, Composite wFileComp, Composite topComp) {
+  protected Control addAdditionalComponentIfNeed(int middle, int margin, Composite wFileComp, Composite topComp) {
     return topComp;
   }
 
@@ -1364,9 +1260,7 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     if (input.getFileFormat() != null) {
       wFormat.select(0); // default if not found: CR+LF
       for (int i = 0; i < TextFileOutputMeta.formatMapperLineTerminator.length; i++) {
-        if (input
-            .getFileFormat()
-            .equalsIgnoreCase(TextFileOutputMeta.formatMapperLineTerminator[i])) {
+        if (input.getFileFormat().equalsIgnoreCase(TextFileOutputMeta.formatMapperLineTerminator[i])) {
           wFormat.select(i);
         }
       }
@@ -1528,59 +1422,53 @@ public class TextFileOutputDialog extends BaseTransformDialog implements ITransf
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.isNumeric()) {
-                // currency symbol
-                tableItem.setText(6, Const.NVL(v.getCurrencySymbol(), ""));
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.isNumeric()) {
+            // currency symbol
+            tableItem.setText(6, Const.NVL(v.getCurrencySymbol(), ""));
 
-                // decimal and grouping
-                tableItem.setText(7, Const.NVL(v.getDecimalSymbol(), ""));
-                tableItem.setText(8, Const.NVL(v.getGroupingSymbol(), ""));
-              }
+            // decimal and grouping
+            tableItem.setText(7, Const.NVL(v.getDecimalSymbol(), ""));
+            tableItem.setText(8, Const.NVL(v.getGroupingSymbol(), ""));
+          }
 
-              // trim type
-              tableItem.setText(9, Const.NVL(ValueMetaString.getTrimTypeDesc(v.getTrimType()), ""));
+          // trim type
+          tableItem.setText(9, Const.NVL(ValueMetaString.getTrimTypeDesc(v.getTrimType()), ""));
 
-              // conversion mask
-              if (!Utils.isEmpty(v.getConversionMask())) {
-                tableItem.setText(3, v.getConversionMask());
-              } else {
-                if (v.isNumber()) {
-                  if (v.getLength() > 0) {
-                    int le = v.getLength();
-                    int pr = v.getPrecision();
+          // conversion mask
+          if (!Utils.isEmpty(v.getConversionMask())) {
+            tableItem.setText(3, v.getConversionMask());
+          } else {
+            if (v.isNumber()) {
+              if (v.getLength() > 0) {
+                int le = v.getLength();
+                int pr = v.getPrecision();
 
-                    if (v.getPrecision() <= 0) {
-                      pr = 0;
-                    }
-
-                    String mask = "";
-                    for (int m = 0; m < le - pr; m++) {
-                      mask += "0";
-                    }
-                    if (pr > 0) {
-                      mask += ".";
-                    }
-                    for (int m = 0; m < pr; m++) {
-                      mask += "0";
-                    }
-                    tableItem.setText(3, mask);
-                  }
+                if (v.getPrecision() <= 0) {
+                  pr = 0;
                 }
-              }
 
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {2}, 4, 5, listener);
+                String mask = "";
+                for (int m = 0; m < le - pr; m++) {
+                  mask += "0";
+                }
+                if (pr > 0) {
+                  mask += ".";
+                }
+                for (int m = 0; m < pr; m++) {
+                  mask += "0";
+                }
+                tableItem.setText(3, mask);
+              }
+            }
+          }
+
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {2}, 4, 5, listener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 

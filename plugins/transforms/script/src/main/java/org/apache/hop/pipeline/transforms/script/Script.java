@@ -80,18 +80,12 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
    * @param transformMeta The TransformMeta object to run.
    * @param meta
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
    * @param pipeline The (running) pipeline to obtain information shared among the transforms.
    */
-  public Script(
-      TransformMeta transformMeta,
-      ScriptMeta meta,
-      ScriptData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Script(TransformMeta transformMeta, ScriptMeta meta, ScriptData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -125,9 +119,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
       String valName = row.getValueMeta(i).getName();
       if (strTransformScript.contains(valName)) {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "Script.Log.UsedValueName", String.valueOf(i), valName)); // $NON-NLS-3$
+          logDetailed(BaseMessages.getString(PKG, "Script.Log.UsedValueName", String.valueOf(i), valName)); // $NON-NLS-3$
         }
         data.fieldsUsed[nr] = i;
         nr++;
@@ -135,11 +127,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
     }
 
     if (log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "Script.Log.UsingValuesFromInputStream",
-              String.valueOf(data.fieldsUsed.length)));
+      logDetailed(BaseMessages.getString(PKG, "Script.Log.UsingValuesFromInputStream", String.valueOf(data.fieldsUsed.length)));
     }
   }
 
@@ -166,19 +154,11 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
           data.replaceIndex[i] = rowMeta.indexOfValue(field.getName());
           if (data.replaceIndex[i] < 0) {
             if (StringUtils.isEmpty(field.getName())) {
-              throw new HopTransformException(
-                  BaseMessages.getString(
-                      PKG,
-                      "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound",
-                      field.getName()));
+              throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", field.getName()));
             }
             data.replaceIndex[i] = rowMeta.indexOfValue(field.getRename());
             if (data.replaceIndex[i] < 0) {
-              throw new HopTransformException(
-                  BaseMessages.getString(
-                      PKG,
-                      "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound",
-                      field.getRename()));
+              throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", field.getRename()));
             }
           }
         } else {
@@ -233,8 +213,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
             }
           }
         } catch (Exception es) {
-          throw new HopValueException(
-              BaseMessages.getString(PKG, "Script.Log.ErrorProcessingStartScript"), es);
+          throw new HopValueException(BaseMessages.getString(PKG, "Script.Log.ErrorProcessingStartScript"), es);
         }
 
         data.rawScript = strTransformScript;
@@ -246,8 +225,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
           data.compiledScript = null;
         }
       } catch (Exception e) {
-        throw new HopValueException(
-            BaseMessages.getString(PKG, "Script.Log.CouldNotCompileScript"), e);
+        throw new HopValueException(BaseMessages.getString(PKG, "Script.Log.CouldNotCompileScript"), e);
       }
     }
 
@@ -268,9 +246,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
         try {
           bindings.put("previousRow", previousRow);
         } catch (Exception t) {
-          logError(
-              BaseMessages.getString(PKG, "Script.Exception.ErrorSettingVariable", "previousRow"),
-              t);
+          logError(BaseMessages.getString(PKG, "Script.Exception.ErrorSettingVariable", "previousRow"), t);
         }
 
         for (int i = 0; i < data.fieldsUsed.length; i++) {
@@ -298,13 +274,11 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
         if (statusVariable != null) {
           bWithPipelineStat = true;
           if (log.isDetailed()) {
-            logDetailed(
-                ("Value pipeline_status found. Checking pipeline status while compiledScript execution."));
+            logDetailed(("Value pipeline_status found. Checking pipeline status while compiledScript execution."));
           }
         } else {
           if (log.isDetailed()) {
-            logDetailed(
-                ("No pipeline_status value found. Pipeline status checking not available."));
+            logDetailed(("No pipeline_status value found. Pipeline status checking not available."));
           }
           bWithPipelineStat = false;
         }
@@ -399,8 +373,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
       bindings.put("RowDataUtil", RowDataUtil.class);
 
     } catch (Exception ex) {
-      throw new HopValueException(
-          BaseMessages.getString(PKG, "Script.Log.CouldNotAddDefaultConstants"), ex);
+      throw new HopValueException(BaseMessages.getString(PKG, "Script.Log.CouldNotAddDefaultConstants"), ex);
     }
   }
 
@@ -437,8 +410,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
             case IValueMeta.TYPE_NUMBER:
               if (classType.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
                 return null;
-              } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeNumber")
-                  || Number.class.isAssignableFrom(result.getClass())) {
+              } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeNumber") || Number.class.isAssignableFrom(result.getClass())) {
                 Number nb = (Number) result;
                 return nb.doubleValue();
               } else {
@@ -476,8 +448,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
               }
 
             case IValueMeta.TYPE_STRING:
-              if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")
-                  || classType.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
+              if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject") || classType.equalsIgnoreCase("org.mozilla.javascript.Undefined")) {
                 // Is it a java Value class ?
                 try {
                   return result.toString();
@@ -499,8 +470,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
               } else {
                 if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeDate")) {
                   dbl = (Double) result;
-                } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")
-                    || classType.equalsIgnoreCase("java.util.Date")) {
+                } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject") || classType.equalsIgnoreCase("java.util.Date")) {
                   // Is it a java Date() class ?
                   try {
                     Date dat = (Date) result;
@@ -557,30 +527,18 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
               } else if (classType.equalsIgnoreCase("java.lang.String")) {
                 return new BigDecimal(Long.parseLong((String) result));
               } else {
-                throw new RuntimeException(
-                    "JavaScript conversion to BigNumber not implemented for " + classType);
+                throw new RuntimeException("JavaScript conversion to BigNumber not implemented for " + classType);
               }
 
-            case IValueMeta.TYPE_BINARY:
-              {
-                return result;
-              }
-            case IValueMeta.TYPE_NONE:
-              {
-                throw new RuntimeException(
-                    "No data output data type was specified for new field ["
-                        + field.getName()
-                        + "]");
-              }
-            default:
-              {
-                throw new RuntimeException(
-                    "JavaScript conversion not implemented for type "
-                        + field.getHopType()
-                        + " ("
-                        + field.getType()
-                        + ")");
-              }
+            case IValueMeta.TYPE_BINARY: {
+              return result;
+            }
+            case IValueMeta.TYPE_NONE: {
+              throw new RuntimeException("No data output data type was specified for new field [" + field.getName() + "]");
+            }
+            default: {
+              throw new RuntimeException("JavaScript conversion not implemented for type " + field.getHopType() + " (" + field.getType() + ")");
+            }
           }
         } else {
           return null;
@@ -617,10 +575,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
         }
       } catch (Exception e) {
         logError(BaseMessages.getString(PKG, "Script.Log.UnexpectedError") + " : " + e.toString());
-        logError(
-            BaseMessages.getString(PKG, "Script.Log.ErrorStackTrace")
-                + Const.CR
-                + Const.getStackTracker(e));
+        logError(BaseMessages.getString(PKG, "Script.Log.ErrorStackTrace") + Const.CR + Const.getStackTracker(e));
         setErrors(1);
         stopAll();
       }
@@ -647,8 +602,7 @@ public class Script extends BaseTransform<ScriptMeta, ScriptData> implements ITr
         bRC = true; // continue by all means, even on the first row and
         // out of this ugly design
       } else {
-        logError(
-            BaseMessages.getString(PKG, "Script.Exception.CouldNotExecuteScript", location), e);
+        logError(BaseMessages.getString(PKG, "Script.Exception.CouldNotExecuteScript", location), e);
         setErrors(1);
         bRC = false;
       }

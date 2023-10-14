@@ -35,13 +35,7 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
 
   private static final Class<?> PKG = FilterRowsMeta.class; // For Translator
 
-  public FilterRows(
-      TransformMeta transformMeta,
-      FilterRowsMeta meta,
-      FilterRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FilterRows(TransformMeta transformMeta, FilterRowsMeta meta, FilterRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -49,13 +43,9 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
     try {
       return meta.getCondition().evaluate(rowMeta, row);
     } catch (Exception e) {
-      String message =
-          BaseMessages.getString(
-              PKG, "FilterRows.Exception.UnexpectedErrorFoundInEvaluationFuction");
+      String message = BaseMessages.getString(PKG, "FilterRows.Exception.UnexpectedErrorFoundInEvaluationFuction");
       logError(message);
-      logError(
-          BaseMessages.getString(PKG, "FilterRows.Log.ErrorOccurredForRow")
-              + rowMeta.getString(row));
+      logError(BaseMessages.getString(PKG, "FilterRows.Log.ErrorOccurredForRow") + rowMeta.getString(row));
       logError(Const.getStackTracker(e));
       throw new HopException(message, e);
     }
@@ -88,11 +78,7 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
           if (hop != null && hop.isEnabled()) {
             data.trueRowSet = findOutputRowSet(getTransformName(), getCopy(), to.getName(), 0);
             if (data.trueRowSet == null) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "FilterRows.Log.TargetTransformInvalid",
-                      targetStreams.get(0).getTransformName()));
+              throw new HopException(BaseMessages.getString(PKG, "FilterRows.Log.TargetTransformInvalid", targetStreams.get(0).getTransformName()));
             }
           }
         } else {
@@ -105,11 +91,7 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
           if (hop != null && hop.isEnabled()) {
             data.falseRowSet = findOutputRowSet(getTransformName(), getCopy(), to.getName(), 0);
             if (data.falseRowSet == null) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "FilterRows.Log.TargetTransformInvalid",
-                      targetStreams.get(1).getTransformName()));
+              throw new HopException(BaseMessages.getString(PKG, "FilterRows.Log.TargetTransformInvalid", targetStreams.get(1).getTransformName()));
             }
           }
         } else {
@@ -127,22 +109,14 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
       if (keep) {
         if (data.trueRowSet != null) {
           if (log.isRowLevel()) {
-            logRowlevel(
-                "Sending row to true  :"
-                    + data.trueTransformName
-                    + " : "
-                    + getInputRowMeta().getString(r));
+            logRowlevel("Sending row to true  :" + data.trueTransformName + " : " + getInputRowMeta().getString(r));
           }
           putRowTo(data.outputRowMeta, r, data.trueRowSet);
         }
       } else {
         if (data.falseRowSet != null) {
           if (log.isRowLevel()) {
-            logRowlevel(
-                "Sending row to false :"
-                    + data.falseTransformName
-                    + " : "
-                    + getInputRowMeta().getString(r));
+            logRowlevel("Sending row to false :" + data.falseTransformName + " : " + getInputRowMeta().getString(r));
           }
           putRowTo(data.outputRowMeta, r, data.falseRowSet);
         }
@@ -170,9 +144,7 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
       data.trueTransformName = targetStreams.get(0).getTransformName();
       data.falseTransformName = targetStreams.get(1).getTransformName();
 
-      data.chosesTargetTransforms =
-          targetStreams.get(0).getTransformMeta() != null
-              || targetStreams.get(1).getTransformMeta() != null;
+      data.chosesTargetTransforms = targetStreams.get(0).getTransformMeta() != null || targetStreams.get(1).getTransformMeta() != null;
       return true;
     }
     return false;
@@ -190,9 +162,7 @@ public class FilterRows extends BaseTransform<FilterRowsMeta, FilterRowsData> {
         fields += "'" + field + "'";
         first = false;
       }
-      String errorMsg =
-          BaseMessages.getString(
-              PKG, "FilterRows.CheckResult.FieldsNotFoundFromPreviousTransform", fields);
+      String errorMsg = BaseMessages.getString(PKG, "FilterRows.CheckResult.FieldsNotFoundFromPreviousTransform", fields);
       throw new HopException(errorMsg);
     }
   }

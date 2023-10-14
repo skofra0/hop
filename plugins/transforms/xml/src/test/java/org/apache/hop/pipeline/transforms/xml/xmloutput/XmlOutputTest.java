@@ -65,10 +65,8 @@ public class XmlOutputTest {
   @Before
   public void setup() throws Exception {
 
-    transformMockHelper =
-        new TransformMockHelper<>("XML_OUTPUT_TEST", XmlOutputMeta.class, XmlOutputData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("XML_OUTPUT_TEST", XmlOutputMeta.class, XmlOutputData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     TransformMeta mockMeta = mock(TransformMeta.class);
     when(transformMockHelper.pipelineMeta.findTransform(Matchers.anyString())).thenReturn(mockMeta);
     when(pipeline.getLogLevel()).thenReturn(LogLevel.DEBUG);
@@ -84,22 +82,12 @@ public class XmlOutputTest {
     xmlOutputData.fieldnrs = initFieldNmrs(rowWithData.length);
     xmlOutputData.OpenedNewFile = true;
 
-    TransformMeta transformMeta =
-        new TransformMeta("TransformMetaId", "TransformMetaName", xmlOutputMeta);
-    xmlOutput =
-        spy(
-            new XmlOutput(
-                transformMeta,
-                xmlOutputMeta,
-                xmlOutputData,
-                0,
-                transformMockHelper.pipelineMeta,
-                transformMockHelper.pipeline));
+    TransformMeta transformMeta = new TransformMeta("TransformMetaId", "TransformMetaName", xmlOutputMeta);
+    xmlOutput = spy(new XmlOutput(transformMeta, xmlOutputMeta, xmlOutputData, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline));
   }
 
   @Test
-  public void testSpecialSymbolsInAttributeValuesAreEscaped()
-      throws HopException, XMLStreamException {
+  public void testSpecialSymbolsInAttributeValuesAreEscaped() throws HopException, XMLStreamException {
     xmlOutput.init();
 
     xmlOutputData.writer = mock(XMLStreamWriter.class);
@@ -129,8 +117,7 @@ public class XmlOutputTest {
     assertEquals(xmlFields[3].getContentType(), ContentType.Element);
   }
 
-  private void testNullValuesInAttribute(int writeNullInvocationExpected)
-      throws HopException, XMLStreamException {
+  private void testNullValuesInAttribute(int writeNullInvocationExpected) throws HopException, XMLStreamException {
 
     xmlOutput.init();
 
@@ -175,19 +162,7 @@ public class XmlOutputTest {
 
     XmlField[] fields = new XmlField[i];
     for (int j = 0; j < fields.length; j++) {
-      fields[j] =
-          new XmlField(
-              attribute,
-              "Fieldname" + (j + 1),
-              "ElementName" + (j + 1),
-              2,
-              null,
-              -1,
-              -1,
-              null,
-              null,
-              null,
-              null);
+      fields[j] = new XmlField(attribute, "Fieldname" + (j + 1), "ElementName" + (j + 1), 2, null, -1, -1, null, null, null, null);
     }
 
     return fields;

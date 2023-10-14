@@ -65,8 +65,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
 
   private Button wDelimiterIsRegex;
 
-  public SplitFieldToRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SplitFieldToRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SplitFieldToRowsMeta) in;
   }
@@ -103,8 +102,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -132,8 +130,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
     wlSplitfield.setLayoutData(fdlSplitfield);
 
     wSplitField = new ComboVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wSplitField.setToolTipText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.UrlField.Tooltip"));
+    wSplitField.setToolTipText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.UrlField.Tooltip"));
     PropsUi.setLook(wSplitField);
     wSplitField.addModifyListener(lsMod);
     FormData fdSplitfield = new FormData();
@@ -141,23 +138,21 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
     fdSplitfield.top = new FormAttachment(wTransformName, margin);
     fdSplitfield.right = new FormAttachment(100, 0);
     wSplitField.setLayoutData(fdSplitfield);
-    wSplitField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // do nothing when focus is lost
-          }
+    wSplitField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // do nothing when focus is lost
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            BaseTransformDialog.getFieldsFromPrevious(
-                variables, wSplitField, pipelineMeta, transformMeta);
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        BaseTransformDialog.getFieldsFromPrevious(variables, wSplitField, pipelineMeta, transformMeta);
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Delimiter line
     Label wlDelimiter = new Label(shell, SWT.RIGHT);
@@ -180,8 +175,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
 
     // Add File to the result files name
     Label wlDelimiterIsRegex = new Label(shell, SWT.RIGHT);
-    wlDelimiterIsRegex.setText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.DelimiterIsRegex.Label"));
+    wlDelimiterIsRegex.setText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.DelimiterIsRegex.Label"));
     PropsUi.setLook(wlDelimiterIsRegex);
     FormData fdlDelimiterIsRegex = new FormData();
     fdlDelimiterIsRegex.left = new FormAttachment(0, 0);
@@ -189,21 +183,19 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
     fdlDelimiterIsRegex.right = new FormAttachment(middle, -margin);
     wlDelimiterIsRegex.setLayoutData(fdlDelimiterIsRegex);
     wDelimiterIsRegex = new Button(shell, SWT.CHECK);
-    wDelimiterIsRegex.setToolTipText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.DelimiterIsRegex.Tooltip"));
+    wDelimiterIsRegex.setToolTipText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.DelimiterIsRegex.Tooltip"));
     PropsUi.setLook(wDelimiterIsRegex);
     FormData fdDelimiterIsRegex = new FormData();
     fdDelimiterIsRegex.left = new FormAttachment(middle, 0);
     fdDelimiterIsRegex.top = new FormAttachment(wlDelimiterIsRegex, 0, SWT.CENTER);
     fdDelimiterIsRegex.right = new FormAttachment(100, 0);
     wDelimiterIsRegex.setLayoutData(fdDelimiterIsRegex);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wDelimiterIsRegex.addSelectionListener(lsSelR);
 
     // ValName line
@@ -231,8 +223,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
 
     Group wAdditionalFields = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalFields);
-    wAdditionalFields.setText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.wAdditionalFields.Label"));
+    wAdditionalFields.setText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.wAdditionalFields.Label"));
 
     FormLayout additionalFieldsgroupLayout = new FormLayout();
     additionalFieldsgroupLayout.marginWidth = 10;
@@ -249,31 +240,27 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
     wlInclRownum.setLayoutData(fdlInclRownum);
     wInclRownum = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclRownum);
-    wInclRownum.setToolTipText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.InclRownum.Tooltip"));
+    wInclRownum.setToolTipText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.InclRownum.Tooltip"));
     FormData fdRownum = new FormData();
     fdRownum.left = new FormAttachment(middle, 0);
     fdRownum.top = new FormAttachment(wlInclRownum, 0, SWT.CENTER);
     wInclRownum.setLayoutData(fdRownum);
-    wInclRownum.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setIncludeRownum();
-            input.setChanged();
-          }
-        });
+    wInclRownum.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setIncludeRownum();
+        input.setChanged();
+      }
+    });
 
     wlInclRownumField = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclRownumField.setText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.InclRownumField.Label"));
+    wlInclRownumField.setText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.InclRownumField.Label"));
     PropsUi.setLook(wlInclRownumField);
     FormData fdlInclRownumField = new FormData();
     fdlInclRownumField.left = new FormAttachment(wInclRownum, margin);
     fdlInclRownumField.top = new FormAttachment(wValName, margin);
     wlInclRownumField.setLayoutData(fdlInclRownumField);
-    wInclRownumField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclRownumField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclRownumField);
     wInclRownumField.addModifyListener(lsMod);
     FormData fdInclRownumField = new FormData();
@@ -285,8 +272,7 @@ public class SplitFieldToRowsDialog extends BaseTransformDialog implements ITran
     wResetRownum = new Button(wAdditionalFields, SWT.CHECK);
     wResetRownum.setText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.ResetRownum.Label"));
     PropsUi.setLook(wResetRownum);
-    wResetRownum.setToolTipText(
-        BaseMessages.getString(PKG, "SplitFieldToRowsDialog.ResetRownum.Tooltip"));
+    wResetRownum.setToolTipText(BaseMessages.getString(PKG, "SplitFieldToRowsDialog.ResetRownum.Tooltip"));
     fdRownum = new FormData();
     fdRownum.left = new FormAttachment(wlInclRownum, margin);
     fdRownum.top = new FormAttachment(wInclRownumField, margin);

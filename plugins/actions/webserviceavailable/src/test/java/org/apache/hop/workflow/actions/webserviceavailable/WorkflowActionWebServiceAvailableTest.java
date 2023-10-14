@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionWebServiceAvailableTest
-    extends WorkflowActionLoadSaveTestSupport<ActionWebServiceAvailable> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionWebServiceAvailableTest extends WorkflowActionLoadSaveTestSupport<ActionWebServiceAvailable> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionWebServiceAvailable> getActionClass() {
@@ -40,17 +40,11 @@ public class WorkflowActionWebServiceAvailableTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "url", "getURL",
-        "connectTimeOut", "getConnectTimeOut",
-        "readTimeOut", "getReadTimeOut");
+    return toMap("url", "getURL", "connectTimeOut", "getConnectTimeOut", "readTimeOut", "getReadTimeOut");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "url", "setURL",
-        "connectTimeOut", "setConnectTimeOut",
-        "readTimeOut", "setReadTimeOut");
+    return toMap("url", "setURL", "connectTimeOut", "setConnectTimeOut", "readTimeOut", "setReadTimeOut");
   }
 }

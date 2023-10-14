@@ -74,8 +74,7 @@ public class ConfigPluginType extends BasePluginType<ConfigPlugin> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, ConfigPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, ConfigPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(ConfigPlugin annotation) {

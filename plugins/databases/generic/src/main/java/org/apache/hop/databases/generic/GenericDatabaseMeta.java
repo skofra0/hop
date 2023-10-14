@@ -40,25 +40,13 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   public static final String DATABASE_DIALECT_ID = "DATABASE_DIALECT_ID";
   private IDatabase databaseDialect = null;
 
-  @GuiWidgetElement(
-      id = "hostname",
-      type = GuiElementType.NONE,
-      parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      ignored = true)
+  @GuiWidgetElement(id = "hostname", type = GuiElementType.NONE, parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, ignored = true)
   protected String hostname;
 
-  @GuiWidgetElement(
-      id = "port",
-      type = GuiElementType.NONE,
-      parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      ignored = true)
+  @GuiWidgetElement(id = "port", type = GuiElementType.NONE, parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, ignored = true)
   protected String port;
 
-  @GuiWidgetElement(
-      id = "databaseName",
-      type = GuiElementType.NONE,
-      parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      ignored = true)
+  @GuiWidgetElement(id = "databaseName", type = GuiElementType.NONE, parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID, ignored = true)
   protected String databaseName;
 
   @GuiWidgetElement(
@@ -148,22 +136,12 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     if (databaseDialect != null) {
-      return databaseDialect.getAddColumnStatement(
-          tableName, v, tk, useAutoIncrement, pk, semicolon);
+      return databaseDialect.getAddColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     }
 
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoIncrement, true, false);
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoIncrement, true, false);
   }
 
   /**
@@ -178,31 +156,15 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     if (databaseDialect != null) {
-      return databaseDialect.getModifyColumnStatement(
-          tableName, v, tk, useAutoIncrement, pk, semicolon);
+      return databaseDialect.getModifyColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     }
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoIncrement, true, false);
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoIncrement, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v,
-      String tk,
-      String pk,
-      boolean useAutoIncrement,
-      boolean addFieldName,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoIncrement, boolean addFieldName, boolean addCr) {
 
     if (databaseDialect != null) {
       return databaseDialect.getFieldDefinition(v, tk, pk, useAutoIncrement, addFieldName, addCr);
@@ -234,8 +196,7 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           retval += "BIGSERIAL";
@@ -289,7 +250,7 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * Most databases allow you to retrieve result metadata by preparing a SELECT statement.
    *
    * @return true if the database supports retrieval of query metadata from a prepared statement.
-   *     False if the query needs to be executed first.
+   *         False if the query needs to be executed first.
    */
   @Override
   public boolean isSupportsPreparedStatementMetadataRetrieval() {
@@ -308,11 +269,9 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL to insert the unknown record into the SCD.
    */
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     if (databaseDialect != null) {
-      return databaseDialect.getSqlInsertAutoIncUnknownDimensionRow(
-          schemaTable, keyField, versionField);
+      return databaseDialect.getSqlInsertAutoIncUnknownDimensionRow(schemaTable, keyField, versionField);
     }
     return "insert into " + schemaTable + "(" + versionField + ") values (1)";
   }
@@ -528,8 +487,7 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getSqlValue(IValueMeta valueMeta, Object valueData, String dateFormat)
-      throws HopValueException {
+  public String getSqlValue(IValueMeta valueMeta, Object valueData, String dateFormat) throws HopValueException {
     if (databaseDialect != null) {
       return databaseDialect.getSqlValue(valueMeta, valueData, dateFormat);
     }
@@ -537,8 +495,7 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public IValueMeta customizeValueFromSqlType(
-      IValueMeta v, java.sql.ResultSetMetaData rm, int index) throws SQLException {
+  public IValueMeta customizeValueFromSqlType(IValueMeta v, java.sql.ResultSetMetaData rm, int index) throws SQLException {
     if (databaseDialect != null) {
       return databaseDialect.customizeValueFromSqlType(v, rm, index);
     }
@@ -850,16 +807,9 @@ public class GenericDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getDropColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     if (databaseDialect != null) {
-      return databaseDialect.getDropColumnStatement(
-          tableName, v, tk, useAutoIncrement, pk, semicolon);
+      return databaseDialect.getDropColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
     }
     return super.getDropColumnStatement(tableName, v, tk, useAutoIncrement, pk, semicolon);
   }

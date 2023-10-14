@@ -32,12 +32,9 @@ import org.apache.hop.ui.hopgui.perspective.explorer.ExplorerPerspective;
     id = "ExplorerPerspectiveRoot",
     description = "Set the root folder and name of the current project in the explorer perspective",
     extensionPointId = "HopGuiDetermineExplorerRoot")
-public class ExplorerPerspectiveRoot
-    implements IExtensionPoint<ExplorerPerspective.DetermineRootFolderExtension> {
+public class ExplorerPerspectiveRoot implements IExtensionPoint<ExplorerPerspective.DetermineRootFolderExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, ExplorerPerspective.DetermineRootFolderExtension ext)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, ExplorerPerspective.DetermineRootFolderExtension ext) throws HopException {
 
     // Get the current project...
     //

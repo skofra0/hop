@@ -17,13 +17,13 @@
 // CHECKSTYLE:FileLength:OFF
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,7 +77,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 @Transform(
     id = "TextFileInput",
     image = "textfileinput.svg",
@@ -86,16 +86,11 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
     keywords = "i18n::TextFileInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/textfileinput.html")
-public class TextFileInputMeta extends BaseTransformMeta<TextFileInput, TextFileInputData>
-implements IInputFileMeta {
+public class TextFileInputMeta extends BaseTransformMeta<TextFileInput, TextFileInputData> implements IInputFileMeta {
 
   private static final Class<?> PKG = TextFileInputMeta.class; // For Translator
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
 
   private static final String NO = "N";
@@ -644,20 +639,16 @@ implements IInputFileMeta {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
-      acceptingFilenames =
-          YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "accept_filenames"));
-      passingThruFields =
-          YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "passing_through_fields"));
+      acceptingFilenames = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "accept_filenames"));
+      passingThruFields = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "passing_through_fields"));
       acceptingField = XmlHandler.getTagValue(transformNode, "accept_field");
       acceptingTransformName = XmlHandler.getTagValue(transformNode, "accept_transform_name");
 
       separator = XmlHandler.getTagValue(transformNode, "separator");
       enclosure = XmlHandler.getTagValue(transformNode, "enclosure");
-      breakInEnclosureAllowed =
-          YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enclosure_breaks"));
+      breakInEnclosureAllowed = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enclosure_breaks"));
       escapeCharacter = XmlHandler.getTagValue(transformNode, "escapechar");
       header = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "header"));
       nrHeaderLines = Const.toInt(XmlHandler.getTagValue(transformNode, "nr_headerlines"), 1);
@@ -667,8 +658,7 @@ implements IInputFileMeta {
       nrWraps = Const.toInt(XmlHandler.getTagValue(transformNode, "nr_wraps"), 1);
       layoutPaged = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "layout_paged"));
       nrLinesPerPage = Const.toInt(XmlHandler.getTagValue(transformNode, "nr_lines_per_page"), 1);
-      nrLinesDocHeader =
-          Const.toInt(XmlHandler.getTagValue(transformNode, "nr_lines_doc_header"), 1);
+      nrLinesDocHeader = Const.toInt(XmlHandler.getTagValue(transformNode, "nr_lines_doc_header"), 1);
       String addToResult = XmlHandler.getTagValue(transformNode, "add_to_result_filenames");
       if (Utils.isEmpty(addToResult)) {
         isaddresult = true;
@@ -722,35 +712,26 @@ implements IInputFileMeta {
         filter = new TextFileFilter[1];
         filter[0] = new TextFileFilter();
 
-        filter[0].setFilterPosition(
-            Const.toInt(XmlHandler.getTagValue(transformNode, "filter_position"), -1));
+        filter[0].setFilterPosition(Const.toInt(XmlHandler.getTagValue(transformNode, "filter_position"), -1));
         filter[0].setFilterString(XmlHandler.getTagValue(transformNode, "filter_string"));
-        filter[0].setFilterLastLine(
-            YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "filter_is_last_line")));
-        filter[0].setFilterPositive(
-            YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "filter_is_positive")));
+        filter[0].setFilterLastLine(YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "filter_is_last_line")));
+        filter[0].setFilterPositive(YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "filter_is_positive")));
       } else {
         for (int i = 0; i < nrfilters; i++) {
           Node fnode = XmlHandler.getSubNodeByNr(filtersNode, "filter", i);
           filter[i] = new TextFileFilter();
 
-          filter[i].setFilterPosition(
-              Const.toInt(XmlHandler.getTagValue(fnode, "filter_position"), -1));
+          filter[i].setFilterPosition(Const.toInt(XmlHandler.getTagValue(fnode, "filter_position"), -1));
 
           String filterString = XmlHandler.getTagValue(fnode, "filter_string");
           if (filterString != null && filterString.startsWith(STRING_BASE64_PREFIX)) {
-            filter[i].setFilterString(
-                new String(
-                    Base64.decodeBase64(
-                        filterString.substring(STRING_BASE64_PREFIX.length()).getBytes())));
+            filter[i].setFilterString(new String(Base64.decodeBase64(filterString.substring(STRING_BASE64_PREFIX.length()).getBytes())));
           } else {
             filter[i].setFilterString(filterString);
           }
 
-          filter[i].setFilterLastLine(
-              YES.equalsIgnoreCase(XmlHandler.getTagValue(fnode, "filter_is_last_line")));
-          filter[i].setFilterPositive(
-              YES.equalsIgnoreCase(XmlHandler.getTagValue(fnode, "filter_is_positive")));
+          filter[i].setFilterLastLine(YES.equalsIgnoreCase(XmlHandler.getTagValue(fnode, "filter_is_last_line")));
+          filter[i].setFilterPositive(YES.equalsIgnoreCase(XmlHandler.getTagValue(fnode, "filter_is_positive")));
         }
       }
 
@@ -769,8 +750,7 @@ implements IInputFileMeta {
         field.setPosition(Const.toInt(XmlHandler.getTagValue(fnode, "position"), -1));
         field.setLength(Const.toInt(XmlHandler.getTagValue(fnode, "length"), -1));
         field.setPrecision(Const.toInt(XmlHandler.getTagValue(fnode, "precision"), -1));
-        field.setTrimType(
-            ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
+        field.setTrimType(ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
         field.setRepeated(YES.equalsIgnoreCase(XmlHandler.getTagValue(fnode, "repeat")));
 
         inputFields[i] = field;
@@ -783,25 +763,19 @@ implements IInputFileMeta {
       skipBadFiles = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "skip_bad_files"));
       fileErrorField = XmlHandler.getTagValue(transformNode, "file_error_field");
       fileErrorMessageField = XmlHandler.getTagValue(transformNode, "file_error_message_field");
-      errorLineSkipped =
-          YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "error_line_skipped"));
+      errorLineSkipped = YES.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "error_line_skipped"));
       errorCountField = XmlHandler.getTagValue(transformNode, "error_count_field");
       errorFieldsField = XmlHandler.getTagValue(transformNode, "error_fields_field");
       errorTextField = XmlHandler.getTagValue(transformNode, "error_text_field");
-      warningFilesDestinationDirectory =
-          XmlHandler.getTagValue(transformNode, "bad_line_files_destination_directory");
+      warningFilesDestinationDirectory = XmlHandler.getTagValue(transformNode, "bad_line_files_destination_directory");
       warningFilesExtension = XmlHandler.getTagValue(transformNode, "bad_line_files_extension");
-      errorFilesDestinationDirectory =
-          XmlHandler.getTagValue(transformNode, "error_line_files_destination_directory");
+      errorFilesDestinationDirectory = XmlHandler.getTagValue(transformNode, "error_line_files_destination_directory");
       errorFilesExtension = XmlHandler.getTagValue(transformNode, "error_line_files_extension");
-      lineNumberFilesDestinationDirectory =
-          XmlHandler.getTagValue(transformNode, "line_number_files_destination_directory");
-      lineNumberFilesExtension =
-          XmlHandler.getTagValue(transformNode, "line_number_files_extension");
+      lineNumberFilesDestinationDirectory = XmlHandler.getTagValue(transformNode, "line_number_files_destination_directory");
+      lineNumberFilesExtension = XmlHandler.getTagValue(transformNode, "line_number_files_extension");
       // Backward compatible
 
-      dateFormatLenient =
-          !NO.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "date_format_lenient"));
+      dateFormatLenient = !NO.equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "date_format_lenient"));
       String dateLocale = XmlHandler.getTagValue(transformNode, "date_format_locale");
       if (dateLocale != null) {
         dateFormatLocale = EnvUtil.createLocale(dateLocale);
@@ -812,8 +786,7 @@ implements IInputFileMeta {
       shortFileFieldName = XmlHandler.getTagValue(transformNode, "shortFileFieldName");
       pathFieldName = XmlHandler.getTagValue(transformNode, "pathFieldName");
       hiddenFieldName = XmlHandler.getTagValue(transformNode, "hiddenFieldName");
-      lastModificationTimeFieldName =
-          XmlHandler.getTagValue(transformNode, "lastModificationTimeFieldName");
+      lastModificationTimeFieldName = XmlHandler.getTagValue(transformNode, "lastModificationTimeFieldName");
       uriNameFieldName = XmlHandler.getTagValue(transformNode, "uriNameFieldName");
       rootUriNameFieldName = XmlHandler.getTagValue(transformNode, "rootUriNameFieldName");
       extensionFieldName = XmlHandler.getTagValue(transformNode, "extensionFieldName");
@@ -936,13 +909,7 @@ implements IInputFileMeta {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!isPassingThruFields()) {
       // all incoming fields are not transmitted !
@@ -1073,22 +1040,13 @@ implements IInputFileMeta {
     StringBuilder retval = new StringBuilder(1500);
 
     retval.append("    ").append(XmlHandler.addTagValue("accept_filenames", acceptingFilenames));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("passing_through_fields", passingThruFields));
+    retval.append("    ").append(XmlHandler.addTagValue("passing_through_fields", passingThruFields));
     retval.append("    ").append(XmlHandler.addTagValue("accept_field", acceptingField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "accept_transform_name",
-                (acceptingTransform != null ? acceptingTransform.getName() : "")));
+    retval.append("    ").append(XmlHandler.addTagValue("accept_transform_name", (acceptingTransform != null ? acceptingTransform.getName() : "")));
 
     retval.append("    ").append(XmlHandler.addTagValue("separator", separator));
     retval.append("    ").append(XmlHandler.addTagValue("enclosure", enclosure));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("enclosure_breaks", breakInEnclosureAllowed));
+    retval.append("    ").append(XmlHandler.addTagValue("enclosure_breaks", breakInEnclosureAllowed));
     retval.append("    ").append(XmlHandler.addTagValue("escapechar", escapeCharacter));
     retval.append("    ").append(XmlHandler.addTagValue("header", header));
     retval.append("    ").append(XmlHandler.addTagValue("nr_headerlines", nrHeaderLines));
@@ -1113,20 +1071,12 @@ implements IInputFileMeta {
     for (int i = 0; i < fileName.length; i++) {
       saveSource(retval, fileName[i]);
       retval.append("      ").append(XmlHandler.addTagValue("filemask", fileMask[i]));
-      retval
-          .append("      ")
-          .append(XmlHandler.addTagValue("exclude_filemask", excludeFileMask[i]));
+      retval.append("      ").append(XmlHandler.addTagValue("exclude_filemask", excludeFileMask[i]));
       retval.append("      ").append(XmlHandler.addTagValue("file_required", fileRequired[i]));
-      retval
-          .append("      ")
-          .append(XmlHandler.addTagValue("include_subfolders", includeSubFolders[i]));
+      retval.append("      ").append(XmlHandler.addTagValue("include_subfolders", includeSubFolders[i]));
     }
     retval.append("      ").append(XmlHandler.addTagValue("type", fileType));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "compression", (fileCompression == null) ? "None" : fileCompression));
+    retval.append("      ").append(XmlHandler.addTagValue("compression", (fileCompression == null) ? "None" : fileCompression));
     retval.append("    </file>").append(Const.CR);
 
     retval.append("    <filters>").append(Const.CR);
@@ -1141,20 +1091,10 @@ implements IInputFileMeta {
       String filterEncoded = filterPrefix + new String(Base64.encodeBase64(filterBytes));
 
       retval.append("      <filter>").append(Const.CR);
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("filter_string", filterEncoded, false));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("filter_position", filter[i].getFilterPosition(), false));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue("filter_is_last_line", filter[i].isFilterLastLine(), false));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue("filter_is_positive", filter[i].isFilterPositive(), false));
+      retval.append("        ").append(XmlHandler.addTagValue("filter_string", filterEncoded, false));
+      retval.append("        ").append(XmlHandler.addTagValue("filter_position", filter[i].getFilterPosition(), false));
+      retval.append("        ").append(XmlHandler.addTagValue("filter_is_last_line", filter[i].isFilterLastLine(), false));
+      retval.append("        ").append(XmlHandler.addTagValue("filter_is_positive", filter[i].isFilterPositive(), false));
       retval.append("      </filter>").append(Const.CR);
     }
     retval.append("    </filters>").append(Const.CR);
@@ -1167,9 +1107,7 @@ implements IInputFileMeta {
       retval.append("        ").append(XmlHandler.addTagValue("name", field.getName()));
       retval.append("        ").append(XmlHandler.addTagValue("type", field.getTypeDesc()));
       retval.append("        ").append(XmlHandler.addTagValue("format", field.getFormat()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
+      retval.append("        ").append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("group", field.getGroupSymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("nullif", field.getNullString()));
@@ -1177,9 +1115,7 @@ implements IInputFileMeta {
       retval.append("        ").append(XmlHandler.addTagValue("position", field.getPosition()));
       retval.append("        ").append(XmlHandler.addTagValue("length", field.getLength()));
       retval.append("        ").append(XmlHandler.addTagValue("precision", field.getPrecision()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("trim_type", field.getTrimTypeCode()));
+      retval.append("        ").append(XmlHandler.addTagValue("trim_type", field.getTrimTypeCode()));
       retval.append("        ").append(XmlHandler.addTagValue("repeat", field.isRepeated()));
       retval.append("      </field>").append(Const.CR);
     }
@@ -1190,60 +1126,28 @@ implements IInputFileMeta {
     retval.append("    ").append(XmlHandler.addTagValue("error_ignored", errorIgnored));
     retval.append("    ").append(XmlHandler.addTagValue("skip_bad_files", skipBadFiles));
     retval.append("    ").append(XmlHandler.addTagValue("file_error_field", fileErrorField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("file_error_message_field", fileErrorMessageField));
+    retval.append("    ").append(XmlHandler.addTagValue("file_error_message_field", fileErrorMessageField));
     retval.append("    ").append(XmlHandler.addTagValue("error_line_skipped", errorLineSkipped));
     retval.append("    ").append(XmlHandler.addTagValue("error_count_field", errorCountField));
     retval.append("    ").append(XmlHandler.addTagValue("error_fields_field", errorFieldsField));
     retval.append("    ").append(XmlHandler.addTagValue("error_text_field", errorTextField));
 
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "bad_line_files_destination_directory", warningFilesDestinationDirectory));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("bad_line_files_extension", warningFilesExtension));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "error_line_files_destination_directory", errorFilesDestinationDirectory));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("error_line_files_extension", errorFilesExtension));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "line_number_files_destination_directory", lineNumberFilesDestinationDirectory));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("line_number_files_extension", lineNumberFilesExtension));
+    retval.append("    ").append(XmlHandler.addTagValue("bad_line_files_destination_directory", warningFilesDestinationDirectory));
+    retval.append("    ").append(XmlHandler.addTagValue("bad_line_files_extension", warningFilesExtension));
+    retval.append("    ").append(XmlHandler.addTagValue("error_line_files_destination_directory", errorFilesDestinationDirectory));
+    retval.append("    ").append(XmlHandler.addTagValue("error_line_files_extension", errorFilesExtension));
+    retval.append("    ").append(XmlHandler.addTagValue("line_number_files_destination_directory", lineNumberFilesDestinationDirectory));
+    retval.append("    ").append(XmlHandler.addTagValue("line_number_files_extension", lineNumberFilesExtension));
 
     retval.append("    ").append(XmlHandler.addTagValue("date_format_lenient", dateFormatLenient));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "date_format_locale",
-                dateFormatLocale != null
-                    ? dateFormatLocale.toString()
-                    : Locale.getDefault().toString()));
+    retval.append("    ").append(XmlHandler.addTagValue("date_format_locale", dateFormatLocale != null ? dateFormatLocale.toString() : Locale.getDefault().toString()));
 
     retval.append("    ").append(XmlHandler.addTagValue("shortFileFieldName", shortFileFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("pathFieldName", pathFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("hiddenFieldName", hiddenFieldName));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("lastModificationTimeFieldName", lastModificationTimeFieldName));
+    retval.append("    ").append(XmlHandler.addTagValue("lastModificationTimeFieldName", lastModificationTimeFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("uriNameFieldName", uriNameFieldName));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("rootUriNameFieldName", rootUriNameFieldName));
+    retval.append("    ").append(XmlHandler.addTagValue("rootUriNameFieldName", rootUriNameFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("extensionFieldName", extensionFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("sizeFieldName", sizeFieldName));
 
@@ -1251,9 +1155,7 @@ implements IInputFileMeta {
   }
 
   public String getLookupTransformName() {
-    if (acceptingFilenames
-        && acceptingTransform != null
-        && !Utils.isEmpty(acceptingTransform.getName())) {
+    if (acceptingFilenames && acceptingTransform != null && !Utils.isEmpty(acceptingTransform.getName())) {
       return acceptingTransform.getName();
     }
     return null;
@@ -1274,13 +1176,11 @@ implements IInputFileMeta {
 
   @Override
   public String[] getFilePaths(IVariables variables) {
-    return FileInputList.createFilePathList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubFolderBoolean());
+    return FileInputList.createFilePathList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubFolderBoolean());
   }
 
   public FileInputList getTextFileList(IVariables variables) {
-    return FileInputList.createFileList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubFolderBoolean());
+    return FileInputList.createFileList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubFolderBoolean());
   }
 
   private boolean[] includeSubFolderBoolean() {
@@ -1308,48 +1208,25 @@ implements IInputFileMeta {
     // See if we get input...
     if (input.length > 0) {
       if (!isAcceptingFilenames()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.NoInputError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.NoInputError"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.AcceptFilenamesOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.AcceptFilenamesOk"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.NoInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.NoInputOk"), transformMeta);
       remarks.add(cr);
     }
 
     FileInputList textFileList = getTextFileList(variables);
     if (textFileList.nrOfFiles() == 0) {
       if (!isAcceptingFilenames()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.ExpectedFilesError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.ExpectedFilesError"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileInputMeta.CheckResult.ExpectedFilesOk",
-                  "" + textFileList.nrOfFiles()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileInputMeta.CheckResult.ExpectedFilesOk", "" + textFileList.nrOfFiles()), transformMeta);
       remarks.add(cr);
     }
   }
@@ -1636,8 +1513,7 @@ implements IInputFileMeta {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     List<ResourceReference> references = new ArrayList<>(5);
     ResourceReference reference = new ResourceReference(transformMeta);
     references.add(reference);
@@ -1664,11 +1540,7 @@ implements IInputFileMeta {
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -1681,8 +1553,7 @@ implements IInputFileMeta {
         //
         for (int i = 0; i < fileName.length; i++) {
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(fileName[i]));
-          fileName[i] =
-              iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(fileMask[i]));
+          fileName[i] = iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(fileMask[i]));
         }
       }
       return null;
@@ -1702,8 +1573,7 @@ implements IInputFileMeta {
     setFileName(fileName);
   }
 
-  protected String loadSource(
-      Node filenode, Node filenamenode, int i, IHopMetadataProvider metadataProvider) {
+  protected String loadSource(Node filenode, Node filenamenode, int i, IHopMetadataProvider metadataProvider) {
     return XmlHandler.getNodeValue(filenamenode);
   }
 

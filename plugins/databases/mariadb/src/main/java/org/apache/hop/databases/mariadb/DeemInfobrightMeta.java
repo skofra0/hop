@@ -27,7 +27,6 @@ import org.apache.hop.core.database.DatabaseMetaPlugin;
 import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
-
 @DatabaseMetaPlugin(type = "DEEM_INFOBRIGHT", typeDescription = "Deem Infobright")
 @GuiPlugin(id = "GUI-DeemInfobrightMeta")
 public class DeemInfobrightMeta extends DeemMySqlMeta {
@@ -69,7 +68,7 @@ public class DeemInfobrightMeta extends DeemMySqlMeta {
     return -1;
   }
 
-  @Override 
+  @Override
   public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldname, boolean addCr) {
     String retval = "";
     String fieldname = v.getName();

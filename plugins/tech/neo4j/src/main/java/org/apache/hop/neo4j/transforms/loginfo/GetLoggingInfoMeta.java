@@ -121,8 +121,7 @@ public class GetLoggingInfoMeta extends BaseTransformMeta<GetLoggingInfo, GetLog
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
       int count = XmlHandler.countNodes(fields, "field");
@@ -158,13 +157,7 @@ public class GetLoggingInfoMeta extends BaseTransformMeta<GetLoggingInfo, GetLog
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables space, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < fieldName.length; i++) {
       IValueMeta v;
@@ -198,9 +191,7 @@ public class GetLoggingInfoMeta extends BaseTransformMeta<GetLoggingInfo, GetLog
     for (int i = 0; i < fieldName.length; i++) {
       retval.append("      <field>" + Const.CR);
       retval.append("        " + XmlHandler.addTagValue("name", fieldName[i]));
-      retval.append(
-          "        "
-              + XmlHandler.addTagValue("type", fieldType[i] != null ? fieldType[i].getCode() : ""));
+      retval.append("        " + XmlHandler.addTagValue("type", fieldType[i] != null ? fieldType[i].getCode() : ""));
       retval.append("        " + XmlHandler.addTagValue("argument", fieldArgument[i]));
       retval.append("        </field>" + Const.CR);
     }
@@ -224,21 +215,12 @@ public class GetLoggingInfoMeta extends BaseTransformMeta<GetLoggingInfo, GetLog
     int nrRemarks = remarks.size();
     for (int i = 0; i < fieldName.length; i++) {
       if (fieldType[i].ordinal() <= GetLoggingInfoTypes.TYPE_SYSTEM_INFO_NONE.ordinal()) {
-        CheckResult cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "SystemDataMeta.CheckResult.FieldHasNoType", fieldName[i]),
-                transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SystemDataMeta.CheckResult.FieldHasNoType", fieldName[i]), transformMeta);
         remarks.add(cr);
       }
     }
     if (remarks.size() == nrRemarks) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SystemDataMeta.CheckResult.AllTypesSpecified"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SystemDataMeta.CheckResult.AllTypesSpecified"), transformMeta);
       remarks.add(cr);
     }
   }

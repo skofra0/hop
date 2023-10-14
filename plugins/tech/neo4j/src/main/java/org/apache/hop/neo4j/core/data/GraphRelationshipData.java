@@ -42,12 +42,7 @@ public class GraphRelationshipData {
     properties = new ArrayList<>();
   }
 
-  public GraphRelationshipData(
-      String id,
-      String label,
-      List<GraphPropertyData> properties,
-      String nodeSource,
-      String nodeTarget) {
+  public GraphRelationshipData(String id, String label, List<GraphPropertyData> properties, String nodeSource, String nodeTarget) {
     this.id = id;
     this.label = label;
     this.properties = properties;
@@ -84,9 +79,7 @@ public class GraphRelationshipData {
 
     List<GraphPropertyData> properties = new ArrayList<>();
     for (GraphPropertyData property : graphRelationship.getProperties()) {
-      properties.add(
-          new GraphPropertyData(
-              property.getId(), property.getValue(), property.getType(), property.isPrimary()));
+      properties.add(new GraphPropertyData(property.getId(), property.getValue(), property.getType(), property.isPrimary()));
     }
     setProperties(properties);
     setPropertySetId(graphRelationship.getPropertySetId());
@@ -101,8 +94,7 @@ public class GraphRelationshipData {
     for (String propertyKey : relationship.keys()) {
       Value propertyValue = relationship.get(propertyKey);
       Object propertyObject = propertyValue.asObject();
-      GraphPropertyDataType propertyType =
-          GraphPropertyDataType.getTypeFromNeo4jValue(propertyObject);
+      GraphPropertyDataType propertyType = GraphPropertyDataType.getTypeFromNeo4jValue(propertyObject);
       properties.add(new GraphPropertyData(propertyKey, propertyObject, propertyType, false));
     }
   }

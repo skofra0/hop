@@ -69,8 +69,7 @@ public class BeamBQInputDialog extends BaseTransformDialog implements ITransform
   private TextVar wQuery;
   private TableView wFields;
 
-  public BeamBQInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamBQInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamBQInputMeta) in;
   }
@@ -203,31 +202,10 @@ public class BeamBQInputDialog extends BaseTransformDialog implements ITransform
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.NewName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.HopType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-        };
-    wFields =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            shell,
-            SWT.NONE,
-            columns,
-            input.getFields().size(),
-            null,
-            props);
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.NewName"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBQInputDialog.Fields.Column.HopType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), false),};
+    wFields = new TableView(Variables.getADefaultVariableSpace(), shell, SWT.NONE, columns, input.getFields().size(), null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -251,20 +229,14 @@ public class BeamBQInputDialog extends BaseTransformDialog implements ITransform
 
       BigQuery bigQuery = BigQueryOptions.getDefaultInstance().getService();
 
-      if (StringUtils.isNotEmpty(meta.getDatasetId())
-          && StringUtils.isNotEmpty(meta.getTableId())) {
+      if (StringUtils.isNotEmpty(meta.getDatasetId()) && StringUtils.isNotEmpty(meta.getTableId())) {
 
-        Table table =
-            bigQuery.getTable(
-                variables.resolve(meta.getDatasetId()), variables.resolve(meta.getTableId()));
+        Table table = bigQuery.getTable(variables.resolve(meta.getDatasetId()), variables.resolve(meta.getTableId()));
 
         if (table == null) {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
           mb.setText(BaseMessages.getString(PKG, "BeamBQInputDialog.TableNotFound.Title"));
-          mb.setMessage(
-              variables.resolve(meta.getTableId())
-                  + " "
-                  + BaseMessages.getString(PKG, "BeamBQInputDialog.TableNotFound.Message"));
+          mb.setMessage(variables.resolve(meta.getTableId()) + " " + BaseMessages.getString(PKG, "BeamBQInputDialog.TableNotFound.Message"));
           switch (mb.open()) {
             case SWT.OK:
               break;
@@ -288,8 +260,7 @@ public class BeamBQInputDialog extends BaseTransformDialog implements ITransform
           rowMeta.addValueMeta(ValueMetaFactory.createValueMeta(name, hopType));
         }
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            rowMeta, wFields, 1, new int[] {1}, new int[] {3}, -1, -1, true, null);
+        BaseTransformDialog.getFieldsFromPrevious(rowMeta, wFields, 1, new int[] {1}, new int[] {3}, -1, -1, true, null);
       }
 
     } catch (Exception e) {

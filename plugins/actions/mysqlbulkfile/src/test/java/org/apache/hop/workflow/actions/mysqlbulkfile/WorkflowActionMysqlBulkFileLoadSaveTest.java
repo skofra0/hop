@@ -23,9 +23,9 @@ import org.junit.ClassRule;
 import java.util.Arrays;
 import java.util.List;
 
-public class WorkflowActionMysqlBulkFileLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionMysqlBulkFile> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionMysqlBulkFileLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionMysqlBulkFile> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionMysqlBulkFile> getActionClass() {
@@ -35,19 +35,7 @@ public class WorkflowActionMysqlBulkFileLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "schemaName",
-            "tableName",
-            "filename",
-            "separator",
-            "enclosed",
-            "optionEnclosed",
-            "lineTerminated",
-            "limitLines",
-            "listColumn",
-            "highPriority",
-            "outDumpValue",
-            "ifFileExists",
-            "addFileToResult",
-            "database");
+        "schemaName", "tableName", "filename", "separator", "enclosed", "optionEnclosed", "lineTerminated", "limitLines", "listColumn", "highPriority", "outDumpValue",
+        "ifFileExists", "addFileToResult", "database");
   }
 }

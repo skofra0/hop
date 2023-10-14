@@ -63,10 +63,7 @@ public class PipelineResource {
   public String getPipelineLog(@PathParam("id") String id, @PathParam("logStart") int startLineNr) {
     int lastLineNr = HopLogStore.getLastBufferLineNr();
     IPipelineEngine<PipelineMeta> pipeline = HopServerResource.getPipeline(id);
-    String logText =
-        HopLogStore.getAppender()
-            .getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr)
-            .toString();
+    String logText = HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr).toString();
     return logText;
   }
 
@@ -84,8 +81,7 @@ public class PipelineResource {
     status.setStatus(pipeline.getStatusDescription());
 
     for (IEngineComponent component : pipeline.getComponents()) {
-      if ((component.isRunning())
-          || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
+      if ((component.isRunning()) || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
         TransformStatus transformStatus = new TransformStatus(component);
         status.addTransformStatus(transformStatus);
       }
@@ -105,8 +101,7 @@ public class PipelineResource {
       HopLogStore.discardLines(pipeline.getLogChannelId(), true);
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(getClass().getName(), LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(getClass().getName(), LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
       servletLoggingObject.setLogLevel(pipeline.getLogLevel());
       pipeline.setParent(servletLoggingObject);
@@ -126,10 +121,8 @@ public class PipelineResource {
     try {
 
       HopServerObjectEntry entry = HopServerResource.getHopServerObjectEntry(id);
-      PipelineConfiguration pipelineConfiguration =
-          HopServerSingleton.getInstance().getPipelineMap().getConfiguration(entry);
-      PipelineExecutionConfiguration executionConfiguration =
-          pipelineConfiguration.getPipelineExecutionConfiguration();
+      PipelineConfiguration pipelineConfiguration = HopServerSingleton.getInstance().getPipelineMap().getConfiguration(entry);
+      PipelineExecutionConfiguration executionConfiguration = pipelineConfiguration.getPipelineExecutionConfiguration();
       // Set the appropriate logging, variables, arguments, replay date, ...
       // etc.
       pipeline.setVariables(executionConfiguration.getVariablesMap());
@@ -207,12 +200,10 @@ public class PipelineResource {
         log.logDetailed("Logging level set to " + log.getLogLevel().getDescription());
       }
 
-      PipelineExecutionConfiguration executionConfiguration =
-          pipelineConfiguration.getPipelineExecutionConfiguration();
+      PipelineExecutionConfiguration executionConfiguration = pipelineConfiguration.getPipelineExecutionConfiguration();
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(getClass().getName(), LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(getClass().getName(), LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
       servletLoggingObject.setLogLevel(executionConfiguration.getLogLevel());
 
@@ -220,14 +211,10 @@ public class PipelineResource {
       //
       String runConfigurationName = executionConfiguration.getRunConfiguration();
       IVariables variables = Variables.getADefaultVariableSpace(); // TODO: configure
-      final IPipelineEngine pipeline =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, variables.resolve(runConfigurationName), metadataProvider, pipelineMeta);
+      final IPipelineEngine pipeline = PipelineEngineFactory.createPipelineEngine(variables, variables.resolve(runConfigurationName), metadataProvider, pipelineMeta);
       pipeline.setParent(servletLoggingObject);
 
-      HopServerSingleton.getInstance()
-          .getPipelineMap()
-          .addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
+      HopServerSingleton.getInstance().getPipelineMap().addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
       pipeline.setContainerId(serverObjectId);
 
       return getPipelineStatus(serverObjectId);

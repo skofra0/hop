@@ -31,7 +31,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class ExcelWriterTransformMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -41,25 +42,18 @@ public class ExcelWriterTransformMetaTest {
   @Test
   public void testRoundTrip() throws Exception {
 
-    LoadSaveTester<ExcelWriterTransformMeta> tester =
-        new LoadSaveTester<>(ExcelWriterTransformMeta.class);
+    LoadSaveTester<ExcelWriterTransformMeta> tester = new LoadSaveTester<>(ExcelWriterTransformMeta.class);
 
     IFieldLoadSaveValidatorFactory validatorFactory = tester.getFieldLoadSaveValidatorFactory();
+    validatorFactory.registerValidator(ExcelWriterFileField.class.getName(), new ExcelWriterFileFieldValidator());
+    validatorFactory.registerValidator(ExcelWriterTemplateField.class.getName(), new ExcelWriterTemplateFieldValidator());
     validatorFactory.registerValidator(
-        ExcelWriterFileField.class.getName(),
-        new ExcelWriterFileFieldValidator());
-    validatorFactory.registerValidator(
-            ExcelWriterTemplateField.class.getName(),
-            new ExcelWriterTemplateFieldValidator());
-    validatorFactory.registerValidator(
-            ExcelWriterTransformMeta.class.getDeclaredField("outputFields").getGenericType().toString(),
-            new ListLoadSaveValidator<>(new ExcelWriterOutputFieldValidator()));
+        ExcelWriterTransformMeta.class.getDeclaredField("outputFields").getGenericType().toString(), new ListLoadSaveValidator<>(new ExcelWriterOutputFieldValidator()));
 
     tester.testSerialization();
   }
 
-  public static final class ExcelWriterOutputFieldValidator
-      implements IFieldLoadSaveValidator<ExcelWriterOutputField> {
+  public static final class ExcelWriterOutputFieldValidator implements IFieldLoadSaveValidator<ExcelWriterOutputField> {
 
     @Override
     public ExcelWriterOutputField getTestObject() {
@@ -82,13 +76,11 @@ public class ExcelWriterTransformMetaTest {
     }
   }
 
-  public static final class ExcelWriterFileFieldValidator
-      implements IFieldLoadSaveValidator<ExcelWriterFileField> {
+  public static final class ExcelWriterFileFieldValidator implements IFieldLoadSaveValidator<ExcelWriterFileField> {
 
     @Override
     public ExcelWriterFileField getTestObject() {
-      return new ExcelWriterFileField(
-          UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+      return new ExcelWriterFileField(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
     @Override
@@ -97,8 +89,7 @@ public class ExcelWriterTransformMetaTest {
         return false;
       }
       ExcelWriterFileField actualObject = (ExcelWriterFileField) actual;
-      return testObject.getFileName().equals(actualObject.getFileName())
-          && testObject.getExtension().equals(actualObject.getExtension())
+      return testObject.getFileName().equals(actualObject.getFileName()) && testObject.getExtension().equals(actualObject.getExtension())
           && testObject.getSheetname().equals(actualObject.getSheetname());
     }
   }
@@ -108,12 +99,11 @@ public class ExcelWriterTransformMetaTest {
     @Override
     public ExcelWriterTemplateField getTestObject() {
       return new ExcelWriterTemplateField(
-              new Random().nextBoolean(),
-              new Random().nextBoolean(),
-              new Random().nextBoolean(),
-              UUID.randomUUID().toString(),
-              UUID.randomUUID().toString()
-      );
+          new Random().nextBoolean(),
+          new Random().nextBoolean(),
+          new Random().nextBoolean(),
+          UUID.randomUUID().toString(),
+          UUID.randomUUID().toString());
     }
 
     @Override

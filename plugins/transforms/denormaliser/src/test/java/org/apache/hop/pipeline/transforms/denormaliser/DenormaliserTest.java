@@ -42,10 +42,8 @@ public class DenormaliserTest {
 
   @Before
   public void init() {
-    mockHelper =
-        new TransformMockHelper<>("Denormalizer", DenormaliserMeta.class, DenormaliserData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Denormalizer", DenormaliserMeta.class, DenormaliserData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
   }
 
   @After
@@ -92,13 +90,10 @@ public class DenormaliserTest {
     Object[] rowData = new Object[] {1L, "2000-10-20", "2000/10/20"};
 
     // init transform
-    Denormaliser denormaliser =
-        new Denormaliser(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    Denormaliser denormaliser = new Denormaliser(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
 
     // call tested method
-    Method deNormalise =
-        denormaliser.getClass().getDeclaredMethod("deNormalise", IRowMeta.class, Object[].class);
+    Method deNormalise = denormaliser.getClass().getDeclaredMethod("deNormalise", IRowMeta.class, Object[].class);
     Assert.assertNotNull("Can't find a method 'deNormalise' in class Denormalizer", deNormalise);
     deNormalise.setAccessible(true);
     deNormalise.invoke(denormaliser, rowMeta, rowData);

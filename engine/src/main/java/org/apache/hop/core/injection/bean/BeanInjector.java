@@ -58,16 +58,14 @@ public class BeanInjector<Meta extends Object> {
   /**
    * Retrieves the raw prop value from root object.
    *
-   * <p>The similar {@link #getProperty(Object, String)} method (also in this class )should be
+   * <p>
+   * The similar {@link #getProperty(Object, String)} method (also in this class )should be
    * revisited and possibly eliminated. That version attempts to retrieve indexed prop vals from
    * lists/arrays, but doesn't provide a way to retrieve the list or array objects themselves.
    */
   public Object getPropVal(Object root, String propName) {
     Queue<BeanLevelInfo> beanInfos =
-        newLinkedList(
-            Optional.ofNullable(info.getProperties().get(propName))
-                .orElseThrow(() -> new IllegalArgumentException("Property not found: " + propName))
-                .path);
+        newLinkedList(Optional.ofNullable(info.getProperties().get(propName)).orElseThrow(() -> new IllegalArgumentException("Property not found: " + propName)).path);
     beanInfos.remove(); // pop off root
     return getPropVal(root, propName, beanInfos);
   }
@@ -81,14 +79,9 @@ public class BeanInjector<Meta extends Object> {
     obj = getObjFromBeanInfo(obj, info);
     switch (info.dim) {
       case LIST:
-        return ((List) requireNonNull(obj))
-            .stream()
-                .map(o -> getPropVal(o, propName, newLinkedList(beanInfos)))
-                .collect(Collectors.toList());
+        return ((List) requireNonNull(obj)).stream().map(o -> getPropVal(o, propName, newLinkedList(beanInfos))).collect(Collectors.toList());
       case ARRAY:
-        return Arrays.stream((Object[]) requireNonNull(obj))
-            .map(o -> getPropVal(o, propName, newLinkedList(beanInfos)))
-            .toArray(Object[]::new);
+        return Arrays.stream((Object[]) requireNonNull(obj)).map(o -> getPropVal(o, propName, newLinkedList(beanInfos))).toArray(Object[]::new);
       case NONE:
         return getPropVal(obj, propName, beanInfos);
     }
@@ -153,12 +146,10 @@ public class BeanInjector<Meta extends Object> {
     return prop != null;
   }
 
-  public void setProperty(Object root, String propName, List<RowMetaAndData> data, String dataN)
-      throws HopException {
+  public void setProperty(Object root, String propName, List<RowMetaAndData> data, String dataN) throws HopException {
     BeanInjectionInfo<Meta>.Property prop = info.getProperties().get(propName);
     if (prop == null) {
-      throw new HopException(
-          "Property '" + propName + "' not found for injection to " + root.getClass());
+      throw new HopException("Property '" + propName + "' not found for injection to " + root.getClass());
     }
 
     String dataName;
@@ -175,8 +166,7 @@ public class BeanInjector<Meta extends Object> {
       try {
         setProperty(root, prop, 0, data != null ? data.get(0) : null, dataName, dataValue);
       } catch (Exception ex) {
-        throw new HopException(
-            "Error inject property '" + propName + "' into " + root.getClass(), ex);
+        throw new HopException("Error inject property '" + propName + "' into " + root.getClass(), ex);
       }
     } else if (prop.pathArraysCount == 1) {
       // one array in path
@@ -186,7 +176,7 @@ public class BeanInjector<Meta extends Object> {
             setProperty(root, prop, i, data.get(i), dataName, dataValue);
           }
         } else {
-          for (int i = 0; ; i++) {
+          for (int i = 0;; i++) {
             boolean found = setProperty(root, prop, i, null, null, dataValue);
             if (!found) {
               break;
@@ -194,29 +184,17 @@ public class BeanInjector<Meta extends Object> {
           }
         }
       } catch (Exception ex) {
-        throw new HopException(
-            "Error inject property '" + propName + "' into " + root.getClass(), ex);
+        throw new HopException("Error inject property '" + propName + "' into " + root.getClass(), ex);
       }
     } else {
       if (prop.pathArraysCount > 1) {
-        throw new HopException(
-            "Property '"
-                + propName
-                + "' has more than one array in path for injection to "
-                + root.getClass());
+        throw new HopException("Property '" + propName + "' has more than one array in path for injection to " + root.getClass());
       }
     }
   }
 
   /** Sets data from RowMetaAndData, or constant value from dataValue depends on 'data != null'. */
-  private boolean setProperty(
-      Object root,
-      BeanInjectionInfo<Meta>.Property prop,
-      int index,
-      RowMetaAndData data,
-      String dataName,
-      String dataValue)
-      throws Exception {
+  private boolean setProperty(Object root, BeanInjectionInfo<Meta>.Property prop, int index, RowMetaAndData data, String dataName, String dataValue) throws Exception {
     boolean returnValue = true;
     Object obj = root;
 
@@ -228,8 +206,7 @@ public class BeanInjector<Meta extends Object> {
         switch (s.dim) {
           case ARRAY:
             // array
-            Object existArray =
-                data != null ? extendArray(s, obj, index + 1) : checkArray(s, obj, index);
+            Object existArray = data != null ? extendArray(s, obj, index + 1) : checkArray(s, obj, index);
             if (existArray == null) {
               // out of array for constant
               return false;
@@ -243,8 +220,7 @@ public class BeanInjector<Meta extends Object> {
             break;
           case LIST:
             // list
-            List<Object> existList =
-                data != null ? extendList(s, obj, index + 1) : checkList(s, obj, index);
+            List<Object> existList = data != null ? extendList(s, obj, index + 1) : checkList(s, obj, index);
             if (existList == null) {
               // out of array for constant
               return false;
@@ -253,9 +229,7 @@ public class BeanInjector<Meta extends Object> {
             if (next == null) {
               // Is this a a List<String>?
               //
-              if (i + 1 < prop.path.size()
-                  && String.class.equals(prop.path.get(i + 1).leafClass)
-                  && prop.path.get(i + 1).stringList) {
+              if (i + 1 < prop.path.size() && String.class.equals(prop.path.get(i + 1).leafClass) && prop.path.get(i + 1).stringList) {
                 // Set the string...
                 //
                 next = data.getString(dataName, null);
@@ -318,8 +292,7 @@ public class BeanInjector<Meta extends Object> {
               // The name is stored in the data row
               //
               String name = data.getString(dataName, null);
-              IHopMetadataSerializer<? extends IHopMetadata> serializer =
-                  metadataProvider.getSerializer((Class<? extends IHopMetadata>) s.leafClass);
+              IHopMetadataSerializer<? extends IHopMetadata> serializer = metadataProvider.getSerializer((Class<? extends IHopMetadata>) s.leafClass);
               value = serializer.load(name);
             } else {
               if (s.stringObjectConverter != null) {
@@ -342,8 +315,7 @@ public class BeanInjector<Meta extends Object> {
           }
           switch (s.dim) {
             case ARRAY:
-              Object existArray =
-                  data != null ? extendArray(s, obj, index + 1) : checkArray(s, obj, index);
+              Object existArray = data != null ? extendArray(s, obj, index + 1) : checkArray(s, obj, index);
               if (existArray == null) {
                 // A constant is set in a group. We need to allocate one element in the array.
                 existArray = Array.newInstance(s.leafClass, index + 1);
@@ -353,8 +325,7 @@ public class BeanInjector<Meta extends Object> {
               Array.set(existArray, index, value);
               break;
             case LIST:
-              List<Object> existList =
-                  data != null ? extendList(s, obj, index + 1) : checkList(s, obj, index);
+              List<Object> existList = data != null ? extendList(s, obj, index + 1) : checkList(s, obj, index);
               if (existList == null) {
                 // A constant is set in a group. We need to allocate one element in the list.
                 existList = new ArrayList<>();
@@ -384,8 +355,7 @@ public class BeanInjector<Meta extends Object> {
       for (Constructor<?> c : clazz.getConstructors()) {
         if (c.getParameterTypes().length == 0) {
           return clazz.getConstructor().newInstance();
-        } else if (c.getParameterTypes().length == 1
-            && c.getParameterTypes()[0].isAssignableFrom(info.clazz)) {
+        } else if (c.getParameterTypes().length == 1 && c.getParameterTypes()[0].isAssignableFrom(info.clazz)) {
           return c.newInstance(root);
         }
       }

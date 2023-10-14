@@ -110,26 +110,19 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.w3c.dom.Node;
 
 @GuiPlugin
-public class PipelineExecutionViewer extends BaseExecutionViewer
-    implements IExecutionViewer, PaintListener, MouseListener {
+public class PipelineExecutionViewer extends BaseExecutionViewer implements IExecutionViewer, PaintListener, MouseListener {
   private static final Class<?> PKG = PipelineExecutionViewer.class; // For Translator
 
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "PipelineExecutionViewer-Toolbar";
 
   public static final String TOOLBAR_ITEM_REFRESH = "PipelineExecutionViewer-Toolbar-10100-Refresh";
-  public static final String TOOLBAR_ITEM_ZOOM_LEVEL =
-      "PipelineExecutionViewer-ToolBar-10500-Zoom-Level";
-  public static final String TOOLBAR_ITEM_ZOOM_FIT_TO_SCREEN =
-      "PipelineExecutionViewer-ToolBar-10600-Zoom-Fit-To-Screen";
-  public static final String TOOLBAR_ITEM_TO_EDITOR =
-      "PipelineExecutionViewer-Toolbar-11100-GoToEditor";
-  public static final String TOOLBAR_ITEM_DRILL_DOWN =
-      "PipelineExecutionViewer-Toolbar-11200-DrillDown";
+  public static final String TOOLBAR_ITEM_ZOOM_LEVEL = "PipelineExecutionViewer-ToolBar-10500-Zoom-Level";
+  public static final String TOOLBAR_ITEM_ZOOM_FIT_TO_SCREEN = "PipelineExecutionViewer-ToolBar-10600-Zoom-Fit-To-Screen";
+  public static final String TOOLBAR_ITEM_TO_EDITOR = "PipelineExecutionViewer-Toolbar-11100-GoToEditor";
+  public static final String TOOLBAR_ITEM_DRILL_DOWN = "PipelineExecutionViewer-Toolbar-11200-DrillDown";
   public static final String TOOLBAR_ITEM_GO_UP = "PipelineExecutionViewer-Toolbar-11300-GoUp";
-  public static final String TOOLBAR_ITEM_VIEW_EXECUTOR =
-      "PipelineExecutionViewer-Toolbar-12000-ViewExecutor";
-  public static final String TOOLBAR_ITEM_VIEW_METADATA =
-      "PipelineExecutionViewer-Toolbar-12100-ViewMetadata";
+  public static final String TOOLBAR_ITEM_VIEW_EXECUTOR = "PipelineExecutionViewer-Toolbar-12000-ViewExecutor";
+  public static final String TOOLBAR_ITEM_VIEW_METADATA = "PipelineExecutionViewer-Toolbar-12100-ViewMetadata";
 
   public static final String PIPELINE_EXECUTION_VIEWER_TABS = "PipelineExecutionViewer.Tabs.ID";
 
@@ -148,13 +141,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
   private CTabItem metricsTab;
   private TableView metricsView;
 
-  public PipelineExecutionViewer(
-      Composite parent,
-      HopGui hopGui,
-      PipelineMeta pipelineMeta,
-      String locationName,
-      ExecutionPerspective perspective,
-      Execution execution,
+  public PipelineExecutionViewer(Composite parent, HopGui hopGui, PipelineMeta pipelineMeta, String locationName, ExecutionPerspective perspective, Execution execution,
       ExecutionState executionState) {
     super(parent, hopGui, perspective, locationName, execution, executionState);
     this.pipelineMeta = pipelineMeta;
@@ -247,24 +234,11 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     infoTab.setImage(GuiResource.getInstance().getImageInfo());
     infoTab.setText(BaseMessages.getString(PKG, "PipelineExecutionViewer.InfoTab.Title"));
 
-    ColumnInfo[] infoCols =
-        new ColumnInfo[] {
-          new ColumnInfo("Item", ColumnInfo.COLUMN_TYPE_TEXT, false, true),
-          new ColumnInfo("Value", ColumnInfo.COLUMN_TYPE_TEXT, false, true),
-        };
+    ColumnInfo[] infoCols = new ColumnInfo[] {new ColumnInfo("Item", ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo("Value", ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
     // Let's simply add a table view with all the details on it.
     //
-    infoView =
-        new TableView(
-            hopGui.getVariables(),
-            tabFolder,
-            SWT.H_SCROLL | SWT.V_SCROLL,
-            infoCols,
-            1,
-            true,
-            null,
-            props);
+    infoView = new TableView(hopGui.getVariables(), tabFolder, SWT.H_SCROLL | SWT.V_SCROLL, infoCols, 1, true, null, props);
     PropsUi.setLook(infoView);
 
     infoTab.setControl(infoView);
@@ -290,11 +264,9 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       // Calculate information staleness
       //
       String statusDescription = executionState.getStatusDescription();
-      if (Pipeline.STRING_RUNNING.equalsIgnoreCase(statusDescription)
-          || Pipeline.STRING_INITIALIZING.equalsIgnoreCase(statusDescription)) {
+      if (Pipeline.STRING_RUNNING.equalsIgnoreCase(statusDescription) || Pipeline.STRING_INITIALIZING.equalsIgnoreCase(statusDescription)) {
         long loggingInterval = Const.toLong(location.getDataLoggingInterval(), 20000);
-        if (System.currentTimeMillis() - executionState.getUpdateTime().getTime()
-            > loggingInterval) {
+        if (System.currentTimeMillis() - executionState.getUpdateTime().getTime() > loggingInterval) {
           // The information is stale, not getting updates!
           //
           TableItem item = infoView.add("Update state", STRING_STATE_STALE);
@@ -318,11 +290,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       infoView.optimizeTableView();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.UI,
-            hopGui.getVariables(),
-            HopGuiExtensionPoint.PipelineExecutionViewerUpdate.id,
-            this);
+        ExtensionPointHandler.callExtensionPoint(LogChannel.UI, hopGui.getVariables(), HopGuiExtensionPoint.PipelineExecutionViewerUpdate.id, this);
       } catch (Exception xe) {
         LogChannel.UI.logError("Error handling extension point 'HopGuiFileOpenDialog'", xe);
       }
@@ -344,26 +312,18 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
           try {
             // Invoke static method showTab(PipelineExecutionViewer)
             //
-            Method showTabMethod =
-                pluginTabClass.getMethod("showTab", PipelineExecutionViewer.class);
+            Method showTabMethod = pluginTabClass.getMethod("showTab", PipelineExecutionViewer.class);
             showTab = (boolean) showTabMethod.invoke(null, this);
           } catch (NoSuchMethodException noSuchMethodException) {
             // Just show the tab
           }
           if (showTab) {
-            Constructor<?> constructor =
-                pluginTabClass.getConstructor(PipelineExecutionViewer.class);
+            Constructor<?> constructor = pluginTabClass.getConstructor(PipelineExecutionViewer.class);
             Object object = constructor.newInstance(this);
             tabItem.getMethod().invoke(object, tabFolder);
           }
         } catch (Exception e) {
-          new ErrorDialog(
-              hopGui.getShell(),
-              "Error",
-              "Hop was unable to invoke @GuiTab method "
-                  + tabItem.getMethod().getName()
-                  + " with the parent composite as argument",
-              e);
+          new ErrorDialog(hopGui.getShell(), "Error", "Hop was unable to invoke @GuiTab method " + tabItem.getMethod().getName() + " with the parent composite as argument", e);
         }
       }
       tabFolder.layout();
@@ -380,25 +340,14 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
 
     // The list of available data on the left-hand side.
     //
-    dataList =
-        new org.eclipse.swt.widgets.List(
-            dataSash, SWT.SINGLE | SWT.LEFT | SWT.V_SCROLL | SWT.H_SCROLL);
+    dataList = new org.eclipse.swt.widgets.List(dataSash, SWT.SINGLE | SWT.LEFT | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(dataList);
     dataList.addListener(SWT.Selection, e -> showDataRows());
 
-    // An empty table view on the right.  This will be populated during a refresh.
+    // An empty table view on the right. This will be populated during a refresh.
     //
     ColumnInfo[] dataColumns = new ColumnInfo[] {};
-    dataView =
-        new TableView(
-            hopGui.getVariables(),
-            dataSash,
-            SWT.H_SCROLL | SWT.V_SCROLL,
-            dataColumns,
-            0,
-            true,
-            null,
-            props);
+    dataView = new TableView(hopGui.getVariables(), dataSash, SWT.H_SCROLL | SWT.V_SCROLL, dataColumns, 0, true, null, props);
     PropsUi.setLook(dataView);
 
     dataView.optimizeTableView();
@@ -414,19 +363,10 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     metricsTab.setImage(GuiResource.getInstance().getImageData());
     metricsTab.setText(BaseMessages.getString(PKG, "PipelineExecutionViewer.MetricsTab.Title"));
 
-    // An empty table view on the right.  This will be populated during a refresh.
+    // An empty table view on the right. This will be populated during a refresh.
     //
     ColumnInfo[] dataColumns = new ColumnInfo[] {};
-    metricsView =
-        new TableView(
-            hopGui.getVariables(),
-            tabFolder,
-            SWT.H_SCROLL | SWT.V_SCROLL,
-            dataColumns,
-            0,
-            true,
-            null,
-            props);
+    metricsView = new TableView(hopGui.getVariables(), tabFolder, SWT.H_SCROLL | SWT.V_SCROLL, dataColumns, 0, true, null, props);
     PropsUi.setLook(metricsView);
 
     metricsView.optimizeTableView();
@@ -461,15 +401,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       addColumn(columns, indexMap, metricNames, Pipeline.METRIC_ERROR);
 
       metricsView =
-          new TableView(
-              hopGui.getVariables(),
-              tabFolder,
-              SWT.H_SCROLL | SWT.V_SCROLL,
-              columns.toArray(new ColumnInfo[0]),
-              executionState.getMetrics().size(),
-              true,
-              null,
-              props);
+          new TableView(hopGui.getVariables(), tabFolder, SWT.H_SCROLL | SWT.V_SCROLL, columns.toArray(new ColumnInfo[0]), executionState.getMetrics().size(), true, null, props);
 
       for (int i = 0; i < executionState.getMetrics().size(); i++) {
         ExecutionStateComponentMetrics metrics = executionState.getMetrics().get(i);
@@ -491,11 +423,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     }
   }
 
-  private void addColumn(
-      List<ColumnInfo> columns,
-      Map<String, Integer> indexMap,
-      Set<String> metricNames,
-      IEngineMetric metric) {
+  private void addColumn(List<ColumnInfo> columns, Map<String, Integer> indexMap, Set<String> metricNames, IEngineMetric metric) {
     if (metricNames.contains(metric.getHeader())) {
       columns.add(new ColumnInfo(metric.getHeader(), ColumnInfo.COLUMN_TYPE_TEXT, true, true));
       // Index +1 because of the left-hand row number
@@ -535,9 +463,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
             IRowMeta rowMeta = rowBuffer.getRowMeta();
             // Add a column for every
             for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-              ColumnInfo columnInfo =
-                  new ColumnInfo(
-                      valueMeta.getName(), ColumnInfo.COLUMN_TYPE_TEXT, valueMeta.isNumeric());
+              ColumnInfo columnInfo = new ColumnInfo(valueMeta.getName(), ColumnInfo.COLUMN_TYPE_TEXT, valueMeta.isNumeric());
               columnInfo.setValueMeta(valueMeta);
               columnInfo.setToolTip(valueMeta.toStringMeta());
               columns.add(columnInfo);
@@ -549,16 +475,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
 
             // Create a new one
             //
-            dataView =
-                new TableView(
-                    hopGui.getVariables(),
-                    dataSash,
-                    SWT.H_SCROLL | SWT.V_SCROLL,
-                    columns.toArray(new ColumnInfo[0]),
-                    rowBuffer.size(),
-                    true,
-                    null,
-                    props);
+            dataView = new TableView(hopGui.getVariables(), dataSash, SWT.H_SCROLL | SWT.V_SCROLL, columns.toArray(new ColumnInfo[0]), rowBuffer.size(), true, null, props);
 
             for (int r = 0; r < rowBuffer.size(); r++) {
               Object[] row = rowBuffer.getBuffer().get(r);
@@ -599,13 +516,11 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
 
     // When the logging tab comes into focus, re-load the logging text
     //
-    tabFolder.addListener(
-        SWT.Selection,
-        e -> {
-          if (tabFolder.getSelection() == logTab) {
-            refreshLoggingText();
-          }
-        });
+    tabFolder.addListener(SWT.Selection, e -> {
+      if (tabFolder.getSelection() == logTab) {
+        refreshLoggingText();
+      }
+    });
   }
 
   @Override
@@ -627,8 +542,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
 
     // Do double buffering to prevent flickering on Windows
     //
-    boolean needsDoubleBuffering =
-        Const.isWindows() && "GUI".equalsIgnoreCase(Const.getHopPlatformRuntime());
+    boolean needsDoubleBuffering = Const.isWindows() && "GUI".equalsIgnoreCase(Const.getHopPlatformRuntime());
 
     Image image = null;
     GC swtGc = e.gc;
@@ -922,7 +836,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
         for (String key : setMetaData.keySet()) {
           ExecutionDataSetMeta setMeta = setMetaData.get(key);
           if (transformMeta.getName().equals(setMeta.getName())) {
-            // We're in the right place.  We can have different types of data though.
+            // We're in the right place. We can have different types of data though.
             // We list the types in the List on the left in the data tab.
             //
             items.add(setMeta.getDescription());
@@ -963,22 +877,17 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     //
     if (data == null) {
       ExecutionDataBuilder builder = ExecutionDataBuilder.of().withParentId(execution.getId());
-      List<String> childIds =
-          location
-              .getExecutionInfoLocation()
-              .findChildIds(ExecutionType.Pipeline, execution.getId());
+      List<String> childIds = location.getExecutionInfoLocation().findChildIds(ExecutionType.Pipeline, execution.getId());
       if (childIds != null) {
         for (String childId : childIds) {
           try {
-            ExecutionData childData =
-                location.getExecutionInfoLocation().getExecutionData(execution.getId(), childId);
+            ExecutionData childData = location.getExecutionInfoLocation().getExecutionData(execution.getId(), childId);
             if (childData != null) {
               builder.addDataSets(childData.getDataSets()).addSetMeta(childData.getSetMetaData());
             }
           } catch (Exception e) {
             // Data not yet written for this child ID
-            LogChannel.GENERAL.logDetailed(
-                "Error find transform data for child ID " + childId + " : " + e.getMessage());
+            LogChannel.GENERAL.logDetailed("Error find transform data for child ID " + childId + " : " + e.getMessage());
           }
         }
       }
@@ -1007,7 +916,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     // We need to look up a pipeline or workflow execution where the parent is the ID of the action
     //
     try {
-      // Find the ID of the transform.  That will be the parent of the executing workflow or
+      // Find the ID of the transform. That will be the parent of the executing workflow or
       // pipeline
       // Open all copies of the transform
       //
@@ -1037,14 +946,11 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       // We'll find Transform executions with the transform name and the parent
       //
       List<Execution> executions =
-          iLocation.findExecutions(
-              e ->
-                  selectedTransform.getName().equals(e.getName())
-                      && e.getExecutionType() == ExecutionType.Transform
-                      && execution.getId().equals(e.getParentId()));
+          iLocation
+              .findExecutions(e -> selectedTransform.getName().equals(e.getName()) && e.getExecutionType() == ExecutionType.Transform && execution.getId().equals(e.getParentId()));
 
       // Since we're here this probably means that we have more than one execution for an executor.
-      // We can have multiple copies of this executor running.  Ask which copy to pick...
+      // We can have multiple copies of this executor running. Ask which copy to pick...
       //
       if (executions.isEmpty()) {
         return;
@@ -1083,27 +989,13 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
   }
 
   private Execution selectExecution(List<Execution> executions) {
-    IRowMeta rowMeta =
-        new RowMetaBuilder()
-            .addString("Type")
-            .addString("Name")
-            .addString("Copy")
-            .addDate("Start date")
-            .build();
+    IRowMeta rowMeta = new RowMetaBuilder().addString("Type").addString("Name").addString("Copy").addDate("Start date").build();
     List<RowMetaAndData> rows = new ArrayList<>();
     for (Execution execution : executions) {
-      rows.add(
-          new RowMetaAndData(
-              rowMeta,
-              execution.getExecutionType().name(),
-              execution.getName(),
-              execution.getCopyNr(),
-              execution.getExecutionStartDate()));
+      rows.add(new RowMetaAndData(rowMeta, execution.getExecutionType().name(), execution.getName(), execution.getCopyNr(), execution.getExecutionStartDate()));
     }
 
-    SelectRowDialog dialog =
-        new SelectRowDialog(
-            getShell(), hopGui.getVariables(), SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL, rows);
+    SelectRowDialog dialog = new SelectRowDialog(getShell(), hopGui.getVariables(), SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL, rows);
     RowMetaAndData selectedRow = dialog.open();
     if (selectedRow == null) {
       // Operation is canceled
@@ -1191,8 +1083,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       // Also inflate the metadata
       //
       String metadataJson = execution.getMetadataJson();
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metadataJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metadataJson);
 
       // The variables set
       //
@@ -1203,8 +1094,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
       PipelineMeta pipelineMeta = new PipelineMeta(pipelineNode, metadataProvider);
 
       HopDataOrchestrationPerspective p = HopGui.getDataOrchestrationPerspective();
-      HopGuiPipelineGraph graph =
-          (HopGuiPipelineGraph) p.addPipeline(hopGui, pipelineMeta, new HopPipelineFileType<>());
+      HopGuiPipelineGraph graph = (HopGuiPipelineGraph) p.addPipeline(hopGui, pipelineMeta, new HopPipelineFileType<>());
 
       graph.setVariables(variables);
 
@@ -1238,6 +1128,7 @@ public class PipelineExecutionViewer extends BaseExecutionViewer
     // If we're still here, return the pipeline log channel ID
     return getLogChannelId();
   }
+
   /**
    * Gets pipelineMeta
    *

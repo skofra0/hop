@@ -46,15 +46,14 @@ import static org.mockito.Mockito.when;
 
 public class MongoFieldTest {
 
-  @Mock IVariables variables;
+  @Mock
+  IVariables variables;
   private MongoField field;
 
   @Before
   public void before() throws HopPluginException {
     MockitoAnnotations.initMocks(this);
-    when(variables.resolve(any(String.class)))
-        .thenAnswer(
-            (Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
+    when(variables.resolve(any(String.class))).thenAnswer((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
     PluginRegistry.addPluginType(ValueMetaPluginType.getInstance());
     PluginRegistry.init();
   }
@@ -122,8 +121,7 @@ public class MongoFieldTest {
 
   @Test
   public void testConvertArrayIndicesToHopValue() throws HopException {
-    BasicDBObject dbObj =
-        (BasicDBObject) BasicDBObject.parse("{ parent : { fieldName : ['valA', 'valB'] } } ");
+    BasicDBObject dbObj = (BasicDBObject) BasicDBObject.parse("{ parent : { fieldName : ['valA', 'valB'] } } ");
 
     initField("fieldName", "$.parent.fieldName[0]", "String");
     assertThat(field.convertToHopValue(dbObj), equalTo((Object) "valA"));

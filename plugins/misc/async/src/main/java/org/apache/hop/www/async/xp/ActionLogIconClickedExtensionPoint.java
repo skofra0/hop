@@ -34,12 +34,9 @@ import org.apache.hop.www.async.AsyncWebService;
     id = "ActionLogIconClickedExtensionPoint",
     extensionPointId = "WorkflowGraphMouseUp",
     description = "Edit the async web service associated with the logging on click & mouse up")
-public class ActionLogIconClickedExtensionPoint
-    implements IExtensionPoint<HopGuiWorkflowGraphExtension> {
+public class ActionLogIconClickedExtensionPoint implements IExtensionPoint<HopGuiWorkflowGraphExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiWorkflowGraphExtension extension)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiWorkflowGraphExtension extension) throws HopException {
 
     HopGuiWorkflowGraph workflowGraph = extension.getWorkflowGraph();
 
@@ -54,21 +51,13 @@ public class ActionLogIconClickedExtensionPoint
       if (areaOwner.getOwner() instanceof String) {
         String message = (String) areaOwner.getOwner();
         if (message.startsWith(DrawAsyncLoggingIconExtensionPoint.STRING_AREA_OWNER_PREFIX)) {
-          String serviceName =
-              message.substring(
-                  DrawAsyncLoggingIconExtensionPoint.STRING_AREA_OWNER_PREFIX.length());
+          String serviceName = message.substring(DrawAsyncLoggingIconExtensionPoint.STRING_AREA_OWNER_PREFIX.length());
           if (StringUtils.isNotEmpty(serviceName)) {
-            MultiMetadataProvider metadataProvider =
-                workflowGraph.getHopGui().getMetadataProvider();
-            IHopMetadataSerializer<AsyncWebService> serializer =
-                metadataProvider.getSerializer(AsyncWebService.class);
+            MultiMetadataProvider metadataProvider = workflowGraph.getHopGui().getMetadataProvider();
+            IHopMetadataSerializer<AsyncWebService> serializer = metadataProvider.getSerializer(AsyncWebService.class);
             if (serializer.exists(serviceName)) {
               MetadataManager<AsyncWebService> manager =
-                  new MetadataManager<>(
-                      workflowGraph.getVariables(),
-                      metadataProvider,
-                      AsyncWebService.class,
-                      extension.getWorkflowGraph().getShell());
+                  new MetadataManager<>(workflowGraph.getVariables(), metadataProvider, AsyncWebService.class, extension.getWorkflowGraph().getShell());
               manager.editMetadata(serviceName);
               extension.setPreventingDefault(true);
             }

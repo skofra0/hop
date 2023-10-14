@@ -41,8 +41,7 @@ public class FileMetadataMeta extends BaseTransformMeta<FileMetadata, FileMetada
   @HopMetadataProperty(key = "fileName")
   private String fileName;
 
-  @HopMetadataProperty(
-          key = "filenameInField")
+  @HopMetadataProperty(key = "filenameInField")
   private boolean filenameInField;
 
   @HopMetadataProperty(key = "fileNameField")
@@ -116,31 +115,12 @@ public class FileMetadataMeta extends BaseTransformMeta<FileMetadata, FileMetada
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     rowMeta.addRowMeta(
-        new RowMetaBuilder()
-            .addString("charset")
-            .addString("delimiter")
-            .addString("enclosure")
-            .addInteger("field_count")
-            .addInteger("skip_header_lines")
-            .addInteger("skip_footer_lines")
-            .addBoolean("header_line_present")
-            .addString("name")
-            .addString("type")
-            .addInteger("length")
-            .addInteger("precision")
-            .addString("mask")
-            .addString("decimal_symbol")
-            .addString("grouping_symbol")
-            .build());
+        new RowMetaBuilder().addString("charset").addString("delimiter").addString("enclosure").addInteger("field_count").addInteger("skip_header_lines")
+            .addInteger("skip_footer_lines").addBoolean("header_line_present").addString("name").addString("type").addInteger("length").addInteger("precision").addString("mask")
+            .addString("decimal_symbol").addString("grouping_symbol").build());
   }
 
   public static final class FMCandidate {

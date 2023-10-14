@@ -37,7 +37,8 @@ import org.junit.Test;
 import java.util.UUID;
 
 public class PGBulkLoaderMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private TransformMeta transformMeta;
   private PGBulkLoader loader;
@@ -56,9 +57,7 @@ public class PGBulkLoaderMetaTest {
   public void testSerialization() throws Exception {
     LoadSaveTester<PGBulkLoaderMeta> tester = new LoadSaveTester<>(PGBulkLoaderMeta.class);
     IFieldLoadSaveValidatorFactory factory = tester.getFieldLoadSaveValidatorFactory();
-    factory.registerValidator(
-        PGBulkLoaderMeta.class.getDeclaredField("mappings").getGenericType().toString(),
-        new ListLoadSaveValidator<>(new PGBulkLoaderMappingMetaValidator()));
+    factory.registerValidator(PGBulkLoaderMeta.class.getDeclaredField("mappings").getGenericType().toString(), new ListLoadSaveValidator<>(new PGBulkLoaderMappingMetaValidator()));
     tester.testSerialization();
   }
 
@@ -87,13 +86,11 @@ public class PGBulkLoaderMetaTest {
     loader = new PGBulkLoader(transformMeta, lm, ld, 1, pipelineMeta, pipeline);
   }
 
-  public static final class PGBulkLoaderMappingMetaValidator
-      implements IFieldLoadSaveValidator<PGBulkLoaderMappingMeta> {
+  public static final class PGBulkLoaderMappingMetaValidator implements IFieldLoadSaveValidator<PGBulkLoaderMappingMeta> {
 
     @Override
     public PGBulkLoaderMappingMeta getTestObject() {
-      return new PGBulkLoaderMappingMeta(
-          UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+      return new PGBulkLoaderMappingMeta(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
     @Override

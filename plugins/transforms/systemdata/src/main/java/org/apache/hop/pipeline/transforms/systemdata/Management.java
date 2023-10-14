@@ -77,7 +77,7 @@ public class Management {
 
   /**
    * @return the amount of virtual memory that is guaranteed to be available to the running process
-   *     in bytes
+   *         in bytes
    */
   public static long getCommittedVirtualMemorySize() {
     setOperatingSystemMXBean();

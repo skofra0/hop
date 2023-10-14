@@ -25,19 +25,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public class TransformSerializationTestUtil {
-  public static final <T extends ITransformMeta> T testSerialization(
-      String filename, Class<T> clazz) throws Exception {
+  public static final <T extends ITransformMeta> T testSerialization(String filename, Class<T> clazz) throws Exception {
     return testSerialization(filename, clazz, TransformMeta.XML_TAG, new MemoryMetadataProvider());
   }
 
-  public static final <T extends ITransformMeta> T testSerialization(
-      String filename, Class<T> clazz, IHopMetadataProvider metadataProvider) throws Exception {
+  public static final <T extends ITransformMeta> T testSerialization(String filename, Class<T> clazz, IHopMetadataProvider metadataProvider) throws Exception {
     return testSerialization(filename, clazz, TransformMeta.XML_TAG, metadataProvider);
   }
 
-  public static final <T extends ITransformMeta> T testSerialization(
-      String filename, Class<T> clazz, String xmlTag, IHopMetadataProvider metadataProvider)
-      throws Exception {
+  public static final <T extends ITransformMeta> T testSerialization(String filename, Class<T> clazz, String xmlTag, IHopMetadataProvider metadataProvider) throws Exception {
     Document document = XmlHandler.loadXmlFile(clazz.getResourceAsStream(filename));
     Node node = XmlHandler.getSubNode(document, xmlTag);
     T meta = clazz.getConstructor().newInstance();

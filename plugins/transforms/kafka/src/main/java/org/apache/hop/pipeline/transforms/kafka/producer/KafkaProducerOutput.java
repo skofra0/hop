@@ -27,20 +27,13 @@ import org.apache.hop.pipeline.transforms.kafka.consumer.KafkaConsumerField;
 import org.apache.hop.pipeline.transforms.kafka.shared.KafkaFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-public class KafkaProducerOutput
-    extends BaseTransform<KafkaProducerOutputMeta, KafkaProducerOutputData> {
+public class KafkaProducerOutput extends BaseTransform<KafkaProducerOutputMeta, KafkaProducerOutputData> {
 
   private static final Class<?> PKG = KafkaProducerOutputMeta.class; // For Translator
 
   private KafkaFactory kafkaFactory;
 
-  public KafkaProducerOutput(
-      TransformMeta transformMeta,
-      KafkaProducerOutputMeta meta,
-      KafkaProducerOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public KafkaProducerOutput(TransformMeta transformMeta, KafkaProducerOutputMeta meta, KafkaProducerOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
     setKafkaFactory(KafkaFactory.defaultFactory());
   }
@@ -67,11 +60,7 @@ public class KafkaProducerOutput
       data.msgValueMeta = getInputRowMeta().getValueMeta(data.messageFieldIndex);
 
       data.kafkaProducer =
-          kafkaFactory.producer(
-              meta,
-              this::resolve,
-              KafkaConsumerField.Type.fromValueMeta(data.keyValueMeta),
-              KafkaConsumerField.Type.fromValueMeta(data.msgValueMeta));
+          kafkaFactory.producer(meta, this::resolve, KafkaConsumerField.Type.fromValueMeta(data.keyValueMeta), KafkaConsumerField.Type.fromValueMeta(data.msgValueMeta));
 
       data.isOpen = true;
 
@@ -83,22 +72,13 @@ public class KafkaProducerOutput
     }
     ProducerRecord<Object, Object> producerRecord;
     // allow for null keys
-    if (data.keyFieldIndex < 0
-        || getInputRowMeta().isNull(r, data.keyFieldIndex)
-        || StringUtils.isEmpty(r[data.keyFieldIndex].toString())) {
+    if (data.keyFieldIndex < 0 || getInputRowMeta().isNull(r, data.keyFieldIndex) || StringUtils.isEmpty(r[data.keyFieldIndex].toString())) {
       producerRecord = new ProducerRecord<>(resolve(meta.getTopic()), r[data.messageFieldIndex]);
     } else {
 
-      Object nativeObject =
-          getInputRowMeta()
-              .getValueMeta(data.messageFieldIndex)
-              .getNativeDataType(r[data.messageFieldIndex]);
+      Object nativeObject = getInputRowMeta().getValueMeta(data.messageFieldIndex).getNativeDataType(r[data.messageFieldIndex]);
 
-      producerRecord =
-          new ProducerRecord<>(
-              resolve(meta.getTopic()),
-              getInputRowMeta().getString(r, data.keyFieldIndex),
-              nativeObject);
+      producerRecord = new ProducerRecord<>(resolve(meta.getTopic()), getInputRowMeta().getString(r, data.keyFieldIndex), nativeObject);
     }
 
     data.kafkaProducer.send(producerRecord);

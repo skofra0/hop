@@ -77,109 +77,89 @@ public class HopGuiLogBrowser {
     // Refresh the log every second or so
     //
     final Timer logRefreshTimer = new Timer("log sniffer Timer");
-    TimerTask timerTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            if (text.isDisposed() || text.getDisplay().isDisposed()) {
-              return;
+    TimerTask timerTask = new TimerTask() {
+      @Override
+      public void run() {
+        if (text.isDisposed() || text.getDisplay().isDisposed()) {
+          return;
+        }
+
+        text.getDisplay().asyncExec(() -> {
+          IHasLogChannel provider = logProvider.getLogChannelProvider();
+
+          if (provider != null && !text.isDisposed() && !busy.get() && !paused.get() && text.isVisible()) {
+            busy.set(true);
+
+            ILogChannel logChannel = provider.getLogChannel();
+            // The log channel can still be initializing.
+            // It happens with slow writing of execution information to a location.
+            //
+            if (logChannel != null) {
+              String parentLogChannelId = logChannel.getLogChannelId();
+              LoggingRegistry registry = LoggingRegistry.getInstance();
+              Date registryModDate = registry.getLastModificationTime();
+
+              if (childIds == null || lastLogRegistryChange == null || registryModDate.compareTo(lastLogRegistryChange) > 0) {
+                lastLogRegistryChange = registry.getLastModificationTime();
+                childIds = LoggingRegistry.getInstance().getLogChannelChildren(parentLogChannelId);
+              }
+
+              // See if we need to log any lines...
+              //
+              int lastNr = HopLogStore.getLastBufferLineNr();
+              if (lastNr > lastLogId.get()) {
+                List<HopLoggingEvent> logLines = HopLogStore.getLogBufferFromTo(childIds, true, lastLogId.get(), lastNr);
+
+                // The maximum size of the log buffer
+                //
+                int maxSize;
+                DescribedVariable describedVariable = HopConfig.getInstance().findDescribedVariable(Const.HOP_MAX_LOG_SIZE_IN_LINES);
+                if (describedVariable == null) {
+                  maxSize = Const.MAX_NR_LOG_LINES;
+                } else {
+                  maxSize = Const.toInt(describedVariable.getValue(), Const.MAX_NR_LOG_LINES);
+                }
+
+                synchronized (text) {
+                  for (int i = 0; i < logLines.size(); i++) {
+                    HopLoggingEvent event = logLines.get(i);
+                    String line = logLayout.format(event).trim();
+                    int start = text.getText().length();
+                    int length = line.length();
+
+                    if (length > 0) {
+                      Format format = TextFormatter.getInstance().execute(line);
+                      text.append(format.getText());
+                      text.append(Const.CR);
+                    }
+                  }
+                }
+
+                // Erase it all in one go
+                // This makes it a bit more efficient
+                //
+                int size = text.getText().length();
+                if (maxSize > 0 && size > maxSize) {
+
+                  int dropIndex = (text.getText().indexOf(Const.CR, size - maxSize)) + Const.CR.length();
+                  text.setText(text.getText().substring(dropIndex));
+                }
+
+                text.setSelection(text.getText().length());
+
+                lastLogId.set(lastNr);
+              }
             }
-
-            text.getDisplay()
-                .asyncExec(
-                    () -> {
-                      IHasLogChannel provider = logProvider.getLogChannelProvider();
-
-                      if (provider != null
-                          && !text.isDisposed()
-                          && !busy.get()
-                          && !paused.get()
-                          && text.isVisible()) {
-                        busy.set(true);
-
-                        ILogChannel logChannel = provider.getLogChannel();
-                        // The log channel can still be initializing.
-                        // It happens with slow writing of execution information to a location.
-                        //
-                        if (logChannel != null) {
-                          String parentLogChannelId = logChannel.getLogChannelId();
-                          LoggingRegistry registry = LoggingRegistry.getInstance();
-                          Date registryModDate = registry.getLastModificationTime();
-
-                          if (childIds == null
-                              || lastLogRegistryChange == null
-                              || registryModDate.compareTo(lastLogRegistryChange) > 0) {
-                            lastLogRegistryChange = registry.getLastModificationTime();
-                            childIds =
-                                LoggingRegistry.getInstance()
-                                    .getLogChannelChildren(parentLogChannelId);
-                          }
-
-                          // See if we need to log any lines...
-                          //
-                          int lastNr = HopLogStore.getLastBufferLineNr();
-                          if (lastNr > lastLogId.get()) {
-                            List<HopLoggingEvent> logLines =
-                                HopLogStore.getLogBufferFromTo(
-                                    childIds, true, lastLogId.get(), lastNr);
-
-                            // The maximum size of the log buffer
-                            //
-                            int maxSize;
-                            DescribedVariable describedVariable =
-                                HopConfig.getInstance()
-                                    .findDescribedVariable(Const.HOP_MAX_LOG_SIZE_IN_LINES);
-                            if (describedVariable == null) {
-                              maxSize = Const.MAX_NR_LOG_LINES;
-                            } else {
-                              maxSize =
-                                  Const.toInt(describedVariable.getValue(), Const.MAX_NR_LOG_LINES);
-                            }
-
-                            synchronized (text) {
-                              for (int i = 0; i < logLines.size(); i++) {
-                                HopLoggingEvent event = logLines.get(i);
-                                String line = logLayout.format(event).trim();
-                                int start = text.getText().length();
-                                int length = line.length();
-
-                                if (length > 0) {
-                                  Format format = TextFormatter.getInstance().execute(line);
-                                  text.append(format.getText());
-                                  text.append(Const.CR);
-                                }
-                              }
-                            }
-
-                            // Erase it all in one go
-                            // This makes it a bit more efficient
-                            //
-                            int size = text.getText().length();
-                            if (maxSize > 0 && size > maxSize) {
-
-                              int dropIndex =
-                                  (text.getText().indexOf(Const.CR, size - maxSize))
-                                      + Const.CR.length();
-                              text.setText(text.getText().substring(dropIndex));
-                            }
-
-                            text.setSelection(text.getText().length());
-
-                            lastLogId.set(lastNr);
-                          }
-                        }
-                        busy.set(false);
-                      }
-                    });
+            busy.set(false);
           }
-        };
+        });
+      }
+    };
 
     // Refresh every often enough
     //
     logRefreshTimer.schedule(
-        timerTask,
-        Const.toInt(EnvUtil.getSystemProperty(Const.HOP_LOG_TAB_REFRESH_DELAY), 1000),
-        Const.toInt(EnvUtil.getSystemProperty(Const.HOP_LOG_TAB_REFRESH_PERIOD), 1000));
+        timerTask, Const.toInt(EnvUtil.getSystemProperty(Const.HOP_LOG_TAB_REFRESH_DELAY), 1000), Const.toInt(EnvUtil.getSystemProperty(Const.HOP_LOG_TAB_REFRESH_PERIOD), 1000));
 
     // Make sure the timer goes down when the widget is disposed
     //
@@ -192,27 +172,25 @@ public class HopGuiLogBrowser {
     final Menu menu = new Menu(text);
     MenuItem item = new MenuItem(menu, SWT.NONE);
     item.setText(BaseMessages.getString(PKG, "LogBrowser.CopySelectionToClipboard.MenuItem"));
-    item.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            String selection = text.getSelectionText();
-            if (!Utils.isEmpty(selection)) {
-              GuiResource.getInstance().toClipboard(selection);
-            }
-          }
-        });
+    item.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        String selection = text.getSelectionText();
+        if (!Utils.isEmpty(selection)) {
+          GuiResource.getInstance().toClipboard(selection);
+        }
+      }
+    });
     text.setMenu(menu);
 
-    text.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDown(MouseEvent event) {
-            if (event.button == 3) {
-              ConstUi.displayMenu(menu, text);
-            }
-          }
-        });
+    text.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent event) {
+        if (event.button == 3) {
+          ConstUi.displayMenu(menu, text);
+        }
+      }
+    });
   }
 
   /**

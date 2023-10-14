@@ -82,10 +82,7 @@ public class RadioTab extends Composite {
     PropsUi.setLook(button);
     FormData fdButton = new FormData();
     fdButton.top = new FormAttachment(0);
-    fdButton.left =
-        existingButtons.length == 0
-            ? new FormAttachment(0)
-            : new FormAttachment(existingButtons[existingButtons.length - 1], 40);
+    fdButton.left = existingButtons.length == 0 ? new FormAttachment(0) : new FormAttachment(existingButtons[existingButtons.length - 1], 40);
     button.setLayoutData(fdButton);
     button.setSelection(existingButtons.length == 0);
     Composite content = new Composite(contentArea, SWT.NONE);
@@ -93,16 +90,15 @@ public class RadioTab extends Composite {
     PropsUi.setLook(content);
     content.setLayout(noMarginLayout);
     content.setLayoutData(fdMaximize);
-    button.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            for (Control control : contentArea.getChildren()) {
-              control.setVisible(false);
-            }
-            content.setVisible(true);
-          }
-        });
+    button.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        for (Control control : contentArea.getChildren()) {
+          control.setVisible(false);
+        }
+        content.setVisible(true);
+      }
+    });
     return content;
   }
 

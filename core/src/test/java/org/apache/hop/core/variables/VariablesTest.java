@@ -63,26 +63,21 @@ public class VariablesTest {
     final Map<String, String> propertiesMock = mock(Map.class);
     when(variablesMock.getProperties()).thenReturn(propertiesMock);
 
-    doAnswer(
-            new Answer<Map<String, String>>() {
-              final String keyStub = "key";
+    doAnswer(new Answer<Map<String, String>>() {
+      final String keyStub = "key";
 
-              @Override
-              public Map<String, String> answer(InvocationOnMock invocation) throws Throwable {
-                if (System.getProperty(keyStub) == null) {
-                  modifySystemproperties();
-                }
+      @Override
+      public Map<String, String> answer(InvocationOnMock invocation) throws Throwable {
+        if (System.getProperty(keyStub) == null) {
+          modifySystemproperties();
+        }
 
-                if (invocation.getArguments()[1] != null) {
-                  propertiesMock.put(
-                      (String) invocation.getArguments()[0],
-                      System.getProperties().getProperty((String) invocation.getArguments()[1]));
-                }
-                return propertiesMock;
-              }
-            })
-        .when(propertiesMock)
-        .put(anyString(), anyString());
+        if (invocation.getArguments()[1] != null) {
+          propertiesMock.put((String) invocation.getArguments()[0], System.getProperties().getProperty((String) invocation.getArguments()[1]));
+        }
+        return propertiesMock;
+      }
+    }).when(propertiesMock).put(anyString(), anyString());
 
     variablesMock.initializeFrom(null);
   }
@@ -115,7 +110,7 @@ public class VariablesTest {
     }
   }
 
-  // Note:  Not using lambda so this can be ported to older version compatible with 1.7
+  // Note: Not using lambda so this can be ported to older version compatible with 1.7
   private Callable<Boolean> newCallable() {
     return () -> {
       for (int i = 0; i < 300; i++) {
@@ -153,8 +148,6 @@ public class VariablesTest {
     assertEquals("DataTwoEnd", vars.resolve("${VarTwo}End"));
 
     assertEquals(0, vars.resolve(new String[0]).length);
-    assertArrayEquals(
-        new String[] {"DataOne", "TheDataOne"},
-        vars.resolve(new String[] {"${VarOne}", "The${VarOne}"}));
+    assertArrayEquals(new String[] {"DataOne", "TheDataOne"}, vars.resolve(new String[] {"${VarOne}", "The${VarOne}"}));
   }
 }

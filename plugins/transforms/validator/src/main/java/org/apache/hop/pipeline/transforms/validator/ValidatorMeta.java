@@ -55,22 +55,13 @@ public class ValidatorMeta extends BaseTransformMeta<Validator, ValidatorData> {
       injectionKeyDescription = "Validator.Injection.VALIDATION")
   private List<Validation> validations;
 
-  @HopMetadataProperty(
-      key = "validate_all",
-      injectionKey = "VALIDATE_ALL",
-      injectionKeyDescription = "Validator.Injection.VALIDATE_ALL")
+  @HopMetadataProperty(key = "validate_all", injectionKey = "VALIDATE_ALL", injectionKeyDescription = "Validator.Injection.VALIDATE_ALL")
   private boolean validatingAll;
 
-  @HopMetadataProperty(
-      key = "concat_errors",
-      injectionKey = "CONCATENATE_ERRORS",
-      injectionKeyDescription = "Validator.Injection.CONCATENATE_ERRORS")
+  @HopMetadataProperty(key = "concat_errors", injectionKey = "CONCATENATE_ERRORS", injectionKeyDescription = "Validator.Injection.CONCATENATE_ERRORS")
   private boolean concatenatingErrors;
 
-  @HopMetadataProperty(
-      key = "concat_separator",
-      injectionKey = "CONCATENATION_SEPARATOR",
-      injectionKeyDescription = "Validator.Injection.CONCATENATION_SEPARATOR")
+  @HopMetadataProperty(key = "concat_separator", injectionKey = "CONCATENATION_SEPARATOR", injectionKeyDescription = "Validator.Injection.CONCATENATION_SEPARATOR")
   private String concatenationSeparator;
 
   public ValidatorMeta() {
@@ -103,36 +94,19 @@ public class ValidatorMeta extends BaseTransformMeta<Validator, ValidatorData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ValidatorMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this step!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ValidatorMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -155,10 +129,7 @@ public class ValidatorMeta extends BaseTransformMeta<Validator, ValidatorData> {
           new Stream(
               IStream.StreamType.INFO,
               validation.getSourcingTransform(),
-              BaseMessages.getString(
-                  PKG,
-                  "ValidatorMeta.InfoStream.ValidationInput.Description",
-                  Const.NVL(validation.getName(), "")),
+              BaseMessages.getString(PKG, "ValidatorMeta.InfoStream.ValidationInput.Description", Const.NVL(validation.getName(), "")),
               StreamIcon.INFO,
               validation.getSourcingTransformName());
       ioMeta.addStream(stream);
@@ -169,21 +140,14 @@ public class ValidatorMeta extends BaseTransformMeta<Validator, ValidatorData> {
   @Override
   public void searchInfoAndTargetTransforms(List transforms) {
     for (Validation validation : validations) {
-      TransformMeta transformMeta =
-              TransformMeta.findTransform(transforms, validation.getSourcingTransformName());
+      TransformMeta transformMeta = TransformMeta.findTransform(transforms, validation.getSourcingTransformName());
       validation.setSourcingTransform(transformMeta);
     }
     resetTransformIoMeta();
   }
 
   /** The standard new validation stream */
-  private static IStream newValidation =
-      new Stream(
-          IStream.StreamType.INFO,
-          null,
-          BaseMessages.getString(PKG, "ValidatorMeta.NewValidation.Description"),
-          StreamIcon.INFO,
-          null);
+  private static IStream newValidation = new Stream(IStream.StreamType.INFO, null, BaseMessages.getString(PKG, "ValidatorMeta.NewValidation.Description"), StreamIcon.INFO, null);
 
   @Override
   public void handleStreamSelection(IStream stream) {

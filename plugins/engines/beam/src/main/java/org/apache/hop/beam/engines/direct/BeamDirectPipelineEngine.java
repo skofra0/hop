@@ -26,10 +26,8 @@ import org.apache.hop.pipeline.engine.PipelineEnginePlugin;
 @PipelineEnginePlugin(
     id = "BeamDirectPipelineEngine",
     name = "Beam Direct pipeline engine",
-    description =
-        "This is a local pipeline engine provided by the Apache Beam community as a way of testing pipelines")
-public class BeamDirectPipelineEngine extends BeamPipelineEngine
-    implements IPipelineEngine<PipelineMeta> {
+    description = "This is a local pipeline engine provided by the Apache Beam community as a way of testing pipelines")
+public class BeamDirectPipelineEngine extends BeamPipelineEngine implements IPipelineEngine<PipelineMeta> {
 
   public BeamDirectPipelineEngine() {}
 
@@ -41,12 +39,9 @@ public class BeamDirectPipelineEngine extends BeamPipelineEngine
   }
 
   @Override
-  public void validatePipelineRunConfigurationClass(
-      IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
+  public void validatePipelineRunConfigurationClass(IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
     if (!(engineRunConfiguration instanceof BeamDirectPipelineRunConfiguration)) {
-      throw new HopException(
-          "A Beam Direct pipeline engine needs a direct run configuration, not of class "
-              + engineRunConfiguration.getClass().getName());
+      throw new HopException("A Beam Direct pipeline engine needs a direct run configuration, not of class " + engineRunConfiguration.getClass().getName());
     }
   }
 }

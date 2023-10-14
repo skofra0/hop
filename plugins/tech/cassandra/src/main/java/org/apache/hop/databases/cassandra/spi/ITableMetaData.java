@@ -106,7 +106,7 @@ public interface ITableMetaData {
    * the Hop type equivalent to the default validation class should be returned.
    *
    * @param selector the selector that corresponds either to Cassandra column name or Cassandra
-   *     function to get the Hop type
+   *        function to get the Hop type
    * @return the Hop type for the selector
    */
   IValueMeta getValueMeta(Selector selector) throws HopException;

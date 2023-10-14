@@ -43,90 +43,46 @@ import java.util.List;
     keywords = "i18n::CypherMeta.keyword",
     documentationUrl = "/pipeline/transforms/neo4j-cypher.html")
 public class CypherMeta extends BaseTransformMeta<Cypher, CypherData> {
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKey = "connection",
-      injectionKeyDescription = "Cypher.Injection.connection")
+  @HopMetadataProperty(key = "connection", injectionKey = "connection", injectionKeyDescription = "Cypher.Injection.connection")
   private String connectionName;
 
-  @HopMetadataProperty(
-      key = "cypher",
-      injectionKey = "cypher",
-      injectionKeyDescription = "Cypher.Injection.cypher")
+  @HopMetadataProperty(key = "cypher", injectionKey = "cypher", injectionKeyDescription = "Cypher.Injection.cypher")
   private String cypher;
 
-  @HopMetadataProperty(
-      key = "batch_size",
-      injectionKey = "batch_size",
-      injectionKeyDescription = "Cypher.Injection.batch_size")
+  @HopMetadataProperty(key = "batch_size", injectionKey = "batch_size", injectionKeyDescription = "Cypher.Injection.batch_size")
   private String batchSize;
 
-  @HopMetadataProperty(
-      key = "read_only",
-      injectionKey = "read_only",
-      injectionKeyDescription = "Cypher.Injection.read_only")
+  @HopMetadataProperty(key = "read_only", injectionKey = "read_only", injectionKeyDescription = "Cypher.Injection.read_only")
   private boolean readOnly;
 
-  @HopMetadataProperty(
-      key = "retry",
-      injectionKey = "retry",
-      injectionKeyDescription = "Cypher.Injection.retry")
+  @HopMetadataProperty(key = "retry", injectionKey = "retry", injectionKeyDescription = "Cypher.Injection.retry")
   private boolean retryingOnDisconnect;
 
-  @HopMetadataProperty(
-      key = "nr_retries_on_error",
-      injectionKey = "nr_retries_on_error",
-      injectionKeyDescription = "Cypher.Injection.nr_retries_on_error")
+  @HopMetadataProperty(key = "nr_retries_on_error", injectionKey = "nr_retries_on_error", injectionKeyDescription = "Cypher.Injection.nr_retries_on_error")
   private String nrRetriesOnError;
 
-  @HopMetadataProperty(
-      key = "cypher_from_field",
-      injectionKey = "cypher_from_field",
-      injectionKeyDescription = "Cypher.Injection.cypher_from_field")
+  @HopMetadataProperty(key = "cypher_from_field", injectionKey = "cypher_from_field", injectionKeyDescription = "Cypher.Injection.cypher_from_field")
   private boolean cypherFromField;
 
-  @HopMetadataProperty(
-      key = "cypher_field",
-      injectionKey = "cypher_field",
-      injectionKeyDescription = "Cypher.Injection.cypher_field")
+  @HopMetadataProperty(key = "cypher_field", injectionKey = "cypher_field", injectionKeyDescription = "Cypher.Injection.cypher_field")
   private String cypherField;
 
-  @HopMetadataProperty(
-      key = "unwind",
-      injectionKey = "unwind",
-      injectionKeyDescription = "Cypher.Injection.unwind")
+  @HopMetadataProperty(key = "unwind", injectionKey = "unwind", injectionKeyDescription = "Cypher.Injection.unwind")
   private boolean usingUnwind;
 
-  @HopMetadataProperty(
-      key = "unwind_map",
-      injectionKey = "unwind_map",
-      injectionKeyDescription = "Cypher.Injection.unwind_map")
+  @HopMetadataProperty(key = "unwind_map", injectionKey = "unwind_map", injectionKeyDescription = "Cypher.Injection.unwind_map")
   private String unwindMapName;
 
-  @HopMetadataProperty(
-      key = "returning_graph",
-      injectionKey = "returning_graph",
-      injectionKeyDescription = "Cypher.Injection.returning_graph")
+  @HopMetadataProperty(key = "returning_graph", injectionKey = "returning_graph", injectionKeyDescription = "Cypher.Injection.returning_graph")
   private boolean returningGraph;
 
-  @HopMetadataProperty(
-      key = "return_graph_field",
-      injectionKey = "return_graph_field",
-      injectionKeyDescription = "Cypher.Injection.return_graph_field")
+  @HopMetadataProperty(key = "return_graph_field", injectionKey = "return_graph_field", injectionKeyDescription = "Cypher.Injection.return_graph_field")
   private String returnGraphField;
 
-  @HopMetadataProperty(
-      groupKey = "mappings",
-      key = "mapping",
-      injectionGroupKey = "PARAMETERS",
-      injectionGroupDescription = "Cypher.Injection.PARAMETERS")
+  @HopMetadataProperty(groupKey = "mappings", key = "mapping", injectionGroupKey = "PARAMETERS", injectionGroupDescription = "Cypher.Injection.PARAMETERS")
   private List<ParameterMapping> parameterMappings;
 
-  @HopMetadataProperty(
-      groupKey = "returns",
-      key = "return",
-      injectionGroupKey = "RETURNS",
-      injectionKeyDescription = "Cypher.Injection.RETURNS")
+  @HopMetadataProperty(groupKey = "returns", key = "return", injectionGroupKey = "RETURNS", injectionKeyDescription = "Cypher.Injection.RETURNS")
   private List<ReturnValue> returnValues;
 
   public CypherMeta() {
@@ -169,13 +125,7 @@ public class CypherMeta extends BaseTransformMeta<Cypher, CypherData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (usingUnwind) {
@@ -200,12 +150,7 @@ public class CypherMeta extends BaseTransformMeta<Cypher, CypherData> {
           valueMeta.setOrigin(name);
           rowMeta.addValueMeta(valueMeta);
         } catch (HopPluginException e) {
-          throw new HopTransformException(
-              "Unknown data type '"
-                  + returnValue.getType()
-                  + "' for value named '"
-                  + returnValue.getName()
-                  + "'");
+          throw new HopTransformException("Unknown data type '" + returnValue.getType() + "' for value named '" + returnValue.getName() + "'");
         }
       }
     }

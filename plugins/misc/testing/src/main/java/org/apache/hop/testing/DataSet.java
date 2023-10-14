@@ -44,7 +44,8 @@ public class DataSet extends HopMetadataBase implements Cloneable, IHopMetadata 
 
   public static final String VARIABLE_HOP_DATASETS_FOLDER = "HOP_DATASETS_FOLDER";
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   @HopMetadataProperty(key = "folder_name")
   private String folderName;
@@ -60,12 +61,7 @@ public class DataSet extends HopMetadataBase implements Cloneable, IHopMetadata 
     baseFilename = "data-set-filename.csv";
   }
 
-  public DataSet(
-      String name,
-      String description,
-      String folderName,
-      String baseFilename,
-      List<DataSetField> fields) {
+  public DataSet(String name, String description, String folderName, String baseFilename, List<DataSetField> fields) {
     this();
     this.name = name;
     this.description = description;
@@ -83,9 +79,7 @@ public class DataSet extends HopMetadataBase implements Cloneable, IHopMetadata 
   public IRowMeta getSetRowMeta() throws HopPluginException {
     IRowMeta rowMeta = new RowMeta();
     for (DataSetField field : getFields()) {
-      IValueMeta valueMeta =
-          ValueMetaFactory.createValueMeta(
-              field.getFieldName(), field.getType(), field.getLength(), field.getPrecision());
+      IValueMeta valueMeta = ValueMetaFactory.createValueMeta(field.getFieldName(), field.getType(), field.getLength(), field.getPrecision());
       valueMeta.setComments(field.getComment());
       valueMeta.setConversionMask(field.getFormat());
       rowMeta.addValueMeta(valueMeta);
@@ -112,9 +106,7 @@ public class DataSet extends HopMetadataBase implements Cloneable, IHopMetadata 
     return -1;
   }
 
-  public List<Object[]> getAllRows(
-      IVariables variables, ILogChannel log, PipelineUnitTestSetLocation location)
-      throws HopException {
+  public List<Object[]> getAllRows(IVariables variables, ILogChannel log, PipelineUnitTestSetLocation location) throws HopException {
     return DataSetCsvUtil.getAllRows(variables, log, this, location);
   }
 
@@ -127,10 +119,9 @@ public class DataSet extends HopMetadataBase implements Cloneable, IHopMetadata 
    *
    * @param location
    * @return The fields metadata for those fields that are mapped against a certain transform
-   *     (location)
+   *         (location)
    */
-  public IRowMeta getMappedDataSetFieldsRowMeta(PipelineUnitTestSetLocation location)
-      throws HopPluginException {
+  public IRowMeta getMappedDataSetFieldsRowMeta(PipelineUnitTestSetLocation location) throws HopPluginException {
 
     IRowMeta setRowMeta = getSetRowMeta();
     IRowMeta rowMeta = new RowMeta();

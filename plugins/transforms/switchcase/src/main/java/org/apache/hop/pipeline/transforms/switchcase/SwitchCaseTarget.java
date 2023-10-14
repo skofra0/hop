@@ -24,10 +24,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
  */
 public class SwitchCaseTarget implements Cloneable {
   /** The value to switch over */
-  @HopMetadataProperty(
-      key = "value",
-      injectionKey = "SWITCH_CASE_TARGET.CASE_VALUE",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.SWITCH_CASE_TARGET.CASE_VALUE")
+  @HopMetadataProperty(key = "value", injectionKey = "SWITCH_CASE_TARGET.CASE_VALUE", injectionKeyDescription = "SwitchCaseMeta.Injection.SWITCH_CASE_TARGET.CASE_VALUE")
   private String caseValue;
 
   /** The case target transform name (only used during serialization) */

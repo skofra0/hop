@@ -48,32 +48,22 @@ import java.util.Date;
 import java.util.List;
 
 /** Converts input rows to text and then writes this text to one or more files. */
-public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFileOutputData>
-    extends BaseTransform<Meta, Data> {
+public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFileOutputData> extends BaseTransform<Meta, Data> {
 
   private static final Class<?> PKG = TextFileOutputMeta.class; // For Translator
 
-  private static final String FILE_COMPRESSION_TYPE_NONE =
-      TextFileOutputMeta.fileCompressionTypeCodes[TextFileOutputMeta.FILE_COMPRESSION_TYPE_NONE];
-  
-  public TextFileOutput(
-      TransformMeta transformMeta,
-      Meta meta,
-      Data data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  private static final String FILE_COMPRESSION_TYPE_NONE = TextFileOutputMeta.fileCompressionTypeCodes[TextFileOutputMeta.FILE_COMPRESSION_TYPE_NONE];
+
+  public TextFileOutput(TransformMeta transformMeta, Meta meta, Data data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  private void initFieldNumbers(IRowMeta outputRowMeta, TextFileField[] outputFields)
-      throws HopException {
+  private void initFieldNumbers(IRowMeta outputRowMeta, TextFileField[] outputFields) throws HopException {
     data.fieldnrs = new int[outputFields.length];
     for (int i = 0; i < outputFields.length; i++) {
       data.fieldnrs[i] = outputRowMeta.indexOfValue(outputFields[i].getName());
       if (data.fieldnrs[i] < 0) {
-        throw new HopTransformException(
-            "Field [" + outputFields[i].getName() + "] couldn't be found in the input stream!");
+        throw new HopTransformException("Field [" + outputFields[i].getName() + "] couldn't be found in the input stream!");
       }
     }
   }
@@ -99,16 +89,14 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
     if (Utils.isEmpty(compressionType)) {
       compressionType = FILE_COMPRESSION_TYPE_NONE;
     }
-    ICompressionProvider compressionProvider =
-        CompressionProviderFactory.getInstance().getCompressionProviderByName(compressionType);
+    ICompressionProvider compressionProvider = CompressionProviderFactory.getInstance().getCompressionProviderByName(compressionType);
 
     if (compressionProvider == null) {
       throw new HopException("No compression provider found with name = " + compressionType);
     }
 
     if (!compressionProvider.supportsOutput()) {
-      throw new HopException(
-          "Compression provider " + compressionType + " does not support output streams!");
+      throw new HopException("Compression provider " + compressionType + " does not support output streams!");
     }
     return compressionProvider;
   }
@@ -133,12 +121,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
 
           if (meta.isAddToResultFiles()) {
             // Add this to the result file names...
-            ResultFile resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_GENERAL,
-                    getFileObject(filename, this),
-                    getPipelineMeta().getName(),
-                    getTransformName());
+            ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, getFileObject(filename, this), getPipelineMeta().getName(), getTransformName());
             resultFile.setComment(BaseMessages.getString(PKG, "TextFileOutput.AddResultFile"));
             addResultFile(resultFile);
           }
@@ -153,9 +136,8 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
           }
 
           int maxOpenFiles = getMaxOpenFiles();
-          if ((maxOpenFiles > 0)
-              && (data.getFileStreamsCollection().getNumOpenFiles() >= maxOpenFiles)) {
-            // If the file we're going to close is a zip file,  going to remove it from the
+          if ((maxOpenFiles > 0) && (data.getFileStreamsCollection().getNumOpenFiles() >= maxOpenFiles)) {
+            // If the file we're going to close is a zip file, going to remove it from the
             // collection of files
             // that have been opened. We do this because it is not possible to reopen a
             // zip file for append. By removing it from the collection, if the same file is
@@ -166,18 +148,15 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
             data.getFileStreamsCollection().closeOldestOpenFile(isZipFile);
           }
 
-          if (createParentDirIfNotExists
-              && ((data.getFileStreamsCollection().size() == 0) || meta.isFileNameInField())) {
+          if (createParentDirIfNotExists && ((data.getFileStreamsCollection().size() == 0) || meta.isFileNameInField())) {
             createParentFolder(filename);
           }
           if (log.isDetailed()) {
             logDetailed("Opening output stream using provider: " + compressionProvider.getName());
           }
 
-          OutputStream fileOutputStream =
-              getOutputStream(filename, this, !isZipFile && appendToExistingFile);
-          CompressionOutputStream compressionOutputStream =
-              compressionProvider.createOutputStream(fileOutputStream);
+          OutputStream fileOutputStream = getOutputStream(filename, this, !isZipFile && appendToExistingFile);
+          CompressionOutputStream compressionOutputStream = compressionProvider.createOutputStream(fileOutputStream);
 
           // The compression output stream may also archive entries. For this we create the filename
           // (with appropriate extension) and add it as an entry to the output stream. For providers
@@ -192,32 +171,26 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
             }
           }
 
-          BufferedOutputStream bufferedOutputStream =
-              new BufferedOutputStream(compressionOutputStream, 5000);
+          BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(compressionOutputStream, 5000);
 
-          fileStreams =
-              data.new FileStream(fileOutputStream, compressionOutputStream, bufferedOutputStream);
+          fileStreams = data.new FileStream(fileOutputStream, compressionOutputStream, bufferedOutputStream);
 
           data.getFileStreamsCollection().add(filename, fileStreams);
 
           if (log.isDetailed()) {
             logDetailed("Opened new file with name [" + HopVfs.getFriendlyURI(filename) + "]");
           }
-        } else if (fileStreams.getBufferedOutputStream()
-            == null) { // File was previously opened and now needs to be reopened.
+        } else if (fileStreams.getBufferedOutputStream() == null) { // File was previously opened and now needs to be reopened.
           int maxOpenFiles = getMaxOpenFiles();
-          if ((maxOpenFiles > 0)
-              && (data.getFileStreamsCollection().getNumOpenFiles() >= maxOpenFiles)) {
+          if ((maxOpenFiles > 0) && (data.getFileStreamsCollection().getNumOpenFiles() >= maxOpenFiles)) {
             data.getFileStreamsCollection().closeOldestOpenFile(false);
           }
 
           OutputStream fileOutputStream = getOutputStream(filename, this, true);
           ICompressionProvider compressionProvider = getCompressionProvider();
-          CompressionOutputStream compressionOutputStream =
-              compressionProvider.createOutputStream(fileOutputStream);
+          CompressionOutputStream compressionOutputStream = compressionProvider.createOutputStream(fileOutputStream);
           compressionOutputStream.addEntry(filename, resolve(meta.getExtension()));
-          BufferedOutputStream bufferedOutputStream =
-              new BufferedOutputStream(compressionOutputStream, 5000);
+          BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(compressionOutputStream, 5000);
 
           fileStreams.setFileOutputStream(fileOutputStream);
           fileStreams.setCompressedOutputStream(compressionOutputStream);
@@ -251,24 +224,20 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
       } else {
         filename = meta.getFileName();
         if (filename == null) {
-          throw new HopFileException(
-              BaseMessages.getString(PKG, "TextFileOutput.Exception.FileNameNotSet"));
+          throw new HopFileException(BaseMessages.getString(PKG, "TextFileOutput.Exception.FileNameNotSet"));
         }
         filename = buildFilename(resolve(filename), true);
       }
     } else {
       data.fileNameFieldIndex = getInputRowMeta().indexOfValue(meta.getFileNameField());
       if (data.fileNameFieldIndex < 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "TextFileOutput.Exception.FileNameFieldNotFound", meta.getFileNameField()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "TextFileOutput.Exception.FileNameFieldNotFound", meta.getFileNameField()));
       }
       data.fileNameMeta = getInputRowMeta().getValueMeta(data.fileNameFieldIndex);
       data.fileName = data.fileNameMeta.getString(row[data.fileNameFieldIndex]);
 
       if (data.fileName == null) {
-        throw new HopFileException(
-            BaseMessages.getString(PKG, "TextFileOutput.Exception.FileNameNotSet"));
+        throw new HopFileException(BaseMessages.getString(PKG, "TextFileOutput.Exception.FileNameNotSet"));
       }
 
       filename = buildFilename(resolve(data.fileName), true);
@@ -314,16 +283,12 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
     boolean isWriteHeader = meta.isHeaderEnabled();
     if (isWriteHeader) {
       if (data.splitEvery > 0) {
-        writingToFileForFirstTime |=
-            !filename.equals(data.getFileStreamsCollection().getLastFileName());
+        writingToFileForFirstTime |= !filename.equals(data.getFileStreamsCollection().getLastFileName());
       } else {
         writingToFileForFirstTime |= data.getFileStreamsCollection().getStream(filename) == null;
       }
     }
-    isWriteHeader &=
-        writingToFileForFirstTime
-            && (!meta.isFileAppended()
-                || (!isFileExists(filename)) || isFileEmpty(filename));
+    isWriteHeader &= writingToFileForFirstTime && (!meta.isFileAppended() || (!isFileExists(filename)) || isFileEmpty(filename));
     return isWriteHeader;
   }
 
@@ -342,10 +307,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
       }
 
       // If file has reached max user defined size. Close current file and open a new file.
-      if (!meta.isFileNameInField()
-          && (getLinesOutput() > 0)
-          && (data.splitEvery > 0)
-          && ((getLinesOutput() + meta.getFooterShift()) % data.splitEvery) == 0) {
+      if (!meta.isFileNameInField() && (getLinesOutput() > 0) && (data.splitEvery > 0) && ((getLinesOutput() + meta.getFooterShift()) % data.splitEvery) == 0) {
         // If needed write footer to file before closing it.
         if (meta.isFooterEnabled()) {
           writeHeader();
@@ -432,8 +394,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
       if (data.outputRowMeta != null) {
         initFieldNumbers(data.outputRowMeta, meta.getOutputFields());
         if (row != null) {
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
         }
       }
     }
@@ -488,10 +449,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
 
   private byte[] formatField(IValueMeta v, Object valueData) throws HopValueException {
     if (v.isString()) {
-      if (v.isStorageBinaryString()
-          && v.getTrimType() == IValueMeta.TRIM_TYPE_NONE
-          && v.getLength() < 0
-          && Utils.isEmpty(v.getStringEncoding())) {
+      if (v.isStorageBinaryString() && v.getTrimType() == IValueMeta.TRIM_TYPE_NONE && v.getLength() < 0 && Utils.isEmpty(v.getStringEncoding())) {
         return (byte[]) valueData;
       } else {
         String svalue = (valueData instanceof String) ? (String) valueData : v.getString(valueData);
@@ -518,11 +476,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
         try {
           return tmp.getBytes(v.getStringEncoding());
         } catch (UnsupportedEncodingException e) {
-          throw new HopValueException(
-              "Unable to convert String to Binary with specified string encoding ["
-                  + v.getStringEncoding()
-                  + "]",
-              e);
+          throw new HopValueException("Unable to convert String to Binary with specified string encoding [" + v.getStringEncoding() + "]", e);
         }
       }
     } else {
@@ -533,11 +487,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
         try {
           text = string.getBytes(meta.getEncoding());
         } catch (UnsupportedEncodingException e) {
-          throw new HopValueException(
-              "Unable to convert String to Binary with specified string encoding ["
-                  + v.getStringEncoding()
-                  + "]",
-              e);
+          throw new HopValueException("Unable to convert String to Binary with specified string encoding [" + v.getStringEncoding() + "]", e);
         }
       }
       if (length > string.length()) {
@@ -589,8 +539,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
     }
   }
 
-  private void writeField(IValueMeta v, Object valueData, byte[] nullString)
-      throws HopTransformException {
+  private void writeField(IValueMeta v, Object valueData, byte[] nullString) throws HopTransformException {
     try {
       byte[] str;
 
@@ -618,8 +567,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
         if (v.isString()) {
           if (meta.isEnclosureForced() && !meta.isPadded()) {
             writeEnclosures = true;
-          } else if (!meta.isEnclosureFixDisabled()
-              && containsSeparatorOrEnclosure(str, data.binarySeparator, data.binaryEnclosure)) {
+          } else if (!meta.isEnclosureFixDisabled() && containsSeparatorOrEnclosure(str, data.binarySeparator, data.binaryEnclosure)) {
             writeEnclosures = true;
           }
         }
@@ -713,13 +661,8 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
           }
 
           boolean writeEnclosure =
-              (meta.isEnclosureForced()
-                      && data.binaryEnclosure.length > 0
-                      && v != null
-                      && v.isString())
-                  || ((!meta.isEnclosureFixDisabled()
-                      && containsSeparatorOrEnclosure(
-                          fieldName.getBytes(), data.binarySeparator, data.binaryEnclosure)));
+              (meta.isEnclosureForced() && data.binaryEnclosure.length > 0 && v != null && v.isString())
+                  || ((!meta.isEnclosureFixDisabled() && containsSeparatorOrEnclosure(fieldName.getBytes(), data.binarySeparator, data.binaryEnclosure)));
 
           if (writeEnclosure) {
             data.writer.write(data.binaryEnclosure);
@@ -739,13 +682,8 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
           IValueMeta v = r.getValueMeta(i);
 
           boolean writeEnclosure =
-              (meta.isEnclosureForced()
-                      && data.binaryEnclosure.length > 0
-                      && v != null
-                      && v.isString())
-                  || ((!meta.isEnclosureFixDisabled()
-                      && containsSeparatorOrEnclosure(
-                          v.getName().getBytes(), data.binarySeparator, data.binaryEnclosure)));
+              (meta.isEnclosureForced() && data.binaryEnclosure.length > 0 && v != null && v.isString())
+                  || ((!meta.isEnclosureFixDisabled() && containsSeparatorOrEnclosure(v.getName().getBytes(), data.binarySeparator, data.binaryEnclosure)));
 
           if (writeEnclosure) {
             data.writer.write(data.binaryEnclosure);
@@ -770,17 +708,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
 
   public String buildFilename(String filename, boolean ziparchive) {
     return meta.buildFilename(
-        filename,
-        meta.getExtension(),
-        this,
-        getCopy(),
-        getPartitionId(),
-        data.splitnr,
-        data.isBeamContext(),
-        log.getLogChannelId(),
-        data.getBeamBundleNr(),
-        ziparchive,
-        meta);
+        filename, meta.getExtension(), this, getCopy(), getPartitionId(), data.splitnr, data.isBeamContext(), log.getLogChannelId(), data.getBeamBundleNr(), ziparchive, meta);
   }
 
   protected boolean closeFile(String filename) {
@@ -832,12 +760,7 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
         try {
           initOutput();
         } catch (Exception e) {
-          logError(
-              "Couldn't open file "
-                  + HopVfs.getFriendlyURI(getParentVariables().resolve(meta.getFileName()))
-                  + "."
-                  + getParentVariables().resolve(meta.getExtension()),
-              e);
+          logError("Couldn't open file " + HopVfs.getFriendlyURI(getParentVariables().resolve(meta.getFileName())) + "." + getParentVariables().resolve(meta.getExtension()), e);
           setErrors(1L);
           stopAll();
         }
@@ -986,36 +909,20 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
       parentfolder = getFileObject(filename, variables).getParent();
       if (parentfolder.exists()) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileOutput.Log.ParentFolderExist",
-                  HopVfs.getFriendlyURI(parentfolder)));
+          logDetailed(BaseMessages.getString(PKG, "TextFileOutput.Log.ParentFolderExist", HopVfs.getFriendlyURI(parentfolder)));
         }
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileOutput.Log.ParentFolderNotExist",
-                  HopVfs.getFriendlyURI(parentfolder)));
+          logDetailed(BaseMessages.getString(PKG, "TextFileOutput.Log.ParentFolderNotExist", HopVfs.getFriendlyURI(parentfolder)));
         }
         if (meta.isCreateParentFolder()) {
           parentfolder.createFolder();
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "TextFileOutput.Log.ParentFolderCreated",
-                    HopVfs.getFriendlyURI(parentfolder)));
+            logDetailed(BaseMessages.getString(PKG, "TextFileOutput.Log.ParentFolderCreated", HopVfs.getFriendlyURI(parentfolder)));
           }
         } else {
           throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileOutput.Log.ParentFolderNotExistCreateIt",
-                  HopVfs.getFriendlyURI(parentfolder),
-                  HopVfs.getFriendlyURI(filename)));
+              BaseMessages.getString(PKG, "TextFileOutput.Log.ParentFolderNotExistCreateIt", HopVfs.getFriendlyURI(parentfolder), HopVfs.getFriendlyURI(filename)));
         }
       }
     } finally {
@@ -1033,19 +940,16 @@ public class TextFileOutput<Meta extends TextFileOutputMeta, Data extends TextFi
     return HopVfs.getFileObject(vfsFilename);
   }
 
-  protected FileObject getFileObject(String vfsFilename, IVariables variables)
-      throws HopFileException {
+  protected FileObject getFileObject(String vfsFilename, IVariables variables) throws HopFileException {
     return HopVfs.getFileObject(vfsFilename);
   }
 
-  protected OutputStream getOutputStream(String vfsFilename, IVariables variables, boolean append)
-      throws HopFileException {
+  protected OutputStream getOutputStream(String vfsFilename, IVariables variables, boolean append) throws HopFileException {
     return HopVfs.getOutputStream(vfsFilename, append);
   }
 
   @Override
-  public void startBundle() throws HopException {
-  }
+  public void startBundle() throws HopException {}
 
   @Override
   public void batchComplete() throws HopException {

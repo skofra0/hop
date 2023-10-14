@@ -40,10 +40,8 @@ public class ValueMetaFactory {
 
   public static PluginRegistry pluginRegistry = PluginRegistry.getInstance();
 
-  public static IValueMeta createValueMeta(String name, int type, int length, int precision)
-      throws HopPluginException {
-    IPlugin stringPlugin =
-        pluginRegistry.getPlugin(ValueMetaPluginType.class, String.valueOf(type));
+  public static IValueMeta createValueMeta(String name, int type, int length, int precision) throws HopPluginException {
+    IPlugin stringPlugin = pluginRegistry.getPlugin(ValueMetaPluginType.class, String.valueOf(type));
     if (stringPlugin == null) {
       throw new HopPluginException("Unable to locate value meta plugin of type (id) " + type);
     }
@@ -65,16 +63,14 @@ public class ValueMetaFactory {
     return cloneValueMeta(source, source.getType());
   }
 
-  public static IValueMeta cloneValueMeta(IValueMeta source, int targetType)
-      throws HopPluginException {
+  public static IValueMeta cloneValueMeta(IValueMeta source, int targetType) throws HopPluginException {
     IValueMeta target = null;
 
     // If we're Cloneable and not changing types, call clone()
     if (source.getType() == targetType) {
       target = source.clone();
     } else {
-      target =
-          createValueMeta(source.getName(), targetType, source.getLength(), source.getPrecision());
+      target = createValueMeta(source.getName(), targetType, source.getLength(), source.getPrecision());
     }
 
     cloneInfo(source, target);
@@ -88,8 +84,7 @@ public class ValueMetaFactory {
     target.setGroupingSymbol(source.getGroupingSymbol());
     target.setStorageType(source.getStorageType());
     if (source.getStorageMetadata() != null) {
-      target.setStorageMetadata(
-          cloneValueMeta(source.getStorageMetadata(), source.getStorageMetadata().getType()));
+      target.setStorageMetadata(cloneValueMeta(source.getStorageMetadata(), source.getStorageMetadata().getType()));
     }
     target.setStringEncoding(source.getStringEncoding());
     target.setTrimType(source.getTrimType());
@@ -175,7 +170,8 @@ public class ValueMetaFactory {
    * the case when we somehow obtain an Object as a result of any calculation, and we are trying to
    * assign some ValueMeta for it.
    *
-   * <p>As an example - we have target value meta Number (which is java Double under the hood) and
+   * <p>
+   * As an example - we have target value meta Number (which is java Double under the hood) and
    * value as a BigDecimal.<br>
    * This BigDecimal can be converted to a Double value.<br>
    * we have {@link IValueMeta#convertData(IValueMeta, Object)} call for this where is IValueMeta
@@ -183,10 +179,12 @@ public class ValueMetaFactory {
    * as a first parameter, value Object as a second and as the result we will have target Double
    * (ValueMetaNumber) value so we can safely put it into output rowset.
    *
-   * <p>Something similar we had for ValueMetaBase.getValueFromSQLType(...) to guess value meta for
+   * <p>
+   * Something similar we had for ValueMetaBase.getValueFromSQLType(...) to guess value meta for
    * java sql type.
    *
-   * <p>Currently this method does not have support for plugin value meta. Hope if this approach
+   * <p>
+   * Currently this method does not have support for plugin value meta. Hope if this approach
    * will be found usable this may be implemented later.
    *
    * @param object object to guess applicable IValueMeta.
@@ -218,7 +216,7 @@ public class ValueMetaFactory {
 
   public static IValueMeta loadValueMetaFromJson(JSONObject jValue) throws HopPluginException {
     String name = (String) jValue.get("name");
-    long type = (long)jValue.get("type");
+    long type = (long) jValue.get("type");
 
     IValueMeta valueMeta = ValueMetaFactory.createValueMeta(name, (int) type);
     valueMeta.loadMetaFromJson(jValue);

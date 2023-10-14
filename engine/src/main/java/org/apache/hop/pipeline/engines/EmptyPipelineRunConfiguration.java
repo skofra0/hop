@@ -21,8 +21,7 @@ import org.apache.hop.pipeline.config.IPipelineEngineRunConfiguration;
 
 import java.util.Objects;
 
-public class EmptyPipelineRunConfiguration extends Variables
-    implements IPipelineEngineRunConfiguration {
+public class EmptyPipelineRunConfiguration extends Variables implements IPipelineEngineRunConfiguration {
 
   private String pluginId;
   private String pluginName;

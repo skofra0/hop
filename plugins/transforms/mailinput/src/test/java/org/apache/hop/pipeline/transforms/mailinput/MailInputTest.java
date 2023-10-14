@@ -36,8 +36,7 @@ public class MailInputTest {
   @Before
   public void setUp() throws Exception {
     mockHelper = new TransformMockHelper<>("MailInput", MailInputMeta.class, MailInputData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -50,14 +49,7 @@ public class MailInputTest {
   @Test
   @Ignore
   public void testInitSetGetFirstForIMAP() {
-    MailInput transform =
-        new MailInput(
-            mockHelper.transformMeta,
-            new MailInputMeta(),
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    MailInput transform = new MailInput(mockHelper.transformMeta, new MailInputMeta(), mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     MailInputData data = new MailInputData();
     MailInputMeta meta = mock(MailInputMeta.class);
     when(meta.isDynamicFolder()).thenReturn(false);
@@ -74,14 +66,7 @@ public class MailInputTest {
   @Test
   @Ignore
   public void testInitSetGetFirstForPOP3() {
-    MailInput transform =
-        new MailInput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    MailInput transform = new MailInput(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     MailInputData data = new MailInputData();
     MailInputMeta meta = mock(MailInputMeta.class);
     when(meta.isDynamicFolder()).thenReturn(false);
@@ -98,14 +83,7 @@ public class MailInputTest {
   @Test
   @Ignore
   public void testInitSetGetFirstLimitOverride() {
-    MailInput transform =
-        new MailInput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    MailInput transform = new MailInput(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     MailInputData data = new MailInputData();
     MailInputMeta meta = mock(MailInputMeta.class);
     when(meta.isDynamicFolder()).thenReturn(false);
@@ -117,22 +95,14 @@ public class MailInputTest {
 
     transform.init();
 
-    Assert.assertEquals(
-        "Row Limit is set up to 5 rows as the Limit has priority.", 5, data.rowlimit);
+    Assert.assertEquals("Row Limit is set up to 5 rows as the Limit has priority.", 5, data.rowlimit);
   }
 
   /** We do not use any of retrieve ... first if protocol is MBOX */
   @Test
   @Ignore
   public void testInitSetGetFirstForMBOXIgnored() {
-    MailInput transform =
-        new MailInput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    MailInput transform = new MailInput(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     MailInputData data = new MailInputData();
     MailInputMeta meta = mock(MailInputMeta.class);
     when(meta.isDynamicFolder()).thenReturn(false);
@@ -142,7 +112,6 @@ public class MailInputTest {
 
     transform.init();
 
-    Assert.assertEquals(
-        "Row Limit is set up to 0 rows as the Limit has priority.", 0, data.rowlimit);
+    Assert.assertEquals("Row Limit is set up to 0 rows as the Limit has priority.", 0, data.rowlimit);
   }
 }

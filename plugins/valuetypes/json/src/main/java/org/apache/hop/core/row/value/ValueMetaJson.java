@@ -67,8 +67,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
 
   public JsonNode convertStringToJson(String jsonString) throws HopValueException {
     try {
-      ObjectMapper objectMapper =
-          JsonMapper.builder().enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES).build();
+      ObjectMapper objectMapper = JsonMapper.builder().enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES).build();
       return objectMapper.readTree(jsonString);
     } catch (Exception e) {
       throw new HopValueException("Error converting string to JSON value: '" + jsonString + "'", e);
@@ -99,8 +98,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
           case STORAGE_TYPE_INDEXED:
             return (JsonNode) index[((Integer) object)];
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_STRING:
         switch (storageType) {
@@ -111,8 +109,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
           case STORAGE_TYPE_INDEXED:
             return convertStringToJson((String) index[(Integer) object]);
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_NUMBER:
         Double number;
@@ -127,8 +124,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
             number = (Double) index[(Integer) object];
             break;
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
         return new DoubleNode(number);
 
@@ -145,8 +141,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
             integer = (Long) index[(Integer) object];
             break;
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
         return new LongNode(integer);
 
@@ -163,8 +158,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
             bigDecimal = (BigDecimal) index[(Integer) object];
             break;
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
         return new DecimalNode(bigDecimal);
 
@@ -181,23 +175,18 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
             bool = (Boolean) index[(Integer) object];
             break;
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
         return BooleanNode.valueOf(bool);
 
       case TYPE_DATE:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a date to a JSON object.");
+        throw new HopValueException(toString() + " : I don't know how to convert a date to a JSON object.");
       case TYPE_TIMESTAMP:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a timestamp to a JSON object.");
+        throw new HopValueException(toString() + " : I don't know how to convert a timestamp to a JSON object.");
       case TYPE_BINARY:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a binary value to JSON object.");
+        throw new HopValueException(toString() + " : I don't know how to convert a binary value to JSON object.");
       case TYPE_SERIALIZABLE:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a serializable value to JSON object.");
+        throw new HopValueException(toString() + " : I don't know how to convert a serializable value to JSON object.");
 
       default:
         throw new HopValueException(toString() + " : Unknown type " + type + " specified.");
@@ -221,21 +210,16 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
       case STORAGE_TYPE_NORMAL:
         return convertStringToBinaryString(getString(object));
       case STORAGE_TYPE_BINARY_STRING:
-        return convertStringToBinaryString(
-            getString(convertStringToJson(convertBinaryStringToString((byte[]) object))));
+        return convertStringToBinaryString(getString(convertStringToJson(convertBinaryStringToString((byte[]) object))));
       case STORAGE_TYPE_INDEXED:
-        return convertStringToBinaryString(
-            convertJsonToString((JsonNode) index[((Integer) object)]));
+        return convertStringToBinaryString(convertJsonToString((JsonNode) index[((Integer) object)]));
       default:
-        throw new HopValueException(
-            toString() + " : Unknown storage type " + storageType + " specified.");
+        throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
     }
   }
 
   @Override
-  public Object convertDataFromString(
-      String pol, IValueMeta convertMeta, String nullIf, String ifNull, int trimType)
-      throws HopValueException {
+  public Object convertDataFromString(String pol, IValueMeta convertMeta, String nullIf, String ifNull, int trimType) throws HopValueException {
     // null handling and conversion of value to null
     //
     String nullValue = nullIf;
@@ -275,8 +259,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
       // Note that you can't pull the pad method up here as a nullComp variable
       // because you could get an NPE since you haven't checked isEmpty(pol)
       // yet!
-      if (Utils.isEmpty(pol)
-          || pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
+      if (Utils.isEmpty(pol) || pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
         pol = ifNull;
       }
     }
@@ -362,8 +345,7 @@ public class ValueMetaJson extends ValueMetaBase implements IValueMeta {
       case TYPE_STRING:
         return convertStringToJson(meta2.getString(data2));
       default:
-        throw new HopValueException(
-            meta2.toStringMeta() + " : can't be converted to an Internet Address");
+        throw new HopValueException(meta2.toStringMeta() + " : can't be converted to an Internet Address");
     }
   }
 

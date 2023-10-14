@@ -24,7 +24,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class AddXmlMetaInjectionTest extends BaseMetadataInjectionTest<AddXmlMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() {
@@ -53,11 +54,7 @@ public class AddXmlMetaInjectionTest extends BaseMetadataInjectionTest<AddXmlMet
     check("OUTPUT_ELEMENT_NAME", () -> meta.getOutputFields()[0].getElementName());
 
     String[] typeNames = ValueMetaBase.getAllTypes();
-    checkStringToInt(
-        "OUTPUT_TYPE",
-        () -> meta.getOutputFields()[0].getType(),
-        typeNames,
-        getTypeCodes(typeNames));
+    checkStringToInt("OUTPUT_TYPE", () -> meta.getOutputFields()[0].getType(), typeNames, getTypeCodes(typeNames));
 
     check("OUTPUT_FORMAT", () -> meta.getOutputFields()[0].getFormat());
 

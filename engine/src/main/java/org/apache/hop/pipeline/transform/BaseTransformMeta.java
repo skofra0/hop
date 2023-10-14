@@ -60,16 +60,15 @@ import org.w3c.dom.Node;
  * logging. All Hop transforms have an extension of this where private fields have been added with
  * public accessors.
  *
- * <p>For example, the "Text File Output" transform's TextFileOutputMeta class extends
+ * <p>
+ * For example, the "Text File Output" transform's TextFileOutputMeta class extends
  * BaseTransformMeta by adding fields for the output file name, compression, file format, etc...
  *
  * <p>
  */
-public class BaseTransformMeta<Main extends ITransform, Data extends ITransformData>
-    implements ITransformMeta, Cloneable {
+public class BaseTransformMeta<Main extends ITransform, Data extends ITransformData> implements ITransformMeta, Cloneable {
 
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Transform metadata", LoggingObjectType.TRANSFORM_META, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Transform metadata", LoggingObjectType.TRANSFORM_META, null);
 
   private boolean changed;
 
@@ -87,38 +86,19 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   @Override
   @SuppressWarnings({"unchecked"})
-  public ITransform createTransform(
-      TransformMeta transformMeta,
-      ITransformData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ITransform createTransform(TransformMeta transformMeta, ITransformData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     try {
-      ParameterizedType parameterizedType =
-          (ParameterizedType) this.getClass().getGenericSuperclass();
+      ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
       Class<Main> mainClass = (Class<Main>) parameterizedType.getActualTypeArguments()[0];
       Class<Data> dataClass = (Class<Data>) parameterizedType.getActualTypeArguments()[1];
 
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
-      if (mainClass.isInterface()) return null;
+      if (mainClass.isInterface())
+        return null;
 
-      Constructor<Main> constructor =
-          mainClass.getConstructor(
-              new Class[] {
-                TransformMeta.class,
-                this.getClass(),
-                dataClass,
-                int.class,
-                PipelineMeta.class,
-                Pipeline.class
-              });
-      return constructor.newInstance(
-          new Object[] {transformMeta, this, data, copyNr, pipelineMeta, pipeline});
-    } catch (InstantiationException
-        | IllegalAccessException
-        | IllegalArgumentException
-        | InvocationTargetException
-        | NoSuchMethodException e) {
+      Constructor<Main> constructor = mainClass.getConstructor(new Class[] {TransformMeta.class, this.getClass(), dataClass, int.class, PipelineMeta.class, Pipeline.class});
+      return constructor.newInstance(new Object[] {transformMeta, this, data, copyNr, pipelineMeta, pipeline});
+    } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
       throw new RuntimeException("Error create instance of transform: " + this.getName(), e);
     }
   }
@@ -126,13 +106,13 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
   @Override
   public ITransformData createTransformData() {
     try {
-      ParameterizedType parameterizedType =
-          (ParameterizedType) this.getClass().getGenericSuperclass();
+      ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
       @SuppressWarnings({"unchecked"})
       Class<Data> dataClass = (Class<Data>) parameterizedType.getActualTypeArguments()[1];
 
       // Some tests class use BaseTransformMeta<ITransform,ITransformData>
-      if (dataClass.isInterface()) return null;
+      if (dataClass.isInterface())
+        return null;
 
       return dataClass.newInstance();
     } catch (InstantiationException | IllegalAccessException e) {
@@ -176,8 +156,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
           for (IStream targetStream : targetStreams) {
             transformIOMeta.addStream(new Stream(targetStream));
           }
-          lock.readLock()
-              .unlock(); // the setter acquires the write lock which would deadlock unless we
+          lock.readLock().unlock(); // the setter acquires the write lock which would deadlock unless we
           // release
           retval.setTransformIOMeta(transformIOMeta);
           lock.readLock().lock(); // reacquire read lock
@@ -245,8 +224,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @param metadataProvider
    * @throws HopXmlException
    */
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     XmlMetadataUtil.deSerializeFromXml(transformNode, getClass(), this, metadataProvider);
   }
 
@@ -255,22 +233,16 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * This method doesn't pass along any pipeline metadata to help resolve output row metadata.
    *
    * @param inputRowMeta the input row meta that is modified in this method to reflect the output
-   *     row metadata of the transform
+   *        row metadata of the transform
    * @param name Name of the transform to use as input for the origin field in the values
    * @param info Fields used as extra lookup information
    * @param nextTransform the next transform that is targeted
    * @param variables the variables The variable variables to use to replace variables
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
+   *        impacting the output fields
    * @throws HopTransformException the hop transform exception
    */
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: no values are added to the row in the transform
   }
@@ -280,13 +252,13 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    *
    * @param pipelineMeta The pipeline metadata to help resolve the output row layout in rare cases.
    * @param inputRowMeta the input row meta that is modified in this method to reflect the output
-   *     row metadata of the transform
+   *        row metadata of the transform
    * @param name Name of the transform to use as input for the origin field in the values
    * @param info Fields used as extra lookup information
    * @param nextTransform the next transform that is targeted
    * @param variables the variables The variable variables to use to replace variables
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
+   *        impacting the output fields
    * @throws HopTransformException the hop transform exception
    */
   @Override
@@ -317,7 +289,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @param output The output transform names
    * @param info The fields used as information by this transform
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
+   *        impacting the output fields
    */
   public void analyseImpact(
       IVariables variables,
@@ -341,16 +313,11 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @param transformMeta TransformMeta object containing the complete transform
    * @param prev Row containing meta-data for the input fields (no data)
    * @param metadataProvider the MetaStore to use to load additional external data or metadata
-   *     impacting the output fields
+   *        impacting the output fields
    * @return The Sql Statements for this transform. If nothing has to be done, the
-   *     SqlStatement.getSql() == null. @see SqlStatement
+   *         SqlStatement.getSql() == null. @see SqlStatement
    */
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider)
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // default: this doesn't require any Sql statements to be executed!
     return new SqlStatement(transformMeta.getName(), null, null);
@@ -377,7 +344,8 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * certain tasks like the mapping to pre-defined tables. The Table Output transform in this case
    * will output the fields in the target table using this method.
    *
-   * <p>This default implementation returns an empty row meaning that no fields are required for
+   * <p>
+   * This default implementation returns an empty row meaning that no fields are required for
    * this transform to operate.
    *
    * @param variables the variable variables to use to do variable substitution.
@@ -392,7 +360,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * This method returns all the database connections that are used by the transform.
    *
    * @return an array of database connections meta-data. Return an empty array if no connections are
-   *     used.
+   *         used.
    */
   @Deprecated(since = "2.0")
   public DatabaseMeta[] getUsedDatabaseConnections() {
@@ -401,7 +369,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   /**
    * @return true if this transform supports error "reporting" on rows: the ability to send rows to
-   *     a certain target transform.
+   *         a certain target transform.
    */
   public boolean supportsErrorHandling() {
     return false;
@@ -422,8 +390,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    *
    * @return a list of all the resource dependencies that the transform is depending on
    */
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     return Arrays.asList(new ResourceReference(transformMeta));
   }
 
@@ -437,11 +404,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @return the string
    * @throws HopException the hop exception
    */
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     return null;
   }
@@ -451,10 +414,12 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * the org.apache.hop.ui ￼ * tree and has a class name that is the name of the action with
    * 'Dialog' added to the end. ￼ *
    *
-   * <p>￼ * e.g. if the action is org.apache.hop.workflow.actions.zipfile.JobEntryZipFile the dialog
+   * <p>
+   * ￼ * e.g. if the action is org.apache.hop.workflow.actions.zipfile.JobEntryZipFile the dialog
    * would be ￼ * org.apache.hop.ui.workflow.actions.zipfile.JobEntryZipFileDialog ￼ *
    *
-   * <p>￼ * If the dialog class for a action does not match this pattern it should override this
+   * <p>
+   * ￼ * If the dialog class for a action does not match this pattern it should override this
    * method and return the ￼ * appropriate class name ￼ * ￼ * @return full class name of the dialog
    * ￼
    */
@@ -768,7 +733,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   /**
    * @return The list of optional input streams. It allows the user to select from a list of
-   *     possible actions like "New target transform"
+   *         possible actions like "New target transform"
    */
   public List<IStream> getOptionalStreams() {
     List<IStream> list = new ArrayList<>();
@@ -806,9 +771,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @return The supported pipeline types that this transform supports.
    */
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal, PipelineType.SingleThreaded,
-    };
+    return new PipelineType[] {PipelineType.Normal, PipelineType.SingleThreaded,};
   }
 
   /**
@@ -824,7 +787,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
 
   /**
    * @return A description of the active referenced object in a pipeline. Null if nothing special
-   *     needs to be done or if the active metadata isn't different from design.
+   *         needs to be done or if the active metadata isn't different from design.
    */
   public String getActiveReferencedObjectDescription() {
     return null;
@@ -860,8 +823,7 @@ public class BaseTransformMeta<Main extends ITransform, Data extends ITransformD
    * @return the referenced object once loaded
    * @throws HopException
    */
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return null;
   }
 }

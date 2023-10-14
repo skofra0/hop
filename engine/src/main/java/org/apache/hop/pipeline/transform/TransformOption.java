@@ -54,57 +54,29 @@ public class TransformOption {
     this.value = value;
   }
 
-  public static void checkInteger(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
+  public static void checkInteger(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
     try {
       if (!StringUtil.isEmpty(variables.resolve(value))) {
         Integer.parseInt(variables.resolve(value));
       }
     } catch (NumberFormatException e) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier), transformMeta));
     }
   }
 
-  public static void checkLong(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
+  public static void checkLong(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
     try {
       if (!StringUtil.isEmpty(variables.resolve(value))) {
         Long.parseLong(variables.resolve(value));
       }
     } catch (NumberFormatException e) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotAInteger", identifier), transformMeta));
     }
   }
 
-  public static void checkBoolean(
-      List<ICheckResult> remarks,
-      TransformMeta transformMeta,
-      IVariables variables,
-      String identifier,
-      String value) {
-    if (!StringUtil.isEmpty(variables.resolve(value))
-        && null == BooleanUtils.toBooleanObject(variables.resolve(value))) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TransformOption.CheckResult.NotABoolean", identifier),
-              transformMeta));
+  public static void checkBoolean(List<ICheckResult> remarks, TransformMeta transformMeta, IVariables variables, String identifier, String value) {
+    if (!StringUtil.isEmpty(variables.resolve(value)) && null == BooleanUtils.toBooleanObject(variables.resolve(value))) {
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TransformOption.CheckResult.NotABoolean", identifier), transformMeta));
     }
   }
 }

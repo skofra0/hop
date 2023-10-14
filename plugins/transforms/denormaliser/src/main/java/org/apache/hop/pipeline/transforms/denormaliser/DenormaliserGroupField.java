@@ -25,9 +25,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 public class DenormaliserGroupField implements Cloneable {
 
   /** The value to group on */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.GroupField")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.GroupField")
   private String name;
 
   public DenormaliserGroupField() {}

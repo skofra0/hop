@@ -38,7 +38,8 @@ import java.util.List;
  * of hash join is both your input streams are too big to fit in memory. Note that both the inputs
  * must be sorted on the join key.
  *
- * <p>This is a first prototype implementation that only handles two streams and inner join. It also
+ * <p>
+ * This is a first prototype implementation that only handles two streams and inner join. It also
  * always outputs all values from both streams. Ideally, we should: 1) Support any number of
  * incoming streams 2) Allow user to choose the join type (inner, outer) for each stream 3) Allow
  * user to choose which fields to push to next transform 4) Have multiple output ports as follows:
@@ -49,13 +50,7 @@ import java.util.List;
 public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
   private static final Class<?> PKG = MergeJoinMeta.class; // For Translator
 
-  public MergeJoin(
-      TransformMeta transformMeta,
-      MergeJoinMeta meta,
-      MergeJoinData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MergeJoin(TransformMeta transformMeta, MergeJoinMeta meta, MergeJoinData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -72,20 +67,12 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
 
       data.oneRowSet = findInputRowSet(infoStreams.get(0).getTransformName());
       if (data.oneRowSet == null) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "MergeJoin.Exception.UnableToFindSpecifiedTransform",
-                infoStreams.get(0).getTransformName()));
+        throw new HopException(BaseMessages.getString(PKG, "MergeJoin.Exception.UnableToFindSpecifiedTransform", infoStreams.get(0).getTransformName()));
       }
 
       data.twoRowSet = findInputRowSet(infoStreams.get(1).getTransformName());
       if (data.twoRowSet == null) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "MergeJoin.Exception.UnableToFindSpecifiedTransform",
-                infoStreams.get(1).getTransformName()));
+        throw new HopException(BaseMessages.getString(PKG, "MergeJoin.Exception.UnableToFindSpecifiedTransform", infoStreams.get(1).getTransformName()));
       }
 
       data.one = getRowFrom(data.oneRowSet);
@@ -93,8 +80,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         data.oneMeta = data.oneRowSet.getRowMeta();
       } else {
         data.one = null;
-        data.oneMeta =
-            getPipelineMeta().getTransformFields(this, infoStreams.get(0).getTransformName());
+        data.oneMeta = getPipelineMeta().getTransformFields(this, infoStreams.get(0).getTransformName());
       }
 
       data.two = getRowFrom(data.twoRowSet);
@@ -102,8 +88,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         data.twoMeta = data.twoRowSet.getRowMeta();
       } else {
         data.two = null;
-        data.twoMeta =
-            getPipelineMeta().getTransformFields(this, infoStreams.get(1).getTransformName());
+        data.twoMeta = getPipelineMeta().getTransformFields(this, infoStreams.get(1).getTransformName());
       }
 
       // just for speed: oneMeta+twoMeta
@@ -118,11 +103,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         for (int i = 0; i < data.keyNrs1.length; i++) {
           data.keyNrs1[i] = data.oneMeta.indexOfValue(meta.getKeyFields1().get(i));
           if (data.keyNrs1[i] < 0) {
-            String message =
-                BaseMessages.getString(
-                    PKG,
-                    "MergeJoin.Exception.UnableToFindFieldInReferenceStream",
-                    meta.getKeyFields1().get(i));
+            String message = BaseMessages.getString(PKG, "MergeJoin.Exception.UnableToFindFieldInReferenceStream", meta.getKeyFields1().get(i));
             logError(message);
             throw new HopTransformException(message);
           }
@@ -135,11 +116,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         for (int i = 0; i < data.keyNrs2.length; i++) {
           data.keyNrs2[i] = data.twoMeta.indexOfValue(meta.getKeyFields2().get(i));
           if (data.keyNrs2[i] < 0) {
-            String message =
-                BaseMessages.getString(
-                    PKG,
-                    "MergeJoin.Exception.UnableToFindFieldInReferenceStream",
-                    meta.getKeyFields2().get(i));
+            String message = BaseMessages.getString(PKG, "MergeJoin.Exception.UnableToFindFieldInReferenceStream", meta.getKeyFields2().get(i));
             logError(message);
             throw new HopTransformException(message);
           }
@@ -155,19 +132,15 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-                  PKG, "MergeJoin.Log.DataInfo", data.oneMeta.getString(data.one) + "")
-              + data.twoMeta.getString(data.two));
+      logRowlevel(BaseMessages.getString(PKG, "MergeJoin.Log.DataInfo", data.oneMeta.getString(data.one) + "") + data.twoMeta.getString(data.two));
     }
 
     /*
-     * We can stop processing if any of the following is true: a) Both streams are empty b) First stream is empty and
+     * We can stop processing if any of the following is true: a) Both streams are empty b) First stream
+     * is empty and
      * join type is INNER or LEFT OUTER c) Second stream is empty and join type is INNER or RIGHT OUTER
      */
-    if ((data.one == null && data.two == null)
-        || (data.one == null && data.one_optional == false)
-        || (data.two == null && data.two_optional == false)) {
+    if ((data.one == null && data.two == null) || (data.one == null && data.one_optional == false) || (data.two == null && data.two_optional == false)) {
       // Before we stop processing, we have to make sure that all rows from both input streams are
       // depleted!
       // If we don't do this, the pipeline can stall.
@@ -189,8 +162,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
       if (data.two == null) {
         compare = 1;
       } else {
-        int cmp =
-            data.oneMeta.compare(data.one, data.twoMeta, data.two, data.keyNrs1, data.keyNrs2);
+        int cmp = data.oneMeta.compare(data.one, data.twoMeta, data.two, data.keyNrs1, data.keyNrs2);
         compare = cmp > 0 ? 1 : cmp < 0 ? -1 : 0;
       }
     }
@@ -198,22 +170,19 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
     switch (compare) {
       case 0:
         /*
-         * We've got a match. This is what we do next (to handle duplicate keys correctly): Read the next record from
-         * both streams If any of the keys match, this means we have duplicates. We therefore Create an array of all
-         * rows that have the same keys Push a Cartesian product of the two arrays to output Else Just push the combined
+         * We've got a match. This is what we do next (to handle duplicate keys correctly): Read the next
+         * record from
+         * both streams If any of the keys match, this means we have duplicates. We therefore Create an
+         * array of all
+         * rows that have the same keys Push a Cartesian product of the two arrays to output Else Just push
+         * the combined
          * rowset to output
          */
         data.one_next = getRowFrom(data.oneRowSet);
         data.two_next = getRowFrom(data.twoRowSet);
 
-        int compare1 =
-            (data.one_next == null)
-                ? -1
-                : data.oneMeta.compare(data.one, data.one_next, data.keyNrs1, data.keyNrs1);
-        int compare2 =
-            (data.two_next == null)
-                ? -1
-                : data.twoMeta.compare(data.two, data.two_next, data.keyNrs2, data.keyNrs2);
+        int compare1 = (data.one_next == null) ? -1 : data.oneMeta.compare(data.one, data.one_next, data.keyNrs1, data.keyNrs1);
+        int compare2 = (data.two_next == null) ? -1 : data.twoMeta.compare(data.two, data.two_next, data.keyNrs2, data.keyNrs2);
         if (compare1 == 0 || compare2 == 0) { // Duplicate keys
 
           if (data.ones == null) {
@@ -231,13 +200,9 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
             // First stream has duplicates
 
             data.ones.add(data.one_next);
-            for (; !isStopped(); ) {
+            for (; !isStopped();) {
               data.one_next = getRowFrom(data.oneRowSet);
-              if (0
-                  != ((data.one_next == null)
-                      ? -1
-                      : data.oneMeta.compare(
-                          data.one, data.one_next, data.keyNrs1, data.keyNrs1))) {
+              if (0 != ((data.one_next == null) ? -1 : data.oneMeta.compare(data.one, data.one_next, data.keyNrs1, data.keyNrs1))) {
                 break;
               }
               data.ones.add(data.one_next);
@@ -250,13 +215,9 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
           if (compare2 == 0) { // Second stream has duplicates
 
             data.twos.add(data.two_next);
-            for (; !isStopped(); ) {
+            for (; !isStopped();) {
               data.two_next = getRowFrom(data.twoRowSet);
-              if (0
-                  != ((data.two_next == null)
-                      ? -1
-                      : data.twoMeta.compare(
-                          data.two, data.two_next, data.keyNrs2, data.keyNrs2))) {
+              if (0 != ((data.two_next == null) ? -1 : data.twoMeta.compare(data.two, data.two_next, data.keyNrs2, data.keyNrs2))) {
                 break;
               }
               data.twos.add(data.two_next);
@@ -265,14 +226,11 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
               return false;
             }
           }
-          for (Iterator<Object[]> oneIter = data.ones.iterator();
-              oneIter.hasNext() && !isStopped(); ) {
+          for (Iterator<Object[]> oneIter = data.ones.iterator(); oneIter.hasNext() && !isStopped();) {
             Object[] one = oneIter.next();
-            for (Iterator<Object[]> twoIter = data.twos.iterator();
-                twoIter.hasNext() && !isStopped(); ) {
+            for (Iterator<Object[]> twoIter = data.twos.iterator(); twoIter.hasNext() && !isStopped();) {
               Object[] two = twoIter.next();
-              Object[] oneBig =
-                  RowDataUtil.createResizedCopy(one, data.oneMeta.size() + data.twoMeta.size());
+              Object[] oneBig = RowDataUtil.createResizedCopy(one, data.oneMeta.size() + data.twoMeta.size());
               Object[] combi = RowDataUtil.addRowData(oneBig, data.oneMeta.size(), two);
               putRow(data.outputRowMeta, combi);
             }
@@ -291,15 +249,17 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         break;
       case 1:
         /*
-         * First stream is greater than the second stream. This means: a) This key is missing in the first stream b)
-         * Second stream may have finished So, if full/right outer join is set and 2nd stream is not null, we push a
-         * record to output with only the values for the second row populated. Next, if 2nd stream is not finished, we
+         * First stream is greater than the second stream. This means: a) This key is missing in the first
+         * stream b)
+         * Second stream may have finished So, if full/right outer join is set and 2nd stream is not null,
+         * we push a
+         * record to output with only the values for the second row populated. Next, if 2nd stream is not
+         * finished, we
          * get a row from it; otherwise signal that we are done
          */
         if (data.one_optional == true) {
           if (data.two != null) {
-            Object[] outputRowData =
-                RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
+            Object[] outputRowData = RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
             outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two);
             putRow(data.outputRowMeta, outputRowData);
             data.two = getRowFrom(data.twoRowSet);
@@ -324,10 +284,8 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
             /*
              * We are doing full outer join so print the 1st stream and get the next row from 1st stream
              */
-            Object[] outputRowData =
-                RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
-            outputRowData =
-                RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
+            Object[] outputRowData = RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
+            outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
             putRow(data.outputRowMeta, outputRowData);
             data.one = getRowFrom(data.oneRowSet);
           }
@@ -337,10 +295,8 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
            * Also, join is left or full outer. So, create a row with just the values in the first
            * stream and push it forward
            */
-          Object[] outputRowData =
-              RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
-          outputRowData =
-              RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
+          Object[] outputRowData = RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
+          outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
           putRow(data.outputRowMeta, outputRowData);
           data.one = getRowFrom(data.oneRowSet);
         } else if (data.two != null) {
@@ -352,17 +308,18 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
         break;
       case -1:
         /*
-         * Second stream is greater than the first stream. This means: a) This key is missing in the second stream b)
-         * First stream may have finished So, if full/left outer join is set and 1st stream is not null, we push a
-         * record to output with only the values for the first row populated. Next, if 1st stream is not finished, we
+         * Second stream is greater than the first stream. This means: a) This key is missing in the second
+         * stream b)
+         * First stream may have finished So, if full/left outer join is set and 1st stream is not null, we
+         * push a
+         * record to output with only the values for the first row populated. Next, if 1st stream is not
+         * finished, we
          * get a row from it; otherwise signal that we are done
          */
         if (data.two_optional == true) {
           if (data.one != null) {
-            Object[] outputRowData =
-                RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
-            outputRowData =
-                RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
+            Object[] outputRowData = RowDataUtil.createResizedCopy(data.one, data.outputRowMeta.size());
+            outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two_dummy);
             putRow(data.outputRowMeta, outputRowData);
             data.one = getRowFrom(data.oneRowSet);
           } else if (data.one_optional == false) {
@@ -386,25 +343,25 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
             /*
              * We are doing a full outer join so print the 2nd stream and get the next row from the 2nd stream
              */
-            Object[] outputRowData =
-                RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
+            Object[] outputRowData = RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
             outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two);
             putRow(data.outputRowMeta, outputRowData);
             data.two = getRowFrom(data.twoRowSet);
           }
         } else if (data.one == null && data.one_optional == true) {
           /*
-           * We have reached the end of stream 1 and there are records present in the second stream. Also, join is right
+           * We have reached the end of stream 1 and there are records present in the second stream. Also,
+           * join is right
            * or full outer. So, create a row with just the values in the 2nd stream and push it forward
            */
-          Object[] outputRowData =
-              RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
+          Object[] outputRowData = RowDataUtil.createResizedCopy(data.one_dummy, data.outputRowMeta.size());
           outputRowData = RowDataUtil.addRowData(outputRowData, data.oneMeta.size(), data.two);
           putRow(data.outputRowMeta, outputRowData);
           data.two = getRowFrom(data.twoRowSet);
         } else if (data.one != null) {
           /*
-           * We are doing an inner or right outer join so a non-matching row in the first stream is of no use to us -
+           * We are doing an inner or right outer join so a non-matching row in the first stream is of no use
+           * to us -
            * throw it away and get the next row
            */
           data.one = getRowFrom(data.oneRowSet);
@@ -428,8 +385,7 @@ public class MergeJoin extends BaseTransform<MergeJoinMeta, MergeJoinData> {
 
     if (super.init()) {
       List<IStream> infoStreams = meta.getTransformIOMeta().getInfoStreams();
-      if (infoStreams.get(0).getTransformMeta() == null
-          || infoStreams.get(1).getTransformMeta() == null) {
+      if (infoStreams.get(0).getTransformMeta() == null || infoStreams.get(1).getTransformMeta() == null) {
         logError(BaseMessages.getString(PKG, "MergeJoin.Log.BothTrueAndFalseNeeded"));
         return false;
       }

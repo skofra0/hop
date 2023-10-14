@@ -29,9 +29,7 @@ public class AzureListenerMetaTest extends TestCase {
   @Test
   public void testSerialization() throws Exception {
     HopClientEnvironment.init(List.of(TwoWayPasswordEncoderPluginType.getInstance()));
-    AzureListenerMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/azure-listener-transform.xml", AzureListenerMeta.class);
+    AzureListenerMeta meta = TransformSerializationTestUtil.testSerialization("/azure-listener-transform.xml", AzureListenerMeta.class);
 
     assertEquals("namespace", meta.getNamespace());
     assertEquals("instance", meta.getEventHubName());

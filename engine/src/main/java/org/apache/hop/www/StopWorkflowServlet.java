@@ -46,8 +46,7 @@ public class StopWorkflowServlet extends BaseHttpServlet implements IHopServerPl
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -106,9 +105,7 @@ public class StopWorkflowServlet extends BaseHttpServlet implements IHopServerPl
       if (workflow != null) {
         workflow.stopExecution();
 
-        String message =
-            BaseMessages.getString(
-                PKG, "WorkflowStatusServlet.Log.WorkflowStopRequested", workflowName);
+        String message = BaseMessages.getString(PKG, "WorkflowStatusServlet.Log.WorkflowStopRequested", workflowName);
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_OK, message).getXml());
         } else {
@@ -125,19 +122,12 @@ public class StopWorkflowServlet extends BaseHttpServlet implements IHopServerPl
                   + "</a><p>");
         }
       } else {
-        String message =
-            BaseMessages.getString(
-                PKG, "StopWorkflowServlet.Log.CoundNotFindWorkflow", workflowName);
+        String message = BaseMessages.getString(PKG, "StopWorkflowServlet.Log.CoundNotFindWorkflow", workflowName);
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_ERROR, message).getXml());
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + ">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + ">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }

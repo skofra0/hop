@@ -71,9 +71,7 @@ public class HopServerWorkflowStatus {
 
   @JsonIgnore
   public String getXml() throws HopException {
-    boolean sendResultXmlWithStatus =
-        EnvUtil.getSystemProperty("HOP_COMPATIBILITY_SEND_RESULT_XML_WITH_FULL_STATUS", "N")
-            .equalsIgnoreCase("Y");
+    boolean sendResultXmlWithStatus = EnvUtil.getSystemProperty("HOP_COMPATIBILITY_SEND_RESULT_XML_WITH_FULL_STATUS", "N").equalsIgnoreCase("Y");
     StringBuilder xml = new StringBuilder();
 
     xml.append(XmlHandler.openTag(XML_TAG)).append(Const.CR);
@@ -82,15 +80,9 @@ public class HopServerWorkflowStatus {
     xml.append("  ").append(XmlHandler.addTagValue("status_desc", statusDescription));
     xml.append("  ").append(XmlHandler.addTagValue("error_desc", errorDescription));
     xml.append("  ").append(XmlHandler.addTagValue("log_date", XmlHandler.date2string(logDate)));
-    xml.append("  ")
-        .append(
-            XmlHandler.addTagValue(
-                "execution_start_date", XmlHandler.date2string(executionStartDate)));
-    xml.append("  ")
-        .append(
-            XmlHandler.addTagValue("execution_end_date", XmlHandler.date2string(executionEndDate)));
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("logging_string", XmlHandler.buildCDATA(loggingString)));
+    xml.append("  ").append(XmlHandler.addTagValue("execution_start_date", XmlHandler.date2string(executionStartDate)));
+    xml.append("  ").append(XmlHandler.addTagValue("execution_end_date", XmlHandler.date2string(executionEndDate)));
+    xml.append("  ").append(XmlHandler.addTagValue("logging_string", XmlHandler.buildCDATA(loggingString)));
     xml.append("  ").append(XmlHandler.addTagValue("first_log_line_nr", firstLoggingLineNr));
     xml.append("  ").append(XmlHandler.addTagValue("last_log_line_nr", lastLoggingLineNr));
 
@@ -111,34 +103,22 @@ public class HopServerWorkflowStatus {
     statusDescription = XmlHandler.getTagValue(workflowStatusNode, "status_desc");
     errorDescription = XmlHandler.getTagValue(workflowStatusNode, "error_desc");
     logDate = XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "log_date"));
-    executionStartDate =
-        XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "execution_start_date"));
-    executionEndDate =
-        XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "execution_end_date"));
+    executionStartDate = XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "execution_start_date"));
+    executionEndDate = XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "execution_end_date"));
     logDate = XmlHandler.stringToDate(XmlHandler.getTagValue(workflowStatusNode, "log_date"));
-    firstLoggingLineNr =
-        Const.toInt(XmlHandler.getTagValue(workflowStatusNode, "first_log_line_nr"), 0);
-    lastLoggingLineNr =
-        Const.toInt(XmlHandler.getTagValue(workflowStatusNode, "last_log_line_nr"), 0);
+    firstLoggingLineNr = Const.toInt(XmlHandler.getTagValue(workflowStatusNode, "first_log_line_nr"), 0);
+    lastLoggingLineNr = Const.toInt(XmlHandler.getTagValue(workflowStatusNode, "last_log_line_nr"), 0);
 
     String loggingString64 = XmlHandler.getTagValue(workflowStatusNode, "logging_string");
 
     if (!Utils.isEmpty(loggingString64)) {
       // This is a CDATA block with a Base64 encoded GZIP compressed stream of data.
       //
-      String dataString64 =
-          loggingString64.substring(
-              "<![CDATA[".length(), loggingString64.length() - "]]>".length());
+      String dataString64 = loggingString64.substring("<![CDATA[".length(), loggingString64.length() - "]]>".length());
       try {
         loggingString = HttpUtil.decodeBase64ZippedString(dataString64);
       } catch (IOException e) {
-        loggingString =
-            "Unable to decode logging from remote server : "
-                + e.toString()
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e);
+        loggingString = "Unable to decode logging from remote server : " + e.toString() + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e);
       }
     } else {
       loggingString = "";
@@ -151,21 +131,14 @@ public class HopServerWorkflowStatus {
       try {
         result = new Result(resultNode);
       } catch (HopException e) {
-        loggingString +=
-            "Unable to serialize result object as XML"
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e)
-                + Const.CR;
+        loggingString += "Unable to serialize result object as XML" + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e) + Const.CR;
       }
     }
   }
 
   public static HopServerWorkflowStatus fromXml(String xml) throws HopException {
     Document document = XmlHandler.loadXmlString(xml);
-    HopServerWorkflowStatus status =
-        new HopServerWorkflowStatus(XmlHandler.getSubNode(document, XML_TAG));
+    HopServerWorkflowStatus status = new HopServerWorkflowStatus(XmlHandler.getSubNode(document, XML_TAG));
     return status;
   }
 
@@ -213,8 +186,7 @@ public class HopServerWorkflowStatus {
     if (getStatusDescription() == null) {
       return false;
     }
-    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_RUNNING)
-        || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_INITIALIZING);
+    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_RUNNING) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_INITIALIZING);
   }
 
   public boolean isWaiting() {
@@ -229,8 +201,7 @@ public class HopServerWorkflowStatus {
       return false;
     }
 
-    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED)
-        || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED_WITH_ERRORS);
+    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED_WITH_ERRORS);
   }
 
   public boolean isStopped() {
@@ -238,8 +209,7 @@ public class HopServerWorkflowStatus {
       return false;
     }
 
-    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED)
-        || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED_WITH_ERRORS);
+    return getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED_WITH_ERRORS);
   }
 
   /** @return the result */

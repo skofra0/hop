@@ -35,10 +35,8 @@ public class LdapInputTest {
 
   @BeforeClass
   public static void setup() {
-    mockHelper =
-        new TransformMockHelper<>("LDAP INPUT TEST", LdapInputMeta.class, LdapInputData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("LDAP INPUT TEST", LdapInputMeta.class, LdapInputData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -53,15 +51,10 @@ public class LdapInputTest {
     // Setup transform
     LdapInputMeta meta = mock(LdapInputMeta.class);
     LdapInputData data = new LdapInputData();
-    LdapInput ldapInput =
-        new LdapInput(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    LdapInput ldapInput = new LdapInput(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
 
     // Mock fields
-    LdapInputField[] fields =
-        new LdapInputField[] {
-          new LdapInputField("dn"), new LdapInputField("cn"), new LdapInputField("role")
-        };
+    LdapInputField[] fields = new LdapInputField[] {new LdapInputField("dn"), new LdapInputField("cn"), new LdapInputField("role")};
     int sortedField = 1;
     fields[sortedField].setSortedKey(true);
     meta.setInputFields(fields);
@@ -80,10 +73,7 @@ public class LdapInputTest {
 
       // Verify
       assertEquals("Field not marked as sorted", 1, data.connection.getSortingAttributes().size());
-      assertEquals(
-          "Field not marked as sorted",
-          data.attrReturned[sortedField],
-          data.connection.getSortingAttributes().get(0));
+      assertEquals("Field not marked as sorted", data.attrReturned[sortedField], data.connection.getSortingAttributes().get(0));
       assertNotNull(data.attrReturned[sortedField]);
     } finally {
       LdapMockProtocol.cleanup();

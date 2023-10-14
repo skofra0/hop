@@ -93,7 +93,7 @@ public class TableMetaData implements ITableMetaData {
   @Override
   public List<String> getKeyColumnNames() {
     List<String> names = new ArrayList<>();
-    meta.getPartitionKey().forEach(cm->names.add(cm.getName().asCql(false)));
+    meta.getPartitionKey().forEach(cm -> names.add(cm.getName().asCql(false)));
     return names;
   }
 
@@ -101,7 +101,7 @@ public class TableMetaData implements ITableMetaData {
   public IValueMeta getValueMetaForColumn(String colName) throws HopException {
     Optional<ColumnMetadata> optionalColumn = meta.getColumn(colName);
     if (optionalColumn.isEmpty()) {
-      throw new HopException("Column "+colName+" is not present");
+      throw new HopException("Column " + colName + " is not present");
     }
     return getValueMetaForColumn(optionalColumn.get());
   }
@@ -113,7 +113,7 @@ public class TableMetaData implements ITableMetaData {
         name = name.substring(1);
       }
       if (name.endsWith("\"")) {
-        name = name.substring(0, name.length()-1);
+        name = name.substring(0, name.length() - 1);
       }
       return toValueMeta(name, column.getType());
     }
@@ -154,11 +154,11 @@ public class TableMetaData implements ITableMetaData {
   }
 
   public static IValueMeta toValueMeta(String name, DataType dataType) {
-    //    if (expandCollection
-    //        && dataType.isCollection()
-    //        && dataType.getName().equals(DataType.Name.MAP)) {
-    //      dataType = dataType.getTypeArguments().get(0);
-    //    }
+    // if (expandCollection
+    // && dataType.isCollection()
+    // && dataType.getName().equals(DataType.Name.MAP)) {
+    // dataType = dataType.getTypeArguments().get(0);
+    // }
     // http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cql_data_types_c.html
 
     String typeCql = dataType.asCql(false, false).toUpperCase();

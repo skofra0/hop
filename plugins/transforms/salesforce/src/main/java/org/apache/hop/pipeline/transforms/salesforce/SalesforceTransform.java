@@ -35,13 +35,7 @@ public abstract class SalesforceTransform<Meta extends SalesforceTransformMeta, 
 
   public static Class<?> PKG = SalesforceTransform.class; // For Translator
 
-  public SalesforceTransform(
-      TransformMeta transformMeta,
-      Meta meta,
-      Data data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceTransform(TransformMeta transformMeta, Meta meta, Data data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -80,10 +74,7 @@ public abstract class SalesforceTransform<Meta extends SalesforceTransformMeta, 
       data.connection.setTimeOut(Const.toInt(resolve(meta.getTimeout()), 0));
       data.connection.setUsingCompression(meta.isCompression());
     } catch (HopException ke) {
-      logError(
-          BaseMessages.getString(
-                  PKG, "SalesforceTransform.Log.ErrorOccurredDuringTransformInitialize")
-              + ke.getMessage());
+      logError(BaseMessages.getString(PKG, "SalesforceTransform.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
       return false;
     }
     return true;
@@ -119,13 +110,7 @@ public abstract class SalesforceTransform<Meta extends SalesforceTransformMeta, 
       Calendar utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
       // Reset time-related fields
       utc.clear();
-      utc.set(
-          cal.get(Calendar.YEAR),
-          cal.get(Calendar.MONTH),
-          cal.get(Calendar.DATE),
-          cal.get(Calendar.HOUR_OF_DAY),
-          cal.get(Calendar.MINUTE),
-          cal.get(Calendar.SECOND));
+      utc.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
       value = utc;
     } else if (valueMeta.isStorageBinaryString()) {
       value = valueMeta.convertToNormalStorageType(value);

@@ -76,8 +76,7 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
   private final List<String> inputFields = new ArrayList<>();
   private ColumnInfo[] colinf;
 
-  public SortRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SortRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SortRowsMeta) in;
   }
@@ -152,8 +151,7 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
     // Whenever something changes, set the tooltip to the expanded version:
     wSortDir.addModifyListener(e -> wSortDir.setToolTipText(variables.resolve(wSortDir.getText())));
 
-    wbSortDir.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
+    wbSortDir.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
 
     // Prefix of temporary file
     Label wlPrefix = new Label(shell, SWT.RIGHT);
@@ -228,15 +226,13 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
     fdCompress.top = new FormAttachment(wlCompress, 0, SWT.CENTER);
     fdCompress.right = new FormAttachment(100, 0);
     wCompress.setLayoutData(fdCompress);
-    wCompress.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            log.logDetailed(
-                "SortRowsDialog", "Selection Listener for compress: " + wCompress.getSelection());
-            input.setChanged();
-          }
-        });
+    wCompress.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        log.logDetailed("SortRowsDialog", "Selection Listener for compress: " + wCompress.getSelection());
+        input.setChanged();
+      }
+    });
 
     // Using compression for temporary files?
     Label wlUniqueRows = new Label(shell, SWT.RIGHT);
@@ -281,60 +277,34 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.Fieldname.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.Ascending.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.CaseInsensitive.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.CollatorDisabled.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.CollatorStrength.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Primary"),
-                BaseMessages.getString(PKG, "System.Combo.Secondary"),
-                BaseMessages.getString(PKG, "System.Combo.Tertiary"),
-                BaseMessages.getString(PKG, "System.Combo.Identical")
-              },
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SortRowsDialog.PreSortedField.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              })
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "SortRowsDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SortRowsDialog.Ascending.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")}),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SortRowsDialog.CaseInsensitive.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")}),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SortRowsDialog.CollatorDisabled.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")}),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SortRowsDialog.CollatorStrength.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {
+                    BaseMessages.getString(PKG, "System.Combo.Primary"),
+                    BaseMessages.getString(PKG, "System.Combo.Secondary"),
+                    BaseMessages.getString(PKG, "System.Combo.Tertiary"),
+                    BaseMessages.getString(PKG, "System.Combo.Identical")},
+                true),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SortRowsDialog.PreSortedField.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")})};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -346,32 +316,30 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();
@@ -411,31 +379,11 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
       TableItem ti = new TableItem(table, SWT.NONE);
       ti.setText(0, "" + (i + 1));
       ti.setText(1, input.getFieldName()[i]);
-      ti.setText(
-          2,
-          input.getAscending()[i]
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
-      ti.setText(
-          3,
-          input.getCaseSensitive()[i]
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
-      ti.setText(
-          4,
-          input.getCollatorEnabled()[i]
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
-      ti.setText(
-          5,
-          input.getCollatorStrength()[i] == 0
-              ? BaseMessages.getString(PKG, "System.Combo.Primary")
-              : Integer.toString(input.getCollatorStrength()[i]));
-      ti.setText(
-          6,
-          input.getPreSortedField()[i]
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(2, input.getAscending()[i] ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(3, input.getCaseSensitive()[i] ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(4, input.getCollatorEnabled()[i] ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(5, input.getCollatorStrength()[i] == 0 ? BaseMessages.getString(PKG, "System.Combo.Primary") : Integer.toString(input.getCollatorStrength()[i]));
+      ti.setText(6, input.getPreSortedField()[i] ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wFields.setRowNums();
@@ -477,21 +425,15 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
     for (int i = 0; i < nrFields; i++) {
       TableItem ti = wFields.getNonEmpty(i);
       input.getFieldName()[i] = ti.getText(1);
-      input.getAscending()[i] =
-          Utils.isEmpty(ti.getText(2))
-              || BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(2));
-      input.getCaseSensitive()[i] =
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(3));
-      input.getCollatorEnabled()[i] =
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4));
+      input.getAscending()[i] = Utils.isEmpty(ti.getText(2)) || BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(2));
+      input.getCaseSensitive()[i] = BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(3));
+      input.getCollatorEnabled()[i] = BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4));
       if (ti.getText(5) == "") {
-        input.getCollatorStrength()[i] =
-            Integer.parseInt(BaseMessages.getString(PKG, "System.Combo.Primary"));
+        input.getCollatorStrength()[i] = Integer.parseInt(BaseMessages.getString(PKG, "System.Combo.Primary"));
       } else {
         input.getCollatorStrength()[i] = Integer.parseInt(ti.getText(5));
       }
-      input.getPreSortedField()[i] =
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(6));
+      input.getPreSortedField()[i] = BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(6));
     }
 
     dispose();
@@ -501,20 +443,14 @@ public class SortRowsDialog extends BaseTransformDialog implements ITransformDia
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener insertListener =
-            (tableItem, v) -> {
-              tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        ITableItemInsertListener insertListener = (tableItem, v) -> {
+          tableItem.setText(2, BaseMessages.getString(PKG, "System.Combo.Yes"));
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 }

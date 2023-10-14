@@ -42,7 +42,8 @@ import java.util.UUID;
 public class StringCutMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<StringCutMeta> testMetaClass = StringCutMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -53,20 +54,11 @@ public class StringCutMetaTest implements IInitializer<ITransformMeta> {
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "fields", new ListLoadSaveValidator<>(new StringCutFieldInputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fields", new ListLoadSaveValidator<>(new StringCutFieldInputFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributesList,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributesList, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -74,15 +66,11 @@ public class StringCutMetaTest implements IInitializer<ITransformMeta> {
   public void modify(ITransformMeta someMeta) {
     if (someMeta instanceof StringCutMeta) {
       ((StringCutMeta) someMeta).getFields().clear();
-      ((StringCutMeta) someMeta)
-          .getFields()
-          .addAll(
-              Arrays.asList(
-                  new StringCutField("InField1", "OutField1", "1", "10"),
-                  new StringCutField("InField2", "OutField2", "2", "20"),
-                  new StringCutField("InField3", "OutField3", "1", "10"),
-                  new StringCutField("InField4", "OutField4", "1", "10"),
-                  new StringCutField("InField5", "OutField5", "1", "10")));
+      ((StringCutMeta) someMeta).getFields().addAll(
+          Arrays.asList(
+              new StringCutField("InField1", "OutField1", "1", "10"), new StringCutField("InField2", "OutField2", "2", "20"),
+              new StringCutField("InField3", "OutField3", "1", "10"), new StringCutField("InField4", "OutField4", "1", "10"),
+              new StringCutField("InField5", "OutField5", "1", "10")));
     }
   }
 
@@ -91,16 +79,14 @@ public class StringCutMetaTest implements IInitializer<ITransformMeta> {
     loadSaveTester.testSerialization();
   }
 
-  public class StringCutFieldInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<StringCutField> {
+  public class StringCutFieldInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<StringCutField> {
     final Random rand = new Random();
 
     @Override
     public StringCutField getTestObject() {
       String[] types = ValueMetaFactory.getAllValueMetaNames();
 
-      StringCutField field =
-          new StringCutField(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "1", "5");
+      StringCutField field = new StringCutField(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "1", "5");
 
       return field;
     }
@@ -111,12 +97,8 @@ public class StringCutMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       StringCutField another = (StringCutField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getFieldInStream(), another.getFieldInStream())
-          .append(testObject.getFieldOutStream(), another.getFieldOutStream())
-          .append(testObject.getCutFrom(), another.getCutFrom())
-          .append(testObject.getCutTo(), another.getCutTo())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getFieldInStream(), another.getFieldInStream()).append(testObject.getFieldOutStream(), another.getFieldOutStream())
+          .append(testObject.getCutFrom(), another.getCutFrom()).append(testObject.getCutTo(), another.getCutTo()).isEquals();
     }
   }
 }

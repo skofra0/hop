@@ -326,10 +326,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     String[] nodeNames = graphModel.getNodeNames();
     wNodesList.setItems(nodeNames);
     if (activeNode != null) {
-      wNodesList.setSelection(
-          new String[] {
-            activeNode.getName(),
-          });
+      wNodesList.setSelection(new String[] {activeNode.getName(),});
     }
     wRelSource.setItems(nodeNames);
     wRelTarget.setItems(nodeNames);
@@ -362,8 +359,8 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     margin = props.getMargin();
 
     // Model properties
-    //  - Name
-    //  - Description
+    // - Name
+    // - Description
     //
     Label wlName = new Label(wModelComp, SWT.RIGHT);
     wlName.setText(BaseMessages.getString(PKG, "GraphModelDialog.Name.Label"));
@@ -380,11 +377,10 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdModelName.right = new FormAttachment(100, 0);
     fdModelName.top = new FormAttachment(wlName, 0, SWT.CENTER);
     wModelName.setLayoutData(fdModelName);
-    wModelName.addModifyListener(
-        e -> {
-          setChanged();
-          graphModel.setName(wModelName.getText());
-        });
+    wModelName.addModifyListener(e -> {
+      setChanged();
+      graphModel.setName(wModelName.getText());
+    });
     Control lastControl = wModelName;
 
     Label wlModelDescription = new Label(wModelComp, SWT.RIGHT);
@@ -402,11 +398,10 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdModelDescription.right = new FormAttachment(100, 0);
     fdModelDescription.top = new FormAttachment(wlModelDescription, 0, SWT.CENTER);
     wModelDescription.setLayoutData(fdModelDescription);
-    wModelDescription.addModifyListener(
-        e -> {
-          setChanged();
-          graphModel.setDescription(wModelDescription.getText());
-        });
+    wModelDescription.addModifyListener(e -> {
+      setChanged();
+      graphModel.setDescription(wModelDescription.getText());
+    });
     lastControl = wModelDescription;
 
     Button wImportGraph = new Button(wModelComp, SWT.PUSH);
@@ -432,21 +427,18 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     lastControl = wExportGraph;
 
     Button wSolutionsWorkbenchImportGraph = new Button(wModelComp, SWT.PUSH);
-    wSolutionsWorkbenchImportGraph.setText(
-        BaseMessages.getString(PKG, "GraphModelDialog.ImportGraphSW.Button"));
+    wSolutionsWorkbenchImportGraph.setText(BaseMessages.getString(PKG, "GraphModelDialog.ImportGraphSW.Button"));
     PropsUi.setLook(wSolutionsWorkbenchImportGraph);
     FormData fdSolutionsWorkbenchImportGraph = new FormData();
     fdSolutionsWorkbenchImportGraph.left = new FormAttachment(middle, 0);
     fdSolutionsWorkbenchImportGraph.right = new FormAttachment(75, 0);
     fdSolutionsWorkbenchImportGraph.top = new FormAttachment(lastControl, 50);
     wSolutionsWorkbenchImportGraph.setLayoutData(fdSolutionsWorkbenchImportGraph);
-    wSolutionsWorkbenchImportGraph.addListener(
-        SWT.Selection, e -> importGraphFromSolutionsWorkbench());
+    wSolutionsWorkbenchImportGraph.addListener(SWT.Selection, e -> importGraphFromSolutionsWorkbench());
     lastControl = wSolutionsWorkbenchImportGraph;
 
     Button wArrowsAppImportGraph = new Button(wModelComp, SWT.PUSH);
-    wArrowsAppImportGraph.setText(
-        BaseMessages.getString(PKG, "GraphModelDialog.ImportArrowsApp.Button"));
+    wArrowsAppImportGraph.setText(BaseMessages.getString(PKG, "GraphModelDialog.ImportArrowsApp.Button"));
     PropsUi.setLook(wArrowsAppImportGraph);
     FormData fdArrowsAppImportGraph = new FormData();
     fdArrowsAppImportGraph.left = new FormAttachment(middle, 0);
@@ -457,8 +449,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     lastControl = wArrowsAppImportGraph;
 
     Button wCreateIndexAction = new Button(wModelComp, SWT.PUSH);
-    wCreateIndexAction.setText(
-        BaseMessages.getString(PKG, "GraphModelDialog.CreateIndexAction.Button"));
+    wCreateIndexAction.setText(BaseMessages.getString(PKG, "GraphModelDialog.CreateIndexAction.Button"));
     PropsUi.setLook(wCreateIndexAction);
     FormData fdCreateIndexAction = new FormData();
     fdCreateIndexAction.left = new FormAttachment(middle, 0);
@@ -505,11 +496,11 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     wNodesComp.setLayout(formLayout);
 
     // Nodes properties
-    //  - Nodes List
-    //  - Node name
-    //  - Node description
-    //  - Node labels
-    //  - Node properties list
+    // - Nodes List
+    // - Node name
+    // - Node description
+    // - Node labels
+    // - Node properties list
     //
 
     // buttons for New/Edit/Delete Node
@@ -534,11 +525,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     wNewRelationshipNode.setText("New relationship");
     wNewRelationshipNode.addListener(SWT.Selection, e -> newRelationshipFromNode());
 
-    BaseTransformDialog.positionBottomButtons(
-        wNodesComp,
-        new Button[] {wNewNode, wDeleteNode, wCopyNode, wImportNode, wNewRelationshipNode},
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(wNodesComp, new Button[] {wNewNode, wDeleteNode, wCopyNode, wImportNode, wNewRelationshipNode}, margin, null);
 
     Label wlNodesList = new Label(wNodesComp, SWT.LEFT);
     wlNodesList.setText("Nodes list");
@@ -556,13 +543,11 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdNodesList.top = new FormAttachment(wlNodesList, margin);
     fdNodesList.bottom = new FormAttachment(wNewNode, -margin * 2);
     wNodesList.setLayoutData(fdNodesList);
-    wNodesList.addListener(
-        SWT.Selection,
-        event -> {
-          getNodeLabelsFromView();
-          setActiveNode(wNodesList.getSelection()[0]);
-          refreshNodeFields();
-        });
+    wNodesList.addListener(SWT.Selection, event -> {
+      getNodeLabelsFromView();
+      setActiveNode(wNodesList.getSelection()[0]);
+      refreshNodeFields();
+    });
 
     wlNodeName = new Label(wNodesComp, SWT.RIGHT);
     wlNodeName.setText("Name");
@@ -572,18 +557,16 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdlNodeName.top = new FormAttachment(wlNodesList, margin * 2);
     wlNodeName.setLayoutData(fdlNodeName);
     wNodeName = new Text(wNodesComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wNodeName.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeNode != null) {
-            String nodeName = wNodeName.getText();
-            activeNode.setName(nodeName);
-            String[] nodeNames = graphModel.getNodeNames();
-            wNodesList.setItems(nodeNames);
-            wNodesList.setSelection(Const.indexOfString(nodeName, nodeNames));
-            setChanged();
-          }
-        });
+    wNodeName.addListener(SWT.Modify, event -> {
+      if (activeNode != null) {
+        String nodeName = wNodeName.getText();
+        activeNode.setName(nodeName);
+        String[] nodeNames = graphModel.getNodeNames();
+        wNodesList.setItems(nodeNames);
+        wNodesList.setSelection(Const.indexOfString(nodeName, nodeNames));
+        setChanged();
+      }
+    });
     PropsUi.setLook(wNodeName);
     FormData fdNodeName = new FormData();
     fdNodeName.left = new FormAttachment(wlNodeName, margin * 2);
@@ -599,14 +582,12 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdlNodeDescription.top = new FormAttachment(wNodeName, margin);
     wlNodeDescription.setLayoutData(fdlNodeDescription);
     wNodeDescription = new Text(wNodesComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wNodeDescription.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeNode != null) {
-            activeNode.setDescription(wNodeDescription.getText());
-            setChanged();
-          }
-        });
+    wNodeDescription.addListener(SWT.Modify, event -> {
+      if (activeNode != null) {
+        activeNode.setDescription(wNodeDescription.getText());
+        setChanged();
+      }
+    });
     PropsUi.setLook(wNodeDescription);
     FormData fdNodeDescription = new FormData();
     fdNodeDescription.left = new FormAttachment(wlNodeDescription, margin * 2);
@@ -616,20 +597,9 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
     // Labels
     //
-    ColumnInfo[] labelColumns =
-        new ColumnInfo[] {
-          new ColumnInfo("Labels", ColumnInfo.COLUMN_TYPE_TEXT, false),
-        };
+    ColumnInfo[] labelColumns = new ColumnInfo[] {new ColumnInfo("Labels", ColumnInfo.COLUMN_TYPE_TEXT, false),};
     ModifyListener labelModifyListener = modifyEvent -> getNodeLabelsFromView();
-    wNodeLabels =
-        new TableView(
-            new Variables(),
-            wNodesComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            labelColumns,
-            1,
-            labelModifyListener,
-            props);
+    wNodeLabels = new TableView(new Variables(), wNodesComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, labelColumns, 1, labelModifyListener, props);
     PropsUi.setLook(wNodeLabels);
     FormData fdNodeLabels = new FormData();
     fdNodeLabels.left = new FormAttachment(middle, margin);
@@ -650,26 +620,15 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
     ColumnInfo[] propertyColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Property key", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo(
-              "Property Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
-          new ColumnInfo("Description", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Primary?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo(
-              "Mandatory?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo("Unique?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo("Indexed?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-        };
+            new ColumnInfo("Property key", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Property Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
+            new ColumnInfo("Description", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Primary?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Mandatory?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Unique?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Indexed?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),};
     ModifyListener propertyModifyListener = modifyEvent -> getNodePropertiesFromView();
-    wNodeProperties =
-        new TableView(
-            new Variables(),
-            wNodesComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            propertyColumns,
-            1,
-            propertyModifyListener,
-            props);
+    wNodeProperties = new TableView(new Variables(), wNodesComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, propertyColumns, 1, propertyModifyListener, props);
     wNodeProperties.table.addListener(SWT.FocusOut, event -> getNodePropertiesFromView());
     PropsUi.setLook(wNodeProperties);
     FormData fdNodeProperties = new FormData();
@@ -723,12 +682,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     }
     Arrays.sort(nodeNames);
 
-    EnterSelectionDialog dialog =
-        new EnterSelectionDialog(
-            hopGui.getShell(),
-            nodeNames,
-            "Select 2nd node",
-            "Select the second node for the new relationship");
+    EnterSelectionDialog dialog = new EnterSelectionDialog(hopGui.getShell(), nodeNames, "Select 2nd node", "Select the second node for the new relationship");
     dialog.setMulti(false);
     String targetNodeName = dialog.open();
     if (targetNodeName == null) {
@@ -748,16 +702,13 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     while (graphModel.findRelationship(relName) != null) {
       relName = relBaseName + " " + relNr++;
     }
-    GraphRelationship rel =
-        new GraphRelationship(
-            relName, "", "", new ArrayList<>(), activeNode.getName(), targetNodeName);
+    GraphRelationship rel = new GraphRelationship(relName, "", "", new ArrayList<>(), activeNode.getName(), targetNodeName);
 
     graphModel.getRelationships().add(rel);
 
     setActiveRelationship(relName);
     refreshRelationshipsList();
-    wRelationshipsList.setSelection(
-        Const.indexOfString(relName, graphModel.getRelationshipNames()));
+    wRelationshipsList.setSelection(Const.indexOfString(relName, graphModel.getRelationshipNames()));
     refreshRelationshipsFields();
   }
 
@@ -806,15 +757,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
           boolean propertyMandatory = "Y".equalsIgnoreCase(item.getText(col++));
           boolean propertyUnique = "Y".equalsIgnoreCase(item.getText(col++));
           boolean propertyIndexed = "Y".equalsIgnoreCase(item.getText(col++));
-          properties.add(
-              new GraphProperty(
-                  propertyKey,
-                  propertyDescription,
-                  propertyType,
-                  propertyPrimary,
-                  propertyMandatory,
-                  propertyUnique,
-                  propertyIndexed));
+          properties.add(new GraphProperty(propertyKey, propertyDescription, propertyType, propertyPrimary, propertyMandatory, propertyUnique, propertyIndexed));
         }
 
         activeNode.setProperties(properties);
@@ -832,20 +775,14 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
       if (activePipelineGraph == null) {
         MessageBox messageBox = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
         messageBox.setText("Sorry");
-        messageBox.setMessage(
-            "Sorry, I couldn't find an active pipeline to use to import output fields from a transform");
+        messageBox.setMessage("Sorry, I couldn't find an active pipeline to use to import output fields from a transform");
         messageBox.open();
         return;
       }
       PipelineMeta pipelineMeta = activePipelineGraph.getPipelineMeta();
       String[] transformNames = pipelineMeta.getTransformNames();
 
-      EnterSelectionDialog enterSelectionDialog =
-          new EnterSelectionDialog(
-              getShell(),
-              transformNames,
-              "Select transform",
-              "Enter the transform to use for the fields to input");
+      EnterSelectionDialog enterSelectionDialog = new EnterSelectionDialog(getShell(), transformNames, "Select transform", "Enter the transform to use for the fields to input");
       String transformName = enterSelectionDialog.open();
       if (transformName == null) {
         return;
@@ -854,9 +791,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
       String[] fieldNames = inputRowMeta.getFieldNames();
 
-      EnterListDialog dialog =
-          new EnterListDialog(
-              hopGui.getShell(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.CLOSE, fieldNames);
+      EnterListDialog dialog = new EnterListDialog(hopGui.getShell(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.CLOSE, fieldNames);
       String[] fields = dialog.open();
       if (fields != null) {
 
@@ -890,9 +825,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
           }
 
           String propertyName = Neo4jUtil.standardizePropertyName(valueMeta);
-          activeNode
-              .getProperties()
-              .add(new GraphProperty(propertyName, "", propertyType, false, false, false, false));
+          activeNode.getProperties().add(new GraphProperty(propertyName, "", propertyType, false, false, false, false));
         }
         refreshNodeFields();
       }
@@ -910,10 +843,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     graphModel.getNodes().add(graphNode);
     activeNode = graphNode;
     refreshNodesList();
-    wNodesList.setSelection(
-        new String[] {
-          graphNode.getName(),
-        });
+    wNodesList.setSelection(new String[] {graphNode.getName(),});
     refreshNodeFields();
     enableFields();
   }
@@ -969,49 +899,42 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     wRelComp.setLayout(formLayout);
 
     // Relationships properties
-    //  - Relationships List
-    //  - Relationship name
-    //  - Relationship description
-    //  - Relationship labels
-    //  - Relationship properties list
+    // - Relationships List
+    // - Relationship name
+    // - Relationship description
+    // - Relationship labels
+    // - Relationship properties list
     //
 
     // buttons for New/Edit/Delete Relationship
     //
     Button wNewRelationship = new Button(wRelComp, SWT.PUSH);
     wNewRelationship.setText("New relationship");
-    wNewRelationship.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            newRelationship();
-          }
-        });
+    wNewRelationship.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        newRelationship();
+      }
+    });
 
     Button wDeleteRelationship = new Button(wRelComp, SWT.PUSH);
     wDeleteRelationship.setText("Delete relationship");
-    wDeleteRelationship.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            deleteRelationship();
-          }
-        });
+    wDeleteRelationship.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        deleteRelationship();
+      }
+    });
 
     Button wCopyRelationship = new Button(wRelComp, SWT.PUSH);
     wCopyRelationship.setText("Copy relationship");
-    wCopyRelationship.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            copyRelationship();
-          }
-        });
-    BaseTransformDialog.positionBottomButtons(
-        wRelComp,
-        new Button[] {wNewRelationship, wDeleteRelationship, wCopyRelationship},
-        margin,
-        null);
+    wCopyRelationship.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        copyRelationship();
+      }
+    });
+    BaseTransformDialog.positionBottomButtons(wRelComp, new Button[] {wNewRelationship, wDeleteRelationship, wCopyRelationship}, margin, null);
 
     Label wlRelationshipsList = new Label(wRelComp, SWT.LEFT);
     wlRelationshipsList.setText("Relationships list");
@@ -1029,12 +952,10 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelationshipsList.top = new FormAttachment(wlRelationshipsList, margin);
     fdRelationshipsList.bottom = new FormAttachment(wNewRelationship, -margin * 2);
     wRelationshipsList.setLayoutData(fdRelationshipsList);
-    wRelationshipsList.addListener(
-        SWT.Selection,
-        event -> {
-          setActiveRelationship(wRelationshipsList.getSelection()[0]);
-          refreshRelationshipsFields();
-        });
+    wRelationshipsList.addListener(SWT.Selection, event -> {
+      setActiveRelationship(wRelationshipsList.getSelection()[0]);
+      refreshRelationshipsFields();
+    });
 
     wlRelName = new Label(wRelComp, SWT.LEFT);
     wlRelName.setText("Name");
@@ -1050,19 +971,16 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelName.right = new FormAttachment(100, 0);
     fdRelName.top = new FormAttachment(wlRelName, 0, SWT.CENTER);
     wRelName.setLayoutData(fdRelName);
-    wRelName.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeRelationship != null) {
-            String relationshipName = wRelName.getText();
-            activeRelationship.setName(relationshipName);
-            String[] relationshipNames = graphModel.getRelationshipNames();
-            wRelationshipsList.setItems(relationshipNames);
-            wRelationshipsList.setSelection(
-                Const.indexOfString(relationshipName, relationshipNames));
-            setChanged();
-          }
-        });
+    wRelName.addListener(SWT.Modify, event -> {
+      if (activeRelationship != null) {
+        String relationshipName = wRelName.getText();
+        activeRelationship.setName(relationshipName);
+        String[] relationshipNames = graphModel.getRelationshipNames();
+        wRelationshipsList.setItems(relationshipNames);
+        wRelationshipsList.setSelection(Const.indexOfString(relationshipName, relationshipNames));
+        setChanged();
+      }
+    });
 
     wlRelDescription = new Label(wRelComp, SWT.LEFT);
     wlRelDescription.setText("Description");
@@ -1078,14 +996,12 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelDescription.right = new FormAttachment(100, 0);
     fdRelDescription.top = new FormAttachment(wlRelDescription, 0, SWT.CENTER);
     wRelDescription.setLayoutData(fdRelDescription);
-    wRelDescription.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeRelationship != null) {
-            activeRelationship.setDescription(wRelDescription.getText());
-            setChanged();
-          }
-        });
+    wRelDescription.addListener(SWT.Modify, event -> {
+      if (activeRelationship != null) {
+        activeRelationship.setDescription(wRelDescription.getText());
+        setChanged();
+      }
+    });
 
     wlRelLabel = new Label(wRelComp, SWT.LEFT);
     wlRelLabel.setText("Label");
@@ -1101,14 +1017,12 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelLabel.right = new FormAttachment(100, 0);
     fdRelLabel.top = new FormAttachment(wlRelLabel, 0, SWT.CENTER);
     wRelLabel.setLayoutData(fdRelLabel);
-    wRelLabel.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeRelationship != null) {
-            activeRelationship.setLabel(wRelLabel.getText());
-            setChanged();
-          }
-        });
+    wRelLabel.addListener(SWT.Modify, event -> {
+      if (activeRelationship != null) {
+        activeRelationship.setLabel(wRelLabel.getText());
+        setChanged();
+      }
+    });
 
     wlRelSource = new Label(wRelComp, SWT.LEFT);
     wlRelSource.setText("Source");
@@ -1124,14 +1038,12 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelSource.right = new FormAttachment(100, 0);
     fdRelSource.top = new FormAttachment(wlRelSource, 0, SWT.CENTER);
     wRelSource.setLayoutData(fdRelSource);
-    wRelSource.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeRelationship != null) {
-            activeRelationship.setNodeSource(wRelSource.getText());
-            setChanged();
-          }
-        });
+    wRelSource.addListener(SWT.Modify, event -> {
+      if (activeRelationship != null) {
+        activeRelationship.setNodeSource(wRelSource.getText());
+        setChanged();
+      }
+    });
 
     wlRelTarget = new Label(wRelComp, SWT.LEFT);
     wlRelTarget.setText("Target");
@@ -1147,14 +1059,12 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     fdRelTarget.right = new FormAttachment(100, 0);
     fdRelTarget.top = new FormAttachment(wlRelTarget, 0, SWT.CENTER);
     wRelTarget.setLayoutData(fdRelTarget);
-    wRelTarget.addListener(
-        SWT.Modify,
-        event -> {
-          if (activeRelationship != null) {
-            activeRelationship.setNodeTarget(wRelTarget.getText());
-            setChanged();
-          }
-        });
+    wRelTarget.addListener(SWT.Modify, event -> {
+      if (activeRelationship != null) {
+        activeRelationship.setNodeTarget(wRelTarget.getText());
+        setChanged();
+      }
+    });
 
     // Properties
     //
@@ -1168,26 +1078,15 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
     ColumnInfo[] propertyColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Property key", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo(
-              "Property Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
-          new ColumnInfo("Description", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Primary?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo(
-              "Mandatory?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo("Unique?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-          new ColumnInfo("Indexed?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
-        };
+            new ColumnInfo("Property key", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Property Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
+            new ColumnInfo("Description", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Primary?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Mandatory?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Unique?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),
+            new ColumnInfo("Indexed?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),};
     ModifyListener propertyModifyListener = modifyEvent -> getRelationshipPropertiesFromView();
-    wRelProperties =
-        new TableView(
-            new Variables(),
-            wRelComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            propertyColumns,
-            1,
-            propertyModifyListener,
-            props);
+    wRelProperties = new TableView(new Variables(), wRelComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, propertyColumns, 1, propertyModifyListener, props);
     wRelProperties.table.addListener(SWT.FocusOut, event -> getRelationshipPropertiesFromView());
     PropsUi.setLook(wRelProperties);
     FormData fdRelProperties = new FormData();
@@ -1236,15 +1135,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
           boolean propertyUnique = "Y".equalsIgnoreCase(item.getText(col++));
           boolean propertyIndexed = "Y".equalsIgnoreCase(item.getText(col++));
 
-          properties.add(
-              new GraphProperty(
-                  propertyKey,
-                  propertyDescription,
-                  propertyType,
-                  propertyPrimary,
-                  propertyMandatory,
-                  propertyUnique,
-                  propertyIndexed));
+          properties.add(new GraphProperty(propertyKey, propertyDescription, propertyType, propertyPrimary, propertyMandatory, propertyUnique, propertyIndexed));
         }
 
         activeRelationship.setProperties(properties);
@@ -1261,10 +1152,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     graphModel.getRelationships().add(graphRelationship);
     setActiveRelationship(graphRelationship.getName());
     refreshRelationshipsList();
-    wRelationshipsList.setSelection(
-        new String[] {
-          graphRelationship.getName(),
-        });
+    wRelationshipsList.setSelection(new String[] {graphRelationship.getName(),});
     refreshRelationshipsFields();
   }
 
@@ -1369,25 +1257,17 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     Rectangle bounds = wCanvas.getBounds();
     nodeCache = new HashMap<>();
 
-    int optDistance =
-        (int) ((bounds.width + bounds.height) * 1.5 / (graphModel.getNodes().size() + 1));
+    int optDistance = (int) ((bounds.width + bounds.height) * 1.5 / (graphModel.getNodes().size() + 1));
     int nrNodes = graphModel.getNodes().size();
 
     java.util.List<Point> nodesizes = getNodeSizes();
 
     // Generate list of random points in the bounding box
     //
-    java.util.List<Point> bestCoordinates = generateRandomPoints(bounds, nrNodes);
-    ;
+    java.util.List<Point> bestCoordinates = generateRandomPoints(bounds, nrNodes);;
     Scoring bestScore = calculateGraphScore(bestCoordinates, bounds, optDistance, nodesizes);
 
-    System.out.println(
-        ">>>>>>>>>>> optDistance="
-            + optDistance
-            + ", nrNodes="
-            + nrNodes
-            + ", startscore="
-            + bestScore);
+    System.out.println(">>>>>>>>>>> optDistance=" + optDistance + ", nrNodes=" + nrNodes + ", startscore=" + bestScore);
     for (int iteration = 0; iteration < 10000; iteration++) {
 
       // Change one random point
@@ -1465,8 +1345,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     }
 
     public void calculateTotal() {
-      score =
-          distanceToOthers + distanceToCenter + vertexLength + crossedVertices + overlappingLabels;
+      score = distanceToOthers + distanceToCenter + vertexLength + crossedVertices + overlappingLabels;
     }
 
     @Override
@@ -1487,11 +1366,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     }
   }
 
-  private Scoring calculateGraphScore(
-      java.util.List<Point> coordinates,
-      Rectangle bounds,
-      int optDistance,
-      java.util.List<Point> nodeSizes) {
+  private Scoring calculateGraphScore(java.util.List<Point> coordinates, Rectangle bounds, int optDistance, java.util.List<Point> nodeSizes) {
     Scoring scoring = new Scoring();
 
     Point center = new Point(bounds.width / 2, bounds.height / 2);
@@ -1512,8 +1387,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
           // We score difference with optimal distance
           //
-          scoring.distanceToOthers +=
-              (distanceToOtherNode - optDistance) * (distanceToOtherNode - optDistance);
+          scoring.distanceToOthers += (distanceToOtherNode - optDistance) * (distanceToOtherNode - optDistance);
         }
       }
 
@@ -1620,8 +1494,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     return new Point(x, y);
   }
 
-  private java.util.List<Point> modifyRandomPoints(
-      java.util.List<Point> original, Rectangle bounds, int count) {
+  private java.util.List<Point> modifyRandomPoints(java.util.List<Point> original, Rectangle bounds, int count) {
     int size = original.size();
 
     java.util.List<Point> points = new ArrayList<>();
@@ -1644,7 +1517,8 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
    * So we're doing one scan over all the nodes. We're calculating all the nodes in a certain
    * radius.
    *
-   * <p>So looking in [x-radius, y-radius] to [x+radius, y+radius]
+   * <p>
+   * So looking in [x-radius, y-radius] to [x+radius, y+radius]
    *
    * @param centerNode The node at the center of circle
    * @param radius The radius of the circle
@@ -1824,14 +1698,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
         gc.setForeground(GuiResource.getInstance().getColorBlack());
         gc.drawText(relationship.getName(), middleX, middleY);
-        areaOwners.add(
-            new AreaOwner(
-                middleX,
-                middleY,
-                relExtent.x,
-                relExtent.y,
-                AreaType.RELATIONSHIP_LABEL,
-                relationship));
+        areaOwners.add(new AreaOwner(middleX, middleY, relExtent.x, relExtent.y, AreaType.RELATIONSHIP_LABEL, relationship));
       }
     }
 
@@ -1860,13 +1727,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
   private void importGraphFromFile() {
     try {
-      EnterTextDialog dialog =
-          new EnterTextDialog(
-              getShell(),
-              "Model JSON",
-              "This is the JSON of the graph model",
-              graphModel.getJSONString(),
-              true);
+      EnterTextDialog dialog = new EnterTextDialog(getShell(), "Model JSON", "This is the JSON of the graph model", graphModel.getJSONString(), true);
       String jsonModelString = dialog.open();
       if (jsonModelString == null) {
         return;
@@ -1890,13 +1751,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
     try {
       String prettyJsonString = getModelJson();
 
-      EnterTextDialog dialog =
-          new EnterTextDialog(
-              getShell(),
-              "Model JSON",
-              "This is the JSON of the graph model",
-              prettyJsonString,
-              true);
+      EnterTextDialog dialog = new EnterTextDialog(getShell(), "Model JSON", "This is the JSON of the graph model", prettyJsonString, true);
       dialog.open();
     } catch (Exception e) {
       new ErrorDialog(getShell(), "ERROR", "Error serializing to JSON", e);
@@ -1905,13 +1760,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
   private void importGraphFromSolutionsWorkbench() {
     try {
-      EnterTextDialog dialog =
-          new EnterTextDialog(
-              getShell(),
-              "Solutions Workbench Export",
-              "Paste the Solutions Workbench model export (JSON) below",
-              "{}",
-              true);
+      EnterTextDialog dialog = new EnterTextDialog(getShell(), "Solutions Workbench Export", "Paste the Solutions Workbench model export (JSON) below", "{}", true);
       String jsonModelString = dialog.open();
       if (jsonModelString == null) {
         return;
@@ -1934,13 +1783,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
   private void importGraphFromArrowsApp() {
     try {
-      EnterTextDialog dialog =
-          new EnterTextDialog(
-              getShell(),
-              "Arrows JSON",
-              "Paste the Arrows application export in JSON format below",
-              "{}",
-              true);
+      EnterTextDialog dialog = new EnterTextDialog(getShell(), "Arrows JSON", "Paste the Arrows application export in JSON format below", "{}", true);
       String jsonModelString = dialog.open();
       if (jsonModelString == null) {
         return;
@@ -1957,8 +1800,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
       MessageBox box = new MessageBox(getShell(), SWT.ICON_INFORMATION | SWT.OK);
       box.setText("Import successful");
-      box.setMessage(
-          "The import from the Arrows JSON was successful.  Please make sure to give this model a name and indicate the primary key fields of nodes.");
+      box.setMessage("The import from the Arrows JSON was successful.  Please make sure to give this model a name and indicate the primary key fields of nodes.");
       box.open();
 
     } catch (Exception e) {
@@ -1975,8 +1817,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
 
       // Select the index name...
       //
-      IHopMetadataSerializer<NeoConnection> connectionSerializer =
-          getMetadataManager().getMetadataProvider().getSerializer(NeoConnection.class);
+      IHopMetadataSerializer<NeoConnection> connectionSerializer = getMetadataManager().getMetadataProvider().getSerializer(NeoConnection.class);
       java.util.List<String> connectionNames = connectionSerializer.listObjectNames();
       EnterSelectionDialog enterSelectionDialog =
           new EnterSelectionDialog(
@@ -2005,15 +1846,8 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
             // Note: Unique indexes are handled by a constraint below
             //
             if ((property.isIndexed() || property.isPrimary()) && !property.isUnique()) {
-              neo4jIndex
-                  .getIndexUpdates()
-                  .add(
-                      new IndexUpdate(
-                          UpdateType.CREATE,
-                          ObjectType.NODE,
-                          "IDX_" + label.toUpperCase() + "_" + property.getName().toUpperCase(),
-                          label,
-                          property.getName()));
+              neo4jIndex.getIndexUpdates()
+                  .add(new IndexUpdate(UpdateType.CREATE, ObjectType.NODE, "IDX_" + label.toUpperCase() + "_" + property.getName().toUpperCase(), label, property.getName()));
             }
           }
         }
@@ -2042,16 +1876,14 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
             //
             if (property.isUnique()) {
 
-              neo4jConstraint
-                  .getConstraintUpdates()
-                  .add(
-                      new ConstraintUpdate(
-                          org.apache.hop.neo4j.actions.constraint.UpdateType.CREATE,
-                          org.apache.hop.neo4j.actions.constraint.ObjectType.NODE,
-                          ConstraintType.UNIQUE,
-                          "COU_" + label.toUpperCase() + "_" + property.getName().toUpperCase(),
-                          label,
-                          property.getName()));
+              neo4jConstraint.getConstraintUpdates().add(
+                  new ConstraintUpdate(
+                      org.apache.hop.neo4j.actions.constraint.UpdateType.CREATE,
+                      org.apache.hop.neo4j.actions.constraint.ObjectType.NODE,
+                      ConstraintType.UNIQUE,
+                      "COU_" + label.toUpperCase() + "_" + property.getName().toUpperCase(),
+                      label,
+                      property.getName()));
             }
           }
         }
@@ -2064,12 +1896,7 @@ public class GraphModelEditor extends MetadataEditor<GraphModel> {
       constraintMeta.setLocation(100, 50);
       String xmlConstraint = constraintMeta.getXml();
 
-      GuiResource.getInstance()
-          .toClipboard(
-              "<workflow-actions><actions>"
-                  + xmlIndex
-                  + xmlConstraint
-                  + "</actions></workflow-actions>");
+      GuiResource.getInstance().toClipboard("<workflow-actions><actions>" + xmlIndex + xmlConstraint + "</actions></workflow-actions>");
 
       MessageBox messageBox = new MessageBox(getShell(), SWT.OK | SWT.ICON_INFORMATION);
       messageBox.setText("Copied to clipboard");

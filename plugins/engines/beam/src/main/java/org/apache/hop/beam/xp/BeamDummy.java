@@ -27,12 +27,7 @@ public class BeamDummy extends Dummy {
 
   protected boolean init;
 
-  public BeamDummy(
-      TransformMeta transformMeta,
-      DummyData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamDummy(TransformMeta transformMeta, DummyData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, new DummyMeta(), data, copyNr, pipelineMeta, pipeline);
   }
 

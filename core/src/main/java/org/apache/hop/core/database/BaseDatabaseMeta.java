@@ -17,13 +17,13 @@
 // CHECKSTYLE:FileLength:OFF
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -73,19 +73,16 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * A flag to determine if we should use a double decimal separator to specify schema/table
    * combinations on MS-SQL server
    */
-  public static final String ATTRIBUTE_MSSQL_DOUBLE_DECIMAL_SEPARATOR =
-      "MSSQL_DOUBLE_DECIMAL_SEPARATOR";
+  public static final String ATTRIBUTE_MSSQL_DOUBLE_DECIMAL_SEPARATOR = "MSSQL_DOUBLE_DECIMAL_SEPARATOR";
 
   /** A flag to determine if we should quote all fields */
   public static final String ATTRIBUTE_QUOTE_ALL_FIELDS = "QUOTE_ALL_FIELDS";
 
   /** A flag to determine if we should force all identifiers to lower case */
-  public static final String ATTRIBUTE_FORCE_IDENTIFIERS_TO_LOWERCASE =
-      "FORCE_IDENTIFIERS_TO_LOWERCASE";
+  public static final String ATTRIBUTE_FORCE_IDENTIFIERS_TO_LOWERCASE = "FORCE_IDENTIFIERS_TO_LOWERCASE";
 
   /** A flag to determine if we should force all identifiers to UPPER CASE */
-  public static final String ATTRIBUTE_FORCE_IDENTIFIERS_TO_UPPERCASE =
-      "FORCE_IDENTIFIERS_TO_UPPERCASE";
+  public static final String ATTRIBUTE_FORCE_IDENTIFIERS_TO_UPPERCASE = "FORCE_IDENTIFIERS_TO_UPPERCASE";
 
   /** The preferred schema to use if no other has been specified. */
   public static final String ATTRIBUTE_PREFERRED_SCHEMA_NAME = "PREFERRED_SCHEMA_NAME";
@@ -100,8 +97,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * Checkbox to allow you to configure if the database supports the Timestamp data type or not.
    * Defaults to "false" for backward compatibility!
    */
-  public static final String ATTRIBUTE_SUPPORTS_TIMESTAMP_DATA_TYPE =
-      "SUPPORTS_TIMESTAMP_DATA_TYPE";
+  public static final String ATTRIBUTE_SUPPORTS_TIMESTAMP_DATA_TYPE = "SUPPORTS_TIMESTAMP_DATA_TYPE";
 
   /**
    * Checkbox to allow you to configure if the reserved words will have their case changed during
@@ -129,7 +125,8 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   private static final String FIELDNAME_PROTECTOR = "_";
 
-  @HopMetadataProperty protected int accessType; // NATIVE / OCI
+  @HopMetadataProperty
+  protected int accessType; // NATIVE / OCI
 
   @HopMetadataProperty
   @GuiWidgetElement(
@@ -161,15 +158,18 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
       parentId = DatabaseMeta.GUI_PLUGIN_ELEMENT_PARENT_ID)
   protected String databaseName;
 
-  @HopMetadataProperty protected String username;
+  @HopMetadataProperty
+  protected String username;
 
   @HopMetadataProperty(password = true)
   protected String password;
 
   /** Available for ALL database types */
-  @HopMetadataProperty protected String manualUrl;
+  @HopMetadataProperty
+  protected String manualUrl;
 
-  @HopMetadataProperty protected String servername; // Informix only!
+  @HopMetadataProperty
+  protected String servername; // Informix only!
 
   @HopMetadataProperty
   protected String dataTablespace; // data storage location, For Oracle & perhaps others
@@ -179,10 +179,13 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   private boolean changed;
 
-  @HopMetadataProperty protected Map<String, String> attributes;
+  @HopMetadataProperty
+  protected Map<String, String> attributes;
 
-  @HopMetadataProperty protected String pluginId;
-  @HopMetadataProperty protected String pluginName;
+  @HopMetadataProperty
+  protected String pluginId;
+  @HopMetadataProperty
+  protected String pluginName;
 
   public BaseDatabaseMeta() {
     attributes = Collections.synchronizedMap(new HashMap<>());
@@ -445,7 +448,8 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /*
    * *******************************************************************************
-   * DEFAULT SETTINGS FOR ALL DATABASES ********************************************************************************
+   * DEFAULT SETTINGS FOR ALL DATABASES
+   * ********************************************************************************
    */
 
   /**
@@ -479,13 +483,17 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
     return true;
   }
 
-  /* Returns weather or not the database supports a custom SQL statement to perform delete operations */
+  /*
+   * Returns weather or not the database supports a custom SQL statement to perform delete operations
+   */
   @Override
   public boolean isSupportsCustomDeleteStmt() {
     return false;
   }
 
-  /* Returns weather or not the database supports a custom SQL statement to perform update operations */
+  /*
+   * Returns weather or not the database supports a custom SQL statement to perform update operations
+   */
   @Override
   public boolean isSupportsCustomUpdateStmt() {
     return false;
@@ -594,7 +602,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true when the database engine supports empty transaction. (for example Informix does
-   *     not on a non-ANSI database type!)
+   *         not on a non-ANSI database type!)
    */
   @Override
   public boolean isSupportsEmptyTransactions() {
@@ -670,7 +678,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * exceeded use a CLOB.
    *
    * @return The maximum VARCHAR field length for this database type. (mostly identical to
-   *     getMaxTextFieldLength() - CLOB_LENGTH)
+   *         getMaxTextFieldLength() - CLOB_LENGTH)
    */
   @Override
   public int getMaxVARCHARLength() {
@@ -721,13 +729,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * @return the SQL statement to drop a column from the specified table
    */
   @Override
-  public String getDropColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     return "ALTER TABLE " + tableName + " DROP " + v.getName() + Const.CR;
   }
 
@@ -789,7 +791,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if we need to supply the schema-name to getTables in order to get a correct list
-   *     of items.
+   *         of items.
    */
   @Override
   public boolean useSchemaNameForTableList() {
@@ -862,7 +864,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
   /**
    * @param tableNames The names of the tables to lock
    * @return The SQL command to lock database tables for write purposes. null is returned in case
-   *     locking is not supported on the target database. null is the default value
+   *         locking is not supported on the target database. null is the default value
    */
   @Override
   public String getSqlLockTables(String[] tableNames) {
@@ -872,7 +874,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
   /**
    * @param tableNames The names of the tables to unlock
    * @return The SQL command to unlock database tables. null is returned in case locking is not
-   *     supported on the target database. null is the default value
+   *         supported on the target database. null is the default value
    */
   @Override
   public String getSqlUnlockTables(String[] tableNames) {
@@ -881,7 +883,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database supports timestamp to date conversion. For example Interbase
-   *     doesn't support this!
+   *         doesn't support this!
    */
   @Override
   public boolean isSupportsTimeStampToDateConversion() {
@@ -890,7 +892,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database JDBC driver supports batch updates For example Interbase doesn't
-   *     support this!
+   *         support this!
    */
   @Override
   public boolean isSupportsBatchUpdates() {
@@ -911,7 +913,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database supports a boolean, bit, logical, ... datatype The default is
-   *     false: map to a string.
+   *         false: map to a string.
    */
   @Override
   public boolean isSupportsBooleanDataType() {
@@ -938,7 +940,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @param b Set to true if the database supports the Timestamp data type (nanosecond precision and
-   *     all)
+   *        all)
    */
   @Override
   public void setSupportsTimestampDataType(boolean b) {
@@ -964,7 +966,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database defaults to naming tables and fields in uppercase. True for most
-   *     databases except for stuborn stuff like Postgres ;-)
+   *         databases except for stuborn stuff like Postgres ;-)
    */
   @Override
   public boolean isDefaultingToUppercase() {
@@ -1004,7 +1006,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
+   *         ; )
    */
   @Override
   public String getExtraOptionSeparator() {
@@ -1013,7 +1015,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return The extra option value separator in database URL for this platform (usually this is the
-   *     equal sign = )
+   *         equal sign = )
    */
   @Override
   public String getExtraOptionValueSeparator() {
@@ -1030,7 +1032,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database supports connection options in the URL, false if they are put in a
-   *     Properties object.
+   *         Properties object.
    */
   @Override
   public boolean isSupportsOptionsInURL() {
@@ -1047,7 +1049,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database JDBC driver supports getBlob on the resultset. If not we must use
-   *     getBytes() to get the data.
+   *         getBytes() to get the data.
    */
   @Override
   public boolean isSupportsGetBlob() {
@@ -1099,7 +1101,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @param useStreaming true if we want the database to stream results (normally this is an option
-   *     just for MySQL).
+   *        just for MySQL).
    */
   @Override
   public void setStreamingResults(boolean useStreaming) {
@@ -1111,14 +1113,13 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    */
   @Override
   public boolean isQuoteAllFields() {
-    String quoteAllFields =
-        getAttributeProperty(ATTRIBUTE_QUOTE_ALL_FIELDS, "N"); // DEFAULT TO NO!!
+    String quoteAllFields = getAttributeProperty(ATTRIBUTE_QUOTE_ALL_FIELDS, "N"); // DEFAULT TO NO!!
     return "Y".equalsIgnoreCase(quoteAllFields);
   }
 
   /**
    * @param quoteAllFields true if we want the database to stream results (normally this is an
-   *     option just for MySQL).
+   *        option just for MySQL).
    */
   @Override
   public void setQuoteAllFields(boolean quoteAllFields) {
@@ -1130,8 +1131,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    */
   @Override
   public boolean isForcingIdentifiersToLowerCase() {
-    String forceLowerCase =
-        getAttributeProperty(ATTRIBUTE_FORCE_IDENTIFIERS_TO_LOWERCASE, "N"); // DEFAULT TO NO!!
+    String forceLowerCase = getAttributeProperty(ATTRIBUTE_FORCE_IDENTIFIERS_TO_LOWERCASE, "N"); // DEFAULT TO NO!!
     return "Y".equalsIgnoreCase(forceLowerCase);
   }
 
@@ -1148,8 +1148,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    */
   @Override
   public boolean isForcingIdentifiersToUpperCase() {
-    String forceUpperCase =
-        getAttributeProperty(ATTRIBUTE_FORCE_IDENTIFIERS_TO_UPPERCASE, "N"); // DEFAULT TO NO!!
+    String forceUpperCase = getAttributeProperty(ATTRIBUTE_FORCE_IDENTIFIERS_TO_UPPERCASE, "N"); // DEFAULT TO NO!!
     return "Y".equalsIgnoreCase(forceUpperCase);
   }
 
@@ -1163,18 +1162,17 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if we use a double decimal separator to specify schema/table combinations on
-   *     MS-SQL server
+   *         MS-SQL server
    */
   @Override
   public boolean isUsingDoubleDecimalAsSchemaTableSeparator() {
-    String usePool =
-        getAttributeProperty(ATTRIBUTE_MSSQL_DOUBLE_DECIMAL_SEPARATOR, "N"); // DEFAULT TO YES!!
+    String usePool = getAttributeProperty(ATTRIBUTE_MSSQL_DOUBLE_DECIMAL_SEPARATOR, "N"); // DEFAULT TO YES!!
     return "Y".equalsIgnoreCase(usePool);
   }
 
   /**
    * @param useDoubleDecimalSeparator true if we should use a double decimal separator to specify
-   *     schema/table combinations on MS-SQL server
+   *        schema/table combinations on MS-SQL server
    */
   @Override
   public void setUsingDoubleDecimalAsSchemaTableSeparator(boolean useDoubleDecimalSeparator) {
@@ -1233,12 +1231,9 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * @throws HopDatabaseException
    */
   @Override
-  public boolean hasIndex(
-      Database database, String schemaName, String tableName, String[] idxFields)
-      throws HopDatabaseException {
+  public boolean hasIndex(Database database, String schemaName, String tableName, String[] idxFields) throws HopDatabaseException {
 
-    String schemaTable =
-        database.getDatabaseMeta().getQuotedSchemaTableCombination(database, schemaName, tableName);
+    String schemaTable = database.getDatabaseMeta().getQuotedSchemaTableCombination(database, schemaName, tableName);
 
     boolean[] exists = new boolean[idxFields.length];
     for (int i = 0; i < exists.length; i++) {
@@ -1249,8 +1244,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
       // Get a list of all the indexes for this table
       ResultSet indexList = null;
       try {
-        indexList =
-            database.getDatabaseMetaData().getIndexInfo(null, null, schemaTable, false, true);
+        indexList = database.getDatabaseMetaData().getIndexInfo(null, null, schemaTable, false, true);
         while (indexList.next()) {
           String column = indexList.getString("COLUMN_NAME");
 
@@ -1275,14 +1269,13 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
       return all;
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unable to determine if indexes exists on table [" + schemaTable + "]", e);
+      throw new HopDatabaseException("Unable to determine if indexes exists on table [" + schemaTable + "]", e);
     }
   }
 
   /**
    * @return true if the database supports the NOMAXVALUE sequence option. The default is false,
-   *     AS/400 and DB2 support this.
+   *         AS/400 and DB2 support this.
    */
   @Override
   public boolean isSupportsSequenceNoMaxValueOption() {
@@ -1291,7 +1284,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if we need to append the PRIMARY KEY block in the create table block after the
-   *     fields, required for Cache.
+   *         fields, required for Cache.
    */
   @Override
   public boolean isRequiresCreateTablePrimaryKeyAppend() {
@@ -1300,7 +1293,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database requires you to cast a parameter to varchar before comparing to
-   *     null. Only required for DB2 and Vertica
+   *         null. Only required for DB2 and Vertica
    */
   @Override
   public boolean isRequiresCastToVariousForIsNull() {
@@ -1309,7 +1302,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return Handles the special case of DB2 where the display size returned is twice the precision.
-   *     In that case, the length is the precision.
+   *         In that case, the length is the precision.
    */
   @Override
   public boolean isDisplaySizeTwiceThePrecision() {
@@ -1320,7 +1313,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * Most databases allow you to retrieve result metadata by preparing a SELECT statement.
    *
    * @return true if the database supports retrieval of query metadata from a prepared statement.
-   *     False if the query needs to be executed first.
+   *         False if the query needs to be executed first.
    */
   @Override
   public boolean isSupportsPreparedStatementMetadataRetrieval() {
@@ -1329,7 +1322,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if this database only supports metadata retrieval on a result set, never on a
-   *     statement (even if the statement has been executed)
+   *         statement (even if the statement has been executed)
    */
   @Override
   public boolean isSupportsResultSetMetadataRetrievalOnly() {
@@ -1371,7 +1364,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database supports error handling (recovery of failure) while doing batch
-   *     updates.
+   *         updates.
    */
   @Override
   public boolean IsSupportsErrorHandlingOnBatchUpdates() {
@@ -1387,8 +1380,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * @return the SQL to insert the unknown record into the SCD.
    */
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + keyField + ", " + versionField + ") values (0, 1)";
   }
 
@@ -1403,7 +1395,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
   /**
    * @param string
    * @return A string that is properly quoted for use in a SQL statement (insert, update, delete,
-   *     etc)
+   *         etc)
    */
   @Override
   public String quoteSqlString(String string) {
@@ -1546,12 +1538,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
         String stat = all.substring(from, to);
         if (!onlySpaces(stat)) {
           String s = Const.trim(stat);
-          statements.add(
-              new SqlScriptStatement(
-                  s,
-                  from,
-                  to,
-                  s.toUpperCase().startsWith("SELECT") || s.toLowerCase().startsWith("show")));
+          statements.add(new SqlScriptStatement(s, from, to, s.toUpperCase().startsWith("SELECT") || s.toLowerCase().startsWith("show")));
         }
         to++;
         from = to;
@@ -1578,7 +1565,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database is a MySQL variant, like MySQL 5.1, InfiniDB, InfoBright, and so
-   *     on.
+   *         on.
    */
   @Override
   public boolean isMySqlVariant() {
@@ -1587,7 +1574,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database is a Postgres variant like Postgres, Greenplum, Redshift and so
-   *     on.
+   *         on.
    */
   @Override
   public boolean isPostgresVariant() {
@@ -1713,15 +1700,15 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    *
    * @param variables variables used for possible substitution
    * @param databaseMeta databaseMeta the database meta used for possible string enclosure of the
-   *     tablespace. This method needs this as this is done after environmental substitution.
+   *        tablespace. This method needs this as this is done after environmental substitution.
    * @return String the tablespace name for tables in the format "tablespace TABLESPACE_NAME". The
-   *     TABLESPACE_NAME and the passed DatabaseMata determines if TABLESPACE_NAME is to be enclosed
-   *     in quotes.
+   *         TABLESPACE_NAME and the passed DatabaseMata determines if TABLESPACE_NAME is to be
+   *         enclosed
+   *         in quotes.
    */
   @Override
   public String getDataTablespaceDDL(IVariables variables, DatabaseMeta databaseMeta) {
-    return getTablespaceDDL(
-        variables, databaseMeta, databaseMeta.getIDatabase().getDataTablespace());
+    return getTablespaceDDL(variables, databaseMeta, databaseMeta.getIDatabase().getDataTablespace());
   }
 
   /**
@@ -1729,15 +1716,15 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    *
    * @param variables variables used for possible substitution
    * @param databaseMeta databaseMeta the database meta used for possible string enclosure of the
-   *     tablespace. This method needs this as this is done after environmental substitution.
+   *        tablespace. This method needs this as this is done after environmental substitution.
    * @return String the tablespace name for indices in the format "tablespace TABLESPACE_NAME". The
-   *     TABLESPACE_NAME and the passed DatabaseMata determines if TABLESPACE_NAME is to be enclosed
-   *     in quotes.
+   *         TABLESPACE_NAME and the passed DatabaseMata determines if TABLESPACE_NAME is to be
+   *         enclosed
+   *         in quotes.
    */
   @Override
   public String getIndexTablespaceDDL(IVariables variables, DatabaseMeta databaseMeta) {
-    return getTablespaceDDL(
-        variables, databaseMeta, databaseMeta.getIDatabase().getIndexTablespace());
+    return getTablespaceDDL(variables, databaseMeta, databaseMeta.getIDatabase().getIndexTablespace());
   }
 
   /**
@@ -1746,13 +1733,13 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    *
    * @param variables variables needed for variable substitution.
    * @param databaseMeta databaseMeta needed for it's quoteField method. Since we are doing variable
-   *     substitution we need to meta so that we can act on the variable substitution first and then
-   *     the creation of the entire string that will be retuned.
+   *        substitution we need to meta so that we can act on the variable substitution first and
+   *        then
+   *        the creation of the entire string that will be retuned.
    * @param tablespaceName tablespaceName name of the tablespace.
    * @return String an empty String as most databases do not use tablespaces.
    */
-  public String getTablespaceDDL(
-      IVariables variables, DatabaseMeta databaseMeta, String tablespaceName) {
+  public String getTablespaceDDL(IVariables variables, DatabaseMeta databaseMeta, String tablespaceName) {
     return "";
   }
 
@@ -1767,15 +1754,14 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * @throws HopDatabaseException
    */
   @Override
-  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int i)
-      throws HopDatabaseException {
+  public Object getValueFromResultSet(ResultSet rs, IValueMeta val, int i) throws HopDatabaseException {
 
     return val.getValueFromResultSet(this, rs, i);
   }
 
   /**
    * @return true if the database supports the use of safe-points and if it is appropriate to ever
-   *     use it (default to false)
+   *         use it (default to false)
    */
   @Override
   public boolean isUseSafePoints() {
@@ -1784,8 +1770,8 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
 
   /**
    * @return true if the database supports error handling (the default). Returns false for certain
-   *     databases (SQLite) that invalidate a prepared statement or even the complete connection
-   *     when an error occurs.
+   *         databases (SQLite) that invalidate a prepared statement or even the complete connection
+   *         when an error occurs.
    */
   @Override
   public boolean isSupportsErrorHandling() {
@@ -1793,8 +1779,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
   }
 
   @Override
-  public String getSqlValue(IValueMeta valueMeta, Object valueData, String dateFormat)
-      throws HopValueException {
+  public String getSqlValue(IValueMeta valueMeta, Object valueData, String dateFormat) throws HopValueException {
 
     StringBuilder ins = new StringBuilder();
 
@@ -1844,9 +1829,9 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * Sanitize a string for usage as a field name
    *
    * <ul>
-   *   <li>Append an underscore to any field name that matches a reserved word
-   *   <li>Replaces spaces with underscores
-   *   <li>Prefixes a string with underscore that begins with a number
+   * <li>Append an underscore to any field name that matches a reserved word
+   * <li>Replaces spaces with underscores
+   * <li>Prefixes a string with underscore that begins with a number
    * </ul>
    *
    * @param fieldname value to sanitize
@@ -1861,10 +1846,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
     // alpha numerics , underscores, field protectors only
     for (int idx = 0; idx < fieldname.length(); idx++) {
       char c = fieldname.charAt(idx);
-      if ((c >= 'a' && c <= 'z')
-          || (c >= 'A' && c <= 'Z')
-          || (c >= '0' && c <= '9')
-          || (c == '_')) {
+      if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '_')) {
         newName.append(c);
       } else if (c == ' ') {
         newName.append('_');
@@ -1920,8 +1902,7 @@ public abstract class BaseDatabaseMeta implements Cloneable, IDatabase {
    * @return IValueMeta customized with the data base specific types
    */
   @Override
-  public IValueMeta customizeValueFromSqlType(
-      IValueMeta v, java.sql.ResultSetMetaData rm, int index) throws SQLException {
+  public IValueMeta customizeValueFromSqlType(IValueMeta v, java.sql.ResultSetMetaData rm, int index) throws SQLException {
     return null;
   }
 

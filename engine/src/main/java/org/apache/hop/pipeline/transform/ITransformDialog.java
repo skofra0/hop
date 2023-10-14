@@ -35,11 +35,12 @@ public interface ITransformDialog {
    * Brings the dialog to the front if the dialog is already open.
    */
   void setActive();
-  
+
   /**
    * void populateComposite( Composite parent);
    *
-   * <p>/**
+   * <p>
+   * /**
    *
    * @param metadataProvider The MetaStore to pass
    */

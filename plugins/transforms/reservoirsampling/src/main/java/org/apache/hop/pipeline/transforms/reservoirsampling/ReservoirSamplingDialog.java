@@ -50,8 +50,7 @@ public class ReservoirSamplingDialog extends BaseTransformDialog implements ITra
    */
   private final ReservoirSamplingMeta input;
 
-  public ReservoirSamplingDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public ReservoirSamplingDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
 
     super(parent, variables, (ReservoirSamplingMeta) in, tr, sname);
 
@@ -91,8 +90,7 @@ public class ReservoirSamplingDialog extends BaseTransformDialog implements ITra
     // TransformName line
     // various UI bits and pieces
     Label mWlTransformName = new Label(shell, SWT.RIGHT);
-    mWlTransformName.setText(
-        BaseMessages.getString(PKG, "ReservoirSamplingDialog.TransformName.Label"));
+    mWlTransformName.setText(BaseMessages.getString(PKG, "ReservoirSamplingDialog.TransformName.Label"));
     PropsUi.setLook(mWlTransformName);
 
     FormData mFdlTransformName = new FormData();
@@ -165,8 +163,7 @@ public class ReservoirSamplingDialog extends BaseTransformDialog implements ITra
     wOk.addListener(SWT.Selection, e -> ok());
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wSampleSize.addModifyListener(
-        e -> wSampleSize.setToolTipText(variables.resolve(wSampleSize.getText())));
+    wSampleSize.addModifyListener(e -> wSampleSize.setToolTipText(variables.resolve(wSampleSize.getText())));
 
     // Whenever something changes, set the tooltip to the expanded version:
     wSeed.addModifyListener(e -> wSeed.setToolTipText(variables.resolve(wSeed.getText())));

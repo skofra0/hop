@@ -48,7 +48,8 @@ import java.util.UUID;
 public class MailInputMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<MailInputMeta> testMetaClass = MailInputMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -56,66 +57,24 @@ public class MailInputMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "conditionReceivedDate",
-            "valueimaplist",
-            "serverName",
-            "userName",
-            "password",
-            "useSSL",
-            "port",
-            "firstMails",
-            "retrievemails",
-            "delete",
-            "protocol",
-            "firstIMAPMails",
-            "IMAPFolder",
-            "senderSearchTerm",
-            "notTermSenderSearch",
-            "recipientSearch",
-            "subjectSearch",
-            "receivedDate1",
-            "receivedDate2",
-            "notTermSubjectSearch",
-            "notTermRecipientSearch",
-            "notTermReceivedDateSearch",
-            "includeSubFolders",
-            "useProxy",
-            "proxyUsername",
-            "folderField",
-            "dynamicFolder",
-            "rowLimit",
-            "useBatch",
-            "start",
-            "end",
-            "batchSize",
-            "stopOnError",
-            "inputFields");
+            "conditionReceivedDate", "valueimaplist", "serverName", "userName", "password", "useSSL", "port", "firstMails", "retrievemails", "delete", "protocol", "firstIMAPMails",
+            "IMAPFolder", "senderSearchTerm", "notTermSenderSearch", "recipientSearch", "subjectSearch", "receivedDate1", "receivedDate2", "notTermSubjectSearch",
+            "notTermRecipientSearch", "notTermReceivedDateSearch", "includeSubFolders", "useProxy", "proxyUsername", "folderField", "dynamicFolder", "rowLimit", "useBatch",
+            "start", "end", "batchSize", "stopOnError", "inputFields");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "inputFields", new ArrayLoadSaveValidator<>(new MailInputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("inputFields", new ArrayLoadSaveValidator<>(new MailInputFieldLoadSaveValidator(), 5));
     attrValidatorMap.put("batchSize", new IntLoadSaveValidator(1000));
-    attrValidatorMap.put(
-        "conditionReceivedDate",
-        new IntLoadSaveValidator(MailConnectionMeta.conditionDateCode.length));
-    attrValidatorMap.put(
-        "valueimaplist", new IntLoadSaveValidator(MailConnectionMeta.valueIMAPListCode.length));
+    attrValidatorMap.put("conditionReceivedDate", new IntLoadSaveValidator(MailConnectionMeta.conditionDateCode.length));
+    attrValidatorMap.put("valueimaplist", new IntLoadSaveValidator(MailConnectionMeta.valueIMAPListCode.length));
     attrValidatorMap.put("port", new StringIntLoadSaveValidator(65534));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -148,10 +107,7 @@ public class MailInputMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       MailInputField another = (MailInputField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getColumn(), another.getColumn())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getColumn(), another.getColumn()).isEquals();
     }
   }
 

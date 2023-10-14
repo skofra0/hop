@@ -81,8 +81,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
 
   private static final Class<?> PKG = KafkaConsumerInputDialog.class; // For Translator
 
-  private static final Map<String, String> DEFAULT_OPTION_VALUES =
-      ImmutableMap.of(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+  private static final Map<String, String> DEFAULT_OPTION_VALUES = ImmutableMap.of(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
 
   private final KafkaFactory kafkaFactory = KafkaFactory.defaultFactory();
 
@@ -125,8 +124,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
   private final int middle = props.getMiddlePct();
   private final int margin = props.getMargin();
 
-  public KafkaConsumerInputDialog(
-      Shell parent, IVariables variables, Object meta, PipelineMeta pipelineMeta, String name) {
+  public KafkaConsumerInputDialog(Shell parent, IVariables variables, Object meta, PipelineMeta pipelineMeta, String name) {
     super(parent, variables, (BaseTransformMeta) meta, pipelineMeta, name);
     this.meta = (KafkaConsumerInputMeta) meta;
     hopGui = HopGui.getInstance();
@@ -162,8 +160,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "KafkaConsumerInputDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -194,19 +191,17 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
 
     wbCreatePipeline = new Button(shell, SWT.PUSH);
     PropsUi.setLook(wbCreatePipeline);
-    wbCreatePipeline.setText(
-        BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Pipeline.CreatePipeline"));
+    wbCreatePipeline.setText(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Pipeline.CreatePipeline"));
     FormData fdCreatePipeline = new FormData();
     fdCreatePipeline.right = new FormAttachment(100, 0);
     fdCreatePipeline.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
     wbCreatePipeline.setLayoutData(fdCreatePipeline);
-    wbCreatePipeline.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            createNewKafkaPipeline();
-          }
-        });
+    wbCreatePipeline.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        createNewKafkaPipeline();
+      }
+    });
 
     wbFilename = new Button(shell, SWT.PUSH);
     PropsUi.setLook(wbFilename);
@@ -215,18 +210,10 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     fdbFilename.right = new FormAttachment(wbCreatePipeline, -margin);
     fdbFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
     wbFilename.setLayoutData(fdbFilename);
-    wbFilename.addListener(
-        SWT.Selection,
-        e -> {
-          HopPipelineFileType pipelineFileType = new HopPipelineFileType();
-          BaseDialog.presentFileDialog(
-              shell,
-              wFilename,
-              variables,
-              pipelineFileType.getFilterExtensions(),
-              pipelineFileType.getFilterNames(),
-              true);
-        });
+    wbFilename.addListener(SWT.Selection, e -> {
+      HopPipelineFileType pipelineFileType = new HopPipelineFileType();
+      BaseDialog.presentFileDialog(shell, wFilename, variables, pipelineFileType.getFilterExtensions(), pipelineFileType.getFilterNames(), true);
+    });
 
     wFilename = new TextVar(variables, shell, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
     PropsUi.setLook(wFilename);
@@ -343,8 +330,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
 
     Label wlBootstrapServers = new Label(wSetupComp, SWT.RIGHT);
     PropsUi.setLook(wlBootstrapServers);
-    wlBootstrapServers.setText(
-        BaseMessages.getString(PKG, "KafkaConsumerInputDialog.BootstrapServers"));
+    wlBootstrapServers.setText(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.BootstrapServers"));
     FormData fdlBootstrapServers = new FormData();
     fdlBootstrapServers.left = new FormAttachment(0, 0);
     fdlBootstrapServers.top = new FormAttachment(0, 0);
@@ -382,7 +368,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     wlConsumerGroup.setText(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.ConsumerGroup"));
     FormData fdlConsumerGroup = new FormData();
     fdlConsumerGroup.left = new FormAttachment(0, 0);
-    fdlConsumerGroup.top = new FormAttachment(wConsumerGroup, 0,  SWT.CENTER);
+    fdlConsumerGroup.top = new FormAttachment(wConsumerGroup, 0, SWT.CENTER);
     fdlConsumerGroup.right = new FormAttachment(middle, -margin);
     wlConsumerGroup.setLayoutData(fdlConsumerGroup);
     fdConsumerGroup.left = new FormAttachment(wlConsumerGroup, margin);
@@ -454,17 +440,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
 
     int fieldCount = KafkaConsumerField.Name.values().length;
 
-    fieldsTable =
-        new TableView(
-            variables,
-            parentWidget,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            fieldCount,
-            true,
-            lsMod,
-            props,
-            false);
+    fieldsTable = new TableView(variables, parentWidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, fieldCount, true, lsMod, props, false);
 
     fieldsTable.setSortable(false);
 
@@ -495,17 +471,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     }
     int fieldCount = meta.getConfig().size();
 
-    optionsTable =
-        new TableView(
-            variables,
-            parentWidget,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            fieldCount,
-            false,
-            lsMod,
-            props,
-            false);
+    optionsTable = new TableView(variables, parentWidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, fieldCount, false, lsMod, props, false);
 
     optionsTable.setSortable(false);
 
@@ -628,8 +594,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     fdlSubTrans.top = new FormAttachment(0, 0);
     fdlSubTrans.right = new FormAttachment(middle, -margin);
     wlSubTransform.setLayoutData(fdlSubTrans);
-    wlSubTransform.setText(
-        BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Pipeline.SubPipelineTransform"));
+    wlSubTransform.setText(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Pipeline.SubPipelineTransform"));
 
     wSubTransform = new ComboVar(variables, wResultsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSubTransform);
@@ -646,58 +611,30 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
 
   private ColumnInfo[] getFieldColumns() {
     KafkaConsumerField.Type[] values = KafkaConsumerField.Type.values();
-    String[] supportedTypes =
-        Arrays.stream(values).map(KafkaConsumerField.Type::toString).toArray(String[]::new);
+    String[] supportedTypes = Arrays.stream(values).map(KafkaConsumerField.Type::toString).toArray(String[]::new);
 
-    ColumnInfo referenceName =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Ref"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
+    ColumnInfo referenceName = new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Ref"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
 
-    ColumnInfo name =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Name"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            false);
+    ColumnInfo name = new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false);
 
-    ColumnInfo type =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Type"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            supportedTypes,
-            false);
+    ColumnInfo type = new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, supportedTypes, false);
 
     // don't let the user edit the type for anything other than key & msg fields
-    type.setDisabledListener(
-        rowNumber -> {
-          String ref = fieldsTable.getTable().getItem(rowNumber).getText(1);
-          KafkaConsumerField.Name refName = KafkaConsumerField.Name.valueOf(ref.toUpperCase());
+    type.setDisabledListener(rowNumber -> {
+      String ref = fieldsTable.getTable().getItem(rowNumber).getText(1);
+      KafkaConsumerField.Name refName = KafkaConsumerField.Name.valueOf(ref.toUpperCase());
 
-          return !(refName == KafkaConsumerField.Name.KEY
-              || refName == KafkaConsumerField.Name.MESSAGE);
-        });
+      return !(refName == KafkaConsumerField.Name.KEY || refName == KafkaConsumerField.Name.MESSAGE);
+    });
 
     return new ColumnInfo[] {referenceName, name, type};
   }
 
   private ColumnInfo[] getOptionsColumns() {
 
-    ColumnInfo optionName =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "KafkaConsumerInputDialog.NameField"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            false);
+    ColumnInfo optionName = new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.NameField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false);
 
-    ColumnInfo value =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Value"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            false);
+    ColumnInfo value = new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false, false);
     value.setUsingVariables(true);
 
     return new ColumnInfo[] {optionName, value};
@@ -735,49 +672,23 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     }
   }
 
-  private void buildTopicsTable(
-      Composite parentWidget, Control controlAbove, Control controlBelow) {
+  private void buildTopicsTable(Composite parentWidget, Control controlAbove, Control controlBelow) {
     ColumnInfo[] columns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "KafkaConsumerInputDialog.NameField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[1],
-              false)
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "KafkaConsumerInputDialog.NameField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[1], false)};
 
     columns[0].setUsingVariables(true);
 
     int topicsCount = meta.getTopics().size();
 
-    Listener lsFocusInTopic =
-        e -> {
-          CCombo comboWidget = (CCombo) e.widget;
-          ComboVar topicsCombo = (ComboVar) comboWidget.getParent();
+    Listener lsFocusInTopic = e -> {
+      CCombo comboWidget = (CCombo) e.widget;
+      ComboVar topicsCombo = (ComboVar) comboWidget.getParent();
 
-          KafkaDialogHelper kdh =
-              new KafkaDialogHelper(
-                  variables,
-                  topicsCombo,
-                  wBootstrapServers,
-                  kafkaFactory,
-                  optionsTable,
-                  meta.getParentTransformMeta());
-          kdh.clusterNameChanged(e);
-        };
+      KafkaDialogHelper kdh = new KafkaDialogHelper(variables, topicsCombo, wBootstrapServers, kafkaFactory, optionsTable, meta.getParentTransformMeta());
+      kdh.clusterNameChanged(e);
+    };
 
-    topicsTable =
-        new TableView(
-            variables,
-            parentWidget,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            topicsCount,
-            false,
-            lsMod,
-            props,
-            true,
-            lsFocusInTopic);
+    topicsTable = new TableView(variables, parentWidget, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, topicsCount, false, lsMod, props, true, lsFocusInTopic);
 
     topicsTable.setSortable(false);
 
@@ -828,8 +739,7 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
       String outputType = row.getText(3);
       try {
         KafkaConsumerField.Name ref = KafkaConsumerField.Name.valueOf(kafkaName.toUpperCase());
-        KafkaConsumerField field =
-            new KafkaConsumerField(ref, outputName, KafkaConsumerField.Type.valueOf(outputType));
+        KafkaConsumerField field = new KafkaConsumerField(ref, outputName, KafkaConsumerField.Type.valueOf(outputType));
         meta.setField(field);
       } catch (IllegalArgumentException e) {
         if (isDebug()) {
@@ -857,15 +767,11 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
   }
 
   protected String[] getFieldNames() {
-    return Arrays.stream(fieldsTable.getTable().getItems())
-        .map(row -> row.getText(2))
-        .toArray(String[]::new);
+    return Arrays.stream(fieldsTable.getTable().getItems()).map(row -> row.getText(2)).toArray(String[]::new);
   }
 
   protected int[] getFieldTypes() {
-    return Arrays.stream(fieldsTable.getTable().getItems())
-        .mapToInt(row -> ValueMetaFactory.getIdForValueMeta(row.getText(3)))
-        .toArray();
+    return Arrays.stream(fieldsTable.getTable().getItems()).mapToInt(row -> ValueMetaFactory.getIdForValueMeta(row.getText(3))).toArray();
   }
 
   protected void createNewKafkaPipeline() {
@@ -900,14 +806,11 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
     String[] fieldNames = getFieldNames();
     int[] fieldTypes = getFieldTypes();
     for (int i = 0; i < fieldNames.length; i++) {
-      InjectorField field =
-          new InjectorField(
-              fieldNames[i], ValueMetaFactory.getValueMetaName(fieldTypes[i]), "", "");
+      InjectorField field = new InjectorField(fieldNames[i], ValueMetaFactory.getValueMetaName(fieldTypes[i]), "", "");
       injectorMeta.getInjectorFields().add(field);
     }
 
-    TransformMeta recsFromStream =
-        new TransformMeta("RecordsFromStream", "Get messages from Kafka", injectorMeta);
+    TransformMeta recsFromStream = new TransformMeta("RecordsFromStream", "Get messages from Kafka", injectorMeta);
     recsFromStream.setLocation(new Point(100, 100));
 
     PipelineMeta pipelineMeta = new PipelineMeta();
@@ -928,17 +831,11 @@ public class KafkaConsumerInputDialog extends BaseTransformDialog implements ITr
       String current = wSubTransform.getText();
       wSubTransform.removeAll();
 
-      ofNullable(loadKafkaPipelineMeta())
-          .ifPresent(
-              pipelineMeta ->
-                  pipelineMeta.getTransforms().stream()
-                      .map(TransformMeta::getName)
-                      .sorted()
-                      .forEach(wSubTransform::add));
+      ofNullable(loadKafkaPipelineMeta()).ifPresent(pipelineMeta -> pipelineMeta.getTransforms().stream().map(TransformMeta::getName).sorted().forEach(wSubTransform::add));
 
       // I don't know why but just calling setText does not work when the text is not one of the
       // items in the list.
-      // Instead the first item in the list is selected.  asyncExec solves it.  If you have a better
+      // Instead the first item in the list is selected. asyncExec solves it. If you have a better
       // solution, by all
       // means go ahead and implement
       //

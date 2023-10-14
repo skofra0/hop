@@ -37,8 +37,7 @@ import org.apache.hop.pipeline.config.PipelineRunConfiguration;
 import java.util.Arrays;
 
 @GuiPlugin
-public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfiguration
-    implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
+public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfiguration implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
 
   @GuiWidgetElement(
       order = "20010-flink-options",
@@ -236,8 +235,7 @@ public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfigurat
     this.flinkObjectReuse = config.flinkObjectReuse;
     this.flinkDisableMetrics = config.flinkDisableMetrics;
     this.flinkExternalizedCheckpointsEnabled = config.flinkExternalizedCheckpointsEnabled;
-    this.flinkRetainExternalizedCheckpointsOnCancellation =
-        config.flinkRetainExternalizedCheckpointsOnCancellation;
+    this.flinkRetainExternalizedCheckpointsOnCancellation = config.flinkRetainExternalizedCheckpointsOnCancellation;
     this.flinkMaxBundleSize = config.flinkMaxBundleSize;
     this.flinkMaxBundleTimeMills = config.flinkMaxBundleTimeMills;
     this.flinkShutdownSourcesAfterIdleMs = config.flinkShutdownSourcesAfterIdleMs;
@@ -293,8 +291,7 @@ public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfigurat
           CheckpointingMode mode = CheckpointingMode.valueOf(modeString);
           options.setCheckpointingMode(modeString);
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to parse flink check pointing mode '" + modeString + "'", e);
+          throw new HopException("Unable to parse flink check pointing mode '" + modeString + "'", e);
         }
       }
 
@@ -420,8 +417,7 @@ public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfigurat
         try {
           options.setExecutionModeForBatch(modeString);
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to parse flink execution mode for batch '" + modeString + "'", e);
+          throw new HopException("Unable to parse flink execution mode for batch '" + modeString + "'", e);
         }
       }
 
@@ -643,12 +639,10 @@ public class BeamFlinkPipelineRunConfiguration extends BeamPipelineRunConfigurat
 
   /**
    * @param flinkRetainExternalizedCheckpointsOnCancellation The
-   *     flinkRetainExternalizedCheckpointsOnCancellation to set
+   *        flinkRetainExternalizedCheckpointsOnCancellation to set
    */
-  public void setFlinkRetainExternalizedCheckpointsOnCancellation(
-      String flinkRetainExternalizedCheckpointsOnCancellation) {
-    this.flinkRetainExternalizedCheckpointsOnCancellation =
-        flinkRetainExternalizedCheckpointsOnCancellation;
+  public void setFlinkRetainExternalizedCheckpointsOnCancellation(String flinkRetainExternalizedCheckpointsOnCancellation) {
+    this.flinkRetainExternalizedCheckpointsOnCancellation = flinkRetainExternalizedCheckpointsOnCancellation;
   }
 
   /**

@@ -52,9 +52,11 @@ public class AvroEncodeMeta extends BaseTransformMeta<AvroEncode, AvroEncodeData
   @HopMetadataProperty(key = "schema_name")
   private String schemaName;
 
-  @HopMetadataProperty private String namespace;
+  @HopMetadataProperty
+  private String namespace;
 
-  @HopMetadataProperty private String documentation;
+  @HopMetadataProperty
+  private String documentation;
 
   @HopMetadataProperty(groupKey = "fields", key = "field")
   private List<SourceField> sourceFields;
@@ -66,37 +68,19 @@ public class AvroEncodeMeta extends BaseTransformMeta<AvroEncode, AvroEncodeData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String transformName,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) throws HopTransformException {
+  public void getFields(IRowMeta rowMeta, String transformName, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
+      throws HopTransformException {
 
     try {
-      Schema schema =
-          createAvroSchema(
-              variables.resolve(getSchemaName()),
-              variables.resolve(getNamespace()),
-              variables.resolve(getDocumentation()),
-              rowMeta,
-              sourceFields);
+      Schema schema = createAvroSchema(variables.resolve(getSchemaName()), variables.resolve(getNamespace()), variables.resolve(getDocumentation()), rowMeta, sourceFields);
       ValueMetaAvroRecord valueMeta = new ValueMetaAvroRecord(variables.resolve(outputFieldName), schema);
       rowMeta.addValueMeta(valueMeta);
     } catch (Exception e) {
-      throw new HopTransformException(
-          "Error creating Avro schema and/or determining output field layout", e);
+      throw new HopTransformException("Error creating Avro schema and/or determining output field layout", e);
     }
   }
 
-  public static Schema createAvroSchema(
-      String name,
-      String namespace,
-      String doc,
-      IRowMeta inputRowMeta,
-      List<SourceField> sourceFields)
-      throws HopException {
+  public static Schema createAvroSchema(String name, String namespace, String doc, IRowMeta inputRowMeta, List<SourceField> sourceFields) throws HopException {
     SchemaBuilder.RecordBuilder<Schema> recordBuilder = SchemaBuilder.record(name);
     if (StringUtils.isNotEmpty(namespace)) {
       recordBuilder = recordBuilder.namespace(namespace);
@@ -115,26 +99,15 @@ public class AvroEncodeMeta extends BaseTransformMeta<AvroEncode, AvroEncodeData
       IValueMeta valueMeta = inputRowMeta.getValueMeta(index);
 
       // Start a new field
-      SchemaBuilder.BaseFieldTypeBuilder<Schema> fieldBuilder =
-          fieldAssembler.name(field.calculateTargetFieldName()).type().nullable();
+      SchemaBuilder.BaseFieldTypeBuilder<Schema> fieldBuilder = fieldAssembler.name(field.calculateTargetFieldName()).type().nullable();
 
       // Add this field to the schema...
       //
       switch (valueMeta.getType()) {
         case IValueMeta.TYPE_DATE:
           fieldAssembler = fieldBuilder.longType().noDefault();
-          Schema timestampMilliType =
-              LogicalTypes.timestampMillis().addToSchema(Schema.create(Schema.Type.LONG));
-          fieldAssembler =
-              fieldAssembler
-                  .name(field.getTargetFieldName())
-                  .type()
-                  .unionOf()
-                  .nullType()
-                  .and()
-                  .type(timestampMilliType)
-                  .endUnion()
-                  .noDefault();
+          Schema timestampMilliType = LogicalTypes.timestampMillis().addToSchema(Schema.create(Schema.Type.LONG));
+          fieldAssembler = fieldAssembler.name(field.getTargetFieldName()).type().unionOf().nullType().and().type(timestampMilliType).endUnion().noDefault();
           break;
         case IValueMeta.TYPE_INTEGER:
           fieldAssembler = fieldBuilder.longType().noDefault();
@@ -155,10 +128,7 @@ public class AvroEncodeMeta extends BaseTransformMeta<AvroEncode, AvroEncodeData
           fieldAssembler = fieldBuilder.bytesType().noDefault();
           break;
         default:
-          throw new HopException(
-              "Writing Hop data type '"
-                  + valueMeta.getTypeDesc()
-                  + "' to Parquet is not supported");
+          throw new HopException("Writing Hop data type '" + valueMeta.getTypeDesc() + "' to Parquet is not supported");
       }
     }
 

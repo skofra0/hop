@@ -51,13 +51,13 @@ import static org.mockito.Mockito.when;
 
 public class NullIfTest {
   TransformMockHelper<NullIfMeta, NullIfData> smh;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUp() {
     smh = new TransformMockHelper<>("Field NullIf processor", NullIfMeta.class, NullIfData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -74,15 +74,8 @@ public class NullIfTest {
     NullIfMeta processRowMeta = smh.iTransformMeta;
     List<NullIfField> fields = createArrayWithOneField("nullable-field", "nullable-value");
     doReturn(fields).when(processRowMeta).getFields();
-    doCallRealMethod()
-        .when(processRowMeta)
-        .getFields(
-            any(IRowMeta.class),
-            anyString(),
-            any(IRowMeta[].class),
-            any(TransformMeta.class),
-            any(IVariables.class),
-            any(IHopMetadataProvider.class));
+    doCallRealMethod().when(processRowMeta)
+        .getFields(any(IRowMeta.class), anyString(), any(IRowMeta[].class), any(TransformMeta.class), any(IVariables.class), any(IHopMetadataProvider.class));
 
     return processRowMeta;
   }
@@ -100,14 +93,7 @@ public class NullIfTest {
   public void test() throws HopException {
     HopEnvironment.init();
 
-    NullIf transform =
-        new NullIf(
-            smh.transformMeta,
-            mockProcessRowMeta(),
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    NullIf transform = new NullIf(smh.transformMeta, mockProcessRowMeta(), smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.init();
     transform.setInputRowMeta(getInputRowMeta());
     transform.addRowSetToInputRowSets(mockInputRowSet());
@@ -122,10 +108,7 @@ public class NullIfTest {
     Object[] actualRow = outputRowSet.getRow();
     Object[] expectedRow = new Object[] {"value1", null, "value3"};
 
-    Assert.assertEquals(
-        "Output row is of an unexpected length",
-        expectedRow.length,
-        outputRowSet.getRowMeta().size());
+    Assert.assertEquals("Output row is of an unexpected length", expectedRow.length, outputRowSet.getRowMeta().size());
 
     for (int i = 0; i < expectedRow.length; i++) {
       Assert.assertEquals("Unexpected output value at index " + i, expectedRow[i], actualRow[i]);
@@ -167,15 +150,8 @@ public class NullIfTest {
     fields.add(new NullIfField("value3", "20150606"));
     fields.add(new NullIfField("value4", "2015/06/06 00:00:00.000"));
     doReturn(fields).when(processRowMeta).getFields();
-    doCallRealMethod()
-        .when(processRowMeta)
-        .getFields(
-            any(IRowMeta.class),
-            anyString(),
-            any(IRowMeta[].class),
-            any(TransformMeta.class),
-            any(IVariables.class),
-            any(IHopMetadataProvider.class));
+    doCallRealMethod().when(processRowMeta)
+        .getFields(any(IRowMeta.class), anyString(), any(IRowMeta[].class), any(TransformMeta.class), any(IVariables.class), any(IHopMetadataProvider.class));
 
     return processRowMeta;
   }
@@ -184,14 +160,7 @@ public class NullIfTest {
   public void testDateWithFormat() throws HopException {
     HopEnvironment.init();
 
-    NullIf transform =
-        new NullIf(
-            smh.transformMeta,
-            mockProcessRowMeta2(),
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    NullIf transform = new NullIf(smh.transformMeta, mockProcessRowMeta2(), smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.init();
     transform.setInputRowMeta(getInputRowMeta2());
     Date d1 = null;
@@ -219,10 +188,7 @@ public class NullIfTest {
     Object[] actualRow = outputRowSet.getRow();
     Object[] expectedRow = new Object[] {null, null, d3, d4};
 
-    Assert.assertEquals(
-        "Output row is of an unexpected length",
-        expectedRow.length,
-        outputRowSet.getRowMeta().size());
+    Assert.assertEquals("Output row is of an unexpected length", expectedRow.length, outputRowSet.getRowMeta().size());
 
     for (int i = 0; i < expectedRow.length; i++) {
       Assert.assertEquals("Unexpected output value at index " + i, expectedRow[i], actualRow[i]);

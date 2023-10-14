@@ -150,14 +150,13 @@ public class HopPluginExplorePerspective implements IHopPerspective {
     fdlSubject.left = new FormAttachment(label, props.getMargin());
     fdlSubject.top = new FormAttachment(label, 0, SWT.CENTER);
     wPluginType.setLayoutData(fdlSubject);
-    wPluginType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            selectedPluginType = wPluginType.getText();
-            refresh();
-          }
-        });
+    wPluginType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        selectedPluginType = wPluginType.getText();
+        refresh();
+      }
+    });
     PropsUi.setLook(wPluginType, Props.WIDGET_STYLE_TOOLBAR);
 
     IRowMeta rowMeta = metaMap.get(selectedPluginType);
@@ -169,15 +168,7 @@ public class HopPluginExplorePerspective implements IHopPerspective {
       colinf[i].setValueMeta(v);
     }
 
-    wPluginView =
-        new TableView(
-            new Variables(),
-            composite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            0,
-            null,
-            props);
+    wPluginView = new TableView(new Variables(), composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, 0, null, props);
     wPluginView.setShowingBlueNullValues(true);
 
     FormData fdFields = new FormData();

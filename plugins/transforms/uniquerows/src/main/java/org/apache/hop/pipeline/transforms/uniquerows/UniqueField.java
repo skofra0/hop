@@ -21,14 +21,10 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class UniqueField {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.Field.Name")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "UniqueRowsMeta.Injection.Field.Name")
   private String name;
 
-  @HopMetadataProperty(
-      key = "case_insensitive",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.Field.CaseInsensitive")
+  @HopMetadataProperty(key = "case_insensitive", injectionKeyDescription = "UniqueRowsMeta.Injection.Field.CaseInsensitive")
   private boolean caseInsensitive;
 
   public UniqueField() {
@@ -58,8 +54,10 @@ public class UniqueField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     UniqueField that = (UniqueField) o;
     return name.equals(that.name) && caseInsensitive == that.caseInsensitive;
   }

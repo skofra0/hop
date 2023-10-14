@@ -70,11 +70,9 @@ public class MetaInjectTest {
 
   private static final String UNAVAILABLE_TRANSFORM = "UNAVAILABLE_TRANSFORM";
 
-  private static final TargetTransformAttribute UNAVAILABLE_TARGET_TRANSFORM =
-      new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
+  private static final TargetTransformAttribute UNAVAILABLE_TARGET_TRANSFORM = new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
 
-  private static final SourceTransformField UNAVAILABLE_SOURCE_TRANSFORM =
-      new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
+  private static final SourceTransformField UNAVAILABLE_SOURCE_TRANSFORM = new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
 
   private MetaInject metaInject;
 
@@ -94,9 +92,7 @@ public class MetaInjectTest {
     meta = new MetaInjectMeta();
     data = new MetaInjectData();
     data.pipelineMeta = pipelineMeta;
-    metaInject =
-        TransformMockUtil.getTransform(
-            MetaInject.class, MetaInjectMeta.class, MetaInjectData.class, "MetaInjectTest");
+    metaInject = TransformMockUtil.getTransform(MetaInject.class, MetaInjectMeta.class, MetaInjectData.class, "MetaInjectTest");
     metaInject = PowerMockito.spy(metaInject);
     metaInject.init();
     metadataProvider = mock(IHopMetadataProvider.class);
@@ -110,9 +106,7 @@ public class MetaInjectTest {
     pipeline = PowerMockito.spy(pipeline);
     doReturn(pipeline).when(metaInject).getPipeline();
     doReturn(INJECTOR_TRANSFORM_NAME).when(transformMeta).getName();
-    doReturn(Collections.singletonList(transformMeta))
-        .when(internalPipelineMeta)
-        .getUsedTransforms();
+    doReturn(Collections.singletonList(transformMeta)).when(internalPipelineMeta).getUsedTransforms();
     ITransformMeta iTransformMeta = mock(ITransformMeta.class);
     doReturn(iTransformMeta).when(transformMeta).getTransform();
     doReturn(internalPipelineMeta).when(metaInject).loadPipelineMeta();
@@ -120,86 +114,62 @@ public class MetaInjectTest {
 
   @Test
   public void getUnavailableSourceTransforms() {
-    TargetTransformAttribute targetTransform =
-        new TargetTransformAttribute(TEST_TARGET_TRANSFORM_NAME, TEST_ATTR_VALUE, false);
-    SourceTransformField unavailableSourceTransform =
-        new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
-    Map<TargetTransformAttribute, SourceTransformField> targetMap =
-        Collections.singletonMap(targetTransform, unavailableSourceTransform);
+    TargetTransformAttribute targetTransform = new TargetTransformAttribute(TEST_TARGET_TRANSFORM_NAME, TEST_ATTR_VALUE, false);
+    SourceTransformField unavailableSourceTransform = new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
+    Map<TargetTransformAttribute, SourceTransformField> targetMap = Collections.singletonMap(targetTransform, unavailableSourceTransform);
     PipelineMeta sourcePipelineMeta = mock(PipelineMeta.class);
-    doReturn(new String[0])
-        .when(sourcePipelineMeta)
-        .getPrevTransformNames(any(TransformMeta.class));
+    doReturn(new String[0]).when(sourcePipelineMeta).getPrevTransformNames(any(TransformMeta.class));
 
-    Set<SourceTransformField> actualSet =
-        MetaInject.getUnavailableSourceTransforms(
-            targetMap, sourcePipelineMeta, mock(TransformMeta.class));
+    Set<SourceTransformField> actualSet = MetaInject.getUnavailableSourceTransforms(targetMap, sourcePipelineMeta, mock(TransformMeta.class));
     assertTrue(actualSet.contains(unavailableSourceTransform));
   }
 
   @Test
   public void getUnavailableTargetTransforms() {
-    TargetTransformAttribute unavailableTargetTransform =
-        new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
-    SourceTransformField sourceTransform =
-        new SourceTransformField(TEST_SOURCE_TRANSFORM_NAME, TEST_FIELD);
-    Map<TargetTransformAttribute, SourceTransformField> targetMap =
-        Collections.singletonMap(unavailableTargetTransform, sourceTransform);
+    TargetTransformAttribute unavailableTargetTransform = new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
+    SourceTransformField sourceTransform = new SourceTransformField(TEST_SOURCE_TRANSFORM_NAME, TEST_FIELD);
+    Map<TargetTransformAttribute, SourceTransformField> targetMap = Collections.singletonMap(unavailableTargetTransform, sourceTransform);
     PipelineMeta injectedPipelineMeta = mock(PipelineMeta.class);
     doReturn(Collections.emptyList()).when(injectedPipelineMeta).getUsedTransforms();
 
-    Set<TargetTransformAttribute> actualSet =
-        MetaInject.getUnavailableTargetTransforms(targetMap, injectedPipelineMeta);
+    Set<TargetTransformAttribute> actualSet = MetaInject.getUnavailableTargetTransforms(targetMap, injectedPipelineMeta);
     assertTrue(actualSet.contains(unavailableTargetTransform));
   }
 
   @Test
   public void removeUnavailableTransformsFromMapping_unavailable_source_transform() {
-    TargetTransformAttribute unavailableTargetTransform =
-        new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
-    SourceTransformField unavailableSourceTransform =
-        new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
+    TargetTransformAttribute unavailableTargetTransform = new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
+    SourceTransformField unavailableSourceTransform = new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
     Map<TargetTransformAttribute, SourceTransformField> targetMap = new HashMap<>();
     targetMap.put(unavailableTargetTransform, unavailableSourceTransform);
 
-    Set<SourceTransformField> unavailableSourceTransforms =
-        Collections.singleton(UNAVAILABLE_SOURCE_TRANSFORM);
-    MetaInject.removeUnavailableTransformsFromMapping(
-        targetMap, unavailableSourceTransforms, Collections.emptySet());
+    Set<SourceTransformField> unavailableSourceTransforms = Collections.singleton(UNAVAILABLE_SOURCE_TRANSFORM);
+    MetaInject.removeUnavailableTransformsFromMapping(targetMap, unavailableSourceTransforms, Collections.emptySet());
     assertTrue(targetMap.isEmpty());
   }
 
   @Test
   public void removeUnavailableTransformsFromMapping_unavailable_target_transform() {
-    TargetTransformAttribute unavailableTargetTransform =
-        new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
-    SourceTransformField unavailableSourceTransform =
-        new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
+    TargetTransformAttribute unavailableTargetTransform = new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
+    SourceTransformField unavailableSourceTransform = new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
     Map<TargetTransformAttribute, SourceTransformField> targetMap = new HashMap<>();
     targetMap.put(unavailableTargetTransform, unavailableSourceTransform);
 
-    Set<TargetTransformAttribute> unavailableTargetTransforms =
-        Collections.singleton(UNAVAILABLE_TARGET_TRANSFORM);
-    MetaInject.removeUnavailableTransformsFromMapping(
-        targetMap, Collections.emptySet(), unavailableTargetTransforms);
+    Set<TargetTransformAttribute> unavailableTargetTransforms = Collections.singleton(UNAVAILABLE_TARGET_TRANSFORM);
+    MetaInject.removeUnavailableTransformsFromMapping(targetMap, Collections.emptySet(), unavailableTargetTransforms);
     assertTrue(targetMap.isEmpty());
   }
 
   @Test
   public void removeUnavailableTransformsFromMapping_unavailable_source_target_transform() {
-    TargetTransformAttribute unavailableTargetTransform =
-        new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
-    SourceTransformField unavailableSourceTransform =
-        new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
+    TargetTransformAttribute unavailableTargetTransform = new TargetTransformAttribute(UNAVAILABLE_TRANSFORM, TEST_ATTR_VALUE, false);
+    SourceTransformField unavailableSourceTransform = new SourceTransformField(UNAVAILABLE_TRANSFORM, TEST_FIELD);
     Map<TargetTransformAttribute, SourceTransformField> targetMap = new HashMap<>();
     targetMap.put(unavailableTargetTransform, unavailableSourceTransform);
 
-    Set<TargetTransformAttribute> unavailableTargetTransforms =
-        Collections.singleton(UNAVAILABLE_TARGET_TRANSFORM);
-    Set<SourceTransformField> unavailableSourceTransforms =
-        Collections.singleton(UNAVAILABLE_SOURCE_TRANSFORM);
-    MetaInject.removeUnavailableTransformsFromMapping(
-        targetMap, unavailableSourceTransforms, unavailableTargetTransforms);
+    Set<TargetTransformAttribute> unavailableTargetTransforms = Collections.singleton(UNAVAILABLE_TARGET_TRANSFORM);
+    Set<SourceTransformField> unavailableSourceTransforms = Collections.singleton(UNAVAILABLE_SOURCE_TRANSFORM);
+    MetaInject.removeUnavailableTransformsFromMapping(targetMap, unavailableSourceTransforms, unavailableTargetTransforms);
     assertTrue(targetMap.isEmpty());
   }
 
@@ -223,12 +193,9 @@ public class MetaInjectTest {
   @Test
   public void testGetUnavailableTargetKeys() throws Exception {
     final String targetTransformName = "injectable transform name";
-    TargetTransformAttribute unavailableTargetAttr =
-        new TargetTransformAttribute(targetTransformName, "NOT_THERE", false);
-    TargetTransformAttribute availableTargetAttr =
-        new TargetTransformAttribute(targetTransformName, "THERE", false);
-    SourceTransformField sourceTransform =
-        new SourceTransformField(TEST_SOURCE_TRANSFORM_NAME, TEST_FIELD);
+    TargetTransformAttribute unavailableTargetAttr = new TargetTransformAttribute(targetTransformName, "NOT_THERE", false);
+    TargetTransformAttribute availableTargetAttr = new TargetTransformAttribute(targetTransformName, "THERE", false);
+    SourceTransformField sourceTransform = new SourceTransformField(TEST_SOURCE_TRANSFORM_NAME, TEST_FIELD);
 
     Map<TargetTransformAttribute, SourceTransformField> targetMap = new HashMap<>(2);
     targetMap.put(unavailableTargetAttr, sourceTransform);
@@ -236,8 +203,7 @@ public class MetaInjectTest {
 
     ITransformMeta smi = new InjectableTestTransformMeta();
     PipelineMeta pipelineMeta = mockSingleTransformPipelineMeta(targetTransformName, smi);
-    Set<TargetTransformAttribute> unavailable =
-        MetaInject.getUnavailableTargetKeys(targetMap, pipelineMeta, Collections.emptySet());
+    Set<TargetTransformAttribute> unavailable = MetaInject.getUnavailableTargetKeys(targetMap, pipelineMeta, Collections.emptySet());
     assertEquals(1, unavailable.size());
     assertTrue(unavailable.contains(unavailableTargetAttr));
   }
@@ -253,8 +219,7 @@ public class MetaInjectTest {
     }
   }
 
-  private PipelineMeta mockSingleTransformPipelineMeta(
-      final String targetTransformName, ITransformMeta smi) {
+  private PipelineMeta mockSingleTransformPipelineMeta(final String targetTransformName, ITransformMeta smi) {
     TransformMeta transformMeta = mock(TransformMeta.class);
     when(transformMeta.getTransform()).thenReturn(smi);
     when(transformMeta.getName()).thenReturn(targetTransformName);

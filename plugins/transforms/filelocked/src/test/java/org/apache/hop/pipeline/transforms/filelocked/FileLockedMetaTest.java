@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 public class FileLockedMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
-    List<String> attributes =
-        Arrays.asList("filenamefield", "resultfieldname", "addresultfilenames");
+    List<String> attributes = Arrays.asList("filenamefield", "resultfieldname", "addresultfilenames");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("filenamefield", "getFilenamefield");
@@ -45,8 +45,7 @@ public class FileLockedMetaTest {
     setterMap.put("resultfieldname", "setResultfieldname");
     setterMap.put("addresultfilenames", "setAddresultfilenames");
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(FileLockedMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(FileLockedMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

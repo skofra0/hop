@@ -26,7 +26,8 @@ import java.util.concurrent.Callable;
 /**
  * This is a holder of Plugin Class mappings which supplement those of the stock Plugin.
  *
- * <p>Created by nbaker on 3/17/17.
+ * <p>
+ * Created by nbaker on 3/17/17.
  */
 public class SupplementalPlugin extends Plugin implements IClassLoadingPlugin {
   Map<Class, Callable> factoryMap = new HashMap<>();
@@ -34,22 +35,7 @@ public class SupplementalPlugin extends Plugin implements IClassLoadingPlugin {
   private String id;
 
   public SupplementalPlugin(Class<? extends IPluginType> pluginClass, String id) {
-    super(
-        new String[] {id},
-        pluginClass,
-        null,
-        "",
-        id,
-        id,
-        "",
-        false,
-        false,
-        Collections.emptyMap(),
-        Collections.emptyList(),
-        "",
-        new String[] {},
-        null,
-        false);
+    super(new String[] {id}, pluginClass, null, "", id, id, "", false, false, Collections.emptyMap(), Collections.emptyList(), "", new String[] {}, null, false);
     this.pluginClass = pluginClass;
     this.id = id;
   }

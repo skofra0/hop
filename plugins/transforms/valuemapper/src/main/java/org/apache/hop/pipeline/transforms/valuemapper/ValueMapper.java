@@ -34,13 +34,7 @@ public class ValueMapper extends BaseTransform<ValueMapperMeta, ValueMapperData>
 
   private boolean nonMatchActivated = false;
 
-  public ValueMapper(
-      TransformMeta transformMeta,
-      ValueMapperMeta meta,
-      ValueMapperData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ValueMapper(TransformMeta transformMeta, ValueMapperMeta meta, ValueMapperData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -65,13 +59,7 @@ public class ValueMapper extends BaseTransform<ValueMapperMeta, ValueMapperData>
 
       data.keynr = data.previousMeta.indexOfValue(meta.getFieldToUse());
       if (data.keynr < 0) {
-        String message =
-            BaseMessages.getString(
-                PKG,
-                "ValueMapper.RuntimeError.FieldToUseNotFound.VALUEMAPPER0001",
-                meta.getFieldToUse(),
-                Const.CR,
-                getInputRowMeta().getString(r));
+        String message = BaseMessages.getString(PKG, "ValueMapper.RuntimeError.FieldToUseNotFound.VALUEMAPPER0001", meta.getFieldToUse(), Const.CR, getInputRowMeta().getString(r));
         logError(message);
         setErrors(1);
         stopAll();
@@ -86,8 +74,7 @@ public class ValueMapper extends BaseTransform<ValueMapperMeta, ValueMapperData>
           if (data.emptyFieldValue == null) {
             data.emptyFieldValue = resolve(v.getTarget());
           } else {
-            throw new HopException(BaseMessages.getString(PKG,
-                "ValueMapper.RuntimeError.OnlyOneEmptyMappingAllowed.VALUEMAPPER0004"));
+            throw new HopException(BaseMessages.getString(PKG, "ValueMapper.RuntimeError.OnlyOneEmptyMappingAllowed.VALUEMAPPER0004"));
           }
         }
       }
@@ -108,7 +95,7 @@ public class ValueMapper extends BaseTransform<ValueMapperMeta, ValueMapperData>
 
     // Null/Empty mapping to value...
     //
-    if (data.emptyFieldValue!=null && (r[data.keynr] == null || Utils.isEmpty(source))) {
+    if (data.emptyFieldValue != null && (r[data.keynr] == null || Utils.isEmpty(source))) {
       target = data.emptyFieldValue; // that's all there is to it.
     } else {
       if (!Utils.isEmpty(source)) {

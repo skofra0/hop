@@ -100,8 +100,7 @@ public interface IAuditManager {
    * @param auditStateMap
    * @throws HopException
    */
-  void saveAuditStateMap(String group, String type, AuditStateMap auditStateMap)
-      throws HopException;
+  void saveAuditStateMap(String group, String type, AuditStateMap auditStateMap) throws HopException;
 
   /**
    * Load a map of String values for a given group for a given type

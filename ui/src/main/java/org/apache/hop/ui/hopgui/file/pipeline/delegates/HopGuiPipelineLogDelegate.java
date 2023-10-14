@@ -98,8 +98,7 @@ public class HopGuiPipelineLogDelegate {
     pipelineLogTab.setImage(GuiResource.getInstance().getImageShowLog());
     pipelineLogTab.setText(BaseMessages.getString(PKG, "HopGui.PipelineGraph.LogTab.Name"));
 
-    pipelineLogComposite =
-        new Composite(pipelineGraph.extraViewTabFolder, SWT.NO_BACKGROUND | SWT.NO_FOCUS);
+    pipelineLogComposite = new Composite(pipelineGraph.extraViewTabFolder, SWT.NO_BACKGROUND | SWT.NO_FOCUS);
     pipelineLogComposite.setLayout(new FormLayout());
 
     addToolBar();
@@ -110,10 +109,7 @@ public class HopGuiPipelineLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    pipelineLogText =
-        new Text(
-            pipelineLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    pipelineLogText = new Text(pipelineLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(pipelineLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -133,12 +129,11 @@ public class HopGuiPipelineLogDelegate {
     // registry for
     // this pipeline
     //
-    pipelineGraph.addDisposeListener(
-        event -> {
-          if (pipelineGraph.pipeline != null) {
-            HopLogStore.discardLines(pipelineGraph.pipeline.getLogChannelId(), true);
-          }
-        });
+    pipelineGraph.addDisposeListener(event -> {
+      if (pipelineGraph.pipeline != null) {
+        HopLogStore.discardLines(pipelineGraph.pipeline.getLogChannelId(), true);
+      }
+    });
 
     pipelineLogTab.setControl(pipelineLogComposite);
 
@@ -234,12 +229,9 @@ public class HopGuiPipelineLogDelegate {
       if (all.substring(i, i + crlen).equalsIgnoreCase(Const.CR)) {
         String line = all.substring(startpos, i);
         String uLine = line.toUpperCase();
-        if (uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.ERROR")) >= 0
-            || uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.EXCEPTION")) >= 0
-            || uLine.indexOf("ERROR") >= 0
-            || // i18n for compatibilty to non translated transforms a.s.o.
-            uLine.indexOf("EXCEPTION")
-                >= 0 // i18n for compatibilty to non translated transforms a.s.o.
+        if (uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.ERROR")) >= 0 || uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.EXCEPTION")) >= 0
+            || uLine.indexOf("ERROR") >= 0 || // i18n for compatibilty to non translated transforms a.s.o.
+            uLine.indexOf("EXCEPTION") >= 0 // i18n for compatibilty to non translated transforms a.s.o.
         ) {
           err.add(line);
         }
@@ -251,10 +243,8 @@ public class HopGuiPipelineLogDelegate {
     }
     String line = all.substring(startpos);
     String uLine = line.toUpperCase();
-    if (uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.ERROR2")) >= 0
-        || uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.EXCEPTION2")) >= 0
-        || uLine.indexOf("ERROR") >= 0
-        || // i18n for compatibilty to non translated transforms a.s.o.
+    if (uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.ERROR2")) >= 0 || uLine.indexOf(BaseMessages.getString(PKG, "PipelineLog.System.EXCEPTION2")) >= 0
+        || uLine.indexOf("ERROR") >= 0 || // i18n for compatibilty to non translated transforms a.s.o.
         uLine.indexOf("EXCEPTION") >= 0 // i18n for compatibilty to non translated transforms a.s.o.
     ) {
       err.add(line);
@@ -321,9 +311,7 @@ public class HopGuiPipelineLogDelegate {
   }
 
   public boolean hasSelectedText() {
-    return pipelineLogText != null
-        && !pipelineLogText.isDisposed()
-        && StringUtils.isNotEmpty(pipelineLogText.getSelectionText());
+    return pipelineLogText != null && !pipelineLogText.isDisposed() && StringUtils.isNotEmpty(pipelineLogText.getSelectionText());
   }
 
   public void copySelected() {

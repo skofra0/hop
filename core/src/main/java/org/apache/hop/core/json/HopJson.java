@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class HopJson {
   /**
    * @return Create a new ObjectMapper instance with the default options set for Hop file
-   *     serialization and de-serialization..
+   *         serialization and de-serialization..
    */
   public static final ObjectMapper newMapper() {
     ObjectMapper objectMapper = new ObjectMapper();

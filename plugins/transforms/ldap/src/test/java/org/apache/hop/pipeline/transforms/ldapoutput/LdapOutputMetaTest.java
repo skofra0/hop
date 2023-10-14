@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LdapOutputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester<LdapOutputMeta> loadSaveTester;
 
@@ -47,71 +48,53 @@ public class LdapOutputMetaTest {
   public void setUp() throws Exception {
     List<String> attributes =
         Arrays.asList(
-            "updateLookup",
-            "updateStream",
-            "update",
-            "useAuthentication",
-            "Host",
-            "userName",
-            "password",
-            "port",
-            "dnFieldName",
-            "failIfNotExist",
-            "searchBase",
-            "multiValuedSeparator",
-            "operationType",
-            "oldDnFieldName",
-            "newDnFieldName",
-            "deleteRDN");
+            "updateLookup", "updateStream", "update", "useAuthentication", "Host", "userName", "password", "port", "dnFieldName", "failIfNotExist", "searchBase",
+            "multiValuedSeparator", "operationType", "oldDnFieldName", "newDnFieldName", "deleteRDN");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("updateLookup", "getUpdateLookup");
-            put("updateStream", "getUpdateStream");
-            put("update", "getUpdate");
-            put("useAuthentication", "isUseAuthentication");
-            put("Host", "getHost");
-            put("userName", "getUserName");
-            put("password", "getPassword");
-            put("port", "getPort");
-            put("dnFieldName", "getDnField");
-            put("failIfNotExist", "isFailIfNotExist");
-            put("searchBase", "getSearchBaseDN");
-            put("multiValuedSeparator", "getMultiValuedSeparator");
-            put("operationType", "getOperationType");
-            put("oldDnFieldName", "getOldDnFieldName");
-            put("newDnFieldName", "getNewDnFieldName");
-            put("deleteRDN", "isDeleteRDN");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("updateLookup", "getUpdateLookup");
+        put("updateStream", "getUpdateStream");
+        put("update", "getUpdate");
+        put("useAuthentication", "isUseAuthentication");
+        put("Host", "getHost");
+        put("userName", "getUserName");
+        put("password", "getPassword");
+        put("port", "getPort");
+        put("dnFieldName", "getDnField");
+        put("failIfNotExist", "isFailIfNotExist");
+        put("searchBase", "getSearchBaseDN");
+        put("multiValuedSeparator", "getMultiValuedSeparator");
+        put("operationType", "getOperationType");
+        put("oldDnFieldName", "getOldDnFieldName");
+        put("newDnFieldName", "getNewDnFieldName");
+        put("deleteRDN", "isDeleteRDN");
+      }
+    };
 
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("updateLookup", "setUpdateLookup");
-            put("updateStream", "setUpdateStream");
-            put("update", "setUpdate");
-            put("useAuthentication", "setUseAuthentication");
-            put("Host", "setHost");
-            put("userName", "setUserName");
-            put("password", "setPassword");
-            put("port", "setPort");
-            put("dnFieldName", "setDnField");
-            put("failIfNotExist", "setFailIfNotExist");
-            put("searchBase", "setSearchBaseDN");
-            put("multiValuedSeparator", "setMultiValuedSeparator");
-            put("operationType", "setOperationType");
-            put("oldDnFieldName", "setOldDnFieldName");
-            put("newDnFieldName", "setNewDnFieldName");
-            put("deleteRDN", "setDeleteRDN");
-          }
-        };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("updateLookup", "setUpdateLookup");
+        put("updateStream", "setUpdateStream");
+        put("update", "setUpdate");
+        put("useAuthentication", "setUseAuthentication");
+        put("Host", "setHost");
+        put("userName", "setUserName");
+        put("password", "setPassword");
+        put("port", "setPort");
+        put("dnFieldName", "setDnField");
+        put("failIfNotExist", "setFailIfNotExist");
+        put("searchBase", "setSearchBaseDN");
+        put("multiValuedSeparator", "setMultiValuedSeparator");
+        put("operationType", "setOperationType");
+        put("oldDnFieldName", "setOldDnFieldName");
+        put("newDnFieldName", "setNewDnFieldName");
+        put("deleteRDN", "setDeleteRDN");
+      }
+    };
 
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 3);
-    IFieldLoadSaveValidator<Boolean[]> booleanArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator(), 3);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 3);
+    IFieldLoadSaveValidator<Boolean[]> booleanArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator(), 3);
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("update", booleanArrayLoadSaveValidator);
     attrValidatorMap.put("updateLookup", stringArrayLoadSaveValidator);
@@ -120,19 +103,11 @@ public class LdapOutputMetaTest {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester<>(
-            LdapOutputMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap);
+    loadSaveTester = new LoadSaveTester<>(LdapOutputMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
 
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 

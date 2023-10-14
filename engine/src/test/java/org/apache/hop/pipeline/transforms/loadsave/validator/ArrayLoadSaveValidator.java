@@ -29,8 +29,7 @@ public class ArrayLoadSaveValidator<ObjectType> implements IFieldLoadSaveValidat
     this(fieldValidator, null);
   }
 
-  public ArrayLoadSaveValidator(
-      IFieldLoadSaveValidator<ObjectType> fieldValidator, Integer elements) {
+  public ArrayLoadSaveValidator(IFieldLoadSaveValidator<ObjectType> fieldValidator, Integer elements) {
     validator = fieldValidator;
     this.elements = elements;
   }

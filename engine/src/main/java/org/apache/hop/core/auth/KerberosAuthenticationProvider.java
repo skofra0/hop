@@ -42,13 +42,7 @@ public class KerberosAuthenticationProvider implements IAuthenticationProvider {
 
   public KerberosAuthenticationProvider() {}
 
-  public KerberosAuthenticationProvider(
-      String id,
-      String principal,
-      boolean useExternalCredentials,
-      String password,
-      boolean useKeytab,
-      String keytabLocation) {
+  public KerberosAuthenticationProvider(String id, String principal, boolean useExternalCredentials, String password, boolean useKeytab, String keytabLocation) {
     this.id = id;
     this.principal = principal;
     this.useExternalCredentials = useExternalCredentials;

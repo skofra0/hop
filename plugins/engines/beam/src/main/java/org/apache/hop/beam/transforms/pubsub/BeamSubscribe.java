@@ -24,13 +24,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 public class BeamSubscribe extends BaseTransform<BeamSubscribeMeta, BeamSubscribeData> {
 
-  public BeamSubscribe(
-      TransformMeta transformMeta,
-      BeamSubscribeMeta meta,
-      BeamSubscribeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamSubscribe(TransformMeta transformMeta, BeamSubscribeMeta meta, BeamSubscribeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

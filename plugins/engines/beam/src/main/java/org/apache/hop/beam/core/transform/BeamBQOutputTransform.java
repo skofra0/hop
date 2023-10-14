@@ -60,14 +60,7 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
 
   public BeamBQOutputTransform() {}
 
-  public BeamBQOutputTransform(
-      String transformName,
-      String projectId,
-      String datasetId,
-      String tableId,
-      boolean createIfNeeded,
-      boolean truncateTable,
-      boolean failIfNotEmpty,
+  public BeamBQOutputTransform(String transformName, String projectId, String datasetId, String tableId, boolean createIfNeeded, boolean truncateTable, boolean failIfNotEmpty,
       String rowMetaJson) {
     this.transformName = transformName;
     this.projectId = projectId;
@@ -126,18 +119,13 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
             schemaField.setType("TIMESTAMP");
             break;
           default:
-            throw new RuntimeException(
-                "Conversion from Hop value "
-                    + valueMeta.toString()
-                    + " to BigQuery TableRow isn't supported yet");
+            throw new RuntimeException("Conversion from Hop value " + valueMeta.toString() + " to BigQuery TableRow isn't supported yet");
         }
         schemaFields.add(schemaField);
       }
       tableSchema.setFields(schemaFields);
 
-      SerializableFunction<HopRow, TableRow> formatFunction =
-          new HopToBQTableRowFn(
-              transformName, rowMetaJson);
+      SerializableFunction<HopRow, TableRow> formatFunction = new HopToBQTableRowFn(transformName, rowMetaJson);
 
       BigQueryIO.Write.CreateDisposition createDisposition;
       if (createIfNeeded) {
@@ -158,11 +146,7 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
       }
 
       BigQueryIO.Write<HopRow> bigQueryWrite =
-          BigQueryIO.<HopRow>write()
-              .to(tableReference)
-              .withSchema(tableSchema)
-              .withCreateDisposition(createDisposition)
-              .withWriteDisposition(writeDisposition)
+          BigQueryIO.<HopRow>write().to(tableReference).withSchema(tableSchema).withCreateDisposition(createDisposition).withWriteDisposition(writeDisposition)
               .withFormatFunction(formatFunction);
 
       // TODO: pass the results along the way at some point
@@ -187,10 +171,12 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
    *
    * <p>
    *
-   * <p>Duplicate * column names are not allowed even if the case differs. For example, a column
+   * <p>
+   * Duplicate * column names are not allowed even if the case differs. For example, a column
    * named Column1 is * considered identical to a column named column1.
    *
-   * <p>NOTE: Hop metadata will never have duplicate column names. As such, we're not checking that.
+   * <p>
+   * NOTE: Hop metadata will never have duplicate column names. As such, we're not checking that.
    *
    * @param name The BQ field name to validate
    * @throws HopException
@@ -200,25 +186,18 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
       throw new HopException("A BigQuery field name can not be empty");
     }
     if (name.length() > 300) {
-      throw new HopException(
-          "A BigQuery field name can not be longer than 300 characters: '" + name + "'");
+      throw new HopException("A BigQuery field name can not be longer than 300 characters: '" + name + "'");
     }
     String lowerName = name.toLowerCase();
     char first = lowerName.charAt(0);
     // Starting with a letter or an underscore
     if (!((first >= 'a' && first <= 'z') || (first == '_'))) {
-      throw new HopException(
-          "A BigQuery field name must start with a letter or an underscore: '" + name + "'");
+      throw new HopException("A BigQuery field name must start with a letter or an underscore: '" + name + "'");
     }
     // Avoid certain prefixes
     for (String prefix : new String[] {"_table_", "_file_", "_partition_"}) {
       if (lowerName.startsWith(prefix)) {
-        throw new HopException(
-            "A BigQuery field name can not start with : "
-                + (prefix.toUpperCase())
-                + " for name: '"
-                + name
-                + "'");
+        throw new HopException("A BigQuery field name can not start with : " + (prefix.toUpperCase()) + " for name: '" + name + "'");
       }
     }
     if (name.length() > 1) {
@@ -226,10 +205,7 @@ public class BeamBQOutputTransform extends PTransform<PCollection<HopRow>, PDone
       for (char c : name.substring(1).toLowerCase().toCharArray()) {
         // A letter, a digit or an underscore
         if (!((c >= 'a' && c <= 'z') || (c == '_') || (c >= '0' && c <= '9'))) {
-          throw new HopException(
-              "A BigQuery field name can only contain letters, digits or an underscore: '"
-                  + name
-                  + "'");
+          throw new HopException("A BigQuery field name can only contain letters, digits or an underscore: '" + name + "'");
         }
       }
     }

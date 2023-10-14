@@ -17,6 +17,7 @@
 package org.apache.hop.pipeline.transforms.valuemapper;
 
 import org.apache.hop.metadata.api.HopMetadataProperty;
+
 /**
  * The values for mapping
  */
@@ -28,8 +29,7 @@ public class Values {
   @HopMetadataProperty(key = "target_value", injectionKey = "TARGET", injectionKeyDescription = "ValueMapper.Injection.TARGET")
   private String target;
 
-  public Values() {
-  }
+  public Values() {}
 
   public Values(Values other) {
     this.source = other.source;
@@ -58,7 +58,7 @@ public class Values {
   public void setSource(String value) {
     this.source = value;
   }
-  
+
   /**
    * Gets target value
    *

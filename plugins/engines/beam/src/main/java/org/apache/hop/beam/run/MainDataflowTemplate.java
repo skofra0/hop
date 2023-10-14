@@ -67,17 +67,13 @@ public class MainDataflowTemplate {
 
       // Inflate the metadata:
       //
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metadataJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metadataJson);
 
       System.out.println(">>>>>> Loading pipeline metadata");
-      PipelineMeta pipelineMeta =
-          new PipelineMeta(
-              XmlHandler.loadXmlString(pipelineMetaXml, PipelineMeta.XML_TAG), metadataProvider);
+      PipelineMeta pipelineMeta = new PipelineMeta(XmlHandler.loadXmlString(pipelineMetaXml, PipelineMeta.XML_TAG), metadataProvider);
 
       HopPipelineMetaToBeamPipelineConverter hopPipelineMetaToBeamPipelineConverter =
-          new HopPipelineMetaToBeamPipelineConverter(
-              variables, pipelineMeta, metadataProvider, options, null, null);
+          new HopPipelineMetaToBeamPipelineConverter(variables, pipelineMeta, metadataProvider, options, null, null);
 
       var pipeline = hopPipelineMetaToBeamPipelineConverter.createPipeline();
       pipeline.run();

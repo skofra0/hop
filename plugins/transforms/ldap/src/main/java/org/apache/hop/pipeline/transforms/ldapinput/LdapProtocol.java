@@ -60,8 +60,7 @@ public class LdapProtocol {
     return ctx;
   }
 
-  public LdapProtocol(
-      ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
+  public LdapProtocol(ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
     this.log = log;
     hostname = variables.resolve(meta.getHost());
     port = Const.toInt(variables.resolve(meta.getPort()), LdapConnection.DEFAULT_PORT);
@@ -89,8 +88,7 @@ public class LdapProtocol {
     return NAME;
   }
 
-  protected void setupEnvironment(Map<String, String> env, String username, String password)
-      throws HopException {
+  protected void setupEnvironment(Map<String, String> env, String username, String password) throws HopException {
     env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
     env.put("java.naming.ldap.derefAliases", derefAliases);
     env.put(Context.REFERRAL, referral);
@@ -114,8 +112,7 @@ public class LdapProtocol {
     }
   }
 
-  protected InitialLdapContext createLdapContext(Hashtable<String, String> env)
-      throws NamingException {
+  protected InitialLdapContext createLdapContext(Hashtable<String, String> env) throws NamingException {
     return new InitialLdapContext(env, null);
   }
 
@@ -137,26 +134,14 @@ public class LdapProtocol {
       doConnect(username, password);
 
       if (log.isBasic()) {
-        log.logBasic(
-            BaseMessages.getString(
-                classFromResourcesPackage,
-                "LdapInput.Log.ConnectedToServer",
-                hostname,
-                Const.NVL(username, "")));
+        log.logBasic(BaseMessages.getString(classFromResourcesPackage, "LdapInput.Log.ConnectedToServer", hostname, Const.NVL(username, "")));
       }
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                classFromResourcesPackage,
-                "LdapInput.ClassUsed.Message",
-                ctx.getClass().getName()));
+        log.logDetailed(BaseMessages.getString(classFromResourcesPackage, "LdapInput.ClassUsed.Message", ctx.getClass().getName()));
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromResourcesPackage, "LDAPinput.Exception.ErrorConnecting", e.getMessage()),
-          e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LDAPinput.Exception.ErrorConnecting", e.getMessage()), e);
     }
   }
 
@@ -165,14 +150,10 @@ public class LdapProtocol {
       try {
         ctx.close();
         if (log.isBasic()) {
-          log.logBasic(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapInput.log.Disconnection.Done"));
+          log.logBasic(BaseMessages.getString(classFromResourcesPackage, "LdapInput.log.Disconnection.Done"));
         }
       } catch (Exception e) {
-        log.logError(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapInput.Exception.ErrorDisconecting", e.toString()));
+        log.logError(BaseMessages.getString(classFromResourcesPackage, "LdapInput.Exception.ErrorDisconecting", e.toString()));
         log.logError(Const.getStackTracker(e));
       } finally {
         ctx = null;

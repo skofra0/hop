@@ -101,8 +101,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -121,10 +120,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
     StreamLookupMeta retval = (StreamLookupMeta) super.clone();
     ITransformIOMeta thisTransformIO = getTransformIOMeta();
     ITransformIOMeta thatTransformIO = retval.getTransformIOMeta();
-    if (thisTransformIO != null
-        && thisTransformIO.getInfoStreams() != null
-        && thatTransformIO != null
-        && thatTransformIO.getInfoStreams() != null) {
+    if (thisTransformIO != null && thisTransformIO.getInfoStreams() != null && thatTransformIO != null && thatTransformIO.getInfoStreams() != null) {
       List<IStream> thisInfoStream = thisTransformIO.getInfoStreams();
       List<IStream> thatInfoStream = thatTransformIO.getInfoStreams();
       thatInfoStream.get(0).setStreamType(thisInfoStream.get(0).getStreamType());
@@ -157,12 +153,9 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
       infoStream.setSubject(lookupFromTransformName);
 
       setInputSorted("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "input_sorted")));
-      setMemoryPreservationActive(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "preserve_memory")));
-      setUsingSortedList(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "sorted_list")));
-      setUsingIntegerPair(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "integer_pair")));
+      setMemoryPreservationActive("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "preserve_memory")));
+      setUsingSortedList("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "sorted_list")));
+      setUsingIntegerPair("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "integer_pair")));
 
       Node lookup = XmlHandler.getSubNode(transformNode, "lookup");
       nrkeys = XmlHandler.countNodes(lookup, "key");
@@ -193,10 +186,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
         // CHECKSTYLE:Indentation:ON
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "StreamLookupMeta.Exception.UnableToLoadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "StreamLookupMeta.Exception.UnableToLoadTransformMetaFromXML"), e);
     }
   }
 
@@ -218,13 +208,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (info != null && info.length == 1 && info[0] != null) {
       for (int i = 0; i < getValueName().length; i++) {
@@ -235,16 +219,13 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
           valueMeta.setOrigin(origin);
           row.addValueMeta(valueMeta);
         } else {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.Exception.ReturnValueCanNotBeFound", getValue()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "StreamLookupMeta.Exception.ReturnValueCanNotBeFound", getValue()[i]));
         }
       }
     } else {
       for (int i = 0; i < getValueName().length; i++) {
         try {
-          IValueMeta v =
-              ValueMetaFactory.createValueMeta(getValueName()[i], getValueDefaultType()[i]);
+          IValueMeta v = ValueMetaFactory.createValueMeta(getValueName()[i], getValueDefaultType()[i]);
           v.setOrigin(origin);
           row.addValueMeta(v);
         } catch (Exception e) {
@@ -261,9 +242,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
     IStream infoStream = getTransformIOMeta().getInfoStreams().get(0);
     retval.append("    ").append(XmlHandler.addTagValue("from", infoStream.getTransformName()));
     retval.append("    ").append(XmlHandler.addTagValue("input_sorted", isInputSorted()));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("preserve_memory", isMemoryPreservationActive()));
+    retval.append("    ").append(XmlHandler.addTagValue("preserve_memory", isMemoryPreservationActive()));
     retval.append("    ").append(XmlHandler.addTagValue("sorted_list", isUsingSortedList()));
     retval.append("    ").append(XmlHandler.addTagValue("integer_pair", isUsingIntegerPair()));
 
@@ -280,11 +259,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
       retval.append("        ").append(XmlHandler.addTagValue("name", getValue()[i]));
       retval.append("        ").append(XmlHandler.addTagValue("rename", getValueName()[i]));
       retval.append("        ").append(XmlHandler.addTagValue("default", getValueDefault()[i]));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue(
-                  "type", ValueMetaFactory.getValueMetaName(getValueDefaultType()[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(getValueDefaultType()[i])));
       retval.append("      </value>").append(Const.CR);
     }
     retval.append("    </lookup>").append(Const.CR);
@@ -306,12 +281,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -327,41 +297,21 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFound")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFound") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     }
 
     if (info != null && info.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "StreamLookupMeta.CheckResult.TransformReceivingLookupData",
-                  info.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.TransformReceivingLookupData", info.size() + ""), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -376,21 +326,12 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundInLookupStream")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundInLookupStream") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "StreamLookupMeta.CheckResult.AllFieldsFoundInTheLookupStream"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.AllFieldsFoundInTheLookupStream"), transformMeta);
         remarks.add(cr);
       }
 
@@ -403,50 +344,26 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                    PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundInLookupStream2")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundInLookupStream2") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "StreamLookupMeta.CheckResult.AllFieldsFoundInTheLookupStream2"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.AllFieldsFoundInTheLookupStream2"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundFromInLookupSep"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.FieldsNotFoundFromInLookupSep"), transformMeta);
       remarks.add(cr);
     }
 
     // See if the source transform is filled in!
     IStream infoStream = getTransformIOMeta().getInfoStreams().get(0);
     if (infoStream.getTransformMeta() == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.CheckResult.SourceTransformNotSelected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.SourceTransformNotSelected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.SourceTransformIsSelected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.SourceTransformIsSelected"), transformMeta);
       remarks.add(cr);
 
       // See if the transform exists!
@@ -455,20 +372,14 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "StreamLookupMeta.CheckResult.SourceTransformExist",
-                    infoStream.getTransformName()),
+                BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.SourceTransformExist", infoStream.getTransformName()),
                 transformMeta);
         remarks.add(cr);
       } else {
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "StreamLookupMeta.CheckResult.SourceTransformDoesNotExist",
-                    infoStream.getTransformName()),
+                BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.SourceTransformDoesNotExist", infoStream.getTransformName()),
                 transformMeta);
         remarks.add(cr);
       }
@@ -479,19 +390,11 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "StreamLookupMeta.CheckResult.TransformReceivingInfoFromInputTransforms",
-                  input.length + ""),
+              BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.TransformReceivingInfoFromInputTransforms", input.length + ""),
               transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "StreamLookupMeta.CheckResult.NeedAtLeast2InputStreams", Const.CR, Const.CR),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "StreamLookupMeta.CheckResult.NeedAtLeast2InputStreams", Const.CR, Const.CR), transformMeta);
       remarks.add(cr);
     }
   }
@@ -512,13 +415,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      IStream stream =
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "StreamLookupMeta.InfoStream.Description"),
-              StreamIcon.INFO,
-              null);
+      IStream stream = new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "StreamLookupMeta.InfoStream.Description"), StreamIcon.INFO, null);
       ioMeta.addStream(stream);
       setTransformIOMeta(ioMeta);
     }
@@ -641,8 +538,7 @@ public class StreamLookupMeta extends BaseTransformMeta<StreamLookup, StreamLook
       int[] newValueDefaultType = new int[nrFields];
       System.arraycopy(valueDefaultType, 0, newValueDefaultType, 0, valueDefaultType.length);
       for (int i = valueDefaultType.length; i < newValueDefaultType.length; i++) {
-        newValueDefaultType[i] =
-            -1; // set a undefined value (<0). It will be correct processed in a handleNullIf method
+        newValueDefaultType[i] = -1; // set a undefined value (<0). It will be correct processed in a handleNullIf method
       }
       valueDefaultType = newValueDefaultType;
     }

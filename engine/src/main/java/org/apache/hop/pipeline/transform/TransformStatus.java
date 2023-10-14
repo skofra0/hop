@@ -101,10 +101,7 @@ public class TransformStatus {
 
     this.seconds = Math.floor((lapsed * 10) + 0.5) / 10;
     this.speed = lapsed == 0 ? "-" : " " + speedDf.format(speedNumber);
-    this.priority =
-        component.isRunning()
-            ? "   " + component.getInputBufferSize() + "/" + component.getOutputBufferSize()
-            : "-";
+    this.priority = component.isRunning() ? "   " + component.getInputBufferSize() + "/" + component.getOutputBufferSize() : "-";
     this.stopped = component.isStopped();
     this.paused = component.isPaused();
 
@@ -202,8 +199,7 @@ public class TransformStatus {
       xml.append(XmlHandler.closeTag(XML_TAG));
       return xml.toString();
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to serialize transform '" + transformName + "' status data to XML", e);
+      throw new HopException("Unable to serialize transform '" + transformName + "' status data to XML", e);
     }
   }
 
@@ -254,21 +250,20 @@ public class TransformStatus {
   public String[] getPipelineLogFields(String overrideDescription) {
     String[] fields =
         new String[] {
-          "", // Row number
-          transformName,
-          Integer.toString(copy),
-          Long.toString(linesRead),
-          Long.toString(linesWritten),
-          Long.toString(linesInput),
-          Long.toString(linesOutput),
-          Long.toString(linesUpdated),
-          Long.toString(linesRejected),
-          Long.toString(errors),
-          overrideDescription,
-          convertSeconds(seconds),
-          speed,
-          priority,
-        };
+            "", // Row number
+            transformName,
+            Integer.toString(copy),
+            Long.toString(linesRead),
+            Long.toString(linesWritten),
+            Long.toString(linesInput),
+            Long.toString(linesOutput),
+            Long.toString(linesUpdated),
+            Long.toString(linesRejected),
+            Long.toString(errors),
+            overrideDescription,
+            convertSeconds(seconds),
+            speed,
+            priority,};
 
     return fields;
   }
@@ -303,19 +298,18 @@ public class TransformStatus {
   public String[] getPeekFields() {
     String[] fields =
         new String[] {
-          Integer.toString(copy),
-          Long.toString(linesRead),
-          Long.toString(linesWritten),
-          Long.toString(linesInput),
-          Long.toString(linesOutput),
-          Long.toString(linesUpdated),
-          Long.toString(linesRejected),
-          Long.toString(errors),
-          statusDescription,
-          convertSeconds(seconds),
-          speed,
-          priority,
-        };
+            Integer.toString(copy),
+            Long.toString(linesRead),
+            Long.toString(linesWritten),
+            Long.toString(linesInput),
+            Long.toString(linesOutput),
+            Long.toString(linesUpdated),
+            Long.toString(linesRejected),
+            Long.toString(errors),
+            statusDescription,
+            convertSeconds(seconds),
+            speed,
+            priority,};
 
     return fields;
   }

@@ -68,8 +68,7 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
 
   private boolean changed;
 
-  public ActionTableExistsDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionTableExistsDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionTableExists) action;
     if (this.action.getName() == null) {
@@ -136,13 +135,12 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
     fdbSchema.top = new FormAttachment(wConnection, 2 * margin);
     fdbSchema.right = new FormAttachment(100, 0);
     wbSchema.setLayoutData(fdbSchema);
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
 
     wSchemaname = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaname);
@@ -170,13 +168,12 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
     fdbTable.right = new FormAttachment(100, 0);
     fdbTable.top = new FormAttachment(wbSchema, margin);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wTablename = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTablename);
@@ -195,8 +192,7 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, wTablename);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, wTablename);
 
     getData();
 
@@ -256,8 +252,7 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Message"));
           String d = dialog.open();
           if (d != null) {
@@ -266,17 +261,12 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
 
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
+          mb.setMessage(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
           mb.setText(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Title"));
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"),
-            e);      
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"), e);
       }
     }
   }
@@ -286,9 +276,7 @@ public class ActionTableExistsDialog extends ActionDialog implements IActionDial
     if (StringUtils.isNotEmpty(databaseName)) {
       DatabaseMeta databaseMeta = getWorkflowMeta().findDatabase(databaseName, variables);
       if (databaseMeta != null) {
-        DatabaseExplorerDialog std =
-            new DatabaseExplorerDialog(
-                shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
+        DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
         std.setSelectedSchemaAndTable(wSchemaname.getText(), wTablename.getText());
         if (std.open()) {
           wSchemaname.setText(Const.NVL(std.getSchemaName(), ""));

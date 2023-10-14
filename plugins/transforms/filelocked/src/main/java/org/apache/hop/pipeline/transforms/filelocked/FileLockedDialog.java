@@ -55,8 +55,7 @@ public class FileLockedDialog extends BaseTransformDialog implements ITransformD
 
   private boolean gotPreviousFields = false;
 
-  public FileLockedDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public FileLockedDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (FileLockedMeta) in;
   }
@@ -121,18 +120,17 @@ public class FileLockedDialog extends BaseTransformDialog implements ITransformD
     fdfileName.top = new FormAttachment(wTransformName, margin);
     fdfileName.right = new FormAttachment(100, -margin);
     wFileName.setLayoutData(fdfileName);
-    wFileName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focusLost event
-          }
+    wFileName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focusLost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
 
     // Result fieldname ...
     Label wlResult = new Label(shell, SWT.RIGHT);

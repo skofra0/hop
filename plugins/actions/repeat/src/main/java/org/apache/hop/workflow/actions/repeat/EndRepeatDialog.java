@@ -46,8 +46,7 @@ public class EndRepeatDialog extends ActionDialog implements IActionDialog {
 
   private Text wName;
 
-  public EndRepeatDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public EndRepeatDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (EndRepeat) action;
 

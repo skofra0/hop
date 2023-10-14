@@ -33,7 +33,8 @@ import java.net.URL;
 /**
  * Class for loading images from SVG, PNG, or other bitmap formats.
  *
- * <p>Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
+ * <p>
+ * Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
  * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded.
  */
 public class SwingSvgImageUtil {
@@ -77,8 +78,7 @@ public class SwingSvgImageUtil {
     return result;
   }
 
-  private static SwingUniversalImageSvg getUniversalImageInternal(
-      ClassLoader classLoader, String filename) {
+  private static SwingUniversalImageSvg getUniversalImageInternal(ClassLoader classLoader, String filename) {
     SwingUniversalImageSvg result = loadFromClassLoader(classLoader, filename);
     if (result == null) {
       result = loadFromClassLoader(classLoader, "/" + filename);
@@ -122,8 +122,7 @@ public class SwingSvgImageUtil {
   }
 
   /** Internal image loading by ClassLoader.getResourceAsStream. */
-  private static SwingUniversalImageSvg loadFromClassLoader(
-      ClassLoader classLoader, String location) {
+  private static SwingUniversalImageSvg loadFromClassLoader(ClassLoader classLoader, String location) {
     InputStream s = classLoader.getResourceAsStream(location);
     if (s == null) {
       return null;

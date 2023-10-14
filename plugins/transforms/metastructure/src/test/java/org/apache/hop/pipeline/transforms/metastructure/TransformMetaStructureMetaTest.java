@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TransformMetaStructureMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
@@ -41,8 +42,7 @@ public class TransformMetaStructureMetaTest {
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(TransformMetaStructureMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(TransformMetaStructureMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

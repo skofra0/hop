@@ -41,13 +41,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
 
   private static final Class<?> PKG = RandomValueMeta.class; // For Translator
 
-  public RandomValue(
-      TransformMeta transformMeta,
-      RandomValueMeta meta,
-      RandomValueData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public RandomValue(TransformMeta transformMeta, RandomValueMeta meta, RandomValueData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -76,9 +70,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
           try {
             row[index] = generateRandomMACHash(RandomValueMeta.RandomType.HMAC_MD5);
           } catch (Exception e) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "RandomValue.Log.ErrorGettingRandomHMACMD5", e.getMessage()));
+            logError(BaseMessages.getString(PKG, "RandomValue.Log.ErrorGettingRandomHMACMD5", e.getMessage()));
             setErrors(1);
             stopAll();
           }
@@ -87,9 +79,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
           try {
             row[index] = generateRandomMACHash(RandomValueMeta.RandomType.HMAC_SHA1);
           } catch (Exception e) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "RandomValue.Log.ErrorGettingRandomHMACSHA1", e.getMessage()));
+            logError(BaseMessages.getString(PKG, "RandomValue.Log.ErrorGettingRandomHMACSHA1", e.getMessage()));
             setErrors(1);
             stopAll();
           }
@@ -180,9 +170,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
     row = getRandomValue(imeta, row);
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG, "RandomValue.Log.ValueReturned", data.outputRowMeta.getString(row)));
+      logRowlevel(BaseMessages.getString(PKG, "RandomValue.Log.ValueReturned", data.outputRowMeta.getString(row)));
     }
 
     putRow(data.outputRowMeta, row);
@@ -228,9 +216,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
       try {
         data.keyGenHmacMD5 = KeyGenerator.getInstance("HmacMD5");
       } catch (NoSuchAlgorithmException s) {
-        logError(
-            BaseMessages.getString(
-                PKG, "RandomValue.Log.HmacMD5AlgorithmException", s.getMessage()));
+        logError(BaseMessages.getString(PKG, "RandomValue.Log.HmacMD5AlgorithmException", s.getMessage()));
         return false;
       }
     }
@@ -238,9 +224,7 @@ public class RandomValue extends BaseTransform<RandomValueMeta, RandomValueData>
       try {
         data.keyGenHmacSHA1 = KeyGenerator.getInstance("HmacSHA1");
       } catch (NoSuchAlgorithmException s) {
-        logError(
-            BaseMessages.getString(
-                PKG, "RandomValue.Log.HmacSHA1AlgorithmException", s.getMessage()));
+        logError(BaseMessages.getString(PKG, "RandomValue.Log.HmacSHA1AlgorithmException", s.getMessage()));
         return false;
       }
     }

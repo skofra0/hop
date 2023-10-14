@@ -44,31 +44,26 @@ public class BaseHopServerPluginTest {
   HttpServletRequest req = mock(HttpServletRequest.class);
   HttpServletResponse resp = mock(HttpServletResponse.class);
   ILogChannel log = mock(ILogChannel.class);
-  IHopServerRequestHandler.IWriterResponse writerResponse =
-      mock(IHopServerRequestHandler.IWriterResponse.class);
-  IHopServerRequestHandler.IOutputStreamResponse outputStreamResponse =
-      mock(IHopServerRequestHandler.IOutputStreamResponse.class);
+  IHopServerRequestHandler.IWriterResponse writerResponse = mock(IHopServerRequestHandler.IWriterResponse.class);
+  IHopServerRequestHandler.IOutputStreamResponse outputStreamResponse = mock(IHopServerRequestHandler.IOutputStreamResponse.class);
   PrintWriter printWriter = mock(PrintWriter.class);
   javax.servlet.ServletOutputStream outputStream = mock(javax.servlet.ServletOutputStream.class);
 
-  ArgumentCaptor<IHopServerRequestHandler.IHopServerRequest> carteReqCaptor =
-      ArgumentCaptor.forClass(IHopServerRequestHandler.IHopServerRequest.class);
+  ArgumentCaptor<IHopServerRequestHandler.IHopServerRequest> carteReqCaptor = ArgumentCaptor.forClass(IHopServerRequestHandler.IHopServerRequest.class);
 
   BaseHopServerPlugin baseHopServerPlugin;
 
   @Before
   public void before() {
-    baseHopServerPlugin =
-        spy(
-            new BaseHopServerPlugin() {
-              @Override
-              public void handleRequest(IHopServerRequest request) throws IOException {}
+    baseHopServerPlugin = spy(new BaseHopServerPlugin() {
+      @Override
+      public void handleRequest(IHopServerRequest request) throws IOException {}
 
-              @Override
-              public String getContextPath() {
-                return null;
-              }
-            });
+      @Override
+      public String getContextPath() {
+        return null;
+      }
+    });
     baseHopServerPlugin.log = log;
   }
 
@@ -97,8 +92,7 @@ public class BaseHopServerPluginTest {
     testHopServerResponse(carteRequest.respond(200));
   }
 
-  private void testHopServerResponse(IHopServerRequestHandler.IHopServerResponse response)
-      throws IOException {
+  private void testHopServerResponse(IHopServerRequestHandler.IHopServerResponse response) throws IOException {
     when(resp.getWriter()).thenReturn(printWriter);
     when(resp.getOutputStream()).thenReturn(outputStream);
 
@@ -121,8 +115,7 @@ public class BaseHopServerPluginTest {
     when(req.getMethod()).thenReturn("POST");
     when(req.getHeader("Connection")).thenReturn("Keep-Alive");
     when(req.getParameter("param1")).thenReturn("val1");
-    when(req.getParameterNames())
-        .thenReturn(Collections.enumeration(Arrays.asList("name1", "name2")));
+    when(req.getParameterNames()).thenReturn(Collections.enumeration(Arrays.asList("name1", "name2")));
     when(req.getParameterValues(any(String.class))).thenReturn(new String[] {"val"});
     when(req.getHeaderNames()).thenReturn(Collections.enumeration(Arrays.asList("name1", "name2")));
     when(req.getHeaders("name1")).thenReturn(Collections.enumeration(ImmutableList.of("val")));

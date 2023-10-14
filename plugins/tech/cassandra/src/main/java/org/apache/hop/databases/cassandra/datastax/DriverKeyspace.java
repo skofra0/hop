@@ -74,14 +74,12 @@ public class DriverKeyspace implements Keyspace {
   }
 
   @Override
-  public void executeCQL(String cql, String compression, String consistencyLevel, ILogChannel log)
-      throws Exception {
+  public void executeCQL(String cql, String compression, String consistencyLevel, ILogChannel log) throws Exception {
     conn.getSession(name).execute(cql);
   }
 
   @Override
-  public void createKeyspace(String keyspaceName, Map<String, Object> options, ILogChannel log)
-      throws Exception {
+  public void createKeyspace(String keyspaceName, Map<String, Object> options, ILogChannel log) throws Exception {
     SchemaBuilder.createKeyspace(keyspaceName);
   }
 
@@ -108,22 +106,14 @@ public class DriverKeyspace implements Keyspace {
   }
 
   @Override
-  public boolean createTable(
-      String tableName,
-      IRowMeta rowMeta,
-      List<Integer> keyIndexes,
-      String createTableWithClause,
-      ILogChannel log)
-      throws Exception {
+  public boolean createTable(String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, String createTableWithClause, ILogChannel log) throws Exception {
     CreateTableStart createTableStart = SchemaBuilder.createTable(tableName).ifNotExists();
 
     CreateTable createTable = null;
     for (int i = 0; i < rowMeta.size(); i++) {
       if (keyIndexes.contains(i)) {
         IValueMeta key = rowMeta.getValueMeta(i);
-        createTable =
-            createTableStart.withPartitionKey(
-                key.getName(), CassandraUtils.getCassandraDataTypeFromValueMeta(key));
+        createTable = createTableStart.withPartitionKey(key.getName(), CassandraUtils.getCassandraDataTypeFromValueMeta(key));
       }
     }
 
@@ -134,9 +124,7 @@ public class DriverKeyspace implements Keyspace {
     for (int i = 0; i < rowMeta.size(); i++) {
       if (!keyIndexes.contains(i)) {
         IValueMeta valueMeta = rowMeta.getValueMeta(i);
-        createTable =
-            createTable.withColumn(
-                valueMeta.getName(), CassandraUtils.getCassandraDataTypeFromValueMeta(valueMeta));
+        createTable = createTable.withColumn(valueMeta.getName(), CassandraUtils.getCassandraDataTypeFromValueMeta(valueMeta));
       }
     }
 
@@ -156,16 +144,13 @@ public class DriverKeyspace implements Keyspace {
 
   /** Actually an ALTER to add columns, not UPDATE. Purpose of keyIndexes yet to be determined */
   @Override
-  public void updateTableCQL3(
-      String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, ILogChannel log)
-      throws Exception {
+  public void updateTableCQL3(String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, ILogChannel log) throws Exception {
     CqlSession session = getSession();
     ITableMetaData table = getTableMetaData(tableName);
     for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
       if (!table.columnExistsInSchema(valueMeta.getName())) {
         DataType dataType = CassandraUtils.getCassandraDataTypeFromValueMeta(valueMeta);
-        String cql =
-            SchemaBuilder.alterTable(tableName).addColumn(valueMeta.getName(), dataType).asCql();
+        String cql = SchemaBuilder.alterTable(tableName).addColumn(valueMeta.getName(), dataType).asCql();
         session.execute(cql);
       }
     }

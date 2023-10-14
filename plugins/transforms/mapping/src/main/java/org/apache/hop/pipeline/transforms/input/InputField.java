@@ -21,10 +21,14 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class InputField {
-  @HopMetadataProperty private String name;
-  @HopMetadataProperty private String type;
-  @HopMetadataProperty private String length;
-  @HopMetadataProperty private String precision;
+  @HopMetadataProperty
+  private String name;
+  @HopMetadataProperty
+  private String type;
+  @HopMetadataProperty
+  private String length;
+  @HopMetadataProperty
+  private String precision;
 
   public InputField() {}
 
@@ -44,8 +48,10 @@ public class InputField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     InputField that = (InputField) o;
     return Objects.equals(name, that.name) && Objects.equals(type, that.type) && Objects.equals(length, that.length) && Objects.equals(precision, that.precision);
   }

@@ -93,15 +93,9 @@ public class LdapConnection {
   private LdapProtocol protocol;
 
   /** Construct a new LDAP Connection */
-  public LdapConnection(
-      ILogChannel logInterface,
-      IVariables variables,
-      ILdapMeta meta,
-      Collection<String> binaryAttributes)
-      throws HopException {
+  public LdapConnection(ILogChannel logInterface, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) throws HopException {
     this.log = logInterface;
-    protocol =
-        new LdapProtocolFactory(logInterface).createLdapProtocol(variables, meta, binaryAttributes);
+    protocol = new LdapProtocolFactory(logInterface).createLdapProtocol(variables, meta, binaryAttributes);
     this.sortingAttributes = new ArrayList<>();
   }
 
@@ -181,9 +175,7 @@ public class LdapConnection {
     return (getPagingSize() > 0);
   }
 
-  public void search(
-      String searchBase, String filter, int limitRows, String[] attributeReturned, int searchScope)
-      throws HopException {
+  public void search(String searchBase, String filter, int limitRows, String[] attributeReturned, int searchScope) throws HopException {
 
     // Set the Search base.This is the place where the search will
     setSearchBase(searchBase);
@@ -197,9 +189,7 @@ public class LdapConnection {
 
         setSearchBase(attr.get().toString());
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  classFromResourcesPackage, "LdapInput.SearchBaseFound", getSearchBase()));
+          log.logDetailed(BaseMessages.getString(classFromResourcesPackage, "LdapInput.SearchBaseFound", getSearchBase()));
         }
       }
 
@@ -238,14 +228,11 @@ public class LdapConnection {
       // Set the sort search?
       if (isSortingAttributes()) {
         // Create a sort control that sorts based on attributes
-        setSortingAttributesKeys(
-            getSortingAttributes().toArray(new String[getSortingAttributes().size()]));
+        setSortingAttributesKeys(getSortingAttributes().toArray(new String[getSortingAttributes().size()]));
         ctlk = new SortControl(getSortingAttributesKeys(), Control.NONCRITICAL);
         nrCtl++;
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(
-                  "LdapInput.Log.SortingKeys", Arrays.toString(getSortingAttributesKeys())));
+          log.logDebug(BaseMessages.getString("LdapInput.Log.SortingKeys", Arrays.toString(getSortingAttributesKeys())));
         }
       }
 
@@ -256,8 +243,7 @@ public class LdapConnection {
         ctlp = new PagedResultsControl(getPagingSize(), Control.CRITICAL);
         nrCtl++;
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString("LdapInput.Log.PageSize", String.valueOf(getPagingSize())));
+          log.logDebug(BaseMessages.getString("LdapInput.Log.PageSize", String.valueOf(getPagingSize())));
         }
       }
 
@@ -291,27 +277,21 @@ public class LdapConnection {
       // The entry exists
       getInitialContext().destroySubcontext(dn);
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(classFromResourcesPackage, "LDAPinput.Exception.Deleted", dn));
+        log.logDebug(BaseMessages.getString(classFromResourcesPackage, "LDAPinput.Exception.Deleted", dn));
       }
       return STATUS_DELETED;
     } catch (NameNotFoundException n) {
       // The entry is not found
       if (checkEntry) {
-        throw new HopException(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn),
-            n);
+        throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn), n);
       }
       return STATUS_SKIPPED;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Delete", dn), e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Delete", dn), e);
     }
   }
 
-  public int update(String dn, String[] attributes, String[] values, boolean checkEntry)
-      throws HopException {
+  public int update(String dn, String[] attributes, String[] values, boolean checkEntry) throws HopException {
     try {
       int nrAttributes = attributes.length;
       ModificationItem[] mods = new ModificationItem[nrAttributes];
@@ -319,12 +299,7 @@ public class LdapConnection {
         // Define attribute
         Attribute mod = new BasicAttribute(attributes[i], values[i]);
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(
-                  classFromResourcesPackage,
-                  "LdapConnection.Update.Attribute",
-                  attributes[i],
-                  values[i]));
+          log.logDebug(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Update.Attribute", attributes[i], values[i]));
         }
         // Save update action on attribute
         mods[i] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, mod);
@@ -336,25 +311,15 @@ public class LdapConnection {
     } catch (NameNotFoundException n) {
       // The entry is not found
       if (checkEntry) {
-        throw new HopException(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn),
-            n);
+        throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn), n);
       }
       return STATUS_SKIPPED;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Update", dn), e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Update", dn), e);
     }
   }
 
-  public int add(
-      String dn,
-      String[] attributes,
-      String[] values,
-      String multValuedSeparator,
-      boolean checkEntry)
-      throws HopException {
+  public int add(String dn, String[] attributes, String[] values, String multValuedSeparator, boolean checkEntry) throws HopException {
     try {
       Attributes attrs = buildAttributes(dn, attributes, values, multValuedSeparator);
       // We had all attributes
@@ -363,15 +328,11 @@ public class LdapConnection {
     } catch (NameNotFoundException n) {
       // The entry is not found
       if (checkEntry) {
-        throw new HopException(
-            BaseMessages.getString(
-                classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn),
-            n);
+        throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Deleting.NameNotFound", dn), n);
       }
       return STATUS_SKIPPED;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Add", dn), e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Add", dn), e);
     }
   }
 
@@ -384,8 +345,7 @@ public class LdapConnection {
    * @param multValuedSeparator : multi-valued attributes separator
    * @throws HopException
    */
-  public void insert(String dn, String[] attributes, String[] values, String multValuedSeparator)
-      throws HopException {
+  public void insert(String dn, String[] attributes, String[] values, String multValuedSeparator) throws HopException {
     try {
 
       Attributes attrs = buildAttributes(dn, attributes, values, multValuedSeparator);
@@ -394,8 +354,7 @@ public class LdapConnection {
       getInitialContext().createSubcontext(dn, attrs);
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Insert", dn), e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Insert", dn), e);
     }
   }
 
@@ -412,14 +371,7 @@ public class LdapConnection {
    * @return status : STATUS_INSERTED, STATUS_UPDATED or STATUS_SKIPPED
    * @throws HopException
    */
-  public int upsert(
-      String dn,
-      String[] attributes,
-      String[] values,
-      String[] attributesToUpdate,
-      String[] valuesToUpdate,
-      String multValuedSeparator)
-      throws HopException {
+  public int upsert(String dn, String[] attributes, String[] values, String[] attributesToUpdate, String[] valuesToUpdate, String multValuedSeparator) throws HopException {
 
     try {
 
@@ -436,21 +388,18 @@ public class LdapConnection {
       if (found && attributesToUpdate != null && attributesToUpdate.length > 0) {
         // The entry already exist
         // let's update
-        Attributes attrs =
-            buildAttributes(dn, attributesToUpdate, valuesToUpdate, multValuedSeparator);
+        Attributes attrs = buildAttributes(dn, attributesToUpdate, valuesToUpdate, multValuedSeparator);
         getInitialContext().modifyAttributes(dn, DirContext.REPLACE_ATTRIBUTE, attrs);
         return STATUS_UPDATED;
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Upsert", dn), e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Upsert", dn), e);
     }
     return STATUS_SKIPPED;
   }
 
-  private Attributes buildAttributes(
-      String dn, String[] attributes, String[] values, String multValuedSeparator) {
+  private Attributes buildAttributes(String dn, String[] attributes, String[] values, String multValuedSeparator) {
     Attributes attrs = new javax.naming.directory.BasicAttributes(true);
     int nrAttributes = attributes.length;
     for (int i = 0; i < nrAttributes; i++) {
@@ -477,7 +426,7 @@ public class LdapConnection {
    * @param oldDn Distinguished name of the entry to rename
    * @param newDn target Distinguished name (new)
    * @param deleteRDN To specify whether you want to keep the old name attribute when you use rename
-   *     entry true : do not keep the old value (defaut) false : keep the old value as an attribute
+   *        entry true : do not keep the old value (defaut) false : keep the old value as an attribute
    * @throws HopException
    */
   public void rename(String oldDn, String newDn, boolean deleteRDN) throws HopException {
@@ -519,10 +468,7 @@ public class LdapConnection {
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromResourcesPackage, "LdapConnection.Error.Renaming", oldDn, newDn),
-          e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.Renaming", oldDn, newDn), e);
     } finally {
       try {
         if (!deleteRDN) {
@@ -537,14 +483,11 @@ public class LdapConnection {
   }
 
   @SuppressWarnings("rawtypes")
-  private void getPaths(String rootName, Map<String, Attributes> childs, List<String> paths)
-      throws Exception {
+  private void getPaths(String rootName, Map<String, Attributes> childs, List<String> paths) throws Exception {
     NamingEnumeration ne = getInitialContext().list(rootName);
     while (ne.hasMore()) {
       NameClassPair nameCP = (NameClassPair) ne.next();
-      childs.put(
-          nameCP.getName() + "," + rootName,
-          getInitialContext().getAttributes(nameCP.getName() + "," + rootName));
+      childs.put(nameCP.getName() + "," + rootName, getInitialContext().getAttributes(nameCP.getName() + "," + rootName));
       getPaths(nameCP.getName() + "," + rootName, childs, paths);
       paths.add(nameCP.getName() + "," + rootName);
     }
@@ -586,31 +529,20 @@ public class LdapConnection {
           }
           // pass the cookie back for the next page
           if (isSortingAttributes()) {
-            getInitialContext()
-                .setRequestControls(
-                    new Control[] {
-                      new SortControl(getSortingAttributesKeys(), Control.NONCRITICAL),
-                      new PagedResultsControl(getPagingSize(), cookie, Control.CRITICAL)
-                    });
+            getInitialContext().setRequestControls(
+                new Control[] {new SortControl(getSortingAttributesKeys(), Control.NONCRITICAL), new PagedResultsControl(getPagingSize(), cookie, Control.CRITICAL)});
           } else {
-            getInitialContext()
-                .setRequestControls(
-                    new Control[] {
-                      new PagedResultsControl(getPagingSize(), cookie, Control.CRITICAL)
-                    });
+            getInitialContext().setRequestControls(new Control[] {new PagedResultsControl(getPagingSize(), cookie, Control.CRITICAL)});
           }
           if ((cookie != null) && (cookie.length != 0)) {
             // get search result for the page
-            this.results =
-                getInitialContext().search(getSearchBase(), getFilter(), getSearchControls());
+            this.results = getInitialContext().search(getSearchBase(), getFilter(), getSearchControls());
           } else {
             return null;
           }
 
         } catch (Exception e) {
-          throw new HopException(
-              BaseMessages.getString(classFromResourcesPackage, "LdapInput.Exception.ErrorPaging"),
-              e);
+          throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapInput.Exception.ErrorPaging"), e);
         }
 
         while (!getSearchResult().hasMoreElements()) {
@@ -629,10 +561,7 @@ public class LdapConnection {
       results.put("dn", searchResult.getNameInNamespace());
       return results;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromResourcesPackage, "LdapConnection.Exception.GettingAttributes"),
-          e);
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Exception.GettingAttributes"), e);
     }
   }
 
@@ -658,8 +587,7 @@ public class LdapConnection {
     return Utils.isEmpty(filter) ? "" : filter.replaceAll("(\\r|\\n)", "");
   }
 
-  public static String extractBytesAndConvertToString(Attribute attr, boolean isSID)
-      throws Exception {
+  public static String extractBytesAndConvertToString(Attribute attr, boolean isSID) throws Exception {
     byte[] b;
     try {
       b = (byte[]) attr.get();
@@ -764,9 +692,7 @@ public class LdapConnection {
       }
       return fields;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromResourcesPackage, "LdapConnection.Error.RetrievingFields"));
+      throw new HopException(BaseMessages.getString(classFromResourcesPackage, "LdapConnection.Error.RetrievingFields"));
     }
   }
 }

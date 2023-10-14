@@ -63,11 +63,8 @@ public class MemoryGroupByAggregationNullsTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>(
-            "Memory Group By", MemoryGroupByMeta.class, MemoryGroupByData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Memory Group By", MemoryGroupByMeta.class, MemoryGroupByData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -93,9 +90,7 @@ public class MemoryGroupByAggregationNullsTest {
     data.map = new HashMap<>();
     when(rmi.getValueMeta(Mockito.anyInt())).thenReturn(vmi);
     data.aggMeta = rmi;
-    transform =
-        new MemoryGroupBy(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    transform = new MemoryGroupBy(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
 
     // put aggregate into map with default predefined value
     aggregate = new Aggregate();
@@ -111,9 +106,11 @@ public class MemoryGroupByAggregationNullsTest {
   /**
    * "Group by" transform - Minimum aggregation doesn't work
    *
-   * <p>HOP_AGGREGATION_MIN_NULL_IS_VALUED
+   * <p>
+   * HOP_AGGREGATION_MIN_NULL_IS_VALUED
    *
-   * <p>Set this variable to Y to set the minimum to NULL if NULL is within an aggregate. Otherwise
+   * <p>
+   * Set this variable to Y to set the minimum to NULL if NULL is within an aggregate. Otherwise
    * by default NULL is ignored by the MIN aggregate and MIN is set to the minimum value that is not
    * NULL. See also the variable HOP_AGGREGATION_ALL_NULLS_ARE_ZERO.
    *
@@ -192,22 +189,14 @@ public class MemoryGroupByAggregationNullsTest {
   @Ignore
   public void addToAggregateBinaryData() throws Exception {
     MemoryGroupByMeta memoryGroupByMeta = spy(meta);
-    memoryGroupByMeta.setAggregates(
-        List.of(new GAggregate("f", "test", GroupType.CountDistinct, null)));
+    memoryGroupByMeta.setAggregates(List.of(new GAggregate("f", "test", GroupType.CountDistinct, null)));
     when(mockHelper.transformMeta.getTransform()).thenReturn(memoryGroupByMeta);
     vmi.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
     vmi.setStorageMetadata(new ValueMetaString());
     aggregate.counts = new long[] {0L};
     // Mockito.doReturn(new String[] {"test"}).when(memoryGroupByMeta).getSubjectField();
     aggregate.agg = new Object[] {new byte[0]};
-    transform =
-        new MemoryGroupBy(
-            mockHelper.transformMeta,
-            memoryGroupByMeta,
-            data,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    transform = new MemoryGroupBy(mockHelper.transformMeta, memoryGroupByMeta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
 
     String binaryData0 = "11011";
     String binaryData1 = "01011";

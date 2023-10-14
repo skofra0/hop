@@ -49,8 +49,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/beaminput.html")
-public class BeamInputMeta extends BaseTransformMeta<BeamInput, BeamInputData>
-    implements IBeamPipelineTransformHandler {
+public class BeamInputMeta extends BaseTransformMeta<BeamInput, BeamInputData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "input_location")
   private String inputLocation;
@@ -66,13 +65,7 @@ public class BeamInputMeta extends BaseTransformMeta<BeamInput, BeamInputData>
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (metadataProvider != null) {
@@ -82,36 +75,30 @@ public class BeamInputMeta extends BaseTransformMeta<BeamInput, BeamInputData>
         inputRowMeta.clear();
         inputRowMeta.addRowMeta(fileDefinition.getRowMeta());
       } catch (HopPluginException e) {
-        throw new HopTransformException(
-            "Unable to get row layout of file definition '" + fileDefinition.getName() + "'", e);
+        throw new HopTransformException("Unable to get row layout of file definition '" + fileDefinition.getName() + "'", e);
       }
     }
   }
 
-  public FileDefinition loadFileDefinition(IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+  public FileDefinition loadFileDefinition(IHopMetadataProvider metadataProvider) throws HopTransformException {
     if (StringUtils.isEmpty(fileDefinitionName)) {
       throw new HopTransformException("No file description name provided");
     }
     FileDefinition fileDefinition;
     try {
-      IHopMetadataSerializer<FileDefinition> serializer =
-          metadataProvider.getSerializer(FileDefinition.class);
+      IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
       fileDefinition = serializer.load(fileDefinitionName);
     } catch (Exception e) {
-      throw new HopTransformException(
-          "Unable to load file description '" + fileDefinitionName + "' from the metadata", e);
+      throw new HopTransformException("Unable to load file description '" + fileDefinitionName + "' from the metadata", e);
     }
     if (fileDefinition == null) {
-      throw new HopTransformException(
-          "Unable to find file definition '" + fileDefinitionName + "' in the metadata");
+      throw new HopTransformException("Unable to find file definition '" + fileDefinitionName + "' in the metadata");
     }
 
     try {
       fileDefinition.validate();
     } catch (Exception e) {
-      throw new HopTransformException(
-          "There was an error validating file definition " + fileDefinition.getName(), e);
+      throw new HopTransformException("There was an error validating file definition " + fileDefinition.getName(), e);
     }
 
     return fileDefinition;

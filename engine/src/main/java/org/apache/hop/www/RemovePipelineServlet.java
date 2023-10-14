@@ -47,8 +47,7 @@ public class RemovePipelineServlet extends BaseHttpServlet implements IHopServer
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -110,52 +109,22 @@ public class RemovePipelineServlet extends BaseHttpServlet implements IHopServer
 
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "RemovePipelineServlet.PipelineRemoved")
-                + "</TITLE>");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "RemovePipelineServlet.PipelineRemoved") + "</TITLE>");
         out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
         out.println("</HEAD>");
         out.println("<BODY>");
-        out.println(
-            "<H3>"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "RemovePipelineServlet.ThePipelineWasRemoved", pipelineName, id))
-                + "</H3>");
-        out.print(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                + "</a><br>");
+        out.println("<H3>" + Encode.forHtml(BaseMessages.getString(PKG, "RemovePipelineServlet.ThePipelineWasRemoved", pipelineName, id)) + "</H3>");
+        out.print("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><br>");
         out.println("<p>");
         out.println("</BODY>");
         out.println("</HTML>");
       }
     } else {
       if (useXML) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
       } else {
-        out.println(
-            "<H1>"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG,
-                        "RemovePipelineServlet.PipelineRemoved.Log.CoundNotFindPipeline",
-                        pipelineName,
-                        id))
-                + "</H1>");
-        out.println(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                + "</a><p>");
+        out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "RemovePipelineServlet.PipelineRemoved.Log.CoundNotFindPipeline", pipelineName, id)) + "</H1>");
+        out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       }
     }

@@ -106,8 +106,7 @@ public class EngineMetrics {
    */
   public Long getComponentMetric(IEngineComponent component, IEngineMetric metric) {
     if (component == null || metric == null) {
-      throw new RuntimeException(
-          "Please provide a component and a name for the metric to retrieve");
+      throw new RuntimeException("Please provide a component and a name for the metric to retrieve");
     }
     Map<IEngineMetric, Long> metricsMap = componentMetricsMap.get(component);
     if (metricsMap == null) {
@@ -125,8 +124,7 @@ public class EngineMetrics {
    */
   public void incrementComponentMetric(IEngineComponent component, IEngineMetric metric) {
     if (component == null || metric == null) {
-      throw new RuntimeException(
-          "Please provide a component and a name for the metric to increment");
+      throw new RuntimeException("Please provide a component and a name for the metric to increment");
     }
     Long amount = getComponentMetric(component, metric);
     if (amount == null) {
@@ -154,8 +152,7 @@ public class EngineMetrics {
     return metricsMap.remove(metric);
   }
 
-  public void addCompomentPerformanceSnapShot(
-      IEngineComponent component, PerformanceSnapShot snapShot) {
+  public void addCompomentPerformanceSnapShot(IEngineComponent component, PerformanceSnapShot snapShot) {
     if (component == null || snapShot == null) {
       throw new RuntimeException("Please provide a component and a snapshot to add");
     }
@@ -205,8 +202,7 @@ public class EngineMetrics {
   }
 
   /** @param componentMetricsMap The componentMetricsMap to set */
-  public void setComponentMetricsMap(
-      Map<IEngineComponent, Map<IEngineMetric, Long>> componentMetricsMap) {
+  public void setComponentMetricsMap(Map<IEngineComponent, Map<IEngineMetric, Long>> componentMetricsMap) {
     this.componentMetricsMap = componentMetricsMap;
   }
 
@@ -276,8 +272,7 @@ public class EngineMetrics {
   }
 
   /** @param componentPerformanceSnapshots The componentPerformanceSnapshots to set */
-  public void setComponentPerformanceSnapshots(
-      Map<IEngineComponent, List<PerformanceSnapShot>> componentPerformanceSnapshots) {
+  public void setComponentPerformanceSnapshots(Map<IEngineComponent, List<PerformanceSnapShot>> componentPerformanceSnapshots) {
     this.componentPerformanceSnapshots = componentPerformanceSnapshots;
   }
 }

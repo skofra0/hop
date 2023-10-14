@@ -25,69 +25,37 @@ import org.apache.hop.metadata.api.IEnumHasCode;
 public class DenormaliserTargetField implements Cloneable {
   private static final Class<?> PKG = DenormaliserMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKey = "NAME",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.ValueFieldname")
+  @HopMetadataProperty(key = "field_name", injectionKey = "NAME", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.ValueFieldname")
   private String fieldName;
 
-  @HopMetadataProperty(
-      key = "key_value",
-      injectionKey = "KEY_VALUE",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Keyvalue")
+  @HopMetadataProperty(key = "key_value", injectionKey = "KEY_VALUE", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Keyvalue")
   private String keyValue;
 
-  @HopMetadataProperty(
-      key = "target_name",
-      injectionKey = "TARGET_NAME",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.TargetFieldname")
+  @HopMetadataProperty(key = "target_name", injectionKey = "TARGET_NAME", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.TargetFieldname")
   private String targetName;
 
-  @HopMetadataProperty(
-      key = "target_type",
-      injectionKey = "TARGET_TYPE",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Type")
+  @HopMetadataProperty(key = "target_type", injectionKey = "TARGET_TYPE", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Type")
   private String targetType;
 
-  @HopMetadataProperty(
-      key = "target_length",
-      injectionKey = "TARGET_LENGTH",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Length")
+  @HopMetadataProperty(key = "target_length", injectionKey = "TARGET_LENGTH", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Length")
   private int targetLength;
 
-  @HopMetadataProperty(
-      key = "target_precision",
-      injectionKey = "TARGET_PRECISION",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Precision")
+  @HopMetadataProperty(key = "target_precision", injectionKey = "TARGET_PRECISION", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Precision")
   private int targetPrecision;
 
-  @HopMetadataProperty(
-      key = "target_currency_symbol",
-      injectionKey = "TARGET_CURRENCY",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Currency")
+  @HopMetadataProperty(key = "target_currency_symbol", injectionKey = "TARGET_CURRENCY", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Currency")
   private String targetCurrencySymbol;
 
-  @HopMetadataProperty(
-      key = "target_decimal_symbol",
-      injectionKey = "TARGET_DECIMAL",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Decimal")
+  @HopMetadataProperty(key = "target_decimal_symbol", injectionKey = "TARGET_DECIMAL", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Decimal")
   private String targetDecimalSymbol;
 
-  @HopMetadataProperty(
-      key = "target_grouping_symbol",
-      injectionKey = "TARGET_GROUP",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Group")
+  @HopMetadataProperty(key = "target_grouping_symbol", injectionKey = "TARGET_GROUP", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Group")
   private String targetGroupingSymbol;
 
-  @HopMetadataProperty(
-      key = "target_null_string",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.NullIf")
+  @HopMetadataProperty(key = "target_null_string", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.NullIf")
   private String targetNullString;
 
-  @HopMetadataProperty(
-      key = "target_format",
-      injectionKey = "TARGET_FORMAT",
-      injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Format")
+  @HopMetadataProperty(key = "target_format", injectionKey = "TARGET_FORMAT", injectionKeyDescription = "DenormaliserDialog.ColumnInfo.Format")
   private String targetFormat;
 
   @HopMetadataProperty(
@@ -100,24 +68,12 @@ public class DenormaliserTargetField implements Cloneable {
   /** enum for the Aggregation type */
   public enum DenormaliseAggregation implements IEnumHasCode {
     TYPE_AGGR_NONE("-", "-", 0),
-    TYPE_AGGR_SUM(
-        "SUM", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Sum"), 1),
-    TYPE_AGGR_AVERAGE(
-        "AVERAGE",
-        BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Average"),
-        2),
-    TYPE_AGGR_MIN(
-        "MIN", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Min"), 3),
-    TYPE_AGGR_MAX(
-        "MAX", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Max"), 4),
-    TYPE_AGGR_COUNT_ALL(
-        "COUNT_ALL",
-        BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.CountAll"),
-        5),
-    TYPE_AGGR_CONCAT_COMMA(
-        "CONCAT_COMMA",
-        BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.ConcatComma"),
-        6);
+    TYPE_AGGR_SUM("SUM", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Sum"), 1),
+    TYPE_AGGR_AVERAGE("AVERAGE", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Average"), 2),
+    TYPE_AGGR_MIN("MIN", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Min"), 3),
+    TYPE_AGGR_MAX("MAX", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.Max"), 4),
+    TYPE_AGGR_COUNT_ALL("COUNT_ALL", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.CountAll"), 5),
+    TYPE_AGGR_CONCAT_COMMA("CONCAT_COMMA", BaseMessages.getString(PKG, "DenormaliserTargetField.TypeAggrLongDesc.ConcatComma"), 6);
 
     private final String code;
     private final String description;
@@ -200,19 +156,8 @@ public class DenormaliserTargetField implements Cloneable {
     this.targetAggregationType = t.targetAggregationType;
   }
 
-  public DenormaliserTargetField(
-      String fieldName,
-      String keyValue,
-      String targetName,
-      String targetType,
-      int targetLength,
-      int targetPrecision,
-      String targetCurrencySymbol,
-      String targetDecimalSymbol,
-      String targetGroupingSymbol,
-      String targetNullString,
-      String targetFormat,
-      DenormaliseAggregation targetAggregationType) {
+  public DenormaliserTargetField(String fieldName, String keyValue, String targetName, String targetType, int targetLength, int targetPrecision, String targetCurrencySymbol,
+      String targetDecimalSymbol, String targetGroupingSymbol, String targetNullString, String targetFormat, DenormaliseAggregation targetAggregationType) {
     this.fieldName = fieldName;
     this.keyValue = keyValue;
     this.targetName = targetName;
@@ -353,7 +298,7 @@ public class DenormaliserTargetField implements Cloneable {
 
   /**
    * @return The target aggregation type: when a key-value collision occurs, what it the aggregation
-   *     to use.
+   *         to use.
    */
   public DenormaliseAggregation getTargetAggregationType() {
     return targetAggregationType;
@@ -361,7 +306,7 @@ public class DenormaliserTargetField implements Cloneable {
 
   /**
    * @param targetAggregationType Specify the The aggregation type: when a key-value collision
-   *     occurs, what it the aggregation to use.
+   *        occurs, what it the aggregation to use.
    */
   public void setTargetAggregationType(DenormaliseAggregation targetAggregationType) {
     this.targetAggregationType = targetAggregationType;

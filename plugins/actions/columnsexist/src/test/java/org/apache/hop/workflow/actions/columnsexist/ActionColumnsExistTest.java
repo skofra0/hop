@@ -25,7 +25,7 @@ import org.junit.Test;
 
 /** Unit tests for column exist action. */
 public class ActionColumnsExistTest {
- 
+
   @Test
   public void testSerialization() throws Exception {
     HopClientEnvironment.init();
@@ -35,9 +35,7 @@ public class ActionColumnsExistTest {
     MemoryMetadataProvider provider = new MemoryMetadataProvider();
     provider.getSerializer(DatabaseMeta.class).save(databaseMeta);
 
-    ActionColumnsExist action =
-        ActionSerializationTestUtil.testSerialization(
-            "/columns-exist-action.xml", ActionColumnsExist.class, provider);
+    ActionColumnsExist action = ActionSerializationTestUtil.testSerialization("/columns-exist-action.xml", ActionColumnsExist.class, provider);
 
     assertEquals("unit-test-db", action.getDatabaseMeta().getName());
     assertEquals("SCHEMA", action.getSchemaName());

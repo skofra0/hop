@@ -36,13 +36,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
 
   private static final Class<?> PKG = DynamicSqlRowMeta.class; // For Translator
 
-  public DynamicSqlRow(
-      TransformMeta transformMeta,
-      DynamicSqlRowMeta meta,
-      DynamicSqlRowData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DynamicSqlRow(TransformMeta transformMeta, DynamicSqlRowMeta meta, DynamicSqlRowData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -51,23 +45,13 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
     if (first) {
       first = false;
       data.outputRowMeta = rowMeta.clone();
-      meta.getFields(
-          data.outputRowMeta,
-          getTransformName(),
-          new IRowMeta[] {
-            meta.getTableFields(this),
-          },
-          null,
-          this,
-          metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), new IRowMeta[] {meta.getTableFields(this),}, null, this, metadataProvider);
 
       loadFromBuffer = false;
     }
 
     if (log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(PKG, "DynamicSQLRow.Log.CheckingRow")
-              + rowMeta.getString(rowData));
+      logDetailed(BaseMessages.getString(PKG, "DynamicSQLRow.Log.CheckingRow") + rowMeta.getString(rowData));
     }
 
     // get dynamic SQL statement
@@ -130,30 +114,18 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
       if (add != null) {
         int nrTemplateFields = data.outputRowMeta.size() - getInputRowMeta().size();
         if (addMeta.size() != nrTemplateFields) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "DynamicSQLRow.Exception.IncorrectNrTemplateFields",
-                  nrTemplateFields,
-                  addMeta.size(),
-                  sql));
+          throw new HopException(BaseMessages.getString(PKG, "DynamicSQLRow.Exception.IncorrectNrTemplateFields", nrTemplateFields, addMeta.size(), sql));
         }
         StringBuilder typeErrors = new StringBuilder();
         for (int i = 0; i < addMeta.size(); i++) {
           IValueMeta templateValueMeta = addMeta.getValueMeta(i);
-          IValueMeta outputValueMeta =
-              data.outputRowMeta.getValueMeta(getInputRowMeta().size() + i);
+          IValueMeta outputValueMeta = data.outputRowMeta.getValueMeta(getInputRowMeta().size() + i);
 
           if (templateValueMeta.getType() != outputValueMeta.getType()) {
             if (typeErrors.length() > 0) {
               typeErrors.append(Const.CR);
             }
-            typeErrors.append(
-                BaseMessages.getString(
-                    PKG,
-                    "DynamicSQLRow.Exception.TemplateReturnDataTypeError",
-                    templateValueMeta.toString(),
-                    outputValueMeta.toString()));
+            typeErrors.append(BaseMessages.getString(PKG, "DynamicSQLRow.Exception.TemplateReturnDataTypeError", templateValueMeta.toString(), outputValueMeta.toString()));
           }
         }
         if (typeErrors.length() > 0) {
@@ -183,9 +155,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
         }
 
         if (log.isRowLevel()) {
-          logRowlevel(
-              BaseMessages.getString(PKG, "DynamicSQLRow.Log.PutoutRow")
-                  + data.outputRowMeta.getString(newRow));
+          logRowlevel(BaseMessages.getString(PKG, "DynamicSQLRow.Log.PutoutRow") + data.outputRowMeta.getString(newRow));
         }
 
         // Get a new row
@@ -234,8 +204,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
     }
     if (first) {
       if (Utils.isEmpty(meta.getSqlFieldName())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "DynamicSQLRow.Exception.SQLFieldNameEmpty"));
+        throw new HopException(BaseMessages.getString(PKG, "DynamicSQLRow.Exception.SQLFieldNameEmpty"));
       }
 
       if (Utils.isEmpty(meta.getSql())) {
@@ -247,9 +216,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
         data.indexOfSqlField = getInputRowMeta().indexOfValue(meta.getSqlFieldName());
         if (data.indexOfSqlField < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "DynamicSQLRow.Exception.FieldNotFound", meta.getSqlFieldName()));
+          throw new HopException(BaseMessages.getString(PKG, "DynamicSQLRow.Exception.FieldNotFound", meta.getSqlFieldName()));
         }
       }
     }
@@ -269,9 +236,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "DynamicSQLRow.Log.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "DynamicSQLRow.Log.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -309,9 +274,7 @@ public class DynamicSqlRow extends BaseTransform<DynamicSqlRowMeta, DynamicSqlRo
       }
 
       if (meta.getDatabaseMeta() == null) {
-        logError(
-            BaseMessages.getString(
-                PKG, "DynmaicSQLRow.Init.ConnectionMissing", getTransformName()));
+        logError(BaseMessages.getString(PKG, "DynmaicSQLRow.Init.ConnectionMissing", getTransformName()));
         return false;
       }
       data.db = new Database(this, variables, meta.getDatabaseMeta());

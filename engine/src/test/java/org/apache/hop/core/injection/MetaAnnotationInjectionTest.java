@@ -43,7 +43,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class MetaAnnotationInjectionTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static final String FIELD_ONE = "FIELD_ONE";
 
@@ -107,8 +108,7 @@ public class MetaAnnotationInjectionTest {
     assertEquals(123, obj.fint);
     assertEquals(1234567891213L, obj.flong);
     assertEquals("123", obj.getSub().first());
-    assertArrayEquals(
-        new String[] {"/tmp/file.txt", "/tmp/file2.txt"}, obj.getSub().getFilenames());
+    assertArrayEquals(new String[] {"/tmp/file.txt", "/tmp/file2.txt"}, obj.getSub().getFilenames());
   }
 
   @Test
@@ -141,8 +141,7 @@ public class MetaAnnotationInjectionTest {
   }
 
   @Test
-  public void testInjectionForArrayPropertyWithoutDefaultConstructor_class_parameter()
-      throws HopException {
+  public void testInjectionForArrayPropertyWithoutDefaultConstructor_class_parameter() throws HopException {
     BeanInjector beanInjector = buildBeanInjectorFor(MetadataBean.class, metadataProvider);
     MetadataBean targetBean = new MetadataBean();
     beanInjector.setProperty(targetBean, COMPLEX_NAME, createRowMetaAndData(), FIELD_ONE);
@@ -153,10 +152,8 @@ public class MetaAnnotationInjectionTest {
   }
 
   @Test
-  public void testInjectionForArrayPropertyWithoutDefaultConstructorInterface_parameter()
-      throws HopException {
-    BeanInjector beanInjector =
-        buildBeanInjectorFor(MetadataBeanImplementsInterface.class, metadataProvider);
+  public void testInjectionForArrayPropertyWithoutDefaultConstructorInterface_parameter() throws HopException {
+    BeanInjector beanInjector = buildBeanInjectorFor(MetadataBeanImplementsInterface.class, metadataProvider);
     MetadataBeanImplementsInterface targetBean = new MetadataBeanImplementsInterface();
     beanInjector.setProperty(targetBean, COMPLEX_NAME, createRowMetaAndData(), FIELD_ONE);
 
@@ -220,8 +217,7 @@ public class MetaAnnotationInjectionTest {
     assertEquals(String.class, ri.getProperties().get("A").getPropertyClass());
   }
 
-  private static BeanInjector buildBeanInjectorFor(
-      Class<?> clazz, IHopMetadataProvider metadataProvider) {
+  private static BeanInjector buildBeanInjectorFor(Class<?> clazz, IHopMetadataProvider metadataProvider) {
     BeanInjectionInfo metaBeanInfo = new BeanInjectionInfo(clazz);
     return new BeanInjector(metaBeanInfo, metadataProvider);
   }
@@ -232,12 +228,14 @@ public class MetaAnnotationInjectionTest {
     return Collections.singletonList(new RowMetaAndData(meta, TEST_NAME));
   }
 
-  private static interface MetadataInterface {}
+  private static interface MetadataInterface {
+  }
 
   @InjectionSupported(localizationPrefix = "", groups = "COMPLEX")
   public static class MetadataBean {
 
-    @InjectionDeep private ComplexField[] complexField;
+    @InjectionDeep
+    private ComplexField[] complexField;
 
     public ComplexField[] getComplexField() {
       return complexField;
@@ -275,7 +273,8 @@ public class MetaAnnotationInjectionTest {
   @InjectionSupported(localizationPrefix = "", groups = "COMPLEX")
   public static class MetadataBeanImplementsInterface implements MetadataInterface {
 
-    @InjectionDeep private ComplexFieldWithInterfaceArg[] complexField;
+    @InjectionDeep
+    private ComplexFieldWithInterfaceArg[] complexField;
 
     public ComplexFieldWithInterfaceArg[] getComplexField() {
       return complexField;

@@ -60,8 +60,7 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
   private MetaSelectionLine<NeoConnection> wConnection;
   private TableView wUpdates;
 
-  public Neo4jConstraintDialog(
-      Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
+  public Neo4jConstraintDialog(Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.meta = (Neo4jConstraint) iAction;
 
@@ -153,45 +152,14 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.UpdateType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              UpdateType.getNames()),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ObjectType.getNames()),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ConstraintType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ConstraintType.getNames()),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ConstraintName"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectName"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectProperties"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.UpdateType"), ColumnInfo.COLUMN_TYPE_CCOMBO, UpdateType.getNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ObjectType.getNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ConstraintType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ConstraintType.getNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ConstraintName"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectName"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jConstraintDialog.ConstraintUpdates.Column.ObjectProperties"), ColumnInfo.COLUMN_TYPE_TEXT),};
 
-    wUpdates =
-        new TableView(
-            variables,
-            shell,
-            SWT.NONE,
-            columns,
-            meta.getConstraintUpdates().size(),
-            false,
-            null,
-            props);
+    wUpdates = new TableView(variables, shell, SWT.NONE, columns, meta.getConstraintUpdates().size(), false, null, props);
     PropsUi.setLook(wUpdates);
     wUpdates.addModifyListener(lsMod);
     FormData fdCypher = new FormData();
@@ -203,13 +171,7 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, margin, null);
 
     getData();
 
@@ -253,8 +215,7 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
     if (Utils.isEmpty(wName.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
       mb.setText(BaseMessages.getString(PKG, "Neo4jConstraintDialog.MissingName.Warning.Title"));
-      mb.setMessage(
-          BaseMessages.getString(PKG, "Neo4jConstraintDialog.MissingName.Warning.Message"));
+      mb.setMessage(BaseMessages.getString(PKG, "Neo4jConstraintDialog.MissingName.Warning.Message"));
       mb.open();
       return;
     }
@@ -268,8 +229,7 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
       meta.setConnection(null);
     } else {
       try {
-        meta.setConnection(
-            metadataProvider.getSerializer(NeoConnection.class).load(connectionName));
+        meta.setConnection(metadataProvider.getSerializer(NeoConnection.class).load(connectionName));
       } catch (Exception e) {
         new ErrorDialog(shell, "Error", "Error finding connection " + connectionName, e);
         return;
@@ -285,10 +245,7 @@ public class Neo4jConstraintDialog extends ActionDialog implements IActionDialog
       String constraintName = item.getText(4);
       String objectName = item.getText(5);
       String objectProperties = item.getText(6);
-      meta.getConstraintUpdates()
-          .add(
-              new ConstraintUpdate(
-                  type, objectType, constraintType, constraintName, objectName, objectProperties));
+      meta.getConstraintUpdates().add(new ConstraintUpdate(type, objectType, constraintType, constraintName, objectName, objectProperties));
     }
 
     dispose();

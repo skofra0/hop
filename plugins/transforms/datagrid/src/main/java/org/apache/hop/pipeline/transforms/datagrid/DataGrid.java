@@ -32,13 +32,7 @@ public class DataGrid extends BaseTransform<DataGridMeta, DataGridData> {
 
   private static final Class<?> PKG = DataGridMeta.class; // For Translator
 
-  public DataGrid(
-      TransformMeta transformMeta,
-      DataGridMeta meta,
-      DataGridData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DataGrid(TransformMeta transformMeta, DataGridMeta meta, DataGridData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -89,18 +83,11 @@ public class DataGrid extends BaseTransform<DataGridMeta, DataGridData> {
     data.linesWritten++;
 
     if (log.isRowLevel()) {
-      log.logRowlevel(
-          toString(),
-          BaseMessages.getString(
-              PKG,
-              "DataGrid.Log.Wrote.Row",
-              Long.toString(getLinesWritten()),
-              data.outputRowMeta.getString(outputRowData)));
+      log.logRowlevel(toString(), BaseMessages.getString(PKG, "DataGrid.Log.Wrote.Row", Long.toString(getLinesWritten()), data.outputRowMeta.getString(outputRowData)));
     }
 
     if (checkFeedback(getLinesWritten()) && log.isBasic()) {
-      logBasic(
-          BaseMessages.getString(PKG, "DataGrid.Log.LineNr", Long.toString(getLinesWritten())));
+      logBasic(BaseMessages.getString(PKG, "DataGrid.Log.LineNr", Long.toString(getLinesWritten())));
     }
 
     return true;

@@ -44,88 +44,89 @@ import java.util.Map;
  * <p>
  *
  * <ul>
- *   <li><b>Maintain action settings</b><br>
- *       The implementing class typically keeps track of action settings using private fields with
- *       corresponding getters and setters. The dialog class implementing IActionDialog is using the
- *       getters and setters to copy the user supplied configuration in and out of the dialog.<br>
- *       <br>
- *       The following interface method also falls into the area of maintaining settings:<br>
- *       <br>
- *       <a href="#clone()"><code>Object clone()</code></a> <br>
- *       This method is called when a action is duplicated in HopGui. It needs to return a deep copy
- *       of this action object. It is essential that the implementing class creates proper deep
- *       copies if the action configuration is stored in modifiable objects, such as lists or custom
- *       helper objects. This interface does not extend Cloneable, but the implementing class will
- *       provide a similar method due to this interface.<br>
- *   <li><b>Serialize action settings</b><br>
- *       The plugin needs to be able to serialize its settings to XML. The interface methods are as
- *       follows:<br>
- *       <br>
- *       <a href="#getXml()"><code>String getXml()</code></a><br>
- *       This method is called by Apache Hop whenever a action needs to serialize its settings to
- *       XML. It is called when saving a workflow in HopGui. The method returns an XML string,
- *       containing the serialized settings. The string contains a series of XML tags, typically one
- *       tag per setting. The helper class org.apache.hop.core.xml.XmlHandler is typically used to
- *       construct the XML string.<br>
- *       <br>
- *       <a href="#loadXml(org.w3c.dom.Node)"><code>void loadXml(...)</code></a></br> This method is
- *       called by Hop whenever a action needs to read its settings from XML. The XML node
- *       containing the action's settings is passed in as an argument. Again, the helper class
- *       org.apache.hop.core.xml.XmlHandler is typically used to conveniently read the settings from
- *       the XML node.<br>
- *       <br>
- *       <br>
- *       <quote>Hint: When developing plugins, make sure the serialization code is in sync with the
- *       settings available from the action dialog. When testing a plugin in HopGui, Hop will
- *       internally first save and load a copy of the workflow.</quote><br>
- *   <li><b>Provide access to dialog class</b><br>
- *       Hop needs to know which class will take care of the settings dialog for the action. The
- *       interface method getDialogClassName() must return the name of the class implementing the
- *       IActionDialog.</br>
- *   <li><b>Provide information about possible outcomes</b><br>
- *       A action may support up to three types of outgoing hops: true, false, and unconditional.
- *       Sometimes it does not make sense to support all three possibilities. For instance, if the
- *       action performs a task that does not produce a boolean outcome, like the dummy action, it
- *       may make sense to suppress the true and false outgoing hops. There are other actions, which
- *       carry an inherent boolean outcome, like the "file exists" action for instance. It may make
- *       sense in such cases to suppress the unconditional outgoing hop.<br>
- *       <br>
- *       The action plugin class must implement two methods to indicate to Apache Hop which outgoing
- *       hops it supports:<br>
- *       <br>
- *       <a href="#isEvaluation()"><code>boolean isEvaluation()</code></a><br>
- *       This method must return true if the action supports the true/false outgoing hops. If the
- *       action does not support distinct outcomes, it must return false.<br>
- *       <br>
- *       <a href="#isUnconditional()"><code>boolean isUnconditional()</code></a><br>
- *       This method must return true if the action supports the unconditional outgoing hop. If the
- *       action does not support the unconditional hop, it must return false.<br>
- *   <li><b>Execute a action task</b><br>
- *       The class implementing IAction executes the actual action task by implementing the
- *       following method: <br>
- *       <br>
- *       <a href="#execute(org.apache.hop.core.Result, int)"><code>Result execute(..)</code></a><br>
- *       The execute() method is going to be called by Hop when it is time for the action to execute
- *       its logic. The arguments are a result object, which is passed in from the previously
- *       executed action and an integer number indicating the distance of the action from the start
- *       entry of the workflow.<br>
- *       <br>
- *       The action should execute its configured task, and report back on the outcome. A action
- *       does that by calling certain methods on the passed in <a
- *       href="../../core/Result.html">Result</a> object:<br>
- *       <br>
- *       <code>prevResult.setNrErrors(..)</code><br>
- *       The action needs to indicate whether it has encountered any errors during execution. If
- *       there are errors, setNrErrors must be called with the number of errors encountered
- *       (typically this is 1). If there are no errors, setNrErrors must be called with an argument
- *       of 0.<br>
- *       <br>
- *       <code>prevResult.setResult(..)</code><br>
- *       The action must indicate the outcome of the task. This value determines which output hops
- *       can be followed next. If a action does not support evaluation, it need not call
- *       prevResult.setResult().<br>
- *       <br>
- *       Finally, the passed in prevResult object must be returned.
+ * <li><b>Maintain action settings</b><br>
+ * The implementing class typically keeps track of action settings using private fields with
+ * corresponding getters and setters. The dialog class implementing IActionDialog is using the
+ * getters and setters to copy the user supplied configuration in and out of the dialog.<br>
+ * <br>
+ * The following interface method also falls into the area of maintaining settings:<br>
+ * <br>
+ * <a href="#clone()"><code>Object clone()</code></a> <br>
+ * This method is called when a action is duplicated in HopGui. It needs to return a deep copy
+ * of this action object. It is essential that the implementing class creates proper deep
+ * copies if the action configuration is stored in modifiable objects, such as lists or custom
+ * helper objects. This interface does not extend Cloneable, but the implementing class will
+ * provide a similar method due to this interface.<br>
+ * <li><b>Serialize action settings</b><br>
+ * The plugin needs to be able to serialize its settings to XML. The interface methods are as
+ * follows:<br>
+ * <br>
+ * <a href="#getXml()"><code>String getXml()</code></a><br>
+ * This method is called by Apache Hop whenever a action needs to serialize its settings to
+ * XML. It is called when saving a workflow in HopGui. The method returns an XML string,
+ * containing the serialized settings. The string contains a series of XML tags, typically one
+ * tag per setting. The helper class org.apache.hop.core.xml.XmlHandler is typically used to
+ * construct the XML string.<br>
+ * <br>
+ * <a href="#loadXml(org.w3c.dom.Node)"><code>void loadXml(...)</code></a></br>
+ * This method is
+ * called by Hop whenever a action needs to read its settings from XML. The XML node
+ * containing the action's settings is passed in as an argument. Again, the helper class
+ * org.apache.hop.core.xml.XmlHandler is typically used to conveniently read the settings from
+ * the XML node.<br>
+ * <br>
+ * <br>
+ * <quote>Hint: When developing plugins, make sure the serialization code is in sync with the
+ * settings available from the action dialog. When testing a plugin in HopGui, Hop will
+ * internally first save and load a copy of the workflow.</quote><br>
+ * <li><b>Provide access to dialog class</b><br>
+ * Hop needs to know which class will take care of the settings dialog for the action. The
+ * interface method getDialogClassName() must return the name of the class implementing the
+ * IActionDialog.</br>
+ * <li><b>Provide information about possible outcomes</b><br>
+ * A action may support up to three types of outgoing hops: true, false, and unconditional.
+ * Sometimes it does not make sense to support all three possibilities. For instance, if the
+ * action performs a task that does not produce a boolean outcome, like the dummy action, it
+ * may make sense to suppress the true and false outgoing hops. There are other actions, which
+ * carry an inherent boolean outcome, like the "file exists" action for instance. It may make
+ * sense in such cases to suppress the unconditional outgoing hop.<br>
+ * <br>
+ * The action plugin class must implement two methods to indicate to Apache Hop which outgoing
+ * hops it supports:<br>
+ * <br>
+ * <a href="#isEvaluation()"><code>boolean isEvaluation()</code></a><br>
+ * This method must return true if the action supports the true/false outgoing hops. If the
+ * action does not support distinct outcomes, it must return false.<br>
+ * <br>
+ * <a href="#isUnconditional()"><code>boolean isUnconditional()</code></a><br>
+ * This method must return true if the action supports the unconditional outgoing hop. If the
+ * action does not support the unconditional hop, it must return false.<br>
+ * <li><b>Execute a action task</b><br>
+ * The class implementing IAction executes the actual action task by implementing the
+ * following method: <br>
+ * <br>
+ * <a href="#execute(org.apache.hop.core.Result, int)"><code>Result execute(..)</code></a><br>
+ * The execute() method is going to be called by Hop when it is time for the action to execute
+ * its logic. The arguments are a result object, which is passed in from the previously
+ * executed action and an integer number indicating the distance of the action from the start
+ * entry of the workflow.<br>
+ * <br>
+ * The action should execute its configured task, and report back on the outcome. A action
+ * does that by calling certain methods on the passed in <a
+ * href="../../core/Result.html">Result</a> object:<br>
+ * <br>
+ * <code>prevResult.setNrErrors(..)</code><br>
+ * The action needs to indicate whether it has encountered any errors during execution. If
+ * there are errors, setNrErrors must be called with the number of errors encountered
+ * (typically this is 1). If there are no errors, setNrErrors must be called with an argument
+ * of 0.<br>
+ * <br>
+ * <code>prevResult.setResult(..)</code><br>
+ * The action must indicate the outcome of the task. This value determines which output hops
+ * can be followed next. If a action does not support evaluation, it need not call
+ * prevResult.setResult().<br>
+ * <br>
+ * Finally, the passed in prevResult object must be returned.
  * </ul>
  */
 public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
@@ -243,8 +244,7 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @param variables
    * @throws HopXmlException if any errors occur during the loading of the XML
    */
-  void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException;
+  void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException;
 
   /**
    * This method is called by Apache Hop whenever a action needs to serialize its settings to XML.
@@ -320,8 +320,7 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @return a list of SQL statements
    * @throws HopException if any errors occur during the generation of SQL statements
    */
-  List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException;
+  List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 
   /**
    * Get the name of the class that implements the dialog for the action. ActionBase provides a
@@ -355,11 +354,7 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @param variables the variable variables to resolve string expressions with variables with
    * @param metadataProvider the MetaStore to load common elements from
    */
-  void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider);
+  void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider);
 
   /**
    * Get a list of all the resource dependencies that the transform is depending on.
@@ -376,21 +371,17 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
-  String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException;
 
   /**
    * @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
-   *     reducer, a combiner, ...
+   *         reducer, a combiner, ...
    */
   String[] getReferencedObjectDescriptions();
 
@@ -408,8 +399,7 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * @return the referenced object once loaded
    * @throws HopException
    */
-  IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
+  IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 
   /**
    * At save and run time, the system will attempt to set the workflowMeta so that it can be
@@ -425,7 +415,6 @@ public interface IAction extends IVariables, IHasLogChannel, IExtensionData {
    * attempts to call the getter when not implemented.
    */
   default WorkflowMeta getParentWorkflowMeta() {
-    throw new UnsupportedOperationException(
-        "Attempted access of parent workflow metadata is not supported by the default IAction implementation");
+    throw new UnsupportedOperationException("Attempted access of parent workflow metadata is not supported by the default IAction implementation");
   }
 }

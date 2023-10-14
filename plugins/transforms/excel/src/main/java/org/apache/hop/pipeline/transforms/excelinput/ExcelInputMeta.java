@@ -63,24 +63,14 @@ import org.apache.hop.resource.ResourceDefinition;
 public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData> {
   private static final Class<?> PKG = ExcelInputMeta.class; // For Translator
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
 
   @HopMetadataProperty(
       key = "file",
       injectionGroupKey = "FILENAME_LINES",
       injectionGroupDescription = "ExcelInput.Injection.FILENAME_LINES",
-      inlineListTags = {
-        "name",
-        "filemask",
-        "exclude_filemask",
-        "file_required",
-        "include_subfolders"
-      })
+      inlineListTags = {"name", "filemask", "exclude_filemask", "file_required", "include_subfolders"})
   private List<EIFile> files;
 
   /** The fieldname that holds the name of the file */
@@ -101,15 +91,11 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   private String sheetField;
 
   /** The cell-range starts with a header-row */
-  @HopMetadataProperty(
-      key = "header",
-      injectionKeyDescription = "The cell-range starts with a header-row?")
+  @HopMetadataProperty(key = "header", injectionKeyDescription = "The cell-range starts with a header-row?")
   private boolean startsWithHeader;
 
   /** Stop reading when you hit an empty row. */
-  @HopMetadataProperty(
-      key = "stoponempty",
-      injectionKeyDescription = "Stop reading when you hit an empty row")
+  @HopMetadataProperty(key = "stoponempty", injectionKeyDescription = "Stop reading when you hit an empty row")
   private boolean stopOnEmpty;
 
   /** Avoid empty rows in the result. */
@@ -120,48 +106,33 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
    * The fieldname containing the row number. An empty (null) value means that no row number is
    * included in the output. This is the rownumber of all written rows (not the row in the sheet).
    */
-  @HopMetadataProperty(
-      key = "rownumfield",
-      injectionKeyDescription = "The field name containing the row number.")
+  @HopMetadataProperty(key = "rownumfield", injectionKeyDescription = "The field name containing the row number.")
   private String rowNumberField;
 
   /**
    * The fieldname containing the sheet row number. An empty (null) value means that no sheet row
    * number is included in the output. Sheet row number is the row number in the sheet.
    */
-  @HopMetadataProperty(
-      key = "sheetrownumfield",
-      injectionKeyDescription = "The field name containing the sheet row number")
+  @HopMetadataProperty(key = "sheetrownumfield", injectionKeyDescription = "The field name containing the sheet row number")
   private String sheetRowNumberField;
 
   /** The maximum number of rows that this transform writes to the next transform. */
-  @HopMetadataProperty(
-      key = "limit",
-      injectionKeyDescription =
-          "The maximum number of rows that this transform writes to the next transform")
+  @HopMetadataProperty(key = "limit", injectionKeyDescription = "The maximum number of rows that this transform writes to the next transform")
   private long rowLimit;
 
   /**
    * The fields to read in the range. Note: the number of columns in the range has to match
    * field.length
    */
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupKey = "FIELDS",
-      injectionGroupDescription = "ExcelInput.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "ExcelInput.Injection.FIELDS")
   private List<ExcelInputField> fields;
 
   /** Strict types : will generate errors */
-  @HopMetadataProperty(
-      key = "strict_types",
-      injectionKeyDescription = "Strict types : data conversion errors are thrown")
+  @HopMetadataProperty(key = "strict_types", injectionKeyDescription = "Strict types : data conversion errors are thrown")
   private boolean strictTypes;
 
   /** Ignore error : turn into warnings */
-  @HopMetadataProperty(
-      key = "error_ignored",
-      injectionKeyDescription = "Turn errors into warnings, ignoring them")
+  @HopMetadataProperty(key = "error_ignored", injectionKeyDescription = "Turn errors into warnings, ignoring them")
   private boolean errorIgnored;
 
   /** If error line are skipped, you can replay without introducing doubles. */
@@ -169,118 +140,75 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   private boolean errorLineSkipped;
 
   /** The directory that will contain warning files */
-  @HopMetadataProperty(
-      key = "bad_line_files_destination_directory",
-      injectionKeyDescription = "The directory that will contain warning files")
+  @HopMetadataProperty(key = "bad_line_files_destination_directory", injectionKeyDescription = "The directory that will contain warning files")
   private String warningFilesDestinationDirectory;
 
   /** The extension of warning files */
-  @HopMetadataProperty(
-      key = "bad_line_files_extension",
-      injectionKeyDescription = "The extension of warning files")
+  @HopMetadataProperty(key = "bad_line_files_extension", injectionKeyDescription = "The extension of warning files")
   private String warningFilesExtension;
 
   /** The directory that will contain error files */
-  @HopMetadataProperty(
-      key = "error_line_files_destination_directory",
-      injectionKeyDescription = "The directory that will contain error files")
+  @HopMetadataProperty(key = "error_line_files_destination_directory", injectionKeyDescription = "The directory that will contain error files")
   private String errorFilesDestinationDirectory;
 
   /** The extension of error files */
-  @HopMetadataProperty(
-      key = "error_line_files_extension",
-      injectionKeyDescription = "The extension of error files")
+  @HopMetadataProperty(key = "error_line_files_extension", injectionKeyDescription = "The extension of error files")
   private String errorFilesExtension;
 
   /** The directory that will contain line number files */
-  @HopMetadataProperty(
-      key = "line_number_files_destination_directory",
-      injectionKeyDescription = "The directory that will contain line number files")
+  @HopMetadataProperty(key = "line_number_files_destination_directory", injectionKeyDescription = "The directory that will contain line number files")
   private String lineNumberFilesDestinationDirectory;
 
   /** The extension of line number files */
-  @HopMetadataProperty(
-      key = "line_number_files_extension",
-      injectionKeyDescription = "The extension of line number files")
+  @HopMetadataProperty(key = "line_number_files_extension", injectionKeyDescription = "The extension of line number files")
   private String lineNumberFilesExtension;
 
   /** Are we accepting filenames in input rows? */
-  @HopMetadataProperty(
-      key = "accept_filenames",
-      injectionKeyDescription = "Are we accepting filenames in input rows?")
+  @HopMetadataProperty(key = "accept_filenames", injectionKeyDescription = "Are we accepting filenames in input rows?")
   private boolean acceptingFilenames;
 
   /** The field in which the filename is placed */
-  @HopMetadataProperty(
-      key = "accept_field",
-      injectionKeyDescription = "The field in which the filename is placed")
+  @HopMetadataProperty(key = "accept_field", injectionKeyDescription = "The field in which the filename is placed")
   private String acceptingField;
 
   /** The transformName to accept filenames from */
-  @HopMetadataProperty(
-      key = "accept_transform_name",
-      injectionKeyDescription = "The transform name to accept filenames from")
+  @HopMetadataProperty(key = "accept_transform_name", injectionKeyDescription = "The transform name to accept filenames from")
   private String acceptingTransformName;
 
   /** The encoding to use for reading: null or empty string means system default encoding */
-  @HopMetadataProperty(
-      key = "encoding",
-      injectionKeyDescription =
-          "The encoding to use for reading: null or empty string means system default encoding")
+  @HopMetadataProperty(key = "encoding", injectionKeyDescription = "The encoding to use for reading: null or empty string means system default encoding")
   private String encoding;
 
   /** The add filenames to result filenames flag */
-  @HopMetadataProperty(
-      key = "add_to_result_filenames",
-      injectionKeyDescription = "Add filenames to result?")
+  @HopMetadataProperty(key = "add_to_result_filenames", injectionKeyDescription = "Add filenames to result?")
   private boolean addFilenamesToResult;
 
   /** Additional fields */
-  @HopMetadataProperty(
-      key = "shortFileFieldName",
-      injectionKeyDescription = "Extra output: short file field name")
+  @HopMetadataProperty(key = "shortFileFieldName", injectionKeyDescription = "Extra output: short file field name")
   private String shortFileFieldName;
 
-  @HopMetadataProperty(
-      key = "pathFieldName",
-      injectionKeyDescription = "Extra output: path field name")
+  @HopMetadataProperty(key = "pathFieldName", injectionKeyDescription = "Extra output: path field name")
   private String pathFieldName;
 
-  @HopMetadataProperty(
-      key = "hiddenFieldName",
-      injectionKeyDescription = "Extra output: hidden flag field name")
+  @HopMetadataProperty(key = "hiddenFieldName", injectionKeyDescription = "Extra output: hidden flag field name")
   private String hiddenFieldName;
 
-  @HopMetadataProperty(
-      key = "lastModificationTimeFieldName",
-      injectionKeyDescription = "Extra output: last modification time field name")
+  @HopMetadataProperty(key = "lastModificationTimeFieldName", injectionKeyDescription = "Extra output: last modification time field name")
   private String lastModificationTimeFieldName;
 
-  @HopMetadataProperty(
-      key = "uriNameFieldName",
-      injectionKeyDescription = "Extra output: URI field name")
+  @HopMetadataProperty(key = "uriNameFieldName", injectionKeyDescription = "Extra output: URI field name")
   private String uriNameFieldName;
 
-  @HopMetadataProperty(
-      key = "rootUriNameFieldName",
-      injectionKeyDescription = "Extra output: root URI field name")
+  @HopMetadataProperty(key = "rootUriNameFieldName", injectionKeyDescription = "Extra output: root URI field name")
   private String rootUriNameFieldName;
 
-  @HopMetadataProperty(
-      key = "extensionFieldName",
-      injectionKeyDescription = "Extra output: extension field name")
+  @HopMetadataProperty(key = "extensionFieldName", injectionKeyDescription = "Extra output: extension field name")
   private String extensionFieldName;
 
-  @HopMetadataProperty(
-      key = "sizeFieldName",
-      injectionKeyDescription = "Extra output: file size field name")
+  @HopMetadataProperty(key = "sizeFieldName", injectionKeyDescription = "Extra output: file size field name")
   private String sizeFieldName;
 
-  @HopMetadataProperty(
-      enumNameWhenNotFound = "POI",
-      key = "spreadsheet_type",
-      injectionKey = "SPREADSHEET_TYPE",
-      injectionKeyDescription = "ExcelInput.Injection.SPREADSHEET_TYPE")
+  @HopMetadataProperty(enumNameWhenNotFound = "POI", key = "spreadsheet_type", injectionKey = "SPREADSHEET_TYPE", injectionKeyDescription = "ExcelInput.Injection.SPREADSHEET_TYPE")
   private SpreadSheetType spreadSheetType;
 
   public ExcelInputMeta() {
@@ -357,13 +285,7 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (ExcelInputField field : fields) {
       int type = field.getHopType();
@@ -509,23 +431,11 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   }
 
   public String[] getFilePaths(IVariables variables) {
-    return FileInputList.createFilePathList(
-        variables,
-        getFilesNames(),
-        getFilesMasks(),
-        getFilesExcludeMasks(),
-        getFilesRequired(),
-        getFilesIncludeSubFolders());
+    return FileInputList.createFilePathList(variables, getFilesNames(), getFilesMasks(), getFilesExcludeMasks(), getFilesRequired(), getFilesIncludeSubFolders());
   }
 
   public FileInputList getFileList(IVariables variables) {
-    return FileInputList.createFileList(
-        variables,
-        getFilesNames(),
-        getFilesMasks(),
-        getFilesExcludeMasks(),
-        getFilesRequired(),
-        getFilesIncludeSubFolders());
+    return FileInputList.createFileList(variables, getFilesNames(), getFilesMasks(), getFilesExcludeMasks(), getFilesRequired(), getFilesIncludeSubFolders());
   }
 
   public String[] getInfoTransforms() {
@@ -548,47 +458,28 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
     // See if we get input...
     if (input.length > 0) {
       if (!isAcceptingFilenames()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.NoInputError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.NoInputError"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.AcceptFilenamesOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.AcceptFilenamesOk"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.NoInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.NoInputOk"), transformMeta);
       remarks.add(cr);
     }
 
     FileInputList fileList = getFileList(variables);
     if (fileList.nrOfFiles() == 0) {
       if (!isAcceptingFilenames()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.ExpectedFilesError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.ExpectedFilesError"), transformMeta);
         remarks.add(cr);
       }
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInputMeta.CheckResult.ExpectedFilesOk",
-                  StringUtil.EMPTY_STRING + fileList.nrOfFiles()),
+              BaseMessages.getString(PKG, "ExcelInputMeta.CheckResult.ExpectedFilesOk", StringUtil.EMPTY_STRING + fileList.nrOfFiles()),
               transformMeta);
       remarks.add(cr);
     }
@@ -769,11 +660,7 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -786,8 +673,7 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
         //
         for (EIFile file : files) {
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(file.getName()));
-          file.setName(
-              iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(file.getMask())));
+          file.setName(iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(file.getMask())));
         }
       }
       return null;
@@ -821,34 +707,19 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   }
 
   public static class EIFile {
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "FILENAME",
-        injectionKeyDescription = "ExcelInput.Injection.FILENAME")
+    @HopMetadataProperty(key = "name", injectionKey = "FILENAME", injectionKeyDescription = "ExcelInput.Injection.FILENAME")
     private String name;
 
-    @HopMetadataProperty(
-        key = "filemask",
-        injectionKey = "FILEMASK",
-        injectionKeyDescription = "ExcelInput.Injection.FILEMASK")
+    @HopMetadataProperty(key = "filemask", injectionKey = "FILEMASK", injectionKeyDescription = "ExcelInput.Injection.FILEMASK")
     private String mask;
 
-    @HopMetadataProperty(
-        key = "exclude_filemask",
-        injectionKey = "EXCLUDE_FILEMASK",
-        injectionKeyDescription = "ExcelInput.Injection.EXCLUDE_FILEMASK")
+    @HopMetadataProperty(key = "exclude_filemask", injectionKey = "EXCLUDE_FILEMASK", injectionKeyDescription = "ExcelInput.Injection.EXCLUDE_FILEMASK")
     private String excludeMask;
 
-    @HopMetadataProperty(
-        key = "file_required",
-        injectionKey = "FILE_REQUIRED",
-        injectionKeyDescription = "ExcelInput.Injection.FILE_REQUIRED")
+    @HopMetadataProperty(key = "file_required", injectionKey = "FILE_REQUIRED", injectionKeyDescription = "ExcelInput.Injection.FILE_REQUIRED")
     private String required;
 
-    @HopMetadataProperty(
-        key = "include_subfolders",
-        injectionKey = "INCLUDE_SUBFOLDERS",
-        injectionKeyDescription = "ExcelInput.Injection.INCLUDE_SUBFOLDERS")
+    @HopMetadataProperty(key = "include_subfolders", injectionKey = "INCLUDE_SUBFOLDERS", injectionKeyDescription = "ExcelInput.Injection.INCLUDE_SUBFOLDERS")
     private String includeSubFolders;
 
     public EIFile() {}
@@ -954,22 +825,13 @@ public class ExcelInputMeta extends BaseTransformMeta<ExcelInput, ExcelInputData
   }
 
   public static class EISheet {
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "SHEET_NAME",
-        injectionKeyDescription = "ExcelInput.Injection.SHEET_NAME")
+    @HopMetadataProperty(key = "name", injectionKey = "SHEET_NAME", injectionKeyDescription = "ExcelInput.Injection.SHEET_NAME")
     private String name;
 
-    @HopMetadataProperty(
-        key = "startrow",
-        injectionKey = "SHEET_START_ROW",
-        injectionKeyDescription = "ExcelInput.Injection.SHEET_START_ROW")
+    @HopMetadataProperty(key = "startrow", injectionKey = "SHEET_START_ROW", injectionKeyDescription = "ExcelInput.Injection.SHEET_START_ROW")
     private int startRow;
 
-    @HopMetadataProperty(
-        key = "startcol",
-        injectionKey = "SHEET_START_COL",
-        injectionKeyDescription = "ExcelInput.Injection.SHEET_START_COL")
+    @HopMetadataProperty(key = "startcol", injectionKey = "SHEET_START_COL", injectionKeyDescription = "ExcelInput.Injection.SHEET_START_COL")
     private int startColumn;
 
     public EISheet() {}

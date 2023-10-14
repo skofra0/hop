@@ -45,7 +45,8 @@ public class BaseTransformConcurrencyTest {
    * Row listeners collection modifiers are exposed out of BaseTransform class, whereas the
    * collection traversal is happening on every row being processed.
    *
-   * <p>We should be sure that modification of the collection will not throw a concurrent
+   * <p>
+   * We should be sure that modification of the collection will not throw a concurrent
    * modification exception.
    */
   @Test
@@ -57,12 +58,9 @@ public class BaseTransformConcurrencyTest {
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     when(transformMeta.getName()).thenReturn(TRANSFORM_META);
     when(pipelineMeta.findTransform(TRANSFORM_META)).thenReturn(transformMeta);
-    when(transformMeta.getTargetTransformPartitioningMeta())
-        .thenReturn(mock(TransformPartitioningMeta.class));
+    when(transformMeta.getTargetTransformPartitioningMeta()).thenReturn(mock(TransformPartitioningMeta.class));
 
-    baseTransform =
-        new BaseTransform(
-            transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
+    baseTransform = new BaseTransform(transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
 
     AtomicBoolean condition = new AtomicBoolean(true);
 
@@ -75,9 +73,7 @@ public class BaseTransformConcurrencyTest {
       rowListenersTraversers.add(new RowListenersTraverser(condition));
     }
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<Object, Object>(
-            rowListenersModifiers, rowListenersTraversers, condition);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<Object, Object>(rowListenersModifiers, rowListenersTraversers, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();
@@ -87,7 +83,8 @@ public class BaseTransformConcurrencyTest {
    * Row sets collection modifiers are exposed out of BaseTransform class, whereas the collection
    * traversal is happening on every row being processed.
    *
-   * <p>We should be sure that modification of the collection will not throw a concurrent
+   * <p>
+   * We should be sure that modification of the collection will not throw a concurrent
    * modification exception.
    */
   @Test
@@ -99,12 +96,9 @@ public class BaseTransformConcurrencyTest {
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     when(transformMeta.getName()).thenReturn(TRANSFORM_META);
     when(pipelineMeta.findTransform(TRANSFORM_META)).thenReturn(transformMeta);
-    when(transformMeta.getTargetTransformPartitioningMeta())
-        .thenReturn(mock(TransformPartitioningMeta.class));
+    when(transformMeta.getTargetTransformPartitioningMeta()).thenReturn(mock(TransformPartitioningMeta.class));
 
-    baseTransform =
-        new BaseTransform(
-            transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
+    baseTransform = new BaseTransform(transformMeta, null, null, 0, pipelineMeta, spy(new LocalPipelineEngine()));
 
     AtomicBoolean condition = new AtomicBoolean(true);
 
@@ -117,8 +111,7 @@ public class BaseTransformConcurrencyTest {
       rowSetsTraversers.add(new RowSetsTraverser(condition));
     }
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<Object, Object>(rowSetsModifiers, rowSetsTraversers, condition);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<Object, Object>(rowSetsModifiers, rowSetsTraversers, condition);
     runner.runConcurrentTest();
 
     runner.checkNoExceptionRaised();

@@ -67,16 +67,15 @@ public class DataSetCsvUtil {
             break;
         }
       }
-      
+
       // Force decimal separator for non English system (HOP-4190).
-      if ( valueMeta.isNumber() || valueMeta.isBigNumber() ) {
+      if (valueMeta.isNumber() || valueMeta.isBigNumber()) {
         valueMeta.setDecimalSymbol(".");
-      }       
+      }
     }
   }
 
-  public static final List<Object[]> getAllRows(IVariables variables, DataSet dataSet)
-      throws HopException {
+  public static final List<Object[]> getAllRows(IVariables variables, DataSet dataSet) throws HopException {
     IRowMeta setRowMeta = dataSet.getSetRowMeta();
     setValueFormats(setRowMeta);
     String dataSetFilename = dataSet.getActualDataSetFilename(variables);
@@ -86,14 +85,12 @@ public class DataSetCsvUtil {
     try {
       FileObject file = HopVfs.getFileObject(dataSetFilename);
       if (!file.exists()) {
-        // This is fine.  We haven't put rows in yet.
+        // This is fine. We haven't put rows in yet.
         //
         return rows;
       }
 
-      try (Reader reader =
-              new InputStreamReader(new BufferedInputStream(HopVfs.getInputStream(file)));
-          CSVParser csvParser = new CSVParser(reader, getCsvFormat(setRowMeta)); ) {
+      try (Reader reader = new InputStreamReader(new BufferedInputStream(HopVfs.getInputStream(file))); CSVParser csvParser = new CSVParser(reader, getCsvFormat(setRowMeta));) {
         for (CSVRecord csvRecord : csvParser) {
           if (csvRecord.getRecordNumber() > 1) {
             Object[] row = RowDataUtil.allocateRowData(setRowMeta.size());
@@ -109,8 +106,7 @@ public class DataSetCsvUtil {
       }
       return rows;
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to get all rows for CSV data set '" + dataSet.getName() + "'", e);
+      throw new HopException("Unable to get all rows for CSV data set '" + dataSet.getName() + "'", e);
     }
   }
 
@@ -123,9 +119,7 @@ public class DataSetCsvUtil {
    * @return The rows for the given location
    * @throws HopException
    */
-  public static final List<Object[]> getAllRows(
-      IVariables variables, ILogChannel log, DataSet dataSet, PipelineUnitTestSetLocation location)
-      throws HopException {
+  public static final List<Object[]> getAllRows(IVariables variables, ILogChannel log, DataSet dataSet, PipelineUnitTestSetLocation location) throws HopException {
 
     IRowMeta setRowMeta = dataSet.getSetRowMeta();
 
@@ -157,9 +151,7 @@ public class DataSetCsvUtil {
         dataSetFieldIndexes[i] = setRowMeta.indexOfValue(dataSetFieldName);
       }
 
-      try (Reader reader =
-              new InputStreamReader(new BufferedInputStream(HopVfs.getInputStream(file)));
-          CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT); ) {
+      try (Reader reader = new InputStreamReader(new BufferedInputStream(HopVfs.getInputStream(file))); CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);) {
         for (CSVRecord csvRecord : csvParser) {
           if (csvRecord.getRecordNumber() > 1) {
             Object[] row = RowDataUtil.allocateRowData(dataSetFieldIndexes.length);
@@ -187,10 +179,7 @@ public class DataSetCsvUtil {
       }
 
       if (outputRowMeta.isEmpty()) {
-        log.logError(
-            "WARNING: No field mappings selected for data set '"
-                + dataSet.getName()
-                + "', returning empty set of rows");
+        log.logError("WARNING: No field mappings selected for data set '" + dataSet.getName() + "', returning empty set of rows");
         return new ArrayList<>();
       }
 
@@ -198,28 +187,23 @@ public class DataSetCsvUtil {
 
         // Sort the rows...
         //
-        Collections.sort(
-            rows,
-            (o1, o2) -> {
-              try {
-                return outputRowMeta.compare(o1, o2, sortIndexes);
-              } catch (HopValueException e) {
-                throw new RuntimeException("Unable to compare 2 rows", e);
-              }
-            });
+        Collections.sort(rows, (o1, o2) -> {
+          try {
+            return outputRowMeta.compare(o1, o2, sortIndexes);
+          } catch (HopValueException e) {
+            throw new RuntimeException("Unable to compare 2 rows", e);
+          }
+        });
       }
 
       return rows;
 
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to get all rows for database data set '" + dataSet.getName() + "'", e);
+      throw new HopException("Unable to get all rows for database data set '" + dataSet.getName() + "'", e);
     }
   }
 
-  public static final void writeDataSetData(
-      IVariables variables, DataSet dataSet, IRowMeta rowMeta, List<Object[]> rows)
-      throws HopException {
+  public static final void writeDataSetData(IVariables variables, DataSet dataSet, IRowMeta rowMeta, List<Object[]> rows) throws HopException {
 
     String dataSetFilename = dataSet.getActualDataSetFilename(variables);
 
@@ -268,9 +252,6 @@ public class DataSetCsvUtil {
   }
 
   public static CSVFormat getCsvFormat(IRowMeta rowMeta) {
-    return CSVFormat.DEFAULT
-        .withHeader(rowMeta.getFieldNames())
-        .withQuote('\"')
-        .withQuoteMode(QuoteMode.MINIMAL);
+    return CSVFormat.DEFAULT.withHeader(rowMeta.getFieldNames()).withQuote('\"').withQuoteMode(QuoteMode.MINIMAL);
   }
 }

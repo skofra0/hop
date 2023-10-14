@@ -67,16 +67,10 @@ public class TransformInitThread implements Runnable {
         ok = true;
       } else {
         combi.transform.setErrors(1);
-        log.logError(
-            BaseMessages.getString(
-                PKG,
-                "Pipeline.Log.ErrorInitializingTransform",
-                combi.transform.getTransformName()));
+        log.logError(BaseMessages.getString(PKG, "Pipeline.Log.ErrorInitializingTransform", combi.transform.getTransformName()));
       }
     } catch (Throwable e) {
-      log.logError(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.ErrorInitializingTransform", combi.transform.getTransformName()));
+      log.logError(BaseMessages.getString(PKG, "Pipeline.Log.ErrorInitializingTransform", combi.transform.getTransformName()));
       log.logError(Const.getStackTracker(e));
     } finally {
       combi.transform.getLogChannel().snap(Metrics.METRIC_TRANSFORM_INIT_STOP);

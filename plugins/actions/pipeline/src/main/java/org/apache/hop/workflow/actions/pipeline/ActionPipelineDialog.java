@@ -63,13 +63,11 @@ public class ActionPipelineDialog extends ActionBaseDialog implements IActionDia
 
   private static final String[] FILE_FILTERLOGNAMES =
       new String[] {
-        BaseMessages.getString(PKG, "ActionPipeline.Fileformat.TXT"),
-        BaseMessages.getString(PKG, "ActionPipeline.Fileformat.LOG"),
-        BaseMessages.getString(PKG, "ActionPipeline.Fileformat.All")
-      };
+          BaseMessages.getString(PKG, "ActionPipeline.Fileformat.TXT"),
+          BaseMessages.getString(PKG, "ActionPipeline.Fileformat.LOG"),
+          BaseMessages.getString(PKG, "ActionPipeline.Fileformat.All")};
 
-  public ActionPipelineDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionPipelineDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, action, workflowMeta, variables);
     this.action = (ActionPipeline) action;
   }
@@ -142,12 +140,7 @@ public class ActionPipelineDialog extends ActionBaseDialog implements IActionDia
 
   @Override
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "ui/images/pipeline.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "ui/images/pipeline.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 
   @Override
@@ -179,38 +172,21 @@ public class ActionPipelineDialog extends ActionBaseDialog implements IActionDia
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "ActionPipelineDialog.Exception.UnableToLoadPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "ActionPipelineDialog.Exception.UnableToLoadPipeline.Message"),
+          BaseMessages.getString(PKG, "ActionPipelineDialog.Exception.UnableToLoadPipeline.Message"),
           e);
     }
   }
 
   @Override
   protected Control createRunConfigurationControl() {
-    wRunConfiguration =
-        new MetaSelectionLine<>(
-            variables,
-            metadataProvider,
-            PipelineRunConfiguration.class,
-            shell,
-            SWT.BORDER,
-            null,
-            null,
-            true);
+    wRunConfiguration = new MetaSelectionLine<>(variables, metadataProvider, PipelineRunConfiguration.class, shell, SWT.BORDER, null, null, true);
 
     return wRunConfiguration;
   }
 
   protected void pickFileVFS() {
     HopPipelineFileType<PipelineMeta> pipelineFileType = new HopPipelineFileType<>();
-    String filename =
-        BaseDialog.presentFileDialog(
-            shell,
-            wPath,
-            variables,
-            pipelineFileType.getFilterExtensions(),
-            pipelineFileType.getFilterNames(),
-            true);
+    String filename = BaseDialog.presentFileDialog(shell, wPath, variables, pipelineFileType.getFilterExtensions(), pipelineFileType.getFilterNames(), true);
     if (filename != null) {
       replaceNameWithBaseFilename(filename);
     }
@@ -264,17 +240,11 @@ public class ActionPipelineDialog extends ActionBaseDialog implements IActionDia
     }
 
     try {
-      List<String> runConfigurations =
-          this.getMetadataProvider()
-              .getSerializer(PipelineRunConfiguration.class)
-              .listObjectNames();
+      List<String> runConfigurations = this.getMetadataProvider().getSerializer(PipelineRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, PipelineMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, PipelineMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }

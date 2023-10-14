@@ -36,13 +36,11 @@ public class LabelComboVar extends Composite {
   private Label wLabel;
   private ComboVar wCombo;
 
-  public LabelComboVar(
-      IVariables variables, Composite composite, String labelText, String toolTipText) {
+  public LabelComboVar(IVariables variables, Composite composite, String labelText, String toolTipText) {
     this(variables, composite, SWT.NONE, labelText, toolTipText);
   }
 
-  public LabelComboVar(
-      IVariables variables, Composite composite, int flags, String labelText, String toolTipText) {
+  public LabelComboVar(IVariables variables, Composite composite, int flags, String labelText, String toolTipText) {
     super(composite, SWT.NONE);
     PropsUi.setLook(this);
 

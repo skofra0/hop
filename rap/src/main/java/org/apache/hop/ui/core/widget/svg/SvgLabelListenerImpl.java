@@ -38,9 +38,7 @@ public class SvgLabelListenerImpl extends ClientListener implements ISingletonPr
   private static String getText() {
     String canvasScript = null;
     try {
-      canvasScript =
-          IOUtils.toString(
-              SvgLabelListenerImpl.class.getResourceAsStream("svg-label.js"), StandardCharsets.UTF_8);
+      canvasScript = IOUtils.toString(SvgLabelListenerImpl.class.getResourceAsStream("svg-label.js"), StandardCharsets.UTF_8);
     } catch (IOException e1) {
       e1.printStackTrace();
     }

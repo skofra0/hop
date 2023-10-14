@@ -72,18 +72,8 @@ public class XmlField implements Cloneable {
   @Injection(name = "OUTPUT_CONTENT_TYPE", group = "OUTPUT_FIELDS")
   private ContentType contentType;
 
-  public XmlField(
-      ContentType contentType,
-      String fieldName,
-      String elementName,
-      int type,
-      String format,
-      int length,
-      int precision,
-      String currencySymbol,
-      String decimalSymbol,
-      String groupSymbol,
-      String nullString) {
+  public XmlField(ContentType contentType, String fieldName, String elementName, int type, String format, int length, int precision, String currencySymbol, String decimalSymbol,
+      String groupSymbol, String nullString) {
     this.contentType = contentType;
     this.fieldName = fieldName;
     this.elementName = elementName;

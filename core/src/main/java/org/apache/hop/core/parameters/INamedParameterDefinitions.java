@@ -28,8 +28,7 @@ public interface INamedParameterDefinitions {
    * @param description Description of the parameter.
    * @throws DuplicateParamException Upon duplicate parameter definitions
    */
-  void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException;
+  void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException;
 
   /**
    * Get the description of a parameter.

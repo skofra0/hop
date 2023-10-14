@@ -46,7 +46,7 @@ public class RowProducer {
    * put.
    *
    * @return true if the row was successfully added to the rowset and false if this buffer was full.
-   *     If {@code block} is true this will always return true.
+   *         If {@code block} is true this will always return true.
    * @see IRowSet#putRow(IRowMeta, Object[])
    */
   public boolean putRow(IRowMeta rowMeta, Object[] row, boolean block) {

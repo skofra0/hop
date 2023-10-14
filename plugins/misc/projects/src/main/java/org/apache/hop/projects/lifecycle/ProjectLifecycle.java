@@ -33,8 +33,7 @@ public class ProjectLifecycle {
     this.configurationFiles = new ArrayList<>();
   }
 
-  public ProjectLifecycle(
-      String name, List<String> lifecycleEnvironments, List<String> configurationFiles) {
+  public ProjectLifecycle(String name, List<String> lifecycleEnvironments, List<String> configurationFiles) {
     this.name = name;
     this.lifecycleEnvironments = lifecycleEnvironments;
     this.configurationFiles = configurationFiles;

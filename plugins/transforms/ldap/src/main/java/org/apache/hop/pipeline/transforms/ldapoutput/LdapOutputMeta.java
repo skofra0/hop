@@ -90,19 +90,17 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
   private boolean deleteRDN;
 
   /** The operations description */
-  static final String[] operationTypeDesc = {
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Insert"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Upsert"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Update"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Add"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Delete"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Rename")
-  };
+  static final String[] operationTypeDesc =
+      {
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Insert"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Upsert"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Update"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Add"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Delete"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.operationType.Rename")};
 
   /** The operations type codes */
-  static final String[] operationTypeCode = {
-    "insert", "upsert", "update", "add", "delete", "rename"
-  };
+  static final String[] operationTypeCode = {"insert", "upsert", "update", "add", "delete", "rename"};
 
   public static final int OPERATION_TYPE_INSERT = 0;
 
@@ -119,10 +117,8 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
   private int referralType;
 
   /** The referrals description */
-  public static final String[] referralTypeDesc = {
-    BaseMessages.getString(PKG, "LdapOutputMeta.referralType.Follow"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.referralType.Ignore")
-  };
+  public static final String[] referralTypeDesc =
+      {BaseMessages.getString(PKG, "LdapOutputMeta.referralType.Follow"), BaseMessages.getString(PKG, "LdapOutputMeta.referralType.Ignore")};
 
   /** The referrals type codes */
   static final String[] referralTypeCode = {"follow", "ignore"};
@@ -134,12 +130,12 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
   private int derefAliasesType;
 
   /** The derefAliasess description */
-  static final String[] derefAliasesTypeDesc = {
-    BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Always"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Never"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Searching"),
-    BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Finding")
-  };
+  static final String[] derefAliasesTypeDesc =
+      {
+          BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Always"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Never"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Searching"),
+          BaseMessages.getString(PKG, "LdapOutputMeta.derefAliasesType.Finding")};
 
   /** The derefAliasess type codes */
   static final String[] derefAliasesTypeCode = {"always", "never", "searching", "finding"};
@@ -446,8 +442,7 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -548,26 +543,15 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
     retval.append("    ").append(XmlHandler.addTagValue("useauthentication", useAuthentication));
     retval.append("    ").append(XmlHandler.addTagValue("host", host));
     retval.append("    ").append(XmlHandler.addTagValue("username", userName));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    retval.append("    ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
     retval.append("    ").append(XmlHandler.addTagValue("port", port));
     retval.append("    ").append(XmlHandler.addTagValue("dnFieldName", dnFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("failIfNotExist", failIfNotExist));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("operationType", getOperationTypeCode(operationType)));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("multivaluedseparator", multiValuedSeparator));
+    retval.append("    ").append(XmlHandler.addTagValue("operationType", getOperationTypeCode(operationType)));
+    retval.append("    ").append(XmlHandler.addTagValue("multivaluedseparator", multiValuedSeparator));
     retval.append("    ").append(XmlHandler.addTagValue("searchBase", searchBase));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("referralType", getReferralTypeCode(referralType)));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("derefAliasesType", getDerefAliasesCode(derefAliasesType)));
+    retval.append("    ").append(XmlHandler.addTagValue("referralType", getReferralTypeCode(referralType)));
+    retval.append("    ").append(XmlHandler.addTagValue("derefAliasesType", getDerefAliasesCode(derefAliasesType)));
 
     retval.append("    ").append(XmlHandler.addTagValue("oldDnFieldName", oldDnFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("newDnFieldName", newDnFieldName));
@@ -586,14 +570,8 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
     retval.append("      </fields>" + Const.CR);
     retval.append("    ").append(XmlHandler.addTagValue("protocol", protocol));
     retval.append("    ").append(XmlHandler.addTagValue("trustStorePath", trustStorePath));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("trustAllCertificates", trustAllCertificates));
+    retval.append("    ").append(XmlHandler.addTagValue("trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
+    retval.append("    ").append(XmlHandler.addTagValue("trustAllCertificates", trustAllCertificates));
     retval.append("    ").append(XmlHandler.addTagValue("useCertificate", useCertificate));
 
     return retval.toString();
@@ -602,29 +580,19 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
   private void readData(Node transformNode) throws HopXmlException {
     try {
 
-      useAuthentication =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useauthentication"));
+      useAuthentication = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useauthentication"));
       host = XmlHandler.getTagValue(transformNode, "host");
       userName = XmlHandler.getTagValue(transformNode, "username");
-      setPassword(
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "password")));
+      setPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password")));
 
       port = XmlHandler.getTagValue(transformNode, "port");
       dnFieldName = XmlHandler.getTagValue(transformNode, "dnFieldName");
-      failIfNotExist =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "failIfNotExist"));
-      operationType =
-          getOperationTypeByCode(
-              Const.NVL(XmlHandler.getTagValue(transformNode, "operationType"), ""));
+      failIfNotExist = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "failIfNotExist"));
+      operationType = getOperationTypeByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "operationType"), ""));
       multiValuedSeparator = XmlHandler.getTagValue(transformNode, "multivaluedseparator");
       searchBase = XmlHandler.getTagValue(transformNode, "searchBase");
-      referralType =
-          getReferralTypeByCode(
-              Const.NVL(XmlHandler.getTagValue(transformNode, "referralType"), ""));
-      derefAliasesType =
-          getDerefAliasesTypeByCode(
-              Const.NVL(XmlHandler.getTagValue(transformNode, "derefAliasesType"), ""));
+      referralType = getReferralTypeByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "referralType"), ""));
+      derefAliasesType = getDerefAliasesTypeByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "derefAliasesType"), ""));
 
       oldDnFieldName = XmlHandler.getTagValue(transformNode, "oldDnFieldName");
       newDnFieldName = XmlHandler.getTagValue(transformNode, "newDnFieldName");
@@ -658,17 +626,12 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
 
       protocol = XmlHandler.getTagValue(transformNode, "protocol");
       trustStorePath = XmlHandler.getTagValue(transformNode, "trustStorePath");
-      trustStorePassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "trustStorePassword"));
-      trustAllCertificates =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "trustAllCertificates"));
-      useCertificate =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useCertificate"));
+      trustStorePassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "trustStorePassword"));
+      trustAllCertificates = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "trustAllCertificates"));
+      useCertificate = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useCertificate"));
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "LdapOutputMeta.UnableToLoadFromXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "LdapOutputMeta.UnableToLoadFromXML"), e);
     }
   }
 
@@ -721,49 +684,25 @@ public class LdapOutputMeta extends BaseTransformMeta<LdapOutput, LdapOutputData
 
     // See if we get input...
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
 
     // Check hostname
     if (Utils.isEmpty(host)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.HostnameMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.HostnameMissing"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.HostnameOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapOutputMeta.CheckResult.HostnameOk"), transformMeta);
     }
     remarks.add(cr);
 
     // check return fields
     if (updateLookup.length == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapOutputUpdateMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapOutputUpdateMeta.CheckResult.NoFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapOutputUpdateMeta.CheckResult.FieldsOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapOutputUpdateMeta.CheckResult.FieldsOk"), transformMeta);
     }
   }
 

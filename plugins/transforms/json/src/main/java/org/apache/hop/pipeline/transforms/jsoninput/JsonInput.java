@@ -56,13 +56,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
 
   private static final byte[] EMPTY_JSON = "{}".getBytes(); // for replacing null inputs
 
-  public JsonInput(
-      TransformMeta transformMeta,
-      JsonInputMeta meta,
-      JsonInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public JsonInput(TransformMeta transformMeta, JsonInputMeta meta, JsonInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -106,9 +100,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG, "JsonInput.Log.ReadRow", data.outputRowMeta.getString(outRow)));
+        logRowlevel(BaseMessages.getString(PKG, "JsonInput.Log.ReadRow", data.outputRowMeta.getString(outRow)));
       }
       incrementLinesInput();
       data.rownr++;
@@ -145,8 +137,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
   }
 
   @Override
-  protected void prepareToRowProcessing()
-      throws HopException, HopTransformException, HopValueException {
+  protected void prepareToRowProcessing() throws HopException, HopTransformException, HopValueException {
     if (!meta.isInFields()) {
       data.outputRowMeta = new RowMeta();
       if (!meta.isDoNotFailIfNoFile() && (data.files == null || data.files.nrOfFiles() == 0)) {
@@ -174,11 +165,8 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
       if (data.indexSourceField < 0) {
         data.indexSourceField = getInputRowMeta().indexOfValue(meta.getFieldValue());
         if (data.indexSourceField < 0) {
-          logError(
-              BaseMessages.getString(PKG, "JsonInput.Log.ErrorFindingField", meta.getFieldValue()));
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "JsonInput.Exception.CouldnotFindField", meta.getFieldValue()));
+          logError(BaseMessages.getString(PKG, "JsonInput.Log.ErrorFindingField", meta.getFieldValue()));
+          throw new HopException(BaseMessages.getString(PKG, "JsonInput.Exception.CouldnotFindField", meta.getFieldValue()));
         }
       }
 
@@ -205,9 +193,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
   private void addFileToResultFilesname(FileObject file) {
     if (meta.addResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "JsonInput.Log.FileAddedResult"));
       addResultFile(resultFile);
     }
@@ -220,8 +206,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
       inputError(errMsg);
       return false;
     } else if (!file.exists()) {
-      String errMsg =
-          BaseMessages.getString(PKG, "JsonInput.Log.IsNotAFile", file.getName().getFriendlyURI());
+      String errMsg = BaseMessages.getString(PKG, "JsonInput.Log.IsNotAFile", file.getName().getFriendlyURI());
       logError(errMsg);
       inputError(errMsg);
       return false;
@@ -243,8 +228,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
   }
 
   @Override
-  protected void fillFileAdditionalFields(JsonInputData data, FileObject file)
-      throws FileSystemException {
+  protected void fillFileAdditionalFields(JsonInputData data, FileObject file) throws FileSystemException {
     super.fillFileAdditionalFields(data, file);
     data.filename = HopVfs.getFilename(file);
     data.filenr++;
@@ -275,10 +259,8 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
 
   private void logInputError(Exception e) {
     String errMsg =
-        (!meta.isInFields() || meta.getIsAFile())
-            ? BaseMessages.getString(PKG, "JsonReader.Error.ParsingFile", data.filename)
-            : BaseMessages.getString(
-                PKG, "JsonReader.Error.ParsingString", data.readrow[data.indexSourceField]);
+        (!meta.isInFields() || meta.getIsAFile()) ? BaseMessages.getString(PKG, "JsonReader.Error.ParsingFile", data.filename)
+            : BaseMessages.getString(PKG, "JsonReader.Error.ParsingString", data.readrow[data.indexSourceField]);
     logError(errMsg, e);
     inputError(errMsg);
   }
@@ -305,13 +287,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
 
     @Override
     public void fileOpenError(FileObject file, FileSystemException e) {
-      String msg =
-          BaseMessages.getString(
-              PKG,
-              "JsonInput.Log.UnableToOpenFile",
-              "" + data.filenr,
-              file.toString(),
-              e.toString());
+      String msg = BaseMessages.getString(PKG, "JsonInput.Log.UnableToOpenFile", "" + data.filenr, file.toString(), e.toString());
       logError(msg);
       inputError(msg);
     }
@@ -359,8 +335,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
       // same error as before
       String defaultErrCode = "JsonInput001";
       if (data.readrow != null) {
-        putError(
-            getInputRowMeta(), data.readrow, 1, errorMsg, meta.getFieldValue(), defaultErrCode);
+        putError(getInputRowMeta(), data.readrow, 1, errorMsg, meta.getFieldValue(), defaultErrCode);
       } else {
         // when no input only error fields are recognized
         putError(new RowMeta(), new Object[0], 1, errorMsg, null, defaultErrCode);
@@ -430,8 +405,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
       outputRowData[rowIndex++] = Boolean.valueOf(data.path);
     }
     // Add modification date
-    if (meta.getLastModificationDateField() != null
-        && meta.getLastModificationDateField().length() > 0) {
+    if (meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0) {
       outputRowData[rowIndex++] = data.lastModificationDateTime;
     }
     // Add Uri
@@ -476,8 +450,7 @@ public class JsonInput extends BaseFileInputTransform<JsonInputMeta, JsonInputDa
    * @throws NotImplementedException everytime
    */
   @Override
-  protected IBaseFileInputReader createReader(
-      JsonInputMeta meta, JsonInputData data, FileObject file) throws Exception {
+  protected IBaseFileInputReader createReader(JsonInputMeta meta, JsonInputData data, FileObject file) throws Exception {
     throw new NotImplementedException();
   }
 }

@@ -33,10 +33,9 @@ public class LoggingBufferTest {
 
     final AtomicBoolean done = new AtomicBoolean(false);
 
-    final IHopLoggingEventListener lsnr =
-        event -> {
-          // stub
-        };
+    final IHopLoggingEventListener lsnr = event -> {
+      // stub
+    };
 
     final HopLoggingEvent event = new HopLoggingEvent();
 
@@ -44,32 +43,26 @@ public class LoggingBufferTest {
 
     Thread.UncaughtExceptionHandler errorHandler = (t, e) -> e.printStackTrace();
 
-    Thread addListeners =
-        new Thread(
-            () -> {
-              try {
-                while (!done.get()) {
-                  buf.addLoggingEventListener(lsnr);
-                }
-              } finally {
-                latch.countDown();
-              }
-            },
-            "Add Listeners Thread") {};
+    Thread addListeners = new Thread(() -> {
+      try {
+        while (!done.get()) {
+          buf.addLoggingEventListener(lsnr);
+        }
+      } finally {
+        latch.countDown();
+      }
+    }, "Add Listeners Thread") {};
 
-    Thread addEvents =
-        new Thread(
-            () -> {
-              try {
-                for (int i = 0; i < eventCount; i++) {
-                  buf.addLogggingEvent(event);
-                }
-                done.set(true);
-              } finally {
-                latch.countDown();
-              }
-            },
-            "Add Events Thread") {};
+    Thread addEvents = new Thread(() -> {
+      try {
+        for (int i = 0; i < eventCount; i++) {
+          buf.addLogggingEvent(event);
+        }
+        done.set(true);
+      } finally {
+        latch.countDown();
+      }
+    }, "Add Events Thread") {};
 
     // add error handlers to pass exceptions outside the thread
     addListeners.setUncaughtExceptionHandler(errorHandler);
@@ -118,8 +111,7 @@ public class LoggingBufferTest {
     }
     for (int i = 17; i < 20; i++) {
       HopLoggingEvent event = new HopLoggingEvent();
-      event.setMessage(
-          new LogMessage("testWithOtherLogChannelId", otherLogChannelId, LogLevel.BASIC));
+      event.setMessage(new LogMessage("testWithOtherLogChannelId", otherLogChannelId, LogLevel.BASIC));
       event.setTimeStamp(i);
       loggingBuffer.addLogggingEvent(event);
     }

@@ -23,9 +23,7 @@ import org.junit.Test;
 public class ExecProcessMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    ExecProcessMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/execute-process-transform.xml", ExecProcessMeta.class);
+    ExecProcessMeta meta = TransformSerializationTestUtil.testSerialization("/execute-process-transform.xml", ExecProcessMeta.class);
 
     Assert.assertEquals("script", meta.getProcessField());
     Assert.assertEquals("output", meta.getResultFieldName());

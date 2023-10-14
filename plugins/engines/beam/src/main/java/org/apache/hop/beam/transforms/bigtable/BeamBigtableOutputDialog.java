@@ -54,8 +54,7 @@ public class BeamBigtableOutputDialog extends BaseTransformDialog implements ITr
   private ComboVar wKeyField;
   private TableView wColumns;
 
-  public BeamBigtableOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamBigtableOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamBigtableOutputMeta) in;
   }
@@ -199,26 +198,11 @@ public class BeamBigtableOutputDialog extends BaseTransformDialog implements ITr
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.Family"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.SourceField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              sourceFields,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.Family"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableOutputDialog.Column.SourceField"), ColumnInfo.COLUMN_TYPE_CCOMBO, sourceFields, false)};
 
-    wColumns =
-        new TableView(
-            variables, shell, SWT.BORDER, columns, input.getColumns().size(), null, props);
+    wColumns = new TableView(variables, shell, SWT.BORDER, columns, input.getColumns().size(), null, props);
     FormData fdColumns = new FormData();
     fdColumns.left = new FormAttachment(0, 0);
     fdColumns.top = new FormAttachment(lastControl, margin);
@@ -236,8 +220,7 @@ public class BeamBigtableOutputDialog extends BaseTransformDialog implements ITr
   private void getFields() {
     try {
       IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformName);
-      BaseTransformDialog.getFieldsFromPrevious(
-          rowMeta, wColumns, 1, new int[] {1, 3}, new int[] {}, -1, -1, null);
+      BaseTransformDialog.getFieldsFromPrevious(rowMeta, wColumns, 1, new int[] {1, 3}, new int[] {}, -1, -1, null);
     } catch (Exception e) {
       new ErrorDialog(shell, "Error", "Error getting fields...", e);
     }

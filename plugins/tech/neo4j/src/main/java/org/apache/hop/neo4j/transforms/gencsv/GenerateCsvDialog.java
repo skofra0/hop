@@ -58,12 +58,7 @@ public class GenerateCsvDialog extends BaseTransformDialog implements ITransform
 
   private GenerateCsvMeta input;
 
-  public GenerateCsvDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public GenerateCsvDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, pipelineMeta, transformName);
     input = (GenerateCsvMeta) inputMetadata;
   }
@@ -83,8 +78,7 @@ public class GenerateCsvDialog extends BaseTransformDialog implements ITransform
     ModifyListener lsMod = e -> input.setChanged();
     changed = input.hasChanged();
 
-    ScrolledComposite wScrolledComposite =
-        new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite wScrolledComposite = new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
     FormLayout scFormLayout = new FormLayout();
     wScrolledComposite.setLayout(scFormLayout);
     FormData fdSComposite = new FormData();
@@ -294,8 +288,7 @@ public class GenerateCsvDialog extends BaseTransformDialog implements ITransform
     wGraphField.setText(Const.NVL(input.getGraphFieldName(), ""));
     wBaseFolder.setText(Const.NVL(input.getBaseFolder(), ""));
     if (input.getUniquenessStrategy() != null) {
-      int idx =
-          Const.indexOfString(input.getUniquenessStrategy().name(), UniquenessStrategy.getNames());
+      int idx = Const.indexOfString(input.getUniquenessStrategy().name(), UniquenessStrategy.getNames());
       wStrategy.select(idx);
     }
     wFilesPrefix.setText(Const.NVL(input.getFilesPrefix(), ""));

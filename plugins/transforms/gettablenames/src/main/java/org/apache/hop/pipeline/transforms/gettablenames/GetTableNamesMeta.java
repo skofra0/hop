@@ -37,9 +37,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.util.List;
 
-@InjectionSupported(
-    localizationPrefix = "GetTableNames.Injection.",
-    groups = {"FIELDS", "SETTINGS", "OUTPUT"})
+@InjectionSupported(localizationPrefix = "GetTableNames.Injection.", groups = {"FIELDS", "SETTINGS", "OUTPUT"})
 @Transform(
     id = "GetTableNames",
     image = "gettablenames.svg",
@@ -52,96 +50,50 @@ public class GetTableNamesMeta extends BaseTransformMeta<GetTableNames, GetTable
   private static final Class<?> PKG = GetTableNamesMeta.class; // For Translator
 
   /** database connection */
-  @HopMetadataProperty(
-      storeWithName = true,
-      key = "connection",
-      injectionKey = "CONNECTIONNAME",
-      injectionKeyDescription = "GetTableNames.Injection.CONNECTION_NAME")
+  @HopMetadataProperty(storeWithName = true, key = "connection", injectionKey = "CONNECTIONNAME", injectionKeyDescription = "GetTableNames.Injection.CONNECTION_NAME")
   private DatabaseMeta database;
 
-  @HopMetadataProperty(
-      key = "schemaname",
-      injectionKey = "SCHEMANAME",
-      injectionKeyDescription = "GetTableNames.Injection.SCHEMA_NAME")
+  @HopMetadataProperty(key = "schemaname", injectionKey = "SCHEMANAME", injectionKeyDescription = "GetTableNames.Injection.SCHEMA_NAME")
   private String schemaName;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "tablenamefieldname",
-      injectionKey = "TABLENAMEFIELDNAME",
-      injectionKeyDescription = "GetTableNames.Injection.TABLE_NAME_FIELD_NAME")
+  @HopMetadataProperty(key = "tablenamefieldname", injectionKey = "TABLENAMEFIELDNAME", injectionKeyDescription = "GetTableNames.Injection.TABLE_NAME_FIELD_NAME")
   private String tableNameFieldName;
 
-  @HopMetadataProperty(
-      key = "sqlcreationfieldname",
-      injectionKey = "SQLCREATIONFIELDNAME",
-      injectionKeyDescription = "GetTableNames.Injection.SQL_CREATION_FIELD_NAME")
+  @HopMetadataProperty(key = "sqlcreationfieldname", injectionKey = "SQLCREATIONFIELDNAME", injectionKeyDescription = "GetTableNames.Injection.SQL_CREATION_FIELD_NAME")
   private String sqlCreationFieldName;
 
-  @HopMetadataProperty(
-      key = "objecttypefieldname",
-      injectionKey = "OBJECTTYPEFIELDNAME",
-      injectionKeyDescription = "GetTableNames.Injection.OBJECT_TYPE_FIELD_NAME")
+  @HopMetadataProperty(key = "objecttypefieldname", injectionKey = "OBJECTTYPEFIELDNAME", injectionKeyDescription = "GetTableNames.Injection.OBJECT_TYPE_FIELD_NAME")
   private String objectTypeFieldName;
 
-  @HopMetadataProperty(
-      key = "issystemobjectfieldname",
-      injectionKey = "ISSYSTEMOBJECTFIELDNAME",
-      injectionKeyDescription = "GetTableNames.Injection.IS_SYSTEM_OBJECT_FIELD_NAME")
+  @HopMetadataProperty(key = "issystemobjectfieldname", injectionKey = "ISSYSTEMOBJECTFIELDNAME", injectionKeyDescription = "GetTableNames.Injection.IS_SYSTEM_OBJECT_FIELD_NAME")
   private String isSystemObjectFieldName;
 
-  @HopMetadataProperty(
-      key = "includeCatalog",
-      injectionKey = "INCLUDECATALOG",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_CATALOG")
+  @HopMetadataProperty(key = "includeCatalog", injectionKey = "INCLUDECATALOG", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_CATALOG")
   private boolean includeCatalog;
 
-  @HopMetadataProperty(
-      key = "includeSchema",
-      injectionKey = "INCLUDESCHEMA",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_SCHEMA")
+  @HopMetadataProperty(key = "includeSchema", injectionKey = "INCLUDESCHEMA", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_SCHEMA")
   private boolean includeSchema;
 
-  @HopMetadataProperty(
-      key = "includeTable",
-      injectionKey = "INCLUDETABLE",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_TABLE")
+  @HopMetadataProperty(key = "includeTable", injectionKey = "INCLUDETABLE", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_TABLE")
   private boolean includeTable;
 
-  @HopMetadataProperty(
-      key = "includeView",
-      injectionKey = "INCLUDEVIEW",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_VIEW")
+  @HopMetadataProperty(key = "includeView", injectionKey = "INCLUDEVIEW", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_VIEW")
   private boolean includeView;
 
-  @HopMetadataProperty(
-      key = "includeProcedure",
-      injectionKey = "INCLUDEPROCEDURE",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_PROCEDURE")
+  @HopMetadataProperty(key = "includeProcedure", injectionKey = "INCLUDEPROCEDURE", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_PROCEDURE")
   private boolean includeProcedure;
 
-  @HopMetadataProperty(
-      key = "includeSynonym",
-      injectionKey = "INCLUDESYNONYM",
-      injectionKeyDescription = "GetTableNames.Injection.INCLUDE_SYNONYM")
+  @HopMetadataProperty(key = "includeSynonym", injectionKey = "INCLUDESYNONYM", injectionKeyDescription = "GetTableNames.Injection.INCLUDE_SYNONYM")
   private boolean includeSynonym;
 
-  @HopMetadataProperty(
-      key = "addSchemaInOutput",
-      injectionKey = "ADDSCHEMAINOUTPUT",
-      injectionKeyDescription = "GetTableNames.Injection.ADD_SCHEMA_IN_OUTPUT")
+  @HopMetadataProperty(key = "addSchemaInOutput", injectionKey = "ADDSCHEMAINOUTPUT", injectionKeyDescription = "GetTableNames.Injection.ADD_SCHEMA_IN_OUTPUT")
   private boolean addSchemaInOutput;
 
-  @HopMetadataProperty(
-      key = "dynamicSchema",
-      injectionKey = "DYNAMICSCHEMA",
-      injectionKeyDescription = "GetTableNames.Injection.DYNAMIC_SCHEMA")
+  @HopMetadataProperty(key = "dynamicSchema", injectionKey = "DYNAMICSCHEMA", injectionKeyDescription = "GetTableNames.Injection.DYNAMIC_SCHEMA")
   private boolean dynamicSchema;
 
-  @HopMetadataProperty(
-      key = "schemaNameField",
-      injectionKey = "SCHEMANAMEFIELD",
-      injectionKeyDescription = "GetTableNames.Injection.SCHEMA_NAME_FIELD")
+  @HopMetadataProperty(key = "schemaNameField", injectionKey = "SCHEMANAMEFIELD", injectionKeyDescription = "GetTableNames.Injection.SCHEMA_NAME_FIELD")
   private String schemaNameField;
 
   public GetTableNamesMeta() {
@@ -192,13 +144,7 @@ public class GetTableNamesMeta extends BaseTransformMeta<GetTableNames, GetTable
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     String realTableName = variables.resolve(tableNameFieldName);
     if (StringUtils.isNotEmpty(realTableName)) {
       IValueMeta v = new ValueMetaString(realTableName);
@@ -253,31 +199,20 @@ public class GetTableNamesMeta extends BaseTransformMeta<GetTableNames, GetTable
       remarks.add(cr);
     }
     if (Utils.isEmpty(tableNameFieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.TableNameFieldNameMissing");
+      errorMessage = BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.TableNameFieldNameMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.TableNameFieldNameOK");
+      errorMessage = BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.TableNameFieldNameOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0 && !isDynamicSchema()) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.NoInputReceived"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "GetTableNamesMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetTableNamesMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
     }
     remarks.add(cr);
   }

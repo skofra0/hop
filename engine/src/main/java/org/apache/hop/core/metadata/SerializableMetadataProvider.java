@@ -37,8 +37,7 @@ import java.io.ByteArrayInputStream;
  * words, JSON is read into memory as a MetaStore and then you can ask to serialize that information
  * to and from JSON.
  */
-public class SerializableMetadataProvider extends MemoryMetadataProvider
-    implements IHopMetadataProvider {
+public class SerializableMetadataProvider extends MemoryMetadataProvider implements IHopMetadataProvider {
   public SerializableMetadataProvider() {
     super();
   }
@@ -49,7 +48,7 @@ public class SerializableMetadataProvider extends MemoryMetadataProvider
    * @param source the source store to copy over
    */
   public SerializableMetadataProvider(IHopMetadataProvider source) throws HopException {
-    this.description = "Serializable metadata provider (source is "+source.getDescription()+")";
+    this.description = "Serializable metadata provider (source is " + source.getDescription() + ")";
 
     // What is the list of available classes?
     //
@@ -75,11 +74,7 @@ public class SerializableMetadataProvider extends MemoryMetadataProvider
       IHopMetadataSerializer<IHopMetadata> serializer = getSerializer(metadataClass);
       HopMetadata hopMetadata = metadataClass.getAnnotation(HopMetadata.class);
       if (hopMetadata == null) {
-        throw new HopException(
-            "Error: class "
-                + metadataClass
-                + " is not annotated with "
-                + HopMetadata.class.getName());
+        throw new HopException("Error: class " + metadataClass + " is not annotated with " + HopMetadata.class.getName());
       }
       String classKey = hopMetadata.key();
 
@@ -122,8 +117,7 @@ public class SerializableMetadataProvider extends MemoryMetadataProvider
           String classKey = jsonParser.getText();
           Class<IHopMetadata> managedClass = getMetadataClassForKey(classKey);
 
-          JsonMetadataParser<IHopMetadata> metadataParser =
-              new JsonMetadataParser<>(managedClass, this);
+          JsonMetadataParser<IHopMetadata> metadataParser = new JsonMetadataParser<>(managedClass, this);
 
           IHopMetadataSerializer<IHopMetadata> serializer = getSerializer(managedClass);
 

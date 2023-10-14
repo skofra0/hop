@@ -55,7 +55,8 @@ public class ReflectionUtil {
    * Find all fields from the given class as well as the fields from all the parent classes. It will
    * recurse all the way to the top class from which the given class inherits from.
    *
-   * <p>This means that it's possible to inherit from other classes during serialization.
+   * <p>
+   * This means that it's possible to inherit from other classes during serialization.
    *
    * @param clazz
    * @return A set of fields.
@@ -93,10 +94,12 @@ public class ReflectionUtil {
    * Find all fields from the given class as well as the fields from all the parent classes. It will
    * recurse all the way to the top class from which the given class inherits from.
    *
-   * <p>This means that it's possible to inherit from other classes during serialization.
+   * <p>
+   * This means that it's possible to inherit from other classes during serialization.
    *
    * @param clazz The class to investigate.
-   * @param sortFunction the function to extract the key to sort on.  If the function returns null the field is not included.
+   * @param sortFunction the function to extract the key to sort on. If the function returns null the
+   *        field is not included.
    * @param
    * @return A sorted list of fields.
    */
@@ -107,7 +110,7 @@ public class ReflectionUtil {
     //
     for (Field classField : clazz.getDeclaredFields()) {
       String keyField = sortFunction.apply(classField);
-      if (keyField!=null) {
+      if (keyField != null) {
         fieldsSet.add(classField);
       }
     }
@@ -117,7 +120,7 @@ public class ReflectionUtil {
     while (superClass != null) {
       for (Field superClassField : superClass.getDeclaredFields()) {
         String keyField = sortFunction.apply(superClassField);
-        if (keyField!=null) {
+        if (keyField != null) {
           fieldsSet.add(superClassField);
         }
       }
@@ -135,41 +138,25 @@ public class ReflectionUtil {
     return fields;
   }
 
-  public static final Object getFieldValue(Object object, String fieldName, boolean isBoolean)
-      throws HopException {
+  public static final Object getFieldValue(Object object, String fieldName, boolean isBoolean) throws HopException {
     Class<?> objectClass = object.getClass();
     String getterMethodName = ReflectionUtil.getGetterMethodName(fieldName, isBoolean);
     try {
       Method getterMethod = objectClass.getMethod(getterMethodName);
       return getterMethod.invoke(object);
     } catch (Exception e) {
-      throw new HopException(
-          "Error getting value for field '"
-              + fieldName
-              + "' using method '"
-              + getterMethodName
-              + "' in class '"
-              + objectClass.getName(),
-          e);
+      throw new HopException("Error getting value for field '" + fieldName + "' using method '" + getterMethodName + "' in class '" + objectClass.getName(), e);
     }
   }
 
-  public static final void setFieldValue(
-      Object object, String fieldName, Class<?> fieldType, Object fieldValue) throws HopException {
+  public static final void setFieldValue(Object object, String fieldName, Class<?> fieldType, Object fieldValue) throws HopException {
     Class<?> objectClass = object.getClass();
     String setterMethodName = ReflectionUtil.getSetterMethodName(fieldName);
     try {
       Method setterMethod = objectClass.getMethod(setterMethodName, fieldType);
       setterMethod.invoke(object, fieldValue);
     } catch (Exception e) {
-      throw new HopException(
-          "Error setting value on field '"
-              + fieldName
-              + "' using method '"
-              + setterMethodName
-              + "' in class '"
-              + objectClass.getName(),
-          e);
+      throw new HopException("Error setting value on field '" + fieldName + "' using method '" + setterMethodName + "' in class '" + objectClass.getName(), e);
     }
   }
 
@@ -177,8 +164,7 @@ public class ReflectionUtil {
     try {
       return (String) ReflectionUtil.getFieldValue(object, "name", false);
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to get the name of Hop metadata class '" + object.getClass().getName() + "'", e);
+      throw new HopException("Unable to get the name of Hop metadata class '" + object.getClass().getName() + "'", e);
     }
   }
 }

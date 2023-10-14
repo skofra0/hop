@@ -97,7 +97,10 @@ public class DorisBulkLoaderTest {
     Assert.assertTrue(data.dorisStreamLoad != null, "data.dorisStreamLoad initialization failure");
 
     data.dorisStreamLoad = mock(DorisStreamLoad.class);
-    when(data.dorisStreamLoad.canWrite(anyLong())).thenAnswer(x -> {canWrite = !canWrite; return canWrite;});
+    when(data.dorisStreamLoad.canWrite(anyLong())).thenAnswer(x -> {
+      canWrite = !canWrite;
+      return canWrite;
+    });
 
     dorisBulkLoader.processStreamLoad("{\"no\":2, \"name\":\"jack\", \"sex\":\"m\"}", false);
 

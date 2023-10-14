@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class WorkflowActionPingTest extends WorkflowActionLoadSaveTestSupport<ActionPing> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionPing> getActionClass() {
@@ -39,17 +40,11 @@ public class WorkflowActionPingTest extends WorkflowActionLoadSaveTestSupport<Ac
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "hostname", "getHostname",
-        "nbrPackets", "getNbrPackets",
-        "timeout", "getTimeOut");
+    return toMap("hostname", "getHostname", "nbrPackets", "getNbrPackets", "timeout", "getTimeOut");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "hostname", "setHostname",
-        "nbrPackets", "setNbrPackets",
-        "timeout", "setTimeOut");
+    return toMap("hostname", "setHostname", "nbrPackets", "setNbrPackets", "timeout", "setTimeOut");
   }
 }

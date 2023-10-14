@@ -81,8 +81,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
 
   private Button wRollbackAllChangesOnError;
 
-  public SalesforceDeleteDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SalesforceDeleteDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, in, pipelineMeta, sname);
     input = (SalesforceDeleteMeta) in;
   }
@@ -153,8 +152,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
 
     Group wConnectionGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wConnectionGroup);
-    wConnectionGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.ConnectionGroup.Label"));
+    wConnectionGroup.setText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.ConnectionGroup.Label"));
 
     FormLayout connectionGroupLayout = new FormLayout();
     connectionGroupLayout.marginWidth = 10;
@@ -212,8 +210,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
     wTest.setText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.TestConnection.Label"));
     PropsUi.setLook(wTest);
     FormData fdTest = new FormData();
-    wTest.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.TestConnection.Tooltip"));
+    wTest.setToolTipText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.TestConnection.Tooltip"));
     fdTest.top = new FormAttachment(wPassword, margin);
     fdTest.right = new FormAttachment(100, 0);
     wTest.setLayoutData(fdTest);
@@ -234,8 +231,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
 
     Group wSettingsGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wSettingsGroup);
-    wSettingsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.SettingsGroup.Label"));
+    wSettingsGroup.setText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.SettingsGroup.Label"));
 
     FormLayout settingGroupLayout = new FormLayout();
     settingGroupLayout.marginWidth = 10;
@@ -262,8 +258,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
 
     // Use compression?
     Label wlUseCompression = new Label(wSettingsGroup, SWT.RIGHT);
-    wlUseCompression.setText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.UseCompression.Label"));
+    wlUseCompression.setText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.UseCompression.Label"));
     PropsUi.setLook(wlUseCompression);
     FormData fdlUseCompression = new FormData();
     fdlUseCompression.left = new FormAttachment(0, 0);
@@ -272,8 +267,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
     wlUseCompression.setLayoutData(fdlUseCompression);
     wUseCompression = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wUseCompression);
-    wUseCompression.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.UseCompression.Tooltip"));
+    wUseCompression.setToolTipText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.UseCompression.Tooltip"));
     FormData fdUseCompression = new FormData();
     fdUseCompression.left = new FormAttachment(middle, 0);
     fdUseCompression.top = new FormAttachment(wlUseCompression, 0, SWT.CENTER);
@@ -282,8 +276,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
 
     // Rollback all changes on error?
     Label wlRollbackAllChangesOnError = new Label(wSettingsGroup, SWT.RIGHT);
-    wlRollbackAllChangesOnError.setText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.RollbackAllChangesOnError.Label"));
+    wlRollbackAllChangesOnError.setText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.RollbackAllChangesOnError.Label"));
     PropsUi.setLook(wlRollbackAllChangesOnError);
     FormData fdlRollbackAllChangesOnError = new FormData();
     fdlRollbackAllChangesOnError.left = new FormAttachment(0, 0);
@@ -292,12 +285,10 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
     wlRollbackAllChangesOnError.setLayoutData(fdlRollbackAllChangesOnError);
     wRollbackAllChangesOnError = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wRollbackAllChangesOnError);
-    wRollbackAllChangesOnError.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceDeleteDialog.RollbackAllChangesOnError.Tooltip"));
+    wRollbackAllChangesOnError.setToolTipText(BaseMessages.getString(PKG, "SalesforceDeleteDialog.RollbackAllChangesOnError.Tooltip"));
     FormData fdRollbackAllChangesOnError = new FormData();
     fdRollbackAllChangesOnError.left = new FormAttachment(middle, 0);
-    fdRollbackAllChangesOnError.top =
-        new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
+    fdRollbackAllChangesOnError.top = new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
     wRollbackAllChangesOnError.setLayoutData(fdRollbackAllChangesOnError);
     wRollbackAllChangesOnError.addSelectionListener(new ComponentSelectionListener(input));
 
@@ -337,30 +328,26 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
     fdModule.top = new FormAttachment(wBatchSize, margin);
     fdModule.right = new FormAttachment(100, -margin);
     wModule.setLayoutData(fdModule);
-    wModule.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-            getModulesListError = false;
-          }
+    wModule.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+        getModulesListError = false;
+      }
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            // check if the URL and login credentials passed and not just had error
-            if (Utils.isEmpty(wURL.getText())
-                || Utils.isEmpty(wUserName.getText())
-                || Utils.isEmpty(wPassword.getText())
-                || (getModulesListError)) {
-              return;
-            }
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        // check if the URL and login credentials passed and not just had error
+        if (Utils.isEmpty(wURL.getText()) || Utils.isEmpty(wUserName.getText()) || Utils.isEmpty(wPassword.getText()) || (getModulesListError)) {
+          return;
+        }
 
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getModulesList();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getModulesList();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Salesforce Id Field
     Label wlDeleteField = new Label(wSettingsGroup, SWT.RIGHT);
@@ -380,16 +367,15 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
     fdDeleteField.top = new FormAttachment(wModule, margin);
     fdDeleteField.right = new FormAttachment(100, -margin);
     wDeleteField.setLayoutData(fdDeleteField);
-    wDeleteField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wDeleteField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            getPreviousFields();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        getPreviousFields();
+      }
+    });
 
     FormData fdSettingsGroup = new FormData();
     fdSettingsGroup.left = new FormAttachment(0, margin);
@@ -538,12 +524,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
         wModule.removeAll();
 
         // Define a new Salesforce connection
-        connection =
-            new SalesforceConnection(
-                log,
-                url,
-                variables.resolve(meta.getUsername()),
-                Utils.resolvePassword(variables, meta.getPassword()));
+        connection = new SalesforceConnection(log, url, variables.resolve(meta.getUsername()), Utils.resolvePassword(variables, meta.getPassword()));
         int realTimeOut = Const.toInt(variables.resolve(meta.getTimeout()), 0);
         connection.setTimeOut(realTimeOut);
         // connect to Salesforce
@@ -562,8 +543,7 @@ public class SalesforceDeleteDialog extends SalesforceTransformDialog {
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "SalesforceDeleteDialog.ErrorRetrieveModules.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "SalesforceDeleteDialog.ErrorRetrieveData.ErrorRetrieveModules"),
+            BaseMessages.getString(PKG, "SalesforceDeleteDialog.ErrorRetrieveData.ErrorRetrieveModules"),
             e);
         getModulesListError = true;
       } finally {

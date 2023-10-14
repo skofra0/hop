@@ -66,18 +66,13 @@ import java.util.List;
 public class AvroOutputDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = AvroOutputMeta.class; // For Translator
 
-  private static final String[] YES_NO_COMBO =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  private static final String[] YES_NO_COMBO = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   private static final String[] OUTPUT_TYPE_DESC =
       new String[] {
-        BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.BinaryFile"),
-        BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.BinaryField"),
-        BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.JsonField")
-      };
+          BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.BinaryFile"),
+          BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.BinaryField"),
+          BaseMessages.getString(PKG, "AvroOutputDialog.OutputType.JsonField")};
 
   private CCombo wOutputType;
   private TextVar wFilename;
@@ -114,12 +109,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
   private boolean validSchema = false;
   private String[] avroFieldNames = null;
 
-  public AvroOutputDialog(
-      Shell parent,
-      IVariables variables,
-      Object baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public AvroOutputDialog(Shell parent, IVariables variables, Object baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) baseTransformMeta, pipelineMeta, transformName);
     input = (AvroOutputMeta) baseTransformMeta;
   }
@@ -203,7 +193,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     wOutputType = new CCombo(wFileComp, SWT.BORDER | SWT.READ_ONLY);
     wOutputType.setEditable(false);
     PropsUi.setLook(wOutputType);
-    wOutputType.addListener(SWT.Selection, e->enableFields());
+    wOutputType.addListener(SWT.Selection, e -> enableFields());
     FormData fdOutputType = new FormData();
     fdOutputType.left = new FormAttachment(middle, 0);
     fdOutputType.top = new FormAttachment(0, margin);
@@ -240,23 +230,13 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
     wbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                true,
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.avro", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "AvroOutputDialog.AvroFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            true, shell, wFilename, variables, new String[] {"*.avro", "*"},
+            new String[] {BaseMessages.getString(PKG, "AvroOutputDialog.AvroFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     // Fieldname line
     Label wlOutputField = new Label(wFileComp, SWT.RIGHT);
@@ -279,8 +259,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     // Automatically create schema?
     //
     Label wlCreateSchemaFile = new Label(wFileComp, SWT.RIGHT);
-    wlCreateSchemaFile.setText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.CreateSchemaFile.Label"));
+    wlCreateSchemaFile.setText(BaseMessages.getString(PKG, "AvroOutputDialog.CreateSchemaFile.Label"));
     PropsUi.setLook(wlCreateSchemaFile);
     FormData fdlCreateSchemaFile = new FormData();
     fdlCreateSchemaFile.left = new FormAttachment(0, 0);
@@ -288,21 +267,19 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdlCreateSchemaFile.right = new FormAttachment(middle, -margin);
     wlCreateSchemaFile.setLayoutData(fdlCreateSchemaFile);
     wCreateSchemaFile = new Button(wFileComp, SWT.CHECK);
-    wCreateSchemaFile.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.CreateSchemaFile.Tooltip"));
+    wCreateSchemaFile.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.CreateSchemaFile.Tooltip"));
     PropsUi.setLook(wCreateSchemaFile);
     FormData fdCreateSchemaFile = new FormData();
     fdCreateSchemaFile.left = new FormAttachment(middle, 0);
     fdCreateSchemaFile.top = new FormAttachment(wlCreateSchemaFile, 0, SWT.CENTER);
     fdCreateSchemaFile.right = new FormAttachment(100, 0);
     wCreateSchemaFile.setLayoutData(fdCreateSchemaFile);
-    wCreateSchemaFile.addListener(SWT.Selection, e->enableFields());
+    wCreateSchemaFile.addListener(SWT.Selection, e -> enableFields());
 
     // Write Schema File
     //
     wlWriteSchemaFile = new Label(wFileComp, SWT.RIGHT);
-    wlWriteSchemaFile.setText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.WriteSchemaFile.Label"));
+    wlWriteSchemaFile.setText(BaseMessages.getString(PKG, "AvroOutputDialog.WriteSchemaFile.Label"));
     PropsUi.setLook(wlWriteSchemaFile);
     FormData fdlWriteSchemaFile = new FormData();
     fdlWriteSchemaFile.left = new FormAttachment(0, 0);
@@ -310,22 +287,20 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdlWriteSchemaFile.right = new FormAttachment(middle, -margin);
     wlWriteSchemaFile.setLayoutData(fdlWriteSchemaFile);
     wWriteSchemaFile = new Button(wFileComp, SWT.CHECK);
-    wWriteSchemaFile.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.WriteSchemaFile.Tooltip"));
+    wWriteSchemaFile.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.WriteSchemaFile.Tooltip"));
     PropsUi.setLook(wWriteSchemaFile);
     FormData fdWriteSchemaFile = new FormData();
     fdWriteSchemaFile.left = new FormAttachment(middle, 0);
     fdWriteSchemaFile.top = new FormAttachment(wlWriteSchemaFile, 0, SWT.CENTER);
     fdWriteSchemaFile.right = new FormAttachment(100, 0);
     wWriteSchemaFile.setLayoutData(fdWriteSchemaFile);
-    wWriteSchemaFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        });
+    wWriteSchemaFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    });
 
     // Namespace
     //
@@ -344,13 +319,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdNamespace.top = new FormAttachment(wlNamespace, 0, SWT.CENTER);
     fdNamespace.right = new FormAttachment(100, 0);
     wNamespace.setLayoutData(fdNamespace);
-    wNamespace.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wNamespace.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Record Name
     //
@@ -369,13 +343,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdRecordName.top = new FormAttachment(wNamespace, margin);
     fdRecordName.right = new FormAttachment(100, 0);
     wRecordName.setLayoutData(fdRecordName);
-    wRecordName.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wRecordName.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Doc
     //
@@ -394,13 +367,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdDoc.top = new FormAttachment(wRecordName, margin);
     fdDoc.right = new FormAttachment(100, 0);
     wDoc.setLayoutData(fdDoc);
-    wDoc.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDoc.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Schema Filename line
 
@@ -434,25 +406,18 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
 
     wbSchema.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                true,
-                shell,
-                wSchema,
-                variables,
-                new String[] {"*.avsc", "*.json", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "AvroOutputDialog.AvroFilesSchema"),
-                  BaseMessages.getString(PKG, "AvroOutputDialog.AvroFilesSchemaJson"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            true, shell, wSchema, variables, new String[] {"*.avsc", "*.json", "*"},
+            new String[] {
+                BaseMessages.getString(PKG, "AvroOutputDialog.AvroFilesSchema"),
+                BaseMessages.getString(PKG, "AvroOutputDialog.AvroFilesSchemaJson"),
+                BaseMessages.getString(PKG, "System.FileType.AllFiles")},
+            true));
 
     // Create Parent Folder?
     //
     Label wlCreateParentFolder = new Label(wFileComp, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "AvroOutputDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -460,21 +425,19 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdlCreateParentFolder.right = new FormAttachment(middle, -margin);
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wFileComp, SWT.CHECK);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.CreateParentFolder.Tooltip"));
     PropsUi.setLook(wCreateParentFolder);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
     fdCreateParentFolder.right = new FormAttachment(100, 0);
     wCreateParentFolder.setLayoutData(fdCreateParentFolder);
-    wCreateParentFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wCreateParentFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Compression
     //
@@ -516,13 +479,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdAddTransformNr.top = new FormAttachment(wlAddTransformNr, 0, SWT.CENTER);
     fdAddTransformNr.right = new FormAttachment(100, 0);
     wAddTransformNr.setLayoutData(fdAddTransformNr);
-    wAddTransformNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTransformNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Add part number to filename?
     //
@@ -541,13 +503,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdAddPartNr.top = new FormAttachment(wlAddPartNr, 0, SWT.CENTER);
     fdAddPartNr.right = new FormAttachment(100, 0);
     wAddPartNr.setLayoutData(fdAddPartNr);
-    wAddPartNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddPartNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Add date to filename?
     //
@@ -566,13 +527,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Add time to the filename?
     //
@@ -591,13 +551,12 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Specify a date time format?
     //
@@ -611,14 +570,13 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     wlSpecifyFormat.setLayoutData(fdlSpecifyFormat);
     wSpecifyFormat = new Button(wFileComp, SWT.CHECK);
     PropsUi.setLook(wSpecifyFormat);
-    wSpecifyFormat.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.SpecifyFormat.Tooltip"));
+    wSpecifyFormat.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.SpecifyFormat.Tooltip"));
     FormData fdSpecifyFormat = new FormData();
     fdSpecifyFormat.left = new FormAttachment(middle, 0);
     fdSpecifyFormat.top = new FormAttachment(wlSpecifyFormat, 0, SWT.CENTER);
     fdSpecifyFormat.right = new FormAttachment(100, 0);
     wSpecifyFormat.setLayoutData(fdSpecifyFormat);
-    wSpecifyFormat.addListener(SWT.Selection, e->enableFields());
+    wSpecifyFormat.addListener(SWT.Selection, e -> enableFields());
 
     // The date-time format
     //
@@ -654,21 +612,19 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     fdlAddToResult.right = new FormAttachment(middle, -margin);
     wlAddToResult.setLayoutData(fdlAddToResult);
     wAddToResult = new Button(wFileComp, SWT.CHECK);
-    wAddToResult.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.AddFileToResult.Tooltip"));
+    wAddToResult.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.AddFileToResult.Tooltip"));
     PropsUi.setLook(wAddToResult);
     FormData fdAddToResult = new FormData();
     fdAddToResult.left = new FormAttachment(middle, 0);
     fdAddToResult.top = new FormAttachment(wlAddToResult, 0, SWT.CENTER);
     fdAddToResult.right = new FormAttachment(100, 0);
     wAddToResult.setLayoutData(fdAddToResult);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddToResult.addSelectionListener(lsSelR);
 
     FormData fdFileComp = new FormData();
@@ -710,8 +666,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
 
     Button wUpdateTypes = new Button(wFieldsComp, SWT.PUSH);
     wUpdateTypes.setText(BaseMessages.getString(PKG, "AvroOutputDialog.Button.UpdateTypes"));
-    wUpdateTypes.setToolTipText(
-        BaseMessages.getString(PKG, "AvroOutputDialog.Tooltip.UpdateTypes"));
+    wUpdateTypes.setToolTipText(BaseMessages.getString(PKG, "AvroOutputDialog.Tooltip.UpdateTypes"));
     wUpdateTypes.addListener(SWT.Selection, e -> updateTypes());
     FormData fdUpdateTypes = new FormData();
     fdUpdateTypes.left = new FormAttachment(wGet, margin * 2);
@@ -722,61 +677,32 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     final int nrFieldsRows = input.getOutputFields().size();
 
     colinf = new ColumnInfo[nrFieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AvroOutputDialog.StreamColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AvroOutputDialog.AvroColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            getSchemaFields(),
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AvroOutputDialog.AvroType.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            AvroOutputField.getAvroTypeArraySorted(),
-            false);
-    colinf[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AvroOutputDialog.Nullable.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            YES_NO_COMBO,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "AvroOutputDialog.StreamColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "AvroOutputDialog.AvroColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, getSchemaFields(), false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "AvroOutputDialog.AvroType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, AvroOutputField.getAvroTypeArraySorted(), false);
+    colinf[3] = new ColumnInfo(BaseMessages.getString(PKG, "AvroOutputDialog.Nullable.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES_NO_COMBO, false);
 
-    colinf[2].setComboValuesSelectionListener(
-        (tableItem, rowNr, colNr) -> {
-          String[] comboValues;
-          if (!(wCreateSchemaFile.getSelection()) && validSchema) {
-            String avroColumn = tableItem.getText(colNr - 1);
-            String streamColumn = tableItem.getText(colNr - 2);
-            avroColumn = (avroColumn != null ? avroColumn : streamColumn);
+    colinf[2].setComboValuesSelectionListener((tableItem, rowNr, colNr) -> {
+      String[] comboValues;
+      if (!(wCreateSchemaFile.getSelection()) && validSchema) {
+        String avroColumn = tableItem.getText(colNr - 1);
+        String streamColumn = tableItem.getText(colNr - 2);
+        avroColumn = (avroColumn != null ? avroColumn : streamColumn);
 
-            Schema fieldSchema = getFieldSchema(avroColumn);
-            if (fieldSchema != null) {
-              String[] combo = AvroOutputField.mapAvroType(fieldSchema, fieldSchema.getType());
-              comboValues = combo;
-            } else {
-              comboValues = AvroOutputField.getAvroTypeArraySorted();
-            }
-          } else {
-            comboValues = AvroOutputField.getAvroTypeArraySorted();
-          }
-          return comboValues;
-        });
+        Schema fieldSchema = getFieldSchema(avroColumn);
+        if (fieldSchema != null) {
+          String[] combo = AvroOutputField.mapAvroType(fieldSchema, fieldSchema.getType());
+          comboValues = combo;
+        } else {
+          comboValues = AvroOutputField.getAvroTypeArraySorted();
+        }
+      } else {
+        comboValues = AvroOutputField.getAvroTypeArraySorted();
+      }
+      return comboValues;
+    });
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            nrFieldsRows,
-            null,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, nrFieldsRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -788,23 +714,22 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFieldsComp = new FormData();
@@ -870,13 +795,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
 
       validSchema = true;
 
-      wFields.setColumnInfo(
-          1,
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroOutputDialog.AvroColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              getSchemaFields(),
-              false));
+      wFields.setColumnInfo(1, new ColumnInfo(BaseMessages.getString(PKG, "AvroOutputDialog.AvroColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, getSchemaFields(), false));
     } catch (Exception ex) {
       validSchema = false;
       avroSchema = null;
@@ -983,8 +902,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
       wSpecifyFormat.setEnabled(true);
       wDateTimeFormat.setEnabled(true);
       wOutputField.setEnabled(false);
-    } else if (outputTypeId == AvroOutputMeta.OUTPUT_TYPE_FIELD
-            || outputTypeId == AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD) {
+    } else if (outputTypeId == AvroOutputMeta.OUTPUT_TYPE_FIELD || outputTypeId == AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD) {
       wFilename.setEnabled(false);
       wCompression.setEnabled(false);
       wAddTransformNr.setEnabled(false);
@@ -1144,11 +1062,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
         updateTypes(r, wFields, 1, 2, new int[] {3});
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 
@@ -1157,20 +1071,14 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
         ITableItemInsertListener listener = (tableItem, v) -> true;
-        getFieldsFromPreviousAvro(
-            r, wFields, 1, new int[] {1}, new int[] {2}, new int[] {3}, listener);
+        getFieldsFromPreviousAvro(r, wFields, 1, new int[] {1}, new int[] {2}, new int[] {3}, listener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 
-  public void updateTypes(
-      IRowMeta row, TableView tableView, int nameColumn, int avroNameColumn, int[] typeColumn) {
+  public void updateTypes(IRowMeta row, TableView tableView, int nameColumn, int avroNameColumn, int[] typeColumn) {
     boolean createSchemaFile = wCreateSchemaFile.getSelection();
     if (validSchema || createSchemaFile) {
       Table table = tableView.table;
@@ -1203,10 +1111,9 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
                 BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.Message"),
                 SWT.ICON_WARNING,
                 new String[] {
-                  BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.AddNew"),
-                  BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.ReplaceAll"),
-                  BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.Cancel")
-                },
+                    BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.AddNew"),
+                    BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.ReplaceAll"),
+                    BaseMessages.getString(PKG, "AvroOutputDialog.GetTypesChoice.Cancel")},
                 "",
                 true);
         int idx = md.open();
@@ -1219,8 +1126,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
 
       for (int i = 0; i < table.getItemCount(); i++) {
         TableItem tableItem = table.getItem(i);
-        String avroName =
-            !(tableItem.getText(2).isEmpty()) ? tableItem.getText(2) : tableItem.getText(1);
+        String avroName = !(tableItem.getText(2).isEmpty()) ? tableItem.getText(2) : tableItem.getText(1);
         String streamName = tableItem.getText(1);
         logBasic("Stream name is " + streamName);
         if (!(avroName.isEmpty()) && !(createSchemaFile) && avroSchema != null) {
@@ -1251,8 +1157,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
           logBasic(v != null ? v.getName() : "Value Meta is null");
           String avroType = "";
           if (v != null) {
-            avroType =
-                AvroOutputField.getAvroTypeDesc(AvroOutputField.getDefaultAvroType(v.getType()));
+            avroType = AvroOutputField.getAvroTypeDesc(AvroOutputField.getDefaultAvroType(v.getType()));
           }
           for (int aTypeColumn : typeColumn) {
             if (choice == 1 || (choice == 0 && (tableItem.getText(aTypeColumn).isEmpty()))) {
@@ -1308,20 +1213,14 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
               tableView.getShell(),
-              BaseMessages.getString(
-                  PKG, "BaseTransformDialog.GetFieldsChoice.Title"), // "Warning!"
-              BaseMessages.getString(
-                  PKG,
-                  "BaseTransformDialog.GetFieldsChoice.Message",
-                  "" + keys.size(),
-                  "" + row.size()),
+              BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Title"), // "Warning!"
+              BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Message", "" + keys.size(), "" + row.size()),
               SWT.ICON_WARNING,
               new String[] {
-                BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"),
-                BaseMessages.getString(PKG, "BaseTransformDialog.Add"),
-                BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"),
-                BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),
-              },
+                  BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"),
+                  BaseMessages.getString(PKG, "BaseTransformDialog.Add"),
+                  BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"),
+                  BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),},
               "Y",
               true);
       int idx = md.open();
@@ -1368,8 +1267,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
                 try {
 
                   Schema fieldSchema = getFieldSchema(fieldName);
-                  String[] avroType =
-                      AvroOutputField.mapAvroType(fieldSchema, fieldSchema.getType());
+                  String[] avroType = AvroOutputField.mapAvroType(fieldSchema, fieldSchema.getType());
                   if (avroType.length > 0) {
                     for (int anAvroTypeColumn : avroTypeColumn) {
                       tableItem.setText(anAvroTypeColumn, avroType[0]);
@@ -1395,8 +1293,7 @@ public class AvroOutputDialog extends BaseTransformDialog implements ITransformD
             tableItem.setText(anAvroNameColumn, Const.NVL(avroName, ""));
           }
 
-          String avroType =
-              AvroOutputField.getAvroTypeDesc(AvroOutputField.getDefaultAvroType(v.getType()));
+          String avroType = AvroOutputField.getAvroTypeDesc(AvroOutputField.getDefaultAvroType(v.getType()));
           for (int anAvroTypeColumn : avroTypeColumn) {
             tableItem.setText(anAvroTypeColumn, Const.NVL(avroType, ""));
           }

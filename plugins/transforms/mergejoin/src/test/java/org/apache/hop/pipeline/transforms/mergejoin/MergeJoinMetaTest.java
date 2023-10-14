@@ -48,63 +48,49 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 public class MergeJoinMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
 
   public MergeJoinMetaTest() throws HopException {
     // SwitchCaseMeta bean-like attributes
-    List<String> attributes =
-        Arrays.asList(
-            "joinType", "keyFields1", "keyFields2", "leftTransformName", "rightTransformName");
+    List<String> attributes = Arrays.asList("joinType", "keyFields1", "keyFields2", "leftTransformName", "rightTransformName");
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "keyFields1", new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
-    attrValidatorMap.put(
-        "keyFields2", new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
+    attrValidatorMap.put("keyFields1", new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
+    attrValidatorMap.put("keyFields2", new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
-    this.loadSaveTester =
-        new LoadSaveTester(
-            MergeJoinMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap);
+    this.loadSaveTester = new LoadSaveTester(MergeJoinMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
 
-    IFieldLoadSaveValidatorFactory validatorFactory =
-        loadSaveTester.getFieldLoadSaveValidatorFactory();
+    IFieldLoadSaveValidatorFactory validatorFactory = loadSaveTester.getFieldLoadSaveValidatorFactory();
 
-    IFieldLoadSaveValidator<MergeJoinMeta> targetValidator =
-        new IFieldLoadSaveValidator<MergeJoinMeta>() {
+    IFieldLoadSaveValidator<MergeJoinMeta> targetValidator = new IFieldLoadSaveValidator<MergeJoinMeta>() {
 
-          @Override
-          public MergeJoinMeta getTestObject() {
-            return new MergeJoinMeta() {
-              {
-                setJoinType(joinTypes[0]);
-                setKeyFields1(Arrays.asList("field1", "field2"));
-                setKeyFields2(Arrays.asList("field1", "field3"));
-              }
-            };
-          }
-
-          @Override
-          public boolean validateTestObject(MergeJoinMeta testObject, Object actual) {
-            return testObject.getJoinType().equals(((MergeJoinMeta) actual).getJoinType())
-                && testObject.getKeyFields1().equals(((MergeJoinMeta) actual).getKeyFields1())
-                && testObject.getKeyFields2().equals(((MergeJoinMeta) actual).getKeyFields2());
+      @Override
+      public MergeJoinMeta getTestObject() {
+        return new MergeJoinMeta() {
+          {
+            setJoinType(joinTypes[0]);
+            setKeyFields1(Arrays.asList("field1", "field2"));
+            setKeyFields2(Arrays.asList("field1", "field3"));
           }
         };
+      }
 
-    validatorFactory.registerValidator(
-        validatorFactory.getName(MergeJoinMeta.class), targetValidator);
+      @Override
+      public boolean validateTestObject(MergeJoinMeta testObject, Object actual) {
+        return testObject.getJoinType().equals(((MergeJoinMeta) actual).getJoinType()) && testObject.getKeyFields1().equals(((MergeJoinMeta) actual).getKeyFields1())
+            && testObject.getKeyFields2().equals(((MergeJoinMeta) actual).getKeyFields2());
+      }
+    };
+
+    validatorFactory.registerValidator(validatorFactory.getName(MergeJoinMeta.class), targetValidator);
   }
 
   @Test
@@ -135,13 +121,7 @@ public class MergeJoinMetaTest {
 
     TransformMeta transformMeta = new TransformMeta("Merge", meta);
 
-    meta.getFields(
-        outputRowMeta,
-        "Merge Join",
-        new IRowMeta[] {inputRow1, inputRow2},
-        transformMeta,
-        new Variables(),
-        null);
+    meta.getFields(outputRowMeta, "Merge Join", new IRowMeta[] {inputRow1, inputRow2}, transformMeta, new Variables(), null);
 
     assertNotNull(outputRowMeta);
     assertFalse(outputRowMeta.isEmpty());
@@ -228,10 +208,7 @@ public class MergeJoinMetaTest {
     meta.setJoinType("INNER");
 
     IRowMeta rowMeta = new RowMeta();
-    IRowMeta[] infos = {
-      new RowMetaBuilder().addInteger("id1").addString("value").build(),
-      new RowMetaBuilder().addInteger("id2").addString("value").build(),
-    };
+    IRowMeta[] infos = {new RowMetaBuilder().addInteger("id1").addString("value").build(), new RowMetaBuilder().addInteger("id2").addString("value").build(),};
 
     meta.getFields(rowMeta, "name", infos, null, null, null);
 

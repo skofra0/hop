@@ -39,12 +39,7 @@ public class ActionDebugLevel implements Cloneable {
     this.logLevel = logLevel;
   }
 
-  public ActionDebugLevel(
-      LogLevel logLevel,
-      boolean loggingResult,
-      boolean loggingVariables,
-      boolean loggingResultRows,
-      boolean loggingResultFiles) {
+  public ActionDebugLevel(LogLevel logLevel, boolean loggingResult, boolean loggingVariables, boolean loggingResultRows, boolean loggingResultFiles) {
     this(logLevel);
     this.loggingResult = loggingResult;
     this.loggingVariables = loggingVariables;
@@ -54,8 +49,7 @@ public class ActionDebugLevel implements Cloneable {
 
   @Override
   public ActionDebugLevel clone() {
-    return new ActionDebugLevel(
-        logLevel, loggingResult, loggingVariables, loggingResultRows, loggingResultFiles);
+    return new ActionDebugLevel(logLevel, loggingResult, loggingVariables, loggingResultRows, loggingResultFiles);
   }
 
   @Override

@@ -87,11 +87,8 @@ public class ExcelWriterTransformTest {
     String path = TestUtils.createRamFile(getClass().getSimpleName() + "/testXLSProtect.xls");
     FileObject xlsFile = TestUtils.getFileObject(path);
     wb = createWorkbook(xlsFile);
-    mockHelper =
-        new TransformMockHelper<>(
-            "Excel Writer Test", ExcelWriterTransformMeta.class, ExcelWriterTransformData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Excel Writer Test", ExcelWriterTransformMeta.class, ExcelWriterTransformData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
 
     metaMock = mock(ExcelWriterTransformMeta.class);
 
@@ -102,20 +99,11 @@ public class ExcelWriterTransformTest {
     doReturn(templateMock).when(metaMock).getTemplate();
 
     dataMock = new ExcelWriterTransformData();
-    ExcelWriterWorkbookDefinition workbookDefinition =
-        new ExcelWriterWorkbookDefinition("string", null, null, null, 0, 0);
+    ExcelWriterWorkbookDefinition workbookDefinition = new ExcelWriterWorkbookDefinition("string", null, null, null, 0, 0);
     dataMock.currentWorkbookDefinition = workbookDefinition;
     dataMock.usedFiles.add(workbookDefinition);
 
-    transform =
-        spy(
-            new ExcelWriterTransform(
-                mockHelper.transformMeta,
-                metaMock,
-                dataMock,
-                0,
-                mockHelper.pipelineMeta,
-                mockHelper.pipeline));
+    transform = spy(new ExcelWriterTransform(mockHelper.transformMeta, metaMock, dataMock, 0, mockHelper.pipelineMeta, mockHelper.pipeline));
 
     assertTrue(transform.init());
   }
@@ -135,15 +123,7 @@ public class ExcelWriterTransformTest {
   @Test
   public void testMaxSheetNameLength() {
 
-    transform =
-        spy(
-            new ExcelWriterTransform(
-                mockHelper.transformMeta,
-                metaMock,
-                dataMock,
-                0,
-                mockHelper.pipelineMeta,
-                mockHelper.pipeline));
+    transform = spy(new ExcelWriterTransform(mockHelper.transformMeta, metaMock, dataMock, 0, mockHelper.pipelineMeta, mockHelper.pipeline));
 
     // Return a 32 character name
     when(metaMock.getFile().getSheetname()).thenReturn("12345678901234567890123456789012");
@@ -188,8 +168,7 @@ public class ExcelWriterTransformTest {
     dataMock.linkfieldnrs = new int[] {-1};
     dataMock.commentfieldnrs = new int[] {-1};
     dataMock.createNewFile = true;
-    dataMock.realTemplateFileName =
-        getClass().getResource("template_with_formatting.xlsx").getFile();
+    dataMock.realTemplateFileName = getClass().getResource("template_with_formatting.xlsx").getFile();
     dataMock.realSheetname = "TicketData";
     dataMock.inputRowMeta = mock(IRowMeta.class);
 
@@ -222,7 +201,6 @@ public class ExcelWriterTransformTest {
     verify(dataMock.currentWorkbookDefinition.getSheet()).getRow(1);
   }
 
-
   @Test
   public void testWriteUsingTemplateWithFormatting_Streaming() throws Exception {
 
@@ -232,8 +210,7 @@ public class ExcelWriterTransformTest {
     dataMock.linkfieldnrs = new int[] {-1};
     dataMock.commentfieldnrs = new int[] {-1};
     dataMock.createNewFile = true;
-    dataMock.realTemplateFileName =
-            getClass().getResource("template_with_formatting_streaming.xlsx").getFile();
+    dataMock.realTemplateFileName = getClass().getResource("template_with_formatting_streaming.xlsx").getFile();
     dataMock.realSheetname = "Data";
     dataMock.inputRowMeta = mock(IRowMeta.class);
 
@@ -267,6 +244,7 @@ public class ExcelWriterTransformTest {
     verify(dataMock.currentWorkbookDefinition.getSheet(), times(1)).createRow(1);
     verify(dataMock.currentWorkbookDefinition.getSheet()).getRow(1);
   }
+
   @Test
   public void testValueBigNumber() throws Exception {
 
@@ -455,9 +433,7 @@ public class ExcelWriterTransformTest {
    * @param isStreaming if it's to use streaming
    * @param isTemplateEnabled if it's to use a template
    */
-  private void testBaseXlsx(
-      IValueMeta vmi, Object vObj, boolean isStreaming, boolean isTemplateEnabled)
-      throws Exception {
+  private void testBaseXlsx(IValueMeta vmi, Object vObj, boolean isStreaming, boolean isTemplateEnabled) throws Exception {
     testBase(vmi, vObj, XLSX, DOT_XLSX, isStreaming, isTemplateEnabled);
   }
 
@@ -468,8 +444,7 @@ public class ExcelWriterTransformTest {
    * @param vObj the {@link Object} to be used as the value
    * @param isTemplateEnabled if it's to use a template
    */
-  private void testBaseXls(IValueMeta vmi, Object vObj, boolean isTemplateEnabled)
-      throws Exception {
+  private void testBaseXls(IValueMeta vmi, Object vObj, boolean isTemplateEnabled) throws Exception {
 
     testBase(vmi, vObj, XLS, DOT_XLS, false, isTemplateEnabled);
   }
@@ -483,14 +458,7 @@ public class ExcelWriterTransformTest {
    * @param isStreaming if it's to use streaming
    * @param isTemplateEnabled if it's to use a template
    */
-  private void testBase(
-      IValueMeta vmi,
-      Object vObj,
-      String extension,
-      String dotExtension,
-      boolean isStreaming,
-      boolean isTemplateEnabled)
-      throws Exception {
+  private void testBase(IValueMeta vmi, Object vObj, String extension, String dotExtension, boolean isStreaming, boolean isTemplateEnabled) throws Exception {
 
     Object[] vObjArr = {vObj};
     assertTrue(transform.init());
@@ -499,8 +467,7 @@ public class ExcelWriterTransformTest {
     String path = tempFile.getAbsolutePath();
 
     if (isTemplateEnabled) {
-      dataMock.realTemplateFileName =
-          getClass().getResource("template_test" + dotExtension).getFile();
+      dataMock.realTemplateFileName = getClass().getResource("template_test" + dotExtension).getFile();
     }
 
     dataMock.fieldnrs = new int[] {0};
@@ -528,27 +495,14 @@ public class ExcelWriterTransformTest {
 
     // Unfortunately HSSFSheet is final and cannot be mocked, so we'll skip some validations
     dataMock.currentWorkbookDefinition.setPosY(1);
-    if (null != dataMock.currentWorkbookDefinition.getSheet()
-        && !(dataMock.currentWorkbookDefinition.getSheet() instanceof HSSFSheet)) {
-      dataMock.currentWorkbookDefinition.setSheet(
-          spy(dataMock.currentWorkbookDefinition.getSheet()));
+    if (null != dataMock.currentWorkbookDefinition.getSheet() && !(dataMock.currentWorkbookDefinition.getSheet() instanceof HSSFSheet)) {
+      dataMock.currentWorkbookDefinition.setSheet(spy(dataMock.currentWorkbookDefinition.getSheet()));
     }
 
     transform.writeNextLine(dataMock.currentWorkbookDefinition, vObjArr);
 
-    if (null != dataMock.currentWorkbookDefinition.getSheet()
-        && !(dataMock.currentWorkbookDefinition.getSheet() instanceof HSSFSheet)) {
-      verify(transform)
-          .writeField(
-              eq(dataMock.currentWorkbookDefinition),
-              eq(vObj),
-              eq(vmi),
-              eq(fields.get(0)),
-              any(Row.class),
-              eq(0),
-              any(),
-              eq(0),
-              eq(Boolean.FALSE));
+    if (null != dataMock.currentWorkbookDefinition.getSheet() && !(dataMock.currentWorkbookDefinition.getSheet() instanceof HSSFSheet)) {
+      verify(transform).writeField(eq(dataMock.currentWorkbookDefinition), eq(vObj), eq(vmi), eq(fields.get(0)), any(Row.class), eq(0), any(), eq(0), eq(Boolean.FALSE));
 
       verify(dataMock.currentWorkbookDefinition.getSheet()).createRow(anyInt());
       verify(dataMock.currentWorkbookDefinition.getSheet()).getRow(1);
@@ -564,8 +518,7 @@ public class ExcelWriterTransformTest {
   private static class DefaultAnswerThrowsException implements Answer<Object> {
     @Override
     public Object answer(InvocationOnMock invocation) throws Throwable {
-      throw new RuntimeException(
-          "This method (" + invocation.getMethod() + ") shouldn't have been called.");
+      throw new RuntimeException("This method (" + invocation.getMethod() + ") shouldn't have been called.");
     }
   }
 

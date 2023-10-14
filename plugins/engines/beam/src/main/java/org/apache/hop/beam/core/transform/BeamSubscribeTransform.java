@@ -61,13 +61,7 @@ public class BeamSubscribeTransform extends PTransform<PBegin, PCollection<HopRo
 
   public BeamSubscribeTransform() {}
 
-  public BeamSubscribeTransform(
-      @Nullable String name,
-      String transformName,
-      String subscription,
-      String topic,
-      String messageType,
-      String rowMetaJson) {
+  public BeamSubscribeTransform(@Nullable String name, String transformName, String subscription, String topic, String messageType, String rowMetaJson) {
     super(name);
     this.transformName = transformName;
     this.subscription = subscription;
@@ -107,12 +101,7 @@ public class BeamSubscribeTransform extends PTransform<PBegin, PCollection<HopRo
           stringRead = stringRead.fromTopic(topic);
         }
         PCollection<String> stringPCollection = stringRead.expand(input);
-        output =
-            stringPCollection.apply(
-                transformName,
-                ParDo.of(
-                    new StringToHopRowFn(
-                        transformName, rowMetaJson)));
+        output = stringPCollection.apply(transformName, ParDo.of(new StringToHopRowFn(transformName, rowMetaJson)));
 
       } else if (BeamDefaults.PUBSUB_MESSAGE_TYPE_MESSAGE.equalsIgnoreCase(messageType)) {
 
@@ -123,12 +112,7 @@ public class BeamSubscribeTransform extends PTransform<PBegin, PCollection<HopRo
           messageRead = messageRead.fromTopic(topic);
         }
         PCollection<PubsubMessage> messagesPCollection = messageRead.expand(input);
-        output =
-            messagesPCollection.apply(
-                transformName,
-                ParDo.of(
-                    new PubsubMessageToHopRowFn(
-                        transformName, rowMetaJson)));
+        output = messagesPCollection.apply(transformName, ParDo.of(new PubsubMessageToHopRowFn(transformName, rowMetaJson)));
 
       } else {
         throw new RuntimeException("Unsupported message type: " + messageType);

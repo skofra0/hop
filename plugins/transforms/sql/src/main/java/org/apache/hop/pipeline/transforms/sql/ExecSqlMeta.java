@@ -54,72 +54,40 @@ import java.util.List;
 public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
   private static final Class<?> PKG = ExecSqlMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "ExecSqlMeta.Injection.CONNECTIONNAME")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "ExecSqlMeta.Injection.CONNECTIONNAME")
   private String connection;
 
   @HopMetadataProperty(injectionKeyDescription = "ExecSqlMeta.Injection.SQL", injectionKey = "SQL")
   private String sql;
 
-  @HopMetadataProperty(
-      key = "execute_each_row",
-      injectionKeyDescription = "ExecSqlMeta.Injection.EXECUTE_FOR_EACH_ROW",
-      injectionKey = "EXECUTE_FOR_EACH_ROW")
+  @HopMetadataProperty(key = "execute_each_row", injectionKeyDescription = "ExecSqlMeta.Injection.EXECUTE_FOR_EACH_ROW", injectionKey = "EXECUTE_FOR_EACH_ROW")
   private boolean executedEachInputRow;
 
-  @HopMetadataProperty(
-      key = "update_field",
-      injectionKeyDescription = "ExecSqlMeta.Injection.UPDATE_STATS_FIELD",
-      injectionKey = "UPDATE_STATS_FIELD")
+  @HopMetadataProperty(key = "update_field", injectionKeyDescription = "ExecSqlMeta.Injection.UPDATE_STATS_FIELD", injectionKey = "UPDATE_STATS_FIELD")
   private String updateField;
 
-  @HopMetadataProperty(
-      key = "insert_field",
-      injectionKeyDescription = "ExecSqlMeta.Injection.INSERT_STATS_FIELD",
-      injectionKey = "INSERT_STATS_FIELD")
+  @HopMetadataProperty(key = "insert_field", injectionKeyDescription = "ExecSqlMeta.Injection.INSERT_STATS_FIELD", injectionKey = "INSERT_STATS_FIELD")
   private String insertField;
 
-  @HopMetadataProperty(
-      key = "delete_field",
-      injectionKeyDescription = "ExecSqlMeta.Injection.DELETE_STATS_FIELD",
-      injectionKey = "DELETE_STATS_FIELD")
+  @HopMetadataProperty(key = "delete_field", injectionKeyDescription = "ExecSqlMeta.Injection.DELETE_STATS_FIELD", injectionKey = "DELETE_STATS_FIELD")
   private String deleteField;
 
-  @HopMetadataProperty(
-      key = "read_field",
-      injectionKeyDescription = "ExecSqlMeta.Injection.READ_STATS_FIELD",
-      injectionKey = "READ_STATS_FIELD")
+  @HopMetadataProperty(key = "read_field", injectionKeyDescription = "ExecSqlMeta.Injection.READ_STATS_FIELD", injectionKey = "READ_STATS_FIELD")
   private String readField;
 
-  @HopMetadataProperty(
-      key = "single_statement",
-      injectionKeyDescription = "ExecSqlMeta.Injection.EXECUTE_AS_SINGLE_STATEMENT",
-      injectionKey = "EXECUTE_AS_SINGLE_STATEMENT")
+  @HopMetadataProperty(key = "single_statement", injectionKeyDescription = "ExecSqlMeta.Injection.EXECUTE_AS_SINGLE_STATEMENT", injectionKey = "EXECUTE_AS_SINGLE_STATEMENT")
   private boolean singleStatement;
 
-  @HopMetadataProperty(
-      key = "replace_variables",
-      injectionKeyDescription = "ExecSqlMeta.Injection.REPLACE_VARIABLES",
-      injectionKey = "REPLACE_VARIABLES")
+  @HopMetadataProperty(key = "replace_variables", injectionKeyDescription = "ExecSqlMeta.Injection.REPLACE_VARIABLES", injectionKey = "REPLACE_VARIABLES")
   private boolean replaceVariables;
 
-  @HopMetadataProperty(
-      injectionKeyDescription = "ExecSqlMeta.Injection.QUOTE_STRINGS",
-      injectionKey = "QUOTE_STRINGS")
+  @HopMetadataProperty(injectionKeyDescription = "ExecSqlMeta.Injection.QUOTE_STRINGS", injectionKey = "QUOTE_STRINGS")
   private boolean quoteString;
 
-  @HopMetadataProperty(
-      key = "set_params",
-      injectionKeyDescription = "ExecSqlMeta.Injection.BIND_PARAMETERS",
-      injectionKey = "BIND_PARAMETERS")
+  @HopMetadataProperty(key = "set_params", injectionKeyDescription = "ExecSqlMeta.Injection.BIND_PARAMETERS", injectionKey = "BIND_PARAMETERS")
   private boolean params;
 
-  @HopMetadataProperty(
-      key = "argument",
-      groupKey = "arguments",
-      injectionGroupKey = "PARAMETERS",
-      injectionGroupDescription = "ExecSqlMeta.Injection.PARAMETERS")
+  @HopMetadataProperty(key = "argument", groupKey = "arguments", injectionGroupKey = "PARAMETERS", injectionGroupDescription = "ExecSqlMeta.Injection.PARAMETERS")
   private List<ExecSqlArgumentItem> arguments;
 
   public ExecSqlMeta() {
@@ -220,17 +188,9 @@ public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
-    RowMetaAndData add =
-        ExecSql.getResultRow(
-            new Result(), getUpdateField(), getInsertField(), getDeleteField(), getReadField());
+    RowMetaAndData add = ExecSql.getResultRow(new Result(), getUpdateField(), getInsertField(), getDeleteField(), getReadField());
 
     r.mergeRowMeta(add.getRowMeta());
   }
@@ -251,24 +211,14 @@ public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "ExecSqlMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)), transformMeta);
       remarks.add(cr);
     }
 
     if (databaseMeta != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ConnectionExists"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ConnectionExists"), transformMeta);
       remarks.add(cr);
 
       Database db = new Database(loggingObject, variables, databaseMeta);
@@ -277,80 +227,42 @@ public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
 
       try {
         db.connect();
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.DBConnectionOK"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.DBConnectionOK"), transformMeta);
         remarks.add(cr);
 
         if (sql != null && sql.length() != 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLStatementEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLStatementEntered"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLStatementMissing"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLStatementMissing"), transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ErrorOccurred")
-                    + e.getMessage(),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ErrorOccurred") + e.getMessage(), transformMeta);
         remarks.add(cr);
       } finally {
         db.disconnect();
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ConnectionNeeded"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.ConnectionNeeded"), transformMeta);
       remarks.add(cr);
     }
 
     // If it's executed each row, make sure we have input
     if (executedEachInputRow) {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.TransformReceivingInfoOK"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.TransformReceivingInfoOK"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.NoInputReceivedError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.NoInputReceivedError"), transformMeta);
         remarks.add(cr);
       }
     } else {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLOnlyExecutedOnce"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.SQLOnlyExecutedOnce"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "ExecSqlMeta.CheckResult.InputReceivedOKForSQLOnlyExecuteOnce"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlMeta.CheckResult.InputReceivedOKForSQLOnlyExecuteOnce"), transformMeta);
         remarks.add(cr);
       }
     }
@@ -369,8 +281,7 @@ public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
       IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
       DatabaseImpact ii =
           new DatabaseImpact(
               DatabaseImpact.TYPE_IMPACT_READ_WRITE,
@@ -386,9 +297,7 @@ public class ExecSqlMeta extends BaseTransformMeta<ExecSql, ExecSqlData> {
       impact.add(ii);
 
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
   }
 

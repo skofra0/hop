@@ -50,12 +50,9 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform",
     keywords = "i18n::TokenReplacementMeta.keyword",
     documentationUrl = "/pipeline/transforms/tokenreplacement.html")
-@InjectionSupported(
-    localizationPrefix = "TokenReplacement.Injection.",
-    groups = {"OUTPUT_FIELDS"})
+@InjectionSupported(localizationPrefix = "TokenReplacement.Injection.", groups = {"OUTPUT_FIELDS"})
 public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, TokenReplacementData> {
   private static final Class<?> PKG = TokenReplacementMeta.class; // For Translator
-
 
   public static final String INPUT_TYPE = "input_type";
   public static final String INPUT_FIELD_NAME = "input_field_name";
@@ -70,14 +67,11 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
   public static final String OUTPUT_FILENAME_FIELD = "output_filename_field";
   public static final String APPEND_OUTPUT_FILENAME = "append_output_filename";
   public static final String CREATE_PARENT_FOLDER = "create_parent_folder";
-  public static final String INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME =
-      "include_transform_nr_in_output_filename";
-  public static final String INCLUDE_PART_NR_IN_OUTPUT_FILENAME =
-      "include_part_nr_in_output_filename";
+  public static final String INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME = "include_transform_nr_in_output_filename";
+  public static final String INCLUDE_PART_NR_IN_OUTPUT_FILENAME = "include_part_nr_in_output_filename";
   public static final String INCLUDE_DATE_IN_OUTPUT_FILENAME = "include_date_in_output_filename";
   public static final String INCLUDE_TIME_IN_OUTPUT_FILENAME = "include_time_in_output_filename";
-  public static final String SPECIFY_DATE_FORMAT_OUTPUT_FILENAME =
-      "specify_date_format_output_filename";
+  public static final String SPECIFY_DATE_FORMAT_OUTPUT_FILENAME = "specify_date_format_output_filename";
   public static final String DATE_FORMAT_OUTPUT_FILENAME = "date_format_output_filename";
   public static final String ADD_OUTPUT_FILENAME_TO_RESULT = "add_output_filename_to_result";
   public static final String TOKEN_START_STRING = "token_start_string";
@@ -91,16 +85,14 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
 
   public static final String[] INPUT_TYPES = {"text", "field", "file"};
   public static final String[] OUTPUT_TYPES = {"field", "file"};
-  public static final String[] formatMapperLineTerminator =
-      new String[] {"DOS", "UNIX", "CR", "None"};
+  public static final String[] formatMapperLineTerminator = new String[] {"DOS", "UNIX", "CR", "None"};
 
   public static final String[] formatMapperLineTerminatorDescriptions =
       new String[] {
-        BaseMessages.getString(PKG, "TokenReplacementDialog.Format.DOS"),
-        BaseMessages.getString(PKG, "TokenReplacementDialog.Format.UNIX"),
-        BaseMessages.getString(PKG, "TokenReplacementDialog.Format.CR"),
-        BaseMessages.getString(PKG, "TokenReplacementDialog.Format.None")
-      };
+          BaseMessages.getString(PKG, "TokenReplacementDialog.Format.DOS"),
+          BaseMessages.getString(PKG, "TokenReplacementDialog.Format.UNIX"),
+          BaseMessages.getString(PKG, "TokenReplacementDialog.Format.CR"),
+          BaseMessages.getString(PKG, "TokenReplacementDialog.Format.None")};
 
   @Injection(name = "INPUT_TYPE")
   private String inputType;
@@ -180,7 +172,8 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
   @Injection(name = "TOKEN_END_STRING")
   private String tokenEndString;
 
-  @InjectionDeep private TokenReplacementField[] tokenReplacementFields;
+  @InjectionDeep
+  private TokenReplacementField[] tokenReplacementFields;
 
   public TokenReplacementMeta() {
     super(); // allocate BaseTransformMeta
@@ -416,82 +409,34 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
 
       inputType = XmlHandler.getTagValue(transformNode, INPUT_TYPE);
       inputText = XmlHandler.getTagValue(transformNode, INPUT_TEXT);
       inputFieldName = XmlHandler.getTagValue(transformNode, INPUT_FIELD_NAME);
       inputFileName = XmlHandler.getTagValue(transformNode, INPUT_FILENAME);
-      inputFileNameInField =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(XmlHandler.getTagValue(transformNode, INPUT_FILENAME_IN_FIELD), ""));
+      inputFileNameInField = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, INPUT_FILENAME_IN_FIELD), ""));
       inputFileNameField = XmlHandler.getTagValue(transformNode, INPUT_FILENAME_FIELD);
-      addInputFileNameToResult =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, ADD_INPUT_FILENAME_TO_RESULT), ""));
+      addInputFileNameToResult = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, ADD_INPUT_FILENAME_TO_RESULT), ""));
 
       outputType = XmlHandler.getTagValue(transformNode, OUTPUT_TYPE);
       outputFieldName = XmlHandler.getTagValue(transformNode, OUTPUT_FIELD_NAME);
       outputFileName = XmlHandler.getTagValue(transformNode, OUTPUT_FILENAME);
-      outputFileNameInField =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(XmlHandler.getTagValue(transformNode, OUTPUT_FILENAME_IN_FIELD), ""));
+      outputFileNameInField = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, OUTPUT_FILENAME_IN_FIELD), ""));
       outputFileNameField = XmlHandler.getTagValue(transformNode, OUTPUT_FILENAME_FIELD);
-      appendOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(XmlHandler.getTagValue(transformNode, APPEND_OUTPUT_FILENAME), ""));
+      appendOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, APPEND_OUTPUT_FILENAME), ""));
       outputFileFormat = XmlHandler.getTagValue(transformNode, OUTPUT_FILE_FORMAT);
-      outputFileEncoding =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, OUTPUT_FILE_ENCODING),
-              Const.getEnvironmentVariable("file.encoding", "UTF-8"));
+      outputFileEncoding = Const.NVL(XmlHandler.getTagValue(transformNode, OUTPUT_FILE_ENCODING), Const.getEnvironmentVariable("file.encoding", "UTF-8"));
       splitEvery = Const.toInt(XmlHandler.getTagValue(transformNode, OUTPUT_SPLIT_EVERY), 0);
-      createParentFolder =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(XmlHandler.getTagValue(transformNode, CREATE_PARENT_FOLDER), ""));
-      includeTransformNrInOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(
-                          transformNode, INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME),
-                      ""));
-      includePartNrInOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, INCLUDE_PART_NR_IN_OUTPUT_FILENAME),
-                      ""));
-      includeDateInOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, INCLUDE_DATE_IN_OUTPUT_FILENAME), ""));
-      includeTimeInOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, INCLUDE_TIME_IN_OUTPUT_FILENAME), ""));
-      specifyDateFormatOutputFileName =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, SPECIFY_DATE_FORMAT_OUTPUT_FILENAME),
-                      ""));
+      createParentFolder = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, CREATE_PARENT_FOLDER), ""));
+      includeTransformNrInOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME), ""));
+      includePartNrInOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, INCLUDE_PART_NR_IN_OUTPUT_FILENAME), ""));
+      includeDateInOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, INCLUDE_DATE_IN_OUTPUT_FILENAME), ""));
+      includeTimeInOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, INCLUDE_TIME_IN_OUTPUT_FILENAME), ""));
+      specifyDateFormatOutputFileName = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, SPECIFY_DATE_FORMAT_OUTPUT_FILENAME), ""));
       dateFormatOutputFileName = XmlHandler.getTagValue(transformNode, DATE_FORMAT_OUTPUT_FILENAME);
-      addOutputFileNameToResult =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(
-                      XmlHandler.getTagValue(transformNode, ADD_OUTPUT_FILENAME_TO_RESULT), ""));
+      addOutputFileNameToResult = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(transformNode, ADD_OUTPUT_FILENAME_TO_RESULT), ""));
 
       tokenStartString = XmlHandler.getTagValue(transformNode, TOKEN_START_STRING);
       tokenEndString = XmlHandler.getTagValue(transformNode, TOKEN_END_STRING);
@@ -509,8 +454,7 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
         tokenReplacementFields[i].setTokenName(XmlHandler.getTagValue(fnode, TOKEN_NAME));
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "BaseTransformMeta.Exception.ErrorLoadingTransformMeta"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "BaseTransformMeta.Exception.ErrorLoadingTransformMeta"), e);
     }
   }
 
@@ -542,8 +486,7 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
     retval.append("    " + XmlHandler.addTagValue(INPUT_FILENAME, inputFileName));
     retval.append("    " + XmlHandler.addTagValue(INPUT_FILENAME_IN_FIELD, inputFileNameInField));
     retval.append("    " + XmlHandler.addTagValue(INPUT_FILENAME_FIELD, inputFileNameField));
-    retval.append(
-        "    " + XmlHandler.addTagValue(ADD_INPUT_FILENAME_TO_RESULT, addInputFileNameToResult));
+    retval.append("    " + XmlHandler.addTagValue(ADD_INPUT_FILENAME_TO_RESULT, addInputFileNameToResult));
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_TYPE, outputType));
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_FIELD_NAME, outputFieldName));
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_FILENAME, outputFileName));
@@ -554,28 +497,13 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_FILE_FORMAT, outputFileFormat));
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_FILE_ENCODING, outputFileEncoding));
     retval.append("    " + XmlHandler.addTagValue(OUTPUT_SPLIT_EVERY, splitEvery));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME, includeTransformNrInOutputFileName));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                INCLUDE_PART_NR_IN_OUTPUT_FILENAME, includePartNrInOutputFileName));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(INCLUDE_DATE_IN_OUTPUT_FILENAME, includeDateInOutputFileName));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(INCLUDE_TIME_IN_OUTPUT_FILENAME, includeTimeInOutputFileName));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                SPECIFY_DATE_FORMAT_OUTPUT_FILENAME, specifyDateFormatOutputFileName));
-    retval.append(
-        "    " + XmlHandler.addTagValue(DATE_FORMAT_OUTPUT_FILENAME, dateFormatOutputFileName));
-    retval.append(
-        "    " + XmlHandler.addTagValue(ADD_OUTPUT_FILENAME_TO_RESULT, addOutputFileNameToResult));
+    retval.append("    " + XmlHandler.addTagValue(INCLUDE_TRANSFORM_NR_IN_OUTPUT_FILENAME, includeTransformNrInOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(INCLUDE_PART_NR_IN_OUTPUT_FILENAME, includePartNrInOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(INCLUDE_DATE_IN_OUTPUT_FILENAME, includeDateInOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(INCLUDE_TIME_IN_OUTPUT_FILENAME, includeTimeInOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(SPECIFY_DATE_FORMAT_OUTPUT_FILENAME, specifyDateFormatOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(DATE_FORMAT_OUTPUT_FILENAME, dateFormatOutputFileName));
+    retval.append("    " + XmlHandler.addTagValue(ADD_OUTPUT_FILENAME_TO_RESULT, addOutputFileNameToResult));
 
     retval.append("    " + XmlHandler.addTagValue(TOKEN_START_STRING, tokenStartString));
     retval.append("    " + XmlHandler.addTagValue(TOKEN_END_STRING, tokenEndString));
@@ -621,18 +549,11 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
     tokenEndString = "}";
   }
 
-  public String buildFilename(
-      String fileName, IVariables variables, int transformnr, String partnr, int splitnr) {
+  public String buildFilename(String fileName, IVariables variables, int transformnr, String partnr, int splitnr) {
     return buildFilename(fileName, variables, transformnr, partnr, splitnr, this);
   }
 
-  public String buildFilename(
-      String filename,
-      IVariables variables,
-      int transformnr,
-      String partnr,
-      int splitnr,
-      TokenReplacementMeta meta) {
+  public String buildFilename(String filename, IVariables variables, int transformnr, String partnr, int splitnr, TokenReplacementMeta meta) {
     SimpleDateFormat daf = new SimpleDateFormat();
 
     // Replace possible environment variables...
@@ -648,8 +569,7 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
 
     Date now = new Date();
 
-    if (meta.isSpecifyDateFormatOutputFileName()
-        && !Utils.isEmpty(meta.getDateFormatOutputFileName())) {
+    if (meta.isSpecifyDateFormatOutputFileName() && !Utils.isEmpty(meta.getDateFormatOutputFileName())) {
       daf.applyPattern(meta.getDateFormatOutputFileName());
       String dt = daf.format(now);
       retval += dt;
@@ -697,12 +617,7 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "TokenReplacementMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -717,73 +632,39 @@ public class TokenReplacementMeta extends BaseTransformMeta<TokenReplacement, To
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "TokenReplacementMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // Make sure token replacement is populated!
     if (Utils.isEmpty(tokenStartString) || Utils.isEmpty(tokenEndString)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "TokenReplacementMeta.CheckResult.ExpectedTokenReplacementError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedTokenReplacementError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "TokenReplacementMeta.CheckResult.ExpectedTokenReplacementOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedTokenReplacementOk"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "TokenReplacementMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // change the case insensitive flag too
 

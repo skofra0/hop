@@ -43,11 +43,7 @@ public class ExcelWriterTransform_FormulaRecalculationTest {
 
   @Before
   public void setUp() throws Exception {
-    mockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            ExcelWriterTransformMeta.class,
-            ExcelWriterTransformData.class,
-            "ExcelWriterTransform_FormulaRecalculationTest");
+    mockHelper = TransformMockUtil.getTransformMockHelper(ExcelWriterTransformMeta.class, ExcelWriterTransformData.class, "ExcelWriterTransform_FormulaRecalculationTest");
 
     meta = mockHelper.iTransformMeta;
 
@@ -58,14 +54,12 @@ public class ExcelWriterTransform_FormulaRecalculationTest {
     doReturn(templateMock).when(meta).getTemplate();
 
     data = new ExcelWriterTransformData();
-    ExcelWriterWorkbookDefinition workbookDefinition = new ExcelWriterWorkbookDefinition(null,null,null,null,0,0);
+    ExcelWriterWorkbookDefinition workbookDefinition = new ExcelWriterWorkbookDefinition(null, null, null, null, 0, 0);
     data.currentWorkbookDefinition = workbookDefinition;
   }
 
   private void setupTransform() throws Exception {
-    transform =
-        new ExcelWriterTransform(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    transform = new ExcelWriterTransform(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     transform = spy(transform);
     // ignoring to avoid useless errors in log
     doNothing().when(transform).prepareNextOutputFile(any(Object[].class));
@@ -119,8 +113,7 @@ public class ExcelWriterTransform_FormulaRecalculationTest {
       int sheets = data.currentWorkbookDefinition.getWorkbook().getNumberOfSheets();
       for (int i = 0; i < sheets; i++) {
         Sheet sheet = data.currentWorkbookDefinition.getWorkbook().getSheetAt(i);
-        assertTrue(
-            "Sheet #" + i + ": " + sheet.getSheetName(), sheet.getForceFormulaRecalculation());
+        assertTrue("Sheet #" + i + ": " + sheet.getSheetName(), sheet.getForceFormulaRecalculation());
       }
     }
   }

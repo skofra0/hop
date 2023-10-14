@@ -82,10 +82,9 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
 
   public static final String[] encryptionModeDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.None"),
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.TripleDES"),
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.XOR")
-      };
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.None"),
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.TripleDES"),
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.XOR")};
   public static final String[] encryptionModeCode = new String[] {"none", "tripledes", "xor"};
 
   public static final int ENCRYPTION_MODE_NONE = 0;
@@ -94,13 +93,11 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
 
   public static final String[] levelTypeDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.LevelType.Unknown"),
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.OK"),
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Warning"),
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Critical")
-      };
-  public static final String[] levelTypeCode =
-      new String[] {"unknown", "ok", "warning", "critical"};
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.LevelType.Unknown"),
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.OK"),
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Warning"),
+          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Critical")};
+  public static final String[] levelTypeCode = new String[] {"unknown", "ok", "warning", "critical"};
 
   public static final int LEVEL_TYPE_UNKNOWN = 0;
   public static final int LEVEL_TYPE_OK = 1;
@@ -203,9 +200,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
     retval.append("      ").append(XmlHandler.addTagValue("senderServerName", senderServerName));
     retval.append("      ").append(XmlHandler.addTagValue("senderServiceName", senderServiceName));
     retval.append("      ").append(XmlHandler.addTagValue("message", message));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("encryptionMode", getEncryptionModeCode(encryptionMode)));
+    retval.append("      ").append(XmlHandler.addTagValue("encryptionMode", getEncryptionModeCode(encryptionMode)));
     retval.append("      ").append(XmlHandler.addTagValue("level", getLevelCode(level)));
 
     return retval.toString();
@@ -238,8 +233,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       port = XmlHandler.getTagValue(entrynode, "port");
@@ -256,8 +250,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
       level = getLevelByCode(XmlHandler.getTagValue(entrynode, "level"));
 
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          "Unable to load action of type 'SendNagiosPassiveCheck' from XML node", xe);
+      throw new HopXmlException("Unable to load action of type 'SendNagiosPassiveCheck' from XML node", xe);
     }
   }
 
@@ -370,8 +363,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
     String realPassword = Utils.resolvePassword(getVariables(), password);
     int realPort = Const.toInt(resolve(port), DEFAULT_PORT);
     int realResponseTimeOut = Const.toInt(resolve(responseTimeOut), DEFAULT_RESPONSE_TIME_OUT);
-    int realConnectionTimeOut =
-        Const.toInt(resolve(connectionTimeOut), DEFAULT_CONNECTION_TIME_OUT);
+    int realConnectionTimeOut = Const.toInt(resolve(connectionTimeOut), DEFAULT_CONNECTION_TIME_OUT);
 
     // Sender
     String realSenderServerName = resolve(senderServerName);
@@ -379,15 +371,13 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
 
     try {
       if (Utils.isEmpty(realServername)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Error.TargetServerMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Error.TargetServerMissing"));
       }
 
       String realMessageString = resolve(message);
 
       if (Utils.isEmpty(realMessageString)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Error.MessageMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Error.MessageMissing"));
       }
 
       Level level = Level.UNKNOWN;
@@ -452,8 +442,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
       result.setResult(true);
 
     } catch (Exception e) {
-      log.logError(
-          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ErrorGetting", e.toString()));
+      log.logError(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ErrorGetting", e.toString()));
     }
 
     return result;
@@ -465,8 +454,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(serverName)) {
       String realServername = resolve(serverName);
@@ -478,16 +466,7 @@ public class ActionSendNagiosPassiveCheck extends ActionBase implements Cloneabl
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "serverName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

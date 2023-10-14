@@ -37,17 +37,15 @@ import org.apache.hop.testing.util.DataSetConst;
  * Pick up the __UnitTest_Run__ and __UnitTest_Name__ variables in the variables of the Hop GUI
  * pipeline graph. Set them in the pipeline
  *
- * <p>These can then be picked up later by the other XP plugins.
+ * <p>
+ * These can then be picked up later by the other XP plugins.
  */
-public class HopGuiFlagPipelineForUnitTestExtensionPoint
-    implements IExtensionPoint<IPipelineEngine> {
+public class HopGuiFlagPipelineForUnitTestExtensionPoint implements IExtensionPoint<IPipelineEngine> {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine pipeline) throws HopException {
 
-    IPipelineEngineRunConfiguration runConfig =
-        pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
+    IPipelineEngineRunConfiguration runConfig = pipeline.getPipelineRunConfiguration().getEngineRunConfiguration();
     if (!(runConfig instanceof LocalPipelineRunConfiguration)) {
       pipeline.setVariable(DataSetConst.VAR_RUN_UNIT_TEST, "N");
       return;
@@ -64,10 +62,8 @@ public class HopGuiFlagPipelineForUnitTestExtensionPoint
       // We found the variables in the GUI and pass them to the pipeline right before (prepare)
       // execution
       //
-      pipeline.setVariable(
-          DataSetConst.VAR_RUN_UNIT_TEST, variables.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
-      pipeline.setVariable(
-          DataSetConst.VAR_UNIT_TEST_NAME, variables.getVariable(DataSetConst.VAR_UNIT_TEST_NAME));
+      pipeline.setVariable(DataSetConst.VAR_RUN_UNIT_TEST, variables.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
+      pipeline.setVariable(DataSetConst.VAR_UNIT_TEST_NAME, variables.getVariable(DataSetConst.VAR_UNIT_TEST_NAME));
     }
   }
 }

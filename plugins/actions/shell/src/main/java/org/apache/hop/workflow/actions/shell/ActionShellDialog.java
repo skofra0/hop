@@ -59,10 +59,7 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionShell.class; // For Translator
 
   private static final String[] FILEFORMATS =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionShell.Fileformat.Scripts"),
-        BaseMessages.getString(PKG, "ActionShell.Fileformat.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionShell.Fileformat.Scripts"), BaseMessages.getString(PKG, "ActionShell.Fileformat.All")};
 
   private Text wName;
 
@@ -126,8 +123,7 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
 
   private Text wScript;
 
-  public ActionShellDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionShellDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionShell) action;
   }
@@ -222,14 +218,13 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdInsertScript.top = new FormAttachment(wlInsertScript, 0, SWT.CENTER);
     fdInsertScript.right = new FormAttachment(100, 0);
     wInsertScript.setLayoutData(fdInsertScript);
-    wInsertScript.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeInsertScript();
-            action.setChanged();
-          }
-        });
+    wInsertScript.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeInsertScript();
+        action.setChanged();
+      }
+    });
 
     // /////////////////////
     // Filename line
@@ -250,16 +245,7 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdbFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
     fdbFilename.right = new FormAttachment(100, 0);
     wbFilename.setLayoutData(fdbFilename);
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.sh;*.bat;*.BAT", "*;*.*"},
-                FILEFORMATS,
-                true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*.sh;*.bat;*.BAT", "*;*.*"}, FILEFORMATS, true));
 
     wFilename = new TextVar(variables, wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wFilename);
@@ -320,15 +306,14 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdSetLogfile.top = new FormAttachment(wlSetLogfile, 0, SWT.CENTER);
     fdSetLogfile.right = new FormAttachment(100, 0);
     wSetLogfile.setLayoutData(fdSetLogfile);
-    wSetLogfile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setLogfile = !action.setLogfile;
-            action.setChanged();
-            enableFields();
-          }
-        });
+    wSetLogfile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setLogfile = !action.setLogfile;
+        action.setChanged();
+        enableFields();
+      }
+    });
     // Append logfile?
     wlAppendLogfile = new Label(wLogging, SWT.RIGHT);
     wlAppendLogfile.setText(BaseMessages.getString(PKG, "ActionShell.Append.Logfile.Label"));
@@ -339,19 +324,17 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdlAppendLogfile.right = new FormAttachment(middle, -margin);
     wlAppendLogfile.setLayoutData(fdlAppendLogfile);
     wAppendLogfile = new Button(wLogging, SWT.CHECK);
-    wAppendLogfile.setToolTipText(
-        BaseMessages.getString(PKG, "ActionShell.Append.Logfile.Tooltip"));
+    wAppendLogfile.setToolTipText(BaseMessages.getString(PKG, "ActionShell.Append.Logfile.Tooltip"));
     PropsUi.setLook(wAppendLogfile);
     FormData fdAppendLogfile = new FormData();
     fdAppendLogfile.left = new FormAttachment(middle, 0);
     fdAppendLogfile.top = new FormAttachment(wlAppendLogfile, 0, SWT.CENTER);
     fdAppendLogfile.right = new FormAttachment(100, 0);
     wAppendLogfile.setLayoutData(fdAppendLogfile);
-    wAppendLogfile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wAppendLogfile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     // Set the logfile path + base-name
     wlLogfile = new Label(wLogging, SWT.RIGHT);
@@ -405,14 +388,13 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.addDate = !action.addDate;
-            action.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.addDate = !action.addDate;
+        action.setChanged();
+      }
+    });
 
     // Add time to logfile name?
     wlAddTime = new Label(wLogging, SWT.RIGHT);
@@ -430,14 +412,13 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.addTime = !action.addTime;
-            action.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.addTime = !action.addTime;
+        action.setChanged();
+      }
+    });
 
     wlLoglevel = new Label(wLogging, SWT.RIGHT);
     wlLoglevel.setText(BaseMessages.getString(PKG, "ActionShell.Loglevel.Label"));
@@ -483,16 +464,15 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.argFromPrevious = !action.argFromPrevious;
-            action.setChanged();
-            wlFields.setEnabled(!action.argFromPrevious);
-            wFields.setEnabled(!action.argFromPrevious);
-          }
-        });
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.argFromPrevious = !action.argFromPrevious;
+        action.setChanged();
+        wlFields.setEnabled(!action.argFromPrevious);
+        wFields.setEnabled(!action.argFromPrevious);
+      }
+    });
 
     wlEveryRow = new Label(wGeneralComp, SWT.RIGHT);
     wlEveryRow.setText(BaseMessages.getString(PKG, "ActionShell.ExecForEveryInputRow.Label"));
@@ -505,21 +485,19 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     wEveryRow = new Button(wGeneralComp, SWT.CHECK);
     PropsUi.setLook(wEveryRow);
     wEveryRow.setSelection(action.execPerRow);
-    wEveryRow.setToolTipText(
-        BaseMessages.getString(PKG, "ActionShell.ExecForEveryInputRow.Tooltip"));
+    wEveryRow.setToolTipText(BaseMessages.getString(PKG, "ActionShell.ExecForEveryInputRow.Tooltip"));
     FormData fdEveryRow = new FormData();
     fdEveryRow.left = new FormAttachment(middle, 0);
     fdEveryRow.top = new FormAttachment(wlEveryRow, 0, SWT.CENTER);
     fdEveryRow.right = new FormAttachment(100, 0);
     wEveryRow.setLayoutData(fdEveryRow);
-    wEveryRow.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.execPerRow = !action.execPerRow;
-            action.setChanged();
-          }
-        });
+    wEveryRow.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.execPerRow = !action.execPerRow;
+        action.setChanged();
+      }
+    });
 
     wlFields = new Label(wGeneralComp, SWT.NONE);
     wlFields.setText(BaseMessages.getString(PKG, "ActionShell.Fields.Label"));
@@ -530,27 +508,14 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
     wlFields.setLayoutData(fdlFields);
 
     final int nrFieldsCols = 1;
-    int nrRows =
-        action.arguments == null ? 1 : (action.arguments.length == 0 ? 0 : action.arguments.length);
+    int nrRows = action.arguments == null ? 1 : (action.arguments.length == 0 ? 0 : action.arguments.length);
     final int nrFieldsRows = nrRows;
 
     ColumnInfo[] fieldColumns = new ColumnInfo[nrFieldsCols];
-    fieldColumns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ActionShell.Fields.Argument.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    fieldColumns[0] = new ColumnInfo(BaseMessages.getString(PKG, "ActionShell.Fields.Argument.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     fieldColumns[0].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            fieldColumns,
-            nrFieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, fieldColumns, nrFieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -595,8 +560,7 @@ public class ActionShellDialog extends ActionDialog implements IActionDialog {
 
     // Script line
 
-    wScript =
-        new Text(wScriptComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wScript = new Text(wScriptComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(wScript);
     wScript.addModifyListener(lsMod);
     FormData fdScript = new FormData();

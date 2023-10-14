@@ -116,8 +116,7 @@ public class MongoField implements Comparable<MongoField> {
    */
   public void init(int outputIndex) throws HopException {
     if (StringUtils.isEmpty(fieldPath)) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbOutput.Messages.MongoField.Error.NoPathSet"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbOutput.Messages.MongoField.Error.NoPathSet"));
     }
 
     if (pathParts != null) {
@@ -196,20 +195,14 @@ public class MongoField implements Comparable<MongoField> {
         } else if (fieldValue instanceof Date) {
           fieldValue = Boolean.valueOf(((Date) fieldValue).getTime() != 0);
         } else if (!(fieldValue instanceof Boolean)) {
-          fieldValue =
-              Boolean.valueOf(
-                  fieldValue.toString().equalsIgnoreCase("Y")
-                      || fieldValue.toString().equalsIgnoreCase("T")
-                      || fieldValue.toString().equalsIgnoreCase("1"));
+          fieldValue = Boolean.valueOf(fieldValue.toString().equalsIgnoreCase("Y") || fieldValue.toString().equalsIgnoreCase("T") || fieldValue.toString().equalsIgnoreCase("1"));
         }
         return tempValueMeta.getBoolean(fieldValue);
       case IValueMeta.TYPE_DATE:
         if (fieldValue instanceof Number) {
           fieldValue = new Date(((Number) fieldValue).longValue());
         } else if (!(fieldValue instanceof Date)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "MongoDbInput.ErrorMessage.DateConversion", fieldValue.toString()));
+          throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.DateConversion", fieldValue.toString()));
         }
         return tempValueMeta.getDate(fieldValue);
       case IValueMeta.TYPE_INTEGER:
@@ -255,8 +248,7 @@ public class MongoField implements Comparable<MongoField> {
     }
 
     if (tempParts.size() == 0) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathRecord"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathRecord"));
     }
 
     String part = tempParts.remove(0);
@@ -315,8 +307,7 @@ public class MongoField implements Comparable<MongoField> {
     }
 
     if (tempParts.size() == 0) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathArray"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathArray"));
     }
 
     String part = tempParts.remove(0);
@@ -331,8 +322,7 @@ public class MongoField implements Comparable<MongoField> {
     try {
       arrayI = Integer.parseInt(index.trim());
     } catch (NumberFormatException e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.UnableToParseArrayIndex", index));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.UnableToParseArrayIndex", index));
     }
 
     if (part.indexOf(']') < part.length() - 1) {

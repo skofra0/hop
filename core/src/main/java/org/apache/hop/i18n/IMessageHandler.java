@@ -61,6 +61,5 @@ public interface IMessageHandler extends IHandler {
    * @param parameters
    * @return
    */
-  public String getString(
-      String packageName, String key, Class<?> resourceClass, String... parameters);
+  public String getString(String packageName, String key, Class<?> resourceClass, String... parameters);
 }

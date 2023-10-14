@@ -37,8 +37,7 @@ public final class Assert { // NOPMD
    * @param predicate predicate to apply.
    * @throws IllegalArgumentException if predicate rejected input.
    */
-  public static void assertTrue(final Object input, final Predicate predicate)
-      throws IllegalArgumentException {
+  public static void assertTrue(final Object input, final Predicate predicate) throws IllegalArgumentException {
     if (predicate.evaluate(input)) {
       return;
     }
@@ -65,8 +64,7 @@ public final class Assert { // NOPMD
    * @param args arguments to set, optional
    * @throws IllegalArgumentException if bool is false.
    */
-  public static void assertTrue(final boolean bool, final String message, final Object... args)
-      throws IllegalArgumentException {
+  public static void assertTrue(final boolean bool, final String message, final Object... args) throws IllegalArgumentException {
     if (bool) {
       return;
     }
@@ -90,8 +88,7 @@ public final class Assert { // NOPMD
    * @param args optinal arguments.
    * @throws IllegalArgumentException if bool is true.
    */
-  public static void assertFalse(final boolean bool, final String message, final Object... args)
-      throws IllegalArgumentException {
+  public static void assertFalse(final boolean bool, final String message, final Object... args) throws IllegalArgumentException {
     if (!bool) {
       return;
     }
@@ -106,8 +103,7 @@ public final class Assert { // NOPMD
    * @param predicate predicate to apply.
    * @throws IllegalArgumentException if predicate didn't rejected input.
    */
-  public static void assertFalse(final Object input, final Predicate predicate)
-      throws IllegalArgumentException {
+  public static void assertFalse(final Object input, final Predicate predicate) throws IllegalArgumentException {
     if (!predicate.evaluate(input)) {
       return;
     }
@@ -124,8 +120,7 @@ public final class Assert { // NOPMD
    * @param collection collection to test.
    * @throws IllegalArgumentException if collection is null or empty.
    */
-  public static void assertNotNullOrEmpty(final Collection<?> collection)
-      throws IllegalArgumentException {
+  public static void assertNotNullOrEmpty(final Collection<?> collection) throws IllegalArgumentException {
     if (collection == null || collection.isEmpty()) {
       throw new IllegalArgumentException("Collection cannot be null or empty");
     }
@@ -136,8 +131,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if collection is null or empty.
    */
-  public static void assertNotNullOrEmpty(final Collection<?> collection, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotNullOrEmpty(final Collection<?> collection, final String message) throws IllegalArgumentException {
     if (collection == null || collection.isEmpty()) {
       throw new IllegalArgumentException(message);
     }
@@ -158,8 +152,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if collection is null or empty.
    */
-  public static void assertNotNullOrEmpty(final Object[] array, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotNullOrEmpty(final Object[] array, final String message) throws IllegalArgumentException {
     if (array == null || array.length == 0) {
       throw new IllegalArgumentException(message);
     }
@@ -180,8 +173,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if collection is null or empty.
    */
-  public static void assertNotNullOrEmpty(final Map<?, ?> map, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotNullOrEmpty(final Map<?, ?> map, final String message) throws IllegalArgumentException {
     if (map == null || map.isEmpty()) {
       throw new IllegalArgumentException(message);
     }
@@ -202,8 +194,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if input is null or empty.
    */
-  public static void assertNotEmpty(final String input, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotEmpty(final String input, final String message) throws IllegalArgumentException {
     if (StringUtils.isEmpty(input)) {
       throw new IllegalArgumentException(message);
     }
@@ -224,8 +215,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if input is null or empty.
    */
-  public static void assertNotBlank(final String input, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotBlank(final String input, final String message) throws IllegalArgumentException {
     if (StringUtils.isBlank(input)) {
       throw new IllegalArgumentException(message);
     }
@@ -246,8 +236,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if input is null.
    */
-  public static void assertNotNull(final Object input, final String message)
-      throws IllegalArgumentException {
+  public static void assertNotNull(final Object input, final String message) throws IllegalArgumentException {
     if (input == null) {
       throw new IllegalArgumentException(message);
     }
@@ -268,8 +257,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if input isn't null.
    */
-  public static void assertNull(final Object input, final String message)
-      throws IllegalArgumentException {
+  public static void assertNull(final Object input, final String message) throws IllegalArgumentException {
     if (input != null) {
       throw new IllegalArgumentException(message);
     }
@@ -296,8 +284,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if value is null or <= 0.
    */
-  public static void assertGreaterZero(final Double value, final String message)
-      throws IllegalArgumentException {
+  public static void assertGreaterZero(final Double value, final String message) throws IllegalArgumentException {
     if (value == null || value <= 0) {
       throw new IllegalArgumentException(message);
     }
@@ -308,8 +295,7 @@ public final class Assert { // NOPMD
    * @param message the message.
    * @throws IllegalArgumentException if value is null or <= 0.
    */
-  public static void assertGreaterZero(final Integer value, final String message)
-      throws IllegalArgumentException {
+  public static void assertGreaterZero(final Integer value, final String message) throws IllegalArgumentException {
     if (value == null || value <= 0) {
       throw new IllegalArgumentException(message);
     }

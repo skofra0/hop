@@ -49,76 +49,45 @@ import java.util.Map;
 @Command(versionProvider = HopVersionProvider.class)
 public class HopImport implements Runnable, IHasHopMetadataProvider {
 
-  @Option(
-      names = {"-t", "--type"},
-      description = "The type of import plugin to use (e.g. kettle)",
-      defaultValue = "kettle")
+  @Option(names = {"-t", "--type"}, description = "The type of import plugin to use (e.g. kettle)", defaultValue = "kettle")
   private String type;
 
-  @Option(
-      names = {"-i", "--input"},
-      description = "The input folder to read from")
+  @Option(names = {"-i", "--input"}, description = "The input folder to read from")
   private String inputFolderName;
 
-  @Option(
-      names = {"-o", "--output"},
-      description = "The output folder to write to")
+  @Option(names = {"-o", "--output"}, description = "The output folder to write to")
   private String outputFolderName;
 
-  @Option(
-      names = {"-s", "--shared-xml"},
-      description = "The shared.xml file to read from")
+  @Option(names = {"-s", "--shared-xml"}, description = "The shared.xml file to read from")
   private String sharedXmlFilename;
 
-  @Option(
-      names = {"-k", "--kettle-properties"},
-      description = "The kettle.properties file to read from")
+  @Option(names = {"-k", "--kettle-properties"}, description = "The kettle.properties file to read from")
   private String kettlePropertiesFilename;
 
-  @Option(
-      names = {"-j", "--jdbc-properties"},
-      description = "The jdbc.properties file to read from")
+  @Option(names = {"-j", "--jdbc-properties"}, description = "The jdbc.properties file to read from")
   private String jdbcPropertiesFilename;
 
-  @Option(
-      names = {"-c", "--target-config-file"},
-      description = "The target config file to write variable to")
+  @Option(names = {"-c", "--target-config-file"}, description = "The target config file to write variable to")
   private String targetConfigFilename;
 
-  @Option(
-      names = {"-e", "--skip-existing"},
-      description = "Skip existing files in the target folders ",
-      defaultValue = "true")
+  @Option(names = {"-e", "--skip-existing"}, description = "Skip existing files in the target folders ", defaultValue = "true")
   private Boolean skippingExistingTargetFiles = true;
 
-  @Option(
-      names = {"-p", "--skip-hidden"},
-      description = "Skip import of hidden files and folders",
-      defaultValue = "true")
+  @Option(names = {"-p", "--skip-hidden"}, description = "Skip import of hidden files and folders", defaultValue = "true")
   private Boolean skippingHiddenFilesAndFolders = true;
 
-  @Option(
-      names = {"-f", "--skip-folders"},
-      description = "Skip import of sub-folders",
-      defaultValue = "false")
+  @Option(names = {"-f", "--skip-folders"}, description = "Skip import of sub-folders", defaultValue = "false")
   private Boolean skippingFolders = false;
 
-  @Option(
-      names = {"-l", "--list-plugins"},
-      description = "List the available import plugins")
+  @Option(names = {"-l", "--list-plugins"}, description = "List the available import plugins")
   private Boolean listPluginTypes;
 
-  @Option(
-      names = {"-h", "--help"},
-      usageHelp = true,
-      description = "Displays this help message and quits.")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "Displays this help message and quits.")
   private boolean helpRequested;
 
-  @Option(names = {"-v", "--version"},
-      versionHelp = true,
-      description = "Print version information and exit")
-  private boolean versionRequested;  
-  
+  @Option(names = {"-v", "--version"}, versionHelp = true, description = "Print version information and exit")
+  private boolean versionRequested;
+
   private IVariables variables;
   private CommandLine cmd;
   private ILogChannel log;
@@ -160,17 +129,11 @@ public class HopImport implements Runnable, IHasHopMetadataProvider {
       hopImport.setJdbcPropertiesFilename(jdbcPropertiesFilename);
       hopImport.setSharedXmlFilename(sharedXmlFilename);
       if (skippingExistingTargetFiles != null) {
-        log.logBasic(
-            "Import is "
-                + (skippingExistingTargetFiles ? "" : "not ")
-                + "skipping existing target files");
+        log.logBasic("Import is " + (skippingExistingTargetFiles ? "" : "not ") + "skipping existing target files");
         hopImport.setSkippingExistingTargetFiles(skippingExistingTargetFiles);
       }
       if (skippingHiddenFilesAndFolders != null) {
-        log.logBasic(
-            "Import is "
-                + (skippingHiddenFilesAndFolders ? "" : "not ")
-                + "skipping hidden files and folders");
+        log.logBasic("Import is " + (skippingHiddenFilesAndFolders ? "" : "not ") + "skipping hidden files and folders");
         hopImport.setSkippingHiddenFilesAndFolders(skippingHiddenFilesAndFolders);
       }
       if (skippingFolders != null) {
@@ -182,8 +145,7 @@ public class HopImport implements Runnable, IHasHopMetadataProvider {
       // Allow plugins to modify the elements loaded so far, before a pipeline or workflow is even
       // loaded
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopImportStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopImportStart.id, this);
 
       // Handle the options of the configuration plugins
       //
@@ -209,8 +171,7 @@ public class HopImport implements Runnable, IHasHopMetadataProvider {
       log.logBasic(Const.CR);
       log.logBasic(hopImport.getImportReport());
 
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopImportEnd.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopImportEnd.id, this);
 
     } catch (Exception e) {
       throw new ExecutionException(cmd, "There was an error during import", e);
@@ -584,8 +545,7 @@ public class HopImport implements Runnable, IHasHopMetadataProvider {
       for (IPlugin configPlugin : configPlugins) {
         // Load only the plugins of the "import" category
         if (ConfigPlugin.CATEGORY_IMPORT.equals(configPlugin.getCategory())) {
-          IConfigOptions configOptions =
-              PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
+          IConfigOptions configOptions = PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
           cmd.addMixin(configPlugin.getIds()[0], configOptions);
         }
       }

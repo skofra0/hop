@@ -114,18 +114,13 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
 
       result.getResultFiles().clear();
       if (this.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "ActionAddResultFilenames.log.DeletedFiles", "" + size));
+        logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.log.DeletedFiles", "" + size));
       }
     }
 
     if (argFromPrevious) {
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionAddResultFilenames.FoundPreviousRows",
-                String.valueOf((rows != null ? rows.size() : 0))));
+        logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.FoundPreviousRows", String.valueOf((rows != null ? rows.size() : 0))));
       }
     }
 
@@ -139,12 +134,7 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
 
         // ok we can process this file/folder
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionAddResultFilenames.ProcessingRow",
-                  fileFolderPrevious,
-                  fileMasksPrevious));
+          logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.ProcessingRow", fileFolderPrevious, fileMasksPrevious));
         }
 
         if (!processFile(fileFolderPrevious, fileMasksPrevious, parentWorkflow, result)) {
@@ -157,12 +147,7 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
         Argument argument = arguments.get(i);
         // ok we can process this file/folder
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionAddResultFilenames.ProcessingArg",
-                  argument.getArgument(),
-                  argument.getMask()));
+          logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.ProcessingArg", argument.getArgument(), argument.getMask()));
         }
         if (!processFile(argument.getArgument(), argument.getMask(), parentWorkflow, result)) {
           nrErrFiles++;
@@ -178,11 +163,7 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
     return result;
   }
 
-  private boolean processFile(
-      String filename,
-      String wildcard,
-      IWorkflowEngine<WorkflowMeta> parentWorkflow,
-      Result result) {
+  private boolean processFile(String filename, String wildcard, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result result) {
 
     boolean rcode = true;
     FileObject filefolder = null;
@@ -197,34 +178,19 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
         if (filefolder.getType() == FileType.FILE) {
           // Add filename to Resultfilenames ...
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionAddResultFilenames.AddingFileToResult", filefolder.toString()));
+            logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.AddingFileToResult", filefolder.toString()));
           }
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  HopVfs.getFileObject(filefolder.toString()),
-                  parentWorkflow.getWorkflowName(),
-                  toString());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filefolder.toString()), parentWorkflow.getWorkflowName(), toString());
           result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
         } else {
-          FileObject[] list =
-              filefolder.findFiles(new TextFileSelector(filefolder.toString(), realwildcard));
+          FileObject[] list = filefolder.findFiles(new TextFileSelector(filefolder.toString(), realwildcard));
 
           for (int i = 0; i < list.length && !parentWorkflow.isStopped(); i++) {
             // Add filename to Resultfilenames ...
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "ActionAddResultFilenames.AddingFileToResult", list[i].toString()));
+              logDetailed(BaseMessages.getString(PKG, "ActionAddResultFilenames.AddingFileToResult", list[i].toString()));
             }
-            ResultFile resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_GENERAL,
-                    HopVfs.getFileObject(list[i].toString()),
-                    parentWorkflow.getWorkflowName(),
-                    toString());
+            ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(list[i].toString()), parentWorkflow.getWorkflowName(), toString());
             result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
           }
         }
@@ -232,18 +198,13 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
       } else {
         // File can not be found
         if (isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "ActionAddResultFilenames.FileCanNotbeFound", realFilefoldername));
+          logBasic(BaseMessages.getString(PKG, "ActionAddResultFilenames.FileCanNotbeFound", realFilefoldername));
         }
         rcode = false;
       }
     } catch (Exception e) {
       rcode = false;
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionAddResultFilenames.CouldNotProcess", realFilefoldername, e.getMessage()),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionAddResultFilenames.CouldNotProcess", realFilefoldername, e.getMessage()), e);
     } finally {
       if (filefolder != null) {
         try {
@@ -280,22 +241,15 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
           // Pass over the Base folder itself
           String shortFilename = info.getFile().getName().getBaseName();
 
-          if (info.getFile().getParent().equals(info.getBaseFolder())
-              || (!info.getFile().getParent().equals(info.getBaseFolder()) && includeSubFolders)) {
+          if (info.getFile().getParent().equals(info.getBaseFolder()) || (!info.getFile().getParent().equals(info.getBaseFolder()) && includeSubFolders)) {
             if ((info.getFile().getType() == FileType.FILE && fileWildcard == null)
-                || (info.getFile().getType() == FileType.FILE
-                    && fileWildcard != null
-                    && GetFileWildcard(shortFilename, fileWildcard))) {
+                || (info.getFile().getType() == FileType.FILE && fileWildcard != null && GetFileWildcard(shortFilename, fileWildcard))) {
               returncode = true;
             }
           }
         }
       } catch (Exception e) {
-        logError(
-            "Error while finding files ... in ["
-                + info.getFile().toString()
-                + "]. Exception :"
-                + e.getMessage());
+        logError("Error while finding files ... in [" + info.getFile().toString() + "]. Exception :" + e.getMessage());
         returncode = false;
       }
       return returncode;
@@ -347,18 +301,8 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean res =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "arguments",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean res = ActionValidatorUtils.andValidator().validate(this, "arguments", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (res == false) {
       return;
@@ -366,8 +310,7 @@ public class ActionAddResultFilenames extends ActionBase implements Cloneable, I
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
 
     for (int i = 0; i < arguments.size(); i++) {
       ActionValidatorUtils.andValidator().validate(this, "arguments[" + i + "]", remarks, ctx);

@@ -36,16 +36,12 @@ import org.apache.hop.ui.hopgui.HopGui;
 
 import java.util.List;
 
-@ExtensionPoint(
-    id = "HopGuiStartProjectLoad",
-    description = "Load the previously used project",
-    extensionPointId = "HopGuiStart")
+@ExtensionPoint(id = "HopGuiStartProjectLoad", description = "Load the previously used project", extensionPointId = "HopGuiStart")
 /** set the debug level right before the transform starts to run */
 public class HopGuiStartProjectLoad implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel logChannelInterface, IVariables variables, Object o)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel logChannelInterface, IVariables variables, Object o) throws HopException {
 
     HopGui hopGui = HopGui.getInstance();
 
@@ -63,17 +59,11 @@ public class HopGuiStartProjectLoad implements IExtensionPoint {
 
         // Let's see in the audit logs what the last opened project is.
         //
-        List<AuditEvent> auditEvents = AuditManager.findEvents(
-                ProjectsUtil.STRING_PROJECTS_AUDIT_GROUP,
-                ProjectsUtil.STRING_PROJECT_AUDIT_TYPE,
-                "open",
-                1,
-                true);
+        List<AuditEvent> auditEvents = AuditManager.findEvents(ProjectsUtil.STRING_PROJECTS_AUDIT_GROUP, ProjectsUtil.STRING_PROJECT_AUDIT_TYPE, "open", 1, true);
         if (auditEvents.isEmpty()) {
           lastProjectName = config.getDefaultProject();
         } else {
-          logChannelInterface.logDetailed(
-              "Audit events found for hop-gui/project : " + auditEvents.size());
+          logChannelInterface.logDetailed("Audit events found for hop-gui/project : " + auditEvents.size());
 
           AuditEvent lastEvent = auditEvents.get(0);
           long eventTime = lastEvent.getDate().getTime();
@@ -82,7 +72,7 @@ public class HopGuiStartProjectLoad implements IExtensionPoint {
           if (config.findProjectConfig(lastProjectName) == null) {
             // The last existing project to open was not found.
             //
-            lastProjectName=null;
+            lastProjectName = null;
           }
         }
 
@@ -97,18 +87,13 @@ public class HopGuiStartProjectLoad implements IExtensionPoint {
 
             // What was the last environment for this project?
             //
-            List<AuditEvent> envEvents = AuditManager.findEvents(
-                    ProjectsUtil.STRING_PROJECTS_AUDIT_GROUP,
-                    ProjectsUtil.STRING_ENVIRONMENT_AUDIT_TYPE,
-                    "open",
-                    100,
-                    true);
+            List<AuditEvent> envEvents = AuditManager.findEvents(ProjectsUtil.STRING_PROJECTS_AUDIT_GROUP, ProjectsUtil.STRING_ENVIRONMENT_AUDIT_TYPE, "open", 100, true);
 
             // Find the last selected environment for this project.
             //
             for (AuditEvent envEvent : envEvents) {
               LifecycleEnvironment environment = config.findEnvironment(envEvent.getName());
-              if (environment!=null && lastProjectName.equals(environment.getProjectName())) {
+              if (environment != null && lastProjectName.equals(environment.getProjectName())) {
                 lastEnvironment = environment;
                 break;
               }

@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ValueMapperMetaTest {
-  
+
   @Before
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
@@ -34,21 +34,18 @@ public class ValueMapperMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    ValueMapperMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/value-mapper-transform.xml", ValueMapperMeta.class);
+    ValueMapperMeta meta = TransformSerializationTestUtil.testSerialization("/value-mapper-transform.xml", ValueMapperMeta.class);
 
     assertEquals(7, meta.getValues().size());
     // Test serialization with null source attribute
     assertNull(meta.getValues().get(0).getSource());
     assertEquals("[${NOT_DEFINED}]", meta.getValues().get(0).getTarget());
-    
+
     assertEquals("BE", meta.getValues().get(1).getSource());
     assertEquals("Belgium", meta.getValues().get(1).getTarget());
-        
+
     assertEquals("Country_Code", meta.getFieldToUse());
     assertEquals("Country_Name", meta.getTargetField());
-    assertEquals("[${NOT_FOUND}]", meta.getNonMatchDefault());    
+    assertEquals("[${NOT_FOUND}]", meta.getNonMatchDefault());
   }
 }
-

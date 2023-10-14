@@ -47,12 +47,12 @@ import static org.apache.hop.core.Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLD
 import static org.apache.hop.core.Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME;
 
 /** This class is supposed to use in transforms where the mapping to sub pipelines takes place */
-public abstract class TransformWithMappingMeta<Main extends ITransform, Data extends ITransformData>
-    extends BaseTransformMeta<Main, Data> {
+public abstract class TransformWithMappingMeta<Main extends ITransform, Data extends ITransformData> extends BaseTransformMeta<Main, Data> {
 
   private static final Class<?> PKG = TransformWithMappingMeta.class; // For Translator
 
-  @HopMetadataProperty protected String filename;
+  @HopMetadataProperty
+  protected String filename;
 
   public TransformWithMappingMeta() {
     super();
@@ -65,47 +65,32 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
 
   /**
    * @return new var variables with follow vars from parent variables or just new variables if
-   *     parent was null
-   *     <p>{@link Const#INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER} {@link
-   *     Const#INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER} {@link
-   *     Const#INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY} {@link
-   *     Const#INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME}
+   *         parent was null
+   *         <p>
+   *         {@link Const#INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER} {@link
+   *         Const#INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER} {@link
+   *         Const#INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY} {@link
+   *         Const#INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME}
    */
   private static IVariables getVarSpaceOnlyWithRequiredParentVars(IVariables parentSpace) {
     Variables tmpSpace = new Variables();
     if (parentSpace != null) {
-      tmpSpace.setVariable(
-          INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-          parentSpace.getVariable(INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
-      tmpSpace.setVariable(
-          INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER,
-          parentSpace.getVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER));
-      tmpSpace.setVariable(
-          INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY,
-          parentSpace.getVariable(INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY));
-      tmpSpace.setVariable(
-          INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME,
-          parentSpace.getVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME));
+      tmpSpace.setVariable(INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, parentSpace.getVariable(INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+      tmpSpace.setVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, parentSpace.getVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER));
+      tmpSpace.setVariable(INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, parentSpace.getVariable(INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY));
+      tmpSpace.setVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, parentSpace.getVariable(INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME));
     }
     return tmpSpace;
   }
 
-  public static synchronized PipelineMeta loadMappingMeta(
-      TransformWithMappingMeta executorMeta,
-      IHopMetadataProvider metadataProvider,
-      IVariables variables)
-      throws HopException {
+  public static synchronized PipelineMeta loadMappingMeta(TransformWithMappingMeta executorMeta, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     PipelineMeta mappingPipelineMeta = null;
 
     CurrentDirectoryResolver r = new CurrentDirectoryResolver();
     // send restricted parentVariables with several important options
     // Otherwise we destroy child variables and the option "Inherit all variables from the pipeline"
     // is enabled always.
-    IVariables tmpSpace =
-        r.resolveCurrentDirectory(
-            getVarSpaceOnlyWithRequiredParentVars(variables),
-            executorMeta.getParentTransformMeta(),
-            executorMeta.getFilename());
+    IVariables tmpSpace = r.resolveCurrentDirectory(getVarSpaceOnlyWithRequiredParentVars(variables), executorMeta.getParentTransformMeta(), executorMeta.getFilename());
 
     String realFilename = tmpSpace.resolve(executorMeta.getFilename());
     if (variables != null) {
@@ -118,13 +103,10 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
       // Don't set internal variables: they belong to the parent thread!
       if (mappingPipelineMeta == null) {
         mappingPipelineMeta = new PipelineMeta(realFilename, metadataProvider, tmpSpace);
-        LogChannel.GENERAL.logDetailed(
-            "Loading pipeline", "Pipeline was loaded from XML file [" + realFilename + "]");
+        LogChannel.GENERAL.logDetailed("Loading pipeline", "Pipeline was loaded from XML file [" + realFilename + "]");
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TransformWithMappingMeta.Exception.UnableToLoadPipeline"),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "TransformWithMappingMeta.Exception.UnableToLoadPipeline"), e);
     }
 
     if (mappingPipelineMeta == null) { // skip warning
@@ -144,14 +126,7 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
       String[] listParameters,
       String[] mappingVariables,
       String[] inputFields) {
-    activateParams(
-        childVariableSpace,
-        childNamedParams,
-        parent,
-        listParameters,
-        mappingVariables,
-        inputFields,
-        true);
+    activateParams(childVariableSpace, childNamedParams, parent, listParameters, mappingVariables, inputFields, true);
   }
 
   public static void activateParams(
@@ -182,7 +157,7 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
       // parent parameter.
       if (parameters.containsKey(variableName)) {
         parameters.put(variableName, parent.getVariable(variableName));
-        // added  isPassingAllParameters check since we don't need to overwrite the child value if
+        // added isPassingAllParameters check since we don't need to overwrite the child value if
         // the
         // isPassingAllParameters is not checked
       } else if (ArrayUtils.contains(listParameters, variableName) && isPassingAllParameters) {
@@ -239,11 +214,7 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // Try to load the pipeline from a file.
@@ -259,15 +230,12 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
       // Also go down into the mapping pipeline and export the files
       // there. (mapping recursively down)
       //
-      String proposedNewFilename =
-          mappingPipelineMeta.exportResources(
-              variables, definitions, iResourceNaming, metadataProvider);
+      String proposedNewFilename = mappingPipelineMeta.exportResources(variables, definitions, iResourceNaming, metadataProvider);
 
       // To get a relative path to it, we inject
       // ${Internal.Entry.Current.Directory}
       //
-      String newFilename =
-          "${" + INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
+      String newFilename = "${" + INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
 
       // Set the correct filename inside the XML.
       //
@@ -279,9 +247,7 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
 
       return proposedNewFilename;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "TransformWithMappingMeta.Exception.UnableToLoadPipeline", filename));
+      throw new HopException(BaseMessages.getString(PKG, "TransformWithMappingMeta.Exception.UnableToLoadPipeline", filename));
     }
   }
 
@@ -297,15 +263,13 @@ public abstract class TransformWithMappingMeta<Main extends ITransform, Data ext
     }
   }
 
-  public static void replaceVariableValues(
-      IVariables childPipelineMeta, IVariables replaceBy, String type) {
+  public static void replaceVariableValues(IVariables childPipelineMeta, IVariables replaceBy, String type) {
     if (replaceBy == null) {
       return;
     }
     String[] variableNames = replaceBy.getVariableNames();
     for (String variableName : variableNames) {
-      if (childPipelineMeta.getVariable(variableName) != null
-          && !isInternalVariable(variableName, type)) {
+      if (childPipelineMeta.getVariable(variableName) != null && !isInternalVariable(variableName, type)) {
         childPipelineMeta.setVariable(variableName, replaceBy.getVariable(variableName));
       }
     }

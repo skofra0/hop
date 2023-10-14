@@ -111,11 +111,14 @@ public class GetXMLDataTest extends TestCase {
   public IRowMeta createResultRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaString("field1"), new ValueMetaString("objectid"),
-      new ValueMetaString("sapident"), new ValueMetaString("quantity"),
-      new ValueMetaString("merkmalname"), new ValueMetaString("merkmalswert")
-    };
+    IValueMeta[] valuesMeta =
+        {
+            new ValueMetaString("field1"),
+            new ValueMetaString("objectid"),
+            new ValueMetaString("sapident"),
+            new ValueMetaString("quantity"),
+            new ValueMetaString("merkmalname"),
+            new ValueMetaString("merkmalswert")};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -444,8 +447,7 @@ public class GetXMLDataTest extends TestCase {
     List<RowMetaAndData> goldenImageRows = createResultData1();
 
     GetXmlDataData getXMLDataData = new GetXmlDataData();
-    GetXmlData getXmlData =
-        new GetXmlData(dummyTransform1, gxdm, getXMLDataData, 0, pipelineMeta, pipeline);
+    GetXmlData getXmlData = new GetXmlData(dummyTransform1, gxdm, getXMLDataData, 0, pipelineMeta, pipeline);
     getXmlData.setVariable("xml_path", "data/owner");
     getXmlData.init();
     assertEquals("${xml_path}", gxdm.getInputFields()[0].getXPath());

@@ -100,10 +100,7 @@ public class TextFileOutputData extends BaseTransformData implements ITransformD
     BufferedOutputStream bufferedOutputStream;
     boolean isDirty;
 
-    public FileStream(
-        OutputStream fileOutputStream,
-        CompressionOutputStream compressedOutputStream,
-        BufferedOutputStream bufferedOutputStream) {
+    public FileStream(OutputStream fileOutputStream, CompressionOutputStream compressedOutputStream, BufferedOutputStream bufferedOutputStream) {
       this.fileOutputStream = fileOutputStream;
       this.compressedOutputStream = compressedOutputStream;
       this.bufferedOutputStream = bufferedOutputStream;
@@ -135,9 +132,7 @@ public class TextFileOutputData extends BaseTransformData implements ITransformD
     }
 
     public boolean isOpen() {
-      return (fileOutputStream != null)
-          || (compressedOutputStream != null)
-          || (bufferedOutputStream != null);
+      return (fileOutputStream != null) || (compressedOutputStream != null) || (bufferedOutputStream != null);
     }
 
     public BufferedOutputStream getBufferedOutputStream() {
@@ -247,8 +242,7 @@ public class TextFileOutputData extends BaseTransformData implements ITransformD
     public void closeStream(OutputStream outputStream) throws IOException {
       for (int i = 0; i < streamsList.size(); i++) {
         FileStream fileStream = streamsList.get(i);
-        if ((fileStream.getBufferedOutputStream() == outputStream)
-            || (fileStream.getCompressedOutputStream() == outputStream)
+        if ((fileStream.getBufferedOutputStream() == outputStream) || (fileStream.getCompressedOutputStream() == outputStream)
             || (fileStream.getFileOutputStream() == outputStream)) {
           closeFile(namesList.get(i));
         }
@@ -286,8 +280,7 @@ public class TextFileOutputData extends BaseTransformData implements ITransformD
       if (size() > 0) {
         index = indexMap.lastKey() + 1;
       }
-      FileStreamsCollectionEntry newEntry =
-          new FileStreamsCollectionEntry(fileName, index, fileWriterOutputStream);
+      FileStreamsCollectionEntry newEntry = new FileStreamsCollectionEntry(fileName, index, fileWriterOutputStream);
       fileNameMap.put(fileName, newEntry);
       indexMap.put(index, newEntry);
       if (fileWriterOutputStream.isOpen()) {
@@ -382,8 +375,7 @@ public class TextFileOutputData extends BaseTransformData implements ITransformD
     public void closeStream(OutputStream outputStream) throws IOException {
       for (Map.Entry<Long, FileStreamsCollectionEntry> mapEntry : indexMap.entrySet()) {
         FileStream fileStream = mapEntry.getValue().getFileStream();
-        if ((fileStream.getBufferedOutputStream() == outputStream)
-            || (fileStream.getCompressedOutputStream() == outputStream)
+        if ((fileStream.getBufferedOutputStream() == outputStream) || (fileStream.getCompressedOutputStream() == outputStream)
             || (fileStream.getFileOutputStream() == outputStream)) {
           closeFile(mapEntry.getValue().getFileName());
         }

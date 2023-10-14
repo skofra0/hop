@@ -43,7 +43,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HopServerPipelineStatusTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testStaticFinal() {
@@ -57,20 +58,11 @@ public class HopServerPipelineStatusTest {
     String status = Pipeline.STRING_FINISHED;
     HopServerPipelineStatus ts = new HopServerPipelineStatus(pipelineName, id, status);
     String resultXML = ts.getXml();
-    Node newPipelineStatus =
-        XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerPipelineStatus.XML_TAG);
+    Node newPipelineStatus = XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerPipelineStatus.XML_TAG);
 
-    assertEquals(
-        "The XML document should match after rebuilding from XML",
-        resultXML,
-        HopServerPipelineStatus.fromXml(resultXML).getXml());
-    assertEquals(
-        "There should be one \"log_date\" node in the XML",
-        1,
-        XmlHandler.countNodes(newPipelineStatus, "log_date"));
-    assertTrue(
-        "The \"log_date\" node should have a null value",
-        !Utils.isEmpty(XmlHandler.getTagValue(newPipelineStatus, "log_date")));
+    assertEquals("The XML document should match after rebuilding from XML", resultXML, HopServerPipelineStatus.fromXml(resultXML).getXml());
+    assertEquals("There should be one \"log_date\" node in the XML", 1, XmlHandler.countNodes(newPipelineStatus, "log_date"));
+    assertTrue("The \"log_date\" node should have a null value", !Utils.isEmpty(XmlHandler.getTagValue(newPipelineStatus, "log_date")));
   }
 
   @Test
@@ -82,43 +74,22 @@ public class HopServerPipelineStatusTest {
     HopServerPipelineStatus ts = new HopServerPipelineStatus(pipelineName, id, status);
     ts.setLogDate(logDate);
     String resultXML = ts.getXml();
-    Node newPipelineStatus =
-        XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerPipelineStatus.XML_TAG);
+    Node newPipelineStatus = XmlHandler.getSubNode(XmlHandler.loadXmlString(resultXML), HopServerPipelineStatus.XML_TAG);
 
-    assertEquals(
-        "The XML document should match after rebuilding from XML",
-        resultXML,
-        HopServerPipelineStatus.fromXml(resultXML).getXml());
-    assertEquals(
-        "There should be one \"log_date\" node in the XML",
-        1,
-        XmlHandler.countNodes(newPipelineStatus, "log_date"));
-    assertEquals(
-        "The \"log_date\" node should match the original value",
-        XmlHandler.date2string(logDate),
-        XmlHandler.getTagValue(newPipelineStatus, "log_date"));
+    assertEquals("The XML document should match after rebuilding from XML", resultXML, HopServerPipelineStatus.fromXml(resultXML).getXml());
+    assertEquals("There should be one \"log_date\" node in the XML", 1, XmlHandler.countNodes(newPipelineStatus, "log_date"));
+    assertEquals("The \"log_date\" node should match the original value", XmlHandler.date2string(logDate), XmlHandler.getTagValue(newPipelineStatus, "log_date"));
   }
 
   @Test
   public void testSerialization() throws HopException {
     // TODO Add TransformStatusList
     List<String> attributes =
-        Arrays.asList(
-            "PipelineName",
-            "Id",
-            "StatusDescription",
-            "ErrorDescription",
-            "LogDate",
-            "Paused",
-            "FirstLoggingLineNr",
-            "LastLoggingLineNr",
-            "LoggingString");
+        Arrays.asList("PipelineName", "Id", "StatusDescription", "ErrorDescription", "LogDate", "Paused", "FirstLoggingLineNr", "LastLoggingLineNr", "LoggingString");
     Map<String, IFieldLoadSaveValidator<?>> attributeMap = new HashMap<>();
     attributeMap.put("LoggingString", new LoggingStringLoadSaveValidator());
 
-    HopServerPipelineStatusLoadSaveTester tester =
-        new HopServerPipelineStatusLoadSaveTester(
-            HopServerPipelineStatus.class, attributes, attributeMap);
+    HopServerPipelineStatusLoadSaveTester tester = new HopServerPipelineStatusLoadSaveTester(HopServerPipelineStatus.class, attributes, attributeMap);
 
     tester.testSerialization();
   }

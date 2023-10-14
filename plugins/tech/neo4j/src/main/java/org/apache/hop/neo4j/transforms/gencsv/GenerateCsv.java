@@ -48,18 +48,12 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
    * @param transformMeta The TransformMeta object to run.
    * @param meta the transform specific metadata,
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The TransInfo of which the transform transformMeta is part of.
    * @param pipeline The (running) pipeline to obtain information shared among the transform.
    */
-  public GenerateCsv(
-      TransformMeta transformMeta,
-      GenerateCsvMeta meta,
-      GenerateCsvData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GenerateCsv(TransformMeta transformMeta, GenerateCsvMeta meta, GenerateCsvData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -110,17 +104,14 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
 
       data.graphFieldIndex = getInputRowMeta().indexOfValue(meta.getGraphFieldName());
       if (data.graphFieldIndex < 0) {
-        throw new HopException(
-            "Unable to find graph field " + meta.getGraphFieldName() + "' in the transform input");
+        throw new HopException("Unable to find graph field " + meta.getGraphFieldName() + "' in the transform input");
       }
-      if (getInputRowMeta().getValueMeta(data.graphFieldIndex).getType()
-          != ValueMetaGraph.TYPE_GRAPH) {
+      if (getInputRowMeta().getValueMeta(data.graphFieldIndex).getType() != ValueMetaGraph.TYPE_GRAPH) {
         throw new HopException("Field " + meta.getGraphFieldName() + "' needs to be of type Graph");
       }
 
       if (meta.getUniquenessStrategy() != UniquenessStrategy.None) {
-        data.indexedGraphData =
-            new IndexedGraphData(meta.getUniquenessStrategy(), meta.getUniquenessStrategy());
+        data.indexedGraphData = new IndexedGraphData(meta.getUniquenessStrategy(), meta.getUniquenessStrategy());
       } else {
         data.indexedGraphData = null;
       }
@@ -147,8 +138,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
 
       // Get the graph data
       //
-      ValueMetaGraph valueMetaGraph =
-          (ValueMetaGraph) getInputRowMeta().getValueMeta(data.graphFieldIndex);
+      ValueMetaGraph valueMetaGraph = (ValueMetaGraph) getInputRowMeta().getValueMeta(data.graphFieldIndex);
       GraphData graphData = valueMetaGraph.getGraphData(row[data.graphFieldIndex]);
 
       // Now we're going to build a map between the input graph data property sets and the file the
@@ -194,11 +184,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
       // the
       // pipeline and transform name.
       //
-      String propertySetKey =
-          GenerateCsvData.getPropertySetKey(
-              graphData.getSourcePipelineName(),
-              graphData.getSourceTransformName(),
-              nodeData.getPropertySetId());
+      String propertySetKey = GenerateCsvData.getPropertySetKey(graphData.getSourcePipelineName(), graphData.getSourceTransformName(), nodeData.getPropertySetId());
 
       // See if we have this set already?
       //
@@ -214,17 +200,14 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         try {
           csvFile.openFile();
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to create nodes CSV file '" + csvFile.getFilename() + "'", e);
+          throw new HopException("Unable to create nodes CSV file '" + csvFile.getFilename() + "'", e);
         }
 
         // Calculate the unique list of node properties
         //
         List<GraphPropertyData> properties = nodeData.getProperties();
         for (int i = 0; i < properties.size(); i++) {
-          csvFile
-              .getPropsList()
-              .add(new IdType(properties.get(i).getId(), properties.get(i).getType()));
+          csvFile.getPropsList().add(new IdType(properties.get(i).getId(), properties.get(i).getType()));
         }
         for (int i = 0; i < properties.size(); i++) {
           csvFile.getPropsIndexes().put(properties.get(i).getId(), i);
@@ -238,26 +221,18 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         }
 
         try {
-          writeNodeCsvHeader(
-              csvFile.getOutputStream(), csvFile.getPropsList(), csvFile.getIdFieldName());
+          writeNodeCsvHeader(csvFile.getOutputStream(), csvFile.getPropsList(), csvFile.getIdFieldName());
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to write node header to file '" + csvFile.getFilename() + "'", e);
+          throw new HopException("Unable to write node header to file '" + csvFile.getFilename() + "'", e);
         }
       }
 
       // Write a node data row to the CSV file...
       //
       try {
-        writeNodeCsvRows(
-            csvFile.getOutputStream(),
-            Arrays.asList(nodeData),
-            csvFile.getPropsList(),
-            csvFile.getPropsIndexes(),
-            csvFile.getIdFieldName());
+        writeNodeCsvRows(csvFile.getOutputStream(), Arrays.asList(nodeData), csvFile.getPropsList(), csvFile.getPropsIndexes(), csvFile.getIdFieldName());
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to write node header to file '" + csvFile.getFilename() + "'", e);
+        throw new HopException("Unable to write node header to file '" + csvFile.getFilename() + "'", e);
       }
     }
   }
@@ -271,11 +246,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
       // the
       // pipeline and transform name.
       //
-      String propertySetKey =
-          GenerateCsvData.getPropertySetKey(
-              graphData.getSourcePipelineName(),
-              graphData.getSourceTransformName(),
-              relationshipData.getPropertySetId());
+      String propertySetKey = GenerateCsvData.getPropertySetKey(graphData.getSourcePipelineName(), graphData.getSourceTransformName(), relationshipData.getPropertySetId());
 
       // See if we have this set already?
       //
@@ -291,17 +262,14 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         try {
           csvFile.openFile();
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to create relationships CSV file '" + csvFile.getFilename() + "'", e);
+          throw new HopException("Unable to create relationships CSV file '" + csvFile.getFilename() + "'", e);
         }
 
         // Calculate the unique list of node properties
         //
         List<GraphPropertyData> properties = relationshipData.getProperties();
         for (int i = 0; i < properties.size(); i++) {
-          csvFile
-              .getPropsList()
-              .add(new IdType(properties.get(i).getId(), properties.get(i).getType()));
+          csvFile.getPropsList().add(new IdType(properties.get(i).getId(), properties.get(i).getType()));
         }
         for (int i = 0; i < properties.size(); i++) {
           csvFile.getPropsIndexes().put(properties.get(i).getId(), i);
@@ -315,25 +283,18 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         }
 
         try {
-          writeRelsCsvHeader(
-              csvFile.getOutputStream(), csvFile.getPropsList(), csvFile.getPropsIndexes());
+          writeRelsCsvHeader(csvFile.getOutputStream(), csvFile.getPropsList(), csvFile.getPropsIndexes());
         } catch (Exception e) {
-          throw new HopException(
-              "Unable to write relationships header to file '" + csvFile.getFilename() + "'", e);
+          throw new HopException("Unable to write relationships header to file '" + csvFile.getFilename() + "'", e);
         }
       }
 
       // Write a relationships data row to the CSV file...
       //
       try {
-        writeRelsCsvRows(
-            csvFile.getOutputStream(),
-            Arrays.asList(relationshipData),
-            csvFile.getPropsList(),
-            csvFile.getPropsIndexes());
+        writeRelsCsvRows(csvFile.getOutputStream(), Arrays.asList(relationshipData), csvFile.getPropsList(), csvFile.getPropsIndexes());
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to write relationships header to file '" + csvFile.getFilename() + "'", e);
+        throw new HopException("Unable to write relationships header to file '" + csvFile.getFilename() + "'", e);
       }
     }
   }
@@ -355,47 +316,22 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
   }
 
   private String calculateNodeShortFilename(String propertySetKey) {
-    return "import/"
-        + Const.NVL(data.filesPrefix + "-", "")
-        + "nodes-"
-        + propertySetKey
-        + "-"
-        + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}")
-        + ".csv";
+    return "import/" + Const.NVL(data.filesPrefix + "-", "") + "nodes-" + propertySetKey + "-" + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}") + ".csv";
   }
 
   private String calculateNodeFilename(String propertySetKey) {
-    return data.importFolder
-        + Const.NVL(data.filesPrefix + "-", "")
-        + "nodes-"
-        + propertySetKey
-        + "-"
-        + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}")
-        + ".csv";
+    return data.importFolder + Const.NVL(data.filesPrefix + "-", "") + "nodes-" + propertySetKey + "-" + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}") + ".csv";
   }
 
   private String calculateRelatiohshipsShortFilename(String propertySetKey) {
-    return "import/"
-        + Const.NVL(data.filesPrefix + "-", "")
-        + "rels-"
-        + propertySetKey
-        + "-"
-        + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}")
-        + ".csv";
+    return "import/" + Const.NVL(data.filesPrefix + "-", "") + "rels-" + propertySetKey + "-" + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}") + ".csv";
   }
 
   private String calculateRelatiohshipsFilename(String propertySetKey) {
-    return data.importFolder
-        + Const.NVL(data.filesPrefix + "-", "")
-        + "rels-"
-        + propertySetKey
-        + "-"
-        + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}")
-        + ".csv";
+    return data.importFolder + Const.NVL(data.filesPrefix + "-", "") + "rels-" + propertySetKey + "-" + resolve("${" + Const.INTERNAL_VARIABLE_TRANSFORM_COPYNR + "}") + ".csv";
   }
 
-  private void writeNodeCsvHeader(OutputStream os, List<IdType> props, String idFieldName)
-      throws HopException, IOException {
+  private void writeNodeCsvHeader(OutputStream os, List<IdType> props, String idFieldName) throws HopException, IOException {
     // Write the values to the file...
     //
 
@@ -412,10 +348,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
 
         header.append(prop.getId());
         if (prop.getType() == null) {
-          throw new HopException(
-              "This transform doesn't support importing data type '"
-                  + prop.getType().name()
-                  + "' yet.");
+          throw new HopException("This transform doesn't support importing data type '" + prop.getType().name() + "' yet.");
         }
         header.append(":").append(prop.getType().getImportType());
       }
@@ -427,13 +360,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
     os.write(header.toString().getBytes("UTF-8"));
   }
 
-  private void writeNodeCsvRows(
-      OutputStream os,
-      List<GraphNodeData> nodes,
-      List<IdType> props,
-      Map<String, Integer> propertyIndexes,
-      String idFieldName)
-      throws IOException {
+  private void writeNodeCsvRows(OutputStream os, List<GraphNodeData> nodes, List<IdType> props, Map<String, Integer> propertyIndexes, String idFieldName) throws IOException {
     // Now we serialize the data...
     //
     for (GraphNodeData node : nodes) {
@@ -504,21 +431,14 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
     }
   }
 
-  private void writeRelsCsvRows(
-      OutputStream os,
-      List<GraphRelationshipData> relationships,
-      List<IdType> props,
-      Map<String, Integer> propertyIndexes)
-      throws IOException {
+  private void writeRelsCsvRows(OutputStream os, List<GraphRelationshipData> relationships, List<IdType> props, Map<String, Integer> propertyIndexes) throws IOException {
 
     // Now write the actual rows of data...
     //
     for (GraphRelationshipData relationship : relationships) {
 
       StringBuffer row = new StringBuffer();
-      row.append('"')
-          .append(GraphPropertyData.escapeString(relationship.getSourceNodeId()))
-          .append('"');
+      row.append('"').append(GraphPropertyData.escapeString(relationship.getSourceNodeId())).append('"');
 
       // Get the properties in the right order of list props...
       //
@@ -543,10 +463,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         }
       }
 
-      row.append(",")
-          .append('"')
-          .append(GraphPropertyData.escapeString(relationship.getTargetNodeId()))
-          .append('"');
+      row.append(",").append('"').append(GraphPropertyData.escapeString(relationship.getTargetNodeId())).append('"');
 
       // Now write the labels for this node
       //
@@ -559,9 +476,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
     }
   }
 
-  private void writeRelsCsvHeader(
-      OutputStream os, List<IdType> props, Map<String, Integer> propertyIndexes)
-      throws HopException, IOException {
+  private void writeRelsCsvHeader(OutputStream os, List<IdType> props, Map<String, Integer> propertyIndexes) throws HopException, IOException {
     StringBuffer header = new StringBuffer();
 
     header.append(":START_ID");
@@ -572,10 +487,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
 
       header.append(prop.getId());
       if (prop.getType() == null) {
-        throw new HopException(
-            "This transform doesn't support importing data type '"
-                + prop.getType().name()
-                + "' yet.");
+        throw new HopException("This transform doesn't support importing data type '" + prop.getType().name() + "' yet.");
       }
       header.append(":").append(prop.getType().getImportType());
 
@@ -591,8 +503,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
 
     try {
 
-      ValueMetaGraph valueMetaGraph =
-          (ValueMetaGraph) inputRowMeta.getValueMeta(data.graphFieldIndex);
+      ValueMetaGraph valueMetaGraph = (ValueMetaGraph) inputRowMeta.getValueMeta(data.graphFieldIndex);
       GraphData graphData = valueMetaGraph.getGraphData(row[data.graphFieldIndex]);
 
       // Add all nodes and relationship to the indexed graph...
@@ -602,12 +513,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         // Copy the data and calculate a unique property set ID
         //
         GraphNodeData nodeCopy = new GraphNodeData(node);
-        nodeCopy.setPropertySetId(
-            graphData.getSourcePipelineName()
-                + "-"
-                + graphData.getSourceTransformName()
-                + "-"
-                + node.getPropertySetId());
+        nodeCopy.setPropertySetId(graphData.getSourcePipelineName() + "-" + graphData.getSourceTransformName() + "-" + node.getPropertySetId());
 
         data.indexedGraphData.addAndIndexNode(nodeCopy);
       }
@@ -617,12 +523,7 @@ public class GenerateCsv extends BaseTransform<GenerateCsvMeta, GenerateCsvData>
         // Copy the data and calculate a unique property set ID
         //
         GraphRelationshipData relationshipCopy = new GraphRelationshipData(relationship);
-        relationshipCopy.setPropertySetId(
-            graphData.getSourcePipelineName()
-                + "-"
-                + graphData.getSourceTransformName()
-                + "-"
-                + relationship.getPropertySetId());
+        relationshipCopy.setPropertySetId(graphData.getSourcePipelineName() + "-" + graphData.getSourceTransformName() + "-" + relationship.getPropertySetId());
 
         data.indexedGraphData.addAndIndexRelationship(relationshipCopy);
       }

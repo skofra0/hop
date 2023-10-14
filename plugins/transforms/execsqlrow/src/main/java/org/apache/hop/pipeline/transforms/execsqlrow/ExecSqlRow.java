@@ -38,18 +38,11 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
 
   private static final Class<?> PKG = ExecSqlRowMeta.class; // For Translator
 
-  public ExecSqlRow(
-      TransformMeta transformMeta,
-      ExecSqlRowMeta meta,
-      ExecSqlRowData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ExecSqlRow(TransformMeta transformMeta, ExecSqlRowMeta meta, ExecSqlRowData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static final RowMetaAndData getResultRow(
-      Result result, String upd, String ins, String del, String read) {
+  public static final RowMetaAndData getResultRow(Result result, String upd, String ins, String del, String read) {
     RowMetaAndData resultRow = new RowMetaAndData();
 
     if (upd != null && upd.length() > 0) {
@@ -101,8 +94,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
 
       // Check is SQL field is provided
       if (Utils.isEmpty(meta.getSqlFieldName())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ExecSqlRow.Error.SQLFieldFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ExecSqlRow.Error.SQLFieldFieldMissing"));
       }
 
       // cache the position of the field
@@ -110,9 +102,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
         data.indexOfSqlFieldname = this.getInputRowMeta().indexOfValue(meta.getSqlFieldName());
         if (data.indexOfSqlFieldname < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ExecSqlRow.Exception.CouldnotFindField", meta.getSqlFieldName()));
+          throw new HopException(BaseMessages.getString(PKG, "ExecSqlRow.Exception.CouldnotFindField", meta.getSqlFieldName()));
         }
       }
     }
@@ -132,8 +122,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
         data.result = data.db.execStatementsFromFile(sql, meta.isSendOneStatement());
       } else {
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(PKG, "ExecSqlRow.Log.ExecutingSQLScript") + Const.CR + sql);
+          logDebug(BaseMessages.getString(PKG, "ExecSqlRow.Log.ExecutingSQLScript") + Const.CR + sql);
         }
         if (meta.isSendOneStatement()) {
           data.result = data.db.execStatement(sql);
@@ -142,13 +131,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
         }
       }
 
-      RowMetaAndData add =
-          getResultRow(
-              data.result,
-              meta.getUpdateField(),
-              meta.getInsertField(),
-              meta.getDeleteField(),
-              meta.getReadField());
+      RowMetaAndData add = getResultRow(data.result, meta.getUpdateField(), meta.getInsertField(), meta.getDeleteField(), meta.getReadField());
       row = RowDataUtil.addRowData(row, getInputRowMeta().size(), add.getData());
 
       if (meta.getCommitSize() > 0) {
@@ -202,11 +185,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
           }
         }
       } catch (HopDatabaseException e) {
-        logError(
-            BaseMessages.getString(PKG, "Update.Log.UnableToCommitUpdateConnection")
-                + data.db
-                + "] :"
-                + e.toString());
+        logError(BaseMessages.getString(PKG, "Update.Log.UnableToCommitUpdateConnection") + data.db + "] :" + e.toString());
         setErrors(1);
       } finally {
         data.db.disconnect();
@@ -229,8 +208,7 @@ public class ExecSqlRow extends BaseTransform<ExecSqlRowMeta, ExecSqlRowData> {
     if (super.init()) {
       DatabaseMeta databaseMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
       if (databaseMeta == null) {
-        logError(
-            BaseMessages.getString(PKG, "ExecSqlRow.Init.ConnectionMissing", getTransformName()));
+        logError(BaseMessages.getString(PKG, "ExecSqlRow.Init.ConnectionMissing", getTransformName()));
         return false;
       }
       data.db = new Database(this, this, databaseMeta);

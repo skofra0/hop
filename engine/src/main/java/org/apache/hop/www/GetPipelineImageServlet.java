@@ -41,12 +41,11 @@ public class GetPipelineImageServlet extends BaseHttpServlet implements IHopServ
   public static final String CONTEXT_PATH = "/hop/pipelineImage";
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
-    if (!supportGraphicEnvironment){
+    if (!supportGraphicEnvironment) {
       response.setStatus(HttpServletResponse.SC_NO_CONTENT);
       return;
     }
@@ -80,8 +79,7 @@ public class GetPipelineImageServlet extends BaseHttpServlet implements IHopServ
 
         // Generate pipeline SVG image
         //
-        String svgXml =
-            PipelineSvgPainter.generatePipelineSvg(pipeline.getPipelineMeta(), 1.0f, variables);
+        String svgXml = PipelineSvgPainter.generatePipelineSvg(pipeline.getPipelineMeta(), 1.0f, variables);
         svgStream = new ByteArrayOutputStream();
         try {
           svgStream.write(svgXml.getBytes("UTF-8"));

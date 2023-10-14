@@ -45,10 +45,7 @@ public class PublishMessagesFn extends DoFn<HopRow, PubsubMessage> {
   private transient Counter readCounter;
   private transient Counter outputCounter;
 
-  public PublishMessagesFn(
-      String transformName,
-      int fieldIndex,
-      String rowMetaJson) {
+  public PublishMessagesFn(String transformName, int fieldIndex, String rowMetaJson) {
     this.transformName = transformName;
     this.fieldIndex = fieldIndex;
     this.rowMetaJson = rowMetaJson;

@@ -29,14 +29,13 @@ import static org.junit.Assert.assertTrue;
 
 /** Test class for the basic functionality of IRowSet. */
 public class RowSetTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   public IRowMeta createRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaInteger("ROWNR"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaInteger("ROWNR"),};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -105,10 +104,13 @@ public class RowSetTest {
     assertEquals(3, set.size());
 
     /*********************************************************************
-     * This was made in more restrict in older version v2.5.0 with a new IRowSet implementation. After older version v2.5.0 you may not try to put
-     * more rows in a rowset then it can hold (this functionality was also never used in Apache Hop anyway).
+     * This was made in more restrict in older version v2.5.0 with a new IRowSet implementation. After
+     * older version v2.5.0 you may not try to put
+     * more rows in a rowset then it can hold (this functionality was also never used in Apache Hop
+     * anyway).
      *
-     * // Add another row. State: 2 3 4 5 // Note that we can still add rows after the set is full. set.putRow(r5);
+     * // Add another row. State: 2 3 4 5 // Note that we can still add rows after the set is full.
+     * set.putRow(r5);
      * assertTrue(!set.isEmpty()); assertTrue(set.isFull()); assertEquals(4, set.size());
      *********************************************************************/
 
@@ -152,7 +154,8 @@ public class RowSetTest {
 
     /*********************************************************************
      * This was changed v2.5.0 with a new IRowSet // Pop off row. State: try { r = set.getRow();
-     * fail("expected NoSuchElementException"); } catch ( IndexOutOfBoundsException ex ) { } assertTrue(set.isEmpty());
+     * fail("expected NoSuchElementException"); } catch ( IndexOutOfBoundsException ex ) { }
+     * assertTrue(set.isEmpty());
      * assertTrue(!set.isFull()); assertEquals(0, set.size());
      **********************************************************************/
   }

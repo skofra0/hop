@@ -49,13 +49,7 @@ import java.util.Map;
 
 public class Cypher extends BaseTransform<CypherMeta, CypherData> {
 
-  public Cypher(
-      TransformMeta transformMeta,
-      CypherMeta meta,
-      CypherData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Cypher(TransformMeta transformMeta, CypherMeta meta, CypherData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -74,24 +68,13 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
       return false;
     }
     try {
-      data.neoConnection =
-          metadataProvider
-              .getSerializer(NeoConnection.class)
-              .load(resolve(meta.getConnectionName()));
+      data.neoConnection = metadataProvider.getSerializer(NeoConnection.class).load(resolve(meta.getConnectionName()));
       if (data.neoConnection == null) {
-        log.logError(
-            "Connection '"
-                + resolve(meta.getConnectionName())
-                + "' could not be found in the metadata: "
-                + metadataProvider.getDescription());
+        log.logError("Connection '" + resolve(meta.getConnectionName()) + "' could not be found in the metadata: " + metadataProvider.getDescription());
         return false;
       }
     } catch (HopException e) {
-      log.logError(
-          "Could not gencsv Neo4j connection '"
-              + resolve(meta.getConnectionName())
-              + "' from the metastore",
-          e);
+      log.logError("Could not gencsv Neo4j connection '" + resolve(meta.getConnectionName()) + "' from the metastore", e);
       return false;
     }
 
@@ -109,11 +92,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
     try {
       createDriverSession();
     } catch (Exception e) {
-      log.logError(
-          "Unable to get or create Neo4j database driver for database '"
-              + data.neoConnection.getName()
-              + "'",
-          e);
+      log.logError("Unable to get or create Neo4j database driver for database '" + data.neoConnection.getName() + "'", e);
       return false;
     }
 
@@ -192,12 +171,10 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
       // get the output fields...
       //
       data.outputRowMeta = data.hasInput ? getInputRowMeta().clone() : new RowMeta();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
 
       if (!meta.getParameterMappings().isEmpty() && getInputRowMeta() == null) {
-        throw new HopException(
-            "Please provide this transform with input if you want to set parameters");
+        throw new HopException("Please provide this transform with input if you want to set parameters");
       }
       data.fieldIndexes = new int[meta.getParameterMappings().size()];
       for (int i = 0; i < meta.getParameterMappings().size(); i++) {
@@ -212,8 +189,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
       if (data.hasInput) {
         data.cypherFieldIndex = getInputRowMeta().indexOfValue(meta.getCypherField());
         if (meta.isCypherFromField() && data.cypherFieldIndex < 0) {
-          throw new HopTransformException(
-              "Unable to find cypher field '" + meta.getCypherField() + "'");
+          throw new HopTransformException("Unable to find cypher field '" + meta.getCypherField() + "'");
         }
       }
       data.cypher = resolve(meta.getCypher());
@@ -238,10 +214,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
       Object valueData = row[data.fieldIndexes[i]];
       GraphPropertyType propertyType = GraphPropertyType.parseCode(mapping.getNeoType());
       if (propertyType == null) {
-        throw new HopException(
-            "Unable to convert to unknown property type for field '"
-                + valueMeta.toStringMeta()
-                + "'");
+        throw new HopException("Unable to convert to unknown property type for field '" + valueMeta.toStringMeta() + "'");
       }
       Object neoValue = propertyType.convertFromHop(valueMeta, valueData);
       parameters.put(mapping.getParameter(), neoValue);
@@ -299,8 +272,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
     }
   }
 
-  private void runCypherStatement(Object[] row, String cypher, Map<String, Object> parameters)
-      throws HopException {
+  private void runCypherStatement(Object[] row, String cypher, Map<String, Object> parameters) throws HopException {
     data.cypherStatements.add(new CypherStatement(row, cypher, parameters));
     if (data.cypherStatements.size() >= data.batchSize || !data.hasInput) {
       runCypherStatementsBatch();
@@ -316,22 +288,18 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
 
     // Execute all the statements in there in one transaction...
     //
-    TransactionWork<Integer> transactionWork =
-        transaction -> {
-          for (CypherStatement cypherStatement : data.cypherStatements) {
-            Result result =
-                transaction.run(cypherStatement.getCypher(), cypherStatement.getParameters());
-            try {
-              getResultRows(result, cypherStatement.getRow(), false);
-            } catch (Exception e) {
-              throw new RuntimeException(
-                  "Error parsing result of cypher statement '" + cypherStatement.getCypher() + "'",
-                  e);
-            }
-          }
+    TransactionWork<Integer> transactionWork = transaction -> {
+      for (CypherStatement cypherStatement : data.cypherStatements) {
+        Result result = transaction.run(cypherStatement.getCypher(), cypherStatement.getParameters());
+        try {
+          getResultRows(result, cypherStatement.getRow(), false);
+        } catch (Exception e) {
+          throw new RuntimeException("Error parsing result of cypher statement '" + cypherStatement.getCypher() + "'", e);
+        }
+      }
 
-          return data.cypherStatements.size();
-        };
+      return data.cypherStatements.size();
+    };
 
     try {
       int nrProcessed = 0;
@@ -365,8 +333,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
       data.cypherStatements.clear();
 
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to execute batch of cypher statements (" + data.cypherStatements.size() + ")", e);
+      throw new HopException("Unable to execute batch of cypher statements (" + data.cypherStatements.size() + ")", e);
     }
   }
 
@@ -374,8 +341,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
     HashMap<String, Object> unwindMap = new HashMap<>();
     unwindMap.put(data.unwindMapName, data.unwindList);
     List<Object[]> resultRows = null;
-    CypherTransactionWork cypherTransactionWork =
-        new CypherTransactionWork(this, new Object[0], true, data.cypher, unwindMap);
+    CypherTransactionWork cypherTransactionWork = new CypherTransactionWork(this, new Object[0], true, data.cypher, unwindMap);
 
     try {
       for (int attempt = 0; attempt < data.attempts; attempt++) {
@@ -395,11 +361,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
           if (attempt + 1 >= data.attempts) {
             throw e;
           } else {
-            log.logBasic(
-                "Retrying transaction after attempt #"
-                    + (attempt + 1)
-                    + " with error : "
-                    + e.getMessage());
+            log.logBasic("Retrying transaction after attempt #" + (attempt + 1) + " with error : " + e.getMessage());
           }
         }
       }
@@ -483,9 +445,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
               Value recordValue = record.get(returnValue.getName());
               IValueMeta targetValueMeta = data.outputRowMeta.getValueMeta(index);
               GraphPropertyDataType neoType = data.returnSourceTypeMap.get(returnValue.getName());
-              Object value =
-                  NeoHopData.convertNeoToHopValue(
-                      returnValue.getName(), recordValue, neoType, targetValueMeta);
+              Object value = NeoHopData.convertNeoToHopValue(returnValue.getName(), recordValue, neoType, targetValueMeta);
 
               outputRow[index++] = value;
             }
@@ -529,18 +489,16 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
         return JSONValue.toJSONString(recordValue.asList());
       case Map:
         return JSONValue.toJSONString(recordValue.asMap());
-      case Node:
-        {
-          GraphData graphData = new GraphData();
-          graphData.update(recordValue.asNode());
-          return graphData.toJson().toJSONString();
-        }
-      case Path:
-        {
-          GraphData graphData = new GraphData();
-          graphData.update(recordValue.asPath());
-          return graphData.toJson().toJSONString();
-        }
+      case Node: {
+        GraphData graphData = new GraphData();
+        graphData.update(recordValue.asNode());
+        return graphData.toJson().toJSONString();
+      }
+      case Path: {
+        GraphData graphData = new GraphData();
+        graphData.update(recordValue.asPath());
+        return graphData.toJson().toJSONString();
+      }
       default:
         return JSONValue.toJSONString(recordValue.asObject());
     }
@@ -553,14 +511,12 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
    * @param sourceType The Neo4j source type
    * @return The String value of the record value
    */
-  private GraphData convertToGraphData(Value recordValue, GraphPropertyDataType sourceType)
-      throws HopException {
+  private GraphData convertToGraphData(Value recordValue, GraphPropertyDataType sourceType) throws HopException {
     if (recordValue == null) {
       return null;
     }
     if (sourceType == null) {
-      throw new HopException(
-          "Please specify a Neo4j source data type to convert to Graph.  NODE, RELATIONSHIP and PATH are supported.");
+      throw new HopException("Please specify a Neo4j source data type to convert to Graph.  NODE, RELATIONSHIP and PATH are supported.");
     }
     GraphData graphData;
     switch (sourceType) {
@@ -575,9 +531,7 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
         break;
 
       default:
-        throw new HopException(
-            "We can only convert NODE, PATH and RELATIONSHIP source values to a Graph data type, not "
-                + sourceType.name());
+        throw new HopException("We can only convert NODE, PATH and RELATIONSHIP source values to a Graph data type, not " + sourceType.name());
     }
     return graphData;
   }
@@ -592,25 +546,12 @@ public class Cypher extends BaseTransform<CypherMeta, CypherData> {
         if ("WARNING".equalsIgnoreCase(notification.severity())) {
           // Log it
           log.logBasic(
-              notification.severity()
-                  + " : "
-                  + notification.title()
-                  + " : "
-                  + notification.code()
-                  + " : "
-                  + notification.description()
-                  + ", position "
-                  + notification.position());
+              notification.severity() + " : " + notification.title() + " : " + notification.code() + " : " + notification.description() + ", position " + notification.position());
         } else {
           // This is an error
           //
           log.logError(notification.severity() + " : " + notification.title());
-          log.logError(
-              notification.code()
-                  + " : "
-                  + notification.description()
-                  + ", position "
-                  + notification.position());
+          log.logError(notification.code() + " : " + notification.description() + ", position " + notification.position());
           error = true;
         }
       }

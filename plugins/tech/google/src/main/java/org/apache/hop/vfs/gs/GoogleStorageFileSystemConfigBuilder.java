@@ -23,8 +23,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 public class GoogleStorageFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
   private static final String JSON_CLIENT_ID_RESOURCE = "jsonClientIdResource";
-  private static final GoogleStorageFileSystemConfigBuilder builder =
-      new GoogleStorageFileSystemConfigBuilder();
+  private static final GoogleStorageFileSystemConfigBuilder builder = new GoogleStorageFileSystemConfigBuilder();
 
   public static GoogleStorageFileSystemConfigBuilder getInstance() {
     return builder;

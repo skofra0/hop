@@ -71,8 +71,7 @@ public class PipelineDialogPluginType extends BasePluginType<PipelineDialogPlugi
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, PipelineDialogPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, PipelineDialogPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(PipelineDialogPlugin annotation) {

@@ -49,11 +49,7 @@ public class HopKeyValueFn extends DoFn<HopRow, KV<HopRow, HopRow>> {
 
   public HopKeyValueFn() {}
 
-  public HopKeyValueFn(
-      String inputRowMetaJson,
-      String[] keyFields,
-      String[] valueFields,
-      String counterName) {
+  public HopKeyValueFn(String inputRowMetaJson, String[] keyFields, String[] valueFields, String counterName) {
     this.inputRowMetaJson = inputRowMetaJson;
     this.keyFields = keyFields;
     this.valueFields = valueFields;
@@ -80,11 +76,7 @@ public class HopKeyValueFn extends DoFn<HopRow, KV<HopRow, HopRow>> {
       for (int i = 0; i < keyFields.length; i++) {
         keyIndexes[i] = inputRowMeta.indexOfValue(keyFields[i]);
         if (keyIndexes[i] < 0) {
-          throw new HopException(
-              "Unable to find group by field '"
-                  + keyFields[i]
-                  + "' in input "
-                  + inputRowMeta.toString());
+          throw new HopException("Unable to find group by field '" + keyFields[i] + "' in input " + inputRowMeta.toString());
         }
       }
 
@@ -94,11 +86,7 @@ public class HopKeyValueFn extends DoFn<HopRow, KV<HopRow, HopRow>> {
       for (int i = 0; i < valueFields.length; i++) {
         valueIndexes[i] = inputRowMeta.indexOfValue(valueFields[i]);
         if (valueIndexes[i] < 0) {
-          throw new HopException(
-              "Unable to find subject by field '"
-                  + valueFields[i]
-                  + "' in input "
-                  + inputRowMeta.toString());
+          throw new HopException("Unable to find subject by field '" + valueFields[i] + "' in input " + inputRowMeta.toString());
         }
       }
 

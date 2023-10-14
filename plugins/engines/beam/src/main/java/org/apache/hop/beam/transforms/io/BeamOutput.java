@@ -24,13 +24,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 public class BeamOutput extends BaseTransform<BeamOutputMeta, BeamOutputData> {
 
-  public BeamOutput(
-      TransformMeta transformMeta,
-      BeamOutputMeta meta,
-      BeamOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamOutput(TransformMeta transformMeta, BeamOutputMeta meta, BeamOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

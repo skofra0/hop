@@ -19,28 +19,16 @@ package org.apache.hop.pipeline.transforms.databaselookup;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class KeyField {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "key_input_field1",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyInputField1")
+  @HopMetadataProperty(key = "name", injectionKey = "key_input_field1", injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyInputField1")
   private String streamField1;
 
-  @HopMetadataProperty(
-      key = "name2",
-      injectionKey = "key_input_field2",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyInputField2")
+  @HopMetadataProperty(key = "name2", injectionKey = "key_input_field2", injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyInputField2")
   private String streamField2;
 
-  @HopMetadataProperty(
-      key = "condition",
-      injectionKey = "key_condition",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyCondition")
+  @HopMetadataProperty(key = "condition", injectionKey = "key_condition", injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyCondition")
   private String condition;
 
-  @HopMetadataProperty(
-      key = "field",
-      injectionKey = "key_table_field",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyTableField")
+  @HopMetadataProperty(key = "field", injectionKey = "key_table_field", injectionKeyDescription = "DatabaseLookupMeta.Injection.KeyTableField")
   private String tableField;
 
   public KeyField() {}

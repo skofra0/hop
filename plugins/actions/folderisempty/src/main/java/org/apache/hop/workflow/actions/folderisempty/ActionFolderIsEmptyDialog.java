@@ -60,8 +60,7 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
 
   private boolean changed;
 
-  public ActionFolderIsEmptyDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionFolderIsEmptyDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionFolderIsEmpty) action;
     if (this.action.getName() == null) {
@@ -139,8 +138,7 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
 
     // Include sub folders?
     Label wlIncludeSubFolders = new Label(shell, SWT.RIGHT);
-    wlIncludeSubFolders.setText(
-        BaseMessages.getString(PKG, "ActionFolderIsEmpty.IncludeSubFolders.Label"));
+    wlIncludeSubFolders.setText(BaseMessages.getString(PKG, "ActionFolderIsEmpty.IncludeSubFolders.Label"));
     PropsUi.setLook(wlIncludeSubFolders);
     FormData fdlIncludeSubFolders = new FormData();
     fdlIncludeSubFolders.left = new FormAttachment(0, 0);
@@ -149,25 +147,22 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
     wlIncludeSubFolders.setLayoutData(fdlIncludeSubFolders);
     wIncludeSubFolders = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wIncludeSubFolders);
-    wIncludeSubFolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFolderIsEmpty.IncludeSubFolders.Tooltip"));
+    wIncludeSubFolders.setToolTipText(BaseMessages.getString(PKG, "ActionFolderIsEmpty.IncludeSubFolders.Tooltip"));
     FormData fdIncludeSubFolders = new FormData();
     fdIncludeSubFolders.left = new FormAttachment(middle, 0);
     fdIncludeSubFolders.top = new FormAttachment(wlIncludeSubFolders, 0, SWT.CENTER);
     fdIncludeSubFolders.right = new FormAttachment(100, 0);
     wIncludeSubFolders.setLayoutData(fdIncludeSubFolders);
-    wIncludeSubFolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubFolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Specify wildcard?
     Label wlSpecifyWildcard = new Label(shell, SWT.RIGHT);
-    wlSpecifyWildcard.setText(
-        BaseMessages.getString(PKG, "ActionFolderIsEmpty.SpecifyWildcard.Label"));
+    wlSpecifyWildcard.setText(BaseMessages.getString(PKG, "ActionFolderIsEmpty.SpecifyWildcard.Label"));
     PropsUi.setLook(wlSpecifyWildcard);
     FormData fdlSpecifyWildcard = new FormData();
     fdlSpecifyWildcard.left = new FormAttachment(0, 0);
@@ -176,21 +171,19 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
     wlSpecifyWildcard.setLayoutData(fdlSpecifyWildcard);
     wSpecifyWildcard = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wSpecifyWildcard);
-    wSpecifyWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFolderIsEmpty.SpecifyWildcard.Tooltip"));
+    wSpecifyWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionFolderIsEmpty.SpecifyWildcard.Tooltip"));
     FormData fdSpecifyWildcard = new FormData();
     fdSpecifyWildcard.left = new FormAttachment(middle, 0);
     fdSpecifyWildcard.top = new FormAttachment(wlSpecifyWildcard, 0, SWT.CENTER);
     fdSpecifyWildcard.right = new FormAttachment(100, 0);
     wSpecifyWildcard.setLayoutData(fdSpecifyWildcard);
-    wSpecifyWildcard.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            checkLimitSearch();
-          }
-        });
+    wSpecifyWildcard.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        checkLimitSearch();
+      }
+    });
 
     // Wildcard line
     wlWildcard = new Label(shell, SWT.RIGHT);
@@ -211,14 +204,11 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
     wWildcard.setLayoutData(fdWildcard);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFoldername.addModifyListener(
-        e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
+    wFoldername.addModifyListener(e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
     // Whenever something changes, set the tooltip to the expanded version:
-    wWildcard.addModifyListener(
-        e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
+    wWildcard.addModifyListener(e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
 
-    wbFoldername.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
+    wbFoldername.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
 
     // Buttons go at the very bottom
     //
@@ -228,8 +218,7 @@ public class ActionFolderIsEmptyDialog extends ActionDialog implements IActionDi
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
     checkLimitSearch();

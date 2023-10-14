@@ -66,8 +66,7 @@ public final class Wsdl implements java.io.Serializable {
     this(wsdlURI, serviceQName, portName, null, null);
   }
 
-  public Wsdl(URI wsdlURI, QName serviceQName, String portName, String username, String password)
-      throws AuthenticationException {
+  public Wsdl(URI wsdlURI, QName serviceQName, String portName, String username, String password) throws AuthenticationException {
 
     this.wsdlURI = wsdlURI;
     try {
@@ -85,8 +84,7 @@ public final class Wsdl implements java.io.Serializable {
     } else {
       _service = _wsdlDefinition.getService(serviceQName);
       if (_service == null) {
-        throw new IllegalArgumentException(
-            "Service: " + serviceQName + " is not defined in the WSDL file " + wsdlURI);
+        throw new IllegalArgumentException("Service: " + serviceQName + " is not defined in the WSDL file " + wsdlURI);
       }
     }
 
@@ -95,8 +93,7 @@ public final class Wsdl implements java.io.Serializable {
     } else {
       _port = _service.getPort(portName);
       if (_port == null) {
-        throw new IllegalArgumentException(
-            "Port: " + portName + " is not defined in the service: " + serviceQName);
+        throw new IllegalArgumentException("Port: " + portName + " is not defined in the service: " + serviceQName);
       } else {
         _port = _service.getPort(portName);
       }
@@ -132,18 +129,11 @@ public final class Wsdl implements java.io.Serializable {
    * @param serviceQName Name of the service in the WSDL.
    * @param portName The service port name.
    */
-  public Wsdl(WSDLLocator wsdlLocator, QName serviceQName, String portName)
-      throws AuthenticationException {
+  public Wsdl(WSDLLocator wsdlLocator, QName serviceQName, String portName) throws AuthenticationException {
     this(wsdlLocator, serviceQName, portName, null, null);
   }
 
-  public Wsdl(
-      WSDLLocator wsdlLocator,
-      QName serviceQName,
-      String portName,
-      String username,
-      String password)
-      throws AuthenticationException {
+  public Wsdl(WSDLLocator wsdlLocator, QName serviceQName, String portName, String username, String password) throws AuthenticationException {
 
     // load and parse the WSDL
     try {
@@ -159,14 +149,12 @@ public final class Wsdl implements java.io.Serializable {
 
     _service = _wsdlDefinition.getService(serviceQName);
     if (_service == null) {
-      throw new IllegalArgumentException(
-          "Service: " + serviceQName + " is not defined in the WSDL file.");
+      throw new IllegalArgumentException("Service: " + serviceQName + " is not defined in the WSDL file.");
     }
 
     _port = _service.getPort(portName);
     if (_port == null) {
-      throw new IllegalArgumentException(
-          "Port: " + portName + " is not defined in the service: " + serviceQName);
+      throw new IllegalArgumentException("Port: " + portName + " is not defined in the service: " + serviceQName);
     }
 
     _wsdlTypes = new WsdlTypes(_wsdlDefinition);
@@ -206,10 +194,8 @@ public final class Wsdl implements java.io.Serializable {
         _operationCache.put(operationName, wop);
         return wop;
       } catch (HopException kse) {
-        LogChannel.GENERAL.logError(
-            "Could not retrieve WSDL Operator for operation name: " + operationName);
-        throw new HopTransformException(
-            "Could not retrieve WSDL Operator for operation name: " + operationName, kse);
+        LogChannel.GENERAL.logError("Could not retrieve WSDL Operator for operation name: " + operationName);
+        throw new HopTransformException("Could not retrieve WSDL Operator for operation name: " + operationName, kse);
       }
     }
     return null;
@@ -227,7 +213,7 @@ public final class Wsdl implements java.io.Serializable {
     PortType pt = _port.getBinding().getPortType();
 
     List<Operation> operations = pt.getOperations();
-    for (Iterator<Operation> itr = operations.iterator(); itr.hasNext(); ) {
+    for (Iterator<Operation> itr = operations.iterator(); itr.hasNext();) {
       WsdlOperation operation = getOperation(itr.next().getName());
       if (operation != null) {
         opList.add(operation);
@@ -294,8 +280,7 @@ public final class Wsdl implements java.io.Serializable {
 
     Port port = _service.getPort(portName.getLocalPart());
     if (port == null) {
-      throw new IllegalArgumentException(
-          "Port name: '" + portName + "' was not found in the WSDL file.");
+      throw new IllegalArgumentException("Port name: '" + portName + "' was not found in the WSDL file.");
     }
 
     _port = port;
@@ -328,8 +313,7 @@ public final class Wsdl implements java.io.Serializable {
    * @return wsdl Definition.
    * @throws WSDLException on error.
    */
-  private Definition parse(WSDLLocator wsdlLocator, String username, String password)
-      throws WSDLException, HopException, AuthenticationException {
+  private Definition parse(WSDLLocator wsdlLocator, String username, String password) throws WSDLException, HopException, AuthenticationException {
 
     WSDLReader wsdlReader = getReader();
     try {
@@ -350,19 +334,16 @@ public final class Wsdl implements java.io.Serializable {
    * @return wsdl Definition
    * @throws WSDLException on error.
    */
-  private Definition parse(URI wsdlURI, String username, String password)
-      throws WSDLException, HopException, AuthenticationException {
+  private Definition parse(URI wsdlURI, String username, String password) throws WSDLException, HopException, AuthenticationException {
     WSDLReader wsdlReader = getReader();
     return readWsdl(wsdlReader, wsdlURI.toString(), username, password);
   }
 
-  private Definition readWsdl(WSDLReader wsdlReader, String uri, String username, String password)
-      throws WSDLException, HopException, AuthenticationException {
+  private Definition readWsdl(WSDLReader wsdlReader, String uri, String username, String password) throws WSDLException, HopException, AuthenticationException {
 
     try {
       HttpProtocol http = new HttpProtocol();
-      Document doc =
-          XmlHandler.loadXmlString(http.get(wsdlURI.toString(), username, password), true, false);
+      Document doc = XmlHandler.loadXmlString(http.get(wsdlURI.toString(), username, password), true, false);
       if (doc != null) {
         return (wsdlReader.readWSDL(doc.getBaseURI(), doc));
       } else {

@@ -30,7 +30,8 @@ import java.io.InputStreamReader;
 /**
  * HTTP
  *
- * <p>This class contains HTTP protocol properties such as request headers. Response headers and
+ * <p>
+ * This class contains HTTP protocol properties such as request headers. Response headers and
  * other properties of the HTTP protocol can be added to this class.
  */
 public class HttpProtocol {
@@ -39,9 +40,7 @@ public class HttpProtocol {
    * Array of HTTP request headers- this list is incomplete and more headers can be added as needed.
    */
 
-  private static final String[] requestHeaders = {
-    "accept", "accept-charset", "cache-control", "content-type"
-  };
+  private static final String[] requestHeaders = {"accept", "accept-charset", "cache-control", "content-type"};
 
   /** @return array of HTTP request headers */
   public static String[] getRequestHeaders() {
@@ -51,10 +50,12 @@ public class HttpProtocol {
   /**
    * Performs a get on urlAsString using username and password as credentials.
    *
-   * <p>If the status code returned not -1 and 401 then the contents are returned. If the status
+   * <p>
+   * If the status code returned not -1 and 401 then the contents are returned. If the status
    * code is 401 an AuthenticationException is thrown.
    *
-   * <p>All other values of status code are not dealt with but logic can be added as needed.
+   * <p>
+   * All other values of status code are not dealt with but logic can be added as needed.
    *
    * @param urlAsString
    * @param username
@@ -63,14 +64,12 @@ public class HttpProtocol {
    * @throws AuthenticationException
    * @throws IOException
    */
-  public String get(String urlAsString, String username, String password)
-      throws IOException, AuthenticationException {
+  public String get(String urlAsString, String username, String password) throws IOException, AuthenticationException {
 
     HttpClient httpClient;
     HttpGet getMethod = new HttpGet(urlAsString);
     if (!Utils.isEmpty(username)) {
-      HttpClientManager.HttpClientBuilderFacade clientBuilder =
-          HttpClientManager.getInstance().createBuilder();
+      HttpClientManager.HttpClientBuilderFacade clientBuilder = HttpClientManager.getInstance().createBuilder();
       clientBuilder.setCredentials(username, password);
       httpClient = clientBuilder.build();
     } else {
@@ -83,8 +82,7 @@ public class HttpProtocol {
     if (statusCode != -1) {
       if (statusCode != HttpStatus.SC_UNAUTHORIZED) {
         // the response
-        InputStreamReader inputStreamReader =
-            new InputStreamReader(httpResponse.getEntity().getContent());
+        InputStreamReader inputStreamReader = new InputStreamReader(httpResponse.getEntity().getContent());
 
         int c;
         while ((c = inputStreamReader.read()) != -1) {

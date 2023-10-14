@@ -51,23 +51,20 @@ import java.util.List;
 @Transform(
     id = "SelectValues",
     image = "selectvalues.svg",
-    name =
-        "i18n:org.apache.hop.pipeline.transforms.selectvalues:SelectValues.Name",
-    description =
-        "i18n:org.apache.hop.pipeline.transforms.selectvalues:SelectValues.Description",
+    name = "i18n:org.apache.hop.pipeline.transforms.selectvalues:SelectValues.Name",
+    description = "i18n:org.apache.hop.pipeline.transforms.selectvalues:SelectValues.Description",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform",
     keywords = "i18n::SelectValuesMeta.keyword",
     documentationUrl = "/pipeline/transforms/selectvalues.html")
-@InjectionSupported(
-    localizationPrefix = "SelectValues.Injection.",
-    groups = {"FIELDS", "REMOVES", "METAS"})
+@InjectionSupported(localizationPrefix = "SelectValues.Injection.", groups = {"FIELDS", "REMOVES", "METAS"})
 public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValuesData> {
   private static final Class<?> PKG = SelectValuesMeta.class; // For Translator
 
   public static final int UNDEFINED = -2;
 
   // SELECT mode
-  @InjectionDeep private SelectField[] selectFields = {};
+  @InjectionDeep
+  private SelectField[] selectFields = {};
 
   /**
    * Select: flag to indicate that the non-selected fields should also be taken along, ordered by
@@ -82,7 +79,8 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
   private String[] deleteName = {};
 
   // META-DATA mode
-  @InjectionDeep private SelectMetadataChange[] meta = {};
+  @InjectionDeep
+  private SelectMetadataChange[] meta = {};
 
   public SelectValuesMeta() {
     super(); // allocate BaseTransformMeta
@@ -191,8 +189,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -258,11 +255,9 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         selectFields[i].setName(XmlHandler.getTagValue(line, "name"));
         selectFields[i].setRename(XmlHandler.getTagValue(line, "rename"));
         selectFields[i].setLength(Const.toInt(XmlHandler.getTagValue(line, "length"), UNDEFINED));
-        selectFields[i].setPrecision(
-            Const.toInt(XmlHandler.getTagValue(line, "precision"), UNDEFINED));
+        selectFields[i].setPrecision(Const.toInt(XmlHandler.getTagValue(line, "precision"), UNDEFINED));
       }
-      selectingAndSortingUnspecifiedFields =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(fields, "select_unspecified"));
+      selectingAndSortingUnspecifiedFields = "Y".equalsIgnoreCase(XmlHandler.getTagValue(fields, "select_unspecified"));
 
       for (int i = 0; i < nrremove; i++) {
         Node line = XmlHandler.getSubNodeByNr(fields, "remove", i);
@@ -275,10 +270,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         meta[i].loadXml(metaNode);
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "SelectValuesMeta.Exception.UnableToReadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "SelectValuesMeta.Exception.UnableToReadTransformMetaFromXML"), e);
     }
   }
 
@@ -306,9 +298,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
 
           v = v.clone();
           // Do we need to rename ?
-          if (!v.getName().equals(selectFields[i].getRename())
-              && selectFields[i].getRename() != null
-              && selectFields[i].getRename().length() > 0) {
+          if (!v.getName().equals(selectFields[i].getRename()) && selectFields[i].getRename() != null && selectFields[i].getRename().length() > 0) {
             v.setName(selectFields[i].getRename());
             v.setOrigin(name);
           }
@@ -363,8 +353,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
     }
   }
 
-  public void getMetadataFields(IRowMeta inputRowMeta, String name, IVariables variables)
-      throws HopPluginException {
+  public void getMetadataFields(IRowMeta inputRowMeta, String name, IVariables variables) throws HopPluginException {
     if (meta != null && meta.length > 0) {
       // METADATA mode: change the meta-data of the values mentioned...
 
@@ -378,8 +367,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
           IValueMeta v = inputRowMeta.getValueMeta(idx);
 
           // Do we need to rename ?
-          if (!v.getName().equals(metaChange.getRename())
-              && !Utils.isEmpty(metaChange.getRename())) {
+          if (!v.getName().equals(metaChange.getRename()) && !Utils.isEmpty(metaChange.getRename())) {
             v.setName(metaChange.getRename());
             v.setOrigin(name);
           }
@@ -439,13 +427,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       IRowMeta rowMeta = inputRowMeta.clone();
@@ -469,21 +451,17 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
       xml.append("      <field>");
       xml.append("        ").append(XmlHandler.addTagValue("name", selectFields[i].getName()));
       if (selectFields[i].getRename() != null) {
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("rename", selectFields[i].getRename()));
+        xml.append("        ").append(XmlHandler.addTagValue("rename", selectFields[i].getRename()));
       }
       if (selectFields[i].getPrecision() > 0) {
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("length", selectFields[i].getLength()));
+        xml.append("        ").append(XmlHandler.addTagValue("length", selectFields[i].getLength()));
       }
       if (selectFields[i].getPrecision() > 0) {
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("precision", selectFields[i].getPrecision()));
+        xml.append("        ").append(XmlHandler.addTagValue("precision", selectFields[i].getPrecision()));
       }
       xml.append("      </field>");
     }
-    xml.append("        ")
-        .append(XmlHandler.addTagValue("select_unspecified", selectingAndSortingUnspecifiedFields));
+    xml.append("        ").append(XmlHandler.addTagValue("select_unspecified", selectingAndSortingUnspecifiedFields));
     for (int i = 0; i < deleteName.length; i++) {
       xml.append("      <remove>");
       xml.append("        ").append(XmlHandler.addTagValue("name", deleteName[i]));
@@ -511,12 +489,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SelectValuesMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       /*
@@ -534,20 +507,12 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.SelectedFieldsNotFound")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.SelectedFieldsNotFound") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllSelectedFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllSelectedFieldsFound"), transformMeta);
         remarks.add(cr);
       }
 
@@ -562,21 +527,12 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
           }
         }
         if (errorFound) {
-          errorMessage =
-              BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.FieldsNotFound")
-                  + Const.CR
-                  + Const.CR
-                  + errorMessage;
+          errorMessage = BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.FieldsNotFound") + Const.CR + Const.CR + errorMessage;
 
           cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, errorMessage, transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "SelectValuesMeta.CheckResult.AllSelectedFieldsFound2"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllSelectedFieldsFound2"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -597,21 +553,12 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.DeSelectedFieldsNotFound")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.DeSelectedFieldsNotFound") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "SelectValuesMeta.CheckResult.AllDeSelectedFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllDeSelectedFieldsFound"), transformMeta);
         remarks.add(cr);
       }
 
@@ -630,46 +577,25 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.MetadataFieldsNotFound")
-                + Const.CR
-                + Const.CR
-                + errorMessage;
+        errorMessage = BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.MetadataFieldsNotFound") + Const.CR + Const.CR + errorMessage;
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllMetadataFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.AllMetadataFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.FieldsNotFound2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.FieldsNotFound2"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SelectValuesMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
 
@@ -688,18 +614,11 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
 
       if (cnt[i] > 1) {
         if (!errorFound) { // first time...
-          errorMessage =
-              BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.DuplicateFieldsSpecified")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.DuplicateFieldsSpecified") + Const.CR;
         } else {
           errorFound = true;
         }
-        errorMessage +=
-            BaseMessages.getString(
-                    PKG,
-                    "SelectValuesMeta.CheckResult.OccurentRow",
-                    i + " : " + selectFields[i].getName() + "  (" + cnt[i])
-                + Const.CR;
+        errorMessage += BaseMessages.getString(PKG, "SelectValuesMeta.CheckResult.OccurentRow", i + " : " + selectFields[i].getName() + "  (" + cnt[i]) + Const.CR;
         errorFound = true;
       }
     }
@@ -715,8 +634,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
   }
 
   /** @param selectingAndSortingUnspecifiedFields the selectingAndSortingUnspecifiedFields to set */
-  public void setSelectingAndSortingUnspecifiedFields(
-      boolean selectingAndSortingUnspecifiedFields) {
+  public void setSelectingAndSortingUnspecifiedFields(boolean selectingAndSortingUnspecifiedFields) {
     this.selectingAndSortingUnspecifiedFields = selectingAndSortingUnspecifiedFields;
   }
 
@@ -787,8 +705,7 @@ public class SelectValuesMeta extends BaseTransformMeta<SelectValues, SelectValu
         } else {
           // Modify the existing field name lineage entry
           //
-          FieldnameLineage lineage =
-              FieldnameLineage.findFieldnameLineageWithInput(lineages, input);
+          FieldnameLineage lineage = FieldnameLineage.findFieldnameLineageWithInput(lineages, input);
           lineage.setOutputFieldname(output);
         }
       }

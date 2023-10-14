@@ -29,8 +29,7 @@ public class HopGuiPipelineGraphExtension {
   private boolean preventingDefault;
   private AreaOwner areaOwner;
 
-  public HopGuiPipelineGraphExtension(
-      HopGuiPipelineGraph pipelineGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
+  public HopGuiPipelineGraphExtension(HopGuiPipelineGraph pipelineGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
     this.pipelineGraph = pipelineGraph;
     this.event = event;
     this.point = point;

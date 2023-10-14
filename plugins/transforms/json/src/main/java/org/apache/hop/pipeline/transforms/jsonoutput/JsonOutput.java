@@ -42,13 +42,7 @@ import java.util.Objects;
 public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
   private static final Class<?> PKG = JsonOutput.class; // For Translator
 
-  public JsonOutput(
-      TransformMeta transformMeta,
-      JsonOutputMeta meta,
-      JsonOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public JsonOutput(TransformMeta transformMeta, JsonOutputMeta meta, JsonOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
 
     // Here we decide whether or not to build the structure in
@@ -80,29 +74,19 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
 
         switch (v.getType()) {
           case IValueMeta.TYPE_BOOLEAN:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getBoolean(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getBoolean(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_INTEGER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getInteger(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getInteger(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_NUMBER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getNumber(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getNumber(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_BIGNUMBER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getBigNumber(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getBigNumber(row, data.fieldIndexes[i]));
             break;
           default:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getString(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getString(row, data.fieldIndexes[i]));
             break;
         }
         data.ja.add(jo);
@@ -132,29 +116,19 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
 
         switch (v.getType()) {
           case IValueMeta.TYPE_BOOLEAN:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getBoolean(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getBoolean(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_INTEGER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getInteger(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getInteger(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_NUMBER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getNumber(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getNumber(row, data.fieldIndexes[i]));
             break;
           case IValueMeta.TYPE_BIGNUMBER:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getBigNumber(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getBigNumber(row, data.fieldIndexes[i]));
             break;
           default:
-            jo.put(
-                outputField.getElementName(),
-                data.inputRowMeta.getString(row, data.fieldIndexes[i]));
+            jo.put(outputField.getElementName(), data.inputRowMeta.getString(row, data.fieldIndexes[i]));
             break;
         }
       }
@@ -195,8 +169,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       data.nrFields = meta.getOutputFields().size();
       data.fieldIndexes = new int[data.nrFields];
       for (int i = 0; i < data.nrFields; i++) {
-        data.fieldIndexes[i] =
-            data.inputRowMeta.indexOfValue(meta.getOutputFields().get(i).getFieldName());
+        data.fieldIndexes[i] = data.inputRowMeta.indexOfValue(meta.getOutputFields().get(i).getFieldName());
         if (data.fieldIndexes[i] < 0) {
           throw new HopException(BaseMessages.getString(PKG, "JsonOutput.Exception.FieldNotFound"));
         }
@@ -239,8 +212,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
     if (data.writeToFile && !data.ja.isEmpty()) {
       // Open a file
       if (!openNewFile()) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "JsonOutput.Error.OpenNewFile", buildFilename()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "JsonOutput.Error.OpenNewFile", buildFilename()));
       }
       // Write data to file
       try {
@@ -261,10 +233,8 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
 
     if (super.init()) {
 
-      data.writeToFile =
-          (!Objects.equals(meta.getOperationType(), JsonOutputMeta.OPERATION_TYPE_OUTPUT_VALUE));
-      data.outputValue =
-          (!Objects.equals(meta.getOperationType(), JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE));
+      data.writeToFile = (!Objects.equals(meta.getOperationType(), JsonOutputMeta.OPERATION_TYPE_OUTPUT_VALUE));
+      data.outputValue = (!Objects.equals(meta.getOperationType(), JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE));
 
       if (data.outputValue && Utils.isEmpty(resolve(meta.getOutputValue()))) {
         // We need to have output field name
@@ -347,9 +317,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       parentfolder = HopVfs.getFileObject(filename).getParent();
       if (!parentfolder.exists()) {
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG, "JsonOutput.Error.ParentFolderNotExist", parentfolder.getName()));
+          logDebug(BaseMessages.getString(PKG, "JsonOutput.Error.ParentFolderNotExist", parentfolder.getName()));
         }
         parentfolder.createFolder();
         if (log.isDebug()) {
@@ -357,9 +325,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         }
       }
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "JsonOutput.Error.ErrorCreatingParentFolder", parentfolder.getName()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "JsonOutput.Error.ErrorCreatingParentFolder", parentfolder.getName()));
     } finally {
       if (parentfolder != null) {
         try {
@@ -383,12 +349,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       createParentFolder(filename);
       if (meta.isAddToResult()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(filename),
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "JsonOutput.ResultFilenames.Comment"));
         addResultFile(resultFile);
       }
@@ -398,9 +359,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       outputStream = fos;
 
       if (!Utils.isEmpty(meta.getEncoding())) {
-        data.writer =
-            new OutputStreamWriter(
-                new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
+        data.writer = new OutputStreamWriter(new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
       } else {
         data.writer = new OutputStreamWriter(new BufferedOutputStream(outputStream, 5000));
       }
@@ -421,15 +380,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
   }
 
   public String buildFilename() {
-    return meta.buildFilename(
-        variables,
-        getCopy() + "",
-        null,
-        data.splitnr + "",
-        data.isBeamContext(),
-        log.getLogChannelId(),
-        data.getBeamBundleNr(),
-        false);
+    return meta.buildFilename(variables, getCopy() + "", null, data.splitnr + "", data.isBeamContext(), log.getLogChannelId(), data.getBeamBundleNr(), false);
   }
 
   protected boolean closeFile() {

@@ -60,8 +60,7 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
 
   private ColumnInfo[] ciKey;
 
-  public ReplaceStringDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public ReplaceStringDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (ReplaceStringMeta) in, tr, sname);
     input = (ReplaceStringMeta) in;
   }
@@ -130,33 +129,16 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
     int nrFieldRows = input.getFields().size();
 
     ciKey = new ColumnInfo[nrFieldCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.InStreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.OutStreamField"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.InStreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.OutStreamField"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     ciKey[2] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.useRegEx"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             BaseMessages.getString(PKG, "System.Combo.Yes"),
             BaseMessages.getString(PKG, "System.Combo.No"));
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.Replace"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciKey[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.By"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.Replace"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciKey[4] = new ColumnInfo(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.By"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     ciKey[5] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.SetEmptyString"),
@@ -164,12 +146,7 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
             BaseMessages.getString(PKG, "System.Combo.Yes"),
             BaseMessages.getString(PKG, "System.Combo.No"));
 
-    ciKey[6] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.FieldReplaceBy"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[6] = new ColumnInfo(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.FieldReplaceBy"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
 
     ciKey[7] =
         new ColumnInfo(
@@ -190,21 +167,12 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
             BaseMessages.getString(PKG, "System.Combo.Yes"),
             BaseMessages.getString(PKG, "System.Combo.No"));
 
-    ciKey[1].setToolTip(
-        BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.OutStreamField.Tooltip"));
+    ciKey[1].setToolTip(BaseMessages.getString(PKG, "ReplaceStringDialog.ColumnInfo.OutStreamField.Tooltip"));
     ciKey[1].setUsingVariables(true);
     ciKey[3].setUsingVariables(true);
     ciKey[4].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrFieldRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrFieldRows, lsMod, props);
 
     FormData fdKey = new FormData();
     fdKey.left = new FormAttachment(0, 0);
@@ -217,24 +185,23 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "ReplaceString.Error.CanNotGetFields"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "ReplaceString.Error.CanNotGetFields"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -332,22 +299,20 @@ public class ReplaceStringDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.getType() == IValueMeta.TYPE_STRING) {
-                // Only process strings
-                tableItem.setText(3, BaseMessages.getString(PKG, "System.Combo.No"));
-                tableItem.setText(6, BaseMessages.getString(PKG, "System.Combo.No"));
-                tableItem.setText(8, BaseMessages.getString(PKG, "System.Combo.No"));
-                tableItem.setText(9, BaseMessages.getString(PKG, "System.Combo.No"));
-                tableItem.setText(10, BaseMessages.getString(PKG, "System.Combo.No"));
-                return true;
-              } else {
-                return false;
-              }
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.getType() == IValueMeta.TYPE_STRING) {
+            // Only process strings
+            tableItem.setText(3, BaseMessages.getString(PKG, "System.Combo.No"));
+            tableItem.setText(6, BaseMessages.getString(PKG, "System.Combo.No"));
+            tableItem.setText(8, BaseMessages.getString(PKG, "System.Combo.No"));
+            tableItem.setText(9, BaseMessages.getString(PKG, "System.Combo.No"));
+            tableItem.setText(10, BaseMessages.getString(PKG, "System.Combo.No"));
+            return true;
+          } else {
+            return false;
+          }
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(

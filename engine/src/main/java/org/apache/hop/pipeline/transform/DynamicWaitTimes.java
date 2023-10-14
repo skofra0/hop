@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 
 final class DynamicWaitTimes {
 
-
   static SingleStreamStatus build(List<IRowSet> rowSets, Supplier<Integer> supplier, Integer waitTime) {
     if (rowSets.size() == 1) {
       return new SingleStreamStatus(waitTime);

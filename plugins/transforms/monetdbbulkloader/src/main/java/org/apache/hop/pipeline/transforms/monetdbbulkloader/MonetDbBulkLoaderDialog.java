@@ -77,8 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITransformDialog {
-  private static final Class<?> PKG =
-      MonetDbBulkLoaderMeta.class; // For Translator
+  private static final Class<?> PKG = MonetDbBulkLoaderMeta.class; // For Translator
 
   private CTabFolder wTabFolder;
 
@@ -129,15 +128,11 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
   // These should not be translated, they are required to exist on all
   // platforms according to the documentation of "Charset".
-  private static final String[] encodings = {
-    "", "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"
-  };
+  private static final String[] encodings = {"", "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"};
 
-  private static final String[] ALL_FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Filetype.All")};
+  private static final String[] ALL_FILETYPES = new String[] {BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Filetype.All")};
 
-  public MonetDbBulkLoaderDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public MonetDbBulkLoaderDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (MonetDbBulkLoaderMeta) in;
   }
@@ -151,13 +146,12 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    FocusListener lsFocusLost =
-        new FocusAdapter() {
-          @Override
-          public void focusLost(FocusEvent arg0) {
-            setTableFieldCombo();
-          }
-        };
+    FocusListener lsFocusLost = new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent arg0) {
+        setTableFieldCombo();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -188,10 +182,8 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Label - Transform name
 
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Transformname.Label"));
-    PropsUi.setLook(
-        wlTransformName); // Puts the user-selected background color and font on the widget.
+    wlTransformName.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Transformname.Label"));
+    PropsUi.setLook(wlTransformName); // Puts the user-selected background color and font on the widget.
 
     // Text box for editing the transform name
     wTransformName = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
@@ -217,8 +209,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     CTabItem wGeneralSettingsTab = new CTabItem(wTabFolder, SWT.NONE);
     wGeneralSettingsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wGeneralSettingsTab.setText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.GeneralSettings.Label"));
+    wGeneralSettingsTab.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.GeneralSettings.Label"));
 
     Composite wGeneralSettingsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wGeneralSettingsComp);
@@ -237,8 +228,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     CTabItem wMonetDBmclientSettingsTab = new CTabItem(wTabFolder, SWT.NONE);
     wMonetDBmclientSettingsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wMonetDBmclientSettingsTab.setText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.Label"));
+    wMonetDBmclientSettingsTab.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.Label"));
 
     Composite wMonetDBmclientSettingsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wMonetDBmclientSettingsComp);
@@ -247,9 +237,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     wMonetDBmclientSettingsTab.setControl(wMonetDBmclientSettingsComp);
 
     Group wMonetDBmclientParamGroup = new Group(wMonetDBmclientSettingsComp, SWT.SHADOW_IN);
-    wMonetDBmclientParamGroup.setText(
-        BaseMessages.getString(
-            PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup"));
+    wMonetDBmclientParamGroup.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup"));
     PropsUi.setLook(wMonetDBmclientParamGroup);
     wMonetDBmclientParamGroup.setLayout(tabLayout);
     wMonetDBmclientParamGroup.layout();
@@ -260,8 +248,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     CTabItem wOutputFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wOutputFieldsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wOutputFieldsTab.setText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.OutputFields"));
+    wOutputFieldsTab.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.OutputFields"));
 
     Composite wOutputFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wOutputFieldsComp);
@@ -274,13 +261,12 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Activate the "General Settings" tab
     wTabFolder.setSelection(0);
 
-    wTabFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wTabFolder.layout(true, true);
-          }
-        });
+    wTabFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wTabFolder.layout(true, true);
+      }
+    });
 
     //
     // Schema line (General Settings tab)
@@ -343,14 +329,13 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     PropsUi.setLook(wlTruncate);
     wTruncate = new Button(wGeneralSettingsComp, SWT.CHECK);
     PropsUi.setLook(wTruncate);
-    SelectionAdapter lsSelMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-            input.setTruncate(wTruncate.getSelection());
-          }
-        };
+    SelectionAdapter lsSelMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+        input.setTruncate(wTruncate.getSelection());
+      }
+    };
     wTruncate.addSelectionListener(lsSelMod);
 
     //
@@ -358,20 +343,18 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     // definition.)
     //
     Label wlFullyQuoteSQL = new Label(wGeneralSettingsComp, SWT.RIGHT);
-    wlFullyQuoteSQL.setText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.FullyQuoteSQL.Label"));
+    wlFullyQuoteSQL.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.FullyQuoteSQL.Label"));
     PropsUi.setLook(wlFullyQuoteSQL);
 
     wFullyQuoteSQL = new Button(wGeneralSettingsComp, SWT.CHECK);
     PropsUi.setLook(wFullyQuoteSQL);
-    SelectionAdapter lsFullyQuoteSQL =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-            input.getDatabaseMeta().setQuoteAllFields(wFullyQuoteSQL.getSelection());
-          }
-        };
+    SelectionAdapter lsFullyQuoteSQL = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+        input.getDatabaseMeta().setQuoteAllFields(wFullyQuoteSQL.getSelection());
+      }
+    };
     wFullyQuoteSQL.addSelectionListener(lsFullyQuoteSQL);
 
     // /////////////////////////////////////////////////////////
@@ -384,10 +367,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     //
     // MonetDB API Settings tab - Widgets and FormData
     Label wlFieldSeparator = new Label(wMonetDBmclientParamGroup, SWT.RIGHT);
-    wlFieldSeparator.setText(
-        BaseMessages.getString(
-            PKG,
-            "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.FieldSeparator.Label"));
+    wlFieldSeparator.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.FieldSeparator.Label"));
     PropsUi.setLook(wlFieldSeparator);
 
     wFieldSeparator = new Combo(wMonetDBmclientParamGroup, SWT.SINGLE | SWT.CENTER | SWT.BORDER);
@@ -396,10 +376,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     wFieldSeparator.addModifyListener(lsMod);
 
     Label wlFieldEnclosure = new Label(wMonetDBmclientParamGroup, SWT.RIGHT);
-    wlFieldEnclosure.setText(
-        BaseMessages.getString(
-            PKG,
-            "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.FieldEnclosure.Label"));
+    wlFieldEnclosure.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.FieldEnclosure.Label"));
     PropsUi.setLook(wlFieldEnclosure);
 
     wFieldEnclosure = new Combo(wMonetDBmclientParamGroup, SWT.SINGLE | SWT.CENTER | SWT.BORDER);
@@ -407,14 +384,10 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     wFieldEnclosure.addModifyListener(lsMod);
 
     Label wlNULLrepresentation = new Label(wMonetDBmclientParamGroup, SWT.RIGHT);
-    wlNULLrepresentation.setText(
-        BaseMessages.getString(
-            PKG,
-            "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.NULLrepresentation.Label"));
+    wlNULLrepresentation.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Tab.MonetDBmclientSettings.ParameterGroup.NULLrepresentation.Label"));
     PropsUi.setLook(wlNULLrepresentation);
 
-    wNULLrepresentation =
-        new Combo(wMonetDBmclientParamGroup, SWT.SINGLE | SWT.CENTER | SWT.BORDER);
+    wNULLrepresentation = new Combo(wMonetDBmclientParamGroup, SWT.SINGLE | SWT.CENTER | SWT.BORDER);
     wNULLrepresentation.setItems(nullRepresentations);
     wNULLrepresentation.addModifyListener(lsMod);
 
@@ -429,8 +402,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     PropsUi.setLook(wlEncoding);
 
     wEncoding = new Combo(wMonetDBmclientParamGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wEncoding.setToolTipText(
-        BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Encoding.Tooltip"));
+    wEncoding.setToolTipText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Encoding.Tooltip"));
     wEncoding.setItems(encodings);
     PropsUi.setLook(wEncoding);
     wEncoding.addModifyListener(lsMod);
@@ -446,36 +418,11 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     int upInsRows = (input.getFieldTable() != null ? input.getFieldTable().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.FormatOK"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "Y", "N",
-            },
-            true);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.ColumnInfo.FormatOK"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N",}, true);
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wOutputFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, wOutputFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
     wReturn.optWidth(true);
 
     // wReturn.table.pack(); // Force columns to take up the size they need. Make it easy for the
@@ -517,8 +464,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdTransformName = new FormData();
     fdTransformName.top = new FormAttachment(wlTransformName, 0, SWT.CENTER);
     fdTransformName.left = new FormAttachment(wlTransformName, margin);
-    fdTransformName.right =
-        new FormAttachment(100, -margin); // 100% of the form component (length of edit box)
+    fdTransformName.right = new FormAttachment(100, -margin); // 100% of the form component (length of edit box)
     wTransformName.setLayoutData(fdTransformName);
 
     //
@@ -743,28 +689,26 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    wbLogFile.addListener(SWT.Selection, e->BaseDialog.presentFileDialog(shell,
-            wLogFile, variables,new String[] {"*"}, ALL_FILETYPES, true ));
+    wbLogFile.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wLogFile, variables, new String[] {"*"}, ALL_FILETYPES, true));
 
     // Add listeners
     wOk.addListener(SWT.Selection, e -> ok());
@@ -772,13 +716,12 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     wSql.addListener(SWT.Selection, e -> create());
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     getData();
     setTableFieldCombo();
@@ -798,52 +741,51 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
   }
 
   protected void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText();
-            final String connectionName = wConnection.getText();
-            final String schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText();
+        final String connectionName = wConnection.getText();
+        final String schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
-              if (databaseMeta != null) {                
-                try (Database db = new Database(loggingObject, variables, databaseMeta)) {
-                  db.connect();
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+              db.connect();
 
-                  String schemaTable =
-                      databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
-                  IRowMeta r = db.getTableFields(schemaTable);
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+              IRowMeta r = db.getTableFields(schemaTable);
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
+                    colInfo.setComboValues(fieldNames);
                   }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user               
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
   /**
    * Copy information from the meta-data input to the dialog fields.
    *
-   * <p>This method is called each time the dialog is opened.
+   * <p>
+   * This method is called each time the dialog is opened.
    */
   public void getData() {
     if (log.isDebug()) {
@@ -918,7 +860,8 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
   }
 
   /*
-   * When the OK button is pressed, this method is called to take all values from the dialog and save them in the transform
+   * When the OK button is pressed, this method is called to take all values from the dialog and save
+   * them in the transform
    * meta data.
    */
   protected void getInfo(MonetDbBulkLoaderMeta inf) {
@@ -927,8 +870,7 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     inf.allocate(nrfields);
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Log.FoundFields", "" + nrfields));
+      logDebug(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Log.FoundFields", "" + nrfields));
     }
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrfields; i++) {
@@ -975,14 +917,10 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Log.LookingAtConnection")
-                + databaseMeta.toString());
+        logDebug(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.Log.LookingAtConnection") + databaseMeta.toString());
       }
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -990,10 +928,8 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.InvalidConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.InvalidConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.InvalidConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
   }
@@ -1015,10 +951,8 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -1031,10 +965,8 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -1059,21 +991,11 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
       int sourceIndex = sourceFields.indexOfValue(source);
       if (sourceIndex < 0) {
-        missingSourceFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingSourceFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       int targetIndex = targetFields.indexOfValue(target);
       if (targetIndex < 0) {
-        missingTargetFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingTargetFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       if (sourceIndex < 0 || targetIndex < 0) {
         continue;
@@ -1089,44 +1011,22 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "MonetDBBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "MonetDBBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(
-                  PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(
-                  PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+          BaseDialog
+              .openMessageBox(shell, BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
       boolean goOn = (answer & SWT.OK) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            MonetDbBulkLoaderDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(MonetDbBulkLoaderDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -1155,19 +1055,17 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
 
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.getType() == IValueMeta.TYPE_DATE) {
-                // The default is : format is OK for dates, see if this sticks later on...
-                //
-                tableItem.setText(3, "Y");
-              } else {
-                tableItem.setText(3, "Y"); // default is OK too...
-              }
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.getType() == IValueMeta.TYPE_DATE) {
+            // The default is : format is OK for dates, see if this sticks later on...
+            //
+            tableItem.setText(3, "Y");
+          } else {
+            tableItem.setText(3, "Y"); // default is OK too...
+          }
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1190,19 +1088,11 @@ public class MonetDbBulkLoaderDialog extends BaseTransformDialog implements ITra
       SqlStatement sql = info.getTableDdl(variables, pipelineMeta, name, false, null, false);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.NoSQLNeeds.DialogTitle"));
           mb.open();
         }

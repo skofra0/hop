@@ -33,7 +33,7 @@ public @interface HopServerServlet {
 
   /**
    * @return The ID of the plugin. You can specify more than one ID in a comma separated format:
-   *     id1,id2,id3 for deprecation purposes.
+   *         id1,id2,id3 for deprecation purposes.
    */
   String id();
 

@@ -21,12 +21,8 @@ import org.apache.hop.workflow.config.WorkflowRunConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-@SearchableAnalyserPlugin(
-    id = "WorkflowRunConfigurationSearchableAnalyser",
-    name = "Search in workflow run configuration metadata")
-public class WorkflowRunConfigurationSearchableAnalyser
-    extends BaseMetadataSearchableAnalyser<WorkflowRunConfiguration>
-    implements ISearchableAnalyser<WorkflowRunConfiguration> {
+@SearchableAnalyserPlugin(id = "WorkflowRunConfigurationSearchableAnalyser", name = "Search in workflow run configuration metadata")
+public class WorkflowRunConfigurationSearchableAnalyser extends BaseMetadataSearchableAnalyser<WorkflowRunConfiguration> implements ISearchableAnalyser<WorkflowRunConfiguration> {
 
   @Override
   public Class<WorkflowRunConfiguration> getSearchableClass() {
@@ -34,37 +30,18 @@ public class WorkflowRunConfigurationSearchableAnalyser
   }
 
   @Override
-  public List<ISearchResult> search(
-      ISearchable<WorkflowRunConfiguration> searchable, ISearchQuery searchQuery) {
+  public List<ISearchResult> search(ISearchable<WorkflowRunConfiguration> searchable, ISearchQuery searchQuery) {
     WorkflowRunConfiguration runConfig = searchable.getSearchableObject();
     String component = getMetadataComponent();
 
     List<ISearchResult> results = new ArrayList<>();
 
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Workflow run configuration name",
-        runConfig.getName(),
-        component);
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Workflow run configuration description",
-        runConfig.getDescription(),
-        component);
+    matchProperty(searchable, results, searchQuery, "Workflow run configuration name", runConfig.getName(), component);
+    matchProperty(searchable, results, searchQuery, "Workflow run configuration description", runConfig.getDescription(), component);
 
     // Analyze the configuration plugin fields
     //
-    matchObjectFields(
-        searchable,
-        results,
-        searchQuery,
-        runConfig.getEngineRunConfiguration(),
-        "Workflow run configuration property",
-        null);
+    matchObjectFields(searchable, results, searchQuery, runConfig.getEngineRunConfiguration(), "Workflow run configuration property", null);
 
     return results;
   }

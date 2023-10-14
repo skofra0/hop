@@ -37,13 +37,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
 
   private static final Class<?> PKG = CheckSumMeta.class; // For Translator
 
-  public CheckSum(
-      TransformMeta transformMeta,
-      CheckSumMeta meta,
-      CheckSumData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CheckSum(TransformMeta transformMeta, CheckSumMeta meta, CheckSumData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,18 +71,15 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
           data.fieldnrs[i] = getInputRowMeta().indexOfValue(field.getName());
           if (data.fieldnrs[i] < 0) {
             logError(BaseMessages.getString(PKG, "CheckSum.Log.CanNotFindField", field.getName()));
-            throw new HopException(
-                BaseMessages.getString(PKG, "CheckSum.Log.CanNotFindField", field.getName()));
+            throw new HopException(BaseMessages.getString(PKG, "CheckSum.Log.CanNotFindField", field.getName()));
           }
         }
       }
       data.fieldnr = data.fieldnrs.length;
 
       try {
-        if (meta.getCheckSumType() == CheckSumMeta.CheckSumType.MD5
-            || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA1
-            || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA256
-            || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA384
+        if (meta.getCheckSumType() == CheckSumMeta.CheckSumType.MD5 || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA1
+            || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA256 || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA384
             || meta.getCheckSumType() == CheckSumMeta.CheckSumType.SHA512) {
           // Case sensitive
           data.digest = MessageDigest.getInstance(meta.getCheckSumType().getCode());
@@ -101,8 +92,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
     Object[] outputRowData = null;
 
     try {
-      if (meta.getCheckSumType() == CheckSumMeta.CheckSumType.ADLER32
-          || meta.getCheckSumType() == CheckSumMeta.CheckSumType.CRC32) {
+      if (meta.getCheckSumType() == CheckSumMeta.CheckSumType.ADLER32 || meta.getCheckSumType() == CheckSumMeta.CheckSumType.CRC32) {
         // get checksum
         Long checksum = calculCheckSum(r);
         outputRowData = RowDataUtil.addValueData(r, data.nrInfields, checksum);
@@ -127,8 +117,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
       }
 
       if (checkFeedback(getLinesRead()) && log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "CheckSum.Log.LineNumber", Long.toString(getLinesRead())));
+        logDetailed(BaseMessages.getString(PKG, "CheckSum.Log.LineNumber", Long.toString(getLinesRead())));
       }
 
       // add new values to the row.
@@ -175,7 +164,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
         if (value != null) {
           valueAdded = true;
           baos.write(value.toString().getBytes());
-        }    
+        }
       }
     }
 
@@ -183,7 +172,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
     if (!valueAdded) {
       return null;
     }
-    
+
     // Updates the digest using the specified array of bytes
     data.digest.update(baos.toByteArray());
 
@@ -226,7 +215,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
       } else {
         Object value = valueMeta.getNativeDataType(r[data.fieldnrs[i]]);
         if (value != null) {
-          valueAdded= true;
+          valueAdded = true;
           baos.write(value.toString().getBytes());
         }
       }
@@ -236,7 +225,7 @@ public class CheckSum extends BaseTransform<CheckSumMeta, CheckSumData> {
     if (!valueAdded) {
       return null;
     }
-    
+
     byteArray = baos.toByteArray();
 
     if (meta.getCheckSumType() == CheckSumMeta.CheckSumType.CRC32) {

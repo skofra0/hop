@@ -35,10 +35,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DorisStreamLoad {
-  private static final byte[] JSON_ARRAY_START =
-      LoadConstants.JSON_ARRAY_START.getBytes(StandardCharsets.UTF_8);
-  private static final byte[] JSON_ARRAY_END =
-      LoadConstants.JSON_ARRAY_END.getBytes(StandardCharsets.UTF_8);
+  private static final byte[] JSON_ARRAY_START = LoadConstants.JSON_ARRAY_START.getBytes(StandardCharsets.UTF_8);
+  private static final byte[] JSON_ARRAY_END = LoadConstants.JSON_ARRAY_END.getBytes(StandardCharsets.UTF_8);
   /** used to serialize or deserialize json string */
   private static final ObjectMapper OBJECT_MAPPER = HopJson.newMapper();
 
@@ -71,10 +69,7 @@ public class DorisStreamLoad {
   public DorisStreamLoad(StreamLoadProperty streamLoadProperty) {
     this.loadUrl =
         String.format(
-            LoadConstants.LOAD_URL_PATTERN,
-            streamLoadProperty.getFeHost(),
-            streamLoadProperty.getFeHttpPort(),
-            streamLoadProperty.getDatabaseName(),
+            LoadConstants.LOAD_URL_PATTERN, streamLoadProperty.getFeHost(), streamLoadProperty.getFeHttpPort(), streamLoadProperty.getDatabaseName(),
             streamLoadProperty.getTableName());
     this.loginUser = streamLoadProperty.getLoginUser();
     this.loginPassword = streamLoadProperty.getLoginPassword();
@@ -85,8 +80,7 @@ public class DorisStreamLoad {
     } else {
       this.lineDelimiter = httpHeaders.get(LoadConstants.LINE_DELIMITER_KEY).getBytes();
     }
-    this.recordStream =
-        new RecordStream(streamLoadProperty.getBufferSize(), streamLoadProperty.getBufferCount());
+    this.recordStream = new RecordStream(streamLoadProperty.getBufferSize(), streamLoadProperty.getBufferCount());
     this.loadBatchFirstRecord = true;
   }
 
@@ -157,8 +151,7 @@ public class DorisStreamLoad {
     HttpPut put = new HttpPut(loadUrl);
     put.setHeader(HttpHeaders.EXPECT, LoadConstants.EXCEPT_DEFAULT);
     put.setHeader(HttpHeaders.AUTHORIZATION, basicAuthHeader(loginUser, loginPassword));
-    put.setHeader(
-        LoadConstants.LABEL_KEY, LoadConstants.LABEL_SUFFIX + UUID.randomUUID().toString());
+    put.setHeader(LoadConstants.LABEL_KEY, LoadConstants.LABEL_SUFFIX + UUID.randomUUID().toString());
     // put.setHeader("Content-Type", "text/plain; charset=UTF-8");
     if (LoadConstants.JSON.equals(format)) {
       put.setHeader(LoadConstants.STRIP_OUTER_ARRAY_KEY, LoadConstants.STRIP_OUTER_ARRAY_DEFAULT);
@@ -170,17 +163,13 @@ public class DorisStreamLoad {
     put.setEntity(entity);
 
     if (httpClient == null) {
-      httpClient =
-          HttpClients.custom()
-              .setRedirectStrategy(
-                  new DefaultRedirectStrategy() {
-                    @Override
-                    protected boolean isRedirectable(String method) {
-                      // If the connection target is FE, you need to deal with 307 redirect。
-                      return true;
-                    }
-                  })
-              .build();
+      httpClient = HttpClients.custom().setRedirectStrategy(new DefaultRedirectStrategy() {
+        @Override
+        protected boolean isRedirectable(String method) {
+          // If the connection target is FE, you need to deal with 307 redirect。
+          return true;
+        }
+      }).build();
     }
 
     CloseableHttpResponse response = httpClient.execute(put);
@@ -189,8 +178,7 @@ public class DorisStreamLoad {
       String loadResult = EntityUtils.toString(response.getEntity());
       return OBJECT_MAPPER.readValue(loadResult, ResponseContent.class);
     } else {
-      throw new DorisStreamLoadException(
-          "stream load error: " + response.getStatusLine().toString());
+      throw new DorisStreamLoadException("stream load error: " + response.getStatusLine().toString());
     }
   }
 

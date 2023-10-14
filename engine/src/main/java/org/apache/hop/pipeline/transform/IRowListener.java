@@ -28,7 +28,8 @@ import org.apache.hop.core.row.IRowMeta;
  * addRowListener
  * </pre>
  *
- * <p>method. When the row event occurs, that object's appropriate method is invoked.
+ * <p>
+ * method. When the row event occurs, that object's appropriate method is invoked.
  */
 public interface IRowListener {
   /**

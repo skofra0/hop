@@ -49,10 +49,7 @@ public class CalculatorMeta extends BaseTransformMeta<Calculator, CalculatorData
   private static final Class<?> PKG = CalculatorMeta.class; // For Translator
 
   /** The calculations to be performed */
-  @HopMetadataProperty(
-      key = "calculation",
-      injectionGroupKey = "Calculations",
-      injectionGroupDescription = "CalculatorMeta.Injection.Calculations")
+  @HopMetadataProperty(key = "calculation", injectionGroupKey = "Calculations", injectionGroupDescription = "CalculatorMeta.Injection.Calculations")
   private List<CalculatorMetaFunction> functions;
 
   /** Raise an error if file does not exist */
@@ -77,13 +74,7 @@ public class CalculatorMeta extends BaseTransformMeta<Calculator, CalculatorData
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (CalculatorMetaFunction calculation : functions) {
       if (!calculation.isRemovedFromResult()) {
@@ -148,35 +139,18 @@ public class CalculatorMeta extends BaseTransformMeta<Calculator, CalculatorData
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
 
       if (prev == null || prev.size() == 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputError"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "CalculatorMeta.CheckResult.FieldsReceived", "" + prev.size()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CalculatorMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }

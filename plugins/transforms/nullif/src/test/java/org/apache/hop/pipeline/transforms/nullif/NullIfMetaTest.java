@@ -26,7 +26,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class NullIfMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -36,12 +37,10 @@ public class NullIfMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    NullIfMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/null-if-transform.xml", NullIfMeta.class);
-    
+    NullIfMeta meta = TransformSerializationTestUtil.testSerialization("/null-if-transform.xml", NullIfMeta.class);
+
     assertEquals(2, meta.getFields().size());
     assertEquals("fieldName", meta.getFields().get(0).getName());
-    assertEquals("two", meta.getFields().get(0).getValue());    
+    assertEquals("two", meta.getFields().get(0).getValue());
   }
 }

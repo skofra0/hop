@@ -35,14 +35,7 @@ public class GuiCallbackMethod {
       Object singleton = getInstanceMethod.invoke(null);
       callbackMethod.invoke(singleton);
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error calling callback method with ID "
-              + callbackId
-              + " in class "
-              + singletonClass.getName()
-              + " with method "
-              + callbackMethod.getName(),
-          e);
+      throw new RuntimeException("Error calling callback method with ID " + callbackId + " in class " + singletonClass.getName() + " with method " + callbackMethod.getName(), e);
     }
   }
 

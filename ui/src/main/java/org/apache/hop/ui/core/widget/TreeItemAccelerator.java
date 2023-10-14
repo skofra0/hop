@@ -29,19 +29,18 @@ public class TreeItemAccelerator {
     final Tree tree = treeItem.getParent();
 
     if (doubleClick != null) {
-      final SelectionAdapter selectionAdapter =
-          new SelectionAdapter() {
-            @Override
-            public void widgetDefaultSelected(SelectionEvent selectionEvent) {
-              TreeItem[] items = tree.getSelection();
-              for (int i = 0; i < items.length; i++) {
-                String[] path2 = ConstUi.getTreeStrings(items[i]);
-                if (equalPaths(path1, path2)) {
-                  doubleClick.action(treeItem);
-                }
-              }
+      final SelectionAdapter selectionAdapter = new SelectionAdapter() {
+        @Override
+        public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+          TreeItem[] items = tree.getSelection();
+          for (int i = 0; i < items.length; i++) {
+            String[] path2 = ConstUi.getTreeStrings(items[i]);
+            if (equalPaths(path1, path2)) {
+              doubleClick.action(treeItem);
             }
-          };
+          }
+        }
+      };
       tree.addSelectionListener(selectionAdapter);
 
       // Clean up when we do a refresh too.

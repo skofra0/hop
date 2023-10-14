@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class ActionAs400CommandLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionAs400Command> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class ActionAs400CommandLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionAs400Command> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionAs400Command> getActionClass() {
@@ -35,29 +35,16 @@ public class ActionAs400CommandLoadSaveTest
 
   @Override
   protected List<String> listAttributes() {
-    return Arrays.asList(
-        new String[] {"server", "user", "password", "proxyHost", "proxyPort", "command"});
+    return Arrays.asList(new String[] {"server", "user", "password", "proxyHost", "proxyPort", "command"});
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "server", "getServer",
-        "user", "getUser",
-        "password", "getPassword",
-        "proxyHost", "getProxyHost",
-        "proxyPort", "getProxyPort",
-        "command", "getCommand");
+    return toMap("server", "getServer", "user", "getUser", "password", "getPassword", "proxyHost", "getProxyHost", "proxyPort", "getProxyPort", "command", "getCommand");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "server", "setServer",
-        "user", "setUser",
-        "password", "setPassword",
-        "proxyHost", "setProxyHost",
-        "proxyPort", "setProxyPort",
-        "command", "setCommand");
+    return toMap("server", "setServer", "user", "setUser", "password", "setPassword", "proxyHost", "setProxyHost", "proxyPort", "setProxyPort", "command", "setCommand");
   }
 }

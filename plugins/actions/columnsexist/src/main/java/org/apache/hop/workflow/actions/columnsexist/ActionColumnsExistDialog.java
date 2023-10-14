@@ -79,8 +79,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
 
   private TextVar wSchemaname;
 
-  public ActionColumnsExistDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionColumnsExistDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionColumnsExist) action;
     if (this.action.getName() == null) {
@@ -156,18 +155,16 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
     fdbSchema.top = new FormAttachment(wConnection, 2 * margin);
     fdbSchema.right = new FormAttachment(100, 0);
     wbSchema.setLayoutData(fdbSchema);
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
 
     wSchemaname = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaname);
-    wSchemaname.setToolTipText(
-        BaseMessages.getString(PKG, "ActionColumnsExist.Schemaname.Tooltip"));
+    wSchemaname.setToolTipText(BaseMessages.getString(PKG, "ActionColumnsExist.Schemaname.Tooltip"));
     wSchemaname.addModifyListener(lsMod);
     FormData fdSchemaname = new FormData();
     fdSchemaname.left = new FormAttachment(middle, 0);
@@ -192,13 +189,12 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
     fdbTable.right = new FormAttachment(100, 0);
     fdbTable.top = new FormAttachment(wbSchema, margin);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     // Table name
     wTablename = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
@@ -223,8 +219,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
     Button wbGetColumns = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetColumns);
     wbGetColumns.setText(BaseMessages.getString(PKG, "ActionColumnsExist.GetColums.Button"));
-    wbGetColumns.setToolTipText(
-        BaseMessages.getString(PKG, "ActionColumnsExist.GetColums.Tooltip"));
+    wbGetColumns.setToolTipText(BaseMessages.getString(PKG, "ActionColumnsExist.GetColums.Tooltip"));
     FormData fdbGetColumns = new FormData();
     fdbGetColumns.right = new FormAttachment(100, 0);
     fdbGetColumns.top = new FormAttachment(wlFields, margin);
@@ -234,26 +229,12 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
 
     final int FieldsRows = rows;
 
-    ColumnInfo[] colinf =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionColumnsExist.Fields.Argument.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] colinf = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "ActionColumnsExist.Fields.Argument.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[0].setUsingVariables(true);
     colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionColumnsExist.Fields.Column"));
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -277,9 +258,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
     if (StringUtils.isNotEmpty(databaseName)) {
       DatabaseMeta databaseMeta = wConnection.loadSelectedElement();
       if (databaseMeta != null) {
-        DatabaseExplorerDialog std =
-            new DatabaseExplorerDialog(
-                shell, SWT.NONE, variables, databaseMeta, this.getWorkflowMeta().getDatabases());
+        DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, this.getWorkflowMeta().getDatabases());
         std.setSelectedSchemaAndTable(wSchemaname.getText(), wTablename.getText());
         if (std.open()) {
           wSchemaname.setText(Const.NVL(std.getSchemaName(), ""));
@@ -287,8 +266,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
         }
       } else {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "ActionColumnsExist.ConnectionError.DialogMessage"));
+        mb.setMessage(BaseMessages.getString(PKG, "ActionColumnsExist.ConnectionError.DialogMessage"));
         mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
         mb.open();
       }
@@ -314,7 +292,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
 
     if (action.getColumns() != null) {
       for (int i = 0; i < action.getColumns().size(); i++) {
-        ColumnExist column  = action.getColumns().get(i);
+        ColumnExist column = action.getColumns().get(i);
         TableItem ti = wFields.table.getItem(i);
         ti.setText(1, column.getName());
       }
@@ -340,14 +318,14 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
       mb.open();
       return;
     }
-    
+
     action.setName(wName.getText());
     action.setDatabaseMeta(wConnection.loadSelectedElement());
     action.setTableName(wTablename.getText());
     action.setSchemaName(wSchemaname.getText());
 
     List<ColumnExist> columns = new ArrayList<>();
-    
+
     int nrItems = wFields.nrNonEmpty();
     for (int i = 0; i < nrItems; i++) {
       String name = wFields.getNonEmpty(i).getText(1);
@@ -367,10 +345,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
       if (databaseMeta != null) {
         try (Database database = new Database(loggingObject, variables, databaseMeta)) {
           database.connect();
-          IRowMeta row =
-              database.getTableFieldsMeta(
-                  variables.resolve(wSchemaname.getText()),
-                  variables.resolve(wTablename.getText()));
+          IRowMeta row = database.getTableFieldsMeta(variables.resolve(wSchemaname.getText()), variables.resolve(wTablename.getText()));
           if (row != null) {
             String[] available = row.getFieldNames();
 
@@ -382,8 +357,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
             wFields.setRowNums();
           } else {
             MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-            mb.setMessage(
-                BaseMessages.getString(PKG, "ActionColumnsExist.GetListColumsNoRow.DialogMessage"));
+            mb.setMessage(BaseMessages.getString(PKG, "ActionColumnsExist.GetListColumsNoRow.DialogMessage"));
             mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
             mb.open();
           }
@@ -391,8 +365,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
           new ErrorDialog(
               shell,
               BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-              BaseMessages.getString(
-                  PKG, "ActionColumnsExist.ConnectionError2.DialogMessage", wTablename.getText()),
+              BaseMessages.getString(PKG, "ActionColumnsExist.ConnectionError2.DialogMessage", wTablename.getText()),
               e);
         }
       }
@@ -404,7 +377,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
       return;
     }
     DatabaseMeta databaseMeta = wConnection.loadSelectedElement();
-    if (databaseMeta != null) {      
+    if (databaseMeta != null) {
       try (Database database = new Database(loggingObject, variables, databaseMeta)) {
         database.connect();
         String[] schemas = database.getSchemas();
@@ -415,8 +388,7 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Message"));
           String d = dialog.open();
           if (d != null) {
@@ -425,17 +397,12 @@ public class ActionColumnsExistDialog extends ActionDialog implements IActionDia
 
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
+          mb.setMessage(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
           mb.setText(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Title"));
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"), e);
       }
     }
   }

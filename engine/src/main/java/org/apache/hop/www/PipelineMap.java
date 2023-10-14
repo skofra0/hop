@@ -45,19 +45,14 @@ public class PipelineMap {
    * @param pipeline The pipeline to add
    * @param pipelineConfiguration the pipeline configuration to add
    */
-  public void addPipeline(
-      String pipelineName,
-      String containerObjectId,
-      IPipelineEngine<PipelineMeta> pipeline,
-      PipelineConfiguration pipelineConfiguration) {
+  public void addPipeline(String pipelineName, String containerObjectId, IPipelineEngine<PipelineMeta> pipeline, PipelineConfiguration pipelineConfiguration) {
     HopServerObjectEntry entry = new HopServerObjectEntry(pipelineName, containerObjectId);
     pipelineMap.put(entry, new PipelineData(pipeline, pipelineConfiguration));
   }
 
   public void registerPipeline(Pipeline pipeline, PipelineConfiguration pipelineConfiguration) {
     pipeline.setContainerId(UUID.randomUUID().toString());
-    HopServerObjectEntry entry =
-        new HopServerObjectEntry(pipeline.getPipelineMeta().getName(), pipeline.getContainerId());
+    HopServerObjectEntry entry = new HopServerObjectEntry(pipeline.getPipelineMeta().getName(), pipeline.getContainerId());
     pipelineMap.put(entry, new PipelineData(pipeline, pipelineConfiguration));
   }
 

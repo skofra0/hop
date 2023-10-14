@@ -22,14 +22,17 @@ import java.util.Arrays;
  * A similarity algorithm indicating the percentage of matched characters between two character
  * sequences.
  *
- * <p>The Jaro measure is the weighted sum of percentage of matched characters from each file and
+ * <p>
+ * The Jaro measure is the weighted sum of percentage of matched characters from each file and
  * transposed characters. Winkler increased this measure for matching initial characters.
  *
- * <p>This implementation is based on the Jaro Winkler similarity algorithm from <a
+ * <p>
+ * This implementation is based on the Jaro Winkler similarity algorithm from <a
  * href="http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance">
  * http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance</a>.
  *
- * <p>This code has been adapted from Apache Commons Lang 3.3.
+ * <p>
+ * This code has been adapted from Apache Commons Lang 3.3.
  */
 public class HopJaroWinklerDistance {
 
@@ -114,9 +117,7 @@ public class HopJaroWinklerDistance {
     int matches = 0;
     for (int mi = 0; mi < min.length(); mi++) {
       final char c1 = min.charAt(mi);
-      for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length());
-          xi < xn;
-          xi++) {
+      for (int xi = Math.max(mi - range, 0), xn = Math.min(mi + range + 1, max.length()); xi < xn; xi++) {
         if (!matchFlags[xi] && c1 == max.charAt(xi)) {
           matchIndexes[mi] = xi;
           matchFlags[xi] = true;

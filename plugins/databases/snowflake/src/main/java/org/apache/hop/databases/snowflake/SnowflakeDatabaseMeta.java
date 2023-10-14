@@ -35,7 +35,8 @@ import java.util.Map;
 /**
  * Contains Snowflake specific information through static final members
  *
- * <p>https://docs.snowflake.net/manuals/sql-reference/info-schema.html
+ * <p>
+ * https://docs.snowflake.net/manuals/sql-reference/info-schema.html
  */
 @DatabaseMetaPlugin(type = "SNOWFLAKE", typeDescription = "Snowflake", documentationUrl = "/database/databases/snowflake.html")
 @GuiPlugin(id = "GUI-SnowflakeDatabaseMeta")
@@ -112,47 +113,38 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
     }
 
     if (!Utils.isEmpty(databaseName)) {
-      if (isFirstQueryParam) url = url + "/?db=" + databaseName;
-      else url = url + "&db=" + databaseName;
+      if (isFirstQueryParam)
+        url = url + "/?db=" + databaseName;
+      else
+        url = url + "&db=" + databaseName;
     }
 
     return url;
   }
 
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD COLUMN "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD COLUMN " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getDropColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     return "ALTER TABLE " + tableName + " DROP COLUMN " + v.getName() + Const.CR;
   }
 
   @Override
   public String getSqlListOfSchemas() {
-    return "SELECT SCHEMA_NAME AS \"name\" FROM "
-        + getDatabaseName()
-        + ".INFORMATION_SCHEMA.SCHEMATA";
+    return "SELECT SCHEMA_NAME AS \"name\" FROM " + getDatabaseName() + ".INFORMATION_SCHEMA.SCHEMATA";
   }
 
   @Override
   public String getSqlListOfProcedures() {
-    return "SELECT PROCEDURE_NAME AS \"name\" FROM "
-        + getDatabaseName()
-        + ".INFORMATION_SCHEMA.PROCEDURES";
+    return "SELECT PROCEDURE_NAME AS \"name\" FROM " + getDatabaseName() + ".INFORMATION_SCHEMA.PROCEDURES";
   }
 
   @Override
   public String getSqlListOfSequences() {
-    return "SELECT SEQUENCE_NAME AS \"name\" FROM "
-        + getDatabaseName()
-        + ".INFORMATION_SCHEMA.SEQUENCES";
+    return "SELECT SEQUENCE_NAME AS \"name\" FROM " + getDatabaseName() + ".INFORMATION_SCHEMA.SEQUENCES";
   }
 
   @Override
@@ -161,22 +153,12 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
   }
 
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY COLUMN "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY COLUMN " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v,
-      String surrogateKey,
-      String primaryKey,
-      boolean useAutoinc,
-      boolean addFieldName,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String surrogateKey, String primaryKey, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String fieldDefinitionDdl = "";
 
     String newline = addCr ? Const.CR : "";
@@ -186,17 +168,13 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
     int precision = v.getPrecision();
     int type = v.getType();
 
-    boolean isKeyField =
-        fieldname.equalsIgnoreCase(surrogateKey) || fieldname.equalsIgnoreCase(primaryKey);
+    boolean isKeyField = fieldname.equalsIgnoreCase(surrogateKey) || fieldname.equalsIgnoreCase(primaryKey);
 
     if (addFieldName) {
       fieldDefinitionDdl += fieldname + " ";
     }
     if (isKeyField) {
-      Validate.isTrue(
-          type == IValueMeta.TYPE_NUMBER
-              || type == IValueMeta.TYPE_INTEGER
-              || type == IValueMeta.TYPE_BIGNUMBER);
+      Validate.isTrue(type == IValueMeta.TYPE_NUMBER || type == IValueMeta.TYPE_INTEGER || type == IValueMeta.TYPE_BIGNUMBER);
       return ddlForPrimaryKey(useAutoinc) + newline;
     }
     switch (type) {
@@ -313,7 +291,7 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
 
   /**
    * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
+   *         ; )
    */
   @Override
   public String getExtraOptionSeparator() {
@@ -372,89 +350,88 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ALL",
-      "ALTER",
-      "AND",
-      "ANY",
-      "AS",
-      "ASC",
-      "BETWEEN",
-      "BY",
-      "CASE",
-      "CAST",
-      "CHECK",
-      "CLUSTER",
-      "COLUMN",
-      "CONNECT",
-      "CREATE",
-      "CROSS",
-      "CURRENT",
-      "DELETE",
-      "DESC",
-      "DISTINCT",
-      "DROP",
-      "ELSE",
-      "EXCLUSIVE",
-      "EXISTS",
-      "FALSE",
-      "FOR",
-      "FROM",
-      "FULL",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "IDENTIFIED",
-      "IMMEDIATE",
-      "IN",
-      "INCREMENT",
-      "INNER",
-      "INSERT",
-      "INTERSECT",
-      "INTO",
-      "IS",
-      "JOIN",
-      "LATERAL",
-      "LEFT",
-      "LIKE",
-      "LOCK",
-      "LONG",
-      "MAXEXTENTS",
-      "MINUS",
-      "MODIFY",
-      "NATURAL",
-      "NOT",
-      "NULL",
-      "OF",
-      "ON",
-      "OPTION",
-      "OR",
-      "ORDER",
-      "REGEXP",
-      "RENAME",
-      "REVOKE",
-      "RIGHT",
-      "RLIKE",
-      "ROW",
-      "ROWS",
-      "SELECT",
-      "SET",
-      "SOME",
-      "START",
-      "TABLE",
-      "THEN",
-      "TO",
-      "TRIGGER",
-      "TRUE",
-      "UNION",
-      "UNIQUE",
-      "UPDATE",
-      "USING",
-      "VALUES",
-      "WHEN",
-      "WHENEVER",
-      "WHERE",
-      "WITH"
-    };
+        "ALL",
+        "ALTER",
+        "AND",
+        "ANY",
+        "AS",
+        "ASC",
+        "BETWEEN",
+        "BY",
+        "CASE",
+        "CAST",
+        "CHECK",
+        "CLUSTER",
+        "COLUMN",
+        "CONNECT",
+        "CREATE",
+        "CROSS",
+        "CURRENT",
+        "DELETE",
+        "DESC",
+        "DISTINCT",
+        "DROP",
+        "ELSE",
+        "EXCLUSIVE",
+        "EXISTS",
+        "FALSE",
+        "FOR",
+        "FROM",
+        "FULL",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "IDENTIFIED",
+        "IMMEDIATE",
+        "IN",
+        "INCREMENT",
+        "INNER",
+        "INSERT",
+        "INTERSECT",
+        "INTO",
+        "IS",
+        "JOIN",
+        "LATERAL",
+        "LEFT",
+        "LIKE",
+        "LOCK",
+        "LONG",
+        "MAXEXTENTS",
+        "MINUS",
+        "MODIFY",
+        "NATURAL",
+        "NOT",
+        "NULL",
+        "OF",
+        "ON",
+        "OPTION",
+        "OR",
+        "ORDER",
+        "REGEXP",
+        "RENAME",
+        "REVOKE",
+        "RIGHT",
+        "RLIKE",
+        "ROW",
+        "ROWS",
+        "SELECT",
+        "SET",
+        "SOME",
+        "START",
+        "TABLE",
+        "THEN",
+        "TO",
+        "TRIGGER",
+        "TRUE",
+        "UNION",
+        "UNIQUE",
+        "UPDATE",
+        "USING",
+        "VALUES",
+        "WHEN",
+        "WHENEVER",
+        "WHERE",
+        "WITH"};
   }
 
   @Override
@@ -463,8 +440,7 @@ public class SnowflakeDatabaseMeta extends BaseDatabaseMeta implements IDatabase
   }
 
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + keyField + ", " + versionField + ") values (1, 1)";
   }
 

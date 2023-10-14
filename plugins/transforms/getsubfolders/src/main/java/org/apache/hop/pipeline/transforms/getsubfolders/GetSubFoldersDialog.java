@@ -93,8 +93,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
   private Label wlInclRowNumberField;
   private TextVar wInclRowNumberField;
 
-  public GetSubFoldersDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetSubFoldersDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (GetSubFoldersMeta) in, pipelineMeta, sname);
     input = (GetSubFoldersMeta) in;
   }
@@ -194,26 +193,23 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
 
     wFolderField = new Button(wOriginFolders, SWT.CHECK);
     PropsUi.setLook(wFolderField);
-    wFolderField.setToolTipText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FileField.Tooltip"));
+    wFolderField.setToolTipText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FileField.Tooltip"));
     FormData fdFileField = new FormData();
     fdFileField.left = new FormAttachment(middle, -margin);
     fdFileField.top = new FormAttachment(wlFileField, 0, SWT.CENTER);
     wFolderField.setLayoutData(fdFileField);
-    SelectionAdapter lsFileField =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateFileField();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsFileField = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateFileField();
+        input.setChanged();
+      }
+    };
     wFolderField.addSelectionListener(lsFileField);
 
     // Filename field
     wlFilenameField = new Label(wOriginFolders, SWT.RIGHT);
-    wlFilenameField.setText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.wlFilenameField.Label"));
+    wlFilenameField.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.wlFilenameField.Label"));
     PropsUi.setLook(wlFilenameField);
     FormData fdlFolderNameField = new FormData();
     fdlFolderNameField.left = new FormAttachment(0, -margin);
@@ -231,16 +227,13 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     fdFolderNameField.right = new FormAttachment(100, -margin);
     wFolderNameField.setLayoutData(fdFolderNameField);
     wFolderNameField.setEnabled(false);
-    wFolderNameField.addListener(
-        SWT.FocusIn,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          BaseTransformDialog.getFieldsFromPrevious(
-              variables, wFolderNameField, pipelineMeta, transformMeta);
-          shell.setCursor(null);
-          busy.dispose();
-        });
+    wFolderNameField.addListener(SWT.FocusIn, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      BaseTransformDialog.getFieldsFromPrevious(variables, wFolderNameField, pipelineMeta, transformMeta);
+      shell.setCursor(null);
+      busy.dispose();
+    });
 
     FormData fdOriginFolders = new FormData();
     fdOriginFolders.left = new FormAttachment(0, margin);
@@ -265,8 +258,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     wbbFolderName = new Button(wFolderComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFolderName);
     wbbFolderName.setText(BaseMessages.getString(PKG, "System.Button.Browse"));
-    wbbFolderName.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFolderName.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFolderName = new FormData();
     fdbFolderName.right = new FormAttachment(100, 0);
     fdbFolderName.top = new FormAttachment(wOriginFolders, margin);
@@ -275,8 +267,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     wbaFolderName = new Button(wFolderComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbaFolderName);
     wbaFolderName.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameAdd.Button"));
-    wbaFolderName.setToolTipText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameAdd.Tooltip"));
+    wbaFolderName.setToolTipText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameAdd.Tooltip"));
     FormData fdbaFolderName = new FormData();
     fdbaFolderName.right = new FormAttachment(wbbFolderName, -margin);
     fdbaFolderName.top = new FormAttachment(wOriginFolders, margin);
@@ -293,8 +284,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
 
     // Filename list line
     wlFolderNameList = new Label(wFolderComp, SWT.RIGHT);
-    wlFolderNameList.setText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameList.Label"));
+    wlFolderNameList.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameList.Label"));
     PropsUi.setLook(wlFolderNameList);
     FormData fdlFolderNameList = new FormData();
     fdlFolderNameList.left = new FormAttachment(0, 0);
@@ -305,10 +295,8 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     // Buttons to the right of the screen...
     wbdFolderName = new Button(wFolderComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFolderName);
-    wbdFolderName.setText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameDelete.Button"));
-    wbdFolderName.setToolTipText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameDelete.Tooltip"));
+    wbdFolderName.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameDelete.Button"));
+    wbdFolderName.setToolTipText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FolderNameDelete.Tooltip"));
     FormData fdbdFolderName = new FormData();
     fdbdFolderName.right = new FormAttachment(100, 0);
     fdbdFolderName.top = new FormAttachment(wlFolderNameList, 0, SWT.TOP);
@@ -317,8 +305,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     wbeFolderName = new Button(wFolderComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFolderName);
     wbeFolderName.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FilenameEdit.Button"));
-    wbeFolderName.setToolTipText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.FilenameEdit.Tooltip"));
+    wbeFolderName.setToolTipText(BaseMessages.getString(PKG, "GetSubFoldersDialog.FilenameEdit.Tooltip"));
     FormData fdbeFolderName = new FormData();
     fdbeFolderName.right = new FormAttachment(100, 0);
     fdbeFolderName.left = new FormAttachment(wbdFolderName, 0, SWT.LEFT);
@@ -326,29 +313,12 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     wbeFolderName.setLayoutData(fdbeFolderName);
 
     ColumnInfo[] columns = new ColumnInfo[2];
-    columns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetSubFoldersDialog.FileDirColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    columns[0] = new ColumnInfo(BaseMessages.getString(PKG, "GetSubFoldersDialog.FileDirColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     columns[0].setUsingVariables(true);
-    columns[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetSubFoldersDialog.Required.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            YES,
-            NO);
+    columns[1] = new ColumnInfo(BaseMessages.getString(PKG, "GetSubFoldersDialog.Required.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES, NO);
     columns[1].setToolTip(BaseMessages.getString(PKG, "GetSubFoldersDialog.Required.Tooltip"));
 
-    wFolderNameList =
-        new TableView(
-            variables,
-            wFolderComp,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            columns,
-            input.getFiles().size(),
-            lsMod,
-            props);
+    wFolderNameList = new TableView(variables, wFolderComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, columns, input.getFiles().size(), lsMod, props);
     PropsUi.setLook(wFolderNameList);
     FormData fdFolderNameList = new FormData();
     fdFolderNameList.left = new FormAttachment(middle, 0);
@@ -399,8 +369,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
 
     Group wAdditionalGroup = new Group(wSettingsComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalGroup);
-    wAdditionalGroup.setText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.Group.AdditionalGroup.Label"));
+    wAdditionalGroup.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.Group.AdditionalGroup.Label"));
 
     FormLayout additionalgroupLayout = new FormLayout();
     additionalgroupLayout.marginWidth = 10;
@@ -417,32 +386,28 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     wlInclRowNumber.setLayoutData(fdlInclRowNumber);
     wInclRowNumber = new Button(wAdditionalGroup, SWT.CHECK);
     PropsUi.setLook(wInclRowNumber);
-    wInclRowNumber.setToolTipText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.InclRowNumber.Tooltip"));
+    wInclRowNumber.setToolTipText(BaseMessages.getString(PKG, "GetSubFoldersDialog.InclRowNumber.Tooltip"));
     FormData fdRowNumber = new FormData();
     fdRowNumber.left = new FormAttachment(middle, 0);
     fdRowNumber.top = new FormAttachment(wlInclRowNumber, 0, SWT.CENTER);
     wInclRowNumber.setLayoutData(fdRowNumber);
-    SelectionAdapter linclRowNumber =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateIncludeRowNum();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter linclRowNumber = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateIncludeRowNum();
+        input.setChanged();
+      }
+    };
     wInclRowNumber.addSelectionListener(linclRowNumber);
 
     wlInclRowNumberField = new Label(wAdditionalGroup, SWT.RIGHT);
-    wlInclRowNumberField.setText(
-        BaseMessages.getString(PKG, "GetSubFoldersDialog.InclRowNumberField.Label"));
+    wlInclRowNumberField.setText(BaseMessages.getString(PKG, "GetSubFoldersDialog.InclRowNumberField.Label"));
     PropsUi.setLook(wlInclRowNumberField);
     FormData fdlInclRowNumberField = new FormData();
     fdlInclRowNumberField.left = new FormAttachment(wInclRowNumber, margin);
     fdlInclRowNumberField.top = new FormAttachment(0, 2 * margin);
     wlInclRowNumberField.setLayoutData(fdlInclRowNumberField);
-    wInclRowNumberField =
-        new TextVar(variables, wAdditionalGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclRowNumberField = new TextVar(variables, wAdditionalGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclRowNumberField);
     wInclRowNumberField.addModifyListener(lsMod);
     FormData fdInclRowNumberField = new FormData();
@@ -493,43 +458,37 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     // ///////////////////////////////////////////////////////////
 
     // Add the file to the list of files...
-    Listener selA =
-        e -> {
-          wFolderNameList.add(wFolderName.getText());
-          wFolderName.setText("");
-          wFolderNameList.removeEmptyRows();
-          wFolderNameList.setRowNums();
-          wFolderNameList.optWidth(true);
-        };
+    Listener selA = e -> {
+      wFolderNameList.add(wFolderName.getText());
+      wFolderName.setText("");
+      wFolderNameList.removeEmptyRows();
+      wFolderNameList.setRowNums();
+      wFolderNameList.optWidth(true);
+    };
     wbaFolderName.addListener(SWT.Selection, selA);
     wFolderName.addListener(SWT.Selection, selA);
 
     // Delete files from the list of files...
-    wbdFolderName.addListener(
-        SWT.Selection,
-        e -> {
-          int[] idx = wFolderNameList.getSelectionIndices();
-          wFolderNameList.remove(idx);
-          wFolderNameList.removeEmptyRows();
-          wFolderNameList.setRowNums();
-        });
+    wbdFolderName.addListener(SWT.Selection, e -> {
+      int[] idx = wFolderNameList.getSelectionIndices();
+      wFolderNameList.remove(idx);
+      wFolderNameList.removeEmptyRows();
+      wFolderNameList.setRowNums();
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFolderName.addListener(
-        SWT.Selection,
-        e -> {
-          int idx = wFolderNameList.getSelectionIndex();
-          if (idx >= 0) {
-            String[] string = wFolderNameList.getItem(idx);
-            wFolderName.setText(string[0]);
-            wFolderNameList.remove(idx);
-          }
-          wFolderNameList.removeEmptyRows();
-          wFolderNameList.setRowNums();
-        });
+    wbeFolderName.addListener(SWT.Selection, e -> {
+      int idx = wFolderNameList.getSelectionIndex();
+      if (idx >= 0) {
+        String[] string = wFolderNameList.getItem(idx);
+        wFolderName.setText(string[0]);
+        wFolderNameList.remove(idx);
+      }
+      wFolderNameList.removeEmptyRows();
+      wFolderNameList.setRowNums();
+    });
 
-    wbbFolderName.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFolderName, variables));
+    wbbFolderName.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFolderName, variables));
 
     wTabFolder.setSelection(0);
 
@@ -576,11 +535,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
       GetSubFoldersMeta.GSFile file = meta.getFiles().get(i);
       TableItem item = wFolderNameList.table.getItem(i);
       item.setText(1, Const.NVL(file.getName(), ""));
-      item.setText(
-          2,
-          file.isRequired()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      item.setText(2, file.isRequired() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
     wFolderNameList.optimizeTableView();
 
@@ -636,9 +591,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     GetSubFoldersMeta oneMeta = new GetSubFoldersMeta();
     getInfo(oneMeta);
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -649,12 +602,7 @@ public class GetSubFoldersDialog extends BaseTransformDialog implements ITransfo
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

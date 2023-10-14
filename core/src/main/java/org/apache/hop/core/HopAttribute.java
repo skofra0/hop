@@ -32,13 +32,7 @@ public class HopAttribute implements IHopAttribute {
    * @param tooltip
    * @param type
    */
-  public HopAttribute(
-      String key,
-      String xmlCode,
-      String description,
-      String tooltip,
-      int type,
-      IHopAttribute parent) {
+  public HopAttribute(String key, String xmlCode, String description, String tooltip, int type, IHopAttribute parent) {
     this.key = key;
     this.xmlCode = xmlCode;
     this.description = description;

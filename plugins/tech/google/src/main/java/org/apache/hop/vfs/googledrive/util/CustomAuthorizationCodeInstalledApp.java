@@ -28,8 +28,7 @@ import java.io.IOException;
 
 public class CustomAuthorizationCodeInstalledApp extends AuthorizationCodeInstalledApp {
 
-  public CustomAuthorizationCodeInstalledApp(
-      AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
+  public CustomAuthorizationCodeInstalledApp(AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
     super(flow, receiver);
   }
 
@@ -39,14 +38,11 @@ public class CustomAuthorizationCodeInstalledApp extends AuthorizationCodeInstal
     HopGui hopGui = HopGui.getInstance();
     if (hopGui != null) {
 
-      HopGui.getInstance().getDisplay()
-          .syncExec(
-              () -> {
-                Shell shell = hopGui.getShell();
-                GoogleAuthorizationDialog authorizationDialog =
-                    new GoogleAuthorizationDialog(shell, getReceiver());
-                authorizationDialog.open(url);
-              });
+      HopGui.getInstance().getDisplay().syncExec(() -> {
+        Shell shell = hopGui.getShell();
+        GoogleAuthorizationDialog authorizationDialog = new GoogleAuthorizationDialog(shell, getReceiver());
+        authorizationDialog.open(url);
+      });
 
     } else {
       browse(url);

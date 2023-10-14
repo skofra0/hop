@@ -25,9 +25,7 @@ public class SwitchCasePipelineTest extends PipelineTestBase {
   @Test
   public void testSwitchCasePipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateSwitchCasePipelineMeta(
-            "io-switch-case-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateSwitchCasePipelineMeta("io-switch-case-output", "INPUT", "OUTPUT", metadataProvider);
 
     try {
       createRunPipeline(variables, pipelineMeta);

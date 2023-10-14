@@ -55,7 +55,7 @@ public class LoggingBuffer {
 
   /**
    * @return the number (sequence, 1..N) of the last log line. If no records are present in the
-   *     buffer, 0 is returned.
+   *         buffer, 0 is returned.
    */
   public int getLastBufferLineNr() {
     lock.readLock().lock();
@@ -77,21 +77,15 @@ public class LoggingBuffer {
    * @param to
    * @return
    */
-  public List<HopLoggingEvent> getLogBufferFromTo(
-      List<String> channelId, boolean includeGeneral, int from, int to) {
+  public List<HopLoggingEvent> getLogBufferFromTo(List<String> channelId, boolean includeGeneral, int from, int to) {
     lock.readLock().lock();
     try {
-      Stream<BufferLine> bufferStream =
-          buffer.stream().filter(line -> line.getNr() > from && line.getNr() <= to);
+      Stream<BufferLine> bufferStream = buffer.stream().filter(line -> line.getNr() > from && line.getNr() <= to);
       if (channelId != null) {
-        bufferStream =
-            bufferStream.filter(
-                line -> {
-                  String logChannelId = getLogChId(line);
-                  return includeGeneral
-                      ? isGeneral(logChannelId) || channelId.contains(logChannelId)
-                      : channelId.contains(logChannelId);
-                });
+        bufferStream = bufferStream.filter(line -> {
+          String logChannelId = getLogChId(line);
+          return includeGeneral ? isGeneral(logChannelId) || channelId.contains(logChannelId) : channelId.contains(logChannelId);
+        });
       }
       return bufferStream.map(BufferLine::getEvent).collect(Collectors.toList());
     } finally {
@@ -106,8 +100,7 @@ public class LoggingBuffer {
    * @param to
    * @return
    */
-  public List<HopLoggingEvent> getLogBufferFromTo(
-      String parentLogChannelId, boolean includeGeneral, int from, int to) {
+  public List<HopLoggingEvent> getLogBufferFromTo(String parentLogChannelId, boolean includeGeneral, int from, int to) {
 
     // Typically, the log channel id is the one from the pipeline or workflow running currently.
     // However, we also want to see the details of the transforms etc.
@@ -118,12 +111,10 @@ public class LoggingBuffer {
     return getLogBufferFromTo(childIds, includeGeneral, from, to);
   }
 
-  public StringBuffer getBuffer(
-      String parentLogChannelId, boolean includeGeneral, int startLineNr, int endLineNr) {
+  public StringBuffer getBuffer(String parentLogChannelId, boolean includeGeneral, int startLineNr, int endLineNr) {
     StringBuilder eventBuffer = new StringBuilder(10000);
 
-    List<HopLoggingEvent> events =
-        getLogBufferFromTo(parentLogChannelId, includeGeneral, startLineNr, endLineNr);
+    List<HopLoggingEvent> events = getLogBufferFromTo(parentLogChannelId, includeGeneral, startLineNr, endLineNr);
     for (HopLoggingEvent event : events) {
       eventBuffer.append(layout.format(event)).append(Const.CR);
     }
@@ -135,8 +126,7 @@ public class LoggingBuffer {
     return getBuffer(parentLogChannelId, includeGeneral, 0);
   }
 
-  public StringBuffer getBuffer(
-      String parentLogChannelId, boolean includeGeneral, int startLineNr) {
+  public StringBuffer getBuffer(String parentLogChannelId, boolean includeGeneral, int startLineNr) {
     return getBuffer(parentLogChannelId, includeGeneral, startLineNr, getLastBufferLineNr());
   }
 
@@ -196,7 +186,7 @@ public class LoggingBuffer {
 
   /**
    * @param maxNrLines the maximum number of lines that this buffer should contain, 0 or lower
-   *     means: no limit
+   *        means: no limit
    */
   public void setMaxNrLines(int maxNrLines) {
     this.bufferSize = maxNrLines;

@@ -41,37 +41,24 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class SortRowsMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   /** @throws HopException */
   @Test
   public void testRoundTrips() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "Directory",
-            "Prefix",
-            "SortSize",
-            "FreeMemoryLimit",
-            "CompressFiles",
-            "CompressFilesVariable",
-            "OnlyPassingUniqueRows",
-            "FieldName",
-            "Ascending",
-            "CaseSensitive",
-            "CollatorEnabled",
-            "CollatorStrength",
-            "PreSortedField");
+            "Directory", "Prefix", "SortSize", "FreeMemoryLimit", "CompressFiles", "CompressFilesVariable", "OnlyPassingUniqueRows", "FieldName", "Ascending", "CaseSensitive",
+            "CollatorEnabled", "CollatorStrength", "PreSortedField");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
-    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator =
-        new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
-    IFieldLoadSaveValidator<int[]> intArrayLoadSaveValidator =
-        new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator = new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<int[]> intArrayLoadSaveValidator = new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(), 25);
 
     fieldLoadSaveValidatorAttributeMap.put("FieldName", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("Ascending", booleanArrayLoadSaveValidator);
@@ -80,14 +67,7 @@ public class SortRowsMetaTest {
     fieldLoadSaveValidatorAttributeMap.put("CollatorStrength", intArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("PreSortedField", booleanArrayLoadSaveValidator);
 
-    LoadSaveTester<SortRowsMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            SortRowsMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    LoadSaveTester<SortRowsMeta> loadSaveTester = new LoadSaveTester<>(SortRowsMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }
@@ -114,8 +94,7 @@ public class SortRowsMetaTest {
 
     try {
       String badXml = sortRows.getXml();
-      Assert.fail(
-          "Before calling afterInjectionSynchronization, should have thrown an ArrayIndexOOB");
+      Assert.fail("Before calling afterInjectionSynchronization, should have thrown an ArrayIndexOOB");
     } catch (Exception expected) {
       // Do Nothing
     }

@@ -60,8 +60,7 @@ public class JaninoDialog extends BaseTransformDialog implements ITransformDialo
   private final List<String> inputFields = new ArrayList<>();
   private ColumnInfo[] colinf;
 
-  public JaninoDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public JaninoDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
@@ -130,41 +129,14 @@ public class JaninoDialog extends BaseTransformDialog implements ITransformDialo
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.NewField.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.Janino.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.ValueType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "JaninoDialog.Replace.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {}),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.NewField.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.Janino.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.ValueType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "JaninoDialog.Replace.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -176,30 +148,28 @@ public class JaninoDialog extends BaseTransformDialog implements ITransformDialo
     //
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "JaninoDialog.Log.UnableToFindInput"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "JaninoDialog.Log.UnableToFindInput"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    wFields.addModifyListener(
-        arg0 ->
-            // Now set the combo's
-            shell.getDisplay().asyncExec(() -> setComboBoxes()));
+    wFields.addModifyListener(arg0 ->
+    // Now set the combo's
+    shell.getDisplay().asyncExec(() -> setComboBoxes()));
 
     getData();
     currentMeta.setChanged(changed);
@@ -212,14 +182,11 @@ public class JaninoDialog extends BaseTransformDialog implements ITransformDialo
   protected void setComboBoxes() {
     // Something was changed in the row.
     //
-    shell
-        .getDisplay()
-        .syncExec(
-            () -> {
-              // Add the newly create fields.
-              String[] fieldNames = ConstUi.sortFieldNames(inputFields);
-              colinf[5].setComboValues(fieldNames);
-            });
+    shell.getDisplay().syncExec(() -> {
+      // Add the newly create fields.
+      String[] fieldNames = ConstUi.sortFieldNames(inputFields);
+      colinf[5].setComboValues(fieldNames);
+    });
   }
 
   /** Copy information from the meta-data currentMeta to the dialog fields. */
@@ -275,9 +242,7 @@ public class JaninoDialog extends BaseTransformDialog implements ITransformDialo
       String replaceField = item.getText(6);
 
       // CHECKSTYLE:Indentation:OFF
-      currentMeta.getFormula()[i] =
-          new JaninoMetaFunction(
-              fieldName, formula, valueType, valueLength, valuePrecision, replaceField);
+      currentMeta.getFormula()[i] = new JaninoMetaFunction(fieldName, formula, valueType, valueLength, valuePrecision, replaceField);
     }
 
     if (!originalMeta.equals(currentMeta)) {

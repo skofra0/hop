@@ -31,12 +31,10 @@ import org.apache.hop.ui.hopgui.HopGui;
     id = "HopGuiUnitTestCreateBeforeDialog",
     extensionPointId = "HopGuiMetadataObjectCreateBeforeDialog",
     description = "Changes the name of the default unit test and calculates a relative path")
-public class HopGuiUnitTestCreateBeforeDialog extends HopGuiUnitTestChanged
-    implements IExtensionPoint {
+public class HopGuiUnitTestCreateBeforeDialog extends HopGuiUnitTestChanged implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object) throws HopException {
 
     // Ignore all other metadata object changes
     //

@@ -69,63 +69,37 @@ import java.util.Map;
 @Command(versionProvider = HopVersionProvider.class)
 public class HopRun implements Runnable, IHasHopMetadataProvider {
 
-  @Option(
-      names = {"-f", "--file"},
-      description = "The filename of the workflow or pipeline to run")
+  @Option(names = {"-f", "--file"}, description = "The filename of the workflow or pipeline to run")
   private String filename;
 
-  @Option(
-      names = {"-l", "--level"},
-      description =
-          "The debug level, one of NOTHING, ERROR, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
+  @Option(names = {"-l", "--level"}, description = "The debug level, one of NOTHING, ERROR, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
   private String level;
 
-  @Option(
-      names = {"-h", "--help"},
-      usageHelp = true,
-      description = "Displays this help message and quits.")
+  @Option(names = {"-h", "--help"}, usageHelp = true, description = "Displays this help message and quits.")
   private boolean helpRequested;
 
-  @Option(
-      names = {"-v", "--version"},
-      versionHelp = true,
-      description = "Print version information and exit")
+  @Option(names = {"-v", "--version"}, versionHelp = true, description = "Print version information and exit")
   private boolean versionRequested;
 
-  @Option(
-      names = {"-lf", "--logfile"},
-      description = "The complete filename where hop-run will write the Hop console log")
+  @Option(names = {"-lf", "--logfile"}, description = "The complete filename where hop-run will write the Hop console log")
   private String logFile;
 
-  @Option(
-      names = {"-p", "--parameters"},
-      description = "A list of PARAMETER=VALUE pairs")
+  @Option(names = {"-p", "--parameters"}, description = "A list of PARAMETER=VALUE pairs")
   private String[] parameters = null;
 
-  @Option(
-          names = {"-ps", "--parameters-separator"},
-          description = "A character to be used as separator for our list of PARAMETER=VALUE pairs (default is ,)" )
+  @Option(names = {"-ps", "--parameters-separator"}, description = "A character to be used as separator for our list of PARAMETER=VALUE pairs (default is ,)")
   private String parametersSeparator = null;
 
-  @Option(
-      names = {"-s", "--system-properties"},
-      description = "A comma separated list of KEY=VALUE pairs",
-      split = ",")
+  @Option(names = {"-s", "--system-properties"}, description = "A comma separated list of KEY=VALUE pairs", split = ",")
   private String[] systemProperties = null;
 
-  @Option(
-      names = {"-r", "--runconfig"},
-      description = "The name of the Run Configuration to use")
+  @Option(names = {"-r", "--runconfig"}, description = "The name of the Run Configuration to use")
   private String runConfigurationName = null;
 
-  @Option(
-      names = {"-m", "--metadata-export"},
-      description = "A file containing exported metadata in JSON format")
+  @Option(names = {"-m", "--metadata-export"}, description = "A file containing exported metadata in JSON format")
   private String metadataExportFile;
 
-  @Option(
-      names = {"-o", "--printoptions"},
-      description = "Print the used options")
+  @Option(names = {"-o", "--printoptions"}, description = "Print the used options")
   private boolean printingOptions = false;
 
   private IVariables variables;
@@ -153,8 +127,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       // Allow plugins to modify the elements loaded so far, before a pipeline or workflow is even
       // loaded
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopRunStart.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunStart.id, this);
 
       // Handle the options of the configuration plugins
       //
@@ -194,11 +167,9 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
         runWorkflow(cmd, log);
       }
 
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopRunEnd.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunEnd.id, this);
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of file '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of file '" + filename + "'", e);
     } finally {
       if (fileLoggingEventListener != null) {
         HopLogStore.getAppender().removeLoggingEventListener(fileLoggingEventListener);
@@ -262,8 +233,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       // That way the user doesn't have to specify the run configuration name
       //
       if (StringUtils.isEmpty(configuration.getRunConfiguration())) {
-        PipelineRunConfiguration defaultRunConfiguration =
-            PipelineRunConfiguration.findDefault(metadataProvider);
+        PipelineRunConfiguration defaultRunConfiguration = PipelineRunConfiguration.findDefault(metadataProvider);
         if (defaultRunConfiguration != null) {
           configuration.setRunConfiguration(defaultRunConfiguration.getName());
         }
@@ -279,8 +249,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       //
       runPipeline(cmd, log, configuration, pipelineMeta);
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of pipeline '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of pipeline '" + filename + "'", e);
     }
   }
 
@@ -288,20 +257,13 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
   private void calculateRealFilename() throws HopException {
     realFilename = variables.resolve(filename);
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, variables, HopExtensionPoint.HopRunCalculateFilename.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopRunCalculateFilename.id, this);
   }
 
-  private void runPipeline(
-      CommandLine cmd,
-      ILogChannel log,
-      PipelineExecutionConfiguration configuration,
-      PipelineMeta pipelineMeta) {
+  private void runPipeline(CommandLine cmd, ILogChannel log, PipelineExecutionConfiguration configuration, PipelineMeta pipelineMeta) {
     try {
       String pipelineRunConfigurationName = variables.resolve(configuration.getRunConfiguration());
-      IPipelineEngine<PipelineMeta> pipeline =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, pipelineRunConfigurationName, metadataProvider, pipelineMeta);
+      IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(variables, pipelineRunConfigurationName, metadataProvider, pipelineMeta);
       pipeline.getPipelineMeta().setInternalHopVariables(pipeline);
       pipeline.initializeFrom(null);
       pipeline.setVariables(configuration.getVariablesMap());
@@ -349,20 +311,15 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       // That way the user doesn't have to specify the run configuration name
       //
       if (StringUtils.isEmpty(configuration.getRunConfiguration())) {
-        WorkflowRunConfiguration defaultRunConfiguration =
-            WorkflowRunConfiguration.findDefault(metadataProvider);
+        WorkflowRunConfiguration defaultRunConfiguration = WorkflowRunConfiguration.findDefault(metadataProvider);
         if (defaultRunConfiguration != null) {
           configuration.setRunConfiguration(defaultRunConfiguration.getName());
         }
       }
 
-      // Certain Hop plugins rely on this.  Meh.
+      // Certain Hop plugins rely on this. Meh.
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          variables,
-          HopExtensionPoint.HopGuiWorkflowBeforeStart.id,
-          new Object[] {configuration, null, workflowMeta, null});
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopGuiWorkflowBeforeStart.id, new Object[] {configuration, null, workflowMeta, null});
 
       // Before running, do we print the options?
       //
@@ -373,16 +330,11 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       runWorkflow(cmd, log, configuration, workflowMeta);
 
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of workflow '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of workflow '" + filename + "'", e);
     }
   }
 
-  private void runWorkflow(
-      CommandLine cmd,
-      ILogChannel log,
-      WorkflowExecutionConfiguration configuration,
-      WorkflowMeta workflowMeta) {
+  private void runWorkflow(CommandLine cmd, ILogChannel log, WorkflowExecutionConfiguration configuration, WorkflowMeta workflowMeta) {
     try {
       String runConfigurationName = variables.resolve(configuration.getRunConfiguration());
       // Create a logging object to push down the correct loglevel to the Workflow
@@ -390,9 +342,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       LoggingObject workflowLog = new LoggingObject(log);
       workflowLog.setLogLevel(configuration.getLogLevel());
 
-      IWorkflowEngine<WorkflowMeta> workflow =
-          WorkflowEngineFactory.createWorkflowEngine(
-              variables, runConfigurationName, metadataProvider, workflowMeta, workflowLog);
+      IWorkflowEngine<WorkflowMeta> workflow = WorkflowEngineFactory.createWorkflowEngine(variables, runConfigurationName, metadataProvider, workflowMeta, workflowLog);
       workflow.getWorkflowMeta().setInternalHopVariables(workflow);
       workflow.setVariables(configuration.getVariablesMap());
 
@@ -414,11 +364,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     }
   }
 
-  private void parseOptions(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      INamedParameterDefinitions namedParams)
-      throws HopException {
+  private void parseOptions(CommandLine cmd, IExecutionConfiguration configuration, INamedParameterDefinitions namedParams) throws HopException {
 
     realRunConfigurationName = variables.resolve(runConfigurationName);
     configuration.setRunConfiguration(realRunConfigurationName);
@@ -433,8 +379,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     return LogLevel.getLogLevelForCode(variables.resolve(level));
   }
 
-  private void configureHopServer(IExecutionConfiguration configuration, String name)
-      throws HopException {
+  private void configureHopServer(IExecutionConfiguration configuration, String name) throws HopException {
 
     IHopMetadataSerializer<HopServer> serializer = metadataProvider.getSerializer(HopServer.class);
     HopServer hopServer = serializer.load(name);
@@ -472,10 +417,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
    * @param configuration
    * @param namedParams
    */
-  private void parseParametersAndVariables(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      INamedParameterDefinitions namedParams) {
+  private void parseParametersAndVariables(CommandLine cmd, IExecutionConfiguration configuration, INamedParameterDefinitions namedParams) {
     try {
       String[] availableParameters = namedParams.listParameters();
 
@@ -483,7 +425,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
         parametersSeparator = parametersSeparator == null ? "," : parametersSeparator;
 
         for (String parameter : parameters) {
-          for(String singleParameter : parameter.split(parametersSeparator)){
+          for (String singleParameter : parameter.split(parametersSeparator)) {
             String[] split = singleParameter.split("=", 2);
             String key = split.length > 0 ? split[0] : null;
             String value = split.length > 1 ? split[1] : null;
@@ -508,8 +450,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
         }
       }
     } catch (Exception e) {
-      throw new ExecutionException(
-          cmd, "There was an error during execution of pipeline '" + filename + "'", e);
+      throw new ExecutionException(cmd, "There was an error during execution of pipeline '" + filename + "'", e);
     }
   }
 
@@ -521,11 +462,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
    * @param configuration
    * @param namedParams
    */
-  private void configureParametersAndVariables(
-      CommandLine cmd,
-      IExecutionConfiguration configuration,
-      IVariables variables,
-      INamedParameters namedParams) {
+  private void configureParametersAndVariables(CommandLine cmd, IExecutionConfiguration configuration, IVariables variables, INamedParameters namedParams) {
 
     // Copy variables over to the pipeline or workflow
     //
@@ -558,8 +495,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
 
   private void validateOptions() {
     if (StringUtils.isEmpty(filename)) {
-      throw new ParameterException(
-          new CommandLine(this), "A filename is needed to run a workflow or pipeline");
+      throw new ParameterException(new CommandLine(this), "A filename is needed to run a workflow or pipeline");
     }
   }
 
@@ -581,8 +517,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
     if (!configuration.getParametersMap().isEmpty()) {
       log.logMinimal("OPTION: Parameters: ");
       for (String parameter : configuration.getParametersMap().keySet()) {
-        log.logMinimal(
-            "OPTION:   " + parameter + " : '" + configuration.getParametersMap().get(parameter));
+        log.logMinimal("OPTION:   " + parameter + " : '" + configuration.getParametersMap().get(parameter));
       }
     }
   }
@@ -883,8 +818,7 @@ public class HopRun implements Runnable, IHasHopMetadataProvider {
       for (IPlugin configPlugin : configPlugins) {
         // Load only the plugins of the "run" category
         if (ConfigPlugin.CATEGORY_RUN.equals(configPlugin.getCategory())) {
-          IConfigOptions configOptions =
-              PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
+          IConfigOptions configOptions = PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
           cmd.addMixin(configPlugin.getIds()[0], configOptions);
         }
       }

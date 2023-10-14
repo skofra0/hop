@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionSendNagiosPassiveCheckTest
-    extends WorkflowActionLoadSaveTestSupport<ActionSendNagiosPassiveCheck> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionSendNagiosPassiveCheckTest extends WorkflowActionLoadSaveTestSupport<ActionSendNagiosPassiveCheck> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionSendNagiosPassiveCheck> getActionClass() {
@@ -35,40 +35,20 @@ public class WorkflowActionSendNagiosPassiveCheckTest
 
   @Override
   protected List<String> listAttributes() {
-    return Arrays.asList(
-        "port",
-        "serverName",
-        "password",
-        "responseTimeOut",
-        "connectionTimeOut",
-        "senderServerName",
-        "senderServiceName",
-        "message");
+    return Arrays.asList("port", "serverName", "password", "responseTimeOut", "connectionTimeOut", "senderServerName", "senderServiceName", "message");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "port", "getPort",
-        "serverName", "getServerName",
-        "password", "getPassword",
-        "responseTimeOut", "getResponseTimeOut",
-        "connectionTimeOut", "getConnectionTimeOut",
-        "senderServerName", "getSenderServerName",
-        "senderServiceName", "getSenderServiceName",
-        "message", "getMessage");
+        "port", "getPort", "serverName", "getServerName", "password", "getPassword", "responseTimeOut", "getResponseTimeOut", "connectionTimeOut", "getConnectionTimeOut",
+        "senderServerName", "getSenderServerName", "senderServiceName", "getSenderServiceName", "message", "getMessage");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "port", "setPort",
-        "serverName", "setServerName",
-        "password", "setPassword",
-        "responseTimeOut", "setResponseTimeOut",
-        "connectionTimeOut", "setConnectionTimeOut",
-        "senderServerName", "setSenderServerName",
-        "senderServiceName", "setSenderServiceName",
-        "message", "setMessage");
+        "port", "setPort", "serverName", "setServerName", "password", "setPassword", "responseTimeOut", "setResponseTimeOut", "connectionTimeOut", "setConnectionTimeOut",
+        "senderServerName", "setSenderServerName", "senderServiceName", "setSenderServiceName", "message", "setMessage");
   }
 }

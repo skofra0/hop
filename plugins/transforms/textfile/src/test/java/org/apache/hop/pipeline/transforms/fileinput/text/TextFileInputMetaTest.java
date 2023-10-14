@@ -70,8 +70,7 @@ public class TextFileInputMetaTest {
     assertEquals(inputMeta.inputFiles.fileName.length, inputMeta.inputFiles.fileMask.length);
     assertEquals(inputMeta.inputFiles.fileName.length, inputMeta.inputFiles.excludeFileMask.length);
     assertEquals(inputMeta.inputFiles.fileName.length, inputMeta.inputFiles.fileRequired.length);
-    assertEquals(
-        inputMeta.inputFiles.fileName.length, inputMeta.inputFiles.includeSubFolders.length);
+    assertEquals(inputMeta.inputFiles.fileName.length, inputMeta.inputFiles.includeSubFolders.length);
   }
 
   @Test
@@ -85,11 +84,9 @@ public class TextFileInputMetaTest {
     assertNotEquals(inputMeta, cloned);
     assertEquals(cloned.inputFiles.fileName.length, inputMeta.inputFiles.fileName.length);
     assertEquals(cloned.inputFiles.fileMask.length, inputMeta.inputFiles.fileMask.length);
-    assertEquals(
-        cloned.inputFiles.excludeFileMask.length, inputMeta.inputFiles.excludeFileMask.length);
+    assertEquals(cloned.inputFiles.excludeFileMask.length, inputMeta.inputFiles.excludeFileMask.length);
     assertEquals(cloned.inputFiles.fileRequired.length, inputMeta.inputFiles.fileRequired.length);
-    assertEquals(
-        cloned.inputFiles.includeSubFolders.length, inputMeta.inputFiles.includeSubFolders.length);
+    assertEquals(cloned.inputFiles.includeSubFolders.length, inputMeta.inputFiles.includeSubFolders.length);
 
     assertEquals(cloned.inputFields.length, inputMeta.inputFields.length);
     assertEquals(cloned.getFilter().length, inputMeta.getFilter().length);

@@ -40,11 +40,9 @@ import java.io.InputStream;
 import java.util.List;
 
 /** How do we handle an SVG file in file explorer perspective? */
-public class SasExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class SasExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public SasExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public SasExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 
@@ -83,8 +81,7 @@ public class SasExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
           message += "   Name      : " + Const.NVL(column.getName(), "") + Const.CR;
           message += "   Type      : " + SasUtil.getHopDataTypeDesc(column.getType()) + Const.CR;
           message += "   Length    : " + (length < 0 ? "" : Integer.toString(length)) + Const.CR;
-          message +=
-              "   Precision : " + (precision < 0 ? "" : Integer.toString(precision)) + Const.CR;
+          message += "   Precision : " + (precision < 0 ? "" : Integer.toString(precision)) + Const.CR;
         }
       } catch (Exception e) {
         throw new HopException("Error reading from file: " + explorerFile.getFilename());

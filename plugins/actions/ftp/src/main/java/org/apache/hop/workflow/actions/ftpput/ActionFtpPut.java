@@ -127,10 +127,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
     xml.append("      ").append(XmlHandler.addTagValue("servername", serverName));
     xml.append("      ").append(XmlHandler.addTagValue("serverport", serverPort));
     xml.append("      ").append(XmlHandler.addTagValue("username", userName));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
+    xml.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
     xml.append("      ").append(XmlHandler.addTagValue("remoteDirectory", remoteDirectory));
     xml.append("      ").append(XmlHandler.addTagValue("localDirectory", localDirectory));
     xml.append("      ").append(XmlHandler.addTagValue("wildcard", wildcard));
@@ -144,32 +141,23 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
     xml.append("      ").append(XmlHandler.addTagValue("proxy_host", proxyHost));
     xml.append("      ").append(XmlHandler.addTagValue("proxy_port", proxyPort));
     xml.append("      ").append(XmlHandler.addTagValue("proxy_username", proxyUsername));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
+    xml.append("      ").append(XmlHandler.addTagValue("proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_host", socksProxyHost));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_port", socksProxyPort));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_username", socksProxyUsername));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "socksproxy_password",
-                Encr.encryptPasswordIfNotUsingVariables(socksProxyPassword)));
+    xml.append("      ").append(XmlHandler.addTagValue("socksproxy_password", Encr.encryptPasswordIfNotUsingVariables(socksProxyPassword)));
 
     return xml.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       serverName = XmlHandler.getTagValue(entrynode, "servername");
       serverPort = XmlHandler.getTagValue(entrynode, "serverport");
       userName = XmlHandler.getTagValue(entrynode, "username");
-      password =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
+      password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
       remoteDirectory = XmlHandler.getTagValue(entrynode, "remoteDirectory");
       localDirectory = XmlHandler.getTagValue(entrynode, "localDirectory");
       wildcard = XmlHandler.getTagValue(entrynode, "wildcard");
@@ -183,15 +171,11 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
       proxyHost = XmlHandler.getTagValue(entrynode, "proxy_host");
       proxyPort = XmlHandler.getTagValue(entrynode, "proxy_port");
       proxyUsername = XmlHandler.getTagValue(entrynode, "proxy_username");
-      proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "proxy_password"));
+      proxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "proxy_password"));
       socksProxyHost = XmlHandler.getTagValue(entrynode, "socksproxy_host");
       socksProxyPort = XmlHandler.getTagValue(entrynode, "socksproxy_port");
       socksProxyUsername = XmlHandler.getTagValue(entrynode, "socksproxy_username");
-      socksProxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "socksproxy_password"));
+      socksProxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "socksproxy_password"));
 
       if (controlEncoding == null) {
         // if we couldn't retrieve an encoding, assume it's an old instance and
@@ -199,8 +183,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
         controlEncoding = LEGACY_CONTROL_ENCODING;
       }
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionFtpPut.Log.UnableToLoadFromXml"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionFtpPut.Log.UnableToLoadFromXml"), xe);
     }
   }
 
@@ -457,9 +440,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
       if (!Utils.isEmpty(realRemoteDirectory)) {
         ftpclient.changeWorkingDirectory(realRemoteDirectory);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionFtpPut.Log.ChangedDirectory", realRemoteDirectory));
+          logDetailed(BaseMessages.getString(PKG, "ActionFtpPut.Log.ChangedDirectory", realRemoteDirectory));
         }
       }
 
@@ -488,12 +469,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
         }
       }
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionFtpPut.Log.FoundFileLocalDirectory",
-                "" + files.size(),
-                realLocalDirectory));
+        logDetailed(BaseMessages.getString(PKG, "ActionFtpPut.Log.FoundFileLocalDirectory", "" + files.size(), realLocalDirectory));
       }
 
       String realWildcard = resolve(wildcard);
@@ -537,12 +513,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
 
           if (!fileExist || !onlyPuttingNewFiles) {
             if (log.isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionFtpPut.Log.PuttingFileToRemoteDirectory",
-                      file,
-                      realRemoteDirectory));
+              logDebug(BaseMessages.getString(PKG, "ActionFtpPut.Log.PuttingFileToRemoteDirectory", file, realRemoteDirectory));
             }
 
             String localFilename = realLocalDirectory + Const.FILE_SEPARATOR + file;
@@ -550,22 +521,14 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
               if (fileExist) {
                 boolean deleted = ftpclient.deleteFile(file);
                 if (!deleted) {
-                  log.logError(
-                      "Deletion of (existing) file '"
-                          + file
-                          + "' on the FTP server was not successful with reply string: "
-                          + ftpclient.getReplyString());
+                  log.logError("Deletion of (existing) file '" + file + "' on the FTP server was not successful with reply string: " + ftpclient.getReplyString());
                 }
               }
               boolean success = ftpclient.storeFile(file, inputStream);
               if (success) {
                 filesPut++;
               } else {
-                log.logError(
-                    "Transfer of file '"
-                        + localFilename
-                        + "' to the FTP server was not successful with reply string: "
-                        + ftpclient.getReplyString());
+                log.logError("Transfer of file '" + localFilename + "' to the FTP server was not successful with reply string: " + ftpclient.getReplyString());
               }
             }
 
@@ -573,8 +536,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
             if (remove) {
               new File(localFilename).delete();
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(PKG, "ActionFtpPut.Log.DeletedFile", localFilename));
+                logDetailed(BaseMessages.getString(PKG, "ActionFtpPut.Log.DeletedFile", localFilename));
               }
             }
           }
@@ -617,8 +579,7 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(this, workflowMeta);
     if (!Utils.isEmpty(serverName)) {
       String realServerName = resolve(serverName);
@@ -630,42 +591,12 @@ public class ActionFtpPut extends ActionBase implements Cloneable, IAction, IFtp
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "serverName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "localDirectory",
-            remarks,
-            AndValidator.putValidators(
-                ActionValidatorUtils.notBlankValidator(),
-                ActionValidatorUtils.fileExistsValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "userName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "password",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverPort",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+        .validate(this, "localDirectory", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "userName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "password", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "serverPort", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
   }
 }

@@ -59,8 +59,7 @@ public class AsyncWebServiceEditor extends MetadataEditor<AsyncWebService> {
   private TextVar wStatusVars;
   private TextVar wContentVar;
 
-  public AsyncWebServiceEditor(
-      HopGui hopGui, MetadataManager<AsyncWebService> manager, AsyncWebService metadata) {
+  public AsyncWebServiceEditor(HopGui hopGui, MetadataManager<AsyncWebService> manager, AsyncWebService metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -177,8 +176,7 @@ public class AsyncWebServiceEditor extends MetadataEditor<AsyncWebService> {
             parent,
             SWT.NONE,
             "Workflow run configuration",
-            "This is the workflow run configuration to use on the server. "
-                + "If left blank a standard local workflow engine is used.");
+            "This is the workflow run configuration to use on the server. " + "If left blank a standard local workflow engine is used.");
     FormData fdRunConfiguration = new FormData();
     fdRunConfiguration.left = new FormAttachment(0, 0);
     fdRunConfiguration.top = new FormAttachment(lastControl, margin);
@@ -264,12 +262,7 @@ public class AsyncWebServiceEditor extends MetadataEditor<AsyncWebService> {
       String filename =
           BaseDialog.presentFileDialog(
               true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+              parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -313,13 +306,7 @@ public class AsyncWebServiceEditor extends MetadataEditor<AsyncWebService> {
 
   private void selectWorkflowFilename(Composite parent) {
     HopWorkflowFileType<?> type = new HopWorkflowFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   @Override

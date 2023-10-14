@@ -46,13 +46,7 @@ import java.util.List;
 public class SasInput extends BaseTransform<SasInputMeta, SasInputData> {
   private static final Class<?> PKG = SasInputMeta.class; // for Translator
 
-  public SasInput(
-      TransformMeta stepMeta,
-      SasInputMeta meta,
-      SasInputData data,
-      int copyNr,
-      PipelineMeta transMeta,
-      Pipeline pipeline) {
+  public SasInput(TransformMeta stepMeta, SasInputMeta meta, SasInputData data, int copyNr, PipelineMeta transMeta, Pipeline pipeline) {
     super(stepMeta, meta, data, copyNr, transMeta, pipeline);
   }
 
@@ -79,9 +73,7 @@ public class SasInput extends BaseTransform<SasInputMeta, SasInputData> {
       //
       int idx = getInputRowMeta().indexOfValue(meta.getAcceptingField());
       if (idx < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "SASInput.Log.Error.UnableToFindFilenameField", meta.getAcceptingField()));
+        throw new HopException(BaseMessages.getString(PKG, "SASInput.Log.Error.UnableToFindFilenameField", meta.getAcceptingField()));
       }
 
       // Determine the output row layout
@@ -95,12 +87,7 @@ public class SasInput extends BaseTransform<SasInputMeta, SasInputData> {
 
     // Add this to the result file names...
     //
-    ResultFile resultFile =
-        new ResultFile(
-            ResultFile.FILE_TYPE_GENERAL,
-            HopVfs.getFileObject(filename),
-            getPipelineMeta().getName(),
-            getTransformName());
+    ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
     resultFile.setComment(BaseMessages.getString(PKG, "SASInput.ResultFile.Comment"));
     addResultFile(resultFile);
 
@@ -129,8 +116,7 @@ public class SasInput extends BaseTransform<SasInputMeta, SasInputData> {
           }
         }
         if (index < 0) {
-          throw new HopException(
-              "Field '" + field.getName() + " could not be found in input file '" + filename);
+          throw new HopException("Field '" + field.getName() + " could not be found in input file '" + filename);
         }
         indexes.add(index);
       }

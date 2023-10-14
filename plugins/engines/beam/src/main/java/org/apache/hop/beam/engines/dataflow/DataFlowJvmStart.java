@@ -27,15 +27,14 @@ import java.security.Security;
  * to disable certain security algorithms so that secure connections automatically pick up the right
  * one. This is an issue for secure Kafka and Neo4j Aura connections (neo4j+s:// protocol)
  *
- * <p>TODO make this configurable somehow.
+ * <p>
+ * TODO make this configurable somehow.
  */
 @AutoService(value = JvmInitializer.class)
 public class DataFlowJvmStart implements JvmInitializer {
   @Override
   public void onStartup() {
-    Security.setProperty(
-        "jdk.tls.disabledAlgorithms",
-        "SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL");
+    Security.setProperty("jdk.tls.disabledAlgorithms", "SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL");
   }
 
   @Override

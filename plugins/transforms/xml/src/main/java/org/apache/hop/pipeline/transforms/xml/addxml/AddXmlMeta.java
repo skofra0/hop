@@ -49,9 +49,7 @@ import java.util.List;
     categoryDescription = "i18n::AddXML.category",
     keywords = "i18n::AddXmlMeta.keyword",
     documentationUrl = "/pipeline/transforms/addxml.html")
-@InjectionSupported(
-    localizationPrefix = "AddXMLMeta.Injection.",
-    groups = {"OUTPUT_FIELDS"})
+@InjectionSupported(localizationPrefix = "AddXMLMeta.Injection.", groups = {"OUTPUT_FIELDS"})
 public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
   private static final Class<?> PKG = AddXmlMeta.class; // For Translator
 
@@ -80,7 +78,8 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
   /* THE FIELD SPECIFICATIONS ... */
 
   /** The output fields */
-  @InjectionDeep private XmlField[] outputFields;
+  @InjectionDeep
+  private XmlField[] outputFields;
 
   public AddXmlMeta() {
     super(); // allocate BaseTransformMeta
@@ -135,17 +134,14 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       encoding = XmlHandler.getTagValue(transformNode, "encoding");
       valueName = XmlHandler.getTagValue(transformNode, "valueName");
       rootNode = XmlHandler.getTagValue(transformNode, "xml_repeat_element");
 
-      omitXMLheader =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omitXMLheader"));
-      omitNullValues =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omitNullValues"));
+      omitXMLheader = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omitXMLheader"));
+      omitNullValues = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omitNullValues"));
 
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
       int nrFields = XmlHandler.countNodes(fields, "field");
@@ -166,10 +162,8 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
         outputFields[i].setNullString(XmlHandler.getTagValue(fnode, "nullif"));
         outputFields[i].setLength(Const.toInt(XmlHandler.getTagValue(fnode, "length"), -1));
         outputFields[i].setPrecision(Const.toInt(XmlHandler.getTagValue(fnode, "precision"), -1));
-        outputFields[i].setAttribute(
-            "Y".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "attribute")));
-        outputFields[i].setAttributeParentName(
-            XmlHandler.getTagValue(fnode, "attributeParentName"));
+        outputFields[i].setAttribute("Y".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "attribute")));
+        outputFields[i].setAttributeParentName(XmlHandler.getTagValue(fnode, "attributeParentName"));
       }
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
@@ -208,13 +202,7 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     IValueMeta v = new ValueMetaString(this.getValueName());
@@ -244,16 +232,14 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
         xml.append("        ").append(XmlHandler.addTagValue("element", field.getElementName()));
         xml.append("        ").append(XmlHandler.addTagValue("type", field.getTypeDesc()));
         xml.append("        ").append(XmlHandler.addTagValue("format", field.getFormat()));
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
+        xml.append("        ").append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
         xml.append("        ").append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
         xml.append("        ").append(XmlHandler.addTagValue("group", field.getGroupingSymbol()));
         xml.append("        ").append(XmlHandler.addTagValue("nullif", field.getNullString()));
         xml.append("        ").append(XmlHandler.addTagValue("length", field.getLength()));
         xml.append("        ").append(XmlHandler.addTagValue("precision", field.getPrecision()));
         xml.append("        ").append(XmlHandler.addTagValue("attribute", field.isAttribute()));
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("attributeParentName", field.getAttributeParentName()));
+        xml.append("        ").append(XmlHandler.addTagValue("attributeParentName", field.getAttributeParentName()));
         xml.append("        </field>").append(Const.CR);
       }
     }
@@ -279,12 +265,7 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "AddXMLMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -299,42 +280,25 @@ public class AddXmlMeta extends BaseTransformMeta<AddXml, AddXmlData> {
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            CheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(CheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "AddXMLMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 

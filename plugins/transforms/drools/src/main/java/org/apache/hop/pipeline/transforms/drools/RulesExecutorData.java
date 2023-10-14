@@ -75,7 +75,6 @@ public class RulesExecutorData extends BaseTransformData implements ITransformDa
     return outputRowMeta;
   }
 
-
   public void initializeRules() throws RuleValidationException {
 
     // To ensure the plugin classloader use for dependency resolution
@@ -162,18 +161,15 @@ public class RulesExecutorData extends BaseTransformData implements ITransformDa
 
   protected Collection<Object> fetchColumns(KieSession session) {
 
-    Collection<Object> oList =
-        (Collection<Object>)
-            session.getObjects(
-                new ObjectFilter() {
-                  @Override
-                  public boolean accept(Object o) {
-                    if (o instanceof Rules.Column && !((Rules.Column) o).isExternalSource()) {
-                      return true;
-                    }
-                    return false;
-                  }
-                });
+    Collection<Object> oList = (Collection<Object>) session.getObjects(new ObjectFilter() {
+      @Override
+      public boolean accept(Object o) {
+        if (o instanceof Rules.Column && !((Rules.Column) o).isExternalSource()) {
+          return true;
+        }
+        return false;
+      }
+    });
 
     return oList;
   }

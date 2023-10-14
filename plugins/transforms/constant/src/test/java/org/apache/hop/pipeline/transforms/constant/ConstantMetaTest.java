@@ -43,7 +43,8 @@ import java.util.UUID;
 public class ConstantMetaTest implements IInitializer<ConstantMeta> {
   LoadSaveTester<ConstantMeta> loadSaveTester;
   Class<ConstantMeta> testMetaClass = ConstantMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -55,39 +56,19 @@ public class ConstantMetaTest implements IInitializer<ConstantMeta> {
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "fields", new ListLoadSaveValidator<>(new ConstantFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fields", new ListLoadSaveValidator<>(new ConstantFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester<>(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester<>(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
 
-    IFieldLoadSaveValidatorFactory validatorFactory =
-        loadSaveTester.getFieldLoadSaveValidatorFactory();
+    IFieldLoadSaveValidatorFactory validatorFactory = loadSaveTester.getFieldLoadSaveValidatorFactory();
     validatorFactory.registerValidator(
         validatorFactory.getName(ConstantField.class),
         new ObjectValidator<>(
             validatorFactory,
             ConstantField.class,
-            Arrays.asList(
-                "name",
-                "type",
-                "format",
-                "length",
-                "precision",
-                "set_empty_string",
-                "nullif",
-                "group",
-                "decimal",
-                "currency"),
+            Arrays.asList("name", "type", "format", "length", "precision", "set_empty_string", "nullif", "group", "decimal", "currency"),
             new HashMap<String, String>() {
               {
                 put("name", "getFieldName");
@@ -123,15 +104,10 @@ public class ConstantMetaTest implements IInitializer<ConstantMeta> {
   public void modify(ConstantMeta someMeta) {
     if (someMeta instanceof ConstantMeta) {
       ((ConstantMeta) someMeta).getFields().clear();
-      ((ConstantMeta) someMeta)
-          .getFields()
-          .addAll(
-              Arrays.asList(
-                  new ConstantField("InField1", "String", "Value1"),
-                  new ConstantField("InField2", "String", "Value2"),
-                  new ConstantField("InField3", "String", "Value3"),
-                  new ConstantField("InField4", "String", "Value4"),
-                  new ConstantField("InField5", "String", "Value5")));
+      ((ConstantMeta) someMeta).getFields().addAll(
+          Arrays.asList(
+              new ConstantField("InField1", "String", "Value1"), new ConstantField("InField2", "String", "Value2"), new ConstantField("InField3", "String", "Value3"),
+              new ConstantField("InField4", "String", "Value4"), new ConstantField("InField5", "String", "Value5")));
     }
   }
 
@@ -147,8 +123,7 @@ public class ConstantMetaTest implements IInitializer<ConstantMeta> {
     public ConstantField getTestObject() {
       String[] types = ValueMetaFactory.getAllValueMetaNames();
 
-      ConstantField field =
-          new ConstantField(UUID.randomUUID().toString(), "String", UUID.randomUUID().toString());
+      ConstantField field = new ConstantField(UUID.randomUUID().toString(), "String", UUID.randomUUID().toString());
 
       return field;
     }
@@ -159,11 +134,8 @@ public class ConstantMetaTest implements IInitializer<ConstantMeta> {
         return false;
       }
       ConstantField another = (ConstantField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getFieldName(), another.getFieldName())
-          .append(testObject.getFieldType(), another.getFieldType())
-          .append(testObject.getValue(), another.getValue())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getFieldName(), another.getFieldName()).append(testObject.getFieldType(), another.getFieldType())
+          .append(testObject.getValue(), another.getValue()).isEquals();
     }
   }
 }

@@ -66,8 +66,7 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
 
   protected IHopMetadataProvider metadataProvider;
 
-  public PipelineUnitTestEditor(
-      HopGui hopGui, MetadataManager<PipelineUnitTest> manager, PipelineUnitTest metadata) {
+  public PipelineUnitTestEditor(HopGui hopGui, MetadataManager<PipelineUnitTest> manager, PipelineUnitTest metadata) {
     super(hopGui, manager, metadata);
 
     this.metadataProvider = manager.getMetadataProvider();
@@ -144,8 +143,7 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
     //
     Label wlPipelineFilename = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlPipelineFilename);
-    wlPipelineFilename.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestDialog.PipelineFilename.Label"));
+    wlPipelineFilename.setText(BaseMessages.getString(PKG, "PipelineUnitTestDialog.PipelineFilename.Label"));
     FormData fdlPipelineFilename = new FormData();
     fdlPipelineFilename.top = new FormAttachment(lastControl, margin);
     fdlPipelineFilename.left = new FormAttachment(0, 0);
@@ -220,8 +218,7 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
     // The list of database replacements in the unit test pipeline
     //
     Label wlFieldMapping = new Label(parent, SWT.NONE);
-    wlFieldMapping.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestDialog.DbReplacements.Label"));
+    wlFieldMapping.setText(BaseMessages.getString(PKG, "PipelineUnitTestDialog.DbReplacements.Label"));
     PropsUi.setLook(wlFieldMapping);
     FormData fdlUpIns = new FormData();
     fdlUpIns.left = new FormAttachment(0, 0);
@@ -241,19 +238,16 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
     }
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestDialog.DbReplacement.ColumnInfo.OriginalDb"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              dbNames.toArray(new String[0]),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestDialog.DbReplacement.ColumnInfo.ReplacementDb"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              dbNames.toArray(new String[0]),
-              false),
-        };
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "PipelineUnitTestDialog.DbReplacement.ColumnInfo.OriginalDb"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                dbNames.toArray(new String[0]),
+                false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "PipelineUnitTestDialog.DbReplacement.ColumnInfo.ReplacementDb"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                dbNames.toArray(new String[0]),
+                false),};
     columns[0].setUsingVariables(true);
     columns[1].setUsingVariables(true);
 
@@ -276,8 +270,7 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
     lastControl = wDbReplacements;
 
     Label wlVariableValues = new Label(parent, SWT.NONE);
-    wlVariableValues.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestDialog.VariableValues.Label"));
+    wlVariableValues.setText(BaseMessages.getString(PKG, "PipelineUnitTestDialog.VariableValues.Label"));
     PropsUi.setLook(wlVariableValues);
     FormData fdlVariableValues = new FormData();
     fdlVariableValues.left = new FormAttachment(0, 0);
@@ -287,17 +280,8 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
 
     ColumnInfo[] varValColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestDialog.VariableValues.ColumnInfo.VariableName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestDialog.VariableValues.ColumnInfo.VariableValue"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineUnitTestDialog.VariableValues.ColumnInfo.VariableName"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineUnitTestDialog.VariableValues.ColumnInfo.VariableValue"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     varValColumns[0].setUsingVariables(true);
     varValColumns[1].setUsingVariables(true);
 
@@ -337,16 +321,14 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
 
     wName.setText(Const.NVL(pipelineUnitTest.getName(), ""));
     wDescription.setText(Const.NVL(pipelineUnitTest.getDescription(), ""));
-    wTestType.setText(
-        Const.NVL(DataSetConst.getTestTypeDescription(pipelineUnitTest.getType()), ""));
+    wTestType.setText(Const.NVL(DataSetConst.getTestTypeDescription(pipelineUnitTest.getType()), ""));
     wPipelineFilename.setText(Const.NVL(pipelineUnitTest.getPipelineFilename(), ""));
     wFilename.setText(Const.NVL(pipelineUnitTest.getFilename(), ""));
     wBasePath.setText(Const.NVL(pipelineUnitTest.getBasePath(), ""));
     wAutoOpen.setSelection(pipelineUnitTest.isAutoOpening());
 
     for (int i = 0; i < pipelineUnitTest.getDatabaseReplacements().size(); i++) {
-      PipelineUnitTestDatabaseReplacement dbReplacement =
-          pipelineUnitTest.getDatabaseReplacements().get(i);
+      PipelineUnitTestDatabaseReplacement dbReplacement = pipelineUnitTest.getDatabaseReplacements().get(i);
       wDbReplacements.setText(Const.NVL(dbReplacement.getOriginalDatabaseName(), ""), 1, i);
       wDbReplacements.setText(Const.NVL(dbReplacement.getReplacementDatabaseName(), ""), 2, i);
     }
@@ -378,8 +360,7 @@ public class PipelineUnitTestEditor extends MetadataEditor<PipelineUnitTest> {
       TableItem item = wDbReplacements.getNonEmpty(i);
       String sourceDb = item.getText(1);
       String replaceDb = item.getText(2);
-      PipelineUnitTestDatabaseReplacement dbReplacement =
-          new PipelineUnitTestDatabaseReplacement(sourceDb, replaceDb);
+      PipelineUnitTestDatabaseReplacement dbReplacement = new PipelineUnitTestDatabaseReplacement(sourceDb, replaceDb);
       test.getDatabaseReplacements().add(dbReplacement);
     }
     test.getVariableValues().clear();

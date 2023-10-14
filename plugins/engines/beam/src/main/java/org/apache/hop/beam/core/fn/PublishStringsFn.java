@@ -43,10 +43,7 @@ public class PublishStringsFn extends DoFn<HopRow, String> {
   private transient Counter readCounter;
   private transient Counter outputCounter;
 
-  public PublishStringsFn(
-      String transformName,
-      int fieldIndex,
-      String rowMetaJson) {
+  public PublishStringsFn(String transformName, int fieldIndex, String rowMetaJson) {
     this.transformName = transformName;
     this.fieldIndex = fieldIndex;
     this.rowMetaJson = rowMetaJson;

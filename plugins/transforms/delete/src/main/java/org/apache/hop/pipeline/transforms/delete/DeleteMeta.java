@@ -64,9 +64,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
   private String connection;
 
   /** Commit size for inserts/updates */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKeyDescription = "Delete.Injection.CommitSize.Field")
+  @HopMetadataProperty(key = "commit", injectionKeyDescription = "Delete.Injection.CommitSize.Field")
   private String commitSize;
 
   public DeleteMeta() {
@@ -102,7 +100,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
 
   /**
    * @param vs - variable variables to be used for searching variable value usually "this" for a
-   *     calling transform
+   *        calling transform
    * @return Returns the commitSize.
    */
   public int getCommitSize(IVariables vs) {
@@ -136,13 +134,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: nothing changes to rowMeta
   }
@@ -163,15 +155,9 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "DeleteMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)), transformMeta);
       remarks.add(cr);
     }
 
@@ -181,11 +167,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
         db.connect();
 
         if (!Utils.isEmpty(lookup.getTableName())) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "DeleteMeta.CheckResult.TablenameOK"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.TablenameOK"), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -195,11 +177,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
           // Check fields in table
           IRowMeta r = db.getTableFieldsMeta(lookup.getSchemaName(), lookup.getTableName());
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DeleteMeta.CheckResult.VisitTableSuccessfully"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.VisitTableSuccessfully"), transformMeta);
             remarks.add(cr);
 
             List<DeleteKeyField> keyFields = lookup.getFields();
@@ -210,10 +188,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "DeleteMeta.CheckResult.MissingCompareFieldsInTargetTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingCompareFieldsInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + lufield + Const.CR;
@@ -222,16 +197,11 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(PKG, "DeleteMeta.CheckResult.FoundLookupFields"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.FoundLookupFields"), transformMeta);
             }
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "DeleteMeta.CheckResult.CouldNotReadTableInfo");
+            errorMessage = BaseMessages.getString(PKG, "DeleteMeta.CheckResult.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
@@ -242,10 +212,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG,
-                      "DeleteMeta.CheckResult.ConnectedTransformSuccessfully",
-                      String.valueOf(prev.size())),
+                  BaseMessages.getString(PKG, "DeleteMeta.CheckResult.ConnectedTransformSuccessfully", String.valueOf(prev.size())),
                   transformMeta);
           remarks.add(cr);
 
@@ -260,8 +227,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields") + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + keyStr + Const.CR;
@@ -274,9 +240,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields2")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields2") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + keyStr2 + Const.CR;
@@ -286,23 +250,17 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DeleteMeta.CheckResult.AllFieldsFound"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.AllFieldsFound"), transformMeta);
           }
           remarks.add(cr);
 
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields3") + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "DeleteMeta.CheckResult.MissingFields3") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "DeleteMeta.CheckResult.DatabaseError") + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "DeleteMeta.CheckResult.DatabaseError") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
@@ -316,34 +274,20 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DeleteMeta.CheckResult.TransformReceivingInfo"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.TransformReceivingInfo"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DeleteMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DeleteMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
 
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connection, variables);
 
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -352,9 +296,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(
-                    variables, lookup.getSchemaName(), lookup.getTableName());
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, lookup.getSchemaName(), lookup.getTableName());
             String crTable = db.getDDL(schemaTable, prev, null, false, null, true);
 
             String crIndex = "";
@@ -366,25 +308,13 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
                 idxFields[i] = keyFields.get(i).getKeyLookup();
               }
             } else {
-              retval.setError(
-                  BaseMessages.getString(PKG, "DeleteMeta.CheckResult.KeyFieldsRequired"));
+              retval.setError(BaseMessages.getString(PKG, "DeleteMeta.CheckResult.KeyFieldsRequired"));
             }
 
             // Key lookup dimensions...
-            if (idxFields != null
-                && idxFields.length > 0
-                && !db.checkIndexExists(schemaTable, idxFields)) {
+            if (idxFields != null && idxFields.length > 0 && !db.checkIndexExists(schemaTable, idxFields)) {
               String indexname = "idx_" + lookup.getTableName() + "_lookup";
-              crIndex =
-                  db.getCreateIndexStatement(
-                      lookup.getSchemaName(),
-                      lookup.getTableName(),
-                      indexname,
-                      idxFields,
-                      false,
-                      false,
-                      false,
-                      true);
+              crIndex = db.getCreateIndexStatement(lookup.getSchemaName(), lookup.getTableName(), indexname, idxFields, false, false, false, true);
             }
 
             String sql = crTable + crIndex;
@@ -394,13 +324,10 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
               retval.setSql(sql);
             }
           } catch (HopException e) {
-            retval.setError(
-                BaseMessages.getString(PKG, "DeleteMeta.Returnvalue.ErrorOccurred")
-                    + e.getMessage());
+            retval.setError(BaseMessages.getString(PKG, "DeleteMeta.Returnvalue.ErrorOccurred") + e.getMessage());
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "DeleteMeta.Returnvalue.NoTableDefinedOnConnection"));
+          retval.setError(BaseMessages.getString(PKG, "DeleteMeta.Returnvalue.NoTableDefinedOnConnection"));
         }
       } else {
         retval.setError(BaseMessages.getString(PKG, "DeleteMeta.Returnvalue.NoReceivingAnyFields"));
@@ -433,10 +360,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
         IValueMeta v = prev.searchValueMeta(keyStr);
 
         try {
-          DatabaseMeta databaseMeta =
-              metadataProvider
-                  .getSerializer(DatabaseMeta.class)
-                  .load(variables.resolve(connection));
+          DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
           DatabaseImpact ii =
               new DatabaseImpact(
                   DatabaseImpact.TYPE_IMPACT_DELETE,
@@ -451,11 +375,7 @@ public class DeleteMeta extends BaseTransformMeta<Delete, DeleteData> {
                   "Type = " + v.toStringMeta());
           impact.add(ii);
         } catch (HopException e) {
-          throw new HopTransformException(
-              "Unable to get databaseMeta for connection: "
-                  + Const.CR
-                  + variables.resolve(connection),
-              e);
+          throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
         }
       }
     }

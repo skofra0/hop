@@ -36,13 +36,7 @@ import java.util.ArrayList;
 
 public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsData> {
 
-  public ExecuteTests(
-      TransformMeta transformMeta,
-      ExecuteTestsMeta meta,
-      ExecuteTestsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ExecuteTests(TransformMeta transformMeta, ExecuteTestsMeta meta, ExecuteTestsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -56,8 +50,7 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
         data.hasPrevious = true;
 
         if (StringUtils.isEmpty(meta.getTestNameInputField())) {
-          log.logError(
-              "When this transform receives input it wants the name of a field to get the unit test name from to determine which transforms to execute");
+          log.logError("When this transform receives input it wants the name of a field to get the unit test name from to determine which transforms to execute");
           setErrors(1);
           return false;
         }
@@ -77,8 +70,7 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
     if (first) {
       first = false;
 
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          metadataProvider.getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
 
       // Read all the unit test names from the previous transform(s)
       //
@@ -96,8 +88,7 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
 
         int inputFieldIndex = getInputRowMeta().indexOfValue(meta.getTestNameInputField());
         if (inputFieldIndex < 0) {
-          throw new HopException(
-              "Unable to find test name field '" + meta.getTestNameInputField() + "' in the input");
+          throw new HopException("Unable to find test name field '" + meta.getTestNameInputField() + "' in the input");
         }
 
         while (row != null) {
@@ -119,8 +110,7 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
           data.tests = new ArrayList<>();
           for (String testName : testSerializer.listObjectNames()) {
             PipelineUnitTest pipelineUnitTest = testSerializer.load(testName);
-            if (meta.getTypeToExecute() == null
-                || meta.getTypeToExecute() == pipelineUnitTest.getType()) {
+            if (meta.getTypeToExecute() == null || meta.getTypeToExecute() == pipelineUnitTest.getType()) {
               data.tests.add(pipelineUnitTest);
             }
           }
@@ -140,13 +130,8 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
       PipelineUnitTest test = data.testsIterator.next();
 
       UnitTestUtil.executeUnitTest(
-          test,
-          this,
-          getLogLevel(),
-          new Result(),
-          metadataProvider,
-          this,
-          // Evaluate the execution the pipeline itself.  Was there an error?
+          test, this, getLogLevel(), new Result(), metadataProvider, this,
+          // Evaluate the execution the pipeline itself. Was there an error?
           //
           (pipeline, pipelineResult) -> {
             if (pipelineResult.getNrErrors() != 0) {
@@ -213,8 +198,7 @@ public class ExecuteTests extends BaseTransform<ExecuteTestsMeta, ExecuteTestsDa
       unitTestPipelineMeta = new PipelineMeta(filename, metadataProvider, this);
     }
     if (unitTestPipelineMeta == null) {
-      throw new HopException(
-          "Unable to find a valid pipeline filename in unit test '" + test.getName() + "'");
+      throw new HopException("Unable to find a valid pipeline filename in unit test '" + test.getName() + "'");
     }
 
     // Pass some data from the parent...

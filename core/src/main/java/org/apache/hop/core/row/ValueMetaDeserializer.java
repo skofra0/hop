@@ -31,9 +31,7 @@ import java.util.TimeZone;
 
 public class ValueMetaDeserializer extends JsonDeserializer<IValueMeta> {
   @Override
-  public IValueMeta deserialize(
-      JsonParser jsonParser, DeserializationContext deserializationContext)
-      throws IOException, JacksonException {
+  public IValueMeta deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
     ObjectMapper objectMapper = (ObjectMapper) jsonParser.getCodec();
     ObjectNode root = objectMapper.readTree(jsonParser);
     int type = root.get("type").asInt();
@@ -61,8 +59,7 @@ public class ValueMetaDeserializer extends JsonDeserializer<IValueMeta> {
       valueMeta.setOutputPaddingEnabled(root.get("outputPaddingEnabled").asBoolean());
       valueMeta.setLargeTextField(root.get("largeTextField").asBoolean());
       valueMeta.setDateFormatLocale(LocaleUtils.toLocale((root.get("dateFormatLocale").asText())));
-      valueMeta.setDateFormatTimeZone(
-          TimeZone.getTimeZone(root.get("dateFormatTimeZone").asText()));
+      valueMeta.setDateFormatTimeZone(TimeZone.getTimeZone(root.get("dateFormatTimeZone").asText()));
       valueMeta.setDateFormatLenient(root.get("dateFormatLenient").asBoolean());
       valueMeta.setIgnoreWhitespace(root.get("ignoreWhitespace").asBoolean());
 

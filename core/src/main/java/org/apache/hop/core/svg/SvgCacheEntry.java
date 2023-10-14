@@ -29,8 +29,7 @@ public class SvgCacheEntry {
   private int y;
   private String filename;
 
-  public SvgCacheEntry(
-      String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
+  public SvgCacheEntry(String filename, SVGDocument svgDocument, int width, int height, int x, int y) {
     this.filename = filename;
     this.svgDocument = svgDocument;
     this.width = width;

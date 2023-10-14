@@ -56,13 +56,7 @@ public class GroupByTransform extends PTransform<PCollection<HopRow>, PCollectio
 
   public GroupByTransform() {}
 
-  public GroupByTransform(
-      String transformName,
-      String rowMetaJson,
-      String[] groupFields,
-      String[] subjects,
-      String[] aggregations,
-      String[] resultFields) {
+  public GroupByTransform(String transformName, String rowMetaJson, String[] groupFields, String[] subjects, String[] aggregations, String[] resultFields) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
     this.groupFields = groupFields;
@@ -91,35 +85,21 @@ public class GroupByTransform extends PTransform<PCollection<HopRow>, PCollectio
 
       // Split the HopRow into GroupFields-HopRow and SubjectFields-HopRow
       //
-      PCollection<KV<HopRow, HopRow>> groupSubjects =
-          input.apply(
-              ParDo.of(
-                  new HopKeyValueFn(
-                      rowMetaJson,
-                      groupFields,
-                      subjects,
-                      transformName)));
+      PCollection<KV<HopRow, HopRow>> groupSubjects = input.apply(ParDo.of(new HopKeyValueFn(rowMetaJson, groupFields, subjects, transformName)));
 
       // Now we need to aggregate the groups with a Combine
       GroupByKey<HopRow, HopRow> byKey = GroupByKey.<HopRow, HopRow>create();
       PCollection<KV<HopRow, Iterable<HopRow>>> grouped = groupSubjects.apply(byKey);
 
       // Aggregate the rows in the grouped PCollection
-      //   Input: KV<HopRow>, Iterable<HopRow>>
-      //   This means that The group rows is in HopRow.  For every one of these, you get a list of
+      // Input: KV<HopRow>, Iterable<HopRow>>
+      // This means that The group rows is in HopRow. For every one of these, you get a list of
       // subject rows.
-      //   We need to calculate the aggregation of these subject lists
-      //   Then we output group values with result values behind it.
+      // We need to calculate the aggregation of these subject lists
+      // Then we output group values with result values behind it.
       //
       String counterName = transformName + " AGG";
-      PCollection<HopRow> output =
-          grouped.apply(
-              ParDo.of(
-                  new GroupByFn(
-                      counterName,
-                      JsonRowMeta.toJson(groupRowMeta),
-                      JsonRowMeta.toJson(subjectRowMeta),
-                      aggregations)));
+      PCollection<HopRow> output = grouped.apply(ParDo.of(new GroupByFn(counterName, JsonRowMeta.toJson(groupRowMeta), JsonRowMeta.toJson(subjectRowMeta), aggregations)));
 
       return output;
     } catch (Exception e) {

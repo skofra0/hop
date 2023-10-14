@@ -38,28 +38,29 @@ import java.util.List;
 import java.util.Set;
 
 /*
-
-DATE      PRODUCT1_NR  PRODUCT1_SL  PRODUCT2_NR PRODUCT2_SL PRODUCT3_NR PRODUCT3_SL
-20030101            5          100           10         250           4         150
-
-DATE      PRODUCT    Sales   Number
-20030101  PRODUCT1     100        5
-20030101  PRODUCT2     250       10
-20030101  PRODUCT3     150        4
-
---> we need a mapping of fields with occurances.  (PRODUCT1_NR --> "PRODUCT1", PRODUCT1_SL --> "PRODUCT1", ...)
---> List of Fields with the type and the new fieldname to fill
---> PRODUCT1_NR, "PRODUCT1", Number
---> PRODUCT1_SL, "PRODUCT1", Sales
---> PRODUCT2_NR, "PRODUCT2", Number
---> PRODUCT2_SL, "PRODUCT2", Sales
---> PRODUCT3_NR, "PRODUCT3", Number
---> PRODUCT3_SL, "PRODUCT3", Sales
-
---> To parse this, we loop over the occurances of type: "PRODUCT1", "PRODUCT2" and "PRODUCT3"
---> For each of the occurance, we insert a record.
-
-**/
+ * 
+ * DATE PRODUCT1_NR PRODUCT1_SL PRODUCT2_NR PRODUCT2_SL PRODUCT3_NR PRODUCT3_SL
+ * 20030101 5 100 10 250 4 150
+ * 
+ * DATE PRODUCT Sales Number
+ * 20030101 PRODUCT1 100 5
+ * 20030101 PRODUCT2 250 10
+ * 20030101 PRODUCT3 150 4
+ * 
+ * --> we need a mapping of fields with occurances. (PRODUCT1_NR --> "PRODUCT1", PRODUCT1_SL -->
+ * "PRODUCT1", ...)
+ * --> List of Fields with the type and the new fieldname to fill
+ * --> PRODUCT1_NR, "PRODUCT1", Number
+ * --> PRODUCT1_SL, "PRODUCT1", Sales
+ * --> PRODUCT2_NR, "PRODUCT2", Number
+ * --> PRODUCT2_SL, "PRODUCT2", Sales
+ * --> PRODUCT3_NR, "PRODUCT3", Number
+ * --> PRODUCT3_SL, "PRODUCT3", Sales
+ * 
+ * --> To parse this, we loop over the occurances of type: "PRODUCT1", "PRODUCT2" and "PRODUCT3"
+ * --> For each of the occurance, we insert a record.
+ * 
+ **/
 
 @Transform(
     id = "Normaliser",
@@ -73,19 +74,18 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
   private static final Class<?> PKG = NormaliserMeta.class; // For Translator
 
   /** Name of the new type-field */
-  @HopMetadataProperty(key="typefield", injectionKey = "TYPEFIELD", injectionKeyDescription = "NormaliserMeta.Injection.TYPEFIELD")
-  private String typeField; 
+  @HopMetadataProperty(key = "typefield", injectionKey = "TYPEFIELD", injectionKeyDescription = "NormaliserMeta.Injection.TYPEFIELD")
+  private String typeField;
 
-  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS",
-  injectionGroupDescription = "NormaliserMeta.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "NormaliserMeta.Injection.FIELDS")
   private List<NormaliserField> normaliserFields;
 
   public NormaliserMeta() {
     super();
     this.normaliserFields = new ArrayList<>();
   }
-  
-  public NormaliserMeta(NormaliserMeta meta) {    
+
+  public NormaliserMeta(NormaliserMeta meta) {
     this();
     for (NormaliserField field : meta.normaliserFields) {
       normaliserFields.add(new NormaliserField(field));
@@ -112,7 +112,7 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
 
   public Set<String> getFieldNames() {
     Set<String> fieldNames = new HashSet<>();
-    
+
     for (NormaliserField field : normaliserFields) {
       if (field.getName() != null) {
         fieldNames.add(field.getName().toLowerCase());
@@ -121,10 +121,9 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
     return fieldNames;
   }
 
-
   @Override
   public Object clone() {
-    return new NormaliserMeta(this);    
+    return new NormaliserMeta(this);
   }
 
   @Override
@@ -134,13 +133,7 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // Get a unique list of the occurrences of the type
@@ -148,8 +141,8 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
     List<String> normOcc = new ArrayList<>();
     List<String> fieldOcc = new ArrayList<>();
     int maxlen = 0;
-    //for (int i = 0; i < normaliserFields.length; i++) {
-    for (NormaliserField field : normaliserFields) {      
+    // for (int i = 0; i < normaliserFields.length; i++) {
+    for (NormaliserField field : normaliserFields) {
       if (!normOcc.contains(field.getNorm())) {
         normOcc.add(field.getNorm());
         fieldOcc.add(field.getName());
@@ -178,8 +171,7 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
       if (v != null) {
         v = v.clone();
       } else {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "NormaliserMeta.Exception.UnableToFindField", fieldname));
+        throw new HopTransformException(BaseMessages.getString(PKG, "NormaliserMeta.Exception.UnableToFindField", fieldname));
       }
       v.setName(normname);
       v.setOrigin(name);
@@ -188,7 +180,7 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
 
     // Now remove all the normalized fields...
     //
-    for (NormaliserField field : normaliserFields) {      
+    for (NormaliserField field : normaliserFields) {
       int idx = row.indexOfValue(field.getName());
       if (idx >= 0) {
         row.removeValueMeta(idx);
@@ -213,12 +205,7 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
 
     // Look up fields in the input stream <prev>
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "NormaliserMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       boolean first = true;
@@ -226,12 +213,11 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
       boolean errorFound = false;
 
       for (NormaliserField field : normaliserFields) {
-        IValueMeta  valueMeta = prev.searchValueMeta(field.getName());
+        IValueMeta valueMeta = prev.searchValueMeta(field.getName());
         if (valueMeta == null) {
           if (first) {
             first = false;
-            errorMessage +=
-                BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.FieldsNotFound") + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.FieldsNotFound") + Const.CR;
           }
           errorFound = true;
           errorMessage += "\t\t" + field.getName() + Const.CR;
@@ -240,36 +226,21 @@ public class NormaliserMeta extends BaseTransformMeta<Normaliser, NormaliserData
       if (errorFound) {
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.AllFieldsFound"), transformMeta);
       }
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(
-                  PKG, "NormaliserMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform")
-              + Const.CR;
+      errorMessage = BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform") + Const.CR;
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.TransformReceivingInfoOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.TransformReceivingInfoOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "NormaliserMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

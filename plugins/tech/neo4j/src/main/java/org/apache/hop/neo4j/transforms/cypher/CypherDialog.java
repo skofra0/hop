@@ -112,12 +112,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
 
   private CypherMeta input;
 
-  public CypherDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public CypherDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, pipelineMeta, transformName);
     input = (CypherMeta) inputMetadata;
 
@@ -180,13 +175,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     addCypherTab();
     addReturnsTab();
 
-    wTabFolder.setLayoutData(
-        new FormDataBuilder()
-            .left()
-            .top(new FormAttachment(wTransformName, margin))
-            .right()
-            .bottom(new FormAttachment(wOk, -2 * margin))
-            .result());
+    wTabFolder.setLayoutData(new FormDataBuilder().left().top(new FormAttachment(wTransformName, margin)).right().bottom(new FormAttachment(wOk, -2 * margin)).result());
 
     getData();
 
@@ -313,13 +302,12 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     wCypherFromField.setLayoutData(fdCypherFromField);
     lastControl = wCypherFromField;
 
-    wCypherFromField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            enableFields();
-          }
-        });
+    wCypherFromField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        enableFields();
+      }
+    });
 
     Label wlCypherField = new Label(wOptionsComp, SWT.RIGHT);
     wlCypherField.setText("Cypher input field");
@@ -340,8 +328,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
 
     Label wlUnwind = new Label(wOptionsComp, SWT.RIGHT);
     wlUnwind.setText("Collect parameter values map?");
-    wlUnwind.setToolTipText(
-        "Collect the specified parameters field data and expose it into a single variable to support UNWIND statements");
+    wlUnwind.setToolTipText("Collect the specified parameters field data and expose it into a single variable to support UNWIND statements");
     PropsUi.setLook(wlUnwind);
     FormData fdlUnwind = new FormData();
     fdlUnwind.left = new FormAttachment(0, 0);
@@ -356,18 +343,16 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     fdUnwind.top = new FormAttachment(wlUnwind, 0, SWT.CENTER);
     wUnwind.setLayoutData(fdUnwind);
     lastControl = wUnwind;
-    wUnwind.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            enableFields();
-          }
-        });
+    wUnwind.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        enableFields();
+      }
+    });
 
     wlUnwindMap = new Label(wOptionsComp, SWT.RIGHT);
     wlUnwindMap.setText("Name of values map list");
-    wlUnwindMap.setToolTipText(
-        "You can use this parameter in your Cypher usually in UNWIND statements");
+    wlUnwindMap.setToolTipText("You can use this parameter in your Cypher usually in UNWIND statements");
     PropsUi.setLook(wlUnwindMap);
     FormData fdlUnwindMap = new FormData();
     fdlUnwindMap.left = new FormAttachment(0, 0);
@@ -402,13 +387,12 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     fdReturnGraph.top = new FormAttachment(wlReturnGraph, 0, SWT.CENTER);
     wReturnGraph.setLayoutData(fdReturnGraph);
     lastControl = wReturnGraph;
-    wReturnGraph.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            enableFields();
-          }
-        });
+    wReturnGraph.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        enableFields();
+      }
+    });
 
     wlReturnGraphField = new Label(wOptionsComp, SWT.RIGHT);
     wlReturnGraphField.setText("Graph output field name");
@@ -434,8 +418,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     CTabItem wParametersTab = new CTabItem(wTabFolder, SWT.NONE);
     wParametersTab.setFont(GuiResource.getInstance().getFontDefault());
     wParametersTab.setText(BaseMessages.getString(PKG, "CypherDialog.Tab.Parameters.Label"));
-    wParametersTab.setToolTipText(
-        BaseMessages.getString(PKG, "CypherDialog.Tab.Parameters.ToolTip"));
+    wParametersTab.setToolTipText(BaseMessages.getString(PKG, "CypherDialog.Tab.Parameters.ToolTip"));
     Composite wParametersComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wParametersComp);
     wParametersComp.setLayout(createFormLayout());
@@ -454,11 +437,9 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     //
     ColumnInfo[] parameterColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Parameter", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Field", ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
-          new ColumnInfo(
-              "Neo4j Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
-        };
+            new ColumnInfo("Parameter", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Field", ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
+            new ColumnInfo("Neo4j Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),};
 
     Label wlParameters = new Label(wParametersComp, SWT.LEFT);
     wlParameters.setText("Parameters: (NOTE that parameters for labels are not supported)");
@@ -475,37 +456,19 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     fdbGetParameters.right = new FormAttachment(100, 0);
     fdbGetParameters.top = new FormAttachment(wlParameters, 0, SWT.BOTTOM);
     wbGetParameters.setLayoutData(fdbGetParameters);
-    wbGetParameters.addListener(
-        SWT.Selection,
-        e -> {
-          try {
-            IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    wbGetParameters.addListener(SWT.Selection, e -> {
+      try {
+        IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-            BaseTransformDialog.getFieldsFromPrevious(
-                r,
-                wParameters,
-                2,
-                new int[] {2},
-                new int[] {},
-                -1,
-                -1,
-                (item, valueMeta) ->
-                    Neo4JOutputDialog.getPropertyNameTypePrimary(
-                        item, valueMeta, new int[] {1}, new int[] {3}, -1));
-          } catch (Exception ex) {
-            new ErrorDialog(shell, "Error", "Error getting transform input fields", ex);
-          }
-        });
+        BaseTransformDialog.getFieldsFromPrevious(
+            r, wParameters, 2, new int[] {2}, new int[] {}, -1, -1,
+            (item, valueMeta) -> Neo4JOutputDialog.getPropertyNameTypePrimary(item, valueMeta, new int[] {1}, new int[] {3}, -1));
+      } catch (Exception ex) {
+        new ErrorDialog(shell, "Error", "Error getting transform input fields", ex);
+      }
+    });
 
-    wParameters =
-        new TableView(
-            variables,
-            wParametersComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            parameterColumns,
-            input.getParameterMappings().size(),
-            null,
-            props);
+    wParameters = new TableView(variables, wParametersComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, parameterColumns, input.getParameterMappings().size(), null, props);
     PropsUi.setLook(wParameters);
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -535,8 +498,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     fdlCypher.right = new FormAttachment(middle, -margin);
     fdlCypher.top = new FormAttachment(0, 0);
     wlCypher.setLayoutData(fdlCypher);
-    wCypher =
-        new Text(wCypherComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCypher = new Text(wCypherComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wCypher.setFont(GuiResource.getInstance().getFontFixed());
     PropsUi.setLook(wCypher);
     FormData fdCypher = new FormData();
@@ -563,18 +525,9 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     //
     ColumnInfo[] returnColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Field name", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo(
-              "Return type",
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames(),
-              false),
-          new ColumnInfo(
-              "Source type",
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GraphPropertyDataType.getNames(),
-              false),
-        };
+            new ColumnInfo("Field name", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Return type", ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames(), false),
+            new ColumnInfo("Source type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyDataType.getNames(), false),};
 
     Label wlReturns = new Label(wReturnsComp, SWT.LEFT);
     wlReturns.setText("Returns");
@@ -593,15 +546,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     wbGetReturnFields.setLayoutData(fdbGetReturnFields);
     wbGetReturnFields.addListener(SWT.Selection, e -> getReturnValues());
 
-    wReturns =
-        new TableView(
-            variables,
-            wReturnsComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            returnColumns,
-            input.getReturnValues().size(),
-            null,
-            props);
+    wReturns = new TableView(variables, wReturnsComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, returnColumns, input.getReturnValues().size(), null, props);
     PropsUi.setLook(wReturns);
     FormData fdReturns = new FormData();
     fdReturns.left = new FormAttachment(0, 0);
@@ -656,8 +601,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     wCypherFromField.setSelection(input.isCypherFromField());
     wCypherField.setText(Const.NVL(input.getCypherField(), ""));
     try {
-      wCypherField.setItems(
-          pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
+      wCypherField.setItems(pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
     } catch (HopTransformException e) {
       log.logError("Error getting fields from previous transform", e);
     }
@@ -739,9 +683,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
   private synchronized void preview() {
     CypherMeta oneMeta = new CypherMeta();
     this.getInfo(oneMeta);
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            HopGui.getInstance().getMetadataProvider(), oneMeta, this.wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(HopGui.getInstance().getMetadataProvider(), oneMeta, this.wTransformName.getText());
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
             this.shell,
@@ -751,18 +693,11 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              this.shell,
-              variables,
-              previewMeta,
-              new String[] {this.wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(this.shell, variables, previewMeta, new String[] {this.wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
       Pipeline pipeline = progressDialog.getPipeline();
       String loggingText = progressDialog.getLoggingText();
-      if (!progressDialog.isCancelled()
-          && pipeline.getResult() != null
-          && pipeline.getResult().getNrErrors() > 0L) {
+      if (!progressDialog.isCancelled() && pipeline.getResult() != null && pipeline.getResult().getNrErrors() > 0L) {
         EnterTextDialog etd =
             new EnterTextDialog(
                 this.shell,
@@ -796,8 +731,7 @@ public class CypherDialog extends BaseTransformDialog implements ITransformDialo
     getInfo(meta);
 
     try {
-      NeoConnection neoConnection =
-          metadataProvider.getSerializer(NeoConnection.class).load(meta.getConnectionName());
+      NeoConnection neoConnection = metadataProvider.getSerializer(NeoConnection.class).load(meta.getConnectionName());
       driver = neoConnection.getDriver(log, variables);
       session = driver.session();
       transaction = session.beginTransaction();

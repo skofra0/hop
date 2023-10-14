@@ -29,19 +29,14 @@ import org.apache.hop.projects.config.ProjectsConfig;
 import org.apache.hop.projects.config.ProjectsConfigSingleton;
 import org.apache.hop.projects.config.ProjectsOptionPlugin;
 
-@ExtensionPoint(
-    id = "HopRestServicesStartupProjectsConfig",
-    extensionPointId = "HopRestServiceStart",
-    description = "Configures a selected environment or project by name")
-public class HopRestServicesStartupProjectsConfig
-    implements IExtensionPoint<IRestServicesProvider> {
+@ExtensionPoint(id = "HopRestServicesStartupProjectsConfig", extensionPointId = "HopRestServiceStart", description = "Configures a selected environment or project by name")
+public class HopRestServicesStartupProjectsConfig implements IExtensionPoint<IRestServicesProvider> {
 
   public static final String OPTION_ENVIRONMENT_NAME = "environmentName";
   public static final String OPTION_PROJECT_NAME = "projectName";
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IRestServicesProvider provider) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IRestServicesProvider provider) throws HopException {
 
     Properties properties = provider.getProperties();
     IHasHopMetadataProvider hasHopMetadataProvider = provider.getHasHopMetadataProvider();
@@ -59,14 +54,12 @@ public class HopRestServicesStartupProjectsConfig
     try {
       // Configure the project and environment if needed
       if (StringUtils.isNotEmpty(projectName) || StringUtils.isNotEmpty(environmentName)) {
-        if (ProjectsOptionPlugin.configure(
-            log, variables, hasHopMetadataProvider, projectName, environmentName)) {
+        if (ProjectsOptionPlugin.configure(log, variables, hasHopMetadataProvider, projectName, environmentName)) {
           log.logBasic("Configured project or environment for the Hop REST services");
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error configuring project or environment for the Hop REST services", e);
+      throw new HopException("Error configuring project or environment for the Hop REST services", e);
     }
   }
 }

@@ -32,20 +32,9 @@ import org.eclipse.swt.widgets.Text;
 
 public class TextVarButton extends TextVar {
 
-  public TextVarButton(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface,
+  public TextVarButton(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface,
       SelectionListener selectionListener) {
-    super(
-        composite,
-        variables,
-        flags,
-        getCaretPositionInterface,
-        insertTextInterface,
-        selectionListener);
+    super(composite, variables, flags, getCaretPositionInterface, insertTextInterface, selectionListener);
   }
 
   @Override
@@ -106,9 +95,7 @@ public class TextVarButton extends TextVar {
     modifyListenerTooltipText = getModifyListenerTooltipText(wText);
     wText.addModifyListener(modifyListenerTooltipText);
 
-    controlSpaceKeyAdapter =
-        new ControlSpaceKeyAdapter(
-            variables, wText, getCaretPositionInterface, insertTextInterface);
+    controlSpaceKeyAdapter = new ControlSpaceKeyAdapter(variables, wText, getCaretPositionInterface, insertTextInterface);
     wText.addKeyListener(controlSpaceKeyAdapter);
   }
 }

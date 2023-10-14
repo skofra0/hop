@@ -33,13 +33,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesData> {
   private static final Class<?> PKG = ProcessFilesMeta.class; // For Translator
 
-  public ProcessFiles(
-      TransformMeta transformMeta,
-      ProcessFilesMeta meta,
-      ProcessFilesData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ProcessFiles(TransformMeta transformMeta, ProcessFilesMeta meta, ProcessFilesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -56,14 +50,11 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
       first = false;
       // Check is source filename field is provided
       if (Utils.isEmpty(meta.getSourceFilenameField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFilenameFieldMissing"));
       }
       // Check is target filename field is provided
-      if (meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE
-          && Utils.isEmpty(meta.getTargetFilenameField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.TargetFilenameFieldMissing"));
+      if (meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE && Utils.isEmpty(meta.getTargetFilenameField())) {
+        throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.TargetFilenameFieldMissing"));
       }
 
       // cache the position of the source filename field
@@ -71,20 +62,15 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
         data.indexOfSourceFilename = getInputRowMeta().indexOfValue(meta.getSourceFilenameField());
         if (data.indexOfSourceFilename < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ProcessFiles.Exception.CouldnotFindField", meta.getSourceFilenameField()));
+          throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Exception.CouldnotFindField", meta.getSourceFilenameField()));
         }
       }
       // cache the position of the source filename field
-      if (meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE
-          && data.indexOfTargetFilename < 0) {
+      if (meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE && data.indexOfTargetFilename < 0) {
         data.indexOfTargetFilename = getInputRowMeta().indexOfValue(meta.getTargetFilenameField());
         if (data.indexOfTargetFilename < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ProcessFiles.Exception.CouldnotFindField", meta.getTargetFilenameField()));
+          throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Exception.CouldnotFindField", meta.getTargetFilenameField()));
         }
       }
 
@@ -104,16 +90,12 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
       data.sourceFile = HopVfs.getFileObject(sourceFilename);
 
       if (!data.sourceFile.exists()) {
-        logError(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotExist", sourceFilename));
-        throw new HopException(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotExist", sourceFilename));
+        logError(BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotExist", sourceFilename));
+        throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotExist", sourceFilename));
       }
       if (data.sourceFile.getType() != FileType.FILE) {
-        logError(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotFile", sourceFilename));
-        throw new HopException(
-            BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotFile", sourceFilename));
+        logError(BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotFile", sourceFilename));
+        throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.SourceFileNotFile", sourceFilename));
       }
       String targetFilename = null;
       if (meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE) {
@@ -127,18 +109,13 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
         data.targetFile = HopVfs.getFileObject(targetFilename);
         if (data.targetFile.exists()) {
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ProcessFiles.Log.TargetFileExists", targetFilename));
+            logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.TargetFileExists", targetFilename));
           }
           // check if target is really a file otherwise it could overwrite a complete folder by copy
           // or move operations
           if (data.targetFile.getType() != FileType.FILE) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ProcessFiles.Error.TargetFileNotFile", targetFilename));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "ProcessFiles.Error.TargetFileNotFile", targetFilename));
+            logError(BaseMessages.getString(PKG, "ProcessFiles.Error.TargetFileNotFile", targetFilename));
+            throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.TargetFileNotFile", targetFilename));
           }
 
         } else {
@@ -146,11 +123,7 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
           FileObject parentFolder = data.targetFile.getParent();
           if (!parentFolder.exists()) {
             if (!meta.isCreateParentFolder()) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "ProcessFiles.Error.TargetParentFolderNotExists",
-                      parentFolder.toString()));
+              throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.TargetParentFolderNotExists", parentFolder.toString()));
             } else {
               parentFolder.createFolder();
             }
@@ -163,56 +136,35 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
 
       switch (meta.getOperationType()) {
         case ProcessFilesMeta.OPERATION_TYPE_COPY:
-          if (((meta.isOverwriteTargetFile() && data.targetFile.exists())
-                  || !data.targetFile.exists())
-              && !meta.simulate) {
+          if (((meta.isOverwriteTargetFile() && data.targetFile.exists()) || !data.targetFile.exists()) && !meta.simulate) {
             data.targetFile.copyFrom(data.sourceFile, new TextOneToOneFileSelector());
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "ProcessFiles.Log.SourceFileCopied", sourceFilename, targetFilename));
+              logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.SourceFileCopied", sourceFilename, targetFilename));
             }
           } else {
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ProcessFiles.Log.TargetNotOverwritten",
-                      sourceFilename,
-                      targetFilename));
+              logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.TargetNotOverwritten", sourceFilename, targetFilename));
             }
           }
           break;
         case ProcessFilesMeta.OPERATION_TYPE_MOVE:
-          if (((meta.isOverwriteTargetFile() && data.targetFile.exists())
-                  || !data.targetFile.exists())
-              && !meta.simulate) {
+          if (((meta.isOverwriteTargetFile() && data.targetFile.exists()) || !data.targetFile.exists()) && !meta.simulate) {
             data.sourceFile.moveTo(HopVfs.getFileObject(targetFilename));
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "ProcessFiles.Log.SourceFileMoved", sourceFilename, targetFilename));
+              logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.SourceFileMoved", sourceFilename, targetFilename));
             }
           } else {
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ProcessFiles.Log.TargetNotOverwritten",
-                      sourceFilename,
-                      targetFilename));
+              logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.TargetNotOverwritten", sourceFilename, targetFilename));
             }
           }
           break;
         case ProcessFilesMeta.OPERATION_TYPE_DELETE:
           if (!meta.simulate && !data.sourceFile.delete()) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "ProcessFiles.Error.CanNotDeleteFile", data.sourceFile.toString()));
+            throw new HopException(BaseMessages.getString(PKG, "ProcessFiles.Error.CanNotDeleteFile", data.sourceFile.toString()));
           }
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ProcessFiles.Log.SourceFileDeleted", sourceFilename));
+            logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.SourceFileDeleted", sourceFilename));
           }
           break;
         default:
@@ -220,23 +172,14 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
       }
 
       // add filename to result filenames?
-      if (meta.isAddResultFilenames()
-          && meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE
-          && data.targetFile.getType() == FileType.FILE) {
+      if (meta.isAddResultFilenames() && meta.getOperationType() != ProcessFilesMeta.OPERATION_TYPE_DELETE && data.targetFile.getType() == FileType.FILE) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                data.targetFile,
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.targetFile, getPipelineMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "ProcessFiles.Log.FileAddedResult"));
         addResultFile(resultFile);
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ProcessFiles.Log.FilenameAddResult", data.targetFile.toString()));
+          logDetailed(BaseMessages.getString(PKG, "ProcessFiles.Log.FilenameAddResult", data.targetFile.toString()));
         }
       }
 
@@ -253,8 +196,7 @@ public class ProcessFiles extends BaseTransform<ProcessFilesMeta, ProcessFilesDa
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "ProcessFiles.ErrorInTransformRunning") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "ProcessFiles.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)

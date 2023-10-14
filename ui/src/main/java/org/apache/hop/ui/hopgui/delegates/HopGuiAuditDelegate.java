@@ -66,25 +66,17 @@ public class HopGuiAuditDelegate {
         //
         AuditList auditList;
         try {
-          auditList =
-              AuditManager.getActive()
-                  .retrieveList(HopNamespace.getNamespace(), perspective.getId());
+          auditList = AuditManager.getActive().retrieveList(HopNamespace.getNamespace(), perspective.getId());
         } catch (Exception e) {
-          hopGui
-              .getLog()
-              .logError("Error reading audit list of perspective " + perspective.getId(), e);
+          hopGui.getLog().logError("Error reading audit list of perspective " + perspective.getId(), e);
           auditList = new AuditList();
         }
 
         AuditStateMap auditStateMap;
         try {
-          auditStateMap =
-              AuditManager.getActive()
-                  .loadAuditStateMap(HopNamespace.getNamespace(), perspective.getId());
+          auditStateMap = AuditManager.getActive().loadAuditStateMap(HopNamespace.getNamespace(), perspective.getId());
         } catch (HopException e) {
-          hopGui
-              .getLog()
-              .logError("Error loading audit state map of perspective " + perspective.getId(), e);
+          hopGui.getLog().logError("Error loading audit state map of perspective " + perspective.getId(), e);
           auditStateMap = new AuditStateMap();
         }
 
@@ -96,8 +88,7 @@ public class HopGuiAuditDelegate {
                 //
                 int colonIndex = filename.indexOf(":", METADATA_FILENAME_PREFIX.length() + 1);
                 if (colonIndex > 0) {
-                  String className =
-                      filename.substring(METADATA_FILENAME_PREFIX.length(), colonIndex);
+                  String className = filename.substring(METADATA_FILENAME_PREFIX.length(), colonIndex);
                   String name = filename.substring(colonIndex + 1);
                   openMetadataObject(className, name);
                 }
@@ -146,19 +137,13 @@ public class HopGuiAuditDelegate {
         if (metadataClass.getName().equals(className)) {
           // Get the serializer and open it up
           //
-          IHopMetadataSerializer<IHopMetadata> serializer =
-              metadataProvider.getSerializer(metadataClass);
+          IHopMetadataSerializer<IHopMetadata> serializer = metadataProvider.getSerializer(metadataClass);
 
           // Don't try to re-load removed or renamed objects...
           //
           if (serializer.exists(name)) {
             IHopMetadata metadata = serializer.load(name);
-            MetadataManager<IHopMetadata> metadataManager =
-                new MetadataManager<>(
-                    HopGui.getInstance().getVariables(),
-                    metadataProvider,
-                    metadataClass,
-                    hopGui.getShell());
+            MetadataManager<IHopMetadata> metadataManager = new MetadataManager<>(HopGui.getInstance().getVariables(), metadataProvider, metadataClass, hopGui.getShell());
             MetadataEditor<IHopMetadata> editor = metadataManager.createEditor(metadata);
 
             // We assume that all tab items are closed so we can just open up a new editor for the
@@ -170,14 +155,14 @@ public class HopGuiAuditDelegate {
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          "Error opening metadata object '" + name + "' of class " + className, e);
+      throw new HopException("Error opening metadata object '" + name + "' of class " + className, e);
     }
   }
 
   /** Remember all the open files per perspective */
   public void writeLastOpenFiles() {
-    // When we're re-opening files at the start of the Hop GUI, we don't need to save the open files list.
+    // When we're re-opening files at the start of the Hop GUI, we don't need to save the open files
+    // list.
     // Things get chaotic otherwise.
     //
     if (hopGui.isReOpeningFiles()) {
@@ -210,10 +195,7 @@ public class HopGuiAuditDelegate {
             // Also save the state : active, zoom, ...
             //
             Map<String, Object> stateProperties = typeHandler.getStateProperties();
-            boolean active =
-                activeFileTypeHandler != null
-                    && activeFileTypeHandler.getFilename() != null
-                    && activeFileTypeHandler.getFilename().equals(filename);
+            boolean active = activeFileTypeHandler != null && activeFileTypeHandler.getFilename() != null && activeFileTypeHandler.getFilename().equals(filename);
             stateProperties.put(STATE_PROPERTY_ACTIVE, active);
 
             auditStateMap.add(new AuditState(filename, stateProperties));
@@ -236,14 +218,10 @@ public class HopGuiAuditDelegate {
         }
         AuditList auditList = new AuditList(files);
         try {
-          AuditManager.getActive()
-              .storeList(HopNamespace.getNamespace(), perspective.getId(), auditList);
-          AuditManager.getActive()
-              .saveAuditStateMap(HopNamespace.getNamespace(), perspective.getId(), auditStateMap);
+          AuditManager.getActive().storeList(HopNamespace.getNamespace(), perspective.getId(), auditList);
+          AuditManager.getActive().saveAuditStateMap(HopNamespace.getNamespace(), perspective.getId(), auditStateMap);
         } catch (Exception e) {
-          hopGui
-              .getLog()
-              .logError("Error writing audit list of perspective " + perspective.getId(), e);
+          hopGui.getLog().logError("Error writing audit list of perspective " + perspective.getId(), e);
         }
       }
     }

@@ -37,9 +37,7 @@ public class CanvasListenerImpl extends ClientListener implements ISingletonProv
   private static String getText() {
     String canvasScript = null;
     try {
-      canvasScript =
-          IOUtils.toString(
-              CanvasListenerImpl.class.getResourceAsStream("canvas.js"), StandardCharsets.UTF_8);
+      canvasScript = IOUtils.toString(CanvasListenerImpl.class.getResourceAsStream("canvas.js"), StandardCharsets.UTF_8);
     } catch (IOException e1) {
       e1.printStackTrace();
     }

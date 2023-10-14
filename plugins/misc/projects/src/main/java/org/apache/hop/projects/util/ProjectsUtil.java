@@ -85,8 +85,7 @@ public class ProjectsUtil {
     // Change the metadata provider in the GUI
     //
     if (hasHopMetadataProvider != null) {
-      hasHopMetadataProvider.setMetadataProvider(
-          HopMetadataUtil.getStandardHopMetadataProvider(variables));
+      hasHopMetadataProvider.setMetadataProvider(HopMetadataUtil.getStandardHopMetadataProvider(variables));
     }
 
     // We store the project in the namespace singleton (used mainly in the GUI)
@@ -95,43 +94,29 @@ public class ProjectsUtil {
 
     // Save some history concerning the usage of the project...
     //
-    AuditManager.registerEvent(
-        HopGui.DEFAULT_HOP_GUI_NAMESPACE, STRING_PROJECT_AUDIT_TYPE, projectName, "open");
+    AuditManager.registerEvent(HopGui.DEFAULT_HOP_GUI_NAMESPACE, STRING_PROJECT_AUDIT_TYPE, projectName, "open");
 
     // Signal others that we have a new active project
     //
-    ExtensionPointHandler.callExtensionPoint(
-        log, variables, Defaults.EXTENSION_POINT_PROJECT_ACTIVATED, projectName);
+    ExtensionPointHandler.callExtensionPoint(log, variables, Defaults.EXTENSION_POINT_PROJECT_ACTIVATED, projectName);
   }
 
-  public static void validateFileInProject(
-      ILogChannel log, String filename, ProjectConfig projectConfig, IVariables variables)
-      throws HopException, FileSystemException {
+  public static void validateFileInProject(ILogChannel log, String filename, ProjectConfig projectConfig, IVariables variables) throws HopException, FileSystemException {
     String projectHome = projectConfig.getProjectHome();
     if (StringUtils.isNotEmpty(filename)) {
       // See that this filename is located under the environment home folder
       //
-      log.logBasic(
-          "Validation against environment '"
-              + projectConfig.getProjectName()
-              + "' in home folder : "
-              + projectHome);
+      log.logBasic("Validation against environment '" + projectConfig.getProjectName() + "' in home folder : " + projectHome);
 
       FileObject envHome = HopVfs.getFileObject(projectHome);
       FileObject transFile = HopVfs.getFileObject(filename);
       if (!isInSubDirectory(transFile, envHome)) {
-        throw new HopException(
-            "File '"
-                + filename
-                + "' does not live in the configured environment home folder : '"
-                + projectHome
-                + "'");
+        throw new HopException("File '" + filename + "' does not live in the configured environment home folder : '" + projectHome + "'");
       }
     }
   }
 
-  private static boolean isInSubDirectory(FileObject file, FileObject directory)
-      throws FileSystemException {
+  private static boolean isInSubDirectory(FileObject file, FileObject directory) throws FileSystemException {
 
     String filePath = file.getName().getURI();
     String directoryPath = directory.getName().getURI();
@@ -153,9 +138,7 @@ public class ProjectsUtil {
     return false;
   }
 
-  public static void validateFileInProject(
-      ILogChannel log, String executableFilename, IVariables variables)
-      throws HopException, FileSystemException, HopException {
+  public static void validateFileInProject(ILogChannel log, String executableFilename, IVariables variables) throws HopException, FileSystemException, HopException {
 
     if (StringUtils.isEmpty(executableFilename)) {
       // Repo or remote
@@ -225,8 +208,7 @@ public class ProjectsUtil {
           ProjectConfig prjCfg = config.findProjectConfig(prj);
           Project thePrj = prjCfg.loadProject(hopGui.getVariables());
           if (thePrj != null) {
-            if (thePrj.getParentProjectName() != null
-                && thePrj.getParentProjectName().equals(projectName)) {
+            if (thePrj.getParentProjectName() != null && thePrj.getParentProjectName().equals(projectName)) {
               parentProjectReferences.add(prj);
             }
           } else {

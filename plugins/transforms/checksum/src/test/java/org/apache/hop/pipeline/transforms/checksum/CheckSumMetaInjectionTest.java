@@ -24,7 +24,8 @@ import org.junit.Test;
 
 public class CheckSumMetaInjectionTest extends BaseMetadataInjectionTest<CheckSumMeta> {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {

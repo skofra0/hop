@@ -44,7 +44,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class ScriptValuesMetaTest implements IInitializer<ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
   Class<ScriptValuesMeta> testMetaClass = ScriptValuesMeta.class;
@@ -53,75 +54,50 @@ public class ScriptValuesMetaTest implements IInitializer<ITransformMeta> {
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
-    List<String> attributes =
-        Arrays.asList(
-            "fieldname",
-            "rename",
-            "type",
-            "length",
-            "precision",
-            "replace",
-            "jsScripts",
-            "optimizationLevel");
+    List<String> attributes = Arrays.asList("fieldname", "rename", "type", "length", "precision", "replace", "jsScripts", "optimizationLevel");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("fieldname", "getFieldname");
-            put("rename", "getRename");
-            put("type", "getType");
-            put("length", "getLength");
-            put("precision", "getPrecision");
-            put("replace", "getReplace");
-            //        put( "compatible", "isCompatible" );
-            put("optimizationLevel", "getOptimizationLevel");
-            put("jsScripts", "getJSScripts");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("fieldname", "setFieldname");
-            put("rename", "setRename");
-            put("type", "setType");
-            put("length", "setLength");
-            put("precision", "setPrecision");
-            put("replace", "setReplace");
-            //        put( "compatible", "setCompatible" );
-            put("optimizationLevel", "setOptimizationLevel");
-            put("jsScripts", "setJSScripts");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("fieldname", "getFieldname");
+        put("rename", "getRename");
+        put("type", "getType");
+        put("length", "getLength");
+        put("precision", "getPrecision");
+        put("replace", "getReplace");
+        // put( "compatible", "isCompatible" );
+        put("optimizationLevel", "getOptimizationLevel");
+        put("jsScripts", "getJSScripts");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("fieldname", "setFieldname");
+        put("rename", "setRename");
+        put("type", "setType");
+        put("length", "setLength");
+        put("precision", "setPrecision");
+        put("replace", "setReplace");
+        // put( "compatible", "setCompatible" );
+        put("optimizationLevel", "setOptimizationLevel");
+        put("jsScripts", "setJSScripts");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
-    IFieldLoadSaveValidator<ScriptValuesScript[]> svsArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new ScriptValuesScriptLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<ScriptValuesScript[]> svsArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new ScriptValuesScriptLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fieldname", stringArrayLoadSaveValidator);
     attrValidatorMap.put("rename", stringArrayLoadSaveValidator);
-    attrValidatorMap.put(
-        "type", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
-    attrValidatorMap.put(
-        "length", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
-    attrValidatorMap.put(
-        "precision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(6), 5));
-    attrValidatorMap.put(
-        "replace", new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 5));
+    attrValidatorMap.put("type", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
+    attrValidatorMap.put("length", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
+    attrValidatorMap.put("precision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(6), 5));
+    attrValidatorMap.put("replace", new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 5));
     attrValidatorMap.put("jsScripts", svsArrayLoadSaveValidator);
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -132,8 +108,7 @@ public class ScriptValuesMetaTest implements IInitializer<ITransformMeta> {
     }
   }
 
-  public class ScriptValuesScriptLoadSaveValidator
-      implements IFieldLoadSaveValidator<ScriptValuesScript> {
+  public class ScriptValuesScriptLoadSaveValidator implements IFieldLoadSaveValidator<ScriptValuesScript> {
     final Random rand = new Random();
 
     @Override
@@ -142,9 +117,7 @@ public class ScriptValuesMetaTest implements IInitializer<ITransformMeta> {
       if (scriptType == 3) {
         scriptType = -1;
       }
-      ScriptValuesScript rtn =
-          new ScriptValuesScript(
-              scriptType, UUID.randomUUID().toString(), UUID.randomUUID().toString());
+      ScriptValuesScript rtn = new ScriptValuesScript(scriptType, UUID.randomUUID().toString(), UUID.randomUUID().toString());
       return rtn;
     }
 
@@ -180,10 +153,7 @@ public class ScriptValuesMetaTest implements IInitializer<ITransformMeta> {
     // set some values, uneven lengths
     Whitebox.setInternalState(meta, "fieldname", new String[] {"Field 1", "Field 2", "Field 3"});
     Whitebox.setInternalState(meta, "rename", new String[] {"Field 1 - new"});
-    Whitebox.setInternalState(
-        meta,
-        "type",
-        new int[] {IValueMeta.TYPE_STRING, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
+    Whitebox.setInternalState(meta, "type", new int[] {IValueMeta.TYPE_STRING, IValueMeta.TYPE_INTEGER, IValueMeta.TYPE_NUMBER});
 
     meta.extend(3);
     validateExtended(meta);

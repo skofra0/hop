@@ -20,7 +20,8 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class BlockingTransform {
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
   @HopMetadataProperty(key = "CopyNr")
   private String copyNr;

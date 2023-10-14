@@ -125,20 +125,17 @@ public class ActionTableExists extends ActionBase implements Cloneable, IAction 
 
           if (db.checkTableExists(realSchemaName, realTableName)) {
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "TableExists.Log.TableExists", realTableName));
+              logDetailed(BaseMessages.getString(PKG, "TableExists.Log.TableExists", realTableName));
             }
             result.setResult(true);
           } else {
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "TableExists.Log.TableNotExists", realTableName));
+              logDetailed(BaseMessages.getString(PKG, "TableExists.Log.TableNotExists", realTableName));
             }
           }
         } catch (HopDatabaseException dbe) {
           result.setNrErrors(1);
-          logError(
-              BaseMessages.getString(PKG, "TableExists.Error.RunningAction", dbe.getMessage()));
+          logError(BaseMessages.getString(PKG, "TableExists.Error.RunningAction", dbe.getMessage()));
         } finally {
           if (db != null) {
             try {
@@ -158,32 +155,20 @@ public class ActionTableExists extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     DatabaseMeta dbMeta = parentWorkflowMeta.findDatabase(connection, getVariables());
     if (dbMeta != null) {
       ResourceReference reference = new ResourceReference(this);
       reference.getEntries().add(new ResourceEntry(dbMeta.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(dbMeta.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(dbMeta.getDatabaseName(), ResourceType.DATABASENAME));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

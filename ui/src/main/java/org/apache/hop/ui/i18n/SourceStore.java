@@ -36,11 +36,7 @@ public class SourceStore {
 
   private String sourceFolder;
 
-  public SourceStore(
-      ILogChannel log,
-      String locale,
-      String sourceFolder,
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
+  public SourceStore(ILogChannel log, String locale, String sourceFolder, Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
     this.log = log;
     this.locale = locale;
     this.sourceFolder = sourceFolder;
@@ -52,8 +48,7 @@ public class SourceStore {
   public void read(List<String> directories) throws HopException {
     Map<String, List<KeyOccurrence>> po = sourcePackageOccurrences.get(sourceFolder);
     for (String messagesPackage : po.keySet()) {
-      MessagesStore messagesStore =
-          new MessagesStore(locale, sourceFolder, messagesPackage, sourcePackageOccurrences);
+      MessagesStore messagesStore = new MessagesStore(locale, sourceFolder, messagesPackage, sourcePackageOccurrences);
       try {
         messagesStore.read(directories);
         messagesMap.put(messagesPackage, messagesStore);

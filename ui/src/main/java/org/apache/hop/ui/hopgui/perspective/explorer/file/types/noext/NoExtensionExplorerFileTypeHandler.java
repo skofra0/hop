@@ -23,11 +23,9 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileTypeHandl
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileTypeHandler;
 
 /** How do we handle a log file in file explorer perspective? */
-public class NoExtensionExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class NoExtensionExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public NoExtensionExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public NoExtensionExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 }

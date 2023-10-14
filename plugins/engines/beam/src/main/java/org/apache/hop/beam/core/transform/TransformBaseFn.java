@@ -97,11 +97,7 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
     String logChannelId = pipeline.getLogChannelId();
 
     ExecutionDataBuilder dataBuilder =
-        ExecutionDataBuilder.of()
-            .withOwnerId(logChannelId)
-            .withParentId(parentLogChannelId)
-            .withExecutionType(ExecutionType.Transform)
-            .withCollectionDate(new Date())
+        ExecutionDataBuilder.of().withOwnerId(logChannelId).withParentId(parentLogChannelId).withExecutionType(ExecutionType.Transform).withCollectionDate(new Date())
             .withFinished(finished);
     for (IExecutionDataSamplerStore store : dataSamplerStores) {
       dataBuilder.addDataSets(store.getSamples()).addSetMeta(store.getSamplesMetadata());
@@ -110,25 +106,15 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
     //
     ITransform transform = pipeline.findRunThread(transformName);
 
-    dataBuilder.addSetMeta(
-        logChannelId,
-        new ExecutionDataSetMeta(
-            logChannelId,
-            logChannelId,
-            transformName,
-            logChannelId,
-            transformName + "." + logChannelId + " (Metrics)"));
+    dataBuilder.addSetMeta(logChannelId, new ExecutionDataSetMeta(logChannelId, logChannelId, transformName, logChannelId, transformName + "." + logChannelId + " (Metrics)"));
     dataBuilder.addDataSet(
         logChannelId,
         new RowBuffer(
             new RowMetaBuilder().addString("metric").addInteger("value").build(),
             List.of(
-                new Object[] {Pipeline.METRIC_NAME_INPUT, transform.getLinesInput()},
-                new Object[] {Pipeline.METRIC_NAME_OUTPUT, transform.getLinesOutput()},
-                new Object[] {Pipeline.METRIC_NAME_READ, transform.getLinesRead()},
-                new Object[] {Pipeline.METRIC_NAME_WRITTEN, transform.getLinesWritten()},
-                new Object[] {Pipeline.METRIC_NAME_REJECTED, transform.getLinesRejected()},
-                new Object[] {Pipeline.METRIC_NAME_ERROR, transform.getErrors()})));
+                new Object[] {Pipeline.METRIC_NAME_INPUT, transform.getLinesInput()}, new Object[] {Pipeline.METRIC_NAME_OUTPUT, transform.getLinesOutput()},
+                new Object[] {Pipeline.METRIC_NAME_READ, transform.getLinesRead()}, new Object[] {Pipeline.METRIC_NAME_WRITTEN, transform.getLinesWritten()},
+                new Object[] {Pipeline.METRIC_NAME_REJECTED, transform.getLinesRejected()}, new Object[] {Pipeline.METRIC_NAME_ERROR, transform.getErrors()})));
 
     IExecutionInfoLocation iLocation = executionInfoLocation.getExecutionInfoLocation();
 
@@ -139,34 +125,28 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
     // Also update the execution state of the transform
     //
     IEngineComponent transformComponent = pipeline.getComponentCopies(transformName).get(0);
-    ExecutionState transformState =
-        ExecutionStateBuilder.fromTransform(pipeline, transformComponent).build();
+    ExecutionState transformState = ExecutionStateBuilder.fromTransform(pipeline, transformComponent).build();
     transformState.setParentId(parentLogChannelId);
 
     iLocation.updateExecutionState(transformState);
   }
 
-  protected void lookupExecutionInformation(
-      IVariables variables, IHopMetadataProvider metadataProvider)
-      throws HopException, JsonProcessingException {
+  protected void lookupExecutionInformation(IVariables variables, IHopMetadataProvider metadataProvider) throws HopException, JsonProcessingException {
     executionInfoLocation = null;
     dataSamplers = new ArrayList<>();
     dataSamplerStores = new ArrayList<>();
-    PipelineRunConfiguration runConf =
-        metadataProvider.getSerializer(PipelineRunConfiguration.class).load(runConfigName);
+    PipelineRunConfiguration runConf = metadataProvider.getSerializer(PipelineRunConfiguration.class).load(runConfigName);
     if (runConf != null) {
       String locationName = runConf.getExecutionInfoLocationName();
       if (StringUtils.isNotEmpty(locationName)) {
-        ExecutionInfoLocation location =
-            metadataProvider.getSerializer(ExecutionInfoLocation.class).load(locationName);
+        ExecutionInfoLocation location = metadataProvider.getSerializer(ExecutionInfoLocation.class).load(locationName);
         if (location != null) {
           // See if we have a data profile.
           // If not there's nothing we have to do in this transform really
           //
           String profileName = runConf.getExecutionDataProfileName();
           if (StringUtils.isNotEmpty(profileName)) {
-            ExecutionDataProfile dataProfile =
-                metadataProvider.getSerializer(ExecutionDataProfile.class).load(profileName);
+            ExecutionDataProfile dataProfile = metadataProvider.getSerializer(ExecutionDataProfile.class).load(profileName);
             if (dataProfile != null) {
               dataSamplers.addAll(dataProfile.getSamplers());
             }
@@ -174,8 +154,7 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
             // Also inflate the samplers JSON
             //
             if (StringUtils.isNotEmpty(dataSamplersJson)) {
-              IExecutionDataSampler<?>[] extraSamplers =
-                  HopJson.newMapper().readValue(dataSamplersJson, IExecutionDataSampler[].class);
+              IExecutionDataSampler<?>[] extraSamplers = HopJson.newMapper().readValue(dataSamplersJson, IExecutionDataSampler[].class);
               dataSamplers.addAll(Arrays.asList(extraSamplers));
             }
 
@@ -207,62 +186,54 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
 
       // The sampler metadata.
       //
-      ExecutionDataSamplerMeta dataSamplerMeta =
-          new ExecutionDataSamplerMeta(transformName, logChannelId, logChannelId, false, false);
+      ExecutionDataSamplerMeta dataSamplerMeta = new ExecutionDataSamplerMeta(transformName, logChannelId, logChannelId, false, false);
 
       // Create a sampler store for every sampler
       //
       for (IExecutionDataSampler<?> dataSampler : dataSamplers) {
-        IExecutionDataSamplerStore dataSamplerStore =
-            dataSampler.createSamplerStore(dataSamplerMeta);
+        IExecutionDataSamplerStore dataSamplerStore = dataSampler.createSamplerStore(dataSamplerMeta);
         dataSamplerStore.init(variables, inputRowMeta, outputRowMeta);
         dataSamplerStores.add(dataSamplerStore);
       }
 
       // We always only have a single transform copy here.
       //
-      transform.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              for (int s = 0; s < dataSamplers.size(); s++) {
-                IExecutionDataSampler sampler = dataSamplers.get(s);
-                IExecutionDataSamplerStore store = dataSamplerStores.get(s);
-                try {
-                  sampler.sampleRow(store, IStream.StreamType.OUTPUT, rowMeta, row);
-                } catch (HopException e) {
-                  throw new RuntimeException("Error sampling row", e);
-                }
-              }
+      transform.addRowListener(new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          for (int s = 0; s < dataSamplers.size(); s++) {
+            IExecutionDataSampler sampler = dataSamplers.get(s);
+            IExecutionDataSamplerStore store = dataSamplerStores.get(s);
+            try {
+              sampler.sampleRow(store, IStream.StreamType.OUTPUT, rowMeta, row);
+            } catch (HopException e) {
+              throw new RuntimeException("Error sampling row", e);
             }
-          });
+          }
+        }
+      });
 
       // We want to send the data collected from the execution data stores over to the
       // location on a regular
-      // basis.  To do so we'll add a timer here.
+      // basis. To do so we'll add a timer here.
       //
-      TimerTask task =
-          new TimerTask() {
-            @Override
-            public void run() {
-              try {
-                sendSamplesToLocation(false);
-              } catch (HopException e) {
-                LOG.error("Error sending transform samples to location (non-fatal)", e);
-              }
-            }
-          };
+      TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+          try {
+            sendSamplesToLocation(false);
+          } catch (HopException e) {
+            LOG.error("Error sending transform samples to location (non-fatal)", e);
+          }
+        }
+      };
       executionInfoTimer = new Timer(transformName);
-      executionInfoTimer.schedule(
-          task,
-          Const.toLong(executionInfoLocation.getDataLoggingDelay(), 5000L),
-          Const.toLong(executionInfoLocation.getDataLoggingInterval(), 10000L));
+      executionInfoTimer.schedule(task, Const.toLong(executionInfoLocation.getDataLoggingDelay(), 5000L), Const.toLong(executionInfoLocation.getDataLoggingInterval(), 10000L));
     }
   }
 
   protected void registerExecutingTransform(Pipeline pipeline) {
-    if (executionInfoLocation==null) {
+    if (executionInfoLocation == null) {
       return;
     }
 
@@ -274,8 +245,7 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
       Execution execution = ExecutionBuilder.fromTransform(pipeline, transform).build();
       execution.setParentId(parentLogChannelId);
       executionInfoLocation.getExecutionInfoLocation().registerExecution(execution);
-      ExecutionState transformState =
-              ExecutionStateBuilder.fromTransform(pipeline, transformComponent).build();
+      ExecutionState transformState = ExecutionStateBuilder.fromTransform(pipeline, transformComponent).build();
 
       transformState.setParentId(parentLogChannelId);
       executionInfoLocation.getExecutionInfoLocation().updateExecutionState(transformState);
@@ -307,8 +277,7 @@ public abstract class TransformBaseFn extends DoFn<HopRow, HopRow> {
     private DoFn.FinishBundleContext context;
     private BoundedWindow batchWindow;
 
-    public TransformFinishBundleContext(
-        DoFn.FinishBundleContext context, BoundedWindow batchWindow) {
+    public TransformFinishBundleContext(DoFn.FinishBundleContext context, BoundedWindow batchWindow) {
       this.context = context;
       this.batchWindow = batchWindow;
     }

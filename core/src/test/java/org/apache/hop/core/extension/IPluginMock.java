@@ -19,4 +19,5 @@ package org.apache.hop.core.extension;
 import org.apache.hop.core.plugins.IClassLoadingPlugin;
 import org.apache.hop.core.plugins.IPlugin;
 
-public interface IPluginMock extends IClassLoadingPlugin, IPlugin {}
+public interface IPluginMock extends IClassLoadingPlugin, IPlugin {
+}

@@ -30,7 +30,8 @@ public class SimpleResourceNaming implements IResourceNaming {
   /**
    * The fileSystemPrefix would be appropriate for something like:
    *
-   * <p>zip://somefile.zip! or somefilesystem://export/folder/
+   * <p>
+   * zip://somefile.zip! or somefilesystem://export/folder/
    */
   private String fileSystemPrefix;
 
@@ -52,19 +53,16 @@ public class SimpleResourceNaming implements IResourceNaming {
   }
 
   @Override
-  public String nameResource(FileObject fileObject, IVariables variables, boolean includeFileName)
-      throws FileSystemException {
+  public String nameResource(FileObject fileObject, IVariables variables, boolean includeFileName) throws FileSystemException {
     if (includeFileName) {
-      return handleDataFile(
-          fileObject.getName().getBaseName(), fileObject.getParent().getURL().toString(), "");
+      return handleDataFile(fileObject.getName().getBaseName(), fileObject.getParent().getURL().toString(), "");
     } else {
       return handleDataFile("", fileObject.getURL().toString(), "");
     }
   }
 
   @Override
-  public String nameResource(
-      String prefix, String originalFilePath, String extension, FileNamingType namingType) {
+  public String nameResource(String prefix, String originalFilePath, String extension, FileNamingType namingType) {
     switch (namingType) {
       case DATA_FILE:
         return handleDataFile(prefix, originalFilePath, extension);
@@ -101,8 +99,7 @@ public class SimpleResourceNaming implements IResourceNaming {
     assert prefix != null;
     assert extension != null;
 
-    String lookup =
-        (originalFilePath != null ? originalFilePath : "") + "/" + prefix + "." + extension;
+    String lookup = (originalFilePath != null ? originalFilePath : "") + "/" + prefix + "." + extension;
     String rtn = namedResources.get(lookup);
     if (rtn == null) {
       // Never generated a name for this... Generate a new file name
@@ -111,10 +108,7 @@ public class SimpleResourceNaming implements IResourceNaming {
         fixedPath = fixPath(originalFilePath);
       }
 
-      rtn =
-          (fileSystemPrefix != null ? fileSystemPrefix : "")
-              + (fixedPath != null ? fixedPath + (fixedPath.endsWith("/") ? "" : "/") : "")
-              + fixFileName(prefix, extension);
+      rtn = (fileSystemPrefix != null ? fileSystemPrefix : "") + (fixedPath != null ? fixedPath + (fixedPath.endsWith("/") ? "" : "/") : "") + fixFileName(prefix, extension);
 
       String ext = (extension.charAt(0) == '.' ? extension : "." + extension);
 
@@ -137,9 +131,11 @@ public class SimpleResourceNaming implements IResourceNaming {
    * The cleanest way to do this is by calculating the absolute filename. Then we put the path to
    * the file in a parameter that we remember.
    *
-   * <p>FILE_LOCATION_01, FILE_LOCATION_02, etc.
+   * <p>
+   * FILE_LOCATION_01, FILE_LOCATION_02, etc.
    *
-   * <p>We keep a unique list of parameters this way.
+   * <p>
+   * We keep a unique list of parameters this way.
    *
    * @param prefix the name of the file (foo.csv)
    * @param originalFilePath directory in which the file lives (file://path/to/foo/bar/)
@@ -197,8 +193,7 @@ public class SimpleResourceNaming implements IResourceNaming {
   private int getPrefixLength(String fileName) {
     if (fileName.charAt(1) == ':') { // Handle D:\foo\bar\
       return 3;
-    } else if (fileName.charAt(0) == '\\'
-        && fileName.charAt(1) == '\\') { // Handle \\server\sharename\foo\bar
+    } else if (fileName.charAt(0) == '\\' && fileName.charAt(1) == '\\') { // Handle \\server\sharename\foo\bar
       int start = 0;
       int slashesFound = 0;
       for (int i = 2; i < fileName.length(); i++) {
@@ -223,7 +218,7 @@ public class SimpleResourceNaming implements IResourceNaming {
    *
    * @param name The name to fix up.
    * @param extension the requested extension to see if we don't end up with 2 extensions (export of
-   *     XML to XML)
+   *        XML to XML)
    * @return
    */
   protected String fixFileName(String name, String extension) {
@@ -241,10 +236,7 @@ public class SimpleResourceNaming implements IResourceNaming {
       if (ch == ' ') {
         buff.append(ch);
       } else {
-        if ((ch <= '/')
-            || (ch >= ':' && ch <= '?')
-            || (ch >= '[' && ch <= '`')
-            || (ch >= '{' && ch <= '~')) {
+        if ((ch <= '/') || (ch >= ':' && ch <= '?') || (ch >= '[' && ch <= '`') || (ch >= '{' && ch <= '~')) {
           buff.append('_');
         } else {
           buff.append(ch);

@@ -24,8 +24,7 @@ public class CypherMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    CypherMeta meta =
-        TransformSerializationTestUtil.testSerialization("/cypher-transform.xml", CypherMeta.class);
+    CypherMeta meta = TransformSerializationTestUtil.testSerialization("/cypher-transform.xml", CypherMeta.class);
 
     Assert.assertEquals("Test", meta.getConnectionName());
     Assert.assertEquals(1, meta.getParameterMappings().size());
@@ -33,9 +32,7 @@ public class CypherMetaTest {
 
   @Test
   public void testSerialization2() throws Exception {
-    CypherMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/cypher-transform2.xml", CypherMeta.class);
+    CypherMeta meta = TransformSerializationTestUtil.testSerialization("/cypher-transform2.xml", CypherMeta.class);
 
     Assert.assertEquals(1, meta.getReturnValues().size());
   }

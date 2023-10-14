@@ -52,8 +52,7 @@ public class BeamPipelineMetaUtil {
       IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
 
@@ -93,15 +92,10 @@ public class BeamPipelineMetaUtil {
     return pipelineMeta;
   }
 
-  public static final PipelineMeta generateBeamGroupByPipelineMeta(
-      String transname,
-      String inputTransformName,
-      String outputTransformName,
-      IHopMetadataProvider metadataProvider)
+  public static final PipelineMeta generateBeamGroupByPipelineMeta(String transname, String inputTransformName, String outputTransformName, IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
 
@@ -122,15 +116,12 @@ public class BeamPipelineMetaUtil {
     //
     MemoryGroupByMeta memoryGroupByMeta = new MemoryGroupByMeta();
     memoryGroupByMeta.setGroups(List.of(new GGroup("state")));
-    memoryGroupByMeta.setAggregates(
-        List.of(
-            new GAggregate("nrIds", "id", MemoryGroupByMeta.GroupType.CountAll, null),
-            new GAggregate("sumIds", "id", MemoryGroupByMeta.GroupType.Sum, null)));
+    memoryGroupByMeta
+        .setAggregates(List.of(new GAggregate("nrIds", "id", MemoryGroupByMeta.GroupType.CountAll, null), new GAggregate("sumIds", "id", MemoryGroupByMeta.GroupType.Sum, null)));
 
     TransformMeta memoryGroupByTransformMeta = new TransformMeta("Group By", memoryGroupByMeta);
     pipelineMeta.addTransform(memoryGroupByTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(beamInputTransformMeta, memoryGroupByTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(beamInputTransformMeta, memoryGroupByTransformMeta));
 
     // Add the output transform
     //
@@ -143,21 +134,15 @@ public class BeamPipelineMetaUtil {
     TransformMeta beamOutputTransformMeta = new TransformMeta(outputTransformName, beamOutputMeta);
     beamOutputTransformMeta.setTransformPluginId("BeamOutput");
     pipelineMeta.addTransform(beamOutputTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(memoryGroupByTransformMeta, beamOutputTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(memoryGroupByTransformMeta, beamOutputTransformMeta));
 
     return pipelineMeta;
   }
 
-  public static final PipelineMeta generateFilterRowsPipelineMeta(
-      String transname,
-      String inputTransformName,
-      String outputTransformName,
-      IHopMetadataProvider metadataProvider)
+  public static final PipelineMeta generateFilterRowsPipelineMeta(String transname, String inputTransformName, String outputTransformName, IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
 
@@ -227,15 +212,10 @@ public class BeamPipelineMetaUtil {
     return pipelineMeta;
   }
 
-  public static final PipelineMeta generateSwitchCasePipelineMeta(
-      String transname,
-      String inputTransformName,
-      String outputTransformName,
-      IHopMetadataProvider metadataProvider)
+  public static final PipelineMeta generateSwitchCasePipelineMeta(String transname, String inputTransformName, String outputTransformName, IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
 
@@ -283,12 +263,10 @@ public class BeamPipelineMetaUtil {
     switchCaseMeta.searchInfoAndTargetTransforms(pipelineMeta.getTransforms());
     TransformMeta switchCaseTransformMeta = new TransformMeta("Switch/Case", switchCaseMeta);
     pipelineMeta.addTransform(switchCaseTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(beamInputTransformMeta, switchCaseTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(beamInputTransformMeta, switchCaseTransformMeta));
 
     for (String stateCode : stateCodes) {
-      pipelineMeta.addPipelineHop(
-          new PipelineHopMeta(switchCaseTransformMeta, pipelineMeta.findTransform(stateCode)));
+      pipelineMeta.addPipelineHop(new PipelineHopMeta(switchCaseTransformMeta, pipelineMeta.findTransform(stateCode)));
     }
 
     // Add a dummy behind it all to flatten/merge the data again...
@@ -298,8 +276,7 @@ public class BeamPipelineMetaUtil {
     pipelineMeta.addTransform(dummyTransformMeta);
 
     for (String stateCode : stateCodes) {
-      pipelineMeta.addPipelineHop(
-          new PipelineHopMeta(pipelineMeta.findTransform(stateCode), dummyTransformMeta));
+      pipelineMeta.addPipelineHop(new PipelineHopMeta(pipelineMeta.findTransform(stateCode), dummyTransformMeta));
     }
 
     // Add the output transform
@@ -318,15 +295,10 @@ public class BeamPipelineMetaUtil {
     return pipelineMeta;
   }
 
-  public static final PipelineMeta generateStreamLookupPipelineMeta(
-      String transname,
-      String inputTransformName,
-      String outputTransformName,
-      IHopMetadataProvider metadataProvider)
+  public static final PipelineMeta generateStreamLookupPipelineMeta(String transname, String inputTransformName, String outputTransformName, IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
 
@@ -348,14 +320,10 @@ public class BeamPipelineMetaUtil {
     // Add a Memory Group By transform which will
     MemoryGroupByMeta memoryGroupByMeta = new MemoryGroupByMeta();
     memoryGroupByMeta.setGroups(List.of(new GGroup("stateCode")));
-    memoryGroupByMeta.setAggregates(
-        List.of(
-            new GAggregate(
-                "rowsPerState", "stateCode", MemoryGroupByMeta.GroupType.CountAll, null)));
+    memoryGroupByMeta.setAggregates(List.of(new GAggregate("rowsPerState", "stateCode", MemoryGroupByMeta.GroupType.CountAll, null)));
     TransformMeta memoryGroupByTransformMeta = new TransformMeta("rowsPerState", memoryGroupByMeta);
     pipelineMeta.addTransform(memoryGroupByTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(lookupBeamInputTransformMeta, memoryGroupByTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(lookupBeamInputTransformMeta, memoryGroupByTransformMeta));
 
     // Add a Stream Lookup transform ...
     //
@@ -368,17 +336,11 @@ public class BeamPipelineMetaUtil {
     streamLookupMeta.getValueDefault()[0] = null;
     streamLookupMeta.getValueDefaultType()[0] = IValueMeta.TYPE_INTEGER;
     streamLookupMeta.setMemoryPreservationActive(false);
-    streamLookupMeta
-        .getTransformIOMeta()
-        .getInfoStreams()
-        .get(0)
-        .setTransformMeta(memoryGroupByTransformMeta); // Read from Mem.GroupBy
+    streamLookupMeta.getTransformIOMeta().getInfoStreams().get(0).setTransformMeta(memoryGroupByTransformMeta); // Read from Mem.GroupBy
     TransformMeta streamLookupTransformMeta = new TransformMeta("Stream Lookup", streamLookupMeta);
     pipelineMeta.addTransform(streamLookupTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(beamInputTransformMeta, streamLookupTransformMeta)); // Main io
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(memoryGroupByTransformMeta, streamLookupTransformMeta)); // info stream
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(beamInputTransformMeta, streamLookupTransformMeta)); // Main io
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(memoryGroupByTransformMeta, streamLookupTransformMeta)); // info stream
 
     // Add the output transform to write results
     //
@@ -391,21 +353,15 @@ public class BeamPipelineMetaUtil {
     TransformMeta beamOutputTransformMeta = new TransformMeta(outputTransformName, beamOutputMeta);
     beamOutputTransformMeta.setTransformPluginId("BeamOutput");
     pipelineMeta.addTransform(beamOutputTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(streamLookupTransformMeta, beamOutputTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(streamLookupTransformMeta, beamOutputTransformMeta));
 
     return pipelineMeta;
   }
 
-  public static final PipelineMeta generateMergeJoinPipelineMeta(
-      String pipelineName,
-      String inputTransformName,
-      String outputTransformName,
-      IHopMetadataProvider metadataProvider)
+  public static final PipelineMeta generateMergeJoinPipelineMeta(String pipelineName, String inputTransformName, String outputTransformName, IHopMetadataProvider metadataProvider)
       throws Exception {
 
-    IHopMetadataSerializer<FileDefinition> serializer =
-        metadataProvider.getSerializer(FileDefinition.class);
+    IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
     FileDefinition customerFileDefinition = createCustomersInputFileDefinition();
     serializer.save(customerFileDefinition);
     FileDefinition statePopulationFileDefinition = createStatePopulationInputFileDefinition();
@@ -420,16 +376,14 @@ public class BeamPipelineMetaUtil {
     BeamInputMeta leftInputMeta = new BeamInputMeta();
     leftInputMeta.setInputLocation(PipelineTestBase.INPUT_CUSTOMERS_FILE);
     leftInputMeta.setFileDefinitionName(customerFileDefinition.getName());
-    TransformMeta leftInputTransformMeta =
-        new TransformMeta(inputTransformName + " Left", leftInputMeta);
+    TransformMeta leftInputTransformMeta = new TransformMeta(inputTransformName + " Left", leftInputMeta);
     leftInputTransformMeta.setTransformPluginId(BeamConst.STRING_BEAM_INPUT_PLUGIN_ID);
     pipelineMeta.addTransform(leftInputTransformMeta);
 
     BeamInputMeta rightInputMeta = new BeamInputMeta();
     rightInputMeta.setInputLocation(PipelineTestBase.INPUT_STATES_FILE);
     rightInputMeta.setFileDefinitionName(statePopulationFileDefinition.getName());
-    TransformMeta rightInputTransformMeta =
-        new TransformMeta(inputTransformName + " Right", rightInputMeta);
+    TransformMeta rightInputTransformMeta = new TransformMeta(inputTransformName + " Right", rightInputMeta);
     rightInputTransformMeta.setTransformPluginId(BeamConst.STRING_BEAM_INPUT_PLUGIN_ID);
     pipelineMeta.addTransform(rightInputTransformMeta);
 
@@ -443,10 +397,8 @@ public class BeamPipelineMetaUtil {
     mergeJoin.setRightTransformName(rightInputTransformMeta.getName());
     TransformMeta mergeJoinTransformMeta = new TransformMeta("Merge Join", mergeJoin);
     pipelineMeta.addTransform(mergeJoinTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(leftInputTransformMeta, mergeJoinTransformMeta));
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(rightInputTransformMeta, mergeJoinTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(leftInputTransformMeta, mergeJoinTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(rightInputTransformMeta, mergeJoinTransformMeta));
 
     // Add the output transform to write results
     //
@@ -459,8 +411,7 @@ public class BeamPipelineMetaUtil {
     TransformMeta beamOutputTransformMeta = new TransformMeta(outputTransformName, beamOutputMeta);
     beamOutputTransformMeta.setTransformPluginId("BeamOutput");
     pipelineMeta.addTransform(beamOutputTransformMeta);
-    pipelineMeta.addPipelineHop(
-        new PipelineHopMeta(mergeJoinTransformMeta, beamOutputTransformMeta));
+    pipelineMeta.addPipelineHop(new PipelineHopMeta(mergeJoinTransformMeta, beamOutputTransformMeta));
 
     mergeJoin.searchInfoAndTargetTransforms(pipelineMeta.getTransforms());
     return pipelineMeta;

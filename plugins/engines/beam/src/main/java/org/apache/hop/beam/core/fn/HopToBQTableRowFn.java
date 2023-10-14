@@ -49,9 +49,7 @@ public class HopToBQTableRowFn implements SerializableFunction<HopRow, TableRow>
   // Log and count parse errors.
   private static final Logger LOG = LoggerFactory.getLogger(HopToBQTableRowFn.class);
 
-  public HopToBQTableRowFn(
-      String counterName,
-      String rowMetaJson) {
+  public HopToBQTableRowFn(String counterName, String rowMetaJson) {
     this.counterName = counterName;
     this.rowMetaJson = rowMetaJson;
   }
@@ -108,9 +106,7 @@ public class HopToBQTableRowFn implements SerializableFunction<HopRow, TableRow>
               }
               break;
             default:
-              throw new RuntimeException(
-                  "Data type conversion from Hop to BigQuery TableRow not supported yet: "
-                      + valueMeta.toString());
+              throw new RuntimeException("Data type conversion from Hop to BigQuery TableRow not supported yet: " + valueMeta.toString());
           }
         }
       }

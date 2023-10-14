@@ -43,8 +43,7 @@ import org.eclipse.swt.widgets.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockUntilTransformsFinishDialog extends BaseTransformDialog
-    implements ITransformDialog {
+public class BlockUntilTransformsFinishDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = BlockUntilTransformsFinishMeta.class; // For Translator
 
   private String[] previousTransforms;
@@ -52,8 +51,7 @@ public class BlockUntilTransformsFinishDialog extends BaseTransformDialog
 
   private TableView wFields;
 
-  public BlockUntilTransformsFinishDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public BlockUntilTransformsFinishDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (BlockUntilTransformsFinishMeta) in;
   }
@@ -81,8 +79,7 @@ public class BlockUntilTransformsFinishDialog extends BaseTransformDialog
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -105,8 +102,7 @@ public class BlockUntilTransformsFinishDialog extends BaseTransformDialog
     wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
     wGet = new Button(shell, SWT.PUSH);
-    wGet.setText(
-        BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.getTransforms.Label"));
+    wGet.setText(BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.getTransforms.Label"));
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
@@ -125,27 +121,10 @@ public class BlockUntilTransformsFinishDialog extends BaseTransformDialog
     final int FieldsRows = input.getBlockingTransforms().size();
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.Fieldname.transform"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            previousTransforms,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.Fieldname.CopyNr"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.Fieldname.transform"), ColumnInfo.COLUMN_TYPE_CCOMBO, previousTransforms, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "BlockUntilTransformsFinishDialog.Fieldname.CopyNr"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     colinf[1].setUsingVariables(true);
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);

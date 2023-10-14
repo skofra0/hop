@@ -29,7 +29,8 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 public class H2BaseDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   BaseDatabaseMeta nativeMeta;
 
   @Before
@@ -39,8 +40,7 @@ public class H2BaseDatabaseMetaTest {
 
   @Test
   public void testShowIsTreatedAsAResultsQuery() throws Exception {
-    List<SqlScriptStatement> sqlScriptStatements =
-        new H2DatabaseMeta().getSqlScriptStatements("show annotations from service");
+    List<SqlScriptStatement> sqlScriptStatements = new H2DatabaseMeta().getSqlScriptStatements("show annotations from service");
     assertTrue(sqlScriptStatements.get(0).isQuery());
   }
 }

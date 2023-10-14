@@ -47,16 +47,20 @@ public class CypherBuilderMeta extends BaseTransformMeta<CypherBuilder, CypherBu
   public static final String ROWS_UNWIND_MAP_ENTRY = "rows";
 
   /** The name of the Neo4j Connection to use. */
-  @HopMetadataProperty private String connectionName;
+  @HopMetadataProperty
+  private String connectionName;
 
   /** How many cypher statements do we execute at once? */
-  @HopMetadataProperty private String batchSize;
+  @HopMetadataProperty
+  private String batchSize;
 
   /** If we want to use Cypher UNWIND, set the row alias here. */
-  @HopMetadataProperty private String unwindAlias;
+  @HopMetadataProperty
+  private String unwindAlias;
 
   /** The maximum number of retries */
-  @HopMetadataProperty private String retries;
+  @HopMetadataProperty
+  private String retries;
 
   /** The parameters you might want to set. */
   @HopMetadataProperty(groupKey = "parameters", key = "parameter")
@@ -89,13 +93,7 @@ public class CypherBuilderMeta extends BaseTransformMeta<CypherBuilder, CypherBu
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // We can't associate input rows with the list of return records in the case we're using UNWIND
@@ -128,13 +126,7 @@ public class CypherBuilderMeta extends BaseTransformMeta<CypherBuilder, CypherBu
 
     StringBuilder cypher = new StringBuilder();
     if (StringUtils.isNotEmpty(realUnwindAlias)) {
-      cypher
-          .append("UNWIND $")
-          .append(ROWS_UNWIND_MAP_ENTRY)
-          .append(" AS ")
-          .append(realUnwindAlias)
-          .append(" ")
-          .append(Const.CR);
+      cypher.append("UNWIND $").append(ROWS_UNWIND_MAP_ENTRY).append(" AS ").append(realUnwindAlias).append(" ").append(Const.CR);
     }
 
     for (IOperation operation : operations) {

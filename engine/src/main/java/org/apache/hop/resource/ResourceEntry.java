@@ -64,14 +64,8 @@ public class ResourceEntry {
 
   public String toXml(int indentLevel) {
     StringBuilder buff = new StringBuilder(30);
-    buff.append(StringUtil.getIndent(indentLevel))
-        .append("<Resource type='")
-        .append(this.getResourcetype())
-        .append("'><![CDATA[")
-        .append(this.getResource())
-        .append("]]>")
-        .append("</Resource>")
-        .append(StringUtil.CRLF);
+    buff.append(StringUtil.getIndent(indentLevel)).append("<Resource type='").append(this.getResourcetype()).append("'><![CDATA[").append(this.getResource()).append("]]>")
+        .append("</Resource>").append(StringUtil.CRLF);
     return buff.toString();
   }
 }

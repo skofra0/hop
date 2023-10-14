@@ -53,8 +53,7 @@ public class FieldSelectionDialog extends BaseDialog {
   protected Control buildBody() {
 
     final Label message = new Label(shell, SWT.WRAP | SWT.LEFT);
-    message.setText(
-        BaseMessages.getString(PKG, "FieldSelectionDialog.NewFieldsFound.Message", numFields));
+    message.setText(BaseMessages.getString(PKG, "FieldSelectionDialog.NewFieldsFound.Message", numFields));
     PropsUi.setLook(message);
     message.setLayoutData(new FormDataBuilder().top().left().right(100, 0).result());
 
@@ -66,29 +65,25 @@ public class FieldSelectionDialog extends BaseDialog {
 
     final Button clearAndAddAll = new Button(shell, SWT.RADIO);
     PropsUi.setLook(clearAndAddAll);
-    clearAndAddAll.setText(
-        BaseMessages.getString(PKG, "FieldSelectionDialog.ClearAndAddAll.Label"));
-    clearAndAddAll.setLayoutData(
-        new FormDataBuilder().top(newFieldsOnly, ELEMENT_SPACING).left().result());
+    clearAndAddAll.setText(BaseMessages.getString(PKG, "FieldSelectionDialog.ClearAndAddAll.Label"));
+    clearAndAddAll.setLayoutData(new FormDataBuilder().top(newFieldsOnly, ELEMENT_SPACING).left().result());
 
-    newFieldsOnly.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            newFieldsOnly.setSelection(true);
-            clearAndAddAll.setSelection(false);
-            reloadAllFields = false;
-          }
-        });
-    clearAndAddAll.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            clearAndAddAll.setSelection(true);
-            newFieldsOnly.setSelection(false);
-            reloadAllFields = true;
-          }
-        });
+    newFieldsOnly.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        newFieldsOnly.setSelection(true);
+        clearAndAddAll.setSelection(false);
+        reloadAllFields = false;
+      }
+    });
+    clearAndAddAll.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        clearAndAddAll.setSelection(true);
+        newFieldsOnly.setSelection(false);
+        reloadAllFields = true;
+      }
+    });
 
     return clearAndAddAll;
   }

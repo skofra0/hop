@@ -20,20 +20,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.core.row.value.ValueMetaFactory;
 import org.apache.hop.metadata.api.HopMetadataProperty;
+
 /** The parameters field. */
 public class ParameterField implements Cloneable {
 
   /** The target field name */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "NAME",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.Parameter.Name")
+  @HopMetadataProperty(key = "name", injectionKey = "NAME", injectionKeyDescription = "DatabaseJoinMeta.Injection.Parameter.Name")
   private String name;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "TYPE",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.Parameter.Type")
+  @HopMetadataProperty(key = "type", injectionKey = "TYPE", injectionKeyDescription = "DatabaseJoinMeta.Injection.Parameter.Type")
   private String type = ValueMetaFactory.getValueMetaName(IValueMeta.TYPE_NONE);
 
   public ParameterField() {

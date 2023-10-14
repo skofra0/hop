@@ -53,20 +53,14 @@ public class TableExistsMeta extends BaseTransformMeta<TableExists, TableExistsD
   private String connection;
 
   /** dynamic tablename */
-  @HopMetadataProperty(
-      key = "tablenamefield",
-      injectionKeyDescription = "TableExistsMeta.Injection.TableNameField")
+  @HopMetadataProperty(key = "tablenamefield", injectionKeyDescription = "TableExistsMeta.Injection.TableNameField")
   private String tableNameField;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "resultfieldname",
-      injectionKeyDescription = "TableExistsMeta.Injection.ResultFieldName")
+  @HopMetadataProperty(key = "resultfieldname", injectionKeyDescription = "TableExistsMeta.Injection.ResultFieldName")
   private String resultFieldName;
 
-  @HopMetadataProperty(
-      key = "schemaname",
-      injectionKeyDescription = "TableExistsMeta.Injection.SchemaName")
+  @HopMetadataProperty(key = "schemaname", injectionKeyDescription = "TableExistsMeta.Injection.SchemaName")
   private String schemaName;
 
   public TableExistsMeta() {
@@ -125,13 +119,7 @@ public class TableExistsMeta extends BaseTransformMeta<TableExists, TableExistsD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output field (String)
     if (!Utils.isEmpty(resultFieldName)) {
@@ -157,23 +145,20 @@ public class TableExistsMeta extends BaseTransformMeta<TableExists, TableExistsD
     Database database = null;
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseMeta != null) {
 
         database = new Database(loggingObject, variables, databaseMeta);
         database.connect();
         if (database == null) {
-          errorMessage =
-              BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.InvalidConnection");
+          errorMessage = BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.InvalidConnection");
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
 
         if (Utils.isEmpty(resultFieldName)) {
-          errorMessage =
-              BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.ResultFieldMissing");
+          errorMessage = BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.ResultFieldMissing");
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         } else {
@@ -182,8 +167,7 @@ public class TableExistsMeta extends BaseTransformMeta<TableExists, TableExistsD
           remarks.add(cr);
         }
         if (Utils.isEmpty(tableNameField)) {
-          errorMessage =
-              BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.TableFieldMissing");
+          errorMessage = BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.TableFieldMissing");
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         } else {
@@ -193,26 +177,15 @@ public class TableExistsMeta extends BaseTransformMeta<TableExists, TableExistsD
         }
         // See if we have input streams leading to this transform!
         if (input.length > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "TableExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.NoInpuReceived"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.NoInpuReceived"), transformMeta);
           remarks.add(cr);
         }
       }
     } catch (HopException e) {
-      errorMessage =
-          BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.DatabaseErrorOccurred")
-              + e.getMessage();
+      errorMessage = BaseMessages.getString(PKG, "TableExistsMeta.CheckResult.DatabaseErrorOccurred") + e.getMessage();
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } finally {

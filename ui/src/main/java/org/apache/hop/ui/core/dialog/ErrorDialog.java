@@ -54,12 +54,7 @@ public class ErrorDialog extends Dialog {
     this(parent, title, message, throwable, Function.identity());
   }
 
-  public ErrorDialog(
-      Shell parent,
-      String title,
-      String message,
-      Throwable throwable,
-      Function<String, String> exMsgFunction) {
+  public ErrorDialog(Shell parent, String title, String message, Throwable throwable, Function<String, String> exMsgFunction) {
     super(parent, SWT.NONE);
     this.exMsgFunction = exMsgFunction;
 
@@ -69,8 +64,7 @@ public class ErrorDialog extends Dialog {
       showErrorDialog(parent, title, message, (Exception) throwable, false);
     } else {
       // not optimal, but better then nothing
-      showErrorDialog(
-          parent, title, message + Const.CR + Const.getStackTracker(throwable), null, false);
+      showErrorDialog(parent, title, message + Const.CR + Const.getStackTracker(throwable), null, false);
     }
   }
 
@@ -79,14 +73,12 @@ public class ErrorDialog extends Dialog {
     showErrorDialog(parent, title, message, exception, false);
   }
 
-  public ErrorDialog(
-      Shell parent, String title, String message, Exception exception, boolean showCancelButton) {
+  public ErrorDialog(Shell parent, String title, String message, Exception exception, boolean showCancelButton) {
     super(parent, SWT.NONE);
     showErrorDialog(parent, title, message, exception, showCancelButton);
   }
 
-  private void showErrorDialog(
-      Shell parent, String title, String message, Exception exception, boolean showCancelButton) {
+  private void showErrorDialog(Shell parent, String title, String message, Exception exception, boolean showCancelButton) {
     if (parent.isDisposed()) {
       exception.printStackTrace();
       return;
@@ -107,10 +99,7 @@ public class ErrorDialog extends Dialog {
       text.append(message);
     }
 
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN | SWT.APPLICATION_MODAL | SWT.SHEET);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN | SWT.APPLICATION_MODAL | SWT.SHEET);
     PropsUi.setLook(shell);
     shell.setImage(GuiResource.getInstance().getImageError());
 
@@ -139,15 +128,9 @@ public class ErrorDialog extends Dialog {
 
     Button[] buttons;
     if (showCancelButton) {
-      buttons =
-          new Button[] {
-            wOk, wCancel, wDetails,
-          };
+      buttons = new Button[] {wOk, wCancel, wDetails,};
     } else {
-      buttons =
-          new Button[] {
-            wOk, wDetails,
-          };
+      buttons = new Button[] {wOk, wDetails,};
     }
     BaseTransformDialog.positionBottomButtons(shell, buttons, margin, null);
 
@@ -181,8 +164,7 @@ public class ErrorDialog extends Dialog {
   }
 
   @VisibleForTesting
-  protected void handleException(
-      String message, Exception exception, StringBuilder text, StringBuilder details) {
+  protected void handleException(String message, Exception exception, StringBuilder text, StringBuilder details) {
     text.append(Const.getSimpleStackTrace(exception));
     text.append(Const.CR);
 
@@ -195,11 +177,7 @@ public class ErrorDialog extends Dialog {
 
   protected void showDetails(String details) {
     EnterTextDialog dialog =
-        new EnterTextDialog(
-            shell,
-            BaseMessages.getString(PKG, "ErrorDialog.ShowDetails.Title"),
-            BaseMessages.getString(PKG, "ErrorDialog.ShowDetails.Message"),
-            details);
+        new EnterTextDialog(shell, BaseMessages.getString(PKG, "ErrorDialog.ShowDetails.Title"), BaseMessages.getString(PKG, "ErrorDialog.ShowDetails.Message"), details);
     dialog.setReadOnly();
     dialog.open();
   }

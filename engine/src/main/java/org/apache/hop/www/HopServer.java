@@ -74,57 +74,34 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
 
   @picocli.CommandLine.Option(
       names = {"-k", "--kill"},
-      description =
-          "Stop the running hopServer server.  This is only allowed when using the hostname/port form of the command. Use the -s and -u options to authenticate")
+      description = "Stop the running hopServer server.  This is only allowed when using the hostname/port form of the command. Use the -s and -u options to authenticate")
   private boolean killServer;
 
-  @picocli.CommandLine.Option(
-      names = {"-p", "--password"},
-      description =
-          "The server password.  Required for administrative operations only, not for starting the server.")
+  @picocli.CommandLine.Option(names = {"-p", "--password"}, description = "The server password.  Required for administrative operations only, not for starting the server.")
   private String password;
 
-  @picocli.CommandLine.Option(
-      names = {"-u", "--userName"},
-      description =
-          "The server user name.  Required for administrative operations only, not for starting the server.")
+  @picocli.CommandLine.Option(names = {"-u", "--userName"}, description = "The server user name.  Required for administrative operations only, not for starting the server.")
   private String username;
 
-  @picocli.CommandLine.Option(
-      names = {"-l", "--level"},
-      description =
-          "The debug level, one of NOTHING, ERROR, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
+  @picocli.CommandLine.Option(names = {"-l", "--level"}, description = "The debug level, one of NOTHING, ERROR, MINIMAL, BASIC, DETAILED, DEBUG, ROWLEVEL")
   private String level;
 
-  @CommandLine.Option(
-      names = {"-s", "--system-properties"},
-      description = "A comma separated list of KEY=VALUE pairs",
-      split = ",")
+  @CommandLine.Option(names = {"-s", "--system-properties"}, description = "A comma separated list of KEY=VALUE pairs", split = ",")
   private String[] systemProperties = null;
 
-  @CommandLine.Option(
-      names = {"-gs", "--general-status"},
-      description = "List the general status of the server")
+  @CommandLine.Option(names = {"-gs", "--general-status"}, description = "List the general status of the server")
   private boolean generalStatus;
 
-  @CommandLine.Option(
-      names = {"-ps", "--pipeline-status"},
-      description = "List the status of the pipeline with this name (also specify the -id option)")
+  @CommandLine.Option(names = {"-ps", "--pipeline-status"}, description = "List the status of the pipeline with this name (also specify the -id option)")
   private String pipelineName;
 
-  @CommandLine.Option(
-      names = {"-ws", "--workflow-status"},
-      description = "List the status of the workflow with this name (also specify the -id option)")
+  @CommandLine.Option(names = {"-ws", "--workflow-status"}, description = "List the status of the workflow with this name (also specify the -id option)")
   private String workflowName;
 
-  @CommandLine.Option(
-      names = {"-id"},
-      description = "Specify the ID of the pipeline or workflow to query")
+  @CommandLine.Option(names = {"-id"}, description = "Specify the ID of the pipeline or workflow to query")
   private String id;
 
-  @CommandLine.Option(
-      names = {"-n", "--server-name"},
-      description = "The name of the server to start as defined in the metadata.")
+  @CommandLine.Option(names = {"-n", "--server-name"}, description = "The name of the server to start as defined in the metadata.")
   private String serverName;
 
   private WebServer webServer;
@@ -142,9 +119,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     this.config = new HopServerConfig();
     this.joinOverride = null;
 
-    org.apache.hop.server.HopServer defaultServer =
-        new org.apache.hop.server.HopServer(
-            "local8080", "localhost", "8080", "8079", "cluster", "cluster");
+    org.apache.hop.server.HopServer defaultServer = new org.apache.hop.server.HopServer("local8080", "localhost", "8080", "8079", "cluster", "cluster");
     this.config.setHopServer(defaultServer);
     this.config.setJoining(true);
   }
@@ -178,34 +153,17 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
         shouldJoin = joinOverride;
       }
 
-      this.webServer =
-          new WebServer(
-              log,
-              pipelineMap,
-              workflowMap,
-              hostname,
-              port,
-              shutdownPort,
-              shouldJoin,
-              config.getPasswordFile(),
-              hopServer.getSslConfig());
+      this.webServer = new WebServer(log, pipelineMap, workflowMap, hostname, port, shutdownPort, shouldJoin, config.getPasswordFile(), hopServer.getSslConfig());
     }
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, variables, HopExtensionPoint.HopServerShutdown.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopServerShutdown.id, this);
   }
 
   private int parsePort(org.apache.hop.server.HopServer hopServer) {
     try {
       return Integer.parseInt(hopServer.getPort());
     } catch (Exception e) {
-      log.logError(
-          BaseMessages.getString(
-              PKG,
-              "HopServer.Error.CanNotPartPort",
-              hopServer.getHostname(),
-              "" + hopServer.getPort()),
-          e);
+      log.logError(BaseMessages.getString(PKG, "HopServer.Error.CanNotPartPort", hopServer.getHostname(), "" + hopServer.getPort()), e);
       allOK = false;
     }
     return -1;
@@ -215,10 +173,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     try {
       return Integer.parseInt(hopServer.getShutdownPort());
     } catch (Exception e) {
-      log.logError(
-          BaseMessages.getString(
-              PKG, "HopServer.Error.CanNotPartShutdownPort", hopServer.getShutdownPort()),
-          e);
+      log.logError(BaseMessages.getString(PKG, "HopServer.Error.CanNotPartShutdownPort", hopServer.getShutdownPort()), e);
       allOK = false;
     }
     return -1;
@@ -233,8 +188,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
 
       // Allow plugins to modify the elements loaded so far, before the server is started
       //
-      ExtensionPointHandler.callExtensionPoint(
-          log, variables, HopExtensionPoint.HopServerInit.id, this);
+      ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopServerInit.id, this);
 
       // Handle the options of the configuration plugins
       //
@@ -261,22 +215,17 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       //
       if (CollectionUtils.size(parameters) == 1) {
         if (killServer) {
-          throw new HopServerCommandException(
-              BaseMessages.getString(PKG, "HopServer.Error.illegalStop"));
+          throw new HopServerCommandException(BaseMessages.getString(PKG, "HopServer.Error.illegalStop"));
         }
         setupByFileName();
       }
 
-      if ((CollectionUtils.size(parameters) == 2 || (CollectionUtils.size(parameters) == 3))
-          && StringUtils.isNotEmpty(parameters.get(0))
+      if ((CollectionUtils.size(parameters) == 2 || (CollectionUtils.size(parameters) == 3)) && StringUtils.isNotEmpty(parameters.get(0))
           && StringUtils.isNotEmpty(parameters.get(1))) {
         String hostname = parameters.get(0);
         String port = parameters.get(1);
 
-        String shutdownPort =
-            CollectionUtils.size(parameters) == 3
-                ? parameters.get(2)
-                : Integer.toString(WebServer.SHUTDOWN_PORT);
+        String shutdownPort = CollectionUtils.size(parameters) == 3 ? parameters.get(2) : Integer.toString(WebServer.SHUTDOWN_PORT);
 
         if (killServer) {
           String user = variables.resolve(username);
@@ -307,15 +256,12 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       //
       runHopServer();
     } catch (Exception e) {
-      throw new picocli.CommandLine.ExecutionException(
-          cmd, "There was an error during the startup of the Hop server", e);
+      throw new picocli.CommandLine.ExecutionException(cmd, "There was an error during the startup of the Hop server", e);
     }
   }
 
   private void setupByHostNameAndPort(String hostname, String port, String shutdownPort) {
-    org.apache.hop.server.HopServer hopServer =
-        new org.apache.hop.server.HopServer(
-            hostname + ":" + port, hostname, port, shutdownPort, null, null);
+    org.apache.hop.server.HopServer hopServer = new org.apache.hop.server.HopServer(hostname + ":" + port, hostname, port, shutdownPort, null, null);
 
     config = new HopServerConfig();
     config.setHopServer(hopServer);
@@ -334,13 +280,11 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
   }
 
   private void setupByServerName() throws HopException {
-    IHopMetadataSerializer<org.apache.hop.server.HopServer> serializer =
-        metadataProvider.getSerializer(org.apache.hop.server.HopServer.class);
+    IHopMetadataSerializer<org.apache.hop.server.HopServer> serializer = metadataProvider.getSerializer(org.apache.hop.server.HopServer.class);
     String name = variables.resolve(serverName);
     org.apache.hop.server.HopServer hopServer = serializer.load(name);
     if (hopServer == null) {
-      throw new HopException(
-          "Unable to find Hop Server '" + name + "' couldn't be found in the server metadata");
+      throw new HopException("Unable to find Hop Server '" + name + "' couldn't be found in the server metadata");
     }
     String hostname = variables.resolve(hopServer.getHostname());
     String port = variables.resolve(hopServer.getPort());
@@ -353,12 +297,9 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     try {
       // Handle username / password
       //
-      if (generalStatus
-          || StringUtils.isNotEmpty(pipelineName)
-          || StringUtils.isNotEmpty(workflowName)) {
+      if (generalStatus || StringUtils.isNotEmpty(pipelineName) || StringUtils.isNotEmpty(workflowName)) {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-          throw new HopException(
-              "Please specify the username and password to query the server status");
+          throw new HopException("Please specify the username and password to query the server status");
         }
         config.getHopServer().setUsername(variables.resolve(username));
         config.getHopServer().setPassword(variables.resolve(password));
@@ -383,20 +324,16 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       } else if (StringUtils.isNotEmpty(pipelineName)) {
         queried = true;
         if (StringUtils.isEmpty(id)) {
-          throw new HopException(
-              "Please specify the ID of the pipeline execution to see its status.");
+          throw new HopException("Please specify the ID of the pipeline execution to see its status.");
         }
-        HopServerPipelineStatus pipelineStatus =
-            config.getHopServer().getPipelineStatus(variables, pipelineName, id, 0);
+        HopServerPipelineStatus pipelineStatus = config.getHopServer().getPipelineStatus(variables, pipelineName, id, 0);
         printPipelineStatus(pipelineStatus, true);
       } else if (StringUtils.isNotEmpty(workflowName)) {
         queried = true;
         if (StringUtils.isEmpty(id)) {
-          throw new HopException(
-              "Please specify the ID of the workflow execution to see its status.");
+          throw new HopException("Please specify the ID of the workflow execution to see its status.");
         }
-        HopServerWorkflowStatus workflowStatus =
-            config.getHopServer().getWorkflowStatus(variables, workflowName, id, 0);
+        HopServerWorkflowStatus workflowStatus = config.getHopServer().getWorkflowStatus(variables, workflowName, id, 0);
         printWorkflowStatus(workflowStatus, true);
       }
 
@@ -421,8 +358,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     if (printDetails) {
       // Print logging & transform metrics
       //
-      System.out.println(
-          "      Transforms: " + pipelineStatus.getTransformStatusList().size() + " found.");
+      System.out.println("      Transforms: " + pipelineStatus.getTransformStatusList().size() + " found.");
       int nr = 1;
       for (TransformStatus transformStatus : pipelineStatus.getTransformStatusList()) {
         System.out.println("        " + nr++);
@@ -481,8 +417,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
   private void calculateRealFilename() throws HopException {
     realFilename = variables.resolve(parameters.get(0));
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, variables, HopExtensionPoint.HopServerCalculateFilename.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, variables, HopExtensionPoint.HopServerCalculateFilename.id, this);
   }
 
   private LogLevel determineLogLevel() {
@@ -511,11 +446,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
   }
 
   public static void main(String[] args) {
-    String[] arguments =
-        Stream.of(args)
-            .flatMap(a -> Stream.of(a.split("(?=--)")))
-            .filter(a -> !a.isEmpty())
-            .toArray(String[]::new);
+    String[] arguments = Stream.of(args).flatMap(a -> Stream.of(a.split("(?=--)"))).filter(a -> !a.isEmpty()).toArray(String[]::new);
 
     HopServer hopServer = new HopServer();
 
@@ -542,8 +473,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
 
       // Set up the metadata to use
       //
-      hopServer.metadataProvider =
-          HopMetadataUtil.getStandardHopMetadataProvider(hopServer.variables);
+      hopServer.metadataProvider = HopMetadataUtil.getStandardHopMetadataProvider(hopServer.variables);
 
       // Now add server configuration plugins...
       //
@@ -551,8 +481,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       for (IPlugin configPlugin : configPlugins) {
         // Load only the plugins of the "run" category
         if (ConfigPlugin.CATEGORY_SERVER.equals(configPlugin.getCategory())) {
-          IConfigOptions configOptions =
-              PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
+          IConfigOptions configOptions = PluginRegistry.getInstance().loadClass(configPlugin, IConfigOptions.class);
           cmd.addMixin(configPlugin.getIds()[0], configOptions);
         }
       }
@@ -598,26 +527,17 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     if (StringUtils.isNotEmpty(metadataFolder)) {
       // Get the metadata from the specified metadata folder...
       //
-      metadataProvider
-          .getProviders()
-          .add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
+      metadataProvider.getProviders().add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
     }
   }
 
   private static void printExtraUsageExamples() {
     System.err.println();
-    System.err.println(
-        BaseMessages.getString(PKG, "HopServer.Usage.Example") + ": hop-server.sh 0.0.0.0 8080");
-    System.err.println(
-        BaseMessages.getString(PKG, "HopServer.Usage.Example")
-            + ": hop-server.sh 192.168.1.221 8081 8082");
+    System.err.println(BaseMessages.getString(PKG, "HopServer.Usage.Example") + ": hop-server.sh 0.0.0.0 8080");
+    System.err.println(BaseMessages.getString(PKG, "HopServer.Usage.Example") + ": hop-server.sh 192.168.1.221 8081 8082");
     System.err.println();
-    System.err.println(
-        BaseMessages.getString(PKG, "HopServer.Usage.Example")
-            + ": hop-server.sh -e aura-gcp gs://apachehop/hop-server-config.xml");
-    System.err.println(
-        BaseMessages.getString(PKG, "HopServer.Usage.Example")
-            + ": hop-server.sh 127.0.0.1 8080 --kill --userName cluster --password cluster");
+    System.err.println(BaseMessages.getString(PKG, "HopServer.Usage.Example") + ": hop-server.sh -e aura-gcp gs://apachehop/hop-server-config.xml");
+    System.err.println(BaseMessages.getString(PKG, "HopServer.Usage.Example") + ": hop-server.sh 127.0.0.1 8080 --kill --userName cluster --password cluster");
   }
 
   /**
@@ -648,8 +568,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
     this.config = config;
   }
 
-  private static void shutdown(
-      String hostname, String port, String shutdownPort, String username, String password) {
+  private static void shutdown(String hostname, String port, String shutdownPort, String username, String password) {
     try {
       callStopHopServerRestService(hostname, port, shutdownPort, username, password);
     } catch (Exception e) {
@@ -667,17 +586,12 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
    * @throws HopServerCommandException
    */
   @VisibleForTesting
-  static void callStopHopServerRestService(
-      String hostname, String port, String shutdownPort, String username, String password)
-      throws HopServerCommandException {
+  static void callStopHopServerRestService(String hostname, String port, String shutdownPort, String username, String password) throws HopServerCommandException {
     // get information about the remote connection
     try {
       HopClientEnvironment.init();
 
-      HttpAuthenticationFeature authFeature =
-          HttpAuthenticationFeature.basicBuilder()
-              .credentials(username, Encr.decryptPasswordOptionallyEncrypted(password))
-              .build();
+      HttpAuthenticationFeature authFeature = HttpAuthenticationFeature.basicBuilder().credentials(username, Encr.decryptPasswordOptionallyEncrypted(password)).build();
 
       ClientConfig clientConfig = new ClientConfig();
       Client client = ClientBuilder.newClient(clientConfig);
@@ -690,8 +604,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       WebTarget target = client.target(contextURL + "/status/?xml=Y");
       String response = target.request().get(String.class);
       if (response == null || !response.contains("<serverstatus>")) {
-        throw new HopServerCommandException(
-            BaseMessages.getString(PKG, "HopServer.Error.NoServerFound", hostname, "" + port));
+        throw new HopServerCommandException(BaseMessages.getString(PKG, "HopServer.Error.NoServerFound", hostname, "" + port));
       }
 
       Socket s = new Socket(InetAddress.getByName(hostname), Integer.parseInt(shutdownPort));
@@ -701,8 +614,7 @@ public class HopServer implements Runnable, IHasHopMetadataProvider {
       s.close();
 
     } catch (Exception e) {
-      throw new HopServerCommandException(
-          BaseMessages.getString(PKG, "HopServer.Error.NoServerFound", hostname, "" + port), e);
+      throw new HopServerCommandException(BaseMessages.getString(PKG, "HopServer.Error.NoServerFound", hostname, "" + port), e);
     }
   }
 

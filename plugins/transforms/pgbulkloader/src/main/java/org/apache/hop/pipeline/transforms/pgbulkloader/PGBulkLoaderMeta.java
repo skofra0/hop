@@ -51,65 +51,44 @@ import java.util.List;
     keywords = "i18n::PGBulkLoaderMeta.keyword",
     documentationUrl = "/pipeline/transforms/postgresbulkloader.html",
     classLoaderGroup = "postgres-db")
-public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoaderData> implements
-        IProvidesDatabaseConnectionInformation {
+public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoaderData> implements IProvidesDatabaseConnectionInformation {
 
   private static final Class<?> PKG = PGBulkLoaderMeta.class; // For Translator
 
   /** what's the schema for the target? */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKeyDescription = "PGBulkLoader.Injection.Schema.Label")
+  @HopMetadataProperty(key = "schema", injectionKeyDescription = "PGBulkLoader.Injection.Schema.Label")
   private String schemaName;
 
   /** what's the table for the target? */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKeyDescription = "PGBulkLoader.Injection.Table.Label")
+  @HopMetadataProperty(key = "table", injectionKeyDescription = "PGBulkLoader.Injection.Table.Label")
   private String tableName;
 
   /** database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      storeWithName = true,
-      injectionKeyDescription = "PGBulkLoader.Injection.Connection.Label")
+  @HopMetadataProperty(key = "connection", storeWithName = true, injectionKeyDescription = "PGBulkLoader.Injection.Connection.Label")
   private DatabaseMeta databaseMeta;
 
   /** Field value to dateMask after lookup */
-  @HopMetadataProperty(
-      key = "mapping",
-      injectionGroupKey = "mapping",
-      injectionGroupDescription = "PGBulkLoader.Injection.Mapping.Label")
+  @HopMetadataProperty(key = "mapping", injectionGroupKey = "mapping", injectionGroupDescription = "PGBulkLoader.Injection.Mapping.Label")
   private List<PGBulkLoaderMappingMeta> mappings;
 
   /** Load action */
-  @HopMetadataProperty(
-      key = "load_action",
-      injectionKeyDescription = "PGBulkLoader.Injection.LoadAction.Label")
+  @HopMetadataProperty(key = "load_action", injectionKeyDescription = "PGBulkLoader.Injection.LoadAction.Label")
   private String loadAction;
 
   /** Database name override */
-  @HopMetadataProperty(
-      key = "db_override",
-      injectionKeyDescription = "PGBulkLoader.Injection.DBOverride.Label")
+  @HopMetadataProperty(key = "db_override", injectionKeyDescription = "PGBulkLoader.Injection.DBOverride.Label")
   private String dbNameOverride;
 
   /** The field delimiter to use for loading */
-  @HopMetadataProperty(
-      key = "delimiter",
-      injectionKeyDescription = "PGBulkLoader.Injection.Delimiter.Label")
+  @HopMetadataProperty(key = "delimiter", injectionKeyDescription = "PGBulkLoader.Injection.Delimiter.Label")
   private String delimiter;
 
   /** The enclosure to use for loading */
-  @HopMetadataProperty(
-      key = "enclosure",
-      injectionKeyDescription = "PGBulkLoader.Injection.Enclosure.Label")
+  @HopMetadataProperty(key = "enclosure", injectionKeyDescription = "PGBulkLoader.Injection.Enclosure.Label")
   private String enclosure;
 
   /** Stop On Error */
-  @HopMetadataProperty(
-      key = "stop_on_error",
-      injectionKeyDescription = "PGBulkLoader.Injection.StopOnError.Label")
+  @HopMetadataProperty(key = "stop_on_error", injectionKeyDescription = "PGBulkLoader.Injection.StopOnError.Label")
   private boolean stopOnError;
 
   /*
@@ -146,13 +125,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: nothing changes to rowMeta
   }
@@ -177,11 +150,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
         db.connect();
 
         if (!Utils.isEmpty(tableName)) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TableNameOK"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TableNameOK"), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -189,15 +158,10 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
           errorMessage = "";
 
           // Check fields in table
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
           IRowMeta r = db.getTableFields(schemaTable);
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TableExists"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TableExists"), transformMeta);
             remarks.add(cr);
 
             // How about the fields to insert/dateMask in the table?
@@ -212,10 +176,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + field + Const.CR;
@@ -224,17 +185,11 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "GPBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable"), transformMeta);
             }
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.CouldNotReadTableInfo");
+            errorMessage = BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
@@ -242,14 +197,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
 
         // Look up fields in the input stream <prev>
         if (prev != null && prev.size() > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG,
-                      "GPBulkLoaderMeta.CheckResult.TransformReceivingDatas",
-                      prev.size() + ""),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TransformReceivingDatas", prev.size() + ""), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -261,9 +209,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsInInput")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsInInput") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + mappings.get(i).getFieldStream() + Const.CR;
@@ -272,25 +218,16 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(
-                        PKG, "GPBulkLoaderMeta.CheckResult.AllFieldsFoundInInput"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.AllFieldsFoundInInput"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsInInput3")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.MissingFieldsInInput3") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.DatabaseErrorOccurred")
-                + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.DatabaseErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
@@ -304,33 +241,18 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "GPBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GPBulkLoaderMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider)
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -345,10 +267,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
             tableField.setName(mappings.get(i).getFieldTable());
             tableFields.addValueMeta(tableField);
           } else {
-            throw new HopTransformException(
-                "Unable to find field ["
-                    + mappings.get(i).getFieldStream()
-                    + "] in the input rows");
+            throw new HopTransformException("Unable to find field [" + mappings.get(i).getFieldStream() + "] in the input rows");
           }
         }
 
@@ -357,8 +276,7 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
             String sql = db.getDDL(schemaTable, tableFields, null, false, null, true);
 
             if (sql.length() == 0) {
@@ -367,17 +285,13 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
               retval.setSql(sql);
             }
           } catch (HopException e) {
-            retval.setError(
-                BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.ErrorOccurred")
-                    + e.getMessage());
+            retval.setError(BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.ErrorOccurred") + e.getMessage());
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection"));
+          retval.setError(BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection"));
         }
       } else {
-        retval.setError(
-            BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.NotReceivingAnyFields"));
+        retval.setError(BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.NotReceivingAnyFields"));
       }
     } else {
       retval.setError(BaseMessages.getString(PKG, "GPBulkLoaderMeta.GetSQL.NoConnectionDefined"));
@@ -433,30 +347,24 @@ public class PGBulkLoaderMeta extends BaseTransformMeta<PGBulkLoader, PGBulkLoad
         db.connect();
 
         if (!Utils.isEmpty(realTableName)) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(
-                  variables, realSchemaName, realTableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchemaName, realTableName);
 
           // Check if this table exists...
           if (db.checkTableExists(realSchemaName, realTableName)) {
             return db.getTableFields(schemaTable);
           } else {
-            throw new HopException(
-                BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.TableNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.TableNotSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.TableNotSpecified"));
         }
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.ErrorGettingFields"), e);
+        throw new HopException(BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.ErrorGettingFields"), e);
       } finally {
         db.disconnect();
       }
     } else {
-      throw new HopException(
-          BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.ConnectionNotDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "GPBulkLoaderMeta.Exception.ConnectionNotDefined"));
     }
   }
 

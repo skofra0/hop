@@ -29,30 +29,27 @@ import org.apache.hop.metadata.api.IHopMetadata;
     image = "ui/images/location.svg",
     documentationUrl = "/metadata-types/execution-information-location.html")
 public class ExecutionInfoLocation extends HopMetadataBase implements IHopMetadata, Cloneable {
-  public static final String GUI_PLUGIN_ELEMENT_PARENT_ID =
-      "ExecutionInfoLocation-PluginSpecific-Options";
+  public static final String GUI_PLUGIN_ELEMENT_PARENT_ID = "ExecutionInfoLocation-PluginSpecific-Options";
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty protected String dataLoggingDelay;
+  @HopMetadataProperty
+  protected String dataLoggingDelay;
 
-  @HopMetadataProperty protected String dataLoggingInterval;
+  @HopMetadataProperty
+  protected String dataLoggingInterval;
 
-  @HopMetadataProperty private IExecutionInfoLocation executionInfoLocation;
+  @HopMetadataProperty
+  private IExecutionInfoLocation executionInfoLocation;
 
   public ExecutionInfoLocation() {
     dataLoggingDelay = "2000";
     dataLoggingInterval = "5000";
   }
 
-  public ExecutionInfoLocation(
-      String name,
-      String description,
-      String dataLoggingDelay,
-      String dataLoggingInterval,
-      String dataLoggingSize,
-      ExecutionDataProfile executionDataProfile,
-      IExecutionInfoLocation executionInfoLocation) {
+  public ExecutionInfoLocation(String name, String description, String dataLoggingDelay, String dataLoggingInterval, String dataLoggingSize,
+      ExecutionDataProfile executionDataProfile, IExecutionInfoLocation executionInfoLocation) {
     super(name);
     this.description = description;
     this.dataLoggingDelay = dataLoggingDelay;

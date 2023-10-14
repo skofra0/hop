@@ -34,24 +34,21 @@ import java.util.Map;
 public class DynamicSqlRowMetaTest {
   LoadSaveTester loadSaveTester;
   Class<DynamicSqlRowMeta> testMetaClass = DynamicSqlRowMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
-    List<String> attributes =
-        Arrays.asList(
-            "sql", "sqlFieldName", "rowLimit", "outerJoin", "replaceVariables", "connection");
+    List<String> attributes = Arrays.asList("sql", "sqlFieldName", "rowLimit", "outerJoin", "replaceVariables", "connection");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test

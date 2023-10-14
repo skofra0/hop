@@ -87,36 +87,31 @@ public class BaseHttpServlet extends HttpServlet {
   }
 
   @Override
-  protected void service(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     if (req.getContentLength() > 0 && req.getContentType() != null) {
       String encoding = getContentEncoding(req.getContentType());
-      if(encoding != null){
+      if (encoding != null) {
         req.setCharacterEncoding(encoding);
       }
     }
     if ("GET".equals(req.getMethod())) {
-      supportGraphicEnvironment =
-          Boolean.TRUE.equals(req.getServletContext().getAttribute("GraphicsEnvironment"));
+      supportGraphicEnvironment = Boolean.TRUE.equals(req.getServletContext().getAttribute("GraphicsEnvironment"));
     }
     super.service(req, resp);
   }
 
   @Override
-  protected void doPut(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     doGet(request, response);
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     doGet(request, response);
   }
 
   @Override
-  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     doGet(req, resp);
   }
 

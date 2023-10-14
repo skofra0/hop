@@ -31,14 +31,7 @@ public class CypherMergeBuilder extends BaseCypherBuilder {
   }
 
   public CypherMergeBuilder withLabelAndKey(String label, String key, Object value) {
-    cypher
-        .append("(n:")
-        .append(label)
-        .append(" {")
-        .append(key)
-        .append(" : $")
-        .append(key)
-        .append("}) ");
+    cypher.append("(n:").append(label).append(" {").append(key).append(" : $").append(key).append("}) ");
     parameters.put(key, value);
     return this;
   }

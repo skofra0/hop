@@ -54,9 +54,7 @@ public class XmlJoinMetaGetFieldsTest {
     sourceTransformMeta.setName(sourceXmlTransform);
 
     doReturn(sourceTransformMeta).when(pipelineMeta).findTransform(sourceXmlTransform);
-    doReturn(rowMetaPreviousTransforms)
-        .when(pipelineMeta)
-        .getTransformFields(new Variables(), sourceTransformMeta, null, null);
+    doReturn(rowMetaPreviousTransforms).when(pipelineMeta).getTransformFields(new Variables(), sourceTransformMeta, null, null);
 
     RowMeta rowMeta = new RowMeta();
     ValueMetaString keepValueMeta = new ValueMetaString(targetTransformField);
@@ -64,13 +62,7 @@ public class XmlJoinMetaGetFieldsTest {
     rowMeta.addValueMeta(keepValueMeta);
     rowMeta.addValueMeta(removeValueMeta);
 
-    xmlJoinMeta.getFields(
-        rowMeta,
-        "testTransformName",
-        new IRowMeta[] {rowMeta, rowMetaPreviousTransforms},
-        null,
-        new Variables(),
-        null);
+    xmlJoinMeta.getFields(rowMeta, "testTransformName", new IRowMeta[] {rowMeta, rowMetaPreviousTransforms}, null, new Variables(), null);
     assertEquals(3, rowMeta.size());
     String[] strings = rowMeta.getFieldNames();
     assertEquals(targetTransformField, strings[0]);
@@ -104,9 +96,7 @@ public class XmlJoinMetaGetFieldsTest {
     sourceTransformMeta.setName(sourceXmlTransform);
 
     doReturn(sourceTransformMeta).when(pipelineMeta).findTransform(sourceXmlTransform);
-    doReturn(rowMetaPreviousSourceTransform)
-        .when(pipelineMeta)
-        .getTransformFields(new Variables(), sourceTransformMeta, null, null);
+    doReturn(rowMetaPreviousSourceTransform).when(pipelineMeta).getTransformFields(new Variables(), sourceTransformMeta, null, null);
 
     // Target Row Meta
     RowMeta rowMetaPreviousTargetTransform = new RowMeta();
@@ -119,9 +109,7 @@ public class XmlJoinMetaGetFieldsTest {
     targetTransformMeta.setName(targetXmlTransform);
 
     doReturn(targetTransformMeta).when(pipelineMeta).findTransform(targetXmlTransform);
-    doReturn(rowMetaPreviousTargetTransform)
-        .when(pipelineMeta)
-        .getTransformFields(new Variables(), targetTransformMeta, null, null);
+    doReturn(rowMetaPreviousTargetTransform).when(pipelineMeta).getTransformFields(new Variables(), targetTransformMeta, null, null);
 
     // Set result field name
     xmlJoinMeta.setValueXmlField(resultXmlFieldName);
@@ -135,13 +123,7 @@ public class XmlJoinMetaGetFieldsTest {
     rowMeta.addValueMeta(keepValueMeta2);
 
     // Get output fields
-    xmlJoinMeta.getFields(
-        rowMeta,
-        "testTransformName",
-        new IRowMeta[] {rowMetaPreviousTargetTransform, rowMeta},
-        null,
-        new Variables(),
-        null);
+    xmlJoinMeta.getFields(rowMeta, "testTransformName", new IRowMeta[] {rowMetaPreviousTargetTransform, rowMeta}, null, new Variables(), null);
     assertEquals(3, rowMeta.size());
     String[] strings = rowMeta.getFieldNames();
     assertEquals("b", strings[0]);

@@ -105,26 +105,19 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.w3c.dom.Node;
 
 @GuiPlugin
-public class WorkflowExecutionViewer extends BaseExecutionViewer
-    implements IExecutionViewer, PaintListener, MouseListener {
+public class WorkflowExecutionViewer extends BaseExecutionViewer implements IExecutionViewer, PaintListener, MouseListener {
   private static final Class<?> PKG = WorkflowExecutionViewer.class; // For Translator
 
   public static final String GUI_PLUGIN_TOOLBAR_PARENT_ID = "WorkflowExecutionViewer-Toolbar";
 
   public static final String TOOLBAR_ITEM_REFRESH = "WorkflowExecutionViewer-Toolbar-10100-Refresh";
-  public static final String TOOLBAR_ITEM_ZOOM_LEVEL =
-      "WorkflowExecutionViewer-ToolBar-10500-Zoom-Level";
-  public static final String TOOLBAR_ITEM_ZOOM_FIT_TO_SCREEN =
-      "WorkflowExecutionViewer-ToolBar-10600-Zoom-Fit-To-Screen";
-  public static final String TOOLBAR_ITEM_TO_EDITOR =
-      "WorkflowExecutionViewer-Toolbar-11100-GoToEditor";
-  public static final String TOOLBAR_ITEM_DRILL_DOWN =
-      "WorkflowExecutionViewer-Toolbar-11200-DrillDown";
+  public static final String TOOLBAR_ITEM_ZOOM_LEVEL = "WorkflowExecutionViewer-ToolBar-10500-Zoom-Level";
+  public static final String TOOLBAR_ITEM_ZOOM_FIT_TO_SCREEN = "WorkflowExecutionViewer-ToolBar-10600-Zoom-Fit-To-Screen";
+  public static final String TOOLBAR_ITEM_TO_EDITOR = "WorkflowExecutionViewer-Toolbar-11100-GoToEditor";
+  public static final String TOOLBAR_ITEM_DRILL_DOWN = "WorkflowExecutionViewer-Toolbar-11200-DrillDown";
   public static final String TOOLBAR_ITEM_GO_UP = "WorkflowExecutionViewer-Toolbar-11300-GoUp";
-  public static final String TOOLBAR_ITEM_VIEW_EXECUTOR =
-      "WorkflowExecutionViewer-Toolbar-12000-ViewExecutor";
-  public static final String TOOLBAR_ITEM_VIEW_METADATA =
-      "WorkflowExecutionViewer-Toolbar-12100-ViewMetadata";
+  public static final String TOOLBAR_ITEM_VIEW_EXECUTOR = "WorkflowExecutionViewer-Toolbar-12000-ViewExecutor";
+  public static final String TOOLBAR_ITEM_VIEW_METADATA = "WorkflowExecutionViewer-Toolbar-12100-ViewMetadata";
 
   public static final String WORKFLOW_EXECUTION_VIEWER_TABS = "WorkflowExecutionViewer.Tabs.ID";
 
@@ -143,13 +136,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
   private Map<String, List<ExecutionData>> actionExecutions;
 
-  public WorkflowExecutionViewer(
-      Composite parent,
-      HopGui hopGui,
-      WorkflowMeta workflowMeta,
-      String locationName,
-      ExecutionPerspective perspective,
-      Execution execution,
+  public WorkflowExecutionViewer(Composite parent, HopGui hopGui, WorkflowMeta workflowMeta, String locationName, ExecutionPerspective perspective, Execution execution,
       ExecutionState executionState) {
     super(parent, hopGui, perspective, locationName, execution, executionState);
     this.workflowMeta = workflowMeta;
@@ -241,24 +228,11 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
     infoTab.setImage(GuiResource.getInstance().getImageInfo());
     infoTab.setText(BaseMessages.getString(PKG, "WorkflowExecutionViewer.InfoTab.Title"));
 
-    ColumnInfo[] infoCols =
-        new ColumnInfo[] {
-          new ColumnInfo("Item", ColumnInfo.COLUMN_TYPE_TEXT, false, true),
-          new ColumnInfo("Value", ColumnInfo.COLUMN_TYPE_TEXT, false, true),
-        };
+    ColumnInfo[] infoCols = new ColumnInfo[] {new ColumnInfo("Item", ColumnInfo.COLUMN_TYPE_TEXT, false, true), new ColumnInfo("Value", ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
     // Let's simply add a table view with all the details on it.
     //
-    infoView =
-        new TableView(
-            hopGui.getVariables(),
-            tabFolder,
-            SWT.H_SCROLL | SWT.V_SCROLL,
-            infoCols,
-            1,
-            true,
-            null,
-            props);
+    infoView = new TableView(hopGui.getVariables(), tabFolder, SWT.H_SCROLL | SWT.V_SCROLL, infoCols, 1, true, null, props);
     PropsUi.setLook(infoView);
 
     infoTab.setControl(infoView);
@@ -284,11 +258,9 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
       // Calculate information staleness
       //
       String statusDescription = executionState.getStatusDescription();
-      if (Pipeline.STRING_RUNNING.equalsIgnoreCase(statusDescription)
-          || Pipeline.STRING_INITIALIZING.equalsIgnoreCase(statusDescription)) {
+      if (Pipeline.STRING_RUNNING.equalsIgnoreCase(statusDescription) || Pipeline.STRING_INITIALIZING.equalsIgnoreCase(statusDescription)) {
         long loggingInterval = Const.toLong(location.getDataLoggingInterval(), 20000);
-        if (System.currentTimeMillis() - executionState.getUpdateTime().getTime()
-            > loggingInterval) {
+        if (System.currentTimeMillis() - executionState.getUpdateTime().getTime() > loggingInterval) {
           // The information is stale, not getting updates!
           //
           TableItem item = infoView.add("Update state", STRING_STATE_STALE);
@@ -325,8 +297,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
             // Add this one under that name
             //
-            List<ExecutionData> executionDataList =
-                actionExecutions.computeIfAbsent(actionName, k -> new ArrayList<>());
+            List<ExecutionData> executionDataList = actionExecutions.computeIfAbsent(actionName, k -> new ArrayList<>());
             executionDataList.add(actionData);
           }
         }
@@ -346,25 +317,14 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
     // The list of available data on the left-hand side.
     //
-    dataList =
-        new org.eclipse.swt.widgets.List(
-            dataSash, SWT.SINGLE | SWT.LEFT | SWT.V_SCROLL | SWT.H_SCROLL);
+    dataList = new org.eclipse.swt.widgets.List(dataSash, SWT.SINGLE | SWT.LEFT | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(dataList);
     dataList.addListener(SWT.Selection, e -> showDataRows());
 
-    // An empty table view on the right.  This will be populated during a refresh.
+    // An empty table view on the right. This will be populated during a refresh.
     //
     ColumnInfo[] dataColumns = new ColumnInfo[] {};
-    dataView =
-        new TableView(
-            hopGui.getVariables(),
-            dataSash,
-            SWT.H_SCROLL | SWT.V_SCROLL,
-            dataColumns,
-            0,
-            true,
-            null,
-            props);
+    dataView = new TableView(hopGui.getVariables(), dataSash, SWT.H_SCROLL | SWT.V_SCROLL, dataColumns, 0, true, null, props);
     PropsUi.setLook(dataView);
 
     dataView.optimizeTableView();
@@ -401,9 +361,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
           IRowMeta rowMeta = rowBuffer.getRowMeta();
           // Add a column for every
           for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-            ColumnInfo columnInfo =
-                new ColumnInfo(
-                    valueMeta.getName(), ColumnInfo.COLUMN_TYPE_TEXT, valueMeta.isNumeric());
+            ColumnInfo columnInfo = new ColumnInfo(valueMeta.getName(), ColumnInfo.COLUMN_TYPE_TEXT, valueMeta.isNumeric());
             columnInfo.setValueMeta(valueMeta);
             columnInfo.setToolTip(valueMeta.toStringMeta());
             columns.add(columnInfo);
@@ -415,16 +373,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
           // Create a new one
           //
-          dataView =
-              new TableView(
-                  hopGui.getVariables(),
-                  dataSash,
-                  SWT.H_SCROLL | SWT.V_SCROLL,
-                  columns.toArray(new ColumnInfo[0]),
-                  rowBuffer.size(),
-                  true,
-                  null,
-                  props);
+          dataView = new TableView(hopGui.getVariables(), dataSash, SWT.H_SCROLL | SWT.V_SCROLL, columns.toArray(new ColumnInfo[0]), rowBuffer.size(), true, null, props);
 
           for (int r = 0; r < rowBuffer.size(); r++) {
             Object[] row = rowBuffer.getBuffer().get(r);
@@ -465,13 +414,11 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
     // When the logging tab comes into focus, re-load the logging text
     //
-    tabFolder.addListener(
-        SWT.Selection,
-        e -> {
-          if (tabFolder.getSelection() == logTab) {
-            refreshLoggingText();
-          }
-        });
+    tabFolder.addListener(SWT.Selection, e -> {
+      if (tabFolder.getSelection() == logTab) {
+        refreshLoggingText();
+      }
+    });
   }
 
   private void addPluginTabs() {
@@ -487,26 +434,18 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
           try {
             // Invoke static method showTab(WorkflowExecutionViewer)
             //
-            Method showTabMethod =
-                pluginTabClass.getMethod("showTab", WorkflowExecutionViewer.class);
+            Method showTabMethod = pluginTabClass.getMethod("showTab", WorkflowExecutionViewer.class);
             showTab = (boolean) showTabMethod.invoke(null, this);
           } catch (NoSuchMethodException noSuchMethodException) {
             // Just show the tab
           }
           if (showTab) {
-            Constructor<?> constructor =
-                pluginTabClass.getConstructor(WorkflowExecutionViewer.class);
+            Constructor<?> constructor = pluginTabClass.getConstructor(WorkflowExecutionViewer.class);
             Object object = constructor.newInstance(this);
             tabItem.getMethod().invoke(object, tabFolder);
           }
         } catch (Exception e) {
-          new ErrorDialog(
-              hopGui.getShell(),
-              "Error",
-              "Hop was unable to invoke @GuiTab method "
-                  + tabItem.getMethod().getName()
-                  + " with the parent composite as argument",
-              e);
+          new ErrorDialog(hopGui.getShell(), "Error", "Hop was unable to invoke @GuiTab method " + tabItem.getMethod().getName() + " with the parent composite as argument", e);
         }
       }
       tabFolder.layout();
@@ -532,8 +471,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
 
     // Do double buffering to prevent flickering on Windows
     //
-    boolean needsDoubleBuffering =
-        Const.isWindows() && "GUI".equalsIgnoreCase(Const.getHopPlatformRuntime());
+    boolean needsDoubleBuffering = Const.isWindows() && "GUI".equalsIgnoreCase(Const.getHopPlatformRuntime());
 
     Image image = null;
     GC swtGc = e.gc;
@@ -871,7 +809,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
       for (String key : setMetaData.keySet()) {
         ExecutionDataSetMeta setMeta = setMetaData.get(key);
         if (actionMeta.getName().equals(setMeta.getName())) {
-          // We're in the right place.  We can have different types of data though.
+          // We're in the right place. We can have different types of data though.
           // We list the types in the List on the left in the data tab.
           //
           items.add(setMeta.getDescription());
@@ -944,21 +882,13 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
       } else {
         // Select the execution...
         //
-        IRowMeta rowMeta =
-            new RowMetaBuilder().addString("Name").addString("Type").addDate("Start date").build();
+        IRowMeta rowMeta = new RowMetaBuilder().addString("Name").addString("Type").addDate("Start date").build();
         List<RowMetaAndData> rows = new ArrayList<>();
         for (Execution childExecution : childExecutions) {
-          rows.add(
-              new RowMetaAndData(
-                  rowMeta,
-                  childExecution.getName(),
-                  childExecution.getExecutionType().name(),
-                  childExecution.getExecutionStartDate()));
+          rows.add(new RowMetaAndData(rowMeta, childExecution.getName(), childExecution.getExecutionType().name(), childExecution.getExecutionStartDate()));
         }
 
-        SelectRowDialog dialog =
-            new SelectRowDialog(
-                getShell(), hopGui.getVariables(), SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL, rows);
+        SelectRowDialog dialog = new SelectRowDialog(getShell(), hopGui.getVariables(), SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL, rows);
         RowMetaAndData selectedRow = dialog.open();
         if (selectedRow == null) {
           // Operation is canceled
@@ -1032,8 +962,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
       // Also inflate the metadata
       //
       String metadataJson = execution.getMetadataJson();
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metadataJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metadataJson);
 
       // The variables set
       //
@@ -1044,8 +973,7 @@ public class WorkflowExecutionViewer extends BaseExecutionViewer
       WorkflowMeta workflowMeta = new WorkflowMeta(workflowNode, metadataProvider, variables);
 
       HopDataOrchestrationPerspective p = HopGui.getDataOrchestrationPerspective();
-      HopGuiWorkflowGraph graph =
-          (HopGuiWorkflowGraph) p.addWorkflow(hopGui, workflowMeta, new HopWorkflowFileType<>());
+      HopGuiWorkflowGraph graph = (HopGuiWorkflowGraph) p.addWorkflow(hopGui, workflowMeta, new HopWorkflowFileType<>());
       graph.setVariables(variables);
 
       p.activate();

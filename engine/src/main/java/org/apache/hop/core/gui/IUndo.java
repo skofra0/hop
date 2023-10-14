@@ -30,14 +30,7 @@ public interface IUndo {
    * @param type_of_change The type of change that's being done to the pipeline.
    * @param nextAlso indicates that the next undo operation needs to follow this one.
    */
-  void addUndo(
-      Object[] from,
-      Object[] to,
-      int[] pos,
-      Point[] prev,
-      Point[] curr,
-      int typeOfChange,
-      boolean nextAlso);
+  void addUndo(Object[] from, Object[] to, int[] pos, Point[] prev, Point[] curr, int typeOfChange, boolean nextAlso);
 
   /**
    * Get the maximum number of undo operations possible

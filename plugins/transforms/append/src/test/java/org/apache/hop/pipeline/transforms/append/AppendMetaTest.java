@@ -40,10 +40,7 @@ public class AppendMetaTest {
 
     // Re-inflate from XML
     //
-    String transformXml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + xml
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String transformXml = XmlHandler.openTag(TransformMeta.XML_TAG) + xml + XmlHandler.closeTag(TransformMeta.XML_TAG);
     AppendMeta meta2 = new AppendMeta();
     meta2.loadXml(XmlHandler.loadXmlString(transformXml, TransformMeta.XML_TAG), null);
 

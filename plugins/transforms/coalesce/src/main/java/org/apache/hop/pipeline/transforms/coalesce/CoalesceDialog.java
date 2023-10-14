@@ -62,8 +62,7 @@ public class CoalesceDialog extends BaseTransformDialog implements ITransformDia
 
   private String[] fieldNames;
 
-  public CoalesceDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public CoalesceDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (CoalesceMeta) in;
   }
@@ -110,16 +109,14 @@ public class CoalesceDialog extends BaseTransformDialog implements ITransformDia
     wTransformName = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wTransformName.setText(transformName);
     wTransformName.addListener(SWT.Modify, e -> input.setChanged());
-    wTransformName.setLayoutData(
-        new FormDataBuilder().left(wlTransformName, 0).top(wlTransformName, 0, SWT.CENTER).right().result());
+    wTransformName.setLayoutData(new FormDataBuilder().left(wlTransformName, 0).top(wlTransformName, 0, SWT.CENTER).right().result());
     PropsUi.setLook(wTransformName);
 
     // Treat empty strings as nulls
     //
     wEmptyStrings = new Button(shell, SWT.CHECK);
     wEmptyStrings.setText(BaseMessages.getString(PKG, "CoalesceDialog.Shell.EmptyStringsAsNulls"));
-    wEmptyStrings.setLayoutData(
-        new FormDataBuilder().left(0, 0).top(wTransformName, margin * 2).result());
+    wEmptyStrings.setLayoutData(new FormDataBuilder().left(0, 0).top(wTransformName, margin * 2).result());
     wEmptyStrings.addListener(SWT.Selection, e -> input.setChanged());
     PropsUi.setLook(wEmptyStrings);
 
@@ -128,81 +125,47 @@ public class CoalesceDialog extends BaseTransformDialog implements ITransformDia
     wlFields.setLayoutData(new FormDataBuilder().left().top(wEmptyStrings, margin * 2).result());
     PropsUi.setLook(wlFields);
 
-    SelectionAdapter pathSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    SelectionAdapter pathSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            EnterOrderedListDialog dialog = new EnterOrderedListDialog(shell, SWT.OPEN, fieldNames);
+        EnterOrderedListDialog dialog = new EnterOrderedListDialog(shell, SWT.OPEN, fieldNames);
 
-            String fields = wFields.getActiveTableItem().getText(wFields.getActiveTableColumn());
+        String fields = wFields.getActiveTableItem().getText(wFields.getActiveTableColumn());
 
-            String[] elements = fields.split("\\s*,\\s*");
+        String[] elements = fields.split("\\s*,\\s*");
 
-            dialog.addToSelection(elements);
+        dialog.addToSelection(elements);
 
-            String[] result = dialog.open();
-            if (result != null) {
-              wFields
-                  .getActiveTableItem()
-                  .setText(wFields.getActiveTableColumn(), String.join(", ", result));
-            }
-          }
-        };
+        String[] result = dialog.open();
+        if (result != null) {
+          wFields.getActiveTableItem().setText(wFields.getActiveTableColumn(), String.join(", ", result));
+        }
+      }
+    };
 
     ColumnInfo[] columns = new ColumnInfo[4];
-    columns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Name.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    columns[0] = new ColumnInfo(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Name.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     columns[0].setToolTip(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Name.Tooltip"));
     columns[0].setUsingVariables(true);
 
-    columns[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Type.Label"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaBase.getTypes());
+    columns[1] = new ColumnInfo(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Type.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.getTypes());
     columns[1].setToolTip(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.Type.Tooltip"));
 
     columns[2] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.RemoveInputFields.Label"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              BaseMessages.getString(PKG, "System.Combo.No"),
-              BaseMessages.getString(PKG, "System.Combo.Yes")
-            });
-    columns[2].setToolTip(
-        BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.RemoveInputFields.Tooltip"));
+            new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")});
+    columns[2].setToolTip(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.RemoveInputFields.Tooltip"));
 
-    columns[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.InputFields.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT_BUTTON,
-            false);
-    columns[3].setToolTip(
-        BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.InputFields.Tooltip"));
+    columns[3] = new ColumnInfo(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.InputFields.Label"), ColumnInfo.COLUMN_TYPE_TEXT_BUTTON, false);
+    columns[3].setToolTip(BaseMessages.getString(PKG, "CoalesceDialog.ColumnInfo.InputFields.Tooltip"));
     columns[3].setUsingVariables(true);
     columns[3].setTextVarButtonSelectionListener(pathSelection);
 
-    this.wFields =
-        new TableView(
-            this.getVariables(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE,
-            columns,
-            input.getFields().size(),
-            e -> input.setChanged(),
-            props);
-    this.wFields.setLayoutData(
-        new FormDataBuilder()
-            .left()
-            .right(100, 0)
-            .top(wlFields, PropsUi.getMargin())
-            .bottom(wOk, margin * 2)
-            .result());
+    this.wFields = new TableView(this.getVariables(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE, columns, input.getFields().size(), e -> input.setChanged(), props);
+    this.wFields.setLayoutData(new FormDataBuilder().left().right(100, 0).top(wlFields, PropsUi.getMargin()).bottom(wOk, margin * 2).result());
 
     this.wFields.getTable().addListener(SWT.Resize, new ColumnsResizer(3, 20, 10, 5, 52));
 
@@ -214,29 +177,28 @@ public class CoalesceDialog extends BaseTransformDialog implements ITransformDia
     wFields.setLayoutData(fdFields);
 
     // Search the fields in the background
-    final Runnable runnable =
-        new Runnable() {
-          @Override
-          public void run() {
-            TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-            if (transformMeta != null) {
-              try {
-                IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+        if (transformMeta != null) {
+          try {
+            IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-                fieldNames = new String[row.size()];
-                for (int i = 0; i < row.size(); i++) {
-                  fieldNames[i] = row.getValueMeta(i).getName();
-                }
-                
-                if ( PropsUi.getInstance().isSortFieldByName() ) {
-                  Const.sortStrings(fieldNames);
-                }
-              } catch (HopException e) {
-                logError(BaseMessages.getString(PKG, "CoalesceDialog.Log.UnableToFindInput"));
-              }
+            fieldNames = new String[row.size()];
+            for (int i = 0; i < row.size(); i++) {
+              fieldNames[i] = row.getValueMeta(i).getName();
             }
+
+            if (PropsUi.getInstance().isSortFieldByName()) {
+              Const.sortStrings(fieldNames);
+            }
+          } catch (HopException e) {
+            logError(BaseMessages.getString(PKG, "CoalesceDialog.Log.UnableToFindInput"));
           }
-        };
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -307,15 +269,14 @@ public class CoalesceDialog extends BaseTransformDialog implements ITransformDia
   // TODO: Find a global function
   private static boolean getBooleanFromString(final String s) {
 
-    if (Utils.isEmpty(s)) return false;
+    if (Utils.isEmpty(s))
+      return false;
 
     return BaseMessages.getString(PKG, "System.Combo.Yes").equals(s);
   }
 
   // TODO: Find a global function
   private static String getStringFromBoolean(final boolean b) {
-    return b
-        ? BaseMessages.getString(PKG, "System.Combo.Yes")
-        : BaseMessages.getString(PKG, "System.Combo.No");
+    return b ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No");
   }
 }

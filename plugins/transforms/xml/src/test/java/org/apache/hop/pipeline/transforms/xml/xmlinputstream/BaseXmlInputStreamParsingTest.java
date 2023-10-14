@@ -23,8 +23,7 @@ import org.junit.Ignore;
 
 /** Base class for all CSV input transform tests. */
 @Ignore("No tests in abstract base class")
-public class BaseXmlInputStreamParsingTest
-    extends BaseParsingTest<XmlInputStreamMeta, XmlInputStreamData, XmlInputStream> {
+public class BaseXmlInputStreamParsingTest extends BaseParsingTest<XmlInputStreamMeta, XmlInputStreamData, XmlInputStream> {
   /** Initialize transform info. */
   @Before
   public void before() {

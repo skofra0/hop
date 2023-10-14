@@ -27,13 +27,8 @@ import org.apache.hop.pipeline.transform.stream.IStream;
 import java.util.List;
 
 @GuiPlugin
-@ExecutionDataSamplerPlugin(
-    id = "LastRowsExecutionDataSampler",
-    name = "Last output rows",
-    description = "Samples the last rows of a transform output")
-public class LastRowsExecutionDataSampler
-        extends ExecutionDataSamplerBase<LastRowsExecutionDataSamplerStore>
-implements IExecutionDataSampler<LastRowsExecutionDataSamplerStore> {
+@ExecutionDataSamplerPlugin(id = "LastRowsExecutionDataSampler", name = "Last output rows", description = "Samples the last rows of a transform output")
+public class LastRowsExecutionDataSampler extends ExecutionDataSamplerBase<LastRowsExecutionDataSamplerStore> implements IExecutionDataSampler<LastRowsExecutionDataSamplerStore> {
   private static final Class<?> PKG = LastRowsExecutionDataSampler.class; // For Translator
 
   public LastRowsExecutionDataSampler() {
@@ -58,11 +53,7 @@ implements IExecutionDataSampler<LastRowsExecutionDataSamplerStore> {
   }
 
   @Override
-  public void sampleRow(
-          LastRowsExecutionDataSamplerStore samplerStore,
-      IStream.StreamType streamType,
-      IRowMeta rowMeta,
-      Object[] row) {
+  public void sampleRow(LastRowsExecutionDataSamplerStore samplerStore, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row) {
 
     synchronized (samplerStore.getRows()) {
       List<Object[]> rows = samplerStore.getRows();

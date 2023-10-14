@@ -21,8 +21,7 @@ import org.apache.poi.ss.SpreadsheetVersion;
 import javax.xml.stream.XMLInputFactory;
 
 public class StaxUtil {
-  private static final SpreadsheetVersion DEFAULT_SPREADSHEET_VERSION =
-      SpreadsheetVersion.EXCEL2007;
+  private static final SpreadsheetVersion DEFAULT_SPREADSHEET_VERSION = SpreadsheetVersion.EXCEL2007;
   public static final int MAX_ROWS = DEFAULT_SPREADSHEET_VERSION.getMaxRows();
   public static final int MAX_COLUMNS = DEFAULT_SPREADSHEET_VERSION.getMaxColumns();
 

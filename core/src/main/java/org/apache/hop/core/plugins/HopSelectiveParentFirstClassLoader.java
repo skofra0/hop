@@ -31,16 +31,14 @@ public class HopSelectiveParentFirstClassLoader extends HopURLClassLoader {
     addPatterns(patterns);
   }
 
-  public HopSelectiveParentFirstClassLoader(
-      URL[] url, ClassLoader classLoader, String name, String[] patterns) {
+  public HopSelectiveParentFirstClassLoader(URL[] url, ClassLoader classLoader, String name, String[] patterns) {
     super(url, classLoader, name);
     addPatterns(patterns);
   }
 
   public void addPatterns(String[] patterns) {
     if (patterns != null) {
-      this.patterns.addAll(
-          Arrays.stream(patterns).map(Pattern::compile).collect(Collectors.toList()));
+      this.patterns.addAll(Arrays.stream(patterns).map(Pattern::compile).collect(Collectors.toList()));
     }
   }
 
@@ -55,8 +53,7 @@ public class HopSelectiveParentFirstClassLoader extends HopURLClassLoader {
   }
 
   @Override
-  protected synchronized Class<?> loadClass(String name, boolean resolve)
-      throws ClassNotFoundException {
+  protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
     for (Pattern pattern : patterns) {
       if (pattern.matcher(name).matches()) {
         return loadClassParentFirst(name, resolve);

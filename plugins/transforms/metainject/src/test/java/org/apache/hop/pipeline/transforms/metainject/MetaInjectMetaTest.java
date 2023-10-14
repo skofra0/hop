@@ -58,7 +58,8 @@ public class MetaInjectMetaTest {
 
   private static MetaInjectMeta metaInjectMeta;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void SetUp() throws Exception {
@@ -78,8 +79,7 @@ public class MetaInjectMetaTest {
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     TransformMeta transformMeta = mock(TransformMeta.class);
 
-    List<ResourceReference> actualResult =
-        metaInjectMeta.getResourceDependencies(new Variables(), transformMeta);
+    List<ResourceReference> actualResult = metaInjectMeta.getResourceDependencies(new Variables(), transformMeta);
     assertEquals(1, actualResult.size());
     ResourceReference reference = actualResult.iterator().next();
     assertEquals(0, reference.getEntries().size());
@@ -92,8 +92,7 @@ public class MetaInjectMetaTest {
     metaInjectMeta.setFileName("FILE_NAME");
     // doReturn("FILE_NAME_WITH_SUBSTITUTIONS").when(pipelineMeta).environmentSubstitute("FILE_NAME");
 
-    List<ResourceReference> actualResult =
-        metaInjectMeta.getResourceDependencies(new Variables(), transformMeta);
+    List<ResourceReference> actualResult = metaInjectMeta.getResourceDependencies(new Variables(), transformMeta);
     assertEquals(1, actualResult.size());
     ResourceReference reference = actualResult.iterator().next();
     assertEquals(1, reference.getEntries().size());
@@ -108,18 +107,13 @@ public class MetaInjectMetaTest {
     MetaInjectMeta injectMetaSpy = spy(metaInjectMeta);
     PipelineMeta pipelineMeta = mock(PipelineMeta.class);
     Map<String, ResourceDefinition> definitions = Collections.emptyMap();
-    doReturn(TEST_FILE_NAME)
-        .when(pipelineMeta)
-        .exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
+    doReturn(TEST_FILE_NAME).when(pipelineMeta).exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
     doReturn(pipelineMeta).when(injectMetaSpy).loadPipelineMeta(metadataProvider, variables);
 
-    String actualExportedFileName =
-        injectMetaSpy.exportResources(
-            variables, definitions, resourceNamingInterface, metadataProvider);
+    String actualExportedFileName = injectMetaSpy.exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
     assertEquals(TEST_FILE_NAME, actualExportedFileName);
     assertEquals(EXPORTED_FILE_NAME, injectMetaSpy.getFileName());
-    verify(pipelineMeta)
-        .exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
+    verify(pipelineMeta).exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
   }
 
   @Test
@@ -130,8 +124,7 @@ public class MetaInjectMetaTest {
     metaInjectMapping.setTargetTransform(TARGET_TRANSFORM_NAME);
     metaInjectMapping.setTargetField(TARGET_FIELD_NAME);
 
-    Map<TargetTransformAttribute, SourceTransformField> actualResult =
-        MetaInjectMeta.convertToMap(Collections.singletonList(metaInjectMapping));
+    Map<TargetTransformAttribute, SourceTransformField> actualResult = MetaInjectMeta.convertToMap(Collections.singletonList(metaInjectMapping));
 
     assertEquals(1, actualResult.size());
 

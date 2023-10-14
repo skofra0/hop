@@ -103,8 +103,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
   /** all fields from the previous transforms */
   private IRowMeta prevFields = null;
 
-  public DatabaseLookupDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public DatabaseLookupDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (DatabaseLookupMeta) in;
   }
@@ -119,19 +118,17 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
 
     ModifyListener lsMod = e -> input.setChanged();
 
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTableFieldCombo();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTableFieldCombo();
+      }
+    };
     backupChanged = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -237,14 +234,13 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     fdCache.left = new FormAttachment(middle, 0);
     fdCache.top = new FormAttachment(wlCache, 0, SWT.CENTER);
     wCache.setLayoutData(fdCache);
-    wCache.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        });
+    wCache.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    });
 
     // ICache size line
     wlCachesize = new Label(shell, SWT.RIGHT);
@@ -281,14 +277,13 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     fdCacheLoadAll.left = new FormAttachment(middle, 0);
     fdCacheLoadAll.top = new FormAttachment(wlCacheLoadAll, 0, SWT.CENTER);
     wCacheLoadAll.setLayoutData(fdCacheLoadAll);
-    wCacheLoadAll.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        });
+    wCacheLoadAll.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    });
 
     // Where clause // DEEM-MOD
     wlWhereClause = new Label(shell, SWT.RIGHT);
@@ -311,7 +306,6 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     wWhereClause.setLayoutData(fdWhereClause);
     wWhereClause.addModifyListener(lsMod);
 
-    
     Label wlKey = new Label(shell, SWT.NONE);
     wlKey.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.Keys.Label"));
     PropsUi.setLook(wlKey);
@@ -321,45 +315,17 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     wlKey.setLayoutData(fdlKey);
 
     int nrKeyCols = 4;
-    int nrKeyRows =
-        input.getLookup().getKeyFields().isEmpty() ? 1 : input.getLookup().getKeyFields().size();
+    int nrKeyRows = input.getLookup().getKeyFields().isEmpty() ? 1 : input.getLookup().getKeyFields().size();
 
     ColumnInfo[] ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Tablefield"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Comparator"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            DatabaseLookupMeta.conditionStrings);
-    ciKey[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field1"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field2"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Tablefield"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Comparator"), ColumnInfo.COLUMN_TYPE_CCOMBO, DatabaseLookupMeta.conditionStrings);
+    ciKey[2] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field1"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field2"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciKey[0]);
     fieldColumns.add(ciKey[2]);
     fieldColumns.add(ciKey[3]);
-    wKey =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     FormData fdKey = new FormData();
     fdKey.left = new FormAttachment(0, 0);
@@ -378,56 +344,23 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     wlReturn.setLayoutData(fdlReturn);
 
     int upInsCols = 5;
-    int upInsRows =
-        input.getLookup().getReturnValues().isEmpty()
-            ? 1
-            : input.getLookup().getReturnValues().size();
+    int upInsRows = input.getLookup().getReturnValues().isEmpty() ? 1 : input.getLookup().getReturnValues().size();
 
     ColumnInfo[] ciReturn = new ColumnInfo[upInsCols];
 
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {},
-            false);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Field"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}, false);
 
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Newname"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Newname"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Default"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Default"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    ciReturn[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Type"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaFactory.getValueMetaNames());
+    ciReturn[3] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames());
 
-    ciReturn[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.TrimTypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaBase.trimTypeDesc,
-            true);
+    ciReturn[4] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseLookupDialog.TrimTypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.trimTypeDesc, true);
 
     tableFieldColumns.add(ciReturn[0]);
 
-    wReturn =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     FormData fdReturn = new FormData();
     fdReturn.left = new FormAttachment(0, 0);
@@ -451,14 +384,13 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     fdEatRows.left = new FormAttachment(middle, 0);
     fdEatRows.top = new FormAttachment(wlEatRows, 0, SWT.CENTER);
     wEatRows.setLayoutData(fdEatRows);
-    wEatRows.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        });
+    wEatRows.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    });
 
     // FailMultiple?
     wlFailMultiple = new Label(shell, SWT.RIGHT);
@@ -475,14 +407,13 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     fdFailMultiple.left = new FormAttachment(middle, 0);
     fdFailMultiple.top = new FormAttachment(wlFailMultiple, 0, SWT.CENTER);
     wFailMultiple.setLayoutData(fdFailMultiple);
-    wFailMultiple.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        });
+    wFailMultiple.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    });
 
     // OderBy line
     wlOrderBy = new Label(shell, SWT.RIGHT);
@@ -538,8 +469,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
         prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
       } catch (HopException e) {
         prevFields = new RowMeta();
-        String msg =
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.DoMapping.UnableToFindInput");
+        String msg = BaseMessages.getString(PKG, "DatabaseLookupDialog.DoMapping.UnableToFindInput");
         logError(msg);
       }
       String[] fieldNames = Const.sortStrings(prevFields.getFieldNames());
@@ -561,8 +491,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
             try (Database database = new Database(loggingObject, variables, databaseMeta)) {
               database.connect();
 
-              String schemaTable =
-                  databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+              String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
               IRowMeta rowMeta = database.getTableFields(schemaTable);
 
               if (null != rowMeta) {
@@ -625,12 +554,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
       item.setText(2, Const.NVL(returnValue.getNewName(), ""));
       item.setText(3, Const.NVL(returnValue.getDefaultValue(), ""));
       item.setText(4, Const.NVL(returnValue.getDefaultType(), ""));
-      item.setText(
-          5,
-          Const.NVL(
-              ValueMetaBase.getTrimTypeDesc(
-                  ValueMetaBase.getTrimTypeByCode(returnValue.getTrimType())),
-              ValueMetaBase.trimTypeCode[0]));
+      item.setText(5, Const.NVL(ValueMetaBase.getTrimTypeDesc(ValueMetaBase.getTrimTypeByCode(returnValue.getTrimType())), ValueMetaBase.trimTypeCode[0]));
     }
     wSchema.setText(Const.NVL(input.getSchemaName(), ""));
     wTable.setText(Const.NVL(input.getTableName(), ""));
@@ -685,8 +609,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
       returnValue.setNewName(item.getText(2));
       returnValue.setDefaultValue(item.getText(3));
       returnValue.setDefaultType(item.getText(4));
-      returnValue.setTrimType(
-          ValueMetaBase.getTrimTypeCode(ValueMetaBase.getTrimTypeByDesc(item.getText(5))));
+      returnValue.setTrimType(ValueMetaBase.getTrimTypeCode(ValueMetaBase.getTrimTypeByDesc(item.getText(5))));
       lookup.getReturnValues().add(returnValue);
     }
 
@@ -702,8 +625,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
 
     if (pipelineMeta.findDatabase(wConnection.getText(), variables) == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -719,14 +641,10 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.Log.LookingAtConnection")
-                + databaseMeta.toString());
+        logDebug(BaseMessages.getString(PKG, "DatabaseLookupDialog.Log.LookingAtConnection") + databaseMeta.toString());
       }
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -735,8 +653,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -746,13 +663,11 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(2, "=");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(2, "=");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -770,44 +685,29 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
         database.connect();
 
         if (!Utils.isEmpty(wTable.getText())) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, wSchema.getText(), wTable.getText());
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, wSchema.getText(), wTable.getText());
           IRowMeta r = database.getTableFields(schemaTable);
 
           if (r != null && !r.isEmpty()) {
-            logDebug(
-                BaseMessages.getString(PKG, "DatabaseLookupDialog.Log.FoundTableFields")
-                    + schemaTable
-                    + " --> "
-                    + r.toStringMeta());
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wReturn, 1, new int[] {1, 2}, new int[] {4}, -1, -1, null);
+            logDebug(BaseMessages.getString(PKG, "DatabaseLookupDialog.Log.FoundTableFields") + schemaTable + " --> " + r.toStringMeta());
+            BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {4}, -1, -1, null);
           } else {
             MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-            mb.setMessage(
-                BaseMessages.getString(
-                    PKG, "DatabaseLookupDialog.CouldNotReadTableInfo.DialogMessage"));
-            mb.setText(
-                BaseMessages.getString(
-                    PKG, "DatabaseLookupDialog.CouldNotReadTableInfo.DialogTitle"));
+            mb.setMessage(BaseMessages.getString(PKG, "DatabaseLookupDialog.CouldNotReadTableInfo.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.CouldNotReadTableInfo.DialogTitle"));
             mb.open();
           }
         }
       } catch (HopException e) {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ErrorOccurred.DialogMessage")
-                + Const.CR
-                + e.getMessage());
+        mb.setMessage(BaseMessages.getString(PKG, "DatabaseLookupDialog.ErrorOccurred.DialogMessage") + Const.CR + e.getMessage());
         mb.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.ErrorOccurred.DialogTitle"));
         mb.open();
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnectionName.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnectionName.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnectionName.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.InvalidConnectionName.DialogTitle"));
       mb.open();
     }
   }
@@ -825,10 +725,8 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "DatabaseLookupDialog.AvailableSchemas.Title", wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG, "DatabaseLookupDialog.AvailableSchemas.Message", wConnection.getText()));
+                  BaseMessages.getString(PKG, "DatabaseLookupDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "DatabaseLookupDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -842,11 +740,7 @@ public class DatabaseLookupDialog extends BaseTransformDialog implements ITransf
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "DatabaseLookupDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "DatabaseLookupDialog.ErrorGettingSchemas"), e);
       }
     }
   }

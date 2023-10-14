@@ -42,8 +42,7 @@ import java.util.List;
     image = "pgpencryptstream.svg",
     description = "i18n::PGPEncryptStream.Description",
     name = "i18n::PGPEncryptStream.Name",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Cryptography",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Cryptography",
     keywords = "i18n::PGPEncryptStreamMeta.keyword",
     documentationUrl = "/pipeline/transforms/pgpdecryptstream.html")
 public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PGPEncryptStreamData> {
@@ -130,8 +129,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -153,13 +151,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output fields (String)
     if (!Utils.isEmpty(resultFieldName)) {
@@ -181,21 +173,17 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
     return retval.toString();
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       gpgLocation = XmlHandler.getTagValue(transformNode, "gpglocation");
       keyname = XmlHandler.getTagValue(transformNode, "keyname");
 
-      keynameInField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "keynameInField"));
+      keynameInField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "keynameInField"));
       keynameFieldName = XmlHandler.getTagValue(transformNode, "keynameFieldName");
       streamfield = XmlHandler.getTagValue(transformNode, "streamfield");
       resultFieldName = XmlHandler.getTagValue(transformNode, "resultfieldname");
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "PGPEncryptStreamMeta.Exception.UnableToReadTransformMeta"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "PGPEncryptStreamMeta.Exception.UnableToReadTransformMeta"), e);
     }
   }
 
@@ -214,8 +202,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
     String errorMessage = "";
 
     if (Utils.isEmpty(gpgLocation)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.GPGLocationMissing");
+      errorMessage = BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.GPGLocationMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -224,8 +211,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
     }
     if (!isKeynameInField()) {
       if (Utils.isEmpty(keyname)) {
-        errorMessage =
-            BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.KeyNameMissing");
+        errorMessage = BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.KeyNameMissing");
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
@@ -234,8 +220,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
       }
     }
     if (Utils.isEmpty(resultFieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.ResultFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.ResultFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -244,8 +229,7 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
       remarks.add(cr);
     }
     if (Utils.isEmpty(streamfield)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.StreamFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.StreamFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -255,19 +239,10 @@ public class PGPEncryptStreamMeta extends BaseTransformMeta<PGPDecryptStream, PG
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "PGPEncryptStreamMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PGPEncryptStreamMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

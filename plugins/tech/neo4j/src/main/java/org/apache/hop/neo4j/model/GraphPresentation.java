@@ -20,9 +20,11 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class GraphPresentation {
 
-  @HopMetadataProperty protected int x;
+  @HopMetadataProperty
+  protected int x;
 
-  @HopMetadataProperty protected int y;
+  @HopMetadataProperty
+  protected int y;
 
   public GraphPresentation() {}
 

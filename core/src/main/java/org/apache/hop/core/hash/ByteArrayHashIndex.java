@@ -222,8 +222,7 @@ public class ByteArrayHashIndex {
      * @param value
      * @param nextEntry
      */
-    public ByteArrayHashIndexEntry(
-        int hashCode, byte[] key, byte[] value, ByteArrayHashIndexEntry nextEntry) {
+    public ByteArrayHashIndexEntry(int hashCode, byte[] key, byte[] value, ByteArrayHashIndexEntry nextEntry) {
       this.hashCode = hashCode;
       this.key = key;
       this.value = value;

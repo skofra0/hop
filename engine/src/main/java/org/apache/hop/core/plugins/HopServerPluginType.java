@@ -70,8 +70,7 @@ public class HopServerPluginType extends BasePluginType<HopServerServlet> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, HopServerServlet annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, HopServerServlet annotation) {}
 
   @Override
   protected String extractDocumentationUrl(HopServerServlet annotation) {

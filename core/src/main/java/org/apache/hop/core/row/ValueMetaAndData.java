@@ -111,7 +111,7 @@ public class ValueMetaAndData {
    *
    * @return a String containing the XML to represent this Value.
    * @throws HopValueException in case there is a data conversion error, only throws in case of lazy
-   *     conversion
+   *         conversion
    */
   public String getXml() throws HopValueException {
     IValueMeta meta = valueMeta.clone();

@@ -86,15 +86,13 @@ public class MetadataFileType implements IHopFileType {
 
   // Not implemented yet
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     return new MetadataFileTypeHandler(null);
   }
 
   // Not implemented yet
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new MetadataFileTypeHandler(null);
   }
 

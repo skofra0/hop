@@ -91,13 +91,11 @@ public class ProjectsConfig {
    */
   public List<LifecycleEnvironment> findEnvironmentsOfProject(String projectName) {
     List<LifecycleEnvironment> list = new ArrayList<>();
-    lifecycleEnvironments.stream()
-        .forEach(
-            e -> {
-              if (e.getProjectName().equals(projectName)) {
-                list.add(e);
-              }
-            });
+    lifecycleEnvironments.stream().forEach(e -> {
+      if (e.getProjectName().equals(projectName)) {
+        list.add(e);
+      }
+    });
     return list;
   }
 
@@ -113,8 +111,7 @@ public class ProjectsConfig {
   }
 
   public int indexOfProjectConfig(String projectName) {
-    return projectConfigurations.indexOf(
-        new ProjectConfig(projectName, null, null)); // Only considers the name
+    return projectConfigurations.indexOf(new ProjectConfig(projectName, null, null)); // Only considers the name
   }
 
   public ProjectConfig removeProjectConfig(String projectName) {
@@ -169,10 +166,10 @@ public class ProjectsConfig {
     return names;
   }
 
-  public List<String> listEnvironmentNamesForProject(String projectName){
+  public List<String> listEnvironmentNamesForProject(String projectName) {
     List<String> names = new ArrayList<>();
     lifecycleEnvironments.stream().forEach(env -> {
-      if(env.getProjectName().equals(projectName)){
+      if (env.getProjectName().equals(projectName)) {
         names.add(env.getName());
       }
     });
@@ -182,9 +179,7 @@ public class ProjectsConfig {
   }
 
   public int indexOfEnvironment(String environmentName) {
-    return lifecycleEnvironments.indexOf(
-        new LifecycleEnvironment(
-            environmentName, null, null, Collections.emptyList())); // Only considers the name
+    return lifecycleEnvironments.indexOf(new LifecycleEnvironment(environmentName, null, null, Collections.emptyList())); // Only considers the name
   }
 
   public ProjectLifecycle findLifecycle(String lifecycleName) {
@@ -224,11 +219,7 @@ public class ProjectsConfig {
   }
 
   public int indexOfLifecycle(String lifecycleName) {
-    return projectLifecycles.indexOf(
-        new ProjectLifecycle(
-            lifecycleName,
-            Collections.emptyList(),
-            Collections.emptyList())); // Only considers the name
+    return projectLifecycles.indexOf(new ProjectLifecycle(lifecycleName, Collections.emptyList(), Collections.emptyList())); // Only considers the name
   }
 
   /**
@@ -398,6 +389,5 @@ public class ProjectsConfig {
   public void setEnvironmentsForActiveProject(boolean environmentsForActiveProject) {
     this.environmentsForActiveProject = environmentsForActiveProject;
   }
-
 
 }

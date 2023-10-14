@@ -57,8 +57,7 @@ public enum NamedReadPreference {
     return prefs;
   }
 
-  public ReadPreference getTaggableReadPreference(
-      DBObject firstTagSet, DBObject... remainingTagSets) {
+  public ReadPreference getTaggableReadPreference(DBObject firstTagSet, DBObject... remainingTagSets) {
 
     switch (this) {
       case PRIMARY_PREFERRED:

@@ -45,13 +45,7 @@ public class SystemDataTest {
     Object[] row = new Object[] {"anyData"};
     Object[] outputRow;
 
-    public SystemDataHandler(
-        TransformMeta transformMeta,
-        SystemDataMeta meta,
-        SystemDataData data,
-        int copyNr,
-        PipelineMeta pipelineMeta,
-        Pipeline pipeline) {
+    public SystemDataHandler(TransformMeta transformMeta, SystemDataMeta meta, SystemDataData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
       super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     }
 
@@ -91,10 +85,8 @@ public class SystemDataTest {
 
   @Before
   public void setUp() throws Exception {
-    transformMockHelper =
-        new TransformMockHelper<>("SYSTEM_DATA TEST", SystemDataMeta.class, SystemDataData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("SYSTEM_DATA TEST", SystemDataMeta.class, SystemDataData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
     verify(transformMockHelper.pipeline, never()).stopAll();
   }
@@ -114,12 +106,8 @@ public class SystemDataTest {
     SystemDataTypes[] types = systemDataMeta.getFieldType();
     names[0] = "hostname";
     names[1] = "hostname_real";
-    types[0] =
-        SystemDataTypes.getTypeFromString(
-            SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME.getDescription());
-    types[1] =
-        SystemDataTypes.getTypeFromString(
-            SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME_REAL.getDescription());
+    types[0] = SystemDataTypes.getTypeFromString(SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME.getDescription());
+    types[1] = SystemDataTypes.getTypeFromString(SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME_REAL.getDescription());
     SystemDataHandler systemData =
         new SystemDataHandler(
             transformMockHelper.transformMeta,

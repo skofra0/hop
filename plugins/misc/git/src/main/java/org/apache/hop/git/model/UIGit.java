@@ -122,7 +122,9 @@ public class UIGit extends VCS {
   private Git git;
   private CredentialsProvider credentialsProvider;
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see org.apache.hop.git.spoon.model.VCS#getDirectory()
    */
   public String getDirectory() {
@@ -142,10 +144,7 @@ public class UIGit extends VCS {
   public String getAuthorName(String commitId) {
     if (commitId.equals(VCS.WORKINGTREE)) {
       Config config = git.getRepository().getConfig();
-      return config.get(UserConfig.KEY).getAuthorName()
-          + " <"
-          + config.get(UserConfig.KEY).getAuthorEmail()
-          + ">";
+      return config.get(UserConfig.KEY).getAuthorName() + " <" + config.get(UserConfig.KEY).getAuthorEmail() + ">";
     } else {
       RevCommit commit = resolve(commitId);
       PersonIdent author = commit.getAuthorIdent();
@@ -222,9 +221,7 @@ public class UIGit extends VCS {
    */
   private List<String> getBranches(ListMode mode) {
     try {
-      return git.branchList().setListMode(mode).call().stream()
-          .filter(ref -> !ref.getName().endsWith(Constants.HEAD))
-          .map(ref -> Repository.shortenRefName(ref.getName()))
+      return git.branchList().setListMode(mode).call().stream().filter(ref -> !ref.getName().endsWith(Constants.HEAD)).map(ref -> Repository.shortenRefName(ref.getName()))
           .collect(Collectors.toList());
     } catch (Exception e) {
       e.printStackTrace();
@@ -303,10 +300,8 @@ public class UIGit extends VCS {
   public List<ObjectRevision> getRevisions(String path) {
     List<ObjectRevision> revisions = new ArrayList<>();
     try {
-      if (!isClean()
-          || git.getRepository().getRepositoryState() == RepositoryState.MERGING_RESOLVED) {
-        GitObjectRevision rev =
-            new GitObjectRevision(WORKINGTREE, "*", new Date(), " // " + VCS.WORKINGTREE);
+      if (!isClean() || git.getRepository().getRepositoryState() == RepositoryState.MERGING_RESOLVED) {
+        GitObjectRevision rev = new GitObjectRevision(WORKINGTREE, "*", new Date(), " // " + VCS.WORKINGTREE);
         revisions.add(rev);
       }
       LogCommand logCommand = git.log();
@@ -315,12 +310,7 @@ public class UIGit extends VCS {
       }
       Iterable<RevCommit> iterable = logCommand.call();
       for (RevCommit commit : iterable) {
-        GitObjectRevision rev =
-            new GitObjectRevision(
-                commit.getName(),
-                commit.getAuthorIdent().getName(),
-                commit.getAuthorIdent().getWhen(),
-                commit.getShortMessage());
+        GitObjectRevision rev = new GitObjectRevision(commit.getName(), commit.getAuthorIdent().getName(), commit.getAuthorIdent().getWhen(), commit.getShortMessage());
         revisions.add(rev);
       }
     } catch (Exception e) {
@@ -372,20 +362,11 @@ public class UIGit extends VCS {
   public List<UIFile> getStagedFiles(String oldCommitId, String newCommitId) {
     List<UIFile> files = new ArrayList<>();
     try {
-      List<DiffEntry> diffs =
-          getDiffCommand(oldCommitId, newCommitId).setShowNameAndStatusOnly(true).call();
+      List<DiffEntry> diffs = getDiffCommand(oldCommitId, newCommitId).setShowNameAndStatusOnly(true).call();
       RenameDetector rd = new RenameDetector(git.getRepository());
       rd.addAll(diffs);
       diffs = rd.compute();
-      diffs.forEach(
-          diff ->
-              files.add(
-                  new UIFile(
-                      diff.getChangeType() == ChangeType.DELETE
-                          ? diff.getOldPath()
-                          : diff.getNewPath(),
-                      diff.getChangeType(),
-                      false)));
+      diffs.forEach(diff -> files.add(new UIFile(diff.getChangeType() == ChangeType.DELETE ? diff.getOldPath() : diff.getNewPath(), diff.getChangeType(), false)));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -418,10 +399,7 @@ public class UIGit extends VCS {
   public void add(String filePattern) throws HopException {
     try {
       if (filePattern.endsWith(".ours") || filePattern.endsWith(".theirs")) {
-        FileUtils.rename(
-            new File(directory, filePattern),
-            new File(directory, FilenameUtils.removeExtension(filePattern)),
-            StandardCopyOption.REPLACE_EXISTING);
+        FileUtils.rename(new File(directory, filePattern), new File(directory, FilenameUtils.removeExtension(filePattern)), StandardCopyOption.REPLACE_EXISTING);
         filePattern = FilenameUtils.removeExtension(filePattern);
         org.apache.commons.io.FileUtils.deleteQuietly(new File(directory, filePattern + ".ours"));
         org.apache.commons.io.FileUtils.deleteQuietly(new File(directory, filePattern + ".theirs"));
@@ -465,9 +443,7 @@ public class UIGit extends VCS {
 
   public boolean rollback(String name) {
     if (hasUncommittedChanges()) {
-      showMessageBox(
-          BaseMessages.getString(PKG, "Dialog.Error"),
-          BaseMessages.getString(PKG, "Git.Dialog.UncommittedChanges.Message"));
+      showMessageBox(BaseMessages.getString(PKG, "Dialog.Error"), BaseMessages.getString(PKG, "Git.Dialog.UncommittedChanges.Message"));
       return false;
     }
     String commit = resolve(Constants.HEAD).getName();
@@ -494,8 +470,7 @@ public class UIGit extends VCS {
 
   public boolean pull() throws HopException {
     if (hasUncommittedChanges()) {
-      throw new HopException(
-          "You have uncommitted changes. Please commit work before pulling changes.");
+      throw new HopException("You have uncommitted changes. Please commit work before pulling changes.");
     }
     if (!hasRemote()) {
       throw new HopException("There is no remote set up to pull from. Please set this up first.");
@@ -504,13 +479,11 @@ public class UIGit extends VCS {
     try {
       // Pull = Fetch + Merge
       git.fetch().setCredentialsProvider(credentialsProvider).call();
-      return mergeBranch(
-          Constants.DEFAULT_REMOTE_NAME + "/" + getBranch(), MergeStrategy.RECURSIVE.getName());
+      return mergeBranch(Constants.DEFAULT_REMOTE_NAME + "/" + getBranch(), MergeStrategy.RECURSIVE.getName());
     } catch (TransportException e) {
-      if (e.getMessage()
-              .contains("Authentication is required but no CredentialsProvider has been registered")
-          || e.getMessage()
-              .contains("not authorized")) { // when the cached credential does not work
+      if (e.getMessage().contains("Authentication is required but no CredentialsProvider has been registered") || e.getMessage().contains("not authorized")) { // when the cached
+                                                                                                                                                               // credential does
+                                                                                                                                                               // not work
         if (promptUsernamePassword()) {
           return pull();
         }
@@ -537,11 +510,7 @@ public class UIGit extends VCS {
     switch (type) {
       case VCS.TYPE_BRANCH:
         names = getLocalBranches();
-        esd =
-            getEnterSelectionDialog(
-                names.toArray(new String[names.size()]),
-                "Select Branch",
-                "Select the branch to push...");
+        esd = getEnterSelectionDialog(names.toArray(new String[names.size()]), "Select Branch", "Select the branch to push...");
         name = esd.open();
         if (name == null) {
           return false;
@@ -549,9 +518,7 @@ public class UIGit extends VCS {
         break;
       case VCS.TYPE_TAG:
         names = getTags();
-        esd =
-            getEnterSelectionDialog(
-                names.toArray(new String[names.size()]), "Select Tag", "Select the tag to push...");
+        esd = getEnterSelectionDialog(names.toArray(new String[names.size()]), "Select Tag", "Select the tag to push...");
         name = esd.open();
         if (name == null) {
           return false;
@@ -570,10 +537,9 @@ public class UIGit extends VCS {
       processPushResult(resultIterable);
       return true;
     } catch (TransportException e) {
-      if (e.getMessage()
-              .contains("Authentication is required but no CredentialsProvider has been registered")
-          || e.getMessage()
-              .contains("not authorized")) { // when the cached credential does not work
+      if (e.getMessage().contains("Authentication is required but no CredentialsProvider has been registered") || e.getMessage().contains("not authorized")) { // when the cached
+                                                                                                                                                               // credential does
+                                                                                                                                                               // not work
         if (promptUsernamePassword()) {
           return push(type);
         }
@@ -587,30 +553,24 @@ public class UIGit extends VCS {
   }
 
   private void processPushResult(Iterable<PushResult> resultIterable) throws Exception {
-    resultIterable.forEach(
-        result -> { // for each (push)url
-          StringBuilder sb = new StringBuilder();
-          result.getRemoteUpdates().stream()
-              .filter(update -> update.getStatus() != RemoteRefUpdate.Status.OK)
-              .filter(update -> update.getStatus() != RemoteRefUpdate.Status.UP_TO_DATE)
-              .forEach(
-                  update -> // for each failed refspec
-                  sb.append(
-                          result.getURI().toString()
-                              + "\n"
-                              + update.getSrcRef()
-                              + "\n"
-                              + update.getStatus().toString()
-                              + (update.getMessage() == null ? "" : "\n" + update.getMessage())
-                              + "\n\n"));
-          if (sb.length() == 0) {
-            showMessageBox(
-                BaseMessages.getString(PKG, "Dialog.Success"),
-                BaseMessages.getString(PKG, "Dialog.Success"));
-          } else {
-            showMessageBox(BaseMessages.getString(PKG, "Dialog.Error"), sb.toString());
-          }
-        });
+    resultIterable.forEach(result -> { // for each (push)url
+      StringBuilder sb = new StringBuilder();
+      result.getRemoteUpdates().stream().filter(update -> update.getStatus() != RemoteRefUpdate.Status.OK).filter(update -> update.getStatus() != RemoteRefUpdate.Status.UP_TO_DATE)
+          .forEach(update -> // for each failed refspec
+      sb.append(
+          result.getURI().toString()
+              + "\n"
+              + update.getSrcRef()
+              + "\n"
+              + update.getStatus().toString()
+              + (update.getMessage() == null ? "" : "\n" + update.getMessage())
+              + "\n\n"));
+      if (sb.length() == 0) {
+        showMessageBox(BaseMessages.getString(PKG, "Dialog.Success"), BaseMessages.getString(PKG, "Dialog.Success"));
+      } else {
+        showMessageBox(BaseMessages.getString(PKG, "Dialog.Error"), sb.toString());
+      }
+    });
   }
 
   public String diff(String oldCommitId, String newCommitId) throws Exception {
@@ -620,10 +580,7 @@ public class UIGit extends VCS {
   public String diff(String oldCommitId, String newCommitId, String file) {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     try {
-      getDiffCommand(oldCommitId, newCommitId)
-          .setOutputStream(out)
-          .setPathFilter(file == null ? TreeFilter.ALL : PathFilter.create(file))
-          .call();
+      getDiffCommand(oldCommitId, newCommitId).setOutputStream(out).setPathFilter(file == null ? TreeFilter.ALL : PathFilter.create(file)).call();
       return out.toString("UTF-8");
     } catch (Exception e) {
       return e.getMessage();
@@ -650,17 +607,13 @@ public class UIGit extends VCS {
       ObjectLoader loader = git.getRepository().open(tw.getObjectId(0));
       return loader.openStream();
     } catch (MissingObjectException e) {
-      throw new HopException(
-          "Unable to find file '" + file + "' for commit ID '" + commitId + "", e);
+      throw new HopException("Unable to find file '" + file + "' for commit ID '" + commitId + "", e);
     } catch (IncorrectObjectTypeException e) {
-      throw new HopException(
-          "Incorrect object type error for file '" + file + "' for commit ID '" + commitId + "", e);
+      throw new HopException("Incorrect object type error for file '" + file + "' for commit ID '" + commitId + "", e);
     } catch (CorruptObjectException e) {
-      throw new HopException(
-          "Corrupt object error for file '" + file + "' for commit ID '" + commitId + "", e);
+      throw new HopException("Corrupt object error for file '" + file + "' for commit ID '" + commitId + "", e);
     } catch (IOException e) {
-      throw new HopException(
-          "Error reading git file '" + file + "' for commit ID '" + commitId + "", e);
+      throw new HopException("Error reading git file '" + file + "' for commit ID '" + commitId + "", e);
     }
   }
 
@@ -675,10 +628,7 @@ public class UIGit extends VCS {
       return true;
     } catch (Exception e) {
       if ((e instanceof TransportException)
-          && (e.getMessage()
-                  .contains(
-                      "Authentication is required but no CredentialsProvider has been registered")
-              || e.getMessage().contains("not authorized"))) {
+          && (e.getMessage().contains("Authentication is required but no CredentialsProvider has been registered") || e.getMessage().contains("not authorized"))) {
         if (promptUsernamePassword()) {
           return cloneRepo(directory, uri);
         }
@@ -770,10 +720,7 @@ public class UIGit extends VCS {
 
   public boolean deleteBranch(String name, boolean force) {
     try {
-      git.branchDelete()
-          .setBranchNames(getExpandedName(name, VCS.TYPE_BRANCH))
-          .setForce(force)
-          .call();
+      git.branchDelete().setBranchNames(getExpandedName(name, VCS.TYPE_BRANCH)).setForce(force).call();
       return true;
     } catch (Exception e) {
       showMessageBox(BaseMessages.getString(PKG, "Dialog.Error"), e.getMessage());
@@ -784,15 +731,13 @@ public class UIGit extends VCS {
   private boolean mergeBranch(String value, String mergeStrategy) throws HopException {
     try {
       ObjectId obj = git.getRepository().resolve(value);
-      MergeResult result =
-          git.merge().include(obj).setStrategy(MergeStrategy.get(mergeStrategy)).call();
+      MergeResult result = git.merge().include(obj).setStrategy(MergeStrategy.get(mergeStrategy)).call();
       if (result.getMergeStatus().isSuccessful()) {
         return true;
       } else {
         // TODO: get rid of message box
         //
-        showMessageBox(
-            BaseMessages.getString(PKG, "Dialog.Error"), result.getMergeStatus().toString());
+        showMessageBox(BaseMessages.getString(PKG, "Dialog.Error"), result.getMergeStatus().toString());
         if (result.getMergeStatus() == MergeStatus.CONFLICTING) {
           Map<String, int[][]> conflicts = result.getConflicts();
           for (String path : conflicts.keySet()) {
@@ -804,8 +749,7 @@ public class UIGit extends VCS {
       }
       return false;
     } catch (Exception e) {
-      throw new HopException(
-          "Error merging branch '" + value + "' with strategy '" + mergeStrategy + "'", e);
+      throw new HopException("Error merging branch '" + value + "' with strategy '" + mergeStrategy + "'", e);
     }
   }
 
@@ -825,21 +769,12 @@ public class UIGit extends VCS {
       org.apache.commons.io.FileUtils.copyInputStreamToFile(stream, file);
       stream.close();
     } catch (IOException e) {
-      throw new HopException(
-          "Error checking out file '"
-              + path
-              + "' for commit ID '"
-              + commitId
-              + "' and postfix "
-              + postfix,
-          e);
+      throw new HopException("Error checking out file '" + path + "' for commit ID '" + commitId + "' and postfix " + postfix, e);
     }
   }
 
   private DiffCommand getDiffCommand(String oldCommitId, String newCommitId) throws Exception {
-    return git.diff()
-        .setOldTree(getTreeIterator(oldCommitId))
-        .setNewTree(getTreeIterator(newCommitId));
+    return git.diff().setOldTree(getTreeIterator(oldCommitId)).setNewTree(getTreeIterator(newCommitId));
   }
 
   private AbstractTreeIterator getTreeIterator(String commitId) throws Exception {
@@ -886,9 +821,7 @@ public class UIGit extends VCS {
 
   public List<String> getTags() {
     try {
-      return git.tagList().call().stream()
-          .map(ref -> Repository.shortenRefName(ref.getName()))
-          .collect(Collectors.toList());
+      return git.tagList().call().stream().map(ref -> Repository.shortenRefName(ref.getName())).collect(Collectors.toList());
     } catch (GitAPIException e) {
       e.printStackTrace();
     }

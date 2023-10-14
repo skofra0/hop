@@ -94,8 +94,7 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public GroupByDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GroupByDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (GroupByMeta) in;
   }
@@ -157,15 +156,14 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     fdAllRows.top = new FormAttachment(wlAllRows, 0, SWT.CENTER);
     fdAllRows.right = new FormAttachment(100, 0);
     wAllRows.setLayoutData(fdAllRows);
-    wAllRows.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setPassAllRows(!input.isPassAllRows());
-            input.setChanged();
-            setFlags();
-          }
-        });
+    wAllRows.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setPassAllRows(!input.isPassAllRows());
+        input.setChanged();
+        setFlags();
+      }
+    });
 
     wlSortDir = new Label(shell, SWT.RIGHT);
     wlSortDir.setText(BaseMessages.getString(PKG, "GroupByDialog.TempDir.Label"));
@@ -192,7 +190,7 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     fdSortDir.top = new FormAttachment(wAllRows, margin);
     fdSortDir.right = new FormAttachment(wbSortDir, -margin);
     wSortDir.setLayoutData(fdSortDir);
-    wbSortDir.addListener(SWT.Selection, e-> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
+    wbSortDir.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
 
     // Whenever something changes, set the tooltip to the expanded version:
     wSortDir.addModifyListener(e -> wSortDir.setToolTipText(variables.resolve(wSortDir.getText())));
@@ -231,15 +229,14 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     fdAddLineNr.top = new FormAttachment(wlAddLineNr, 0, SWT.CENTER);
     fdAddLineNr.right = new FormAttachment(100, 0);
     wAddLineNr.setLayoutData(fdAddLineNr);
-    wAddLineNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setAddingLineNrInGroup(!input.isAddingLineNrInGroup());
-            input.setChanged();
-            setFlags();
-          }
-        });
+    wAddLineNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setAddingLineNrInGroup(!input.isAddingLineNrInGroup());
+        input.setChanged();
+        setFlags();
+      }
+    });
 
     // LineNrField line...
     wlLineNrField = new Label(shell, SWT.RIGHT);
@@ -263,8 +260,7 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     //
     Label wlAlwaysAddResult = new Label(shell, SWT.RIGHT);
     wlAlwaysAddResult.setText(BaseMessages.getString(PKG, "GroupByDialog.AlwaysAddResult.Label"));
-    wlAlwaysAddResult.setToolTipText(
-        BaseMessages.getString(PKG, "GroupByDialog.AlwaysAddResult.ToolTip"));
+    wlAlwaysAddResult.setToolTipText(BaseMessages.getString(PKG, "GroupByDialog.AlwaysAddResult.ToolTip"));
     PropsUi.setLook(wlAlwaysAddResult);
     FormData fdlAlwaysAddResult = new FormData();
     fdlAlwaysAddResult.left = new FormAttachment(0, 0);
@@ -272,21 +268,19 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     fdlAlwaysAddResult.right = new FormAttachment(middle, -margin);
     wlAlwaysAddResult.setLayoutData(fdlAlwaysAddResult);
     wAlwaysAddResult = new Button(shell, SWT.CHECK);
-    wAlwaysAddResult.setToolTipText(
-        BaseMessages.getString(PKG, "GroupByDialog.AlwaysAddResult.ToolTip"));
+    wAlwaysAddResult.setToolTipText(BaseMessages.getString(PKG, "GroupByDialog.AlwaysAddResult.ToolTip"));
     PropsUi.setLook(wAlwaysAddResult);
     FormData fdAlwaysAddResult = new FormData();
     fdAlwaysAddResult.left = new FormAttachment(middle, 0);
     fdAlwaysAddResult.top = new FormAttachment(wlAlwaysAddResult, 0, SWT.CENTER);
     fdAlwaysAddResult.right = new FormAttachment(100, 0);
     wAlwaysAddResult.setLayoutData(fdAlwaysAddResult);
-    wAlwaysAddResult.addSelectionListener(
-            new SelectionAdapter() {
-              @Override
-              public void widgetSelected(SelectionEvent e) {
-                input.setChanged();
-              }
-            });
+    wAlwaysAddResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlGroup = new Label(shell, SWT.NONE);
     wlGroup.setText(BaseMessages.getString(PKG, "GroupByDialog.Group.Label"));
@@ -300,22 +294,9 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     int nrKeyRows = (input.getGroupingFields() != null ? input.getGroupingFields().size() : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.GroupField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.GroupField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
 
-    wGroup =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wGroup = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
     Button wGet = new Button(shell, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "GroupByDialog.GetFields.Button"));
     FormData fdGet = new FormData();
@@ -343,46 +324,20 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     int nrRows = input.getAggregations().size();
 
     ciReturn = new ColumnInfo[nrCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Name"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Subject"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Type"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            Aggregation.typeGroupLongDesc);
-    ciReturn[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Value"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Subject"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, Aggregation.typeGroupLongDesc);
+    ciReturn[3] = new ColumnInfo(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     ciReturn[3].setToolTip(BaseMessages.getString(PKG, "GroupByDialog.ColumnInfo.Value.Tooltip"));
     ciReturn[3].setUsingVariables(true);
 
-    wAgg =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            nrRows,
-            lsMod,
-            props);
+    wAgg = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, nrRows, lsMod, props);
 
-    wAgg.addModifyListener(
-        modifyEvent -> {
-          updateAllRowsCheckbox(wAgg, wAllRows, false);
-          setFlags();
-          input.setChanged();
-        });
+    wAgg.addModifyListener(modifyEvent -> {
+      updateAllRowsCheckbox(wAgg, wAllRows, false);
+      setFlags();
+      input.setChanged();
+    });
 
     Button wGetAgg = new Button(shell, SWT.PUSH);
     wGetAgg.setText(BaseMessages.getString(PKG, "GroupByDialog.GetLookupFields.Button"));
@@ -394,23 +349,22 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // THE BUTTONS
@@ -553,19 +507,14 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
 
     transformName = wTransformName.getText();
 
-    if (sizegroup > 0
-        && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y"))) {
+    if (sizegroup > 0 && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y"))) {
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "GroupByDialog.GroupByWarningDialog.DialogTitle"),
-              BaseMessages.getString(
-                      PKG, "GroupByDialog.GroupByWarningDialog.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "GroupByDialog.GroupByWarningDialog.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "GroupByDialog.GroupByWarningDialog.Option1")
-              },
+              new String[] {BaseMessages.getString(PKG, "GroupByDialog.GroupByWarningDialog.Option1")},
               BaseMessages.getString(PKG, "GroupByDialog.GroupByWarningDialog.Option2"),
               "N".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y")));
       md.open();
@@ -579,8 +528,7 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -595,8 +543,7 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wAgg, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wAgg, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -615,19 +562,11 @@ public class GroupByDialog extends BaseTransformDialog implements ITransformDial
    * @param allRowsButton the checkbox to update
    * @param forceUpdate if an update must be done
    */
-  void updateAllRowsCheckbox(
-      TableView aggregationTable, Button allRowsButton, boolean forceUpdate) {
+  void updateAllRowsCheckbox(TableView aggregationTable, Button allRowsButton, boolean forceUpdate) {
 
     boolean isCumulativeSelected =
-        IntStream.range(0, aggregationTable.nrNonEmpty())
-            .map(
-                row ->
-                    Aggregation.getTypeCodeFromLongDesc(
-                        aggregationTable.getNonEmpty(row).getText(AGGREGATION_TABLE_TYPE_INDEX)))
-            .anyMatch(
-                pred ->
-                    pred == Aggregation.TYPE_GROUP_CUMULATIVE_SUM
-                        || pred == Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE);
+        IntStream.range(0, aggregationTable.nrNonEmpty()).map(row -> Aggregation.getTypeCodeFromLongDesc(aggregationTable.getNonEmpty(row).getText(AGGREGATION_TABLE_TYPE_INDEX)))
+            .anyMatch(pred -> pred == Aggregation.TYPE_GROUP_CUMULATIVE_SUM || pred == Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE);
 
     allRowsButton.setEnabled(!isCumulativeSelected);
 

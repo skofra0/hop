@@ -33,13 +33,7 @@ public class Fake extends BaseTransform<FakeMeta, FakeData> {
 
   private static final Class<?> PKG = FakeMeta.class; // For Translator
 
-  public Fake(
-      TransformMeta transformMeta,
-      FakeMeta meta,
-      FakeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Fake(TransformMeta transformMeta, FakeMeta meta, FakeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -64,12 +58,7 @@ public class Fake extends BaseTransform<FakeMeta, FakeData> {
           Method topicMethod = fakerType.getClass().getMethod(field.getTopic());
           data.fakerMethods.add(topicMethod);
         } catch (Exception e) {
-          log.logError(
-              "Error getting faker object or method for type "
-                  + field.getType()
-                  + " and topic "
-                  + field.getTopic(),
-              e);
+          log.logError("Error getting faker object or method for type " + field.getType() + " and topic " + field.getTopic(), e);
           return false;
         }
       }
@@ -108,14 +97,7 @@ public class Fake extends BaseTransform<FakeMeta, FakeData> {
         try {
           outputRowData[rowIndex++] = fakerMethod.invoke(fakerType);
         } catch (Exception e) {
-          throw new HopException(
-              "Error getting faker value for field "
-                  + field.getName()
-                  + ", type "
-                  + field.getType()
-                  + " and topic "
-                  + field.getTopic(),
-              e);
+          throw new HopException("Error getting faker value for field " + field.getName() + ", type " + field.getType() + " and topic " + field.getTopic(), e);
         }
       }
     }

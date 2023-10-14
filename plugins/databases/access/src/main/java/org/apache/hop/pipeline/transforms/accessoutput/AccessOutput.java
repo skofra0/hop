@@ -44,16 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputData> {
-  private static final Class<?> PKG =
-      AccessOutput.class; // For Translator
+  private static final Class<?> PKG = AccessOutput.class; // For Translator
 
-  public AccessOutput(
-      TransformMeta transformMeta,
-      AccessOutputMeta meta,
-      AccessOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AccessOutput(TransformMeta transformMeta, AccessOutputMeta meta, AccessOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -121,8 +114,7 @@ public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputDa
             List<ColumnBuilder> columns = prepareTableColumns(data.outputRowMeta);
             data.table = new TableBuilder(tableName).addColumns(columns).toTable(data.db);
           } else {
-            logError(
-                BaseMessages.getString(PKG, "AccessOutput.Error.TableDoesNotExist", tableName));
+            logError(BaseMessages.getString(PKG, "AccessOutput.Error.TableDoesNotExist", tableName));
             setErrors(1);
             stopAll();
             return false;
@@ -136,9 +128,7 @@ public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputDa
         // So truncate is out for the moment as well.
 
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG, "AccessOutput.Exception.UnexpectedErrorCreatingTable", e.toString()));
+        logError(BaseMessages.getString(PKG, "AccessOutput.Exception.UnexpectedErrorCreatingTable", e.toString()));
         logError(Const.getStackTracker(e));
         setErrors(1);
         stopAll();
@@ -159,11 +149,7 @@ public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputDa
         data.table.addRow(values);
       }
     } catch (IOException e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "AccessOutput.Exception.UnexpectedErrorWritingRow",
-              data.outputRowMeta.getString(row)));
+      logError(BaseMessages.getString(PKG, "AccessOutput.Exception.UnexpectedErrorWritingRow", data.outputRowMeta.getString(row)));
       logError(Const.getStackTracker(e));
       setErrors(1);
       stopAll();
@@ -216,9 +202,7 @@ public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputDa
     // Add the filename to the result object...
     //
     if (meta.isAddToResultFile()) {
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, fileObject, getPipelineMeta().getName(), toString());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, fileObject, getPipelineMeta().getName(), toString());
       resultFile.setComment("This file was created with an Microsoft Access output transformation");
       addResultFile(resultFile);
     }
@@ -323,10 +307,10 @@ public class AccessOutput extends BaseTransform<AccessOutputMeta, AccessOutputDa
           column.setLength(DataType.SHORT_DATE_TIME.getFixedSize());
           break;
         case IValueMeta.TYPE_STRING:
-          if (length < DataType.TEXT.getMaxSize()/DataType.TEXT.getUnitSize() ) {
+          if (length < DataType.TEXT.getMaxSize() / DataType.TEXT.getUnitSize()) {
             column.setType(DataType.TEXT);
           } else {
-            column.setType(DataType.MEMO);            
+            column.setType(DataType.MEMO);
           }
           column.setLength(length);
           break;

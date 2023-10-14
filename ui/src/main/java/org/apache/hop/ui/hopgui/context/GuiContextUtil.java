@@ -48,8 +48,7 @@ public class GuiContextUtil {
     return (GuiContextUtil) PROVIDER.getInstanceInternal();
   }
 
-  public final List<GuiAction> getContextActions(
-      IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
+  public final List<GuiAction> getContextActions(IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     return filterHandlerActions(provider.getContextHandlers(), actionType, contextId);
   }
 
@@ -78,8 +77,7 @@ public class GuiContextUtil {
    * @param actionType
    * @return
    */
-  public final List<GuiAction> filterHandlerActions(
-      List<IGuiContextHandler> handlers, GuiActionType actionType, String contextId) {
+  public final List<GuiAction> filterHandlerActions(List<IGuiContextHandler> handlers, GuiActionType actionType, String contextId) {
     List<GuiAction> filtered = new ArrayList<>();
     for (IGuiContextHandler handler : handlers) {
       filtered.addAll(filterActions(handler.getSupportedActions(), actionType));
@@ -87,22 +85,11 @@ public class GuiContextUtil {
     return filtered;
   }
 
-  public final void handleActionSelection(
-      Shell parent,
-      String message,
-      IActionContextHandlersProvider provider,
-      GuiActionType actionType,
-      String contextId) {
+  public final void handleActionSelection(Shell parent, String message, IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     handleActionSelection(parent, message, null, provider, actionType, contextId);
   }
 
-  public final void handleActionSelection(
-      Shell parent,
-      String message,
-      Point clickLocation,
-      IActionContextHandlersProvider provider,
-      GuiActionType actionType,
-      String contextId) {
+  public final void handleActionSelection(Shell parent, String message, Point clickLocation, IActionContextHandlersProvider provider, GuiActionType actionType, String contextId) {
     handleActionSelection(parent, message, clickLocation, provider, actionType, contextId, false);
   }
 
@@ -124,12 +111,10 @@ public class GuiContextUtil {
       Collections.sort(actions, Comparator.comparing(GuiAction::getName));
     }
 
-    handleActionSelection(
-        parent, message, clickLocation, new GuiContextHandler(contextId, actions));
+    handleActionSelection(parent, message, clickLocation, new GuiContextHandler(contextId, actions));
   }
 
-  public boolean handleActionSelection(
-      Shell parent, String message, IGuiContextHandler contextHandler) {
+  public boolean handleActionSelection(Shell parent, String message, IGuiContextHandler contextHandler) {
     return handleActionSelection(parent, message, null, contextHandler);
   }
 
@@ -140,8 +125,7 @@ public class GuiContextUtil {
    * @param contextHandler
    * @return true if the action dialog lost focus
    */
-  public synchronized boolean handleActionSelection(
-      Shell parent, String message, Point clickLocation, IGuiContextHandler contextHandler) {
+  public synchronized boolean handleActionSelection(Shell parent, String message, Point clickLocation, IGuiContextHandler contextHandler) {
     List<GuiAction> actions = contextHandler.getSupportedActions();
     if (actions.isEmpty()) {
       return false;
@@ -161,29 +145,23 @@ public class GuiContextUtil {
 
         List<String> fileTypes = new ArrayList<>();
         for (GuiAction action : actions) {
-          fileTypes.add(
-              action.getType().name() + " - " + action.getName() + " : " + action.getTooltip());
+          fileTypes.add(action.getType().name() + " - " + action.getName() + " : " + action.getTooltip());
         }
 
-        contextDialog =
-            new ContextDialog(
-                parent, message, clickLocation, actions, contextHandler.getContextId());
+        contextDialog = new ContextDialog(parent, message, clickLocation, actions, contextHandler.getContextId());
         shellDialogMap.put(parent.getText(), contextDialog);
         GuiAction selectedAction = contextDialog.open();
         shellDialogMap.remove(parent.getText());
         if (selectedAction != null) {
           final ContextDialog dialog = contextDialog;
-          HopGui.getInstance()
-              .getDisplay()
-              .asyncExec(
-                      () -> {
-                        try {
-                          IGuiActionLambda<?> actionLambda = selectedAction.getActionLambda();
-                          actionLambda.executeAction(dialog.isShiftClicked(), dialog.isCtrlClicked());
-                        } catch (Exception e) {
-                          new ErrorDialog(parent, "Error", "An error occurred executing action", e);
-                        }
-                      });
+          HopGui.getInstance().getDisplay().asyncExec(() -> {
+            try {
+              IGuiActionLambda<?> actionLambda = selectedAction.getActionLambda();
+              actionLambda.executeAction(dialog.isShiftClicked(), dialog.isCtrlClicked());
+            } catch (Exception e) {
+              new ErrorDialog(parent, "Error", "An error occurred executing action", e);
+            }
+          });
 
         } else {
           return contextDialog.isFocusLost();

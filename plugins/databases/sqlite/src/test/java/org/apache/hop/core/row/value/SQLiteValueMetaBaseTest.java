@@ -49,7 +49,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class SQLiteValueMetaBaseTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME = "TEST_NAME";
   private static final String LOG_FIELD = "LOG_FIELD";
@@ -59,7 +60,8 @@ public class SQLiteValueMetaBaseTest {
   private Class<?> PKG = ValueMetaBase.PKG;
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;
@@ -107,8 +109,7 @@ public class SQLiteValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlBinaryToHopStringUsingSqlite()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlBinaryToHopStringUsingSqlite() throws SQLException, HopDatabaseException {
     doReturn(Types.BINARY).when(resultSet).getInt("DATA_TYPE");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
     assertTrue(valueMeta.isString());

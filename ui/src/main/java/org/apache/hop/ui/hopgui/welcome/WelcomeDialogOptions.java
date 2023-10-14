@@ -37,26 +37,17 @@ import picocli.CommandLine;
 @GuiPlugin(description = "i18n::WelcomeDialog.Description")
 public class WelcomeDialogOptions implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
   protected static Class<?> PKG = WelcomeDialogOptions.class; // For Translator
-  @CommandLine.Option(
-      names = {"-wd", "--welcome-dialog-disabled"},
-      description = "Disable the welcome dialog at startup of the Hop GUI")
+  @CommandLine.Option(names = {"-wd", "--welcome-dialog-disabled"}, description = "Disable the welcome dialog at startup of the Hop GUI")
   private boolean welcomeDialogDisabled;
 
-  @CommandLine.Option(
-      names = {"-we", "--welcome-dialog-enabled"},
-      description = "Show the welcome dialog at startup of the Hop GUI")
+  @CommandLine.Option(names = {"-we", "--welcome-dialog-enabled"}, description = "Show the welcome dialog at startup of the Hop GUI")
   private boolean welcomeDialogEnabled;
 
-  @GuiWidgetElement(
-      id = "NoWelcomeDialog",
-      parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID,
-      type = GuiElementType.CHECKBOX,
-      label = "i18n::WelcomeDialog.Show.Label")
+  @GuiWidgetElement(id = "NoWelcomeDialog", parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID, type = GuiElementType.CHECKBOX, label = "i18n::WelcomeDialog.Show.Label")
   private boolean welcomeDialogShowAtStartup;
 
   public WelcomeDialogOptions() {
-    welcomeDialogShowAtStartup =
-        HopConfig.readOptionBoolean(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, false);
+    welcomeDialogShowAtStartup = HopConfig.readOptionBoolean(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, false);
   }
 
   private static WelcomeDialogOptions instance;
@@ -69,18 +60,14 @@ public class WelcomeDialogOptions implements IConfigOptions, IGuiPluginComposite
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     try {
       if (welcomeDialogDisabled || welcomeDialogEnabled) {
         boolean disabled = welcomeDialogDisabled && !welcomeDialogEnabled;
         HopConfig.getInstance().saveOption(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, disabled);
         log.logBasic("The welcome dialog is now " + (disabled ? "disabled" : "enabled"));
         log.logBasic(
-            "Note: you can also set variable "
-                + WelcomeDialog.VARIABLE_HOP_NO_WELCOME_DIALOG
-                + " to prevent the welcome dialog of showing itself at the start of Hop GUI.");
+            "Note: you can also set variable " + WelcomeDialog.VARIABLE_HOP_NO_WELCOME_DIALOG + " to prevent the welcome dialog of showing itself at the start of Hop GUI.");
         return true;
       } else {
         return false;
@@ -151,15 +138,13 @@ public class WelcomeDialogOptions implements IConfigOptions, IGuiPluginComposite
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     this.welcomeDialogShowAtStartup = ((Button) changedWidget).getSelection();
     persistContents(compositeWidgets);
   }
 
   @Override
   public void persistContents(GuiCompositeWidgets compositeWidgets) {
-    HopConfig.getInstance()
-        .saveOption(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, welcomeDialogShowAtStartup);
+    HopConfig.getInstance().saveOption(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, welcomeDialogShowAtStartup);
   }
 }

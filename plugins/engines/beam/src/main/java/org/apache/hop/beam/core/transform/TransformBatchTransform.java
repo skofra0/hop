@@ -79,40 +79,11 @@ public class TransformBatchTransform extends TransformTransform {
     super();
   }
 
-  public TransformBatchTransform(
-      List<VariableValue> variableValues,
-      String metastoreJson,
-      int batchSize,
-      int flushIntervalMs,
-      String transformName,
-      String transformPluginId,
-      String transformMetaInterfaceXml,
-      String inputRowMetaJson,
-      boolean inputTransform,
-      List<String> targetTransforms,
-      List<String> infoTransforms,
-      List<String> infoRowMetaJsons,
-      List<PCollectionView<List<HopRow>>> infoCollectionViews,
-      String runConfigName,
-      String dataSamplersJson,
-      String parentLogChannelId) {
-    super(
-        variableValues,
-        metastoreJson,
-        batchSize,
-        flushIntervalMs,
-        transformName,
-        transformPluginId,
-        transformMetaInterfaceXml,
-        inputRowMetaJson,
-        inputTransform,
-        targetTransforms,
-        infoTransforms,
-        infoRowMetaJsons,
-        infoCollectionViews,
-        runConfigName,
-        dataSamplersJson,
-        parentLogChannelId);
+  public TransformBatchTransform(List<VariableValue> variableValues, String metastoreJson, int batchSize, int flushIntervalMs, String transformName, String transformPluginId,
+      String transformMetaInterfaceXml, String inputRowMetaJson, boolean inputTransform, List<String> targetTransforms, List<String> infoTransforms, List<String> infoRowMetaJsons,
+      List<PCollectionView<List<HopRow>>> infoCollectionViews, String runConfigName, String dataSamplersJson, String parentLogChannelId) {
+    super(variableValues, metastoreJson, batchSize, flushIntervalMs, transformName, transformPluginId, transformMetaInterfaceXml, inputRowMetaJson, inputTransform,
+        targetTransforms, infoTransforms, infoRowMetaJsons, infoCollectionViews, runConfigName, dataSamplersJson, parentLogChannelId);
   }
 
   @Override
@@ -124,8 +95,7 @@ public class TransformBatchTransform extends TransformTransform {
 
       // Similar for the output : treat a TupleTag list for the target transforms...
       //
-      TupleTag<HopRow> mainOutputTupleTag =
-          new TupleTag<>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
+      TupleTag<HopRow> mainOutputTupleTag = new TupleTag<>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
       List<TupleTag<HopRow>> targetTupleTags = new ArrayList<>();
       TupleTagList targetTupleTagList = null;
       for (String targetTransform : targetTransforms) {
@@ -172,8 +142,7 @@ public class TransformBatchTransform extends TransformTransform {
 
       // Specify the main output and targeted outputs
       //
-      ParDo.MultiOutput<HopRow, HopRow> multiOutput =
-          parDoTransformFn.withOutputTags(mainOutputTupleTag, targetTupleTagList);
+      ParDo.MultiOutput<HopRow, HopRow> multiOutput = parDoTransformFn.withOutputTags(mainOutputTupleTag, targetTupleTagList);
 
       // Apply the multi output parallel do transform function to the main input stream
       //
@@ -254,20 +223,9 @@ public class TransformBatchTransform extends TransformTransform {
     // I created a private class because instances of this one need access to infoCollectionViews
     //
 
-    public TransformBatchFn(
-        List<VariableValue> variableValues,
-        String metastoreJson,
-        String transformName,
-        String transformPluginId,
-        String transformMetaInterfaceXml,
-        String inputRowMetaJson,
-        boolean inputTransform,
-        List<String> targetTransforms,
-        List<String> infoTransforms,
-        List<String> infoRowMetaJsons,
-        String parentLogChannelId,
-        String runConfigName,
-        String dataSamplersJson) {
+    public TransformBatchFn(List<VariableValue> variableValues, String metastoreJson, String transformName, String transformPluginId, String transformMetaInterfaceXml,
+        String inputRowMetaJson, boolean inputTransform, List<String> targetTransforms, List<String> infoTransforms, List<String> infoRowMetaJsons, String parentLogChannelId,
+        String runConfigName, String dataSamplersJson) {
       super(parentLogChannelId, runConfigName, dataSamplersJson);
       this.variableValues = variableValues;
       this.metastoreJson = metastoreJson;
@@ -329,25 +287,17 @@ public class TransformBatchTransform extends TransformTransform {
           }
         }
       } catch (Exception e) {
-        throw new RuntimeException(
-            "Error cleaning up single threaded pipeline executor in Beam transform "
-                + transformName,
-            e);
+        throw new RuntimeException("Error cleaning up single threaded pipeline executor in Beam transform " + transformName, e);
       }
     }
 
     @Override
     protected void sendSamplesToLocation(boolean finished) throws HopException {
       ExecutionDataBuilder dataBuilder =
-          ExecutionDataBuilder.of()
-              .withOwnerId(executor.getPipeline().getLogChannelId())
-              .withParentId(parentLogChannelId)
-              .withCollectionDate(new Date())
-              .withFinished(finished)
+          ExecutionDataBuilder.of().withOwnerId(executor.getPipeline().getLogChannelId()).withParentId(parentLogChannelId).withCollectionDate(new Date()).withFinished(finished)
               .withExecutionType(ExecutionType.Transform);
       for (IExecutionDataSamplerStore store : dataSamplerStores) {
-        dataBuilder =
-            dataBuilder.addDataSets(store.getSamples()).addSetMeta(store.getSamplesMetadata());
+        dataBuilder = dataBuilder.addDataSets(store.getSamples()).addSetMeta(store.getSamplesMetadata());
       }
       executionInfoLocation.getExecutionInfoLocation().registerData(dataBuilder.build());
     }
@@ -401,9 +351,7 @@ public class TransformBatchTransform extends TransformTransform {
           //
           TransformMeta mainInjectorTransformMeta = null;
           if (!inputTransform) {
-            mainInjectorTransformMeta =
-                createInjectorTransform(
-                    pipelineMeta, INJECTOR_TRANSFORM_NAME, inputRowMeta, 200, 200);
+            mainInjectorTransformMeta = createInjectorTransform(pipelineMeta, INJECTOR_TRANSFORM_NAME, inputRowMeta, 200, 200);
           }
 
           // Our main transform writes to a bunch of targets
@@ -440,9 +388,7 @@ public class TransformBatchTransform extends TransformTransform {
 
             // Add an Injector transform for every info transform so the transform can read from it
             //
-            TransformMeta infoTransformMeta =
-                createInjectorTransform(
-                    pipelineMeta, infoTransform, infoRowMeta, 200, 350 + 150 * i);
+            TransformMeta infoTransformMeta = createInjectorTransform(pipelineMeta, infoTransform, infoRowMeta, 200, 350 + 150 * i);
             infoTransformMetas.add(infoTransformMeta);
           }
 
@@ -451,29 +397,19 @@ public class TransformBatchTransform extends TransformTransform {
           // The main transform inflated from XML metadata...
           //
           PluginRegistry registry = PluginRegistry.getInstance();
-          ITransformMeta iTransformMeta =
-              registry.loadClass(
-                  TransformPluginType.class, transformPluginId, ITransformMeta.class);
+          ITransformMeta iTransformMeta = registry.loadClass(TransformPluginType.class, transformPluginId, ITransformMeta.class);
           if (iTransformMeta == null) {
-            throw new HopException(
-                "Unable to load transform plugin with ID "
-                    + transformPluginId
-                    + ", this plugin isn't in the plugin registry or classpath");
+            throw new HopException("Unable to load transform plugin with ID " + transformPluginId + ", this plugin isn't in the plugin registry or classpath");
           }
 
-          HopBeamUtil.loadTransformMetadataFromXml(
-              transformName,
-              iTransformMeta,
-              transformMetaInterfaceXml,
-              pipelineMeta.getMetadataProvider());
+          HopBeamUtil.loadTransformMetadataFromXml(transformName, iTransformMeta, transformMetaInterfaceXml, pipelineMeta.getMetadataProvider());
 
           transformMeta = new TransformMeta(transformName, iTransformMeta);
           transformMeta.setTransformPluginId(transformPluginId);
           transformMeta.setLocation(400, 200);
           pipelineMeta.addTransform(transformMeta);
           if (!inputTransform) {
-            pipelineMeta.addPipelineHop(
-                new PipelineHopMeta(mainInjectorTransformMeta, transformMeta));
+            pipelineMeta.addPipelineHop(new PipelineHopMeta(mainInjectorTransformMeta, transformMeta));
           }
           // The target hops as well
           //
@@ -493,15 +429,10 @@ public class TransformBatchTransform extends TransformTransform {
 
           // Create the transformation...
           //
-          pipeline =
-              new LocalPipelineEngine(
-                  pipelineMeta, variables, new LoggingObject("apache-beam-transform"));
-          pipeline.setLogLevel(
-              context.getPipelineOptions().as(HopPipelineExecutionOptions.class).getLogLevel());
+          pipeline = new LocalPipelineEngine(pipelineMeta, variables, new LoggingObject("apache-beam-transform"));
+          pipeline.setLogLevel(context.getPipelineOptions().as(HopPipelineExecutionOptions.class).getLogLevel());
           pipeline.setMetadataProvider(pipelineMeta.getMetadataProvider());
-          pipeline
-              .getPipelineRunConfiguration()
-              .setName("beam-batch-transform-local (" + transformName + ")");
+          pipeline.getPipelineRunConfiguration().setName("beam-batch-transform-local (" + transformName + ")");
 
           pipeline.prepareExecution();
 
@@ -529,20 +460,18 @@ public class TransformBatchTransform extends TransformTransform {
           outputRowMeta = pipelineMeta.getTransformFields(pipeline, transformName);
 
           if (targetTransforms.isEmpty()) {
-            rowListener =
-                new RowAdapter() {
-                  @Override
-                  public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) {
-                    resultRows.add(row);
-                  }
-                };
+            rowListener = new RowAdapter() {
+              @Override
+              public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) {
+                resultRows.add(row);
+              }
+            };
             transformCombi.transform.addRowListener(rowListener);
           }
 
           // Create a list of TupleTag to direct the target rows
           //
-          mainTupleTag =
-              new TupleTag<HopRow>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
+          mainTupleTag = new TupleTag<HopRow>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
           tupleTagList = new ArrayList<>();
 
           // The lists in here will contain all the rows that ended up in the various target
@@ -554,8 +483,7 @@ public class TransformBatchTransform extends TransformTransform {
           for (String targetTransform : targetTransforms) {
             TransformMetaDataCombi targetCombi = findCombi(pipeline, targetTransform);
             transformCombis.add(targetCombi);
-            targetRowMetas.add(
-                pipelineMeta.getTransformFields(pipeline, transformCombi.transformName));
+            targetRowMetas.add(pipelineMeta.getTransformFields(pipeline, transformCombi.transformName));
 
             String tupleId = HopBeamUtil.createTargetTupleId(transformName, targetTransform);
             TupleTag<HopRow> tupleTag = new TupleTag<HopRow>(tupleId) {};
@@ -563,29 +491,21 @@ public class TransformBatchTransform extends TransformTransform {
             final List<Object[]> targetResultRows = new ArrayList<>();
             targetResultRowsList.add(targetResultRows);
 
-            targetCombi.transform.addRowListener(
-                new RowAdapter() {
-                  @Override
-                  public void rowReadEvent(IRowMeta rowMeta, Object[] row)
-                      throws HopTransformException {
-                    // We send the target row to a specific list...
-                    //
-                    targetResultRows.add(row);
-                  }
-                });
+            targetCombi.transform.addRowListener(new RowAdapter() {
+              @Override
+              public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+                // We send the target row to a specific list...
+                //
+                targetResultRows.add(row);
+              }
+            });
           }
 
           // If we're sending execution information to a location we should do it differently from a
           // Beam node.
           // We're only going to go through the effort if we actually have any rows to sample.
           //
-          attachExecutionSamplersToOutput(
-              variables,
-              transformName,
-              pipeline.getLogChannelId(),
-              inputRowMeta,
-              outputRowMeta,
-              pipeline.getTransform(transformName, 0));
+          attachExecutionSamplersToOutput(variables, transformName, pipeline.getLogChannelId(), inputRowMeta, outputRowMeta, pipeline.getTransform(transformName, 0));
 
           executor = new SingleThreadedPipelineExecutor(pipeline);
 
@@ -641,29 +561,24 @@ public class TransformBatchTransform extends TransformTransform {
           // Install a timer to check every second if the buffer is stale and needs to be flushed...
           //
           if (flushIntervalMs > 0) {
-            TimerTask timerTask =
-                new TimerTask() {
-                  @Override
-                  public void run() {
-                    // Check on the state of the buffer, flush if needed...
-                    //
-                    synchronized (rowBuffer) {
-                      long difference = System.currentTimeMillis() - lastTimerCheck.get();
-                      if (lastTimerCheck.get() <= 0 || difference > flushIntervalMs) {
-                        try {
-                          emptyRowBuffer(new TransformProcessContext(context));
-                        } catch (Exception e) {
-                          throw new RuntimeException(
-                              "Unable to flush row buffer when it got stale after "
-                                  + difference
-                                  + " ms",
-                              e);
-                        }
-                        lastTimerCheck.set(System.currentTimeMillis());
-                      }
+            TimerTask timerTask = new TimerTask() {
+              @Override
+              public void run() {
+                // Check on the state of the buffer, flush if needed...
+                //
+                synchronized (rowBuffer) {
+                  long difference = System.currentTimeMillis() - lastTimerCheck.get();
+                  if (lastTimerCheck.get() <= 0 || difference > flushIntervalMs) {
+                    try {
+                      emptyRowBuffer(new TransformProcessContext(context));
+                    } catch (Exception e) {
+                      throw new RuntimeException("Unable to flush row buffer when it got stale after " + difference + " ms", e);
                     }
+                    lastTimerCheck.set(System.currentTimeMillis());
                   }
-                };
+                }
+              }
+            };
             timer = new Timer("Flush timer of transform " + transformName);
             timer.schedule(timerTask, 100, 100);
           }
@@ -711,8 +626,7 @@ public class TransformBatchTransform extends TransformTransform {
       } catch (Exception e) {
         numErrors.inc();
         LOG.info("Transform finishing bundle error :" + e.getMessage());
-        throw new RuntimeException(
-            "Error finalizing bundle of transform '" + transformName + "'", e);
+        throw new RuntimeException("Error finalizing bundle of transform '" + transformName + "'", e);
       }
     }
 
@@ -725,8 +639,7 @@ public class TransformBatchTransform extends TransformTransform {
      * @param context
      * @throws HopException
      */
-    private synchronized void emptyRowBuffer(TupleOutputContext<HopRow> context)
-        throws HopException {
+    private synchronized void emptyRowBuffer(TupleOutputContext<HopRow> context) throws HopException {
       synchronized (rowBuffer) {
         List<HopRow> buffer = new ArrayList<>();
 
@@ -811,22 +724,11 @@ public class TransformBatchTransform extends TransformTransform {
       }
     }
 
-    private TransformMeta createInjectorTransform(
-        PipelineMeta pipelineMeta,
-        String injectorTransformName,
-        IRowMeta injectorRowMeta,
-        int x,
-        int y) {
+    private TransformMeta createInjectorTransform(PipelineMeta pipelineMeta, String injectorTransformName, IRowMeta injectorRowMeta, int x, int y) {
       InjectorMeta injectorMeta = new InjectorMeta();
       for (IValueMeta valueMeta : injectorRowMeta.getValueMetaList()) {
-        injectorMeta
-            .getInjectorFields()
-            .add(
-                new InjectorField(
-                    valueMeta.getName(),
-                    valueMeta.getTypeDesc(),
-                    Integer.toString(valueMeta.getLength()),
-                    Integer.toString(valueMeta.getPrecision())));
+        injectorMeta.getInjectorFields()
+            .add(new InjectorField(valueMeta.getName(), valueMeta.getTypeDesc(), Integer.toString(valueMeta.getLength()), Integer.toString(valueMeta.getPrecision())));
       }
 
       TransformMeta injectorTransformMeta = new TransformMeta(injectorTransformName, injectorMeta);
@@ -842,8 +744,7 @@ public class TransformBatchTransform extends TransformTransform {
           return combi;
         }
       }
-      throw new RuntimeException(
-          "Configuration error, transform '" + transformName + "' not found in transformation");
+      throw new RuntimeException("Configuration error, transform '" + transformName + "' not found in transformation");
     }
   }
 }

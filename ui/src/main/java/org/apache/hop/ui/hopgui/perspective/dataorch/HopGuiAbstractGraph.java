@@ -47,8 +47,7 @@ import java.util.UUID;
  * The beginnings of a common graph object, used by JobGraph and HopGuiPipelineGraph to share common
  * behaviors.
  */
-public abstract class HopGuiAbstractGraph extends DragViewZoomBase
-    implements IGraphSnapAlignDistribute {
+public abstract class HopGuiAbstractGraph extends DragViewZoomBase implements IGraphSnapAlignDistribute {
 
   public static final String STATE_MAGNIFICATION = "magnification";
   public static final String STATE_SCROLL_X_SELECTION = "offset-x";
@@ -327,43 +326,14 @@ public abstract class HopGuiAbstractGraph extends DragViewZoomBase
     this.graphPort = graphPort;
   }
 
-  protected void enableSnapAlignDistributeMenuItems(
-      IHopFileType fileType, boolean selectedTransform) {
+  protected void enableSnapAlignDistributeMenuItems(IHopFileType fileType, boolean selectedTransform) {
     GuiMenuWidgets menuWidgets = hopGui.getMainMenuWidgets();
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_SNAP_TO_GRID,
-        IHopFileType.CAPABILITY_SNAP_TO_GRID,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_ALIGN_LEFT,
-        IHopFileType.CAPABILITY_ALIGN_LEFT,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_ALIGN_RIGHT,
-        IHopFileType.CAPABILITY_ALIGN_RIGHT,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_ALIGN_TOP,
-        IHopFileType.CAPABILITY_ALIGN_TOP,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_ALIGN_BOTTOM,
-        IHopFileType.CAPABILITY_ALIGN_BOTTOM,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_DISTRIBUTE_HORIZONTAL,
-        IHopFileType.CAPABILITY_DISTRIBUTE_HORIZONTAL,
-        selectedTransform);
-    menuWidgets.enableMenuItem(
-        fileType,
-        HopGui.ID_MAIN_MENU_EDIT_DISTRIBUTE_VERTICAL,
-        IHopFileType.CAPABILITY_DISTRIBUTE_VERTICAL,
-        selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_SNAP_TO_GRID, IHopFileType.CAPABILITY_SNAP_TO_GRID, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_ALIGN_LEFT, IHopFileType.CAPABILITY_ALIGN_LEFT, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_ALIGN_RIGHT, IHopFileType.CAPABILITY_ALIGN_RIGHT, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_ALIGN_TOP, IHopFileType.CAPABILITY_ALIGN_TOP, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_ALIGN_BOTTOM, IHopFileType.CAPABILITY_ALIGN_BOTTOM, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_DISTRIBUTE_HORIZONTAL, IHopFileType.CAPABILITY_DISTRIBUTE_HORIZONTAL, selectedTransform);
+    menuWidgets.enableMenuItem(fileType, HopGui.ID_MAIN_MENU_EDIT_DISTRIBUTE_VERTICAL, IHopFileType.CAPABILITY_DISTRIBUTE_VERTICAL, selectedTransform);
   }
 }

@@ -57,8 +57,7 @@ public class CypherScriptDialog extends ActionDialog implements IActionDialog {
   private TextVar wScript;
   private Button wReplaceVariables;
 
-  public CypherScriptDialog(
-      Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
+  public CypherScriptDialog(Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.cypherScript = (CypherScript) iAction;
 
@@ -138,8 +137,7 @@ public class CypherScriptDialog extends ActionDialog implements IActionDialog {
     wCancel.addListener(SWT.Selection, e -> cancel());
 
     Label wlReplaceVariables = new Label(shell, SWT.LEFT);
-    wlReplaceVariables.setText(
-        BaseMessages.getString(PKG, "CypherScriptDialog.ReplaceVariables.Label"));
+    wlReplaceVariables.setText(BaseMessages.getString(PKG, "CypherScriptDialog.ReplaceVariables.Label"));
     PropsUi.setLook(wlReplaceVariables);
     FormData fdlReplaceVariables = new FormData();
     fdlReplaceVariables.left = new FormAttachment(0, 0);
@@ -162,9 +160,7 @@ public class CypherScriptDialog extends ActionDialog implements IActionDialog {
     fdlCypher.right = new FormAttachment(100, 0);
     fdlCypher.top = new FormAttachment(wConnection, margin);
     wlScript.setLayoutData(fdlCypher);
-    wScript =
-        new TextVar(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wScript = new TextVar(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wScript.getTextWidget().setFont(GuiResource.getInstance().getFontFixed());
     PropsUi.setLook(wScript);
     wScript.addModifyListener(lsMod);
@@ -177,13 +173,7 @@ public class CypherScriptDialog extends ActionDialog implements IActionDialog {
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-                wOk, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, margin, null);
 
     getData();
 

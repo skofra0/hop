@@ -122,8 +122,7 @@ public class PipelineDialog extends Dialog {
 
   private ArrayList<IPipelineDialogPlugin> extraTabs;
 
-  public PipelineDialog(
-      Shell parent, int style, IVariables variables, PipelineMeta pipelineMeta, Tabs currentTab) {
+  public PipelineDialog(Shell parent, int style, IVariables variables, PipelineMeta pipelineMeta, Tabs currentTab) {
     this(parent, style, variables, pipelineMeta);
     this.currentTab = currentTab;
   }
@@ -145,13 +144,12 @@ public class PipelineDialog extends Dialog {
     shell.setImage(GuiResource.getInstance().getImagePipeline());
 
     lsMod = e -> changed = true;
-    lsModSel =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            changed = true;
-          }
-        };
+    lsModSel = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        changed = true;
+      }
+    };
 
     FormLayout formLayout = new FormLayout();
     formLayout.marginWidth = PropsUi.getFormMargin();
@@ -171,8 +169,7 @@ public class PipelineDialog extends Dialog {
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
 
     wTabFolder = new CTabFolder(shell, SWT.BORDER);
     PropsUi.setLook(wTabFolder, Props.WIDGET_STYLE_TAB);
@@ -183,22 +180,17 @@ public class PipelineDialog extends Dialog {
 
     // See if there are any other tabs to be added...
     extraTabs = new ArrayList<>();
-    java.util.List<IPlugin> pipelineDialogPlugins =
-        PluginRegistry.getInstance().getPlugins(PipelineDialogPluginType.class);
+    java.util.List<IPlugin> pipelineDialogPlugins = PluginRegistry.getInstance().getPlugins(PipelineDialogPluginType.class);
     for (IPlugin pipelineDialogPlugin : pipelineDialogPlugins) {
       try {
-        IPipelineDialogPlugin extraTab =
-            (IPipelineDialogPlugin) PluginRegistry.getInstance().loadClass(pipelineDialogPlugin);
+        IPipelineDialogPlugin extraTab = (IPipelineDialogPlugin) PluginRegistry.getInstance().loadClass(pipelineDialogPlugin);
         extraTab.addTab(pipelineMeta, parent, wTabFolder);
         extraTabs.add(extraTab);
       } catch (Exception e) {
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "PipelineDialog.LoadDialogPlugin.Error.Header"),
-            BaseMessages.getString(
-                PKG,
-                "PipelineDialog.LoadDialogPlugin.Error.Message",
-                pipelineDialogPlugin.getIds()[0]),
+            BaseMessages.getString(PKG, "PipelineDialog.LoadDialogPlugin.Error.Message", pipelineDialogPlugin.getIds()[0]),
             e);
       }
     }
@@ -264,8 +256,7 @@ public class PipelineDialog extends Dialog {
     // Synchronize name with filename?
     //
     Label wlNameFilenameSync = new Label(wPipelineComp, SWT.RIGHT);
-    wlNameFilenameSync.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.NameFilenameSync.Label"));
+    wlNameFilenameSync.setText(BaseMessages.getString(PKG, "PipelineDialog.NameFilenameSync.Label"));
     PropsUi.setLook(wlNameFilenameSync);
     FormData fdlNameFilenameSync = new FormData();
     fdlNameFilenameSync.left = new FormAttachment(0, 0);
@@ -284,8 +275,7 @@ public class PipelineDialog extends Dialog {
 
     // Pipeline name:
     Label wlPipelineFilename = new Label(wPipelineComp, SWT.RIGHT);
-    wlPipelineFilename.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.PipelineFilename.Label"));
+    wlPipelineFilename.setText(BaseMessages.getString(PKG, "PipelineDialog.PipelineFilename.Label"));
     PropsUi.setLook(wlPipelineFilename);
     FormData fdlPipelineFilename = new FormData();
     fdlPipelineFilename.left = new FormAttachment(0, 0);
@@ -307,8 +297,7 @@ public class PipelineDialog extends Dialog {
     // Pipeline description:
     //
     Label wlPipelineDescription = new Label(wPipelineComp, SWT.RIGHT);
-    wlPipelineDescription.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.PipelineDescription.Label"));
+    wlPipelineDescription.setText(BaseMessages.getString(PKG, "PipelineDialog.PipelineDescription.Label"));
     PropsUi.setLook(wlPipelineDescription);
     FormData fdlPipelineDescription = new FormData();
     fdlPipelineDescription.left = new FormAttachment(0, 0);
@@ -326,8 +315,7 @@ public class PipelineDialog extends Dialog {
 
     // Pipeline Extended description
     Label wlExtendedDescription = new Label(wPipelineComp, SWT.RIGHT);
-    wlExtendedDescription.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.Extendeddescription.Label"));
+    wlExtendedDescription.setText(BaseMessages.getString(PKG, "PipelineDialog.Extendeddescription.Label"));
     PropsUi.setLook(wlExtendedDescription);
     FormData fdlExtendedDescription = new FormData();
     fdlExtendedDescription.left = new FormAttachment(0, 0);
@@ -335,8 +323,7 @@ public class PipelineDialog extends Dialog {
     fdlExtendedDescription.right = new FormAttachment(middle, -margin);
     wlExtendedDescription.setLayoutData(fdlExtendedDescription);
 
-    wExtendedDescription =
-        new Text(wPipelineComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wExtendedDescription = new Text(wPipelineComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wExtendedDescription, Props.WIDGET_STYLE_FIXED);
     wExtendedDescription.addModifyListener(lsMod);
     FormData fdExtendedDescription = new FormData();
@@ -358,13 +345,12 @@ public class PipelineDialog extends Dialog {
     wlPipelineStatus.setLayoutData(fdlPipelineStatus);
     wPipelineStatus = new Combo(wPipelineComp, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
     wPipelineStatus.add(BaseMessages.getString(PKG, "PipelineDialog.Draft_PipelineStatus.Label"));
-    wPipelineStatus.add(
-        BaseMessages.getString(PKG, "PipelineDialog.Production_PipelineStatus.Label"));
+    wPipelineStatus.add(BaseMessages.getString(PKG, "PipelineDialog.Production_PipelineStatus.Label"));
     wPipelineStatus.add("");
     wPipelineStatus.select(-1); // +1: starts at -1
     wPipelineStatus.addSelectionListener(lsModSel);
     PropsUi.setLook(wPipelineStatus);
-    
+
     FormData fdPipelineStatus = new FormData();
     fdPipelineStatus.left = new FormAttachment(middle, 0);
     fdPipelineStatus.top = new FormAttachment(wExtendedDescription, margin * 2);
@@ -485,8 +471,7 @@ public class PipelineDialog extends Dialog {
     String filename = wPipelineFilename.getText();
     boolean sync = wNameFilenameSync.getSelection();
 
-    String actualName =
-        PipelineMeta.extractNameFromFilename(sync, name, filename, PipelineMeta.PIPELINE_EXTENSION);
+    String actualName = PipelineMeta.extractNameFromFilename(sync, name, filename, PipelineMeta.PIPELINE_EXTENSION);
     wPipelineName.setEnabled(!sync);
     wPipelineName.setEditable(!sync);
 
@@ -521,31 +506,11 @@ public class PipelineDialog extends Dialog {
     final int FieldsRows = pipelineMeta.listParameters().length;
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Parameter.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Default.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Description.Label"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Parameter.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Default.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "PipelineDialog.ColumnInfo.Description.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wParamFields =
-        new TableView(
-            variables,
-            wParamComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wParamFields = new TableView(variables, wParamComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -589,8 +554,7 @@ public class PipelineDialog extends Dialog {
     // Enable transform performance monitoring?
     //
     Label wlEnableTransformPerfMonitor = new Label(wMonitorComp, SWT.LEFT);
-    wlEnableTransformPerfMonitor.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMonitoring.Label"));
+    wlEnableTransformPerfMonitor.setText(BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMonitoring.Label"));
     PropsUi.setLook(wlEnableTransformPerfMonitor);
     FormData fdlSchemaName = new FormData();
     fdlSchemaName.left = new FormAttachment(0, 0);
@@ -610,8 +574,7 @@ public class PipelineDialog extends Dialog {
     // Transform performance interval
     //
     Label wlTransformPerfInterval = new Label(wMonitorComp, SWT.LEFT);
-    wlTransformPerfInterval.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceInterval.Label"));
+    wlTransformPerfInterval.setText(BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceInterval.Label"));
     PropsUi.setLook(wlTransformPerfInterval);
     FormData fdlTransformPerfInterval = new FormData();
     fdlTransformPerfInterval.left = new FormAttachment(0, 0);
@@ -631,20 +594,16 @@ public class PipelineDialog extends Dialog {
     // Transform performance interval
     //
     Label wlTransformPerfMaxSize = new Label(wMonitorComp, SWT.LEFT);
-    wlTransformPerfMaxSize.setText(
-        BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Label"));
-    wlTransformPerfMaxSize.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Tooltip"));
+    wlTransformPerfMaxSize.setText(BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Label"));
+    wlTransformPerfMaxSize.setToolTipText(BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Tooltip"));
     PropsUi.setLook(wlTransformPerfMaxSize);
     FormData fdlTransformPerfMaxSize = new FormData();
     fdlTransformPerfMaxSize.left = new FormAttachment(0, 0);
     fdlTransformPerfMaxSize.right = new FormAttachment(middle, -margin);
     fdlTransformPerfMaxSize.top = new FormAttachment(wTransformPerfInterval, margin);
     wlTransformPerfMaxSize.setLayoutData(fdlTransformPerfMaxSize);
-    wTransformPerfMaxSize =
-        new TextVar(variables, wMonitorComp, SWT.LEFT | SWT.BORDER | SWT.SINGLE);
-    wTransformPerfMaxSize.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Tooltip"));
+    wTransformPerfMaxSize = new TextVar(variables, wMonitorComp, SWT.LEFT | SWT.BORDER | SWT.SINGLE);
+    wTransformPerfMaxSize.setToolTipText(BaseMessages.getString(PKG, "PipelineDialog.TransformPerformanceMaxSize.Tooltip"));
     PropsUi.setLook(wTransformPerfMaxSize);
     FormData fdTransformPerfMaxSize = new FormData();
     fdTransformPerfMaxSize.left = new FormAttachment(middle, 0);
@@ -726,12 +685,9 @@ public class PipelineDialog extends Dialog {
 
     // Performance monitoring tab:
     //
-    wEnableTransformPerfMonitor.setSelection(
-        pipelineMeta.isCapturingTransformPerformanceSnapShots());
-    wTransformPerfInterval.setText(
-        Long.toString(pipelineMeta.getTransformPerformanceCapturingDelay()));
-    wTransformPerfMaxSize.setText(
-        Const.NVL(pipelineMeta.getTransformPerformanceCapturingSizeLimit(), ""));
+    wEnableTransformPerfMonitor.setSelection(pipelineMeta.isCapturingTransformPerformanceSnapShots());
+    wTransformPerfInterval.setText(Long.toString(pipelineMeta.getTransformPerformanceCapturingDelay()));
+    wTransformPerfMaxSize.setText(Const.NVL(pipelineMeta.getTransformPerformanceCapturingSizeLimit(), ""));
 
     wPipelineName.selectAll();
     wPipelineName.setFocus();
@@ -781,15 +737,13 @@ public class PipelineDialog extends Dialog {
 
     // Performance monitoring tab:
     //
-    pipelineMeta.setCapturingTransformPerformanceSnapShots(
-        wEnableTransformPerfMonitor.getSelection());
+    pipelineMeta.setCapturingTransformPerformanceSnapShots(wEnableTransformPerfMonitor.getSelection());
     pipelineMeta.setTransformPerformanceCapturingSizeLimit(wTransformPerfMaxSize.getText());
 
     try {
       long transformPerformanceCapturingDelay = Long.parseLong(wTransformPerfInterval.getText());
       // values equal or less than zero cause problems during monitoring
-      if (transformPerformanceCapturingDelay <= 0
-          && pipelineMeta.isCapturingTransformPerformanceSnapShots()) {
+      if (transformPerformanceCapturingDelay <= 0 && pipelineMeta.isCapturingTransformPerformanceSnapShots()) {
         throw new HopException();
       } else {
         if (transformPerformanceCapturingDelay <= 0) {
@@ -800,12 +754,8 @@ public class PipelineDialog extends Dialog {
       }
     } catch (Exception e) {
       MessageBox mb = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
-      mb.setText(
-          BaseMessages.getString(
-              PKG, "PipelineDialog.InvalidTransformPerfIntervalNumber.DialogTitle"));
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "PipelineDialog.InvalidTransformPerfIntervalNumber.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "PipelineDialog.InvalidTransformPerfIntervalNumber.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "PipelineDialog.InvalidTransformPerfIntervalNumber.DialogMessage"));
       mb.open();
       wTransformPerfInterval.setFocus();
       wTransformPerfInterval.selectAll();

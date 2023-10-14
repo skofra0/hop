@@ -34,15 +34,12 @@ public class MergeJoinMetaInjectionTransform {
   @Test
   public void testInjection() throws Exception {
     BeanInjectionInfo<MergeJoinMeta> injectionInfo = new BeanInjectionInfo<>(MergeJoinMeta.class);
-    BeanInjector<MergeJoinMeta> injector =
-        new BeanInjector<>(injectionInfo, new MemoryMetadataProvider());
+    BeanInjector<MergeJoinMeta> injector = new BeanInjector<>(injectionInfo, new MemoryMetadataProvider());
 
     MergeJoinMeta meta = new MergeJoinMeta();
 
-    IRowMeta metaRow =
-        new RowMetaBuilder().addString("Left").addString("Right").addString("Type").build();
-    List<RowMetaAndData> metaRows =
-        Arrays.asList(new RowMetaAndData(metaRow, "left", "right", "INNER"));
+    IRowMeta metaRow = new RowMetaBuilder().addString("Left").addString("Right").addString("Type").build();
+    List<RowMetaAndData> metaRows = Arrays.asList(new RowMetaAndData(metaRow, "left", "right", "INNER"));
     injector.setProperty(meta, "LEFT_TRANSFORM", metaRows, "Left");
     assertEquals("left", meta.getLeftTransformName());
     injector.setProperty(meta, "RIGHT_TRANSFORM", metaRows, "Right");
@@ -51,13 +48,8 @@ public class MergeJoinMetaInjectionTransform {
     assertEquals("INNER", meta.getJoinType());
 
     IRowMeta keyMeta = new RowMetaBuilder().addString("id").build();
-    List<RowMetaAndData> key1Rows =
-        Arrays.asList(new RowMetaAndData(keyMeta, "id11"), new RowMetaAndData(keyMeta, "id12"));
-    List<RowMetaAndData> key2Rows =
-        Arrays.asList(
-            new RowMetaAndData(keyMeta, "id21"),
-            new RowMetaAndData(keyMeta, "id22"),
-            new RowMetaAndData(keyMeta, "id23"));
+    List<RowMetaAndData> key1Rows = Arrays.asList(new RowMetaAndData(keyMeta, "id11"), new RowMetaAndData(keyMeta, "id12"));
+    List<RowMetaAndData> key2Rows = Arrays.asList(new RowMetaAndData(keyMeta, "id21"), new RowMetaAndData(keyMeta, "id22"), new RowMetaAndData(keyMeta, "id23"));
 
     injector.setProperty(meta, "KEY_FIELD1", key1Rows, "id");
     injector.setProperty(meta, "KEY_FIELD2", key2Rows, "id");

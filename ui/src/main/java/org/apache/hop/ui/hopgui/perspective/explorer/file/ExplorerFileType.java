@@ -83,14 +83,12 @@ public class ExplorerFileType implements IHopFileType {
   }
 
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     return new ExplorerFileTypeHandler();
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new ExplorerFileTypeHandler();
   }
 

@@ -29,9 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WorkflowActionCopyFilesLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionCopyFiles> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionCopyFilesLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionCopyFiles> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionCopyFiles> getActionClass() {
@@ -41,57 +41,33 @@ public class WorkflowActionCopyFilesLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-        "copyEmptyFolders",
-        "argFromPrevious",
-        "overwriteFiles",
-        "includeSubFolders",
-        "removeSourceFiles",
-        "addResultFilenames",
-        "destinationIsAFile",
-        "createDestinationFolder",
-        "sourceFileFolder",
-        "destinationFileFolder",
-        "wildcard");
+        "copyEmptyFolders", "argFromPrevious", "overwriteFiles", "includeSubFolders", "removeSourceFiles", "addResultFilenames", "destinationIsAFile", "createDestinationFolder",
+        "sourceFileFolder", "destinationFileFolder", "wildcard");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "copyEmptyFolders", "isCopyEmptyFolders",
-        "argFromPrevious", "isArgFromPrevious",
-        "overwriteFiles", "isOverwriteFiles",
-        "includeSubFolders", "isIncludeSubFolders",
-        "removeSourceFiles", "isRemoveSourceFiles",
-        "addResultFilenames", "isAddResultFilenames",
-        "destinationIsAFile", "isDestinationIsAFile",
-        "createDestinationFolder", "isCreateDestinationFolder");
+        "copyEmptyFolders", "isCopyEmptyFolders", "argFromPrevious", "isArgFromPrevious", "overwriteFiles", "isOverwriteFiles", "includeSubFolders", "isIncludeSubFolders",
+        "removeSourceFiles", "isRemoveSourceFiles", "addResultFilenames", "isAddResultFilenames", "destinationIsAFile", "isDestinationIsAFile", "createDestinationFolder",
+        "isCreateDestinationFolder");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "copyEmptyFolders", "setCopyEmptyFolders",
-        "argFromPrevious", "setArgFromPrevious",
-        "overwriteFiles", "setOverwriteFiles",
-        "includeSubFolders", "setIncludeSubFolders",
-        "removeSourceFiles", "setRemoveSourceFiles",
-        "addResultFilenames", "setAddResultFilenames",
-        "destinationIsAFile", "setDestinationIsAFile",
-        "createDestinationFolder", "setCreateDestinationFolder");
+        "copyEmptyFolders", "setCopyEmptyFolders", "argFromPrevious", "setArgFromPrevious", "overwriteFiles", "setOverwriteFiles", "includeSubFolders", "setIncludeSubFolders",
+        "removeSourceFiles", "setRemoveSourceFiles", "addResultFilenames", "setAddResultFilenames", "destinationIsAFile", "setDestinationIsAFile", "createDestinationFolder",
+        "setCreateDestinationFolder");
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     int fileArraySize = new Random().nextInt(5) + 1;
     Map<String, IFieldLoadSaveValidator<?>> attrMap = new HashMap<>();
-    attrMap.put(
-        "sourceFileFolder",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
-    attrMap.put(
-        "destinationFileFolder",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
-    attrMap.put(
-        "wildcard", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
+    attrMap.put("sourceFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
+    attrMap.put("destinationFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
+    attrMap.put("wildcard", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), fileArraySize));
     return attrMap;
   }
 }

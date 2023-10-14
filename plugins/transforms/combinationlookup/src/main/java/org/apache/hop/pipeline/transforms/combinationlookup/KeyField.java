@@ -19,14 +19,10 @@ package org.apache.hop.pipeline.transforms.combinationlookup;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class KeyField {
-  @HopMetadataProperty(
-      injectionKey = "KEY_FIELD",
-      injectionKeyDescription = "CombinationLookup.Injection.KEY_FIELD")
+  @HopMetadataProperty(injectionKey = "KEY_FIELD", injectionKeyDescription = "CombinationLookup.Injection.KEY_FIELD")
   String name;
 
-  @HopMetadataProperty(
-      injectionKey = "KEY_LOOKUP",
-      injectionKeyDescription = "CombinationLookup.Injection.KEY_LOOKUP")
+  @HopMetadataProperty(injectionKey = "KEY_LOOKUP", injectionKeyDescription = "CombinationLookup.Injection.KEY_LOOKUP")
   String lookup;
 
   public KeyField() {}

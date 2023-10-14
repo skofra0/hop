@@ -37,12 +37,10 @@ public class UserDefinedJavaClassCodeSnippits {
   private final Map<String, Snippit> snippitsMap = new HashMap<>();
   private final LogChannel log = new LogChannel("UserDefinedJavaClassCodeSnippits");
 
-  public static synchronized UserDefinedJavaClassCodeSnippits getSnippitsHelper()
-      throws HopXmlException {
+  public static synchronized UserDefinedJavaClassCodeSnippits getSnippitsHelper() throws HopXmlException {
     if (snippitsHelper == null) {
       snippitsHelper = new UserDefinedJavaClassCodeSnippits();
-      snippitsHelper.addSnippits(
-          "org/apache/hop/pipeline/transforms/userdefinedjavaclass/codeSnippits.xml");
+      snippitsHelper.addSnippits("org/apache/hop/pipeline/transforms/userdefinedjavaclass/codeSnippits.xml");
     }
     return snippitsHelper;
   }
@@ -50,14 +48,7 @@ public class UserDefinedJavaClassCodeSnippits {
   private UserDefinedJavaClassCodeSnippits() {}
 
   public void addSnippits(String strFileName) throws HopXmlException {
-    Document doc =
-        XmlHandler.loadXmlFile(
-            UserDefinedJavaClassCodeSnippits.class
-                .getClassLoader()
-                .getResourceAsStream(strFileName),
-            null,
-            false,
-            false);
+    Document doc = XmlHandler.loadXmlFile(UserDefinedJavaClassCodeSnippits.class.getClassLoader().getResourceAsStream(strFileName), null, false, false);
     buildSnippitList(doc);
   }
 
@@ -118,8 +109,7 @@ public class UserDefinedJavaClassCodeSnippits {
   }
 
   private void buildSnippitList(Document doc) {
-    List<Node> nodes =
-        XmlHandler.getNodes(XmlHandler.getSubNode(doc, "codeSnippits"), "codeSnippit");
+    List<Node> nodes = XmlHandler.getNodes(XmlHandler.getSubNode(doc, "codeSnippits"), "codeSnippit");
     for (Node node : nodes) {
       Snippit snippit =
           new Snippit(

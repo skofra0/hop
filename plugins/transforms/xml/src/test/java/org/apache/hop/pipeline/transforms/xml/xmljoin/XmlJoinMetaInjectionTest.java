@@ -24,7 +24,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 public class XmlJoinMetaInjectionTest extends BaseMetadataInjectionTest<XmlJoinMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() {

@@ -25,11 +25,7 @@ public class PipelineEngineCapabilities {
 
   public PipelineEngineCapabilities() {}
 
-  public PipelineEngineCapabilities(
-      boolean supportingPreview,
-      boolean supportingDebug,
-      boolean supportingSniffing,
-      boolean supportingPause) {
+  public PipelineEngineCapabilities(boolean supportingPreview, boolean supportingDebug, boolean supportingSniffing, boolean supportingPause) {
     this.supportingPreview = supportingPreview;
     this.supportingDebug = supportingDebug;
     this.supportingSniffing = supportingSniffing;

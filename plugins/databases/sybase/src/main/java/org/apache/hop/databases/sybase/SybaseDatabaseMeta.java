@@ -89,12 +89,8 @@ public class SybaseDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -109,17 +105,12 @@ public class SybaseDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String retval = "";
 
     String fieldname = v.getName();
@@ -146,8 +137,7 @@ public class SybaseDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key: auto increment field!
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key: auto increment field!
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           if (useAutoinc) {
@@ -211,15 +201,14 @@ public class SybaseDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL to insert the unknown record into the SCD.
    */
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + versionField + ") values (1)";
   }
 
   /**
    * @param string
    * @return A string that is properly quoted for use in a SQL statement (insert, update, delete,
-   *     etc)
+   *         etc)
    */
   @Override
   public String quoteSqlString(String string) {

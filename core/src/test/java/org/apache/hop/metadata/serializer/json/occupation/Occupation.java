@@ -26,9 +26,11 @@ import java.util.Objects;
 @HopMetadata(name = "Occupation", key = "occupation")
 public class Occupation extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private int startYear;
+  @HopMetadataProperty
+  private int startYear;
 
   public Occupation() {}
 
@@ -47,9 +49,7 @@ public class Occupation extends HopMetadataBase implements IHopMetadata {
       return false;
     }
     Occupation that = (Occupation) o;
-    return startYear == that.startYear
-        && Objects.equals(name, that.name)
-        && Objects.equals(description, that.description);
+    return startYear == that.startYear && Objects.equals(name, that.name) && Objects.equals(description, that.description);
   }
 
   @Override

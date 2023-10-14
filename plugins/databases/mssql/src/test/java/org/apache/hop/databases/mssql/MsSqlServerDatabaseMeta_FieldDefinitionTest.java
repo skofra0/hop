@@ -45,55 +45,46 @@ public class MsSqlServerDatabaseMeta_FieldDefinitionTest {
 
   @Test
   public void numberType_ZeroLength_ZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(0).precision(0).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(0).precision(0).build();
 
     assertEquals(STRING_INT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   @Test
   public void numberType_LessThanNineLength_ZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(5).precision(0).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(5).precision(0).build();
 
     assertEquals(STRING_INT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   @Test
   public void numberType_MoreThanNineLessThanEighteenLength_ZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(17).precision(0).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(17).precision(0).build();
 
-    assertEquals(
-        STRING_BIGINT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
+    assertEquals(STRING_BIGINT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   @Test
   public void numberType_MoreThanEighteenLength_ZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(19).precision(0).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(19).precision(0).build();
 
-    final String expected =
-        STRING_DECIMAL + "(" + valueMeta.getLength() + "," + valueMeta.getPrecision() + ")";
+    final String expected = STRING_DECIMAL + "(" + valueMeta.getLength() + "," + valueMeta.getPrecision() + ")";
 
     assertEquals(expected, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   @Test
   public void numberType_NonZeroLength_NonZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(5).precision(5).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(5).precision(5).build();
 
-    final String expected =
-        STRING_DECIMAL + "(" + valueMeta.getLength() + "," + valueMeta.getPrecision() + ")";
+    final String expected = STRING_DECIMAL + "(" + valueMeta.getLength() + "," + valueMeta.getPrecision() + ")";
 
     assertEquals(expected, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   @Test
   public void numberType_ZeroLength_NonZeroPrecision() {
-    IValueMeta valueMeta =
-        new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(0).precision(5).build();
+    IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_NUMBER).length(0).precision(5).build();
 
     final String definition = dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false);
 
@@ -126,8 +117,7 @@ public class MsSqlServerDatabaseMeta_FieldDefinitionTest {
   public void stringType_TenThousandLength() {
     IValueMeta valueMeta = new MetaInterfaceBuilder(IValueMeta.TYPE_STRING).length(10_000).build();
 
-    assertEquals(
-        STRING_TEXT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
+    assertEquals(STRING_TEXT, dbMeta.getFieldDefinition(valueMeta, null, null, false, false, false));
   }
 
   private static class MetaInterfaceBuilder {

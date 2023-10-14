@@ -86,92 +86,92 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   public static final int SPECIAL_FUNCTION = 4;
   public static final int FILE_FUNCTION = 5;
 
-  public static String[] jsFunctionList = {
-    "appendToFile",
-    "getPipelineName",
-    "writeToLog",
-    "getFiscalDate",
-    "getProcessCount",
-    "ceil",
-    "floor",
-    "abs",
-    "getDayNumber",
-    "isWorkingDay",
-    "fireToDB",
-    "getNextWorkingDay",
-    "quarter",
-    "dateDiff",
-    "dateAdd",
-    "fillString",
-    "isCodepage",
-    "ltrim",
-    "rtrim",
-    "lpad",
-    "rpad",
-    "week",
-    "month",
-    "year",
-    "str2RegExp",
-    "fileExists",
-    "touch",
-    "isRegExp",
-    "date2str",
-    "str2date",
-    "replace",
-    "decode",
-    "isNum",
-    "isDate",
-    "lower",
-    "upper",
-    "str2num",
-    "num2str",
-    "Alert",
-    "setEnvironmentVar",
-    "getEnvironmentVar",
-    "LoadScriptFile",
-    "LoadScriptFromTab",
-    "print",
-    "println",
-    "resolveIP",
-    "trim",
-    "substr",
-    "getVariable",
-    "setVariable",
-    "LuhnCheck",
-    "getDigitsOnly",
-    "indexOf",
-    "getOutputRowMeta",
-    "getInputRowMeta",
-    "createRowCopy",
-    "putRow",
-    "deleteFile",
-    "createFolder",
-    "copyFile",
-    "getFileSize",
-    "isFile",
-    "isFolder",
-    "getShortFilename",
-    "getFileExtension",
-    "getParentFoldername",
-    "getLastModifiedTime",
-    "trunc",
-    "truncDate",
-    "moveFile",
-    "execProcess",
-    "isEmpty",
-    "isMailValid",
-    "escapeXml",
-    "removeDigits",
-    "initCap",
-    "protectXmlCdata",
-    "unEscapeXml",
-    "escapeSql",
-    "escapeHtml",
-    "unEscapeHtml",
-    "loadFileContent",
-    "getOcuranceString",
-    "removeCRLF"
-  };
+  public static String[] jsFunctionList =
+      {
+          "appendToFile",
+          "getPipelineName",
+          "writeToLog",
+          "getFiscalDate",
+          "getProcessCount",
+          "ceil",
+          "floor",
+          "abs",
+          "getDayNumber",
+          "isWorkingDay",
+          "fireToDB",
+          "getNextWorkingDay",
+          "quarter",
+          "dateDiff",
+          "dateAdd",
+          "fillString",
+          "isCodepage",
+          "ltrim",
+          "rtrim",
+          "lpad",
+          "rpad",
+          "week",
+          "month",
+          "year",
+          "str2RegExp",
+          "fileExists",
+          "touch",
+          "isRegExp",
+          "date2str",
+          "str2date",
+          "replace",
+          "decode",
+          "isNum",
+          "isDate",
+          "lower",
+          "upper",
+          "str2num",
+          "num2str",
+          "Alert",
+          "setEnvironmentVar",
+          "getEnvironmentVar",
+          "LoadScriptFile",
+          "LoadScriptFromTab",
+          "print",
+          "println",
+          "resolveIP",
+          "trim",
+          "substr",
+          "getVariable",
+          "setVariable",
+          "LuhnCheck",
+          "getDigitsOnly",
+          "indexOf",
+          "getOutputRowMeta",
+          "getInputRowMeta",
+          "createRowCopy",
+          "putRow",
+          "deleteFile",
+          "createFolder",
+          "copyFile",
+          "getFileSize",
+          "isFile",
+          "isFolder",
+          "getShortFilename",
+          "getFileExtension",
+          "getParentFoldername",
+          "getLastModifiedTime",
+          "trunc",
+          "truncDate",
+          "moveFile",
+          "execProcess",
+          "isEmpty",
+          "isMailValid",
+          "escapeXml",
+          "removeDigits",
+          "initCap",
+          "protectXmlCdata",
+          "unEscapeXml",
+          "escapeSql",
+          "escapeHtml",
+          "unEscapeHtml",
+          "loadFileContent",
+          "getOcuranceString",
+          "removeCRLF"};
 
   enum VariableScope {
     SYSTEM,
@@ -188,8 +188,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   // fisc_date, isNull
   //
 
-  public static String getDigitsOnly(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getDigitsOnly(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.getDigitsOnly(Context.toString(argList[0]));
     } else {
@@ -197,8 +196,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static boolean LuhnCheck(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static boolean LuhnCheck(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     boolean returnCode = false;
 
@@ -240,8 +238,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return returnCode;
   }
 
-  public static int indexOf(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static int indexOf(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     int returnIndex = -1;
 
@@ -262,8 +259,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return returnIndex;
   }
 
-  public static Object getPipelineName(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object getPipelineName(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       Object objTranName = Context.toString(actualObject.get("_PipelineName_", actualObject));
       return objTranName;
@@ -272,8 +268,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static void appendToFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void appendToFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (!isNull(argList) && !isUndefined(argList)) {
       try {
@@ -290,8 +285,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object getFiscalDate(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object getFiscalDate(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length == 2) {
       try {
@@ -306,15 +300,13 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         Calendar fisOffsetDate = Calendar.getInstance();
         startDate.setTime(dIn);
         Format dfFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        String strOffsetDate =
-            Context.toString(argList[1]) + String.valueOf(startDate.get(Calendar.YEAR));
+        String strOffsetDate = Context.toString(argList[1]) + String.valueOf(startDate.get(Calendar.YEAR));
         Date dOffset = (Date) dfFormatter.parseObject(strOffsetDate);
         fisOffsetDate.setTime(dOffset);
 
         String strFisStartDate = "01.01." + String.valueOf(startDate.get(Calendar.YEAR) + 1);
         fisStartDate.setTime((Date) dfFormatter.parseObject(strFisStartDate));
-        int iDaysToAdd =
-            (int) ((startDate.getTimeInMillis() - fisOffsetDate.getTimeInMillis()) / 86400000);
+        int iDaysToAdd = (int) ((startDate.getTimeInMillis() - fisOffsetDate.getTimeInMillis()) / 86400000);
         fisStartDate.add(Calendar.DATE, iDaysToAdd);
         return fisStartDate.getTime();
       } catch (Exception e) {
@@ -325,8 +317,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static double getProcessCount(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static double getProcessCount(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length == 1) {
       try {
@@ -357,8 +348,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static void writeToLog(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void writeToLog(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     switch (argList.length) {
       case 1:
@@ -439,8 +429,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return false;
   }
 
-  public static Object abs(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object abs(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length == 1) {
       try {
@@ -459,8 +448,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object ceil(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object ceil(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isNull(argList[0])) {
@@ -478,8 +466,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object floor(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object floor(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isNull(argList[0])) {
@@ -497,8 +484,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object getDayNumber(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object getDayNumber(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 2) {
       try {
         if (isNull(argList[0])) {
@@ -529,8 +515,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object isWorkingDay(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object isWorkingDay(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isNull(argList[0])) {
@@ -541,8 +526,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           Date dIn = (Date) Context.jsToJava(argList[0], Date.class);
           Calendar startDate = Calendar.getInstance();
           startDate.setTime(dIn);
-          if (startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-              && startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+          if (startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startDate.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             return Boolean.TRUE;
           }
           return Boolean.FALSE;
@@ -556,8 +540,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   @SuppressWarnings("unused")
-  public static Object fireToDB(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object fireToDB(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     Object oRC = new Object();
     if (argList.length == 2) {
@@ -566,8 +549,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         ScriptValues scm = (ScriptValues) Context.jsToJava(scmO, ScriptValues.class);
         String strDBName = Context.toString(argList[0]);
         String strSql = Context.toString(argList[1]);
-        DatabaseMeta databaseMeta =
-            DatabaseMeta.findDatabase(scm.getPipelineMeta().getDatabases(), strDBName);
+        DatabaseMeta databaseMeta = DatabaseMeta.findDatabase(scm.getPipelineMeta().getDatabases(), strDBName);
         if (databaseMeta == null) {
           throw Context.reportRuntimeError("Database connection not found: " + strDBName);
         }
@@ -608,8 +590,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return oRC;
   }
 
-  public static Object dateDiff(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object dateDiff(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 3) {
       try {
         if (isNull(argList, new int[] {0, 1, 2})) {
@@ -630,25 +611,22 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           /*
            * Changed by: Ingo Klose, SHS VIVEON AG, Date: 27.04.2007
            *
-           * Calculating time differences using getTimeInMillis() leads to false results when crossing Daylight
+           * Calculating time differences using getTimeInMillis() leads to false results when crossing
+           * Daylight
            * Savingstime borders. In order to get correct results the time zone offsets have to be added.
            *
-           * Fix: 1. calculate correct milli seconds for start and end date 2. replace endDate.getTimeInMillis() with
+           * Fix: 1. calculate correct milli seconds for start and end date 2. replace
+           * endDate.getTimeInMillis() with
            * endL and startDate.getTimeInMillis() with startL
            */
-          long endL =
-              endDate.getTimeInMillis()
-                  + endDate.getTimeZone().getOffset(endDate.getTimeInMillis());
-          long startL =
-              startDate.getTimeInMillis()
-                  + startDate.getTimeZone().getOffset(startDate.getTimeInMillis());
+          long endL = endDate.getTimeInMillis() + endDate.getTimeZone().getOffset(endDate.getTimeInMillis());
+          long startL = startDate.getTimeInMillis() + startDate.getTimeZone().getOffset(startDate.getTimeInMillis());
 
           if (strType.equals("y")) {
             return Double.valueOf(endDate.get(Calendar.YEAR) - startDate.get(Calendar.YEAR));
           } else if (strType.equals("m")) {
             int iMonthsToAdd = (endDate.get(Calendar.YEAR) - startDate.get(Calendar.YEAR)) * 12;
-            return Double.valueOf(
-                (endDate.get(Calendar.MONTH) - startDate.get(Calendar.MONTH)) + iMonthsToAdd);
+            return Double.valueOf((endDate.get(Calendar.MONTH) - startDate.get(Calendar.MONTH)) + iMonthsToAdd);
           } else if (strType.equals("d")) {
             return Double.valueOf(((endL - startL) / 86400000));
           } else if (strType.equals("wd")) {
@@ -662,15 +640,13 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
                 iRC++;
               }
               endDate.add(Calendar.DATE, iOffset);
-              endL =
-                  endDate.getTimeInMillis()
-                      + endDate.getTimeZone().getOffset(endDate.getTimeInMillis());
+              endL = endDate.getTimeInMillis() + endDate.getTimeZone().getOffset(endDate.getTimeInMillis());
             }
             return Double.valueOf(iRC);
           } else if (strType.equals("w")) {
             int iDays = (int) ((endL - startL) / 86400000);
             return Double.valueOf(iDays / 7);
-          } else if (strType.equals("ms")) {            
+          } else if (strType.equals("ms")) {
             return Double.valueOf(endL - startL);
           } else if (strType.equals("ss")) {
             return Double.valueOf(((endL - startL) / 1000));
@@ -693,8 +669,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object getNextWorkingDay(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object getNextWorkingDay(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isNull(argList[0])) {
@@ -706,8 +681,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(dIn);
         startDate.add(Calendar.DATE, 1);
-        while (startDate.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-            || startDate.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+        while (startDate.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || startDate.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
           startDate.add(Calendar.DATE, 1);
         }
         return startDate.getTime();
@@ -719,8 +693,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object dateAdd(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object dateAdd(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 3) {
       try {
         if (isNull(argList, new int[] {0, 1, 2})) {
@@ -768,8 +741,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String fillString(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String fillString(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 2) {
       try {
         if (isNull(argList, new int[] {0, 1})) {
@@ -796,8 +768,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object isCodepage(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object isCodepage(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     boolean bRC = false;
     if (argList.length == 2) {
       try {
@@ -822,8 +793,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return Boolean.valueOf(bRC);
   }
 
-  public static String ltrim(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String ltrim(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -841,8 +811,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String rtrim(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String rtrim(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -860,8 +829,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String lpad(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String lpad(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     try {
       if (argList.length == 3) {
@@ -885,8 +853,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return null;
   }
 
-  public static String rpad(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String rpad(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 3) {
         if (isNull(argList, new int[] {0, 1, 2})) {
@@ -909,8 +876,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return null;
   }
 
-  public static Object year(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object year(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -930,8 +896,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object month(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object month(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -951,8 +916,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object quarter(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object quarter(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -983,8 +947,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object week(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object week(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1) {
         if (isNull(argList[0])) {
@@ -1004,8 +967,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object str2RegExp(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object str2RegExp(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String[] strArr = null;
     if (argList.length == 2) {
       try {
@@ -1032,8 +994,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return strArr;
   }
 
-  public static void touch(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void touch(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         File file = new File(Context.toString(argList[0]));
@@ -1049,8 +1010,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object fileExists(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object fileExists(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -1066,8 +1026,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object str2date(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object str2date(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     Object oRC = new Object();
     String sArg1 = "";
     String sArg2 = "";
@@ -1075,8 +1034,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     String sArg4 = "";
     switch (argList.length) {
       case 0:
-        throw Context.reportRuntimeError(
-            "Please provide a valid string to the function call str2date.");
+        throw Context.reportRuntimeError("Please provide a valid string to the function call str2date.");
       case 1:
         try {
           if (isNull(argList[0])) {
@@ -1088,8 +1046,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           Format dfFormatter = new SimpleDateFormat();
           oRC = dfFormatter.parseObject(sArg1);
         } catch (Exception e) {
-          throw Context.reportRuntimeError(
-              "Could not apply local format for " + sArg1 + " : " + e.getMessage());
+          throw Context.reportRuntimeError("Could not apply local format for " + sArg1 + " : " + e.getMessage());
         }
         break;
       case 2:
@@ -1104,13 +1061,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           Format dfFormatter = new SimpleDateFormat(sArg2);
           oRC = dfFormatter.parseObject(sArg1);
         } catch (Exception e) {
-          throw Context.reportRuntimeError(
-              "Could not apply the given format "
-                  + sArg2
-                  + " on the string for "
-                  + sArg1
-                  + " : "
-                  + e.getMessage());
+          throw Context.reportRuntimeError("Could not apply the given format " + sArg2 + " on the string for " + sArg1 + " : " + e.getMessage());
         }
         break;
       case 3:
@@ -1133,14 +1084,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           }
         } catch (Exception e) {
           throw Context.reportRuntimeError(
-              "Could not apply the local format for locale "
-                  + sArg3
-                  + " with the given format "
-                  + sArg2
-                  + " on the string for "
-                  + sArg1
-                  + " : "
-                  + e.getMessage());
+              "Could not apply the local format for locale " + sArg3 + " with the given format " + sArg2 + " on the string for " + sArg1 + " : " + e.getMessage());
         }
         break;
       case 4:
@@ -1170,30 +1114,20 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           }
         } catch (Exception e) {
           throw Context.reportRuntimeError(
-              "Could not apply the local format for locale "
-                  + sArg3
-                  + " with the given format "
-                  + sArg2
-                  + " on the string for "
-                  + sArg1
-                  + " : "
-                  + e.getMessage());
+              "Could not apply the local format for locale " + sArg3 + " with the given format " + sArg2 + " on the string for " + sArg1 + " : " + e.getMessage());
         }
         break;
       default:
-        throw Context.reportRuntimeError(
-            "The function call str2date requires 1, 2, 3, or 4 arguments.");
+        throw Context.reportRuntimeError("The function call str2date requires 1, 2, 3, or 4 arguments.");
     }
     return oRC;
   }
 
-  public static Object date2str(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object date2str(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     Object oRC = new Object();
     switch (argList.length) {
       case 0:
-        throw Context.reportRuntimeError(
-            "Please provide a valid date to the function call date2str.");
+        throw Context.reportRuntimeError("Please provide a valid date to the function call date2str.");
       case 1:
         try {
           if (isNull(argList)) {
@@ -1278,14 +1212,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         }
         break;
       default:
-        throw Context.reportRuntimeError(
-            "The function call date2str requires 1, 2, 3, or 4 arguments.");
+        throw Context.reportRuntimeError("The function call date2str requires 1, 2, 3, or 4 arguments.");
     }
     return oRC;
   }
 
-  public static Object isRegExp(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object isRegExp(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length >= 2) {
       if (isNull(argList, new int[] {0, 1})) {
@@ -1305,8 +1237,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return Double.valueOf(-1);
   }
 
-  public static String upper(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String upper(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     if (argList.length == 1) {
       try {
@@ -1318,8 +1249,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         sRC = Context.toString(argList[0]);
         sRC = sRC.toUpperCase();
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "The function call upper is not valid : " + e.getMessage());
+        throw Context.reportRuntimeError("The function call upper is not valid : " + e.getMessage());
       }
     } else {
       throw Context.reportRuntimeError("The function call upper requires 1 argument.");
@@ -1327,8 +1257,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return sRC;
   }
 
-  public static String lower(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String lower(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     if (argList.length == 1) {
       try {
@@ -1340,8 +1269,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         sRC = Context.toString(argList[0]);
         sRC = sRC.toLowerCase();
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "The function call lower is not valid : " + e.getMessage());
+        throw Context.reportRuntimeError("The function call lower is not valid : " + e.getMessage());
       }
     } else {
       throw Context.reportRuntimeError("The function call lower requires 1 argument.");
@@ -1350,8 +1278,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Converts the given Numeric to a JScript String
-  public static String num2str(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String num2str(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     switch (argList.length) {
       case 0:
@@ -1370,8 +1297,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           DecimalFormat formatter = new DecimalFormat();
           sRC = formatter.format(sArg1);
         } catch (IllegalArgumentException e) {
-          throw Context.reportRuntimeError(
-              "Could not apply the given format on the number : " + e.getMessage());
+          throw Context.reportRuntimeError("Could not apply the given format on the number : " + e.getMessage());
         }
         break;
       case 2:
@@ -1389,8 +1315,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           DecimalFormat formatter = new DecimalFormat(sArg2);
           sRC = formatter.format(sArg1);
         } catch (IllegalArgumentException e) {
-          throw Context.reportRuntimeError(
-              "Could not apply the given format on the number : " + e.getMessage());
+          throw Context.reportRuntimeError("Could not apply the given format on the number : " + e.getMessage());
         }
         break;
       case 3:
@@ -1407,8 +1332,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           String sArg2 = Context.toString(argList[1]);
           String sArg3 = Context.toString(argList[2]);
           if (sArg3.length() == 2) {
-            DecimalFormatSymbols dfs =
-                new DecimalFormatSymbols(EnvUtil.createLocale(sArg3.toLowerCase()));
+            DecimalFormatSymbols dfs = new DecimalFormatSymbols(EnvUtil.createLocale(sArg3.toLowerCase()));
             DecimalFormat formatter = new DecimalFormat(sArg2, dfs);
             sRC = formatter.format(sArg1);
           }
@@ -1417,16 +1341,14 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         }
         break;
       default:
-        throw Context.reportRuntimeError(
-            "The function call num2str requires 1, 2, or 3 arguments.");
+        throw Context.reportRuntimeError("The function call num2str requires 1, 2, or 3 arguments.");
     }
 
     return sRC;
   }
 
   // Converts the given String to a JScript Numeric
-  public static Object str2num(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object str2num(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     double dRC = 0.00;
     switch (argList.length) {
       case 0:
@@ -1445,8 +1367,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           DecimalFormat formatter = new DecimalFormat();
           dRC = (formatter.parse(Const.ltrim(sArg1))).doubleValue();
         } catch (Exception e) {
-          throw Context.reportRuntimeError(
-              "Could not convert the given String : " + e.getMessage());
+          throw Context.reportRuntimeError("Could not convert the given String : " + e.getMessage());
         }
         break;
       case 2:
@@ -1465,8 +1386,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           dRC = (formatter.parse(sArg1)).doubleValue();
           return Double.valueOf(dRC);
         } catch (Exception e) {
-          throw Context.reportRuntimeError(
-              "Could not convert the String with the given format :" + e.getMessage());
+          throw Context.reportRuntimeError("Could not convert the String with the given format :" + e.getMessage());
         }
       case 3:
         try {
@@ -1479,8 +1399,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           String sArg2 = Context.toString(argList[1]);
           String sArg3 = Context.toString(argList[2]);
           if (sArg3.length() == 2) {
-            DecimalFormatSymbols dfs =
-                new DecimalFormatSymbols(EnvUtil.createLocale(sArg3.toLowerCase()));
+            DecimalFormatSymbols dfs = new DecimalFormatSymbols(EnvUtil.createLocale(sArg3.toLowerCase()));
             DecimalFormat formatter = new DecimalFormat(sArg2, dfs);
             dRC = (formatter.parse(sArg1)).doubleValue();
             return Double.valueOf(dRC);
@@ -1490,14 +1409,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         }
         break;
       default:
-        throw Context.reportRuntimeError(
-            "The function call str2num requires 1, 2, or 3 arguments.");
+        throw Context.reportRuntimeError("The function call str2num requires 1, 2, or 3 arguments.");
     }
     return Double.valueOf(dRC);
   }
 
-  public static Object isNum(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object isNum(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length == 1) {
       try {
@@ -1520,8 +1437,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object isDate(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object isDate(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     if (argList.length == 1) {
       try {
@@ -1541,8 +1457,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object decode(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object decode(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length >= 2) {
         if (isNull(argList, new int[] {0, 1})) {
@@ -1569,8 +1484,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String replace(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String replace(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length >= 2 && (argList.length - 1) % 2 == 0) {
         if (isNull(argList, new int[] {0, 1})) {
@@ -1580,14 +1494,11 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         }
         String objForReplace = Context.toString(argList[0]);
         for (int i = 1; i < argList.length - 1; i = i + 2) {
-          objForReplace =
-              objForReplace.replaceAll(
-                  Context.toString(argList[i]), Context.toString(argList[i + 1]));
+          objForReplace = objForReplace.replaceAll(Context.toString(argList[i]), Context.toString(argList[i + 1]));
         }
         return objForReplace;
       } else {
-        throw Context.reportRuntimeError(
-            "The function call replace is not valid (wrong number of arguments)");
+        throw Context.reportRuntimeError("The function call replace is not valid (wrong number of arguments)");
       }
     } catch (Exception e) {
       throw Context.reportRuntimeError("Function call replace is not valid : " + e.getMessage());
@@ -1595,33 +1506,27 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Implementation of the JS AlertBox
-  public static String Alert(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String Alert(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     HopGui hopGui = HopGui.getInstance();
     if (argList.length == 1 && hopGui != null) {
-      hopGui
-          .getDisplay()
-          .asyncExec(
-              () -> {
-                String strMessage = Context.toString(argList[0]);
-                MessageBox mb =
-                    new MessageBox(hopGui.getShell(), SWT.OK | SWT.CANCEL | SWT.ICON_INFORMATION);
-                mb.setMessage(strMessage);
-                mb.setText("alert");
-                int answer = mb.open();
-                if ((answer & SWT.CANCEL) != 0) {
-                  throw new RuntimeException("Alert dialog cancelled by user.");
-                }
-              });
+      hopGui.getDisplay().asyncExec(() -> {
+        String strMessage = Context.toString(argList[0]);
+        MessageBox mb = new MessageBox(hopGui.getShell(), SWT.OK | SWT.CANCEL | SWT.ICON_INFORMATION);
+        mb.setMessage(strMessage);
+        mb.setText("alert");
+        int answer = mb.open();
+        if ((answer & SWT.CANCEL) != 0) {
+          throw new RuntimeException("Alert dialog cancelled by user.");
+        }
+      });
     }
 
     return "";
   }
 
   // Setting EnvironmentVar
-  public static void setEnvironmentVar(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void setEnvironmentVar(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sArg1 = "";
     String sArg2 = "";
     if (argList.length == 2) {
@@ -1638,8 +1543,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Returning EnvironmentVar
-  public static String getEnvironmentVar(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getEnvironmentVar(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     if (argList.length == 1) {
       try {
@@ -1672,8 +1576,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return sRC;
   }
 
-  public static String trim(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String trim(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     if (argList.length == 1) {
       try {
@@ -1693,8 +1596,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return sRC;
   }
 
-  public static String substr(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String substr(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
 
     if (argList.length == 2) {
@@ -1708,8 +1610,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         int from = (int) Math.round(Context.toNumber(argList[1]));
         sRC = sRC.substring(from);
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "The function call substr is not valid : " + e.getMessage());
+        throw Context.reportRuntimeError("The function call substr is not valid : " + e.getMessage());
       }
     } else if (argList.length == 3) {
       try {
@@ -1739,8 +1640,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         }
         sRC = sRC.substring(from, to);
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "The function call substr is not valid : " + e.getMessage());
+        throw Context.reportRuntimeError("The function call substr is not valid : " + e.getMessage());
       }
     } else {
       throw Context.reportRuntimeError("The function call substr requires 2 or 3 arguments.");
@@ -1749,8 +1649,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Resolve an IP address
-  public static String resolveIP(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String resolveIP(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC;
     if (argList.length == 2) {
       try {
@@ -1774,16 +1673,14 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Loading additional JS Files inside the JavaScriptCode
-  public static void LoadScriptFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void LoadScriptFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     for (int i = 0; i < argList.length; i++) { // don't worry about "undefined" arguments
       checkAndLoadJSFile(actualContext, actualObject, Context.toString(argList[i]));
     }
   }
 
   // Adding the ScriptsItemTab to the actual running Context
-  public static void LoadScriptFromTab(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void LoadScriptFromTab(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       for (int i = 0; i < argList.length; i++) { // don't worry about "undefined" arguments
         String strToLoad = Context.toString(argList[i]);
@@ -1796,16 +1693,14 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Print
-  public static void print(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void print(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     for (int i = 0; i < argList.length; i++) { // don't worry about "undefined" arguments
       System.out.print(Context.toString(argList[i]));
     }
   }
 
   // Prints Line to the actual System.out
-  public static void println(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void println(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     print(actualContext, actualObject, argList, functionContext);
     System.out.println();
   }
@@ -1817,50 +1712,23 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Evaluates the given ScriptFile
-  private static void checkAndLoadJSFile(
-      Context actualContext, Scriptable evalScope, String fileName) {
+  private static void checkAndLoadJSFile(Context actualContext, Scriptable evalScope, String fileName) {
     Reader inStream = null;
     try {
       inStream = new InputStreamReader(HopVfs.getInputStream(fileName));
       actualContext.evaluateReader(evalScope, inStream, fileName, 1, null);
     } catch (FileNotFoundException signal) {
-      Context.reportError(
-          "Unable to open file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
+      Context.reportError("Unable to open file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } catch (WrappedException signal) {
-      Context.reportError(
-          "WrappedException while evaluating file \""
-              + fileName
-              + "\" (reason: \""
-              + signal.getMessage()
-              + "\")");
+      Context.reportError("WrappedException while evaluating file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } catch (EvaluatorException signal) {
-      Context.reportError(
-          "EvaluatorException while evaluating file \""
-              + fileName
-              + "\" (reason: \""
-              + signal.getMessage()
-              + "\")");
+      Context.reportError("EvaluatorException while evaluating file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } catch (JavaScriptException signal) {
-      Context.reportError(
-          "JavaScriptException while evaluating file \""
-              + fileName
-              + "\" (reason: \""
-              + signal.getMessage()
-              + "\")");
+      Context.reportError("JavaScriptException while evaluating file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } catch (IOException signal) {
-      Context.reportError(
-          "Error while reading file \""
-              + fileName
-              + "\" (reason: \""
-              + signal.getMessage()
-              + "\")");
+      Context.reportError("Error while reading file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } catch (HopFileException signal) {
-      Context.reportError(
-          "Error while reading file \""
-              + fileName
-              + "\" (reason: \""
-              + signal.getMessage()
-              + "\")");
+      Context.reportError("Error while reading file \"" + fileName + "\" (reason: \"" + signal.getMessage() + "\")");
     } finally {
       try {
         if (inStream != null) {
@@ -1872,18 +1740,13 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static void setVariable(
-      Context actualContext,
-      Scriptable actualObject,
-      Object[] arguments,
-      Function functionContext) {
+  public static void setVariable(Context actualContext, Scriptable actualObject, Object[] arguments, Function functionContext) {
 
     if (arguments.length != 3) {
       throw Context.reportRuntimeError("The function call setVariable requires 3 arguments.");
     }
 
-    Object transformObject =
-        Context.jsToJava(actualObject.get("_transform_", actualObject), ITransform.class);
+    Object transformObject = Context.jsToJava(actualObject.get("_transform_", actualObject), ITransform.class);
     if (transformObject instanceof ITransform) {
       ITransform transform = (ITransform) transformObject;
       IPipelineEngine pipeline = transform.getPipeline();
@@ -1912,8 +1775,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  static void setRootScopeVariable(
-      IPipelineEngine pipeline, String variableName, String variableValue) {
+  static void setRootScopeVariable(IPipelineEngine pipeline, String variableName, String variableValue) {
 
     pipeline.setVariable(variableName, variableValue);
 
@@ -1924,17 +1786,15 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  static void setSystemScopeVariable(
-      IPipelineEngine pipeline, final String variableName, final String variableValue) {
+  static void setSystemScopeVariable(IPipelineEngine pipeline, final String variableName, final String variableValue) {
     System.setProperty(variableName, variableValue);
 
     // Set also all the way to the root as else we will take
-    //  stale values
+    // stale values
     setRootScopeVariable(pipeline, variableName, variableValue);
   }
 
-  static void setParentScopeVariable(
-      IPipelineEngine pipeline, String variableName, String variableValue) {
+  static void setParentScopeVariable(IPipelineEngine pipeline, String variableName, String variableValue) {
     pipeline.setVariable(variableName, variableValue);
 
     IVariables parentSpace = pipeline.getParentVariables();
@@ -1943,8 +1803,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  static void setGrandParentScopeVariable(
-      IPipelineEngine pipeline, String variableName, String variableValue) {
+  static void setGrandParentScopeVariable(IPipelineEngine pipeline, String variableName, String variableValue) {
     pipeline.setVariable(variableName, variableValue);
 
     IVariables parentSpace = pipeline.getParentVariables();
@@ -1968,15 +1827,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
       case "g":
         return VariableScope.GRAND_PARENT;
       default:
-        throw Context.reportRuntimeError(
-            "The argument type of function call "
-                + "setVariable should either be \"s\", \"r\", \"p\", or \"g\".");
+        throw Context.reportRuntimeError("The argument type of function call " + "setVariable should either be \"s\", \"r\", \"p\", or \"g\".");
     }
   }
 
   // Returning EnvironmentVar
-  public static String getVariable(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getVariable(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String sRC = "";
     String sArg1 = "";
     String sArg2 = "";
@@ -2006,8 +1862,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   // Return the output row metadata
-  public static IRowMeta getOutputRowMeta(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static IRowMeta getOutputRowMeta(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 0) {
       try {
         Object scmO = actualObject.get("_transform_", actualObject);
@@ -2015,25 +1870,19 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           ScriptValues scm = (ScriptValues) Context.jsToJava(scmO, ScriptValues.class);
           return scm.getOutputRowMeta();
         } catch (Exception e) {
-          ScriptValuesDummy scm =
-              (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
+          ScriptValuesDummy scm = (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
           return scm.getOutputRowMeta();
         }
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "Unable to get the output row metadata because of an error: "
-                + Const.CR
-                + e.toString());
+        throw Context.reportRuntimeError("Unable to get the output row metadata because of an error: " + Const.CR + e.toString());
       }
     } else {
-      throw Context.reportRuntimeError(
-          "The function call getOutputRowMeta doesn't require arguments.");
+      throw Context.reportRuntimeError("The function call getOutputRowMeta doesn't require arguments.");
     }
   }
 
   // Return the input row metadata
-  public static IRowMeta getInputRowMeta(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static IRowMeta getInputRowMeta(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 0) {
       try {
         Object scmO = actualObject.get("_transform_", actualObject);
@@ -2041,23 +1890,19 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           ScriptValues scm = (ScriptValues) Context.jsToJava(scmO, ScriptValues.class);
           return scm.getInputRowMeta();
         } catch (Exception e) {
-          ScriptValuesDummy scm =
-              (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
+          ScriptValuesDummy scm = (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
           return scm.getInputRowMeta();
         }
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "Unable to get the input row metadata because of an error: " + Const.CR + e.toString());
+        throw Context.reportRuntimeError("Unable to get the input row metadata because of an error: " + Const.CR + e.toString());
       }
     } else {
-      throw Context.reportRuntimeError(
-          "The function call getInputRowMeta doesn't require arguments.");
+      throw Context.reportRuntimeError("The function call getInputRowMeta doesn't require arguments.");
     }
   }
 
   // Return the input row metadata
-  public static Object[] createRowCopy(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object[] createRowCopy(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         int newSize = (int) Math.round(Context.toNumber(argList[0]));
@@ -2070,15 +1915,13 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
         throw Context.reportRuntimeError("Unable to create a row copy: " + Const.CR + e.toString());
       }
     } else {
-      throw Context.reportRuntimeError(
-          "The function call createRowCopy requires a single arguments : the new size of the row");
+      throw Context.reportRuntimeError("The function call createRowCopy requires a single arguments : the new size of the row");
     }
   }
 
   // put a row out to the next transforms...
   //
-  public static void putRow(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void putRow(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         Object[] newRow = (Object[]) Context.jsToJava(argList[0], (new Object[] {}).getClass());
@@ -2088,25 +1931,19 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           ScriptValues transform = (ScriptValues) Context.jsToJava(scmO, ScriptValues.class);
           transform.putRow(transform.getOutputRowMeta(), newRow);
         } catch (Exception e) {
-          ScriptValuesDummy transform =
-              (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
+          ScriptValuesDummy transform = (ScriptValuesDummy) Context.jsToJava(scmO, ScriptValuesDummy.class);
           transform.putRow(transform.getOutputRowMeta(), newRow);
         }
 
       } catch (Exception e) {
-        throw Context.reportRuntimeError(
-            "Unable to pass the new row to the next transform(s) because of an error: "
-                + Const.CR
-                + e.toString());
+        throw Context.reportRuntimeError("Unable to pass the new row to the next transform(s) because of an error: " + Const.CR + e.toString());
       }
     } else {
-      throw Context.reportRuntimeError(
-          "The function call putRow requires 1 argument : the output row data (Object[])");
+      throw Context.reportRuntimeError("The function call putRow requires 1 argument : the output row data (Object[])");
     }
   }
 
-  public static void deleteFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void deleteFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
@@ -2118,14 +1955,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           if (fileObject.exists()) {
             if (fileObject.getType() == FileType.FILE) {
               if (!fileObject.delete()) {
-                Context.reportRuntimeError(
-                    "We can not delete file [" + Context.toString(argList[0]) + "]!");
+                Context.reportRuntimeError("We can not delete file [" + Context.toString(argList[0]) + "]!");
               }
             }
 
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
         } catch (IOException e) {
           throw Context.reportRuntimeError("The function call deleteFile is not valid.");
@@ -2147,8 +1982,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static void createFolder(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void createFolder(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
@@ -2159,8 +1993,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
           if (!fileObject.exists()) {
             fileObject.createFolder();
           } else {
-            Context.reportRuntimeError(
-                "folder [" + Context.toString(argList[0]) + "] already exist!");
+            Context.reportRuntimeError("folder [" + Context.toString(argList[0]) + "] already exist!");
           }
         } catch (IOException e) {
           throw Context.reportRuntimeError("The function call createFolder is not valid.");
@@ -2182,15 +2015,10 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static void copyFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void copyFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     try {
-      if (argList.length == 3
-          && !isNull(argList[0])
-          && !isNull(argList[1])
-          && !isUndefined(argList[0])
-          && !isUndefined(argList[1])) {
+      if (argList.length == 3 && !isNull(argList[0]) && !isNull(argList[1]) && !isUndefined(argList[0]) && !isUndefined(argList[1])) {
         FileObject fileSource = null;
         FileObject fileDestination = null;
 
@@ -2214,12 +2042,10 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               }
             }
           } else {
-            Context.reportRuntimeError(
-                "file to copy [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file to copy [" + Context.toString(argList[0]) + "] can not be found!");
           }
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call copyFile throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call copyFile throw an error : " + e.toString());
         } finally {
           if (fileSource != null) {
             try {
@@ -2245,8 +2071,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static double getFileSize(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static double getFileSize(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2265,13 +2090,11 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               Context.reportRuntimeError("[" + Context.toString(argList[0]) + "] is not a file!");
             }
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
           return filesize;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call getFileSize throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call getFileSize throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2290,8 +2113,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static boolean isFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static boolean isFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2310,13 +2132,11 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               Context.reportRuntimeError("[" + Context.toString(argList[0]) + "] is not a file!");
             }
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
           return isafile;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call is File throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call is File throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2335,8 +2155,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static boolean isFolder(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static boolean isFolder(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2355,13 +2174,11 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               Context.reportRuntimeError("[" + Context.toString(argList[0]) + "] is not a folder!");
             }
           } else {
-            Context.reportRuntimeError(
-                "folder [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("folder [" + Context.toString(argList[0]) + "] can not be found!");
           }
           return isafolder;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call isFolder throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call isFolder throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2380,8 +2197,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String getShortFilename(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getShortFilename(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2397,14 +2213,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
             filename = file.getName().getBaseName().toString();
 
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
 
           return filename;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call getShortFilename throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call getShortFilename throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2423,8 +2237,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String getFileExtension(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getFileExtension(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2440,14 +2253,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
             extension = file.getName().getExtension().toString();
 
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
 
           return extension;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call getFileExtension throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call getFileExtension throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2466,8 +2277,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String getParentFoldername(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getParentFoldername(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 1 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2483,14 +2293,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
             folderName = HopVfs.getFilename(file.getParent());
 
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
 
           return folderName;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call getParentFoldername throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call getParentFoldername throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2509,8 +2317,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String getLastModifiedTime(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String getLastModifiedTime(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       if (argList.length == 2 && !isNull(argList[0]) && !isUndefined(argList[0])) {
         if (argList[0].equals(null)) {
@@ -2532,14 +2339,12 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
             lastmodifiedtime = dateFormat.format(lastmodifiedtimedate);
 
           } else {
-            Context.reportRuntimeError(
-                "file [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file [" + Context.toString(argList[0]) + "] can not be found!");
           }
 
           return lastmodifiedtime;
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call getLastModifiedTime throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call getLastModifiedTime throw an error : " + e.toString());
         } finally {
           if (file != null) {
             try {
@@ -2558,8 +2363,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object trunc(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object trunc(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     try {
       // 1 argument: normal truncation of numbers
       //
@@ -2584,8 +2388,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
   }
 
   @SuppressWarnings("fallthrough")
-  public static Object truncDate(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object truncDate(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     // 2 arguments: truncation of dates to a certain precision
     //
     if (argList.length == 2) {
@@ -2608,8 +2411,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
       }
       return truncDate(dArg1, level);
     } else {
-      throw Context.reportRuntimeError(
-          "The function call truncDate requires 2 arguments: a date and a level (int)");
+      throw Context.reportRuntimeError("The function call truncDate requires 2 arguments: a date and a level (int)");
     }
   }
 
@@ -2619,7 +2421,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     cal.setTime(dArg1);
 
     switch (level.intValue()) {
-        // MONTHS
+      // MONTHS
       case 5:
         cal.set(Calendar.MONTH, 0);
         // DAYS
@@ -2644,15 +2446,10 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return cal.getTime();
   }
 
-  public static void moveFile(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static void moveFile(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
 
     try {
-      if (argList.length == 3
-          && !isNull(argList[0])
-          && !isNull(argList[1])
-          && !isUndefined(argList[0])
-          && !isUndefined(argList[1])) {
+      if (argList.length == 3 && !isNull(argList[0]) && !isNull(argList[1]) && !isUndefined(argList[0]) && !isUndefined(argList[1])) {
         FileObject fileSource = null;
         FileObject fileDestination = null;
 
@@ -2676,12 +2473,10 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               }
             }
           } else {
-            Context.reportRuntimeError(
-                "file to move [" + Context.toString(argList[0]) + "] can not be found!");
+            Context.reportRuntimeError("file to move [" + Context.toString(argList[0]) + "] can not be found!");
           }
         } catch (IOException e) {
-          throw Context.reportRuntimeError(
-              "The function call moveFile throw an error : " + e.toString());
+          throw Context.reportRuntimeError("The function call moveFile throw an error : " + e.toString());
         } finally {
           if (fileSource != null) {
             try {
@@ -2707,8 +2502,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String execProcess(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String execProcess(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     String retval = null;
     if (!isNull(argList) && !isUndefined(argList)) {
       Process processrun = null;
@@ -2741,8 +2535,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return retval;
   }
 
-  public static Boolean isEmpty(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Boolean isEmpty(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isUndefined(argList[0])) {
@@ -2765,8 +2558,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Boolean isMailValid(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Boolean isMailValid(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     Boolean isValid;
     if (argList.length == 1) {
       try {
@@ -2796,8 +2588,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String escapeXml(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String escapeXml(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.escapeXml(Context.toString(argList[0]));
     } else {
@@ -2805,8 +2596,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String escapeHtml(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String escapeHtml(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.escapeHtml(Context.toString(argList[0]));
     } else {
@@ -2814,8 +2604,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String unEscapeHtml(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String unEscapeHtml(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.unEscapeHtml(Context.toString(argList[0]));
     } else {
@@ -2823,8 +2612,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String unEscapeXml(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String unEscapeXml(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.unEscapeXml(Context.toString(argList[0]));
     } else {
@@ -2832,8 +2620,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String escapeSql(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String escapeSql(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.escapeSql(Context.toString(argList[0]));
     } else {
@@ -2841,8 +2628,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String protectXmlCdata(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String protectXmlCdata(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.protectXmlCdata(Context.toString(argList[0]));
     } else {
@@ -2850,8 +2636,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String removeDigits(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String removeDigits(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return Const.removeDigits(Context.toString(argList[0]));
     } else {
@@ -2859,8 +2644,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static String initCap(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String initCap(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       return ValueDataUtil.initCap(null, Context.toString(argList[0]));
     } else {
@@ -2868,15 +2652,13 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     }
   }
 
-  public static Object loadFileContent(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static Object loadFileContent(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     Object oRC = new Object();
     try {
 
       switch (argList.length) {
         case 0:
-          throw Context.reportRuntimeError(
-              "Please provide a filename to the function call loadFileContent.");
+          throw Context.reportRuntimeError("Please provide a filename to the function call loadFileContent.");
         case 1:
           try {
             if (isNull(argList)) {
@@ -2887,8 +2669,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
             // Returns file content
             oRC = new String(LoadFileInput.getFileBinaryContent(Context.toString(argList[0])));
           } catch (Exception e) {
-            throw Context.reportRuntimeError(
-                "The function call loadFileContent throw an error : " + e.toString());
+            throw Context.reportRuntimeError("The function call loadFileContent throw an error : " + e.toString());
           }
           break;
         case 2:
@@ -2903,18 +2684,14 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
               encoding = Context.toString(argList[1]);
             }
             // Returns file content
-            oRC =
-                new String(
-                    LoadFileInput.getFileBinaryContent(Context.toString(argList[0])), encoding);
+            oRC = new String(LoadFileInput.getFileBinaryContent(Context.toString(argList[0])), encoding);
           } catch (Exception e) {
-            throw Context.reportRuntimeError(
-                "The function call loadFileContent throw an error : " + e.toString());
+            throw Context.reportRuntimeError("The function call loadFileContent throw an error : " + e.toString());
           }
           break;
 
         default:
-          throw Context.reportRuntimeError(
-              "The function call loadFileContentrequires 1 ou 2 arguments.");
+          throw Context.reportRuntimeError("The function call loadFileContentrequires 1 ou 2 arguments.");
       }
 
     } catch (Exception e) {
@@ -2923,8 +2700,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return oRC;
   }
 
-  public static int getOcuranceString(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static int getOcuranceString(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     int nr = 0;
     if (argList.length == 2) {
       try {
@@ -2950,8 +2726,7 @@ public class ScriptValuesAddedFunctions extends ScriptableObject {
     return nr;
   }
 
-  public static String removeCRLF(
-      Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
+  public static String removeCRLF(Context actualContext, Scriptable actualObject, Object[] argList, Function functionContext) {
     if (argList.length == 1) {
       try {
         if (isNull(argList[0])) {

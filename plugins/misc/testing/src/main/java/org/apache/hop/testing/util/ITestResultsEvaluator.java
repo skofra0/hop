@@ -24,6 +24,5 @@ import java.util.List;
 
 public interface ITestResultsEvaluator {
 
-  void evaluateTestResults(IPipelineEngine pipeline, List<UnitTestResult> testResults)
-      throws HopException;
+  void evaluateTestResults(IPipelineEngine pipeline, List<UnitTestResult> testResults) throws HopException;
 }

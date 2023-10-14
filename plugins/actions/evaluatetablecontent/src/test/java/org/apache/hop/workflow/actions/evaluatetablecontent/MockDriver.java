@@ -73,17 +73,14 @@ public class MockDriver implements Driver {
 
     when(rs.getMetaData()).thenReturn(md);
     when(rs.getLong(anyInt())).thenReturn(5L);
-    when(rs.next())
-        .thenAnswer(
-            new Answer<Boolean>() {
-              private int count = 0;
+    when(rs.next()).thenAnswer(new Answer<Boolean>() {
+      private int count = 0;
 
-              @Override
-              public Boolean answer(org.mockito.invocation.InvocationOnMock invocation)
-                  throws Throwable {
-                return count++ == 0;
-              }
-            });
+      @Override
+      public Boolean answer(org.mockito.invocation.InvocationOnMock invocation) throws Throwable {
+        return count++ == 0;
+      }
+    });
 
     when(md.getColumnCount()).thenReturn(1);
     when(md.getColumnName(anyInt())).thenReturn("count");

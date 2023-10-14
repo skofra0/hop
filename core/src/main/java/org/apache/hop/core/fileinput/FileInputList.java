@@ -103,26 +103,13 @@ public class FileInputList {
     return includeSubDirs;
   }
 
-  public static String[] createFilePathList(
-      IVariables variables,
-      String[] fileName,
-      String[] fileMask,
-      String[] excludeFileMask,
-      String[] fileRequired) {
+  public static String[] createFilePathList(IVariables variables, String[] fileName, String[] fileMask, String[] excludeFileMask, String[] fileRequired) {
     boolean[] includeSubDirs = includeSubDirsFalse(fileName.length);
-    return createFilePathList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
+    return createFilePathList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
   }
 
-  public static String[] createFilePathList(
-      IVariables variables,
-      String[] fileName,
-      String[] fileMask,
-      String[] excludeFileMask,
-      String[] fileRequired,
-      boolean[] includeSubDirs) {
-    return createFilePathList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
+  public static String[] createFilePathList(IVariables variables, String[] fileName, String[] fileMask, String[] excludeFileMask, String[] fileRequired, boolean[] includeSubDirs) {
+    return createFilePathList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
   }
 
   public static String[] createFilePathList(
@@ -133,16 +120,7 @@ public class FileInputList {
       String[] fileRequired,
       boolean[] includeSubDirs,
       FileTypeFilter[] filters) {
-    List<FileObject> fileList =
-        createFileList(
-                variables,
-                fileName,
-                fileMask,
-                excludeFileMask,
-                fileRequired,
-                includeSubDirs,
-                filters)
-            .getFiles();
+    List<FileObject> fileList = createFileList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, filters).getFiles();
     String[] filePaths = new String[fileList.size()];
     for (int i = 0; i < filePaths.length; i++) {
       filePaths[i] = fileList.get(i).getName().getURI();
@@ -150,15 +128,9 @@ public class FileInputList {
     return filePaths;
   }
 
-  public static FileInputList createFileList(
-      IVariables variables,
-      String[] fileName,
-      String[] fileMask,
-      String[] excludeFileMask,
-      String[] fileRequired) {
+  public static FileInputList createFileList(IVariables variables, String[] fileName, String[] fileMask, String[] excludeFileMask, String[] fileRequired) {
     boolean[] includeSubDirs = includeSubDirsFalse(fileName.length);
-    return createFileList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
+    return createFileList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
   }
 
   public static FileInputList createFileList(
@@ -168,8 +140,7 @@ public class FileInputList {
       String[] excludeFileMask,
       String[] fileRequired,
       boolean[] includeSubDirs) {
-    return createFileList(
-        variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
+    return createFileList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubDirs, null);
   }
 
   public static FileInputList createFileList(
@@ -193,10 +164,7 @@ public class FileInputList {
       final String excludeOneMask = realExcludeMask[i];
       final boolean oneRequired = YES.equalsIgnoreCase(fileRequired[i]);
       final boolean subDirs = includeSubDirs[i];
-      final FileTypeFilter filter =
-          ((fileTypeFilters == null || fileTypeFilters[i] == null)
-              ? FileTypeFilter.ONLY_FILES
-              : fileTypeFilters[i]);
+      final FileTypeFilter filter = ((fileTypeFilters == null || fileTypeFilters[i] == null) ? FileTypeFilter.ONLY_FILES : fileTypeFilters[i]);
 
       if (Utils.isEmpty(oneFile)) {
         continue;
@@ -221,45 +189,41 @@ public class FileInputList {
         // Find all file names that match the wildcard in this directory
         //
         if (processFolder) {
-          if (directoryFileObject != null
-              && directoryFileObject.getType() == FileType.FOLDER) { // it's a directory
-            FileObject[] fileObjects =
-                directoryFileObject.findFiles(
-                    new AllFileSelector() {
-                      @Override
-                      public boolean traverseDescendents(FileSelectInfo info) {
-                        return info.getDepth() == 0 || subDirs;
-                      }
+          if (directoryFileObject != null && directoryFileObject.getType() == FileType.FOLDER) { // it's a directory
+            FileObject[] fileObjects = directoryFileObject.findFiles(new AllFileSelector() {
+              @Override
+              public boolean traverseDescendents(FileSelectInfo info) {
+                return info.getDepth() == 0 || subDirs;
+              }
 
-                      @Override
-                      public boolean includeFile(FileSelectInfo info) {
-                        // Never return the parent directory of a file list.
-                        if (info.getDepth() == 0) {
-                          return false;
-                        }
+              @Override
+              public boolean includeFile(FileSelectInfo info) {
+                // Never return the parent directory of a file list.
+                if (info.getDepth() == 0) {
+                  return false;
+                }
 
-                        FileObject fileObject = info.getFile();
-                        try {
-                          if (fileObject != null
-                              && filter.isFileTypeAllowed(fileObject.getType())) {
-                            String name = info.getFile().getName().getBaseName();
-                            boolean matches = true;
-                            if (!Utils.isEmpty(oneMask)) {
-                              matches = Pattern.matches(oneMask, name);
-                            }
-                            boolean excludematches = false;
-                            if (!Utils.isEmpty(excludeOneMask)) {
-                              excludematches = Pattern.matches(excludeOneMask, name);
-                            }
-                            return (matches && !excludematches);
-                          }
-                          return false;
-                        } catch (IOException ex) {
-                          // Upon error don't process the file.
-                          return false;
-                        }
-                      }
-                    });
+                FileObject fileObject = info.getFile();
+                try {
+                  if (fileObject != null && filter.isFileTypeAllowed(fileObject.getType())) {
+                    String name = info.getFile().getName().getBaseName();
+                    boolean matches = true;
+                    if (!Utils.isEmpty(oneMask)) {
+                      matches = Pattern.matches(oneMask, name);
+                    }
+                    boolean excludematches = false;
+                    if (!Utils.isEmpty(excludeOneMask)) {
+                      excludematches = Pattern.matches(excludeOneMask, name);
+                    }
+                    return (matches && !excludematches);
+                  }
+                  return false;
+                } catch (IOException ex) {
+                  // Upon error don't process the file.
+                  return false;
+                }
+              }
+            });
             if (fileObjects != null) {
               for (FileObject fileObject : fileObjects) {
                 if (fileObject.exists()) {
@@ -320,8 +284,7 @@ public class FileInputList {
     return fileInputList;
   }
 
-  public static FileInputList createFolderList(
-      IVariables variables, String[] folderName, String[] folderRequired) {
+  public static FileInputList createFolderList(IVariables variables, String[] folderName, String[] folderRequired) {
     FileInputList fileInputList = new FileInputList();
 
     // Replace possible environment variables...
@@ -339,27 +302,24 @@ public class FileInputList {
       try (FileObject directoryFileObject = HopVfs.getFileObject(oneFile)) {
         // Find all folder names in this directory
         //
-        if (directoryFileObject != null
-                && directoryFileObject.getType() == FileType.FOLDER) { // it's a directory
-          FileObject[] fileObjects =
-                  directoryFileObject.findFiles(
-                          new AllFileSelector() {
-                            @Override
-                            public boolean includeFile(FileSelectInfo info) {
-                              // Never return the parent directory of a file list.
-                              if (info.getDepth() == 0) {
-                                return false;
-                              }
+        if (directoryFileObject != null && directoryFileObject.getType() == FileType.FOLDER) { // it's a directory
+          FileObject[] fileObjects = directoryFileObject.findFiles(new AllFileSelector() {
+            @Override
+            public boolean includeFile(FileSelectInfo info) {
+              // Never return the parent directory of a file list.
+              if (info.getDepth() == 0) {
+                return false;
+              }
 
-                              FileObject fileObject = info.getFile();
-                              try {
-                                return fileObject != null && filter.isFileTypeAllowed(fileObject.getType());
-                              } catch (IOException ex) {
-                                // Upon error don't process the file.
-                                return false;
-                              }
-                            }
-                          });
+              FileObject fileObject = info.getFile();
+              try {
+                return fileObject != null && filter.isFileTypeAllowed(fileObject.getType());
+              } catch (IOException ex) {
+                // Upon error don't process the file.
+                return false;
+              }
+            }
+          });
           if (fileObjects != null) {
             for (FileObject fileObject : fileObjects) {
               if (fileObject.exists()) {
@@ -445,32 +405,12 @@ public class FileInputList {
     return nonAccessibleFiles.size() + nonExistentFiles.size();
   }
 
-  public static FileInputList createFileList(
-      IVariables variables,
-      String[] fileName,
-      String[] fileMask,
-      String[] fileRequired,
-      boolean[] includeSubDirs) {
-    return createFileList(
-        variables,
-        fileName,
-        fileMask,
-        new String[fileName.length],
-        fileRequired,
-        includeSubDirs,
-        null);
+  public static FileInputList createFileList(IVariables variables, String[] fileName, String[] fileMask, String[] fileRequired, boolean[] includeSubDirs) {
+    return createFileList(variables, fileName, fileMask, new String[fileName.length], fileRequired, includeSubDirs, null);
   }
 
-  public static String[] createFilePathList(
-      IVariables variables, String[] fileName, String[] fileMask, String[] fileRequired) {
+  public static String[] createFilePathList(IVariables variables, String[] fileName, String[] fileMask, String[] fileRequired) {
     boolean[] includeSubDirs = includeSubDirsFalse(fileName.length);
-    return createFilePathList(
-        variables,
-        fileName,
-        fileMask,
-        new String[fileName.length],
-        fileRequired,
-        includeSubDirs,
-        null);
+    return createFilePathList(variables, fileName, fileMask, new String[fileName.length], fileRequired, includeSubDirs, null);
   }
 }

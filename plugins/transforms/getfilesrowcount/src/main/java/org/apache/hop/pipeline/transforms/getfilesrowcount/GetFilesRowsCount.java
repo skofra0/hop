@@ -40,13 +40,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
 
   private static final Class<?> PKG = GetFilesRowsCountMeta.class; // For Translator
 
-  public GetFilesRowsCount(
-      TransformMeta transformMeta,
-      GetFilesRowsCountMeta meta,
-      GetFilesRowsCountData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetFilesRowsCount(TransformMeta transformMeta, GetFilesRowsCountMeta meta, GetFilesRowsCountData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -83,10 +77,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
       if (meta.isFileFromField() || data.lastFile) {
         putRow(data.outputRowMeta, outputRow);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "GetFilesRowsCount.Log.TotalRowsFiles"),
-              data.rowNumber,
-              data.fileNumber);
+          logDetailed(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.TotalRowsFiles"), data.rowNumber, data.fileNumber);
         }
       }
 
@@ -157,12 +148,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
         }
       }
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "GetFilesRowsCount.Log.RowsInFile",
-                data.file.toString(),
-                "" + data.rowNumber));
+        logDetailed(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.RowsInFile", data.file.toString(), "" + data.rowNumber));
       }
     } catch (Exception e) {
       throw new HopException(e);
@@ -193,8 +179,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
 
           data.inputRowMeta = getInputRowMeta();
           data.outputRowMeta = data.inputRowMeta.clone();
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Get total previous fields
           data.totalPreviousFields = data.inputRowMeta.size();
@@ -207,32 +192,18 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
 
           // cache the position of the field
           if (data.indexOfFilenameField < 0) {
-            data.indexOfFilenameField =
-                getInputRowMeta().indexOfValue(meta.getOutputFilenameField());
+            data.indexOfFilenameField = getInputRowMeta().indexOfValue(meta.getOutputFilenameField());
             if (data.indexOfFilenameField < 0) {
               // The field is unreachable !
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "GetFilesRowsCount.Log.ErrorFindingField",
-                      meta.getOutputFilenameField()));
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "GetFilesRowsCount.Exception.CouldnotFindField",
-                      meta.getOutputFilenameField()));
+              logError(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.ErrorFindingField", meta.getOutputFilenameField()));
+              throw new HopException(BaseMessages.getString(PKG, "GetFilesRowsCount.Exception.CouldnotFindField", meta.getOutputFilenameField()));
             }
           }
         } // End if first
 
         String filename = getInputRowMeta().getString(data.inputRow, data.indexOfFilenameField);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "GetFilesRowsCount.Log.FilenameInStream",
-                  meta.getOutputFilenameField(),
-                  filename));
+          logDetailed(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.FilenameInStream", meta.getOutputFilenameField(), filename));
         }
 
         data.file = HopVfs.getFileObject(filename);
@@ -248,34 +219,21 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
 
       if (meta.isAddResultFilename()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                data.file,
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.FileAddedResult"));
         addResultFile(resultFile);
       }
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "GetFilesRowsCount.Log.OpeningFile", data.file.toString()));
+        logDetailed(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.OpeningFile", data.file.toString()));
       }
       getRowNumber();
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "GetFilesRowsCount.Log.FileOpened", data.file.toString()));
+        logDetailed(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.FileOpened", data.file.toString()));
       }
 
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "GetFilesRowsCount.Log.UnableToOpenFile",
-              "" + data.fileNumber,
-              data.file.toString(),
-              e.toString()));
+      logError(BaseMessages.getString(PKG, "GetFilesRowsCount.Log.UnableToOpenFile", "" + data.fileNumber, data.file.toString(), e.toString()));
       stopAll();
       setErrors(1);
       return false;
@@ -308,9 +266,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
     switch (format) {
       case CUSTOM:
         if (StringUtils.isEmpty(meta.getRowSeparator())) {
-          logError(
-              BaseMessages.getString(PKG, "GetFilesRowsCount.Error.NoSeparator.Title"),
-              BaseMessages.getString(PKG, "GetFilesRowsCount.Error.NoSeparator.Msg"));
+          logError(BaseMessages.getString(PKG, "GetFilesRowsCount.Error.NoSeparator.Title"), BaseMessages.getString(PKG, "GetFilesRowsCount.Error.NoSeparator.Msg"));
           setErrors(1L);
           return false;
         }
@@ -331,10 +287,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
 
     if (isDetailed()) {
       logDetailed(
-          BaseMessages.getString(PKG, "GetFilesRowsCount.Log.Separator.Title"),
-          BaseMessages.getString(PKG, "GetFilesRowsCount.Log.Separatoris.Infos")
-              + " "
-              + data.separator);
+          BaseMessages.getString(PKG, "GetFilesRowsCount.Log.Separator.Title"), BaseMessages.getString(PKG, "GetFilesRowsCount.Log.Separatoris.Infos") + " " + data.separator);
     }
 
     if (!meta.isFileFromField()) {
@@ -346,8 +299,7 @@ public class GetFilesRowsCount extends BaseTransform<GetFilesRowsCountMeta, GetF
       try {
         // Create the output row meta-data
         data.outputRowMeta = new RowMeta();
-        meta.getFields(
-            data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+        meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
         // metadata
         // populated
 

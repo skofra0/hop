@@ -34,38 +34,24 @@ import java.util.Map;
     id = "DrawActionDebugLevelBeeExtensionPoint",
     description = "Draw a bee over a workflow entry which has debug level information stored",
     extensionPointId = "WorkflowPainterAction")
-public class DrawActionDebugLevelBeeExtensionPoint extends BeePainter
-    implements IExtensionPoint<WorkflowPainterExtension> {
+public class DrawActionDebugLevelBeeExtensionPoint extends BeePainter implements IExtensionPoint<WorkflowPainterExtension> {
 
   private static BufferedImage beeImage;
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, WorkflowPainterExtension ext) {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, WorkflowPainterExtension ext) {
 
     try {
       // The next statement sometimes causes an exception in WebSpoon
       // Keep it in the try/catch block
       //
-      Map<String, String> actionLevelMap =
-          ext.workflowMeta.getAttributesMap().get(Defaults.DEBUG_GROUP);
+      Map<String, String> actionLevelMap = ext.workflowMeta.getAttributesMap().get(Defaults.DEBUG_GROUP);
       if (actionLevelMap != null) {
 
-        ActionDebugLevel actionDebugLevel =
-            DebugLevelUtil.getActionDebugLevel(actionLevelMap, ext.actionMeta.toString());
+        ActionDebugLevel actionDebugLevel = DebugLevelUtil.getActionDebugLevel(actionLevelMap, ext.actionMeta.toString());
         if (actionDebugLevel != null) {
-          Rectangle r =
-              drawBee(ext.gc, ext.x1, ext.y1, ext.iconSize, this.getClass().getClassLoader());
-          ext.areaOwners.add(
-              new AreaOwner(
-                  AreaOwner.AreaType.CUSTOM,
-                  r.x,
-                  r.y,
-                  r.width,
-                  r.height,
-                  ext.offset,
-                  ext.actionMeta,
-                  actionDebugLevel));
+          Rectangle r = drawBee(ext.gc, ext.x1, ext.y1, ext.iconSize, this.getClass().getClassLoader());
+          ext.areaOwners.add(new AreaOwner(AreaOwner.AreaType.CUSTOM, r.x, r.y, r.width, r.height, ext.offset, ext.actionMeta, actionDebugLevel));
         }
       }
     } catch (Exception e) {

@@ -35,31 +35,38 @@ import java.util.List;
  * is similar to the JDBC ResultSet interface in that it provides a means of getting data from a
  * row.
  *
- * <p>Inside processRow() a transform typically retrieves the structure of incoming rows by calling
+ * <p>
+ * Inside processRow() a transform typically retrieves the structure of incoming rows by calling
  * getInputRowMeta(), which is provided by the BaseTransform class. The transform would usually
  * clone this object and pass it to getFields() of its meta class, to reflect any changes in row
  * structure caused by the transform itself. Now the transform has IRowMeta objects describing both
  * the input and output rows.
  *
- * <p>Usually a transform would look for the indexes and types of relevant fields upon first
+ * <p>
+ * Usually a transform would look for the indexes and types of relevant fields upon first
  * execution of processRow(). The following methods of IRowMeta are particularly useful in that
  * regard:
  *
- * <p><i><a href="">public int indexOfValue(...)</a></i><br>
+ * <p>
+ * <i><a href="">public int indexOfValue(...)</a></i><br>
  * Given a field name, determine the index of the field in the row.
  *
- * <p><i><a href="#getFieldNames()">public String[] getFieldNames()</a></i><br>
+ * <p>
+ * <i><a href="#getFieldNames()">public String[] getFieldNames()</a></i><br>
  * Returns an array of field names. The index of a field name matches the field index in the row
  * array.
  *
- * <p><i><a href="#searchValueMeta(java.lang.String)">public void searchValueMeta(String
+ * <p>
+ * <i><a href="#searchValueMeta(java.lang.String)">public void searchValueMeta(String
  * valueName)</a></i><br>
  * Given a field name, determine the meta data for the field.
  *
- * <p><i><a href="#getValueMeta(int index)">public vValueMetaInterface getValueMeta(...)</a></i><br>
+ * <p>
+ * <i><a href="#getValueMeta(int index)">public vValueMetaInterface getValueMeta(...)</a></i><br>
  * Given a field index, determine the meta data for the field.<br>
  *
- * <p><i><a href="#getValueMetaList()">public List<IValueMeta> getValueMetaList()</a></i><br>
+ * <p>
+ * <i><a href="#getValueMetaList()">public List<IValueMeta> getValueMetaList()</a></i><br>
  * Returns a list of all field descriptions. The index of the field description matches the field
  * index in the row array.
  *
@@ -234,7 +241,7 @@ public interface IRowMeta extends Cloneable {
    * @param index the index to reference
    * @return true if the value on the index is null.
    * @throws HopValueException in case there is a conversion error (only thrown in case of lazy
-   *     conversion)
+   *         conversion)
    */
   boolean isNull(Object[] dataRow, int index) throws HopValueException;
 
@@ -263,8 +270,7 @@ public interface IRowMeta extends Cloneable {
    * @return the string
    * @throws HopValueException the hop value exception
    */
-  String getString(Object[] dataRow, String valueName, String defaultValue)
-      throws HopValueException;
+  String getString(Object[] dataRow, String valueName, String defaultValue) throws HopValueException;
 
   /**
    * Gets the integer.
@@ -297,8 +303,7 @@ public interface IRowMeta extends Cloneable {
    * @return the integer
    * @throws HopValueException the hop value exception
    */
-  Boolean getBoolean(Object[] dataRow, String valueName, Boolean defaultValue)
-      throws HopValueException;
+  Boolean getBoolean(Object[] dataRow, String valueName, Boolean defaultValue) throws HopValueException;
 
   /**
    * Searches for a value with a certain name in the value meta list.
@@ -445,8 +450,7 @@ public interface IRowMeta extends Cloneable {
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
    * @throws HopValueException the hop value exception
    */
-  int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException;
+  int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException;
 
   /**
    * Compare 2 rows with each other using certain values in the rows and also considering the
@@ -460,9 +464,7 @@ public interface IRowMeta extends Cloneable {
    * @return 0 if the rows are considered equal, -1 is data1 is smaller, 1 if data2 is smaller.
    * @throws HopValueException the hop value exception
    */
-  int compare(
-      Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException;
+  int compare(Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException;
 
   /**
    * Compare 2 rows with each other using all values in the rows and also considering the specified

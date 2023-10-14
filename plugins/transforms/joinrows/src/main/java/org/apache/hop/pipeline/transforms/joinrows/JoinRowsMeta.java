@@ -164,8 +164,7 @@ public class JoinRowsMeta extends BaseTransformMeta<JoinRows, JoinRowsData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -195,9 +194,7 @@ public class JoinRowsMeta extends BaseTransformMeta<JoinRows, JoinRowsData> {
       }
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "JoinRowsMeta.Exception.UnableToReadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "JoinRowsMeta.Exception.UnableToReadTransformMetaFromXML"), e);
     }
   }
 
@@ -272,12 +269,7 @@ public class JoinRowsMeta extends BaseTransformMeta<JoinRows, JoinRowsData> {
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JoinRowsMeta.CheckResult.TransformReceivingDatas", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.TransformReceivingDatas", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       // Check the sort directory
@@ -285,67 +277,37 @@ public class JoinRowsMeta extends BaseTransformMeta<JoinRows, JoinRowsData> {
       File f = new File(realDirectory);
       if (f.exists()) {
         if (f.isDirectory()) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  "["
-                      + realDirectory
-                      + BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.DirectoryExists"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "[" + realDirectory + BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.DirectoryExists"), transformMeta);
           remarks.add(cr);
         } else {
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  "["
-                      + realDirectory
-                      + BaseMessages.getString(
-                          PKG, "JoinRowsMeta.CheckResult.DirectoryExistsButNotValid"),
+                  "[" + realDirectory + BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.DirectoryExistsButNotValid"),
                   transformMeta);
           remarks.add(cr);
         }
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "JoinRowsMeta.CheckResult.DirectoryDoesNotExist", realDirectory),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.DirectoryDoesNotExist", realDirectory), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "JoinRowsMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JoinRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JoinRowsMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   public String getLookupTransformName() {
-    if (mainTransform != null
-        && mainTransform.getName() != null
-        && mainTransform.getName().length() > 0) {
+    if (mainTransform != null && mainTransform.getName() != null && mainTransform.getName().length() > 0) {
       return mainTransform.getName();
     }
     return null;

@@ -108,8 +108,7 @@ public class Neo4jIndex extends ActionBase implements IAction {
       cypher += " FOR ";
       switch (indexUpdate.getObjectType()) {
         case NODE:
-          cypher +=
-              ":" + indexUpdate.getObjectName() + "(" + indexUpdate.getObjectProperties() + ")";
+          cypher += ":" + indexUpdate.getObjectName() + "(" + indexUpdate.getObjectProperties() + ")";
           break;
         case RELATIONSHIP:
           throw new HopException(
@@ -126,18 +125,17 @@ public class Neo4jIndex extends ActionBase implements IAction {
     final String _cypher = cypher;
     try (Driver driver = connection.getDriver(log, this)) {
       try (Session session = connection.getSession(log, driver, this)) {
-        session.writeTransaction(
-            tx -> {
-              try {
-                log.logDetailed("Dropping index with cypher: " + _cypher);
-                org.neo4j.driver.Result result = tx.run(_cypher);
-                result.consume();
-                return true;
-              } catch (Throwable e) {
-                log.logError("Error dropping index with cypher [" + _cypher + "]", e);
-                return false;
-              }
-            });
+        session.writeTransaction(tx -> {
+          try {
+            log.logDetailed("Dropping index with cypher: " + _cypher);
+            org.neo4j.driver.Result result = tx.run(_cypher);
+            result.consume();
+            return true;
+          } catch (Throwable e) {
+            log.logError("Error dropping index with cypher [" + _cypher + "]", e);
+            return false;
+          }
+        });
       }
     }
   }
@@ -180,18 +178,17 @@ public class Neo4jIndex extends ActionBase implements IAction {
     final String _cypher = cypher;
     try (Driver driver = connection.getDriver(log, this)) {
       try (Session session = connection.getSession(log, driver, this)) {
-        session.writeTransaction(
-            tx -> {
-              try {
-                log.logDetailed("Creating index with cypher: " + _cypher);
-                org.neo4j.driver.Result result = tx.run(_cypher);
-                result.consume();
-                return true;
-              } catch (Throwable e) {
-                log.logError("Error creating index with cypher [" + _cypher + "]", e);
-                return false;
-              }
-            });
+        session.writeTransaction(tx -> {
+          try {
+            log.logDetailed("Creating index with cypher: " + _cypher);
+            org.neo4j.driver.Result result = tx.run(_cypher);
+            result.consume();
+            return true;
+          } catch (Throwable e) {
+            log.logError("Error creating index with cypher [" + _cypher + "]", e);
+            return false;
+          }
+        });
       }
     }
   }

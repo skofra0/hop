@@ -51,38 +51,31 @@ import java.util.List;
 public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputStreamData> {
   private static final Class<?> PKG = XmlInputStream.class; // For Translator
 
-  private static final int PARENT_ID_ALLOCATE_SIZE =
-      1000; // max. number of nested elements, we may let the user configure
+  private static final int PARENT_ID_ALLOCATE_SIZE = 1000; // max. number of nested elements, we may let the user configure
   // this
 
   private int inputFieldIndex;
 
-  static final String[] eventDescription = {
-    "UNKNOWN",
-    "START_ELEMENT",
-    "END_ELEMENT",
-    "PROCESSING_INSTRUCTION",
-    "CHARACTERS",
-    "COMMENT",
-    "SPACE",
-    "START_DOCUMENT",
-    "END_DOCUMENT",
-    "ENTITY_REFERENCE",
-    "ATTRIBUTE",
-    "DTD",
-    "CDATA",
-    "NAMESPACE",
-    "NOTATION_DECLARATION",
-    "ENTITY_DECLARATION"
-  };
+  static final String[] eventDescription =
+      {
+          "UNKNOWN",
+          "START_ELEMENT",
+          "END_ELEMENT",
+          "PROCESSING_INSTRUCTION",
+          "CHARACTERS",
+          "COMMENT",
+          "SPACE",
+          "START_DOCUMENT",
+          "END_DOCUMENT",
+          "ENTITY_REFERENCE",
+          "ATTRIBUTE",
+          "DTD",
+          "CDATA",
+          "NAMESPACE",
+          "NOTATION_DECLARATION",
+          "ENTITY_DECLARATION"};
 
-  public XmlInputStream(
-      TransformMeta transformMeta,
-      XmlInputStreamMeta meta,
-      XmlInputStreamData transformDataInterface,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public XmlInputStream(TransformMeta transformMeta, XmlInputStreamMeta meta, XmlInputStreamData transformDataInterface, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, trans);
   }
 
@@ -111,9 +104,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         }
         inputFieldIndex = getInputRowMeta().indexOfValue(meta.sourceFieldName);
         if (inputFieldIndex < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "XMLInputStream.FilenameFieldNotFound", meta.sourceFieldName));
+          throw new HopException(BaseMessages.getString(PKG, "XMLInputStream.FilenameFieldNotFound", meta.sourceFieldName));
         }
         prepareProcessPreviousFields();
       }
@@ -143,8 +134,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       }
     } else {
       if (data.inputDataRows != null) {
-        data.currentInputRow =
-            (Object[]) (data.inputDataRows.get(data.filenames[data.filenr - 1])).clone();
+        data.currentInputRow = (Object[]) (data.inputDataRows.get(data.filenames[data.filenr - 1])).clone();
       }
       outputRowData = getRowFromXML();
       if (outputRowData == null) {
@@ -176,8 +166,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
     } else {
       data.previousFieldsNumber = getInputRowMeta().size();
       data.finalOutputRowMeta = getInputRowMeta().clone();
-      meta.getFields(
-          data.finalOutputRowMeta, getTransformName(), null, null, this, metadataProvider);
+      meta.getFields(data.finalOutputRowMeta, getTransformName(), null, null, this, metadataProvider);
     }
   }
 
@@ -198,12 +187,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
     data.filenr++;
     if (meta.isAddResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              data.fileObject,
-              getPipelineMeta().getName(),
-              getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.fileObject, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "XMLInputStream.Log.ResultFileWasRead"));
       addResultFile(resultFile);
     }
@@ -216,10 +200,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         data.xmlEventReader.close();
       } catch (XMLStreamException e) {
         if (log.isBasic()) {
-          log.logBasic(
-              BaseMessages.getString(
-                  PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]),
-              e);
+          log.logBasic(BaseMessages.getString(PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]), e);
         }
       }
     }
@@ -228,10 +209,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         data.inputStream.close();
       } catch (IOException e) {
         if (log.isBasic()) {
-          log.logBasic(
-              BaseMessages.getString(
-                  PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]),
-              e);
+          log.logBasic(BaseMessages.getString(PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]), e);
         }
       }
     }
@@ -240,10 +218,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         data.fileObject.close();
       } catch (FileSystemException e) {
         if (log.isBasic()) {
-          log.logBasic(
-              BaseMessages.getString(
-                  PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]),
-              e);
+          log.logBasic(BaseMessages.getString(PKG, "XMLInputStream.Log.UnableToCloseFile", data.filenames[(data.filenr - 1)]), e);
         }
       }
     }
@@ -284,11 +259,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
 
       data.filenames = filenames.toArray(new String[filenames.size()]);
 
-      logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "XMLInputStream.Log.ReadingFromNrFiles",
-              Integer.toString(data.filenames.length)));
+      logDetailed(BaseMessages.getString(PKG, "XMLInputStream.Log.ReadingFromNrFiles", Integer.toString(data.filenames.length)));
     }
   }
 
@@ -327,9 +298,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         logRowlevel("Read row: " + data.outputRowMeta.getString(r));
       }
       if (data.currentInputRow != null) {
-        r =
-            RowDataUtil.addRowData(
-                (Object[]) data.currentInputRow.clone(), data.previousFieldsNumber, r);
+        r = RowDataUtil.addRowData((Object[]) data.currentInputRow.clone(), data.previousFieldsNumber, r);
       }
       putRow(data.finalOutputRowMeta, r);
     }
@@ -344,9 +313,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       // log all events (but no attributes sent by the EventReader)
       incrementLinesInput();
       if (checkFeedback(getLinesInput()) && isBasic()) {
-        logBasic(
-            BaseMessages.getString(
-                PKG, "XMLInputStream.Log.LineNumber", Long.toString(getLinesInput())));
+        logBasic(BaseMessages.getString(PKG, "XMLInputStream.Log.LineNumber", Long.toString(getLinesInput())));
       }
     }
 
@@ -370,8 +337,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
     if (data.pos_xml_dataTypeDescription != -1) {
       if (eventType == 0 || eventType > eventDescription.length) {
         // unknown eventType
-        outputRowData[data.pos_xml_dataTypeDescription] =
-            eventDescription[0] + "(" + eventType + ")";
+        outputRowData[data.pos_xml_dataTypeDescription] = eventDescription[0] + "(" + eventType + ")";
       } else {
         outputRowData[data.pos_xml_dataTypeDescription] = eventDescription[eventType];
       }
@@ -387,9 +353,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       case XMLStreamConstants.START_ELEMENT:
         data.elementLevel++;
         if (data.elementLevel > PARENT_ID_ALLOCATE_SIZE - 1) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "XMLInputStream.Log.TooManyNestedElements", PARENT_ID_ALLOCATE_SIZE));
+          throw new HopException(BaseMessages.getString(PKG, "XMLInputStream.Log.TooManyNestedElements", PARENT_ID_ALLOCATE_SIZE));
         }
         if (data.elementParentID[data.elementLevel] == null) {
           data.elementParentID[data.elementLevel] = data.elementID;
@@ -414,8 +378,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         // store the name
         data.elementName[data.elementLevel] = xmlDataName;
         // store simple path
-        data.elementPath[data.elementLevel] =
-            data.elementPath[data.elementLevel - 1] + "/" + xmlDataName;
+        data.elementPath[data.elementLevel] = data.elementPath[data.elementLevel - 1] + "/" + xmlDataName;
 
         // write Namespaces out
         if (meta.isEnableNamespaces()) {
@@ -453,8 +416,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
           outputRowData[data.pos_xml_dataValue] = xmlDataValue;
         }
 
-        if (data.pos_xml_dataValue < 0
-            || Utils.isEmpty((String) outputRowData[data.pos_xml_dataValue])) {
+        if (data.pos_xml_dataValue < 0 || Utils.isEmpty((String) outputRowData[data.pos_xml_dataValue])) {
           outputRowData = null; // ignore & continue
         }
         break;
@@ -513,8 +475,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
 
   // Namespaces: put an extra row out for each namespace
   @SuppressWarnings("unchecked")
-  private Object[] parseNamespaces(Object[] outputRowData, XMLEvent e)
-      throws HopValueException, HopTransformException {
+  private Object[] parseNamespaces(Object[] outputRowData, XMLEvent e) throws HopValueException, HopTransformException {
     Iterator<Namespace> iter = e.asStartElement().getNamespaces();
     if (iter.hasNext()) {
       Object[] outputRowDataNamespace = data.outputRowMeta.cloneRow(outputRowData);
@@ -524,8 +485,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         outputRowData[data.pos_xml_dataType_numeric] = Long.valueOf(XMLStreamConstants.NAMESPACE);
       }
       if (data.pos_xml_dataTypeDescription != -1) {
-        outputRowData[data.pos_xml_dataTypeDescription] =
-            eventDescription[XMLStreamConstants.NAMESPACE];
+        outputRowData[data.pos_xml_dataTypeDescription] = eventDescription[XMLStreamConstants.NAMESPACE];
       }
     }
     while (iter.hasNext()) {
@@ -547,8 +507,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
 
   // Attributes: put an extra row out for each attribute
   @SuppressWarnings("unchecked")
-  private Object[] parseAttributes(Object[] outputRowData, XMLEvent e)
-      throws HopValueException, HopTransformException {
+  private Object[] parseAttributes(Object[] outputRowData, XMLEvent e) throws HopValueException, HopTransformException {
     Iterator<Attribute> iter = e.asStartElement().getAttributes();
     if (iter.hasNext()) {
       Object[] outputRowDataAttribute = data.outputRowMeta.cloneRow(outputRowData);
@@ -558,8 +517,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
         outputRowData[data.pos_xml_dataType_numeric] = Long.valueOf(XMLStreamConstants.ATTRIBUTE);
       }
       if (data.pos_xml_dataTypeDescription != -1) {
-        outputRowData[data.pos_xml_dataTypeDescription] =
-            eventDescription[XMLStreamConstants.ATTRIBUTE];
+        outputRowData[data.pos_xml_dataTypeDescription] = eventDescription[XMLStreamConstants.ATTRIBUTE];
       }
     }
     while (iter.hasNext()) {
@@ -578,8 +536,7 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
     return outputRowData;
   }
 
-  private void parseAttribute(
-      Object[] outputRowDataAttribute, Attribute a, boolean enabledNamespaces) {
+  private void parseAttribute(Object[] outputRowDataAttribute, Attribute a, boolean enabledNamespaces) {
     if (data.pos_xml_dataName != -1) {
       outputRowDataAttribute[data.pos_xml_dataName] = getAttributeName(a, enabledNamespaces);
     }
@@ -633,18 +590,14 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       data.staxInstance = XMLInputFactory.newInstance(); // could select the parser later on
       data.staxInstance.setProperty("javax.xml.stream.isCoalescing", false);
       data.filenr = 0;
-      if (getPipelineMeta().findPreviousTransforms(getTransformMeta()).size() == 0
-          && !meta.sourceFromInput) {
+      if (getPipelineMeta().findPreviousTransforms(getTransformMeta()).size() == 0 && !meta.sourceFromInput) {
         String filename = resolve(meta.getFilename());
         if (Utils.isEmpty(filename)) {
           logError(BaseMessages.getString(PKG, "XMLInputStream.MissingFilename.Message"));
           return false;
         }
 
-        data.filenames =
-            new String[] {
-              filename,
-            };
+        data.filenames = new String[] {filename,};
       } else {
         data.filenames = null;
       }
@@ -659,16 +612,12 @@ public class XmlInputStream extends BaseTransform<XmlInputStreamMeta, XmlInputSt
       // get and save field positions
       data.pos_xmlFilename = data.outputRowMeta.indexOfValue(meta.getFilenameField());
       data.pos_xmlRow_number = data.outputRowMeta.indexOfValue(meta.getRowNumberField());
-      data.pos_xml_dataType_numeric =
-          data.outputRowMeta.indexOfValue(meta.getXmlDataTypeNumericField());
-      data.pos_xml_dataTypeDescription =
-          data.outputRowMeta.indexOfValue(meta.getXmlDataTypeDescriptionField());
+      data.pos_xml_dataType_numeric = data.outputRowMeta.indexOfValue(meta.getXmlDataTypeNumericField());
+      data.pos_xml_dataTypeDescription = data.outputRowMeta.indexOfValue(meta.getXmlDataTypeDescriptionField());
       data.pos_xml_location_line = data.outputRowMeta.indexOfValue(meta.getXmlLocationLineField());
-      data.pos_xml_locationColumn =
-          data.outputRowMeta.indexOfValue(meta.getXmlLocationColumnField());
+      data.pos_xml_locationColumn = data.outputRowMeta.indexOfValue(meta.getXmlLocationColumnField());
       data.pos_xml_element_id = data.outputRowMeta.indexOfValue(meta.getXmlElementIDField());
-      data.pos_xml_parent_element_id =
-          data.outputRowMeta.indexOfValue(meta.getXmlParentElementIDField());
+      data.pos_xml_parent_element_id = data.outputRowMeta.indexOfValue(meta.getXmlParentElementIDField());
       data.pos_xml_element_level = data.outputRowMeta.indexOfValue(meta.getXmlElementLevelField());
       data.pos_xml_path = data.outputRowMeta.indexOfValue(meta.getXmlPathField());
       data.pos_xml_parent_path = data.outputRowMeta.indexOfValue(meta.getXmlParentPathField());

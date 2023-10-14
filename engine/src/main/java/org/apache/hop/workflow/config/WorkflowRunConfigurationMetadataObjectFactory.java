@@ -32,8 +32,7 @@ public class WorkflowRunConfigurationMetadataObjectFactory implements IHopMetada
     PluginRegistry registry = PluginRegistry.getInstance();
     IPlugin plugin = registry.findPluginWithId(WorkflowEnginePluginType.class, id);
     if (plugin == null) {
-      throw new HopException(
-          "Unable to find the plugin in the context of a pipeline engine plugin for id: " + id);
+      throw new HopException("Unable to find the plugin in the context of a pipeline engine plugin for id: " + id);
     }
 
     try {
@@ -41,8 +40,7 @@ public class WorkflowRunConfigurationMetadataObjectFactory implements IHopMetada
       //
       IWorkflowEngine engine = registry.loadClass(plugin, IWorkflowEngine.class);
 
-      IWorkflowEngineRunConfiguration engineRunConfiguration =
-          engine.createDefaultWorkflowEngineRunConfiguration();
+      IWorkflowEngineRunConfiguration engineRunConfiguration = engine.createDefaultWorkflowEngineRunConfiguration();
       engineRunConfiguration.setEnginePluginId(plugin.getIds()[0]);
       engineRunConfiguration.setEnginePluginName(plugin.getName());
 
@@ -52,17 +50,14 @@ public class WorkflowRunConfigurationMetadataObjectFactory implements IHopMetada
 
       return engineRunConfiguration;
     } catch (HopPluginException e) {
-      throw new HopException(
-          "Unable to load the workflow engine plugin class with plugin id: " + id, e);
+      throw new HopException("Unable to load the workflow engine plugin class with plugin id: " + id, e);
     }
   }
 
   @Override
   public String getObjectId(Object object) throws HopException {
     if (!(object instanceof IWorkflowEngineRunConfiguration)) {
-      throw new HopException(
-          "Object provided needs to be of class "
-              + IWorkflowEngineRunConfiguration.class.getName());
+      throw new HopException("Object provided needs to be of class " + IWorkflowEngineRunConfiguration.class.getName());
     }
     return ((IWorkflowEngineRunConfiguration) object).getEnginePluginId();
   }

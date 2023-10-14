@@ -42,8 +42,7 @@ public class InputsReader implements Iterable<InputStream> {
   private JsonInputData data;
   private ErrorHandler errorHandler;
 
-  public InputsReader(
-      JsonInput transform, JsonInputMeta meta, JsonInputData data, ErrorHandler errorHandler) {
+  public InputsReader(JsonInput transform, JsonInputMeta meta, JsonInputData data, ErrorHandler errorHandler) {
     this.transform = transform;
     this.meta = meta;
     this.data = data;
@@ -80,8 +79,7 @@ public class InputsReader implements Iterable<InputStream> {
   }
 
   protected StringFieldIterator getFieldIterator() {
-    return new StringFieldIterator(
-        new RowIterator(transform, data, errorHandler), data.indexSourceField);
+    return new StringFieldIterator(new RowIterator(transform, data, errorHandler), data.indexSourceField);
   }
 
   public static interface ErrorHandler {
@@ -131,8 +129,7 @@ public class InputsReader implements Iterable<InputStream> {
     ErrorHandler handler;
     BaseFileInputTransformData data;
 
-    FileContentIterator(
-        Iterator<FileObject> inner, BaseFileInputTransformData data, ErrorHandler handler) {
+    FileContentIterator(Iterator<FileObject> inner, BaseFileInputTransformData data, ErrorHandler handler) {
       super(inner, handler);
       this.data = data;
     }
@@ -165,8 +162,7 @@ public class InputsReader implements Iterable<InputStream> {
 
     private IVariables vars;
 
-    public FileNamesIterator(
-        IVariables varSpace, ErrorHandler handler, Iterator<String> fileNames) {
+    public FileNamesIterator(IVariables varSpace, ErrorHandler handler, Iterator<String> fileNames) {
       super(fileNames, handler);
       vars = varSpace;
     }

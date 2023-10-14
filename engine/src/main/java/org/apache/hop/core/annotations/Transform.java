@@ -26,7 +26,8 @@ import java.lang.annotation.Target;
  * An alternate way of defining transforms. Classes annotated with "Transform" are automatically
  * recognized and registered as a transform.
  *
- * <p>Important: The XML definitions alienate annotated transforms and the two methods of definition
+ * <p>
+ * Important: The XML definitions alienate annotated transforms and the two methods of definition
  * are therefore mutually exclusive.
  */
 @Documented
@@ -36,7 +37,7 @@ public @interface Transform {
 
   /**
    * @return The ID of the transform. You can specify more than one ID in a comma separated format:
-   *     id1,id2,id3 for deprecation purposes.
+   *         id1,id2,id3 for deprecation purposes.
    */
   String id();
 

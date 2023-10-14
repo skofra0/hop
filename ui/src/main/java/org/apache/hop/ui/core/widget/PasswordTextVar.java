@@ -32,35 +32,12 @@ public class PasswordTextVar extends TextVar {
     super(variables, composite, flags | SWT.PASSWORD, toolTipText, null, null);
   }
 
-  public PasswordTextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
-    super(
-        variables,
-        composite,
-        flags | SWT.PASSWORD,
-        null,
-        getCaretPositionInterface,
-        insertTextInterface);
+  public PasswordTextVar(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
+    super(variables, composite, flags | SWT.PASSWORD, null, getCaretPositionInterface, insertTextInterface);
   }
 
-  public PasswordTextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
-    super(
-        variables,
-        composite,
-        flags | SWT.PASSWORD,
-        toolTipText,
-        getCaretPositionInterface,
-        insertTextInterface);
+  public PasswordTextVar(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
+    super(variables, composite, flags | SWT.PASSWORD, toolTipText, getCaretPositionInterface, insertTextInterface);
   }
 
   @Override

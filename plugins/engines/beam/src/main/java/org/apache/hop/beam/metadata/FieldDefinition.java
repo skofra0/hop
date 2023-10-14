@@ -25,15 +25,20 @@ import java.io.Serializable;
 
 public class FieldDefinition implements Serializable {
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String hopType;
+  @HopMetadataProperty
+  private String hopType;
 
-  @HopMetadataProperty private int length;
+  @HopMetadataProperty
+  private int length;
 
-  @HopMetadataProperty private int precision;
+  @HopMetadataProperty
+  private int precision;
 
-  @HopMetadataProperty private String formatMask;
+  @HopMetadataProperty
+  private String formatMask;
 
   public FieldDefinition() {}
 
@@ -44,8 +49,7 @@ public class FieldDefinition implements Serializable {
     this.precision = precision;
   }
 
-  public FieldDefinition(
-      String name, String hopType, int length, int precision, String formatMask) {
+  public FieldDefinition(String name, String hopType, int length, int precision, String formatMask) {
     this.name = name;
     this.hopType = hopType;
     this.length = length;

@@ -91,8 +91,7 @@ public interface IHopFileType {
    * @param parentVariableSpace The parent variablespace to inherit from
    * @return The hop file handler
    */
-  IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace)
-      throws HopException;
+  IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException;
 
   IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException;
 
@@ -104,7 +103,7 @@ public interface IHopFileType {
    * @param checkContent True if we want to look inside the file content
    * @return true if this HopFile is handling the file
    * @throws HopException In case something goes wrong like: file doesn't exist, a permission
-   *     problem, ...
+   *         problem, ...
    */
   boolean isHandledBy(String filename, boolean checkContent) throws HopException;
 
@@ -118,7 +117,7 @@ public interface IHopFileType {
 
   /**
    * @return A list of context handlers allowing you to see all the actions that can be taken with
-   *     the current file type. (CRUD, ...)
+   *         the current file type. (CRUD, ...)
    */
   List<IGuiContextHandler> getContextHandlers();
 

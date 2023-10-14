@@ -62,8 +62,7 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
   }
 
   public void addNeoErrorPathTab(CTabFolder tabFolder) {
-    Image lineageImage =
-        GuiResource.getInstance().getImage("error-lineage.svg", classLoader, iconSize, iconSize);
+    Image lineageImage = GuiResource.getInstance().getImage("error-lineage.svg", classLoader, iconSize, iconSize);
 
     CTabItem lineageTab = new CTabItem(tabFolder, SWT.NONE);
     lineageTab.setFont(GuiResource.getInstance().getFontDefault());
@@ -77,9 +76,8 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
     Button wGo = new Button(tabComposite, SWT.PUSH);
     wGo.setText(BaseMessages.getString("System.Button.Open"));
     PropsUi.setLook(wGo);
-    wGo.addListener(SWT.Selection, e->openItem(wTree));
-    BaseTransformDialog.positionBottomButtons(
-            tabComposite, new Button[] {wGo}, PropsUi.getMargin(), null);
+    wGo.addListener(SWT.Selection, e -> openItem(wTree));
+    BaseTransformDialog.positionBottomButtons(tabComposite, new Button[] {wGo}, PropsUi.getMargin(), null);
 
     wTree = new Tree(tabComposite, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(wTree);
@@ -89,7 +87,7 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
     fdTree.bottom = new FormAttachment(wGo, -PropsUi.getMargin());
     fdTree.right = new FormAttachment(100, 0);
     wTree.setLayoutData(fdTree);
-    wTree.addListener(SWT.DefaultSelection, e->openItem(wTree));
+    wTree.addListener(SWT.DefaultSelection, e -> openItem(wTree));
     wTree.setHeaderVisible(true);
     {
       TreeColumn column = new TreeColumn(wTree, SWT.LEFT);
@@ -124,14 +122,12 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
 
     // If the tab becomes visible, refresh
     //
-    tabFolder.addListener(
-        SWT.Selection,
-        e -> {
-          if (lineageTab == tabFolder.getSelection()) {
-            // Cypher tab selected!
-            refresh();
-          }
-        });
+    tabFolder.addListener(SWT.Selection, e -> {
+      if (lineageTab == tabFolder.getSelection()) {
+        // Cypher tab selected!
+        refresh();
+      }
+    });
   }
 
   private void refresh() {
@@ -181,7 +177,7 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
   }
 
   private String formatDate(Date registrationDate) {
-    if (registrationDate==null) {
+    if (registrationDate == null) {
       return "";
     }
     return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(registrationDate);
@@ -205,31 +201,30 @@ public class NeoExecutionViewerErrorTab extends NeoExecutionViewerTabBase {
     pathParams.put("executionId", executionId);
     String pathCypher = getPathToFailedCypher();
 
-    getSession().readTransaction(
-        tx -> {
-          Result pathResult = tx.run(pathCypher, pathParams);
+    getSession().readTransaction(tx -> {
+      Result pathResult = tx.run(pathCypher, pathParams);
 
-          while (pathResult.hasNext()) {
-            Record pathRecord = pathResult.next();
-            Value pathValue = pathRecord.get(0);
-            Path path = pathValue.asPath();
-            List<PathResult> shortestPath = new ArrayList<>();
-            for (Node node : path.nodes()) {
-              PathResult nodeResult = new PathResult();
-              nodeResult.setId(LoggingCore.getStringValue(node, "id"));
-              nodeResult.setName(LoggingCore.getStringValue(node, "name"));
-              nodeResult.setType(LoggingCore.getStringValue(node, "executionType"));
-              nodeResult.setFailed(LoggingCore.getBooleanValue(node, "failed"));
-              nodeResult.setRegistrationDate(LoggingCore.getDateValue(node, "registrationDate"));
-              nodeResult.setCopy(LoggingCore.getStringValue(node, "copyNr"));
+      while (pathResult.hasNext()) {
+        Record pathRecord = pathResult.next();
+        Value pathValue = pathRecord.get(0);
+        Path path = pathValue.asPath();
+        List<PathResult> shortestPath = new ArrayList<>();
+        for (Node node : path.nodes()) {
+          PathResult nodeResult = new PathResult();
+          nodeResult.setId(LoggingCore.getStringValue(node, "id"));
+          nodeResult.setName(LoggingCore.getStringValue(node, "name"));
+          nodeResult.setType(LoggingCore.getStringValue(node, "executionType"));
+          nodeResult.setFailed(LoggingCore.getBooleanValue(node, "failed"));
+          nodeResult.setRegistrationDate(LoggingCore.getDateValue(node, "registrationDate"));
+          nodeResult.setCopy(LoggingCore.getStringValue(node, "copyNr"));
 
-              shortestPath.add(0, nodeResult);
-            }
-            shortestPaths.add(shortestPath);
-          }
-          //
-          return null;
-        });
+          shortestPath.add(0, nodeResult);
+        }
+        shortestPaths.add(shortestPath);
+      }
+      //
+      return null;
+    });
 
     return shortestPaths;
   }

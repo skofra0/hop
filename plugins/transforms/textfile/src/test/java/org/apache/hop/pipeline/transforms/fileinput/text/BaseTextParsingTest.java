@@ -25,8 +25,7 @@ import org.junit.Ignore;
 
 /** Base class for all TextFileInput transform tests. */
 @Ignore("No tests in abstract base class")
-public abstract class BaseTextParsingTest
-    extends BaseParsingTest<TextFileInputMeta, TextFileInputData, TextFileInput> {
+public abstract class BaseTextParsingTest extends BaseParsingTest<TextFileInputMeta, TextFileInputData, TextFileInput> {
   /** Initialize transform info. */
   @Before
   public void before() {
@@ -59,7 +58,8 @@ public abstract class BaseTextParsingTest
   /**
    * Declare fields for test.
    *
-   * <p>TODO: move to BaseParsingTest after CSV moving to BaseFileInput
+   * <p>
+   * TODO: move to BaseParsingTest after CSV moving to BaseFileInput
    */
   @Override
   protected void setFields(BaseFileField... fields) throws Exception {

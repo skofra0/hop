@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class SystemDataMetaInjectionTest extends BaseMetadataInjectionTest<SystemDataMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {

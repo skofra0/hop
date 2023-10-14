@@ -48,8 +48,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamKinesisProduceMeta.keyword",
     documentationUrl = "/pipeline/transforms/beamkinesisproduce.html")
-public class BeamKinesisProduceMeta extends BaseTransformMeta<BeamKinesisProduce, DummyData>
-    implements IBeamPipelineTransformHandler {
+public class BeamKinesisProduceMeta extends BaseTransformMeta<BeamKinesisProduce, DummyData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "access_key")
   private String accessKey;
@@ -83,13 +82,7 @@ public class BeamKinesisProduceMeta extends BaseTransformMeta<BeamKinesisProduce
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // No output
@@ -136,8 +129,7 @@ public class BeamKinesisProduceMeta extends BaseTransformMeta<BeamKinesisProduce
     String dataFieldName = variables.resolve(getDataField());
     IValueMeta messageValueMeta = rowMeta.searchValueMeta(dataFieldName);
     if (messageValueMeta == null) {
-      throw new HopException(
-          "Error finding message/data field " + dataFieldName + " in the input rows");
+      throw new HopException("Error finding message/data field " + dataFieldName + " in the input rows");
     }
 
     BeamKinesisProduceTransform beamProduceTransform =
@@ -165,11 +157,7 @@ public class BeamKinesisProduceMeta extends BaseTransformMeta<BeamKinesisProduce
     // No need to store this, it's PDone.
     //
     input.apply(beamProduceTransform);
-    log.logBasic(
-        "Handled transform (KINESIS OUTPUT) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (KINESIS OUTPUT) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   public String getAccessKey() {

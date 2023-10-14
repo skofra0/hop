@@ -28,23 +28,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExecutionDataSetMetaDeserializer
-    extends JsonDeserializer<Map<String, ExecutionDataSetMeta>> {
+public class ExecutionDataSetMetaDeserializer extends JsonDeserializer<Map<String, ExecutionDataSetMeta>> {
   @Override
   @SuppressWarnings("unchecked")
-  public Map<String, ExecutionDataSetMeta> deserialize(
-      JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
-    JsonDeserializer<Object> deserializer =
-        context.findRootValueDeserializer(context.constructType(Map.class));
+  public Map<String, ExecutionDataSetMeta> deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
+    JsonDeserializer<Object> deserializer = context.findRootValueDeserializer(context.constructType(Map.class));
 
-    Map<String, Map<String, Object>> rawMap =
-        (Map<String, Map<String, Object>>) deserializer.deserialize(parser, context);
+    Map<String, Map<String, Object>> rawMap = (Map<String, Map<String, Object>>) deserializer.deserialize(parser, context);
     Map<String, ExecutionDataSetMeta> map = Collections.synchronizedMap(new HashMap<>());
     ObjectMapper mapper = HopJson.newMapper();
     for (String key : rawMap.keySet()) {
       Map<String, Object> rawMetaMap = rawMap.get(key);
-      ExecutionDataSetMeta setMeta =
-          mapper.readValue(mapper.writeValueAsString(rawMetaMap), ExecutionDataSetMeta.class);
+      ExecutionDataSetMeta setMeta = mapper.readValue(mapper.writeValueAsString(rawMetaMap), ExecutionDataSetMeta.class);
       map.put(key, setMeta);
     }
     return map;

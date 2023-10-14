@@ -71,8 +71,7 @@ public class HopServerConfig implements IXml {
     passwordFile = null; // force lookup by server in ~/.hop or local folder
     variables = Variables.getADefaultVariableSpace();
     // An empty list of metadata providers by default
-    metadataProvider =
-        new MultiMetadataProvider(Encr.getEncoder(), Collections.emptyList(), variables);
+    metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), Collections.emptyList(), variables);
   }
 
   public HopServerConfig(HopServer hopServer) {
@@ -151,19 +150,13 @@ public class HopServerConfig implements IXml {
 
       jettyOptions = new HashMap<>();
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_ACCEPTORS,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_ACCEPTORS, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPTORS));
       }
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_ACCEPT_QUEUE_SIZE));
       }
       if (XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME) != null) {
-        jettyOptions.put(
-            Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME,
-            XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME));
+        jettyOptions.put(Const.HOP_SERVER_JETTY_RES_MAX_IDLE_TIME, XmlHandler.getTagValue(jettyOptionsNode, XML_TAG_LOW_RES_MAX_IDLE_TIME));
       }
     }
     return jettyOptions;
@@ -183,22 +176,10 @@ public class HopServerConfig implements IXml {
           // Also change the name of the server...
           //
           hopServer.setName(hopServer.getName() + "-" + newHostname);
-          log.logBasic(
-              "Hostname for hop server ["
-                  + hopServer.getName()
-                  + "] is set to ["
-                  + newHostname
-                  + "], information derived from network "
-                  + networkInterfaceName);
+          log.logBasic("Hostname for hop server [" + hopServer.getName() + "] is set to [" + newHostname + "], information derived from network " + networkInterfaceName);
         }
       } catch (SocketException e) {
-        log.logError(
-            "Unable to get the IP address for network interface "
-                + networkInterfaceName
-                + " for hop server ["
-                + hopServer.getName()
-                + "]",
-            e);
+        log.logError("Unable to get the IP address for network interface " + networkInterfaceName + " for hop server [" + hopServer.getName() + "]", e);
       }
     }
   }
@@ -211,7 +192,8 @@ public class HopServerConfig implements IXml {
 
   /**
    * @return the hop server.<br>
-   *     The user name and password defined in here are used to contact this server by the masters.
+   *         The user name and password defined in here are used to contact this server by the
+   *         masters.
    */
   public HopServer getHopServer() {
     return hopServer;
@@ -219,7 +201,7 @@ public class HopServerConfig implements IXml {
 
   /**
    * @param hopServer the hop server details to set.<br>
-   *     The user name and password defined in here are used to contact this server by the masters.
+   *        The user name and password defined in here are used to contact this server by the masters.
    */
   public void setHopServer(HopServer hopServer) {
     this.hopServer = hopServer;
@@ -227,7 +209,7 @@ public class HopServerConfig implements IXml {
 
   /**
    * @return true if the webserver needs to join with the webserver threads (wait/block until
-   *     finished)
+   *         finished)
    */
   public boolean isJoining() {
     return joining;
@@ -235,7 +217,7 @@ public class HopServerConfig implements IXml {
 
   /**
    * @param joining Set to true if the webserver needs to join with the webserver threads
-   *     (wait/block until finished)
+   *        (wait/block until finished)
    */
   public void setJoining(boolean joining) {
     this.joining = joining;

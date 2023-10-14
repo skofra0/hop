@@ -56,8 +56,7 @@ public class PipelineHopDialog extends Dialog {
 
   private boolean changed;
 
-  public PipelineHopDialog(
-      Shell parent, int style, PipelineHopMeta pipelineHopMeta, PipelineMeta tr) {
+  public PipelineHopDialog(Shell parent, int style, PipelineHopMeta pipelineHopMeta, PipelineMeta tr) {
     super(parent, style);
     this.props = PropsUi.getInstance();
     input = pipelineHopMeta;
@@ -150,14 +149,13 @@ public class PipelineHopDialog extends Dialog {
     fdEnabled.left = new FormAttachment(middle, 0);
     fdEnabled.top = new FormAttachment(wlTo, margin * 5);
     wEnabled.setLayoutData(fdEnabled);
-    wEnabled.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setEnabled(!input.isEnabled());
-            input.setChanged();
-          }
-        });
+    wEnabled.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setEnabled(!input.isEnabled());
+        input.setChanged();
+      }
+    });
 
     Button wFlip = new Button(shell, SWT.PUSH);
     wFlip.setText(BaseMessages.getString(PKG, "PipelineHopDialog.FromTo.Button"));
@@ -240,20 +238,13 @@ public class PipelineHopDialog extends Dialog {
 
     if (input.getFromTransform() == null || input.getToTransform() == null) {
       MessageBox mb = new MessageBox(shell, SWT.YES | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG,
-              "PipelineHopDialog.TransformDoesNotExist.DialogMessage",
-              input.getFromTransform() == null ? wFrom.getText() : wTo.getText()));
-      mb.setText(
-          BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogMessage", input.getFromTransform() == null ? wFrom.getText() : wTo.getText()));
+      mb.setText(BaseMessages.getString(PKG, "PipelineHopDialog.TransformDoesNotExist.DialogTitle"));
       mb.open();
     } else if (input.getFromTransform().equals(input.getToTransform())) {
       MessageBox mb = new MessageBox(shell, SWT.YES | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "PipelineHopDialog.CannotGoToSameTransform.DialogTitle"));
       mb.open();
     } else if (pipelineMeta.hasLoop(input.getToTransform())) {
       input.setFromTransform(fromBackup);

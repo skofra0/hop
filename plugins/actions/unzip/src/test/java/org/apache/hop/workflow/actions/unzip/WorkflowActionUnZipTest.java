@@ -30,7 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 public class WorkflowActionUnZipTest extends WorkflowActionLoadSaveTestSupport<ActionUnZip> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionUnZip> getActionClass() {
@@ -40,73 +41,29 @@ public class WorkflowActionUnZipTest extends WorkflowActionLoadSaveTestSupport<A
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-        "zipfilename",
-        "wildcard",
-        "wildcardexclude",
-        "targetdirectory",
-        "movetodirectory",
-        "addfiletoresult",
-        "isfromprevious",
-        "adddate",
-        "addtime",
-        "addOriginalTimestamp",
-        "SpecifyFormat",
-        "date_time_format",
-        "rootzip",
-        "createfolder",
-        "nr_limit",
-        "wildcardSource",
-        "success_condition",
-        "create_move_to_directory",
+        "zipfilename", "wildcard", "wildcardexclude", "targetdirectory", "movetodirectory", "addfiletoresult", "isfromprevious", "adddate", "addtime", "addOriginalTimestamp",
+        "SpecifyFormat", "date_time_format", "rootzip", "createfolder", "nr_limit", "wildcardSource", "success_condition", "create_move_to_directory",
         "setOriginalModificationDate");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "zipfilename", "getZipFilename",
-        "wildcard", "getWildcard",
-        "wildcardexclude", "getWildcardExclude",
-        "targetdirectory", "getSourceDirectory",
-        "movetodirectory", "getMoveToDirectory",
-        "addfiletoresult", "isAddFileToResult",
-        "isfromprevious", "getDatafromprevious",
-        "adddate", "isDateInFilename",
-        "addtime", "isTimeInFilename",
-        "addOriginalTimestamp", "isOriginalTimestamp",
-        "SpecifyFormat", "isSpecifyFormat",
-        "date_time_format", "getDateTimeFormat",
-        "rootzip", "isCreateRootFolder",
-        "createfolder", "isCreateFolder",
-        "nr_limit", "getLimit",
-        "wildcardSource", "getWildcardSource",
-        "success_condition", "getSuccessCondition",
-        "create_move_to_directory", "isCreateMoveToDirectory",
-        "setOriginalModificationDate", "isOriginalModificationDate");
+        "zipfilename", "getZipFilename", "wildcard", "getWildcard", "wildcardexclude", "getWildcardExclude", "targetdirectory", "getSourceDirectory", "movetodirectory",
+        "getMoveToDirectory", "addfiletoresult", "isAddFileToResult", "isfromprevious", "getDatafromprevious", "adddate", "isDateInFilename", "addtime", "isTimeInFilename",
+        "addOriginalTimestamp", "isOriginalTimestamp", "SpecifyFormat", "isSpecifyFormat", "date_time_format", "getDateTimeFormat", "rootzip", "isCreateRootFolder", "createfolder",
+        "isCreateFolder", "nr_limit", "getLimit", "wildcardSource", "getWildcardSource", "success_condition", "getSuccessCondition", "create_move_to_directory",
+        "isCreateMoveToDirectory", "setOriginalModificationDate", "isOriginalModificationDate");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "zipfilename", "setZipFilename",
-        "wildcard", "setWildcard",
-        "wildcardexclude", "setWildcardExclude",
-        "targetdirectory", "setSourceDirectory",
-        "movetodirectory", "setMoveToDirectory",
-        "addfiletoresult", "setAddFileToResult",
-        "isfromprevious", "setDatafromprevious",
-        "adddate", "setDateInFilename",
-        "addtime", "setTimeInFilename",
-        "addOriginalTimestamp", "setAddOriginalTimestamp",
-        "SpecifyFormat", "setSpecifyFormat",
-        "date_time_format", "setDateTimeFormat",
-        "rootzip", "setCreateRootFolder",
-        "createfolder", "setCreateFolder",
-        "nr_limit", "setLimit",
-        "wildcardSource", "setWildcardSource",
-        "success_condition", "setSuccessCondition",
-        "create_move_to_directory", "setCreateMoveToDirectory",
-        "setOriginalModificationDate", "setOriginalModificationDate");
+        "zipfilename", "setZipFilename", "wildcard", "setWildcard", "wildcardexclude", "setWildcardExclude", "targetdirectory", "setSourceDirectory", "movetodirectory",
+        "setMoveToDirectory", "addfiletoresult", "setAddFileToResult", "isfromprevious", "setDatafromprevious", "adddate", "setDateInFilename", "addtime", "setTimeInFilename",
+        "addOriginalTimestamp", "setAddOriginalTimestamp", "SpecifyFormat", "setSpecifyFormat", "date_time_format", "setDateTimeFormat", "rootzip", "setCreateRootFolder",
+        "createfolder", "setCreateFolder", "nr_limit", "setLimit", "wildcardSource", "setWildcardSource", "success_condition", "setSuccessCondition", "create_move_to_directory",
+        "setCreateMoveToDirectory", "setOriginalModificationDate", "setOriginalModificationDate");
   }
 
   @Test
@@ -114,25 +71,19 @@ public class WorkflowActionUnZipTest extends WorkflowActionLoadSaveTestSupport<A
 
     ActionUnZip jobEntryUnZip = new ActionUnZip();
 
-    Method unzipPostprocessingMethod =
-        jobEntryUnZip
-            .getClass()
-            .getDeclaredMethod(
-                "doUnzipPostProcessing", FileObject.class, FileObject.class, String.class);
+    Method unzipPostprocessingMethod = jobEntryUnZip.getClass().getDeclaredMethod("doUnzipPostProcessing", FileObject.class, FileObject.class, String.class);
     unzipPostprocessingMethod.setAccessible(true);
     FileObject sourceFileObject = Mockito.mock(FileObject.class);
     Mockito.doReturn(Mockito.mock(FileName.class)).when(sourceFileObject).getName();
 
     // delete
     jobEntryUnZip.afterunzip = 1;
-    unzipPostprocessingMethod.invoke(
-        jobEntryUnZip, sourceFileObject, Mockito.mock(FileObject.class), "");
+    unzipPostprocessingMethod.invoke(jobEntryUnZip, sourceFileObject, Mockito.mock(FileObject.class), "");
     Mockito.verify(sourceFileObject, Mockito.times(1)).delete();
 
     // move
     jobEntryUnZip.afterunzip = 2;
-    unzipPostprocessingMethod.invoke(
-        jobEntryUnZip, sourceFileObject, Mockito.mock(FileObject.class), "");
+    unzipPostprocessingMethod.invoke(jobEntryUnZip, sourceFileObject, Mockito.mock(FileObject.class), "");
     Mockito.verify(sourceFileObject, Mockito.times(1)).moveTo(Mockito.anyObject());
   }
 }

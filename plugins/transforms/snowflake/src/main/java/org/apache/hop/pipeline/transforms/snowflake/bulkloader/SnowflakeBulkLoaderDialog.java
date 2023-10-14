@@ -83,38 +83,33 @@ import org.eclipse.swt.widgets.Text;
 @SuppressWarnings({"FieldCanBeLocal", "WeakerAccess", "unused"})
 public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements ITransformDialog {
 
-  private static final Class<?> PKG =
-      SnowflakeBulkLoaderMeta.class; // For Translator
+  private static final Class<?> PKG = SnowflakeBulkLoaderMeta.class; // For Translator
 
   /** The descriptions for the location type drop down */
   private static final String[] LOCATION_TYPE_COMBO =
       new String[] {
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.User"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.Table"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.InternalStage")
-      };
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.User"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.Table"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.LocationType.InternalStage")};
 
   /** The descriptions for the on error drop down */
   private static final String[] ON_ERROR_COMBO =
       new String[] {
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.Continue"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.SkipFile"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.SkipFilePercent"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.Abort")
-      };
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.Continue"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.SkipFile"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.SkipFilePercent"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.OnError.Abort")};
 
   /** The descriptions for the data type drop down */
   private static final String[] DATA_TYPE_COMBO =
-      new String[] {
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.DataType.CSV"),
-        BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.DataType.JSON")
-      };
+      new String[] {BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.DataType.CSV"), BaseMessages.getString(PKG, "SnowflakeBulkLoad.Dialog.DataType.JSON")};
 
-  /* ********************************************************
+  /*
+   * ********************************************************
    * Loader tab
    * This tab is used to configure information about the
    * database and bulk load method.
-   * ********************************************************/
+   ********************************************************/
 
   // Database connection line
   private MetaSelectionLine<DatabaseMeta> wConnection;
@@ -149,22 +144,26 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
   private Button wRemoveFiles;
 
-  /* *************************************************************
+  /*
+   * *************************************************************
    * End Loader Tab
-   * *************************************************************/
+   *************************************************************/
 
-  /* *************************************************************
+  /*
+   * *************************************************************
    * Begin Data Type tab
    * This tab is used to configure the specific loading parameters
    * for the data type selected.
-   * *************************************************************/
+   *************************************************************/
 
   // Data Type Line
   private CCombo wDataType;
 
-  /* -------------------------------------------------------------
+  /*
+   * -------------------------------------------------------------
    * CSV Group
-   * ------------------------------------------------------------*/
+   * ------------------------------------------------------------
+   */
 
   private Group gCsvGroup;
 
@@ -176,13 +175,17 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
   // Error on column mismatch line
   private Button wColumnMismatch;
 
-  /* --------------------------------------------------
+  /*
+   * --------------------------------------------------
    * End CSV Group
-   * -------------------------------------------------*/
+   * -------------------------------------------------
+   */
 
-  /* --------------------------------------------------
+  /*
+   * --------------------------------------------------
    * Start JSON Group
-   * -------------------------------------------------*/
+   * -------------------------------------------------
+   */
 
   private Group gJsonGroup;
 
@@ -198,19 +201,23 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
   // Enable Octal line
   private Button wEnableOctal;
 
-  /* -------------------------------------------------
+  /*
+   * -------------------------------------------------
    * End JSON Group
-   * ------------------------------------------------*/
+   * ------------------------------------------------
+   */
 
-  /* ************************************************
+  /*
+   * ************************************************
    * End Data tab
-   * ************************************************/
+   ************************************************/
 
-  /* ************************************************
+  /*
+   * ************************************************
    * Start fields tab
    * This tab is used to define the field mappings
    * from the stream field to the database
-   * ************************************************/
+   ************************************************/
 
   // Specify Fields line
   private Button wSpecifyFields;
@@ -225,9 +232,10 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
   // Enter field mapping
   private Button wDoMapping;
-  /* ************************************************
+  /*
+   * ************************************************
    * End Fields tab
-   * ************************************************/
+   ************************************************/
 
   private SnowflakeBulkLoaderMeta input;
 
@@ -242,8 +250,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
   private List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
   @SuppressWarnings("unused")
-  public SnowflakeBulkLoaderDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SnowflakeBulkLoaderDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SnowflakeBulkLoaderMeta) in;
     this.pipelineMeta = pipelineMeta;
@@ -259,36 +266,35 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     display = parent.getDisplay();
 
     int margin = props.getMargin();
-    
+
     shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.MIN);
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    /* ************************************************
+    /*
+     * ************************************************
      * Modify Listeners
-     * ************************************************/
+     ************************************************/
 
-    // Basic modify listener, sets if anything has changed.  Hop's way to know the pipeline
+    // Basic modify listener, sets if anything has changed. Hop's way to know the pipeline
     // needs saved
     ModifyListener lsMod = e -> input.setChanged();
 
-    SelectionAdapter bMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter bMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
 
-    // Some settings have to modify what is or is not visible within the shell.  This listener does
+    // Some settings have to modify what is or is not visible within the shell. This listener does
     // this.
-    SelectionAdapter lsFlags =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setFlags();
-          }
-        };
+    SelectionAdapter lsFlags = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setFlags();
+      }
+    };
 
     changed = input.hasChanged();
 
@@ -323,14 +329,14 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     CTabFolder wTabFolder = new CTabFolder(shell, SWT.BORDER);
     PropsUi.setLook(wTabFolder, Props.WIDGET_STYLE_TAB);
 
-    /* *********************************************
+    /*
+     * *********************************************
      * Start of Loader tab
-     * *********************************************/
+     *********************************************/
 
     CTabItem wLoaderTab = new CTabItem(wTabFolder, SWT.NONE);
     wLoaderTab.setFont(GuiResource.getInstance().getFontDefault());
-    wLoaderTab.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LoaderTab.TabTitle"));
+    wLoaderTab.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LoaderTab.TabTitle"));
 
     Composite wLoaderComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wLoaderComp);
@@ -350,8 +356,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // Schema line
     Label wlSchema = new Label(wLoaderComp, SWT.RIGHT);
     wlSchema.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.Schema.Label"));
-    wlSchema.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.Schema.Tooltip"));
+    wlSchema.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.Schema.Tooltip"));
     PropsUi.setLook(wlSchema);
     FormData fdlSchema = new FormData();
     fdlSchema.left = new FormAttachment(0, 0);
@@ -375,13 +380,12 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdSchema.top = new FormAttachment(wConnection, margin * 2);
     fdSchema.right = new FormAttachment(wbSchema, -margin);
     wSchema.setLayoutData(fdSchema);
-    wSchema.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusLost(FocusEvent focusEvent) {
-            setTableFieldCombo();
-          }
-        });
+    wSchema.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent focusEvent) {
+        setTableFieldCombo();
+      }
+    });
 
     // Table line...
     Label wlTable = new Label(wLoaderComp, SWT.RIGHT);
@@ -409,21 +413,18 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdTable.left = new FormAttachment(middle, 0);
     fdTable.right = new FormAttachment(wbTable, -margin);
     wTable.setLayoutData(fdTable);
-    wTable.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusLost(FocusEvent focusEvent) {
-            setTableFieldCombo();
-          }
-        });
+    wTable.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent focusEvent) {
+        setTableFieldCombo();
+      }
+    });
 
     // Location Type line
     //
     Label wlLocationType = new Label(wLoaderComp, SWT.RIGHT);
-    wlLocationType.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LocationType.Label"));
-    wlLocationType.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LocationType.Tooltip"));
+    wlLocationType.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LocationType.Label"));
+    wlLocationType.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.LocationType.Tooltip"));
     PropsUi.setLook(wlLocationType);
     FormData fdlLocationType = new FormData();
     fdlLocationType.left = new FormAttachment(0, 0);
@@ -466,67 +467,64 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdStageName.right = new FormAttachment(100, 0);
     wStageName.setLayoutData(fdStageName);
     wStageName.setEnabled(false);
-    wStageName.addFocusListener(
-        new FocusAdapter() {
-          /**
-           * Get the list of stages for the schema, and populate the stage name drop down.
-           *
-           * @param focusEvent The event
-           */
-          @Override
-          public void focusGained(FocusEvent focusEvent) {
-            String stageNameText = wStageName.getText();
-            wStageName.removeAll();
+    wStageName.addFocusListener(new FocusAdapter() {
+      /**
+       * Get the list of stages for the schema, and populate the stage name drop down.
+       *
+       * @param focusEvent The event
+       */
+      @Override
+      public void focusGained(FocusEvent focusEvent) {
+        String stageNameText = wStageName.getText();
+        wStageName.removeAll();
 
-            DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
-            if (databaseMeta != null) {
-              Database db = new Database(loggingObject, variables, databaseMeta);
-              try {
-                db.connect();
-                String sql = "show stages";
-                if (!StringUtils.isEmpty(variables.resolve(wSchema.getText()))) {
-                  sql += " in " + variables.resolve(wSchema.getText());
-                }
+        DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
+        if (databaseMeta != null) {
+          Database db = new Database(loggingObject, variables, databaseMeta);
+          try {
+            db.connect();
+            String sql = "show stages";
+            if (!StringUtils.isEmpty(variables.resolve(wSchema.getText()))) {
+              sql += " in " + variables.resolve(wSchema.getText());
+            }
 
-                try (ResultSet resultSet = db.openQuery(sql, null, null, ResultSet.FETCH_FORWARD, false)) {
-                  IRowMeta rowMeta = db.getReturnRowMeta();
-                  Object[] row = db.getRow(resultSet);
-                  int nameField = rowMeta.indexOfValue("NAME");
-                  if (nameField >= 0) {
-                    while (row != null) {
-                      String stageName = rowMeta.getString(row, nameField);
-                      wStageName.add(stageName);
-                      row = db.getRow(resultSet);
-                    }
-                  } else {
-                    throw new HopException("Unable to find stage name field in result");
-                  }
-                  db.closeQuery(resultSet);
+            try (ResultSet resultSet = db.openQuery(sql, null, null, ResultSet.FETCH_FORWARD, false)) {
+              IRowMeta rowMeta = db.getReturnRowMeta();
+              Object[] row = db.getRow(resultSet);
+              int nameField = rowMeta.indexOfValue("NAME");
+              if (nameField >= 0) {
+                while (row != null) {
+                  String stageName = rowMeta.getString(row, nameField);
+                  wStageName.add(stageName);
+                  row = db.getRow(resultSet);
                 }
-                if (stageNameText != null) {
-                  wStageName.setText(stageNameText);
-                }
-
-              } catch (Exception ex) {
-                logDebug("Error getting stages", ex);
-              } finally {
-                try {
-
-                  db.disconnect();
-                } catch (Exception ex) {
-                  // Nothing more we can do
-                }
+              } else {
+                throw new HopException("Unable to find stage name field in result");
               }
+              db.closeQuery(resultSet);
+            }
+            if (stageNameText != null) {
+              wStageName.setText(stageNameText);
+            }
+
+          } catch (Exception ex) {
+            logDebug("Error getting stages", ex);
+          } finally {
+            try {
+
+              db.disconnect();
+            } catch (Exception ex) {
+              // Nothing more we can do
             }
           }
-        });
+        }
+      }
+    });
 
     // Work directory line
     Label wlWorkDirectory = new Label(wLoaderComp, SWT.RIGHT);
-    wlWorkDirectory.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.WorkDirectory.Label"));
-    wlWorkDirectory.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.WorkDirectory.Tooltip"));
+    wlWorkDirectory.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.WorkDirectory.Label"));
+    wlWorkDirectory.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.WorkDirectory.Tooltip"));
     PropsUi.setLook(wlWorkDirectory);
     FormData fdlWorkDirectory = new FormData();
     fdlWorkDirectory.left = new FormAttachment(0, 0);
@@ -551,20 +549,18 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdWorkDirectory.top = new FormAttachment(wStageName, margin);
     fdWorkDirectory.right = new FormAttachment(wbWorkDirectory, -margin);
     wWorkDirectory.setLayoutData(fdWorkDirectory);
-    wbWorkDirectory.addListener(SWT.Selection, e-> {
+    wbWorkDirectory.addListener(SWT.Selection, e -> {
       BaseDialog.presentDirectoryDialog(shell, wWorkDirectory, variables);
     });
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wWorkDirectory.addModifyListener(
-        e -> wWorkDirectory.setToolTipText(variables.resolve(wWorkDirectory.getText())));
+    wWorkDirectory.addModifyListener(e -> wWorkDirectory.setToolTipText(variables.resolve(wWorkDirectory.getText())));
 
     // On Error line
     //
     Label wlOnError = new Label(wLoaderComp, SWT.RIGHT);
     wlOnError.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.OnError.Label"));
-    wlOnError.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.OnError.Tooltip"));
+    wlOnError.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.OnError.Tooltip"));
     PropsUi.setLook(wlOnError);
     FormData fdlOnError = new FormData();
     fdlOnError.left = new FormAttachment(0, 0);
@@ -588,10 +584,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Error Limit line
     wlErrorLimit = new Label(wLoaderComp, SWT.RIGHT);
-    wlErrorLimit.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Label"));
-    wlErrorLimit.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Tooltip"));
+    wlErrorLimit.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Label"));
+    wlErrorLimit.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Tooltip"));
     PropsUi.setLook(wlErrorLimit);
     FormData fdlErrorLimit = new FormData();
     fdlErrorLimit.left = new FormAttachment(0, 0);
@@ -611,8 +605,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // Size limit line
     Label wlSplitSize = new Label(wLoaderComp, SWT.RIGHT);
     wlSplitSize.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SplitSize.Label"));
-    wlSplitSize.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SplitSize.Tooltip"));
+    wlSplitSize.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SplitSize.Tooltip"));
     PropsUi.setLook(wlSplitSize);
     FormData fdlSplitSize = new FormData();
     fdlSplitSize.left = new FormAttachment(0, 0);
@@ -632,10 +625,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // Remove files line
     //
     Label wlRemoveFiles = new Label(wLoaderComp, SWT.RIGHT);
-    wlRemoveFiles.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.RemoveFiles.Label"));
-    wlRemoveFiles.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.RemoveFiles.Tooltip"));
+    wlRemoveFiles.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.RemoveFiles.Label"));
+    wlRemoveFiles.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.RemoveFiles.Tooltip"));
     PropsUi.setLook(wlRemoveFiles);
     FormData fdlRemoveFiles = new FormData();
     fdlRemoveFiles.left = new FormAttachment(0, 0);
@@ -662,18 +653,19 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     wLoaderComp.layout();
     wLoaderTab.setControl(wLoaderComp);
 
-    /* ********************************************************
+    /*
+     * ********************************************************
      * End Loader tab
-     * ********************************************************/
+     ********************************************************/
 
-    /* ********************************************************
+    /*
+     * ********************************************************
      * Start data type tab
-     * ********************************************************/
+     ********************************************************/
 
     CTabItem wDataTypeTab = new CTabItem(wTabFolder, SWT.NONE);
     wDataTypeTab.setFont(GuiResource.getInstance().getFontDefault());
-    wDataTypeTab.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DataTypeTab.TabTitle"));
+    wDataTypeTab.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DataTypeTab.TabTitle"));
 
     Composite wDataTypeComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wDataTypeComp);
@@ -728,10 +720,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Trim Whitespace line
     Label wlTrimWhitespace = new Label(gCsvGroup, SWT.RIGHT);
-    wlTrimWhitespace.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TrimWhitespace.Label"));
-    wlTrimWhitespace.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TrimWhitespace.Tooltip"));
+    wlTrimWhitespace.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TrimWhitespace.Label"));
+    wlTrimWhitespace.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TrimWhitespace.Tooltip"));
     PropsUi.setLook(wlTrimWhitespace);
     FormData fdlTrimWhitespace = new FormData();
     fdlTrimWhitespace.left = new FormAttachment(0, 0);
@@ -751,8 +741,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // Null if line
     Label wlNullIf = new Label(gCsvGroup, SWT.RIGHT);
     wlNullIf.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.NullIf.Label"));
-    wlNullIf.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.NullIf.Tooltip"));
+    wlNullIf.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.NullIf.Tooltip"));
     PropsUi.setLook(wlNullIf);
     FormData fdlNullIf = new FormData();
     fdlNullIf.left = new FormAttachment(0, 0);
@@ -771,10 +760,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Error mismatch line
     Label wlColumnMismatch = new Label(gCsvGroup, SWT.RIGHT);
-    wlColumnMismatch.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ColumnMismatch.Label"));
-    wlColumnMismatch.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ColumnMismatch.Tooltip"));
+    wlColumnMismatch.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ColumnMismatch.Label"));
+    wlColumnMismatch.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ColumnMismatch.Tooltip"));
     PropsUi.setLook(wlColumnMismatch);
     FormData fdlColumnMismatch = new FormData();
     fdlColumnMismatch.left = new FormAttachment(0, 0);
@@ -816,8 +803,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // Strip Null line
     Label wlStripNull = new Label(gJsonGroup, SWT.RIGHT);
     wlStripNull.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.StripNull.Label"));
-    wlStripNull.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.StripNull.Tooltip"));
+    wlStripNull.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.StripNull.Tooltip"));
     PropsUi.setLook(wlStripNull);
     FormData fdlStripNull = new FormData();
     fdlStripNull.left = new FormAttachment(0, 0);
@@ -836,10 +822,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Ignore UTF8 line
     Label wlIgnoreUtf8 = new Label(gJsonGroup, SWT.RIGHT);
-    wlIgnoreUtf8.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.IgnoreUtf8.Label"));
-    wlIgnoreUtf8.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.IgnoreUtf8.Tooltip"));
+    wlIgnoreUtf8.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.IgnoreUtf8.Label"));
+    wlIgnoreUtf8.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.IgnoreUtf8.Tooltip"));
     PropsUi.setLook(wlIgnoreUtf8);
     FormData fdlIgnoreUtf8 = new FormData();
     fdlIgnoreUtf8.left = new FormAttachment(0, 0);
@@ -858,10 +842,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Allow duplicate elements line
     Label wlAllowDuplicate = new Label(gJsonGroup, SWT.RIGHT);
-    wlAllowDuplicate.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AllowDuplicate.Label"));
-    wlAllowDuplicate.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AllowDuplicate.Tooltip"));
+    wlAllowDuplicate.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AllowDuplicate.Label"));
+    wlAllowDuplicate.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AllowDuplicate.Tooltip"));
     PropsUi.setLook(wlAllowDuplicate);
     FormData fdlAllowDuplicate = new FormData();
     fdlAllowDuplicate.left = new FormAttachment(0, 0);
@@ -880,10 +862,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Enable Octal line
     Label wlEnableOctal = new Label(gJsonGroup, SWT.RIGHT);
-    wlEnableOctal.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.EnableOctal.Label"));
-    wlEnableOctal.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.EnableOctal.Tooltip"));
+    wlEnableOctal.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.EnableOctal.Label"));
+    wlEnableOctal.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.EnableOctal.Tooltip"));
     PropsUi.setLook(wlEnableOctal);
     FormData fdlEnableOctal = new FormData();
     fdlEnableOctal.left = new FormAttachment(0, 0);
@@ -914,20 +894,21 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     wDataTypeComp.layout();
     wDataTypeTab.setControl(wDataTypeComp);
 
-    /* ******************************************
+    /*
+     * ******************************************
      * End Data type tab
-     * ******************************************/
+     ******************************************/
 
-    /* ******************************************
+    /*
+     * ******************************************
      * Start Fields tab
      * This tab is used to specify the field mapping
      * to the Snowflake table
-     * ******************************************/
+     ******************************************/
 
     CTabItem wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wFieldsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wFieldsTab.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.FieldsTab.TabTitle"));
+    wFieldsTab.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.FieldsTab.TabTitle"));
 
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
@@ -939,10 +920,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     // Specify Fields line
     wSpecifyFields = new Button(wFieldsComp, SWT.CHECK);
-    wSpecifyFields.setText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SpecifyFields.Label"));
-    wSpecifyFields.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SpecifyFields.Tooltip"));
+    wSpecifyFields.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SpecifyFields.Label"));
+    wSpecifyFields.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.SpecifyFields.Tooltip"));
 
     PropsUi.setLook(wSpecifyFields);
     FormData fdSpecifyFields = new FormData();
@@ -951,13 +930,12 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdSpecifyFields.right = new FormAttachment(100, 0);
     wSpecifyFields.setLayoutData(fdSpecifyFields);
     wSpecifyFields.addSelectionListener(bMod);
-    wSpecifyFields.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            setFlags();
-          }
-        });
+    wSpecifyFields.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        setFlags();
+      }
+    });
 
     wGet = new Button(wFieldsComp, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "System.Button.GetFields"));
@@ -969,8 +947,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
     wDoMapping = new Button(wFieldsComp, SWT.PUSH);
     wDoMapping.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DoMapping.Label"));
-    wDoMapping.setToolTipText(
-        BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DoMapping.Tooltip"));
+    wDoMapping.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DoMapping.Tooltip"));
     FormData fdbDoMapping = new FormData();
     fdbDoMapping.left = new FormAttachment(50, margin);
     fdbDoMapping.bottom = new FormAttachment(100, 0);
@@ -980,29 +957,11 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     final int FieldsRows = input.getSnowflakeBulkLoaderFields().size();
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.StreamField.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TableField.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.StreamField.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.TableField.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(colinf[1]);
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1031,52 +990,48 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdJsonField.top = new FormAttachment(0, margin);
     fdJsonField.right = new FormAttachment(100, 0);
     wJsonField.setLayoutData(fdJsonField);
-    wJsonField.addFocusListener(
-        new FocusAdapter() {
-          /**
-           * Get the fields from the previous transform and populate the JSON Field drop down
-           *
-           * @param focusEvent The event
-           */
-          @Override
-          public void focusGained(FocusEvent focusEvent) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformName);
-              String jsonField = wJsonField.getText();
-              wJsonField.setItems(row.getFieldNames());
-              if (jsonField != null) {
-                wJsonField.setText(jsonField);
-              }
-            } catch (Exception ex) {
-              String jsonField = wJsonField.getText();
-              wJsonField.setItems(new String[] {});
-              wJsonField.setText(jsonField);
-            }
+    wJsonField.addFocusListener(new FocusAdapter() {
+      /**
+       * Get the fields from the previous transform and populate the JSON Field drop down
+       *
+       * @param focusEvent The event
+       */
+      @Override
+      public void focusGained(FocusEvent focusEvent) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformName);
+          String jsonField = wJsonField.getText();
+          wJsonField.setItems(row.getFieldNames());
+          if (jsonField != null) {
+            wJsonField.setText(jsonField);
           }
-        });
+        } catch (Exception ex) {
+          String jsonField = wJsonField.getText();
+          wJsonField.setItems(new String[] {});
+          wJsonField.setText(jsonField);
+        }
+      }
+    });
 
     //
     // Search the fields in the background and populate the CSV Field mapping table's stream field
     // column
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row =
-                  pipelineMeta.getPrevTransformFields(
-                      variables, SnowflakeBulkLoaderDialog.this.transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, SnowflakeBulkLoaderDialog.this.transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFieldsComp = new FormData();
@@ -1104,7 +1059,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     fdTabFolder.right = new FormAttachment(100, 0);
     fdTabFolder.bottom = new FormAttachment(wCancel, -2 * margin);
     wTabFolder.setLayoutData(fdTabFolder);
-    
+
     wbTable.addListener(SWT.Selection, e -> getTableName());
     wbSchema.addListener(SWT.Selection, e -> getSchemaNames());
 
@@ -1112,26 +1067,24 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     wSchema.addModifyListener(e -> wSchema.setToolTipText(variables.resolve(wSchema.getText())));
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            cancel();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        cancel();
+      }
+    });
     wSql.addListener(SWT.Selection, e -> create());
     wOk.addListener(SWT.Selection, e -> ok());
     wCancel.addListener(SWT.Selection, e -> cancel());
     wGet.addListener(SWT.Selection, e -> get());
     wDoMapping.addListener(SWT.Selection, e -> generateMappings());
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -1324,8 +1277,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1353,10 +1305,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SnowflakeBulkLoader.Dialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "SnowflakeBulkLoader.Dialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -1371,10 +1321,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SnowflakeBulkLoader.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "SnowflakeBulkLoader.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -1393,21 +1341,11 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
       int sourceIndex = sourceFields.indexOfValue(source);
       if (sourceIndex < 0) {
-        missingSourceFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingSourceFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       int targetIndex = targetFields.indexOfValue(target);
       if (targetIndex < 0) {
-        missingTargetFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingTargetFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       if (sourceIndex < 0 || targetIndex < 0) {
         continue;
@@ -1423,43 +1361,22 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SnowflakeBulkLoader.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SnowflakeBulkLoader.DoMapping.SomeTargetFieldsNotFound",
-                    missingTargetFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeTargetFieldsNotFound", missingTargetFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
       shell.setImage(GuiResource.getInstance().getImageHopUi());
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+          BaseDialog.openMessageBox(shell, BaseMessages.getString(PKG, "SnowflakeBulkLoader.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
       boolean goOn = (answer & SWT.YES) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            SnowflakeBulkLoaderDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(SnowflakeBulkLoaderDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -1498,14 +1415,8 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG,
-                      "SnowflakeBulkLoader.Dialog.AvailableSchemas.Title",
-                      wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG,
-                      "SnowflakeBulkLoader.Dialog.AvailableSchemas.Message",
-                      wConnection.getText()));
+                  BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -1519,11 +1430,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }
@@ -1538,13 +1445,10 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
       DatabaseMeta inf = pipelineMeta.getDatabases().get(connr);
 
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "SnowflakeBulkLoader.Dialog..Log.LookingAtConnection", inf.toString()));
+        logDebug(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog..Log.LookingAtConnection", inf.toString()));
       }
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(shell, SWT.NONE, variables, inf, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, inf, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -1553,8 +1457,7 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ConnectionError2.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ConnectionError2.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
     }
@@ -1562,59 +1465,54 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
 
   /** Sets the values for the combo box in the table field on the fields tab */
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText(),
-                connectionName = wConnection.getText(),
-                schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText(), connectionName = wConnection.getText(), schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo tableField : tableFieldColumns) {
-              tableField.setComboValues(new String[] {});
-            }
-            if (!StringUtils.isEmpty(tableName)) {
-              DatabaseMeta ci = pipelineMeta.findDatabase(connectionName, variables);
-              if (ci != null) {
-                Database db = new Database(loggingObject, variables, ci);
-                try {
-                  db.connect();
+        // clear
+        for (ColumnInfo tableField : tableFieldColumns) {
+          tableField.setComboValues(new String[] {});
+        }
+        if (!StringUtils.isEmpty(tableName)) {
+          DatabaseMeta ci = pipelineMeta.findDatabase(connectionName, variables);
+          if (ci != null) {
+            Database db = new Database(loggingObject, variables, ci);
+            try {
+              db.connect();
 
-                  String schemaTable =
-                      ci.getQuotedSchemaTableCombination(
-                          variables, variables.resolve(schemaName), variables.resolve(tableName));
-                  IRowMeta r = db.getTableFields(schemaTable);
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo tableField : tableFieldColumns) {
-                        tableField.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              String schemaTable = ci.getQuotedSchemaTableCombination(variables, variables.resolve(schemaName), variables.resolve(tableName));
+              IRowMeta r = db.getTableFields(schemaTable);
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo tableField : tableFieldColumns) {
-                    tableField.setComboValues(new String[] {});
-                  }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user
-                } finally {
-                  try {
-                    //noinspection ConstantConditions
-                    if (db != null) {
-                      db.disconnect();
-                    }
-                  } catch (Exception ignored) {
-                    // ignore any errors here. Nothing we can do if
-                    // connection fails to close properly
-                    //noinspection UnusedAssignment
-                    db = null;
+                    tableField.setComboValues(fieldNames);
                   }
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo tableField : tableFieldColumns) {
+                tableField.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
+            } finally {
+              try {
+                // noinspection ConstantConditions
+                if (db != null) {
+                  db.disconnect();
+                }
+              } catch (Exception ignored) {
+                // ignore any errors here. Nothing we can do if
+                // connection fails to close properly
+                // noinspection UnusedAssignment
+                db = null;
+              }
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -1624,17 +1522,13 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
     // On Error
     ////////////////////////////////
     if (wOnError.getSelectionIndex() == SnowflakeBulkLoaderMeta.ON_ERROR_SKIP_FILE) {
-      wlErrorLimit.setText(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Label"));
-      wlErrorLimit.setToolTipText(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Tooltip"));
+      wlErrorLimit.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Label"));
+      wlErrorLimit.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorCountLimit.Tooltip"));
       wlErrorLimit.setEnabled(true);
       wErrorLimit.setEnabled(true);
     } else if (wOnError.getSelectionIndex() == SnowflakeBulkLoaderMeta.ON_ERROR_SKIP_FILE_PERCENT) {
-      wlErrorLimit.setText(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorPercentLimit.Label"));
-      wlErrorLimit.setToolTipText(
-          BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorPercentLimit.Tooltip"));
+      wlErrorLimit.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorPercentLimit.Label"));
+      wlErrorLimit.setToolTipText(BaseMessages.getString(PKG, "SnowflakeBulkLoader.Dialog.ErrorPercentLimit.Tooltip"));
       wlErrorLimit.setEnabled(true);
       wErrorLimit.setEnabled(true);
     } else {
@@ -1708,29 +1602,22 @@ public class SnowflakeBulkLoaderDialog extends BaseTransformDialog implements IT
             insertValue.setName(sf.getTableField());
             prevNew.addValueMeta(insertValue);
           } else {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "TableOutputDialog.FailedToFindField.Message", sf.getStreamField()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TableOutputDialog.FailedToFindField.Message", sf.getStreamField()));
           }
         }
         prev = prevNew;
       }
 
       if (isValidRowMeta(prev)) {
-        SqlStatement sql =
-            info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+        SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
         if (!sql.hasError()) {
           if (sql.hasSql()) {
-            SqlEditor sqledit =
-                new SqlEditor(
-                    shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
+            SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
             sqledit.open();
           } else {
             MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-            mb.setMessage(
-                BaseMessages.getString(PKG, "SnowflakeBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
-            mb.setText(
-                BaseMessages.getString(PKG, "SnowflakeBulkLoaderDialog.NoSQLNeeds.DialogTitle"));
+            mb.setMessage(BaseMessages.getString(PKG, "SnowflakeBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "SnowflakeBulkLoaderDialog.NoSQLNeeds.DialogTitle"));
             mb.open();
           }
         } else {

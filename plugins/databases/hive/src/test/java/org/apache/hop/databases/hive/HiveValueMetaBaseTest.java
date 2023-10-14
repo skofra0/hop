@@ -54,8 +54,8 @@ public class HiveValueMetaBaseTest {
   protected static final String TEST_NAME = "TEST_NAME";
   protected static final String LOG_FIELD = "LOG_FIELD";
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
-  ;
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();;
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta databaseMeta;
@@ -78,13 +78,12 @@ public class HiveValueMetaBaseTest {
     variables = spy(new Variables());
   }
 
-  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data)
-      throws HopDatabaseException {
+  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data) throws HopDatabaseException {
     IValueMeta valueMetaString = new ValueMetaString(LOG_FIELD, length, 0);
     databaseMeta.setIDatabase(dbMeta);
     valueMetaString.setPreparedStatementValue(databaseMeta, preparedStatementMock, 0, data);
   }
-  
+
   @Test
   public void testGetValueFromSqlTypeBinaryHive() throws Exception {
 
@@ -99,16 +98,13 @@ public class HiveValueMetaBaseTest {
     when(resultSet.getMetaData()).thenReturn(metaData);
     when(metaData.getColumnType(binaryColumnIndex)).thenReturn(Types.LONGVARBINARY);
 
-    IValueMeta binaryValueMeta =
-        valueMetaBase.getValueFromSqlType(
-            variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
+    IValueMeta binaryValueMeta = valueMetaBase.getValueFromSqlType(variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
     assertEquals(IValueMeta.TYPE_BINARY, binaryValueMeta.getType());
     assertTrue(binaryValueMeta.isBinary());
   }
 
   @Test
-  public void testMetaDataPreviewSqlVarBinaryToHopBinaryUsingHiveVariant()
-      throws SQLException, HopDatabaseException {
+  public void testMetaDataPreviewSqlVarBinaryToHopBinaryUsingHiveVariant() throws SQLException, HopDatabaseException {
     doReturn(Types.VARBINARY).when(resultSet).getInt("DATA_TYPE");
     doReturn(16).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(HiveDatabaseMeta.class)).when(databaseMeta).getIDatabase();

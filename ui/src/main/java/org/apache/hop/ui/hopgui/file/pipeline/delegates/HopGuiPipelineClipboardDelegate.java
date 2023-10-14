@@ -181,34 +181,26 @@ public class HopGuiPipelineClipboardDelegate {
       }
 
       // Set the error handling hops
-      Node errorHandlingNode =
-          XmlHandler.getSubNode(pipelineNode, PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING);
-      int nrErrorHandlers =
-          XmlHandler.countNodes(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG);
+      Node errorHandlingNode = XmlHandler.getSubNode(pipelineNode, PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING);
+      int nrErrorHandlers = XmlHandler.countNodes(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG);
       for (int i = 0; i < nrErrorHandlers; i++) {
-        Node transformErrorMetaNode =
-            XmlHandler.getSubNodeByNr(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG, i);
-        TransformErrorMeta transformErrorMeta =
-            new TransformErrorMeta(transformErrorMetaNode, pipelineMeta.getTransforms());
+        Node transformErrorMetaNode = XmlHandler.getSubNodeByNr(errorHandlingNode, TransformErrorMeta.XML_ERROR_TAG, i);
+        TransformErrorMeta transformErrorMeta = new TransformErrorMeta(transformErrorMetaNode, pipelineMeta.getTransforms());
 
         // Handle pasting multiple times, need to update source and target transform names
-        int srcTransformPos =
-            transformOldNames.indexOf(transformErrorMeta.getSourceTransform().getName());
+        int srcTransformPos = transformOldNames.indexOf(transformErrorMeta.getSourceTransform().getName());
         int tgtTransformPos = -1;
         if (transformErrorMeta.getTargetTransform() != null) {
-          tgtTransformPos =
-              transformOldNames.indexOf(transformErrorMeta.getTargetTransform().getName());
+          tgtTransformPos = transformOldNames.indexOf(transformErrorMeta.getTargetTransform().getName());
         }
-        TransformMeta sourceTransform =
-            pipelineMeta.findTransform(transforms[srcTransformPos].getName());
+        TransformMeta sourceTransform = pipelineMeta.findTransform(transforms[srcTransformPos].getName());
         if (sourceTransform != null) {
           sourceTransform.setTransformErrorMeta(transformErrorMeta);
         }
         sourceTransform.setTransformErrorMeta(null);
         if (tgtTransformPos >= 0) {
           sourceTransform.setTransformErrorMeta(transformErrorMeta);
-          TransformMeta targetTransform =
-              pipelineMeta.findTransform(transforms[tgtTransformPos].getName());
+          TransformMeta targetTransform = pipelineMeta.findTransform(transforms[tgtTransformPos].getName());
           transformErrorMeta.setSourceTransform(sourceTransform);
           transformErrorMeta.setTargetTransform(targetTransform);
         }
@@ -241,8 +233,7 @@ public class HopGuiPipelineClipboardDelegate {
     pipelineGraph.redraw();
   }
 
-  public void copySelected(
-      PipelineMeta pipelineMeta, List<TransformMeta> transforms, List<NotePadMeta> notes) {
+  public void copySelected(PipelineMeta pipelineMeta, List<TransformMeta> transforms, List<NotePadMeta> notes) {
     if (transforms == null || transforms.size() == 0) {
       return;
     }
@@ -280,15 +271,13 @@ public class HopGuiPipelineClipboardDelegate {
       }
       xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_NOTEPADS)).append(Const.CR);
 
-      xml.append(XmlHandler.openTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING))
-          .append(Const.CR);
+      xml.append(XmlHandler.openTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING)).append(Const.CR);
       for (TransformMeta transform : transforms) {
         if (transform.getTransformErrorMeta() != null) {
           xml.append(transform.getTransformErrorMeta().getXml()).append(Const.CR);
         }
       }
-      xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING))
-          .append(Const.CR);
+      xml.append(XmlHandler.closeTag(PipelineMeta.XML_TAG_TRANSFORM_ERROR_HANDLING)).append(Const.CR);
 
       xml.append(XmlHandler.closeTag(XML_TAG_PIPELINE_TRANSFORMS)).append(Const.CR);
 

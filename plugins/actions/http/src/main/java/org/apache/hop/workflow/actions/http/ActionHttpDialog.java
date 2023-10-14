@@ -60,8 +60,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionHttpDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionHttp.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionHTTP.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionHTTP.Filetype.All")};
 
   private Text wName;
 
@@ -127,8 +126,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionHttpDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionHttpDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionHttp) action;
     if (this.action.getName() == null) {
@@ -224,7 +222,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     // START OF TargetFileGroupGROUP///
     // /
     Group wTargetFileGroup = setupWebServerReplyGroup(wGeneralComp);
-    
+
     setupTargetFileLine(lsMod, middle, margin, wTargetFileGroup);
     setupAppendFileLine(middle, margin, wTargetFileGroup);
     setupAddDateTimeLine(middle, margin, wTargetFileGroup);
@@ -290,35 +288,16 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
   }
 
   private void setupHeaderTable(ModifyListener lsMod, int margin, CTabItem wHeadersTab, Composite wHeadersComp) {
-    int rows =
-        action.getHeaderName() == null
-            ? 1
-            : (action.getHeaderName().length == 0 ? 0 : action.getHeaderName().length);
+    int rows = action.getHeaderName() == null ? 1 : (action.getHeaderName().length == 0 ? 0 : action.getHeaderName().length);
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionHTTP.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              HttpProtocol.getRequestHeaders(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionHTTP.ColumnInfo.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionHTTP.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, HttpProtocol.getRequestHeaders(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionHTTP.ColumnInfo.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[0].setUsingVariables(true);
     colinf[1].setUsingVariables(true);
 
-    wHeaders =
-        new TableView(
-            variables,
-            wHeadersComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            rows,
-            lsMod,
-            props);
+    wHeaders = new TableView(variables, wHeadersComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, rows, lsMod, props);
 
     FormData fdHeaders = new FormData();
     fdHeaders.left = new FormAttachment(0, margin);
@@ -341,8 +320,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
   private void setupAddFilenameLine(int middle, int margin, Group wTargetFileGroup) {
     // Add filenames to result filenames...
     Label wlAddFilenameToResult = new Label(wTargetFileGroup, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionHTTP.AddFilenameToResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionHTTP.AddFilenameToResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -350,8 +328,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     fdlAddFilenameToResult.right = new FormAttachment(middle, -margin);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new Button(wTargetFileGroup, SWT.CHECK);
-    wAddFilenameToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionHTTP.AddFilenameToResult.Tooltip"));
+    wAddFilenameToResult.setToolTipText(BaseMessages.getString(PKG, "ActionHTTP.AddFilenameToResult.Tooltip"));
     PropsUi.setLook(wAddFilenameToResult);
     FormData fdAddFilenameToResult = new FormData();
     fdAddFilenameToResult.left = new FormAttachment(middle, 0);
@@ -393,20 +370,18 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     wlDateTimeAdded.setLayoutData(fdlDateTimeAdded);
     wDateTimeAdded = new Button(wTargetFileGroup, SWT.CHECK);
     PropsUi.setLook(wDateTimeAdded);
-    wDateTimeAdded.setToolTipText(
-        BaseMessages.getString(PKG, "ActionHTTP.TargetFilenameAddDate.Tooltip"));
+    wDateTimeAdded.setToolTipText(BaseMessages.getString(PKG, "ActionHTTP.TargetFilenameAddDate.Tooltip"));
     FormData fdDateTimeAdded = new FormData();
     fdDateTimeAdded.left = new FormAttachment(middle, 0);
     fdDateTimeAdded.top = new FormAttachment(wlDateTimeAdded, 0, SWT.CENTER);
     fdDateTimeAdded.right = new FormAttachment(100, 0);
     wDateTimeAdded.setLayoutData(fdDateTimeAdded);
-    wDateTimeAdded.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setFlags();
-          }
-        });
+    wDateTimeAdded.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setFlags();
+      }
+    });
   }
 
   private void setupAppendFileLine(int middle, int margin, Group wTargetFileGroup) {
@@ -458,11 +433,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     fdTargetFile.right = new FormAttachment(wbTargetFile, -margin);
     wTargetFile.setLayoutData(fdTargetFile);
 
-    wbTargetFile.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wTargetFile, variables, new String[] {"*"}, FILETYPES, true));
+    wbTargetFile.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wTargetFile, variables, new String[] {"*"}, FILETYPES, true));
   }
 
   private Group setupWebServerReplyGroup(Composite wGeneralComp) {
@@ -507,14 +478,9 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     wUploadFile.setLayoutData(fdUploadFile);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wUploadFile.addModifyListener(
-        e -> wUploadFile.setToolTipText(variables.resolve(wUploadFile.getText())));
+    wUploadFile.addModifyListener(e -> wUploadFile.setToolTipText(variables.resolve(wUploadFile.getText())));
 
-    wbUploadFile.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wUploadFile, variables, new String[] {"*"}, FILETYPES, true));
+    wbUploadFile.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wUploadFile, variables, new String[] {"*"}, FILETYPES, true));
   }
 
   private Group setupUploadFileGroup(Composite wGeneralComp) {
@@ -541,8 +507,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     wlNonProxyHosts.setLayoutData(fdlNonProxyHosts);
     wNonProxyHosts = new TextVar(variables, wAuthentication, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wNonProxyHosts);
-    wNonProxyHosts.setToolTipText(
-        BaseMessages.getString(PKG, "ActionHTTP.ProxyIgnoreRegexp.Tooltip"));
+    wNonProxyHosts.setToolTipText(BaseMessages.getString(PKG, "ActionHTTP.ProxyIgnoreRegexp.Tooltip"));
     wNonProxyHosts.addModifyListener(lsMod);
     FormData fdNonProxyHosts = new FormData();
     fdNonProxyHosts.left = new FormAttachment(middle, 0);
@@ -728,13 +693,12 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     fdRunEveryRow.top = new FormAttachment(wlRunEveryRow, 0, SWT.CENTER);
     fdRunEveryRow.right = new FormAttachment(100, 0);
     wRunEveryRow.setLayoutData(fdRunEveryRow);
-    wRunEveryRow.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setFlags();
-          }
-        });
+    wRunEveryRow.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setFlags();
+      }
+    });
   }
 
   private Label setupIgnoreSslLine(int middle, int margin, Composite wGeneralComp) {
@@ -754,13 +718,12 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     fdIgnoreSsl.left = new FormAttachment(middle, 0);
     fdIgnoreSsl.top = new FormAttachment(wlIgnoreSsl, 0, SWT.CENTER);
     fdIgnoreSsl.right = new FormAttachment(100, 0);
-    wIgnoreSsl.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIgnoreSsl.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
     wIgnoreSsl.setLayoutData(fdIgnoreSsl);
 
     return wlIgnoreSsl;
@@ -776,12 +739,7 @@ public class ActionHttpDialog extends ActionDialog implements IActionDialog {
     fdlURL.top = new FormAttachment(wName, 2 * margin);
     fdlURL.right = new FormAttachment(middle, -margin);
     wlURL.setLayoutData(fdlURL);
-    wURL =
-        new TextVar(
-            variables,
-            wGeneralComp,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionHTTP.URL.Tooltip"));
+    wURL = new TextVar(variables, wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionHTTP.URL.Tooltip"));
     PropsUi.setLook(wURL);
     wURL.addModifyListener(lsMod);
     FormData fdURL = new FormData();

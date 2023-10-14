@@ -33,13 +33,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class StringOperations extends BaseTransform<StringOperationsMeta, StringOperationsData> {
   private static final Class<?> PKG = StringOperationsMeta.class; // For Translator
 
-  public StringOperations(
-      TransformMeta transformMeta,
-      StringOperationsMeta meta,
-      StringOperationsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public StringOperations(TransformMeta transformMeta, StringOperationsMeta meta, StringOperationsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -195,22 +189,12 @@ public class StringOperations extends BaseTransform<StringOperationsMeta, String
         // Apply String operations and return result value
         value =
             processString(
-                value,
-                data.trimOperators[i],
-                data.lowerUpperOperators[i],
-                data.padType[i],
-                data.padChar[i],
-                data.padLen[i],
-                data.initCap[i],
-                data.maskHTML[i],
-                data.digits[i],
+                value, data.trimOperators[i], data.lowerUpperOperators[i], data.padType[i], data.padChar[i], data.padLen[i], data.initCap[i], data.maskHTML[i], data.digits[i],
                 data.removeSpecialCharacters[i]);
         if (Utils.isEmpty(data.outStreamNrs[i])) {
           // Update field
           rowData[data.inStreamNrs[i]] = value;
-          data.outputRowMeta
-              .getValueMeta(data.inStreamNrs[i])
-              .setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
+          data.outputRowMeta.getValueMeta(data.inStreamNrs[i]).setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
         } else {
           // create a new Field
           rowData[data.inputFieldsNr + j] = value;
@@ -244,17 +228,11 @@ public class StringOperations extends BaseTransform<StringOperationsMeta, String
         data.inStreamNrs[i] = getInputRowMeta().indexOfValue(meta.getFieldInStream()[i]);
         if (data.inStreamNrs[i] < 0) { // couldn't find field!
 
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "StringOperations.Exception.FieldRequired", meta.getFieldInStream()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "StringOperations.Exception.FieldRequired", meta.getFieldInStream()[i]));
         }
         // check field type
         if (!getInputRowMeta().getValueMeta(data.inStreamNrs[i]).isString()) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG,
-                  "StringOperations.Exception.FieldTypeNotString",
-                  meta.getFieldInStream()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "StringOperations.Exception.FieldTypeNotString", meta.getFieldInStream()[i]));
         }
       }
 
@@ -320,8 +298,7 @@ public class StringOperations extends BaseTransform<StringOperationsMeta, String
       putRow(data.outputRowMeta, output);
 
       if (checkFeedback(getLinesRead()) && log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "StringOperations.Log.LineNumber") + getLinesRead());
+        logDetailed(BaseMessages.getString(PKG, "StringOperations.Log.LineNumber") + getLinesRead());
       }
     } catch (HopException e) {
 
@@ -332,8 +309,7 @@ public class StringOperations extends BaseTransform<StringOperationsMeta, String
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "StringOperations.Log.ErrorInTransform", e.getMessage()));
+        logError(BaseMessages.getString(PKG, "StringOperations.Log.ErrorInTransform", e.getMessage()));
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)

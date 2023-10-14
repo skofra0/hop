@@ -51,14 +51,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RestMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -66,37 +66,14 @@ public class RestMetaTest {
   public void testLoadSaveRoundTrip() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "applicationType",
-            "method",
-            "url",
-            "urlInField",
-            "dynamicMethod",
-            "methodFieldName",
-            "urlField",
-            "bodyField",
-            "httpLogin",
-            "httpPassword",
-            "proxyHost",
-            "proxyPort",
-            "preemptive",
-            "trustStoreFile",
-            "trustStorePassword",
-            "headerField",
-            "headerName",
-            "parameterField",
-            "parameterName",
-            "matrixParameterField",
-            "matrixParameterName",
-            "fieldName",
-            "resultCodeFieldName",
-            "responseTimeFieldName",
-            "responseHeaderFieldName");
+            "applicationType", "method", "url", "urlInField", "dynamicMethod", "methodFieldName", "urlField", "bodyField", "httpLogin", "httpPassword", "proxyHost", "proxyPort",
+            "preemptive", "trustStoreFile", "trustStorePassword", "headerField", "headerName", "parameterField", "parameterName", "matrixParameterField", "matrixParameterName",
+            "fieldName", "resultCodeFieldName", "responseTimeFieldName", "responseHeaderFieldName");
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
     // Arrays need to be consistent length
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
     fieldLoadSaveValidatorAttributeMap.put("headerField", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("headerName", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("parameterField", stringArrayLoadSaveValidator);
@@ -105,13 +82,7 @@ public class RestMetaTest {
     fieldLoadSaveValidatorAttributeMap.put("matrixParameterName", stringArrayLoadSaveValidator);
 
     LoadSaveTester<RestMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            RestMeta.class,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+        new LoadSaveTester<>(RestMeta.class, attributes, new HashMap<>(), new HashMap<>(), fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }
@@ -133,8 +104,7 @@ public class RestMetaTest {
     // For this, we'll grab a baseline count of the number of errors
     // as the error count should decrease as we change configuration settings to proper values.
     remarks.clear();
-    meta.check(
-        remarks, pipelineMeta, transform, prev, input, output, info, variables, metadataProvider);
+    meta.check(remarks, pipelineMeta, transform, prev, input, output, info, variables, metadataProvider);
     final int errorsDefault = getCheckResultErrorCount(remarks);
     assertTrue(errorsDefault > 0);
 
@@ -143,17 +113,13 @@ public class RestMetaTest {
     meta.setUrlField("urlField");
     prev.addValueMeta(new ValueMetaString("urlField"));
     remarks.clear();
-    meta.check(
-        remarks, pipelineMeta, transform, prev, input, output, info, variables, metadataProvider);
+    meta.check(remarks, pipelineMeta, transform, prev, input, output, info, variables, metadataProvider);
     int errorsCurrent = getCheckResultErrorCount(remarks);
     assertTrue(errorsDefault > errorsCurrent);
   }
 
   private static int getCheckResultErrorCount(List<ICheckResult> remarks) {
-    return remarks.stream()
-        .filter(p -> p.getType() == ICheckResult.TYPE_RESULT_ERROR)
-        .collect(Collectors.toList())
-        .size();
+    return remarks.stream().filter(p -> p.getType() == ICheckResult.TYPE_RESULT_ERROR).collect(Collectors.toList()).size();
   }
 
   @Test

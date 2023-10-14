@@ -75,12 +75,7 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
   private TableView wFields;
   private RowProducer rowProducer;
 
-  public AvroDecodeDialog(
-      Shell parent,
-      IVariables variables,
-      Object baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public AvroDecodeDialog(Shell parent, IVariables variables, Object baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) baseTransformMeta, pipelineMeta, transformName);
 
     input = (AvroDecodeMeta) baseTransformMeta;
@@ -164,55 +159,19 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
 
     ColumnInfo[] fieldsColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.SourceField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.SourceType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                "String", "Int", "Long", "Float", "Double", "Boolean", "Bytes", "Null", "Record",
-                "Enum", "Array", "Map", "Union", "Fixed"
-              },
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetFormat"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              4),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetLength"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetPrecision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.SourceField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.SourceType"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {"String", "Int", "Long", "Float", "Double", "Boolean", "Bytes", "Null", "Record", "Enum", "Array", "Map", "Union", "Fixed"},
+                false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetField"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetFormat"), ColumnInfo.COLUMN_TYPE_FORMAT, 4),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetLength"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AvroDecodeDialog.Fields.Column.TargetPrecision"), ColumnInfo.COLUMN_TYPE_TEXT, false, false)};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.NONE,
-            fieldsColumns,
-            input.getTargetFields().size(),
-            false,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.NONE, fieldsColumns, input.getTargetFields().size(), false, null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -233,8 +192,7 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
 
     try {
       // Get the fields from the previous transforms:
-      wSourceField.setItems(
-          pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames());
+      wSourceField.setItems(pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames());
     } catch (Exception e) {
       // Ignore exception
     }
@@ -278,17 +236,7 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
       String targetFormat = item.getText(col++);
       String targetLength = item.getText(col++);
       String targetPrecision = item.getText(col);
-      input
-          .getTargetFields()
-          .add(
-              new TargetField(
-                  sourceField,
-                  sourceType,
-                  targetField,
-                  targetType,
-                  targetFormat,
-                  targetLength,
-                  targetPrecision));
+      input.getTargetFields().add(new TargetField(sourceField, sourceType, targetField, targetType, targetFormat, targetLength, targetPrecision));
     }
 
     transformName = wTransformName.getText(); // return value
@@ -321,12 +269,7 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
       // If there's no metadata in the fields map, ask for an Avro field to get the schema from
       //
       if (fieldsMap.isEmpty()) {
-        String filename =
-            BaseDialog.presentFileDialog(
-                shell,
-                new String[] {"*.avro", "*.*"},
-                new String[] {"Avro files", "All files"},
-                true);
+        String filename = BaseDialog.presentFileDialog(shell, new String[] {"*.avro", "*.*"}, new String[] {"Avro files", "All files"}, true);
         if (filename != null) {
           // Read the file
           // Grab the schema
@@ -354,8 +297,7 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
           pipelineMeta.addTransform(fileInputMeta);
           pipelineMeta.addPipelineHop(new PipelineHopMeta(injectorMeta, fileInputMeta));
 
-          LocalPipelineEngine pipeline =
-              new LocalPipelineEngine(pipelineMeta, variables, loggingObject);
+          LocalPipelineEngine pipeline = new LocalPipelineEngine(pipelineMeta, variables, loggingObject);
           pipeline.setMetadataProvider(metadataProvider);
           pipeline.prepareExecution();
           pipeline.setPreview(true);
@@ -364,39 +306,34 @@ public class AvroDecodeDialog extends BaseTransformDialog implements ITransformD
 
           IEngineComponent avroComponent = pipeline.findComponent("Avro", 0);
 
-          avroComponent.addRowListener(
-              new RowAdapter() {
-                private boolean first = true;
+          avroComponent.addRowListener(new RowAdapter() {
+            private boolean first = true;
 
-                @Override
-                public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                    throws HopTransformException {
-                  if (first) {
-                    first = false;
+            @Override
+            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+              if (first) {
+                first = false;
 
-                    int index = rowMeta.indexOfValue("avro");
-                    ValueMetaAvroRecord avroMeta =
-                        (ValueMetaAvroRecord) rowMeta.getValueMeta(index);
-                    Object avroValue = row[index];
+                int index = rowMeta.indexOfValue("avro");
+                ValueMetaAvroRecord avroMeta = (ValueMetaAvroRecord) rowMeta.getValueMeta(index);
+                Object avroValue = row[index];
 
-                    try {
-                      GenericRecord genericRecord = avroMeta.getGenericRecord(avroValue);
-                      Schema schema = genericRecord.getSchema();
-                      List<Schema.Field> fields = schema.getFields();
-                      for (Schema.Field field : fields) {
-                        fieldsMap.put(field.name(), field);
-                      }
-                    } catch (Exception e) {
-                      throw new HopTransformException(e);
-                    }
+                try {
+                  GenericRecord genericRecord = avroMeta.getGenericRecord(avroValue);
+                  Schema schema = genericRecord.getSchema();
+                  List<Schema.Field> fields = schema.getFields();
+                  for (Schema.Field field : fields) {
+                    fieldsMap.put(field.name(), field);
                   }
+                } catch (Exception e) {
+                  throw new HopTransformException(e);
                 }
-              });
+              }
+            }
+          });
 
           pipeline.startThreads();
-          rowProducer.putRow(
-              new RowMetaBuilder().addString("filename").build(),
-              new Object[] {variables.resolve(filename)});
+          rowProducer.putRow(new RowMetaBuilder().addString("filename").build(), new Object[] {variables.resolve(filename)});
           rowProducer.finished();
 
           pipeline.waitUntilFinished();

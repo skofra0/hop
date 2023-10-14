@@ -59,53 +59,52 @@ public class StringUtil {
 
   protected static final String[] SYSTEM_PROPERTIES =
       new String[] {
-        "java.version",
-        "java.vendor",
-        "java.vendor.url",
-        "java.home",
-        "java.vm.specification.version",
-        "java.vm.specification.vendor",
-        "java.vm.specification.name",
-        "java.vm.version",
-        "java.vm.vendor",
-        "java.vm.name",
-        "java.specification.version",
-        "java.specification.vendor",
-        "java.specification.name",
-        "java.class.version",
-        "java.class.path",
-        "java.library.path",
-        "java.io.tmpdir",
-        "java.compiler",
-        "java.ext.dirs",
-        "os.name",
-        "os.arch",
-        "os.version",
-        "file.separator",
-        "path.separator",
-        "line.separator",
-        "user.name",
-        "user.home",
-        "user.dir",
-        "user.country",
-        "user.language",
-        "user.timezone",
-        "org.apache.commons.logging.Log",
-        "org.apache.commons.logging.simplelog.log.org.apache.http",
-        "org.apache.commons.logging.simplelog.showdatetime",
-        "org.eclipse.swt.browser.XULRunnerInitialized",
-        "org.eclipse.swt.browser.XULRunnerPath",
-        "sun.arch.data.model",
-        "sun.boot.class.path",
-        "sun.boot.library.path",
-        "sun.cpu.endian",
-        "sun.cpu.isalist",
-        "sun.io.unicode.encoding",
-        "sun.java.launcher",
-        "sun.jnu.encoding",
-        "sun.management.compiler",
-        "sun.os.patch.level",
-      };
+          "java.version",
+          "java.vendor",
+          "java.vendor.url",
+          "java.home",
+          "java.vm.specification.version",
+          "java.vm.specification.vendor",
+          "java.vm.specification.name",
+          "java.vm.version",
+          "java.vm.vendor",
+          "java.vm.name",
+          "java.specification.version",
+          "java.specification.vendor",
+          "java.specification.name",
+          "java.class.version",
+          "java.class.path",
+          "java.library.path",
+          "java.io.tmpdir",
+          "java.compiler",
+          "java.ext.dirs",
+          "os.name",
+          "os.arch",
+          "os.version",
+          "file.separator",
+          "path.separator",
+          "line.separator",
+          "user.name",
+          "user.home",
+          "user.dir",
+          "user.country",
+          "user.language",
+          "user.timezone",
+          "org.apache.commons.logging.Log",
+          "org.apache.commons.logging.simplelog.log.org.apache.http",
+          "org.apache.commons.logging.simplelog.showdatetime",
+          "org.eclipse.swt.browser.XULRunnerInitialized",
+          "org.eclipse.swt.browser.XULRunnerPath",
+          "sun.arch.data.model",
+          "sun.boot.class.path",
+          "sun.boot.library.path",
+          "sun.cpu.endian",
+          "sun.cpu.isalist",
+          "sun.io.unicode.encoding",
+          "sun.java.launcher",
+          "sun.jnu.encoding",
+          "sun.management.compiler",
+          "sun.os.patch.level",};
 
   private StringUtil() {}
 
@@ -115,13 +114,12 @@ public class StringUtil {
    *
    * @param aString the string on which to apply the substitution.
    * @param variablesValues a map containing the variable values. The keys are the variable names,
-   *     the values are the variable values.
+   *        the values are the variable values.
    * @param open the open delimiter for variables.
    * @param close the close delimiter for variables.
    * @return the string with the substitution applied.
    */
-  public static String substitute(
-      String aString, Map<String, String> variablesValues, String open, String close) {
+  public static String substitute(String aString, Map<String, String> variablesValues, String open, String close) {
     return substitute(aString, variablesValues, open, close, 0);
   }
 
@@ -131,18 +129,13 @@ public class StringUtil {
    *
    * @param aString the string on which to apply the substitution.
    * @param variablesValues a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
+   *        values are the variable values.
    * @param open the open delimiter for variables.
    * @param close the close delimiter for variables.
    * @param recursion the number of recursion (internal counter to avoid endless loops)
    * @return the string with the substitution applied.
    */
-  public static String substitute(
-      String aString,
-      Map<String, String> variablesValues,
-      String open,
-      String close,
-      int recursion) {
+  public static String substitute(String aString, Map<String, String> variablesValues, String open, String close, int recursion) {
     if (aString == null) {
       return null;
     }
@@ -171,8 +164,7 @@ public class StringUtil {
             // for safety: avoid recursive
             if (recursion > 50) {
               // endless loops with stack overflow
-              throw new RuntimeException(
-                  "Endless loop detected for substitution of variable: " + value);
+              throw new RuntimeException("Endless loop detected for substitution of variable: " + value);
             }
             value = substitute((String) value, variablesValues, open, close, ++recursion);
           }
@@ -250,8 +242,7 @@ public class StringUtil {
    * @param systemProperties the system properties to use
    * @return the string with the substitution applied.
    */
-  public static final synchronized String environmentSubstitute(
-      String aString, Map<String, String> systemProperties) {
+  public static final synchronized String environmentSubstitute(String aString, Map<String, String> systemProperties) {
     Map<String, String> sysMap = new HashMap<>();
     synchronized (sysMap) {
       sysMap.putAll(Collections.synchronizedMap(systemProperties));
@@ -269,7 +260,7 @@ public class StringUtil {
    *
    * @param aString the string on which to apply the substitution.
    * @param variables a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
+   *        values are the variable values.
    * @return the string with the substitution applied.
    */
   public static String substituteUnix(String aString, Map<String, String> variables) {
@@ -282,7 +273,7 @@ public class StringUtil {
    *
    * @param aString the string on which to apply the substitution.
    * @param variables a map containg the variable values. The keys are the variable names, the
-   *     values are the variable values.
+   *        values are the variable values.
    * @return the string with the substitution applied.
    */
   public static String substituteWindows(String aString, Map<String, String> variables) {
@@ -300,8 +291,7 @@ public class StringUtil {
    * @return the string with the substitution applied.
    * @throws HopValueException In case there is a String conversion error
    */
-  public static String substituteField(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public static String substituteField(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     Map<String, String> variables = new HashMap<>();
     for (int i = 0; i < rowMeta.size(); i++) {
       variables.put(rowMeta.getValueMeta(i).getName(), rowMeta.getString(rowData, i));
@@ -318,12 +308,7 @@ public class StringUtil {
    * @param list the list of variables to add to
    * @param includeSystemVariables also check for system variables.
    */
-  public static void getUsedVariables(
-      String aString,
-      String open,
-      String close,
-      List<String> list,
-      boolean includeSystemVariables) {
+  public static void getUsedVariables(String aString, String open, String close, List<String> list, boolean includeSystemVariables) {
     if (aString == null) {
       return;
     }
@@ -344,9 +329,7 @@ public class StringUtil {
           // Or it's a system variable but the value has not been set (and we offer the user the
           // option to set it)
           //
-          if ((Const.indexOfString(variable, list) < 0) && includeSystemVariables
-              || !isSystemVariable(variable)
-              || System.getProperty(variable) == null) {
+          if ((Const.indexOfString(variable, list) < 0) && includeSystemVariables || !isSystemVariable(variable) || System.getProperty(variable) == null) {
             list.add(variable);
           }
 
@@ -362,14 +345,12 @@ public class StringUtil {
     return Const.indexOfString(aString, SYSTEM_PROPERTIES) >= 0;
   }
 
-  public static void getUsedVariables(
-      String aString, List<String> list, boolean includeSystemVariables) {
+  public static void getUsedVariables(String aString, List<String> list, boolean includeSystemVariables) {
     getUsedVariables(aString, UNIX_OPEN, UNIX_CLOSE, list, includeSystemVariables);
     getUsedVariables(aString, WINDOWS_OPEN, WINDOWS_CLOSE, list, includeSystemVariables);
   }
 
-  public static String generateRandomString(
-      int length, String prefix, String postfix, boolean uppercase) {
+  public static String generateRandomString(int length, String prefix, String postfix, boolean uppercase) {
     StringBuilder buffer = new StringBuilder();
 
     if (!Utils.isEmpty(prefix)) {
@@ -522,9 +503,7 @@ public class StringUtil {
    */
   public static String getVariableName(String variable) {
     variable = variable.trim();
-    if (variable.startsWith(UNIX_OPEN)
-        || variable.startsWith(WINDOWS_OPEN)
-        || variable.startsWith(HEX_OPEN)) {
+    if (variable.startsWith(UNIX_OPEN) || variable.startsWith(WINDOWS_OPEN) || variable.startsWith(HEX_OPEN)) {
       variable = variable.substring(2);
     }
     if (variable.endsWith(UNIX_CLOSE) || variable.endsWith(HEX_CLOSE)) {
@@ -546,8 +525,7 @@ public class StringUtil {
       return false;
     }
     variable = variable.trim();
-    return variable.startsWith(UNIX_OPEN) && variable.endsWith(UNIX_CLOSE)
-        || variable.startsWith(WINDOWS_OPEN) && variable.endsWith(WINDOWS_CLOSE)
+    return variable.startsWith(UNIX_OPEN) && variable.endsWith(UNIX_CLOSE) || variable.startsWith(WINDOWS_OPEN) && variable.endsWith(WINDOWS_CLOSE)
         || variable.startsWith(HEX_OPEN) && variable.endsWith(HEX_CLOSE);
   }
 
@@ -557,7 +535,7 @@ public class StringUtil {
    *
    * @param obj the {@link Object} whose string representation is being turned to lower case
    * @return a lower case {@link String} representation of the {@link String} returned by a call to
-   *     {@code obj .toString()}
+   *         {@code obj .toString()}
    */
   public static String safeToLowerCase(final Object obj) {
     if (obj == null || obj.toString() == null) {
@@ -618,7 +596,6 @@ public class StringUtil {
    * @return the string without marks
    */
   public static String removeDiacriticalMarks(String source) {
-    return Normalizer.normalize(source, Normalizer.Form.NFD)
-        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    return Normalizer.normalize(source, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
   }
 }

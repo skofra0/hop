@@ -45,8 +45,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class SplitGraphDialog extends BaseTransformDialog implements ITransformDialog {
 
-  private static final Class<?> PKG =
-      SplitGraphMeta.class; // For Translator
+  private static final Class<?> PKG = SplitGraphMeta.class; // For Translator
 
   private Text wTransformName;
 
@@ -57,12 +56,7 @@ public class SplitGraphDialog extends BaseTransformDialog implements ITransformD
 
   private SplitGraphMeta input;
 
-  public SplitGraphDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public SplitGraphDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, pipelineMeta, transformName);
     input = (SplitGraphMeta) inputMetadata;
   }
@@ -82,8 +76,7 @@ public class SplitGraphDialog extends BaseTransformDialog implements ITransformD
     ModifyListener lsMod = e -> input.setChanged();
     changed = input.hasChanged();
 
-    ScrolledComposite wScrolledComposite =
-        new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite wScrolledComposite = new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
     FormLayout scFormLayout = new FormLayout();
     wScrolledComposite.setLayout(scFormLayout);
     FormData fdSComposite = new FormData();

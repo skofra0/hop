@@ -34,13 +34,7 @@ import java.util.concurrent.Executors;
 
 public class AzureWrite extends BaseTransform<AzureWriterMeta, AzureWriterData> {
 
-  public AzureWrite(
-      TransformMeta transformMeta,
-      AzureWriterMeta meta,
-      AzureWriterData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AzureWrite(TransformMeta transformMeta, AzureWriterMeta meta, AzureWriterData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -92,13 +86,11 @@ public class AzureWrite extends BaseTransform<AzureWriterMeta, AzureWriterData> 
       // get the output fields...
       //
       data.outputRowMeta = getInputRowMeta().clone();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), null, getTransformMeta(), this, metadataProvider);
 
       data.fieldIndex = getInputRowMeta().indexOfValue(meta.getMessageField());
       if (data.fieldIndex < 0) {
-        throw new HopTransformException(
-            "Unable to find field '" + meta.getMessageField() + "' in the Transform input");
+        throw new HopTransformException("Unable to find field '" + meta.getMessageField() + "' in the Transform input");
       }
 
       log.logBasic("Creating connection string");
@@ -108,20 +100,13 @@ public class AzureWrite extends BaseTransform<AzureWriterMeta, AzureWriterData> 
       String sasKeyName = resolve(meta.getSasKeyName());
       String sasKey = resolve(meta.getSasKey());
 
-      data.connectionStringBuilder =
-          new ConnectionStringBuilder()
-              .setNamespaceName(namespace)
-              .setEventHubName(eventHubName)
-              .setSasKeyName(sasKeyName)
-              .setSasKey(sasKey);
+      data.connectionStringBuilder = new ConnectionStringBuilder().setNamespaceName(namespace).setEventHubName(eventHubName).setSasKeyName(sasKeyName).setSasKey(sasKey);
 
       log.logBasic("Opening new executor service");
       data.executorService = Executors.newSingleThreadScheduledExecutor();
       log.logBasic("Creating event hub client");
       try {
-        data.eventHubClient =
-            EventHubClient.createFromConnectionStringSync(
-                data.connectionStringBuilder.toString(), data.executorService);
+        data.eventHubClient = EventHubClient.createFromConnectionStringSync(data.connectionStringBuilder.toString(), data.executorService);
       } catch (Exception e) {
         throw new HopTransformException("Unable to create event hub client", e);
       }

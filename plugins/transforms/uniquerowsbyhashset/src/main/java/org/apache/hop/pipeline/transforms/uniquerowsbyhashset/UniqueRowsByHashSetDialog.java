@@ -69,8 +69,7 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
   private Label wlErrorDesc;
   private TextVar wErrorDesc;
 
-  public UniqueRowsByHashSetDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public UniqueRowsByHashSetDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (UniqueRowsByHashSetMeta) in;
   }
@@ -98,8 +97,7 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -130,8 +128,7 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     wSettings.setLayout(settingsgroupLayout);
 
     Label wlStoreValues = new Label(wSettings, SWT.RIGHT);
-    wlStoreValues.setText(
-        BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.StoreValues.Label"));
+    wlStoreValues.setText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.StoreValues.Label"));
     PropsUi.setLook(wlStoreValues);
     FormData fdlStoreValues = new FormData();
     fdlStoreValues.left = new FormAttachment(0, 0);
@@ -140,23 +137,20 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     wlStoreValues.setLayoutData(fdlStoreValues);
     wStoreValues = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wStoreValues);
-    wStoreValues.setToolTipText(
-        BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.StoreValues.ToolTip", Const.CR));
+    wStoreValues.setToolTipText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.StoreValues.ToolTip", Const.CR));
     FormData fdStoreValues = new FormData();
     fdStoreValues.left = new FormAttachment(middle, 0);
     fdStoreValues.top = new FormAttachment(wlStoreValues, 0, SWT.CENTER);
     wStoreValues.setLayoutData(fdStoreValues);
-    wStoreValues.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wStoreValues.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlRejectDuplicateRow = new Label(wSettings, SWT.RIGHT);
-    wlRejectDuplicateRow.setText(
-        BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.RejectDuplicateRow.Label"));
+    wlRejectDuplicateRow.setText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.RejectDuplicateRow.Label"));
     PropsUi.setLook(wlRejectDuplicateRow);
     FormData fdlRejectDuplicateRow = new FormData();
     fdlRejectDuplicateRow.left = new FormAttachment(0, 0);
@@ -165,25 +159,21 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     wlRejectDuplicateRow.setLayoutData(fdlRejectDuplicateRow);
     wRejectDuplicateRow = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wRejectDuplicateRow);
-    wRejectDuplicateRow.setToolTipText(
-        BaseMessages.getString(
-            PKG, "UniqueRowsByHashSetDialog.RejectDuplicateRow.ToolTip", Const.CR));
+    wRejectDuplicateRow.setToolTipText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.RejectDuplicateRow.ToolTip", Const.CR));
     FormData fdRejectDuplicateRow = new FormData();
     fdRejectDuplicateRow.left = new FormAttachment(middle, 0);
     fdRejectDuplicateRow.top = new FormAttachment(wlRejectDuplicateRow, 0, SWT.CENTER);
     wRejectDuplicateRow.setLayoutData(fdRejectDuplicateRow);
-    wRejectDuplicateRow.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setErrorDesc();
-          }
-        });
+    wRejectDuplicateRow.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setErrorDesc();
+      }
+    });
 
     wlErrorDesc = new Label(wSettings, SWT.LEFT);
-    wlErrorDesc.setText(
-        BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.ErrorDescription.Label"));
+    wlErrorDesc.setText(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.ErrorDescription.Label"));
     PropsUi.setLook(wlErrorDesc);
     FormData fdlErrorDesc = new FormData();
     fdlErrorDesc.left = new FormAttachment(wRejectDuplicateRow, margin);
@@ -228,23 +218,9 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     final int FieldsRows = input.getCompareFields() == null ? 0 : input.getCompareFields().length;
 
     colinf =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "UniqueRowsByHashSetDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -256,23 +232,22 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -352,8 +327,7 @@ public class UniqueRowsByHashSetDialog extends BaseTransformDialog implements IT
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

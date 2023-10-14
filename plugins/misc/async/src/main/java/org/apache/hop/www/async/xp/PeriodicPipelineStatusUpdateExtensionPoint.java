@@ -44,14 +44,10 @@ import java.util.TimerTask;
 @ExtensionPoint(
     id = "PeriodicPipelineStatusUpdateExtensionPoint",
     extensionPointId = "PipelinePrepareExecution",
-    description =
-        "A pipeline is being prepared for execution.  If the parent is a pipeline action and a service is set: monitor")
-public class PeriodicPipelineStatusUpdateExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+    description = "A pipeline is being prepared for execution.  If the parent is a pipeline action and a service is set: monitor")
+public class PeriodicPipelineStatusUpdateExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel iLogChannel, IVariables iVariables, final IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables iVariables, final IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     // If the parent is not an action we're not interested
     //
@@ -73,35 +69,27 @@ public class PeriodicPipelineStatusUpdateExtensionPoint
 
     // The service is stored under the name of the action...
     //
-    AsyncWebService service =
-        (AsyncWebService)
-            extensionDataMap.get(Defaults.createWorkflowExtensionDataKey(action.getName()));
+    AsyncWebService service = (AsyncWebService) extensionDataMap.get(Defaults.createWorkflowExtensionDataKey(action.getName()));
     if (service == null) {
       return;
     }
 
     final IWorkflowEngine<WorkflowMeta> grandParentWorkflow = getGrandParentWorkflow(pipeline);
     if (grandParentWorkflow == null) {
-      pipeline
-          .getLogChannel()
-          .logError(
-              "WARNING: the grand parent workflow for pipeline '"
-                  + pipeline.getObjectName()
-                  + "' couldn't be found");
+      pipeline.getLogChannel().logError("WARNING: the grand parent workflow for pipeline '" + pipeline.getObjectName() + "' couldn't be found");
       return;
     }
 
-    TimerTask timerTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            try {
-              updatePipelineStatus(pipeline, service, grandParentWorkflow);
-            } catch (IOException e) {
-              pipeline.getLogChannel().logError("Error updating async service pipeline status", e);
-            }
-          }
-        };
+    TimerTask timerTask = new TimerTask() {
+      @Override
+      public void run() {
+        try {
+          updatePipelineStatus(pipeline, service, grandParentWorkflow);
+        } catch (IOException e) {
+          pipeline.getLogChannel().logError("Error updating async service pipeline status", e);
+        }
+      }
+    };
 
     final Timer timer = new Timer();
 
@@ -111,37 +99,29 @@ public class PeriodicPipelineStatusUpdateExtensionPoint
 
     // When the pipeline is done, cancel the timer and update the status one last time...
     //
-    pipeline.addExecutionFinishedListener(
-        engine -> {
-          timerTask.cancel();
-          timer.cancel();
-          try {
-            updatePipelineStatus(engine, service, grandParentWorkflow);
-          } catch (IOException e) {
-            engine.getLogChannel().logError("Error updating async service pipeline status", e);
-          }
-        });
+    pipeline.addExecutionFinishedListener(engine -> {
+      timerTask.cancel();
+      timer.cancel();
+      try {
+        updatePipelineStatus(engine, service, grandParentWorkflow);
+      } catch (IOException e) {
+        engine.getLogChannel().logError("Error updating async service pipeline status", e);
+      }
+    });
   }
 
-  private void updatePipelineStatus(
-      IPipelineEngine<PipelineMeta> pipeline,
-      AsyncWebService service,
-      IWorkflowEngine<WorkflowMeta> grandParentWorkflow)
-      throws IOException {
+  private void updatePipelineStatus(IPipelineEngine<PipelineMeta> pipeline, AsyncWebService service, IWorkflowEngine<WorkflowMeta> grandParentWorkflow) throws IOException {
     // Get the status...
     //
     HopServerPipelineStatus status = getPipelineStatus(pipeline);
 
     // Store the status in the grandparent workflow...
     //
-    String key =
-        Defaults.createWorkflowPipelineStatusExtensionDataKey(
-            pipeline.getObjectName(), service.getName());
+    String key = Defaults.createWorkflowPipelineStatusExtensionDataKey(pipeline.getObjectName(), service.getName());
     grandParentWorkflow.getExtensionDataMap().put(key, status);
   }
 
-  private IWorkflowEngine<WorkflowMeta> getGrandParentWorkflow(
-      IPipelineEngine<PipelineMeta> pipeline) {
+  private IWorkflowEngine<WorkflowMeta> getGrandParentWorkflow(IPipelineEngine<PipelineMeta> pipeline) {
     if (pipeline.getParentWorkflow() != null) {
       return getGrandParentWorkflow(pipeline.getParentWorkflow());
     }
@@ -151,8 +131,7 @@ public class PeriodicPipelineStatusUpdateExtensionPoint
     return null;
   }
 
-  private IWorkflowEngine<WorkflowMeta> getGrandParentWorkflow(
-      IWorkflowEngine<WorkflowMeta> workflow) {
+  private IWorkflowEngine<WorkflowMeta> getGrandParentWorkflow(IWorkflowEngine<WorkflowMeta> workflow) {
     if (workflow.getParentWorkflow() != null) {
       return getGrandParentWorkflow(workflow.getParentWorkflow());
     }
@@ -164,18 +143,10 @@ public class PeriodicPipelineStatusUpdateExtensionPoint
     return workflow;
   }
 
-  private HopServerPipelineStatus getPipelineStatus(IPipelineEngine<PipelineMeta> pipeline)
-      throws IOException {
-    HopServerPipelineStatus pipelineStatus =
-        new HopServerPipelineStatus(
-            pipeline.getPipelineMeta().getName(),
-            pipeline.getContainerId(),
-            pipeline.getStatusDescription());
+  private HopServerPipelineStatus getPipelineStatus(IPipelineEngine<PipelineMeta> pipeline) throws IOException {
+    HopServerPipelineStatus pipelineStatus = new HopServerPipelineStatus(pipeline.getPipelineMeta().getName(), pipeline.getContainerId(), pipeline.getStatusDescription());
 
-    String logText =
-        HopLogStore.getAppender()
-            .getBuffer(pipeline.getLogChannel().getLogChannelId(), false)
-            .toString();
+    String logText = HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), false).toString();
 
     pipelineStatus.setFirstLoggingLineNr(-1);
     pipelineStatus.setLastLoggingLineNr(-1);
@@ -184,8 +155,7 @@ public class PeriodicPipelineStatusUpdateExtensionPoint
     pipelineStatus.setExecutionEndDate(pipeline.getExecutionEndDate());
 
     for (IEngineComponent component : pipeline.getComponents()) {
-      if ((component.isRunning())
-          || (component.getStatus() != EngineComponent.ComponentExecutionStatus.STATUS_EMPTY)) {
+      if ((component.isRunning()) || (component.getStatus() != EngineComponent.ComponentExecutionStatus.STATUS_EMPTY)) {
         TransformStatus transformStatus = new TransformStatus(component);
         pipelineStatus.getTransformStatusList().add(transformStatus);
       }

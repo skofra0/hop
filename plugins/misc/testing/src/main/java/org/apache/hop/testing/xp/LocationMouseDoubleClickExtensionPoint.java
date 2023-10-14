@@ -45,17 +45,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ExtensionPoint(
-    extensionPointId = "PipelineGraphMouseDown",
-    id = "LocationMouseDoubleClickExtensionPoint",
-    description = "Open a data set when double clicked on it")
-public class LocationMouseDoubleClickExtensionPoint
-    implements IExtensionPoint<HopGuiPipelineGraphExtension> {
+@ExtensionPoint(extensionPointId = "PipelineGraphMouseDown", id = "LocationMouseDoubleClickExtensionPoint", description = "Open a data set when double clicked on it")
+public class LocationMouseDoubleClickExtensionPoint implements IExtensionPoint<HopGuiPipelineGraphExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiPipelineGraphExtension pipelineGraphExtension)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiPipelineGraphExtension pipelineGraphExtension) throws HopException {
     HopGuiPipelineGraph pipelineGraph = pipelineGraphExtension.getPipelineGraph();
     PipelineMeta pipelineMeta = pipelineGraph.getPipelineMeta();
 
@@ -71,8 +65,7 @@ public class LocationMouseDoubleClickExtensionPoint
       Map<String, IRowMeta> transformFieldsMap = new HashMap<>();
       for (TransformMeta transformMeta : pipelineMeta.getTransforms()) {
         try {
-          IRowMeta transformFields =
-              pipelineMeta.getTransformFields(pipelineGraph.getVariables(), transformMeta);
+          IRowMeta transformFields = pipelineMeta.getTransformFields(pipelineGraph.getVariables(), transformMeta);
           transformFieldsMap.put(transformMeta.getName(), transformFields);
         } catch (Exception e) {
           // Ignore GUI errors...
@@ -98,13 +91,7 @@ public class LocationMouseDoubleClickExtensionPoint
             PipelineUnitTestSetLocation inputLocation = unitTest.findInputLocation(transformName);
             if (inputLocation != null) {
               PipelineUnitTestSetLocationDialog dialog =
-                  new PipelineUnitTestSetLocationDialog(
-                      hopGui.getShell(),
-                      variables,
-                      hopGui.getMetadataProvider(),
-                      inputLocation,
-                      dataSets,
-                      transformFieldsMap);
+                  new PipelineUnitTestSetLocationDialog(hopGui.getShell(), variables, hopGui.getMetadataProvider(), inputLocation, dataSets, transformFieldsMap);
               if (dialog.open()) {
                 hopGui.getMetadataProvider().getSerializer(PipelineUnitTest.class).save(unitTest);
                 pipelineGraph.updateGui();
@@ -119,13 +106,7 @@ public class LocationMouseDoubleClickExtensionPoint
             PipelineUnitTestSetLocation goldenLocation = unitTest.findGoldenLocation(transformName);
             if (goldenLocation != null) {
               PipelineUnitTestSetLocationDialog dialog =
-                  new PipelineUnitTestSetLocationDialog(
-                      hopGui.getShell(),
-                      variables,
-                      hopGui.getMetadataProvider(),
-                      goldenLocation,
-                      dataSets,
-                      transformFieldsMap);
+                  new PipelineUnitTestSetLocationDialog(hopGui.getShell(), variables, hopGui.getMetadataProvider(), goldenLocation, dataSets, transformFieldsMap);
               if (dialog.open()) {
                 // Save the unit test
                 hopGui.getMetadataProvider().getSerializer(PipelineUnitTest.class).save(unitTest);
@@ -148,9 +129,7 @@ public class LocationMouseDoubleClickExtensionPoint
                 return;
               }
 
-              List<UnitTestResult> results =
-                  (List<UnitTestResult>)
-                      pipeline.getExtensionDataMap().get(DataSetConst.UNIT_TEST_RESULTS);
+              List<UnitTestResult> results = (List<UnitTestResult>) pipeline.getExtensionDataMap().get(DataSetConst.UNIT_TEST_RESULTS);
               if (results == null || results.isEmpty()) {
                 return;
               }
@@ -168,8 +147,7 @@ public class LocationMouseDoubleClickExtensionPoint
   private void openDataSet(String dataSetName) {
     HopGui hopGui = HopGui.getInstance();
 
-    MetadataManager<DataSet> manager =
-        new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), DataSet.class, hopGui.getShell());
+    MetadataManager<DataSet> manager = new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), DataSet.class, hopGui.getShell());
     manager.editMetadata(dataSetName);
   }
 }

@@ -34,7 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpMetaLoadSaveTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
 
@@ -44,43 +45,18 @@ public class HttpMetaLoadSaveTest {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "url",
-            "urlInField",
-            "urlField",
-            "encoding",
-            "httpLogin",
-            "httpPassword",
-            "proxyHost",
-            "proxyPort",
-            "socketTimeout",
-            "connectionTimeout",
-            "closeIdleConnectionsTime",
-            "argumentField",
-            "argumentParameter",
-            "headerField",
-            "headerParameter",
-            "fieldName",
-            "resultCodeFieldName",
-            "responseTimeFieldName",
-            "responseHeaderFieldName");
+            "url", "urlInField", "urlField", "encoding", "httpLogin", "httpPassword", "proxyHost", "proxyPort", "socketTimeout", "connectionTimeout", "closeIdleConnectionsTime",
+            "argumentField", "argumentParameter", "headerField", "headerParameter", "fieldName", "resultCodeFieldName", "responseTimeFieldName", "responseHeaderFieldName");
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
     // Arrays need to be consistent length
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
     fieldLoadSaveValidatorAttributeMap.put("argumentField", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("argumentParameter", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("headerField", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("headerParameter", stringArrayLoadSaveValidator);
 
-    loadSaveTester =
-        new LoadSaveTester(
-            HttpMeta.class,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    loadSaveTester = new LoadSaveTester(HttpMeta.class, attributes, new HashMap<>(), new HashMap<>(), fieldLoadSaveValidatorAttributeMap, new HashMap<>());
   }
 
   @Test

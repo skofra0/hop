@@ -27,7 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Contains a buffer of rows. Getting rows from the buffer or putting rows in the buffer is
  * synchronized to allow concurrent use of multiple Threads.
  *
- * <p>This class also monitors the idle state of a IRowSet
+ * <p>
+ * This class also monitors the idle state of a IRowSet
  */
 public class BlockingListeningRowSet extends BaseRowSet implements Comparable<IRowSet>, IRowSet {
   private BlockingQueue<Object[]> queArray;
@@ -50,7 +51,8 @@ public class BlockingListeningRowSet extends BaseRowSet implements Comparable<IR
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta, java.lang.Object[])
+   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[])
    */
   @Override
   public boolean putRow(IRowMeta rowMeta, Object[] rowData) {
@@ -60,7 +62,8 @@ public class BlockingListeningRowSet extends BaseRowSet implements Comparable<IR
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta, java.lang.Object[],
+   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[],
    * long, java.util.concurrent.TimeUnit)
    */
   @Override

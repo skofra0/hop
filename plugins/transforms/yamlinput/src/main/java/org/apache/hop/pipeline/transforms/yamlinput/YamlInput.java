@@ -42,13 +42,7 @@ import java.util.List;
 public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
   private static final Class<?> PKG = YamlInputMeta.class; // For Translator
 
-  public YamlInput(
-      TransformMeta transformMeta,
-      YamlInputMeta meta,
-      YamlInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public YamlInput(TransformMeta transformMeta, YamlInputMeta meta, YamlInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -56,23 +50,17 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
     List<FileObject> nonExistantFiles = data.files.getNonExistentFiles();
     if (nonExistantFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
-      logError(
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredFiles", message));
+      logError(BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "YamlInput.Log.RequiredFiles", message));
 
-      throw new HopException(
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesMissing", message));
+      throw new HopException(BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesMissing", message));
     }
 
     List<FileObject> nonAccessibleFiles = data.files.getNonAccessibleFiles();
     if (nonAccessibleFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
-      logError(
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredNotAccessibleFiles", message));
+      logError(BaseMessages.getString(PKG, "YamlInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "YamlInput.Log.RequiredNotAccessibleFiles", message));
 
-      throw new HopException(
-          BaseMessages.getString(PKG, "YamlInput.Log.RequiredNotAccessibleFilesMissing", message));
+      throw new HopException(BaseMessages.getString(PKG, "YamlInput.Log.RequiredNotAccessibleFilesMissing", message));
     }
   }
 
@@ -108,11 +96,8 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
         data.indexOfYamlField = getInputRowMeta().indexOfValue(meta.getYamlField());
         if (data.indexOfYamlField < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(PKG, "YamlInput.Log.ErrorFindingField", meta.getYamlField()));
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "YamlInput.Exception.CouldnotFindField", meta.getYamlField()));
+          logError(BaseMessages.getString(PKG, "YamlInput.Log.ErrorFindingField", meta.getYamlField()));
+          throw new HopException(BaseMessages.getString(PKG, "YamlInput.Exception.CouldnotFindField", meta.getYamlField()));
         }
       }
 
@@ -122,9 +107,7 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
       getLinesInput();
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "YamlInput.Log.YAMLStream", meta.getYamlField(), fieldvalue));
+        logDetailed(BaseMessages.getString(PKG, "YamlInput.Log.YAMLStream", meta.getYamlField(), fieldvalue));
       }
 
       if (meta.getIsAFile()) {
@@ -153,9 +136,7 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
   private void addFileToResultFilesname(FileObject file) throws Exception {
     if (meta.addResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "YamlInput.Log.FileAddedResult"));
       addResultFile(resultFile);
     }
@@ -178,16 +159,14 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
 
       if (meta.isIgnoreEmptyFile() && data.file.getContent().getSize() == 0) {
         if (isBasic()) {
-          logBasic(
-              BaseMessages.getString(PKG, "YamlInput.Error.FileSizeZero", data.file.getName()));
+          logBasic(BaseMessages.getString(PKG, "YamlInput.Error.FileSizeZero", data.file.getName()));
         }
         // Let's open the next file
         openNextFile();
 
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "YamlInput.Log.OpeningFile", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "YamlInput.Log.OpeningFile", data.file.toString()));
         }
 
         // We have a file
@@ -198,18 +177,11 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
         addFileToResultFilesname(data.file);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "YamlInput.Log.FileOpened", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "YamlInput.Log.FileOpened", data.file.toString()));
         }
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "YamlInput.Log.UnableToOpenFile",
-              "" + data.filenr,
-              data.file.toString(),
-              e.toString()));
+      logError(BaseMessages.getString(PKG, "YamlInput.Log.UnableToOpenFile", "" + data.filenr, data.file.toString(), e.toString()));
       stopAll();
       setErrors(1);
       logError(Const.getStackTracker(e));
@@ -247,8 +219,7 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "YamlInput.Log.ReadRow", data.outputRowMeta.getString(r)));
+      logRowlevel(BaseMessages.getString(PKG, "YamlInput.Log.ReadRow", data.outputRowMeta.getString(r)));
     }
 
     incrementLinesOutput();
@@ -344,8 +315,7 @@ public class YamlInput extends BaseTransform<YamlInputMeta, YamlInputData> {
       }
 
       if (data.readrow != null) {
-        outputRowData =
-            RowDataUtil.addRowData(data.readrow, data.totalPreviousFields, outputRowData);
+        outputRowData = RowDataUtil.addRowData(data.readrow, data.totalPreviousFields, outputRowData);
       } else {
         outputRowData = RowDataUtil.resizeArray(outputRowData, data.totalOutStreamFields);
       }

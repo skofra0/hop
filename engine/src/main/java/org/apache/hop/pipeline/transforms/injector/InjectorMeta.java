@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO: check conversion of types from strings to numbers and back.
-//       As compared in the old version.
+// As compared in the old version.
 
 /**
  * Metadata class to allow a java program to inject rows of data into a pipeline. This transform can
@@ -66,13 +66,7 @@ public class InjectorMeta extends BaseTransformMeta<Injector, InjectorData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (InjectorField field : injectorFields) {
       try {
@@ -99,17 +93,11 @@ public class InjectorMeta extends BaseTransformMeta<Injector, InjectorData> {
       CheckResult cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "InjectorMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
+              BaseMessages.getString(PKG, "InjectorMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
               transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "InjectorMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "InjectorMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

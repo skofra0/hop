@@ -47,13 +47,7 @@ import java.util.Iterator;
 public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenReplacementData> {
   private static final Class<?> PKG = TokenReplacementMeta.class; // For Translator
 
-  public TokenReplacement(
-      TransformMeta transformMeta,
-      TokenReplacementMeta meta,
-      TokenReplacementData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TokenReplacement(TransformMeta transformMeta, TokenReplacementMeta meta, TokenReplacementData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -74,9 +68,7 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
       }
       if (meta.getOutputType().equalsIgnoreCase("file") && !meta.isOutputFileNameInField()) {
         if (meta.getOutputFileName() != null) {
-          String filename =
-              meta.buildFilename(
-                  meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
+          String filename = meta.buildFilename(meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
 
           openNewOutputFile(filename);
         } else {
@@ -92,28 +84,20 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
       return false;
     }
 
-    if (meta.getOutputType().equalsIgnoreCase("file")
-        && !meta.isOutputFileNameInField()
-        && meta.getSplitEvery() > 0
-        && data.rowNumber % meta.getSplitEvery() == 0) {
+    if (meta.getOutputType().equalsIgnoreCase("file") && !meta.isOutputFileNameInField() && meta.getSplitEvery() > 0 && data.rowNumber % meta.getSplitEvery() == 0) {
       if (data.rowNumber > 0) {
         closeAllOutputFiles();
         data.splitnr++;
-        String filename =
-            meta.buildFilename(
-                meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
+        String filename = meta.buildFilename(meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
         openNewOutputFile(filename);
       }
     }
 
     String outputFilename = "";
     if (meta.getOutputType().equalsIgnoreCase("file") && !meta.isOutputFileNameInField()) {
-      outputFilename =
-          meta.buildFilename(
-              meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
+      outputFilename = meta.buildFilename(meta.getOutputFileName(), this, getCopy(), getPartitionId(), data.splitnr);
     } else if (meta.getOutputType().equalsIgnoreCase("file") && meta.isOutputFileNameInField()) {
-      String filenameValue =
-          data.inputRowMeta.getString(r, resolve(meta.getOutputFileNameField()), "");
+      String filenameValue = data.inputRowMeta.getString(r, resolve(meta.getOutputFileNameField()), "");
       if (!Utils.isEmpty(filenameValue)) {
         outputFilename = filenameValue;
       } else {
@@ -127,9 +111,7 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
     for (TokenReplacementField field : meta.getTokenReplacementFields()) {
       if (data.inputRowMeta.indexOfValue(field.getName()) >= 0) {
         String fieldValue = resolve(data.inputRowMeta.getString(r, field.getName(), null));
-        if (fieldValue == null
-            && !BooleanUtils.toBoolean(
-                Const.getEnvironmentVariable("KETTLE_EMPTY_STRING_DIFFERS_FROM_NULL", "N"))) {
+        if (fieldValue == null && !BooleanUtils.toBoolean(Const.getEnvironmentVariable("KETTLE_EMPTY_STRING_DIFFERS_FROM_NULL", "N"))) {
           fieldValue = Const.nullToEmpty(fieldValue);
         }
         resolver.addToken(field.getTokenName(), fieldValue);
@@ -142,36 +124,22 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
     String inputFilename = "";
 
     if (meta.getInputType().equalsIgnoreCase("text")) {
-      reader =
-          new TokenReplacingReader(
-              resolver,
-              new StringReader(meta.getInputText()),
-              resolve(meta.getTokenStartString()),
-              resolve(meta.getTokenEndString()));
+      reader = new TokenReplacingReader(resolver, new StringReader(meta.getInputText()), resolve(meta.getTokenStartString()), resolve(meta.getTokenEndString()));
 
     } else if (meta.getInputType().equalsIgnoreCase("field")) {
       if (data.inputRowMeta.indexOfValue(meta.getInputFieldName()) >= 0) {
         String inputString = data.inputRowMeta.getString(r, meta.getInputFieldName(), "");
-        reader =
-            new TokenReplacingReader(
-                resolver,
-                new StringReader(inputString),
-                resolve(meta.getTokenStartString()),
-                resolve(meta.getTokenEndString()));
+        reader = new TokenReplacingReader(resolver, new StringReader(inputString), resolve(meta.getTokenStartString()), resolve(meta.getTokenEndString()));
 
       } else {
-        throw new HopValueException(
-            "Input field " + meta.getInputFieldName() + " not found on input stream.");
+        throw new HopValueException("Input field " + meta.getInputFieldName() + " not found on input stream.");
       }
     } else if (meta.getInputType().equalsIgnoreCase("file")) {
       if (meta.isInputFileNameInField()) {
         if (data.inputRowMeta.indexOfValue(resolve(meta.getInputFileNameField())) >= 0) {
           inputFilename = data.inputRowMeta.getString(r, resolve(meta.getInputFileNameField()), "");
         } else {
-          throw new HopValueException(
-              "Input filename field "
-                  + resolve(meta.getInputFileNameField())
-                  + " not found on input stream.");
+          throw new HopValueException("Input filename field " + resolve(meta.getInputFileNameField()) + " not found on input stream.");
         }
       } else {
         inputFilename = resolve(meta.getInputFileName());
@@ -184,19 +152,10 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
         throw new HopException("Input file " + inputFilename + " does not exist.");
       }
       reader =
-          new TokenReplacingReader(
-              resolver,
-              new InputStreamReader(HopVfs.getInputStream(inputFilename)),
-              resolve(meta.getTokenStartString()),
-              resolve(meta.getTokenEndString()));
+          new TokenReplacingReader(resolver, new InputStreamReader(HopVfs.getInputStream(inputFilename)), resolve(meta.getTokenStartString()), resolve(meta.getTokenEndString()));
 
       if (meta.isAddInputFileNameToResult()) {
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(inputFilename),
-                getTransformMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(inputFilename), getTransformMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "TokenReplacement.AddInputResultFile"));
         addResultFile(resultFile);
       }
@@ -213,8 +172,7 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
       if (meta.getOutputType().equalsIgnoreCase("file")) {
 
         if (inputFilename.equals(outputFilename)) {
-          throw new HopException(
-              "Input and output filenames must not be the same " + inputFilename);
+          throw new HopException("Input and output filenames must not be the same " + inputFilename);
         }
 
         int fileIndex = data.openFiles.indexOf(outputFilename);
@@ -244,7 +202,7 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
           byte[] bytes = new byte[bBuffer.limit()];
           bBuffer.get(bytes);
           bufferedWriter.write(bytes);
-        } // No else.  Anything else will be thrown to a Hop exception prior to getting here.
+        } // No else. Anything else will be thrown to a Hop exception prior to getting here.
         cbuf = new char[5000];
       }
 
@@ -340,14 +298,8 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
       Iterator<String> itFilename = data.openFiles.iterator();
       if (meta.isAddOutputFileNameToResult()) {
         while (itFilename.hasNext()) {
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  HopVfs.getFileObject(itFilename.next()),
-                  getTransformMeta().getName(),
-                  getTransformName());
-          resultFile.setComment(
-              BaseMessages.getString(PKG, "TokenReplacement.AddOutputResultFile"));
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(itFilename.next()), getTransformMeta().getName(), getTransformName());
+          resultFile.setComment(BaseMessages.getString(PKG, "TokenReplacement.AddOutputResultFile"));
           addResultFile(resultFile);
         }
       }
@@ -383,30 +335,19 @@ public class TokenReplacement extends BaseTransform<TokenReplacementMeta, TokenR
       parentfolder = HopVfs.getFileObject(filename).getParent();
       if (parentfolder.exists()) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "TokenReplacement.Log.ParentFolderExist", parentfolder.getName()));
+          logDetailed(BaseMessages.getString(PKG, "TokenReplacement.Log.ParentFolderExist", parentfolder.getName()));
         }
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "TokenReplacement.Log.ParentFolderNotExist", parentfolder.getName()));
+          logDetailed(BaseMessages.getString(PKG, "TokenReplacement.Log.ParentFolderNotExist", parentfolder.getName()));
         }
         if (meta.isCreateParentFolder()) {
           parentfolder.createFolder();
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "TokenReplacement.Log.ParentFolderCreated", parentfolder.getName()));
+            logDetailed(BaseMessages.getString(PKG, "TokenReplacement.Log.ParentFolderCreated", parentfolder.getName()));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "TokenReplacement.Log.ParentFolderNotExistCreateIt",
-                  parentfolder.getName(),
-                  filename));
+          throw new HopException(BaseMessages.getString(PKG, "TokenReplacement.Log.ParentFolderNotExistCreateIt", parentfolder.getName(), filename));
         }
       }
 

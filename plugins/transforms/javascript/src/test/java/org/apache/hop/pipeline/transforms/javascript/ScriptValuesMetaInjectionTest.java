@@ -30,7 +30,8 @@ import static org.junit.Assert.assertEquals;
 
 public class ScriptValuesMetaInjectionTest extends BaseMetadataInjectionTest<ScriptValuesMeta> {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -40,12 +41,12 @@ public class ScriptValuesMetaInjectionTest extends BaseMetadataInjectionTest<Scr
   @Test
   public void test() throws Exception {
     /*
-        check( "COMPATIBILITY_MODE", new IBooleanGetter() {
-          public boolean get() {
-            return meta.isCompatible();
-          }
-        } );
-    */
+     * check( "COMPATIBILITY_MODE", new IBooleanGetter() {
+     * public boolean get() {
+     * return meta.isCompatible();
+     * }
+     * } );
+     */
     check("OPTIMIZATION_LEVEL", () -> meta.getOptimizationLevel());
     check("FIELD_NAME", () -> meta.getFieldname()[0]);
     check("FIELD_RENAME_TO", () -> meta.getRename()[0]);
@@ -76,17 +77,13 @@ public class ScriptValuesMetaInjectionTest extends BaseMetadataInjectionTest<Scr
     assertEquals(-1, meta.getLength()[0]);
     injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaString("5"), "5"), "5");
     assertEquals(5, meta.getLength()[0]);
-    injector.setProperty(
-        meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), new Long(5)), "5");
+    injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), new Long(5)), "5");
     assertEquals(5, meta.getLength()[0]);
-    injector.setProperty(
-        meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), (Long) null), "5");
+    injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), (Long) null), "5");
     assertEquals(-1, meta.getLength()[0]);
-    injector.setProperty(
-        meta, "FIELD_LENGTH", setValue(new ValueMetaNumber("5"), new Double(5)), "5");
+    injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaNumber("5"), new Double(5)), "5");
     assertEquals(5, meta.getLength()[0]);
-    injector.setProperty(
-        meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), (Double) null), "5");
+    injector.setProperty(meta, "FIELD_LENGTH", setValue(new ValueMetaInteger("5"), (Double) null), "5");
     assertEquals(-1, meta.getLength()[0]);
 
     skipPropertyTest("FIELD_PRECISION");
@@ -98,17 +95,13 @@ public class ScriptValuesMetaInjectionTest extends BaseMetadataInjectionTest<Scr
     assertEquals(-1, meta.getPrecision()[0]);
     injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaString("5"), "5"), "5");
     assertEquals(5, meta.getPrecision()[0]);
-    injector.setProperty(
-        meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), new Long(5)), "5");
+    injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), new Long(5)), "5");
     assertEquals(5, meta.getPrecision()[0]);
-    injector.setProperty(
-        meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), (Long) null), "5");
+    injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), (Long) null), "5");
     assertEquals(-1, meta.getPrecision()[0]);
-    injector.setProperty(
-        meta, "FIELD_PRECISION", setValue(new ValueMetaNumber("5"), new Double(5)), "5");
+    injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaNumber("5"), new Double(5)), "5");
     assertEquals(5, meta.getPrecision()[0]);
-    injector.setProperty(
-        meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), (Double) null), "5");
+    injector.setProperty(meta, "FIELD_PRECISION", setValue(new ValueMetaInteger("5"), (Double) null), "5");
     assertEquals(-1, meta.getPrecision()[0]);
   }
 }

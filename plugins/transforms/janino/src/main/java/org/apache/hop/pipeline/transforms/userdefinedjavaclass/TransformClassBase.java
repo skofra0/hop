@@ -56,19 +56,14 @@ public abstract class TransformClassBase {
   protected UserDefinedJavaClassMeta meta;
   protected UserDefinedJavaClassData data;
 
-  public TransformClassBase(
-      UserDefinedJavaClass parent, UserDefinedJavaClassMeta meta, UserDefinedJavaClassData data)
-      throws HopTransformException {
+  public TransformClassBase(UserDefinedJavaClass parent, UserDefinedJavaClassMeta meta, UserDefinedJavaClassData data) throws HopTransformException {
     this.parent = parent;
     this.meta = meta;
     this.data = data;
 
     try {
-      data.inputRowMeta =
-          getPipelineMeta().getPrevTransformFields(parent, getTransformMeta()).clone();
-      data.outputRowMeta =
-          getPipelineMeta()
-              .getThisTransformFields(parent, getTransformMeta(), null, data.inputRowMeta.clone());
+      data.inputRowMeta = getPipelineMeta().getPrevTransformFields(parent, getTransformMeta()).clone();
+      data.outputRowMeta = getPipelineMeta().getThisTransformFields(parent, getTransformMeta(), null, data.inputRowMeta.clone());
 
       data.parameterMap = new HashMap<>();
       for (UsageParameter par : meta.getUsageParameters()) {
@@ -79,18 +74,14 @@ public abstract class TransformClassBase {
 
       data.infoMap = new HashMap<>();
       for (InfoTransformDefinition transformDefinition : meta.getInfoTransformDefinitions()) {
-        if (transformDefinition.tag != null
-            && transformDefinition.transformMeta != null
-            && transformDefinition.transformMeta.getName() != null) {
+        if (transformDefinition.tag != null && transformDefinition.transformMeta != null && transformDefinition.transformMeta.getName() != null) {
           data.infoMap.put(transformDefinition.tag, transformDefinition.transformMeta.getName());
         }
       }
 
       data.targetMap = new HashMap<>();
       for (TargetTransformDefinition transformDefinition : meta.getTargetTransformDefinitions()) {
-        if (transformDefinition.tag != null
-            && transformDefinition.transformMeta != null
-            && transformDefinition.transformMeta.getName() != null) {
+        if (transformDefinition.tag != null && transformDefinition.transformMeta != null && transformDefinition.transformMeta.getName() != null) {
           data.targetMap.put(transformDefinition.tag, transformDefinition.transformMeta.getName());
         }
       }
@@ -219,11 +210,7 @@ public abstract class TransformClassBase {
       // Update data.inputRowMeta and data.outputRowMeta
       IRowMeta inputRowMeta = parent.getInputRowMeta();
       data.inputRowMeta = inputRowMeta;
-      data.outputRowMeta =
-          inputRowMeta == null
-              ? null
-              : getPipelineMeta()
-                  .getThisTransformFields(parent, getTransformMeta(), null, inputRowMeta.clone());
+      data.outputRowMeta = inputRowMeta == null ? null : getPipelineMeta().getThisTransformFields(parent, getTransformMeta(), null, inputRowMeta.clone());
       updateRowMeta = false;
     }
 
@@ -376,14 +363,7 @@ public abstract class TransformClassBase {
 
   public abstract boolean processRow() throws HopException;
 
-  public void putError(
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
+  public void putError(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
     parent.putErrorImpl(rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
   }
 
@@ -391,8 +371,7 @@ public abstract class TransformClassBase {
     parent.putRowImpl(row, data);
   }
 
-  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
     parent.putRowToImpl(rowMeta, row, rowSet);
   }
 
@@ -468,8 +447,7 @@ public abstract class TransformClassBase {
     parent.stopAllImpl();
   }
 
-  public void stopRunning(ITransform transformMetaInterface, ITransformData iTransformData)
-      throws HopException {
+  public void stopRunning(ITransform transformMetaInterface, ITransformData iTransformData) throws HopException {
     parent.stopRunningImpl(transformMetaInterface, data);
   }
 
@@ -511,22 +489,10 @@ public abstract class TransformClassBase {
     ITransformIOMeta ioMeta = new TransformIOMeta(true, true, true, false, true, true);
 
     for (InfoTransformDefinition transformDefinition : meta.getInfoTransformDefinitions()) {
-      ioMeta.addStream(
-          new Stream(
-              StreamType.INFO,
-              transformDefinition.transformMeta,
-              transformDefinition.description,
-              StreamIcon.INFO,
-              null));
+      ioMeta.addStream(new Stream(StreamType.INFO, transformDefinition.transformMeta, transformDefinition.description, StreamIcon.INFO, null));
     }
     for (TargetTransformDefinition transformDefinition : meta.getTargetTransformDefinitions()) {
-      ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              transformDefinition.transformMeta,
-              transformDefinition.description,
-              StreamIcon.TARGET,
-              null));
+      ioMeta.addStream(new Stream(StreamType.TARGET, transformDefinition.transformMeta, transformDefinition.description, StreamIcon.TARGET, null));
     }
 
     return ioMeta;
@@ -545,17 +511,11 @@ public abstract class TransformClassBase {
     }
     String transformName = data.infoMap.get(tag);
     if (Utils.isEmpty(transformName)) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "TransformClassBase.Exception.UnableToFindInfoTransformNameForTag", tag));
+      throw new HopException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindInfoTransformNameForTag", tag));
     }
     IRowSet rowSet = findInputRowSet(transformName);
     if (rowSet == null) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG,
-              "TransformClassBase.Exception.UnableToFindInfoRowSetForTransform",
-              transformName));
+      throw new HopException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindInfoRowSetForTransform", transformName));
     }
     return rowSet;
   }
@@ -566,17 +526,11 @@ public abstract class TransformClassBase {
     }
     String transformName = data.targetMap.get(tag);
     if (Utils.isEmpty(transformName)) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "TransformClassBase.Exception.UnableToFindTargetTransformNameForTag", tag));
+      throw new HopException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindTargetTransformNameForTag", tag));
     }
     IRowSet rowSet = findOutputRowSet(transformName);
     if (rowSet == null) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG,
-              "TransformClassBase.Exception.UnableToFindTargetRowSetForTransform",
-              transformName));
+      throw new HopException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindTargetRowSetForTransform", transformName));
     }
     return rowSet;
   }
@@ -600,12 +554,7 @@ public abstract class TransformClassBase {
           try {
             fh = new FieldHelper(data.inputRowMeta, name);
           } catch (IllegalArgumentException e) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "TransformClassBase.Exception.UnableToFindFieldHelper",
-                    type.name(),
-                    name));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindFieldHelper", type.name(), name));
           }
           inFieldHelpers.put(name, fh);
         }
@@ -616,12 +565,7 @@ public abstract class TransformClassBase {
           try {
             fh = new FieldHelper(data.outputRowMeta, name);
           } catch (IllegalArgumentException e) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "TransformClassBase.Exception.UnableToFindFieldHelper",
-                    type.name(),
-                    name));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindFieldHelper", type.name(), name));
           }
           outFieldHelpers.put(name, fh);
         }
@@ -633,20 +577,13 @@ public abstract class TransformClassBase {
           try {
             fh = new FieldHelper(rmi, name);
           } catch (IllegalArgumentException e) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "TransformClassBase.Exception.UnableToFindFieldHelper",
-                    type.name(),
-                    name));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TransformClassBase.Exception.UnableToFindFieldHelper", type.name(), name));
           }
           infoFieldHelpers.put(name, fh);
         }
         break;
       default:
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "TransformClassBase.Exception.InvalidFieldsType", type.name(), name));
+        throw new HopTransformException(BaseMessages.getString(PKG, "TransformClassBase.Exception.InvalidFieldsType", type.name(), name));
     }
     return fh;
   }

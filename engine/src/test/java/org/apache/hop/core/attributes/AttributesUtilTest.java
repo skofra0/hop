@@ -51,8 +51,7 @@ public class AttributesUtilTest {
   public void testGetAttributesXml_DefaultTag() {
 
     PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class))).thenCallRealMethod();
-    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString()))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString())).thenCallRealMethod();
 
     Map<String, String> attributesGroup = new HashMap<>();
     Map<String, Map<String, String>> attributesMap = new HashMap<>();
@@ -81,8 +80,7 @@ public class AttributesUtilTest {
   @Test
   public void testGetAttributesXml_CustomTag() {
 
-    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString()))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString())).thenCallRealMethod();
 
     Map<String, String> attributesGroup = new HashMap<>();
     Map<String, Map<String, String>> attributesMap = new HashMap<>();
@@ -108,8 +106,7 @@ public class AttributesUtilTest {
   public void testGetAttributesXml_DefaultTag_NullParameter() {
 
     PowerMockito.when(AttributesUtil.getAttributesXml(nullable(Map.class))).thenCallRealMethod();
-    PowerMockito.when(AttributesUtil.getAttributesXml(nullable(Map.class), nullable(String.class)))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(nullable(Map.class), nullable(String.class))).thenCallRealMethod();
 
     String attributesXml = AttributesUtil.getAttributesXml(null);
 
@@ -122,8 +119,7 @@ public class AttributesUtilTest {
   @Test
   public void testGetAttributesXml_CustomTag_NullParameter() {
 
-    PowerMockito.when(AttributesUtil.getAttributesXml(nullable(Map.class), nullable(String.class)))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(nullable(Map.class), nullable(String.class))).thenCallRealMethod();
 
     String attributesXml = AttributesUtil.getAttributesXml(null, CUSTOM_TAG);
 
@@ -137,8 +133,7 @@ public class AttributesUtilTest {
   public void testGetAttributesXml_DefaultTag_EmptyMap() {
 
     PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class))).thenCallRealMethod();
-    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString()))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString())).thenCallRealMethod();
 
     Map<String, Map<String, String>> attributesMap = new HashMap<>();
 
@@ -153,8 +148,7 @@ public class AttributesUtilTest {
   @Test
   public void testGetAttributesXml_CustomTag_EmptyMap() {
 
-    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString()))
-        .thenCallRealMethod();
+    PowerMockito.when(AttributesUtil.getAttributesXml(any(Map.class), anyString())).thenCallRealMethod();
 
     Map<String, Map<String, String>> attributesMap = new HashMap<>();
 

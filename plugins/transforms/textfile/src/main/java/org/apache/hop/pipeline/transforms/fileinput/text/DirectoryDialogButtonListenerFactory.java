@@ -23,8 +23,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Shell;
 
 public class DirectoryDialogButtonListenerFactory {
-  public static final SelectionAdapter getSelectionAdapter(
-      final Shell shell, final TextVar destination) {
+  public static final SelectionAdapter getSelectionAdapter(final Shell shell, final TextVar destination) {
     // Listen to the Browse... button
     return new SelectionAdapter() {
       @Override

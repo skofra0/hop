@@ -38,7 +38,8 @@ import static org.junit.Assert.assertNotNull;
  * single-threaded mode
  */
 public abstract class SingleThreadedExecutionGuarder<Meta extends ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUp() throws Exception {

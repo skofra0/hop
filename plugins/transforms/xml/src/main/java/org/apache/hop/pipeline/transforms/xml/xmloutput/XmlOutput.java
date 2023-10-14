@@ -43,20 +43,13 @@ import java.util.zip.ZipOutputStream;
  * Converts input rows to one or more XML files.
  */
 public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
-  private static final String EOL =
-      "\n"; // force EOL char because woodstox library encodes CRLF incorrectly
+  private static final String EOL = "\n"; // force EOL char because woodstox library encodes CRLF incorrectly
 
   private static final XMLOutputFactory XML_OUT_FACTORY = XMLOutputFactory.newInstance();
 
   private OutputStream outputStream;
 
-  public XmlOutput(
-      TransformMeta transformMeta,
-      XmlOutputMeta meta,
-      XmlOutputData transformDataInterface,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public XmlOutput(TransformMeta transformMeta, XmlOutputMeta meta, XmlOutputData transformDataInterface, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, transformDataInterface, copyNr, pipelineMeta, trans);
   }
 
@@ -85,10 +78,7 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
       }
     }
 
-    if ((r != null
-        && getLinesOutput() > 0
-        && meta.getSplitEvery() > 0
-        && (getLinesOutput() % meta.getSplitEvery()) == 0)) {
+    if ((r != null && getLinesOutput() > 0 && meta.getSplitEvery() > 0 && (getLinesOutput() % meta.getSplitEvery()) == 0)) {
       // Done with this part or with everything.
       closeFile();
 
@@ -130,13 +120,9 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
 
         data.fieldnrs = new int[meta.getOutputFields().length];
         for (int i = 0; i < meta.getOutputFields().length; i++) {
-          data.fieldnrs[i] =
-              data.formatRowMeta.indexOfValue(meta.getOutputFields()[i].getFieldName());
+          data.fieldnrs[i] = data.formatRowMeta.indexOfValue(meta.getOutputFields()[i].getFieldName());
           if (data.fieldnrs[i] < 0) {
-            throw new HopException(
-                "Field ["
-                    + meta.getOutputFields()[i].getFieldName()
-                    + "] couldn't be found in the input stream!");
+            throw new HopException("Field [" + meta.getOutputFields()[i].getFieldName() + "] couldn't be found in the input stream!");
           }
 
           // Apply the formatting settings to the valueMeta object...
@@ -209,13 +195,7 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
       data.writer.writeEndElement();
       data.writer.writeCharacters(EOL);
     } catch (Exception e) {
-      throw new HopException(
-          "Error writing XML row :"
-              + e.toString()
-              + Const.CR
-              + "Row: "
-              + getInputRowMeta().getString(r),
-          e);
+      throw new HopException("Error writing XML row :" + e.toString() + Const.CR + "Row: " + getInputRowMeta().getString(r), e);
     }
 
     incrementLinesOutput();
@@ -239,9 +219,8 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
       }
     }
   }
-  
-  private void writeField(IValueMeta valueMeta, Object valueData, String element)
-      throws HopTransformException {
+
+  private void writeField(IValueMeta valueMeta, Object valueData, String element) throws HopTransformException {
     try {
       String value = valueMeta.getString(valueData);
       if (value != null) {
@@ -270,12 +249,7 @@ public class XmlOutput extends BaseTransform<XmlOutputMeta, XmlOutputData> {
 
       if (meta.isAddToResultFiles()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                file,
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
         resultFile.setComment("This file was created with a xml output transform");
         addResultFile(resultFile);
       }

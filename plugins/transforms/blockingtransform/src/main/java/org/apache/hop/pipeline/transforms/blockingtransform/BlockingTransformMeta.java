@@ -46,10 +46,12 @@ public class BlockingTransformMeta extends BaseTransformMeta<BlockingTransform, 
   private static final Class<?> PKG = BlockingTransformMeta.class; // For Translator
 
   /** Directory to store the temp files */
-  @HopMetadataProperty private String directory;
+  @HopMetadataProperty
+  private String directory;
 
   /** Temp files prefix... */
-  @HopMetadataProperty private String prefix;
+  @HopMetadataProperty
+  private String prefix;
 
   /** The cache size: number of rows to keep in memory */
   @HopMetadataProperty(key = "cache_size")
@@ -97,68 +99,33 @@ public class BlockingTransformMeta extends BaseTransformMeta<BlockingTransform, 
       File f = new File(realDirectory);
       if (f.exists()) {
         if (f.isDirectory()) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "BlockingTransformMeta.CheckResult.DirectoryExists", realDirectory),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.DirectoryExists", realDirectory), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(
-                      PKG, "BlockingTransformMeta.CheckResult.ExistsButNoDirectory", realDirectory),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.ExistsButNoDirectory", realDirectory), transformMeta);
           remarks.add(cr);
         }
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "BlockingTransformMeta.CheckResult.DirectoryNotExists", realDirectory),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.DirectoryNotExists", realDirectory), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.NoFields"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "BlockingTransformMeta.CheckResult.TransformExpectingRowsFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.TransformExpectingRowsFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "BlockingTransformMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: no values are added to the row in the transform
   }
@@ -200,7 +167,7 @@ public class BlockingTransformMeta extends BaseTransformMeta<BlockingTransform, 
 
   /**
    * @param passAllRows set to true if all rows should be passed and false if only the last one
-   *     should be passed
+   *        should be passed
    */
   public void setPassAllRows(boolean passAllRows) {
     this.passAllRows = passAllRows;
@@ -218,8 +185,6 @@ public class BlockingTransformMeta extends BaseTransformMeta<BlockingTransform, 
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 }

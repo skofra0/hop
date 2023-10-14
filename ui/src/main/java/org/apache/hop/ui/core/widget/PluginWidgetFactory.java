@@ -55,8 +55,7 @@ public class PluginWidgetFactory {
    * @param varSpace the variables to be used. e.g. for TextVar
    * @throws IllegalArgumentException if shell is null.
    */
-  public PluginWidgetFactory(final Shell shell, final IVariables varSpace)
-      throws IllegalArgumentException {
+  public PluginWidgetFactory(final Shell shell, final IVariables varSpace) throws IllegalArgumentException {
     Assert.assertNotNull(shell, "Shell cannot be null");
     Assert.assertNotNull(varSpace, "pipelineMeta cannot be null");
 

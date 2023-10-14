@@ -46,11 +46,9 @@ public class MetadataTestBase extends TestCase {
     PluginRegistry registry = PluginRegistry.getInstance();
     registry.registerPluginType(MetadataPluginType.class);
 
-    registry.registerPluginClass(
-        MetadataType1.class.getName(), MetadataPluginType.class, HopMetadata.class);
+    registry.registerPluginClass(MetadataType1.class.getName(), MetadataPluginType.class, HopMetadata.class);
     assertNotNull(registry.findPluginWithId(MetadataPluginType.class, "type-1"));
-    registry.registerPluginClass(
-        MetadataType2.class.getName(), MetadataPluginType.class, HopMetadata.class);
+    registry.registerPluginClass(MetadataType2.class.getName(), MetadataPluginType.class, HopMetadata.class);
     assertNotNull(registry.findPluginWithId(MetadataPluginType.class, "type-2"));
 
     IVariables variables = Variables.getADefaultVariableSpace();
@@ -63,8 +61,7 @@ public class MetadataTestBase extends TestCase {
     provider3 = new MemoryMetadataProvider(twoWayPasswordEncoder, variables);
     provider3.setDescription("Provider3");
 
-    List<IHopMetadataProvider> providers =
-        new ArrayList<>(Arrays.asList(provider1, provider2, provider3));
+    List<IHopMetadataProvider> providers = new ArrayList<>(Arrays.asList(provider1, provider2, provider3));
 
     multiMetadataProvider = new MultiMetadataProvider(twoWayPasswordEncoder, providers, variables);
   }

@@ -51,15 +51,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SalesforceInsertMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
     PluginRegistry.addPluginType(ValueMetaPluginType.getInstance());
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -134,32 +134,16 @@ public class SalesforceInsertMetaTest {
   public void testSalesforceInsertMeta() throws HopException {
     List<String> attributes = new ArrayList<>();
     attributes.addAll(SalesforceMetaTest.getDefaultAttributes());
-    attributes.addAll(
-        Arrays.asList(
-            "batchSize",
-            "salesforceIDFieldName",
-            "updateLookup",
-            "updateStream",
-            "useExternalId",
-            "rollbackAllChangesOnError"));
+    attributes.addAll(Arrays.asList("batchSize", "salesforceIDFieldName", "updateLookup", "updateStream", "useExternalId", "rollbackAllChangesOnError"));
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidators = new HashMap<>();
-    fieldLoadSaveValidators.put(
-        "updateLookup", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 50));
-    fieldLoadSaveValidators.put(
-        "updateStream", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 50));
-    fieldLoadSaveValidators.put(
-        "useExternalId", new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator(), 50));
+    fieldLoadSaveValidators.put("updateLookup", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 50));
+    fieldLoadSaveValidators.put("updateStream", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 50));
+    fieldLoadSaveValidators.put("useExternalId", new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator(), 50));
 
     TransformLoadSaveTester<SalesforceInsertMeta> transformLoadSaveTester =
-        new TransformLoadSaveTester(
-            SalesforceInsertMeta.class,
-                attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidators,
-            new HashMap<>());
+        new TransformLoadSaveTester(SalesforceInsertMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidators, new HashMap<>());
 
     transformLoadSaveTester.testXmlRoundTrip();
   }

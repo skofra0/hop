@@ -37,13 +37,8 @@ public class RowDataUtilTest extends TestCase {
   }
 
   public void testResizeArray() throws HopValueException {
-    Object[] arr1 =
-        new Object[] {"test", Boolean.TRUE, new Long(100), new Long(101), new String("test1")};
-    Object[] nullArr =
-        new Object[] {
-          null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-          null, null
-        };
+    Object[] arr1 = new Object[] {"test", Boolean.TRUE, new Long(100), new Long(101), new String("test1")};
+    Object[] nullArr = new Object[] {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null};
 
     // ------- Normal cases
 
@@ -52,8 +47,7 @@ public class RowDataUtilTest extends TestCase {
     assertTrue(arr1 != arr2); // Allocate new array
     assertTrue(arr2.length >= 7);
     assertTrue(arrayCompare(arr1, 0, arr2, 0, arr1.length)); // Elements of arr1 are copied
-    assertTrue(
-        arrayCompare(arr2, arr1.length, nullArr, 0, arr2.length - arr1.length)); // last are null
+    assertTrue(arrayCompare(arr2, arr1.length, nullArr, 0, arr2.length - arr1.length)); // last are null
 
     // Make array size smaller
     Object[] arr3 = RowDataUtil.resizeArray(arr1, 3);
@@ -67,8 +61,7 @@ public class RowDataUtilTest extends TestCase {
   }
 
   public void testRemoveItem() throws HopValueException {
-    Object[] arr =
-        new Object[] {new Long(1L), new Long(2L), new Long(3L), new Long(4L), new Long(5L)};
+    Object[] arr = new Object[] {new Long(1L), new Long(2L), new Long(3L), new Long(4L), new Long(5L)};
 
     // Remove the first item
     Object[] comp1 = new Object[] {new Long(2L), new Long(3L), new Long(4L), new Long(5L)};
@@ -105,27 +98,19 @@ public class RowDataUtilTest extends TestCase {
 
     // Do all different combinations of adding rows to
     // each other
-    Object[] newArr1 =
-        RowDataUtil.addRowData(
-            new Object[] {}, 0, new Object[] {new Long(1L), new Long(2L), new Long(3L)});
+    Object[] newArr1 = RowDataUtil.addRowData(new Object[] {}, 0, new Object[] {new Long(1L), new Long(2L), new Long(3L)});
     assertTrue(newArr1.length >= arr.length);
     assertTrue(arrayCompare(newArr1, 0, arr, 0, arr.length));
 
-    Object[] newArr2 =
-        RowDataUtil.addRowData(
-            new Object[] {new Long(1L), new Long(2L), new Long(3L)}, 3, new Object[] {});
+    Object[] newArr2 = RowDataUtil.addRowData(new Object[] {new Long(1L), new Long(2L), new Long(3L)}, 3, new Object[] {});
     assertTrue(newArr2.length >= arr.length);
     assertTrue(arrayCompare(newArr2, 0, arr, 0, arr.length));
 
-    Object[] newArr3 =
-        RowDataUtil.addRowData(
-            new Object[] {new Long(1L)}, 1, new Object[] {new Long(2L), new Long(3L)});
+    Object[] newArr3 = RowDataUtil.addRowData(new Object[] {new Long(1L)}, 1, new Object[] {new Long(2L), new Long(3L)});
     assertTrue(newArr3.length >= arr.length);
     assertTrue(arrayCompare(newArr3, 0, arr, 0, arr.length));
 
-    Object[] newArr4 =
-        RowDataUtil.addRowData(
-            new Object[] {new Long(1L), new Long(2L)}, 2, new Object[] {new Long(3L)});
+    Object[] newArr4 = RowDataUtil.addRowData(new Object[] {new Long(1L), new Long(2L)}, 2, new Object[] {new Long(3L)});
     assertTrue(newArr4.length >= arr.length);
     assertTrue(arrayCompare(newArr4, 0, arr, 0, arr.length));
   }
@@ -144,8 +129,7 @@ public class RowDataUtilTest extends TestCase {
   }
 
   public void testRemoveItems() throws HopValueException {
-    Object[] arr1 =
-        new Object[] {new Long(1L), new Long(2L), new Long(3L), new Long(4L), new Long(5L)};
+    Object[] arr1 = new Object[] {new Long(1L), new Long(2L), new Long(3L), new Long(4L), new Long(5L)};
     Object[] comp1 = new Object[] {new Long(2L), new Long(4L)};
 
     Object[] newArr1 = RowDataUtil.removeItems(arr1, new int[] {});

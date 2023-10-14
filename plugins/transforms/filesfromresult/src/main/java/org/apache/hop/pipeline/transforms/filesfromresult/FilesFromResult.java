@@ -32,13 +32,7 @@ public class FilesFromResult extends BaseTransform<FilesFromResultMeta, FilesFro
 
   private static final Class<?> PKG = FilesFromResult.class; // For Translator
 
-  public FilesFromResult(
-      TransformMeta transformMeta,
-      FilesFromResultMeta meta,
-      FilesFromResultData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FilesFromResult(TransformMeta transformMeta, FilesFromResultMeta meta, FilesFromResultData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

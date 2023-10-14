@@ -37,7 +37,7 @@ public class HopPluginLoaderException extends HopException {
    *
    * @param pluginId The missing plugin id
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
+   *        getMessage() method.
    */
   public HopPluginLoaderException(String pluginId, String message) {
     super(message);
@@ -50,7 +50,7 @@ public class HopPluginLoaderException extends HopException {
    *
    * @param pluginId The missing plugin id
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.)
    */
   public HopPluginLoaderException(String pluginId, Throwable cause) {
     super(cause);
@@ -62,9 +62,9 @@ public class HopPluginLoaderException extends HopException {
    *
    * @param pluginId The missing plugin id
    * @param message the detail message (which is saved for later retrieval by the getMessage()
-   *     method).
+   *        method).
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.)
    */
   public HopPluginLoaderException(String pluginId, String message, Throwable cause) {
     super(message, cause);

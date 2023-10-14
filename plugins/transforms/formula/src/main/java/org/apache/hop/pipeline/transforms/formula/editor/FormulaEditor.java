@@ -76,8 +76,7 @@ public class FormulaEditor extends Dialog implements KeyListener {
   private SashForm rightSash;
   private IVariables variables;
 
-  public FormulaEditor(IVariables variables, Shell parent, int style, String formula, String[] inputFields)
-      throws Exception {
+  public FormulaEditor(IVariables variables, Shell parent, int style, String formula, String[] inputFields) throws Exception {
     super(parent, style);
     this.variables = variables;
     this.formula = formula;
@@ -105,20 +104,18 @@ public class FormulaEditor extends Dialog implements KeyListener {
     cancel = new Button(buttonsComposite, SWT.PUSH);
     cancel.setText(" Cancel "); // TODO i18n
 
-    ok.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok();
-          }
-        });
-    cancel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            cancel();
-          }
-        });
+    ok.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok();
+      }
+    });
+    cancel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        cancel();
+      }
+    });
 
     // A tree on the left, an editor on the right: put them in a sash form...
     // Right below the editor we display the error messages...
@@ -166,24 +163,22 @@ public class FormulaEditor extends Dialog implements KeyListener {
      * If someone clicks on a function, we display the description of the function in the message
      * box...
      */
-    tree.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            if (tree.getSelectionCount() == 1) {
-              TreeItem item = tree.getSelection()[0];
-              if (item.getParentItem() != null) { // has a category above it
-                String functionName = item.getText();
-                FunctionDescription functionDescription =
-                    functionLib.getFunctionDescription(functionName);
-                if (functionDescription != null) {
-                  String report = functionDescription.getHtmlReport();
-                  message.setText(report);
-                }
-              }
+    tree.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        if (tree.getSelectionCount() == 1) {
+          TreeItem item = tree.getSelection()[0];
+          if (item.getParentItem() != null) { // has a category above it
+            String functionName = item.getText();
+            FunctionDescription functionDescription = functionLib.getFunctionDescription(functionName);
+            if (functionDescription != null) {
+              String report = functionDescription.getHtmlReport();
+              message.setText(report);
             }
           }
-        });
+        }
+      }
+    });
 
     rightSash = new SashForm(sashForm, SWT.VERTICAL);
 
@@ -204,15 +199,9 @@ public class FormulaEditor extends Dialog implements KeyListener {
     fdMessage.bottom = new FormAttachment(0, 100);
     message.setLayoutData(fdMessage);
 
-    rightSash.setWeights(
-        new int[] {
-          10, 80,
-        });
+    rightSash.setWeights(new int[] {10, 80,});
 
-    sashForm.setWeights(
-        new int[] {
-          15, 85,
-        });
+    sashForm.setWeights(new int[] {15, 85,});
 
     red = new Color(shell.getDisplay(), 255, 0, 0);
     green = new Color(shell.getDisplay(), 0, 220, 0);
@@ -223,15 +212,14 @@ public class FormulaEditor extends Dialog implements KeyListener {
 
     setStyles();
 
-    shell.addDisposeListener(
-        arg0 -> {
-          red.dispose();
-          green.dispose();
-          blue.dispose();
-          white.dispose();
-          gray.dispose();
-          black.dispose();
-        });
+    shell.addDisposeListener(arg0 -> {
+      red.dispose();
+      green.dispose();
+      blue.dispose();
+      white.dispose();
+      gray.dispose();
+      black.dispose();
+    });
   }
 
   public String open() {
@@ -239,13 +227,12 @@ public class FormulaEditor extends Dialog implements KeyListener {
     shell.open();
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            cancel();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        cancel();
+      }
+    });
 
     while (!shell.isDisposed()) {
       if (!shell.getDisplay().readAndDispatch()) {
@@ -278,16 +265,8 @@ public class FormulaEditor extends Dialog implements KeyListener {
 
   public static void main(String[] args) throws Exception {
     Display display = new Display();
-    String[] inputFields = {
-      "firstname", "name",
-    };
-    FormulaEditor lbe =
-        new FormulaEditor(
-                null,
-            new Shell(display, SWT.NONE),
-            SWT.NONE,
-            "MID(UPPER([name] & \" \" & [firstname]);5;10)",
-            inputFields);
+    String[] inputFields = {"firstname", "name",};
+    FormulaEditor lbe = new FormulaEditor(null, new Shell(display, SWT.NONE), SWT.NONE, "MID(UPPER([name] & \" \" & [firstname]);5;10)", inputFields);
     lbe.open();
   }
 

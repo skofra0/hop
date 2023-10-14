@@ -34,10 +34,7 @@ public class NeoPipelineExecutionViewerCypherTab extends NeoExecutionViewerCyphe
     super(viewer);
   }
 
-  @GuiTab(
-      id = "90010-pipeline-execution-viewer-neo4j-cypher-tab",
-      parentId = PipelineExecutionViewer.PIPELINE_EXECUTION_VIEWER_TABS,
-      description = "Neo4j Cypher")
+  @GuiTab(id = "90010-pipeline-execution-viewer-neo4j-cypher-tab", parentId = PipelineExecutionViewer.PIPELINE_EXECUTION_VIEWER_TABS, description = "Neo4j Cypher")
   @Override
   public void addNeo4jCypherTab(CTabFolder tabFolder) {
     super.addNeo4jCypherTab(tabFolder);

@@ -59,8 +59,7 @@ public class BlockingTransformDialog extends BaseTransformDialog implements ITra
   private Label wlCompress;
   private Button wCompress;
 
-  public BlockingTransformDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BlockingTransformDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BlockingTransformMeta) in;
   }
@@ -88,8 +87,7 @@ public class BlockingTransformDialog extends BaseTransformDialog implements ITra
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "BlockingTransformDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "BlockingTransformDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -124,14 +122,13 @@ public class BlockingTransformDialog extends BaseTransformDialog implements ITra
     wPassAllRows.setLayoutData(fdUpdate);
 
     // Clicking on update changes the options in the update combo boxes!
-    wPassAllRows.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setEnableDialog();
-          }
-        });
+    wPassAllRows.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setEnableDialog();
+      }
+    });
 
     // Temp directory for sorting
     wlSpoolDir = new Label(shell, SWT.RIGHT);
@@ -161,11 +158,9 @@ public class BlockingTransformDialog extends BaseTransformDialog implements ITra
     wSpoolDir.setLayoutData(fdSpoolDir);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wSpoolDir.addModifyListener(
-        e -> wSpoolDir.setToolTipText(variables.resolve(wSpoolDir.getText())));
+    wSpoolDir.addModifyListener(e -> wSpoolDir.setToolTipText(variables.resolve(wSpoolDir.getText())));
 
-    wbSpoolDir.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSpoolDir, variables));
+    wbSpoolDir.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSpoolDir, variables));
 
     // Prefix of temporary file
     wlPrefix = new Label(shell, SWT.RIGHT);
@@ -219,13 +214,12 @@ public class BlockingTransformDialog extends BaseTransformDialog implements ITra
     fdCompress.top = new FormAttachment(wlCompress, 0, SWT.CENTER);
     fdCompress.right = new FormAttachment(100, 0);
     wCompress.setLayoutData(fdCompress);
-    wCompress.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wCompress.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);

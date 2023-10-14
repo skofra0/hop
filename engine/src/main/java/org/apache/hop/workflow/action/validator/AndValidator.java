@@ -35,11 +35,7 @@ public class AndValidator implements IActionValidator {
   private static final String VALIDATOR_NAME = "and";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
 
     Object[] validators = (Object[]) context.get(KEY_VALIDATORS);
     for (Object validator : validators) {

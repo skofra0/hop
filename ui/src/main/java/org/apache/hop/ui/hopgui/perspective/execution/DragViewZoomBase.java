@@ -48,10 +48,7 @@ public abstract class DragViewZoomBase extends Composite {
 
   public Point screen2real(int x, int y) {
     float correctedMagnification = calculateCorrectedMagnification();
-    DPoint real =
-        new DPoint(
-            ((double) x - offset.x) / correctedMagnification - offset.x,
-            ((double) y - offset.y) / correctedMagnification - offset.y);
+    DPoint real = new DPoint(((double) x - offset.x) / correctedMagnification - offset.x, ((double) y - offset.y) / correctedMagnification - offset.y);
     return real.toPoint();
   }
 
@@ -116,7 +113,7 @@ public abstract class DragViewZoomBase extends Composite {
   public void zoomIn2() {
     zoomIn();
   }
-  
+
   @GuiKeyboardShortcut(control = true, key = '-')
   public void zoomOut() {
     magnification -= 0.1f;
@@ -128,19 +125,19 @@ public abstract class DragViewZoomBase extends Composite {
     redraw();
   }
 
-  @GuiKeyboardShortcut(control = true, key = '0' )
+  @GuiKeyboardShortcut(control = true, key = '0')
   public void zoom100Percent() {
     magnification = 1.0f;
     setZoomLabel();
     redraw();
   }
-  
+
   // Double keyboard shortcut zoom 100% '0' or keypad 0
-  @GuiKeyboardShortcut(control = true, key = SWT.KEYPAD_0 )
+  @GuiKeyboardShortcut(control = true, key = SWT.KEYPAD_0)
   public void zoom100Percent2() {
     zoom100Percent();
   }
-  
+
   @GuiKeyboardShortcut(control = true, key = '*')
   public void zoomFitToScreen() {
     if (maximum.x <= 0 || maximum.y <= 0) {
@@ -168,11 +165,11 @@ public abstract class DragViewZoomBase extends Composite {
   }
 
   // Double keyboard shortcut zoom fit to screen '*' or keypad *
-  @GuiKeyboardShortcut(control = true, key = SWT.KEYPAD_MULTIPLY )
+  @GuiKeyboardShortcut(control = true, key = SWT.KEYPAD_MULTIPLY)
   public void zoomFitToScreen2() {
     zoomFitToScreen();
   }
-  
+
   /**
    * There are 2 ways to drag the view-port around. One way is to use the navigation rectangle at
    * the bottom. The other way is to click-drag the background.
@@ -216,7 +213,7 @@ public abstract class DragViewZoomBase extends Composite {
     int wiggleX = viewPort.width;
     int wiggleY = viewPort.height;
 
-    // What's that in percentages?  We draw the little rectangle at 25% size.
+    // What's that in percentages? We draw the little rectangle at 25% size.
     //
     double deltaXPct = wiggleX == 0 ? 0 : deltaX / (wiggleX / 0.25);
     double deltaYPct = wiggleY == 0 ? 0 : deltaY / (wiggleY / 0.25);
@@ -288,7 +285,7 @@ public abstract class DragViewZoomBase extends Composite {
    */
   protected void dragView(Point lastClick, Point moved) {
     // The offset is in absolute numbers relative to the pipeline/workflow graph metadata.
-    // The screen coordinates need to be corrected.  If the image is zoomed in we need to move less.
+    // The screen coordinates need to be corrected. If the image is zoomed in we need to move less.
     //
     double zoomFactor = PropsUi.getNativeZoomFactor() * Math.max(0.1, magnification);
     double deltaX = (lastClick.x - moved.x) / zoomFactor;
@@ -301,7 +298,7 @@ public abstract class DragViewZoomBase extends Composite {
 
     redraw();
   }
-  
+
   protected void mouseScrolled(MouseEvent mouseEvent) {
     // Zoom in or out every time we get an event.
     //

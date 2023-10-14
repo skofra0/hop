@@ -52,8 +52,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransformDialog {
-  private static final Class<?> PKG =
-      GetLoggingInfo.class; // For Translator
+  private static final Class<?> PKG = GetLoggingInfo.class; // For Translator
 
   private Text wTransformname;
 
@@ -63,8 +62,7 @@ public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransf
 
   private boolean isReceivingInput = false;
 
-  public GetLoggingInfoDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetLoggingInfoDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (GetLoggingInfoMeta) in;
   }
@@ -77,13 +75,12 @@ public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransf
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    ModifyListener lsMod =
-        new ModifyListener() {
-          @Override
-          public void modifyText(ModifyEvent e) {
-            input.setChanged();
-          }
-        };
+    ModifyListener lsMod = new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -149,51 +146,29 @@ public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransf
     }
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetLoggingInfoDialog.NameColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetLoggingInfoDialog.TypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1].setSelectionAdapter(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            EnterSelectionDialog esd =
-                new EnterSelectionDialog(
-                    shell,
-                    functionDesc,
-                    BaseMessages.getString(PKG, "GetLoggingInfoDialog.SelectInfoType.DialogTitle"),
-                    BaseMessages.getString(
-                        PKG, "GetLoggingInfoDialog.SelectInfoType.DialogMessage"));
-            String string = esd.open();
-            if (string != null) {
-              TableView tv = (TableView) e.widget;
-              tv.setText(string, e.x, e.y);
-            }
-            input.setChanged();
-          }
-        });
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetLoggingInfoDialog.ArgumentColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "GetLoggingInfoDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "GetLoggingInfoDialog.TypeColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1].setSelectionAdapter(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        EnterSelectionDialog esd =
+            new EnterSelectionDialog(
+                shell,
+                functionDesc,
+                BaseMessages.getString(PKG, "GetLoggingInfoDialog.SelectInfoType.DialogTitle"),
+                BaseMessages.getString(PKG, "GetLoggingInfoDialog.SelectInfoType.DialogMessage"));
+        String string = esd.open();
+        if (string != null) {
+          TableView tv = (TableView) e.widget;
+          tv.setText(string, e.x, e.y);
+        }
+        input.setChanged();
+      }
+    });
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "GetLoggingInfoDialog.ArgumentColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     colinf[2].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -272,9 +247,7 @@ public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransf
       GetLoggingInfoMeta oneMeta = new GetLoggingInfoMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              metadataProvider, oneMeta, wTransformname.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformname.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -286,12 +259,7 @@ public class GetLoggingInfoDialog extends BaseTransformDialog implements ITransf
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformname.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformname.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {

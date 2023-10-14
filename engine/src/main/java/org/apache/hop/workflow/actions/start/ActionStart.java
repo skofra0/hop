@@ -50,17 +50,24 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
   public static final int WEEKLY = 3;
   public static final int MONTHLY = 4;
 
-  @HopMetadataProperty private boolean repeat = false;
-  @HopMetadataProperty private int schedulerType = NOSCHEDULING;
-  @HopMetadataProperty private int intervalSeconds = 0;
-  @HopMetadataProperty private int intervalMinutes = 60;
+  @HopMetadataProperty
+  private boolean repeat = false;
+  @HopMetadataProperty
+  private int schedulerType = NOSCHEDULING;
+  @HopMetadataProperty
+  private int intervalSeconds = 0;
+  @HopMetadataProperty
+  private int intervalMinutes = 60;
 
   @HopMetadataProperty(key = "DayOfMonth")
   private int dayOfMonth = 1;
 
-  @HopMetadataProperty private int weekDay = 1;
-  @HopMetadataProperty private int minutes = 0;
-  @HopMetadataProperty private int hour = 12;
+  @HopMetadataProperty
+  private int weekDay = 1;
+  @HopMetadataProperty
+  private int minutes = 0;
+  @HopMetadataProperty
+  private int hour = 12;
 
   public ActionStart() {
     this(null);
@@ -80,11 +87,7 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
     try {
       long sleepTime = getNextExecutionTime();
       if (sleepTime > 0) {
-        parentWorkflow
-            .getLogChannel()
-            .logBasic(
-                parentWorkflow.getWorkflowName(),
-                "Sleeping: " + (sleepTime / 1000 / 60) + " minutes (sleep time=" + sleepTime + ")");
+        parentWorkflow.getLogChannel().logBasic(parentWorkflow.getWorkflowName(), "Sleeping: " + (sleepTime / 1000 / 60) + " minutes (sleep time=" + sleepTime + ")");
         long totalSleep = 0L;
         while (totalSleep < sleepTime && !parentWorkflow.isStopped()) {
           Thread.sleep(1000L);
@@ -258,9 +261,5 @@ public class ActionStart extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 }

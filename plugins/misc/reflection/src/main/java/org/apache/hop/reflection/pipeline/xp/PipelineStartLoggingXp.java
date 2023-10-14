@@ -42,17 +42,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@ExtensionPoint(
-    id = "PipelineStartLoggingXp",
-    extensionPointId = "PipelinePrepareExecution",
-    description = "At the start of a pipeline, handle any Pipeline Log metadata objects")
+@ExtensionPoint(id = "PipelineStartLoggingXp", extensionPointId = "PipelinePrepareExecution", description = "At the start of a pipeline, handle any Pipeline Log metadata objects")
 public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
 
   public static final String PIPELINE_LOGGING_FLAG = "PipelineLoggingActive";
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Pipeline pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Pipeline pipeline) throws HopException {
 
     // Prevent recursive logging of the logging pipeline
     //
@@ -60,7 +56,7 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
       return;
     }
 
-    // Is the pipeline doing a preview?  We don't want to log in that case.
+    // Is the pipeline doing a preview? We don't want to log in that case.
     //
     String previewVariable = pipeline.getVariable(IPipelineEngine.PIPELINE_IN_PREVIEW_MODE, "N");
     if (Const.toBoolean(previewVariable)) {
@@ -68,8 +64,7 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     }
 
     IHopMetadataProvider metadataProvider = pipeline.getMetadataProvider();
-    IHopMetadataSerializer<PipelineLog> serializer =
-        metadataProvider.getSerializer(PipelineLog.class);
+    IHopMetadataSerializer<PipelineLog> serializer = metadataProvider.getSerializer(PipelineLog.class);
     List<PipelineLog> pipelineLogs = serializer.loadAll();
 
     for (PipelineLog pipelineLog : pipelineLogs) {
@@ -77,11 +72,7 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     }
   }
 
-  private void handlePipelineLog(
-      final ILogChannel log,
-      final PipelineLog pipelineLog,
-      final IPipelineEngine<PipelineMeta> pipeline,
-      final IVariables variables)
+  private void handlePipelineLog(final ILogChannel log, final PipelineLog pipelineLog, final IPipelineEngine<PipelineMeta> pipeline, final IVariables variables)
       throws HopException {
 
     // See if we need to do anything at all...
@@ -106,20 +97,12 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     FileObject loggingFileObject = HopVfs.getFileObject(loggingPipelineFilename);
     try {
       if (!loggingFileObject.exists()) {
-        log.logBasic(
-            "WARNING: The Pipeline Log pipeline file '"
-                + loggingPipelineFilename
-                + "' couldn't be found to execute.");
+        log.logBasic("WARNING: The Pipeline Log pipeline file '" + loggingPipelineFilename + "' couldn't be found to execute.");
         return;
       }
     } catch (Exception e) {
       pipeline.stopAll();
-      throw new HopException(
-          "Error handling Pipeline Log metadata object '"
-              + pipelineLog.getName()
-              + "' at the start of pipeline: "
-              + pipeline,
-          e);
+      throw new HopException("Error handling Pipeline Log metadata object '" + pipelineLog.getName() + "' at the start of pipeline: " + pipeline, e);
     }
 
     // check if we need to log everything or specific pipelines only.
@@ -129,12 +112,9 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
       for (PipelineToLogLocation pipelineToLogLocation : pipelineLog.getPipelinesToLog()) {
 
         // Check if ok to start logging.
-        if(logLocationExists(variables, pipelineToLogLocation, pipeline)){
+        if (logLocationExists(variables, pipelineToLogLocation, pipeline)) {
           String pipelineUri = HopVfs.getFileObject(pipeline.getFilename()).getPublicURIString();
-          String pipelineToLogUri =
-                  HopVfs.getFileObject(
-                                  variables.resolve(pipelineToLogLocation.getPipelineToLogFilename()))
-                          .getPublicURIString();
+          String pipelineToLogUri = HopVfs.getFileObject(variables.resolve(pipelineToLogLocation.getPipelineToLogFilename())).getPublicURIString();
           if (pipelineUri.equals(pipelineToLogUri)) {
             logPipeline(pipelineLog, pipeline, loggingPipelineFilename, variables);
           }
@@ -144,12 +124,7 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     }
   }
 
-  private void logPipeline(
-      PipelineLog pipelineLog,
-      IPipelineEngine<PipelineMeta> pipeline,
-      String loggingPipelineFilename,
-      IVariables variables)
-      throws HopException {
+  private void logPipeline(PipelineLog pipelineLog, IPipelineEngine<PipelineMeta> pipeline, String loggingPipelineFilename, IVariables variables) throws HopException {
     try {
       final Timer timer = new Timer();
 
@@ -158,59 +133,39 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
       }
 
       if (pipelineLog.isExecutingAtEnd()) {
-        pipeline.addExecutionFinishedListener(
-            engine -> {
-              executeLoggingPipeline(
-                  pipelineLog, "end", loggingPipelineFilename, pipeline, variables);
-              timer.cancel();
-            });
-        pipeline.addExecutionStoppedListener(
-            engine -> {
-              try {
-                executeLoggingPipeline(
-                    pipelineLog, "stop", loggingPipelineFilename, pipeline, variables);
-              } catch (Exception e) {
-                throw new RuntimeException(
-                    "Unable to do interval logging for Pipeline Log object '"
-                        + pipelineLog.getName()
-                        + "'",
-                    e);
-              }
-              timer.cancel();
-            });
+        pipeline.addExecutionFinishedListener(engine -> {
+          executeLoggingPipeline(pipelineLog, "end", loggingPipelineFilename, pipeline, variables);
+          timer.cancel();
+        });
+        pipeline.addExecutionStoppedListener(engine -> {
+          try {
+            executeLoggingPipeline(pipelineLog, "stop", loggingPipelineFilename, pipeline, variables);
+          } catch (Exception e) {
+            throw new RuntimeException("Unable to do interval logging for Pipeline Log object '" + pipelineLog.getName() + "'", e);
+          }
+          timer.cancel();
+        });
       }
 
       if (pipelineLog.isExecutingPeriodically()) {
-        int intervalInSeconds =
-            Const.toInt(variables.resolve(pipelineLog.getIntervalInSeconds()), -1);
+        int intervalInSeconds = Const.toInt(variables.resolve(pipelineLog.getIntervalInSeconds()), -1);
         if (intervalInSeconds > 0) {
-          TimerTask timerTask =
-              new TimerTask() {
-                @Override
-                public void run() {
-                  try {
-                    executeLoggingPipeline(
-                        pipelineLog, "interval", loggingPipelineFilename, pipeline, variables);
-                  } catch (Exception e) {
-                    throw new RuntimeException(
-                        "Unable to do interval logging for Pipeline Log object '"
-                            + pipelineLog.getName()
-                            + "'",
-                        e);
-                  }
-                }
-              };
+          TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+              try {
+                executeLoggingPipeline(pipelineLog, "interval", loggingPipelineFilename, pipeline, variables);
+              } catch (Exception e) {
+                throw new RuntimeException("Unable to do interval logging for Pipeline Log object '" + pipelineLog.getName() + "'", e);
+              }
+            }
+          };
           timer.schedule(timerTask, intervalInSeconds * 1000L, intervalInSeconds * 1000L);
         }
       }
     } catch (Exception e) {
       pipeline.stopAll();
-      throw new HopException(
-          "Error handling Pipeline Log metadata object '"
-              + pipelineLog.getName()
-              + "' at the start of pipeline: "
-              + pipeline,
-          e);
+      throw new HopException("Error handling Pipeline Log metadata object '" + pipelineLog.getName() + "' at the start of pipeline: " + pipeline, e);
     }
   }
 
@@ -222,13 +177,11 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
       IVariables variables)
       throws HopException {
 
-    PipelineMeta loggingPipelineMeta =
-        new PipelineMeta(loggingPipelineFilename, pipeline.getMetadataProvider(), variables);
+    PipelineMeta loggingPipelineMeta = new PipelineMeta(loggingPipelineFilename, pipeline.getMetadataProvider(), variables);
 
     // Create a local pipeline engine...
     //
-    LocalPipelineEngine loggingPipeline =
-        new LocalPipelineEngine(loggingPipelineMeta, variables, pipeline);
+    LocalPipelineEngine loggingPipeline = new LocalPipelineEngine(loggingPipelineMeta, variables, pipeline);
 
     // Flag it as a logging pipeline so we don't log ourselves...
     //
@@ -255,14 +208,10 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     loggingPipeline.waitUntilFinished();
   }
 
-  private boolean logLocationExists(
-          IVariables variables,
-          PipelineToLogLocation pipelineToLogLocation,
-          IPipelineEngine<PipelineMeta> pipeline)
-    throws HopException {
+  private boolean logLocationExists(IVariables variables, PipelineToLogLocation pipelineToLogLocation, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     // Not saved to a file, let's not probe
-    if(StringUtils.isEmpty(pipeline.getFilename())){
+    if (StringUtils.isEmpty(pipeline.getFilename())) {
       return false;
     }
 
@@ -271,10 +220,9 @@ public class PipelineStartLoggingXp implements IExtensionPoint<Pipeline> {
     FileObject parentFileObject = HopVfs.getFileObject(pipeline.getFilename());
     String parentFilename = parentFileObject.getName().getPath();
 
-    FileObject locationFileObject =
-            HopVfs.getFileObject(variables.resolve(pipelineToLogLocation.getPipelineToLogFilename()));
+    FileObject locationFileObject = HopVfs.getFileObject(variables.resolve(pipelineToLogLocation.getPipelineToLogFilename()));
     String locationFilename = locationFileObject.getName().getPath();
-    if(!parentFilename.equals(locationFilename)){
+    if (!parentFilename.equals(locationFilename)) {
       // No match
       return false;
     }

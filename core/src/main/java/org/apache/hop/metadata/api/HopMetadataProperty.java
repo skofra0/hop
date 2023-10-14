@@ -38,13 +38,13 @@ public @interface HopMetadataProperty {
 
   /**
    * @return Set to true if you want this String field to be stored as a password: encoded or
-   *     obfuscated
+   *         obfuscated
    */
   boolean password() default false;
 
   /**
    * @return true if this field should be stored as a name reference because it is a HopMetadata
-   *     class
+   *         class
    */
   boolean storeWithName() default false;
 
@@ -77,7 +77,7 @@ public @interface HopMetadataProperty {
 
   /**
    * @return The metadata key for this property. Don't specify any key if you want this to be the
-   *     same as key();
+   *         same as key();
    */
   String injectionKey() default "";
 
@@ -88,7 +88,7 @@ public @interface HopMetadataProperty {
 
   /**
    * @return The metadata group key to which this property belongs. Don't specify any key if you
-   *     want this to be the same as key();
+   *         want this to be the same as key();
    */
   String injectionGroupKey() default "";
 
@@ -106,10 +106,9 @@ public @interface HopMetadataProperty {
 
   /**
    * @return The class to instantiate to convert metadata properly for this property (dates,
-   *     numbers, ...)
+   *         numbers, ...)
    */
-  Class<? extends InjectionTypeConverter> injectionConverter() default
-      DefaultInjectionTypeConverter.class;
+  Class<? extends InjectionTypeConverter> injectionConverter() default DefaultInjectionTypeConverter.class;
 
   /**
    * @return true to store metadata inline with the parent metadata, not in a sub-element.
@@ -120,10 +119,12 @@ public @interface HopMetadataProperty {
    * Reads old format XML where a list of values is stored inline. XML like the following needs to
    * be turned into 3 KeyValue pairs:
    *
-   * <p>{@code <parent> <key>k1</key><value>v1</value> <key>k2</key><value>v2</value>
+   * <p>
+   * {@code <parent> <key>k1</key><value>v1</value> <key>k2</key><value>v2</value>
    * <key>k3</key><value>v3</value> </parent> }
    *
-   * <p>In this scenario we would specify the tags "key" and "value" to populate the list correctly.
+   * <p>
+   * In this scenario we would specify the tags "key" and "value" to populate the list correctly.
    *
    * @return
    */
@@ -141,6 +142,5 @@ public @interface HopMetadataProperty {
    *
    * @return The string-to-object converter
    */
-  Class<? extends IStringObjectConverter> injectionStringObjectConverter() default
-      IStringObjectConverter.None.class;
+  Class<? extends IStringObjectConverter> injectionStringObjectConverter() default IStringObjectConverter.None.class;
 }

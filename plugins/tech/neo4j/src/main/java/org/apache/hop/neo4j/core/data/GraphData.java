@@ -196,13 +196,11 @@ public class GraphData {
    */
   public GraphRelationshipData findRelationship(String sourceId, String targetId) {
     for (GraphRelationshipData relationship : relationships) {
-      if (relationship.getSourceNodeId().equals(sourceId)
-          && relationship.getTargetNodeId().equals(targetId)) {
+      if (relationship.getSourceNodeId().equals(sourceId) && relationship.getTargetNodeId().equals(targetId)) {
         return relationship;
       }
       // Also match on the inverse
-      if (relationship.getSourceNodeId().equals(targetId)
-          && relationship.getTargetNodeId().equals(sourceId)) {
+      if (relationship.getSourceNodeId().equals(targetId) && relationship.getTargetNodeId().equals(sourceId)) {
         return relationship;
       }
     }
@@ -301,8 +299,7 @@ public class GraphData {
     return node;
   }
 
-  public GraphRelationshipData findRelationshipsWithTarget(
-      List<GraphRelationshipData> rels, String targetId) {
+  public GraphRelationshipData findRelationshipsWithTarget(List<GraphRelationshipData> rels, String targetId) {
     for (GraphRelationshipData relationship : rels) {
       if (relationship.getTargetNodeId().equals(targetId)) {
         return relationship;
@@ -311,8 +308,7 @@ public class GraphData {
     return null;
   }
 
-  public GraphRelationshipData findRelationshipsWithSource(
-      List<GraphRelationshipData> rels, String sourceId) {
+  public GraphRelationshipData findRelationshipsWithSource(List<GraphRelationshipData> rels, String sourceId) {
     for (GraphRelationshipData relationship : rels) {
       if (relationship.getSourceNodeId().equals(sourceId)) {
         return relationship;
@@ -344,8 +340,7 @@ public class GraphData {
     return null;
   }
 
-  public int getFirstRelationshipLabelIndex(
-      List<GraphRelationshipData> rels, String mainRelationshipLabel) {
+  public int getFirstRelationshipLabelIndex(List<GraphRelationshipData> rels, String mainRelationshipLabel) {
     for (int i = 0; i < rels.size(); i++) {
       GraphRelationshipData relationship = rels.get(i);
       if (mainRelationshipLabel.equals(relationship.getLabel())) {
@@ -379,14 +374,11 @@ public class GraphData {
     return nextNodes;
   }
 
-  public GraphNodeData findNextNode(
-      GraphNodeData currentNode, String mainRelationshipLabel, GraphNodeData excludeNode) {
+  public GraphNodeData findNextNode(GraphNodeData currentNode, String mainRelationshipLabel, GraphNodeData excludeNode) {
     List<GraphRelationshipData> rels = findRelationships(currentNode);
     for (GraphRelationshipData rel : rels) {
       if (mainRelationshipLabel.equals(rel.getLabel())) {
-        if (excludeNode == null
-            || !(rel.getSourceNodeId().equals(excludeNode.getId())
-                || rel.getTargetNodeId().equals(excludeNode.getId()))) {
+        if (excludeNode == null || !(rel.getSourceNodeId().equals(excludeNode.getId()) || rel.getTargetNodeId().equals(excludeNode.getId()))) {
           // Don't return the same node, return the other
           //
           if (rel.getSourceNodeId().equals(currentNode.getId())) {
@@ -410,8 +402,7 @@ public class GraphData {
 
     List<GraphRelationshipData> found = new ArrayList<>();
     for (GraphRelationshipData relationship : relationships) {
-      if (relationship.getSourceNodeId().equals(dataNode.getId())
-          || relationship.getTargetNodeId().equals(dataNode.getId())) {
+      if (relationship.getSourceNodeId().equals(dataNode.getId()) || relationship.getTargetNodeId().equals(dataNode.getId())) {
         found.add(relationship);
       }
     }

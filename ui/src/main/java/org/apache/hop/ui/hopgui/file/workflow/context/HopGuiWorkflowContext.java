@@ -43,8 +43,7 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowContext> lambdaBuilder;
 
-  public HopGuiWorkflowContext(
-      WorkflowMeta workflowMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
+  public HopGuiWorkflowContext(WorkflowMeta workflowMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.workflowGraph = workflowGraph;
     this.click = click;
@@ -88,22 +87,15 @@ public class HopGuiWorkflowContext extends BaseGuiContextHandler implements IGui
               actionPlugin.getName(),
               actionPlugin.getDescription(),
               actionPlugin.getImageFile(),
-              (shiftClicked, controlClicked, t) ->
-                  workflowGraph.workflowActionDelegate.newAction(
-                      workflowMeta,
-                      actionPlugin.getIds()[0],
-                      actionPlugin.getName(),
-                      controlClicked,
-                      click));
+              (shiftClicked, controlClicked, t) -> workflowGraph.workflowActionDelegate
+                  .newAction(workflowMeta, actionPlugin.getIds()[0], actionPlugin.getName(), controlClicked, click));
       createActionGuiAction.getKeywords().addAll(Arrays.asList(actionPlugin.getKeywords()));
       createActionGuiAction.setCategory(actionPlugin.getCategory());
-      createActionGuiAction.setCategoryOrder(
-          "9999_" + actionPlugin.getCategory()); // sort alphabetically
+      createActionGuiAction.setCategoryOrder("9999_" + actionPlugin.getCategory()); // sort alphabetically
       try {
         createActionGuiAction.setClassLoader(registry.getClassLoader(actionPlugin));
       } catch (HopPluginException e) {
-        LogChannel.UI.logError(
-            "Unable to get classloader for action plugin " + actionPlugin.getIds()[0], e);
+        LogChannel.UI.logError("Unable to get classloader for action plugin " + actionPlugin.getIds()[0], e);
       }
       createActionGuiAction.getKeywords().add(actionPlugin.getCategory());
       guiActions.add(createActionGuiAction);

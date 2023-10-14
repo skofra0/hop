@@ -42,9 +42,7 @@ public class DimensionLookupMetaTest {
     unitTestDb.setName("unit-test-db");
     metadataProvider.getSerializer(DatabaseMeta.class).save(unitTestDb);
 
-    DimensionLookupMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/dimension-update-transform.xml", DimensionLookupMeta.class, metadataProvider);
+    DimensionLookupMeta meta = TransformSerializationTestUtil.testSerialization("/dimension-update-transform.xml", DimensionLookupMeta.class, metadataProvider);
 
     assertNotNull(meta.getDatabaseMeta());
     assertNotNull(meta.getTableName());
@@ -64,10 +62,8 @@ public class DimensionLookupMetaTest {
     assertEquals("lastVersionLookup", meta.getFields().getFields().get(1).getLookup());
     assertEquals("LastVersion", meta.getFields().getFields().get(1).getUpdate());
     assertEquals(DimensionLookupMeta.DimensionUpdateType.LAST_VERSION, meta.getFields().getFields().get(1).getUpdateType());
-    
-    meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/dimension-lookup-transform.xml", DimensionLookupMeta.class, metadataProvider);
+
+    meta = TransformSerializationTestUtil.testSerialization("/dimension-lookup-transform.xml", DimensionLookupMeta.class, metadataProvider);
 
     assertFalse(meta.isUpdate());
     assertEquals("Number", meta.getFields().getFields().get(0).getReturnType());

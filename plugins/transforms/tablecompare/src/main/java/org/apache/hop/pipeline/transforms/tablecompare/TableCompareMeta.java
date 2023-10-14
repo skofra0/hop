@@ -45,89 +45,55 @@ import java.util.List;
 public class TableCompareMeta extends BaseTransformMeta<TableCompare, TableCompareData> {
   private static final Class<?> PKG = TableCompare.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "reference_connection",
-      injectionKeyDescription = "TableCompareMeta.Injection.ReferenceConnection")
+  @HopMetadataProperty(key = "reference_connection", injectionKeyDescription = "TableCompareMeta.Injection.ReferenceConnection")
   private String referenceConnection;
 
-  @HopMetadataProperty(
-      key = "reference_schema_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.ReferenceSchemaField")
+  @HopMetadataProperty(key = "reference_schema_field", injectionKeyDescription = "TableCompareMeta.Injection.ReferenceSchemaField")
   private String referenceSchemaField;
 
-  @HopMetadataProperty(
-      key = "reference_table_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.ReferenceTableField")
+  @HopMetadataProperty(key = "reference_table_field", injectionKeyDescription = "TableCompareMeta.Injection.ReferenceTableField")
   private String referenceTableField;
 
-  @HopMetadataProperty(
-      key = "compare_connection",
-      injectionKeyDescription = "TableCompareMeta.Injection.CompareConnection")
+  @HopMetadataProperty(key = "compare_connection", injectionKeyDescription = "TableCompareMeta.Injection.CompareConnection")
   private String compareConnection;
 
-  @HopMetadataProperty(
-      key = "compare_schema_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.CompareSchemaField")
+  @HopMetadataProperty(key = "compare_schema_field", injectionKeyDescription = "TableCompareMeta.Injection.CompareSchemaField")
   private String compareSchemaField;
 
-  @HopMetadataProperty(
-      key = "compare_table_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.CompareTableField")
+  @HopMetadataProperty(key = "compare_table_field", injectionKeyDescription = "TableCompareMeta.Injection.CompareTableField")
   private String compareTableField;
 
-  @HopMetadataProperty(
-      key = "key_fields_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.KeyFieldsField")
+  @HopMetadataProperty(key = "key_fields_field", injectionKeyDescription = "TableCompareMeta.Injection.KeyFieldsField")
   private String keyFieldsField;
 
-  @HopMetadataProperty(
-      key = "exclude_fields_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.ExcludeFieldsField")
+  @HopMetadataProperty(key = "exclude_fields_field", injectionKeyDescription = "TableCompareMeta.Injection.ExcludeFieldsField")
   private String excludeFieldsField;
 
-  @HopMetadataProperty(
-      key = "nr_errors_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsField")
+  @HopMetadataProperty(key = "nr_errors_field", injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsField")
   private String nrErrorsField;
 
-  @HopMetadataProperty(
-      key = "nr_records_reference_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrRecordsReferenceField")
+  @HopMetadataProperty(key = "nr_records_reference_field", injectionKeyDescription = "TableCompareMeta.Injection.NrRecordsReferenceField")
   private String nrRecordsReferenceField;
 
-  @HopMetadataProperty(
-      key = "nr_records_compare_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrRecordsCompareField")
+  @HopMetadataProperty(key = "nr_records_compare_field", injectionKeyDescription = "TableCompareMeta.Injection.NrRecordsCompareField")
   private String nrRecordsCompareField;
 
-  @HopMetadataProperty(
-      key = "nr_errors_left_join_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsLeftJoinField")
+  @HopMetadataProperty(key = "nr_errors_left_join_field", injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsLeftJoinField")
   private String nrErrorsLeftJoinField;
 
-  @HopMetadataProperty(
-      key = "nr_errors_inner_join_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsInnerJoinField")
+  @HopMetadataProperty(key = "nr_errors_inner_join_field", injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsInnerJoinField")
   private String nrErrorsInnerJoinField;
 
-  @HopMetadataProperty(
-      key = "nr_errors_right_join_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsRightJoinField")
+  @HopMetadataProperty(key = "nr_errors_right_join_field", injectionKeyDescription = "TableCompareMeta.Injection.NrErrorsRightJoinField")
   private String nrErrorsRightJoinField;
 
-  @HopMetadataProperty(
-      key = "key_description_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.KeyDescriptionField")
+  @HopMetadataProperty(key = "key_description_field", injectionKeyDescription = "TableCompareMeta.Injection.KeyDescriptionField")
   private String keyDescriptionField;
 
-  @HopMetadataProperty(
-      key = "value_reference_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.ValueReferenceField")
+  @HopMetadataProperty(key = "value_reference_field", injectionKeyDescription = "TableCompareMeta.Injection.ValueReferenceField")
   private String valueReferenceField;
 
-  @HopMetadataProperty(
-      key = "value_compare_field",
-      injectionKeyDescription = "TableCompareMeta.Injection.ValueCompareField")
+  @HopMetadataProperty(key = "value_compare_field", injectionKeyDescription = "TableCompareMeta.Injection.ValueCompareField")
   private String valueCompareField;
 
   public TableCompareMeta() {
@@ -380,43 +346,26 @@ public class TableCompareMeta extends BaseTransformMeta<TableCompare, TableCompa
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (Utils.isEmpty(nrErrorsField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrErrorsFieldIsNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrErrorsFieldIsNotSpecified"));
     }
     if (Utils.isEmpty(nrRecordsReferenceField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "TableCompareMeta.Exception.NrRecordsReferenceFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrRecordsReferenceFieldNotSpecified"));
     }
     if (Utils.isEmpty(nrRecordsCompareField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "TableCompareMeta.Exception.NrRecordsCompareFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrRecordsCompareFieldNotSpecified"));
     }
     if (Utils.isEmpty(nrErrorsLeftJoinField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "TableCompareMeta.Exception.NrErrorsLeftJoinFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrErrorsLeftJoinFieldNotSpecified"));
     }
     if (Utils.isEmpty(nrErrorsInnerJoinField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "TableCompareMeta.Exception.NrErrorsInnerJoinFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrErrorsInnerJoinFieldNotSpecified"));
     }
     if (Utils.isEmpty(nrErrorsRightJoinField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "TableCompareMeta.Exception.NrErrorsRightJoinFieldNotSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "TableCompareMeta.Exception.NrErrorsRightJoinFieldNotSpecified"));
     }
 
     IValueMeta nrErrorsValueMeta = new ValueMetaInteger(nrErrorsField);
@@ -473,37 +422,19 @@ public class TableCompareMeta extends BaseTransformMeta<TableCompare, TableCompa
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

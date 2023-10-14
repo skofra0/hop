@@ -42,22 +42,21 @@ import java.util.List;
     documentationUrl = "/metadata-types/neo4j/neo4j-graphmodel.html")
 public class GraphModel extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty protected String description;
+  @HopMetadataProperty
+  protected String description;
 
-  @HopMetadataProperty protected List<GraphNode> nodes;
+  @HopMetadataProperty
+  protected List<GraphNode> nodes;
 
-  @HopMetadataProperty protected List<GraphRelationship> relationships;
+  @HopMetadataProperty
+  protected List<GraphRelationship> relationships;
 
   public GraphModel() {
     nodes = new ArrayList<>();
     relationships = new ArrayList<>();
   }
 
-  public GraphModel(
-      String name,
-      String description,
-      List<GraphNode> nodes,
-      List<GraphRelationship> relationships) {
+  public GraphModel(String name, String description, List<GraphNode> nodes, List<GraphRelationship> relationships) {
     this.name = name;
     this.description = description;
     this.nodes = nodes;
@@ -376,8 +375,7 @@ public class GraphModel extends HopMetadataBase implements IHopMetadata {
    */
   public GraphRelationship findRelationship(String source, String target) {
     for (GraphRelationship relationship : relationships) {
-      if (relationship.getNodeSource().equalsIgnoreCase(source)
-          && relationship.getNodeTarget().equalsIgnoreCase(target)) {
+      if (relationship.getNodeSource().equalsIgnoreCase(source) && relationship.getNodeTarget().equalsIgnoreCase(target)) {
         return relationship;
       }
     }
@@ -394,8 +392,7 @@ public class GraphModel extends HopMetadataBase implements IHopMetadata {
   public List<GraphRelationship> findRelationships(String source, String target) {
     List<GraphRelationship> list = new ArrayList<>();
     for (GraphRelationship relationship : relationships) {
-      if (relationship.getNodeSource().equalsIgnoreCase(source)
-          && relationship.getNodeTarget().equalsIgnoreCase(target)) {
+      if (relationship.getNodeSource().equalsIgnoreCase(source) && relationship.getNodeTarget().equalsIgnoreCase(target)) {
         list.add(relationship);
       }
     }

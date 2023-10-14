@@ -92,20 +92,17 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized Object compute(
-      Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object compute(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.compute(key, remappingFunction);
   }
 
   @Override
-  public synchronized Object computeIfAbsent(
-      Object key, Function<? super Object, ? extends Object> mappingFunction) {
+  public synchronized Object computeIfAbsent(Object key, Function<? super Object, ? extends Object> mappingFunction) {
     return storageMap.computeIfAbsent(key, mappingFunction);
   }
 
   @Override
-  public synchronized Object computeIfPresent(
-      Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object computeIfPresent(Object key, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.computeIfPresent(key, remappingFunction);
   }
 
@@ -162,10 +159,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized Object merge(
-      Object key,
-      Object value,
-      BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
+  public synchronized Object merge(Object key, Object value, BiFunction<? super Object, ? super Object, ? extends Object> remappingFunction) {
     return storageMap.merge(key, value, remappingFunction);
   }
 
@@ -190,8 +184,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void replaceAll(
-      BiFunction<? super Object, ? super Object, ? extends Object> function) {
+  public synchronized void replaceAll(BiFunction<? super Object, ? super Object, ? extends Object> function) {
     storageMap.replaceAll(function);
   }
 
@@ -295,8 +288,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void loadFromXML(InputStream in)
-      throws IOException, InvalidPropertiesFormatException {
+  public synchronized void loadFromXML(InputStream in) throws IOException, InvalidPropertiesFormatException {
     super.putAll(storageMap);
     super.loadFromXML(in);
     super.forEach((key, value) -> storageMap.putIfAbsent(key, value));
@@ -325,8 +317,7 @@ public class ConcurrentMapProperties extends Properties {
   }
 
   @Override
-  public synchronized void storeToXML(OutputStream os, String comment, String encoding)
-      throws IOException {
+  public synchronized void storeToXML(OutputStream os, String comment, String encoding) throws IOException {
     super.putAll(storageMap);
     super.storeToXML(os, comment, encoding);
     super.clear();

@@ -30,12 +30,7 @@ public class CypherTransactionWork implements TransactionWork<Void> {
   private String cypher;
   private Map<String, Object> unwindMap;
 
-  public CypherTransactionWork(
-      Cypher transform,
-      Object[] currentRow,
-      boolean unwind,
-      String cypher,
-      Map<String, Object> unwindMap) {
+  public CypherTransactionWork(Cypher transform, Object[] currentRow, boolean unwind, String cypher, Map<String, Object> unwindMap) {
     this.transform = transform;
     this.currentRow = currentRow;
     this.unwind = unwind;

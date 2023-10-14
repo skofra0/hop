@@ -53,14 +53,7 @@ public class BeamBQInputTransform extends PTransform<PBegin, PCollection<HopRow>
 
   public BeamBQInputTransform() {}
 
-  public BeamBQInputTransform(
-      @Nullable String name,
-      String transformName,
-      String projectId,
-      String datasetId,
-      String tableId,
-      String query,
-      String rowMetaJson) {
+  public BeamBQInputTransform(@Nullable String name, String transformName, String projectId, String datasetId, String tableId, String query, String rowMetaJson) {
     super(name);
     this.transformName = transformName;
     this.projectId = projectId;
@@ -79,9 +72,7 @@ public class BeamBQInputTransform extends PTransform<PBegin, PCollection<HopRow>
 
       // Function to convert from Avro to Hop rows
       //
-      BQSchemaAndRecordToHopFn toHopFn =
-          new BQSchemaAndRecordToHopFn(
-              transformName, rowMetaJson);
+      BQSchemaAndRecordToHopFn toHopFn = new BQSchemaAndRecordToHopFn(transformName, rowMetaJson);
 
       TableReference tableReference = new TableReference();
       if (StringUtils.isNotEmpty(projectId)) {

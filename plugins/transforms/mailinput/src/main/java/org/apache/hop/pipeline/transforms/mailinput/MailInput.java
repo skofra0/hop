@@ -45,13 +45,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
 
   private MessageParser instance = new MessageParser();
 
-  public MailInput(
-      TransformMeta transformMeta,
-      MailInputMeta meta,
-      MailInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MailInput(TransformMeta transformMeta, MailInputMeta meta, MailInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -67,10 +61,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
     }
 
     if (isRowLevel()) {
-      log.logRowlevel(
-          toString(),
-          BaseMessages.getString(
-              PKG, "MailInput.Log.OutputRow", data.outputRowMeta.getString(outputRowData)));
+      log.logRowlevel(toString(), BaseMessages.getString(PKG, "MailInput.Log.OutputRow", data.outputRowMeta.getString(outputRowData)));
     }
     putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s)
 
@@ -92,9 +83,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
       if (folderslist0 == null || folderslist0.length == 0) {
         // mstor's default folder has no name
         folderslist =
-            data.mailConn.getProtocol() == MailConnectionMeta.PROTOCOL_MBOX
-                ? new String[] {""}
-                : new String[] {Const.NVL(realIMAPFolder, MailConnectionMeta.INBOX_FOLDER)};
+            data.mailConn.getProtocol() == MailConnectionMeta.PROTOCOL_MBOX ? new String[] {""} : new String[] {Const.NVL(realIMAPFolder, MailConnectionMeta.INBOX_FOLDER)};
       } else {
         folderslist = new String[folderslist0.length + 1];
         folderslist[0] = Const.NVL(realIMAPFolder, MailConnectionMeta.INBOX_FOLDER);
@@ -103,10 +92,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
         }
       }
     } else {
-      folderslist =
-          data.mailConn.getProtocol() == MailConnectionMeta.PROTOCOL_MBOX
-              ? new String[] {""}
-              : new String[] {Const.NVL(realIMAPFolder, MailConnectionMeta.INBOX_FOLDER)};
+      folderslist = data.mailConn.getProtocol() == MailConnectionMeta.PROTOCOL_MBOX ? new String[] {""} : new String[] {Const.NVL(realIMAPFolder, MailConnectionMeta.INBOX_FOLDER)};
     }
     return folderslist;
   }
@@ -213,9 +199,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
       Message message = data.folderIterator.next();
 
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "MailInput.Log.FetchingMessage", message.getMessageNumber()));
+        logDebug(BaseMessages.getString(PKG, "MailInput.Log.FetchingMessage", message.getMessageNumber()));
       }
 
       try {
@@ -267,8 +251,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
 
           data.inputRowMeta = getInputRowMeta();
           data.outputRowMeta = data.inputRowMeta.clone();
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Get total previous fields
           data.totalpreviousfields = data.inputRowMeta.size();
@@ -282,9 +265,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
 
           data.indexOfFolderField = data.inputRowMeta.indexOfValue(meta.getFolderField());
           if (data.indexOfFolderField < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "MailInput.Error.DynamicFolderUnreachable", meta.getFolderField()));
+            logError(BaseMessages.getString(PKG, "MailInput.Error.DynamicFolderUnreachable", meta.getFolderField()));
             stopAll();
             setErrors(1);
             return false;
@@ -293,9 +274,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
           // get folder
           String folderName = data.inputRowMeta.getString(data.readrow, data.indexOfFolderField);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "MailInput.Log.FoldernameInStream", meta.getFolderField(), folderName));
+            logDebug(BaseMessages.getString(PKG, "MailInput.Log.FoldernameInStream", meta.getFolderField(), folderName));
           }
           data.folders = getFolders(folderName);
         } // end if first
@@ -331,20 +310,15 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
         data.mailConn.openFolder(false);
       }
 
-      if (meta.useBatch()
-          || (!Utils.isEmpty(resolve(meta.getFirstMails()))
-              && Integer.parseInt(resolve(meta.getFirstMails())) > 0)) {
+      if (meta.useBatch() || (!Utils.isEmpty(resolve(meta.getFirstMails())) && Integer.parseInt(resolve(meta.getFirstMails())) > 0)) {
         // get data by pieces
-        Integer batchSize =
-            meta.useBatch() ? meta.getBatchSize() : Integer.parseInt(resolve(meta.getFirstMails()));
+        Integer batchSize = meta.useBatch() ? meta.getBatchSize() : Integer.parseInt(resolve(meta.getFirstMails()));
         Integer start = meta.useBatch() ? data.start : 1;
         Integer end = meta.useBatch() ? data.end : batchSize;
-        data.folderIterator =
-            new BatchFolderIterator(data.mailConn.getFolder(), batchSize, start, end); // TODO:args
+        data.folderIterator = new BatchFolderIterator(data.mailConn.getFolder(), batchSize, start, end); // TODO:args
 
         if (data.mailConn.getSearchTerm() != null) { // add search filter
-          data.folderIterator =
-              new SearchEnabledFolderIterator(data.folderIterator, data.mailConn.getSearchTerm());
+          data.folderIterator = new SearchEnabledFolderIterator(data.folderIterator, data.mailConn.getSearchTerm());
         }
       } else { // fetch all
         data.mailConn.retrieveMessages();
@@ -352,9 +326,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
       }
 
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "MailInput.Log.MessagesInFolder", data.folder, data.messagesCount));
+        logDebug(BaseMessages.getString(PKG, "MailInput.Log.MessagesInFolder", data.folder, data.messagesCount));
       }
 
     } catch (Exception e) {
@@ -378,8 +350,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
       try {
         // Create the output row meta-data
         data.outputRowMeta = new RowMeta();
-        meta.getFields(
-            data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+        meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
         // metadata
         // populated
 
@@ -392,8 +363,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
     data.usePOP = meta.getProtocol().equals(MailConnectionMeta.PROTOCOL_STRING_POP3);
 
     String realserver = resolve(meta.getServerName());
-    if (meta.getProtocol().equals(MailConnectionMeta.PROTOCOL_STRING_MBOX)
-        && StringUtils.startsWith(realserver, "file://")) {
+    if (meta.getProtocol().equals(MailConnectionMeta.PROTOCOL_STRING_MBOX) && StringUtils.startsWith(realserver, "file://")) {
       realserver = StringUtils.remove(realserver, "file://");
     }
 
@@ -424,22 +394,19 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
         case MailConnectionMeta.CONDITION_DATE_SMALLER:
           String realBeginDate = resolve(meta.getReceivedDate1());
           if (Utils.isEmpty(realBeginDate)) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "MailInput.Error.ReceivedDateSearchTermEmpty"));
+            throw new HopException(BaseMessages.getString(PKG, "MailInput.Error.ReceivedDateSearchTermEmpty"));
           }
           beginDate = df.parse(realBeginDate);
           break;
         case MailConnectionMeta.CONDITION_DATE_BETWEEN:
           realBeginDate = resolve(meta.getReceivedDate1());
           if (Utils.isEmpty(realBeginDate)) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "MailInput.Error.ReceivedDatesSearchTermEmpty"));
+            throw new HopException(BaseMessages.getString(PKG, "MailInput.Error.ReceivedDatesSearchTermEmpty"));
           }
           beginDate = df.parse(realBeginDate);
           String realEndDate = resolve(meta.getReceivedDate2());
           if (Utils.isEmpty(realEndDate)) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "MailInput.Error.ReceivedDatesSearchTermEmpty"));
+            throw new HopException(BaseMessages.getString(PKG, "MailInput.Error.ReceivedDatesSearchTermEmpty"));
           }
           endDate = df.parse(realEndDate);
           break;
@@ -456,8 +423,7 @@ public class MailInput extends BaseTransform<MailInputMeta, MailInputData> {
       data.mailConn =
           new MailConnection(
               log,
-              MailConnectionMeta.getProtocolFromString(
-                  meta.getProtocol(), MailConnectionMeta.PROTOCOL_IMAP),
+              MailConnectionMeta.getProtocolFromString(meta.getProtocol(), MailConnectionMeta.PROTOCOL_IMAP),
               realserver,
               realport,
               realusername,

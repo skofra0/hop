@@ -82,14 +82,8 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public ConcatFieldsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
-    super(
-        parent,
-        variables,
-        (BaseTransformMeta<ConcatFields, ConcatFieldsData>) in,
-        pipelineMeta,
-        sname);
+  public ConcatFieldsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+    super(parent, variables, (BaseTransformMeta<ConcatFields, ConcatFieldsData>) in, pipelineMeta, sname);
     input = (ConcatFieldsMeta) in;
   }
 
@@ -141,10 +135,8 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
 
     // TargetFieldName line
     Label wlTargetFieldName = new Label(shell, SWT.RIGHT);
-    wlTargetFieldName.setText(
-        BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldName.Label"));
-    wlTargetFieldName.setToolTipText(
-        BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldName.Tooltip"));
+    wlTargetFieldName.setText(BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldName.Label"));
+    wlTargetFieldName.setToolTipText(BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldName.Tooltip"));
     PropsUi.setLook(wlTargetFieldName);
     FormData fdlTargetFieldName = new FormData();
     fdlTargetFieldName.left = new FormAttachment(0, 0);
@@ -162,10 +154,8 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
 
     // TargetFieldLength line
     Label wlTargetFieldLength = new Label(shell, SWT.RIGHT);
-    wlTargetFieldLength.setText(
-        BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldLength.Label"));
-    wlTargetFieldLength.setToolTipText(
-        BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldLength.Tooltip"));
+    wlTargetFieldLength.setText(BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldLength.Label"));
+    wlTargetFieldLength.setToolTipText(BaseMessages.getString(PKG, "ConcatFieldsDialog.TargetFieldLength.Tooltip"));
     PropsUi.setLook(wlTargetFieldLength);
     FormData fdlTargetFieldLength = new FormData();
     fdlTargetFieldLength.left = new FormAttachment(0, 0);
@@ -190,7 +180,7 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
     fdlSeparator.top = new FormAttachment(lastControl, margin);
     fdlSeparator.right = new FormAttachment(middle, -margin);
     wlSeparator.setLayoutData(fdlSeparator);
-    
+
     Button wbSeparator = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbSeparator);
     wbSeparator.setText(BaseMessages.getString(PKG, "ConcatFieldsDialog.Separator.Button"));
@@ -290,68 +280,18 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
     System.arraycopy(nums, 0, formats, dats.length + 0, nums.length);
 
     fieldColumns = new ColumnInfo[FieldsCols];
-    fieldColumns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.NameColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    fieldColumns[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.TypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaBase.getTypes());
-    fieldColumns[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.FormatColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            formats);
-    fieldColumns[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.LengthColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    fieldColumns[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.PrecisionColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    fieldColumns[5] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.CurrencyColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    fieldColumns[6] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.DecimalColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    fieldColumns[7] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.GroupColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    fieldColumns[8] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.TrimTypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaBase.trimTypeDesc,
-            true);
-    fieldColumns[9] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConcatFieldsDialog.NullColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    fieldColumns[0] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    fieldColumns[1] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.TypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.getTypes());
+    fieldColumns[2] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.FormatColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, formats);
+    fieldColumns[3] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.LengthColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    fieldColumns[4] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.PrecisionColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    fieldColumns[5] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.CurrencyColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    fieldColumns[6] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.DecimalColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    fieldColumns[7] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.GroupColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    fieldColumns[8] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.TrimTypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.trimTypeDesc, true);
+    fieldColumns[9] = new ColumnInfo(BaseMessages.getString(PKG, "ConcatFieldsDialog.NullColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            fieldColumns,
-            FieldsRows,
-            null,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, fieldColumns, FieldsRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -363,23 +303,22 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFieldsComp = new FormData();
@@ -400,16 +339,14 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
     wTabFolder.setLayoutData(fdTabFolder);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wTargetFieldName.addModifyListener(
-        e -> wTargetFieldName.setToolTipText(variables.resolve(wTargetFieldName.getText())));
+    wTargetFieldName.addModifyListener(e -> wTargetFieldName.setToolTipText(variables.resolve(wTargetFieldName.getText())));
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -515,37 +452,31 @@ public class ConcatFieldsDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.isNumber()) {
-                if (v.getLength() > 0) {
-                  int le = v.getLength();
-                  int pr = v.getPrecision();
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.isNumber()) {
+            if (v.getLength() > 0) {
+              int le = v.getLength();
+              int pr = v.getPrecision();
 
-                  if (v.getPrecision() <= 0) {
-                    pr = 0;
-                  }
-
-                  StringBuilder mask = new StringBuilder();
-                  mask.append("0".repeat(Math.max(0, le - pr)));
-                  if (pr > 0) {
-                    mask.append(".");
-                  }
-                  mask.append("0".repeat(Math.max(0, pr)));
-                  tableItem.setText(3, mask.toString());
-                }
+              if (v.getPrecision() <= 0) {
+                pr = 0;
               }
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {2}, 4, 5, listener);
+
+              StringBuilder mask = new StringBuilder();
+              mask.append("0".repeat(Math.max(0, le - pr)));
+              if (pr > 0) {
+                mask.append(".");
+              }
+              mask.append("0".repeat(Math.max(0, pr)));
+              tableItem.setText(3, mask.toString());
+            }
+          }
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {2}, 4, 5, listener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 

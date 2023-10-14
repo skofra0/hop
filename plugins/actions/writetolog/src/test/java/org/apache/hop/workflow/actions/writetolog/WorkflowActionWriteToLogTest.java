@@ -70,8 +70,7 @@ public class WorkflowActionWriteToLogTest {
     verifyErrorMessageForParentJobLogLevel(LogLevel.MINIMAL, times(1));
   }
 
-  private void verifyErrorMessageForParentJobLogLevel(
-      LogLevel parentJobLogLevel, VerificationMode mode) {
+  private void verifyErrorMessageForParentJobLogLevel(LogLevel parentJobLogLevel, VerificationMode mode) {
     action.setLogMessage("TEST");
     action.setActionLogLevel(LogLevel.ERROR);
 

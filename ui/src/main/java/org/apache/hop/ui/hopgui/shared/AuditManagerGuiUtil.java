@@ -37,7 +37,7 @@ public class AuditManagerGuiUtil {
    *
    * @param type The type of list to query
    * @return The last used value or "" (empty string) if nothing could be found (or there was an
-   *     error)
+   *         error)
    */
   public static final String getLastUsedValue(String type) {
     // What is the last pipeline execution configuration used for the active namespace in HopGui?
@@ -49,12 +49,7 @@ public class AuditManagerGuiUtil {
       }
       return list.getNames().get(0);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Unable to get last used value from audit manager type: "
-              + type
-              + " in group "
-              + HopNamespace.getNamespace(),
-          e);
+      LogChannel.UI.logError("Unable to get last used value from audit manager type: " + type + " in group " + HopNamespace.getNamespace(), e);
       return "";
     }
   }
@@ -66,7 +61,7 @@ public class AuditManagerGuiUtil {
    *
    * @param type The type of list to query
    * @return The last used values or String[0] (empty array) if nothing could be found (or there was
-   *     an error)
+   *         an error)
    */
   public static final String[] getLastUsedValues(String type) {
     // What is the last pipeline execution configuration used for the active namespace in HopGui?
@@ -78,12 +73,7 @@ public class AuditManagerGuiUtil {
       }
       return list.getNames().toArray(new String[0]);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Unable to get last used values from audit manager type: "
-              + type
-              + " in group "
-              + HopNamespace.getNamespace(),
-          e);
+      LogChannel.UI.logError("Unable to get last used values from audit manager type: " + type + " in group " + HopNamespace.getNamespace(), e);
       return new String[0];
     }
   }
@@ -117,12 +107,7 @@ public class AuditManagerGuiUtil {
       }
       auditManager.storeList(HopNamespace.getNamespace(), type, list);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Unable to store list using audit manager with type: "
-              + type
-              + " in group "
-              + HopNamespace.getNamespace(),
-          e);
+      LogChannel.UI.logError("Unable to store list using audit manager with type: " + type + " in group " + HopNamespace.getNamespace(), e);
     }
   }
 
@@ -138,12 +123,7 @@ public class AuditManagerGuiUtil {
       }
       return map;
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Unable to retrieve the usage map for type "
-              + type
-              + " in group "
-              + HopNamespace.getNamespace(),
-          e);
+      LogChannel.UI.logError("Unable to retrieve the usage map for type " + type + " in group " + HopNamespace.getNamespace(), e);
       return new HashMap<>();
     }
   }
@@ -156,12 +136,7 @@ public class AuditManagerGuiUtil {
     try {
       auditManager.saveMap(HopNamespace.getNamespace(), type, map);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Unable to save the usage map for type "
-              + type
-              + " in group "
-              + HopNamespace.getNamespace(),
-          e);
+      LogChannel.UI.logError("Unable to save the usage map for type " + type + " in group " + HopNamespace.getNamespace(), e);
     }
   }
 }

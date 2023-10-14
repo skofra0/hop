@@ -29,13 +29,7 @@ public class Flattener extends BaseTransform<FlattenerMeta, FlattenerData> {
 
   private static final Class<?> PKG = FlattenerMeta.class; // For Translator
 
-  public Flattener(
-      TransformMeta transformMeta,
-      FlattenerMeta meta,
-      FlattenerData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Flattener(TransformMeta transformMeta, FlattenerMeta meta, FlattenerData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -64,8 +58,7 @@ public class Flattener extends BaseTransform<FlattenerMeta, FlattenerData> {
 
       data.fieldNr = data.inputRowMeta.indexOfValue(meta.getFieldName());
       if (data.fieldNr < 0) {
-        logError(
-            BaseMessages.getString(PKG, "Flattener.Log.FieldCouldNotFound", meta.getFieldName()));
+        logError(BaseMessages.getString(PKG, "Flattener.Log.FieldCouldNotFound", meta.getFieldName()));
         setErrors(1);
         stopAll();
         return false;

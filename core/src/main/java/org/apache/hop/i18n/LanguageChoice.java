@@ -35,8 +35,7 @@ public class LanguageChoice {
     if (defaultLocaleString == null) {
       defaultLocale = Locale.getDefault();
       // check if in language list and if beta language
-      if (!StringUtil.isEmpty(defaultLocale.getVariant())
-          || !StringUtil.isEmpty(defaultLocale.getScript())) {
+      if (!StringUtil.isEmpty(defaultLocale.getVariant()) || !StringUtil.isEmpty(defaultLocale.getScript())) {
         defaultLocale = new Locale(defaultLocale.getLanguage(), defaultLocale.getCountry());
       }
       int localeIdx = Const.indexOfString(defaultLocale.toString(), GlobalMessages.localeCodes);

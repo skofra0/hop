@@ -43,8 +43,7 @@ public class DetectLastRowDialog extends BaseTransformDialog implements ITransfo
 
   private final DetectLastRowMeta input;
 
-  public DetectLastRowDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public DetectLastRowDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (DetectLastRowMeta) in;
   }

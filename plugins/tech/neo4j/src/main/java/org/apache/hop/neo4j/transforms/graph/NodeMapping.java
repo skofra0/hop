@@ -23,51 +23,30 @@ import java.util.Objects;
 public class NodeMapping {
 
   /** The node mapping type */
-  @HopMetadataProperty(
-      key = "node_mapping_type",
-      injectionKey = "node_mapping_type",
-      injectionGroupDescription = "GraphOutput.Injection.NODE_MAPPING_TYPE",
-      storeWithCode = true)
+  @HopMetadataProperty(key = "node_mapping_type", injectionKey = "node_mapping_type", injectionGroupDescription = "GraphOutput.Injection.NODE_MAPPING_TYPE", storeWithCode = true)
   private NodeMappingType type;
 
   /** The name (in the model) of the node to merge */
-  @HopMetadataProperty(
-      key = "node_name",
-      injectionKey = "node_name",
-      injectionGroupDescription = "GraphOutput.Injection.TARGET_NODE_NAME")
+  @HopMetadataProperty(key = "node_name", injectionKey = "node_name", injectionGroupDescription = "GraphOutput.Injection.TARGET_NODE_NAME")
   private String targetNode;
 
   /** The Hop input field where the data is coming from */
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKey = "field_name",
-      injectionGroupDescription = "GraphOutput.Injection.FIELD_NAME")
+  @HopMetadataProperty(key = "field_name", injectionKey = "field_name", injectionGroupDescription = "GraphOutput.Injection.FIELD_NAME")
   private String fieldName;
 
   /** The applicable input field value */
-  @HopMetadataProperty(
-      key = "field_value",
-      injectionKey = "field_value",
-      injectionGroupDescription = "GraphOutput.Injection.FIELD_VALUE")
+  @HopMetadataProperty(key = "field_value", injectionKey = "field_value", injectionGroupDescription = "GraphOutput.Injection.FIELD_VALUE")
   private String fieldValue;
 
   /** The label to select if the field has the specified value */
-  @HopMetadataProperty(
-      key = "target_label",
-      injectionKey = "target_label",
-      injectionGroupDescription = "GraphOutput.Injection.TARGET_NODE_LABEL")
+  @HopMetadataProperty(key = "target_label", injectionKey = "target_label", injectionGroupDescription = "GraphOutput.Injection.TARGET_NODE_LABEL")
   private String targetLabel;
 
   public NodeMapping() {
     type = NodeMappingType.All;
   }
 
-  public NodeMapping(
-      NodeMappingType type,
-      String targetNode,
-      String fieldName,
-      String fieldValue,
-      String targetLabel) {
+  public NodeMapping(NodeMappingType type, String targetNode, String fieldName, String fieldValue, String targetLabel) {
     this.type = type;
     this.targetNode = targetNode;
     this.fieldName = fieldName;
@@ -84,10 +63,7 @@ public class NodeMapping {
       return false;
     }
     NodeMapping that = (NodeMapping) o;
-    return type == that.type
-        && Objects.equals(targetNode, that.targetNode)
-        && Objects.equals(fieldName, that.fieldName)
-        && Objects.equals(fieldValue, that.fieldValue)
+    return type == that.type && Objects.equals(targetNode, that.targetNode) && Objects.equals(fieldName, that.fieldName) && Objects.equals(fieldValue, that.fieldValue)
         && Objects.equals(targetLabel, that.targetLabel);
   }
 

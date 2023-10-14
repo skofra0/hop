@@ -27,7 +27,8 @@ import org.apache.hop.core.row.IRowMeta;
  * remain there until the buffer is full. Then it will switch to delivering mode (accepting = false)
  * It will remain there until the buffer is empty.
  *
- * <p>When the row set is done and no more rows will be entering the row set we will switch to
+ * <p>
+ * When the row set is done and no more rows will be entering the row set we will switch to
  * delivering mode.
  */
 public class BlockingBatchingRowSet extends BaseRowSet implements Comparable<IRowSet>, IRowSet {

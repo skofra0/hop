@@ -33,8 +33,7 @@ import java.io.InputStream;
 
 public class SvgLoader {
 
-  public static BufferedImage transcodeSVGDocument(
-      ClassLoader classLoader, String filename, int width, int height) throws HopException {
+  public static BufferedImage transcodeSVGDocument(ClassLoader classLoader, String filename, int width, int height) throws HopException {
     // Create a PNG transcoder.
     Transcoder t = new PNGTranscoder();
 
@@ -84,8 +83,7 @@ public class SvgLoader {
 
     // Convert to a buffered image for the Hop GC API
     //
-    BufferedImage bufferedImage =
-        new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
     Graphics2D bufferedGc = bufferedImage.createGraphics();
     bufferedGc.drawImage(img, 0, 0, null);
     bufferedGc.dispose();

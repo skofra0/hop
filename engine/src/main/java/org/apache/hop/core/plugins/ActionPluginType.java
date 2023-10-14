@@ -31,8 +31,7 @@ public class ActionPluginType extends BasePluginType<Action> {
   private static final Class<?> PKG = WorkflowMeta.class; // For Translator
 
   public static final String ID = "ACTION";
-  public static final String GENERAL_CATEGORY =
-      BaseMessages.getString(PKG, "ActionCategory.Category.General");
+  public static final String GENERAL_CATEGORY = BaseMessages.getString(PKG, "ActionCategory.Category.General");
 
   private static ActionPluginType pluginType;
 
@@ -82,8 +81,7 @@ public class ActionPluginType extends BasePluginType<Action> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, Action annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, Action annotation) {}
 
   @Override
   protected String extractDocumentationUrl(Action annotation) {

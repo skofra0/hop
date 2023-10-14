@@ -25,7 +25,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class CalculatorDataTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void dataReturnsCachedValues() throws Exception {
@@ -34,7 +35,6 @@ public class CalculatorDataTest {
     CalculatorData data = new CalculatorData();
     IValueMeta valueMeta = data.getValueMetaFor(IValueMeta.TYPE_INTEGER, null);
     IValueMeta shouldBeTheSame = data.getValueMetaFor(IValueMeta.TYPE_INTEGER, null);
-    assertTrue(
-        "CalculatorData should cache loaded value meta instances", valueMeta == shouldBeTheSame);
+    assertTrue("CalculatorData should cache loaded value meta instances", valueMeta == shouldBeTheSame);
   }
 }

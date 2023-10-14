@@ -31,12 +31,12 @@ import java.util.List;
 import java.util.Map;
 
 public class UniqueRowsByHashSetMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrip() throws HopException {
-    List<String> attributes =
-        Arrays.asList("store_values", "reject_duplicate_row", "error_description", "name");
+    List<String> attributes = Arrays.asList("store_values", "reject_duplicate_row", "error_description", "name");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("store_values", "getStoreValues");
@@ -53,19 +53,11 @@ public class UniqueRowsByHashSetMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
     // Arrays need to be consistent length
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
 
     fieldLoadSaveValidatorAttributeMap.put("name", stringArrayLoadSaveValidator);
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            UniqueRowsByHashSetMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    LoadSaveTester loadSaveTester = new LoadSaveTester(UniqueRowsByHashSetMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }

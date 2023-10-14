@@ -45,8 +45,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
   protected ExplorerPerspective perspective;
   protected ExplorerFile explorerFile;
 
-  public BaseExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public BaseExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     this.hopGui = hopGui;
     this.perspective = perspective;
     this.explorerFile = explorerFile;
@@ -65,8 +64,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
         throw new HopException("File '" + explorerFile.getFilename() + "' doesn't exist");
       }
     } catch (IOException e) {
-      throw new HopException(
-          "I/O exception while reading contents of file '" + explorerFile.getFilename() + "'", e);
+      throw new HopException("I/O exception while reading contents of file '" + explorerFile.getFilename() + "'", e);
     }
   }
 
@@ -150,14 +148,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
 
   @Override
   public void updateGui() {
-    hopGui
-    .getDisplay()
-    .asyncExec(
-        () ->
-            hopGui.handleFileCapabilities(
-                this.getFileType(), this.hasChanged(), false, false));
+    hopGui.getDisplay().asyncExec(() -> hopGui.handleFileCapabilities(this.getFileType(), this.hasChanged(), false, false));
   }
-  
+
   @Override
   public void selectAll() {}
 
@@ -180,11 +173,9 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
   public boolean isCloseable() {
     try {
       if (explorerFile.isChanged()) {
-        MessageBox messageDialog =
-            new MessageBox(hopGui.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
+        MessageBox messageDialog = new MessageBox(hopGui.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO | SWT.CANCEL);
         messageDialog.setText("Save file?");
-        messageDialog.setMessage(
-            "Do you want to save file '" + explorerFile.getName() + "' before closing?");
+        messageDialog.setMessage("Do you want to save file '" + explorerFile.getName() + "' before closing?");
         int answer = messageDialog.open();
         if ((answer & SWT.YES) != 0) {
           save();
@@ -198,11 +189,7 @@ public abstract class BaseExplorerFileTypeHandler implements IHopFileTypeHandler
       }
       return true;
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error preparing file close of '" + explorerFile.getName() + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error preparing file close of '" + explorerFile.getName() + "'", e);
       return false;
     }
   }

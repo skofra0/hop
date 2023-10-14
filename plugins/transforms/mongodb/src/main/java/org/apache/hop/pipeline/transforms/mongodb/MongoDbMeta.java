@@ -22,8 +22,7 @@ import org.apache.hop.pipeline.transform.ITransform;
 import org.apache.hop.pipeline.transform.ITransformData;
 import org.apache.hop.pipeline.transforms.mongodbinput.MongoDbInputMeta;
 
-public abstract class MongoDbMeta<Main extends ITransform, Data extends ITransformData>
-    extends BaseTransformMeta<Main, Data> {
+public abstract class MongoDbMeta<Main extends ITransform, Data extends ITransformData> extends BaseTransformMeta<Main, Data> {
   protected static Class<?> PKG = MongoDbInputMeta.class; // For Translator
 
   @Injection(name = "CONNECTION")

@@ -29,7 +29,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class KafkaConsumerFieldTest {
   KafkaConsumerField field;
-  @Mock IValueMeta vmi;
+  @Mock
+  IValueMeta vmi;
 
   @Test
   public void testEmptyConstructor() throws Exception {
@@ -63,9 +64,7 @@ public class KafkaConsumerFieldTest {
 
   @Test
   public void testConstructor_allProps() throws Exception {
-    field =
-        new KafkaConsumerField(
-            KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Binary);
+    field = new KafkaConsumerField(KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Binary);
 
     assertEquals(KafkaConsumerField.Name.KEY, field.getKafkaName());
     assertEquals("Test Name", field.getOutputName());
@@ -75,42 +74,20 @@ public class KafkaConsumerFieldTest {
   @Test
   public void testSerializersSet() throws Exception {
     field = new KafkaConsumerField(KafkaConsumerField.Name.KEY, "Test Name");
-    assertEquals(
-        "org.apache.kafka.common.serialization.StringSerializer",
-        field.getOutputType().getKafkaSerializerClass());
-    assertEquals(
-        "org.apache.kafka.common.serialization.StringDeserializer",
-        field.getOutputType().getKafkaDeserializerClass());
+    assertEquals("org.apache.kafka.common.serialization.StringSerializer", field.getOutputType().getKafkaSerializerClass());
+    assertEquals("org.apache.kafka.common.serialization.StringDeserializer", field.getOutputType().getKafkaDeserializerClass());
 
-    field =
-        new KafkaConsumerField(
-            KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Integer);
-    assertEquals(
-        "org.apache.kafka.common.serialization.LongSerializer",
-        field.getOutputType().getKafkaSerializerClass());
-    assertEquals(
-        "org.apache.kafka.common.serialization.LongDeserializer",
-        field.getOutputType().getKafkaDeserializerClass());
+    field = new KafkaConsumerField(KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Integer);
+    assertEquals("org.apache.kafka.common.serialization.LongSerializer", field.getOutputType().getKafkaSerializerClass());
+    assertEquals("org.apache.kafka.common.serialization.LongDeserializer", field.getOutputType().getKafkaDeserializerClass());
 
-    field =
-        new KafkaConsumerField(
-            KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Binary);
-    assertEquals(
-        "org.apache.kafka.common.serialization.ByteArraySerializer",
-        field.getOutputType().getKafkaSerializerClass());
-    assertEquals(
-        "org.apache.kafka.common.serialization.ByteArrayDeserializer",
-        field.getOutputType().getKafkaDeserializerClass());
+    field = new KafkaConsumerField(KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Binary);
+    assertEquals("org.apache.kafka.common.serialization.ByteArraySerializer", field.getOutputType().getKafkaSerializerClass());
+    assertEquals("org.apache.kafka.common.serialization.ByteArrayDeserializer", field.getOutputType().getKafkaDeserializerClass());
 
-    field =
-        new KafkaConsumerField(
-            KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Number);
-    assertEquals(
-        "org.apache.kafka.common.serialization.DoubleSerializer",
-        field.getOutputType().getKafkaSerializerClass());
-    assertEquals(
-        "org.apache.kafka.common.serialization.DoubleDeserializer",
-        field.getOutputType().getKafkaDeserializerClass());
+    field = new KafkaConsumerField(KafkaConsumerField.Name.KEY, "Test Name", KafkaConsumerField.Type.Number);
+    assertEquals("org.apache.kafka.common.serialization.DoubleSerializer", field.getOutputType().getKafkaSerializerClass());
+    assertEquals("org.apache.kafka.common.serialization.DoubleDeserializer", field.getOutputType().getKafkaDeserializerClass());
   }
 
   @Test

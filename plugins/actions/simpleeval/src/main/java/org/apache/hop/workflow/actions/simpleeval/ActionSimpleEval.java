@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
     documentationUrl = "/workflow/actions/simpleeval.html")
 public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionSimpleEval.class; // For Translator
-  
+
   public enum ValueType implements IEnumHasCodeAndDescription {
     FIELD("field", BaseMessages.getString(PKG, "ActionSimpleEval.EvalPreviousField.Label")),
     VARIABLE("variable", BaseMessages.getString(PKG, "ActionSimpleEval.EvalVariable.Label"));
@@ -84,7 +84,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
 
   public enum SuccessStringCondition implements IEnumHasCodeAndDescription {
     EQUAL("equal", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenEqual.Label")),
-    DIFFERENT("different",BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenDifferent.Label")),
+    DIFFERENT("different", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenDifferent.Label")),
     CONTAINS("contains", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenContains.Label")),
     NOT_CONTAINS("notcontains", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenNotContains.Label")),
     START_WITH("startswith", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenStartWith.Label")),
@@ -214,7 +214,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
       return description;
     }
   }
-  
+
   public enum SuccessBooleanCondition implements IEnumHasCodeAndDescription {
     TRUE("true", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenTrue.Label")),
     FALSE("false", BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenFalse.Label"));
@@ -249,7 +249,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
       return description;
     }
   }
-  
+
   @HopMetadataProperty(key = "valuetype", storeWithCode = true)
   private ValueType valueType;
   @HopMetadataProperty(key = "fieldtype", storeWithCode = true)
@@ -268,13 +268,13 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
   private String maxValue;
   @HopMetadataProperty(key = "successcondition", storeWithCode = true)
   private SuccessStringCondition successStringCondition;
-  @HopMetadataProperty(key = "successwhenvarset")  
-  private boolean successWhenVarSet;  
+  @HopMetadataProperty(key = "successwhenvarset")
+  private boolean successWhenVarSet;
   @HopMetadataProperty(key = "successbooleancondition", storeWithCode = true)
   private SuccessBooleanCondition successBooleanCondition;
   @HopMetadataProperty(key = "successnumbercondition", storeWithCode = true)
   private SuccessNumberCondition successNumberCondition;
- 
+
   public ActionSimpleEval(String n) {
     super(n, "");
     valueType = ValueType.FIELD;
@@ -322,11 +322,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         List<RowMetaAndData> rows = result.getRows();
         RowMetaAndData resultRow = null;
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionSimpleEval.Log.ArgFromPrevious.Found",
-                  (rows != null ? rows.size() : 0) + ""));
+          logDetailed(BaseMessages.getString(PKG, "ActionSimpleEval.Log.ArgFromPrevious.Found", (rows != null ? rows.size() : 0) + ""));
         }
 
         if (rows.size() == 0) {
@@ -340,8 +336,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         int indexOfField = -1;
         indexOfField = resultRow.getRowMeta().indexOfValue(realfieldname);
         if (indexOfField == -1) {
-          logError(
-              BaseMessages.getString(PKG, "ActionSimpleEval.Error.FieldNotExist", realfieldname));
+          logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.FieldNotExist", realfieldname));
           resultRow = null;
           rows = null;
           return result;
@@ -367,16 +362,14 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
 
           if (value != null) {
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "ActionSimpleEval.VariableSet", variableName));
+              logDetailed(BaseMessages.getString(PKG, "ActionSimpleEval.VariableSet", variableName));
             }
             result.setResult(true);
             result.setNrErrors(0);
             return result;
           } else {
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "ActionSimpleEval.VariableNotSet", variableName));
+              logDetailed(BaseMessages.getString(PKG, "ActionSimpleEval.VariableNotSet", variableName));
             }
             // this action does not set errors upon evaluation, independently of the
             // outcome of the check
@@ -407,9 +400,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         switch (successStringCondition) {
           case EQUAL: // equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (sourcevalue.equals(realCompareValue));
             if (valueType == ValueType.VARIABLE && !success) {
@@ -424,73 +415,55 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case DIFFERENT: // different
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (!sourcevalue.equals(realCompareValue));
             break;
           case CONTAINS: // contains
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (sourcevalue.contains(realCompareValue));
             break;
           case NOT_CONTAINS: // not contains
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (!sourcevalue.contains(realCompareValue));
             break;
           case START_WITH: // starts with
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (sourcevalue.startsWith(realCompareValue));
             break;
           case NOT_START_WITH: // not start with
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (!sourcevalue.startsWith(realCompareValue));
             break;
           case END_WITH: // ends with
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (sourcevalue.endsWith(realCompareValue));
             break;
           case NOT_END_WITH: // not ends with
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (!sourcevalue.endsWith(realCompareValue));
             break;
           case REGEX: // regexp
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             success = (Pattern.compile(realCompareValue).matcher(sourcevalue).matches());
             break;
           case IN_LIST: // in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             realCompareValue = Const.NVL(realCompareValue, "");
             String[] parts = realCompareValue.split(",");
@@ -500,9 +473,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case NOT_IN_LIST: // not in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             realCompareValue = Const.NVL(realCompareValue, "");
             parts = realCompareValue.split(",");
@@ -520,9 +491,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         try {
           valuenumber = Double.parseDouble(sourcevalue);
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionSimpleEval.Error.UnparsableNumber", sourcevalue, e.getMessage()));
+          logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", sourcevalue, e.getMessage()));
           return result;
         }
 
@@ -530,76 +499,48 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         switch (successNumberCondition) {
           case EQUAL: // equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber == valuecompare);
             break;
           case DIFFERENT: // different
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber != valuecompare);
             break;
           case SMALLER: // smaller
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber < valuecompare);
             break;
           case SMALLER_EQUAL: // smaller or equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber <= valuecompare);
@@ -608,79 +549,51 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber > valuecompare);
             break;
           case GREATER_EQUAL: // greater or equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               valuecompare = Double.parseDouble(realCompareValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realCompareValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realCompareValue, e.getMessage()));
               return result;
             }
             success = (valuenumber >= valuecompare);
             break;
           case BETWEEN: // between min and max
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValues", realMinValue, realMaxValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValues", realMinValue, realMaxValue));
             }
             double valuemin;
             try {
               valuemin = Double.parseDouble(realMinValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realMinValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realMinValue, e.getMessage()));
               return result;
             }
             double valuemax;
             try {
               valuemax = Double.parseDouble(realMaxValue);
             } catch (Exception e) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionSimpleEval.Error.UnparsableNumber",
-                      realMaxValue,
-                      e.getMessage()));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", realMaxValue, e.getMessage()));
               return result;
             }
 
             if (valuemin >= valuemax) {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Error.IncorrectNumbers", realMinValue, realMaxValue));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.IncorrectNumbers", realMinValue, realMaxValue));
               return result;
             }
             success = (valuenumber >= valuemin && valuenumber <= valuemax);
             break;
           case IN_LIST: // in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             String[] parts = realCompareValue.split(",");
 
@@ -688,10 +601,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
               try {
                 valuecompare = Double.parseDouble(parts[i]);
               } catch (Exception e) {
-                logError(
-                    toString(),
-                    BaseMessages.getString(
-                        PKG, "ActionSimpleEval.Error.UnparsableNumber", parts[i], e.getMessage()));
+                logError(toString(), BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", parts[i], e.getMessage()));
                 return result;
               }
               success = (valuenumber == valuecompare);
@@ -699,9 +609,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case NOT_IN_LIST: // not in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             realCompareValue = Const.NVL(realCompareValue, "");
             parts = realCompareValue.split(",");
@@ -710,10 +618,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
               try {
                 valuecompare = Double.parseDouble(parts[i]);
               } catch (Exception e) {
-                logError(
-                    toString(),
-                    BaseMessages.getString(
-                        PKG, "ActionSimpleEval.Error.UnparsableNumber", parts[i], e.getMessage()));
+                logError(toString(), BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableNumber", parts[i], e.getMessage()));
                 return result;
               }
 
@@ -743,9 +648,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         switch (successNumberCondition) {
           case EQUAL: // equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -757,9 +660,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case DIFFERENT: // different
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -771,9 +672,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case SMALLER: // smaller
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -785,9 +684,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case SMALLER_EQUAL: // smaller or equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -799,9 +696,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case GREATER: // greater
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -813,9 +708,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case GREATER_EQUAL: // greater or equal
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             try {
               datecompare = convertToDate(realCompareValue, realMask, df);
@@ -827,9 +720,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case BETWEEN: // between min and max
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValues", realMinValue, realMaxValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValues", realMinValue, realMaxValue));
             }
             Date datemin;
             try {
@@ -848,21 +739,15 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             }
 
             if (datemin.after(datemax) || datemin.equals(datemax)) {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Error.IncorrectDates", realMinValue, realMaxValue));
+              logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.IncorrectDates", realMinValue, realMaxValue));
               return result;
             }
 
-            success =
-                ((datevalue.after(datemin) || datevalue.equals(datemin))
-                    && (datevalue.before(datemax) || datevalue.equals(datemax)));
+            success = ((datevalue.after(datemin) || datevalue.equals(datemin)) && (datevalue.before(datemax) || datevalue.equals(datemax)));
             break;
           case IN_LIST: // in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             String[] parts = realCompareValue.split(",");
 
@@ -878,9 +763,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
             break;
           case NOT_IN_LIST: // not in list
             if (isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
+              logDebug(BaseMessages.getString(PKG, "ActionSimpleEval.Log.CompareWithValue", sourcevalue, realCompareValue));
             }
             realCompareValue = Const.NVL(realCompareValue, "");
             parts = realCompareValue.split(",");
@@ -905,9 +788,7 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
         try {
           valuebool = ValueMetaString.convertStringToBoolean(sourcevalue);
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionSimpleEval.Error.UnparsableBoolean", sourcevalue, e.getMessage()));
+          logError(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableBoolean", sourcevalue, e.getMessage()));
           return result;
         }
 
@@ -937,12 +818,8 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
    */
   private String getVariableWithSpec() {
     String variable = getVariableName();
-    if ((!variable.contains(StringUtil.UNIX_OPEN)
-            && !variable.contains(StringUtil.WINDOWS_OPEN)
-            && !variable.contains(StringUtil.HEX_OPEN))
-        && ((!variable.contains(StringUtil.UNIX_CLOSE)
-            && !variable.contains(StringUtil.WINDOWS_CLOSE)
-            && !variable.contains(StringUtil.HEX_CLOSE)))) {
+    if ((!variable.contains(StringUtil.UNIX_OPEN) && !variable.contains(StringUtil.WINDOWS_OPEN) && !variable.contains(StringUtil.HEX_OPEN))
+        && ((!variable.contains(StringUtil.UNIX_CLOSE) && !variable.contains(StringUtil.WINDOWS_CLOSE) && !variable.contains(StringUtil.HEX_CLOSE)))) {
       // Add specifications to variable
       variable = StringUtil.UNIX_OPEN + variable + StringUtil.UNIX_CLOSE;
       if (isDetailed()) {
@@ -952,14 +829,12 @@ public class ActionSimpleEval extends ActionBase implements Cloneable, IAction {
     return variable;
   }
 
-  private Date convertToDate(String valueString, String mask, SimpleDateFormat df)
-      throws HopException {
+  private Date convertToDate(String valueString, String mask, SimpleDateFormat df) throws HopException {
     Date datevalue = null;
     try {
       datevalue = df.parse(valueString);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableDate", valueString));
+      throw new HopException(BaseMessages.getString(PKG, "ActionSimpleEval.Error.UnparsableDate", valueString));
     }
     return datevalue;
   }

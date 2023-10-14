@@ -19,8 +19,6 @@ package org.apache.hop.projects.config;
 import org.apache.hop.core.config.plugin.ConfigPlugin;
 import org.apache.hop.core.config.plugin.IConfigOptions;
 
-@ConfigPlugin(
-    id = "ProjectsRunOptionPlugin",
-    description = "Project and Environment configuration options for hop-run",
-    category = ConfigPlugin.CATEGORY_RUN)
-public class ProjectsRunOptionPlugin extends ProjectsOptionPlugin implements IConfigOptions {}
+@ConfigPlugin(id = "ProjectsRunOptionPlugin", description = "Project and Environment configuration options for hop-run", category = ConfigPlugin.CATEGORY_RUN)
+public class ProjectsRunOptionPlugin extends ProjectsOptionPlugin implements IConfigOptions {
+}

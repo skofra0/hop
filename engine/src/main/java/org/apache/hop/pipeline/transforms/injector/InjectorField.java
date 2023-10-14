@@ -27,9 +27,12 @@ public class InjectorField {
   @HopMetadataProperty(key = "name")
   private String name;
 
-  @HopMetadataProperty private String type;
-  @HopMetadataProperty private String length;
-  @HopMetadataProperty private String precision;
+  @HopMetadataProperty
+  private String type;
+  @HopMetadataProperty
+  private String length;
+  @HopMetadataProperty
+  private String precision;
 
   public InjectorField() {}
 

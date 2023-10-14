@@ -31,9 +31,7 @@ import static org.junit.Assert.assertTrue;
 public class CreditCardValidatorMetaTest {
   @Test
   public void testLoadSave() throws Exception {
-    CreditCardValidatorMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/credit-card-validator-transform.xml", CreditCardValidatorMeta.class);
+    CreditCardValidatorMeta meta = TransformSerializationTestUtil.testSerialization("/credit-card-validator-transform.xml", CreditCardValidatorMeta.class);
     Assert.assertNotNull(meta.getFieldName());
     Assert.assertNotNull(meta.getResultFieldName());
     Assert.assertNotNull(meta.getNotValidMessage());

@@ -41,21 +41,8 @@ public class PipelinePainterExtension {
   public int iconSize;
   public Map<String, Object> stateMap;
 
-  public PipelinePainterExtension(
-      IGc gc,
-      List<AreaOwner> areaOwners,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      PipelineHopMeta pipelineHop,
-      int x1,
-      int y1,
-      int x2,
-      int y2,
-      int mx,
-      int my,
-      DPoint offset,
-      int iconSize,
-      Map<String, Object> stateMap) {
+  public PipelinePainterExtension(IGc gc, List<AreaOwner> areaOwners, PipelineMeta pipelineMeta, TransformMeta transformMeta, PipelineHopMeta pipelineHop, int x1, int y1, int x2,
+      int y2, int mx, int my, DPoint offset, int iconSize, Map<String, Object> stateMap) {
     super();
     this.gc = gc;
     this.areaOwners = areaOwners;

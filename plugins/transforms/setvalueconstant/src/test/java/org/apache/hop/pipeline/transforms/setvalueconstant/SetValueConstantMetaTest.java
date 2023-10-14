@@ -37,7 +37,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class SetValueConstantMetaTest implements IInitializer<ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
   Class<SetValueConstantMeta> testMetaClass = SetValueConstantMeta.class;
 
@@ -47,35 +48,24 @@ public class SetValueConstantMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes = Arrays.asList("fields", "usevar");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("fields", "getFields");
-            put("usevar", "isUseVars");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("fields", "setFields");
-            put("usevar", "setUseVars");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("fields", "getFields");
+        put("usevar", "isUseVars");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("fields", "setFields");
+        put("usevar", "setUseVars");
+      }
+    };
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "fields", new ListLoadSaveValidator<>(new SetValueConstantMetaFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fields", new ListLoadSaveValidator<>(new SetValueConstantMetaFieldLoadSaveValidator(), 5));
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   @Override
@@ -86,8 +76,7 @@ public class SetValueConstantMetaTest implements IInitializer<ITransformMeta> {
     loadSaveTester.testSerialization();
   }
 
-  public class SetValueConstantMetaFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<SetValueConstantMeta.Field> {
+  public class SetValueConstantMetaFieldLoadSaveValidator implements IFieldLoadSaveValidator<SetValueConstantMeta.Field> {
     final Random rand = new Random();
 
     @Override

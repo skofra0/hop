@@ -45,7 +45,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class FuzzyMatchTest {
-  @InjectMocks private FuzzyMatchHandler fuzzyMatch;
+  @InjectMocks
+  private FuzzyMatchHandler fuzzyMatch;
   private TransformMockHelper<FuzzyMatchMeta, FuzzyMatchData> mockHelper;
 
   private Object[] row = new Object[] {"Catrine"};
@@ -72,13 +73,7 @@ public class FuzzyMatchTest {
     private Object[] resultRow = null;
     private IRowSet rowset = null;
 
-    public FuzzyMatchHandler(
-        TransformMeta transformMeta,
-        FuzzyMatchMeta meta,
-        FuzzyMatchData data,
-        int copyNr,
-        PipelineMeta pipelineMeta,
-        Pipeline pipeline) {
+    public FuzzyMatchHandler(TransformMeta transformMeta, FuzzyMatchMeta meta, FuzzyMatchData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
       super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     }
 
@@ -102,10 +97,8 @@ public class FuzzyMatchTest {
 
   @Before
   public void setUp() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>("Fuzzy Match", FuzzyMatchMeta.class, FuzzyMatchData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Fuzzy Match", FuzzyMatchMeta.class, FuzzyMatchData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -117,14 +110,7 @@ public class FuzzyMatchTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testProcessRow() throws Exception {
-    fuzzyMatch =
-        new FuzzyMatchHandler(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    fuzzyMatch = new FuzzyMatchHandler(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     fuzzyMatch.init();
     fuzzyMatch.addRowSetToInputRowSets(mockHelper.getMockInputRowSet(rows));
     fuzzyMatch.addRowSetToInputRowSets(mockHelper.getMockInputRowSet(lookupRows));
@@ -146,9 +132,7 @@ public class FuzzyMatchTest {
     FuzzyMatchMeta meta = spy(new FuzzyMatchMeta());
     meta.setOutputMatchField("I don't want NPE here!");
     data.readLookupValues = true;
-    fuzzyMatch =
-        new FuzzyMatchHandler(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    fuzzyMatch = new FuzzyMatchHandler(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
 
     fuzzyMatch.init();
     IRowSet lookupRowSet = mockHelper.getMockInputRowSet(binaryLookupRows);
@@ -177,8 +161,7 @@ public class FuzzyMatchTest {
     when(transformIOMetaInterface.getInfoStreams()).thenReturn(streamInterfaceList);
 
     fuzzyMatch.processRow();
-    Assert.assertEquals(
-        iRowMeta.getString(row3B, 0), data.outputRowMeta.getString(fuzzyMatch.resultRow, 1));
+    Assert.assertEquals(iRowMeta.getString(row3B, 0), data.outputRowMeta.getString(fuzzyMatch.resultRow, 1));
   }
 
   @Test
@@ -186,9 +169,7 @@ public class FuzzyMatchTest {
     FuzzyMatchData data = spy(new FuzzyMatchData());
     FuzzyMatchMeta meta = spy(new FuzzyMatchMeta());
     data.readLookupValues = false;
-    fuzzyMatch =
-        new FuzzyMatchHandler(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    fuzzyMatch = new FuzzyMatchHandler(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     fuzzyMatch.init();
     fuzzyMatch.first = false;
     data.indexOfMainField = 1;
@@ -210,8 +191,6 @@ public class FuzzyMatchTest {
     fuzzyMatch.processRow();
     Assert.assertEquals(inputRow[0], fuzzyMatch.resultRow[0]);
     Assert.assertNull(fuzzyMatch.resultRow[1]);
-    Assert.assertTrue(
-        Arrays.stream(fuzzyMatch.resultRow, 3, fuzzyMatch.resultRow.length)
-            .allMatch(val -> val == null));
+    Assert.assertTrue(Arrays.stream(fuzzyMatch.resultRow, 3, fuzzyMatch.resultRow.length).allMatch(val -> val == null));
   }
 }

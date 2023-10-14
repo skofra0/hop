@@ -54,12 +54,7 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
   public static final int MISSING_PIPELINE_TRANSFORMS = 1;
   public static final int MISSING_PIPELINE_TRANSFORM_ID = 2;
 
-  public MissingPipelineDialog(
-      Shell parent,
-      IVariables variables,
-      List<Missing> missingPipeline,
-      ITransformMeta baseTransformMeta,
-      PipelineMeta pipelineMeta,
+  public MissingPipelineDialog(Shell parent, IVariables variables, List<Missing> missingPipeline, ITransformMeta baseTransformMeta, PipelineMeta pipelineMeta,
       String transformName) {
     super(parent, variables, baseTransformMeta, pipelineMeta, transformName);
     this.shellParent = parent;
@@ -67,12 +62,7 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
     this.mode = MISSING_PIPELINE_TRANSFORMS;
   }
 
-  public MissingPipelineDialog(
-      Shell parent,
-      IVariables variables,
-      Object in,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public MissingPipelineDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, transformName);
     this.shellParent = parent;
     this.mode = MISSING_PIPELINE_TRANSFORM_ID;
@@ -84,24 +74,16 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
       StringBuilder entries = new StringBuilder();
       for (Missing entry : missingPipeline) {
         if (missingPipeline.indexOf(entry) == missingPipeline.size() - 1) {
-          entries.append(
-              "- " + entry.getTransformName() + " - " + entry.getMissingPluginId() + "\n\n");
+          entries.append("- " + entry.getTransformName() + " - " + entry.getMissingPluginId() + "\n\n");
         } else {
-          entries.append(
-              "- " + entry.getTransformName() + " - " + entry.getMissingPluginId() + "\n");
+          entries.append("- " + entry.getTransformName() + " - " + entry.getMissingPluginId() + "\n");
         }
       }
-      message =
-          BaseMessages.getString(
-              PKG, "MissingPipelineDialog.MissingPipelineTransforms", entries.toString());
+      message = BaseMessages.getString(PKG, "MissingPipelineDialog.MissingPipelineTransforms", entries.toString());
     }
 
     if (mode == MISSING_PIPELINE_TRANSFORM_ID) {
-      message =
-          BaseMessages.getString(
-              PKG,
-              "MissingPipelineDialog.MissingPipelineTransformId",
-              transformName + " - " + ((Missing) baseTransformMeta).getMissingPluginId());
+      message = BaseMessages.getString(PKG, "MissingPipelineDialog.MissingPipelineTransformId", transformName + " - " + ((Missing) baseTransformMeta).getMissingPluginId());
     }
     return message;
   }
@@ -156,13 +138,12 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
     fdClose.top = new FormAttachment(separator);
     closeButton.setLayoutData(fdClose);
     closeButton.setText(BaseMessages.getString(PKG, "MissingPipelineDialog.Close"));
-    closeButton.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            cancel();
-          }
-        });
+    closeButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        cancel();
+      }
+    });
 
     FormData fdSearch = new FormData();
     if (this.mode == MISSING_PIPELINE_TRANSFORMS) {
@@ -173,13 +154,12 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
       fdOpen.bottom = new FormAttachment(closeButton, 0, SWT.BOTTOM);
       openButton.setLayoutData(fdOpen);
       openButton.setText(BaseMessages.getString(PKG, "MissingPipelineDialog.OpenFile"));
-      openButton.addSelectionListener(
-          new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-              ok();
-            }
-          });
+      openButton.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+          ok();
+        }
+      });
       fdSearch.right = new FormAttachment(openButton, -5);
       fdSearch.bottom = new FormAttachment(openButton, 0, SWT.BOTTOM);
     } else {
@@ -191,18 +171,17 @@ public class MissingPipelineDialog extends BaseTransformDialog implements ITrans
     PropsUi.setLook(searchButton);
     searchButton.setText(BaseMessages.getString(PKG, "MissingPipelineDialog.SearchMarketplace"));
     searchButton.setLayoutData(fdSearch);
-    searchButton.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            try {
-              shell.dispose();
-              // HopGui.getInstance().openMarketplace();  TODO: implement marketplace
-            } catch (Exception ex) {
-              ex.printStackTrace();
-            }
-          }
-        });
+    searchButton.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        try {
+          shell.dispose();
+          // HopGui.getInstance().openMarketplace(); TODO: implement marketplace
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
 

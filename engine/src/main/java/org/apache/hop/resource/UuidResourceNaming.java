@@ -34,7 +34,7 @@ public class UuidResourceNaming extends SimpleResourceNaming {
   // ${HOP_FILE_BASE}!Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
   // Output Example 3 (file system prefix: ${HOP_FILE_BASE}!, path is used)
   // ${HOP_FILE_BASE}!japps/hop/samples/
-  //   Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
+  // Marc_Sample_Pipeline_03a32f25-1538-11dc-ae07-5dbf1395f3fd.hpl
 
   protected String getFileNameUniqueIdentifier() {
     // This implementation assumes that the name alone

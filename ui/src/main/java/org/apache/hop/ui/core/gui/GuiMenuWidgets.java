@@ -85,8 +85,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
     // With children mean: drop-down menu item
     // Without children:
     //
-    List<GuiMenuItem> children =
-        GuiRegistry.getInstance().findChildGuiMenuItems(root, guiMenuItem.getId());
+    List<GuiMenuItem> children = GuiRegistry.getInstance().findChildGuiMenuItems(root, guiMenuItem.getId());
 
     if (children.isEmpty()) {
 
@@ -97,39 +96,23 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
       menuItem = new MenuItem(parentMenu, SWT.PUSH);
       menuItem.setText(guiMenuItem.getLabel());
       if (StringUtils.isNotEmpty(guiMenuItem.getImage())) {
-        menuItem.setImage(
-            GuiResource.getInstance()
-                .getImage(
-                    guiMenuItem.getImage(),
-                    guiMenuItem.getClassLoader(),
-                    ConstUi.SMALL_ICON_SIZE,
-                    ConstUi.SMALL_ICON_SIZE));
+        menuItem.setImage(GuiResource.getInstance().getImage(guiMenuItem.getImage(), guiMenuItem.getClassLoader(), ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
       }
 
       setMenuItemKeyboardShortcut(menuItem, guiMenuItem);
-      if (StringUtils.isNotEmpty(guiMenuItem.getToolTip())
-          && !EnvironmentUtils.getInstance().isWeb()) {
+      if (StringUtils.isNotEmpty(guiMenuItem.getToolTip()) && !EnvironmentUtils.getInstance().isWeb()) {
         menuItem.setToolTipText(guiMenuItem.getToolTip());
       }
 
       // Call the method to which the GuiWidgetElement annotation belongs.
       //
-      menuItem.addListener(
-          SWT.Selection,
-          e -> {
-            try {
-              executeMenuItem(guiMenuItem, instanceId);
-            } catch (Exception ex) {
-              LogChannel.UI.logError(
-                  "Unable to call method "
-                      + guiMenuItem.getListenerMethod()
-                      + " in singleton "
-                      + guiMenuItem.getListenerClassName()
-                      + " : "
-                      + ex.getMessage(),
-                  e);
-            }
-          });
+      menuItem.addListener(SWT.Selection, e -> {
+        try {
+          executeMenuItem(guiMenuItem, instanceId);
+        } catch (Exception ex) {
+          LogChannel.UI.logError("Unable to call method " + guiMenuItem.getListenerMethod() + " in singleton " + guiMenuItem.getListenerClassName() + " : " + ex.getMessage(), e);
+        }
+      });
 
       menuItemMap.put(guiMenuItem.getId(), menuItem);
       menuEnabledMap.put(guiMenuItem.getId(), true);
@@ -142,8 +125,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
         menuItem = new MenuItem(parentMenu, SWT.CASCADE);
         menuItem.setText(Const.NVL(guiMenuItem.getLabel(), ""));
         setMenuItemKeyboardShortcut(menuItem, guiMenuItem);
-        if (StringUtils.isNotEmpty(guiMenuItem.getToolTip())
-            && !EnvironmentUtils.getInstance().isWeb()) {
+        if (StringUtils.isNotEmpty(guiMenuItem.getToolTip()) && !EnvironmentUtils.getInstance().isWeb()) {
           menuItem.setToolTipText(guiMenuItem.getToolTip());
         }
         menu = new Menu(shell, SWT.DROP_DOWN);
@@ -155,7 +137,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
       // Add the children to this menu...
       //
 
-      // Sort the children as well.  It gets chaotic otherwise
+      // Sort the children as well. It gets chaotic otherwise
       //
       Collections.sort(children);
 
@@ -166,9 +148,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
   }
 
   public static void executeMenuItem(GuiMenuItem guiMenuItem, String instanceId) throws Exception {
-    Object parentObject =
-        findGuiPluginInstance(
-            guiMenuItem.getClassLoader(), guiMenuItem.getListenerClassName(), instanceId);
+    Object parentObject = findGuiPluginInstance(guiMenuItem.getClassLoader(), guiMenuItem.getListenerClassName(), instanceId);
     Method menuMethod = parentObject.getClass().getMethod(guiMenuItem.getListenerMethod());
     menuMethod.invoke(parentObject);
   }
@@ -176,10 +156,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
   private void setMenuItemKeyboardShortcut(MenuItem menuItem, GuiMenuItem guiMenuItem) {
     // See if there's a shortcut worth mentioning...
     //
-    KeyboardShortcut shortcut =
-        GuiRegistry.getInstance()
-            .findKeyboardShortcut(
-                guiMenuItem.getListenerClassName(), guiMenuItem.getListenerMethod(), Const.isOSX());
+    KeyboardShortcut shortcut = GuiRegistry.getInstance().findKeyboardShortcut(guiMenuItem.getListenerClassName(), guiMenuItem.getListenerMethod(), Const.isOSX());
     if (shortcut != null) {
       appendShortCut(menuItem, shortcut);
       menuItem.setAccelerator(getAccelerator(shortcut));
@@ -333,8 +310,7 @@ public class GuiMenuWidgets extends BaseGuiWidgets {
    * @param active The state if the permission is available
    * @return The menu item or null if nothing is found
    */
-  public MenuItem enableMenuItem(
-      IHopFileType fileType, String id, String permission, boolean active) {
+  public MenuItem enableMenuItem(IHopFileType fileType, String id, String permission, boolean active) {
     MenuItem menuItem = menuItemMap.get(id);
 
     boolean hasCapability = fileType.hasCapability(permission);

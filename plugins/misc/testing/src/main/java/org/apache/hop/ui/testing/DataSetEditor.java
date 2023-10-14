@@ -174,46 +174,15 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldName"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldFormat"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              2),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldLength"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              true,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldPrecision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              true,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.Comment"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldName"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldFormat"), ColumnInfo.COLUMN_TYPE_FORMAT, 2),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldLength"), ColumnInfo.COLUMN_TYPE_TEXT, true, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.FieldPrecision"), ColumnInfo.COLUMN_TYPE_TEXT, true, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DataSetDialog.ColumnInfo.Comment"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
 
     wFieldMapping =
-        new TableView(
-            new Variables(),
-            parent,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            columns,
-            getMetadata().getFields().size(),
-            null,
-            props);
+        new TableView(new Variables(), parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, columns, getMetadata().getFields().size(), null, props);
 
     FormData fdFieldMapping = new FormData();
     fdFieldMapping.left = new FormAttachment(0, 0);
@@ -265,17 +234,12 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
                   rows);
           List<Object[]> newList = editRowsDialog.open();
           if (newList != null) {
-            FileObject setFolder =
-                HopVfs.getFileObject(set.getActualDataSetFolder(manager.getVariables()));
+            FileObject setFolder = HopVfs.getFileObject(set.getActualDataSetFolder(manager.getVariables()));
             boolean folderExists = setFolder.exists();
             if (!folderExists) {
-              MessageBox box =
-                  new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
+              MessageBox box = new MessageBox(getShell(), SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
               box.setText("Create data sets folder?");
-              box.setMessage(
-                  "The data sets folder does not exist. Do you want to create it?"
-                      + Const.CR
-                      + set.getActualDataSetFolder(manager.getVariables()));
+              box.setMessage("The data sets folder does not exist. Do you want to create it?" + Const.CR + set.getActualDataSetFolder(manager.getVariables()));
               int answer = box.open();
               if ((answer & SWT.YES) != 0) {
                 setFolder.createFolder();
@@ -295,12 +259,7 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
             break;
           }
         } catch (Exception e) {
-          new ErrorDialog(
-              getShell(),
-              "Error",
-              "Error writing data to dataset file "
-                  + set.getActualDataSetFilename(manager.getVariables()),
-              e);
+          new ErrorDialog(getShell(), "Error", "Error writing data to dataset file " + set.getActualDataSetFilename(manager.getVariables()), e);
         }
       }
 
@@ -323,10 +282,8 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
       wFieldMapping.setText(Const.NVL(field.getFieldName(), ""), colNr++, i);
       wFieldMapping.setText(ValueMetaFactory.getValueMetaName(field.getType()), colNr++, i);
       wFieldMapping.setText(Const.NVL(field.getFormat(), ""), colNr++, i);
-      wFieldMapping.setText(
-          field.getLength() >= 0 ? Integer.toString(field.getLength()) : "", colNr++, i);
-      wFieldMapping.setText(
-          field.getPrecision() >= 0 ? Integer.toString(field.getPrecision()) : "", colNr++, i);
+      wFieldMapping.setText(field.getLength() >= 0 ? Integer.toString(field.getLength()) : "", colNr++, i);
+      wFieldMapping.setText(field.getPrecision() >= 0 ? Integer.toString(field.getPrecision()) : "", colNr++, i);
       wFieldMapping.setText(Const.NVL(field.getComment(), ""), colNr++, i);
     }
   }
@@ -360,17 +317,12 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
     try {
       verifySettings();
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(),
-          "Error",
-          BaseMessages.getString(PKG, "DataSetDialog.Error.ValidationError"),
-          e);
+      new ErrorDialog(getShell(), "Error", BaseMessages.getString(PKG, "DataSetDialog.Error.ValidationError"), e);
     }
 
     getWidgetsContent(getMetadata());
 
-    super.save();
-    ;
+    super.save();;
   }
 
   private void verifySettings() throws HopException {
@@ -392,9 +344,7 @@ public class DataSetEditor extends MetadataEditor<DataSet> {
       List<Object[]> setRows = set.getAllRows(manager.getVariables(), LogChannel.UI);
       IRowMeta setRowMeta = set.getSetRowMeta();
 
-      PreviewRowsDialog previewRowsDialog =
-          new PreviewRowsDialog(
-              getShell(), new Variables(), SWT.NONE, set.getName(), setRowMeta, setRows);
+      PreviewRowsDialog previewRowsDialog = new PreviewRowsDialog(getShell(), new Variables(), SWT.NONE, set.getName(), setRowMeta, setRows);
       previewRowsDialog.open();
 
     } catch (Exception e) {

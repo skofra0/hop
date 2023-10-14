@@ -66,7 +66,7 @@ public class MenuContextHandler implements IGuiContextHandler {
       // See if this item is enabled
       Boolean enabled = widgets.getMenuEnabledMap().get(item.getId());
       // Enabled by default
-      if (enabled!=null && !enabled) {
+      if (enabled != null && !enabled) {
         continue;
       }
 
@@ -101,11 +101,7 @@ public class MenuContextHandler implements IGuiContextHandler {
                     try {
                       GuiMenuWidgets.executeMenuItem(item, widgets.getInstanceId());
                     } catch (Exception e) {
-                      new ErrorDialog(
-                          HopGui.getInstance().getShell(),
-                          "Error",
-                          "There was an error executing menu item " + item.getId(),
-                          e);
+                      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "There was an error executing menu item " + item.getId(), e);
                     }
                   });
           action.setClassLoader(item.getClassLoader());

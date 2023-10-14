@@ -128,8 +128,7 @@ public class BeanLevelInfo<Meta extends Object> {
   }
 
   /** Introspect fields and methods of some class. */
-  protected void introspect(
-      BeanInjectionInfo info, Field[] fields, Method[] methods, Map<String, Type> genericsInfo) {
+  protected void introspect(BeanInjectionInfo info, Field[] fields, Method[] methods, Map<String, Type> genericsInfo) {
     for (Field f : fields) {
       Injection annotationInjection = f.getAnnotation(Injection.class);
       InjectionDeep annotationInjectionDeep = f.getAnnotation(InjectionDeep.class);
@@ -187,10 +186,7 @@ public class BeanLevelInfo<Meta extends Object> {
         info.addInjectionProperty(annotationInjection, leaf);
       } else if (annotationInjectionDeep != null) {
         // introspect deeper
-        leaf.nameKey =
-            calculateNameKey(
-                annotationInjectionDeep.prefix(),
-                annotationInjection != null ? annotationInjection.name() : "");
+        leaf.nameKey = calculateNameKey(annotationInjectionDeep.prefix(), annotationInjection != null ? annotationInjection.name() : "");
         TreeMap<String, Type> gi = new TreeMap<>(genericsInfo);
         leaf.introspect(info, t, gi);
       }
@@ -229,10 +225,7 @@ public class BeanLevelInfo<Meta extends Object> {
         }
         leaf.getter = m;
         leaf.leafClass = getter;
-        leaf.nameKey =
-            calculateNameKey(
-                annotationInjectionDeep.prefix(),
-                annotationInjection != null ? annotationInjection.name() : "");
+        leaf.nameKey = calculateNameKey(annotationInjectionDeep.prefix(), annotationInjection != null ? annotationInjection.name() : "");
         leaf.init(info);
       } else {
         Class<?> setterClass = isSetter(m);

@@ -114,8 +114,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
   private String[] moduleFields;
 
-  public SalesforceUpsertDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SalesforceUpsertDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, in, pipelineMeta, sname);
     input = (SalesforceUpsertMeta) in;
     inputFields = new HashMap<>();
@@ -130,19 +129,17 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          moduleFields = null;
-        };
-    SelectionAdapter lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            moduleFields = null;
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      moduleFields = null;
+    };
+    SelectionAdapter lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        moduleFields = null;
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -198,8 +195,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     Group wConnectionGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wConnectionGroup);
-    wConnectionGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.ConnectionGroup.Label"));
+    wConnectionGroup.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.ConnectionGroup.Label"));
 
     FormLayout connectionGroupLayout = new FormLayout();
     connectionGroupLayout.marginWidth = 10;
@@ -257,8 +253,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     wTest.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.TestConnection.Label"));
     PropsUi.setLook(wTest);
     FormData fdTest = new FormData();
-    wTest.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.TestConnection.Tooltip"));
+    wTest.setToolTipText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.TestConnection.Tooltip"));
     fdTest.top = new FormAttachment(wPassword, margin);
     fdTest.right = new FormAttachment(100, 0);
     wTest.setLayoutData(fdTest);
@@ -279,8 +274,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     Group wSettingsGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wSettingsGroup);
-    wSettingsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.SettingsGroup.Label"));
+    wSettingsGroup.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.SettingsGroup.Label"));
 
     FormLayout settingGroupLayout = new FormLayout();
     settingGroupLayout.marginWidth = 10;
@@ -307,8 +301,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     // Use compression?
     Label wlUseCompression = new Label(wSettingsGroup, SWT.RIGHT);
-    wlUseCompression.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.UseCompression.Label"));
+    wlUseCompression.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.UseCompression.Label"));
     PropsUi.setLook(wlUseCompression);
     FormData fdlUseCompression = new FormData();
     fdlUseCompression.left = new FormAttachment(0, 0);
@@ -317,8 +310,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     wlUseCompression.setLayoutData(fdlUseCompression);
     wUseCompression = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wUseCompression);
-    wUseCompression.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.UseCompression.Tooltip"));
+    wUseCompression.setToolTipText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.UseCompression.Tooltip"));
     FormData fdUseCompression = new FormData();
     fdUseCompression.left = new FormAttachment(middle, 0);
     fdUseCompression.top = new FormAttachment(wlUseCompression, 0, SWT.CENTER);
@@ -327,8 +319,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     // Rollback all changes on error?
     Label wlRollbackAllChangesOnError = new Label(wSettingsGroup, SWT.RIGHT);
-    wlRollbackAllChangesOnError.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.RollbackAllChangesOnError.Label"));
+    wlRollbackAllChangesOnError.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.RollbackAllChangesOnError.Label"));
     PropsUi.setLook(wlRollbackAllChangesOnError);
     FormData fdlRollbackAllChangesOnError = new FormData();
     fdlRollbackAllChangesOnError.left = new FormAttachment(0, 0);
@@ -338,12 +329,10 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     wRollbackAllChangesOnError = new Button(wSettingsGroup, SWT.CHECK);
     wRollbackAllChangesOnError.addSelectionListener(new ComponentSelectionListener(input));
     PropsUi.setLook(wRollbackAllChangesOnError);
-    wRollbackAllChangesOnError.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.RollbackAllChangesOnError.Tooltip"));
+    wRollbackAllChangesOnError.setToolTipText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.RollbackAllChangesOnError.Tooltip"));
     FormData fdRollbackAllChangesOnError = new FormData();
     fdRollbackAllChangesOnError.left = new FormAttachment(middle, 0);
-    fdRollbackAllChangesOnError.top =
-        new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
+    fdRollbackAllChangesOnError.top = new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
     wRollbackAllChangesOnError.setLayoutData(fdRollbackAllChangesOnError);
 
     // BatchSize value
@@ -383,26 +372,25 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     fdModule.top = new FormAttachment(wBatchSize, margin);
     fdModule.right = new FormAttachment(100, -margin);
     wModule.setLayoutData(fdModule);
-    wModule.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wModule.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            // check if the URL and login credentials passed and not just had error
-            if (skipFetchModules()) {
-              getModulesListError = false;
-              return;
-            }
+      @Override
+      public void focusGained(FocusEvent e) {
+        // check if the URL and login credentials passed and not just had error
+        if (skipFetchModules()) {
+          getModulesListError = false;
+          return;
+        }
 
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getModulesList();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getModulesList();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Upsert Field
     Label wlUpsertField = new Label(wSettingsGroup, SWT.RIGHT);
@@ -422,16 +410,15 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     fdUpsertField.top = new FormAttachment(wModule, margin);
     fdUpsertField.right = new FormAttachment(100, -margin);
     wUpsertField.setLayoutData(fdUpsertField);
-    wUpsertField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wUpsertField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            getFieldsList();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        getFieldsList();
+      }
+    });
 
     FormData fdSettingsGroup = new FormData();
     fdSettingsGroup.left = new FormAttachment(0, margin);
@@ -449,8 +436,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     Group wOutFieldsGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wOutFieldsGroup);
-    wOutFieldsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.OutFieldsGroup.Label"));
+    wOutFieldsGroup.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.OutFieldsGroup.Label"));
 
     FormLayout outFieldsGroupLayout = new FormLayout();
     outFieldsGroupLayout.marginWidth = 10;
@@ -459,19 +445,16 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     // SalesforceIDFieldName
     Label wlSalesforceIDFieldName = new Label(wOutFieldsGroup, SWT.RIGHT);
-    wlSalesforceIDFieldName.setText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.SalesforceIDFieldName.Label"));
+    wlSalesforceIDFieldName.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.SalesforceIDFieldName.Label"));
     PropsUi.setLook(wlSalesforceIDFieldName);
     FormData fdlSalesforceIDFieldName = new FormData();
     fdlSalesforceIDFieldName.left = new FormAttachment(0, 0);
     fdlSalesforceIDFieldName.top = new FormAttachment(wSettingsGroup, margin);
     fdlSalesforceIDFieldName.right = new FormAttachment(middle, -margin);
     wlSalesforceIDFieldName.setLayoutData(fdlSalesforceIDFieldName);
-    wSalesforceIDFieldName =
-        new TextVar(variables, wOutFieldsGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wSalesforceIDFieldName = new TextVar(variables, wOutFieldsGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSalesforceIDFieldName);
-    wSalesforceIDFieldName.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceUpsertDialog.SalesforceIDFieldName.Tooltip"));
+    wSalesforceIDFieldName.setToolTipText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.SalesforceIDFieldName.Tooltip"));
     wSalesforceIDFieldName.addModifyListener(lsMod);
     FormData fdSalesforceIDFieldName = new FormData();
     fdSalesforceIDFieldName.left = new FormAttachment(middle, 0);
@@ -502,48 +485,22 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     int upInsRows = (input.getUpdateLookup() != null ? input.getUpdateLookup().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.UseExternalId"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {"Y", "N"});
-    ciReturn[2].setToolTip(
-        BaseMessages.getString(PKG, "SalesforceUpdateDialog.ColumnInfo.UseExternalId.Tooltip"));
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceUpsertDialog.ColumnInfo.UseExternalId"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"});
+    ciReturn[2].setToolTip(BaseMessages.getString(PKG, "SalesforceUpdateDialog.ColumnInfo.UseExternalId.Tooltip"));
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
-    wReturn
-        .getTable()
-        .addFocusListener(
-            new FocusListener() {
+    wReturn = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
+    wReturn.getTable().addFocusListener(new FocusListener() {
 
-              @Override
-              public void focusGained(FocusEvent e) {
-                setModuleFieldCombo();
-              }
+      @Override
+      public void focusGained(FocusEvent e) {
+        setModuleFieldCombo();
+      }
 
-              @Override
-              public void focusLost(FocusEvent e) {}
-            });
+      @Override
+      public void focusLost(FocusEvent e) {}
+    });
 
     Button wDoMapping = new Button(wGeneralComp, SWT.PUSH);
     wDoMapping.setText(BaseMessages.getString(PKG, "SalesforceUpsertDialog.EditMapping.Label"));
@@ -572,38 +529,34 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
-              }
-
-              setComboBoxes();
-              // Dislay in red missing field names
-              HopGui.getInstance().getDisplay()
-                  .asyncExec(
-                      () -> {
-                        if (!wReturn.isDisposed()) {
-                          for (int i = 0; i < wReturn.table.getItemCount(); i++) {
-                            TableItem it = wReturn.table.getItem(i);
-                            if (!Utils.isEmpty(it.getText(2))
-                                && !inputFields.containsKey(it.getText(2))) {
-                              it.setBackground(GuiResource.getInstance().getColorRed());
-                            }
-                          }
-                        }
-                      });
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
           }
-        };
+
+          setComboBoxes();
+          // Dislay in red missing field names
+          HopGui.getInstance().getDisplay().asyncExec(() -> {
+            if (!wReturn.isDisposed()) {
+              for (int i = 0; i < wReturn.table.getItemCount(); i++) {
+                TableItem it = wReturn.table.getItem(i);
+                if (!Utils.isEmpty(it.getText(2)) && !inputFields.containsKey(it.getText(2))) {
+                  it.setBackground(GuiResource.getInstance().getColorRed());
+                }
+              }
+            }
+          });
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdGeneralComp = new FormData();
@@ -650,13 +603,11 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(3, "Y");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(3, "Y");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -680,8 +631,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "SalesforceUpsertDialog.ErrorRetrieveModules.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "SalesforceUpsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
+          BaseMessages.getString(PKG, "SalesforceUpsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
           e);
     }
   }
@@ -785,8 +735,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
   private boolean checkInput() {
     if (Utils.isEmpty(wModule.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SalesforceUpsertDialog.ModuleMissing.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SalesforceUpsertDialog.ModuleMissing.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return false;
@@ -799,8 +748,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
     if (Utils.isEmpty(wUserName.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SalesforceUpsertDialog.UsernameMissing.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SalesforceUpsertDialog.UsernameMissing.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return false;
@@ -823,12 +771,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     String url = variables.resolve(meta.getTargetUrl());
     String selectedModule = variables.resolve(meta.getModule());
     // Define a new Salesforce connection
-    SalesforceConnection connection =
-        new SalesforceConnection(
-            log,
-            url,
-            variables.resolve(meta.getUsername()),
-            Utils.resolvePassword(variables, meta.getPassword()));
+    SalesforceConnection connection = new SalesforceConnection(log, url, variables.resolve(meta.getUsername()), Utils.resolvePassword(variables, meta.getPassword()));
     int realTimeOut = Const.toInt(variables.resolve(meta.getTimeout()), 0);
     connection.setTimeOut(realTimeOut);
     Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
@@ -855,10 +798,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
   }
 
   private boolean skipFetchModules() {
-    return Utils.isEmpty(wURL.getText())
-        || Utils.isEmpty(wUserName.getText())
-        || Utils.isEmpty(wPassword.getText())
-        || getModulesListError;
+    return Utils.isEmpty(wURL.getText()) || Utils.isEmpty(wUserName.getText()) || Utils.isEmpty(wPassword.getText()) || getModulesListError;
   }
 
   /**
@@ -880,10 +820,8 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -897,10 +835,8 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     } catch (Exception e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -945,43 +881,22 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpsertDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpsertDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(
-                  PKG, "SalesforceUpsertDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+          BaseDialog
+              .openMessageBox(shell, BaseMessages.getString(PKG, "SalesforceUpsertDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
       boolean goOn = (answer & SWT.OK) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            SalesforceUpsertDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(SalesforceUpsertDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -1014,7 +929,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
     List<String> entries = new ArrayList<>(keySet);
 
     String[] fieldNames = entries.toArray(new String[entries.size()]);
-    if ( PropsUi.getInstance().isSortFieldByName() ) {
+    if (PropsUi.getInstance().isSortFieldByName()) {
       Const.sortStrings(fieldNames);
     }
     // return fields
@@ -1034,12 +949,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
         wModule.removeAll();
 
         // Define a new Salesforce connection
-        connection =
-            new SalesforceConnection(
-                log,
-                url,
-                variables.resolve(meta.getUsername()),
-                Utils.resolvePassword(variables, meta.getPassword()));
+        connection = new SalesforceConnection(log, url, variables.resolve(meta.getUsername()), Utils.resolvePassword(variables, meta.getPassword()));
         // connect to Salesforce
         connection.connect();
         // return
@@ -1056,8 +966,7 @@ public class SalesforceUpsertDialog extends SalesforceTransformDialog {
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "SalesforceUpsertDialog.ErrorRetrieveModules.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "SalesforceUpsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
+            BaseMessages.getString(PKG, "SalesforceUpsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
             e);
         getModulesListError = true;
       } finally {

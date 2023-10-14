@@ -73,8 +73,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
   private boolean needingEnvironmentRefresh;
 
-  public LifecycleEnvironmentDialog(
-      Shell parent, LifecycleEnvironment environment, IVariables variables) {
+  public LifecycleEnvironmentDialog(Shell parent, LifecycleEnvironment environment, IVariables variables) {
     super(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.RESIZE);
 
     this.environment = environment;
@@ -134,8 +133,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
     Label wlPurpose = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlPurpose);
-    wlPurpose.setText(
-        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Label.EnvironmentPurpose"));
+    wlPurpose.setText(BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Label.EnvironmentPurpose"));
     FormData fdlPurpose = new FormData();
     fdlPurpose.left = new FormAttachment(0, 0);
     fdlPurpose.right = new FormAttachment(middle, 0);
@@ -153,8 +151,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
     Label wlProject = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlProject);
-    wlProject.setText(
-        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Label.ReferencedProject"));
+    wlProject.setText(BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Label.ReferencedProject"));
     FormData fdlProject = new FormData();
     fdlProject.left = new FormAttachment(0, 0);
     fdlProject.right = new FormAttachment(middle, 0);
@@ -172,8 +169,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
     Label wlConfigFiles = new Label(shell, SWT.LEFT);
     PropsUi.setLook(wlConfigFiles);
-    wlConfigFiles.setText(
-        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Group.Label.ConfigurationFiles"));
+    wlConfigFiles.setText(BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Group.Label.ConfigurationFiles"));
     FormData fdlConfigFiles = new FormData();
     fdlConfigFiles.left = new FormAttachment(0, 0);
     fdlConfigFiles.right = new FormAttachment(100, 0);
@@ -190,24 +186,10 @@ public class LifecycleEnvironmentDialog extends Dialog {
     wbSelect.addListener(SWT.Selection, this::addConfigFile);
 
     ColumnInfo[] columnInfo =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.DetailTable.Label.Filename"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.DetailTable.Label.Filename"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columnInfo[0].setUsingVariables(true);
 
-    wConfigFiles =
-        new TableView(
-            variables,
-            shell,
-            SWT.SINGLE | SWT.BORDER,
-            columnInfo,
-            environment.getConfigurationFiles().size(),
-            null,
-            props);
+    wConfigFiles = new TableView(variables, shell, SWT.SINGLE | SWT.BORDER, columnInfo, environment.getConfigurationFiles().size(), null, props);
     PropsUi.setLook(wConfigFiles);
     FormData fdConfigFiles = new FormData();
     fdConfigFiles.left = new FormAttachment(0, 0);
@@ -257,13 +239,11 @@ public class LifecycleEnvironmentDialog extends Dialog {
       }
       String realConfigFilename = variables.resolve(configFilename);
 
-      DescribedVariablesConfigFile variablesConfigFile =
-          new DescribedVariablesConfigFile(realConfigFilename);
+      DescribedVariablesConfigFile variablesConfigFile = new DescribedVariablesConfigFile(realConfigFilename);
 
       FileObject file = HopVfs.getFileObject(realConfigFilename);
       if (!file.exists()) {
-        MessageBox box =
-            new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+        MessageBox box = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
         box.setText("Create file?");
         box.setMessage("This configuration file doesn't exist.  Do you want to create it?");
         int answer = box.open();
@@ -285,14 +265,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
   }
 
   private void addConfigFile(Event event) {
-    String configFile =
-        BaseDialog.presentFileDialog(
-            shell,
-            null,
-            variables,
-            new String[] {"*.json", "*"},
-            new String[] {"Config JSON files", "All files"},
-            true);
+    String configFile = BaseDialog.presentFileDialog(shell, null, variables, new String[] {"*.json", "*"}, new String[] {"Config JSON files", "All files"}, true);
     if (configFile != null) {
       TableItem item = new TableItem(wConfigFiles.table, SWT.NONE);
       item.setText(1, configFile);
@@ -312,25 +285,15 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
       String projectName = wProject.getText();
       if (StringUtils.isNotEmpty(projectName)) {
-        ProjectConfig projectConfig =
-            ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
+        ProjectConfig projectConfig = ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
         if (projectConfig != null) {
           String environmentName = Const.NVL(wName.getText(), projectName);
-          filename =
-              projectConfig.getProjectHome() + "/" + ".." + "/" + environmentName + "-config.json";
+          filename = projectConfig.getProjectHome() + "/" + ".." + "/" + environmentName + "-config.json";
         }
       }
       FileObject fileObject = HopVfs.getFileObject(filename);
 
-      String configFile =
-          BaseDialog.presentFileDialog(
-              shell,
-              null,
-              variables,
-              fileObject,
-              new String[] {"*.json", "*"},
-              new String[] {"Config JSON files", "All files"},
-              true);
+      String configFile = BaseDialog.presentFileDialog(shell, null, variables, fileObject, new String[] {"*.json", "*"}, new String[] {"Config JSON files", "All files"}, true);
       if (configFile != null) {
         TableItem item = new TableItem(wConfigFiles.table, SWT.NONE);
         item.setText(1, configFile);
@@ -341,11 +304,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
         needingEnvironmentRefresh = true;
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(),
-          "Error",
-          "Error creating new environment configuration file",
-          e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error creating new environment configuration file", e);
     }
   }
 
@@ -365,8 +324,7 @@ public class LifecycleEnvironmentDialog extends Dialog {
       if (StringUtils.isNotEmpty(originalName)) {
         if (!originalName.equals(environmentName)) {
           wName.setText(originalName);
-          throw new HopException(
-              "Sorry, renaming environment '" + originalName + "' is not supported.");
+          throw new HopException("Sorry, renaming environment '" + originalName + "' is not supported.");
         }
       }
 
@@ -396,12 +354,9 @@ public class LifecycleEnvironmentDialog extends Dialog {
 
     wProject.setItems(config.listProjectConfigNames().toArray(new String[0]));
     wPurpose.setItems(
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Development"),
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Testing"),
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Acceptance"),
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Production"),
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.CI"),
-            BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.CB"));
+        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Development"), BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Testing"),
+        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Acceptance"), BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.Production"),
+        BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.CI"), BaseMessages.getString(PKG, "LifecycleEnvironmentDialog.Purpose.Text.CB"));
 
     wName.setText(Const.NVL(environment.getName(), ""));
     wPurpose.setText(Const.NVL(environment.getPurpose(), ""));

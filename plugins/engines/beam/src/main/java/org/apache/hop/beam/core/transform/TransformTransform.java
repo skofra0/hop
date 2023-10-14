@@ -67,23 +67,9 @@ public class TransformTransform extends PTransform<PCollection<HopRow>, PCollect
     variableValues = new ArrayList<>();
   }
 
-  public TransformTransform(
-      List<VariableValue> variableValues,
-      String metastoreJson,
-      int batchSize,
-      int flushIntervalMs,
-      String transformName,
-      String transformPluginId,
-      String transformMetaInterfaceXml,
-      String inputRowMetaJson,
-      boolean inputTransform,
-      List<String> targetTransforms,
-      List<String> infoTransforms,
-      List<String> infoRowMetaJsons,
-      List<PCollectionView<List<HopRow>>> infoCollectionViews,
-      String runConfigName,
-      String dataSamplersJson,
-      String parentLogChannelId) {
+  public TransformTransform(List<VariableValue> variableValues, String metastoreJson, int batchSize, int flushIntervalMs, String transformName, String transformPluginId,
+      String transformMetaInterfaceXml, String inputRowMetaJson, boolean inputTransform, List<String> targetTransforms, List<String> infoTransforms, List<String> infoRowMetaJsons,
+      List<PCollectionView<List<HopRow>>> infoCollectionViews, String runConfigName, String dataSamplersJson, String parentLogChannelId) {
     this.variableValues = variableValues;
     this.metastoreJson = metastoreJson;
     this.batchSize = batchSize;
@@ -111,8 +97,7 @@ public class TransformTransform extends PTransform<PCollection<HopRow>, PCollect
 
       // Similar for the output : treat a TupleTag list for the target transforms...
       //
-      TupleTag<HopRow> mainOutputTupleTag =
-          new TupleTag<>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
+      TupleTag<HopRow> mainOutputTupleTag = new TupleTag<>(HopBeamUtil.createMainOutputTupleId(transformName)) {};
       TupleTagList targetTupleTagList = null;
       for (String targetTransform : targetTransforms) {
         String tupleId = HopBeamUtil.createTargetTupleId(transformName, targetTransform);
@@ -158,8 +143,7 @@ public class TransformTransform extends PTransform<PCollection<HopRow>, PCollect
 
       // Specify the main output and targeted outputs
       //
-      ParDo.MultiOutput<HopRow, HopRow> multiOutput =
-          parDoTransformFn.withOutputTags(mainOutputTupleTag, targetTupleTagList);
+      ParDo.MultiOutput<HopRow, HopRow> multiOutput = parDoTransformFn.withOutputTags(mainOutputTupleTag, targetTupleTagList);
 
       // Apply the multi output parallel do transform function to the main input stream
       //

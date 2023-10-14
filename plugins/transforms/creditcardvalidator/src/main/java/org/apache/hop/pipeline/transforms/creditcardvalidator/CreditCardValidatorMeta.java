@@ -50,20 +50,20 @@ public class CreditCardValidatorMeta extends BaseTransformMeta<CreditCardValidat
   private static final Class<?> PKG = CreditCardValidatorMeta.class; // For Translator
 
   /** dynamic field */
-  @HopMetadataProperty(key="fieldname")
+  @HopMetadataProperty(key = "fieldname")
   private String fieldName;
 
-  @HopMetadataProperty(key="cardtype")
+  @HopMetadataProperty(key = "cardtype")
   private String cardType;
 
-  @HopMetadataProperty(key="notvalidmsg")
+  @HopMetadataProperty(key = "notvalidmsg")
   private String notValidMessage;
 
   /** function result: new value name */
-  @HopMetadataProperty(key="resultfieldname")
+  @HopMetadataProperty(key = "resultfieldname")
   private String resultFieldName;
 
-  @HopMetadataProperty(key="onlydigits")
+  @HopMetadataProperty(key = "onlydigits")
   private boolean onlyDigits;
 
   public CreditCardValidatorMeta() {
@@ -92,13 +92,7 @@ public class CreditCardValidatorMeta extends BaseTransformMeta<CreditCardValidat
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     String realResultFieldName = variables.resolve(resultFieldName);
     if (!Utils.isEmpty(realResultFieldName)) {
@@ -136,19 +130,16 @@ public class CreditCardValidatorMeta extends BaseTransformMeta<CreditCardValidat
 
     String realresultfieldname = variables.resolve(resultFieldName);
     if (Utils.isEmpty(realresultfieldname)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.ResultFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.ResultFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.ResultFieldOK");
+      errorMessage = BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.ResultFieldOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
     if (Utils.isEmpty(fieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.CardFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.CardFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -158,19 +149,10 @@ public class CreditCardValidatorMeta extends BaseTransformMeta<CreditCardValidat
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "CreditCardValidatorMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CreditCardValidatorMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

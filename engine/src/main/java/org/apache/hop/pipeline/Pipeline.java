@@ -122,14 +122,7 @@ import static org.apache.hop.pipeline.Pipeline.BitMaskStatus.STOPPED;
  * It loads, instantiates, initializes, runs, and monitors the execution of the pipeline contained
  * in the specified PipelineMeta object.
  */
-public abstract class Pipeline
-    implements IVariables,
-        INamedParameters,
-        IHasLogChannel,
-        ILoggingObject,
-        IExecutor,
-        IExtensionData,
-        IPipelineEngine<PipelineMeta> {
+public abstract class Pipeline implements IVariables, INamedParameters, IHasLogChannel, ILoggingObject, IExecutor, IExtensionData, IPipelineEngine<PipelineMeta> {
 
   public static final String METRIC_NAME_INPUT = "input";
   public static final String METRIC_NAME_OUTPUT = "output";
@@ -249,8 +242,7 @@ public abstract class Pipeline
    * Constant specifying a filename containing XML to inject into a ZIP file created during resource
    * export.
    */
-  public static final String CONFIGURATION_IN_EXPORT_FILENAME =
-      "__job_execution_configuration__.xml";
+  public static final String CONFIGURATION_IN_EXPORT_FILENAME = "__job_execution_configuration__.xml";
 
   /** Whether safe mode is enabled. */
   private boolean safeModeEnabled;
@@ -301,8 +293,7 @@ public abstract class Pipeline
   private List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners;
 
   /** A list of finished listeners attached to the pipeline. */
-  private List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>>
-      executionFinishedListeners;
+  private List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners;
 
   /** A list of stop-event listeners attached to the pipeline. */
   private List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners;
@@ -494,9 +485,7 @@ public abstract class Pipeline
    * @param metadataProvider The MetaStore to use when referencing metadata objects
    * @throws HopException if any error occurs during loading, parsing, or creation of the pipeline
    */
-  public <Parent extends IVariables & INamedParameters> Pipeline(
-      Parent parent, String name, String filename, IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public <Parent extends IVariables & INamedParameters> Pipeline(Parent parent, String name, String filename, IHopMetadataProvider metadataProvider) throws HopException {
     this();
 
     this.metadataProvider = metadataProvider;
@@ -512,8 +501,7 @@ public abstract class Pipeline
 
       this.setDefaultLogCommitSize();
     } catch (HopException e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "Pipeline.Exception.UnableToOpenPipeline", name), e);
+      throw new HopException(BaseMessages.getString(PKG, "Pipeline.Exception.UnableToOpenPipeline", name), e);
     }
   }
 
@@ -553,43 +541,29 @@ public abstract class Pipeline
     }
 
     if (log.isDebug()) {
-      log.logDebug(
-          BaseMessages.getString(
-              PKG,
-              "Pipeline.Log.NumberOfTransformsToRun",
-              String.valueOf(pipelineMeta.nrTransforms()),
-              String.valueOf(pipelineMeta.nrPipelineHops())));
+      log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.NumberOfTransformsToRun", String.valueOf(pipelineMeta.nrTransforms()), String.valueOf(pipelineMeta.nrPipelineHops())));
     }
 
     log.snap(Metrics.METRIC_PIPELINE_EXECUTION_START);
     log.snap(Metrics.METRIC_PIPELINE_INIT_START);
 
-    log.logBasic(
-        "Executing this pipeline using the Local Pipeline Engine with run configuration '"
-            + pipelineRunConfiguration.getName()
-            + "'");
+    log.logBasic("Executing this pipeline using the Local Pipeline Engine with run configuration '" + pipelineRunConfiguration.getName() + "'");
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.PipelinePrepareExecution.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelinePrepareExecution.id, this);
 
     activateParameters(this);
 
     if (pipelineMeta.getName() == null) {
       if (pipelineMeta.getFilename() != null) {
-        log.logBasic(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.ExecutionStartedForFilename", pipelineMeta.getFilename()));
+        log.logBasic(BaseMessages.getString(PKG, "Pipeline.Log.ExecutionStartedForFilename", pipelineMeta.getFilename()));
       }
     } else {
-      log.logBasic(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.ExecutionStartedForPipeline", pipelineMeta.getName()));
+      log.logBasic(BaseMessages.getString(PKG, "Pipeline.Log.ExecutionStartedForPipeline", pipelineMeta.getName()));
     }
 
     if (isSafeModeEnabled()) {
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(PKG, "Pipeline.Log.SafeModeIsEnabled", pipelineMeta.getName()));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.SafeModeIsEnabled", pipelineMeta.getName()));
       }
     }
 
@@ -604,9 +578,7 @@ public abstract class Pipeline
     List<TransformMeta> hopTransforms = pipelineMeta.getPipelineHopTransforms(false);
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.FoundDefferentTransforms", String.valueOf(hopTransforms.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.FoundDefferentTransforms", String.valueOf(hopTransforms.size())));
       log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatingRowsets"));
     }
     // First allocate all the rowsets required!
@@ -619,12 +591,7 @@ public abstract class Pipeline
       }
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "Pipeline.Log.AllocateingRowsetsForTransform",
-                String.valueOf(i),
-                thisTransform.getName()));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocateingRowsetsForTransform", String.valueOf(i), thisTransform.getName()));
       }
 
       List<TransformMeta> nextTransforms = pipelineMeta.findNextTransforms(thisTransform);
@@ -641,9 +608,7 @@ public abstract class Pipeline
           // This can only happen if a variable is used that didn't resolve to a positive integer
           // value
           //
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "Pipeline.Log.TransformCopiesNotCorrectlyDefined", thisTransform.getName()));
+          throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.TransformCopiesNotCorrectlyDefined", thisTransform.getName()));
         }
 
         // How many times do we start the target transform?
@@ -652,22 +617,14 @@ public abstract class Pipeline
         // Are we re-partitioning?
         boolean repartitioning;
         if (thisTransform.isPartitioned()) {
-          repartitioning =
-              !thisTransform
-                  .getTransformPartitioningMeta()
-                  .equals(nextTransform.getTransformPartitioningMeta());
+          repartitioning = !thisTransform.getTransformPartitioningMeta().equals(nextTransform.getTransformPartitioningMeta());
         } else {
           repartitioning = nextTransform.isPartitioned();
         }
 
         int nrCopies;
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.copiesInfo",
-                  String.valueOf(thisCopies),
-                  String.valueOf(nextCopies)));
+          log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.copiesInfo", String.valueOf(thisCopies), String.valueOf(nextCopies)));
         }
         int dispatchType;
         if (thisCopies == 1 && nextCopies == 1) {
@@ -700,9 +657,7 @@ public abstract class Pipeline
                 // Currently there are stalling problems when dealing with small
                 // amounts of rows.
                 //
-                Boolean batchingRowSet =
-                    ValueMetaString.convertStringToBoolean(
-                        System.getProperty(Const.HOP_BATCHING_ROWSET));
+                Boolean batchingRowSet = ValueMetaString.convertStringToBoolean(System.getProperty(Const.HOP_BATCHING_ROWSET));
                 if (batchingRowSet != null && batchingRowSet.booleanValue()) {
                   rowSet = new BlockingBatchingRowSet(rowSetSize);
                 } else {
@@ -715,35 +670,28 @@ public abstract class Pipeline
                 break;
 
               default:
-                throw new HopException(
-                    "Unhandled pipeline type: " + pipelineMeta.getPipelineType());
+                throw new HopException("Unhandled pipeline type: " + pipelineMeta.getPipelineType());
             }
 
             switch (dispatchType) {
               case TYPE_DISP_1_1:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), 0, nextTransform.getName(), 0);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), 0, nextTransform.getName(), 0);
                 break;
               case TYPE_DISP_1_N:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), 0, nextTransform.getName(), c);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), 0, nextTransform.getName(), c);
                 break;
               case TYPE_DISP_N_1:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), c, nextTransform.getName(), 0);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), c, nextTransform.getName(), 0);
                 break;
               case TYPE_DISP_N_N:
-                rowSet.setThreadNameFromToCopy(
-                    thisTransform.getName(), c, nextTransform.getName(), c);
+                rowSet.setThreadNameFromToCopy(thisTransform.getName(), c, nextTransform.getName(), c);
                 break;
               default:
                 break;
             }
             rowsets.add(rowSet);
             if (log.isDetailed()) {
-              log.logDetailed(
-                  BaseMessages.getString(
-                      PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
+              log.logDetailed(BaseMessages.getString(PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
             }
           }
         } else {
@@ -755,31 +703,20 @@ public abstract class Pipeline
           for (int s = 0; s < thisCopies; s++) {
             for (int t = 0; t < nextCopies; t++) {
               BlockingRowSet rowSet = new BlockingRowSet(rowSetSize);
-              rowSet.setThreadNameFromToCopy(
-                  thisTransform.getName(), s, nextTransform.getName(), t);
+              rowSet.setThreadNameFromToCopy(thisTransform.getName(), s, nextTransform.getName(), t);
               rowsets.add(rowSet);
               if (log.isDetailed()) {
-                log.logDetailed(
-                    BaseMessages.getString(
-                        PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
+                log.logDetailed(BaseMessages.getString(PKG, "Pipeline.PipelineAllocatedNewRowset", rowSet.toString()));
               }
             }
           }
         }
       }
-      log.logDetailed(
-          BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.AllocatedRowsets",
-                  String.valueOf(rowsets.size()),
-                  String.valueOf(i),
-                  thisTransform.getName())
-              + " ");
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatedRowsets", String.valueOf(rowsets.size()), String.valueOf(i), thisTransform.getName()) + " ");
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(PKG, "Pipeline.Log.AllocatingTransformsAndTransformData"));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.AllocatingTransformsAndTransformData"));
     }
 
     // Allocate the transforms & the data...
@@ -788,21 +725,14 @@ public abstract class Pipeline
       String transformid = transformMeta.getTransformPluginId();
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "Pipeline.Log.PipelineIsToAllocateTransform",
-                transformMeta.getName(),
-                transformid));
+        log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineIsToAllocateTransform", transformMeta.getName(), transformid));
       }
 
       // How many copies are launched of this transform?
       int nrCopies = transformMeta.getCopies(this);
 
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.TransformHasNumberRowCopies", String.valueOf(nrCopies)));
+        log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.TransformHasNumberRowCopies", String.valueOf(nrCopies)));
       }
 
       // At least run once...
@@ -823,8 +753,7 @@ public abstract class Pipeline
           combi.data = data;
 
           // Allocate the transform
-          ITransform transform =
-              combi.meta.createTransform(transformMeta, data, c, pipelineMeta, this);
+          ITransform transform = combi.meta.createTransform(transformMeta, data, c, pipelineMeta, this);
 
           // Copy the variables of the pipeline to the transform...
           // don't share. Each copy of the transform has its own variables.
@@ -838,11 +767,7 @@ public abstract class Pipeline
           // If the transform is partitioned, set the partitioning ID and some other
           // things as well...
           if (transformMeta.isPartitioned()) {
-            List<String> partitionIDs =
-                transformMeta
-                    .getTransformPartitioningMeta()
-                    .getPartitionSchema()
-                    .calculatePartitionIds(this);
+            List<String> partitionIDs = transformMeta.getTransformPartitioningMeta().getPartitionSchema().calculatePartitionIds(this);
             if (partitionIDs != null && partitionIDs.size() > 0) {
               transform.setPartitionId(partitionIDs.get(c)); // Pass the partition ID
               // to the transform
@@ -864,12 +789,7 @@ public abstract class Pipeline
           transforms.add(combi);
 
           if (log.isDetailed()) {
-            log.logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "Pipeline.Log.PipelineHasAllocatedANewTransform",
-                    transformMeta.getName(),
-                    String.valueOf(c)));
+            log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineHasAllocatedANewTransform", transformMeta.getName(), String.valueOf(c)));
           }
         }
       }
@@ -947,18 +867,14 @@ public abstract class Pipeline
       // If the next transform is partitioned differently, set re-partitioning, when
       // running locally.
       //
-      if ((!isThisPartitioned && isNextPartitioned)
-          || (isThisPartitioned
-              && isNextPartitioned
-              && !thisPartitionSchema.equals(nextPartitionSchema))) {
+      if ((!isThisPartitioned && isNextPartitioned) || (isThisPartitioned && isNextPartitioned && !thisPartitionSchema.equals(nextPartitionSchema))) {
         baseTransform.setRepartitioning(nextTransformPartitioningMeta.getMethodType());
       }
 
       // For partitioning to a set of remove transforms (repartitioning from a master
       // to a set or remote output transforms)
       //
-      TransformPartitioningMeta targetTransformPartitioningMeta =
-          baseTransform.getTransformMeta().getTargetTransformPartitioningMeta();
+      TransformPartitioningMeta targetTransformPartitioningMeta = baseTransform.getTransformMeta().getTargetTransformPartitioningMeta();
       if (targetTransformPartitioningMeta != null) {
         baseTransform.setRepartitioning(targetTransformPartitioningMeta.getMethodType());
       }
@@ -974,9 +890,7 @@ public abstract class Pipeline
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG, "Pipeline.Log.InitialisingTransforms", String.valueOf(transforms.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.InitialisingTransforms", String.valueOf(transforms.size())));
     }
 
     TransformInitThread[] initThreads = new TransformInitThread[transforms.size()];
@@ -996,11 +910,9 @@ public abstract class Pipeline
       // Put it in a separate thread!
       //
       threads[i] = new Thread(initThreads[i]);
-      threads[i].setName(
-          "init of " + sid.transformName + "." + sid.copy + " (" + threads[i].getName() + ")");
+      threads[i].setName("init of " + sid.transformName + "." + sid.copy + " (" + threads[i].getName() + ")");
 
-      ExtensionPointHandler.callExtensionPoint(
-          log, this, HopExtensionPoint.TransformBeforeInitialize.id, initThreads[i]);
+      ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformBeforeInitialize.id, initThreads[i]);
 
       threads[i].start();
     }
@@ -1008,8 +920,7 @@ public abstract class Pipeline
     for (int i = 0; i < threads.length; i++) {
       try {
         threads[i].join();
-        ExtensionPointHandler.callExtensionPoint(
-            log, this, HopExtensionPoint.TransformAfterInitialize.id, initThreads[i]);
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformAfterInitialize.id, initThreads[i]);
       } catch (Exception ex) {
         log.logError("Error with init thread: " + ex.getMessage(), ex.getMessage());
         log.logError(Const.getStackTracker(ex));
@@ -1025,19 +936,13 @@ public abstract class Pipeline
     for (TransformInitThread thread : initThreads) {
       TransformMetaDataCombi combi = thread.getCombi();
       if (!thread.isOk()) {
-        log.logError(
-            BaseMessages.getString(
-                PKG, "Pipeline.Log.TransformFailedToInit", combi.transformName + "." + combi.copy));
+        log.logError(BaseMessages.getString(PKG, "Pipeline.Log.TransformFailedToInit", combi.transformName + "." + combi.copy));
         combi.data.setStatus(ComponentExecutionStatus.STATUS_STOPPED);
         ok = false;
       } else {
         combi.data.setStatus(ComponentExecutionStatus.STATUS_IDLE);
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "Pipeline.Log.TransformInitialized",
-                  combi.transformName + "." + combi.copy));
+          log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.TransformInitialized", combi.transformName + "." + combi.copy));
         }
       }
     }
@@ -1079,14 +984,9 @@ public abstract class Pipeline
       //
       if (preview) {
         String logText = HopLogStore.getAppender().getBuffer(getLogChannelId(), true).toString();
-        throw new HopException(
-            BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform")
-                + Const.CR
-                + logText);
+        throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform") + Const.CR + logText);
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform")
-                + Const.CR);
+        throw new HopException(BaseMessages.getString(PKG, "Pipeline.Log.FailToInitializeAtLeastOneTransform") + Const.CR);
       }
     }
 
@@ -1107,8 +1007,7 @@ public abstract class Pipeline
     //
     nrOfFinishedTransforms = 0;
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.PipelineStartThreads.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelineStartThreads.id, this);
 
     firePipelineExecutionStartedListeners();
 
@@ -1119,56 +1018,45 @@ public abstract class Pipeline
 
       // also attach a listener to detect when we're done...
       //
-      ITransformFinishedListener finishedListener =
-          (pipeline, transformMeta, transform) -> {
-            synchronized (Pipeline.this) {
-              nrOfFinishedTransforms++;
+      ITransformFinishedListener finishedListener = (pipeline, transformMeta, transform) -> {
+        synchronized (Pipeline.this) {
+          nrOfFinishedTransforms++;
 
-              if (nrOfFinishedTransforms >= transforms.size()) {
-                // Set the finished flag
-                //
-                setFinished(true);
+          if (nrOfFinishedTransforms >= transforms.size()) {
+            // Set the finished flag
+            //
+            setFinished(true);
 
-                // Grab the performance statistics one last time (if enabled)
-                //
-                addTransformPerformanceSnapShot();
+            // Grab the performance statistics one last time (if enabled)
+            //
+            addTransformPerformanceSnapShot();
 
-                // We're really done now.
-                //
-                executionEndDate = new Date();
+            // We're really done now.
+            //
+            executionEndDate = new Date();
 
-                try {
-                  firePipelineExecutionFinishedListeners();
-                } catch (Exception e) {
-                  transform.setErrors(transform.getErrors() + 1L);
-                  log.logError(
-                      getName()
-                          + " : "
-                          + BaseMessages.getString(
-                              PKG, "Pipeline.Log.UnexpectedErrorAtPipelineEnd"),
-                      e);
-                }
-
-                log.logBasic(
-                    "Execution finished on a local pipeline engine with run configuration '"
-                        + pipelineRunConfiguration.getName()
-                        + "'");
-              }
-
-              // If a transform fails with an error, we want to kill/stop the others
-              // too...
-              //
-              if (transform.getErrors() > 0) {
-
-                log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineDetectedErrors"));
-                log.logMinimal(
-                    BaseMessages.getString(
-                        PKG, "Pipeline.Log.PipelineIsKillingTheOtherTransforms"));
-
-                killAllNoWait();
-              }
+            try {
+              firePipelineExecutionFinishedListeners();
+            } catch (Exception e) {
+              transform.setErrors(transform.getErrors() + 1L);
+              log.logError(getName() + " : " + BaseMessages.getString(PKG, "Pipeline.Log.UnexpectedErrorAtPipelineEnd"), e);
             }
-          };
+
+            log.logBasic("Execution finished on a local pipeline engine with run configuration '" + pipelineRunConfiguration.getName() + "'");
+          }
+
+          // If a transform fails with an error, we want to kill/stop the others
+          // too...
+          //
+          if (transform.getErrors() > 0) {
+
+            log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineDetectedErrors"));
+            log.logMinimal(BaseMessages.getString(PKG, "Pipeline.Log.PipelineIsKillingTheOtherTransforms"));
+
+            killAllNoWait();
+          }
+        }
+      };
 
       // Make sure this is called first!
       //
@@ -1193,19 +1081,16 @@ public abstract class Pipeline
 
       // Set a timer to collect the performance data from the running threads...
       //
-      transformPerformanceSnapShotTimer =
-          new Timer("transformPerformanceSnapShot Timer: " + pipelineMeta.getName());
-      TimerTask timerTask =
-          new TimerTask() {
-            @Override
-            public void run() {
-              if (!isFinished()) {
-                addTransformPerformanceSnapShot();
-              }
-            }
-          };
-      transformPerformanceSnapShotTimer.schedule(
-          timerTask, 100, pipelineMeta.getTransformPerformanceCapturingDelay());
+      transformPerformanceSnapShotTimer = new Timer("transformPerformanceSnapShot Timer: " + pipelineMeta.getName());
+      TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+          if (!isFinished()) {
+            addTransformPerformanceSnapShot();
+          }
+        }
+      };
+      transformPerformanceSnapShotTimer.schedule(timerTask, 100, pipelineMeta.getTransformPerformanceCapturingDelay());
     }
 
     // Now start a thread to monitor the running pipeline...
@@ -1218,31 +1103,28 @@ public abstract class Pipeline
 
     // Do all sorts of nifty things at the end of the pipeline execution
     ///
-    IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> executionListener =
-        pipeline -> {
-          try {
-            ExtensionPointHandler.callExtensionPoint(
-                log, this, HopExtensionPoint.PipelineFinish.id, pipeline);
-          } catch (HopException e) {
-            throw new RuntimeException("Error calling extension point at end of pipeline", e);
-          }
+    IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> executionListener = pipeline -> {
+      try {
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelineFinish.id, pipeline);
+      } catch (HopException e) {
+        throw new RuntimeException("Error calling extension point at end of pipeline", e);
+      }
 
-          // First of all, stop the performance snapshot timer if there is is
-          // one...
-          //
-          if (pipelineMeta.isCapturingTransformPerformanceSnapShots()
-              && transformPerformanceSnapShotTimer != null) {
-            transformPerformanceSnapShotTimer.cancel();
-          }
+      // First of all, stop the performance snapshot timer if there is is
+      // one...
+      //
+      if (pipelineMeta.isCapturingTransformPerformanceSnapShots() && transformPerformanceSnapShotTimer != null) {
+        transformPerformanceSnapShotTimer.cancel();
+      }
 
-          setFinished(true);
-          setRunning(false); // no longer running
+      setFinished(true);
+      setRunning(false); // no longer running
 
-          log.snap(Metrics.METRIC_PIPELINE_EXECUTION_STOP);
+      log.snap(Metrics.METRIC_PIPELINE_EXECUTION_STOP);
 
-          // release unused vfs connections
-          HopVfs.freeUnusedResources();
-        };
+      // release unused vfs connections
+      HopVfs.freeUnusedResources();
+    };
     // This should always be done first so that the other listeners achieve a clean state to start
     // from (setFinished and
     // so on)
@@ -1260,20 +1142,16 @@ public abstract class Pipeline
           RunThread runThread = new RunThread(combi);
           Thread thread = new Thread(runThread);
           thread.setName(getName() + " - " + combi.transformName);
-          ExtensionPointHandler.callExtensionPoint(
-              log, this, HopExtensionPoint.TransformBeforeStart.id, combi);
+          ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformBeforeStart.id, combi);
           // Call an extension point at the end of the transform
           //
-          combi.transform.addTransformFinishedListener(
-              (pipeline, transformMeta, transform) -> {
-                try {
-                  ExtensionPointHandler.callExtensionPoint(
-                      log, this, HopExtensionPoint.TransformFinished.id, combi);
-                } catch (HopException e) {
-                  throw new RuntimeException(
-                      "Unexpected error in calling extension point upon transform finish", e);
-                }
-              });
+          combi.transform.addTransformFinishedListener((pipeline, transformMeta, transform) -> {
+            try {
+              ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.TransformFinished.id, combi);
+            } catch (HopException e) {
+              throw new RuntimeException("Unexpected error in calling extension point upon transform finish", e);
+            }
+          });
 
           thread.start();
         }
@@ -1298,12 +1176,7 @@ public abstract class Pipeline
     }
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "Pipeline.Log.PipelineHasAllocated",
-              String.valueOf(transforms.size()),
-              String.valueOf(rowsets.size())));
+      log.logDetailed(BaseMessages.getString(PKG, "Pipeline.Log.PipelineHasAllocated", String.valueOf(transforms.size()), String.valueOf(rowsets.size())));
     }
   }
 
@@ -1339,8 +1212,7 @@ public abstract class Pipeline
 
     // Also call an extension point in case plugins want to play along
     //
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.PipelineCompleted.id, this);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.PipelineCompleted.id, this);
   }
 
   public void pipelineCompleted() throws HopException {
@@ -1351,6 +1223,7 @@ public abstract class Pipeline
       pipelineWaitUntilFinishedBlockingQueue.add(new Object());
     }
   }
+
   /**
    * Fires the start-event listeners (if any are registered).
    *
@@ -1375,18 +1248,13 @@ public abstract class Pipeline
     boolean pausedAndNotEmpty = isPaused() && !transformPerformanceSnapShots.isEmpty();
     boolean stoppedAndNotEmpty = isStopped() && !transformPerformanceSnapShots.isEmpty();
 
-    if (pipelineMeta.isCapturingTransformPerformanceSnapShots()
-        && !pausedAndNotEmpty
-        && !stoppedAndNotEmpty) {
+    if (pipelineMeta.isCapturingTransformPerformanceSnapShots() && !pausedAndNotEmpty && !stoppedAndNotEmpty) {
       // get the statistics from the transforms and keep them...
       //
       int seqNr = transformPerformanceSnapshotSeqNr.incrementAndGet();
-      for (TransformMetaDataCombi iTransformITransformMetaITransformDataTransformMetaDataCombi :
-          transforms) {
-        TransformMeta transformMeta =
-            iTransformITransformMetaITransformDataTransformMetaDataCombi.transformMeta;
-        ITransform transform =
-            iTransformITransformMetaITransformDataTransformMetaDataCombi.transform;
+      for (TransformMetaDataCombi iTransformITransformMetaITransformDataTransformMetaDataCombi : transforms) {
+        TransformMeta transformMeta = iTransformITransformMetaITransformDataTransformMetaDataCombi.transformMeta;
+        ITransform transform = iTransformITransformMetaITransformDataTransformMetaDataCombi.transform;
 
         PerformanceSnapShot snapShot =
             new PerformanceSnapShot(
@@ -1404,8 +1272,7 @@ public abstract class Pipeline
                 transform.getErrors());
 
         synchronized (transformPerformanceSnapShots) {
-          List<PerformanceSnapShot> snapShotList =
-              transformPerformanceSnapShots.get(transform.toString());
+          List<PerformanceSnapShot> snapShotList = transformPerformanceSnapShots.get(transform.toString());
           PerformanceSnapShot previous;
           if (snapShotList == null) {
             snapShotList = new ArrayList<>();
@@ -1419,8 +1286,7 @@ public abstract class Pipeline
           snapShot.diff(previous, transform.rowsetInputSize(), transform.rowsetOutputSize());
           snapShotList.add(snapShot);
 
-          if (transformPerformanceSnapshotSizeLimit > 0
-              && snapShotList.size() > transformPerformanceSnapshotSizeLimit) {
+          if (transformPerformanceSnapshotSizeLimit > 0 && snapShotList.size() > transformPerformanceSnapshotSizeLimit) {
             snapShotList.remove(0);
           }
         }
@@ -1533,9 +1399,7 @@ public abstract class Pipeline
       ITransform transform = sid.transform;
 
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(PKG, "Pipeline.Log.LookingAtTransform")
-                + transform.getTransformName());
+        log.logDebug(BaseMessages.getString(PKG, "Pipeline.Log.LookingAtTransform") + transform.getTransformName());
       }
 
       transform.stopAll();
@@ -1555,9 +1419,7 @@ public abstract class Pipeline
   public IRowSet findRowSet(String from, int fromcopy, String to, int tocopy) {
     // Start with the pipeline.
     for (IRowSet rs : rowsets) {
-      if (rs.getOriginTransformName().equalsIgnoreCase(from)
-          && rs.getDestinationTransformName().equalsIgnoreCase(to)
-          && rs.getOriginTransformCopy() == fromcopy
+      if (rs.getOriginTransformName().equalsIgnoreCase(from) && rs.getDestinationTransformName().equalsIgnoreCase(to) && rs.getOriginTransformCopy() == fromcopy
           && rs.getDestinationTransformCopy() == tocopy) {
         return rs;
       }
@@ -1575,9 +1437,7 @@ public abstract class Pipeline
    */
   public boolean hasTransformStarted(String sname, int copy) {
     for (TransformMetaDataCombi sid : transforms) {
-      boolean started =
-          (sid.transformName != null && sid.transformName.equalsIgnoreCase(sname))
-              && sid.copy == copy;
+      boolean started = (sid.transformName != null && sid.transformName.equalsIgnoreCase(sname)) && sid.copy == copy;
       if (started) {
         return true;
       }
@@ -1664,7 +1524,7 @@ public abstract class Pipeline
    * Checks whether the pipeline transforms are running lookup.
    *
    * @return a boolean array associated with the transform list, indicating whether that transform
-   *     is running a lookup.
+   *         is running a lookup.
    */
   public boolean[] getPipelineTransformIsRunningLookup() {
     if (transforms == null) {
@@ -1674,9 +1534,7 @@ public abstract class Pipeline
     boolean[] tResult = new boolean[transforms.size()];
     for (int i = 0; i < transforms.size(); i++) {
       TransformMetaDataCombi sid = transforms.get(i);
-      tResult[i] =
-          (sid.transform.isRunning()
-              || sid.transform.getStatus() != ComponentExecutionStatus.STATUS_FINISHED);
+      tResult[i] = (sid.transform.isRunning() || sid.transform.getStatus() != ComponentExecutionStatus.STATUS_FINISHED);
     }
     return tResult;
   }
@@ -1785,8 +1643,7 @@ public abstract class Pipeline
       result.setNrLinesInput(Math.max(result.getNrLinesInput(), transform.getLinesInput()));
       result.setNrLinesOutput(Math.max(result.getNrLinesOutput(), transform.getLinesOutput()));
       result.setNrLinesUpdated(Math.max(result.getNrLinesUpdated(), transform.getLinesUpdated()));
-      result.setNrLinesRejected(
-          Math.max(result.getNrLinesRejected(), transform.getLinesRejected()));
+      result.setNrLinesRejected(Math.max(result.getNrLinesRejected(), transform.getLinesRejected()));
     }
 
     result.setRows(resultRows);
@@ -1935,7 +1792,7 @@ public abstract class Pipeline
    *
    * @param name The transform name
    * @return the list of executing transform copies found or null if no transforms are available yet
-   *     (incorrect usage)
+   *         (incorrect usage)
    */
   public List<ITransform> getTransforms(String name) {
     if (transforms == null) {
@@ -1966,7 +1823,7 @@ public abstract class Pipeline
    * Checks whether safe mode is enabled.
    *
    * @return Returns true if the safe mode is enabled: the pipeline will run slower but with more
-   *     checking enabled
+   *         checking enabled
    */
   @Override
   public boolean isSafeModeEnabled() {
@@ -1979,7 +1836,7 @@ public abstract class Pipeline
    *
    * @param transformName The transform to produce rows for
    * @param copynr The copynr of the transform to produce row for (normally 0 unless you have
-   *     multiple copies running)
+   *        multiple copies running)
    * @return the row producer
    * @throws HopException in case the thread/transform to produce rows for could not be found.
    * @see Pipeline#execute()
@@ -1988,8 +1845,7 @@ public abstract class Pipeline
   public RowProducer addRowProducer(String transformName, int copynr) throws HopException {
     ITransform transform = getTransform(transformName, copynr);
     if (transform == null) {
-      throw new HopException(
-          "Unable to find thread with name " + transformName + " and copy number " + copynr);
+      throw new HopException("Unable to find thread with name " + transformName + " and copy number " + copynr);
     }
 
     // We are going to add an extra IRowSet to this iTransform.
@@ -2124,8 +1980,7 @@ public abstract class Pipeline
    * @param initializing true if the pipeline is initializing, false otherwise
    */
   public void setInitializing(boolean initializing) {
-    status.updateAndGet(
-        v -> initializing ? v | INITIALIZING.mask : (BIT_STATUS_SUM ^ INITIALIZING.mask) & v);
+    status.updateAndGet(v -> initializing ? v | INITIALIZING.mask : (BIT_STATUS_SUM ^ INITIALIZING.mask) & v);
   }
 
   /**
@@ -2145,8 +2000,7 @@ public abstract class Pipeline
    * @param preparing true if the pipeline is preparing for execution, false otherwise
    */
   public void setPreparing(boolean preparing) {
-    status.updateAndGet(
-        v -> preparing ? v | PREPARING.mask : (BIT_STATUS_SUM ^ PREPARING.mask) & v);
+    status.updateAndGet(v -> preparing ? v | PREPARING.mask : (BIT_STATUS_SUM ^ PREPARING.mask) & v);
   }
 
   /**
@@ -2198,13 +2052,11 @@ public abstract class Pipeline
         FileName fileName = fileObject.getName();
 
         // The filename of the pipeline
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, fileName.getBaseName());
+        variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, fileName.getBaseName());
 
         // The directory of the pipeline
         FileName fileDir = fileName.getParent();
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, fileDir.getURI());
+        variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, fileDir.getURI());
       } catch (HopFileException e) {
         variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "");
         variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME, "");
@@ -2215,12 +2067,10 @@ public abstract class Pipeline
     }
 
     // The name of the pipeline
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_NAME, Const.NVL(pipelineMeta.getName(), ""));
+    variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_NAME, Const.NVL(pipelineMeta.getName(), ""));
 
     // The ID of the pipeline (log channel ID)
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_ID, log != null ? log.getLogChannelId() : "");
+    variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_ID, log != null ? log.getLogChannelId() : "");
 
     if (parent != null) {
       this.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_PARENT_ID, parent.getLogChannelId());
@@ -2239,10 +2089,7 @@ public abstract class Pipeline
   protected void setInternalEntryCurrentDirectory(boolean hasFilename) {
     variables.setVariable(
         Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-        variables.getVariable(
-            hasFilename
-                ? Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY
-                : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+        variables.getVariable(hasFilename ? Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   /**
@@ -2282,8 +2129,7 @@ public abstract class Pipeline
   }
 
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     return variables.resolve(aString, rowMeta, rowData);
   }
 
@@ -2322,7 +2168,7 @@ public abstract class Pipeline
    * @param variableName the variable name
    * @param defaultValue the default value
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
+   *         exists
    * @see IVariables#getVariable(String, String)
    */
   @Override
@@ -2336,7 +2182,7 @@ public abstract class Pipeline
    *
    * @param variableName the variable name
    * @return the value of the specified variable, or returns a default value if no such variable
-   *     exists
+   *         exists
    * @see IVariables#getVariable(String)
    */
   @Override
@@ -2351,7 +2197,7 @@ public abstract class Pipeline
    * @param variableName the variable name
    * @param defaultValue the default value
    * @return a boolean representation of the specified variable after performing any necessary
-   *     substitution
+   *         substitution
    * @see IVariables#getVariableBoolean(String, boolean)
    */
   @Override
@@ -2476,10 +2322,9 @@ public abstract class Pipeline
    * Sets the named list (map) of transform performance snapshots.
    *
    * @param transformPerformanceSnapShots a named list (map) of transform performance snapshots to
-   *     set
+   *        set
    */
-  public void setTransformPerformanceSnapShots(
-      Map<String, List<PerformanceSnapShot>> transformPerformanceSnapShots) {
+  public void setTransformPerformanceSnapShots(Map<String, List<PerformanceSnapShot>> transformPerformanceSnapShots) {
     this.transformPerformanceSnapShots = transformPerformanceSnapShots;
   }
 
@@ -2524,8 +2369,7 @@ public abstract class Pipeline
    *
    * @param executionStoppedListeners the list of stop-event listeners to set
    */
-  public void setExecutionStoppedListeners(
-      List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners) {
+  public void setExecutionStoppedListeners(List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> executionStoppedListeners) {
     this.executionStoppedListeners = Collections.synchronizedList(executionStoppedListeners);
   }
 
@@ -2535,8 +2379,7 @@ public abstract class Pipeline
    *
    * @return the list of stop-event listeners
    */
-  public List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionStoppedListeners() {
+  public List<IExecutionStoppedListener<IPipelineEngine<PipelineMeta>>> getExecutionStoppedListeners() {
     return executionStoppedListeners;
   }
 
@@ -2545,8 +2388,7 @@ public abstract class Pipeline
    *
    * @param pipelineStoppedListener the stop-event listener to add
    */
-  public void addPipelineStoppedListener(
-      IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener) {
+  public void addPipelineStoppedListener(IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener) {
     executionStoppedListeners.add(pipelineStoppedListener);
   }
 
@@ -2590,8 +2432,7 @@ public abstract class Pipeline
    * @see INamedParameters#addParameterDefinition(String, String, String)
    */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
@@ -2697,7 +2538,7 @@ public abstract class Pipeline
    * Gets the parent pipeline, which is null if no parent pipeline exists.
    *
    * @return a reference to the parent pipeline's Pipeline object, or null if no parent pipeline
-   *     exists
+   *         exists
    */
   @Override
   public IPipelineEngine getParentPipeline() {
@@ -2834,8 +2675,7 @@ public abstract class Pipeline
   }
 
   @Override
-  public void addActiveSubWorkflow(
-      final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow) {
+  public void addActiveSubWorkflow(final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow) {
     activeSubWorkflows.put(subWorkflowName, subWorkflow);
   }
 
@@ -3220,62 +3060,19 @@ public abstract class Pipeline
   }
 
   // TODO: i18n
-  public static final IEngineMetric METRIC_INPUT =
-      new EngineMetric(
-          METRIC_NAME_INPUT, "Input", "The number of rows read from physical I/O", "010", true);
-  public static final IEngineMetric METRIC_READ =
-      new EngineMetric(
-          METRIC_NAME_READ, "Read", "The number of rows read from other transforms", "020", true);
-  public static final IEngineMetric METRIC_WRITTEN =
-      new EngineMetric(
-          METRIC_NAME_WRITTEN,
-          "Written",
-          "The number of rows written to other transforms",
-          "030",
-          true);
-  public static final IEngineMetric METRIC_OUTPUT =
-      new EngineMetric(
-          METRIC_NAME_OUTPUT, "Output", "The number of rows written to physical I/O", "040", true);
-  public static final IEngineMetric METRIC_UPDATED =
-      new EngineMetric(METRIC_NAME_UPDATED, "Updated", "The number of rows updated", "050", true);
-  public static final IEngineMetric METRIC_REJECTED =
-      new EngineMetric(
-          METRIC_NAME_REJECTED,
-          "Rejected",
-          "The number of rows rejected by a transform",
-          "060",
-          true);
-  public static final IEngineMetric METRIC_ERROR =
-      new EngineMetric(METRIC_NAME_ERROR, "Errors", "The number of errors", "070", true);
-  public static final IEngineMetric METRIC_BUFFER_IN =
-      new EngineMetric(
-          METRIC_NAME_BUFFER_IN,
-          "Buffers Input",
-          "The number of rows in the transforms input buffers",
-          "080",
-          true);
+  public static final IEngineMetric METRIC_INPUT = new EngineMetric(METRIC_NAME_INPUT, "Input", "The number of rows read from physical I/O", "010", true);
+  public static final IEngineMetric METRIC_READ = new EngineMetric(METRIC_NAME_READ, "Read", "The number of rows read from other transforms", "020", true);
+  public static final IEngineMetric METRIC_WRITTEN = new EngineMetric(METRIC_NAME_WRITTEN, "Written", "The number of rows written to other transforms", "030", true);
+  public static final IEngineMetric METRIC_OUTPUT = new EngineMetric(METRIC_NAME_OUTPUT, "Output", "The number of rows written to physical I/O", "040", true);
+  public static final IEngineMetric METRIC_UPDATED = new EngineMetric(METRIC_NAME_UPDATED, "Updated", "The number of rows updated", "050", true);
+  public static final IEngineMetric METRIC_REJECTED = new EngineMetric(METRIC_NAME_REJECTED, "Rejected", "The number of rows rejected by a transform", "060", true);
+  public static final IEngineMetric METRIC_ERROR = new EngineMetric(METRIC_NAME_ERROR, "Errors", "The number of errors", "070", true);
+  public static final IEngineMetric METRIC_BUFFER_IN = new EngineMetric(METRIC_NAME_BUFFER_IN, "Buffers Input", "The number of rows in the transforms input buffers", "080", true);
   public static final IEngineMetric METRIC_BUFFER_OUT =
-      new EngineMetric(
-          METRIC_NAME_BUFFER_OUT,
-          "Buffers Output",
-          "The number of rows in the transforms output buffers",
-          "090",
-          true);
+      new EngineMetric(METRIC_NAME_BUFFER_OUT, "Buffers Output", "The number of rows in the transforms output buffers", "090", true);
 
-  public static final IEngineMetric METRIC_INIT =
-      new EngineMetric(
-          METRIC_NAME_INIT,
-          "Inits",
-          "The number of times the transform was initialised",
-          "000",
-          true);
-  public static final IEngineMetric METRIC_FLUSH_BUFFER =
-      new EngineMetric(
-          METRIC_NAME_FLUSH_BUFFER,
-          "Flushes",
-          "The number of times a buffer flush occurred on a ",
-          "100",
-          true);
+  public static final IEngineMetric METRIC_INIT = new EngineMetric(METRIC_NAME_INIT, "Inits", "The number of times the transform was initialised", "000", true);
+  public static final IEngineMetric METRIC_FLUSH_BUFFER = new EngineMetric(METRIC_NAME_FLUSH_BUFFER, "Flushes", "The number of times a buffer flush occurred on a ", "100", true);
 
   @Override
   public EngineMetrics getEngineMetrics() {
@@ -3305,18 +3102,12 @@ public abstract class Pipeline
 
             metrics.addComponent(combi.transform);
 
-            metrics.setComponentMetric(
-                combi.transform, METRIC_INPUT, combi.transform.getLinesInput());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_OUTPUT, combi.transform.getLinesOutput());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_READ, combi.transform.getLinesRead());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_WRITTEN, combi.transform.getLinesWritten());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_UPDATED, combi.transform.getLinesUpdated());
-            metrics.setComponentMetric(
-                combi.transform, METRIC_REJECTED, combi.transform.getLinesRejected());
+            metrics.setComponentMetric(combi.transform, METRIC_INPUT, combi.transform.getLinesInput());
+            metrics.setComponentMetric(combi.transform, METRIC_OUTPUT, combi.transform.getLinesOutput());
+            metrics.setComponentMetric(combi.transform, METRIC_READ, combi.transform.getLinesRead());
+            metrics.setComponentMetric(combi.transform, METRIC_WRITTEN, combi.transform.getLinesWritten());
+            metrics.setComponentMetric(combi.transform, METRIC_UPDATED, combi.transform.getLinesUpdated());
+            metrics.setComponentMetric(combi.transform, METRIC_REJECTED, combi.transform.getLinesRejected());
             metrics.setComponentMetric(combi.transform, METRIC_ERROR, combi.transform.getErrors());
 
             long inputBufferSize = 0;
@@ -3332,8 +3123,7 @@ public abstract class Pipeline
 
             TransformStatus transformStatus = new TransformStatus(combi.transform);
             metrics.setComponentSpeed(combi.transform, transformStatus.getSpeed());
-            metrics.setComponentStatus(
-                combi.transform, combi.transform.getStatus().getDescription());
+            metrics.setComponentStatus(combi.transform, combi.transform.getStatus().getDescription());
             metrics.setComponentRunning(combi.transform, combi.transform.isRunning());
           }
         }
@@ -3362,8 +3152,7 @@ public abstract class Pipeline
         if (collect) {
           IEngineComponent component = findComponent(snapshotName, snapshotCopyNr);
           if (component != null) {
-            List<PerformanceSnapShot> snapShots =
-                transformPerformanceSnapShots.get(componentString);
+            List<PerformanceSnapShot> snapShots = transformPerformanceSnapShots.get(componentString);
             metrics.getComponentPerformanceSnapshots().put(component, snapShots);
           }
         }
@@ -3379,8 +3168,7 @@ public abstract class Pipeline
     if (transform == null) {
       return null;
     }
-    StringBuffer logBuffer =
-        HopLogStore.getAppender().getBuffer(transform.getLogChannel().getLogChannelId(), false);
+    StringBuffer logBuffer = HopLogStore.getAppender().getBuffer(transform.getLogChannel().getLogChannelId(), false);
     if (logBuffer == null) {
       return null;
     }
@@ -3442,49 +3230,34 @@ public abstract class Pipeline
   }
 
   @Override
-  public void retrieveComponentOutput(
-      IVariables variables,
-      String componentName,
-      int copyNr,
-      int nrRows,
-      IPipelineComponentRowsReceived rowsReceived)
-      throws HopException {
+  public void retrieveComponentOutput(IVariables variables, String componentName, int copyNr, int nrRows, IPipelineComponentRowsReceived rowsReceived) throws HopException {
     ITransform iTransform = getTransform(componentName, copyNr);
     if (iTransform == null) {
-      throw new HopException(
-          "Unable to find transform '"
-              + componentName
-              + "', copy "
-              + copyNr
-              + " to retrieve output rows from");
+      throw new HopException("Unable to find transform '" + componentName + "', copy " + copyNr + " to retrieve output rows from");
     }
     RowBuffer rowBuffer = new RowBuffer(pipelineMeta.getTransformFields(variables, componentName));
-    iTransform.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            if (rowBuffer.getBuffer().size() < nrRows) {
-              rowBuffer.getBuffer().add(row);
-              if (rowBuffer.getBuffer().size() >= nrRows) {
-                try {
-                  rowsReceived.rowsReceived(Pipeline.this, rowBuffer);
-                } catch (HopException e) {
-                  throw new HopTransformException(
-                      "Error recieving rows from '" + componentName + " copy " + copyNr, e);
-                }
-              }
+    iTransform.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        if (rowBuffer.getBuffer().size() < nrRows) {
+          rowBuffer.getBuffer().add(row);
+          if (rowBuffer.getBuffer().size() >= nrRows) {
+            try {
+              rowsReceived.rowsReceived(Pipeline.this, rowBuffer);
+            } catch (HopException e) {
+              throw new HopTransformException("Error recieving rows from '" + componentName + " copy " + copyNr, e);
             }
           }
-        });
+        }
+      }
+    });
   }
 
-  public void addStartedListener(IExecutionStartedListener<IPipelineEngine<PipelineMeta>> listener)
-      throws HopException {
+  public void addStartedListener(IExecutionStartedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
     executionStartedListeners.add(listener);
   }
 
-  public void addFinishedListener(
-      IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
+  public void addFinishedListener(IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener) throws HopException {
     executionFinishedListeners.add(listener);
   }
 
@@ -3543,16 +3316,14 @@ public abstract class Pipeline
    *
    * @return value of executionStartedListeners
    */
-  public List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionStartedListeners() {
+  public List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> getExecutionStartedListeners() {
     return executionStartedListeners;
   }
 
   /**
    * @param executionStartedListeners The executionStartedListeners to set
    */
-  public void setExecutionStartedListeners(
-      List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners) {
+  public void setExecutionStartedListeners(List<IExecutionStartedListener<IPipelineEngine<PipelineMeta>>> executionStartedListeners) {
     this.executionStartedListeners = executionStartedListeners;
   }
 
@@ -3561,16 +3332,14 @@ public abstract class Pipeline
    *
    * @return value of executionFinishedListeners
    */
-  public List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>>
-      getExecutionFinishedListeners() {
+  public List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> getExecutionFinishedListeners() {
     return executionFinishedListeners;
   }
 
   /**
    * @param executionFinishedListeners The executionFinishedListeners to set
    */
-  public void setExecutionFinishedListeners(
-      List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners) {
+  public void setExecutionFinishedListeners(List<IExecutionFinishedListener<IPipelineEngine<PipelineMeta>>> executionFinishedListeners) {
     this.executionFinishedListeners = executionFinishedListeners;
   }
 
@@ -3645,14 +3414,12 @@ public abstract class Pipeline
    *
    * @param dataSamplers value of dataSamplers
    */
-  public void setDataSamplers(
-      List<IExecutionDataSampler<? extends IExecutionDataSamplerStore>> dataSamplers) {
+  public void setDataSamplers(List<IExecutionDataSampler<? extends IExecutionDataSamplerStore>> dataSamplers) {
     this.dataSamplers = dataSamplers;
   }
 
   @Override
-  public <Store extends IExecutionDataSamplerStore, Sampler extends IExecutionDataSampler<Store>>
-      void addExecutionDataSampler(Sampler sampler) {
+  public <Store extends IExecutionDataSamplerStore, Sampler extends IExecutionDataSampler<Store>> void addExecutionDataSampler(Sampler sampler) {
     dataSamplers.add(sampler);
   }
 }

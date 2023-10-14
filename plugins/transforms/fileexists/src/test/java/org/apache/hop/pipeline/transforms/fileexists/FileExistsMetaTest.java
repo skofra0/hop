@@ -28,17 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 public class FileExistsMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
-    List<String> attributes =
-        Arrays.asList(
-            "filenamefield",
-            "resultfieldname",
-            "includefiletype",
-            "filetypefieldname",
-            "addresultfilenames");
+    List<String> attributes = Arrays.asList("filenamefield", "resultfieldname", "includefiletype", "filetypefieldname", "addresultfilenames");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("filenamefield", "getFilenamefield");
@@ -54,8 +49,7 @@ public class FileExistsMetaTest {
     setterMap.put("filetypefieldname", "setFiletypefieldname");
     setterMap.put("addresultfilenames", "setAddresultfilenames");
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(FileExistsMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(FileExistsMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

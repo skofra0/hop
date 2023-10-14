@@ -24,7 +24,7 @@ import org.apache.hop.metadata.api.IHopMetadataProvider;
  * <br>
  *
  * <ul>
- *   <li><a href="#open()">public IAction open()</a>
+ * <li><a href="#open()">public IAction open()</a>
  * </ul>
  *
  * <br>
@@ -34,19 +34,19 @@ import org.apache.hop.metadata.api.IHopMetadataProvider;
  * If the dialog is confirmed:<br>
  *
  * <ul>
- *   <li>The IAction object must be updated to reflect the new settings
- *   <li>If the user changed any settings, the IAction object's "changed" flag must be set to true
- *   <li>open() must return the IAction object
+ * <li>The IAction object must be updated to reflect the new settings
+ * <li>If the user changed any settings, the IAction object's "changed" flag must be set to true
+ * <li>open() must return the IAction object
  * </ul>
  *
  * <br>
  * If the dialog is cancelled:<br>
  *
  * <ul>
- *   <li>The IAction object must not be changed
- *   <li>The IAction object's "changed" flag must be set to the value it had at the time the dialog
- *       opened
- *   <li>open() must return null
+ * <li>The IAction object must not be changed
+ * <li>The IAction object's "changed" flag must be set to the value it had at the time the dialog
+ * opened
+ * <li>open() must return null
  * </ul>
  */
 public interface IActionDialog {
@@ -62,7 +62,7 @@ public interface IActionDialog {
    * Brings the dialog to the front if the dialog is already open.
    */
   void setActive();
-  
+
   /**
    * The Metadata provider to pass
    *

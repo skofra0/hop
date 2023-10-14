@@ -44,13 +44,7 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
   private boolean killing;
   private CountDownLatch waitForLatch;
 
-  public ExecProcess(
-      TransformMeta transformMeta,
-      ExecProcessMeta meta,
-      ExecProcessData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ExecProcess(TransformMeta transformMeta, ExecProcessMeta meta, ExecProcessData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -117,19 +111,13 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
       putRow(data.outputRowMeta, outputRow); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "ExecProcess.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "ExecProcess.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (HopException e) {
       if (getTransformMeta().isDoingErrorHandling()) {
-        putError(
-            getInputRowMeta(), r, 1, e.toString(), meta.getResultFieldName(), "ExecProcess001");
+        putError(getInputRowMeta(), r, 1, e.toString(), meta.getResultFieldName(), "ExecProcess001");
       } else {
-        logError(
-            BaseMessages.getString(PKG, "ExecProcess.ErrorInTransformRunning") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "ExecProcess.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -158,14 +146,8 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
       data.indexOfProcess = getInputRowMeta().indexOfValue(meta.getProcessField());
       if (data.indexOfProcess < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField")
-                + "["
-                + meta.getProcessField()
-                + "]");
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ExecProcess.Exception.CouldNotFindField", meta.getProcessField()));
+        logError(BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField") + "[" + meta.getProcessField() + "]");
+        throw new HopException(BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField", meta.getProcessField()));
       }
     }
     if (meta.isArgumentsInFields() && data.argumentIndexes == null) {
@@ -174,13 +156,8 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
         String fieldName = field.getName();
         int argumentIndex = getInputRowMeta().indexOfValue(fieldName);
         if (argumentIndex < 0) {
-          logError(
-              BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField")
-                  + "["
-                  + fieldName
-                  + "]");
-          throw new HopException(
-              BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField", fieldName));
+          logError(BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField") + "[" + fieldName + "]");
+          throw new HopException(BaseMessages.getString(PKG, "ExecProcess.Exception.CouldNotFindField", fieldName));
         }
         data.argumentIndexes.add(argumentIndex);
       }
@@ -221,27 +198,18 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
       if (p == null) {
         processresult.setErrorStream(errorMsg);
       } else {
-        CompletableFuture<IOException> future =
-            p.onExit()
-                .thenApply(
-                    processRef -> {
-                      try {
-                        // get output stream
-                        processresult.setOutputStream(
-                            getOutputString(
-                                new BufferedReader(
-                                    new InputStreamReader(processRef.getInputStream()))));
+        CompletableFuture<IOException> future = p.onExit().thenApply(processRef -> {
+          try {
+            // get output stream
+            processresult.setOutputStream(getOutputString(new BufferedReader(new InputStreamReader(processRef.getInputStream()))));
 
-                        // get error message
-                        processresult.setErrorStream(
-                            getOutputString(
-                                new BufferedReader(
-                                    new InputStreamReader(processRef.getErrorStream()))));
-                      } catch (IOException e) {
-                        return e;
-                      }
-                      return null;
-                    });
+            // get error message
+            processresult.setErrorStream(getOutputString(new BufferedReader(new InputStreamReader(processRef.getErrorStream()))));
+          } catch (IOException e) {
+            return e;
+          }
+          return null;
+        });
 
         // Wait until end
         IOException exception;
@@ -269,11 +237,9 @@ public class ExecProcess extends BaseTransform<ExecProcessMeta, ExecProcessData>
         processresult.setExistStatus(p.exitValue());
       }
     } catch (IOException ioe) {
-      throw new HopException(
-          "IO exception while running the process " + Arrays.toString(process) + "!", ioe);
+      throw new HopException("IO exception while running the process " + Arrays.toString(process) + "!", ioe);
     } catch (InterruptedException ie) {
-      throw new HopException(
-          "Interrupted exception while running the process " + Arrays.toString(process) + "!", ie);
+      throw new HopException("Interrupted exception while running the process " + Arrays.toString(process) + "!", ie);
     } catch (Exception e) {
       throw new HopException(e);
     } finally {

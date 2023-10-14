@@ -35,10 +35,8 @@ import java.util.Map;
 @GuiPlugin
 public class AsyncGuiPlugin {
 
-  public static final String ACTION_ID_WORKFLOW_GRAPH_ENABLE_ASYNC_LOGGING =
-      "workflow-graph-action-30000-enable-async-logging";
-  public static final String ACTION_ID_WORKFLOW_GRAPH_DISABLE_ASYNC_LOGGING =
-      "workflow-graph-action-30100-disable-async-logging";
+  public static final String ACTION_ID_WORKFLOW_GRAPH_ENABLE_ASYNC_LOGGING = "workflow-graph-action-30000-enable-async-logging";
+  public static final String ACTION_ID_WORKFLOW_GRAPH_DISABLE_ASYNC_LOGGING = "workflow-graph-action-30100-disable-async-logging";
 
   private static AsyncGuiPlugin instance = null;
 
@@ -74,23 +72,15 @@ public class AsyncGuiPlugin {
         return;
       }
 
-      Map<String, String> asyncMap =
-          actionMeta
-              .getAttributesMap()
-              .computeIfAbsent(Defaults.ASYNC_STATUS_GROUP, k -> new HashMap<>());
+      Map<String, String> asyncMap = actionMeta.getAttributesMap().computeIfAbsent(Defaults.ASYNC_STATUS_GROUP, k -> new HashMap<>());
 
       // Ask for the name of the async service...
       //
       IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-      IHopMetadataSerializer<AsyncWebService> serializer =
-          metadataProvider.getSerializer(AsyncWebService.class);
+      IHopMetadataSerializer<AsyncWebService> serializer = metadataProvider.getSerializer(AsyncWebService.class);
       List<String> serviceNames = serializer.listObjectNames();
       EnterSelectionDialog dialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              serviceNames.toArray(new String[0]),
-              "Select async service",
-              "Select the asynchronous service to report to");
+          new EnterSelectionDialog(hopGui.getShell(), serviceNames.toArray(new String[0]), "Select async service", "Select the asynchronous service to report to");
       String serviceName = dialog.open();
       if (serviceName == null) {
         return;
@@ -104,11 +94,7 @@ public class AsyncGuiPlugin {
       actionMeta.setChanged();
 
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error enabling asynchronous status reporting of a pipeline",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error enabling asynchronous status reporting of a pipeline", e);
     }
     // Refresh the graph
     context.getWorkflowGraph().redraw();

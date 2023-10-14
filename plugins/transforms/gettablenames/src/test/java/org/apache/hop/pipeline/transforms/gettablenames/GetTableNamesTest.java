@@ -43,22 +43,12 @@ public class GetTableNamesTest {
 
   @Before
   public void setUp() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>(
-            "Get Table Names", GetTableNamesMeta.class, GetTableNamesData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Get Table Names", GetTableNamesMeta.class, GetTableNamesData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
 
     getTableNamesSpy =
-        Mockito.spy(
-            new GetTableNames(
-                mockHelper.transformMeta,
-                mockHelper.iTransformMeta,
-                mockHelper.iTransformData,
-                0,
-                mockHelper.pipelineMeta,
-                mockHelper.pipeline));
+        Mockito.spy(new GetTableNames(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline));
     database = mock(Database.class);
     getTableNamesMeta = mock(GetTableNamesMeta.class);
     getTableNamesData = mock(GetTableNamesData.class);
@@ -165,9 +155,7 @@ public class GetTableNamesTest {
     when(getTableNamesMeta.isAddSchemaInOutput()).thenReturn(includeSchema);
     when(database.getTablenames("schema", true)).thenReturn(getTableNamesWithSchema());
     when(database.getTablenames("schema", false)).thenReturn(getTableNamesWithoutSchema());
-    when(database.getCreateTableStatement(
-            anyString(), any(), anyString(), anyBoolean(), anyString(), anyBoolean()))
-        .thenReturn("");
+    when(database.getCreateTableStatement(anyString(), any(), anyString(), anyBoolean(), anyString(), anyBoolean())).thenReturn("");
   }
 
   private String[] getTableNamesWithoutSchema() {

@@ -38,11 +38,7 @@ public class BaseFileInputFiles implements Cloneable {
   public static final String YES = "Y";
 
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   /** Array of filenames */
   @Injection(name = "FILENAME", group = "FILENAME_LINES")
@@ -151,20 +147,12 @@ public class BaseFileInputFiles implements Cloneable {
     return includeSubFolderBoolean;
   }
 
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     List<ResourceReference> references = new ArrayList<>(5);
     ResourceReference reference = new ResourceReference(transformMeta);
     references.add(reference);
 
-    String[] textFiles =
-        FileInputList.createFilePathList(
-            variables,
-            fileName,
-            fileMask,
-            excludeFileMask,
-            fileRequired,
-            includeSubFolderBoolean());
+    String[] textFiles = FileInputList.createFilePathList(variables, fileName, fileMask, excludeFileMask, fileRequired, includeSubFolderBoolean());
     if (textFiles != null) {
       for (int i = 0; i < textFiles.length; i++) {
         reference.getEntries().add(new ResourceEntry(textFiles[i], ResourceType.FILE));

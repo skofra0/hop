@@ -69,8 +69,7 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
   private TextVar wInterval;
   private TableView wWorkflows;
 
-  public WorkflowLogEditor(
-      HopGui hopGui, MetadataManager<WorkflowLog> manager, WorkflowLog metadata) {
+  public WorkflowLogEditor(HopGui hopGui, MetadataManager<WorkflowLog> manager, WorkflowLog metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -138,8 +137,7 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
     //
     Label wlLoggingParentsOnly = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlLoggingParentsOnly);
-    wlLoggingParentsOnly.setText(
-        BaseMessages.getString(PKG, "WorkflowLoggingEditor.LoggingParentsOnly.Label"));
+    wlLoggingParentsOnly.setText(BaseMessages.getString(PKG, "WorkflowLoggingEditor.LoggingParentsOnly.Label"));
     FormData fdlLoggingParentsOnly = new FormData();
     fdlLoggingParentsOnly.left = new FormAttachment(0, 0);
     fdlLoggingParentsOnly.right = new FormAttachment(middle, 0);
@@ -289,22 +287,8 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
     fdlSources.top = new FormAttachment(lastControl, 2 * margin);
     wlSources.setLayoutData(fdlSources);
     lastControl = wlSources;
-    ColumnInfo[] columns = {
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "WorkflowLoggingEditor.SourcesTable.Column.Pipeline"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            false),
-    };
-    wWorkflows =
-        new TableView(
-            manager.getVariables(),
-            parent,
-            SWT.BORDER,
-            columns,
-            0,
-            e -> setChanged(),
-            props);
+    ColumnInfo[] columns = {new ColumnInfo(BaseMessages.getString(PKG, "WorkflowLoggingEditor.SourcesTable.Column.Pipeline"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wWorkflows = new TableView(manager.getVariables(), parent, SWT.BORDER, columns, 0, e -> setChanged(), props);
     FormData fdSources = new FormData();
     fdSources.left = new FormAttachment(0, 0);
     fdSources.top = new FormAttachment(lastControl, margin);
@@ -361,12 +345,7 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
       String filename =
           BaseDialog.presentFileDialog(
               true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+              parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -410,13 +389,7 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
 
   private void selectPipelineFilename(Composite parent) {
     HopPipelineFileType<?> type = new HopPipelineFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   private void enableFields(Event event) {
@@ -439,7 +412,7 @@ public class WorkflowLogEditor extends MetadataEditor<WorkflowLog> {
     wInterval.setText(Const.NVL(wl.getIntervalInSeconds(), ""));
     wWorkflows.removeAll();
     List<String> workflowsToLog = wl.getWorkflowToLog();
-    for(String workflowToLog : workflowsToLog){
+    for (String workflowToLog : workflowsToLog) {
       TableItem item = new TableItem(wWorkflows.table, SWT.NONE);
       item.setText(1, Const.NVL(workflowToLog, ""));
     }

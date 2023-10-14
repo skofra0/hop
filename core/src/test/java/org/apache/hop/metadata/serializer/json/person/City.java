@@ -22,9 +22,11 @@ import java.util.Objects;
 
 public class City {
 
-  @HopMetadataProperty private String zipCode;
+  @HopMetadataProperty
+  private String zipCode;
 
-  @HopMetadataProperty private String cityName;
+  @HopMetadataProperty
+  private String cityName;
 
   public City() {}
 

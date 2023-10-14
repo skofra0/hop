@@ -122,8 +122,7 @@ public class HopPerspectiveManager {
   private List<Class<? extends IHopPerspective>> getSortedClasses() {
 
     List<Class<? extends IHopPerspective>> list = new ArrayList<>(perspectivesMap.keySet());
-    Collections.sort(
-        list, Comparator.comparing(c -> c.getAnnotation(HopPerspectivePlugin.class).id()));
+    Collections.sort(list, Comparator.comparing(c -> c.getAnnotation(HopPerspectivePlugin.class).id()));
     return list;
   }
 

@@ -24,9 +24,10 @@ public interface IInitializer<T> {
    *
    * @param object The transformMeta class
    * @deprecated The transformMeta class should be updated so that developers can instantiate the
-   *     transformMeta, and immediately call setter methods. Commonly, this is used for transforms
-   *     that define an allocate method, which pre-populate empty arrays
+   *             transformMeta, and immediately call setter methods. Commonly, this is used for
+   *             transforms
+   *             that define an allocate method, which pre-populate empty arrays
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   void modify(T object);
 }

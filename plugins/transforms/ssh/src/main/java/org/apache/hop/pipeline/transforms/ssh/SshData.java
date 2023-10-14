@@ -69,24 +69,20 @@ public class SshData extends BaseTransformData implements ITransformData {
     String hostname = variables.resolve(meta.getServerName());
     int port = Const.toInt(variables.resolve(meta.getPort()), 22);
     String username = variables.resolve(meta.getUserName());
-    String password =
-        Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassword()));
-    String passPhrase =
-        Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassPhrase()));
+    String password = Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassword()));
+    String passPhrase = Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassPhrase()));
 
     try {
       // perform some checks
       if (meta.isUsePrivateKey()) {
         String keyFilename = variables.resolve(meta.getKeyFileName());
         if (StringUtils.isEmpty(keyFilename)) {
-          throw new HopException(
-              BaseMessages.getString(SshMeta.PKG, "SSH.Error.PrivateKeyFileMissing"));
+          throw new HopException(BaseMessages.getString(SshMeta.PKG, "SSH.Error.PrivateKeyFileMissing"));
         }
         FileObject keyFileObject = HopVfs.getFileObject(keyFilename);
 
         if (!keyFileObject.exists()) {
-          throw new HopException(
-              BaseMessages.getString(SshMeta.PKG, "SSH.Error.PrivateKeyNotExist", keyFilename));
+          throw new HopException(BaseMessages.getString(SshMeta.PKG, "SSH.Error.PrivateKeyNotExist", keyFilename));
         }
 
         FileContent keyFileContent = keyFileObject.getContent();
@@ -106,16 +102,14 @@ public class SshData extends BaseTransformData implements ITransformData {
       String proxyHost = variables.resolve(meta.getProxyHost());
       int proxyPort = Const.toInt(variables.resolve(meta.getProxyPort()), 23);
       String proxyUsername = variables.resolve(meta.getProxyUsername());
-      String proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getProxyPassword()));
+      String proxyPassword = Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getProxyPassword()));
 
       /* We want to connect through a HTTP proxy */
       if (!Utils.isEmpty(proxyHost)) {
         /* Now connect */
         // if the proxy requires basic authentication:
         if (!Utils.isEmpty(proxyUsername)) {
-          connection.setProxyData(
-              new HTTPProxyData(proxyHost, proxyPort, proxyUsername, proxyPassword));
+          connection.setProxyData(new HTTPProxyData(proxyHost, proxyPort, proxyUsername, proxyPassword));
         } else {
           connection.setProxyData(new HTTPProxyData(proxyHost, proxyPort));
         }
@@ -132,14 +126,12 @@ public class SshData extends BaseTransformData implements ITransformData {
 
       // authenticate
       if (meta.isUsePrivateKey()) {
-        isAuthenticated =
-            connection.authenticateWithPublicKey(username, content, variables.resolve(passPhrase));
+        isAuthenticated = connection.authenticateWithPublicKey(username, content, variables.resolve(passPhrase));
       } else {
         isAuthenticated = connection.authenticateWithPassword(username, password);
       }
       if (!isAuthenticated) {
-        throw new HopException(
-            BaseMessages.getString(SshMeta.PKG, "SSH.Error.AuthenticationFailed", username));
+        throw new HopException(BaseMessages.getString(SshMeta.PKG, "SSH.Error.AuthenticationFailed", username));
       }
     } catch (Exception e) {
       // Something wrong happened
@@ -147,8 +139,7 @@ public class SshData extends BaseTransformData implements ITransformData {
       if (connection != null) {
         connection.close();
       }
-      throw new HopException(
-          BaseMessages.getString(SshMeta.PKG, "SSH.Error.ErrorConnecting", hostname, username), e);
+      throw new HopException(BaseMessages.getString(SshMeta.PKG, "SSH.Error.ErrorConnecting", hostname, username), e);
     }
     return connection;
   }

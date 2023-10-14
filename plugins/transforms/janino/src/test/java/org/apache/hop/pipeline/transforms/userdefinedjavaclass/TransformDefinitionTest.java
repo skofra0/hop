@@ -25,8 +25,7 @@ public class TransformDefinitionTest {
   @Test
   public void testClone() throws Exception {
     try {
-      TransformDefinition transformDefinition =
-          new TransformDefinition("tag", "transformName", null, "");
+      TransformDefinition transformDefinition = new TransformDefinition("tag", "transformName", null, "");
       transformDefinition.clone();
     } catch (NullPointerException npe) {
       fail("Null value is not handled");

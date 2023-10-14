@@ -31,15 +31,11 @@ import org.apache.hop.ui.hopgui.HopGui;
 
 import java.util.Collections;
 
-@ExtensionPoint(
-    id = "HopImportCreateProject",
-    description = "Creates a new project for a project path specified in Hop Import",
-    extensionPointId = "HopImportCreateProject")
+@ExtensionPoint(id = "HopImportCreateProject", description = "Creates a new project for a project path specified in Hop Import", extensionPointId = "HopImportCreateProject")
 public class HopImportCreateProjectIfNotExists implements IExtensionPoint<String> {
 
   @Override
-  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, String projectPath)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, String projectPath) throws HopException {
 
     String projectName = "Hop Import Project";
     String envName = "Hop Import Environment";
@@ -50,13 +46,11 @@ public class HopImportCreateProjectIfNotExists implements IExtensionPoint<String
     // create new project
     if (!StringUtil.isEmpty(projectPath)) {
       String defaultProjectConfigFilename = variables.resolve(config.getDefaultProjectConfigFile());
-      ProjectConfig projectConfig =
-          new ProjectConfig(projectName, projectPath, defaultProjectConfigFilename);
+      ProjectConfig projectConfig = new ProjectConfig(projectName, projectPath, defaultProjectConfigFilename);
       Project project = new Project();
       project.getDescribedVariables().clear();
       project.modifyVariables(variables, projectConfig, Collections.emptyList(), null);
-      project.setConfigFilename(
-          projectPath + System.getProperty("file.separator") + "project-config.json");
+      project.setConfigFilename(projectPath + System.getProperty("file.separator") + "project-config.json");
       config.addProjectConfig(projectConfig);
       HopConfig.getInstance().saveToFile();
       project.saveToFile();

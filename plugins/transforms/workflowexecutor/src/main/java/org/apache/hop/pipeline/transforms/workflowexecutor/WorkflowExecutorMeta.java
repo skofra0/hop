@@ -214,102 +214,41 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
 
     // The output side...
     //
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "execution_result_target_transform",
-                executionResultTargetTransformMeta == null
-                    ? null
-                    : executionResultTargetTransformMeta.getName()));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_time_field", executionTimeField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_result_field", executionResultField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_errors_field", executionNrErrorsField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_lines_read_field", executionLinesReadField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("execution_lines_written_field", executionLinesWrittenField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_lines_input_field", executionLinesInputField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_lines_output_field", executionLinesOutputField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("execution_lines_rejected_field", executionLinesRejectedField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("execution_lines_updated_field", executionLinesUpdatedField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("execution_lines_deleted_field", executionLinesDeletedField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "execution_files_retrieved_field", executionFilesRetrievedField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_exit_status_field", executionExitStatusField));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("execution_log_text_field", executionLogTextField));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("execution_log_channelid_field", executionLogChannelIdField));
+    retval.append("    ")
+        .append(XmlHandler.addTagValue("execution_result_target_transform", executionResultTargetTransformMeta == null ? null : executionResultTargetTransformMeta.getName()));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_time_field", executionTimeField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_result_field", executionResultField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_errors_field", executionNrErrorsField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_read_field", executionLinesReadField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_written_field", executionLinesWrittenField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_input_field", executionLinesInputField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_output_field", executionLinesOutputField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_rejected_field", executionLinesRejectedField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_updated_field", executionLinesUpdatedField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_lines_deleted_field", executionLinesDeletedField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_files_retrieved_field", executionFilesRetrievedField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_exit_status_field", executionExitStatusField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_log_text_field", executionLogTextField));
+    retval.append("    ").append(XmlHandler.addTagValue("execution_log_channelid_field", executionLogChannelIdField));
 
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "result_rows_target_transform",
-                resultRowsTargetTransformMeta == null
-                    ? null
-                    : resultRowsTargetTransformMeta.getName()));
+    retval.append("    ").append(XmlHandler.addTagValue("result_rows_target_transform", resultRowsTargetTransformMeta == null ? null : resultRowsTargetTransformMeta.getName()));
     for (int i = 0; i < resultRowsField.length; i++) {
       retval.append("    ").append(XmlHandler.openTag("result_rows_field")).append(Const.CR);
       retval.append("      ").append(XmlHandler.addTagValue("name", resultRowsField[i]));
-      retval
-          .append("      ")
-          .append(
-              XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(resultRowsType[i])));
+      retval.append("      ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(resultRowsType[i])));
       retval.append("      ").append(XmlHandler.addTagValue("length", resultRowsLength[i]));
       retval.append("      ").append(XmlHandler.addTagValue("precision", resultRowsPrecision[i]));
       retval.append("    ").append(XmlHandler.closeTag("result_rows_field")).append(Const.CR);
     }
 
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "result_files_target_transform",
-                resultFilesTargetTransformMeta == null
-                    ? null
-                    : resultFilesTargetTransformMeta.getName()));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("result_files_file_name_field", resultFilesFileNameField));
+    retval.append("    ").append(XmlHandler.addTagValue("result_files_target_transform", resultFilesTargetTransformMeta == null ? null : resultFilesTargetTransformMeta.getName()));
+    retval.append("    ").append(XmlHandler.addTagValue("result_files_file_name_field", resultFilesFileNameField));
 
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       runConfigurationName = XmlHandler.getTagValue(transformNode, "run_configuration");
       filename = XmlHandler.getTagValue(transformNode, "filename");
@@ -320,40 +259,28 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
 
       // Load the mapping parameters too..
       //
-      Node mappingParametersNode =
-          XmlHandler.getSubNode(transformNode, WorkflowExecutorParameters.XML_TAG);
+      Node mappingParametersNode = XmlHandler.getSubNode(transformNode, WorkflowExecutorParameters.XML_TAG);
       parameters = new WorkflowExecutorParameters(mappingParametersNode);
 
       // The output side...
       //
-      executionResultTargetTransform =
-          XmlHandler.getTagValue(transformNode, "execution_result_target_transform");
+      executionResultTargetTransform = XmlHandler.getTagValue(transformNode, "execution_result_target_transform");
       executionTimeField = XmlHandler.getTagValue(transformNode, "execution_time_field");
       executionResultField = XmlHandler.getTagValue(transformNode, "execution_result_field");
       executionNrErrorsField = XmlHandler.getTagValue(transformNode, "execution_errors_field");
       executionLinesReadField = XmlHandler.getTagValue(transformNode, "execution_lines_read_field");
-      executionLinesWrittenField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_written_field");
-      executionLinesInputField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_input_field");
-      executionLinesOutputField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_output_field");
-      executionLinesRejectedField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_rejected_field");
-      executionLinesUpdatedField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_updated_field");
-      executionLinesDeletedField =
-          XmlHandler.getTagValue(transformNode, "execution_lines_deleted_field");
-      executionFilesRetrievedField =
-          XmlHandler.getTagValue(transformNode, "execution_files_retrieved_field");
-      executionExitStatusField =
-          XmlHandler.getTagValue(transformNode, "execution_exit_status_field");
+      executionLinesWrittenField = XmlHandler.getTagValue(transformNode, "execution_lines_written_field");
+      executionLinesInputField = XmlHandler.getTagValue(transformNode, "execution_lines_input_field");
+      executionLinesOutputField = XmlHandler.getTagValue(transformNode, "execution_lines_output_field");
+      executionLinesRejectedField = XmlHandler.getTagValue(transformNode, "execution_lines_rejected_field");
+      executionLinesUpdatedField = XmlHandler.getTagValue(transformNode, "execution_lines_updated_field");
+      executionLinesDeletedField = XmlHandler.getTagValue(transformNode, "execution_lines_deleted_field");
+      executionFilesRetrievedField = XmlHandler.getTagValue(transformNode, "execution_files_retrieved_field");
+      executionExitStatusField = XmlHandler.getTagValue(transformNode, "execution_exit_status_field");
       executionLogTextField = XmlHandler.getTagValue(transformNode, "execution_log_text_field");
-      executionLogChannelIdField =
-          XmlHandler.getTagValue(transformNode, "execution_log_channelid_field");
+      executionLogChannelIdField = XmlHandler.getTagValue(transformNode, "execution_log_channelid_field");
 
-      resultRowsTargetTransform =
-          XmlHandler.getTagValue(transformNode, "result_rows_target_transform");
+      resultRowsTargetTransform = XmlHandler.getTagValue(transformNode, "result_rows_target_transform");
 
       int nrFields = XmlHandler.countNodes(transformNode, "result_rows_field");
       resultRowsField = new String[nrFields];
@@ -366,21 +293,15 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
         Node fieldNode = XmlHandler.getSubNodeByNr(transformNode, "result_rows_field", i);
 
         resultRowsField[i] = XmlHandler.getTagValue(fieldNode, "name");
-        resultRowsType[i] =
-            ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fieldNode, "type"));
+        resultRowsType[i] = ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fieldNode, "type"));
         resultRowsLength[i] = Const.toInt(XmlHandler.getTagValue(fieldNode, "length"), -1);
         resultRowsPrecision[i] = Const.toInt(XmlHandler.getTagValue(fieldNode, "precision"), -1);
       }
 
-      resultFilesTargetTransform =
-          XmlHandler.getTagValue(transformNode, "result_files_target_transform");
-      resultFilesFileNameField =
-          XmlHandler.getTagValue(transformNode, "result_files_file_name_field");
+      resultFilesTargetTransform = XmlHandler.getTagValue(transformNode, "result_files_target_transform");
+      resultFilesFileNameField = XmlHandler.getTagValue(transformNode, "result_files_file_name_field");
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "WorkflowExecutorMeta.Exception.ErrorLoadingJobExecutorDetailsFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowExecutorMeta.Exception.ErrorLoadingJobExecutorDetailsFromXML"), e);
     }
   }
 
@@ -412,45 +333,28 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     row.clear();
 
-    if (nextTransform != null
-        && resultRowsTargetTransformMeta != null
-        && nextTransform.equals(resultRowsTargetTransformMeta)) {
+    if (nextTransform != null && resultRowsTargetTransformMeta != null && nextTransform.equals(resultRowsTargetTransformMeta)) {
       for (int i = 0; i < resultRowsField.length; i++) {
         IValueMeta value;
         try {
-          value =
-              ValueMetaFactory.createValueMeta(
-                  resultRowsField[i],
-                  resultRowsType[i],
-                  resultRowsLength[i],
-                  resultRowsPrecision[i]);
+          value = ValueMetaFactory.createValueMeta(resultRowsField[i], resultRowsType[i], resultRowsLength[i], resultRowsPrecision[i]);
         } catch (HopPluginException e) {
           value = new ValueMetaNone(resultRowsField[i]);
           value.setLength(resultRowsLength[i], resultRowsPrecision[i]);
         }
         row.addValueMeta(value);
       }
-    } else if (nextTransform != null
-        && resultFilesTargetTransformMeta != null
-        && nextTransform.equals(resultFilesTargetTransformMeta)) {
+    } else if (nextTransform != null && resultFilesTargetTransformMeta != null && nextTransform.equals(resultFilesTargetTransformMeta)) {
       if (!Utils.isEmpty(resultFilesFileNameField)) {
         IValueMeta value = new ValueMetaString("filename", 255, 0);
         row.addValueMeta(value);
       }
-    } else if (nextTransform != null
-        && executionResultTargetTransformMeta != null
-        && nextTransform.equals(executionResultTargetTransformMeta)) {
+    } else if (nextTransform != null && executionResultTargetTransformMeta != null && nextTransform.equals(executionResultTargetTransformMeta)) {
       if (!Utils.isEmpty(executionTimeField)) {
         IValueMeta value = new ValueMetaInteger(executionTimeField, 15, 0);
         row.addValueMeta(value);
@@ -535,25 +439,17 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
     return targetTransforms.toArray(new String[targetTransforms.size()]);
   }
 
-  public static final synchronized WorkflowMeta loadWorkflowMeta(
-      WorkflowExecutorMeta executorMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public static final synchronized WorkflowMeta loadWorkflowMeta(WorkflowExecutorMeta executorMeta, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopException {
     return loadWorkflowMeta(executorMeta, metadataProvider, variables);
   }
 
-  public static final synchronized WorkflowMeta loadWorkflowMeta(
-      WorkflowExecutorMeta executorMeta,
-      IHopMetadataProvider metadataProvider,
-      IVariables variables)
+  public static final synchronized WorkflowMeta loadWorkflowMeta(WorkflowExecutorMeta executorMeta, IHopMetadataProvider metadataProvider, IVariables variables)
       throws HopException {
     WorkflowMeta mappingWorkflowMeta = null;
 
     CurrentDirectoryResolver r = new CurrentDirectoryResolver();
-    IVariables tmpSpace =
-        r.resolveCurrentDirectory(
-            variables, executorMeta.getParentTransformMeta(), executorMeta.getFilename());
+    IVariables tmpSpace = r.resolveCurrentDirectory(variables, executorMeta.getParentTransformMeta(), executorMeta.getFilename());
 
     String realFilename = tmpSpace.resolve(executorMeta.getFilename());
 
@@ -562,8 +458,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
     // Don't set internal variables: they belong to the parent thread!
     //
     mappingWorkflowMeta = new WorkflowMeta(variables, realFilename, metadataProvider);
-    LogChannel.GENERAL.logDetailed(
-        "Loaded workflow", "Workflow was loaded from XML file [" + realFilename + "]");
+    LogChannel.GENERAL.logDetailed("Loaded workflow", "Workflow was loaded from XML file [" + realFilename + "]");
 
     // Pass some important information to the mapping pipeline metadata:
     //
@@ -586,47 +481,25 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.NotReceivingAnyFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.NotReceivingAnyFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "WorkflowExecutorMeta.CheckResult.TransformReceivingFields",
-                  prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "WorkflowExecutorMeta.CheckResult.TransformReceivingFieldsFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.TransformReceivingFieldsFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "WorkflowExecutorMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
     List<ResourceReference> references = new ArrayList<>(5);
     String realFilename = variables.resolve(filename);
     ResourceReference reference = new ResourceReference(transformMeta);
@@ -651,20 +524,12 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
    * @return WorkflowMeta
    * @throws HopException
    */
-  WorkflowMeta loadWorkflowMetaProxy(
-      WorkflowExecutorMeta executorMeta,
-      IHopMetadataProvider metadataProvider,
-      IVariables variables)
-      throws HopException {
+  WorkflowMeta loadWorkflowMetaProxy(WorkflowExecutorMeta executorMeta, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return loadWorkflowMeta(executorMeta, metadataProvider, variables);
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // Try to load the pipeline from a file.
@@ -680,15 +545,12 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
       // Also go down into the mapping pipeline and export the files
       // there. (mapping recursively down)
       //
-      String proposedNewFilename =
-          executorWorkflowMeta.exportResources(
-              variables, definitions, iResourceNaming, metadataProvider);
+      String proposedNewFilename = executorWorkflowMeta.exportResources(variables, definitions, iResourceNaming, metadataProvider);
 
       // To get a relative path to it, we inject
       // ${Internal.Entry.Current.Directory}
       //
-      String newFilename =
-          "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
+      String newFilename = "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
 
       // Set the correct filename inside the XML.
       //
@@ -700,9 +562,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
 
       return proposedNewFilename;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "WorkflowExecutorMeta.Exception.UnableToLoadWorkflow", filename));
+      throw new HopException(BaseMessages.getString(PKG, "WorkflowExecutorMeta.Exception.UnableToLoadWorkflow", filename));
     }
   }
 
@@ -714,19 +574,9 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
       ioMeta = new TransformIOMeta(true, true, true, false, true, false);
 
       ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              executionResultTargetTransformMeta,
-              BaseMessages.getString(PKG, "WorkflowExecutorMeta.ResultStream.Description"),
-              StreamIcon.TARGET,
-              null));
+          new Stream(StreamType.TARGET, executionResultTargetTransformMeta, BaseMessages.getString(PKG, "WorkflowExecutorMeta.ResultStream.Description"), StreamIcon.TARGET, null));
       ioMeta.addStream(
-          new Stream(
-              StreamType.TARGET,
-              resultRowsTargetTransformMeta,
-              BaseMessages.getString(PKG, "WorkflowExecutorMeta.ResultRowsStream.Description"),
-              StreamIcon.TARGET,
-              null));
+          new Stream(StreamType.TARGET, resultRowsTargetTransformMeta, BaseMessages.getString(PKG, "WorkflowExecutorMeta.ResultRowsStream.Description"), StreamIcon.TARGET, null));
       ioMeta.addStream(
           new Stream(
               StreamType.TARGET,
@@ -774,19 +624,14 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
 
   @Override
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
-    executionResultTargetTransformMeta =
-        TransformMeta.findTransform(transforms, executionResultTargetTransform);
-    resultRowsTargetTransformMeta =
-        TransformMeta.findTransform(transforms, resultRowsTargetTransform);
-    resultFilesTargetTransformMeta =
-        TransformMeta.findTransform(transforms, resultFilesTargetTransform);
+    executionResultTargetTransformMeta = TransformMeta.findTransform(transforms, executionResultTargetTransform);
+    resultRowsTargetTransformMeta = TransformMeta.findTransform(transforms, resultRowsTargetTransform);
+    resultFilesTargetTransformMeta = TransformMeta.findTransform(transforms, resultFilesTargetTransform);
   }
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /** @return the fileName */
@@ -1090,8 +935,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
   }
 
   /** @param executionResultTargetTransformMeta the executionResultTargetTransformMeta to set */
-  public void setExecutionResultTargetTransformMeta(
-      TransformMeta executionResultTargetTransformMeta) {
+  public void setExecutionResultTargetTransformMeta(TransformMeta executionResultTargetTransformMeta) {
     this.executionResultTargetTransformMeta = executionResultTargetTransformMeta;
   }
 
@@ -1110,9 +954,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      BaseMessages.getString(PKG, "WorkflowExecutorMeta.ReferencedObject.Description"),
-    };
+    return new String[] {BaseMessages.getString(PKG, "WorkflowExecutorMeta.ReferencedObject.Description"),};
   }
 
   private boolean isJobDefined() {
@@ -1121,9 +963,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isJobDefined(),
-    };
+    return new boolean[] {isJobDefined(),};
   }
 
   /**
@@ -1136,8 +976,7 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return loadWorkflowMeta(this, metadataProvider, variables);
   }
 
@@ -1166,16 +1005,13 @@ public class WorkflowExecutorMeta extends BaseTransformMeta<WorkflowExecutor, Wo
     boolean hasChanged = false;
     String toTransformName = toTransform.getName();
 
-    if (getExecutionResultTargetTransformMeta() != null
-        && toTransformName.equals(getExecutionResultTargetTransformMeta().getName())) {
+    if (getExecutionResultTargetTransformMeta() != null && toTransformName.equals(getExecutionResultTargetTransformMeta().getName())) {
       setExecutionResultTargetTransformMeta(null);
       hasChanged = true;
-    } else if (getResultRowsTargetTransformMeta() != null
-        && toTransformName.equals(getResultRowsTargetTransformMeta().getName())) {
+    } else if (getResultRowsTargetTransformMeta() != null && toTransformName.equals(getResultRowsTargetTransformMeta().getName())) {
       setResultRowsTargetTransformMeta(null);
       hasChanged = true;
-    } else if (getResultFilesTargetTransformMeta() != null
-        && toTransformName.equals(getResultFilesTargetTransformMeta().getName())) {
+    } else if (getResultFilesTargetTransformMeta() != null && toTransformName.equals(getResultFilesTargetTransformMeta().getName())) {
       setResultFilesTargetTransformMeta(null);
       hasChanged = true;
     }

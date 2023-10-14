@@ -64,7 +64,7 @@ public class ProjectConfig {
    * @param variables
    * @return The path to the project config filename
    * @throws HopException In case the home folder doesn't exist or an invalid filename/path is being
-   *     used.
+   *         used.
    */
   public String getActualProjectConfigFilename(IVariables variables) throws HopException {
     try {
@@ -76,11 +76,7 @@ public class ProjectConfig {
       String actualConfigFilename = variables.resolve(getConfigFilename());
       String fullFilename = FilenameUtils.concat(actualHome.toString(), actualConfigFilename);
       if (fullFilename == null) {
-        throw new HopException(
-            "Unable to determine full path to the configuration file '"
-                + actualConfigFilename
-                + "' in home folder '"
-                + actualHomeFolder);
+        throw new HopException("Unable to determine full path to the configuration file '" + actualConfigFilename + "' in home folder '" + actualHomeFolder);
       }
       return fullFilename;
     } catch (Exception e) {
@@ -93,12 +89,7 @@ public class ProjectConfig {
     if (configFilename == null) {
       String projHome = variables.resolve(getProjectHome());
       String confFile = variables.resolve(getConfigFilename());
-      throw new HopException(
-          "Invalid project folder provided: home folder: '"
-              + projHome
-              + "', config file: '"
-              + confFile
-              + "'");
+      throw new HopException("Invalid project folder provided: home folder: '" + projHome + "', config file: '" + confFile + "'");
     }
     Project project = new Project(configFilename);
     try {
@@ -106,9 +97,7 @@ public class ProjectConfig {
         project.readFromFile();
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error checking config filename '" + configFilename + "' existence while loading project",
-          e);
+      throw new HopException("Error checking config filename '" + configFilename + "' existence while loading project", e);
     }
     return project;
   }

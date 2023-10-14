@@ -39,8 +39,7 @@ class EqIndex extends Index {
   }
 
   @Override
-  void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue)
-      throws HopException {
+  void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue) throws HopException {
     int firstValue = findInsertionPointOf(new IndexedValue(lookupValue, -1));
     final int length = values.length;
     if (firstValue == length || valueMeta.compare(values[firstValue].key, lookupValue) != 0) {

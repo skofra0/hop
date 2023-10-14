@@ -100,8 +100,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
 
   private boolean gotPreviousFields = false;
 
-  public SshDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SshDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SshMeta) in;
   }
@@ -192,12 +191,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wSettingsGroup.setLayout(settingGroupLayout);
 
     // Server port line
-    wServerName =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.Server.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.Server.Tooltip"));
+    wServerName = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.Server.Label"), BaseMessages.getString(PKG, "SSHDialog.Server.Tooltip"));
     PropsUi.setLook(wServerName);
     wServerName.addModifyListener(lsMod);
     FormData fdServerName = new FormData();
@@ -207,12 +201,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wServerName.setLayoutData(fdServerName);
 
     // Server port line
-    wPort =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.Port.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.Port.Tooltip"));
+    wPort = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.Port.Label"), BaseMessages.getString(PKG, "SSHDialog.Port.Tooltip"));
     PropsUi.setLook(wPort);
     wPort.addModifyListener(lsMod);
     FormData fdPort = new FormData();
@@ -222,12 +211,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wPort.setLayoutData(fdPort);
 
     // Server TimeOut line
-    wTimeOut =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.TimeOut.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.TimeOut.Tooltip"));
+    wTimeOut = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.TimeOut.Label"), BaseMessages.getString(PKG, "SSHDialog.TimeOut.Tooltip"));
     PropsUi.setLook(wTimeOut);
     wTimeOut.addModifyListener(lsMod);
     FormData fdTimeOut = new FormData();
@@ -237,12 +221,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wTimeOut.setLayoutData(fdTimeOut);
 
     // Usernameline
-    wUserName =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.UserName.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.UserName.Tooltip"));
+    wUserName = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.UserName.Label"), BaseMessages.getString(PKG, "SSHDialog.UserName.Tooltip"));
     PropsUi.setLook(wUserName);
     wUserName.addModifyListener(lsMod);
     FormData fdUserName = new FormData();
@@ -253,12 +232,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
 
     // Passwordline
     wPassword =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.Password.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.Password.Tooltip"),
-            true);
+        new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.Password.Label"), BaseMessages.getString(PKG, "SSHDialog.Password.Tooltip"), true);
     PropsUi.setLook(wPassword);
     wPassword.addModifyListener(lsMod);
     FormData fdPassword = new FormData();
@@ -284,14 +258,13 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     fdUseKey.top = new FormAttachment(wlUseKey, 0, SWT.CENTER);
     fdUseKey.right = new FormAttachment(100, 0);
     wUseKey.setLayoutData(fdUseKey);
-    wUseKey.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activateKey();
-          }
-        });
+    wUseKey.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activateKey();
+      }
+    });
 
     Button wbFilename = new Button(wSettingsGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbFilename);
@@ -304,15 +277,8 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wbFilename.addListener(
         SWT.Selection,
         e -> BaseDialog.presentFileDialog(
-            shell,
-            wPrivateKey,
-            variables,
-            new String[] {"*.pem", "*"},
-            new String[] {
-              BaseMessages.getString(PKG, "System.FileType.PEMFiles"),
-              BaseMessages.getString(PKG, "System.FileType.AllFiles")
-            },
-            true));
+            shell, wPrivateKey, variables, new String[] {"*.pem", "*"},
+            new String[] {BaseMessages.getString(PKG, "System.FileType.PEMFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     // Private key
     Label wlPrivateKey = new Label(wSettingsGroup, SWT.RIGHT | SWT.SINGLE);
@@ -335,12 +301,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
 
     // Passphraseline
     wPassphrase =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.Passphrase.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.Passphrase.Tooltip"),
-            true);
+        new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.Passphrase.Label"), BaseMessages.getString(PKG, "SSHDialog.Passphrase.Tooltip"), true);
     PropsUi.setLook(wPassphrase);
     wPassphrase.addModifyListener(lsMod);
     FormData fdPassphrase = new FormData();
@@ -350,12 +311,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wPassphrase.setLayoutData(fdPassphrase);
 
     // ProxyHostline
-    wProxyHost =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.ProxyHost.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.ProxyHost.Tooltip"));
+    wProxyHost = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.ProxyHost.Label"), BaseMessages.getString(PKG, "SSHDialog.ProxyHost.Tooltip"));
     PropsUi.setLook(wProxyHost);
     wProxyHost.addModifyListener(lsMod);
     FormData fdProxyHost = new FormData();
@@ -365,12 +321,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     wProxyHost.setLayoutData(fdProxyHost);
 
     // ProxyPortline
-    wProxyPort =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.ProxyPort.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.ProxyPort.Tooltip"));
+    wProxyPort = new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.ProxyPort.Label"), BaseMessages.getString(PKG, "SSHDialog.ProxyPort.Tooltip"));
     PropsUi.setLook(wProxyPort);
     wProxyPort.addModifyListener(lsMod);
     FormData fdProxyPort = new FormData();
@@ -381,11 +332,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
 
     // ProxyUsernameline
     wProxyUsername =
-        new LabelTextVar(
-            variables,
-            wSettingsGroup,
-            BaseMessages.getString(PKG, "SSHDialog.ProxyUsername.Label"),
-            BaseMessages.getString(PKG, "SSHDialog.ProxyUsername.Tooltip"));
+        new LabelTextVar(variables, wSettingsGroup, BaseMessages.getString(PKG, "SSHDialog.ProxyUsername.Label"), BaseMessages.getString(PKG, "SSHDialog.ProxyUsername.Tooltip"));
     PropsUi.setLook(wProxyUsername);
     wProxyUsername.addModifyListener(lsMod);
     FormData fdProxyUsername = new FormData();
@@ -540,12 +487,10 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     fdDynamicCommand.left = new FormAttachment(middle, margin);
     fdDynamicCommand.top = new FormAttachment(wlDynamicCommand, 0, SWT.CENTER);
     wDynamicCommand.setLayoutData(fdDynamicCommand);
-    wDynamicCommand.addListener(
-        SWT.Selection,
-        e -> {
-          activateDynamicCommand();
-          input.setChanged();
-        });
+    wDynamicCommand.addListener(SWT.Selection, e -> {
+      activateDynamicCommand();
+      input.setChanged();
+    });
 
     // CommandField field
     wlCommandField = new Label(wCommands, SWT.RIGHT);
@@ -577,9 +522,7 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     fdlCommand.right = new FormAttachment(middle, -2 * margin);
     wlCommand.setLayoutData(fdlCommand);
 
-    wCommand =
-        new StyledTextComp(
-            variables, wCommands, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCommand = new StyledTextComp(variables, wCommands, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wCommand.setToolTipText(BaseMessages.getString(PKG, "SSHDialog.Command.Tooltip"));
     PropsUi.setLook(wCommand);
     wCommand.addModifyListener(lsMod);
@@ -785,24 +728,14 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     if (exception == null) {
       MessageBox messageBox;
       messageBox = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      messageBox.setMessage(
-          BaseMessages.getString(
-                  PKG, "SSHDialog.Connected.OK", meta.getServerName(), meta.getUserName())
-              + Const.CR);
+      messageBox.setMessage(BaseMessages.getString(PKG, "SSHDialog.Connected.OK", meta.getServerName(), meta.getUserName()) + Const.CR);
       messageBox.setText(BaseMessages.getString(PKG, "SSHDialog.Connected.Title.Ok"));
       messageBox.open();
     } else {
       new ErrorDialog(
           shell,
           "Error",
-          BaseMessages.getString(
-                  PKG,
-                  "SSHDialog.Connected.NOK.ConnectionBad",
-                  meta.getServerName(),
-                  meta.getUserName())
-              + Const.CR
-              + errMsg
-              + Const.CR,
+          BaseMessages.getString(PKG, "SSHDialog.Connected.NOK.ConnectionBad", meta.getServerName(), meta.getUserName()) + Const.CR + errMsg + Const.CR,
           exception);
     }
   }
@@ -816,25 +749,14 @@ public class SshDialog extends BaseTransformDialog implements ITransformDialog {
     SshMeta oneMeta = new SshMeta();
     getInfo(oneMeta);
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
     EnterNumberDialog numberDialog =
-        new EnterNumberDialog(
-            shell,
-            1,
-            BaseMessages.getString(PKG, "SSHDialog.NumberRows.DialogTitle"),
-            BaseMessages.getString(PKG, "SSHDialog.NumberRows.DialogMessage"));
+        new EnterNumberDialog(shell, 1, BaseMessages.getString(PKG, "SSHDialog.NumberRows.DialogTitle"), BaseMessages.getString(PKG, "SSHDialog.NumberRows.DialogMessage"));
 
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

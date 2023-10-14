@@ -41,9 +41,9 @@ public class OrderByOperation extends BaseOperation {
 
     // n.name DESC, upper(n.lastName), ...
     //
-    for (int i=0;i<properties.size();i++) {
+    for (int i = 0; i < properties.size(); i++) {
       Property property = properties.get(i);
-      if (i>0) {
+      if (i > 0) {
         cypher.append(", ");
       }
       cypher.append(property.getOrderByCypherClause());

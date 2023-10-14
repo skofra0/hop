@@ -110,20 +110,7 @@ public class PrintSpool {
       double marginTop = 0.40;
       double marginBottom = 0.40;
 
-      EnterPrintDialog epd =
-          new EnterPrintDialog(
-              sh,
-              1,
-              1,
-              100,
-              factorx,
-              factory,
-              page,
-              marginLeft,
-              marginRight,
-              marginTop,
-              marginBottom,
-              img);
+      EnterPrintDialog epd = new EnterPrintDialog(sh, 1, 1, 100, factorx, factory, page, marginLeft, marginRight, marginTop, marginBottom, img);
       if (epd.open() == SWT.OK) {
         double pageLeft = epd.leftMargin * dpiPrinter.x;
         double pageRight = epd.rightMargin * dpiPrinter.x;
@@ -144,13 +131,11 @@ public class PrintSpool {
 
         for (int c = 0; c < epd.nrcols; c++) {
           double leftToPrintX = actualSizex - pageSizex * c;
-          double printx =
-              (leftToPrintX > pageSizex) ? pageSizex : (leftToPrintX >= 0 ? leftToPrintX : 0);
+          double printx = (leftToPrintX > pageSizex) ? pageSizex : (leftToPrintX >= 0 ? leftToPrintX : 0);
 
           for (int r = 0; r < epd.nrrows; r++) {
             double leftToPrintY = actualSizey - pageSizey * r;
-            double printy =
-                (leftToPrintY > pageSizey) ? pageSizey : (leftToPrintY >= 0 ? leftToPrintY : 0);
+            double printy = (leftToPrintY > pageSizey) ? pageSizey : (leftToPrintY >= 0 ? leftToPrintY : 0);
 
             int startx = (int) (actualSizex - leftToPrintX);
             int starty = (int) (actualSizey - leftToPrintY);
@@ -163,29 +148,11 @@ public class PrintSpool {
             printer.startPage();
             GC gcPrinter = new GC(printer);
 
-            gcPrinter.drawImage(
-                img,
-                fromx,
-                fromy,
-                imx,
-                imy,
-                (int) pageLeft,
-                (int) pageTop,
-                (int) printx,
-                (int) printy);
+            gcPrinter.drawImage(img, fromx, fromy, imx, imy, (int) pageLeft, (int) pageTop, (int) printx, (int) printy);
 
             System.out.println("img dept = " + img.getImageData().depth);
             System.out.println("prn dept = " + printer.getDepth());
-            System.out.println(
-                "img size = ("
-                    + img.getBounds().x
-                    + ","
-                    + img.getBounds().y
-                    + ") : ("
-                    + img.getBounds().width
-                    + ","
-                    + img.getBounds().height
-                    + ")");
+            System.out.println("img size = (" + img.getBounds().x + "," + img.getBounds().y + ") : (" + img.getBounds().width + "," + img.getBounds().height + ")");
             System.out.println(
                 "fromx="
                     + fromx

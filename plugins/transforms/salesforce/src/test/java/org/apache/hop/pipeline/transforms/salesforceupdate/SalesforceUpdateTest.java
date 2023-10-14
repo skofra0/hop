@@ -52,10 +52,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SalesforceUpdateTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
-  private static final String ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT =
-      "Account:ExtID_AccountId__c/Account";
+  private static final String ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT = "Account:ExtID_AccountId__c/Account";
   private static final String ACCOUNT_ID = "AccountId";
   private TransformMockHelper<SalesforceUpdateMeta, SalesforceUpdateData> smh;
 
@@ -63,18 +63,14 @@ public class SalesforceUpdateTest {
   public static void setUpBeforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
   @Before
   public void setUp() throws Exception {
-    smh =
-        new TransformMockHelper<>(
-            "SalesforceUpsert", SalesforceUpdateMeta.class, SalesforceUpdateData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("SalesforceUpsert", SalesforceUpdateMeta.class, SalesforceUpdateData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
   }
 
   @After
@@ -84,11 +80,9 @@ public class SalesforceUpdateTest {
 
   @Test
   public void testWriteToSalesForceForNullExtIdField_WithExtIdNO() throws Exception {
-    SalesforceUpdateMeta meta =
-        generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceUpdateMeta meta = generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceUpdateData data = generateSalesforceUpdateData();
-    SalesforceUpdate sfInputTransform =
-        new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceUpdate sfInputTransform = new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -104,12 +98,9 @@ public class SalesforceUpdateTest {
 
   @Test
   public void testWriteToSalesForceForNullExtIdField_WithExtIdYES() throws Exception {
-    SalesforceUpdateMeta meta =
-        generateSalesforceUpdateMeta(
-            new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
+    SalesforceUpdateMeta meta = generateSalesforceUpdateMeta(new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
     SalesforceUpdateData data = generateSalesforceUpdateData();
-    SalesforceUpdate sfInputTransform =
-        new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceUpdate sfInputTransform = new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -125,11 +116,9 @@ public class SalesforceUpdateTest {
 
   @Test
   public void testWriteToSalesForceForNotNullExtIdField_WithExtIdNO() throws Exception {
-    SalesforceUpdateMeta meta =
-        generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceUpdateMeta meta = generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceUpdateData data = generateSalesforceUpdateData();
-    SalesforceUpdate sfInputTransform =
-        new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceUpdate sfInputTransform = new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -152,12 +141,9 @@ public class SalesforceUpdateTest {
 
   @Test
   public void testWriteToSalesForceForNotNullExtIdField_WithExtIdYES() throws Exception {
-    SalesforceUpdateMeta meta =
-        generateSalesforceUpdateMeta(
-            new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
+    SalesforceUpdateMeta meta = generateSalesforceUpdateMeta(new String[] {ACCOUNT_EXT_ID_ACCOUNT_ID_C_ACCOUNT}, new Boolean[] {true});
     SalesforceUpdateData data = generateSalesforceUpdateData();
-    SalesforceUpdate sfInputTransform =
-        new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceUpdate sfInputTransform = new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
 
     RowMeta rowMeta = new RowMeta();
@@ -180,11 +166,9 @@ public class SalesforceUpdateTest {
 
   @Test
   public void testLogMessageInDetailedModeFotWriteToSalesForce() throws HopException {
-    SalesforceUpdateMeta meta =
-        generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
+    SalesforceUpdateMeta meta = generateSalesforceUpdateMeta(new String[] {ACCOUNT_ID}, new Boolean[] {false});
     SalesforceUpdateData data = generateSalesforceUpdateData();
-    SalesforceUpdate sfInputTransform =
-        new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
+    SalesforceUpdate sfInputTransform = new SalesforceUpdate(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline);
     sfInputTransform.init();
     when(sfInputTransform.getLogChannel().isDetailed()).thenReturn(true);
 
@@ -195,8 +179,7 @@ public class SalesforceUpdateTest {
 
     verify(sfInputTransform.getLogChannel(), never()).logDetailed(anyString());
     sfInputTransform.writeToSalesForce(new Object[] {"001i000001c5Nv9AAE"});
-    verify(sfInputTransform.getLogChannel())
-        .logDetailed("Called writeToSalesForce with 0 out of 2");
+    verify(sfInputTransform.getLogChannel()).logDetailed("Called writeToSalesForce with 0 out of 2");
   }
 
   private SalesforceUpdateData generateSalesforceUpdateData() {
@@ -208,8 +191,7 @@ public class SalesforceUpdateTest {
     return data;
   }
 
-  private SalesforceUpdateMeta generateSalesforceUpdateMeta(
-      String[] updateLookup, Boolean[] useExternalId) {
+  private SalesforceUpdateMeta generateSalesforceUpdateMeta(String[] updateLookup, Boolean[] useExternalId) {
     SalesforceUpdateMeta meta = smh.iTransformMeta;
     doReturn(UUID.randomUUID().toString()).when(meta).getTargetUrl();
     doReturn(UUID.randomUUID().toString()).when(meta).getUsername();

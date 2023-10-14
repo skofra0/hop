@@ -52,7 +52,7 @@ public class HopMissingPluginsException extends HopException {
    * Constructs a new throwable with the specified detail message.
    *
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
+   *        getMessage() method.
    */
   public HopMissingPluginsException(String message) {
     super(message);
@@ -65,8 +65,7 @@ public class HopMissingPluginsException extends HopException {
    * @param pluginTypeClass The class of the plugin type (ex. TransformPluginType.class)
    * @param pluginId The id of the missing plugin
    */
-  public void addMissingPluginDetails(
-      Class<? extends IPluginType> pluginTypeClass, String pluginId) {
+  public void addMissingPluginDetails(Class<? extends IPluginType> pluginTypeClass, String pluginId) {
     missingPluginDetailsList.add(new PluginDetails(pluginTypeClass, pluginId));
   }
 
@@ -86,8 +85,7 @@ public class HopMissingPluginsException extends HopException {
     for (PluginDetails details : missingPluginDetailsList) {
       message.append(Const.CR);
       try {
-        IPluginType pluginType =
-            PluginRegistry.getInstance().getPluginType(details.pluginTypeClass);
+        IPluginType pluginType = PluginRegistry.getInstance().getPluginType(details.pluginTypeClass);
         message.append(pluginType.getName());
       } catch (Exception e) {
         message.append("UnknownPluginType-").append(details.getPluginTypeClass().getName());

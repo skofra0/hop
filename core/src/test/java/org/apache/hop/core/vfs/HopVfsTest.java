@@ -34,12 +34,10 @@ public class HopVfsTest {
    */
   @Test
   public void testStartsWithScheme() {
-    String fileName =
-        "zip:file:///SavedLinkedres.zip!Calculate median and percentiles using the group by transforms.hpl";
+    String fileName = "zip:file:///SavedLinkedres.zip!Calculate median and percentiles using the group by transforms.hpl";
     assertTrue(HopVfs.startsWithScheme(fileName));
 
-    fileName =
-        "SavedLinkedres.zip!Calculate median and percentiles using the group by transforms.hpl";
+    fileName = "SavedLinkedres.zip!Calculate median and percentiles using the group by transforms.hpl";
     assertFalse(HopVfs.startsWithScheme(fileName));
   }
 

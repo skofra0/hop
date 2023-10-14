@@ -33,8 +33,7 @@ public class LdapSslProtocol extends LdapProtocol {
 
   private final String trustStorePassword;
 
-  public LdapSslProtocol(
-      ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
+  public LdapSslProtocol(ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
     super(log, variables, meta, binaryAttributes);
 
     if (meta.isUseCertificate()) {
@@ -63,16 +62,13 @@ public class LdapSslProtocol extends LdapProtocol {
   }
 
   @Override
-  protected void setupEnvironment(Map<String, String> env, String username, String password)
-      throws HopException {
+  protected void setupEnvironment(Map<String, String> env, String username, String password) throws HopException {
     super.setupEnvironment(env, username, password);
     configureSslEnvironment(env);
     configureSocketFactory(trustAllCertificates, trustStorePath, trustStorePassword);
   }
 
-  protected void configureSocketFactory(
-      boolean trustAllCertificates, String trustStorePath, String trustStorePassword)
-      throws HopException {
+  protected void configureSocketFactory(boolean trustAllCertificates, String trustStorePath, String trustStorePassword) throws HopException {
     if (trustAllCertificates) {
       CustomSocketFactory.configure();
     } else {

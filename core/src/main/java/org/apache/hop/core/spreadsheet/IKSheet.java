@@ -26,7 +26,7 @@ public interface IKSheet {
    * @param rownr The row number to get
    * @return the cells of the row
    * @throws ArrayIndexOutOfBoundsException in case you try to read beyond the last row. (never
-   *     returns null as such)
+   *         returns null as such)
    */
   IKCell[] getRow(int rownr);
 

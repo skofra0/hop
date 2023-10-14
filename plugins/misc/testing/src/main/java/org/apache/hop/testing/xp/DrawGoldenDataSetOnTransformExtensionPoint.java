@@ -41,15 +41,12 @@ import java.util.Map;
 
 @ExtensionPoint(
     id = "DrawGoldenDataSetOnTransformExtensionPoint",
-    description =
-        "Draws a marker on top of a transform if it has a golden data set defined is for it",
+    description = "Draws a marker on top of a transform if it has a golden data set defined is for it",
     extensionPointId = "PipelinePainterTransform")
-public class DrawGoldenDataSetOnTransformExtensionPoint
-    implements IExtensionPoint<PipelinePainterExtension> {
+public class DrawGoldenDataSetOnTransformExtensionPoint implements IExtensionPoint<PipelinePainterExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
     TransformMeta transformMeta = ext.transformMeta;
     PipelineMeta pipelineMeta = ext.pipelineMeta;
     PipelineUnitTest unitTest = TestingGuiPlugin.getCurrentUnitTest(pipelineMeta);
@@ -58,11 +55,7 @@ public class DrawGoldenDataSetOnTransformExtensionPoint
     }
   }
 
-  protected void drawGoldenSetMarker(
-      PipelinePainterExtension ext,
-      TransformMeta transformMeta,
-      PipelineUnitTest unitTest,
-      List<AreaOwner> areaOwners) {
+  protected void drawGoldenSetMarker(PipelinePainterExtension ext, TransformMeta transformMeta, PipelineUnitTest unitTest, List<AreaOwner> areaOwners) {
 
     PipelineUnitTestSetLocation location = unitTest.findGoldenLocation(transformMeta.getName());
     if (location == null) {
@@ -89,17 +82,16 @@ public class DrawGoldenDataSetOnTransformExtensionPoint
 
     int[] arrow =
         new int[] {
-          point.x,
-          point.y + textExtent.y / 2,
-          point.x + arrowSize,
-          point.y,
-          point.x + textExtent.x + arrowSize,
-          point.y,
-          point.x + textExtent.x + arrowSize,
-          point.y + textExtent.y,
-          point.x + arrowSize,
-          point.y + textExtent.y,
-        };
+            point.x,
+            point.y + textExtent.y / 2,
+            point.x + arrowSize,
+            point.y,
+            point.x + textExtent.x + arrowSize,
+            point.y,
+            point.x + textExtent.x + arrowSize,
+            point.y + textExtent.y,
+            point.x + arrowSize,
+            point.y + textExtent.y,};
 
     gc.fillPolygon(arrow);
     gc.drawPolygon(arrow);
@@ -121,8 +113,7 @@ public class DrawGoldenDataSetOnTransformExtensionPoint
     // Draw a result marker picked from the state map...
     //
     if (ext.stateMap != null) {
-      Map<String, Boolean> results =
-          (Map<String, Boolean>) ext.stateMap.get(DataSetConst.STATE_KEY_GOLDEN_DATASET_RESULTS);
+      Map<String, Boolean> results = (Map<String, Boolean>) ext.stateMap.get(DataSetConst.STATE_KEY_GOLDEN_DATASET_RESULTS);
       if (results != null) {
         Boolean result = results.get(dataSetName);
         if (result != null) {
@@ -141,7 +132,7 @@ public class DrawGoldenDataSetOnTransformExtensionPoint
                     iconY + 5,
                     ConstUi.SMALL_ICON_SIZE,
                     ConstUi.SMALL_ICON_SIZE,
-                        ext.offset,
+                    ext.offset,
                     DataSetConst.AREA_DRAWN_GOLDEN_DATA_RESULT,
                     transformMeta.getName()));
           } catch (Exception e) {
@@ -152,4 +143,3 @@ public class DrawGoldenDataSetOnTransformExtensionPoint
     }
   }
 }
-

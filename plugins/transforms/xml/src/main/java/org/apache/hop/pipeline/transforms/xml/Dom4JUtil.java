@@ -24,12 +24,11 @@ import org.xml.sax.SAXException;
 import javax.xml.XMLConstants;
 
 public class Dom4JUtil {
-  
+
   private static final ILogChannel log = HopLogStore.getLogChannelFactory().create("Xml");
 
-  private Dom4JUtil() {    
-  }
-  
+  private Dom4JUtil() {}
+
   public static SAXReader getSAXReader() {
     SAXReader reader = new SAXReader();
     try {

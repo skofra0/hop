@@ -30,9 +30,7 @@ import java.util.List;
 /** Utils for file-based input transforms. */
 public class BaseFileInputTransformUtils {
 
-  public static void handleMissingFiles(
-      FileInputList files, ILogChannel log, boolean isErrorIgnored, IFileErrorHandler errorHandler)
-      throws HopException {
+  public static void handleMissingFiles(FileInputList files, ILogChannel log, boolean isErrorIgnored, IFileErrorHandler errorHandler) throws HopException {
     List<FileObject> nonExistantFiles = files.getNonExistentFiles();
 
     if (!nonExistantFiles.isEmpty()) {

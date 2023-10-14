@@ -38,7 +38,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class CompressionProviderFactoryTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public CompressionProviderFactory factory = null;
 
@@ -104,16 +105,15 @@ public class CompressionProviderFactoryTest {
   @Test
   public void getCoreProviderNames() {
     @SuppressWarnings("serial")
-    final HashMap<String, Boolean> foundProvider =
-        new HashMap<String, Boolean>() {
-          {
-            put("None", false);
-            put("Zip", false);
-            put("GZip", false);
-            put("Snappy", false);
-            put("Hadoop-snappy", false);
-          }
-        };
+    final HashMap<String, Boolean> foundProvider = new HashMap<String, Boolean>() {
+      {
+        put("None", false);
+        put("Zip", false);
+        put("GZip", false);
+        put("Snappy", false);
+        put("Hadoop-snappy", false);
+      }
+    };
 
     String[] providers = factory.getCompressionProviderNames();
     assertNotNull(providers);
@@ -134,16 +134,15 @@ public class CompressionProviderFactoryTest {
   @Test
   public void getCoreProviders() {
     @SuppressWarnings("serial")
-    final HashMap<String, Boolean> foundProvider =
-        new HashMap<String, Boolean>() {
-          {
-            put("None", false);
-            put("Zip", false);
-            put("GZip", false);
-            put("Snappy", false);
-            put("Hadoop-snappy", false);
-          }
-        };
+    final HashMap<String, Boolean> foundProvider = new HashMap<String, Boolean>() {
+      {
+        put("None", false);
+        put("Zip", false);
+        put("GZip", false);
+        put("Snappy", false);
+        put("Hadoop-snappy", false);
+      }
+    };
 
     Collection<ICompressionProvider> providers = factory.getCompressionProviders();
     assertNotNull(providers);

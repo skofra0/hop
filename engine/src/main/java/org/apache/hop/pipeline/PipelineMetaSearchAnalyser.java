@@ -33,8 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SearchableAnalyserPlugin(id = "PipelineMetaSearchAnalyser", name = "Search in pipeline metadata")
-public class PipelineMetaSearchAnalyser extends BaseSearchableAnalyser<PipelineMeta>
-    implements ISearchableAnalyser<PipelineMeta> {
+public class PipelineMetaSearchAnalyser extends BaseSearchableAnalyser<PipelineMeta> implements ISearchableAnalyser<PipelineMeta> {
 
   @Override
   public Class<PipelineMeta> getSearchableClass() {
@@ -42,72 +41,33 @@ public class PipelineMetaSearchAnalyser extends BaseSearchableAnalyser<PipelineM
   }
 
   @Override
-  public List<ISearchResult> search(
-      ISearchable<PipelineMeta> searchable, ISearchQuery searchQuery) {
+  public List<ISearchResult> search(ISearchable<PipelineMeta> searchable, ISearchQuery searchQuery) {
     PipelineMeta pipelineMeta = searchable.getSearchableObject();
 
     List<ISearchResult> results = new ArrayList<>();
 
     matchProperty(searchable, results, searchQuery, "pipeline name", pipelineMeta.getName(), null);
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "pipeline description",
-        pipelineMeta.getDescription(),
-        null);
+    matchProperty(searchable, results, searchQuery, "pipeline description", pipelineMeta.getDescription(), null);
 
     // The transforms...
     //
     for (TransformMeta transformMeta : pipelineMeta.getTransforms()) {
       String transformName = transformMeta.getName();
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "pipeline transform name",
-          transformName,
-          transformName);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "pipeline transform description",
-          transformMeta.getDescription(),
-          transformName);
+      matchProperty(searchable, results, searchQuery, "pipeline transform name", transformName, transformName);
+      matchProperty(searchable, results, searchQuery, "pipeline transform description", transformMeta.getDescription(), transformName);
 
       String transformPluginId = transformMeta.getTransformPluginId();
       if (transformPluginId != null) {
-        matchProperty(
-            searchable,
-            results,
-            searchQuery,
-            "pipeline transform plugin ID",
-            transformPluginId,
-            transformName);
-        IPlugin transformPlugin =
-            PluginRegistry.getInstance()
-                .findPluginWithId(TransformPluginType.class, transformPluginId);
+        matchProperty(searchable, results, searchQuery, "pipeline transform plugin ID", transformPluginId, transformName);
+        IPlugin transformPlugin = PluginRegistry.getInstance().findPluginWithId(TransformPluginType.class, transformPluginId);
         if (transformPlugin != null) {
-          matchProperty(
-              searchable,
-              results,
-              searchQuery,
-              "pipeline transform plugin name",
-              transformPlugin.getName(),
-              transformName);
+          matchProperty(searchable, results, searchQuery, "pipeline transform plugin name", transformPlugin.getName(), transformName);
         }
       }
       // Search the transform properties
       //
       ITransformMeta transform = transformMeta.getTransform();
-      matchObjectFields(
-          searchable,
-          results,
-          searchQuery,
-          transform,
-          "pipeline transform property",
-          transformName);
+      matchObjectFields(searchable, results, searchQuery, transform, "pipeline transform property", transformName);
     }
 
     // Search the notes...

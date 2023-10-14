@@ -47,7 +47,7 @@ public class NoneCompressionProvider implements ICompressionProvider {
    * Gets the description for the compression provider.
    *
    * @return a description of the provider. For core plugins this needs to match what's in the XML
-   *     file
+   *         file
    */
   @Override
   public String getDescription() {

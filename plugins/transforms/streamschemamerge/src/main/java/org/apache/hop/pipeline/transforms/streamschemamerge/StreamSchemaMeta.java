@@ -126,7 +126,8 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
    * this transform meta object. Be sure to create proper deep copies if the transform configuration
    * is stored in modifiable objects.
    *
-   * <p>See RowGeneratorMeta.clone() for an example on creating a deep copy.
+   * <p>
+   * See RowGeneratorMeta.clone() for an example on creating a deep copy.
    *
    * @return a deep copy of this
    */
@@ -140,7 +141,8 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
    * This method is called by Hop Gui when a transform needs to serialize its configuration to XML.
    * The expected return value is an XML fragment consisting of one or more XML tags.
    *
-   * <p>Please use XmlHandler to conveniently generate the XML.
+   * <p>
+   * Please use XmlHandler to conveniently generate the XML.
    *
    * @return a string containing the XML serialization of this transform
    */
@@ -160,14 +162,14 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
   /**
    * This method is called by Hop when a transform needs to load its configuration from XML.
    *
-   * <p>Please use XmlHandler to conveniently read from the XML node passed in.
+   * <p>
+   * Please use XmlHandler to conveniently read from the XML node passed in.
    *
    * @param transformNode the XML node containing the configuration
    * @param metadataProvider the metadataProvider to optionally read from
    */
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
 
     readData(transformNode);
   }
@@ -189,10 +191,7 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
       // info
       // stream
       for (int i = 0; i < nrtransforms; i++) {
-        getTransformIOMeta()
-            .addStream(
-                new Stream(
-                    IStream.StreamType.INFO, null, "Streams to Merge", StreamIcon.INFO, null));
+        getTransformIOMeta().addStream(new Stream(IStream.StreamType.INFO, null, "Streams to Merge", StreamIcon.INFO, null));
       }
 
       List<IStream> infoStreams = getTransformIOMeta().getInfoStreams();
@@ -221,21 +220,14 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
    * @param metadataProvider the metadata provider to optionally read from
    */
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     /*
      * We don't have any input fields so we ingore inputRowMeta
      */
     try {
-      SchemaMapper schemaMapping =
-          new SchemaMapper(info); // compute the union of the info fields being passed in
+      SchemaMapper schemaMapping = new SchemaMapper(info); // compute the union of the info fields being passed in
       IRowMeta base = schemaMapping.getRowMeta();
 
       for (int i = 0; i < base.size(); i++) {
@@ -278,18 +270,10 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
 
     // See if there are input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "StreamSchemaTransform.CheckResult.ReceivingRows.OK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StreamSchemaTransform.CheckResult.ReceivingRows.OK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "StreamSchemaTransform.CheckResult.ReceivingRows.ERROR"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "StreamSchemaTransform.CheckResult.ReceivingRows.ERROR"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -297,8 +281,7 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
   @Override
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     for (IStream stream : getTransformIOMeta().getInfoStreams()) {
-      stream.setTransformMeta(
-          TransformMeta.findTransform(transforms, (String) stream.getSubject()));
+      stream.setTransformMeta(TransformMeta.findTransform(transforms, (String) stream.getSubject()));
     }
   }
 
@@ -307,11 +290,10 @@ public class StreamSchemaMeta extends BaseTransformMeta<StreamSchema, StreamSche
     // Do nothing, don't reset as there is no need to do this.
   }
 
-
   /** Has original function of resetTransformIoMeta, but we only want to call it when appropriate */
   /*
-  	public void wipeTransformIoMeta() {
-  		ioMeta = null;
-  	}
-  */
+   * public void wipeTransformIoMeta() {
+   * ioMeta = null;
+   * }
+   */
 }

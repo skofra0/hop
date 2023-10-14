@@ -25,7 +25,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class WorkflowEntryTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setupBeforeClass() throws HopException {

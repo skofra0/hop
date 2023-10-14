@@ -31,8 +31,7 @@ public class TransformDefinition implements Cloneable {
     this.description = "";
   }
 
-  public TransformDefinition(
-      String tag, String transformName, TransformMeta transformMeta, String description) {
+  public TransformDefinition(String tag, String transformName, TransformMeta transformMeta, String description) {
     this.tag = tag;
     this.transformName = transformName;
     this.transformMeta = transformMeta;

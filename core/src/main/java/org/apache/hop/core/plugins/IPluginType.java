@@ -58,13 +58,7 @@ public interface IPluginType<T extends Annotation> {
    * @param pluginFolder The plugin folder to use
    * @throws HopPluginException
    */
-  void handlePluginAnnotation(
-      Class<?> clazz,
-      T annotation,
-      List<String> libraries,
-      boolean nativePluginType,
-      URL pluginFolder)
-      throws HopPluginException;
+  void handlePluginAnnotation(Class<?> clazz, T annotation, List<String> libraries, boolean nativePluginType, URL pluginFolder) throws HopPluginException;
 
   default boolean isFragment() {
     return false;

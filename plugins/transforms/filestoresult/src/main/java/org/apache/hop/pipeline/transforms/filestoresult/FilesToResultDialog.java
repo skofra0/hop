@@ -50,14 +50,8 @@ public class FilesToResultDialog extends BaseTransformDialog implements ITransfo
 
   private final FilesToResultMeta input;
 
-  public FilesToResultDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String transformName) {
-    super(
-        parent,
-        variables,
-        (BaseTransformMeta<FilesToResult, FilesToResultData>) in,
-        tr,
-        transformName);
+  public FilesToResultDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String transformName) {
+    super(parent, variables, (BaseTransformMeta<FilesToResult, FilesToResultData>) in, tr, transformName);
     input = (FilesToResultMeta) in;
   }
 
@@ -116,8 +110,7 @@ public class FilesToResultDialog extends BaseTransformDialog implements ITransfo
     wlFilenameField.setLayoutData(fdlFilenameField);
 
     wFilenameField = new CCombo(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wFilenameField.setToolTipText(
-        BaseMessages.getString(PKG, "FilesToResultDialog.FilenameField.Tooltip"));
+    wFilenameField.setToolTipText(BaseMessages.getString(PKG, "FilesToResultDialog.FilenameField.Tooltip"));
     PropsUi.setLook(wFilenameField);
     wFilenameField.addModifyListener(lsMod);
     FormData fdFilenameField = new FormData();
@@ -129,23 +122,22 @@ public class FilesToResultDialog extends BaseTransformDialog implements ITransfo
     /*
      * Get the field names from the previous transforms, in the background though
      */
-    Runnable runnable =
-        () -> {
-          try {
-            IRowMeta inputfields = pipelineMeta.getPrevTransformFields(variables, transformName);
-            if (inputfields != null) {
-              for (int i = 0; i < inputfields.size(); i++) {
-                wFilenameField.add(inputfields.getValueMeta(i).getName());
-              }
-            }
-          } catch (Exception ke) {
-            new ErrorDialog(
-                shell,
-                BaseMessages.getString(PKG, "FilesToResultDialog.FailedToGetFields.DialogTitle"),
-                BaseMessages.getString(PKG, "FilesToResultDialog.FailedToGetFields.DialogMessage"),
-                ke);
+    Runnable runnable = () -> {
+      try {
+        IRowMeta inputfields = pipelineMeta.getPrevTransformFields(variables, transformName);
+        if (inputfields != null) {
+          for (int i = 0; i < inputfields.size(); i++) {
+            wFilenameField.add(inputfields.getValueMeta(i).getName());
           }
-        };
+        }
+      } catch (Exception ke) {
+        new ErrorDialog(
+            shell,
+            BaseMessages.getString(PKG, "FilesToResultDialog.FailedToGetFields.DialogTitle"),
+            BaseMessages.getString(PKG, "FilesToResultDialog.FailedToGetFields.DialogMessage"),
+            ke);
+      }
+    };
     display.asyncExec(runnable);
 
     // Some buttons

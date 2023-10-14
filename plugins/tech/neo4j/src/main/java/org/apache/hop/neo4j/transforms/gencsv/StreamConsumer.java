@@ -62,8 +62,7 @@ public class StreamConsumer extends Thread {
             log.logRowlevel(line);
             break;
           case ERROR:
-            if (!line.contains("neo4j-import is deprecated")
-                && !line.contains("please use neo4j-admin import")) {
+            if (!line.contains("neo4j-import is deprecated") && !line.contains("please use neo4j-admin import")) {
               log.logError(line);
               break;
             }

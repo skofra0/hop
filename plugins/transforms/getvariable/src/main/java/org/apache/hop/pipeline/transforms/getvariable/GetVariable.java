@@ -28,13 +28,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Get information from the System or the supervising pipeline. */
 public class GetVariable extends BaseTransform<GetVariableMeta, GetVariableData> {
-  public GetVariable(
-      TransformMeta transformMeta,
-      GetVariableMeta meta,
-      GetVariableData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetVariable(TransformMeta transformMeta, GetVariableMeta meta, GetVariableData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -83,8 +77,7 @@ public class GetVariable extends BaseTransform<GetVariableMeta, GetVariableData>
         GetVariableMeta.FieldDefinition fieldDefinition = meta.getFieldDefinitions().get(i);
         String newValue = resolve(fieldDefinition.getVariableString());
         if (log.isDetailed()) {
-          logDetailed(
-              "field [" + fieldDefinition.getFieldName() + "] has value [" + newValue + "]");
+          logDetailed("field [" + fieldDefinition.getFieldName() + "] has value [" + newValue + "]");
         }
 
         // Convert the data to the desired data type...

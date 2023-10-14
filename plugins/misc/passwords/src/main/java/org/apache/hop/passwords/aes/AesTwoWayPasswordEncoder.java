@@ -37,10 +37,7 @@ import java.util.List;
  * HOP_PASSWORD_ENCODER_PLUGIN set to the ID of this plugin:"AES" 2. HOP_AES_ENCODER_KEY set to the
  * key of your choice.
  */
-@TwoWayPasswordEncoderPlugin(
-    id = "AES",
-    name = "AES Password encoder",
-    description = "Allows for 128/192/256 bit password encryption of passwords in Hop")
+@TwoWayPasswordEncoderPlugin(id = "AES", name = "AES Password encoder", description = "Allows for 128/192/256 bit password encryption of passwords in Hop")
 public class AesTwoWayPasswordEncoder implements ITwoWayPasswordEncoder {
 
   public static final String VARIABLE_HOP_AES_ENCODER_KEY = "HOP_AES_ENCODER_KEY";
@@ -81,10 +78,7 @@ public class AesTwoWayPasswordEncoder implements ITwoWayPasswordEncoder {
   }
 
   private void noKeySpecified() throws HopException {
-    throw new HopException(
-        "Please specify a key to encrypt/decrypt with by setting variable "
-            + VARIABLE_HOP_AES_ENCODER_KEY
-            + " in the system properties");
+    throw new HopException("Please specify a key to encrypt/decrypt with by setting variable " + VARIABLE_HOP_AES_ENCODER_KEY + " in the system properties");
   }
 
   @Override
@@ -113,8 +107,7 @@ public class AesTwoWayPasswordEncoder implements ITwoWayPasswordEncoder {
       return password;
     }
     try {
-      return Base64.getEncoder()
-          .encodeToString(encryptCipher.doFinal(password.getBytes(StandardCharsets.UTF_8)));
+      return Base64.getEncoder().encodeToString(encryptCipher.doFinal(password.getBytes(StandardCharsets.UTF_8)));
     } catch (Exception e) {
       throw new RuntimeException("Error encoding password using AES", e);
     }

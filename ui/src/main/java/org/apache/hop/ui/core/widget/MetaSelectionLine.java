@@ -80,56 +80,18 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
   private ComboVar wCombo = null;
   private final ToolBar wToolBar;
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText,
       String toolTipText) {
-    this(
-        variables,
-        metadataProvider,
-        managedClass,
-        parentComposite,
-        flags,
-        labelText,
-        toolTipText,
-        false);
+    this(variables, metadataProvider, managedClass, parentComposite, flags, labelText, toolTipText, false);
   }
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
-      String toolTipText,
-      boolean leftAlignedLabel) {
-    this(
-        variables,
-        metadataProvider,
-        managedClass,
-        parentComposite,
-        flags,
-        labelText,
-        toolTipText,
-        leftAlignedLabel,
-        true);
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText,
+      String toolTipText, boolean leftAlignedLabel) {
+    this(variables, metadataProvider, managedClass, parentComposite, flags, labelText, toolTipText, leftAlignedLabel, true);
   }
 
-  public MetaSelectionLine(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      Class<T> managedClass,
-      Composite parentComposite,
-      int flags,
-      String labelText,
-      String toolTipText,
-      boolean leftAlignedLabel,
-      boolean negativeMargin) {
+  public MetaSelectionLine(IVariables variables, IHopMetadataProvider metadataProvider, Class<T> managedClass, Composite parentComposite, int flags, String labelText,
+      String toolTipText, boolean leftAlignedLabel, boolean negativeMargin) {
     super(parentComposite, SWT.NONE);
     this.parentComposite = parentComposite;
     this.variables = variables;
@@ -137,9 +99,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     this.managedClass = managedClass;
     this.props = PropsUi.getInstance();
 
-    this.manager =
-        new MetadataManager<>(
-            variables, metadataProvider, managedClass, parentComposite.getShell());
+    this.manager = new MetadataManager<>(variables, metadataProvider, managedClass, parentComposite.getShell());
 
     PropsUi.setLook(this);
 
@@ -170,7 +130,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     }
     fdLabel.top = new FormAttachment(0, margin + (EnvironmentUtils.getInstance().isWeb() ? 3 : 0));
     wLabel.setLayoutData(fdLabel);
-    if ( labelText!=null ) {
+    if (labelText != null) {
       wLabel.setText(labelText);
     }
     wLabel.setToolTipText(toolTipText);
@@ -179,26 +139,23 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     HopMetadata metadata = HopMetadataUtil.getHopMetadataAnnotation(managedClass);
     Image editImage =
         SwtSvgImageUtil.getImage(
-            getDisplay(),
-            managedClass.getClassLoader(),
-            metadata.image(),
-            (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()),
+            getDisplay(), managedClass.getClassLoader(), metadata.image(), (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()),
             (int) (ConstUi.SMALL_ICON_SIZE * props.getZoomFactor()));
     addListener(SWT.Dispose, e -> editImage.dispose());
 
     // Toolbar for default actions
     //
-    wToolBar = new ToolBar(this, SWT.FLAT | SWT.HORIZONTAL);    
+    wToolBar = new ToolBar(this, SWT.FLAT | SWT.HORIZONTAL);
     PropsUi.setLook(wToolBar, PropsUi.WIDGET_STYLE_DEFAULT);
     FormData fdToolBar = new FormData();
     fdToolBar.right = new FormAttachment(100, 0);
     fdToolBar.top = new FormAttachment(0, 0);
     wToolBar.setLayoutData(fdToolBar);
-    
+
     // Add more toolbar items from plugins.
     //
     GuiToolbarWidgets toolbarWidgets = new GuiToolbarWidgets();
-    toolbarWidgets.registerGuiPluginObject(this); 
+    toolbarWidgets.registerGuiPluginObject(this);
     // Removed for Windows dark mode
     // toolbarWidgets.setItemBackgroundColor(GuiResource.getInstance().getColorBackground());
     toolbarWidgets.createToolbarWidgets(wToolBar, GUI_PLUGIN_TOOLBAR_PARENT_ID);
@@ -210,10 +167,9 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     wCombo = new ComboVar(this.variables, this, textFlags, toolTipText);
     FormData fdCombo = new FormData();
     if (leftAlignedLabel) {
-      if ( labelText==null ) {
+      if (labelText == null) {
         fdCombo.left = new FormAttachment(0, 0);
-      } 
-      else {
+      } else {
         fdCombo.left = new FormAttachment(wLabel, margin, SWT.RIGHT);
       }
     } else {
@@ -229,14 +185,12 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     layout(true, true);
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_EDIT,
-      toolTip = "i18n::MetadataElement.Edit.Tooltip",
-      imageMethod = "getEditIcon")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_EDIT, toolTip = "i18n::MetadataElement.Edit.Tooltip", imageMethod = "getEditIcon")
   public void editMetadataElement() {
-    if (Utils.isEmpty(wCombo.getText())) this.newMetadata();
-    else this.editMetadata();
+    if (Utils.isEmpty(wCombo.getText()))
+      this.newMetadata();
+    else
+      this.editMetadata();
   }
 
   public static String getEditIcon(Object guiPluginObject) {
@@ -244,11 +198,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     return line.getManagedClass().getAnnotation(HopMetadata.class).image();
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_NEW,
-      toolTip = "i18n::MetadataElement.New.Tooltip",
-      image = "ui/images/new.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_NEW, toolTip = "i18n::MetadataElement.New.Tooltip", image = "ui/images/new.svg")
   public void newMetadataElement() {
     T element = newMetadata();
     if (element != null) {
@@ -256,11 +206,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
     }
   }
 
-  @GuiToolbarElement(
-      root = GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_META,
-      toolTip = "i18n::MetadataElement.View.Tooltip",
-      image = "ui/images/metadata.svg")
+  @GuiToolbarElement(root = GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_META, toolTip = "i18n::MetadataElement.View.Tooltip", image = "ui/images/metadata.svg")
   public void viewInPerspective() {
     MetadataPerspective perspective = HopGui.getMetadataPerspective();
     perspective.activate();
@@ -348,8 +294,7 @@ public class MetaSelectionLine<T extends IHopMetadata> extends Composite {
    * @param
    * @return the combo box UI component
    */
-  public void addToConnectionLine(
-      Composite parent, Control previous, T selected, ModifyListener lsMod) {
+  public void addToConnectionLine(Composite parent, Control previous, T selected, ModifyListener lsMod) {
 
     try {
       fillItems();

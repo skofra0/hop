@@ -72,9 +72,7 @@ public class Selector {
    * @return the column name in the selector
    */
   public String getColumnName() {
-    return isFunction()
-        ? getNomalizedFunctionName(columnName, getFunction().isCaseSensitive())
-        : columnName;
+    return isFunction() ? getNomalizedFunctionName(columnName, getFunction().isCaseSensitive()) : columnName;
   }
 
   /**
@@ -102,26 +100,19 @@ public class Selector {
    */
   @Override
   public String toString() {
-    return "Selector [columnName="
-        + columnName
-        + ", alias="
-        + alias
-        + ", function="
-        + function
-        + ", isFunction="
-        + isFunction
-        + "]";
+    return "Selector [columnName=" + columnName + ", alias=" + alias + ", function=" + function + ", isFunction=" + isFunction + "]";
   }
 
   /**
    * Depending on indicator <code>isCaseSensetive</code>
    *
-   * <p>Converts the name of the function to lower case if <code>isCaseSensetive = false</code>,
+   * <p>
+   * Converts the name of the function to lower case if <code>isCaseSensetive = false</code>,
    * nothing changes if <code>isCaseSensetive = true.</code>
    *
    * @param function the function whose name is to be changed
    * @param isCaseSensetive the indicator to define if the name of the function should be processed
-   *     as case sensitive or not.
+   *        as case sensitive or not.
    * @return the function with normalized name
    */
   private String getNomalizedFunctionName(String function, boolean isCaseSensetive) {
@@ -132,11 +123,7 @@ public class Selector {
       int ind = function.indexOf(OPEN_BRACKET);
       if (ind != -1) {
         nName = function.substring(0, ind).trim();
-        nName =
-            newName
-                .append(isCaseSensetive ? nName : nName.toLowerCase())
-                .append(function.substring(ind))
-                .toString();
+        nName = newName.append(isCaseSensetive ? nName : nName.toLowerCase()).append(function.substring(ind)).toString();
       }
     }
     return nName;

@@ -24,16 +24,11 @@ import java.util.Objects;
 
 public class DeleteLookupField {
 
-  @HopMetadataProperty(
-      key = "key",
-      injectionGroupDescription = "Delete.Injection.Fields",
-      injectionKeyDescription = "Delete.Injection.Field")
+  @HopMetadataProperty(key = "key", injectionGroupDescription = "Delete.Injection.Fields", injectionKeyDescription = "Delete.Injection.Field")
   private List<DeleteKeyField> fields;
 
   /** The target schema name */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKeyDescription = "Delete.Injection.SchemaName.Field")
+  @HopMetadataProperty(key = "schema", injectionKeyDescription = "Delete.Injection.SchemaName.Field")
   private String schemaName;
 
   /** The lookup table name */
@@ -94,12 +89,12 @@ public class DeleteLookupField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     DeleteLookupField that = (DeleteLookupField) o;
-    return fields.equals(that.fields)
-        && Objects.equals(schemaName, that.schemaName)
-        && tableName.equals(that.tableName);
+    return fields.equals(that.fields) && Objects.equals(schemaName, that.schemaName) && tableName.equals(that.tableName);
   }
 
   @Override

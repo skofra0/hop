@@ -104,9 +104,7 @@ public class HttpPostMeta extends BaseTransformMeta<HttpPost, HttpPostData> {
   @HopMetadataProperty(password = true, injectionKeyDescription = "HTTPPOST.Injection.httpPassword")
   private String httpPassword;
 
-  @HopMetadataProperty(
-      key = "result",
-      injectionGroupDescription = "HTTPPOST.Injection.httpPostResultField")
+  @HopMetadataProperty(key = "result", injectionGroupDescription = "HTTPPOST.Injection.httpPostResultField")
   private List<HttpPostResultField> resultFields = new ArrayList<>();
 
   public HttpPostMeta() {
@@ -234,13 +232,7 @@ public class HttpPostMeta extends BaseTransformMeta<HttpPost, HttpPostData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!Utils.isEmpty(resultFields.get(0).getName())) {
       IValueMeta v = new ValueMetaString(resultFields.get(0).getName());
@@ -252,13 +244,10 @@ public class HttpPostMeta extends BaseTransformMeta<HttpPost, HttpPostData> {
       inputRowMeta.addValueMeta(v);
     }
     if (!Utils.isEmpty(resultFields.get(0).getResponseTimeFieldName())) {
-      IValueMeta v =
-          new ValueMetaInteger(
-              variables.resolve(resultFields.get(0).getResponseTimeFieldName()));
+      IValueMeta v = new ValueMetaInteger(variables.resolve(resultFields.get(0).getResponseTimeFieldName()));
       inputRowMeta.addValueMeta(v);
     }
-    String headerFieldName =
-        variables.resolve(resultFields.get(0).getResponseHeaderFieldName());
+    String headerFieldName = variables.resolve(resultFields.get(0).getResponseHeaderFieldName());
     if (!Utils.isEmpty(headerFieldName)) {
       IValueMeta v = new ValueMetaString(headerFieldName);
       v.setOrigin(name);
@@ -281,51 +270,26 @@ public class HttpPostMeta extends BaseTransformMeta<HttpPost, HttpPostData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "HTTPPOSTMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
 
     // check Url
     if (urlInField) {
       if (Utils.isEmpty(urlField)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlfieldMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlfieldMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlfieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlfieldOk"), transformMeta);
       }
 
     } else {
       if (Utils.isEmpty(url)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "HTTPPOSTMeta.CheckResult.UrlOk"), transformMeta);
       }
     }
     remarks.add(cr);

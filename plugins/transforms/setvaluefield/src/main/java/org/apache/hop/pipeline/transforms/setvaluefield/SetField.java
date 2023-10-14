@@ -20,20 +20,13 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class SetField implements Cloneable {
 
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "FIELD_NAME",
-      injectionKeyDescription = "SetValueField.Injection.SetField.FieldName")
+  @HopMetadataProperty(key = "name", injectionKey = "FIELD_NAME", injectionKeyDescription = "SetValueField.Injection.SetField.FieldName")
   private String fieldName;
 
-  @HopMetadataProperty(
-      key = "replaceby",
-      injectionKey = "REPLACE_BY_FIELD_VALUE",
-      injectionKeyDescription = "SetValueField.Injection.SetField.ReplaceByField")
+  @HopMetadataProperty(key = "replaceby", injectionKey = "REPLACE_BY_FIELD_VALUE", injectionKeyDescription = "SetValueField.Injection.SetField.ReplaceByField")
   private String replaceByField;
 
-  public SetField() {
-  }
+  public SetField() {}
 
   public SetField(SetField cloned) {
     this.fieldName = cloned.fieldName;
@@ -44,7 +37,7 @@ public class SetField implements Cloneable {
     this.fieldName = name;
     this.replaceByField = replaceBy;
   }
-    
+
   @Override
   public Object clone() {
     return new SetField(this);

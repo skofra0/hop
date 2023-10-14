@@ -27,8 +27,7 @@ public abstract class GuiCompositeWidgetsAdapter implements IGuiPluginCompositeW
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
 
   @Override
   public void persistContents(GuiCompositeWidgets compositeWidgets) {}

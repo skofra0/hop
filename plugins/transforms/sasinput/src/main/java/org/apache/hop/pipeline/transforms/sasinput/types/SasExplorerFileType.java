@@ -29,32 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.base.BaseExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "SasExplorerFileType",
-    name = "SAS File Type",
-    description = "SAS file handling in the explorer perspective",
-    image = "sas.svg")
-public class SasExplorerFileType extends BaseExplorerFileType<SasExplorerFileTypeHandler>
-    implements IExplorerFileType<SasExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "SasExplorerFileType", name = "SAS File Type", description = "SAS file handling in the explorer perspective", image = "sas.svg")
+public class SasExplorerFileType extends BaseExplorerFileType<SasExplorerFileTypeHandler> implements IExplorerFileType<SasExplorerFileTypeHandler> {
 
   public SasExplorerFileType() {
-    super(
-        "SAS file",
-        ".sas7bdat",
-        new String[] {"*.sas7bdat"},
-        new String[] {"SAS 7 BDAT files"},
+    super("SAS file", ".sas7bdat", new String[] {"*.sas7bdat"}, new String[] {"SAS 7 BDAT files"},
         FileTypeCapabilities.getCapabilities(IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY));
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 
   @Override
-  public SasExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public SasExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new SasExplorerFileTypeHandler(hopGui, perspective, file);
   }
 }

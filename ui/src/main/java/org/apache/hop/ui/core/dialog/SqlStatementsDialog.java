@@ -49,8 +49,7 @@ import java.util.List;
 public class SqlStatementsDialog extends Dialog {
   private static final Class<?> PKG = SqlStatementsDialog.class; // For Translator
 
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("SQL Statements Dialog", LoggingObjectType.HOP_GUI, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("SQL Statements Dialog", LoggingObjectType.HOP_GUI, null);
 
   private final List<SqlStatement> stats;
 
@@ -65,8 +64,7 @@ public class SqlStatementsDialog extends Dialog {
 
   private IVariables variables;
 
-  public SqlStatementsDialog(
-      Shell parent, IVariables variables, int style, List<SqlStatement> stats) {
+  public SqlStatementsDialog(Shell parent, IVariables variables, int style, List<SqlStatement> stats) {
     super(parent, style);
     this.stats = stats;
     this.props = PropsUi.getInstance();
@@ -108,37 +106,16 @@ public class SqlStatementsDialog extends Dialog {
     Button wClose = new Button(shell, SWT.PUSH);
     wClose.setText(BaseMessages.getString(PKG, "System.Button.Close"));
     wClose.addListener(SWT.Selection, e -> close());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wExec, wEdit, wView, wClose}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wExec, wEdit, wView, wClose}, margin, null);
 
     int nrCols = 4;
     int nrRows = stats.size();
 
     ColumnInfo[] columns = new ColumnInfo[nrCols];
-    columns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.TransformName"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
-    columns[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.Connection"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
-    columns[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.SQL"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
-    columns[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.Error"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false,
-            true);
+    columns[0] = new ColumnInfo(BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.TransformName"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    columns[1] = new ColumnInfo(BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.Connection"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    columns[2] = new ColumnInfo(BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.SQL"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
+    columns[3] = new ColumnInfo(BaseMessages.getString(PKG, "SQLStatementDialog.TableCol.Error"), ColumnInfo.COLUMN_TYPE_TEXT, false, true);
 
     wFields =
         new TableView(
@@ -223,19 +200,10 @@ public class SqlStatementsDialog extends Dialog {
       SqlStatement stat = stats.get(idx[i]);
       DatabaseMeta di = stat.getDatabase();
       if (i > 0) {
-        sql.append(
-                "-------------------------------------------------------------------------------------------")
-            .append(Const.CR);
+        sql.append("-------------------------------------------------------------------------------------------").append(Const.CR);
       }
-      sql.append(
-          BaseMessages.getString(PKG, "SQLStatementDialog.Log.Transform", stat.getTransformName()));
-      sql.append(
-          BaseMessages.getString(
-              PKG,
-              "SQLStatementDialog.Log.Connection",
-              (di != null
-                  ? di.getName()
-                  : BaseMessages.getString(PKG, "SQLStatementDialog.Log.Undefined"))));
+      sql.append(BaseMessages.getString(PKG, "SQLStatementDialog.Log.Transform", stat.getTransformName()));
+      sql.append(BaseMessages.getString(PKG, "SQLStatementDialog.Log.Connection", (di != null ? di.getName() : BaseMessages.getString(PKG, "SQLStatementDialog.Log.Undefined"))));
       if (stat.hasSql()) {
         sql.append("-- SQL                  : ");
         sql.append(stat.getSql()).append(Const.CR);
@@ -252,12 +220,7 @@ public class SqlStatementsDialog extends Dialog {
   private void view() {
     String sql = getSql();
     EnterTextDialog etd =
-        new EnterTextDialog(
-            shell,
-            BaseMessages.getString(PKG, "SQLStatementDialog.ViewSql.Title"),
-            BaseMessages.getString(PKG, "SQLStatementDialog.ViewSql.Message"),
-            sql,
-            true);
+        new EnterTextDialog(shell, BaseMessages.getString(PKG, "SQLStatementDialog.ViewSql.Title"), BaseMessages.getString(PKG, "SQLStatementDialog.ViewSql.Message"), sql, true);
     etd.setReadOnly();
     etd.open();
   }
@@ -296,18 +259,14 @@ public class SqlStatementsDialog extends Dialog {
               new ErrorDialog(
                   shell,
                   BaseMessages.getString(PKG, "SQLStatementDialog.Error.Title"),
-                  BaseMessages.getString(
-                      PKG, "SQLStatementDialog.Error.CouldNotExec", stat.getSql()),
+                  BaseMessages.getString(PKG, "SQLStatementDialog.Error.CouldNotExec", stat.getSql()),
                   dbe);
             }
           } catch (HopDatabaseException dbe) {
             new ErrorDialog(
                 shell,
                 BaseMessages.getString(PKG, "SQLStatementDialog.Error.Title"),
-                BaseMessages.getString(
-                    PKG,
-                    "SQLStatementDialog.Error.CouldNotConnect",
-                    (databaseMeta == null ? "" : databaseMeta.getName())),
+                BaseMessages.getString(PKG, "SQLStatementDialog.Error.CouldNotConnect", (databaseMeta == null ? "" : databaseMeta.getName())),
                 dbe);
           } finally {
             db.disconnect();
@@ -316,17 +275,13 @@ public class SqlStatementsDialog extends Dialog {
       }
       if (errors == 0) {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-        mb.setMessage(
-            BaseMessages.getString(
-                PKG, "SQLStatementDialog.Success.Message", Integer.toString(idx.length)));
+        mb.setMessage(BaseMessages.getString(PKG, "SQLStatementDialog.Success.Message", Integer.toString(idx.length)));
         mb.setText(BaseMessages.getString(PKG, "SQLStatementDialog.Success.Title"));
         mb.open();
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "SQLStatementDialog.Error.Message", Integer.toString(errors)));
+      mb.setMessage(BaseMessages.getString(PKG, "SQLStatementDialog.Error.Message", Integer.toString(errors)));
       mb.setText(BaseMessages.getString(PKG, "SQLStatementDialog.Error.Title"));
       mb.open();
     }

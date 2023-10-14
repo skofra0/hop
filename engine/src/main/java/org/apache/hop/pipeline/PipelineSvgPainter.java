@@ -28,18 +28,11 @@ import java.util.HashMap;
 
 public class PipelineSvgPainter {
 
-  public static final String generatePipelineSvg(
-      PipelineMeta pipelineMeta, float magnification, IVariables variables) throws HopException {
+  public static final String generatePipelineSvg(PipelineMeta pipelineMeta, float magnification, IVariables variables) throws HopException {
     return generatePipelineSvg(pipelineMeta, magnification, variables, new DPoint(0, 0), 1.0f);
   }
 
-  public static final String generatePipelineSvg(
-      PipelineMeta pipelineMeta,
-      float magnification,
-      IVariables variables,
-      DPoint offset,
-      float zoomFactor)
-      throws HopException {
+  public static final String generatePipelineSvg(PipelineMeta pipelineMeta, float magnification, IVariables variables, DPoint offset, float zoomFactor) throws HopException {
     try {
       Point maximum = pipelineMeta.getMaximum();
       maximum.multiply(magnification);
@@ -48,23 +41,7 @@ public class PipelineSvgPainter {
 
       SvgGc gc = new SvgGc(graphics2D, new Point(maximum.x + 100, maximum.y + 100), 32, 0, 0);
       PipelinePainter pipelinePainter =
-          new PipelinePainter(
-              gc,
-              variables,
-              pipelineMeta,
-              maximum,
-              offset,
-              null,
-              null,
-              new ArrayList<>(),
-              32,
-              1,
-              0,
-              "Arial",
-              10,
-              zoomFactor,
-              false,
-              new HashMap<>());
+          new PipelinePainter(gc, variables, pipelineMeta, maximum, offset, null, null, new ArrayList<>(), 32, 1, 0, "Arial", 10, zoomFactor, false, new HashMap<>());
       pipelinePainter.setMagnification(magnification);
       pipelinePainter.drawPipelineImage();
 

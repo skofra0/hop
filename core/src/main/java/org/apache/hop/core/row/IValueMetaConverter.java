@@ -26,11 +26,9 @@ public interface IValueMetaConverter {
    * @param targetValueMetaType The target ValueMeta Type defined in the IValueMeta
    * @param value the source value to be converted
    * @return An object representing the value converted to targetMetaType. This value is suitable to
-   *     use for
+   *         use for
    */
-  public Object convertFromSourceToTargetDataType(
-      int sourceValueMetaType, int targetValueMetaType, Object value)
-      throws ValueMetaConversionException;
+  public Object convertFromSourceToTargetDataType(int sourceValueMetaType, int targetValueMetaType, Object value) throws ValueMetaConversionException;
 
   public void setDatePattern(SimpleDateFormat datePattern);
 }

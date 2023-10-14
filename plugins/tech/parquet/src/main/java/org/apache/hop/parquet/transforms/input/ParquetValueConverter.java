@@ -59,8 +59,7 @@ public class ParquetValueConverter extends PrimitiveConverter {
         }
         break;
       default:
-        throw new RuntimeException(
-            "Unable to convert Binary source data to type " + valueMeta.getTypeDesc());
+        throw new RuntimeException("Unable to convert Binary source data to type " + valueMeta.getTypeDesc());
     }
     group.getData()[rowIndex] = object;
   }
@@ -85,8 +84,7 @@ public class ParquetValueConverter extends PrimitiveConverter {
         object = new BigDecimal(value);
         break;
       default:
-        throw new RuntimeException(
-            "Unable to convert Long source data to type " + valueMeta.getTypeDesc());
+        throw new RuntimeException("Unable to convert Long source data to type " + valueMeta.getTypeDesc());
     }
     group.getData()[rowIndex] = object;
   }
@@ -108,8 +106,7 @@ public class ParquetValueConverter extends PrimitiveConverter {
         object = BigDecimal.valueOf(value);
         break;
       default:
-        throw new RuntimeException(
-            "Unable to convert Double/Float source data to type " + valueMeta.getTypeDesc());
+        throw new RuntimeException("Unable to convert Double/Float source data to type " + valueMeta.getTypeDesc());
     }
     group.getData()[rowIndex] = object;
   }
@@ -131,8 +128,7 @@ public class ParquetValueConverter extends PrimitiveConverter {
         object = value ? 1L : 0L;
         break;
       default:
-        throw new RuntimeException(
-            "Unable to convert Boolean source data to type " + valueMeta.getTypeDesc());
+        throw new RuntimeException("Unable to convert Boolean source data to type " + valueMeta.getTypeDesc());
     }
     group.getData()[rowIndex] = object;
   }
@@ -150,7 +146,7 @@ public class ParquetValueConverter extends PrimitiveConverter {
   /**
    * Source code from:
    *
-   *   apache/parquet-mr/parquet-pig/src/main/java/org/apache/parquet/pig/convert/DecimalUtils.java
+   * apache/parquet-mr/parquet-pig/src/main/java/org/apache/parquet/pig/convert/DecimalUtils.java
    *
    * @param value
    * @param precision

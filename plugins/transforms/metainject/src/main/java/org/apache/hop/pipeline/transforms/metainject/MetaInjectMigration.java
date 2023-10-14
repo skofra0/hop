@@ -22,17 +22,14 @@ import java.util.Map;
 /** This class converts old mapping info into new one. */
 public class MetaInjectMigration {
   /** Migrate mapping from 7.0 version. */
-  public static void migrateFrom70(
-      Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping) {
+  public static void migrateFrom70(Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping) {
     /*
      * Need to convert GetTableNamesMeta.SCHENAMENAMEFIELD to the GetTableNamesMeta.SCHEMANAMEFIELD
      */
     for (TargetTransformAttribute target : new ArrayList<>(targetSourceMapping.keySet())) {
       if ("SCHENAMENAMEFIELD".equals(target.getAttributeKey())) {
         SourceTransformField so = targetSourceMapping.remove(target);
-        TargetTransformAttribute target2 =
-            new TargetTransformAttribute(
-                target.getTransformName(), "SCHEMANAMEFIELD", target.isDetail());
+        TargetTransformAttribute target2 = new TargetTransformAttribute(target.getTransformName(), "SCHEMANAMEFIELD", target.isDetail());
         targetSourceMapping.put(target2, so);
       }
     }

@@ -36,13 +36,7 @@ import java.sql.ResultSet;
 public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareData> {
   private static final Class<?> PKG = TableCompare.class; // For Translator
 
-  public TableCompare(
-      TransformMeta transformMeta,
-      TableCompareMeta meta,
-      TableCompareData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TableCompare(TransformMeta transformMeta, TableCompareMeta meta, TableCompareData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -66,118 +60,91 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
       // Reference schema
       //
       if (Utils.isEmpty(meta.getReferenceSchemaField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.ReferenceSchemaNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.ReferenceSchemaNotSpecified"));
       }
       data.refSchemaIndex = getInputRowMeta().indexOfValue(meta.getReferenceSchemaField());
       if (data.refSchemaIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getReferenceSchemaField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getReferenceSchemaField()));
       }
 
       // Reference table
       //
       if (Utils.isEmpty(meta.getReferenceTableField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.ReferenceTableNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.ReferenceTableNotSpecified"));
       }
       data.refTableIndex = getInputRowMeta().indexOfValue(meta.getReferenceTableField());
       if (data.refTableIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getReferenceTableField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getReferenceTableField()));
       }
 
       // Compare schema
       //
       if (Utils.isEmpty(meta.getCompareSchemaField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.CompareSchemaNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CompareSchemaNotSpecified"));
       }
       data.cmpSchemaIndex = getInputRowMeta().indexOfValue(meta.getCompareSchemaField());
       if (data.cmpSchemaIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getCompareSchemaField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getCompareSchemaField()));
       }
 
       // Compare table
       //
       if (Utils.isEmpty(meta.getCompareTableField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.CompareTableNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CompareTableNotSpecified"));
       }
       data.cmpTableIndex = getInputRowMeta().indexOfValue(meta.getCompareTableField());
       if (data.cmpTableIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getCompareTableField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getCompareTableField()));
       }
 
       // Key fields
       //
       if (Utils.isEmpty(meta.getKeyFieldsField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.KeyFieldsNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.KeyFieldsNotSpecified"));
       }
       data.keyFieldsIndex = getInputRowMeta().indexOfValue(meta.getKeyFieldsField());
       if (data.keyFieldsIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getKeyFieldsField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getKeyFieldsField()));
       }
 
       // Exclude fields
       //
       if (Utils.isEmpty(meta.getExcludeFieldsField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.ExcludeFieldsNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.ExcludeFieldsNotSpecified"));
       }
       data.excludeFieldsIndex = getInputRowMeta().indexOfValue(meta.getExcludeFieldsField());
       if (data.excludeFieldsIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getExcludeFieldsField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getExcludeFieldsField()));
       }
 
       // error handling: Key description
       //
       if (Utils.isEmpty(meta.getKeyDescriptionField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.KeyDescriptionFieldNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.KeyDescriptionFieldNotSpecified"));
       }
       data.keyDescIndex = getInputRowMeta().indexOfValue(meta.getKeyDescriptionField());
       if (data.keyDescIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getKeyDescriptionField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getKeyDescriptionField()));
       }
 
       // error handling: reference value
       //
       if (Utils.isEmpty(meta.getValueReferenceField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.ValueReferenceFieldNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.ValueReferenceFieldNotSpecified"));
       }
       data.valueReferenceIndex = getInputRowMeta().indexOfValue(meta.getValueReferenceField());
       if (data.valueReferenceIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getValueReferenceField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getValueReferenceField()));
       }
 
       // error handling: compare value
       //
       if (Utils.isEmpty(meta.getValueCompareField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableCompare.Exception.ValueCompareFieldNotSpecified"));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.ValueCompareFieldNotSpecified"));
       }
       data.valueCompareIndex = getInputRowMeta().indexOfValue(meta.getValueCompareField());
       if (data.valueCompareIndex < 0) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "TableCompare.Exception.CanNotFindField", meta.getValueCompareField()));
+        throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.CanNotFindField", meta.getValueCompareField()));
       }
     } // end if first
 
@@ -196,18 +163,9 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
       String keyFields = getInputRowMeta().getString(r, data.keyFieldsIndex);
       String excludeFields = getInputRowMeta().getString(r, data.excludeFieldsIndex);
 
-      return compareTables(
-          rowMeta,
-          r,
-          referenceSchema,
-          referenceTable,
-          compareSchema,
-          compareTable,
-          keyFields,
-          excludeFields);
+      return compareTables(rowMeta, r, referenceSchema, referenceTable, compareSchema, compareTable, keyFields, excludeFields);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TableCompare.Exception.UnexpectedErrorComparingTables"), e);
+      throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.UnexpectedErrorComparingTables"), e);
     }
   }
 
@@ -230,48 +188,26 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
 
     Object[] result = new Object[6];
 
-
     if (Utils.isEmpty(referenceTable)) {
       Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
-      putError(
-          data.errorRowMeta,
-          errorRowData,
-          1,
-          BaseMessages.getString(PKG, "TableCompare.Exception.NoReferenceTableDefined"),
-          null,
-          "TAC008");
+      putError(data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Exception.NoReferenceTableDefined"), null, "TAC008");
       nrErrors++;
     }
 
     if (Utils.isEmpty(compareTable)) {
       Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
-      putError(
-          data.errorRowMeta,
-          errorRowData,
-          1,
-          BaseMessages.getString(PKG, "TableCompare.Exception.NoCompareTableDefined"),
-          null,
-          "TAC008");
+      putError(data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Exception.NoCompareTableDefined"), null, "TAC008");
       nrErrors++;
     }
 
     DatabaseMeta refConnectionDatabaseMeta = getPipelineMeta().findDatabase(meta.getReferenceConnection(), variables);
-    String refSchemaTable =
-            refConnectionDatabaseMeta.getQuotedSchemaTableCombination(this, referenceSchema, referenceTable);
+    String refSchemaTable = refConnectionDatabaseMeta.getQuotedSchemaTableCombination(this, referenceSchema, referenceTable);
     DatabaseMeta compConnectionDatabaseMeta = getPipelineMeta().findDatabase(meta.getReferenceConnection(), variables);
-    String cmpSchemaTable =
-            compConnectionDatabaseMeta.getQuotedSchemaTableCombination(this, compareSchema, compareTable);
+    String cmpSchemaTable = compConnectionDatabaseMeta.getQuotedSchemaTableCombination(this, compareSchema, compareTable);
 
     if (Utils.isEmpty(keyFields)) {
       Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
-      putError(
-          data.errorRowMeta,
-          errorRowData,
-          1,
-          BaseMessages.getString(
-              PKG, "TableCompare.Exception.NoKeyFieldsDefined", refSchemaTable, cmpSchemaTable),
-          null,
-          "TAC007");
+      putError(data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Exception.NoKeyFieldsDefined", refSchemaTable, cmpSchemaTable), null, "TAC007");
       nrErrors++;
     }
 
@@ -311,18 +247,10 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
       if (refFields.size() != cmpFields.size()) {
         Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
         putError(
-            data.errorRowMeta,
-            errorRowData,
-            1,
+            data.errorRowMeta, errorRowData, 1,
             BaseMessages.getString(
-                PKG,
-                "TableCompare.Error.NumberOfFieldsIsDifferent",
-                refSchemaTable,
-                Integer.toString(refFields.size()),
-                cmpSchemaTable,
-                Integer.toString(cmpFields.size())),
-            null,
-            "TAC001");
+                PKG, "TableCompare.Error.NumberOfFieldsIsDifferent", refSchemaTable, Integer.toString(refFields.size()), cmpSchemaTable, Integer.toString(cmpFields.size())),
+            null, "TAC001");
         nrErrors++;
       } else {
         // See if all the key fields exist in the reference & compare tables...
@@ -332,16 +260,7 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
             if (getTransformMeta().isDoingErrorHandling()) {
               Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
               putError(
-                  data.errorRowMeta,
-                  errorRowData,
-                  1,
-                  BaseMessages.getString(
-                      PKG,
-                      "TableCompare.Error.KeyFieldWasNotFoundInReferenceTable",
-                      key,
-                      refSchemaTable),
-                  null,
-                  "TAC002");
+                  data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Error.KeyFieldWasNotFoundInReferenceTable", key, refSchemaTable), null, "TAC002");
             }
             nrErrors++;
           }
@@ -351,16 +270,7 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
             if (getTransformMeta().isDoingErrorHandling()) {
               Object[] errorRowData = constructErrorRow(rowMeta, r, null, null, null);
               putError(
-                  data.errorRowMeta,
-                  errorRowData,
-                  1,
-                  BaseMessages.getString(
-                      PKG,
-                      "TableCompare.Error.KeyFieldWasNotFoundInCompareTable",
-                      key,
-                      refSchemaTable),
-                  null,
-                  "TAC003");
+                  data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Error.KeyFieldWasNotFoundInCompareTable", key, refSchemaTable), null, "TAC003");
             }
             nrErrors++;
           }
@@ -469,16 +379,8 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
               String keyDesc = getKeyDesc(keyRowMeta, keyNrs, two);
               Object[] errorRowData = constructErrorRow(rowMeta, r, keyDesc, null, null);
               putError(
-                  data.errorRowMeta,
-                  errorRowData,
-                  1,
-                  BaseMessages.getString(
-                      PKG,
-                      "TableCompare.Error.RecordNotInReferenceFoundInCompareTable",
-                      cmpSchemaTable,
-                      keyRowMeta.getString(two)),
-                  null,
-                  "TAC004");
+                  data.errorRowMeta, errorRowData, 1,
+                  BaseMessages.getString(PKG, "TableCompare.Error.RecordNotInReferenceFoundInCompareTable", cmpSchemaTable, keyRowMeta.getString(two)), null, "TAC004");
             }
             nrErrors++;
             nrRightErrors++;
@@ -495,16 +397,8 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
               String keyDesc = getKeyDesc(keyRowMeta, keyNrs, one);
               Object[] errorRowData = constructErrorRow(rowMeta, r, keyDesc, null, null);
               putError(
-                  data.errorRowMeta,
-                  errorRowData,
-                  1,
-                  BaseMessages.getString(
-                      PKG,
-                      "TableCompare.Error.RecordInReferenceNotFoundInCompareTable",
-                      refSchemaTable,
-                      keyRowMeta.getString(one)),
-                  null,
-                  "TAC005");
+                  data.errorRowMeta, errorRowData, 1,
+                  BaseMessages.getString(PKG, "TableCompare.Error.RecordInReferenceNotFoundInCompareTable", refSchemaTable, keyRowMeta.getString(one)), null, "TAC005");
             }
             nrErrors++;
             nrLeftErrors++;
@@ -539,15 +433,9 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
                         String referenceData = quote + valueMeta.getString(oneData) + quote;
                         String compareData = quote + valueMeta.getString(twoData) + quote;
 
-                        Object[] errorRowData =
-                            constructErrorRow(rowMeta, r, keyDesc, referenceData, compareData);
+                        Object[] errorRowData = constructErrorRow(rowMeta, r, keyDesc, referenceData, compareData);
                         putError(
-                            data.errorRowMeta,
-                            errorRowData,
-                            1,
-                            BaseMessages.getString(
-                                PKG, "TableCompare.Error.CompareRowIsDifferentFromReference"),
-                            valueMeta.getName(),
+                            data.errorRowMeta, errorRowData, 1, BaseMessages.getString(PKG, "TableCompare.Error.CompareRowIsDifferentFromReference"), valueMeta.getName(),
                             "TAC006");
                       }
                     }
@@ -571,16 +459,8 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
                     String keyDesc = getKeyDesc(keyRowMeta, keyNrs, one);
                     Object[] errorRowData = constructErrorRow(rowMeta, r, keyDesc, null, null);
                     putError(
-                        data.errorRowMeta,
-                        errorRowData,
-                        1,
-                        BaseMessages.getString(
-                            PKG,
-                            "TableCompare.Error.RecordNotInReferenceFoundInCompareTable",
-                            cmpSchemaTable,
-                            keyRowMeta.getString(one)),
-                        null,
-                        "TAC004");
+                        data.errorRowMeta, errorRowData, 1,
+                        BaseMessages.getString(PKG, "TableCompare.Error.RecordNotInReferenceFoundInCompareTable", cmpSchemaTable, keyRowMeta.getString(one)), null, "TAC004");
                   }
                   nrErrors++;
                   nrRightErrors++;
@@ -594,16 +474,8 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
                     String keyDesc = getKeyDesc(keyRowMeta, keyNrs, two);
                     Object[] errorRowData = constructErrorRow(rowMeta, r, keyDesc, null, null);
                     putError(
-                        data.errorRowMeta,
-                        errorRowData,
-                        1,
-                        BaseMessages.getString(
-                            PKG,
-                            "TableCompare.Error.RecordInReferenceNotFoundInCompareTable",
-                            refSchemaTable,
-                            keyRowMeta.getString(two)),
-                        null,
-                        "TAC005");
+                        data.errorRowMeta, errorRowData, 1,
+                        BaseMessages.getString(PKG, "TableCompare.Error.RecordInReferenceNotFoundInCompareTable", refSchemaTable, keyRowMeta.getString(two)), null, "TAC005");
                   }
                   nrErrors++;
                   nrLeftErrors++;
@@ -624,13 +496,7 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
       }
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG,
-              "TableCompare.Exception.UnexpectedErrorComparingTables",
-              refSchemaTable,
-              cmpSchemaTable),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "TableCompare.Exception.UnexpectedErrorComparingTables", refSchemaTable, cmpSchemaTable), e);
     }
 
     int index = 0;
@@ -664,9 +530,7 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
     return keyDesc.toString();
   }
 
-  private Object[] constructErrorRow(
-      IRowMeta rowMeta, Object[] r, String keyField, String referenceValue, String compareValue)
-      throws HopException {
+  private Object[] constructErrorRow(IRowMeta rowMeta, Object[] r, String keyField, String referenceValue, String compareValue) throws HopException {
 
     if (data.errorRowMeta == null) {
       data.errorRowMeta = rowMeta.clone();
@@ -687,46 +551,30 @@ public class TableCompare extends BaseTransform<TableCompareMeta, TableCompareDa
       try {
         DatabaseMeta refConnectionDatabaseMeta = getPipelineMeta().findDatabase(meta.getReferenceConnection(), variables);
         if (refConnectionDatabaseMeta == null) {
-          logError(
-                  BaseMessages.getString(
-                          PKG, "TableCompare.RefConnection.ConnectionMissing", getTransformName()));
+          logError(BaseMessages.getString(PKG, "TableCompare.RefConnection.ConnectionMissing", getTransformName()));
           return false;
         }
-
 
         data.referenceDb = new Database(this, this, refConnectionDatabaseMeta);
         data.referenceDb.connect();
 
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "TableCompare.Exception.UnexpectedErrorConnectingToReferenceDatabase",
-                    meta.getReferenceConnection()),
-            e);
+        logError(BaseMessages.getString(PKG, "TableCompare.Exception.UnexpectedErrorConnectingToReferenceDatabase", meta.getReferenceConnection()), e);
         return false;
       }
 
       try {
         DatabaseMeta compConnectionDatabaseMeta = getPipelineMeta().findDatabase(meta.getCompareConnection(), variables);
         if (compConnectionDatabaseMeta == null) {
-          logError(
-                  BaseMessages.getString(
-                          PKG, "TableCompare.CompConnection.ConnectionMissing", getTransformName()));
+          logError(BaseMessages.getString(PKG, "TableCompare.CompConnection.ConnectionMissing", getTransformName()));
           return false;
         }
-
 
         data.compareDb = new Database(this, this, compConnectionDatabaseMeta);
         data.compareDb.connect();
 
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "TableCompare.Exception.UnexpectedErrorConnectingToCompareDatabase",
-                    meta.getCompareConnection()),
-            e);
+        logError(BaseMessages.getString(PKG, "TableCompare.Exception.UnexpectedErrorConnectingToCompareDatabase", meta.getCompareConnection()), e);
         return false;
       }
       return true;

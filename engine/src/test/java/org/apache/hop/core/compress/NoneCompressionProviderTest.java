@@ -37,7 +37,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class NoneCompressionProviderTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static final String PROVIDER_NAME = "None";
 
@@ -68,16 +69,14 @@ public class NoneCompressionProviderTest {
 
   @Test
   public void testGetName() {
-    NoneCompressionProvider provider =
-        (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    NoneCompressionProvider provider = (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertNotNull(provider);
     assertEquals(PROVIDER_NAME, provider.getName());
   }
 
   @Test
   public void testGetProviderAttributes() {
-    NoneCompressionProvider provider =
-        (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    NoneCompressionProvider provider = (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertEquals("No compression", provider.getDescription());
     assertTrue(provider.supportsInput());
     assertTrue(provider.supportsOutput());
@@ -86,8 +85,7 @@ public class NoneCompressionProviderTest {
 
   @Test
   public void testCreateInputStream() throws IOException {
-    NoneCompressionProvider provider =
-        (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    NoneCompressionProvider provider = (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     ByteArrayInputStream in = new ByteArrayInputStream("Test".getBytes());
     NoneCompressionInputStream inStream = new NoneCompressionInputStream(in, provider);
     assertNotNull(inStream);
@@ -97,13 +95,11 @@ public class NoneCompressionProviderTest {
 
   @Test
   public void testCreateOutputStream() throws IOException {
-    NoneCompressionProvider provider =
-        (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    NoneCompressionProvider provider = (NoneCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     NoneCompressionOutputStream outStream = new NoneCompressionOutputStream(out, provider);
     assertNotNull(outStream);
-    NoneCompressionOutputStream ncis =
-        (NoneCompressionOutputStream) provider.createOutputStream(out);
+    NoneCompressionOutputStream ncis = (NoneCompressionOutputStream) provider.createOutputStream(out);
     assertNotNull(ncis);
   }
 }

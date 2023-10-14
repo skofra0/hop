@@ -26,22 +26,21 @@ import static org.junit.Assert.assertNotNull;
 
 public class VariableRegistryTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
-  
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+
   @Test
   public void testInit() throws Exception {
 
     VariableRegistry.init();
-    
+
     VariableRegistry registry = VariableRegistry.getInstance();
-    DescribedVariable describedVariable =  registry.findDescribedVariable(Const.HOP_PASSWORD_ENCODER_PLUGIN);
+    DescribedVariable describedVariable = registry.findDescribedVariable(Const.HOP_PASSWORD_ENCODER_PLUGIN);
     assertNotNull(describedVariable);
 
     boolean actual = Boolean.valueOf(describedVariable.getValue());
     assertEquals(false, actual);
 
-    assertEquals(
-        "Specifies the password encoder plugin to use by ID (Hop is the default).",
-        describedVariable.getDescription());
+    assertEquals("Specifies the password encoder plugin to use by ID (Hop is the default).", describedVariable.getDescription());
   }
 }

@@ -31,8 +31,7 @@ import org.apache.hop.workflow.engine.IWorkflowEngine;
 public class WorkflowStartCheckProjectExtensionPoint implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object) throws HopException {
 
     if (!(object instanceof IWorkflowEngine)) {
       return;
@@ -45,8 +44,7 @@ public class WorkflowStartCheckProjectExtensionPoint implements IExtensionPoint 
     try {
       ProjectsUtil.validateFileInProject(log, filename, workflow);
     } catch (Exception e) {
-      throw new HopException(
-          "Validation error against workflow '" + filename + "' in active project", e);
+      throw new HopException("Validation error against workflow '" + filename + "' in active project", e);
     }
   }
 }

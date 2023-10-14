@@ -77,8 +77,7 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
 
   private ColumnInfo[] colinf;
 
-  public WriteToLogDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public WriteToLogDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (WriteToLogMeta) in;
   }
@@ -93,22 +92,20 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
 
     ModifyListener lsMod = modifyEvent -> input.setChanged();
 
-    SelectionAdapter lsSelMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
 
-    SelectionAdapter lsLimitRows =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableFields();
-          }
-        };
+    SelectionAdapter lsLimitRows = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableFields();
+      }
+    };
 
     changed = input.hasChanged();
 
@@ -170,8 +167,7 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
     fdlPrintHeader.right = new FormAttachment(middle, -margin);
     wlPrintHeader.setLayoutData(fdlPrintHeader);
     wPrintHeader = new Button(shell, SWT.CHECK);
-    wPrintHeader.setToolTipText(
-        BaseMessages.getString(PKG, "WriteToLogDialog.PrintHeader.Tooltip"));
+    wPrintHeader.setToolTipText(BaseMessages.getString(PKG, "WriteToLogDialog.PrintHeader.Tooltip"));
     PropsUi.setLook(wPrintHeader);
     FormData fdPrintHeader = new FormData();
     fdPrintHeader.left = new FormAttachment(middle, 0);
@@ -200,8 +196,7 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
 
     // LimitRows size line
     wlLimitRowsNumber = new Label(shell, SWT.RIGHT);
-    wlLimitRowsNumber.setText(
-        BaseMessages.getString(PKG, "DatabaseLookupDialog.LimitRowsNumber.Label"));
+    wlLimitRowsNumber.setText(BaseMessages.getString(PKG, "DatabaseLookupDialog.LimitRowsNumber.Label"));
     PropsUi.setLook(wlLimitRowsNumber);
     wlLimitRowsNumber.setEnabled(input.isLimitRows());
     FormData fdlLimitRowsNumber = new FormData();
@@ -229,9 +224,7 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
     fdlLogMessage.right = new FormAttachment(middle, -margin);
     wlLogMessage.setLayoutData(fdlLogMessage);
 
-    wLogMessage =
-        new StyledTextComp(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wLogMessage = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wLogMessage, Props.WIDGET_STYLE_FIXED);
     wLogMessage.addModifyListener(lsMod);
     FormData fdLogMessage = new FormData();
@@ -263,21 +256,8 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
     final int FieldsRows = input.getFieldName().length;
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "WriteToLogDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "WriteToLogDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -289,23 +269,22 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -335,15 +314,10 @@ public class WriteToLogDialog extends BaseTransformDialog implements ITransformD
 
         ITableItemInsertListener insertListener = (tableItem, v) -> true;
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 

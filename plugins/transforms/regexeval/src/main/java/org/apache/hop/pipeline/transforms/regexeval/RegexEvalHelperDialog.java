@@ -82,12 +82,7 @@ public class RegexEvalHelperDialog extends Dialog {
    * @param regexOptions Any extended options for the regular expression
    * @param canonicalEqualityFlagSet canonical equality choice
    */
-  public RegexEvalHelperDialog(
-      Shell parent,
-      IVariables variables,
-      String regexScript,
-      String regexOptions,
-      boolean canonicalEqualityFlagSet) {
+  public RegexEvalHelperDialog(Shell parent, IVariables variables, String regexScript, String regexOptions, boolean canonicalEqualityFlagSet) {
     super(parent, SWT.NONE);
     this.variables = variables;
     this.regexScript = regexScript;
@@ -137,22 +132,17 @@ public class RegexEvalHelperDialog extends Dialog {
     fdlRegExScript.top = new FormAttachment(0, 2 * margin);
     wlRegExScript.setLayoutData(fdlRegExScript);
 
-    wRegExScript =
-        new StyledTextComp(
-            variables,
-            shell,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wRegExScript = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wRegExScript);
     FormData fdRegExScript = new FormData();
     fdRegExScript.left = new FormAttachment(0, 0);
     fdRegExScript.top = new FormAttachment(wlRegExScript, 2 * margin);
     fdRegExScript.right = new FormAttachment(100, -margin);
-    fdRegExScript.bottom = new FormAttachment(40, -2*margin);
+    fdRegExScript.bottom = new FormAttachment(40, -2 * margin);
     wRegExScript.setLayoutData(fdRegExScript);
     wRegExScript.setFont(GuiResource.getInstance().getFontFixed());
-    
-    wRegExScriptCompile =
-        new Text(shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL);
+
+    wRegExScriptCompile = new Text(shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL);
     PropsUi.setLook(wRegExScriptCompile, Props.WIDGET_STYLE_FIXED);
     FormData fdRegExScriptCompile = new FormData();
     fdRegExScriptCompile.left = new FormAttachment(0, 0);
@@ -184,15 +174,15 @@ public class RegexEvalHelperDialog extends Dialog {
     fdlValue1.top = new FormAttachment(wRegExScriptCompile, margin);
     fdlValue1.right = new FormAttachment(middle, -margin);
     wlValue1.setLayoutData(fdlValue1);
-    
+
     wIconValue1 = new Label(wValuesGroup, SWT.RIGHT);
     wIconValue1.setImage(GuiResource.getInstance().getImageEdit());
     PropsUi.setLook(wIconValue1);
-    FormData fdlIconValue1 = new FormData();    
+    FormData fdlIconValue1 = new FormData();
     fdlIconValue1.top = new FormAttachment(wRegExScriptCompile, margin);
     fdlIconValue1.right = new FormAttachment(100, 0);
     wIconValue1.setLayoutData(fdlIconValue1);
-    
+
     wValue1 = new Text(wValuesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wValue1);
     FormData fdValue1 = new FormData();
@@ -210,15 +200,15 @@ public class RegexEvalHelperDialog extends Dialog {
     fdlValue2.top = new FormAttachment(wValue1, margin);
     fdlValue2.right = new FormAttachment(middle, -margin);
     wlValue2.setLayoutData(fdlValue2);
-    
+
     wIconValue2 = new Label(wValuesGroup, SWT.RIGHT);
     wIconValue2.setImage(GuiResource.getInstance().getImageEdit());
     PropsUi.setLook(wIconValue2);
-    FormData fdlIconValue2 = new FormData();    
+    FormData fdlIconValue2 = new FormData();
     fdlIconValue2.top = new FormAttachment(wValue1, margin);
     fdlIconValue2.right = new FormAttachment(100, 0);
     wIconValue2.setLayoutData(fdlIconValue2);
-    
+
     wValue2 = new Text(wValuesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wValue2);
     FormData fdValue2 = new FormData();
@@ -236,15 +226,15 @@ public class RegexEvalHelperDialog extends Dialog {
     fdlValue3.top = new FormAttachment(wValue2, margin);
     fdlValue3.right = new FormAttachment(middle, -margin);
     wlValue3.setLayoutData(fdlValue3);
-    
+
     wIconValue3 = new Label(wValuesGroup, SWT.RIGHT);
     wIconValue3.setImage(GuiResource.getInstance().getImageEdit());
     PropsUi.setLook(wIconValue3);
-    FormData fdlIconValue3 = new FormData();    
+    FormData fdlIconValue3 = new FormData();
     fdlIconValue3.top = new FormAttachment(wValue2, margin);
     fdlIconValue3.right = new FormAttachment(100, 0);
     wIconValue3.setLayoutData(fdlIconValue3);
-    
+
     wValue3 = new Text(wValuesGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wValue3);
     FormData fdValue3 = new FormData();
@@ -252,7 +242,7 @@ public class RegexEvalHelperDialog extends Dialog {
     fdValue3.top = new FormAttachment(wValue2, margin);
     fdValue3.right = new FormAttachment(wIconValue3, -margin);
     wValue3.setLayoutData(fdValue3);
-    
+
     FormData fdValuesGroup = new FormData();
     fdValuesGroup.left = new FormAttachment(0, 0);
     fdValuesGroup.top = new FormAttachment(wRegExScriptCompile, margin);
@@ -276,7 +266,7 @@ public class RegexEvalHelperDialog extends Dialog {
 
     // ValueGroup
     Label wlValueGroup = new Label(wCaptureGroups, SWT.RIGHT);
-    wlValueGroup.setText(BaseMessages.getString(PKG, "RegexEvalHelperDialog.ValueGroup.Label"));    
+    wlValueGroup.setText(BaseMessages.getString(PKG, "RegexEvalHelperDialog.ValueGroup.Label"));
     PropsUi.setLook(wlValueGroup);
     FormData fdlValueGroup = new FormData();
     fdlValueGroup.left = new FormAttachment(0, 0);
@@ -287,7 +277,7 @@ public class RegexEvalHelperDialog extends Dialog {
     wIconValueGroup = new Label(wCaptureGroups, SWT.RIGHT);
     wIconValueGroup.setImage(GuiResource.getInstance().getImageEdit());
     PropsUi.setLook(wIconValueGroup);
-    FormData fdlIconValueGroup = new FormData();    
+    FormData fdlIconValueGroup = new FormData();
     fdlIconValueGroup.top = new FormAttachment(wValuesGroup, margin);
     fdlIconValueGroup.right = new FormAttachment(100, 0);
     wIconValueGroup.setLayoutData(fdlIconValueGroup);
@@ -308,13 +298,12 @@ public class RegexEvalHelperDialog extends Dialog {
     fdlGroups.top = new FormAttachment(wValueGroup, margin);
     fdlGroups.right = new FormAttachment(middle, -margin);
     wlGroups.setLayoutData(fdlGroups);
-    wGroups =
-        new List(wCaptureGroups, SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
+    wGroups = new List(wCaptureGroups, SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
     PropsUi.setLook(wGroups);
     FormData fdGroups = new FormData();
     fdGroups.left = new FormAttachment(middle, margin);
     fdGroups.top = new FormAttachment(wValueGroup, margin);
-    fdGroups.right = new FormAttachment(100, -2*margin-ConstUi.SMALL_ICON_SIZE);
+    fdGroups.right = new FormAttachment(100, -2 * margin - ConstUi.SMALL_ICON_SIZE);
     fdGroups.bottom = new FormAttachment(100, -margin);
     wGroups.setLayoutData(fdGroups);
 
@@ -324,7 +313,7 @@ public class RegexEvalHelperDialog extends Dialog {
     fdCaptureGroups.right = new FormAttachment(100, 0);
     fdCaptureGroups.bottom = new FormAttachment(wOk, -2 * margin);
     wCaptureGroups.setLayoutData(fdCaptureGroups);
-    
+
     // ///////////////////////////////////////////////////////////
     // / END OF VALUES GROUP
     // ///////////////////////////////////////////////////////////
@@ -334,11 +323,10 @@ public class RegexEvalHelperDialog extends Dialog {
     wValue2.addModifyListener(e -> testValue(2, true, null));
     wValue3.addModifyListener(e -> testValue(3, true, null));
     wValueGroup.addModifyListener(e -> testValue(4, true, null));
-    wRegExScript.addModifyListener(
-        e -> {
-          errorDisplayed = false;
-          testValues();
-        });
+    wRegExScript.addModifyListener(e -> {
+      errorDisplayed = false;
+      testValues();
+    });
 
     getData();
 
@@ -369,7 +357,7 @@ public class RegexEvalHelperDialog extends Dialog {
         mb.open();
       }
       return;
-    }   
+    }
 
     String realValue;
     Label control;
@@ -401,14 +389,13 @@ public class RegexEvalHelperDialog extends Dialog {
       } else {
         p = Pattern.compile(regexOptions + realScript);
       }
-      
+
       Matcher m = p.matcher(Const.NVL(realValue, ""));
       boolean isMatch = m.matches();
 
-      if ( Utils.isEmpty(realValue) ) {
+      if (Utils.isEmpty(realValue)) {
         control.setImage(GuiResource.getInstance().getImageEdit());
-      }
-      else if (isMatch) {
+      } else if (isMatch) {
         control.setImage(GuiResource.getInstance().getImageTrue());
       } else {
         control.setImage(GuiResource.getInstance().getImageFalse());
@@ -429,17 +416,13 @@ public class RegexEvalHelperDialog extends Dialog {
         wlGroups.setText(BaseMessages.getString(PKG, "RegexEvalHelperDialog.FieldsGroup", nr));
       }
       wRegExScriptCompile.setForeground(GuiResource.getInstance().getColorDarkGreen());
-      wRegExScriptCompile.setText(
-          BaseMessages.getString(PKG, "RegexEvalHelperDialog.ScriptSuccessfullyCompiled"));
+      wRegExScriptCompile.setText(BaseMessages.getString(PKG, "RegexEvalHelperDialog.ScriptSuccessfullyCompiled"));
       wRegExScriptCompile.setToolTipText("");
     } catch (Exception e) {
       if (!errorDisplayed) {
         wRegExScriptCompile.setForeground(GuiResource.getInstance().getColorDarkRed());
         wRegExScriptCompile.setText(e.getMessage());
-        wRegExScriptCompile.setToolTipText(
-            BaseMessages.getString(PKG, "RegexEvalHelperDialog.ErrorCompiling.Message")
-                + Const.CR
-                + e);
+        wRegExScriptCompile.setToolTipText(BaseMessages.getString(PKG, "RegexEvalHelperDialog.ErrorCompiling.Message") + Const.CR + e);
         this.errorDisplayed = true;
       }
     }

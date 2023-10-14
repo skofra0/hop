@@ -37,24 +37,13 @@ public class BeamDirectPipelineEngineTest extends BeamBasePipelineEngineTest {
     IPipelineEngineRunConfiguration configuration = new BeamDirectPipelineRunConfiguration();
     configuration.setEnginePluginId("BeamDirectPipelineEngine");
     PipelineRunConfiguration pipelineRunConfiguration =
-        new PipelineRunConfiguration(
-            "direct",
-            "description",
-            "",
-            Arrays.asList(new DescribedVariable("VAR1", "value1", "description1")),
-            configuration,
-            null,
-            false);
+        new PipelineRunConfiguration("direct", "description", "", Arrays.asList(new DescribedVariable("VAR1", "value1", "description1")), configuration, null, false);
 
     metadataProvider.getSerializer(PipelineRunConfiguration.class).save(pipelineRunConfiguration);
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta(
-            "input-process-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta("input-process-output", "INPUT", "OUTPUT", metadataProvider);
 
-    IPipelineEngine<PipelineMeta> engine =
-        createAndExecutePipeline(
-            pipelineRunConfiguration.getName(), metadataProvider, pipelineMeta);
+    IPipelineEngine<PipelineMeta> engine = createAndExecutePipeline(pipelineRunConfiguration.getName(), metadataProvider, pipelineMeta);
     validateInputOutputEngineMetrics(engine);
 
     assertEquals("value1", engine.getVariable("VAR1"));

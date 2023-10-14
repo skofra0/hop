@@ -44,12 +44,7 @@ public class PipelineLoggingDialog extends BaseTransformDialog implements ITrans
   private final PipelineLoggingMeta input;
   private Button wLoggingTransforms;
 
-  public PipelineLoggingDialog(
-      Shell parent,
-      IVariables variables,
-      Object input,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public PipelineLoggingDialog(Shell parent, IVariables variables, Object input, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) input, pipelineMeta, transformName);
     this.input = (PipelineLoggingMeta) input;
   }
@@ -77,8 +72,7 @@ public class PipelineLoggingDialog extends BaseTransformDialog implements ITrans
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "PipelineLoggingDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "PipelineLoggingDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -97,8 +91,7 @@ public class PipelineLoggingDialog extends BaseTransformDialog implements ITrans
 
     // LoggingTransforms line
     Label wlLoggingTransforms = new Label(shell, SWT.RIGHT);
-    wlLoggingTransforms.setText(
-        BaseMessages.getString(PKG, "PipelineLoggingDialog.LoggingTransforms.Label"));
+    wlLoggingTransforms.setText(BaseMessages.getString(PKG, "PipelineLoggingDialog.LoggingTransforms.Label"));
     PropsUi.setLook(wlLoggingTransforms);
     FormData fdlLoggingTransforms = new FormData();
     fdlLoggingTransforms.left = new FormAttachment(0, 0);
@@ -121,8 +114,7 @@ public class PipelineLoggingDialog extends BaseTransformDialog implements ITrans
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, wlLoggingTransforms);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, wlLoggingTransforms);
 
     getData();
 

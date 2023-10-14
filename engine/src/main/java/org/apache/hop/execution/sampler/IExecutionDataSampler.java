@@ -26,8 +26,7 @@ import org.apache.hop.pipeline.transform.stream.IStream;
 
 /** This describes methods for sampling data from */
 @HopMetadataObject(objectFactory = IExecutionDataSampler.ExecutionDataSamplerObjectFactory.class)
-public interface IExecutionDataSampler<Store extends IExecutionDataSamplerStore>
-    extends Cloneable {
+public interface IExecutionDataSampler<Store extends IExecutionDataSamplerStore> extends Cloneable {
 
   String getPluginId();
 
@@ -56,9 +55,7 @@ public interface IExecutionDataSampler<Store extends IExecutionDataSamplerStore>
    * @param rowMeta The row metadata
    * @param row The row data itself
    */
-  void sampleRow(
-          Store samplerStore, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row)
-      throws HopException;
+  void sampleRow(Store samplerStore, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row) throws HopException;
 
   /**
    * This object factory is needed to instantiate the correct plugin class based on the value of the
@@ -79,10 +76,7 @@ public interface IExecutionDataSampler<Store extends IExecutionDataSamplerStore>
     @Override
     public String getObjectId(Object object) throws HopException {
       if (!(object instanceof IExecutionDataSampler)) {
-        throw new HopException(
-            "Object is not of class IExecutionDataSampler but of "
-                + object.getClass().getName()
-                + "'");
+        throw new HopException("Object is not of class IExecutionDataSampler but of " + object.getClass().getName() + "'");
       }
       return ((IExecutionDataSampler<?>) object).getPluginId();
     }

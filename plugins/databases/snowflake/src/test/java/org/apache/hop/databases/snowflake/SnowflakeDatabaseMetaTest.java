@@ -30,7 +30,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class SnowflakeDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   SnowflakeDatabaseMeta nativeMeta;
 
@@ -52,36 +53,19 @@ public class SnowflakeDatabaseMetaTest {
   public void testUrl() throws Exception {
     assertEquals("net.snowflake.client.jdbc.SnowflakeDriver", nativeMeta.getDriverClass());
 
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar",
-        nativeMeta.getURL("account.snowflakecomputing.com", "1500", "bar"));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar",
-        nativeMeta.getURL("account", "1500", "bar"));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com/?db=bar",
-        nativeMeta.getURL("account", "", "bar"));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com", nativeMeta.getURL("account", "", ""));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar", nativeMeta.getURL("account.snowflakecomputing.com", "1500", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar", nativeMeta.getURL("account", "1500", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com/?db=bar", nativeMeta.getURL("account", "", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com", nativeMeta.getURL("account", "", ""));
 
     nativeMeta.setWarehouse("wh");
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh&db=bar",
-        nativeMeta.getURL("account.snowflakecomputing.com", "1500", "bar"));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh&db=bar",
-        nativeMeta.getURL("account", "1500", "bar"));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh",
-        nativeMeta.getURL("account", "1500", ""));
-    assertEquals(
-        "jdbc:snowflake://account.snowflakecomputing.com/?warehouse=wh&db=bar",
-        nativeMeta.getURL("account", "", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh&db=bar", nativeMeta.getURL("account.snowflakecomputing.com", "1500", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh&db=bar", nativeMeta.getURL("account", "1500", "bar"));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?warehouse=wh", nativeMeta.getURL("account", "1500", ""));
+    assertEquals("jdbc:snowflake://account.snowflakecomputing.com/?warehouse=wh&db=bar", nativeMeta.getURL("account", "", "bar"));
 
     try {
-      assertEquals(
-          "jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar",
-          nativeMeta.getURL("", "1500", "bar"));
+      assertEquals("jdbc:snowflake://account.snowflakecomputing.com:1500/?db=bar", nativeMeta.getURL("", "1500", "bar"));
       fail("Should have thrown IllegalArgumentException");
     } catch (IllegalArgumentException dummy) {
       // expected if host is null or empty

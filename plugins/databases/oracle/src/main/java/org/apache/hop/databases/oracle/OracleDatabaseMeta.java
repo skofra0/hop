@@ -97,18 +97,16 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getURL(String hostname, String port, String databaseName)
-      throws HopDatabaseException {
+  public String getURL(String hostname, String port, String databaseName) throws HopDatabaseException {
     if (getAccessType() == DatabaseMeta.TYPE_ACCESS_NATIVE) {
       // the database name can be a SID (starting with :) or a Service (starting with /)
       // <host>:<port>/<service>
       // <host>:<port>:<SID>
-      if (!Utils.isEmpty(databaseName)
-          && (databaseName.startsWith("/") || databaseName.startsWith(":"))) {
+      if (!Utils.isEmpty(databaseName) && (databaseName.startsWith("/") || databaseName.startsWith(":"))) {
         return "jdbc:oracle:thin:@" + hostname + ":" + port + databaseName;
       } else if (Utils.isEmpty(hostname) && (Utils.isEmpty(port) || port.equals("-1"))) {
         // -1 when file based stored
-        //                                    // connection
+        // // connection
         // support RAC with a self defined URL in databaseName like
         // (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = host1-vip)(PORT = 1521))(ADDRESS =
         // (PROTOCOL = TCP)(HOST =
@@ -136,20 +134,13 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
         // Has the user specified hostname & port number?
         if (hostname != null && hostname.length() > 0 && port != null && port.length() > 0) {
           // User wants the full url
-          return "jdbc:oracle:oci:@(description=(address=(host="
-              + hostname
-              + ")(protocol=tcp)(port="
-              + port
-              + "))(connect_data=(sid="
-              + databaseName
-              + ")))";
+          return "jdbc:oracle:oci:@(description=(address=(host=" + hostname + ")(protocol=tcp)(port=" + port + "))(connect_data=(sid=" + databaseName + ")))";
         } else {
           // User wants the shortcut url
           return "jdbc:oracle:oci:@" + databaseName;
         }
       } else {
-        throw new HopDatabaseException(
-            "Unable to construct a JDBC URL: at least the database name must be specified");
+        throw new HopDatabaseException("Unable to construct a JDBC URL: at least the database name must be specified");
       }
     }
   }
@@ -181,17 +172,11 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     String sql = "";
     if (dotPos == -1) {
       // if schema is not specified try to get sequence which belongs to current user
-      sql =
-          "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = '" + sequenceName.toUpperCase() + "'";
+      sql = "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = '" + sequenceName.toUpperCase() + "'";
     } else {
       String schemaName = sequenceName.substring(0, dotPos);
       String seqName = sequenceName.substring(dotPos + 1);
-      sql =
-          "SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = '"
-              + seqName.toUpperCase()
-              + "' AND SEQUENCE_OWNER = '"
-              + schemaName.toUpperCase()
-              + "'";
+      sql = "SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = '" + seqName.toUpperCase() + "' AND SEQUENCE_OWNER = '" + schemaName.toUpperCase() + "'";
     }
     return sql;
   }
@@ -225,7 +210,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return true if we need to supply the schema-name to getTables in order to get a correct list
-   *     of items.
+   *         of items.
    */
   @Override
   public boolean useSchemaNameForTableList() {
@@ -250,13 +235,8 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD ( "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false)
-        + " ) ";
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD ( " + getFieldDefinition(v, tk, pk, useAutoinc, true, false) + " ) ";
   }
 
   /**
@@ -271,8 +251,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to drop a column from the specified table
    */
   @Override
-  public String getDropColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     return "ALTER TABLE " + tableName + " DROP ( " + v.getName() + " ) " + Const.CR;
   }
 
@@ -288,8 +267,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     IValueMeta tmpColumn = v.clone();
     String tmpName = v.getName();
     boolean isQuoted = tmpName.startsWith("\"") && tmpName.endsWith("\"");
@@ -316,19 +294,16 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
     String sql = "";
 
     // Create a new tmp column
-    sql +=
-        getAddColumnStatement(tableName, tmpColumn, tk, useAutoinc, pk, semicolon) + ";" + Const.CR;
+    sql += getAddColumnStatement(tableName, tmpColumn, tk, useAutoinc, pk, semicolon) + ";" + Const.CR;
     // copy the old data over to the tmp column
-    sql +=
-        "UPDATE " + tableName + " SET " + tmpColumn.getName() + "=" + v.getName() + ";" + Const.CR;
+    sql += "UPDATE " + tableName + " SET " + tmpColumn.getName() + "=" + v.getName() + ";" + Const.CR;
     // drop the old column
     sql += getDropColumnStatement(tableName, v, tk, useAutoinc, pk, semicolon) + ";" + Const.CR;
     // create the wanted column
     sql += getAddColumnStatement(tableName, v, tk, useAutoinc, pk, semicolon) + ";" + Const.CR;
     // copy the data from the tmp column to the wanted column (again)
     // All this to avoid the rename clause as this is not supported on all Oracle versions
-    sql +=
-        "UPDATE " + tableName + " SET " + v.getName() + "=" + tmpColumn.getName() + ";" + Const.CR;
+    sql += "UPDATE " + tableName + " SET " + v.getName() + "=" + tmpColumn.getName() + ";" + Const.CR;
     // drop the temp column
     sql += getDropColumnStatement(tableName, tmpColumn, tk, useAutoinc, pk, semicolon);
 
@@ -336,8 +311,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
     StringBuilder retval = new StringBuilder(128);
 
     String fieldname = v.getName();
@@ -417,137 +391,131 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ACCESS",
-      "ADD",
-      "ALL",
-      "ALTER",
-      "AND",
-      "ANY",
-      "ARRAYLEN",
-      "AS",
-      "ASC",
-      "AUDIT",
-      "BETWEEN",
-      "BY",
-      "CHAR",
-      "CHECK",
-      "CLUSTER",
-      "COLUMN",
-      "COMMENT",
-      "COMPRESS",
-      "CONNECT",
-      "CREATE",
-      "CURRENT",
-      "DATE",
-      "DECIMAL",
-      "DEFAULT",
-      "DELETE",
-      "DESC",
-      "DISTINCT",
-      "DROP",
-      "ELSE",
-      "EXCLUSIVE",
-      "EXISTS",
-      "FILE",
-      "FLOAT",
-      "FOR",
-      "FROM",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "IDENTIFIED",
-      "IMMEDIATE",
-      "IN",
-      "INCREMENT",
-      "INDEX",
-      "INITIAL",
-      "INSERT",
-      "INTEGER",
-      "INTERSECT",
-      "INTO",
-      "IS",
-      "LEVEL",
-      "LIKE",
-      "LOCK",
-      "LONG",
-      "MAXEXTENTS",
-      "MINUS",
-      "MODE",
-      "MODIFY",
-      "NOAUDIT",
-      "NOCOMPRESS",
-      "NOT",
-      "NOTFOUND",
-      "NOWAIT",
-      "NULL",
-      "NUMBER",
-      "OF",
-      "OFFLINE",
-      "ON",
-      "ONLINE",
-      "OPTION",
-      "OR",
-      "ORDER",
-      "PCTFREE",
-      "PRIOR",
-      "PRIVILEGES",
-      "PUBLIC",
-      "RAW",
-      "RENAME",
-      "RESOURCE",
-      "REVOKE",
-      "ROW",
-      "ROWID",
-      "ROWLABEL",
-      "ROWNUM",
-      "ROWS",
-      "SELECT",
-      "SESSION",
-      "SET",
-      "SHARE",
-      "SIZE",
-      "SMALLINT",
-      "SQLBUF",
-      "START",
-      "SUCCESSFUL",
-      "SYNONYM",
-      "SYSDATE",
-      "TABLE",
-      "THEN",
-      "TO",
-      "TRIGGER",
-      "UID",
-      "UNION",
-      "UNIQUE",
-      "UPDATE",
-      "USER",
-      "VALIDATE",
-      "VALUES",
-      "VARCHAR",
-      "VARCHAR2",
-      "VIEW",
-      "WHENEVER",
-      "WHERE",
-      "WITH"
-    };
+        "ACCESS",
+        "ADD",
+        "ALL",
+        "ALTER",
+        "AND",
+        "ANY",
+        "ARRAYLEN",
+        "AS",
+        "ASC",
+        "AUDIT",
+        "BETWEEN",
+        "BY",
+        "CHAR",
+        "CHECK",
+        "CLUSTER",
+        "COLUMN",
+        "COMMENT",
+        "COMPRESS",
+        "CONNECT",
+        "CREATE",
+        "CURRENT",
+        "DATE",
+        "DECIMAL",
+        "DEFAULT",
+        "DELETE",
+        "DESC",
+        "DISTINCT",
+        "DROP",
+        "ELSE",
+        "EXCLUSIVE",
+        "EXISTS",
+        "FILE",
+        "FLOAT",
+        "FOR",
+        "FROM",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "IDENTIFIED",
+        "IMMEDIATE",
+        "IN",
+        "INCREMENT",
+        "INDEX",
+        "INITIAL",
+        "INSERT",
+        "INTEGER",
+        "INTERSECT",
+        "INTO",
+        "IS",
+        "LEVEL",
+        "LIKE",
+        "LOCK",
+        "LONG",
+        "MAXEXTENTS",
+        "MINUS",
+        "MODE",
+        "MODIFY",
+        "NOAUDIT",
+        "NOCOMPRESS",
+        "NOT",
+        "NOTFOUND",
+        "NOWAIT",
+        "NULL",
+        "NUMBER",
+        "OF",
+        "OFFLINE",
+        "ON",
+        "ONLINE",
+        "OPTION",
+        "OR",
+        "ORDER",
+        "PCTFREE",
+        "PRIOR",
+        "PRIVILEGES",
+        "PUBLIC",
+        "RAW",
+        "RENAME",
+        "RESOURCE",
+        "REVOKE",
+        "ROW",
+        "ROWID",
+        "ROWLABEL",
+        "ROWNUM",
+        "ROWS",
+        "SELECT",
+        "SESSION",
+        "SET",
+        "SHARE",
+        "SIZE",
+        "SMALLINT",
+        "SQLBUF",
+        "START",
+        "SUCCESSFUL",
+        "SYNONYM",
+        "SYSDATE",
+        "TABLE",
+        "THEN",
+        "TO",
+        "TRIGGER",
+        "UID",
+        "UNION",
+        "UNIQUE",
+        "UPDATE",
+        "USER",
+        "VALIDATE",
+        "VALUES",
+        "VARCHAR",
+        "VARCHAR2",
+        "VIEW",
+        "WHENEVER",
+        "WHERE",
+        "WITH"};
   }
 
   /** @return The SQL on this database to get a list of stored procedures. */
   @Override
   public String getSqlListOfProcedures() {
-    return "SELECT DISTINCT DECODE(package_name, NULL, '', package_name||'.') || object_name "
-        + "FROM user_arguments "
-        + "ORDER BY 1";
+    return "SELECT DISTINCT DECODE(package_name, NULL, '', package_name||'.') || object_name " + "FROM user_arguments " + "ORDER BY 1";
   }
 
   @Override
   public String getSqlLockTables(String[] tableNames) {
     StringBuilder sql = new StringBuilder(128);
     for (int i = 0; i < tableNames.length; i++) {
-      sql.append("LOCK TABLE ")
-          .append(tableNames[i])
-          .append(" IN EXCLUSIVE MODE;")
-          .append(Const.CR);
+      sql.append("LOCK TABLE ").append(tableNames[i]).append(" IN EXCLUSIVE MODE;").append(Const.CR);
     }
     return sql.toString();
   }
@@ -575,12 +543,9 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @throws HopDatabaseException
    */
   @Override
-  public boolean hasIndex(
-      Database database, String schemaName, String tableName, String[] idxFields)
-      throws HopDatabaseException {
+  public boolean hasIndex(Database database, String schemaName, String tableName, String[] idxFields) throws HopDatabaseException {
 
-    String schemaTable =
-        database.getDatabaseMeta().getQuotedSchemaTableCombination(database, schemaName, tableName);
+    String schemaTable = database.getDatabaseMeta().getQuotedSchemaTableCombination(database, schemaName, tableName);
 
     boolean[] exists = new boolean[idxFields.length];
     for (int i = 0; i < exists.length; i++) {
@@ -626,8 +591,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
       return all;
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          "Unable to determine if indexes exists on table [" + schemaTable + "]", e);
+      throw new HopDatabaseException("Unable to determine if indexes exists on table [" + schemaTable + "]", e);
     }
   }
 
@@ -640,7 +604,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * Most databases allow you to retrieve result metadata by preparing a SELECT statement.
    *
    * @return true if the database supports retrieval of query metadata from a prepared statement.
-   *     False if the query needs to be executed first.
+   *         False if the query needs to be executed first.
    */
   @Override
   public boolean isSupportsPreparedStatementMetadataRetrieval() {
@@ -662,7 +626,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   /**
    * @param string
    * @return A string that is properly quoted for use in an Oracle SQL statement (insert, update,
-   *     delete, etc)
+   *         delete, etc)
    */
   @Override
   public String quoteSqlString(String string) {
@@ -684,14 +648,14 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    *
    * @param variables variables needed for variable substitution.
    * @param databaseMeta databaseMeta needed for it's quoteField method. Since we are doing variable
-   *     substitution we need to meta so that we can act on the variable substitution first and then
-   *     the creation of the entire string that will be retuned.
+   *        substitution we need to meta so that we can act on the variable substitution first and
+   *        then
+   *        the creation of the entire string that will be retuned.
    * @param tablespace tablespaceName name of the tablespace.
    * @return String the TABLESPACE tablespaceName section of an Oracle CREATE DDL statement.
    */
   @Override
-  public String getTablespaceDDL(
-      IVariables variables, DatabaseMeta databaseMeta, String tablespace) {
+  public String getTablespaceDDL(IVariables variables, DatabaseMeta databaseMeta, String tablespace) {
     if (!Utils.isEmpty(tablespace)) {
       return "TABLESPACE " + databaseMeta.quoteField(variables.resolve(tablespace));
     } else {
@@ -719,9 +683,7 @@ public class OracleDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    */
   @Override
   public String getDropTableIfExistsStatement(String tableName) {
-    return "BEGIN EXECUTE IMMEDIATE 'DROP TABLE "
-        + tableName
-        + "'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; END;";
+    return "BEGIN EXECUTE IMMEDIATE 'DROP TABLE " + tableName + "'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; END;";
   }
 
   @Override

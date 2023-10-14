@@ -89,8 +89,7 @@ public class ExecCql extends ActionBase implements IAction {
   }
 
   @Override
-  public void loadXml(Node node, IHopMetadataProvider iHopMetadataProvider, IVariables iVariables)
-      throws HopXmlException {
+  public void loadXml(Node node, IHopMetadataProvider iHopMetadataProvider, IVariables iVariables) throws HopXmlException {
     super.loadXml(node);
 
     connectionName = XmlHandler.getTagValue(node, "connection");
@@ -101,8 +100,7 @@ public class ExecCql extends ActionBase implements IAction {
   @Override
   public Result execute(Result result, int nr) throws HopException {
 
-    IHopMetadataSerializer<CassandraConnection> serializer =
-        getMetadataProvider().getSerializer(CassandraConnection.class);
+    IHopMetadataSerializer<CassandraConnection> serializer = getMetadataProvider().getSerializer(CassandraConnection.class);
 
     // Replace variables & parameters
     //
@@ -115,17 +113,12 @@ public class ExecCql extends ActionBase implements IAction {
 
       cassandraConnection = serializer.load(realConnectionName);
       if (cassandraConnection == null) {
-        throw new HopException(
-            "Unable to find Cassandra cassandraConnection with name '" + realConnectionName + "'");
+        throw new HopException("Unable to find Cassandra cassandraConnection with name '" + realConnectionName + "'");
       }
     } catch (Exception e) {
       result.setResult(false);
       result.increaseErrors(1L);
-      throw new HopException(
-          "Unable to load or find a Cassandra cassandraConnection with name '"
-              + realConnectionName
-              + "'",
-          e);
+      throw new HopException("Unable to load or find a Cassandra cassandraConnection with name '" + realConnectionName + "'", e);
     }
 
     String cqlStatements;
@@ -146,13 +139,7 @@ public class ExecCql extends ActionBase implements IAction {
     return result;
   }
 
-  public static int executeCqlStatements(
-      IVariables variables,
-      ILogChannel log,
-      Result result,
-      CassandraConnection cassandraConnection,
-      String cqlStatements)
-      throws HopException {
+  public static int executeCqlStatements(IVariables variables, ILogChannel log, Result result, CassandraConnection cassandraConnection, String cqlStatements) throws HopException {
     int nrExecuted = 0;
 
     // Connect to the database
@@ -202,8 +189,7 @@ public class ExecCql extends ActionBase implements IAction {
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error executing CQL on Cassandra connection " + cassandraConnection.getName(), e);
+      throw new HopException("Error executing CQL on Cassandra connection " + cassandraConnection.getName(), e);
     }
     return nrExecuted;
   }

@@ -32,17 +32,8 @@ public class SocketPortAllocation {
   private String targetTransformName;
   private String targetTransformCopy;
 
-  public SocketPortAllocation(
-      int port,
-      Date lastRequested,
-      String clusterRunId,
-      String pipelineName,
-      String sourceServerName,
-      String sourceTransformName,
-      String sourceTransformCopy,
-      String targetServerName,
-      String targetTransformName,
-      String targetTransformCopy) {
+  public SocketPortAllocation(int port, Date lastRequested, String clusterRunId, String pipelineName, String sourceServerName, String sourceTransformName,
+      String sourceTransformCopy, String targetServerName, String targetTransformName, String targetTransformCopy) {
     this.port = port;
     this.lastRequested = lastRequested;
     this.clusterRunId = clusterRunId;

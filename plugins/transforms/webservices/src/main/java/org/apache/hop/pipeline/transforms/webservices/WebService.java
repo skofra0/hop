@@ -121,13 +121,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
 
   private WebServiceMeta cachedMeta;
 
-  public WebService(
-      TransformMeta aTransformMeta,
-      WebServiceMeta meta,
-      WebServiceData data,
-      int value,
-      PipelineMeta aPipelineMeta,
-      Pipeline aPipeline) {
+  public WebService(TransformMeta aTransformMeta, WebServiceMeta meta, WebServiceData data, int value, PipelineMeta aPipelineMeta, Pipeline aPipeline) {
     super(aTransformMeta, meta, data, value, aPipelineMeta, aPipeline);
 
     // Reference date used to format hours
@@ -144,15 +138,12 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
   public boolean processRow() throws HopException {
     // if a URL is not specified, throw an exception
     if (Utils.isEmpty(meta.getUrl())) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0014.urlNotSpecified", getTransformName()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0014.urlNotSpecified", getTransformName()));
     }
 
     // if an operation is not specified, throw an exception
     if (Utils.isEmpty(meta.getOperationName())) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "WebServices.ERROR0015.OperationNotSelected", getTransformName()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0015.OperationNotSelected", getTransformName()));
     }
 
     Object[] vCurrentRow = getRow();
@@ -182,9 +173,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
       data.argumentRows.add(vCurrentRow);
     }
 
-    if ((vCurrentRow == null && (nbRowProcess % meta.getCallTransform() != 0))
-        || (vCurrentRow != null
-            && ((nbRowProcess > 0 && nbRowProcess % meta.getCallTransform() == 0)))
+    if ((vCurrentRow == null && (nbRowProcess % meta.getCallTransform() != 0)) || (vCurrentRow != null && ((nbRowProcess > 0 && nbRowProcess % meta.getCallTransform() == 0)))
         || (vCurrentRow == null && (!meta.hasFieldsIn()))) {
       requestSOAP(vCurrentRow, getInputRowMeta());
     }
@@ -209,10 +198,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         if (index >= 0) {
           indexList.add(index);
         } else {
-          throw new HopException(
-              "Required input field ["
-                  + curField.getName()
-                  + "] couldn't be found in the transform input");
+          throw new HopException("Required input field [" + curField.getName() + "] couldn't be found in the transform input");
         }
       }
     }
@@ -230,8 +216,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     }
   }
 
-  private String getRequestXML(WsdlOperation operation, boolean qualifyWSField)
-      throws HopException {
+  private String getRequestXML(WsdlOperation operation, boolean qualifyWSField) throws HopException {
     WsdlOpParameterList parameters = operation.getParameters();
     String requestOperation = Const.NVL(meta.getOperationRequestName(), meta.getOperationName());
     Iterator<WsdlOpParameter> iterator = parameters.iterator();
@@ -252,10 +237,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     //
     xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
     xml.append(
-        "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" "
-            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:"
-            + NS_PREFIX
-            + "=\"");
+        "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:" + NS_PREFIX + "=\"");
     xml.append(meta.getOperationNamespace());
     xml.append("\">\n");
 
@@ -265,9 +247,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
 
     xml.append("  <soapenv:Body>\n");
 
-    xml.append("    <" + NS_PREFIX + ":")
-        .append(requestOperation)
-        .append(">\n"); // OPEN request operation
+    xml.append("    <" + NS_PREFIX + ":").append(requestOperation).append(">\n"); // OPEN request operation
     if (meta.getInFieldContainerName() != null) {
       xml.append("      <" + NS_PREFIX + ":" + meta.getInFieldContainerName() + ">\n");
     }
@@ -277,9 +257,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     if (meta.getInFieldContainerName() != null) {
       xml.append("      </" + NS_PREFIX + ":" + meta.getInFieldContainerName() + ">\n");
     }
-    xml.append("    </" + NS_PREFIX + ":")
-        .append(requestOperation)
-        .append(">\n"); // CLOSE request operation
+    xml.append("    </" + NS_PREFIX + ":").append(requestOperation).append(">\n"); // CLOSE request operation
     xml.append("  </soapenv:Body>\n");
     xml.append("</soapenv:Envelope>\n");
 
@@ -290,20 +268,17 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
    * @param xml the XML this method is appending to.
    * @param names the header names
    * @param qualifyWSField indicates if the we are to use the namespace prefix when writing the WS
-   *     field name
+   *        field name
    * @throws HopException
    */
-  private void addParametersToXML(StringBuilder xml, List<String> names, boolean qualifyWSField)
-      throws HopException {
+  private void addParametersToXML(StringBuilder xml, List<String> names, boolean qualifyWSField) throws HopException {
 
     // Add the row parameters...
     //
     for (Object[] vCurrentRow : data.argumentRows) {
 
       if (meta.getInFieldArgumentName() != null) {
-        xml.append("        <" + NS_PREFIX + ":")
-            .append(meta.getInFieldArgumentName())
-            .append(">\n");
+        xml.append("        <" + NS_PREFIX + ":").append(meta.getInFieldArgumentName()).append(">\n");
       }
 
       for (Integer index : indexList) {
@@ -322,12 +297,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
             if (XsdType.TIME.equals(field.getXsdType())) {
               // Allow to deal with hours like 36:12:12 (> 24h)
               long millis = vCurrentValue.getDate(data).getTime() - dateRef.getTime();
-              xml.append(
-                  decFormat.format(millis / 3600000)
-                      + ":"
-                      + decFormat.format((millis % 3600000) / 60000)
-                      + ":"
-                      + decFormat.format(((millis % 60000) / 1000)));
+              xml.append(decFormat.format(millis / 3600000) + ":" + decFormat.format((millis % 3600000) / 60000) + ":" + decFormat.format(((millis % 60000) / 1000)));
             } else if (XsdType.DATE.equals(field.getXsdType())) {
               xml.append(dateFormat.format(vCurrentValue.getDate(data)));
             } else if (XsdType.BOOLEAN.equals(field.getXsdType())) {
@@ -349,18 +319,12 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
             xml.append(field.getWsName()).append(">\n");
 
           } else {
-            xml.append("          <")
-                .append(NS_PREFIX)
-                .append(":")
-                .append(field.getWsName())
-                .append(" xsi:nil=\"true\"/>\n");
+            xml.append("          <").append(NS_PREFIX).append(":").append(field.getWsName()).append(" xsi:nil=\"true\"/>\n");
           }
         }
       }
       if (meta.getInFieldArgumentName() != null) {
-        xml.append("        </" + NS_PREFIX + ":")
-            .append(meta.getInFieldArgumentName())
-            .append(">\n");
+        xml.append("        </" + NS_PREFIX + ":").append(meta.getInFieldArgumentName()).append(">\n");
       }
     }
   }
@@ -371,10 +335,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     HttpEntity httpEntity = null;
     Charset charSet = Charset.defaultCharset();
     try {
-      String xml =
-          getRequestXML(
-              cachedOperation,
-              cachedWsdl.getWsdlTypes().isElementFormQualified(cachedWsdl.getTargetNamespace()));
+      String xml = getRequestXML(cachedOperation, cachedWsdl.getWsdlTypes().isElementFormQualified(cachedWsdl.getTargetNamespace()));
 
       if (log.isDetailed()) {
         logDetailed(BaseMessages.getString(PKG, "WebServices.Log.SOAPEnvelope"));
@@ -398,38 +359,25 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         httpEntity = httpResponse.getEntity();
         ContentType contentType = ContentType.getOrDefault(httpEntity);
         charSet = contentType.getCharset();
-        processRows(
-            httpEntity.getContent(),
-            rowData,
-            rowMeta,
-            cachedWsdl.getWsdlTypes().isElementFormQualified(cachedWsdl.getTargetNamespace()),
-            charSet.toString());
+        processRows(httpEntity.getContent(), rowData, rowMeta, cachedWsdl.getWsdlTypes().isElementFormQualified(cachedWsdl.getTargetNamespace()), charSet.toString());
       } else if (responseCode == HttpStatus.SC_UNAUTHORIZED) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "WebServices.ERROR0011.Authentication", cachedURLService));
+        throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0011.Authentication", cachedURLService));
       } else if (responseCode == HttpStatus.SC_NOT_FOUND) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "WebServices.ERROR0012.NotFound", cachedURLService));
+        throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0012.NotFound", cachedURLService));
       } else if (responseCode == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
         throw new HopTransformException("Internal Server Error 500: " + cachedURLService);
       } else {
         throw new HopTransformException(
             BaseMessages.getString(
-                PKG,
-                "WebServices.ERROR0001.ServerError",
-                Integer.toString(responseCode),
-                Const.NVL(new String(EntityUtils.toString(httpEntity, charSet.toString())), ""),
+                PKG, "WebServices.ERROR0001.ServerError", Integer.toString(responseCode), Const.NVL(new String(EntityUtils.toString(httpEntity, charSet.toString())), ""),
                 cachedURLService));
       }
     } catch (UnknownHostException e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0013.UnknownHost", cachedURLService), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0013.UnknownHost", cachedURLService), e);
     } catch (IOException e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0005.IOException", cachedURLService), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0005.IOException", cachedURLService), e);
     } catch (URISyntaxException e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0002.InvalidURI", cachedURLService), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0002.InvalidURI", cachedURLService), e);
     } finally {
       data.argumentRows.clear(); // ready for the next batch.
       if (vHttpMethod != null) {
@@ -445,16 +393,9 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     cachedMeta = meta;
 
     try {
-      cachedWsdl =
-          new Wsdl(
-              new java.net.URI(data.realUrl),
-              null,
-              null,
-              resolve(meta.getHttpLogin()),
-              Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword())));
+      cachedWsdl = new Wsdl(new java.net.URI(data.realUrl), null, null, resolve(meta.getHttpLogin()), Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword())));
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0013.ExceptionLoadingWSDL"), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0013.ExceptionLoadingWSDL"), e);
     }
 
     cachedURLService = cachedWsdl.getServiceEndpoint();
@@ -464,12 +405,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     //
     cachedOperation = cachedWsdl.getOperation(meta.getOperationName());
     if (cachedOperation == null) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG,
-              "WebServices.Exception.OperarationNotSupported",
-              meta.getOperationName(),
-              meta.getUrl()));
+      throw new HopException(BaseMessages.getString(PKG, "WebServices.Exception.OperarationNotSupported", meta.getOperationName(), meta.getUrl()));
     }
   }
 
@@ -489,21 +425,18 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
       soapAction += "/";
     }
     soapAction += meta.getOperationName() + "\"";
-    logDetailed(
-        BaseMessages.getString(PKG, "WebServices.Log.UsingRequestHeaderSOAPAction", soapAction));
+    logDetailed(BaseMessages.getString(PKG, "WebServices.Log.UsingRequestHeaderSOAPAction", soapAction));
     vHttpMethod.setHeader("SOAPAction", soapAction);
 
     return vHttpMethod;
   }
 
   private HttpClient getHttpClient(HttpClientContext context) {
-    HttpClientManager.HttpClientBuilderFacade clientBuilder =
-        HttpClientManager.getInstance().createBuilder();
+    HttpClientManager.HttpClientBuilderFacade clientBuilder = HttpClientManager.getInstance().createBuilder();
 
     String login = resolve(meta.getHttpLogin());
     if (StringUtils.isNotBlank(login)) {
-      clientBuilder.setCredentials(
-          login, Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword())));
+      clientBuilder.setCredentials(login, Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword())));
     }
     int proxyPort = 0;
     if (StringUtils.isNotBlank(meta.getProxyHost())) {
@@ -542,8 +475,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     super.dispose();
   }
 
-  private String readStringFromInputStream(InputStream is, String encoding)
-      throws HopTransformException {
+  private String readStringFromInputStream(InputStream is, String encoding) throws HopTransformException {
 
     try {
 
@@ -552,7 +484,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
 
       try {
         InputStreamReader reader = new InputStreamReader(is, encoding != null ? encoding : "UTF-8");
-        for (int cnt; (cnt = reader.read(tmp)) > 0; ) {
+        for (int cnt; (cnt = reader.read(tmp)) > 0;) {
           sb.append(tmp, 0, cnt);
         }
       } finally {
@@ -561,18 +493,11 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
       return sb.toString();
 
     } catch (Exception e) {
-      throw new HopTransformException(
-          "Unable to read web service response data from input stream", e);
+      throw new HopTransformException("Unable to read web service response data from input stream", e);
     }
   }
 
-  private void processRows(
-      InputStream anXml,
-      Object[] rowData,
-      IRowMeta rowMeta,
-      boolean ignoreNamespacePrefix,
-      String encoding)
-      throws HopException {
+  private void processRows(InputStream anXml, Object[] rowData, IRowMeta rowMeta, boolean ignoreNamespacePrefix, String encoding) throws HopException {
     // Just to make sure the old pipelines keep working...
     //
     if (meta.isCompatible()) {
@@ -595,12 +520,10 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
 
       // What is the expected response object for the operation?
       //
-      DocumentBuilderFactory documentBuilderFactory =
-          XmlParserFactoryProducer.createSecureDocBuilderFactory();
+      DocumentBuilderFactory documentBuilderFactory = XmlParserFactoryProducer.createSecureDocBuilderFactory();
       documentBuilderFactory.setNamespaceAware(true);
       // Overwrite security feature
-      documentBuilderFactory.setFeature(
-          "http://apache.org/xml/features/disallow-doctype-decl", false);
+      documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false);
 
       DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
@@ -617,8 +540,10 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
       //
       Transformer transformer = null;
       /*
-       * as of BACKLOG-4068, explicit xalan factory references have been deprecated; we use the javax.xml factory
-       * and let java's SPI determine the proper transformer implementation. In addition, tests has been made to
+       * as of BACKLOG-4068, explicit xalan factory references have been deprecated; we use the javax.xml
+       * factory
+       * and let java's SPI determine the proper transformer implementation. In addition, tests has been
+       * made to
        * safeguard that existing code continues working as intended
        */
 
@@ -743,8 +668,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
           // If we find the node name in out output result fields list, we are going to consider it
           // a single row result.
           //
-          WebServiceField field =
-              meta.getFieldOutFromWsName(node.getNodeName(), ignoreNamespacePrefix);
+          WebServiceField field = meta.getFieldOutFromWsName(node.getNodeName(), ignoreNamespacePrefix);
           if (field != null) {
             if (getNodeValue(outputRowData, node, field, transformer, true)) {
               // We found a match.
@@ -767,9 +691,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
               if (log.isDetailed()) {
                 StringWriter nodeXML = new StringWriter();
                 transformer.transform(new DOMSource(node), new StreamResult(nodeXML));
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "WebServices.Log.ResultRowDataFound", nodeXML.toString()));
+                logDetailed(BaseMessages.getString(PKG, "WebServices.Log.ResultRowDataFound", nodeXML.toString()));
               }
 
               // Allocate a new row...
@@ -813,26 +735,15 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         putRow(data.outputRowMeta, outputRowData);
       }
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "WebServices.ERROR0010.OutputParsingError", response.toString()),
-          e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0010.OutputParsingError", response.toString()), e);
     }
   }
 
   private Object[] createNewRow(Object[] inputRowData) {
-    return inputRowData == null
-        ? RowDataUtil.allocateRowData(data.outputRowMeta.size())
-        : RowDataUtil.createResizedCopy(inputRowData, data.outputRowMeta.size());
+    return inputRowData == null ? RowDataUtil.allocateRowData(data.outputRowMeta.size()) : RowDataUtil.createResizedCopy(inputRowData, data.outputRowMeta.size());
   }
 
-  private void compatibleProcessRows(
-      InputStream anXml,
-      Object[] rowData,
-      IRowMeta rowMeta,
-      boolean ignoreNamespacePrefix,
-      String encoding)
-      throws HopException {
+  private void compatibleProcessRows(InputStream anXml, Object[] rowData, IRowMeta rowMeta, boolean ignoreNamespacePrefix, String encoding) throws HopException {
 
     // First we should get the complete string
     // The problem is that the string can contain XML or any other format such as HTML saying the
@@ -869,11 +780,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
             // START_ELEMENT= 1
             //
             if (log.isRowLevel()) {
-              logRowlevel(
-                  "START_ELEMENT / "
-                      + vReader.getAttributeCount()
-                      + " / "
-                      + vReader.getNamespaceCount());
+              logRowlevel("START_ELEMENT / " + vReader.getAttributeCount() + " / " + vReader.getNamespaceCount());
             }
 
             // If we start the xml element named like the return type,
@@ -885,8 +792,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
             if (Utils.isEmpty(meta.getOutFieldArgumentName())) {
               // getOutFieldArgumentName() == null
               if (oneValueRowProcessing) {
-                WebServiceField field =
-                    meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
+                WebServiceField field = meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
                 if (field != null) {
                   outputRowData[outputIndex++] = getValue(vReader.getElementText(), field);
                   putRow(data.outputRowMeta, outputRowData);
@@ -914,8 +820,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
                   logRowlevel("OutFieldArgumentName = ");
                 }
                 if (processing) {
-                  WebServiceField field =
-                      meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
+                  WebServiceField field = meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
                   if (field != null) {
                     int index = data.outputRowMeta.indexOfValue(field.getName());
                     if (index >= 0) {
@@ -924,8 +829,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
                   }
                   processing = false;
                 } else {
-                  WebServiceField field =
-                      meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
+                  WebServiceField field = meta.getFieldOutFromWsName(vReader.getLocalName(), ignoreNamespacePrefix);
                   if (meta.getFieldsOut().size() == 1 && field != null) {
                     // This can be either a simple return element, or a complex type...
                     //
@@ -941,9 +845,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
                       putRow(data.outputRowMeta, outputRowData);
                     } catch (XMLStreamException e) {
                       throw new HopTransformException(
-                          "Unable to get value for field ["
-                              + field.getName()
-                              + "].  Verify that this is not a complex data type by looking at the response XML.",
+                          "Unable to get value for field [" + field.getName() + "].  Verify that this is not a complex data type by looking at the response XML.",
                           e);
                     }
                   } else {
@@ -974,11 +876,9 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
             }
             // If we end the xml element named as the return type, we
             // finish a row
-            if ((meta.getOutFieldArgumentName() == null
-                && meta.getOperationName().equals(vReader.getLocalName()))) {
+            if ((meta.getOutFieldArgumentName() == null && meta.getOperationName().equals(vReader.getLocalName()))) {
               oneValueRowProcessing = false;
-            } else if (meta.getOutFieldArgumentName() != null
-                && meta.getOutFieldArgumentName().equals(vReader.getLocalName())) {
+            } else if (meta.getOutFieldArgumentName() != null && meta.getOutFieldArgumentName().equals(vReader.getLocalName())) {
               putRow(data.outputRowMeta, outputRowData);
               processing = false;
             }
@@ -1069,18 +969,11 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         }
       }
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "WebServices.ERROR0010.OutputParsingError", response), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "WebServices.ERROR0010.OutputParsingError", response), e);
     }
   }
 
-  private boolean getNodeValue(
-      Object[] outputRowData,
-      Node node,
-      WebServiceField field,
-      Transformer transformer,
-      boolean singleRowScenario)
-      throws HopException {
+  private boolean getNodeValue(Object[] outputRowData, Node node, WebServiceField field, Transformer transformer, boolean singleRowScenario) throws HopException {
 
     Integer outputIndex = data.indexMap.get(field.getWsName());
     if (outputIndex == null) {
@@ -1102,15 +995,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         outputRowData[outputIndex] = rowValue;
         return true;
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to convert value ["
-                + textContent
-                + "] for field ["
-                + field.getWsName()
-                + "], type ["
-                + field.getXsdType()
-                + "]",
-            e);
+        throw new HopException("Unable to convert value [" + textContent + "] for field [" + field.getWsName() + "], type [" + field.getXsdType() + "]", e);
       }
     } else if (node.getNodeType() == Node.ELEMENT_NODE) {
       // Perhaps we're dealing with complex data types.
@@ -1122,8 +1007,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
         outputRowData[outputIndex] = childNodeXML.toString();
         return true;
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to transform DOM node with name [" + node.getNodeName() + "] to XML", e);
+        throw new HopException("Unable to transform DOM node with name [" + node.getNodeName() + "] to XML", e);
       }
     }
 
@@ -1132,8 +1016,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
     return false;
   }
 
-  private Object getValue(String vNodeValue, WebServiceField field)
-      throws XMLStreamException, ParseException {
+  private Object getValue(String vNodeValue, WebServiceField field) throws XMLStreamException, ParseException {
     if (vNodeValue == null) {
       return null;
     } else {
@@ -1166,9 +1049,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
           stopAll();
           return null;
         }
-      } else if (XsdType.INTEGER.equals(field.getXsdType())
-          || XsdType.SHORT.equals(field.getXsdType())
-          || XsdType.INTEGER_DESC.equals(field.getXsdType())) {
+      } else if (XsdType.INTEGER.equals(field.getXsdType()) || XsdType.SHORT.equals(field.getXsdType()) || XsdType.INTEGER_DESC.equals(field.getXsdType())) {
         try {
           return Long.parseLong(vNodeValue);
         } catch (NumberFormatException e) {
@@ -1177,8 +1058,7 @@ public class WebService extends BaseTransform<WebServiceMeta, WebServiceData> {
           stopAll();
           return null;
         }
-      } else if (XsdType.FLOAT.equals(field.getXsdType())
-          || XsdType.DOUBLE.equals(field.getXsdType())) {
+      } else if (XsdType.FLOAT.equals(field.getXsdType()) || XsdType.DOUBLE.equals(field.getXsdType())) {
         try {
           return Double.parseDouble(vNodeValue);
         } catch (NumberFormatException e) {

@@ -92,8 +92,7 @@ public class QueryField {
     valueField = 1;
   }
 
-  public QueryField(
-      String aggregateField, String subjectField, AggregateType aggregateType, int valueField) {
+  public QueryField(String aggregateField, String subjectField, AggregateType aggregateType, int valueField) {
     this.aggregateField = aggregateField;
     this.subjectField = subjectField;
     this.aggregateType = aggregateType;
@@ -109,9 +108,7 @@ public class QueryField {
       return false;
     }
     QueryField that = (QueryField) o;
-    return valueField == that.valueField
-        && Objects.equals(aggregateField, that.aggregateField)
-        && Objects.equals(subjectField, that.subjectField)
+    return valueField == that.valueField && Objects.equals(aggregateField, that.aggregateField) && Objects.equals(subjectField, that.subjectField)
         && aggregateType == that.aggregateType;
   }
 

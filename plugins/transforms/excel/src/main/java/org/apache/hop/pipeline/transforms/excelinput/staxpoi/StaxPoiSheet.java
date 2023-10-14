@@ -71,8 +71,7 @@ public class StaxPoiSheet implements IKSheet {
   // custom styles
   private StylesTable styles;
 
-  public StaxPoiSheet(XSSFReader reader, String sheetName, String sheetID)
-      throws InvalidFormatException, IOException, XMLStreamException {
+  public StaxPoiSheet(XSSFReader reader, String sheetName, String sheetID) throws InvalidFormatException, IOException, XMLStreamException {
     this.sheetName = sheetName;
     xssfReader = reader;
     sheetId = sheetID;
@@ -85,8 +84,7 @@ public class StaxPoiSheet implements IKSheet {
     headerRow = new ArrayList<>();
     while (sheetReader.hasNext()) {
       int event = sheetReader.next();
-      if (event == XMLStreamConstants.START_ELEMENT
-          && sheetReader.getLocalName().equals("dimension")) {
+      if (event == XMLStreamConstants.START_ELEMENT && sheetReader.getLocalName().equals("dimension")) {
         String dim = sheetReader.getAttributeValue(null, "ref");
         // empty sheets have dimension with no range
         if (StringUtils.contains(dim, ':')) {
@@ -117,8 +115,7 @@ public class StaxPoiSheet implements IKSheet {
                 // if the type of the cell is string, we continue
                 while (sheetReader.hasNext()) {
                   event = sheetReader.next();
-                  if (event == XMLStreamConstants.START_ELEMENT
-                      && sheetReader.getLocalName().equals("v")) {
+                  if (event == XMLStreamConstants.START_ELEMENT && sheetReader.getLocalName().equals("v")) {
                     int idx = Integer.parseInt(sheetReader.getElementText());
                     String content = sst.getItemAt(idx).getString();
                     headerRow.add(content);
@@ -129,8 +126,7 @@ public class StaxPoiSheet implements IKSheet {
                 // if the type of the cell is string, we continue
                 while (sheetReader.hasNext()) {
                   event = sheetReader.next();
-                  if (event == XMLStreamConstants.START_ELEMENT
-                      && sheetReader.getLocalName().equals("is")) {
+                  if (event == XMLStreamConstants.START_ELEMENT && sheetReader.getLocalName().equals("is")) {
                     while (sheetReader.hasNext()) {
                       event = sheetReader.next();
                       if (event == XMLStreamConstants.CHARACTERS) {
@@ -261,11 +257,7 @@ public class StaxPoiSheet implements IKSheet {
       }
       if (content != null) {
         KCellType kcType = getCellType(cellType, cellStyle, isFormula);
-        setCells(
-            cells,
-            undefinedColIndex,
-            columnIndex,
-            new StaxPoiCell(parseValue(kcType, content), kcType, currentRow));
+        setCells(cells, undefinedColIndex, columnIndex, new StaxPoiCell(parseValue(kcType, content), kcType, currentRow));
       } else {
         // else let cell be null
         setCells(cells, undefinedColIndex, columnIndex, null);
@@ -275,11 +267,7 @@ public class StaxPoiSheet implements IKSheet {
     return cells.toArray(new StaxPoiCell[cells.size()]);
   }
 
-  private static void setCells(
-      List<StaxPoiCell> cellsArray,
-      int firstUndefinedColIndex,
-      int foundColIndex,
-      StaxPoiCell cell) {
+  private static void setCells(List<StaxPoiCell> cellsArray, int firstUndefinedColIndex, int foundColIndex, StaxPoiCell cell) {
     // fill all cells before found with Null
     for (int index = firstUndefinedColIndex; index < foundColIndex; index++) {
       cellsArray.add(null);

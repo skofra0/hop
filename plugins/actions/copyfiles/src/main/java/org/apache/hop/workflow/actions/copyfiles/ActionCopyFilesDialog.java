@@ -59,8 +59,7 @@ import java.util.Map;
 public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionCopyFiles.class; // For Translator
 
-  protected static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionCopyFiles.Filetype.All")};
+  protected static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionCopyFiles.Filetype.All")};
 
   public static final String LOCAL_ENVIRONMENT = "Local";
   public static final String STATIC_ENVIRONMENT = "<Static>";
@@ -86,8 +85,7 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
 
   private ToolItem deleteToolItem; // Delete
 
-  public ActionCopyFilesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCopyFilesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCopyFiles) action;
 
@@ -200,76 +198,51 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
     settingsLayout.marginHeight = 3;
     wSettingsComp.setLayout(settingsLayout);
 
-    SelectionAdapter listener =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        };
+    SelectionAdapter listener = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    };
 
     wIncludeSubfolders =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.IncludeSubfolders.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.IncludeSubfolders.Tooltip"),
-            null,
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.IncludeSubfolders.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.IncludeSubfolders.Tooltip"), null,
             listener);
 
     wDestinationIsAFile =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.DestinationIsAFile.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.DestinationIsAFile.Tooltip"),
-            wIncludeSubfolders,
-            listener);
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.DestinationIsAFile.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.DestinationIsAFile.Tooltip"),
+            wIncludeSubfolders, listener);
 
     wCopyEmptyFolders =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.CopyEmptyFolders.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.CopyEmptyFolders.Tooltip"),
-            wDestinationIsAFile,
-            listener);
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.CopyEmptyFolders.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.CopyEmptyFolders.Tooltip"),
+            wDestinationIsAFile, listener);
 
     wCreateDestinationFolder =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.CreateDestinationFolder.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.CreateDestinationFolder.Tooltip"),
-            wCopyEmptyFolders,
-            listener);
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.CreateDestinationFolder.Label"),
+            BaseMessages.getString(PKG, "ActionCopyFiles.CreateDestinationFolder.Tooltip"), wCopyEmptyFolders, listener);
 
     wOverwriteFiles =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.OverwriteFiles.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.OverwriteFiles.Tooltip"),
-            wCreateDestinationFolder,
-            listener);
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.OverwriteFiles.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.OverwriteFiles.Tooltip"),
+            wCreateDestinationFolder, listener);
 
     wRemoveSourceFiles =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.RemoveSourceFiles.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.RemoveSourceFiles.Tooltip"),
-            wOverwriteFiles,
-            listener);
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.RemoveSourceFiles.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.RemoveSourceFiles.Tooltip"),
+            wOverwriteFiles, listener);
 
     wPrevious =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.Previous.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.Previous.Tooltip"),
-            wRemoveSourceFiles,
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.Previous.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.Previous.Tooltip"), wRemoveSourceFiles,
             listener);
 
     wAddFileToResult =
         createSettingsButton(
-            wSettingsComp,
-            BaseMessages.getString(PKG, "ActionCopyFiles.AddFileToResult.Label"),
-            BaseMessages.getString(PKG, "ActionCopyFiles.AddFileToResult.Tooltip"),
-            wPrevious,
+            wSettingsComp, BaseMessages.getString(PKG, "ActionCopyFiles.AddFileToResult.Label"), BaseMessages.getString(PKG, "ActionCopyFiles.AddFileToResult.Tooltip"), wPrevious,
             listener);
 
     FormData fdSettingsComp = new FormData();
@@ -296,18 +269,16 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
 
     deleteToolItem = new ToolItem(tb, SWT.PUSH);
     deleteToolItem.setImage(GuiResource.getInstance().getImageDelete());
-    deleteToolItem.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCopyFiles.FilenameDelete.Tooltip"));
-    deleteToolItem.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    deleteToolItem.setToolTipText(BaseMessages.getString(PKG, "ActionCopyFiles.FilenameDelete.Tooltip"));
+    deleteToolItem.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     wlFields = new Label(wFilesComp, SWT.NONE);
     wlFields.setText(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.Label"));
@@ -317,49 +288,26 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
     fdlFields.top = new FormAttachment(tb, 0, SWT.CENTER);
     wlFields.setLayoutData(fdlFields);
 
-    int rows =
-        action.sourceFileFolder == null
-            ? 1
-            : (action.sourceFileFolder.length == 0 ? 0 : action.sourceFileFolder.length);
+    int rows = action.sourceFileFolder == null ? 1 : (action.sourceFileFolder.length == 0 ? 0 : action.sourceFileFolder.length);
     final int FieldsRows = rows;
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceEnvironment.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceFileFolder.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT_BUTTON,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCopyFiles.Fields.Wildcard.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationEnvironment.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationFileFolder.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT_BUTTON,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceEnvironment.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceFileFolder.Label"), ColumnInfo.COLUMN_TYPE_TEXT_BUTTON, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.Wildcard.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationEnvironment.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationFileFolder.Label"), ColumnInfo.COLUMN_TYPE_TEXT_BUTTON, false)};
 
     setComboValues(colinf[0]);
 
-    ITextVarButtonRenderCallback callback =
-        () -> {
-          String envType = wFields.getActiveTableItem().getText(wFields.getActiveTableColumn() - 1);
-          return !STATIC_ENVIRONMENT.equalsIgnoreCase(envType);
-        };
+    ITextVarButtonRenderCallback callback = () -> {
+      String envType = wFields.getActiveTableItem().getText(wFields.getActiveTableColumn() - 1);
+      return !STATIC_ENVIRONMENT.equalsIgnoreCase(envType);
+    };
 
     colinf[1].setUsingVariables(true);
-    colinf[1].setToolTip(
-        BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceFileFolder.Tooltip"));
+    colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.SourceFileFolder.Tooltip"));
     colinf[1].setTextVarButtonSelectionListener(getFileSelectionAdapter());
     colinf[1].setRenderTextVarButtonCallback(callback);
 
@@ -369,19 +317,10 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
     setComboValues(colinf[3]);
 
     colinf[4].setUsingVariables(true);
-    colinf[4].setToolTip(
-        BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationFileFolder.Tooltip"));
+    colinf[4].setToolTip(BaseMessages.getString(PKG, "ActionCopyFiles.Fields.DestinationFileFolder.Tooltip"));
     colinf[4].setTextVarButtonSelectionListener(getFileSelectionAdapter());
 
-    wFields =
-        new TableView(
-            variables,
-            wFilesComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFilesComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, margin);
@@ -405,8 +344,7 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
     return action;
   }
 
-  protected Button createSettingsButton(
-      Composite p, String text, String title, Control top, SelectionAdapter sa) {
+  protected Button createSettingsButton(Composite p, String text, String title, Control top, SelectionAdapter sa) {
     Button button = new Button(p, SWT.CHECK);
     button.setText(text);
     button.setToolTipText(title);
@@ -456,20 +394,11 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
           String sourceUrl = action.sourceFileFolder[i];
           String clusterName = action.getConfigurationBy(sourceUrl);
           if (clusterName != null) {
-            clusterName =
-                clusterName.startsWith(ActionCopyFiles.LOCAL_SOURCE_FILE)
-                    ? LOCAL_ENVIRONMENT
-                    : clusterName;
-            clusterName =
-                clusterName.startsWith(ActionCopyFiles.STATIC_SOURCE_FILE)
-                    ? STATIC_ENVIRONMENT
-                    : clusterName;
+            clusterName = clusterName.startsWith(ActionCopyFiles.LOCAL_SOURCE_FILE) ? LOCAL_ENVIRONMENT : clusterName;
+            clusterName = clusterName.startsWith(ActionCopyFiles.STATIC_SOURCE_FILE) ? STATIC_ENVIRONMENT : clusterName;
 
             ti.setText(1, clusterName);
-            sourceUrl =
-                clusterName.equals(LOCAL_ENVIRONMENT) || clusterName.equals(STATIC_ENVIRONMENT)
-                    ? sourceUrl
-                    : action.getUrlPath(sourceUrl);
+            sourceUrl = clusterName.equals(LOCAL_ENVIRONMENT) || clusterName.equals(STATIC_ENVIRONMENT) ? sourceUrl : action.getUrlPath(sourceUrl);
           }
           if (sourceUrl != null) {
             sourceUrl = sourceUrl.replace(ActionCopyFiles.SOURCE_URL + i + "-", "");
@@ -485,19 +414,10 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
           String destinationURL = action.destinationFileFolder[i];
           String clusterName = action.getConfigurationBy(destinationURL);
           if (clusterName != null) {
-            clusterName =
-                clusterName.startsWith(ActionCopyFiles.LOCAL_DEST_FILE)
-                    ? LOCAL_ENVIRONMENT
-                    : clusterName;
-            clusterName =
-                clusterName.startsWith(ActionCopyFiles.STATIC_DEST_FILE)
-                    ? STATIC_ENVIRONMENT
-                    : clusterName;
+            clusterName = clusterName.startsWith(ActionCopyFiles.LOCAL_DEST_FILE) ? LOCAL_ENVIRONMENT : clusterName;
+            clusterName = clusterName.startsWith(ActionCopyFiles.STATIC_DEST_FILE) ? STATIC_ENVIRONMENT : clusterName;
             ti.setText(4, clusterName);
-            destinationURL =
-                clusterName.equals(LOCAL_ENVIRONMENT) || clusterName.equals(STATIC_ENVIRONMENT)
-                    ? destinationURL
-                    : action.getUrlPath(destinationURL);
+            destinationURL = clusterName.equals(LOCAL_ENVIRONMENT) || clusterName.equals(STATIC_ENVIRONMENT) ? destinationURL : action.getUrlPath(destinationURL);
           }
           if (destinationURL != null) {
             destinationURL = destinationURL.replace(ActionCopyFiles.DEST_URL + i + "-", "");
@@ -557,10 +477,8 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
 
     for (int i = 0; i < nrItems; i++) {
       String sourceNc = wFields.getNonEmpty(i).getText(1);
-      sourceNc =
-          sourceNc.equals(LOCAL_ENVIRONMENT) ? ActionCopyFiles.LOCAL_SOURCE_FILE + i : sourceNc;
-      sourceNc =
-          sourceNc.equals(STATIC_ENVIRONMENT) ? ActionCopyFiles.STATIC_SOURCE_FILE + i : sourceNc;
+      sourceNc = sourceNc.equals(LOCAL_ENVIRONMENT) ? ActionCopyFiles.LOCAL_SOURCE_FILE + i : sourceNc;
+      sourceNc = sourceNc.equals(STATIC_ENVIRONMENT) ? ActionCopyFiles.STATIC_SOURCE_FILE + i : sourceNc;
       String source = wFields.getNonEmpty(i).getText(2);
       String wild = wFields.getNonEmpty(i).getText(3);
       String destNc = wFields.getNonEmpty(i).getText(4);
@@ -569,10 +487,8 @@ public class ActionCopyFilesDialog extends ActionDialog implements IActionDialog
       String dest = wFields.getNonEmpty(i).getText(5);
       source = ActionCopyFiles.SOURCE_URL + i + "-" + source;
       dest = ActionCopyFiles.DEST_URL + i + "-" + dest;
-      action.sourceFileFolder[i] =
-          action.loadURL(source, sourceNc, getMetadataProvider(), sourceDestinationMappings);
-      action.destinationFileFolder[i] =
-          action.loadURL(dest, destNc, getMetadataProvider(), sourceDestinationMappings);
+      action.sourceFileFolder[i] = action.loadURL(source, sourceNc, getMetadataProvider(), sourceDestinationMappings);
+      action.destinationFileFolder[i] = action.loadURL(dest, destNc, getMetadataProvider(), sourceDestinationMappings);
       action.wildcard[i] = wild;
     }
     action.setConfigurationMappings(sourceDestinationMappings);

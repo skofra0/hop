@@ -36,16 +36,8 @@ public class PipelinePainterFlyoutExtension {
   public float translationY;
   public float magnification;
 
-  public PipelinePainterFlyoutExtension(
-      IGc gc,
-      List<AreaOwner> areaOwners,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      float translationX,
-      float translationY,
-      float magnification,
-      Point area,
-      Point offset) {
+  public PipelinePainterFlyoutExtension(IGc gc, List<AreaOwner> areaOwners, PipelineMeta pipelineMeta, TransformMeta transformMeta, float translationX, float translationY,
+      float magnification, Point area, Point offset) {
     super();
     this.gc = gc;
     this.areaOwners = areaOwners;

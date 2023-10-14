@@ -63,16 +63,15 @@ public class CheckSumTest {
     org.junit.Assume.assumeFalse(SystemUtils.IS_OS_WINDOWS);
   }
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static Object previousHopDefaultNumberFormat;
 
   @BeforeClass
-  public static void setUpBeforeClass()
-      throws HopException, NoSuchFieldException, IllegalAccessException {
+  public static void setUpBeforeClass() throws HopException, NoSuchFieldException, IllegalAccessException {
     System.setProperty("file.encoding", "UTF-8");
-    previousHopDefaultNumberFormat =
-        System.getProperties().put(Const.HOP_DEFAULT_NUMBER_FORMAT, "0.0;-0.0");
+    previousHopDefaultNumberFormat = System.getProperties().put(Const.HOP_DEFAULT_NUMBER_FORMAT, "0.0;-0.0");
     java.lang.reflect.Field charset = Charset.class.getDeclaredField("defaultCharset");
     charset.setAccessible(true);
     charset.set(null, null);
@@ -88,8 +87,7 @@ public class CheckSumTest {
     }
   }
 
-  private Pipeline buildHexadecimalChecksumPipeline(CheckSumMeta.CheckSumType checkSumType)
-      throws Exception {
+  private Pipeline buildHexadecimalChecksumPipeline(CheckSumMeta.CheckSumType checkSumType) throws Exception {
     // Create a new pipeline...
     PipelineMeta pipelineMeta = new PipelineMeta();
     pipelineMeta.setName(getClass().getName());
@@ -104,19 +102,15 @@ public class CheckSumTest {
     meta.setResultType(CheckSumMeta.ResultType.HEXADECIMAL);
     meta.setFields(Arrays.asList(new Field("test")));
 
-    String checkSumPluginPid =
-        PluginRegistry.getInstance().getPluginId(TransformPluginType.class, meta);
-    TransformMeta checkSumTransform =
-        new TransformMeta(checkSumPluginPid, checkSumTransformName, meta);
+    String checkSumPluginPid = PluginRegistry.getInstance().getPluginId(TransformPluginType.class, meta);
+    TransformMeta checkSumTransform = new TransformMeta(checkSumPluginPid, checkSumTransformName, meta);
     pipelineMeta.addTransform(checkSumTransform);
 
     // Create a Dummy transform
     String dummyTransformName = "Output";
     DummyMeta dummyMeta = new DummyMeta();
-    String dummyTransformPid =
-        PluginRegistry.getInstance().getPluginId(TransformPluginType.class, dummyMeta);
-    TransformMeta dummyTransform =
-        new TransformMeta(dummyTransformPid, dummyTransformName, dummyMeta);
+    String dummyTransformPid = PluginRegistry.getInstance().getPluginId(TransformPluginType.class, dummyMeta);
+    TransformMeta dummyTransform = new TransformMeta(dummyTransformPid, dummyTransformName, dummyMeta);
     pipelineMeta.addTransform(dummyTransform);
 
     // Create a hop from CheckSum to Output
@@ -174,8 +168,7 @@ public class CheckSumTest {
    * @param meta meta to be used
    * @return IRowListener with results.
    */
-  private MockRowListener executeHexTest(
-      CheckSumMeta.CheckSumType checkSumType, Object input, IValueMeta meta) throws Exception {
+  private MockRowListener executeHexTest(CheckSumMeta.CheckSumType checkSumType, Object input, IValueMeta meta) throws Exception {
     Pipeline pipeline = buildHexadecimalChecksumPipeline(checkSumType);
 
     pipeline.prepareExecution();
@@ -201,8 +194,7 @@ public class CheckSumTest {
 
   @Test
   public void testHexOutput_md5() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.MD5, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.MD5, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals("d16fb36f0911f878998c136191af705e", results.getWritten().get(0)[1]);
 
@@ -222,8 +214,7 @@ public class CheckSumTest {
 
   @Test
   public void testHexOutput_sha1() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.SHA1, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.SHA1, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals("66b27417d37e024c46526c2f6d358a754fc552f3", results.getWritten().get(0)[1]);
 
@@ -243,99 +234,71 @@ public class CheckSumTest {
 
   @Test
   public void testHexOutput_sha256() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.SHA256, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.SHA256, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "3608bca1e44ea6c4d268eb6db02260269892c0b42b86bbf1e77a6fa16c3c9282",
-        results.getWritten().get(0)[1]);
+    assertEquals("3608bca1e44ea6c4d268eb6db02260269892c0b42b86bbf1e77a6fa16c3c9282", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA256, 10.8, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "b52b603f9ec86c382a8483cad4f788f2f927535a76ad1388caedcef5e3c3c813",
-        results.getWritten().get(0)[1]);
+    assertEquals("b52b603f9ec86c382a8483cad4f788f2f927535a76ad1388caedcef5e3c3c813", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA256, 10.82, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "45cbb96ff9625490cd675a7a39fecad6c167c1ed9b8957f53224fcb3e4a1e4a1",
-        results.getWritten().get(0)[1]);
+    assertEquals("45cbb96ff9625490cd675a7a39fecad6c167c1ed9b8957f53224fcb3e4a1e4a1", results.getWritten().get(0)[1]);
 
-    byte[] input =
-        IOUtils.toByteArray(
-            getFile("/org/apache/hop/pipeline/transforms/loadfileinput/files/hop.jpg")
-                .getContent()
-                .getInputStream());
+    byte[] input = IOUtils.toByteArray(getFile("/org/apache/hop/pipeline/transforms/loadfileinput/files/hop.jpg").getContent().getInputStream());
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA256, input, new ValueMetaBinary("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "51165cf63a5b08470272cbf75f6bfb439fad977a451866a25b5ebb3767f31872",
-        results.getWritten().get(0)[1]);
+    assertEquals("51165cf63a5b08470272cbf75f6bfb439fad977a451866a25b5ebb3767f31872", results.getWritten().get(0)[1]);
   }
 
   @Test
   public void testHexOutput_sha384() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.SHA384, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.SHA384, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "edcb0f4721e6578d900e4c24ad4b19e194ab6c87f8243bfc6b11754dd8b0bbde4f30b1d18197932b6376da004dcd97c4",
-        results.getWritten().get(0)[1]);
+    assertEquals("edcb0f4721e6578d900e4c24ad4b19e194ab6c87f8243bfc6b11754dd8b0bbde4f30b1d18197932b6376da004dcd97c4", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA384, 10.8, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "bf42c2b293b7562deca2acccc99f85b33aa150603608d610495dc45e0fb55b60c808ce466213edcf6ca184d97305b20d",
-        results.getWritten().get(0)[1]);
+    assertEquals("bf42c2b293b7562deca2acccc99f85b33aa150603608d610495dc45e0fb55b60c808ce466213edcf6ca184d97305b20d", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA384, 10.82, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "96adb3d911a5b02f7604b9f8159d5baf21a6719162887792b7232f91fe19fefeaf9438dc1e09685a33c998897a7e76e2",
-        results.getWritten().get(0)[1]);
+    assertEquals("96adb3d911a5b02f7604b9f8159d5baf21a6719162887792b7232f91fe19fefeaf9438dc1e09685a33c998897a7e76e2", results.getWritten().get(0)[1]);
 
     byte[] input = IOUtils.toByteArray(getFile("/checksum.svg").getContent().getInputStream());
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA384, input, new ValueMetaBinary("test"));
     assertEquals(1, results.getWritten().size());
-    assertEquals(
-        "ef97e467e4fc1894abcdfd589481ff9c269322f7f2f42fde41468d7ac1f2bcd10db6f797f58e531419c886a43d1d8cd0",
-        results.getWritten().get(0)[1]);
+    assertEquals("ef97e467e4fc1894abcdfd589481ff9c269322f7f2f42fde41468d7ac1f2bcd10db6f797f58e531419c886a43d1d8cd0", results.getWritten().get(0)[1]);
   }
 
   @Test
   public void testHexOutput_sha512() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.SHA512, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.SHA512, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(
-        "4a3ed8147e37876adc8f76328e5abcc1b470e6acfc18efea0135f983604953a58e183c1a6086e91ba3e821d926f5fdeb37761c7ca0328a963f5e92870675b728",
-        results.getWritten().get(0)[1]);
+        "4a3ed8147e37876adc8f76328e5abcc1b470e6acfc18efea0135f983604953a58e183c1a6086e91ba3e821d926f5fdeb37761c7ca0328a963f5e92870675b728", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA512, 10.8, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(
-        "74556b99e709669b45e2079c4d760a81fd2a8dddfc5ca4762af63ce502b569c65bf6fa066a37ac205f4537df4eacdb9081783e101765c65581d1afef83e19447",
-        results.getWritten().get(0)[1]);
+        "74556b99e709669b45e2079c4d760a81fd2a8dddfc5ca4762af63ce502b569c65bf6fa066a37ac205f4537df4eacdb9081783e101765c65581d1afef83e19447", results.getWritten().get(0)[1]);
 
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA512, 10.82, new ValueMetaNumber("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(
-        "29a7264df217dfe5ef7bef68888376e355199cfc9f30d488281ed7710ca2190b7aa311336bfa4440b7c7202d5a5d67c7dd521915476c3f6d48ecfacc637296bf",
-        results.getWritten().get(0)[1]);
+        "29a7264df217dfe5ef7bef68888376e355199cfc9f30d488281ed7710ca2190b7aa311336bfa4440b7c7202d5a5d67c7dd521915476c3f6d48ecfacc637296bf", results.getWritten().get(0)[1]);
 
     byte[] input = IOUtils.toByteArray(getFile("/checksum.svg").getContent().getInputStream());
     results = executeHexTest(CheckSumMeta.CheckSumType.SHA512, input, new ValueMetaBinary("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(
-        "bbd4c05a92d9b541b653f5135d7076d722631394616b142e5655f075fb2f75166a2dfcf488bf3d6519c8eaf0a7eacaf7d81224ffd5a7e4cc4f126369840e239f",
-        results.getWritten().get(0)[1]);
+        "bbd4c05a92d9b541b653f5135d7076d722631394616b142e5655f075fb2f75166a2dfcf488bf3d6519c8eaf0a7eacaf7d81224ffd5a7e4cc4f126369840e239f", results.getWritten().get(0)[1]);
   }
 
   @Test
   public void testHexOutput_adler32() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.ADLER32, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.ADLER32, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(Long.valueOf("47645036"), results.getWritten().get(0)[1]);
 
@@ -355,8 +318,7 @@ public class CheckSumTest {
 
   @Test
   public void testHexOutputCrc32() throws Exception {
-    MockRowListener results =
-        executeHexTest(CheckSumMeta.CheckSumType.CRC32, "xyz", new ValueMetaString("test"));
+    MockRowListener results = executeHexTest(CheckSumMeta.CheckSumType.CRC32, "xyz", new ValueMetaString("test"));
     assertEquals(1, results.getWritten().size());
     assertEquals(Long.valueOf("3951999591"), results.getWritten().get(0)[1]);
 

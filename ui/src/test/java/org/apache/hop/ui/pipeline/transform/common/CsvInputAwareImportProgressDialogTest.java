@@ -31,10 +31,9 @@ public class CsvInputAwareImportProgressDialogTest {
     final String[] row = new String[2];
     row[0] = "foo";
     row[1] = null;
-    final ICsvInputAwareImportProgressDialog dlg =
-        (failOnParseError) -> {
-          return null;
-        };
+    final ICsvInputAwareImportProgressDialog dlg = (failOnParseError) -> {
+      return null;
+    };
     final IRowMeta rowMeta = Mockito.mock(RowMeta.class);
 
     // verify that when 'failOnParseError' is false, and row index is out of bounds, we get a null

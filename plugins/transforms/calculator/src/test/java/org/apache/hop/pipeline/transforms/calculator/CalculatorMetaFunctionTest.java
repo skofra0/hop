@@ -43,20 +43,7 @@ public class CalculatorMetaFunctionTest {
   @Test
   public void testXmlSerialization() throws Exception {
     CalculatorMetaFunction function =
-        new CalculatorMetaFunction(
-            "copyA",
-            CalculatorMetaFunction.CalculationType.COPY_OF_FIELD,
-            "A",
-            null,
-            null,
-            "String",
-            100,
-            -1,
-            null,
-            null,
-            null,
-            null,
-            false);
+        new CalculatorMetaFunction("copyA", CalculatorMetaFunction.CalculationType.COPY_OF_FIELD, "A", null, null, "String", 100, -1, null, null, null, null, false);
     String xml = XmlMetadataUtil.serializeObjectToXml(function);
     assertEquals(
         "<calc_type>COPY_FIELD</calc_type>"

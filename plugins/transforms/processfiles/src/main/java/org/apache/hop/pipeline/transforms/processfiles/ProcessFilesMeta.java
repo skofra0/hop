@@ -42,50 +42,36 @@ import java.util.List;
 public class ProcessFilesMeta extends BaseTransformMeta<ProcessFiles, ProcessFilesData> {
   private static final Class<?> PKG = ProcessFilesMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "addresultfilenames",
-      injectionKeyDescription = "ProcessFiles.Injection.AddResultFilenames")
+  @HopMetadataProperty(key = "addresultfilenames", injectionKeyDescription = "ProcessFiles.Injection.AddResultFilenames")
   private boolean addResultFilenames;
 
-  @HopMetadataProperty(
-      key = "overwritetargetfile",
-      injectionKeyDescription = "ProcessFiles.Injection.OverwriteTargetFile")
+  @HopMetadataProperty(key = "overwritetargetfile", injectionKeyDescription = "ProcessFiles.Injection.OverwriteTargetFile")
   private boolean overwriteTargetFile;
 
-  @HopMetadataProperty(
-      key = "createparentfolder",
-      injectionKeyDescription = "ProcessFiles.Injection.CreateParentFolder")
+  @HopMetadataProperty(key = "createparentfolder", injectionKeyDescription = "ProcessFiles.Injection.CreateParentFolder")
   private boolean createParentFolder;
 
-  @HopMetadataProperty(
-      key = "simulate",
-      injectionKeyDescription = "ProcessFiles.Injection.Simulate")
+  @HopMetadataProperty(key = "simulate", injectionKeyDescription = "ProcessFiles.Injection.Simulate")
   public boolean simulate;
 
-  @HopMetadataProperty(
-      key = "sourcefilenamefield",
-      injectionKeyDescription = "ProcessFiles.Injection.SourceFilenameField")
+  @HopMetadataProperty(key = "sourcefilenamefield", injectionKeyDescription = "ProcessFiles.Injection.SourceFilenameField")
   private String sourceFilenameField;
 
-  @HopMetadataProperty(
-      key = "targetfilenamefield",
-      injectionKeyDescription = "ProcessFiles.Injection.TargetFilenameField")
+  @HopMetadataProperty(key = "targetfilenamefield", injectionKeyDescription = "ProcessFiles.Injection.TargetFilenameField")
   private String targetFilenameField;
 
   /** Operations type */
   private int operationType;
 
-  @HopMetadataProperty(
-      key = "operation_type",
-      injectionKeyDescription = "ProcessFiles.Injection.OperationType")
+  @HopMetadataProperty(key = "operation_type", injectionKeyDescription = "ProcessFiles.Injection.OperationType")
   private String operationTypeMeta;
 
   /** The operations description */
-  public static final String[] operationTypeDesc = {
-    BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Copy"),
-    BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Move"),
-    BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Delete")
-  };
+  public static final String[] operationTypeDesc =
+      {
+          BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Copy"),
+          BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Move"),
+          BaseMessages.getString(PKG, "ProcessFilesMeta.operationType.Delete")};
 
   /** The operations type codes */
   public static final String[] operationTypeCode = {"copy", "move", "delete"};
@@ -236,8 +222,7 @@ public class ProcessFilesMeta extends BaseTransformMeta<ProcessFiles, ProcessFil
 
     // source filename
     if (Utils.isEmpty(sourceFilenameField)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.SourceFileFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.SourceFileFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -246,8 +231,7 @@ public class ProcessFilesMeta extends BaseTransformMeta<ProcessFiles, ProcessFil
       remarks.add(cr);
     }
     if (operationType != OPERATION_TYPE_DELETE && Utils.isEmpty(targetFilenameField)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.TargetFileFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.TargetFileFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -258,19 +242,10 @@ public class ProcessFilesMeta extends BaseTransformMeta<ProcessFiles, ProcessFil
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ProcessFilesMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ProcessFilesMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

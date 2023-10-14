@@ -93,12 +93,7 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
           db.connect();
 
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionCheckDbConnections.Connected",
-                    databaseMeta.getDatabaseName(),
-                    databaseMeta.getName()));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.Connected", databaseMeta.getDatabaseName(), databaseMeta.getName()));
           }
 
           long iMaximumTimeout = Const.toLong(resolve(connection.getWaitTime()), 0L);
@@ -108,9 +103,7 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
             long multiple = timeUnit.getFactor();
             String waitTimeMessage = connection.getWaitTimeUnit().getDescription();
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "ActionCheckDbConnections.Wait", "" + iMaximumTimeout, waitTimeMessage));
+              logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.Wait", "" + iMaximumTimeout, waitTimeMessage));
             }
 
             // The start time (in seconds ,Minutes or Hours)
@@ -124,12 +117,7 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
               if ((now >= (timeStart + iMaximumTimeout * multiple))) {
                 // We have reached the time limit
                 if (isDetailed()) {
-                  logDetailed(
-                      BaseMessages.getString(
-                          PKG,
-                          "ActionCheckDbConnections.WaitTimeIsElapsed.Label",
-                          databaseMeta.getDatabaseName(),
-                          databaseMeta.getName()));
+                  logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.WaitTimeIsElapsed.Label", databaseMeta.getDatabaseName(), databaseMeta.getName()));
                 }
 
                 continueLoop = false;
@@ -145,22 +133,11 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
 
           nrSuccess++;
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionCheckDbConnections.ConnectionOK",
-                    databaseMeta.getDatabaseName(),
-                    databaseMeta.getName()));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.ConnectionOK", databaseMeta.getDatabaseName(), databaseMeta.getName()));
           }
         } catch (HopDatabaseException e) {
           nrErrors++;
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionCheckDbConnections.Exception",
-                  databaseMeta.getDatabaseName(),
-                  databaseMeta.getName(),
-                  e.toString()));
+          logError(BaseMessages.getString(PKG, "ActionCheckDbConnections.Exception", databaseMeta.getDatabaseName(), databaseMeta.getName(), e.toString()));
         }
       }
     }
@@ -172,12 +149,8 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
 
     if (isDetailed()) {
       logDetailed("=======================================");
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionCheckDbConnections.Log.Info.ConnectionsInError", "" + nrErrors));
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionCheckDbConnections.Log.Info.ConnectionsInSuccess", "" + nrSuccess));
+      logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.Log.Info.ConnectionsInError", "" + nrErrors));
+      logDetailed(BaseMessages.getString(PKG, "ActionCheckDbConnections.Log.Info.ConnectionsInSuccess", "" + nrSuccess));
       logDetailed("=======================================");
     }
 
@@ -201,20 +174,15 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
 
     for (CDConnection connection : connections) {
       DatabaseMeta databaseMeta = connection.getDatabaseMeta();
       if (databaseMeta != null) {
         ResourceReference reference = new ResourceReference(this);
-        reference
-            .getEntries()
-            .add(new ResourceEntry(databaseMeta.getHostname(), ResourceType.SERVER));
-        reference
-            .getEntries()
-            .add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
+        reference.getEntries().add(new ResourceEntry(databaseMeta.getHostname(), ResourceType.SERVER));
+        reference.getEntries().add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
         references.add(reference);
       }
     }
@@ -223,43 +191,17 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "columnname",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "columnname", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 
   public enum WaitTimeUnit implements IEnumHasCodeAndDescription {
-    MILLISECOND(
-        "millisecond",
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeMilliSecond.Label"),
-        1L),
-    SECOND(
-        "second",
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeSecond.Label"),
-        1000L),
-    MINUTE(
-        "minute",
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeMinute.Label"),
-        60000L),
-    HOUR(
-        "hour",
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeHour.Label"),
-        3600000L),
-    ;
+    MILLISECOND("millisecond", BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeMilliSecond.Label"), 1L),
+    SECOND("second", BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeSecond.Label"), 1000L),
+    MINUTE("minute", BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeMinute.Label"), 60000L),
+    HOUR("hour", BaseMessages.getString(PKG, "ActionCheckDbConnections.UnitTimeHour.Label"), 3600000L),;
+
     private final String code;
     private final String description;
     private final long factor;
@@ -275,8 +217,7 @@ public class ActionCheckDbConnections extends ActionBase implements Cloneable, I
     }
 
     public static WaitTimeUnit lookupDescription(String description) {
-      return IEnumHasCodeAndDescription.lookupDescription(
-          WaitTimeUnit.class, description, MILLISECOND);
+      return IEnumHasCodeAndDescription.lookupDescription(WaitTimeUnit.class, description, MILLISECOND);
     }
 
     /**

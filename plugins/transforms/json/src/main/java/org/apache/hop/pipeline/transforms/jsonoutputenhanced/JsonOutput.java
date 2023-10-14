@@ -49,20 +49,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
-  private static final Class<?> PKG =
-      JsonOutput.class; // For Translator
+  private static final Class<?> PKG = JsonOutput.class; // For Translator
 
   public Object[] prevRow;
   private JsonNodeFactory nc;
   private ObjectMapper mapper;
 
-  public JsonOutput(
-      TransformMeta transformMeta,
-      JsonOutputMeta meta,
-      JsonOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public JsonOutput(TransformMeta transformMeta, JsonOutputMeta meta, JsonOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,8 +70,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         setErrors(1);
         return false;
       }
-      if (meta.getOperationType() == JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE
-          || meta.getOperationType() == JsonOutputMeta.OPERATION_TYPE_BOTH) {
+      if (meta.getOperationType() == JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE || meta.getOperationType() == JsonOutputMeta.OPERATION_TYPE_BOTH) {
         // Init global json items array only if output to file is needed
         data.jsonItems = new ArrayList<>();
         data.isWriteToFile = true;
@@ -106,14 +98,16 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       // Let's output the remaining unsafe data
       outputRow(prevRow);
       // only attempt writing to file when the first row is not empty
-      if (data.isWriteToFile && !first) writeJsonFile();
+      if (data.isWriteToFile && !first)
+        writeJsonFile();
       setOutputDone();
       return false;
     }
 
     if (first) {
 
-      if (onFirstRecord(r)) return false;
+      if (onFirstRecord(r))
+        return false;
     }
 
     data.rowsAreSafe = false;
@@ -146,7 +140,8 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         case IValueMeta.TYPE_BOOLEAN:
           Boolean boolValue = data.inputRowMeta.getBoolean(row, data.fieldIndexes[i]);
 
-          if (boolValue != null) itemNode.put(getJsonAttributeName(outputField), boolValue);
+          if (boolValue != null)
+            itemNode.put(getJsonAttributeName(outputField), boolValue);
           else {
             if (!outputField.isRemoveIfBlank())
               itemNode.put(getJsonAttributeName(outputField), boolValue);
@@ -156,14 +151,16 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         case IValueMeta.TYPE_INTEGER:
           Long integerValue = data.inputRowMeta.getInteger(row, data.fieldIndexes[i]);
 
-          if (integerValue != null) itemNode.put(getJsonAttributeName(outputField), integerValue);
+          if (integerValue != null)
+            itemNode.put(getJsonAttributeName(outputField), integerValue);
           else if (!outputField.isRemoveIfBlank())
             itemNode.put(getJsonAttributeName(outputField), integerValue);
           break;
         case IValueMeta.TYPE_NUMBER:
           Double numberValue = data.inputRowMeta.getNumber(row, data.fieldIndexes[i]);
 
-          if (numberValue != null) itemNode.put(getJsonAttributeName(outputField), numberValue);
+          if (numberValue != null)
+            itemNode.put(getJsonAttributeName(outputField), numberValue);
           else if (!outputField.isRemoveIfBlank())
             itemNode.put(getJsonAttributeName(outputField), numberValue);
           break;
@@ -187,8 +184,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
                   itemNode.put(getJsonAttributeName(outputField), jsonNode);
                 }
               } catch (IOException e) {
-                throw new HopTransformException(
-                    BaseMessages.getString(PKG, "JsonOutput.Error.Casting"), e);
+                throw new HopTransformException(BaseMessages.getString(PKG, "JsonOutput.Error.Casting"), e);
               }
             } else {
               itemNode.put(getJsonAttributeName(outputField), value);
@@ -230,7 +226,8 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
     // We can now output an object
     ObjectNode globalItemNode = null;
 
-    if (data.jsonKeyGroupItems == null || data.jsonKeyGroupItems.size() == 0) return;
+    if (data.jsonKeyGroupItems == null || data.jsonKeyGroupItems.size() == 0)
+      return;
 
     if (data.jsonKeyGroupItems != null && data.jsonKeyGroupItems.size() > 0) {
       serializeJson(data.jsonKeyGroupItems);
@@ -243,7 +240,8 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       Object[] keyRow = new Object[meta.getKeyFields().length];
 
       // Create a new object with specified fields
-      if (data.isWriteToFile) globalItemNode = new ObjectNode(nc);
+      if (data.isWriteToFile)
+        globalItemNode = new ObjectNode(nc);
 
       for (int i = 0; i < meta.getKeyFields().length; i++) {
         try {
@@ -252,32 +250,27 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
             case IValueMeta.TYPE_BOOLEAN:
               keyRow[i] = data.inputRowMeta.getBoolean(rowData, data.keysGroupIndexes[i]);
               if (data.isWriteToFile)
-                globalItemNode.put(
-                    getKeyJsonAttributeName(meta.getKeyFields()[i]), (Boolean) keyRow[i]);
+                globalItemNode.put(getKeyJsonAttributeName(meta.getKeyFields()[i]), (Boolean) keyRow[i]);
               break;
             case IValueMeta.TYPE_INTEGER:
               keyRow[i] = data.inputRowMeta.getInteger(rowData, data.keysGroupIndexes[i]);
               if (data.isWriteToFile)
-                globalItemNode.put(
-                    getKeyJsonAttributeName(meta.getKeyFields()[i]), (Long) keyRow[i]);
+                globalItemNode.put(getKeyJsonAttributeName(meta.getKeyFields()[i]), (Long) keyRow[i]);
               break;
             case IValueMeta.TYPE_NUMBER:
               keyRow[i] = data.inputRowMeta.getNumber(rowData, data.keysGroupIndexes[i]);
               if (data.isWriteToFile)
-                globalItemNode.put(
-                    getKeyJsonAttributeName(meta.getKeyFields()[i]), (Double) keyRow[i]);
+                globalItemNode.put(getKeyJsonAttributeName(meta.getKeyFields()[i]), (Double) keyRow[i]);
               break;
             case IValueMeta.TYPE_BIGNUMBER:
               keyRow[i] = data.inputRowMeta.getBigNumber(rowData, data.keysGroupIndexes[i]);
               if (data.isWriteToFile)
-                globalItemNode.put(
-                    getKeyJsonAttributeName(meta.getKeyFields()[i]), (BigDecimal) keyRow[i]);
+                globalItemNode.put(getKeyJsonAttributeName(meta.getKeyFields()[i]), (BigDecimal) keyRow[i]);
               break;
             default:
               keyRow[i] = data.inputRowMeta.getString(rowData, data.keysGroupIndexes[i]);
               if (data.isWriteToFile)
-                globalItemNode.put(
-                    getKeyJsonAttributeName(meta.getKeyFields()[i]), (String) keyRow[i]);
+                globalItemNode.put(getKeyJsonAttributeName(meta.getKeyFields()[i]), (String) keyRow[i]);
               break;
           }
         } catch (HopValueException e) {
@@ -290,7 +283,8 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
           // TODO: Maybe there will be an opportunity for better code here without going through
           // JSON serialization here...
           JsonNode jsonNode = mapper.readTree(data.jsonSerialized);
-          if (meta.getOutputValue() != null) globalItemNode.put(meta.getOutputValue(), jsonNode);
+          if (meta.getOutputValue() != null)
+            globalItemNode.put(meta.getOutputValue(), jsonNode);
         } catch (IOException e) {
           // TBD Exception must be properly managed
           e.printStackTrace();
@@ -322,8 +316,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
   private void writeJsonFile() throws HopTransformException {
     // Open a file
     if (data.isWriteToFile && !openNewFile()) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "JsonOutput.Error.OpenNewFile", buildFilename()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "JsonOutput.Error.OpenNewFile", buildFilename()));
     }
     // Write data to file
     try {
@@ -344,35 +337,19 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         // TBD Try to understand if this can have a performance impact and do it better...
         theNode.put(
             meta.getJsonBloc(),
-            mapper.readTree(
-                mapper.writeValueAsString(
-                    jsonItemsList.size() > 1
-                        ? jsonItemsList
-                        : (!meta.isUseArrayWithSingleInstance()
-                            ? jsonItemsList.get(0)
-                            : jsonItemsList))));
+            mapper.readTree(mapper.writeValueAsString(jsonItemsList.size() > 1 ? jsonItemsList : (!meta.isUseArrayWithSingleInstance() ? jsonItemsList.get(0) : jsonItemsList))));
         if (meta.isJsonPrittified())
           data.jsonSerialized = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(theNode);
-        else data.jsonSerialized = mapper.writeValueAsString(theNode);
+        else
+          data.jsonSerialized = mapper.writeValueAsString(theNode);
       } else {
         if (meta.isJsonPrittified())
           data.jsonSerialized =
-              mapper
-                  .writerWithDefaultPrettyPrinter()
-                  .writeValueAsString(
-                      (jsonItemsList.size() > 1
-                          ? jsonItemsList
-                          : (!meta.isUseArrayWithSingleInstance()
-                              ? jsonItemsList.get(0)
-                              : jsonItemsList)));
+              mapper.writerWithDefaultPrettyPrinter()
+                  .writeValueAsString((jsonItemsList.size() > 1 ? jsonItemsList : (!meta.isUseArrayWithSingleInstance() ? jsonItemsList.get(0) : jsonItemsList)));
         else
           data.jsonSerialized =
-              mapper.writeValueAsString(
-                  (jsonItemsList.size() > 1
-                      ? jsonItemsList
-                      : (!meta.isUseArrayWithSingleInstance()
-                          ? jsonItemsList.get(0)
-                          : jsonItemsList)));
+              mapper.writeValueAsString((jsonItemsList.size() > 1 ? jsonItemsList : (!meta.isUseArrayWithSingleInstance() ? jsonItemsList.get(0) : jsonItemsList)));
       }
     } catch (IOException e) {
       // TBD Exception must be properly managed
@@ -401,26 +378,23 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
     data.outputRowMeta = new RowMeta();
     JsonOutputKeyField[] keyFields = meta.getKeyFields();
     for (int i = 0; i < meta.getKeyFields().length; i++) {
-      IValueMeta vmi =
-          data.inputRowMeta.getValueMeta(
-              data.inputRowMeta.indexOfValue(keyFields[i].getFieldName()));
+      IValueMeta vmi = data.inputRowMeta.getValueMeta(data.inputRowMeta.indexOfValue(keyFields[i].getFieldName()));
       data.outputRowMeta.addValueMeta(i, vmi);
     }
 
     // This is JSON block's column
-    data.outputRowMeta.addValueMeta(
-        meta.getKeyFields().length, new ValueMetaString(meta.getOutputValue()));
+    data.outputRowMeta.addValueMeta(meta.getKeyFields().length, new ValueMetaString(meta.getOutputValue()));
 
     int fieldLength = meta.getKeyFields().length + 1;
     if (meta.getJsonSizeFieldname() != null && meta.getJsonSizeFieldname().length() > 0) {
-      data.outputRowMeta.addValueMeta(
-          fieldLength, new ValueMetaInteger(meta.getJsonSizeFieldname()));
+      data.outputRowMeta.addValueMeta(fieldLength, new ValueMetaInteger(meta.getJsonSizeFieldname()));
       fieldLength++;
     }
 
     initDataFieldsPositionsArray();
 
-    if (initKeyFieldsPositionArray(r)) return true;
+    if (initKeyFieldsPositionArray(r))
+      return true;
     return false;
   }
 
@@ -430,8 +404,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
     data.nrFields = meta.getOutputFields().length;
     data.fieldIndexes = new int[data.nrFields];
     for (int i = 0; i < data.nrFields; i++) {
-      data.fieldIndexes[i] =
-          data.inputRowMeta.indexOfValue(meta.getOutputFields()[i].getFieldName());
+      data.fieldIndexes[i] = data.inputRowMeta.indexOfValue(meta.getOutputFields()[i].getFieldName());
       if (data.fieldIndexes[i] < 0) {
         throw new HopException(BaseMessages.getString(PKG, "JsonOutput.Exception.FieldNotFound"));
       }
@@ -444,8 +417,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
     data.keysGroupIndexes = new int[meta.getKeyFields().length];
 
     for (int i = 0; i < meta.getKeyFields().length; i++) {
-      data.keysGroupIndexes[i] =
-          data.inputRowMeta.indexOfValue(meta.getKeyFields()[i].getFieldName());
+      data.keysGroupIndexes[i] = data.inputRowMeta.indexOfValue(meta.getKeyFields()[i].getFieldName());
       if ((r != null) && (data.keysGroupIndexes[i] < 0)) {
         setErrors(1);
         stopAll();
@@ -477,9 +449,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       parentfolder = HopVfs.getFileObject(filename).getParent();
       if (!parentfolder.exists()) {
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG, "JsonOutput.Error.ParentFolderNotExist", parentfolder.getName()));
+          logDebug(BaseMessages.getString(PKG, "JsonOutput.Error.ParentFolderNotExist", parentfolder.getName()));
         }
         parentfolder.createFolder();
         if (log.isDebug()) {
@@ -487,9 +457,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
         }
       }
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "JsonOutput.Error.ErrorCreatingParentFolder", parentfolder.getName()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "JsonOutput.Error.ErrorCreatingParentFolder", parentfolder.getName()));
     } finally {
       if (parentfolder != null) {
         try {
@@ -513,12 +481,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       createParentFolder(filename);
       if (meta.addToResult()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(filename),
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "JsonOutput.ResultFilenames.Comment"));
         addResultFile(resultFile);
       }
@@ -528,9 +491,7 @@ public class JsonOutput extends BaseTransform<JsonOutputMeta, JsonOutputData> {
       outputStream = fos;
 
       if (!Utils.isEmpty(meta.getEncoding())) {
-        data.writer =
-            new OutputStreamWriter(
-                new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
+        data.writer = new OutputStreamWriter(new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
       } else {
         data.writer = new OutputStreamWriter(new BufferedOutputStream(outputStream, 5000));
       }

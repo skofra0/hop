@@ -27,12 +27,8 @@ import org.apache.hop.pipeline.transform.stream.IStream;
 import java.util.List;
 
 @GuiPlugin
-@ExecutionDataSamplerPlugin(
-    id = "FirstRowsExecutionDataSampler",
-    name = "First output rows",
-    description = "Samples the first rows of a transform output")
-public class FirstRowsExecutionDataSampler
-  extends ExecutionDataSamplerBase<FirstRowsExecutionDataSamplerStore>
+@ExecutionDataSamplerPlugin(id = "FirstRowsExecutionDataSampler", name = "First output rows", description = "Samples the first rows of a transform output")
+public class FirstRowsExecutionDataSampler extends ExecutionDataSamplerBase<FirstRowsExecutionDataSamplerStore>
     implements IExecutionDataSampler<FirstRowsExecutionDataSamplerStore> {
   private static final Class<?> PKG = FirstRowsExecutionDataSampler.class; // For Translator
 
@@ -58,17 +54,11 @@ public class FirstRowsExecutionDataSampler
   }
 
   @Override
-  public void sampleRow(
-      FirstRowsExecutionDataSamplerStore samplerStore,
-      IStream.StreamType streamType,
-      IRowMeta rowMeta,
-      Object[] row) {
+  public void sampleRow(FirstRowsExecutionDataSamplerStore samplerStore, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row) {
     synchronized (samplerStore.getRows()) {
       List<Object[]> rows = samplerStore.getRows();
 
-      if (streamType != IStream.StreamType.OUTPUT
-          || samplerStore.getMaxRows() <= 0
-          || rows.size() >= samplerStore.getMaxRows()) {
+      if (streamType != IStream.StreamType.OUTPUT || samplerStore.getMaxRows() <= 0 || rows.size() >= samplerStore.getMaxRows()) {
         return;
       }
 

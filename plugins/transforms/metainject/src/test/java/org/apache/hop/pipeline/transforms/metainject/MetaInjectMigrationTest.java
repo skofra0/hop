@@ -27,8 +27,7 @@ public class MetaInjectMigrationTest {
   @Test
   public void test70() {
     Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping = new HashMap<>();
-    TargetTransformAttribute target =
-        new TargetTransformAttribute("transform", "SCHENAMENAMEFIELD", true);
+    TargetTransformAttribute target = new TargetTransformAttribute("transform", "SCHENAMENAMEFIELD", true);
     SourceTransformField source = new SourceTransformField("transform", "field");
     targetSourceMapping.put(target, source);
 

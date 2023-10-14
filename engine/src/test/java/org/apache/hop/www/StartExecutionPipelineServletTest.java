@@ -56,8 +56,7 @@ public class StartExecutionPipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testStartExecutionPipelineServletEscapesHtmlWhenPipelineNotFound()
-      throws ServletException, IOException {
+  public void testStartExecutionPipelineServletEscapesHtmlWhenPipelineNotFound() throws ServletException, IOException {
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
 
@@ -65,10 +64,8 @@ public class StartExecutionPipelineServletTest {
     PrintWriter printWriter = new PrintWriter(out);
 
     PowerMockito.spy(Encode.class);
-    when(mockHttpServletRequest.getContextPath())
-        .thenReturn(StartExecutionPipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getContextPath()).thenReturn(StartExecutionPipelineServlet.CONTEXT_PATH);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
 
     startExecutionPipelineServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
@@ -80,8 +77,7 @@ public class StartExecutionPipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testStartExecutionPipelineServletEscapesHtmlWhenPipelineFound()
-      throws ServletException, IOException {
+  public void testStartExecutionPipelineServletEscapesHtmlWhenPipelineFound() throws ServletException, IOException {
     HopLogStore.init();
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
@@ -92,10 +88,8 @@ public class StartExecutionPipelineServletTest {
     PrintWriter printWriter = new PrintWriter(out);
 
     PowerMockito.spy(Encode.class);
-    when(mockHttpServletRequest.getContextPath())
-        .thenReturn(StartExecutionPipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getContextPath()).thenReturn(StartExecutionPipelineServlet.CONTEXT_PATH);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
     when(mockPipelineMap.getPipeline(any(HopServerObjectEntry.class))).thenReturn(mockPipeline);
     when(mockPipeline.getLogChannel()).thenReturn(mockChannelInterface);

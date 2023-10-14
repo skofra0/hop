@@ -60,8 +60,7 @@ public class ActionEvalDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionEvalDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionEvalDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionEval) action;
     if (this.action.getName() == null) {
@@ -134,9 +133,7 @@ public class ActionEvalDialog extends ActionDialog implements IActionDialog {
     fdlScript.left = new FormAttachment(0, 0);
     fdlScript.top = new FormAttachment(wName, margin);
     wlScript.setLayoutData(fdlScript);
-    wScript =
-        new StyledTextComp(
-            action, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wScript = new StyledTextComp(action, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wScript.setText(BaseMessages.getString(PKG, "ActionEval.Script.Default"));
     PropsUi.setLook(wScript, Props.WIDGET_STYLE_FIXED);
     wScript.addModifyListener(lsMod);
@@ -148,47 +145,44 @@ public class ActionEvalDialog extends ActionDialog implements IActionDialog {
     wScript.setLayoutData(fdScript);
     wScript.addModifyListener(arg0 -> setPosition());
 
-    wScript.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wScript.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wScript.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wScript.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wScript.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wScript.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
     wScript.addModifyListener(lsMod);
 
     getData();
@@ -201,9 +195,7 @@ public class ActionEvalDialog extends ActionDialog implements IActionDialog {
   public void setPosition() {
     int lineNumber = wScript.getLineNumber();
     int columnNumber = wScript.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "ActionEval.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "ActionEval.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   /** Copy information from the meta-data input to the dialog fields. */

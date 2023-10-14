@@ -36,7 +36,8 @@ public class LogMessageTest {
   private static String treeLogChannelId;
   private static String simpleLogChannelId;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUp() {
@@ -57,9 +58,7 @@ public class LogMessageTest {
     assertTrue(LOG_MESSAGE.equals(logMessage.getMessage()));
     assertTrue(LOG_LEVEL.equals(logMessage.getLevel()));
     assertTrue(treeLogChannelId.equals(logMessage.getLogChannelId()));
-    assertTrue(
-        "[PIPELINE_SUBJECT].[TRANSFORM_SUBJECT].PIPELINE_CHILD_SUBJECT"
-            .equals(logMessage.getSubject()));
+    assertTrue("[PIPELINE_SUBJECT].[TRANSFORM_SUBJECT].PIPELINE_CHILD_SUBJECT".equals(logMessage.getSubject()));
   }
 
   @Test
@@ -74,13 +73,10 @@ public class LogMessageTest {
   }
 
   @Test
-  public void
-      testWhenLogMarkMappingTurnOnAndNoSubMappingUsed_DetailedSubjectContainsOnlySimpleSubject()
-          throws Exception {
+  public void testWhenLogMarkMappingTurnOnAndNoSubMappingUsed_DetailedSubjectContainsOnlySimpleSubject() throws Exception {
     turnOnLogMarkMapping();
 
-    simpleLogChannelId =
-        LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
+    simpleLogChannelId = LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
 
     logMessage = new LogMessage(LOG_MESSAGE, simpleLogChannelId, LOG_LEVEL);
     assertTrue(LOG_MESSAGE.equals(logMessage.getMessage()));
@@ -95,8 +91,7 @@ public class LogMessageTest {
   public void testToString() throws Exception {
     turnOnLogMarkMapping();
 
-    simpleLogChannelId =
-        LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
+    simpleLogChannelId = LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
 
     LogMessage msg = new LogMessage("Log message", simpleLogChannelId, LogLevel.DEBUG);
 
@@ -107,54 +102,38 @@ public class LogMessageTest {
   public void testToString_withOneArgument() throws Exception {
     turnOnLogMarkMapping();
 
-    simpleLogChannelId =
-        LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
+    simpleLogChannelId = LoggingRegistry.getInstance().registerLoggingSource(getLoggingObjectWithOneParent());
 
-    LogMessage msg =
-        new LogMessage(
-            "Log message for {0}", simpleLogChannelId, new String[] {"Test"}, LogLevel.DEBUG);
+    LogMessage msg = new LogMessage("Log message for {0}", simpleLogChannelId, new String[] {"Test"}, LogLevel.DEBUG);
 
     assertEquals("PIPELINE_SUBJECT - Log message for Test", msg.toString());
   }
 
   @Test
   public void testGetMessage() {
-    LogMessage msg =
-        new LogMessage(
-            "m {0}, {1}, {2}, {3}, {4,number,#.00}, {5} {foe}",
-            "Channel 01", new Object[] {"Foo", "{abc}", "", null, 123}, LogLevel.DEBUG);
+    LogMessage msg = new LogMessage("m {0}, {1}, {2}, {3}, {4,number,#.00}, {5} {foe}", "Channel 01", new Object[] {"Foo", "{abc}", "", null, 123}, LogLevel.DEBUG);
     assertEquals("m Foo, {abc}, , null, 123.00, {5} {foe}", msg.getMessage());
   }
 
   private void turnOnLogMarkMapping() {
-    HopConfig.getInstance()
-        .setDescribedVariable(new DescribedVariable(Const.HOP_LOG_MARK_MAPPINGS, "Y", ""));
+    HopConfig.getInstance().setDescribedVariable(new DescribedVariable(Const.HOP_LOG_MARK_MAPPINGS, "Y", ""));
   }
 
   private void turnOffLogMarkMapping() {
-    HopConfig.getInstance()
-        .setDescribedVariable(new DescribedVariable(Const.HOP_LOG_MARK_MAPPINGS, "N", ""));
+    HopConfig.getInstance().setDescribedVariable(new DescribedVariable(Const.HOP_LOG_MARK_MAPPINGS, "N", ""));
   }
 
   private static ILoggingObject getTreeLoggingObject() {
-    ILoggingObject rootLogObject =
-        new SimpleLoggingObject("ROOT_SUBJECT", LoggingObjectType.HOP_GUI, null);
-    ILoggingObject pipelineLogObject =
-        new SimpleLoggingObject("PIPELINE_SUBJECT", LoggingObjectType.PIPELINE, rootLogObject);
-    ILoggingObject transformLogObject =
-        new SimpleLoggingObject(
-            "TRANSFORM_SUBJECT", LoggingObjectType.TRANSFORM, pipelineLogObject);
-    ILoggingObject pipelineChildLogObject =
-        new SimpleLoggingObject(
-            "PIPELINE_CHILD_SUBJECT", LoggingObjectType.PIPELINE, transformLogObject);
+    ILoggingObject rootLogObject = new SimpleLoggingObject("ROOT_SUBJECT", LoggingObjectType.HOP_GUI, null);
+    ILoggingObject pipelineLogObject = new SimpleLoggingObject("PIPELINE_SUBJECT", LoggingObjectType.PIPELINE, rootLogObject);
+    ILoggingObject transformLogObject = new SimpleLoggingObject("TRANSFORM_SUBJECT", LoggingObjectType.TRANSFORM, pipelineLogObject);
+    ILoggingObject pipelineChildLogObject = new SimpleLoggingObject("PIPELINE_CHILD_SUBJECT", LoggingObjectType.PIPELINE, transformLogObject);
     return pipelineChildLogObject;
   }
 
   private static ILoggingObject getLoggingObjectWithOneParent() {
-    ILoggingObject rootLogObject =
-        new SimpleLoggingObject("ROOT_SUBJECT", LoggingObjectType.HOP_GUI, null);
-    ILoggingObject pipelineLogObject =
-        new SimpleLoggingObject("PIPELINE_SUBJECT", LoggingObjectType.PIPELINE, rootLogObject);
+    ILoggingObject rootLogObject = new SimpleLoggingObject("ROOT_SUBJECT", LoggingObjectType.HOP_GUI, null);
+    ILoggingObject pipelineLogObject = new SimpleLoggingObject("PIPELINE_SUBJECT", LoggingObjectType.PIPELINE, rootLogObject);
     return pipelineLogObject;
   }
 }

@@ -19,8 +19,6 @@ package org.apache.hop.projects.config;
 import org.apache.hop.core.config.plugin.ConfigPlugin;
 import org.apache.hop.core.config.plugin.IConfigOptions;
 
-@ConfigPlugin(
-    id = "ProjectsServerOptionPlugin",
-    description = "Project and Environment configuration options for hop-server",
-    category = ConfigPlugin.CATEGORY_SERVER)
-public class ProjectsServerOptionPlugin extends ProjectsOptionPlugin implements IConfigOptions {}
+@ConfigPlugin(id = "ProjectsServerOptionPlugin", description = "Project and Environment configuration options for hop-server", category = ConfigPlugin.CATEGORY_SERVER)
+public class ProjectsServerOptionPlugin extends ProjectsOptionPlugin implements IConfigOptions {
+}

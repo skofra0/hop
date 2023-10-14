@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionDosToUnixTest
-    extends WorkflowActionLoadSaveTestSupport<ActionDosToUnix> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionDosToUnixTest extends WorkflowActionLoadSaveTestSupport<ActionDosToUnix> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionDosToUnix> getActionClass() {
@@ -40,17 +40,11 @@ public class WorkflowActionDosToUnixTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "nr_errors_less_than", "getNrErrorsLessThan",
-        "success_condition", "getSuccessCondition",
-        "resultfilenames", "getResultFilenames");
+    return toMap("nr_errors_less_than", "getNrErrorsLessThan", "success_condition", "getSuccessCondition", "resultfilenames", "getResultFilenames");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "nr_errors_less_than", "setNrErrorsLessThan",
-        "success_condition", "setSuccessCondition",
-        "resultfilenames", "setResultFilenames");
+    return toMap("nr_errors_less_than", "setNrErrorsLessThan", "success_condition", "setSuccessCondition", "resultfilenames", "setResultFilenames");
   }
 }

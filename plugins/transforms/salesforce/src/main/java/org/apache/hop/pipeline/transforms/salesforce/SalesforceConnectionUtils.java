@@ -25,17 +25,16 @@ public class SalesforceConnectionUtils {
 
   private static final Class<?> PKG = SalesforceInputMeta.class; // For Translator
 
-  public static final String TARGET_DEFAULT_URL =
-      "https://login.salesforce.com/services/Soap/u/50.0";
+  public static final String TARGET_DEFAULT_URL = "https://login.salesforce.com/services/Soap/u/50.0";
 
   public static final String DEFAULT_TIMEOUT = "60000";
 
   /** The records filter description */
-  public static final String[] recordsFilterDesc = {
-    BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.All"),
-    BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.Updated"),
-    BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.Deleted")
-  };
+  public static final String[] recordsFilterDesc =
+      {
+          BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.All"),
+          BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.Updated"),
+          BaseMessages.getString(PKG, "SalesforceInputMeta.recordsFilter.Deleted")};
 
   /** The records filter type codes */
   public static final String[] recordsFilterCode = {"all", "updated", "deleted"};

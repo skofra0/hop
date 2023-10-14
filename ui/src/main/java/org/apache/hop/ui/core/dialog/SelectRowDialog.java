@@ -60,8 +60,7 @@ public class SelectRowDialog extends Dialog {
    * @param style
    * @param buffer
    */
-  public SelectRowDialog(
-      Shell parent, IVariables variables, int style, List<RowMetaAndData> buffer) {
+  public SelectRowDialog(Shell parent, IVariables variables, int style, List<RowMetaAndData> buffer) {
     super(parent, style);
     this.buffer = buffer;
     this.variables = variables;
@@ -112,15 +111,7 @@ public class SelectRowDialog extends Dialog {
       colinf[i].setReadOnly(true);
     }
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, null, props);
 
     Button wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));

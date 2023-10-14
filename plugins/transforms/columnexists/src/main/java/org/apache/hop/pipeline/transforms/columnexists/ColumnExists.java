@@ -34,13 +34,7 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
 
   private static final String PKG_COULD_NOT_FIND_FIELD = "ColumnExists.Exception.CouldnotFindField";
 
-  public ColumnExists(
-      TransformMeta transformMeta,
-      ColumnExistsMeta meta,
-      ColumnExistsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ColumnExists(TransformMeta transformMeta, ColumnExistsMeta meta, ColumnExistsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,15 +62,13 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
       // Check is columnname field is provided
       if (Utils.isEmpty(meta.getColumnnamefield())) {
         logError(BaseMessages.getString(PKG, "ColumnExists.Error.ColumnnameFieldMissing"));
-        throw new HopException(
-            BaseMessages.getString(PKG, "ColumnExists.Error.ColumnnameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ColumnExists.Error.ColumnnameFieldMissing"));
       }
       if (meta.isTablenameInfield()) {
         // Check is tablename field is provided
         if (Utils.isEmpty(meta.getTablenamefield())) {
           logError(BaseMessages.getString(PKG, "ColumnExists.Error.TablenameFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "ColumnExists.Error.TablenameFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "ColumnExists.Error.TablenameFieldMissing"));
         }
 
         // cache the position of the field
@@ -84,21 +76,13 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
           data.indexOfTablename = getInputRowMeta().indexOfValue(meta.getTablenamefield());
           if (data.indexOfTablename < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD)
-                    + "["
-                    + meta.getTablenamefield()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD, meta.getTablenamefield()));
+            logError(BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD) + "[" + meta.getTablenamefield() + "]");
+            throw new HopException(BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD, meta.getTablenamefield()));
           }
         }
       } else {
         if (!Utils.isEmpty(data.schemaname)) {
-          data.tableName =
-              data.db
-                  .getDatabaseMeta()
-                  .getQuotedSchemaTableCombination(this, data.schemaname, data.tableName);
+          data.tableName = data.db.getDatabaseMeta().getQuotedSchemaTableCombination(this, data.schemaname, data.tableName);
         } else {
           data.tableName = data.db.getDatabaseMeta().quoteField(data.tableName);
         }
@@ -109,13 +93,8 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
         data.indexOfColumnname = getInputRowMeta().indexOfValue(meta.getColumnnamefield());
         if (data.indexOfColumnname < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD)
-                  + "["
-                  + meta.getColumnnamefield()
-                  + "]");
-          throw new HopException(
-              BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD, meta.getColumnnamefield()));
+          logError(BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD) + "[" + meta.getColumnnamefield() + "]");
+          throw new HopException(BaseMessages.getString(PKG, PKG_COULD_NOT_FIND_FIELD, meta.getColumnnamefield()));
         }
       }
 
@@ -141,27 +120,19 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
       putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "ColumnExists.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "ColumnExists.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (HopException e) {
       if (getTransformMeta().isDoingErrorHandling()) {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG, "ColumnExists.ErrorInTransformRunning" + " : " + e.getMessage()));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "ColumnExists.Log.ErrorInTransform"), e);
+        logError(BaseMessages.getString(PKG, "ColumnExists.ErrorInTransformRunning" + " : " + e.getMessage()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "ColumnExists.Log.ErrorInTransform"), e);
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(), r, 1, errorMessage, meta.getResultfieldname(), "ColumnExists001");
+        putError(getInputRowMeta(), r, 1, errorMessage, meta.getResultfieldname(), "ColumnExists001");
       }
     }
 
@@ -189,9 +160,7 @@ public class ColumnExists extends BaseTransform<ColumnExistsMeta, ColumnExistsDa
         return false;
       }
 
-      data.db =
-          new Database(
-              this, this, getPipelineMeta().findDatabase(meta.getDatabaseName(), variables));
+      data.db = new Database(this, this, getPipelineMeta().findDatabase(meta.getDatabaseName(), variables));
       try {
         data.db.connect();
 

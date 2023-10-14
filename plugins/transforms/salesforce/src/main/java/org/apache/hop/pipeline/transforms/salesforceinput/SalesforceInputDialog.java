@@ -157,8 +157,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
   private ColumnInfo[] columns;
 
-  public SalesforceInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SalesforceInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, in, pipelineMeta, sname);
     input = (SalesforceInputMeta) in;
   }
@@ -173,13 +172,12 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     ModifyListener lsMod = e -> input.setChanged();
 
-    SelectionListener checkBoxModifyListener =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionListener checkBoxModifyListener = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
 
     changed = input.hasChanged();
 
@@ -255,8 +253,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     // START CONNECTION GROUP
 
     Group wConnectionGroup = new Group(wFileComp, SWT.SHADOW_ETCHED_IN);
-    wConnectionGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.ConnectionGroup.Label"));
+    wConnectionGroup.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.ConnectionGroup.Label"));
     FormLayout fconnLayout = new FormLayout();
     fconnLayout.marginWidth = 3;
     fconnLayout.marginHeight = 3;
@@ -314,8 +311,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wTest.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.TestConnection.Label"));
     PropsUi.setLook(wTest);
     FormData fdTest = new FormData();
-    wTest.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.TestConnection.Tooltip"));
+    wTest.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.TestConnection.Tooltip"));
     fdTest.top = new FormAttachment(wPassword, margin);
     fdTest.right = new FormAttachment(100, 0);
     wTest.setLayoutData(fdTest);
@@ -333,8 +329,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     // START SETTINGS GROUP
 
     Group wSettingsGroup = new Group(wFileComp, SWT.SHADOW_ETCHED_IN);
-    wSettingsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.HttpAuthGroup.Label"));
+    wSettingsGroup.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.HttpAuthGroup.Label"));
     FormLayout fsettingsLayout = new FormLayout();
     fsettingsLayout.marginWidth = 3;
     fsettingsLayout.marginHeight = 3;
@@ -351,20 +346,18 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlSpecifyQuery.setLayoutData(fdlSpecifyQuery);
     wSpecifyQuery = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wSpecifyQuery);
-    wSpecifyQuery.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.specifyQuery.Tooltip"));
+    wSpecifyQuery.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.specifyQuery.Tooltip"));
     FormData fdSpecifyQuery = new FormData();
     fdSpecifyQuery.left = new FormAttachment(middle, 0);
     fdSpecifyQuery.top = new FormAttachment(wlSpecifyQuery, 0, SWT.CENTER);
     wSpecifyQuery.setLayoutData(fdSpecifyQuery);
-    wSpecifyQuery.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableQuery();
-            input.setChanged();
-          }
-        });
+    wSpecifyQuery.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableQuery();
+        input.setChanged();
+      }
+    });
 
     // Module
     wlModule = new Label(wSettingsGroup, SWT.RIGHT);
@@ -384,26 +377,22 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdModule.top = new FormAttachment(wlModule, 0, SWT.CENTER);
     fdModule.right = new FormAttachment(100, -margin);
     wModule.setLayoutData(fdModule);
-    wModule.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            getModulesListError = false;
-          }
+    wModule.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        getModulesListError = false;
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            // check if the URL and login credentials passed and not just had error
-            if (Utils.isEmpty(wURL.getText())
-                || Utils.isEmpty(wUserName.getText())
-                || Utils.isEmpty(wPassword.getText())
-                || (getModulesListError)) {
-              return;
-            }
+      @Override
+      public void focusGained(FocusEvent e) {
+        // check if the URL and login credentials passed and not just had error
+        if (Utils.isEmpty(wURL.getText()) || Utils.isEmpty(wUserName.getText()) || Utils.isEmpty(wPassword.getText()) || (getModulesListError)) {
+          return;
+        }
 
-            getModulesList();
-          }
-        });
+        getModulesList();
+      }
+    });
 
     wlPosition = new Label(wSettingsGroup, SWT.NONE);
     PropsUi.setLook(wlPosition);
@@ -423,13 +412,8 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdlCondition.right = new FormAttachment(middle, -margin);
     wlCondition.setLayoutData(fdlCondition);
 
-    wCondition =
-        new StyledTextComp(
-            variables,
-            wSettingsGroup,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-    wCondition.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.Condition.Tooltip"));
+    wCondition = new StyledTextComp(variables, wSettingsGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCondition.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.Condition.Tooltip"));
     PropsUi.setLook(wCondition, Props.WIDGET_STYLE_FIXED);
     wCondition.addModifyListener(lsMod);
     FormData fdCondition = new FormData();
@@ -438,53 +422,49 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdCondition.right = new FormAttachment(100, -margin);
     fdCondition.bottom = new FormAttachment(wlPosition, -margin);
     wCondition.setLayoutData(fdCondition);
-    wCondition.addModifyListener(
-        e -> {
-          setQueryToolTip();
-          setPosition();
-        });
+    wCondition.addModifyListener(e -> {
+      setQueryToolTip();
+      setPosition();
+    });
 
-    wCondition.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wCondition.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wCondition.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wCondition.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wCondition.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wCondition.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     // Query
     wlQuery = new Label(wSettingsGroup, SWT.RIGHT);
@@ -496,11 +476,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdlQuery.right = new FormAttachment(middle, -margin);
     wlQuery.setLayoutData(fdlQuery);
 
-    wQuery =
-        new StyledTextComp(
-            variables,
-            wSettingsGroup,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wQuery = new StyledTextComp(variables, wSettingsGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wQuery, Props.WIDGET_STYLE_FIXED);
     wQuery.addModifyListener(lsMod);
     FormData fdQuery = new FormData();
@@ -511,47 +487,44 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wQuery.setLayoutData(fdQuery);
     wQuery.addModifyListener(arg0 -> setQueryToolTip());
 
-    wQuery.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wQuery.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wQuery.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wQuery.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wQuery.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wQuery.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     FormData fdSettingsGroup = new FormData();
     fdSettingsGroup.left = new FormAttachment(0, 0);
@@ -598,8 +571,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     Group wAdvancedGroup = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdvancedGroup);
-    wAdvancedGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.AdvancedGroup.Label"));
+    wAdvancedGroup.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.AdvancedGroup.Label"));
 
     FormLayout advancedgroupLayout = new FormLayout();
     advancedgroupLayout.marginWidth = 10;
@@ -608,8 +580,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     // RecordsFilter
     wlRecordsFilter = new Label(wAdvancedGroup, SWT.RIGHT);
-    wlRecordsFilter.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.RecordsFilter.Label"));
+    wlRecordsFilter.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.RecordsFilter.Label"));
     PropsUi.setLook(wlRecordsFilter);
     FormData fdlRecordsFilter = new FormData();
     fdlRecordsFilter.left = new FormAttachment(0, 0);
@@ -626,13 +597,12 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdRecordsFilter.right = new FormAttachment(100, -margin);
     wRecordsFilter.setLayoutData(fdRecordsFilter);
     wRecordsFilter.setItems(SalesforceConnectionUtils.recordsFilterDesc);
-    wRecordsFilter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            updateRecordsFilter();
-          }
-        });
+    wRecordsFilter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        updateRecordsFilter();
+      }
+    });
 
     // Query All?
     wlQueryAll = new Label(wAdvancedGroup, SWT.RIGHT);
@@ -660,52 +630,46 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdlButton.top = new FormAttachment(wQueryAll, margin);
     fdlButton.right = new FormAttachment(100, 0);
     open.setLayoutData(fdlButton);
-    open.addSelectionListener(
-        new SelectionAdapter() {
+    open.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
+        dialog.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.SelectDate"));
+        dialog.setImage(GuiResource.getInstance().getImageHop());
+        dialog.setLayout(new GridLayout(3, false));
+
+        final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
+        final DateTime time = new DateTime(dialog, SWT.TIME | SWT.TIME);
+        new Label(dialog, SWT.NONE);
+        new Label(dialog, SWT.NONE);
+
+        Button ok = new Button(dialog, SWT.PUSH);
+        ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        ok.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
-            dialog.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.SelectDate"));
-            dialog.setImage(GuiResource.getInstance().getImageHop());
-            dialog.setLayout(new GridLayout(3, false));
+            wReadFrom.setText(
+                calendar.getYear()
+                    + "-"
+                    + ((calendar.getMonth() + 1) < 10 ? "0" + (calendar.getMonth() + 1) : (calendar.getMonth() + 1))
+                    + "-"
+                    + (calendar.getDay() < 10 ? "0" + calendar.getDay() : calendar.getDay())
+                    + " "
+                    + (time.getHours() < 10 ? "0" + time.getHours() : time.getHours())
+                    + ":"
+                    + (time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes())
+                    + ":"
+                    + (time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes()));
 
-            final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
-            final DateTime time = new DateTime(dialog, SWT.TIME | SWT.TIME);
-            new Label(dialog, SWT.NONE);
-            new Label(dialog, SWT.NONE);
-
-            Button ok = new Button(dialog, SWT.PUSH);
-            ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            ok.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    wReadFrom.setText(
-                        calendar.getYear()
-                            + "-"
-                            + ((calendar.getMonth() + 1) < 10
-                                ? "0" + (calendar.getMonth() + 1)
-                                : (calendar.getMonth() + 1))
-                            + "-"
-                            + (calendar.getDay() < 10 ? "0" + calendar.getDay() : calendar.getDay())
-                            + " "
-                            + (time.getHours() < 10 ? "0" + time.getHours() : time.getHours())
-                            + ":"
-                            + (time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes())
-                            + ":"
-                            + (time.getMinutes() < 10
-                                ? "0" + time.getMinutes()
-                                : time.getMinutes()));
-
-                    dialog.close();
-                  }
-                });
-            dialog.setDefaultButton(ok);
-            dialog.pack();
-            dialog.open();
+            dialog.close();
           }
         });
+        dialog.setDefaultButton(ok);
+        dialog.pack();
+        dialog.open();
+      }
+    });
 
     wlReadFrom = new Label(wAdvancedGroup, SWT.RIGHT);
     wlReadFrom.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.ReadFrom.Label"));
@@ -732,54 +696,44 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdlButtonto.top = new FormAttachment(wReadFrom, 2 * margin);
     fdlButtonto.right = new FormAttachment(100, 0);
     opento.setLayoutData(fdlButtonto);
-    opento.addSelectionListener(
-        new SelectionAdapter() {
+    opento.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
+        dialogto.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.SelectDate"));
+        dialogto.setImage(GuiResource.getInstance().getImageHop());
+        dialogto.setLayout(new GridLayout(3, false));
+
+        final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
+        final DateTime timeto = new DateTime(dialogto, SWT.TIME | SWT.TIME);
+        new Label(dialogto, SWT.NONE);
+        new Label(dialogto, SWT.NONE);
+        Button okto = new Button(dialogto, SWT.PUSH);
+        okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        okto.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
-            dialogto.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.SelectDate"));
-            dialogto.setImage(GuiResource.getInstance().getImageHop());
-            dialogto.setLayout(new GridLayout(3, false));
-
-            final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
-            final DateTime timeto = new DateTime(dialogto, SWT.TIME | SWT.TIME);
-            new Label(dialogto, SWT.NONE);
-            new Label(dialogto, SWT.NONE);
-            Button okto = new Button(dialogto, SWT.PUSH);
-            okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            okto.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    wReadTo.setText(
-                        calendarto.getYear()
-                            + "-"
-                            + ((calendarto.getMonth() + 1) < 10
-                                ? "0" + (calendarto.getMonth() + 1)
-                                : (calendarto.getMonth() + 1))
-                            + "-"
-                            + (calendarto.getDay() < 10
-                                ? "0" + calendarto.getDay()
-                                : calendarto.getDay())
-                            + " "
-                            + (timeto.getHours() < 10 ? "0" + timeto.getHours() : timeto.getHours())
-                            + ":"
-                            + (timeto.getMinutes() < 10
-                                ? "0" + timeto.getMinutes()
-                                : timeto.getMinutes())
-                            + ":"
-                            + (timeto.getSeconds() < 10
-                                ? "0" + timeto.getSeconds()
-                                : timeto.getSeconds()));
-                    dialogto.close();
-                  }
-                });
-            dialogto.setDefaultButton(okto);
-            dialogto.pack();
-            dialogto.open();
+            wReadTo.setText(
+                calendarto.getYear()
+                    + "-"
+                    + ((calendarto.getMonth() + 1) < 10 ? "0" + (calendarto.getMonth() + 1) : (calendarto.getMonth() + 1))
+                    + "-"
+                    + (calendarto.getDay() < 10 ? "0" + calendarto.getDay() : calendarto.getDay())
+                    + " "
+                    + (timeto.getHours() < 10 ? "0" + timeto.getHours() : timeto.getHours())
+                    + ":"
+                    + (timeto.getMinutes() < 10 ? "0" + timeto.getMinutes() : timeto.getMinutes())
+                    + ":"
+                    + (timeto.getSeconds() < 10 ? "0" + timeto.getSeconds() : timeto.getSeconds()));
+            dialogto.close();
           }
         });
+        dialogto.setDefaultButton(okto);
+        dialogto.pack();
+        dialogto.open();
+      }
+    });
 
     wlReadTo = new Label(wAdvancedGroup, SWT.RIGHT);
     wlReadTo.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.ReadTo.Label"));
@@ -815,8 +769,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     Group wAdditionalFields = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalFields);
-    wAdditionalFields.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.wAdditionalFields.Label"));
+    wAdditionalFields.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.wAdditionalFields.Label"));
 
     FormLayout additionalFieldsgroupLayout = new FormLayout();
     additionalFieldsgroupLayout.marginWidth = 10;
@@ -840,14 +793,13 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdInclURL.top = new FormAttachment(wlInclURL, 0, SWT.CENTER);
     wInclURL.setLayoutData(fdInclURL);
     wInclURL.addSelectionListener(checkBoxModifyListener);
-    wInclURL.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclTargetURL();
-            input.setChanged();
-          }
-        });
+    wInclURL.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclTargetURL();
+        input.setChanged();
+      }
+    });
 
     wlInclURLField = new Label(wAdditionalFields, SWT.LEFT);
     wlInclURLField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclURLField.Label"));
@@ -876,33 +828,29 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlInclModule.setLayoutData(fdlInclModule);
     wInclModule = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclModule);
-    wInclModule.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclModule.Tooltip"));
+    wInclModule.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclModule.Tooltip"));
     fdModule = new FormData();
     fdModule.left = new FormAttachment(middle, 0);
     fdModule.top = new FormAttachment(wlInclModule, 0, SWT.CENTER);
     wInclModule.setLayoutData(fdModule);
     wInclModule.addSelectionListener(checkBoxModifyListener);
 
-    wInclModule.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclModule();
-            input.setChanged();
-          }
-        });
+    wInclModule.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclModule();
+        input.setChanged();
+      }
+    });
 
     wlInclModuleField = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclModuleField.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclModuleField.Label"));
+    wlInclModuleField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclModuleField.Label"));
     PropsUi.setLook(wlInclModuleField);
     FormData fdlInclModuleField = new FormData();
     fdlInclModuleField.left = new FormAttachment(wInclModule, margin);
     fdlInclModuleField.top = new FormAttachment(wInclURLField, margin);
     wlInclModuleField.setLayoutData(fdlInclModuleField);
-    wInclModuleField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclModuleField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclModuleField);
     wInclModuleField.addModifyListener(lsMod);
     FormData fdInclModuleField = new FormData();
@@ -928,14 +876,13 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     fdInclSQL.top = new FormAttachment(wlInclSQL, 0, SWT.CENTER);
     wInclSQL.setLayoutData(fdInclSQL);
     wInclSQL.addSelectionListener(checkBoxModifyListener);
-    wInclSQL.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclSQL();
-            input.setChanged();
-          }
-        });
+    wInclSQL.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclSQL();
+        input.setChanged();
+      }
+    });
 
     wlInclSQLField = new Label(wAdditionalFields, SWT.LEFT);
     wlInclSQLField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclSQLField.Label"));
@@ -955,8 +902,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     // Add Timestamp in the output stream ?
     Label wlInclTimestamp = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclTimestamp.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestamp.Label"));
+    wlInclTimestamp.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestamp.Label"));
     PropsUi.setLook(wlInclTimestamp);
     FormData fdlInclTimestamp = new FormData();
     fdlInclTimestamp.left = new FormAttachment(0, 0);
@@ -965,32 +911,28 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlInclTimestamp.setLayoutData(fdlInclTimestamp);
     wInclTimestamp = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclTimestamp);
-    wInclTimestamp.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestamp.Tooltip"));
+    wInclTimestamp.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestamp.Tooltip"));
     FormData fdInclTimestamp = new FormData();
     fdInclTimestamp.left = new FormAttachment(middle, 0);
     fdInclTimestamp.top = new FormAttachment(wlInclTimestamp, 0, SWT.CENTER);
     wInclTimestamp.setLayoutData(fdInclTimestamp);
     wInclTimestamp.addSelectionListener(checkBoxModifyListener);
-    wInclTimestamp.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclTimestamp();
-            input.setChanged();
-          }
-        });
+    wInclTimestamp.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclTimestamp();
+        input.setChanged();
+      }
+    });
 
     wlInclTimestampField = new Label(wAdditionalFields, SWT.LEFT);
-    wlInclTimestampField.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestampField.Label"));
+    wlInclTimestampField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclTimestampField.Label"));
     PropsUi.setLook(wlInclTimestampField);
     FormData fdlInclTimestampField = new FormData();
     fdlInclTimestampField.left = new FormAttachment(wInclTimestamp, margin);
     fdlInclTimestampField.top = new FormAttachment(wInclSQLField, margin);
     wlInclTimestampField.setLayoutData(fdlInclTimestampField);
-    wInclTimestampField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclTimestampField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wlInclTimestampField);
     wInclTimestampField.addModifyListener(lsMod);
     FormData fdInclTimestampField = new FormData();
@@ -1010,33 +952,29 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlInclRownum.setLayoutData(fdlInclRownum);
     wInclRownum = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclRownum);
-    wInclRownum.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclRownum.Tooltip"));
+    wInclRownum.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclRownum.Tooltip"));
     FormData fdRownum = new FormData();
     fdRownum.left = new FormAttachment(middle, 0);
     fdRownum.top = new FormAttachment(wlInclRownum, 0, SWT.CENTER);
     wInclRownum.setLayoutData(fdRownum);
     wInclRownum.addSelectionListener(checkBoxModifyListener);
 
-    wInclRownum.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclRownum();
-            input.setChanged();
-          }
-        });
+    wInclRownum.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclRownum();
+        input.setChanged();
+      }
+    });
 
     wlInclRownumField = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclRownumField.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclRownumField.Label"));
+    wlInclRownumField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclRownumField.Label"));
     PropsUi.setLook(wlInclRownumField);
     FormData fdlInclRownumField = new FormData();
     fdlInclRownumField.left = new FormAttachment(wInclRownum, margin);
     fdlInclRownumField.top = new FormAttachment(wInclTimestampField, margin);
     wlInclRownumField.setLayoutData(fdlInclRownumField);
-    wInclRownumField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclRownumField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclRownumField);
     wInclRownumField.addModifyListener(lsMod);
     FormData fdInclRownumField = new FormData();
@@ -1047,8 +985,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     // Include DeletionDate in output stream?
     wlInclDeletionDate = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclDeletionDate.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDate.Label"));
+    wlInclDeletionDate.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDate.Label"));
     PropsUi.setLook(wlInclDeletionDate);
     FormData fdlInclDeletionDate = new FormData();
     fdlInclDeletionDate.left = new FormAttachment(0, 0);
@@ -1057,33 +994,29 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlInclDeletionDate.setLayoutData(fdlInclDeletionDate);
     wInclDeletionDate = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclDeletionDate);
-    wInclDeletionDate.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDate.Tooltip"));
+    wInclDeletionDate.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDate.Tooltip"));
     FormData fdDeletionDate = new FormData();
     fdDeletionDate.left = new FormAttachment(middle, 0);
     fdDeletionDate.top = new FormAttachment(wlInclDeletionDate, 0, SWT.CENTER);
     wInclDeletionDate.setLayoutData(fdDeletionDate);
     wInclDeletionDate.addSelectionListener(checkBoxModifyListener);
 
-    wInclDeletionDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setEnableInclDeletionDate();
-            input.setChanged();
-          }
-        });
+    wInclDeletionDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setEnableInclDeletionDate();
+        input.setChanged();
+      }
+    });
 
     wlInclDeletionDateField = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclDeletionDateField.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDateField.Label"));
+    wlInclDeletionDateField.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.InclDeletionDateField.Label"));
     PropsUi.setLook(wlInclDeletionDateField);
     FormData fdlInclDeletionDateField = new FormData();
     fdlInclDeletionDateField.left = new FormAttachment(wInclDeletionDate, margin);
     fdlInclDeletionDateField.top = new FormAttachment(wInclRownumField, margin);
     wlInclDeletionDateField.setLayoutData(fdlInclDeletionDateField);
-    wInclDeletionDateField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclDeletionDateField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclDeletionDateField);
     wInclDeletionDateField.addModifyListener(lsMod);
     FormData fdInclDeletionDateField = new FormData();
@@ -1122,8 +1055,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     // Use compression?
     Label wlUseCompression = new Label(wContentComp, SWT.RIGHT);
-    wlUseCompression.setText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.UseCompression.Label"));
+    wlUseCompression.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.UseCompression.Label"));
     PropsUi.setLook(wlUseCompression);
     FormData fdlUseCompression = new FormData();
     fdlUseCompression.left = new FormAttachment(0, 0);
@@ -1133,8 +1065,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wUseCompression = new Button(wContentComp, SWT.CHECK);
     wUseCompression.addSelectionListener(checkBoxModifyListener);
     PropsUi.setLook(wUseCompression);
-    wUseCompression.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.UseCompression.Tooltip"));
+    wUseCompression.setToolTipText(BaseMessages.getString(PKG, "SalesforceInputDialog.UseCompression.Tooltip"));
     FormData fdUseCompression = new FormData();
     fdUseCompression.left = new FormAttachment(middle, 0);
     fdUseCompression.top = new FormAttachment(wlUseCompression, 0, SWT.CENTER);
@@ -1198,83 +1129,37 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Field.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.IsIdLookup.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              },
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Format.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              4),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Currency.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Decimal.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Group.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.TrimType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              SalesforceInputField.trimTypeDesc,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Repeat.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              },
-              true),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Field.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.IsIdLookup.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")},
+                true),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), true),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 4),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.TrimType.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                SalesforceInputField.trimTypeDesc,
+                true),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Repeat.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")},
+                true),};
 
     columns[0].setUsingVariables(true);
-    columns[0].setToolTip(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Name.Column.Tooltip"));
+    columns[0].setToolTip(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Name.Column.Tooltip"));
     columns[1].setUsingVariables(true);
-    columns[1].setToolTip(
-        BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Field.Column.Tooltip"));
+    columns[1].setToolTip(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsTable.Field.Column.Tooltip"));
     columns[2].setReadOnly(true);
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, columns, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1295,16 +1180,14 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     // Add listeners
 
-    wGet.addListener(
-        SWT.Selection,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          get();
-          shell.setCursor(null);
-          busy.dispose();
-          input.setChanged();
-        });
+    wGet.addListener(SWT.Selection, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      get();
+      shell.setCursor(null);
+      busy.dispose();
+      input.setChanged();
+    });
     wTest.addListener(SWT.Selection, e -> test());
 
     wTabFolder.setSelection(0);
@@ -1342,9 +1225,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
       if (wInclModule.getSelection()) {
         wInclModule.setSelection(false);
       }
-      wRecordsFilter.setText(
-          SalesforceConnectionUtils.getRecordsFilterDesc(
-              SalesforceConnectionUtils.RECORDS_FILTER_ALL));
+      wRecordsFilter.setText(SalesforceConnectionUtils.getRecordsFilterDesc(SalesforceConnectionUtils.RECORDS_FILTER_ALL));
     }
     wlInclModule.setEnabled(!wSpecifyQuery.getSelection());
     wInclModule.setEnabled(!wSpecifyQuery.getSelection());
@@ -1417,8 +1298,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
           fieldsName = fieldNames.toArray(new String[fieldNames.size()]);
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_WARNING);
-          mb.setMessage(
-                  BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.SOQL.NoRecords.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.SOQL.NoRecords.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.SOQL.NoRecords.DialogTitle"));
           mb.open();
         }
@@ -1432,10 +1312,9 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
             fieldsName[i] = field.getName();
             addField(field);
           }
-        }  else {
+        } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_WARNING);
-          mb.setMessage(
-                  BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.Condition.NoRecords.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.Condition.NoRecords.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.GetFields.Condition.NoRecords.DialogTitle"));
           mb.open();
         }
@@ -1496,20 +1375,12 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     String fieldLength = null;
     String fieldPrecision = null;
-    if (!fieldType.equals("boolean")
-        && !fieldType.equals("datetime")
-        && !fieldType.equals("date")) {
+    if (!fieldType.equals("boolean") && !fieldType.equals("datetime") && !fieldType.equals("date")) {
       fieldLength = Integer.toString(field.getLength());
       fieldPrecision = Integer.toString(field.getPrecision());
     }
 
-    addFieldToTable(
-        field.getLabel(),
-        field.getName(),
-        field.isIdLookup(),
-        field.getType().toString(),
-        fieldLength,
-        fieldPrecision);
+    addFieldToTable(field.getLabel(), field.getName(), field.isIdLookup(), field.getType().toString(), fieldLength, fieldPrecision);
   }
 
   private void addField(String fieldName, Set<String> fieldNames, String firstValue) {
@@ -1544,21 +1415,11 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     addFieldToTable(fieldName, fieldName, false, fieldType, fieldLength, fieldPrecision);
   }
 
-  void addFieldToTable(
-      String fieldLabel,
-      String fieldName,
-      boolean fieldIdIsLookup,
-      String fieldType,
-      String fieldLength,
-      String fieldPrecision) {
+  void addFieldToTable(String fieldLabel, String fieldName, boolean fieldIdIsLookup, String fieldType, String fieldLength, String fieldPrecision) {
     TableItem item = new TableItem(wFields.table, SWT.NONE);
     item.setText(1, fieldLabel);
     item.setText(2, fieldName);
-    item.setText(
-        3,
-        fieldIdIsLookup
-            ? BaseMessages.getString(PKG, "System.Combo.Yes")
-            : BaseMessages.getString(PKG, "System.Combo.No"));
+    item.setText(3, fieldIdIsLookup ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
 
     // Try to get the Type
     if (fieldType.equals("boolean")) {
@@ -1590,9 +1451,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
   private void updateRecordsFilter() {
     boolean activeFilter =
-        (!wSpecifyQuery.getSelection()
-            && SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText())
-                != SalesforceConnectionUtils.RECORDS_FILTER_ALL);
+        (!wSpecifyQuery.getSelection() && SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText()) != SalesforceConnectionUtils.RECORDS_FILTER_ALL);
 
     wlReadFrom.setEnabled(activeFilter);
     wReadFrom.setEnabled(activeFilter);
@@ -1603,9 +1462,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     wlQueryAll.setEnabled(!activeFilter);
     wQueryAll.setEnabled(!activeFilter);
     enableCondition();
-    boolean activateDeletionDate =
-        SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText())
-            == SalesforceConnectionUtils.RECORDS_FILTER_DELETED;
+    boolean activateDeletionDate = SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText()) == SalesforceConnectionUtils.RECORDS_FILTER_DELETED;
     if (!activateDeletionDate) {
       wInclDeletionDate.setSelection(false);
     }
@@ -1629,8 +1486,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     wSpecifyQuery.setSelection(in.isSpecifyQuery());
     wQuery.setText(Const.NVL(in.getQuery(), ""));
-    wRecordsFilter.setText(
-        SalesforceConnectionUtils.getRecordsFilterDesc(input.getRecordsFilter()));
+    wRecordsFilter.setText(SalesforceConnectionUtils.getRecordsFilterDesc(input.getRecordsFilter()));
     wInclURLField.setText(Const.NVL(in.getTargetURLField(), ""));
     wInclURL.setSelection(in.includeTargetURL());
 
@@ -1666,10 +1522,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
         TableItem item = wFields.table.getItem(i);
         String name = field.getName();
         String path = field.getField();
-        String isidlookup =
-            field.isIdLookup()
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No");
+        String isidlookup = field.isIdLookup() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No");
         String type = field.getTypeDesc();
         String format = field.getFormat();
         String length = "" + field.getLength();
@@ -1678,10 +1531,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
         String group = field.getGroupSymbol();
         String decim = field.getDecimalSymbol();
         String trim = field.getTrimTypeDesc();
-        String rep =
-            field.isRepeated()
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No");
+        String rep = field.isRepeated() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No");
 
         if (name != null) {
           item.setText(1, name);
@@ -1778,8 +1628,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
     meta.setTimestampField(Const.NVL(wInclTimestampField.getText(), ""));
     meta.setModuleField(Const.NVL(wInclModuleField.getText(), ""));
     meta.setRowNumberField(Const.NVL(wInclRownumField.getText(), ""));
-    meta.setRecordsFilter(
-        SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText()));
+    meta.setRecordsFilter(SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText()));
     meta.setIncludeTargetURL(wInclURL.getSelection());
     meta.setIncludeSQL(wInclSQL.getSelection());
     meta.setIncludeTimestamp(wInclTimestamp.getSelection());
@@ -1800,8 +1649,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
       field.setName(item.getText(1));
       field.setField(item.getText(2));
-      field.setIdLookup(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(3)));
+      field.setIdLookup(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(3)));
       field.setType(ValueMetaFactory.getIdForValueMeta(item.getText(4)));
       field.setFormat(item.getText(5));
       field.setLength(Const.toInt(item.getText(6), -1));
@@ -1810,8 +1658,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
       field.setDecimalSymbol(item.getText(9));
       field.setGroupSymbol(item.getText(10));
       field.setTrimType(SalesforceInputField.getTrimTypeByDesc(item.getText(11)));
-      field.setRepeated(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(12)));
+      field.setRepeated(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(12)));
 
       // CHECKSTYLE:Indentation:OFF
       meta.getInputFields()[i] = field;
@@ -1826,9 +1673,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
       // check if the path is given
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              metadataProvider, oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -1839,12 +1684,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {
@@ -1896,12 +1736,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
         String url = variables.resolve(meta.getTargetUrl());
 
         // Define a new Salesforce connection
-        connection =
-            new SalesforceConnection(
-                log,
-                url,
-                variables.resolve(meta.getUsername()),
-                Utils.resolvePassword(variables, meta.getPassword()));
+        connection = new SalesforceConnection(log, url, variables.resolve(meta.getUsername()), Utils.resolvePassword(variables, meta.getPassword()));
         // connect to Salesforce
         connection.connect();
 
@@ -1918,8 +1753,7 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "SalesforceInputDialog.ErrorRetrieveModules.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "SalesforceInputDialog.ErrorRetrieveData.ErrorRetrieveModules"),
+            BaseMessages.getString(PKG, "SalesforceInputDialog.ErrorRetrieveData.ErrorRetrieveModules"),
             e);
         getModulesListError = true;
       } finally {
@@ -1953,16 +1787,12 @@ public class SalesforceInputDialog extends SalesforceTransformDialog {
 
     int lineNumber = control.getLineNumber();
     int columnNumber = control.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "SalesforceInputDialog.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "SalesforceInputDialog.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   private void enableCondition() {
     boolean enableCondition =
-        !wSpecifyQuery.getSelection()
-            && SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText())
-                == SalesforceConnectionUtils.RECORDS_FILTER_ALL;
+        !wSpecifyQuery.getSelection() && SalesforceConnectionUtils.getRecordsFilterByDesc(wRecordsFilter.getText()) == SalesforceConnectionUtils.RECORDS_FILTER_ALL;
     wlCondition.setVisible(enableCondition);
     wCondition.setVisible(enableCondition);
     wlPosition.setVisible(enableCondition);

@@ -41,11 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@InjectionSupported(
-    localizationPrefix = "Janino.Injection.",
-    groups = {
-      "FORMULA",
-    })
+@InjectionSupported(localizationPrefix = "Janino.Injection.", groups = {"FORMULA",})
 @Transform(
     id = "Janino",
     image = "janino.svg",
@@ -58,7 +54,8 @@ public class JaninoMeta extends BaseTransformMeta<Janino, JaninoData> {
   private static final Class<?> PKG = JaninoMeta.class; // For Translator
 
   /** The formula calculations to be performed */
-  @InjectionDeep private JaninoMetaFunction[] formula;
+  @InjectionDeep
+  private JaninoMetaFunction[] formula;
 
   public JaninoMeta() {
     super(); // allocate BaseTransformMeta
@@ -77,8 +74,7 @@ public class JaninoMeta extends BaseTransformMeta<Janino, JaninoData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     int nrCalcs = XmlHandler.countNodes(transformNode, JaninoMetaFunction.XML_TAG);
     allocate(nrCalcs);
     for (int i = 0; i < nrCalcs; i++) {
@@ -134,13 +130,7 @@ public class JaninoMeta extends BaseTransformMeta<Janino, JaninoData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < formula.length; i++) {
       JaninoMetaFunction fn = formula[i];
@@ -162,10 +152,7 @@ public class JaninoMeta extends BaseTransformMeta<Janino, JaninoData> {
         // Replacing a field
         int index = row.indexOfValue(fn.getReplaceField());
         if (index < 0) {
-          throw new HopTransformException(
-              "Unknown field specified to replace with a formula result: ["
-                  + fn.getReplaceField()
-                  + "]");
+          throw new HopTransformException("Unknown field specified to replace with a formula result: [" + fn.getReplaceField() + "]");
         }
         // Change the data type etc.
         //
@@ -200,36 +187,19 @@ public class JaninoMeta extends BaseTransformMeta<Janino, JaninoData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JaninoMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JaninoMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JaninoMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }

@@ -37,7 +37,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class JaninoMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopPluginException {
@@ -51,25 +52,16 @@ public class JaninoMetaTest {
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
-    IFieldLoadSaveValidator<JaninoMetaFunction[]> janinoMetaFunctionArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new JaninoMetaFunctionFieldLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<JaninoMetaFunction[]> janinoMetaFunctionArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new JaninoMetaFunctionFieldLoadSaveValidator(), 25);
 
     fieldLoadSaveValidatorAttributeMap.put("formula", janinoMetaFunctionArrayLoadSaveValidator);
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            JaninoMeta.class,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    LoadSaveTester loadSaveTester = new LoadSaveTester(JaninoMeta.class, attributes, new HashMap<>(), new HashMap<>(), fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }
 
-  public class JaninoMetaFunctionFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<JaninoMetaFunction> {
+  public class JaninoMetaFunctionFieldLoadSaveValidator implements IFieldLoadSaveValidator<JaninoMetaFunction> {
     @Override
     public JaninoMetaFunction getTestObject() {
       Random random = new Random();

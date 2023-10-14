@@ -40,52 +40,28 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/neo4j-graphoutput.html")
 public class GraphOutputMeta extends BaseTransformMeta<GraphOutput, GraphOutputData> {
 
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKey = "connection",
-      injectionKeyDescription = "GraphOutput.Injection.CONNECTION")
+  @HopMetadataProperty(key = "connection", injectionKey = "connection", injectionKeyDescription = "GraphOutput.Injection.CONNECTION")
   private String connectionName;
 
-  @HopMetadataProperty(
-      key = "model",
-      injectionKey = "model",
-      injectionKeyDescription = "GraphOutput.Injection.MODEL")
+  @HopMetadataProperty(key = "model", injectionKey = "model", injectionKeyDescription = "GraphOutput.Injection.MODEL")
   private String model;
 
-  @HopMetadataProperty(
-      key = "batch_size",
-      injectionKey = "batch_size",
-      injectionKeyDescription = "GraphOutput.Injection.BATCH_SIZE")
+  @HopMetadataProperty(key = "batch_size", injectionKey = "batch_size", injectionKeyDescription = "GraphOutput.Injection.BATCH_SIZE")
   private String batchSize;
 
-  @HopMetadataProperty(
-      key = "create_indexes",
-      injectionKey = "create_indexes",
-      injectionKeyDescription = "GraphOutput.Injection.CREATE_INDEXES")
+  @HopMetadataProperty(key = "create_indexes", injectionKey = "create_indexes", injectionKeyDescription = "GraphOutput.Injection.CREATE_INDEXES")
   private boolean creatingIndexes;
 
-  @HopMetadataProperty(
-      key = "returning_graph",
-      injectionKey = "returning_graph",
-      injectionKeyDescription = "GraphOutput.Injection.RETURNING_GRAPH")
+  @HopMetadataProperty(key = "returning_graph", injectionKey = "returning_graph", injectionKeyDescription = "GraphOutput.Injection.RETURNING_GRAPH")
   private boolean returningGraph;
 
-  @HopMetadataProperty(
-      key = "return_graph_field",
-      injectionKey = "return_graph_field",
-      injectionKeyDescription = "GraphOutput.Injection.RETURNING_GRAPH_FIELD")
+  @HopMetadataProperty(key = "return_graph_field", injectionKey = "return_graph_field", injectionKeyDescription = "GraphOutput.Injection.RETURNING_GRAPH_FIELD")
   private String returnGraphField;
 
-  @HopMetadataProperty(
-      key = "validate_against_model",
-      injectionKey = "validate_against_model",
-      injectionKeyDescription = "GraphOutput.Injection.VALIDATE_AGAINST_MODEL")
+  @HopMetadataProperty(key = "validate_against_model", injectionKey = "validate_against_model", injectionKeyDescription = "GraphOutput.Injection.VALIDATE_AGAINST_MODEL")
   private boolean validatingAgainstModel;
 
-  @HopMetadataProperty(
-      key = "out_of_order_allowed",
-      injectionKey = "out_of_order_allowed",
-      injectionKeyDescription = "GraphOutput.Injection.OUT_OF_ORDER_ALLOWED")
+  @HopMetadataProperty(key = "out_of_order_allowed", injectionKey = "out_of_order_allowed", injectionKeyDescription = "GraphOutput.Injection.OUT_OF_ORDER_ALLOWED")
   private boolean outOfOrderAllowed;
 
   @HopMetadataProperty(
@@ -128,18 +104,12 @@ public class GraphOutputMeta extends BaseTransformMeta<GraphOutput, GraphOutputD
   }
 
   @Override
-  public void setDefault(){
+  public void setDefault() {
     batchSize = "1000";
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider) {
 
     if (returningGraph) {
       IValueMeta valueMetaGraph = new ValueMetaGraph(Const.NVL(returnGraphField, "graph"));

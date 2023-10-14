@@ -39,10 +39,7 @@ public class EqIndexTest extends IndexTestBase<EqIndex> {
   @Override
   void doAssertMatches(BitSet candidates, long lookupValue, long actualValue) {
     if (lookupValue != actualValue) {
-      fail(
-          String.format(
-              "Expected to find [%d] among %s, but got [%d]",
-              lookupValue, candidates, actualValue));
+      fail(String.format("Expected to find [%d] among %s, but got [%d]", lookupValue, candidates, actualValue));
     }
   }
 

@@ -27,20 +27,27 @@ import java.util.List;
 @HopMetadata(
     key = "workflow-log",
     name = "Workflow Log",
-    description =
-        "This metadata object type allows you to log activity of a workflow with a pipeline",
+    description = "This metadata object type allows you to log activity of a workflow with a pipeline",
     image = "workflow-log.svg",
     documentationUrl = "/metadata-types/workflow-log.html")
 public class WorkflowLog extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private boolean loggingParentsOnly;
-  @HopMetadataProperty private String pipelineFilename;
-  @HopMetadataProperty private boolean executingAtStart;
-  @HopMetadataProperty private boolean executingPeriodically;
-  @HopMetadataProperty private String intervalInSeconds;
-  @HopMetadataProperty private boolean executingAtEnd;
-  @HopMetadataProperty private List<String> workflowToLog;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private boolean loggingParentsOnly;
+  @HopMetadataProperty
+  private String pipelineFilename;
+  @HopMetadataProperty
+  private boolean executingAtStart;
+  @HopMetadataProperty
+  private boolean executingPeriodically;
+  @HopMetadataProperty
+  private String intervalInSeconds;
+  @HopMetadataProperty
+  private boolean executingAtEnd;
+  @HopMetadataProperty
+  private List<String> workflowToLog;
 
   public WorkflowLog() {
     enabled = true;
@@ -57,16 +64,8 @@ public class WorkflowLog extends HopMetadataBase implements IHopMetadata {
     workflowToLog = new ArrayList<>();
   }
 
-  public WorkflowLog(
-      String name,
-      boolean enabled,
-      boolean loggingParentsOnly,
-      String pipelineFilename,
-      boolean executingAtStart,
-      boolean executingPeriodically,
-      String intervalInSeconds,
-      boolean executingAtEnd,
-      List<String> workflowToLog) {
+  public WorkflowLog(String name, boolean enabled, boolean loggingParentsOnly, String pipelineFilename, boolean executingAtStart, boolean executingPeriodically,
+      String intervalInSeconds, boolean executingAtEnd, List<String> workflowToLog) {
     super(name);
     this.enabled = enabled;
     this.loggingParentsOnly = loggingParentsOnly;
@@ -176,11 +175,11 @@ public class WorkflowLog extends HopMetadataBase implements IHopMetadata {
     this.executingAtEnd = executingAtEnd;
   }
 
-  public List<String> getWorkflowToLog(){
+  public List<String> getWorkflowToLog() {
     return workflowToLog;
   }
 
-  public void setWorkflowToLog(List<String> workflowToLog){
+  public void setWorkflowToLog(List<String> workflowToLog) {
     this.workflowToLog = workflowToLog;
   }
 }

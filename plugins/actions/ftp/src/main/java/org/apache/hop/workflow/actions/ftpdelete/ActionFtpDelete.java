@@ -166,11 +166,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
     retval.append("      ").append(XmlHandler.addTagValue("servername", serverName));
     retval.append("      ").append(XmlHandler.addTagValue("port", serverPort));
     retval.append("      ").append(XmlHandler.addTagValue("username", userName));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
+    retval.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
     retval.append("      ").append(XmlHandler.addTagValue("ftpdirectory", remoteDirectory));
     retval.append("      ").append(XmlHandler.addTagValue("wildcard", wildcard));
     retval.append("      ").append(XmlHandler.addTagValue("timeout", timeout));
@@ -180,11 +176,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
     retval.append("      ").append(XmlHandler.addTagValue("proxy_host", proxyHost));
     retval.append("      ").append(XmlHandler.addTagValue("proxy_port", proxyPort));
     retval.append("      ").append(XmlHandler.addTagValue("proxy_username", proxyUsername));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
 
     retval.append("      ").append(XmlHandler.addTagValue("publicpublickey", publicPublicKey));
     retval.append("      ").append(XmlHandler.addTagValue("keyfilename", keyFilename));
@@ -196,22 +188,14 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
 
     retval.append("      ").append(XmlHandler.addTagValue("socksproxy_host", socksProxyHost));
     retval.append("      ").append(XmlHandler.addTagValue("socksproxy_port", socksProxyPort));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("socksproxy_username", socksProxyUsername));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "socksproxy_password",
-                Encr.encryptPasswordIfNotUsingVariables(getSocksProxyPassword())));
+    retval.append("      ").append(XmlHandler.addTagValue("socksproxy_username", socksProxyUsername));
+    retval.append("      ").append(XmlHandler.addTagValue("socksproxy_password", Encr.encryptPasswordIfNotUsingVariables(getSocksProxyPassword())));
 
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
 
@@ -219,8 +203,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
       serverPort = XmlHandler.getTagValue(entrynode, "port");
       serverName = XmlHandler.getTagValue(entrynode, "servername");
       userName = XmlHandler.getTagValue(entrynode, "username");
-      password =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
+      password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
       remoteDirectory = XmlHandler.getTagValue(entrynode, "ftpdirectory");
       wildcard = XmlHandler.getTagValue(entrynode, "wildcard");
       timeout = Const.toInt(XmlHandler.getTagValue(entrynode, "timeout"), 10000);
@@ -230,9 +213,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
       proxyHost = XmlHandler.getTagValue(entrynode, "proxy_host");
       proxyPort = XmlHandler.getTagValue(entrynode, "proxy_port");
       proxyUsername = XmlHandler.getTagValue(entrynode, "proxy_username");
-      proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "proxy_password"));
+      proxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "proxy_password"));
 
       publicPublicKey = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "publicpublickey"));
       keyFilename = XmlHandler.getTagValue(entrynode, "keyfilename");
@@ -245,9 +226,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
       socksProxyHost = XmlHandler.getTagValue(entrynode, "socksproxy_host");
       socksProxyPort = XmlHandler.getTagValue(entrynode, "socksproxy_port");
       socksProxyUsername = XmlHandler.getTagValue(entrynode, "socksproxy_username");
-      socksProxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "socksproxy_password"));
+      socksProxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "socksproxy_password"));
 
     } catch (HopXmlException xe) {
       throw new HopXmlException("Unable to load action of type 'ftp' from XML node", xe);
@@ -258,8 +237,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
     boolean retval = false;
 
     if ((nrErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_ALL_FILES_DOWNLOADED))
-        || (nrFilesDeleted >= limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_DOWNLOADED))
+        || (nrFilesDeleted >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_DOWNLOADED))
         || (nrErrors <= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
@@ -619,8 +597,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
           logError(BaseMessages.getString(PKG, "ActionFtp.UnexpectedError", e.getMessage()));
 
           if (successConditionBroken) {
-            throw new Exception(
-                BaseMessages.getString(PKG, "ActionFTPDelete.SuccesConditionBroken"));
+            throw new Exception(BaseMessages.getString(PKG, "ActionFTPDelete.SuccesConditionBroken"));
           }
         }
       } // end for
@@ -671,13 +648,7 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
     return false;
   }
 
-  private void sftpConnect(
-      String realservername,
-      String realusername,
-      int realport,
-      String realpassword,
-      String realFtpDirectory)
-      throws Exception {
+  private void sftpConnect(String realservername, String realusername, int realport, String realpassword, String realFtpDirectory) throws Exception {
     // Create sftp client to host ...
     sftpclient = new SftpClient(InetAddress.getByName(realservername), realport, realusername);
 
@@ -736,42 +707,16 @@ public class ActionFtpDelete extends ActionBase implements Cloneable, IAction, I
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "serverName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "targetDirectory",
-            remarks,
-            AndValidator.putValidators(
-                ActionValidatorUtils.notBlankValidator(),
-                ActionValidatorUtils.fileExistsValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "userName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "password",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+        .validate(this, "targetDirectory", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "userName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "password", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(serverName)) {
       String realServername = variables.resolve(serverName);

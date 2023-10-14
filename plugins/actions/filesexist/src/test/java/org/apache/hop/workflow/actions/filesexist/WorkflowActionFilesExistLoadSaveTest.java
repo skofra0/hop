@@ -23,9 +23,9 @@ import org.junit.ClassRule;
 import java.util.Arrays;
 import java.util.List;
 
-public class WorkflowActionFilesExistLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionFilesExist> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionFilesExistLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionFilesExist> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionFilesExist> getActionClass() {

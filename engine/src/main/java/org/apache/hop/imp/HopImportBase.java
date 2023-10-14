@@ -97,13 +97,7 @@ public abstract class HopImportBase implements IHopImport {
     //
     if (metadataProvider == null) {
       this.metadataTargetFolder = outputFolder.getName().getURI() + "/metadata";
-      metadataProvider =
-          new MultiMetadataProvider(
-              Encr.getEncoder(),
-              Arrays.asList(
-                  new JsonMetadataProvider(
-                      Encr.getEncoder(), this.metadataTargetFolder, variables)),
-              variables);
+      metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), Arrays.asList(new JsonMetadataProvider(Encr.getEncoder(), this.metadataTargetFolder, variables)), variables);
     }
     if (monitor != null) {
       monitor.setTaskName("Finding files to import");
@@ -157,12 +151,11 @@ public abstract class HopImportBase implements IHopImport {
       InputStream inputStream = HopVfs.getInputStream(varFile);
       properties.load(inputStream);
 
-      properties.forEach(
-          (k, v) -> {
-            collectedVariables.setVariable((String) k, (String) v);
-            variableCounter++;
-            log.logDetailed("Saved variable " + (String) k + ": " + (String) v);
-          });
+      properties.forEach((k, v) -> {
+        collectedVariables.setVariable((String) k, (String) v);
+        variableCounter++;
+        log.logDetailed("Saved variable " + (String) k + ": " + (String) v);
+      });
     } catch (Exception e) {
       throw new HopException("Error collecting variables from file " + kettlePropertiesFilename, e);
     }
@@ -173,11 +166,7 @@ public abstract class HopImportBase implements IHopImport {
     connectionFileMap.put(filename, databaseMeta.getName());
 
     // only add new connection names to the list
-    if (connectionsList.stream()
-            .filter(dbMeta -> dbMeta.getName().equals(databaseMeta.getName()))
-            .collect(Collectors.toList())
-            .size()
-        == 0) {
+    if (connectionsList.stream().filter(dbMeta -> dbMeta.getName().equals(databaseMeta.getName())).collect(Collectors.toList()).size() == 0) {
       connectionsList.add(databaseMeta);
       connectionCounter++;
     }
@@ -193,8 +182,7 @@ public abstract class HopImportBase implements IHopImport {
     try {
       inputFolder = HopVfs.getFileObject(inputFolderName);
       if (!inputFolder.exists() || !inputFolder.isFolder()) {
-        throw new HopException(
-            "input folder '" + inputFolderName + "' doesn't exist or is not a folder.");
+        throw new HopException("input folder '" + inputFolderName + "' doesn't exist or is not a folder.");
       }
       this.inputFolderName = inputFolder.getName().getURI();
     } catch (Exception e) {

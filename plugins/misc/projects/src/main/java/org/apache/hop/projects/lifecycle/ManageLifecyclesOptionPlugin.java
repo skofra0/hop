@@ -31,58 +31,41 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-
-TODO: Re-enable when we have usage for it
-
-@ConfigPlugin(
-  id = "ManageLifecyclesOptionPlugin",
-  description = "Allows command line editing of the lifecycles"
-)
+ * 
+ * TODO: Re-enable when we have usage for it
+ * 
+ * @ConfigPlugin(
+ * id = "ManageLifecyclesOptionPlugin",
+ * description = "Allows command line editing of the lifecycles"
+ * )
  */
 public class ManageLifecyclesOptionPlugin implements IConfigOptions {
 
   @CommandLine.Option(
       names = {"-lc", "--lifecycle-create"},
-      description =
-          "Create a new project lifecycle. You need so specify a name and one or more lifecycle environments and configuration files.")
+      description = "Create a new project lifecycle. You need so specify a name and one or more lifecycle environments and configuration files.")
   private boolean createLifecycle;
 
-  @CommandLine.Option(
-      names = {"-l", "--lifecycle"},
-      description = "The name of the lifecycle to manage")
+  @CommandLine.Option(names = {"-l", "--lifecycle"}, description = "The name of the lifecycle to manage")
   private String lifecycleName;
 
-  @CommandLine.Option(
-      names = {"-le", "--lifecycle-environments"},
-      description = "The names of the lifecycle environments, comma separated",
-      split = ",")
+  @CommandLine.Option(names = {"-le", "--lifecycle-environments"}, description = "The names of the lifecycle environments, comma separated", split = ",")
   private String[] lifecycleEnvironments;
 
-  @CommandLine.Option(
-      names = {"-cf", "--config-files"},
-      description = "The file names of the lifecycle configuration files, comma separated",
-      split = ",")
+  @CommandLine.Option(names = {"-cf", "--config-files"}, description = "The file names of the lifecycle configuration files, comma separated", split = ",")
   private String[] configFilenames;
 
-  @CommandLine.Option(
-      names = {"-lm", "--lifecycle-modify"},
-      description = "Modify a lifecycle")
+  @CommandLine.Option(names = {"-lm", "--lifecycle-modify"}, description = "Modify a lifecycle")
   private boolean modifyLifecycle;
 
-  @CommandLine.Option(
-      names = {"-ld", "--lifecycle-delete"},
-      description = "Delete a lifecycle")
+  @CommandLine.Option(names = {"-ld", "--lifecycle-delete"}, description = "Delete a lifecycle")
   private boolean deleteLifecycle;
 
-  @CommandLine.Option(
-      names = {"-ll", "-lifecycles-list"},
-      description = "List the defined lifecycles")
+  @CommandLine.Option(names = {"-ll", "-lifecycles-list"}, description = "List the defined lifecycles")
   private boolean listLifecycles;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     try {
       boolean changed = false;
       if (createLifecycle) {
@@ -134,8 +117,7 @@ public class ManageLifecyclesOptionPlugin implements IConfigOptions {
     validateLifecycleNameSpecified();
     ProjectLifecycle lifecycle = config.findLifecycle(lifecycleName);
     if (lifecycle == null) {
-      throw new HopException(
-          "Project lifecycle '" + lifecycleName + "' doesn't exist, it can't be deleted");
+      throw new HopException("Project lifecycle '" + lifecycleName + "' doesn't exist, it can't be deleted");
     }
 
     config.removeLifecycle(lifecycleName);
@@ -149,8 +131,7 @@ public class ManageLifecyclesOptionPlugin implements IConfigOptions {
     validateLifecycleNameSpecified();
     ProjectLifecycle lifecycle = config.findLifecycle(lifecycleName);
     if (lifecycle == null) {
-      throw new HopException(
-          "Project lifecycle '" + lifecycleName + "' doesn't exist, it can't be modified");
+      throw new HopException("Project lifecycle '" + lifecycleName + "' doesn't exist, it can't be modified");
     }
 
     if (lifecycleEnvironments != null) {

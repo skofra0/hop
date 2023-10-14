@@ -53,8 +53,7 @@ public class ConstantDialog extends BaseTransformDialog implements ITransformDia
 
   private final ConstantMeta input;
 
-  public ConstantDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ConstantDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ConstantMeta) in;
   }
@@ -121,69 +120,22 @@ public class ConstantDialog extends BaseTransformDialog implements ITransformDia
     final int FieldsRows = input.getFields().size();
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Name.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Type.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaFactory.getValueMetaNames());
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Format.Column"),
-            ColumnInfo.COLUMN_TYPE_FORMAT,
-            2);
-    colinf[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Length.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Precision.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[5] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Currency.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[6] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Decimal.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[7] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Group.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[8] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ConstantDialog.Value.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames());
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 2);
+    colinf[3] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[4] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[5] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[6] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[7] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[8] = new ColumnInfo(BaseMessages.getString(PKG, "ConstantDialog.Value.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     colinf[9] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "ConstantDialog.Value.SetEmptyString"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              BaseMessages.getString(PKG, SYSTEM_COMBO_YES),
-              BaseMessages.getString(PKG, "System.Combo.No")
-            });
+            new String[] {BaseMessages.getString(PKG, SYSTEM_COMBO_YES), BaseMessages.getString(PKG, "System.Combo.No")});
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -192,13 +144,12 @@ public class ConstantDialog extends BaseTransformDialog implements ITransformDia
     fdFields.bottom = new FormAttachment(wOk, -2 * margin);
     wFields.setLayoutData(fdFields);
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();
@@ -240,11 +191,7 @@ public class ConstantDialog extends BaseTransformDialog implements ITransformDia
         item.setText(col++, Const.NVL(decim, ""));
         item.setText(col++, Const.NVL(group, ""));
         item.setText(col++, Const.NVL(def, ""));
-        item.setText(
-            col,
-            field.isEmptyString()
-                ? BaseMessages.getString(PKG, SYSTEM_COMBO_YES)
-                : BaseMessages.getString(PKG, "System.Combo.No"));
+        item.setText(col, field.isEmptyString() ? BaseMessages.getString(PKG, SYSTEM_COMBO_YES) : BaseMessages.getString(PKG, "System.Combo.No"));
       }
     }
 
@@ -278,18 +225,10 @@ public class ConstantDialog extends BaseTransformDialog implements ITransformDia
     // CHECKSTYLE:LineLength:OFF
     for (i = 0; i < nrFields; i++) {
       TableItem item = wFields.getNonEmpty(i);
-      boolean isEmptyStringFlag =
-          BaseMessages.getString(PKG, SYSTEM_COMBO_YES).equalsIgnoreCase(item.getText(10));
+      boolean isEmptyStringFlag = BaseMessages.getString(PKG, SYSTEM_COMBO_YES).equalsIgnoreCase(item.getText(10));
       ConstantField field =
-          (isEmptyStringFlag
-              ? new ConstantField(
-                  item.getText(1),
-                  isEmptyStringFlag ? "String" : item.getText(2),
-                  isEmptyStringFlag)
-              : new ConstantField(
-                  item.getText(1),
-                  isEmptyStringFlag ? "String" : item.getText(2),
-                  isEmptyStringFlag ? "" : item.getText(9)));
+          (isEmptyStringFlag ? new ConstantField(item.getText(1), isEmptyStringFlag ? "String" : item.getText(2), isEmptyStringFlag)
+              : new ConstantField(item.getText(1), isEmptyStringFlag ? "String" : item.getText(2), isEmptyStringFlag ? "" : item.getText(9)));
 
       field.setFieldFormat(item.getText(3));
       String slength = item.getText(4);

@@ -54,17 +54,13 @@ public class ReadAllCacheTest {
 
     keys =
         new Object[][] {
-          new Object[] {0L, "0", new Date(0), null},
-          new Object[] {0L, "0", new Date(50), null},
-          new Object[] {2L, "2", new Date(200), null},
-          new Object[] {1L, "1", new Date(100), null},
-          new Object[] {1L, "1", new Date(150), null}
-        };
+            new Object[] {0L, "0", new Date(0), null},
+            new Object[] {0L, "0", new Date(50), null},
+            new Object[] {2L, "2", new Date(200), null},
+            new Object[] {1L, "1", new Date(100), null},
+            new Object[] {1L, "1", new Date(150), null}};
 
-    data =
-        new Object[][] {
-          new Object[] {0}, new Object[] {1}, new Object[] {2}, new Object[] {3}, new Object[] {4}
-        };
+    data = new Object[][] {new Object[] {0}, new Object[] {1}, new Object[] {2}, new Object[] {3}, new Object[] {4}};
   }
 
   @After
@@ -89,17 +85,14 @@ public class ReadAllCacheTest {
   @Test
   public void lookup_Finds_Only() throws Exception {
     ReadAllCache cache = buildCache("=,<,=,IS NULL");
-    Object[] found =
-        cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, "2", new Date(100), null});
-    assertArrayEquals(
-        "(keys[0] == 1) && (keys[1] < '2') && (keys[2] == 100) --> row 3", data[3], found);
+    Object[] found = cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, "2", new Date(100), null});
+    assertArrayEquals("(keys[0] == 1) && (keys[1] < '2') && (keys[2] == 100) --> row 3", data[3], found);
   }
 
   @Test
   public void lookup_Finds_FirstMatching() throws Exception {
     ReadAllCache cache = buildCache("=,IS NOT NULL,<=,IS NULL");
-    Object[] found =
-        cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, null, new Date(1000000), null});
+    Object[] found = cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, null, new Date(1000000), null});
     assertArrayEquals("(keys[0] == 1) && (keys[2] < 1000000) --> row 3", data[3], found);
   }
 
@@ -110,8 +103,7 @@ public class ReadAllCacheTest {
     meta.addValueMeta(new ValueMetaInteger());
 
     ReadAllCache cache = buildCache("<>,IS NOT NULL,BETWEEN,IS NULL");
-    Object[] found =
-        cache.getRowFromCache(meta, new Object[] {-1L, null, new Date(140), new Date(160), null});
+    Object[] found = cache.getRowFromCache(meta, new Object[] {-1L, null, new Date(140), new Date(160), null});
     assertArrayEquals("(140 <= keys[2] <= 160) --> row 4", data[4], found);
   }
 
@@ -126,18 +118,14 @@ public class ReadAllCacheTest {
     meta.addValueMeta(new ValueMetaInteger());
 
     ReadAllCache cache = buildCache(">,BETWEEN,BETWEEN,IS NULL");
-    Object[] found =
-        cache.getRowFromCache(
-            meta, new Object[] {-1L, "1", "3", new Date(0), new Date(1000), null});
-    assertArrayEquals(
-        "('1' <= keys[1] <= '3') && (0 <= keys[2] <= 1000) --> row 2", data[2], found);
+    Object[] found = cache.getRowFromCache(meta, new Object[] {-1L, "1", "3", new Date(0), new Date(1000), null});
+    assertArrayEquals("('1' <= keys[1] <= '3') && (0 <= keys[2] <= 1000) --> row 2", data[2], found);
   }
 
   @Test
   public void lookup_DoesNotFind_FilteredByIndex() throws Exception {
     ReadAllCache cache = buildCache("=,IS NOT NULL,>=,IS NOT NULL");
-    Object[] found =
-        cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, null, new Date(0), null});
+    Object[] found = cache.getRowFromCache(keysMeta.clone(), new Object[] {1L, null, new Date(0), null});
     assertNull("(keys[3] != NULL) --> none", found);
   }
 
@@ -148,8 +136,7 @@ public class ReadAllCacheTest {
     meta.addValueMeta(new ValueMetaInteger());
 
     ReadAllCache cache = buildCache("<>,IS NOT NULL,BETWEEN,IS NULL");
-    Object[] found =
-        cache.getRowFromCache(meta, new Object[] {-1L, null, new Date(1000), new Date(2000), null});
+    Object[] found = cache.getRowFromCache(meta, new Object[] {-1L, null, new Date(1000), new Date(2000), null});
     assertNull("(1000 <= keys[2] <= 2000) --> none", found);
   }
 

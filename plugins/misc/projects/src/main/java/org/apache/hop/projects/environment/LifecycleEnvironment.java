@@ -35,8 +35,7 @@ public class LifecycleEnvironment {
     configurationFiles = new ArrayList<>();
   }
 
-  public LifecycleEnvironment(
-      String name, String purpose, String projectName, List<String> configurationFiles) {
+  public LifecycleEnvironment(String name, String purpose, String projectName, List<String> configurationFiles) {
     this.name = name;
     this.purpose = purpose;
     this.projectName = projectName;

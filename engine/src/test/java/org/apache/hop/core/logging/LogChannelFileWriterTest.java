@@ -43,10 +43,14 @@ public class LogChannelFileWriterTest {
   String id = "1";
   String logMessage = "Log message";
 
-  @Mock FileObject fileObject;
-  @Mock FileContent fileContent;
-  @Mock OutputStream outputStream;
-  @Captor ArgumentCaptor<byte[]> captor;
+  @Mock
+  FileObject fileObject;
+  @Mock
+  FileContent fileContent;
+  @Mock
+  OutputStream outputStream;
+  @Captor
+  ArgumentCaptor<byte[]> captor;
 
   @Before
   public void setup() throws Exception {
@@ -59,9 +63,7 @@ public class LogChannelFileWriterTest {
 
     LogChannelFileWriter writer = new LogChannelFileWriter(id, fileObject, false);
 
-    LoggingRegistry.getInstance()
-        .getLogChannelFileWriterBuffer(id)
-        .addEvent(new HopLoggingEvent(logMessage, System.currentTimeMillis(), LogLevel.BASIC));
+    LoggingRegistry.getInstance().getLogChannelFileWriterBuffer(id).addEvent(new HopLoggingEvent(logMessage, System.currentTimeMillis(), LogLevel.BASIC));
 
     writer.flush();
 
@@ -75,13 +77,10 @@ public class LogChannelFileWriterTest {
   public void testStartStopLogging() throws Exception {
     LogChannelFileWriter writer = new LogChannelFileWriter(id, fileObject, false);
 
-    doAnswer(
-            invocationOnMock -> {
-              Thread.sleep(2000);
-              return null;
-            })
-        .when(outputStream)
-        .close();
+    doAnswer(invocationOnMock -> {
+      Thread.sleep(2000);
+      return null;
+    }).when(outputStream).close();
 
     writer.startLogging();
 

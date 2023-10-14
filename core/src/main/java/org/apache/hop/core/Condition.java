@@ -52,21 +52,27 @@ import static org.apache.hop.core.Condition.Operator.NONE;
 /**
  * This class describes a condition in a general meaning.
  *
- * <p>A condition can either be
+ * <p>
+ * A condition can either be
  *
  * <p>
  *
- * <p>1) Atomic (a=10, B='aa')
+ * <p>
+ * 1) Atomic (a=10, B='aa')
  *
- * <p>2) Composite ( NOT Condition1 AND Condition2 OR Condition3 )
+ * <p>
+ * 2) Composite ( NOT Condition1 AND Condition2 OR Condition3 )
  *
  * <p>
  *
- * <p>If the nr of atomic conditions is 0, the condition is atomic, otherwise it's Composit.
+ * <p>
+ * If the nr of atomic conditions is 0, the condition is atomic, otherwise it's Composit.
  *
- * <p>Precedence doesn't exist. Conditions are evaluated in the order in which they are found.
+ * <p>
+ * Precedence doesn't exist. Conditions are evaluated in the order in which they are found.
  *
- * <p>A condition can be negated or not.
+ * <p>
+ * A condition can be negated or not.
  *
  * <p>
  *
@@ -75,8 +81,7 @@ import static org.apache.hop.core.Condition.Operator.NONE;
 public class Condition implements Cloneable {
   public static final String XML_TAG = "condition";
 
-  public static final String[] operators =
-      new String[] {"-", "OR", "AND", "NOT", "OR NOT", "AND NOT", "XOR"};
+  public static final String[] operators = new String[] {"-", "OR", "AND", "NOT", "OR NOT", "AND NOT", "XOR"};
   public static final int OPERATOR_NONE = 0;
   public static final int OPERATOR_OR = 1;
   public static final int OPERATOR_AND = 2;
@@ -87,23 +92,24 @@ public class Condition implements Cloneable {
 
   public static final String[] functions =
       new String[] {
-        "=",
-        "<>",
-        "<",
-        "<=",
-        ">",
-        ">=",
-        "REGEXP",
-        "IS NULL",
-        "IS NOT NULL",
-        "IN LIST",
-        "CONTAINS",
-        "STARTS WITH",
-        "ENDS WITH",
-        "LIKE",
-        "TRUE"
-        ,"IS EMPTY" , "NOT IS EMPTY" // DEEM-MOD
-     };
+          "=",
+          "<>",
+          "<",
+          "<=",
+          ">",
+          ">=",
+          "REGEXP",
+          "IS NULL",
+          "IS NOT NULL",
+          "IN LIST",
+          "CONTAINS",
+          "STARTS WITH",
+          "ENDS WITH",
+          "LIKE",
+          "TRUE",
+          "IS EMPTY",
+          "NOT IS EMPTY" // DEEM-MOD
+      };
 
   public static final int FUNC_EQUAL = 0;
   public static final int FUNC_NOT_EQUAL = 1;
@@ -120,8 +126,8 @@ public class Condition implements Cloneable {
   public static final int FUNC_ENDS_WITH = 12;
   public static final int FUNC_LIKE = 13;
   public static final int FUNC_TRUE = 14;
-  public static final int FUNC_IS_EMPTY      = 15;  // DEEM-MOD 
-  public static final int FUNC_NOT_IS_EMPTY  = 16;  // DEEM-MOD
+  public static final int FUNC_IS_EMPTY = 15; // DEEM-MOD
+  public static final int FUNC_NOT_IS_EMPTY = 16; // DEEM-MOD
 
   //
   // These parameters allow for:
@@ -173,8 +179,7 @@ public class Condition implements Cloneable {
     rightFieldIndex = -2;
   }
 
-  public Condition(String valueName, Function function, String valueName2, ValueMetaAndData exact)
-      throws HopValueException {
+  public Condition(String valueName, Function function, String valueName2, ValueMetaAndData exact) throws HopValueException {
     this();
     this.leftValueName = valueName;
     this.function = function;
@@ -184,13 +189,7 @@ public class Condition implements Cloneable {
     clearFieldPositions();
   }
 
-  public Condition(
-      Operator operator,
-      String valueName,
-      Function function,
-      String valueName2,
-      ValueMetaAndData exact)
-      throws HopValueException {
+  public Condition(Operator operator, String valueName, Function function, String valueName2, ValueMetaAndData exact) throws HopValueException {
     this();
     this.operator = operator;
     this.leftValueName = valueName;
@@ -201,13 +200,7 @@ public class Condition implements Cloneable {
     clearFieldPositions();
   }
 
-  public Condition(
-      boolean negated,
-      String valueName,
-      Function function,
-      String valueName2,
-      ValueMetaAndData exact)
-      throws HopValueException {
+  public Condition(boolean negated, String valueName, Function function, String valueName2, ValueMetaAndData exact) throws HopValueException {
     this(valueName, function, valueName2, exact);
     this.negated = negated;
   }
@@ -401,11 +394,10 @@ public class Condition implements Cloneable {
         // Get field index: right value
         //
         IValueMeta fieldMeta2 = rightValue != null ? rightValue.createValueMeta() : null;
-        // Old metadata contains a right value block without name, type and so on.  This means: no
+        // Old metadata contains a right value block without name, type and so on. This means: no
         // value
         // Removed the name check, old fixed values do not contain a name element causing regression
-        Object field2 =
-            rightValue != null && rightFieldIndex == -2 ? rightValue.createValueData() : null;
+        Object field2 = rightValue != null && rightFieldIndex == -2 ? rightValue.createValueData() : null;
         if (field2 == null && rightFieldIndex >= 0) {
           fieldMeta2 = rowMeta.getValueMeta(rightFieldIndex);
           field2 = r[rightFieldIndex];
@@ -443,9 +435,7 @@ public class Condition implements Cloneable {
             if (fieldMeta.isNull(field) || field2 == null) {
               evaluation = false;
             } else {
-              evaluation =
-                  Pattern.matches(
-                      fieldMeta2.getCompatibleString(field2), fieldMeta.getCompatibleString(field));
+              evaluation = Pattern.matches(fieldMeta2.getCompatibleString(field2), fieldMeta.getCompatibleString(field));
             }
             break;
           case NULL:
@@ -473,18 +463,10 @@ public class Condition implements Cloneable {
             evaluation = inIndex >= 0;
             break;
           case CONTAINS:
-            evaluation =
-                fieldMeta.getCompatibleString(field) != null
-                    && fieldMeta
-                        .getCompatibleString(field)
-                        .contains(fieldMeta2.getCompatibleString(field2));
+            evaluation = fieldMeta.getCompatibleString(field) != null && fieldMeta.getCompatibleString(field).contains(fieldMeta2.getCompatibleString(field2));
             break;
           case STARTS_WITH:
-            evaluation =
-                fieldMeta.getCompatibleString(field) != null
-                    && fieldMeta
-                        .getCompatibleString(field)
-                        .startsWith(fieldMeta2.getCompatibleString(field2));
+            evaluation = fieldMeta.getCompatibleString(field) != null && fieldMeta.getCompatibleString(field).startsWith(fieldMeta2.getCompatibleString(field2));
             break;
           case ENDS_WITH:
             String string = fieldMeta.getCompatibleString(field);
@@ -728,8 +710,7 @@ public class Condition implements Cloneable {
             retval.append(" ");
             retval.append(rightValueName);
           } else {
-            retval.append(
-                " [" + (getRightValueString() == null ? "" : getRightValueString()) + "]");
+            retval.append(" [" + (getRightValueString() == null ? "" : getRightValueString()) + "]");
           }
         }
       }
@@ -777,9 +758,7 @@ public class Condition implements Cloneable {
 
   public String getXml() throws HopValueException {
     try {
-      return XmlHandler.openTag(XML_TAG)
-          + XmlMetadataUtil.serializeObjectToXml(this)
-          + XmlHandler.closeTag(XML_TAG);
+      return XmlHandler.openTag(XML_TAG) + XmlMetadataUtil.serializeObjectToXml(this) + XmlHandler.closeTag(XML_TAG);
     } catch (Exception e) {
       throw new HopValueException("Error serializing Condition to XML", e);
     }
@@ -1064,6 +1043,7 @@ public class Condition implements Cloneable {
     OR_NOT("OR NOT", OPERATOR_OR_NOT),
     AND_NOT("AND NOT", OPERATOR_AND_NOT),
     XOR("XOR", OPERATOR_XOR);
+
     private final String code;
     private final int type;
 
@@ -1119,7 +1099,7 @@ public class Condition implements Cloneable {
     TRUE("TRUE", FUNC_TRUE),
     IS_EMPTY("IS NULL", FUNC_IS_EMPTY),
     NOT_IS_EMPTY("IS NOT NULL", FUNC_NOT_IS_EMPTY);
-	  
+
     private final String code;
     private final String description;
     private final int type;

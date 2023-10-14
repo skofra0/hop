@@ -38,15 +38,14 @@ public class PDI_2875_Test {
   private static TransformMockHelper<TextFileInputMeta, TextFileInputData> smh;
   private final String VAR_NAME = "VAR";
   private final String EXPRESSION = "${" + VAR_NAME + "}";
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUp() throws Exception {
     HopEnvironment.init();
-    smh =
-        new TransformMockHelper<>("CsvInputTest", TextFileInputMeta.class, TextFileInputData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("CsvInputTest", TextFileInputMeta.class, TextFileInputData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -75,8 +74,7 @@ public class PDI_2875_Test {
     doReturn(new Date()).when(smh.pipeline).getExecutionStartDate();
     TextFileInputData data = new TextFileInputData();
     TextFileInputMeta meta = getMeta();
-    TextFileInput transform =
-        spy(new TextFileInput(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline));
+    TextFileInput transform = spy(new TextFileInput(smh.transformMeta, meta, data, 0, smh.pipelineMeta, smh.pipeline));
     transform.setVariable(VAR_NAME, "value");
     transform.init();
     verify(transform, times(2)).resolve(EXPRESSION);

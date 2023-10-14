@@ -55,21 +55,13 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
    * @param key The i18n key
    * @param arguments The arguments from the source code
    */
-  public KeyOccurrence(
-      FileObject fileObject,
-      String sourceFolder,
-      String messagesPackage,
-      int fileIndex,
-      String key,
-      String arguments,
-      String sourceLine) {
+  public KeyOccurrence(FileObject fileObject, String sourceFolder, String messagesPackage, int fileIndex, String key, String arguments, String sourceLine) {
     this();
     if (fileObject == null) {
       throw new RuntimeException("A key occurrence needs to have a file in which it occurs");
     }
     if (messagesPackage == null) {
-      throw new RuntimeException(
-          "A key occurrence needs to have a messages package in file '" + fileObject + "'");
+      throw new RuntimeException("A key occurrence needs to have a messages package in file '" + fileObject + "'");
     }
 
     this.fileObject = fileObject;
@@ -83,13 +75,7 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
   }
 
   public String toString() {
-    return "[source="
-        + sourceFolder
-        + ", key="
-        + key
-        + ", messages package="
-        + messagesPackage
-        + "]";
+    return "[source=" + sourceFolder + ", key=" + key + ", messages package=" + messagesPackage + "]";
   }
 
   public boolean equals(Object occ) {
@@ -99,9 +85,7 @@ public class KeyOccurrence implements Comparable<KeyOccurrence> {
     if (this == occ) {
       return true;
     }
-    return sourceFolder.equals(((KeyOccurrence) occ).sourceFolder)
-        && key.equals(((KeyOccurrence) occ).key)
-        && messagesPackage.equals(((KeyOccurrence) occ).messagesPackage);
+    return sourceFolder.equals(((KeyOccurrence) occ).sourceFolder) && key.equals(((KeyOccurrence) occ).key) && messagesPackage.equals(((KeyOccurrence) occ).messagesPackage);
   }
 
   @Override

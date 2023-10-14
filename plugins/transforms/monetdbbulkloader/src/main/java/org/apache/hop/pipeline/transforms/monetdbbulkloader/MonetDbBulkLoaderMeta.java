@@ -55,8 +55,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Bulk")
 @InjectionSupported(localizationPrefix = "MonetDBBulkLoaderDialog.Injection.")
 public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, MonetDbBulkLoaderData> {
-  private static final Class<?> PKG =
-      MonetDbBulkLoaderMeta.class; // For Translator
+  private static final Class<?> PKG = MonetDbBulkLoaderMeta.class; // For Translator
 
   /** The database connection name * */
   @Injection(name = "CONNECTIONNAME")
@@ -213,8 +212,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -237,8 +235,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
     return retval;
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       dbConnectionName = XmlHandler.getTagValue(transformNode, "connection");
       databaseMeta = DatabaseMeta.loadDatabase(metadataProvider, dbConnectionName);
@@ -287,10 +284,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
         fieldFormatOk[i] = "Y".equalsIgnoreCase(XmlHandler.getTagValue(vnode, "field_format_ok"));
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "MonetDBBulkLoaderMeta.Exception.UnableToReadTransformInfoFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.UnableToReadTransformInfoFromXML"), e);
     }
   }
 
@@ -349,13 +343,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: nothing changes to rowMeta
   }
@@ -380,11 +368,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
         db.connect();
 
         if (!Utils.isEmpty(tableName)) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TableNameOK"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TableNameOK"), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -392,15 +376,10 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
           erroMessage = "";
 
           // Check fields in table
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
           IRowMeta r = db.getTableFields(schemaTable);
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TableExists"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TableExists"), transformMeta);
             remarks.add(cr);
 
             // How about the fields to insert/dateMask in the table?
@@ -413,11 +392,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
               if (v == null) {
                 if (first) {
                   first = false;
-                  erroMessage +=
-                      BaseMessages.getString(
-                              PKG,
-                              "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable")
-                          + Const.CR;
+                  erroMessage += BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 erroMessage += "\t\t" + field + Const.CR;
@@ -426,17 +401,10 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "MonetDBBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable"), transformMeta);
             }
           } else {
-            erroMessage =
-                BaseMessages.getString(
-                    PKG, "MonetDBBulkLoaderMeta.CheckResult.CouldNotReadTableInfo");
+            erroMessage = BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
           }
           remarks.add(cr);
@@ -447,10 +415,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG,
-                      "MonetDBBulkLoaderMeta.CheckResult.TransformReceivingDatas",
-                      prev.size() + ""),
+                  BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TransformReceivingDatas", prev.size() + ""),
                   transformMeta);
           remarks.add(cr);
 
@@ -463,10 +428,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
             if (v == null) {
               if (first) {
                 first = false;
-                erroMessage +=
-                    BaseMessages.getString(
-                            PKG, "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsInInput")
-                        + Const.CR;
+                erroMessage += BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsInInput") + Const.CR;
               }
               errorFound = true;
               erroMessage += "\t\t" + s + Const.CR;
@@ -475,82 +437,47 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(
-                        PKG, "MonetDBBulkLoaderMeta.CheckResult.AllFieldsFoundInInput"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.AllFieldsFoundInInput"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          erroMessage =
-              BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsInInput3")
-                  + Const.CR;
+          erroMessage = BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.MissingFieldsInInput3") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        erroMessage =
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.DatabaseErrorOccurred")
-                + e.getMessage();
+        erroMessage = BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.DatabaseErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
         remarks.add(cr);
       } finally {
         db.disconnect();
       }
     } else {
-      erroMessage =
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.InvalidConnection");
+      erroMessage = BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.InvalidConnection");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, erroMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "MonetDBBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }
 
-  public SqlStatement getTableDdl(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      String transformName,
-      boolean autoSchema,
-      MonetDbBulkLoaderData data,
-      boolean safeMode)
+  public SqlStatement getTableDdl(IVariables variables, PipelineMeta pipelineMeta, String transformName, boolean autoSchema, MonetDbBulkLoaderData data, boolean safeMode)
       throws HopException {
 
-    TransformMeta transformMeta =
-        new TransformMeta(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.transformMeta.Title"),
-            transformName,
-            this);
+    TransformMeta transformMeta = new TransformMeta(BaseMessages.getString(PKG, "MonetDBBulkLoaderDialog.transformMeta.Title"), transformName, this);
     IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
     return getSqlStatements(variables, transformMeta, prev, autoSchema, data, safeMode);
   }
 
-  public IRowMeta updateFields(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      String transformName,
-      MonetDbBulkLoaderData data)
-      throws HopTransformException {
+  public IRowMeta updateFields(IVariables variables, PipelineMeta pipelineMeta, String transformName, MonetDbBulkLoaderData data) throws HopTransformException {
 
     IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
     return updateFields(prev, data);
@@ -580,15 +507,8 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
     return tableFields;
   }
 
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      boolean autoSchema,
-      MonetDbBulkLoaderData data,
-      boolean safeMode) {
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+  public SqlStatement getSqlStatements(IVariables variables, TransformMeta transformMeta, IRowMeta prev, boolean autoSchema, MonetDbBulkLoaderData data, boolean safeMode) {
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -615,8 +535,7 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
             MonetDBDatabaseMeta.safeModeLocal.set(safeMode);
             String createTable = db.getDDL(schemaTable, tableFields, null, false, null, true);
 
@@ -627,25 +546,19 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
               retval.setSql(sql);
             }
           } catch (HopException e) {
-            retval.setError(
-                BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.ErrorOccurred")
-                    + e.getMessage());
+            retval.setError(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.ErrorOccurred") + e.getMessage());
           } finally {
             db.disconnect();
             MonetDBDatabaseMeta.safeModeLocal.remove();
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(
-                  PKG, "MonetDBBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection"));
+          retval.setError(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection"));
         }
       } else {
-        retval.setError(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.NotReceivingAnyFields"));
+        retval.setError(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.NotReceivingAnyFields"));
       }
     } else {
-      retval.setError(
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.NoConnectionDefined"));
+      retval.setError(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.GetSQL.NoConnectionDefined"));
     }
 
     return retval;
@@ -697,30 +610,24 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
         db.connect();
 
         if (!Utils.isEmpty(realTableName)) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(
-                  variables, realSchemaName, realTableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchemaName, realTableName);
 
           // Check if this table exists...
           if (db.checkTableExists(realSchemaName, realTableName)) {
             return db.getTableFields(schemaTable);
           } else {
-            throw new HopException(
-                BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.TableNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.TableNotSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.TableNotSpecified"));
         }
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.ErrorGettingFields"), e);
+        throw new HopException(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.ErrorGettingFields"), e);
       } finally {
         db.disconnect();
       }
     } else {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.ConnectionNotDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.ConnectionNotDefined"));
     }
   }
 
@@ -846,20 +753,13 @@ public class MonetDbBulkLoaderMeta extends BaseTransformMeta<MonetDbBulkLoader, 
     MonetDbVersion monetDBVersion;
     try {
       monetDBVersion = getMonetDBVersion(variables);
-      this.compatibilityDbVersionMode =
-          monetDBVersion.compareTo(MonetDbVersion.JAN_2014_SP2_DB_VERSION) >= 0;
+      this.compatibilityDbVersionMode = monetDBVersion.compareTo(MonetDbVersion.JAN_2014_SP2_DB_VERSION) >= 0;
       if (isDebug() && this.compatibilityDbVersionMode) {
-        logDebug(
-            BaseMessages.getString(
-                PKG,
-                "MonetDBVersion.Info.UsingCompatibilityMode",
-                MonetDbVersion.JAN_2014_SP2_DB_VERSION));
+        logDebug(BaseMessages.getString(PKG, "MonetDBVersion.Info.UsingCompatibilityMode", MonetDbVersion.JAN_2014_SP2_DB_VERSION));
       }
     } catch (HopException e) {
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "MonetDBBulkLoaderMeta.Exception.ErrorOnGettingDbVersion", e.getMessage()));
+        logDebug(BaseMessages.getString(PKG, "MonetDBBulkLoaderMeta.Exception.ErrorOnGettingDbVersion", e.getMessage()));
       }
     }
   }

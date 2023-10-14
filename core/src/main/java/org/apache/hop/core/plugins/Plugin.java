@@ -31,11 +31,7 @@ import java.util.Map;
 public class Plugin implements IPlugin, Comparable<Plugin> {
 
   public static Comparator<IPlugin> nullStringComparator =
-      (p1, p2) ->
-          new CompareToBuilder()
-              .append(p1.getName(), p2.getName(), Comparator.nullsLast(String::compareToIgnoreCase))
-              .append(p1.getIds(), p2.getIds())
-              .toComparison();
+      (p1, p2) -> new CompareToBuilder().append(p1.getName(), p2.getName(), Comparator.nullsLast(String::compareToIgnoreCase)).append(p1.getIds(), p2.getIds()).toComparison();
 
   private String category;
   private String name;
@@ -58,191 +54,39 @@ public class Plugin implements IPlugin, Comparable<Plugin> {
   private String[] keywords;
   private boolean usingLibrariesOutsidePluginFolder;
 
-  public Plugin(
-      String[] ids,
-      Class<? extends IPluginType> pluginType,
-      Class<?> mainType,
-      String category,
-      String name,
-      String description,
-      String imageFile,
-      boolean separateClassLoaderNeeded,
-      boolean nativePlugin,
-      Map<Class<?>, String> classMap,
-      List<String> libraries,
-      String errorHelpFile,
-      String[] keywords,
-      URL pluginFolder,
+  public Plugin(String[] ids, Class<? extends IPluginType> pluginType, Class<?> mainType, String category, String name, String description, String imageFile,
+      boolean separateClassLoaderNeeded, boolean nativePlugin, Map<Class<?>, String> classMap, List<String> libraries, String errorHelpFile, String[] keywords, URL pluginFolder,
       boolean usingLibrariesOutsidePluginFolder) {
-    this(
-        ids,
-        pluginType,
-        mainType,
-        category,
-        name,
-        description,
-        imageFile,
-        separateClassLoaderNeeded,
-        nativePlugin,
-        classMap,
-        libraries,
-        errorHelpFile,
-        keywords,
-        pluginFolder,
-        usingLibrariesOutsidePluginFolder,
-        null,
-        null,
-        null);
+    this(ids, pluginType, mainType, category, name, description, imageFile, separateClassLoaderNeeded, nativePlugin, classMap, libraries, errorHelpFile, keywords, pluginFolder,
+        usingLibrariesOutsidePluginFolder, null, null, null);
   }
 
-  public Plugin(
-      String[] ids,
-      Class<? extends IPluginType> pluginType,
-      Class<?> mainType,
-      String category,
-      String name,
-      String description,
-      String imageFile,
-      boolean separateClassLoaderNeeded,
-      boolean nativePlugin,
-      Map<Class<?>, String> classMap,
-      List<String> libraries,
-      String errorHelpFile,
-      String[] keywords,
-      URL pluginFolder,
-      boolean usingLibrariesOutsidePluginFolder,
-      String documentationUrl,
-      String casesUrl,
-      String forumUrl) {
-    this(
-        ids,
-        pluginType,
-        mainType,
-        category,
-        name,
-        description,
-        imageFile,
-        separateClassLoaderNeeded,
-        null,
-        nativePlugin,
-        classMap,
-        libraries,
-        errorHelpFile,
-        keywords,
-        pluginFolder,
-        usingLibrariesOutsidePluginFolder,
-        documentationUrl,
-        casesUrl,
-        forumUrl);
+  public Plugin(String[] ids, Class<? extends IPluginType> pluginType, Class<?> mainType, String category, String name, String description, String imageFile,
+      boolean separateClassLoaderNeeded, boolean nativePlugin, Map<Class<?>, String> classMap, List<String> libraries, String errorHelpFile, String[] keywords, URL pluginFolder,
+      boolean usingLibrariesOutsidePluginFolder, String documentationUrl, String casesUrl, String forumUrl) {
+    this(ids, pluginType, mainType, category, name, description, imageFile, separateClassLoaderNeeded, null, nativePlugin, classMap, libraries, errorHelpFile, keywords,
+        pluginFolder, usingLibrariesOutsidePluginFolder, documentationUrl, casesUrl, forumUrl);
   }
 
-  public Plugin(
-      String[] ids,
-      Class<? extends IPluginType> pluginType,
-      Class<?> mainType,
-      String category,
-      String name,
-      String description,
-      String imageFile,
-      boolean separateClassLoaderNeeded,
-      String classLoaderGroup,
-      boolean nativePlugin,
-      Map<Class<?>, String> classMap,
-      List<String> libraries,
-      String errorHelpFile,
-      String[] keywords,
-      URL pluginFolder,
-      boolean usingLibrariesOutsidePluginFolder,
-      String documentationUrl,
-      String casesUrl,
-      String forumUrl,
-      String suggestion) {
-    this(
-        ids,
-        pluginType,
-        mainType,
-        category,
-        name,
-        description,
-        imageFile,
-        separateClassLoaderNeeded,
-        classLoaderGroup,
-        nativePlugin,
-        classMap,
-        libraries,
-        errorHelpFile,
-        keywords,
-        pluginFolder,
-        usingLibrariesOutsidePluginFolder,
-        documentationUrl,
-        casesUrl,
-        forumUrl);
+  public Plugin(String[] ids, Class<? extends IPluginType> pluginType, Class<?> mainType, String category, String name, String description, String imageFile,
+      boolean separateClassLoaderNeeded, String classLoaderGroup, boolean nativePlugin, Map<Class<?>, String> classMap, List<String> libraries, String errorHelpFile,
+      String[] keywords, URL pluginFolder, boolean usingLibrariesOutsidePluginFolder, String documentationUrl, String casesUrl, String forumUrl, String suggestion) {
+    this(ids, pluginType, mainType, category, name, description, imageFile, separateClassLoaderNeeded, classLoaderGroup, nativePlugin, classMap, libraries, errorHelpFile, keywords,
+        pluginFolder, usingLibrariesOutsidePluginFolder, documentationUrl, casesUrl, forumUrl);
     this.suggestion = suggestion;
   }
 
-  public Plugin(
-      String[] ids,
-      Class<? extends IPluginType> pluginType,
-      Class<?> mainType,
-      String category,
-      String name,
-      String description,
-      String imageFile,
-      boolean separateClassLoaderNeeded,
-      boolean nativePlugin,
-      Map<Class<?>, String> classMap,
-      List<String> libraries,
-      String errorHelpFile,
-      String[] keywords,
-      URL pluginFolder,
-      boolean usingLibrariesOutsidePluginFolder,
-      String documentationUrl,
-      String casesUrl,
-      String forumUrl,
-      String suggestion) {
-    this(
-        ids,
-        pluginType,
-        mainType,
-        category,
-        name,
-        description,
-        imageFile,
-        separateClassLoaderNeeded,
-        null,
-        nativePlugin,
-        classMap,
-        libraries,
-        errorHelpFile,
-        keywords,
-        pluginFolder,
-        usingLibrariesOutsidePluginFolder,
-        documentationUrl,
-        casesUrl,
-        forumUrl);
+  public Plugin(String[] ids, Class<? extends IPluginType> pluginType, Class<?> mainType, String category, String name, String description, String imageFile,
+      boolean separateClassLoaderNeeded, boolean nativePlugin, Map<Class<?>, String> classMap, List<String> libraries, String errorHelpFile, String[] keywords, URL pluginFolder,
+      boolean usingLibrariesOutsidePluginFolder, String documentationUrl, String casesUrl, String forumUrl, String suggestion) {
+    this(ids, pluginType, mainType, category, name, description, imageFile, separateClassLoaderNeeded, null, nativePlugin, classMap, libraries, errorHelpFile, keywords,
+        pluginFolder, usingLibrariesOutsidePluginFolder, documentationUrl, casesUrl, forumUrl);
     this.suggestion = suggestion;
   }
 
-  public Plugin(
-      String[] ids,
-      Class<? extends IPluginType> pluginType,
-      Class<?> mainType,
-      String category,
-      String name,
-      String description,
-      String imageFile,
-      boolean separateClassLoaderNeeded,
-      String classLoaderGroup,
-      boolean nativePlugin,
-      Map<Class<?>, String> classMap,
-      List<String> libraries,
-      String errorHelpFile,
-      String[] keywords,
-      URL pluginFolder,
-      boolean usingLibrariesOutsidePluginFolder,
-      String documentationUrl,
-      String casesUrl,
-      String forumUrl) {
+  public Plugin(String[] ids, Class<? extends IPluginType> pluginType, Class<?> mainType, String category, String name, String description, String imageFile,
+      boolean separateClassLoaderNeeded, String classLoaderGroup, boolean nativePlugin, Map<Class<?>, String> classMap, List<String> libraries, String errorHelpFile,
+      String[] keywords, URL pluginFolder, boolean usingLibrariesOutsidePluginFolder, String documentationUrl, String casesUrl, String forumUrl) {
     this.ids = ids;
     this.pluginType = pluginType;
     this.mainType = mainType;

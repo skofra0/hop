@@ -82,8 +82,7 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
   /** List of ColumnInfo that should have the field names of the selected database table */
   private final List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
-  public DeleteDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public DeleteDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (DeleteMeta) in;
   }
@@ -97,19 +96,17 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTableFieldCombo();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTableFieldCombo();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -237,45 +234,19 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
 
     int nrKeyCols = 4;
     List<DeleteKeyField> keyFields = input.getLookup().getFields();
-    int nrKeyRows =
-        (keyFields != null && !keyFields.equals(Collections.emptyList()) ? keyFields.size() : 1);
+    int nrKeyRows = (keyFields != null && !keyFields.equals(Collections.emptyList()) ? keyFields.size() : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     ciKey[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.Comparator"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL"
-            });
-    ciKey[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.StreamField1"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.StreamField2"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+            new String[] {"=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL"});
+    ciKey[2] = new ColumnInfo(BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.StreamField1"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "DeleteDialog.ColumnInfo.StreamField2"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciKey[0]);
-    wKey =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     wGet = new Button(shell, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "DeleteDialog.GetFields.Button"));
@@ -296,39 +267,36 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     getData();
     setTableFieldCombo();
@@ -400,55 +368,52 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText();
-            final String connectionName = wConnection.getText();
-            final String schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText();
+        final String connectionName = wConnection.getText();
+        final String schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName,variables);
-              if (databaseMeta != null) {
-                Database database = new Database(loggingObject, variables, databaseMeta);
-                try {
-                  database.connect();
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            Database database = new Database(loggingObject, variables, databaseMeta);
+            try {
+              database.connect();
 
-                  IRowMeta r =
-                      database.getTableFieldsMeta(
-                          variables.resolve(schemaName), variables.resolve(tableName));
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              IRowMeta r = database.getTableFieldsMeta(variables.resolve(schemaName), variables.resolve(tableName));
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
-                  }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user
-                } finally {
-                  try {
-                    if (database != null) {
-                      database.disconnect();
-                    }
-                  } catch (Exception ignored) {
-                    // ignore any errors here.
-                    database = null;
+                    colInfo.setComboValues(fieldNames);
                   }
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
+            } finally {
+              try {
+                if (database != null) {
+                  database.disconnect();
+                }
+              } catch (Exception ignored) {
+                // ignore any errors here.
+                database = null;
+              }
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -466,8 +431,7 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
 
     for (int i = 0; i < nrkeys; i++) {
       TableItem item = wKey.getNonEmpty(i);
-      DeleteKeyField f =
-          new DeleteKeyField(item.getText(1), item.getText(2), item.getText(3), item.getText(4));
+      DeleteKeyField f = new DeleteKeyField(item.getText(1), item.getText(2), item.getText(3), item.getText(4));
       keyFields.add(f);
     }
 
@@ -497,7 +461,7 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
   }
 
   private void getSchemaNames() {
-    DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(),variables);
+    DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
     if (databaseMeta != null) {
       Database database = new Database(loggingObject, variables, databaseMeta);
       try {
@@ -510,10 +474,8 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "DeleteDialog.AvailableSchemas.Title", wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG, "DeleteDialog.AvailableSchemas.Message", wConnection.getText()));
+                  BaseMessages.getString(PKG, "DeleteDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "DeleteDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -527,11 +489,7 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "DeleteDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "DeleteDialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }
@@ -543,15 +501,11 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
     if (StringUtils.isEmpty(connectionName)) {
       return;
     }
-    DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName,variables);
+    DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
-      logDebug(
-          BaseMessages.getString(PKG, "DeleteDialog.Log.LookingAtConnection")
-              + databaseMeta.toString());
+      logDebug(BaseMessages.getString(PKG, "DeleteDialog.Log.LookingAtConnection") + databaseMeta.toString());
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -570,13 +524,11 @@ public class DeleteDialog extends BaseTransformDialog implements ITransformDialo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(2, "=");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(2, "=");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(

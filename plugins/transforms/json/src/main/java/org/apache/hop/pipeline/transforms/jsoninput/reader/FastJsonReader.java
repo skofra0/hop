@@ -53,9 +53,7 @@ public class FastJsonReader implements IJsonReader {
   private JsonPath[] paths = null;
   private ILogChannel log;
 
-  private static final Option[] DEFAULT_OPTIONS = {
-    Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST, Option.DEFAULT_PATH_LEAF_TO_NULL
-  };
+  private static final Option[] DEFAULT_OPTIONS = {Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST, Option.DEFAULT_PATH_LEAF_TO_NULL};
 
   protected FastJsonReader(ILogChannel log) throws HopException {
     this.ignoreMissingPath = false;
@@ -69,8 +67,7 @@ public class FastJsonReader implements IJsonReader {
     setFields(fields);
   }
 
-  public FastJsonReader(JsonInputField[] fields, boolean defaultPathLeafToNull, ILogChannel log)
-      throws HopException {
+  public FastJsonReader(JsonInputField[] fields, boolean defaultPathLeafToNull, ILogChannel log) throws HopException {
     this(fields, log);
     setDefaultPathLeafToNull(defaultPathLeafToNull);
   }
@@ -79,8 +76,7 @@ public class FastJsonReader implements IJsonReader {
     if (value != this.defaultPathLeafToNull) {
       this.defaultPathLeafToNull = value;
       if (!this.defaultPathLeafToNull) {
-        this.jsonConfiguration =
-            deleteOptionFromConfiguration(this.jsonConfiguration, Option.DEFAULT_PATH_LEAF_TO_NULL);
+        this.jsonConfiguration = deleteOptionFromConfiguration(this.jsonConfiguration, Option.DEFAULT_PATH_LEAF_TO_NULL);
       }
     }
   }
@@ -96,18 +92,13 @@ public class FastJsonReader implements IJsonReader {
       currentOptions.addAll(currentConf.getOptions());
       if (currentOptions.remove(option)) {
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(PKG, "JsonReader.Debug.Configuration.Option.Delete", option));
+          log.logDebug(BaseMessages.getString(PKG, "JsonReader.Debug.Configuration.Option.Delete", option));
         }
-        currentConf =
-            Configuration.defaultConfiguration()
-                .addOptions(currentOptions.toArray(new Option[currentOptions.size()]));
+        currentConf = Configuration.defaultConfiguration().addOptions(currentOptions.toArray(new Option[currentOptions.size()]));
       }
     }
     if (log.isDebug()) {
-      log.logDebug(
-          BaseMessages.getString(
-              PKG, "JsonReader.Debug.Configuration.Options", currentConf.getOptions()));
+      log.logDebug(BaseMessages.getString(PKG, "JsonReader.Debug.Configuration.Options", currentConf.getOptions()));
     }
     return currentConf;
   }
@@ -137,8 +128,7 @@ public class FastJsonReader implements IJsonReader {
         paths[i++] = JsonPath.compile(field.getPath());
       }
     } catch (Exception e) {
-      throw new HopException(BaseMessages.getString(
-              PKG, "JsonParser.JsonPath.Compile.Error", e.getMessage()));
+      throw new HopException(BaseMessages.getString(PKG, "JsonParser.JsonPath.Compile.Error", e.getMessage()));
     }
     return paths;
   }
@@ -202,11 +192,7 @@ public class FastJsonReader implements IJsonReader {
      */
     private boolean cullNulls = true;
 
-    private boolean includeNulls =
-        "Y"
-            .equalsIgnoreCase(
-                System.getProperty(
-                    Const.HOP_JSON_INPUT_INCLUDE_NULLS, Const.JSON_INPUT_INCLUDE_NULLS));
+    private boolean includeNulls = "Y".equalsIgnoreCase(System.getProperty(Const.HOP_JSON_INPUT_INCLUDE_NULLS, Const.JSON_INPUT_INCLUDE_NULLS));
 
     public TransposedRowSet(List<List<?>> results) {
       super();
@@ -263,18 +249,10 @@ public class FastJsonReader implements IJsonReader {
     for (JsonPath path : paths) {
       List<Object> result = getReadContext().read(path);
       if (result.size() != lastSize && lastSize > 0 && result.size() != 0) {
-        throw new JsonInputException(
-            BaseMessages.getString(
-                PKG,
-                "JsonInput.Error.BadStructure",
-                result.size(),
-                fields[i].getPath(),
-                prevPath,
-                lastSize));
+        throw new JsonInputException(BaseMessages.getString(PKG, "JsonInput.Error.BadStructure", result.size(), fields[i].getPath(), prevPath, lastSize));
       }
       if (!isIgnoreMissingPath() && (isAllNull(result) || result.size() == 0)) {
-        throw new JsonInputException(
-            BaseMessages.getString(PKG, "JsonReader.Error.CanNotFindPath", fields[i].getPath()));
+        throw new JsonInputException(BaseMessages.getString(PKG, "JsonReader.Error.CanNotFindPath", fields[i].getPath()));
       }
       results.add(result);
       lastSize = result.size();

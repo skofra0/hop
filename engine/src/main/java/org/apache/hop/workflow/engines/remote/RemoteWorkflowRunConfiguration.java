@@ -25,15 +25,13 @@ import org.apache.hop.workflow.config.WorkflowRunConfiguration;
 import org.apache.hop.workflow.engines.empty.EmptyWorkflowRunConfiguration;
 
 @GuiPlugin(description = "Remote workflow run configuration widgets")
-public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
-    implements IWorkflowEngineRunConfiguration {
+public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration implements IWorkflowEngineRunConfiguration {
 
   @GuiWidgetElement(
       order = "10",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.HopServer.Label",
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.HopServer.Label",
       typeMetadata = HopServerTypeMetadata.class)
   @HopMetadataProperty(key = "hop_server")
   protected String hopServerName;
@@ -42,8 +40,7 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "20",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.RunConfiguration.Label",
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.RunConfiguration.Label",
       typeMetadata = WorkflowRunConfigurationTypeMetadata.class)
   @HopMetadataProperty(key = "run_config")
   protected String runConfigurationName;
@@ -52,8 +49,7 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "30",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollDelay.Label")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollDelay.Label")
   @HopMetadataProperty(key = "server_poll_delay")
   protected String serverPollDelay;
 
@@ -61,8 +57,7 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "40",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollInterval.Label")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ServerPollInterval.Label")
   @HopMetadataProperty(key = "server_poll_interval")
   protected String serverPollInterval;
 
@@ -70,10 +65,8 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "50",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.ToolTip")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.ExportResources.ToolTip")
   @HopMetadataProperty(key = "export_resources")
   protected boolean exportingResources;
 
@@ -81,10 +74,8 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "60",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.FOLDER,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
   @HopMetadataProperty(key = "resources_source_folder")
   protected String namedResourcesSourceFolder;
 
@@ -92,10 +83,8 @@ public class RemoteWorkflowRunConfiguration extends EmptyWorkflowRunConfiguratio
       order = "70",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
   @HopMetadataProperty(key = "resources_target_folder")
   protected String namedResourcesTargetFolder;
 

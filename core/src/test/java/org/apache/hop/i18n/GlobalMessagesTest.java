@@ -95,8 +95,7 @@ public class GlobalMessagesTest {
     res = GlobalMessages.getBundle(pkgName);
     assertEquals("Select an Environment Variable (default)", res.getString(msgKey));
 
-    LanguageChoice.getInstance()
-        .setDefaultLocale(Locale.FRANCE); // "fr", "FR" - fall back to default
+    LanguageChoice.getInstance().setDefaultLocale(Locale.FRANCE); // "fr", "FR" - fall back to default
     res = GlobalMessages.getBundle(pkgName);
     assertEquals("Select an Environment Variable (default)", res.getString(msgKey));
 

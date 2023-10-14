@@ -40,8 +40,7 @@ public class HopGuiFileReplaceHomeVariable implements IExtensionPoint<HopGuiFile
   // TODO make this optional
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiFileOpenedExtension ext) {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiFileOpenedExtension ext) {
 
     // Is there an active project?
     //
@@ -71,11 +70,7 @@ public class HopGuiFileReplaceHomeVariable implements IExtensionPoint<HopGuiFile
         // Replace the project home variable in the filename
         //
         if (absoluteFile.startsWith(absoluteHome)) {
-          ext.filename =
-              "${"
-                  + ProjectsUtil.VARIABLE_PROJECT_HOME
-                  + "}/"
-                  + absoluteFile.substring(absoluteHome.length());
+          ext.filename = "${" + ProjectsUtil.VARIABLE_PROJECT_HOME + "}/" + absoluteFile.substring(absoluteHome.length());
         }
       }
     } catch (Exception e) {

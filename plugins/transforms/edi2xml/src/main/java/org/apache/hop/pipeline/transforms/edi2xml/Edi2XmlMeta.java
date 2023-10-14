@@ -69,13 +69,7 @@ public class Edi2XmlMeta extends BaseTransformMeta<Edi2Xml, Edi2XmlData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     IValueMeta extra = null;
 
@@ -109,53 +103,29 @@ public class Edi2XmlMeta extends BaseTransformMeta<Edi2Xml, Edi2XmlData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is receiving input from other transforms.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is receiving input from other transforms.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "No input received from other transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "No input received from other transforms!", transformMeta);
       remarks.add(cr);
     }
 
     // is the input field there?
     String realInputField = variables.resolve(getInputField());
     if (prev.searchValueMeta(realInputField) != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is seeing input field: " + realInputField,
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is seeing input field: " + realInputField, transformMeta);
       remarks.add(cr);
 
       if (prev.searchValueMeta(realInputField).isString()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                "Field " + realInputField + " is a string type",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Field " + realInputField + " is a string type", transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                "Field " + realInputField + " is not a string type!",
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Field " + realInputField + " is not a string type!", transformMeta);
         remarks.add(cr);
       }
 
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "Transform is not seeing input field: " + realInputField + "!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Transform is not seeing input field: " + realInputField + "!", transformMeta);
       remarks.add(cr);
     }
   }

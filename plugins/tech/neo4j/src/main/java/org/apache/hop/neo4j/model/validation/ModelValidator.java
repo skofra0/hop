@@ -55,7 +55,7 @@ public class ModelValidator {
    * place
    *
    * @param log The log channel to write to when there are validation errors. Validation successes
-   *     are logged in Detailed
+   *        are logged in Detailed
    * @param session The Neo4j session to use to validate
    * @return the number of validation errors
    */
@@ -70,22 +70,12 @@ public class ModelValidator {
     for (NodeProperty nodeProperty : usedNodeProperties) {
       GraphNode node = graphModel.findNode(nodeProperty.getNodeName());
       if (node == null) {
-        log.logError(
-            "Used node '"
-                + nodeProperty.getNodeName()
-                + "' could not be found in model '"
-                + graphModel.getName());
+        log.logError("Used node '" + nodeProperty.getNodeName() + "' could not be found in model '" + graphModel.getName());
         nrErrors++;
       } else {
         GraphProperty property = node.findProperty(nodeProperty.getPropertyName());
         if (property == null) {
-          log.logError(
-              "Used node property "
-                  + nodeProperty.getNodeName()
-                  + "."
-                  + nodeProperty.getPropertyName()
-                  + " could not be found in model '"
-                  + graphModel.getName());
+          log.logError("Used node property " + nodeProperty.getNodeName() + "." + nodeProperty.getPropertyName() + " could not be found in model '" + graphModel.getName());
           nrErrors++;
         } else {
           if (property.isIndexed()) {
@@ -125,12 +115,7 @@ public class ModelValidator {
           if (nodeProperty.isMandatory()) {
             NodeProperty usedProperty = findUsedProperty(node.getName(), nodeProperty.getName());
             if (usedProperty == null) {
-              log.logError(
-                  "Node property "
-                      + node.getName()
-                      + "."
-                      + nodeProperty.getName()
-                      + " is mandatory but not used.");
+              log.logError("Node property " + node.getName() + "." + nodeProperty.getName() + " is mandatory but not used.");
               nrErrors++;
             }
           }
@@ -143,8 +128,7 @@ public class ModelValidator {
 
   private NodeProperty findUsedProperty(String nodeName, String propertyName) {
     for (NodeProperty nodeProperty : usedNodeProperties) {
-      if (nodeProperty.getNodeName().equals(nodeName)
-          && nodeProperty.getPropertyName().equals(propertyName)) {
+      if (nodeProperty.getNodeName().equals(nodeName) && nodeProperty.getPropertyName().equals(propertyName)) {
         return nodeProperty;
       }
     }
@@ -160,8 +144,7 @@ public class ModelValidator {
    * @param property
    * @return the number of validation errors.
    */
-  private int validateNodePropertyIndexed(
-      ILogChannel log, GraphNode node, GraphProperty property, boolean unique) {
+  private int validateNodePropertyIndexed(ILogChannel log, GraphNode node, GraphProperty property, boolean unique) {
     int nrErrors = 0;
     boolean found = false;
     for (IndexDetails indexDetails : indexesList) {
@@ -176,14 +159,7 @@ public class ModelValidator {
       }
     }
     if (!found) {
-      log.logError(
-          "Property '"
-              + property.getName()
-              + "' of node '"
-              + node.getName()
-              + "' doesn't seem to be "
-              + (unique ? "uniquely " : "")
-              + "indexed.");
+      log.logError("Property '" + property.getName() + "' of node '" + node.getName() + "' doesn't seem to be " + (unique ? "uniquely " : "") + "indexed.");
       nrErrors++;
     }
 
@@ -191,32 +167,28 @@ public class ModelValidator {
   }
 
   private void readIndexesData(Session session) {
-    indexesList =
-        session.readTransaction(
-            transaction -> {
-              List<IndexDetails> list = new ArrayList<>();
-              Result result = transaction.run("call db.indexes()");
-              while (result.hasNext()) {
-                list.add(new IndexDetails(result.next()));
-              }
-              return list;
-            });
+    indexesList = session.readTransaction(transaction -> {
+      List<IndexDetails> list = new ArrayList<>();
+      Result result = transaction.run("call db.indexes()");
+      while (result.hasNext()) {
+        list.add(new IndexDetails(result.next()));
+      }
+      return list;
+    });
   }
 
   private void readConstraintsData(Session session) {
-    constraintsList =
-        session.readTransaction(
-            new TransactionWork<List<ConstraintDetails>>() {
-              @Override
-              public List<ConstraintDetails> execute(Transaction transaction) {
-                List<ConstraintDetails> list = new ArrayList<>();
-                Result result = transaction.run("call db.constraints()");
-                while (result.hasNext()) {
-                  list.add(new ConstraintDetails(result.next()));
-                }
-                return list;
-              }
-            });
+    constraintsList = session.readTransaction(new TransactionWork<List<ConstraintDetails>>() {
+      @Override
+      public List<ConstraintDetails> execute(Transaction transaction) {
+        List<ConstraintDetails> list = new ArrayList<>();
+        Result result = transaction.run("call db.constraints()");
+        while (result.hasNext()) {
+          list.add(new ConstraintDetails(result.next()));
+        }
+        return list;
+      }
+    });
   }
 
   /**

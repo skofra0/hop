@@ -42,7 +42,8 @@ public class DatabaseJoinMetaTest implements IInitializer<DatabaseJoinMeta> {
   LoadSaveTester<DatabaseJoinMeta> loadSaveTester;
   Class<DatabaseJoinMeta> testMetaClass = DatabaseJoinMeta.class;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -52,32 +53,21 @@ public class DatabaseJoinMetaTest implements IInitializer<DatabaseJoinMeta> {
 
   @Before
   public void setUpLoadSave() throws Exception {
-    List<String> attributes =
-        Arrays.asList(
-            "sql", "rowLimit", "outerJoin", "replaceVariables", "connection", "parameters");
+    List<String> attributes = Arrays.asList("sql", "rowLimit", "outerJoin", "replaceVariables", "connection", "parameters");
 
     Map<String, String> getterMap = new HashMap<>();
-    //    getterMap.put("parameters", "getParameters");
-    //    getterMap.put("databaseMeta", "getDatabaseMeta");
+    // getterMap.put("parameters", "getParameters");
+    // getterMap.put("databaseMeta", "getDatabaseMeta");
 
     Map<String, String> setterMap = new HashMap<>();
     // setterMap.put("parameters", "setParameters");
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "parameters", new ListLoadSaveValidator<>(new ParameterFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("parameters", new ListLoadSaveValidator<>(new ParameterFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester<>(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester<>(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -107,10 +97,7 @@ public class DatabaseJoinMetaTest implements IInitializer<DatabaseJoinMeta> {
         return false;
       }
       ParameterField another = (ParameterField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getType(), another.getType())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getType(), another.getType()).isEquals();
     }
   }
 }

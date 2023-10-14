@@ -33,9 +33,7 @@ import java.net.Proxy;
 public class FtpClientUtil {
   private static final Class<?> PKG = FtpClientUtil.class; // For Translator
 
-  public static final FTPClient connectAndLogin(
-      ILogChannel log, IVariables variables, IFtpConnection connection, String actionName)
-      throws HopException {
+  public static final FTPClient connectAndLogin(ILogChannel log, IVariables variables, IFtpConnection connection, String actionName) throws HopException {
     FTPClient ftpClient = new FTPClient();
 
     try {
@@ -59,8 +57,7 @@ public class FtpClientUtil {
       if (!Utils.isEmpty(connection.getProxyHost())) {
         String realProxyHost = variables.resolve(connection.getProxyHost());
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(PKG, "ActionFTP.OpenedProxyConnectionOn", realProxyHost));
+          log.logDetailed(BaseMessages.getString(PKG, "ActionFTP.OpenedProxyConnectionOn", realProxyHost));
         }
 
         // FIXME: Proper default port for proxy
@@ -99,9 +96,7 @@ public class FtpClientUtil {
       // Set the timeout
       ftpClient.setConnectTimeout(connection.getTimeout());
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG, "ActionFTP.SetTimeout", String.valueOf(connection.getTimeout())));
+        log.logDetailed(BaseMessages.getString(PKG, "ActionFTP.SetTimeout", String.valueOf(connection.getTimeout())));
       }
 
       // The control encoding (special filename characters etc)
@@ -110,9 +105,7 @@ public class FtpClientUtil {
         String realControlEncoding = variables.resolve(connection.getControlEncoding());
         ftpClient.setControlEncoding(realControlEncoding);
         if (log.isDetailed()) {
-          log.logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionFTP.SetEncoding", connection.getControlEncoding()));
+          log.logDetailed(BaseMessages.getString(PKG, "ActionFTP.SetEncoding", connection.getControlEncoding()));
         }
       }
 
@@ -120,18 +113,10 @@ public class FtpClientUtil {
       if (!Utils.isEmpty(connection.getSocksProxyHost())) {
         if (!Utils.isEmpty(connection.getSocksProxyPort())) {
           String realSocksProxyHost = variables.resolve(connection.getSocksProxyPort());
-          int realSocksProxyPort =
-              Const.toInt(variables.resolve(connection.getSocksProxyPort()), 21);
-          proxy =
-              new Proxy(
-                  Proxy.Type.SOCKS, new InetSocketAddress(realSocksProxyHost, realSocksProxyPort));
+          int realSocksProxyPort = Const.toInt(variables.resolve(connection.getSocksProxyPort()), 21);
+          proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(realSocksProxyHost, realSocksProxyPort));
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionFTP.SocksProxy.PortMissingException",
-                  variables.resolve(connection.getSocksProxyHost()),
-                  actionName));
+          throw new HopException(BaseMessages.getString(PKG, "ActionFTP.SocksProxy.PortMissingException", variables.resolve(connection.getSocksProxyHost()), actionName));
         }
 
         // Proxy Authentication
@@ -140,38 +125,23 @@ public class FtpClientUtil {
         //
         clearSocksJvmSettings();
 
-        if (!Utils.isEmpty(connection.getSocksProxyUsername())
-            && !Utils.isEmpty(connection.getSocksProxyPassword())) {
-          System.setProperty(
-              "java.net.socks.username", variables.resolve(connection.getSocksProxyUsername()));
-          System.setProperty(
-              "java.net.socks.password", variables.resolve(connection.getSocksProxyPassword()));
-        } else if (!Utils.isEmpty(connection.getSocksProxyUsername())
-                && Utils.isEmpty(connection.getSocksProxyPassword())
-            || Utils.isEmpty(connection.getSocksProxyUsername())
-                && !Utils.isEmpty(connection.getSocksProxyPassword())) {
+        if (!Utils.isEmpty(connection.getSocksProxyUsername()) && !Utils.isEmpty(connection.getSocksProxyPassword())) {
+          System.setProperty("java.net.socks.username", variables.resolve(connection.getSocksProxyUsername()));
+          System.setProperty("java.net.socks.password", variables.resolve(connection.getSocksProxyPassword()));
+        } else if (!Utils.isEmpty(connection.getSocksProxyUsername()) && Utils.isEmpty(connection.getSocksProxyPassword())
+            || Utils.isEmpty(connection.getSocksProxyUsername()) && !Utils.isEmpty(connection.getSocksProxyPassword())) {
           // we have a username without a password or vica versa
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionFTP.SocksProxy.IncompleteCredentials",
-                  variables.resolve(connection.getSocksProxyHost()),
-                  actionName));
+          throw new HopException(BaseMessages.getString(PKG, "ActionFTP.SocksProxy.IncompleteCredentials", variables.resolve(connection.getSocksProxyHost()), actionName));
         }
       }
 
       String realUsername =
-          variables.resolve(connection.getUserName())
-              + (!Utils.isEmpty(connection.getProxyHost()) ? "@" + realServername : "")
-              + (!Utils.isEmpty(connection.getProxyUsername())
-                  ? " " + variables.resolve(connection.getProxyUsername())
-                  : "");
+          variables.resolve(connection.getUserName()) + (!Utils.isEmpty(connection.getProxyHost()) ? "@" + realServername : "")
+              + (!Utils.isEmpty(connection.getProxyUsername()) ? " " + variables.resolve(connection.getProxyUsername()) : "");
 
       String realPassword =
           Utils.resolvePassword(variables, connection.getPassword())
-              + (!Utils.isEmpty(connection.getProxyPassword())
-                  ? " " + Utils.resolvePassword(variables, connection.getProxyPassword())
-                  : "");
+              + (!Utils.isEmpty(connection.getProxyPassword()) ? " " + Utils.resolvePassword(variables, connection.getProxyPassword()) : "");
 
       // Login to the server...
       //

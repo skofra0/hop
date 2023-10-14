@@ -35,7 +35,7 @@ public class TestUtils {
   /**
    * Do not use this method because it does not delete the temp folder after java process tear down
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   public static String createTempDir() {
     String ret = null;
     try {
@@ -43,8 +43,7 @@ public class TestUtils {
        * Java.io.File only creates Temp files, so repurpose the filename for a temporary folder
        * Delete the file that's created, and re-create as a folder.
        */
-      File file =
-          File.createTempFile("temp_hop_test_dir", String.valueOf(System.currentTimeMillis()));
+      File file = File.createTempFile("temp_hop_test_dir", String.valueOf(System.currentTimeMillis()));
       file.delete();
       file.mkdir();
       file.deleteOnExit();

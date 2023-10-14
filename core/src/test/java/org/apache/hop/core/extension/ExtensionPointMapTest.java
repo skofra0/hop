@@ -32,7 +32,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ExtensionPointMapTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   public static final String TEST_NAME = "testName";
   private IPluginMock pluginInterface;
   private IExtensionPoint extensionPoint;
@@ -66,12 +67,10 @@ public class ExtensionPointMapTest {
   @Test
   public void addExtensionPointTest() throws HopPluginException {
     ExtensionPointMap.getInstance().addExtensionPoint(pluginInterface);
-    assertEquals(
-        ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
+    assertEquals(ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
 
     // Verify cached instance
-    assertEquals(
-        ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
+    assertEquals(ExtensionPointMap.getInstance().getTableValue(TEST_NAME, "testID"), extensionPoint);
     verify(pluginInterface, times(1)).loadClass(any(Class.class));
   }
 }

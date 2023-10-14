@@ -40,8 +40,7 @@ public class FilesFromResultDialog extends BaseTransformDialog implements ITrans
 
   private final FilesFromResultMeta input;
 
-  public FilesFromResultDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public FilesFromResultDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (FilesFromResultMeta) in;
   }
@@ -69,8 +68,7 @@ public class FilesFromResultDialog extends BaseTransformDialog implements ITrans
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "FilesFromResultDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "FilesFromResultDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);

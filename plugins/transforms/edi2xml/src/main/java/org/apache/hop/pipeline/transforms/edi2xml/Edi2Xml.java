@@ -41,13 +41,7 @@ public class Edi2Xml extends BaseTransform<Edi2XmlMeta, Edi2XmlData> {
   private CommonTokenStream tokens;
   private FastSimpleGenericEdifactDirectXMLParser parser;
 
-  public Edi2Xml(
-      TransformMeta transformMeta,
-      Edi2XmlMeta meta,
-      Edi2XmlData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Edi2Xml(TransformMeta transformMeta, Edi2XmlMeta meta, Edi2XmlData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -81,7 +75,6 @@ public class Edi2Xml extends BaseTransform<Edi2XmlMeta, Edi2XmlData> {
       if (!data.inputRowMeta.getValueMeta(data.inputFieldIndex).isString()) {
         throw new HopException(BaseMessages.getString(PKG, "Edi2Xml.Log.InputFieldIsNotAString", realInputField));
       }
-
 
       data.inputMeta = data.inputRowMeta.getValueMeta(data.inputFieldIndex);
 
@@ -122,23 +115,12 @@ public class Edi2Xml extends BaseTransform<Edi2XmlMeta, Edi2XmlData> {
       putRow(data.outputRowMeta, r);
     } catch (MismatchedTokenException e) {
       StringBuilder errorMessage = new StringBuilder(180);
-      errorMessage.append(
-          "error parsing edi on line " + e.line + " position " + e.charPositionInLine);
-      errorMessage.append(
-          ": expecting "
-              + ((e.expecting > -1) ? parser.getTokenNames()[e.expecting] : "<UNKNOWN>")
-              + " but found ");
-      errorMessage.append(
-          (e.token.getType() >= 0) ? parser.getTokenNames()[e.token.getType()] : "<EOF>");
+      errorMessage.append("error parsing edi on line " + e.line + " position " + e.charPositionInLine);
+      errorMessage.append(": expecting " + ((e.expecting > -1) ? parser.getTokenNames()[e.expecting] : "<UNKNOWN>") + " but found ");
+      errorMessage.append((e.token.getType() >= 0) ? parser.getTokenNames()[e.token.getType()] : "<EOF>");
 
       if (getTransformMeta().isDoingErrorHandling()) {
-        putError(
-            getInputRowMeta(),
-            r,
-            1L,
-            errorMessage.toString(),
-            resolve(meta.getInputField()),
-            "MALFORMED_EDI");
+        putError(getInputRowMeta(), r, 1L, errorMessage.toString(), resolve(meta.getInputField()), "MALFORMED_EDI");
       } else {
         logError(errorMessage.toString());
 
@@ -156,22 +138,10 @@ public class Edi2Xml extends BaseTransform<Edi2XmlMeta, Edi2XmlData> {
       }
     } catch (RecognitionException e) {
       StringBuilder errorMessage = new StringBuilder(180);
-      errorMessage
-          .append("error parsing edi on line ")
-          .append(e.line)
-          .append(" position ")
-          .append(e.charPositionInLine)
-          .append(". ")
-          .append(e.toString());
+      errorMessage.append("error parsing edi on line ").append(e.line).append(" position ").append(e.charPositionInLine).append(". ").append(e.toString());
 
       if (getTransformMeta().isDoingErrorHandling()) {
-        putError(
-            getInputRowMeta(),
-            r,
-            1L,
-            errorMessage.toString(),
-            resolve(meta.getInputField()),
-            "MALFORMED_EDI");
+        putError(getInputRowMeta(), r, 1L, errorMessage.toString(), resolve(meta.getInputField()), "MALFORMED_EDI");
       } else {
         logError(errorMessage.toString());
 

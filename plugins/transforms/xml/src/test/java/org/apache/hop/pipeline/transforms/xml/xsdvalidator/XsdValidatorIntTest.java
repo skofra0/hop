@@ -72,28 +72,15 @@ public class XsdValidatorIntTest {
 
   @Test
   public void testVfsInputFiles() throws Exception {
-    testVfsFileTypes(
-        getDataRamFile().getURL().toString(), getSchemaRamFile().getURL().toString(), true);
-    testVfsFileTypes(
-        getDataRamFile().getURL().toString(),
-        getSchemaFileUrl(TEST_FILES_DIR + "schema.xsd"),
-        true);
-    testVfsFileTypes(
-        getDataFileUrl(TEST_FILES_DIR + "data.xml"), getSchemaRamFile().getURL().toString(), true);
-    testVfsFileTypes(
-        getDataFileUrl(TEST_FILES_DIR + "data.xml"),
-        getSchemaFileUrl(TEST_FILES_DIR + "schema.xsd"),
-        true);
-    testVfsFileTypes(
-        getDataFileUrl(TEST_FILES_DIR + "xsd_issue/bad.xml"),
-        getSchemaFileUrl(TEST_FILES_DIR + "xsd_issue/cbc-xml-schema-v1.0/CbcXML_v1.0.xsd"),
-        true);
+    testVfsFileTypes(getDataRamFile().getURL().toString(), getSchemaRamFile().getURL().toString(), true);
+    testVfsFileTypes(getDataRamFile().getURL().toString(), getSchemaFileUrl(TEST_FILES_DIR + "schema.xsd"), true);
+    testVfsFileTypes(getDataFileUrl(TEST_FILES_DIR + "data.xml"), getSchemaRamFile().getURL().toString(), true);
+    testVfsFileTypes(getDataFileUrl(TEST_FILES_DIR + "data.xml"), getSchemaFileUrl(TEST_FILES_DIR + "schema.xsd"), true);
+    testVfsFileTypes(getDataFileUrl(TEST_FILES_DIR + "xsd_issue/bad.xml"), getSchemaFileUrl(TEST_FILES_DIR + "xsd_issue/cbc-xml-schema-v1.0/CbcXML_v1.0.xsd"), true);
   }
 
   private FileObject getSchemaRamFile() throws Exception {
-    if (schemaRamFile != null
-        && schemaRamFile.exists()
-        && schemaRamFile.getContent().getSize() > 0) {
+    if (schemaRamFile != null && schemaRamFile.exists() && schemaRamFile.getContent().getSize() > 0) {
       return schemaRamFile;
     }
     schemaRamFile = loadRamFile("schema.xsd");
@@ -137,8 +124,7 @@ public class XsdValidatorIntTest {
     }
   }
 
-  private void testVfsFileTypes(String dataFilename, String schemaFilename, boolean expected)
-      throws Exception {
+  private void testVfsFileTypes(String dataFilename, String schemaFilename, boolean expected) throws Exception {
     assertNotNull(dataFilename);
     assertNotNull(schemaFilename);
     assertTrue(HopVfs.getFileObject(dataFilename).exists());
@@ -158,17 +144,11 @@ public class XsdValidatorIntTest {
     meta.setXSDSource(meta.SPECIFY_FIELDNAME);
     meta.setXSDDefinedField("SchemaFile");
     meta.setAddValidationMessage(true);
-    PipelineMeta pipelineMeta =
-        PipelineTestFactory.generateTestTransformation(null, meta, TransformName);
+    PipelineMeta pipelineMeta = PipelineTestFactory.generateTestTransformation(null, meta, TransformName);
 
     List<RowMetaAndData> result = null;
     result =
-        PipelineTestFactory.executeTestTransformation(
-            pipelineMeta,
-            PipelineTestFactory.INJECTOR_TRANSFORMNAME,
-            TransformName,
-            PipelineTestFactory.DUMMY_TRANSFORMNAME,
-            inputData);
+        PipelineTestFactory.executeTestTransformation(pipelineMeta, PipelineTestFactory.INJECTOR_TRANSFORMNAME, TransformName, PipelineTestFactory.DUMMY_TRANSFORMNAME, inputData);
 
     assertNotNull(result);
     assertEquals(1, result.size());
@@ -192,7 +172,7 @@ public class XsdValidatorIntTest {
     long totalCount = 0;
     int readBytes = -1;
     do {
-      int todoBytes = (int)((limit < 0) ? buff.length : Math.min(limit-totalCount, buff.length));
+      int todoBytes = (int) ((limit < 0) ? buff.length : Math.min(limit - totalCount, buff.length));
       if (todoBytes > 0) {
         readBytes = inp.read(buff, 0, todoBytes);
         if (readBytes > 0) {

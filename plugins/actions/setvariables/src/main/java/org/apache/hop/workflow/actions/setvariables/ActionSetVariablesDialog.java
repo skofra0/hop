@@ -67,8 +67,7 @@ public class ActionSetVariablesDialog extends ActionDialog implements IActionDia
 
   private boolean changed;
 
-  public ActionSetVariablesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSetVariablesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSetVariables) action;
 
@@ -155,8 +154,7 @@ public class ActionSetVariablesDialog extends ActionDialog implements IActionDia
 
     // file variable type line
     Label wlFileVariableType = new Label(gFilename, SWT.RIGHT);
-    wlFileVariableType.setText(
-        BaseMessages.getString(PKG, "ActionSetVariables.FileVariableType.Label"));
+    wlFileVariableType.setText(BaseMessages.getString(PKG, "ActionSetVariables.FileVariableType.Label"));
     PropsUi.setLook(wlFileVariableType);
     FormData fdlFileVariableType = new FormData();
     fdlFileVariableType.left = new FormAttachment(0, 0);
@@ -230,33 +228,15 @@ public class ActionSetVariablesDialog extends ActionDialog implements IActionDia
     int rows = action.getVariableDefinitions().size();
     final int FieldsRows = rows;
 
-    ColumnInfo[] colinf = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.VariableName"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.Value"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.VariableType"),
-          ColumnInfo.COLUMN_TYPE_CCOMBO,
-          VariableType.getDescriptions(),
-          false),
-    };
+    ColumnInfo[] colinf =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.VariableName"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionSetVariables.Fields.Column.VariableType"), ColumnInfo.COLUMN_TYPE_CCOMBO, VariableType.getDescriptions(), false),};
     colinf[0].setUsingVariables(true);
     colinf[1].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);

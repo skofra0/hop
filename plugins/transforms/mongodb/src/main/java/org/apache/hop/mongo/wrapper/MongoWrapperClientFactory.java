@@ -21,6 +21,5 @@ import org.apache.hop.mongo.MongoProperties;
 import org.apache.hop.mongo.MongoUtilLogger;
 
 public interface MongoWrapperClientFactory {
-  MongoClientWrapper createMongoClientWrapper(MongoProperties props, MongoUtilLogger log)
-      throws MongoDbException;
+  MongoClientWrapper createMongoClientWrapper(MongoProperties props, MongoUtilLogger log) throws MongoDbException;
 }

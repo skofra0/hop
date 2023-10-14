@@ -48,8 +48,7 @@ public class AnalyticQueryMetaTest {
     String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     String transformXml = XmlHandler.openTag(tag) + xml + XmlHandler.closeTag(tag);
     AnalyticQueryMeta meta = new AnalyticQueryMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml, tag), AnalyticQueryMeta.class, meta, null);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml, tag), AnalyticQueryMeta.class, meta, null);
     assertEquals(1, meta.getGroupFields().size());
     assertEquals(8, meta.getQueryFields().size());
     String xml2 = meta.getXml();
@@ -57,11 +56,7 @@ public class AnalyticQueryMetaTest {
     AnalyticQueryMeta meta2 = new AnalyticQueryMeta();
     String transformXml2 = XmlHandler.openTag(tag) + xml2 + XmlHandler.closeTag(tag);
 
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG),
-        AnalyticQueryMeta.class,
-        meta2,
-        null);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG), AnalyticQueryMeta.class, meta2, null);
 
     // Compare meta1 and meta2 to see if all serialization survived correctly...
     //
@@ -83,8 +78,7 @@ public class AnalyticQueryMetaTest {
     String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     String transformXml = XmlHandler.openTag(tag) + xml + XmlHandler.closeTag(tag);
     AnalyticQueryMeta meta = new AnalyticQueryMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml, tag), AnalyticQueryMeta.class, meta, null);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml, tag), AnalyticQueryMeta.class, meta, null);
     assertEquals(1, meta.getGroupFields().size());
     assertEquals(1, meta.getQueryFields().size());
 
@@ -94,12 +88,10 @@ public class AnalyticQueryMetaTest {
 
   @Test
   public void testInjectionMetadata() throws Exception {
-    BeanInjectionInfo<AnalyticQueryMeta> injectionInfo =
-        new BeanInjectionInfo<>(AnalyticQueryMeta.class);
+    BeanInjectionInfo<AnalyticQueryMeta> injectionInfo = new BeanInjectionInfo<>(AnalyticQueryMeta.class);
     assertEquals(5, injectionInfo.getProperties().size());
 
-    BeanInjectionInfo<AnalyticQueryMeta>.Property prop =
-        injectionInfo.getProperties().get("GROUP_FIELDS");
+    BeanInjectionInfo<AnalyticQueryMeta>.Property prop = injectionInfo.getProperties().get("GROUP_FIELDS");
     assertNotNull(prop);
     assertEquals(3, prop.getPath().size());
 
@@ -129,34 +121,23 @@ public class AnalyticQueryMetaTest {
   @Test
   public void testInjection() throws Exception {
     BeanInjectionInfo<AnalyticQueryMeta> info = new BeanInjectionInfo<>(AnalyticQueryMeta.class);
-    BeanInjector<AnalyticQueryMeta> injector =
-        new BeanInjector<>(info, new MemoryMetadataProvider());
+    BeanInjector<AnalyticQueryMeta> injector = new BeanInjector<>(info, new MemoryMetadataProvider());
 
     AnalyticQueryMeta meta = new AnalyticQueryMeta();
 
     IRowMeta groupMeta = new RowMetaBuilder().addString("group").build();
-    List<RowMetaAndData> groupRows =
-        Arrays.asList(
-            new RowMetaAndData(groupMeta, "group1"), new RowMetaAndData(groupMeta, "group2"));
+    List<RowMetaAndData> groupRows = Arrays.asList(new RowMetaAndData(groupMeta, "group1"), new RowMetaAndData(groupMeta, "group2"));
 
     injector.setProperty(meta, "GROUP_FIELDS", groupRows, "group");
     assertEquals(2, meta.getGroupFields().size());
     assertEquals("group1", meta.getGroupFields().get(0).getFieldName());
     assertEquals("group2", meta.getGroupFields().get(1).getFieldName());
 
-    IRowMeta queryMeta =
-        new RowMetaBuilder()
-            .addString("fieldName")
-            .addString("subject")
-            .addString("type")
-            .addString("offset")
-            .build();
+    IRowMeta queryMeta = new RowMetaBuilder().addString("fieldName").addString("subject").addString("type").addString("offset").build();
     List<RowMetaAndData> queryRows =
         Arrays.asList(
-            new RowMetaAndData(queryMeta, "leadResult1", "A", "LEAD", 1),
-            new RowMetaAndData(queryMeta, "leadResult2", "A", "LEAD", 2),
-            new RowMetaAndData(queryMeta, "lagResult1", "B", "LAG", 1),
-            new RowMetaAndData(queryMeta, "lagResult2", "B", "LAG", 2));
+            new RowMetaAndData(queryMeta, "leadResult1", "A", "LEAD", 1), new RowMetaAndData(queryMeta, "leadResult2", "A", "LEAD", 2),
+            new RowMetaAndData(queryMeta, "lagResult1", "B", "LAG", 1), new RowMetaAndData(queryMeta, "lagResult2", "B", "LAG", 2));
     injector.setProperty(meta, "OUTPUT.AGGREGATE_FIELD", queryRows, "fieldName");
     injector.setProperty(meta, "OUTPUT.SUBJECT_FIELD", queryRows, "subject");
     injector.setProperty(meta, "OUTPUT.AGGREGATE_TYPE", queryRows, "type");

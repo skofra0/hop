@@ -45,8 +45,7 @@ public class AzureListenerEventProcessor implements IEventProcessor {
   private PartitionContext lastContext;
   private EventData lastData;
 
-  public AzureListenerEventProcessor(
-      AzureListener transform, AzureListenerData data, int checkpointBatchingSize) {
+  public AzureListenerEventProcessor(AzureListener transform, AzureListenerData data, int checkpointBatchingSize) {
     this.azureTransform = transform;
     this.azureData = data;
     this.checkpointBatchingSize = checkpointBatchingSize;
@@ -76,8 +75,7 @@ public class AzureListenerEventProcessor implements IEventProcessor {
   @Override
   public void onClose(PartitionContext context, CloseReason reason) {
     if (azureTransform.isDebug()) {
-      azureTransform.logDebug(
-          "Partition " + context.getPartitionId() + " is closing for reason " + reason.toString());
+      azureTransform.logDebug("Partition " + context.getPartitionId() + " is closing for reason " + reason.toString());
     }
   }
 
@@ -91,8 +89,7 @@ public class AzureListenerEventProcessor implements IEventProcessor {
   //
   @Override
   public void onError(PartitionContext context, Throwable error) {
-    azureTransform.logError(
-        "Error on partition id " + context.getPartitionId() + " : " + error.toString(), error);
+    azureTransform.logError("Error on partition id " + context.getPartitionId() + " : " + error.toString(), error);
   }
 
   // onEvents is called when events are received on this partition of the Event Hub. The maximum
@@ -211,20 +208,13 @@ public class AzureListenerEventProcessor implements IEventProcessor {
         if ((checkpointBatchingCount % checkpointBatchingSize) == 0) {
           if (azureTransform.isDebug()) {
             azureTransform.logDebug(
-                "Partition "
-                    + context.getPartitionId()
-                    + " checkpointing at "
-                    + data.getSystemProperties().getOffset()
-                    + ","
-                    + data.getSystemProperties().getSequenceNumber());
+                "Partition " + context.getPartitionId() + " checkpointing at " + data.getSystemProperties().getOffset() + "," + data.getSystemProperties().getSequenceNumber());
           }
 
           if (azureData.stt) {
 
             if (azureTransform.isDetailed()) {
-              azureTransform.logDetailed(
-                  "Processing the rows sent to the batch transformation at event count "
-                      + checkpointBatchingCount);
+              azureTransform.logDetailed("Processing the rows sent to the batch transformation at event count " + checkpointBatchingCount);
             }
 
             doOneIteration();
@@ -244,13 +234,7 @@ public class AzureListenerEventProcessor implements IEventProcessor {
       }
     }
     if (azureTransform.isDebug()) {
-      azureTransform.logDebug(
-          "Partition "
-              + context.getPartitionId()
-              + " batch size was "
-              + eventCount
-              + " for host "
-              + context.getOwner());
+      azureTransform.logDebug("Partition " + context.getPartitionId() + " batch size was " + eventCount + " for host " + context.getOwner());
     }
   }
 

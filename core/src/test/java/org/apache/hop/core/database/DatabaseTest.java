@@ -67,7 +67,8 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("deprecation")
 public class DatabaseTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME_OF_DB_CONNECTION = "TEST_CONNECTION";
   private static final String SQL_MOCK_EXCEPTION_MESSAGE = "SQL mock exception";
@@ -119,12 +120,7 @@ public class DatabaseTest {
     String columnType = "Integer";
     int columnSize = 15;
 
-    when(dbMetaData.getColumns(
-            nullable(String.class),
-            nullable(String.class),
-            nullable(String.class),
-            nullable(String.class)))
-        .thenReturn(rs);
+    when(dbMetaData.getColumns(nullable(String.class), nullable(String.class), nullable(String.class), nullable(String.class))).thenReturn(rs);
     when(rs.next()).thenReturn(true).thenReturn(false);
     when(rs.getString("COLUMN_NAME")).thenReturn(columnName);
     when(rs.getString("SOURCE_DATA_TYPE")).thenReturn(columnType);
@@ -145,7 +141,8 @@ public class DatabaseTest {
    * every call. That may bring performance penalty depends on jdbc driver implementation. For some
    * drivers that penalty can be huge (postgres).
    *
-   * <p>During the execution calling getLookup() method we changing usually only lookup where clause
+   * <p>
+   * During the execution calling getLookup() method we changing usually only lookup where clause
    * which will not impact return row structure.
    *
    * @throws HopDatabaseException
@@ -153,9 +150,7 @@ public class DatabaseTest {
    */
   @Test
   public void testGetLookupMetaCalls() throws HopDatabaseException, SQLException {
-    when(meta.getQuotedSchemaTableCombination(
-            nullable(IVariables.class), nullable(String.class), nullable(String.class)))
-        .thenReturn("a");
+    when(meta.getQuotedSchemaTableCombination(nullable(IVariables.class), nullable(String.class), nullable(String.class))).thenReturn("a");
     when(meta.quoteField(any())).thenReturn("a");
     when(ps.executeQuery()).thenReturn(rs);
     when(rs.getMetaData()).thenReturn(rsMetaData);
@@ -200,9 +195,7 @@ public class DatabaseTest {
 
   @Test
   public void testCreateHopDatabaseBatchExceptionNotUpdatesWhenBatchUpdateException() {
-    assertNotNull(
-        Database.createHopDatabaseBatchException("", new BatchUpdateException(new int[0]))
-            .getUpdateCounts());
+    assertNotNull(Database.createHopDatabaseBatchException("", new BatchUpdateException(new int[0])).getUpdateCounts());
   }
 
   @Test
@@ -212,16 +205,14 @@ public class DatabaseTest {
     SQLException next2 = new SQLException();
     root.setNextException(next);
     next.setNextException(next2);
-    List<Exception> exceptionList =
-        Database.createHopDatabaseBatchException("", root).getExceptionsList();
+    List<Exception> exceptionList = Database.createHopDatabaseBatchException("", root).getExceptionsList();
     assertEquals(2, exceptionList.size());
     assertEquals(next, exceptionList.get(0));
     assertEquals(next2, exceptionList.get(1));
   }
 
   @Test(expected = HopDatabaseBatchException.class)
-  public void testInsertRowWithBatchAlwaysThrowsHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testInsertRowWithBatchAlwaysThrowsHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     Connection conn = mockConnection(dbMetaData);
@@ -234,8 +225,7 @@ public class DatabaseTest {
   }
 
   @Test(expected = HopDatabaseException.class)
-  public void testInsertRowWithoutBatchDoesntThrowHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testInsertRowWithoutBatchDoesntThrowHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     when(ps.executeUpdate()).thenThrow(new SQLException());
@@ -250,8 +240,7 @@ public class DatabaseTest {
   }
 
   @Test(expected = HopDatabaseBatchException.class)
-  public void testEmptyAndCommitWithBatchAlwaysThrowsHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testEmptyAndCommitWithBatchAlwaysThrowsHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     Connection mockConnection = mockConnection(dbMetaData);
@@ -264,8 +253,7 @@ public class DatabaseTest {
   }
 
   @Test(expected = HopDatabaseException.class)
-  public void testEmptyAndCommitWithoutBatchDoesntThrowHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testEmptyAndCommitWithoutBatchDoesntThrowHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     Connection mockConnection = mockConnection(dbMetaData);
@@ -281,8 +269,7 @@ public class DatabaseTest {
   }
 
   @Test(expected = HopDatabaseBatchException.class)
-  public void testInsertFinishedWithBatchAlwaysThrowsHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testInsertFinishedWithBatchAlwaysThrowsHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     Connection mockConnection = mockConnection(dbMetaData);
@@ -295,8 +282,7 @@ public class DatabaseTest {
   }
 
   @Test(expected = HopDatabaseException.class)
-  public void testInsertFinishedWithoutBatchDoesntThrowHopBatchException()
-      throws HopDatabaseException, SQLException {
+  public void testInsertFinishedWithoutBatchDoesntThrowHopBatchException() throws HopDatabaseException, SQLException {
     when(meta.supportsBatchUpdates()).thenReturn(true);
     when(dbMetaData.supportsBatchUpdates()).thenReturn(true);
     Connection mockConnection = mockConnection(dbMetaData);
@@ -381,34 +367,13 @@ public class DatabaseTest {
 
     doReturn("double foo").when(meta).getFieldDefinition(v, tk, pk, useAutoIncrement);
     doReturn(true).when(meta).requiresCreateTablePrimaryKeyAppend();
-    String statement =
-        db.getCreateTableStatement(tableName, fields, tk, useAutoIncrement, pk, semiColon);
-    String expectedStatRegexp =
-        concatWordsForRegexp(
-            "CREATE TABLE DUMMY",
-            "\\(",
-            "double foo",
-            ",",
-            "PRIMARY KEY \\(tKey\\)",
-            ",",
-            "PRIMARY KEY \\(pKey\\)",
-            "\\)",
-            ";");
+    String statement = db.getCreateTableStatement(tableName, fields, tk, useAutoIncrement, pk, semiColon);
+    String expectedStatRegexp = concatWordsForRegexp("CREATE TABLE DUMMY", "\\(", "double foo", ",", "PRIMARY KEY \\(tKey\\)", ",", "PRIMARY KEY \\(pKey\\)", "\\)", ";");
     assertTrue(statement.matches(expectedStatRegexp));
     doReturn("CREATE COLUMN TABLE ").when(iDatabase).getCreateTableStatement();
     statement = db.getCreateTableStatement(tableName, fields, tk, useAutoIncrement, pk, semiColon);
 
-    expectedStatRegexp =
-        concatWordsForRegexp(
-            "CREATE COLUMN TABLE DUMMY",
-            "\\(",
-            "double foo",
-            ",",
-            "PRIMARY KEY \\(tKey\\)",
-            ",",
-            "PRIMARY KEY \\(pKey\\)",
-            "\\)",
-            ";");
+    expectedStatRegexp = concatWordsForRegexp("CREATE COLUMN TABLE DUMMY", "\\(", "double foo", ",", "PRIMARY KEY \\(tKey\\)", ",", "PRIMARY KEY \\(pKey\\)", "\\)", ";");
     assertTrue(statement.matches(expectedStatRegexp));
   }
 
@@ -416,25 +381,19 @@ public class DatabaseTest {
   public void testCheckTableNotExistsByDbMeta() throws Exception {
     when(rs.next()).thenReturn(true, false);
     when(rs.getString("TABLE_NAME")).thenReturn(EXISTING_TABLE_NAME);
-    when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET)))
-        .thenReturn(rs);
+    when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET))).thenReturn(rs);
     Database db = new Database(log, variables, dbMetaMock);
     db.setConnection(mockConnection(dbMetaDataMock));
 
-    assertFalse(
-        "The table " + NOT_EXISTING_TABLE_NAME + " is in db meta data but should not be here",
-        db.checkTableExists(SCHEMA_TO_CHECK, NOT_EXISTING_TABLE_NAME));
+    assertFalse("The table " + NOT_EXISTING_TABLE_NAME + " is in db meta data but should not be here", db.checkTableExists(SCHEMA_TO_CHECK, NOT_EXISTING_TABLE_NAME));
   }
 
   @Test
   public void testCheckTableExistsByDbMetaThrowsHopDatabaseException_WhenUnableToGetTableNames() {
-    HopDatabaseException kettleDatabaseException =
-        new HopDatabaseException(
-            "Unable to get table-names from the database meta-data.", SQL_EXCEPTION);
+    HopDatabaseException kettleDatabaseException = new HopDatabaseException("Unable to get table-names from the database meta-data.", SQL_EXCEPTION);
     try {
       when(rs.next()).thenReturn(true, false);
-      when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET)))
-          .thenThrow(SQL_EXCEPTION);
+      when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET))).thenThrow(SQL_EXCEPTION);
       Database db = new Database(log, variables, dbMetaMock);
       db.setConnection(mockConnection(dbMetaDataMock));
       assertFalse(db.checkTableExists(SCHEMA_TO_CHECK, EXISTING_TABLE_NAME));
@@ -448,12 +407,10 @@ public class DatabaseTest {
 
   @Test
   public void testCheckTableExistsByDbMetaThrowsHopDatabaseException_WhenResultSetNull() {
-    HopDatabaseException kettleDatabaseException =
-        new HopDatabaseException("Unable to get table-names from the database meta-data.");
+    HopDatabaseException kettleDatabaseException = new HopDatabaseException("Unable to get table-names from the database meta-data.");
     try {
       when(rs.next()).thenReturn(true, false);
-      when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET)))
-          .thenReturn(null);
+      when(dbMetaDataMock.getTables(any(), anyString(), anyString(), aryEq(TABLE_TYPES_TO_GET))).thenReturn(null);
       Database db = new Database(log, variables, dbMetaMock);
       db.setConnection(mockConnection(dbMetaDataMock));
       assertFalse(db.checkTableExists(SCHEMA_TO_CHECK, EXISTING_TABLE_NAME));
@@ -472,8 +429,7 @@ public class DatabaseTest {
   }
 
   @Test
-  public void testDisconnectPstmCloseFail()
-      throws SQLException, HopDatabaseException, NoSuchFieldException, IllegalAccessException {
+  public void testDisconnectPstmCloseFail() throws SQLException, HopDatabaseException, NoSuchFieldException, IllegalAccessException {
     Database db = new Database(log, variables, meta);
     Connection connection = mockConnection(dbMetaData);
     db.setConnection(connection);
@@ -489,8 +445,7 @@ public class DatabaseTest {
   }
 
   @Test
-  public void testDisconnectCommitFail()
-      throws SQLException, NoSuchFieldException, IllegalAccessException {
+  public void testDisconnectCommitFail() throws SQLException, NoSuchFieldException, IllegalAccessException {
     when(meta.supportsEmptyTransactions()).thenReturn(true);
     when(dbMetaData.supportsTransactions()).thenReturn(true);
 
@@ -520,9 +475,7 @@ public class DatabaseTest {
   public void testGetTablenames() throws SQLException, HopDatabaseException {
     when(rs.next()).thenReturn(true, false);
     when(rs.getString("TABLE_NAME")).thenReturn(EXISTING_TABLE_NAME);
-    when(dbMetaDataMock.getTables(
-            nullable(String.class), nullable(String.class), nullable(String.class), any()))
-        .thenReturn(rs);
+    when(dbMetaDataMock.getTables(nullable(String.class), nullable(String.class), nullable(String.class), any())).thenReturn(rs);
     Database db = new Database(log, variables, dbMetaMock);
     db.setConnection(mockConnection(dbMetaDataMock));
 
@@ -588,8 +541,7 @@ public class DatabaseTest {
 
     when(meta.stripCR(anyString())).thenReturn(sql);
     when(meta.getIDatabase()).thenReturn(new NoneDatabaseMeta()); // MySQL specific ?
-    when(conn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY))
-        .thenReturn(ps);
+    when(conn.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)).thenReturn(ps);
     when(ps.getMetaData()).thenReturn(rsMetaData);
 
     Database db = new Database(log, variables, meta);

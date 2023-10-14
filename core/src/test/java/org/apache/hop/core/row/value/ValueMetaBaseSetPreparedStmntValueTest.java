@@ -41,7 +41,8 @@ import static org.mockito.Mockito.when;
 
 public class ValueMetaBaseSetPreparedStmntValueTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private DatabaseMeta dbMeta;
   private PreparedStatement ps;

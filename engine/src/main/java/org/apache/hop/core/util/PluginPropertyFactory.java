@@ -74,8 +74,7 @@ public class PluginPropertyFactory {
    * @return new string list.
    * @throws IllegalArgumentException if key is invalid.
    */
-  public StringListPluginProperty createStringList(final String key)
-      throws IllegalArgumentException {
+  public StringListPluginProperty createStringList(final String key) throws IllegalArgumentException {
     final StringListPluginProperty property = new StringListPluginProperty(key);
     this.properties.add(property);
     return property;

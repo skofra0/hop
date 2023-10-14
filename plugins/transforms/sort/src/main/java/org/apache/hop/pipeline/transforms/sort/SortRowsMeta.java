@@ -44,9 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-@InjectionSupported(
-    localizationPrefix = "SortRows.Injection.",
-    groups = {"FIELDS"})
+@InjectionSupported(localizationPrefix = "SortRows.Injection.", groups = {"FIELDS"})
 @Transform(
     id = "SortRows",
     image = "sortrows.svg",
@@ -160,8 +158,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -200,8 +197,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
       freeMemoryLimit = XmlHandler.getTagValue(transformNode, "free_memory");
       compressFiles = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "compress"));
       compressFilesVariable = XmlHandler.getTagValue(transformNode, "compress_variable");
-      onlyPassingUniqueRows =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "unique_rows"));
+      onlyPassingUniqueRows = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "unique_rows"));
 
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
       int nrFields = XmlHandler.countNodes(fields, "field");
@@ -219,9 +215,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
         String coll = Const.NVL(XmlHandler.getTagValue(fnode, "collator_enabled"), "N");
         caseSensitive[i] = Utils.isEmpty(sens) || "Y".equalsIgnoreCase(sens);
         collatorEnabled[i] = "Y".equalsIgnoreCase(coll);
-        collatorStrength[i] =
-            Integer.parseInt(
-                Const.NVL(XmlHandler.getTagValue(fnode, "collator_strength"), defaultStrength));
+        collatorStrength[i] = Integer.parseInt(Const.NVL(XmlHandler.getTagValue(fnode, "collator_strength"), defaultStrength));
         String presorted = XmlHandler.getTagValue(fnode, "presorted");
         preSortedField[i] = "Y".equalsIgnoreCase(presorted);
       }
@@ -261,9 +255,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
     retval.append("      ").append(XmlHandler.addTagValue("sort_size", sortSize));
     retval.append("      ").append(XmlHandler.addTagValue("free_memory", freeMemoryLimit));
     retval.append("      ").append(XmlHandler.addTagValue("compress", compressFiles));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("compress_variable", compressFilesVariable));
+    retval.append("      ").append(XmlHandler.addTagValue("compress_variable", compressFilesVariable));
     retval.append("      ").append(XmlHandler.addTagValue("unique_rows", onlyPassingUniqueRows));
 
     retval.append("    <fields>").append(Const.CR);
@@ -272,12 +264,8 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
       retval.append("        ").append(XmlHandler.addTagValue("name", fieldName[i]));
       retval.append("        ").append(XmlHandler.addTagValue("ascending", ascending[i]));
       retval.append("        ").append(XmlHandler.addTagValue("case_sensitive", caseSensitive[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("collator_enabled", collatorEnabled[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("collator_strength", collatorStrength[i]));
+      retval.append("        ").append(XmlHandler.addTagValue("collator_enabled", collatorEnabled[i]));
+      retval.append("        ").append(XmlHandler.addTagValue("collator_strength", collatorStrength[i]));
       retval.append("        ").append(XmlHandler.addTagValue("presorted", preSortedField[i]));
       retval.append("      </field>").append(Const.CR);
     }
@@ -306,13 +294,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Set the sorted properties: ascending/descending
     assignSortingCriteria(inputRowMeta);
@@ -362,12 +344,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SortRowsMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -382,25 +359,16 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.SortKeysNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.SortKeysNotFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fieldName.length > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.AllSortKeysFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.AllSortKeysFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.NoSortKeysEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.NoSortKeysEntered"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -411,54 +379,27 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
       File f = new File(realDirectory);
       if (f.exists()) {
         if (f.isDirectory()) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "SortRowsMeta.CheckResult.DirectoryExists", realDirectory),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.DirectoryExists", realDirectory), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(
-                      PKG, "SortRowsMeta.CheckResult.ExistsButNoDirectory", realDirectory),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.ExistsButNoDirectory", realDirectory), transformMeta);
           remarks.add(cr);
         }
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "SortRowsMeta.CheckResult.DirectoryNotExists", realDirectory),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.DirectoryNotExists", realDirectory), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.NoFields"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortRowsMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -581,8 +522,7 @@ public class SortRowsMeta extends BaseTransformMeta<SortRows, SortRowsData> impl
     if (nrFields <= 0) {
       return;
     }
-    boolean[][] rtnBooleanArrays =
-        Utils.normalizeArrays(nrFields, ascending, caseSensitive, collatorEnabled, preSortedField);
+    boolean[][] rtnBooleanArrays = Utils.normalizeArrays(nrFields, ascending, caseSensitive, collatorEnabled, preSortedField);
     ascending = rtnBooleanArrays[0];
     caseSensitive = rtnBooleanArrays[1];
     collatorEnabled = rtnBooleanArrays[2];

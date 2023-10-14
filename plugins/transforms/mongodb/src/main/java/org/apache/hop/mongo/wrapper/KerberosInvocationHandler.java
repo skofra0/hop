@@ -40,25 +40,23 @@ public class KerberosInvocationHandler implements InvocationHandler {
   }
 
   @Override
-  public Object invoke(Object proxy, final Method method, final Object[] args)
-      throws MongoDbException {
+  public Object invoke(Object proxy, final Method method, final Object[] args) throws MongoDbException {
     try {
-      return authContext.doAs(
-          new PrivilegedExceptionAction<Object>() {
+      return authContext.doAs(new PrivilegedExceptionAction<Object>() {
 
-            @Override
-            public Object run() throws Exception {
-              try {
-                return method.invoke(delegate, args);
-              } catch (InvocationTargetException e) {
-                Throwable cause = e.getCause();
-                if (cause instanceof Exception) {
-                  throw (Exception) cause;
-                }
-                throw e;
-              }
+        @Override
+        public Object run() throws Exception {
+          try {
+            return method.invoke(delegate, args);
+          } catch (InvocationTargetException e) {
+            Throwable cause = e.getCause();
+            if (cause instanceof Exception) {
+              throw (Exception) cause;
             }
-          });
+            throw e;
+          }
+        }
+      });
     } catch (PrivilegedActionException e) {
       if (e.getCause() instanceof MongoDbException) {
         throw (MongoDbException) e.getCause();
@@ -70,10 +68,6 @@ public class KerberosInvocationHandler implements InvocationHandler {
 
   @SuppressWarnings("unchecked")
   public static <T> T wrap(Class<T> iface, AuthContext authContext, Object delegate) {
-    return (T)
-        Proxy.newProxyInstance(
-            KerberosInvocationHandler.class.getClassLoader(),
-            new Class<?>[] {iface},
-            new KerberosInvocationHandler(authContext, delegate));
+    return (T) Proxy.newProxyInstance(KerberosInvocationHandler.class.getClassLoader(), new Class<?>[] {iface}, new KerberosInvocationHandler(authContext, delegate));
   }
 }

@@ -40,8 +40,7 @@ class UsernamePasswordMongoClientWrapper extends NoAuthMongoClientWrapper {
    * @param log for logging
    * @throws MongoDbException if a problem occurs
    */
-  UsernamePasswordMongoClientWrapper(MongoProperties props, MongoUtilLogger log)
-      throws MongoDbException {
+  UsernamePasswordMongoClientWrapper(MongoProperties props, MongoUtilLogger log) throws MongoDbException {
     super(props, log);
     user = props.get(MongoProp.USERNAME);
   }
@@ -72,29 +71,14 @@ class UsernamePasswordMongoClientWrapper extends NoAuthMongoClientWrapper {
     }
 
     // Use the AuthDatabase if one was supplied, otherwise use the connecting database
-    authDatabase =
-        (authDatabase == null || authDatabase.trim().isEmpty())
-            ? props.get(MongoProp.DBNAME)
-            : authDatabase;
+    authDatabase = (authDatabase == null || authDatabase.trim().isEmpty()) ? props.get(MongoProp.DBNAME) : authDatabase;
 
     if (authMecha.equalsIgnoreCase("SCRAM-SHA-1")) {
-      credList.add(
-          MongoCredential.createScramSha1Credential(
-              props.get(MongoProp.USERNAME),
-              authDatabase,
-              props.get(MongoProp.PASSWORD).toCharArray()));
+      credList.add(MongoCredential.createScramSha1Credential(props.get(MongoProp.USERNAME), authDatabase, props.get(MongoProp.PASSWORD).toCharArray()));
     } else if (authMecha.equalsIgnoreCase("PLAIN")) {
-      credList.add(
-          MongoCredential.createPlainCredential(
-              props.get(MongoProp.USERNAME),
-              authDatabase,
-              props.get(MongoProp.PASSWORD).toCharArray()));
+      credList.add(MongoCredential.createPlainCredential(props.get(MongoProp.USERNAME), authDatabase, props.get(MongoProp.PASSWORD).toCharArray()));
     } else {
-      credList.add(
-          MongoCredential.createCredential(
-              props.get(MongoProp.USERNAME),
-              authDatabase,
-              props.get(MongoProp.PASSWORD).toCharArray()));
+      credList.add(MongoCredential.createCredential(props.get(MongoProp.USERNAME), authDatabase, props.get(MongoProp.PASSWORD).toCharArray()));
     }
     return credList;
   }

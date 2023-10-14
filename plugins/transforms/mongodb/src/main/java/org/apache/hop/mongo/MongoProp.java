@@ -83,16 +83,13 @@ public enum MongoProp {
    */
   USE_ALL_REPLICA_SET_MEMBERS,
 
-  // MongoClientOptions values.  The following properties correspond to
+  // MongoClientOptions values. The following properties correspond to
   // http://api.mongodb.org/java/2.12/com/mongodb/MongoClientOptions.html
 
   /** The maximum num of allowed connections. */
   connectionsPerHost {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       builder.connectionsPerHost(propToOption.intValue(props.get(connectionsPerHost), 100));
     }
   },
@@ -100,10 +97,7 @@ public enum MongoProp {
   /** The connection timeout in millis. 0 means no timeout. */
   connectTimeout {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       builder.connectTimeout(propToOption.intValue(props.get(connectTimeout), 10000));
     }
   },
@@ -111,10 +105,7 @@ public enum MongoProp {
   /** The max wait for a connection to be available (millis). */
   maxWaitTime {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       builder.maxWaitTime(propToOption.intValue(props.get(maxWaitTime), 120000));
     }
   },
@@ -125,22 +116,15 @@ public enum MongoProp {
    */
   cursorFinalizerEnabled {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
-      builder.cursorFinalizerEnabled(
-          propToOption.boolValue(props.get(cursorFinalizerEnabled), true));
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
+      builder.cursorFinalizerEnabled(propToOption.boolValue(props.get(cursorFinalizerEnabled), true));
     }
   },
 
   /** Boolean which controls whether connections are kept alive through firewalls. */
   socketKeepAlive {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       builder.socketKeepAlive(propToOption.boolValue(props.get(socketKeepAlive), false));
     }
   },
@@ -148,10 +132,7 @@ public enum MongoProp {
   /** Socket timeout (miilis). 0 (default) means no timeout. */
   socketTimeout {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       builder.socketTimeout(propToOption.intValue(props.get(socketTimeout), 0));
     }
   },
@@ -159,10 +140,7 @@ public enum MongoProp {
   /** Boolean which controls whether connections will use SSL */
   useSSL {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption) {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) {
       if ("true".equalsIgnoreCase(props.get(useSSL))) {
         builder.socketFactory(SSLSocketFactory.getDefault());
       }
@@ -176,11 +154,7 @@ public enum MongoProp {
    */
   readPreference {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption)
-        throws MongoDbException {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) throws MongoDbException {
       builder.readPreference(propToOption.readPrefValue(props));
     }
   },
@@ -190,7 +164,8 @@ public enum MongoProp {
    * E.g. { "disk": "ssd", "use": "reporting", "rack": "a" },{ "disk": "ssd", "use": "reporting",
    * "rack": "d" }
    *
-   * <p>This will govern the preferred order when determining which mongos to read from. See
+   * <p>
+   * This will govern the preferred order when determining which mongos to read from. See
    * http://docs.mongodb.org/manual/tutorial/configure-replica-set-tag-sets/ Note that the expected
    * syntax for tag sets differs from the format specified for MongoURI, which uses semi-colons as a
    * delimiter. That would make connection string parsing more difficult, since semi-colon delimits
@@ -205,11 +180,7 @@ public enum MongoProp {
    */
   writeConcern {
     @Override
-    public void setOption(
-        MongoClientOptions.Builder builder,
-        org.apache.hop.mongo.MongoProperties props,
-        MongoPropToOption propToOption)
-        throws MongoDbException {
+    public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) throws MongoDbException {
       builder.writeConcern(propToOption.writeConcernValue(props));
     }
   },
@@ -219,11 +190,7 @@ public enum MongoProp {
   /** MongoDB 3.0 changed the default authentication mechanism from MONGODB-CR to SCRAM-SHA-1 */
   AUTH_MECHA;
 
-  public void setOption(
-      MongoClientOptions.Builder builder,
-      org.apache.hop.mongo.MongoProperties props,
-      MongoPropToOption propToOption)
-      throws MongoDbException {
+  public void setOption(MongoClientOptions.Builder builder, org.apache.hop.mongo.MongoProperties props, MongoPropToOption propToOption) throws MongoDbException {
     // default is do nothing since some of the Props are not a MongoClientOption
   }
 }

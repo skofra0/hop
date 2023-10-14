@@ -59,25 +59,18 @@ public class MappingInputMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    TransformSerializationTestUtil.testSerialization(
-        "/mapping-input-transform.xml", MappingInputMeta.class);
+    TransformSerializationTestUtil.testSerialization("/mapping-input-transform.xml", MappingInputMeta.class);
 
-    Document document =
-        XmlHandler.loadXmlFile(this.getClass().getResourceAsStream("/mapping-input-transform.xml"));
+    Document document = XmlHandler.loadXmlFile(this.getClass().getResourceAsStream("/mapping-input-transform.xml"));
     Node transformNode = XmlHandler.getSubNode(document, TransformMeta.XML_TAG);
     MappingInputMeta meta = new MappingInputMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        null, transformNode, SimpleMappingMeta.class, meta, new MemoryMetadataProvider());
-    String xml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + meta.getXml()
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    XmlMetadataUtil.deSerializeFromXml(null, transformNode, SimpleMappingMeta.class, meta, new MemoryMetadataProvider());
+    String xml = XmlHandler.openTag(TransformMeta.XML_TAG) + meta.getXml() + XmlHandler.closeTag(TransformMeta.XML_TAG);
 
     Document copyDocument = XmlHandler.loadXmlString(xml);
     Node copyNode = XmlHandler.getSubNode(copyDocument, TransformMeta.XML_TAG);
     MappingInputMeta copy = new MappingInputMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        null, copyNode, SimpleMappingMeta.class, copy, new MemoryMetadataProvider());
+    XmlMetadataUtil.deSerializeFromXml(null, copyNode, SimpleMappingMeta.class, copy, new MemoryMetadataProvider());
     Assert.assertEquals(meta.getXml(), copy.getXml());
   }
 }

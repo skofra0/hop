@@ -72,8 +72,7 @@ public class HopGuiPipelineSearchable implements ISearchable<PipelineMeta> {
       // See if the same pipeline isn't already open.
       // Other file types we might allow to open more than once but not pipelines for now.
       //
-      TabItemHandler tabItemHandlerWithFilename =
-          perspective.findTabItemHandlerWithFilename(pipelineMeta.getFilename());
+      TabItemHandler tabItemHandlerWithFilename = perspective.findTabItemHandlerWithFilename(pipelineMeta.getFilename());
       if (tabItemHandlerWithFilename != null) {
         // Same file so we can simply switch to it.
         // This will prevent confusion.
@@ -81,10 +80,7 @@ public class HopGuiPipelineSearchable implements ISearchable<PipelineMeta> {
         perspective.switchToTab(tabItemHandlerWithFilename);
         pipelineGraph = (HopGuiPipelineGraph) tabItemHandlerWithFilename.getTypeHandler();
       } else {
-        pipelineGraph =
-            (HopGuiPipelineGraph)
-                perspective.addPipeline(
-                    HopGui.getInstance(), pipelineMeta, perspective.getPipelineFileType());
+        pipelineGraph = (HopGuiPipelineGraph) perspective.addPipeline(HopGui.getInstance(), pipelineMeta, perspective.getPipelineFileType());
       }
 
       // Optionally select and open the matching transform component

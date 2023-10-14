@@ -33,7 +33,8 @@ import java.util.Map;
 /**
  * A collection of utilities for working with Kerberos.
  *
- * <p>Note: This specifically does not support IBM VMs and must be modified to do so: 1) LoginModule
+ * <p>
+ * Note: This specifically does not support IBM VMs and must be modified to do so: 1) LoginModule
  * name differs, 2) Configuration defaults differ for ticket cache, keytab, and others.
  */
 public class KerberosUtil {
@@ -90,14 +91,10 @@ public class KerberosUtil {
 
   /** The Login Configuration entry to use for authenticating with Kerberos. */
   private static final AppConfigurationEntry CONFIG_ENTRY_HOP_KERBEROS_USER =
-      new AppConfigurationEntry(
-          Krb5LoginModule.class.getName(),
-          LoginModuleControlFlag.REQUIRED,
-          LOGIN_CONFIG_OPTS_KERBEROS_USER);
+      new AppConfigurationEntry(Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, LOGIN_CONFIG_OPTS_KERBEROS_USER);
 
   /** Static configuration to use when KERBEROS_USER mode is enabled. */
-  private static final AppConfigurationEntry[] CONFIG_ENTRIES_KERBEROS_USER =
-      new AppConfigurationEntry[] {CONFIG_ENTRY_HOP_KERBEROS_USER};
+  private static final AppConfigurationEntry[] CONFIG_ENTRIES_KERBEROS_USER = new AppConfigurationEntry[] {CONFIG_ENTRY_HOP_KERBEROS_USER};
 
   /** A Login Configuration that is pre-configured based on our static configuration. */
   private static class HopLoginConfiguration extends Configuration {
@@ -147,10 +144,7 @@ public class KerberosUtil {
       }
       throw new MongoDbException(
           BaseMessages.getString(
-              MongoClientWrapper.class,
-              "MongoKerberosWrapper.Message.Error.JaasAuthModeIncorrect",
-              Arrays.toString(JaasAuthenticationMode.values()),
-              "'" + modeName + "'"));
+              MongoClientWrapper.class, "MongoKerberosWrapper.Message.Error.JaasAuthModeIncorrect", Arrays.toString(JaasAuthenticationMode.values()), "'" + modeName + "'"));
     }
   }
 
@@ -163,8 +157,7 @@ public class KerberosUtil {
    * @return The context for the logged in principal.
    * @throws LoginException Error encountered while logging in.
    */
-  public static LoginContext loginAs(
-      JaasAuthenticationMode authMode, String principal, String keytabFile) throws LoginException {
+  public static LoginContext loginAs(JaasAuthenticationMode authMode, String principal, String keytabFile) throws LoginException {
     LoginContext lc;
     Subject subject;
     switch (authMode) {
@@ -174,12 +167,7 @@ public class KerberosUtil {
         break;
       case KERBEROS_USER:
         subject = new Subject();
-        lc =
-            new LoginContext(
-                KERBEROS_APP_NAME,
-                subject,
-                null,
-                new HopLoginConfiguration(CONFIG_ENTRIES_KERBEROS_USER));
+        lc = new LoginContext(KERBEROS_APP_NAME, subject, null, new HopLoginConfiguration(CONFIG_ENTRIES_KERBEROS_USER));
         break;
       case KERBEROS_KEYTAB:
         lc = createLoginContextWithKeytab(principal, keytabFile);
@@ -200,11 +188,9 @@ public class KerberosUtil {
    * @return A login context configured to authenticate as the provided principal via a keytab.
    * @throws LoginException Error creating login context.
    */
-  private static LoginContext createLoginContextWithKeytab(String principal, String keytabFile)
-      throws LoginException {
+  private static LoginContext createLoginContextWithKeytab(String principal, String keytabFile) throws LoginException {
     if (keytabFile == null) {
-      throw new IllegalArgumentException(
-          "A keytab file is required to authenticate with Kerberos via keytab");
+      throw new IllegalArgumentException("A keytab file is required to authenticate with Kerberos via keytab");
     }
 
     // Extend the default keytab config properties and set the necessary
@@ -214,12 +200,9 @@ public class KerberosUtil {
     keytabConfig.put("principal", principal);
 
     // Create the configuration and from them, a new login context
-    AppConfigurationEntry config =
-        new AppConfigurationEntry(
-            Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, keytabConfig);
+    AppConfigurationEntry config = new AppConfigurationEntry(Krb5LoginModule.class.getName(), LoginModuleControlFlag.REQUIRED, keytabConfig);
     AppConfigurationEntry[] configEntries = new AppConfigurationEntry[] {config};
     Subject subject = new Subject();
-    return new LoginContext(
-        KERBEROS_APP_NAME, subject, null, new HopLoginConfiguration(configEntries));
+    return new LoginContext(KERBEROS_APP_NAME, subject, null, new HopLoginConfiguration(configEntries));
   }
 }

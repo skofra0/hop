@@ -47,18 +47,12 @@ public class BeamBQInput extends BaseTransform<BeamBQInputMeta, BeamBQInputData>
    * @param transformMeta The TransformMeta object to run.
    * @param meta
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
    * @param pipeline The (running) pipeline to obtain information shared among the transforms.
    */
-  public BeamBQInput(
-      TransformMeta transformMeta,
-      BeamBQInputMeta meta,
-      BeamBQInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamBQInput(TransformMeta transformMeta, BeamBQInputMeta meta, BeamBQInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -91,18 +85,13 @@ public class BeamBQInput extends BaseTransform<BeamBQInputMeta, BeamBQInputData>
 
       String bgFields = joiner.toString();
 
-      query =
-          "SELECT "
-              + bgFields
-              + " FROM "
-              + resolve(meta.getDatasetId() + "." + resolve(meta.getTableId()));
+      query = "SELECT " + bgFields + " FROM " + resolve(meta.getDatasetId() + "." + resolve(meta.getTableId()));
     }
 
     queryConfig = QueryJobConfiguration.newBuilder(query).setUseLegacySql(false).build();
 
     data.jobId = JobId.of(UUID.randomUUID().toString());
-    data.queryJob =
-        data.bigquery.create(JobInfo.newBuilder(queryConfig).setJobId(data.jobId).build());
+    data.queryJob = data.bigquery.create(JobInfo.newBuilder(queryConfig).setJobId(data.jobId).build());
 
     // Wait for the query to complete.
     try {
@@ -117,8 +106,7 @@ public class BeamBQInput extends BaseTransform<BeamBQInputMeta, BeamBQInputData>
     } else if (data.queryJob.getStatus().getError() != null) {
       // We can also look at queryJob.getStatus().getExecutionErrors() for all
       // errors, not just the latest one.
-      throw new HopException(
-          "Error in BigQuery job: " + data.queryJob.getStatus().getError().toString());
+      throw new HopException("Error in BigQuery job: " + data.queryJob.getStatus().getError().toString());
     }
 
     // Pre-calculate field types...
@@ -177,10 +165,7 @@ public class BeamBQInput extends BaseTransform<BeamBQInputMeta, BeamBQInputData>
                 hopValue = fieldValue.getNumericValue();
                 break;
               default:
-                throw new HopException(
-                    "Converting BigQuery data to Hop type "
-                        + field.getHopType()
-                        + " isn't supported yet");
+                throw new HopException("Converting BigQuery data to Hop type " + field.getHopType() + " isn't supported yet");
             }
           }
           outputRow[outputIndex++] = hopValue;

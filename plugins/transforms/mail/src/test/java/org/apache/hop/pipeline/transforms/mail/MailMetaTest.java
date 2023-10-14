@@ -38,7 +38,8 @@ import java.util.Map;
 public class MailMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<MailMeta> testMetaClass = MailMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -46,63 +47,23 @@ public class MailMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "server",
-            "destination",
-            "destinationCc",
-            "destinationBCc",
-            "replyAddress",
-            "replyName",
-            "subject",
-            "includeDate",
-            "includeSubFolders",
-            "zipFilenameDynamic",
-            "isFilenameDynamic",
-            "dynamicFieldname",
-            "dynamicWildcard",
-            "dynamicZipFilenameField",
-            "sourceFileFoldername",
-            "sourceWildcard",
-            "contactPerson",
-            "contactPhone",
-            "comment",
-            "includingFiles",
-            "zipFiles",
-            "zipFilename",
-            "zipLimitSize",
-            "usingAuthentication",
-            "authenticationUser",
-            "authenticationPassword",
-            "onlySendComment",
-            "useHTML",
-            "usingSecureAuthentication",
-            "usePriority",
-            "port",
-            "priority",
-            "importance",
-            "sensitivity",
-            "secureConnectionType",
-            "encoding",
-            "replyToAddresses",
-            "attachContentFromField",
-            "attachContentField",
-            "attachContentFileNameField",
-            "embeddedImages",
-            "contentIds");
+            "server", "destination", "destinationCc", "destinationBCc", "replyAddress", "replyName", "subject", "includeDate", "includeSubFolders", "zipFilenameDynamic",
+            "isFilenameDynamic", "dynamicFieldname", "dynamicWildcard", "dynamicZipFilenameField", "sourceFileFoldername", "sourceWildcard", "contactPerson", "contactPhone",
+            "comment", "includingFiles", "zipFiles", "zipFilename", "zipLimitSize", "usingAuthentication", "authenticationUser", "authenticationPassword", "onlySendComment",
+            "useHTML", "usingSecureAuthentication", "usePriority", "port", "priority", "importance", "sensitivity", "secureConnectionType", "encoding", "replyToAddresses",
+            "attachContentFromField", "attachContentField", "attachContentFileNameField", "embeddedImages", "contentIds");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("isFilenameDynamic", "isDynamicFilename");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("isFilenameDynamic", "setisDynamicFilename");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("isFilenameDynamic", "isDynamicFilename");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("isFilenameDynamic", "setisDynamicFilename");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("embeddedImages", stringArrayLoadSaveValidator);
@@ -110,15 +71,7 @@ public class MailMetaTest implements IInitializer<ITransformMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

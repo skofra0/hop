@@ -94,7 +94,6 @@ public class PathResult {
     this.registrationDate = registrationDate;
   }
 
-
   /**
    * Gets root
    *
@@ -165,15 +164,7 @@ public class PathResult {
   public String getExecutionInfoCommand() {
     StringBuilder cmd = new StringBuilder();
 
-    cmd.append(
-            "MATCH(ex:Execution { name : \""
-                + getName()
-                + "\", type : \""
-                + getType()
-                + "\", id : \""
-                + getId()
-                + "\"}) ")
-        .append(Const.CR);
+    cmd.append("MATCH(ex:Execution { name : \"" + getName() + "\", type : \"" + getType() + "\", id : \"" + getId() + "\"}) ").append(Const.CR);
     cmd.append("RETURN ex ").append(Const.CR);
 
     return cmd.toString();
@@ -182,15 +173,7 @@ public class PathResult {
   public String getErrorPathCommand() {
     StringBuilder cmd = new StringBuilder();
 
-    cmd.append(
-            "MATCH(top:Execution { name : \""
-                + getName()
-                + "\", type : \""
-                + getType()
-                + "\", id : \""
-                + getId()
-                + "\"})-[rel:EXECUTES*]-(err:Execution) ")
-        .append(Const.CR);
+    cmd.append("MATCH(top:Execution { name : \"" + getName() + "\", type : \"" + getType() + "\", id : \"" + getId() + "\"})-[rel:EXECUTES*]-(err:Execution) ").append(Const.CR);
     cmd.append("   , p=shortestpath((top)-[:EXECUTES*]-(err)) ").append(Const.CR);
     cmd.append("WHERE top.registrationDate IS NOT NULL ").append(Const.CR);
     cmd.append("  AND err.errors > 0 ").append(Const.CR);
@@ -205,15 +188,7 @@ public class PathResult {
   public String getErrorPathWithMetadataCommand(int pathIndex) {
     StringBuilder cmd = new StringBuilder();
 
-    cmd.append(
-            "MATCH(top:Execution { name : \""
-                + getName()
-                + "\", type : \""
-                + getType()
-                + "\", id : \""
-                + getId()
-                + "\"})-[rel:EXECUTES*]-(err:Execution) ")
-        .append(Const.CR);
+    cmd.append("MATCH(top:Execution { name : \"" + getName() + "\", type : \"" + getType() + "\", id : \"" + getId() + "\"})-[rel:EXECUTES*]-(err:Execution) ").append(Const.CR);
     cmd.append("   , p=shortestpath((top)-[:EXECUTES*]-(err)) ").append(Const.CR);
     cmd.append("WHERE top.registrationDate IS NOT NULL ").append(Const.CR);
     cmd.append("  AND err.errors > 0 ").append(Const.CR);
@@ -239,17 +214,7 @@ public class PathResult {
       }
       if (metaLabel != null) {
         cmd.append(
-                "MATCH (:Execution { type : \""
-                    + result.getType()
-                    + "\", id : \""
-                    + result.getId()
-                    + "\"})-[metaRel"
-                    + matchIndex
-                    + "]->(meta"
-                    + matchIndex
-                    + ":"
-                    + metaLabel
-                    + ") ")
+            "MATCH (:Execution { type : \"" + result.getType() + "\", id : \"" + result.getId() + "\"})-[metaRel" + matchIndex + "]->(meta" + matchIndex + ":" + metaLabel + ") ")
             .append(Const.CR);
         returns.append(", metaRel" + matchIndex + ", meta" + matchIndex);
         matchIndex++;

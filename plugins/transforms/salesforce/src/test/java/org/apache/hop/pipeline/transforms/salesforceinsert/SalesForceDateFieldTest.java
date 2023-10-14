@@ -55,25 +55,22 @@ import static org.mockito.Mockito.when;
  * @see SalesforceInsert
  */
 public class SalesForceDateFieldTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   private TransformMockHelper<SalesforceInsertMeta, SalesforceInsertData> smh;
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
   @Before
   public void init() {
-    smh =
-        new TransformMockHelper<>(
-            "SalesforceInsert", SalesforceInsertMeta.class, SalesforceInsertData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("SalesforceInsert", SalesforceInsertMeta.class, SalesforceInsertData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
   }
 
   @After
@@ -99,14 +96,7 @@ public class SalesForceDateFieldTest {
     data.sfBuffer = new SObject[] {null};
     data.outputBuffer = new Object[][] {null};
 
-    SalesforceInsert transform =
-        new SalesforceInsert(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    SalesforceInsert transform = new SalesforceInsert(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
 
     transform.init();
 

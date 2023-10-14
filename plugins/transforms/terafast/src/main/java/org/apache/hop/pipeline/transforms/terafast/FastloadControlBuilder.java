@@ -62,8 +62,7 @@ public class FastloadControlBuilder {
    * @return this.
    * @throws IllegalArgumentException if connection string is blank.
    */
-  public FastloadControlBuilder logon(final String connectionString)
-      throws IllegalArgumentException {
+  public FastloadControlBuilder logon(final String connectionString) throws IllegalArgumentException {
     Assert.assertNotBlank(connectionString, "Connection must not be blank");
     this.builder.append("LOGON ").append(connectionString);
     return this.newline();
@@ -78,8 +77,7 @@ public class FastloadControlBuilder {
    * @return this
    * @throws IllegalArgumentException if input is invalid.
    */
-  public FastloadControlBuilder logon(final String dbhost, final String user, final String password)
-      throws IllegalArgumentException {
+  public FastloadControlBuilder logon(final String dbhost, final String user, final String password) throws IllegalArgumentException {
     Assert.assertNotBlank(dbhost, "DB host must not be blank");
     Assert.assertNotBlank(user, "User must not be blank");
     Assert.assertNotNull(password, "Password must not be null");
@@ -97,8 +95,7 @@ public class FastloadControlBuilder {
    * @return this.
    * @throws IllegalArgumentException if format is invalid.
    */
-  public FastloadControlBuilder setRecordFormat(final String format)
-      throws IllegalArgumentException {
+  public FastloadControlBuilder setRecordFormat(final String format) throws IllegalArgumentException {
     Assert.assertNotBlank(format, "Format must not be blank");
     return line("SET RECORD " + format);
   }
@@ -118,8 +115,7 @@ public class FastloadControlBuilder {
    * @return this.
    * @throws IllegalArgumentException if errorLimit <= 0
    */
-  public FastloadControlBuilder setErrorLimit(final int errorLimit)
-      throws IllegalArgumentException {
+  public FastloadControlBuilder setErrorLimit(final int errorLimit) throws IllegalArgumentException {
     Assert.assertGreaterZero(errorLimit);
     return line("ERRLIMIT " + errorLimit);
   }
@@ -129,10 +125,7 @@ public class FastloadControlBuilder {
    * @param dataFile ...
    * @return this
    */
-  public FastloadControlBuilder define(
-      final IRowMeta targetTableFields,
-      StringListPluginProperty tableFieldList,
-      final String dataFile) {
+  public FastloadControlBuilder define(final IRowMeta targetTableFields, StringListPluginProperty tableFieldList, final String dataFile) {
     Assert.assertNotNull(targetTableFields, "fields cannot be null");
     Assert.assertNotNull(dataFile, "dataFile cannot be null");
 
@@ -149,13 +142,7 @@ public class FastloadControlBuilder {
         } else {
           length = value.getLength();
         }
-        this.builder.append(
-            "("
-                + "VARCHAR("
-                + length
-                + "), nullif = '"
-                + String.format("%1$" + length + "s", DEFAULT_NULL_VALUE)
-                + "'), ");
+        this.builder.append("(" + "VARCHAR(" + length + "), nullif = '" + String.format("%1$" + length + "s", DEFAULT_NULL_VALUE) + "'), ");
         this.builder.append(SystemUtils.LINE_SEPARATOR);
       }
     }
@@ -170,17 +157,13 @@ public class FastloadControlBuilder {
    * @param tableName ...
    * @return ...
    */
-  public FastloadControlBuilder insert(
-      final IRowMeta targetTableFields,
-      StringListPluginProperty tableFieldList,
-      final String tableName) {
+  public FastloadControlBuilder insert(final IRowMeta targetTableFields, StringListPluginProperty tableFieldList, final String tableName) {
     Assert.assertNotNull(targetTableFields, "targetTableFields cannot be null.");
     Assert.assertNotNull(tableName, "TableName cannot be null.");
 
     this.builder.append("INSERT INTO " + tableName + "(");
     for (int i = 0; i < targetTableFields.size(); i++) {
-      int tableIndex =
-          tableFieldList.getValue().indexOf(targetTableFields.getValueMeta(i).getName());
+      int tableIndex = tableFieldList.getValue().indexOf(targetTableFields.getValueMeta(i).getName());
       if (tableIndex >= 0) {
         this.builder.append(":" + targetTableFields.getValueMeta(i).getName());
         if (targetTableFields.getValueMeta(i).getType() == IValueMeta.TYPE_DATE) {
@@ -218,8 +201,7 @@ public class FastloadControlBuilder {
    * @return this.
    * @throws IllegalArgumentException if table is invalid.
    */
-  public FastloadControlBuilder beginLoading(final String schemaName, final String table)
-      throws IllegalArgumentException {
+  public FastloadControlBuilder beginLoading(final String schemaName, final String table) throws IllegalArgumentException {
     Assert.assertNotBlank(table);
     this.builder.append("BEGIN LOADING ");
     this.builder.append(table);

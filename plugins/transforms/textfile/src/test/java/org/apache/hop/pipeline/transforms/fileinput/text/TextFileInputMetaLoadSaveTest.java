@@ -35,14 +35,14 @@ import java.util.Random;
 import java.util.UUID;
 
 public class TextFileInputMetaLoadSaveTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private LoadSaveTester tester;
 
   @Before
   public void setUp() throws Exception {
-    List<String> attributes =
-        Arrays.asList("errorCountField", "errorFieldsField", "errorTextField", "length");
+    List<String> attributes = Arrays.asList("errorCountField", "errorFieldsField", "errorTextField", "length");
 
     Map<String, String> getters = new HashMap<>();
     getters.put("header", "hasHeader");
@@ -77,21 +77,10 @@ public class TextFileInputMetaLoadSaveTest {
     Map<String, IFieldLoadSaveValidator<?>> attributeValidators = Collections.emptyMap();
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidators = new HashMap<>();
-    typeValidators.put(
-        TextFileFilter[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new TextFileFilterValidator()));
-    typeValidators.put(
-        BaseFileField[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new TextFileInputFieldValidator()));
+    typeValidators.put(TextFileFilter[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new TextFileFilterValidator()));
+    typeValidators.put(BaseFileField[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new TextFileInputFieldValidator()));
 
-    tester =
-        new LoadSaveTester(
-            TextFileInputMeta.class,
-            attributes,
-            getters,
-            setters,
-            attributeValidators,
-            typeValidators);
+    tester = new LoadSaveTester(TextFileInputMeta.class, attributes, getters, setters, attributeValidators, typeValidators);
   }
 
   @Test
@@ -99,12 +88,10 @@ public class TextFileInputMetaLoadSaveTest {
     tester.testSerialization();
   }
 
-  private static class TextFileInputFieldValidator
-      implements IFieldLoadSaveValidator<BaseFileField> {
+  private static class TextFileInputFieldValidator implements IFieldLoadSaveValidator<BaseFileField> {
     @Override
     public BaseFileField getTestObject() {
-      return new BaseFileField(
-          UUID.randomUUID().toString(), new Random().nextInt(), new Random().nextInt());
+      return new BaseFileField(UUID.randomUUID().toString(), new Random().nextInt(), new Random().nextInt());
     }
 
     @Override
@@ -114,11 +101,8 @@ public class TextFileInputMetaLoadSaveTest {
       }
 
       BaseFileField another = (BaseFileField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getLength(), another.getLength())
-          .append(testObject.getPosition(), another.getPosition())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getLength(), another.getLength())
+          .append(testObject.getPosition(), another.getPosition()).isEquals();
     }
   }
 
@@ -140,12 +124,8 @@ public class TextFileInputMetaLoadSaveTest {
       }
 
       TextFileFilter another = (TextFileFilter) actual;
-      return new EqualsBuilder()
-          .append(testObject.getFilterPosition(), another.getFilterPosition())
-          .append(testObject.getFilterString(), another.getFilterString())
-          .append(testObject.isFilterLastLine(), another.isFilterLastLine())
-          .append(testObject.isFilterPositive(), another.isFilterPositive())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getFilterPosition(), another.getFilterPosition()).append(testObject.getFilterString(), another.getFilterString())
+          .append(testObject.isFilterLastLine(), another.isFilterLastLine()).append(testObject.isFilterPositive(), another.isFilterPositive()).isEquals();
     }
   }
 }

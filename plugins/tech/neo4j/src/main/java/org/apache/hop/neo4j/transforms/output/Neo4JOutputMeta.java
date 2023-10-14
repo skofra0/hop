@@ -50,9 +50,7 @@ import java.util.List;
     categoryDescription = "i18n::Neo4JOutput.Transform.Category",
     keywords = "i18n::Neo4JOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/neo4j-output.html")
-@InjectionSupported(
-    localizationPrefix = "Neo4JOutput.Injection.",
-    groups = {"FROM_NODE_PROPS", "FROM_LABELS", "TO_NODE_PROPS", "TO_LABELS", "REL_PROPS"})
+@InjectionSupported(localizationPrefix = "Neo4JOutput.Injection.", groups = {"FROM_NODE_PROPS", "FROM_LABELS", "TO_NODE_PROPS", "TO_LABELS", "REL_PROPS"})
 public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputData> {
 
   private static final String STRING_CONNECTION = "connection";
@@ -164,12 +162,7 @@ public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputD
   //
   private String key;
 
-  public ITransformDialog getDialog(
-      Shell shell,
-      IVariables variables,
-      ITransformMeta meta,
-      PipelineMeta pipelineMeta,
-      String name) {
+  public ITransformDialog getDialog(Shell shell, IVariables variables, ITransformMeta meta, PipelineMeta pipelineMeta, String name) {
     return new Neo4JOutputDialog(shell, variables, meta, pipelineMeta, name);
   }
 
@@ -278,27 +271,20 @@ public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputD
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
 
     connection = XmlHandler.getTagValue(transformNode, STRING_CONNECTION);
     batchSize = XmlHandler.getTagValue(transformNode, STRING_BATCH_SIZE);
     key = XmlHandler.getTagValue(transformNode, STRING_KEY);
-    creatingIndexes =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_CREATE_INDEXES));
+    creatingIndexes = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_CREATE_INDEXES));
     usingCreate = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_USE_CREATE));
-    onlyCreatingRelationships =
-        "Y"
-            .equalsIgnoreCase(
-                XmlHandler.getTagValue(transformNode, STRING_ONLY_CREATE_RELATIONSHIPS));
-    returningGraph =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_RETURNING_GRAPH));
+    onlyCreatingRelationships = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_ONLY_CREATE_RELATIONSHIPS));
+    returningGraph = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, STRING_RETURNING_GRAPH));
     returnGraphField = XmlHandler.getTagValue(transformNode, STRING_RETURN_GRAPH_FIELD);
 
     Node fromNode = XmlHandler.getSubNode(transformNode, STRING_FROM);
 
-    readOnlyFromNode =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(fromNode, STRING_READ_ONLY_FROM_NODE));
+    readOnlyFromNode = "Y".equalsIgnoreCase(XmlHandler.getTagValue(fromNode, STRING_READ_ONLY_FROM_NODE));
 
     Node fromLabelsNode = XmlHandler.getSubNode(fromNode, STRING_LABELS);
     List<Node> fromLabelNodes = XmlHandler.getNodes(fromLabelsNode, STRING_LABEL);
@@ -329,8 +315,7 @@ public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputD
       fromNodeProps[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_VALUE);
       fromNodePropNames[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_NAME);
       fromNodePropTypes[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_TYPE);
-      fromNodePropPrimary[i] =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(propNode, STRING_PROPERTY_PRIMARY));
+      fromNodePropPrimary[i] = "Y".equalsIgnoreCase(XmlHandler.getTagValue(propNode, STRING_PROPERTY_PRIMARY));
     }
 
     Node toNode = XmlHandler.getSubNode(transformNode, STRING_TO);
@@ -367,8 +352,7 @@ public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputD
       toNodeProps[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_VALUE);
       toNodePropNames[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_NAME);
       toNodePropTypes[i] = XmlHandler.getTagValue(propNode, STRING_PROPERTY_TYPE);
-      toNodePropPrimary[i] =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(propNode, STRING_PROPERTY_PRIMARY));
+      toNodePropPrimary[i] = "Y".equalsIgnoreCase(XmlHandler.getTagValue(propNode, STRING_PROPERTY_PRIMARY));
     }
 
     relationship = XmlHandler.getTagValue(transformNode, STRING_RELATIONSHIP);
@@ -403,46 +387,24 @@ public class Neo4JOutputMeta extends BaseTransformMeta<Neo4JOutput, Neo4JOutputD
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              "Not receiving any fields from previous transform!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, "Not receiving any fields from previous transform!", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is connected to previous one, receiving " + prev.size() + " fields",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is connected to previous one, receiving " + prev.size() + " fields", transformMeta);
       remarks.add(cr);
     }
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is receiving info from other transform.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is receiving info from other transform.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "No input received from other transform!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "No input received from other transform!", transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (returningGraph) {
 

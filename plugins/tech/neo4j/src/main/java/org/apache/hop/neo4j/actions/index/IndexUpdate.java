@@ -36,12 +36,7 @@ public class IndexUpdate {
 
   public IndexUpdate() {}
 
-  public IndexUpdate(
-      UpdateType type,
-      ObjectType objectType,
-      String indexName,
-      String objectName,
-      String objectProperties) {
+  public IndexUpdate(UpdateType type, ObjectType objectType, String indexName, String objectName, String objectProperties) {
     this.type = type;
     this.objectType = objectType;
     this.indexName = indexName;

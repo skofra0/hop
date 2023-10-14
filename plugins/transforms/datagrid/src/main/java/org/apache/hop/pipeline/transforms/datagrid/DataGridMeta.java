@@ -41,16 +41,10 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/datagrid.html")
 public class DataGridMeta extends BaseTransformMeta<DataGrid, DataGridData> {
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupDescription = "DataGridDialog.Meta.Label")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupDescription = "DataGridDialog.Meta.Label")
   private List<DataGridFieldMeta> dataGridFields;
 
-  @HopMetadataProperty(
-      groupKey = "data",
-      key = "line",
-      injectionGroupDescription = "DataGridDialog.Data.Label")
+  @HopMetadataProperty(groupKey = "data", key = "line", injectionGroupDescription = "DataGridDialog.Data.Label")
   private List<DataGridDataMeta> dataLines;
 
   public DataGridMeta() {
@@ -85,13 +79,7 @@ public class DataGridMeta extends BaseTransformMeta<DataGrid, DataGridData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < dataGridFields.size(); i++) {
       try {
@@ -112,8 +100,7 @@ public class DataGridMeta extends BaseTransformMeta<DataGrid, DataGridData> {
           rowMeta.addValueMeta(v);
         }
       } catch (Exception e) {
-        throw new HopTransformException(
-            "Unable to create value of type " + dataGridFields.get(i).getType(), e);
+        throw new HopTransformException("Unable to create value of type " + dataGridFields.get(i).getType(), e);
       }
     }
   }

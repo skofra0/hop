@@ -62,343 +62,340 @@ public class HypersonicDatabaseMetaTest {
     assertEquals("jdbc:hsqldb:WIBBLE", nativeMeta.getURL("", "", "WIBBLE"));
     assertEquals("jdbc:hsqldb:hsql://FOO:BAR/WIBBLE", nativeMeta.getURL("FOO", "BAR", "WIBBLE"));
     assertFalse(nativeMeta.isSupportsBitmapIndex());
-    assertEquals(
-        "http://hsqldb.sourceforge.net/doc/guide/ch04.html#N109DA",
-        nativeMeta.getExtraOptionsHelpText());
+    assertEquals("http://hsqldb.sourceforge.net/doc/guide/ch04.html#N109DA", nativeMeta.getExtraOptionsHelpText());
     assertArrayEquals(
         new String[] {
-          "ADD",
-          "ALL",
-          "ALLOCATE",
-          "ALTER",
-          "AND",
-          "ANY",
-          "ARE",
-          "ARRAY",
-          "AS",
-          "ASENSITIVE",
-          "ASYMMETRIC",
-          "AT",
-          "ATOMIC",
-          "AUTHORIZATION",
-          "BEGIN",
-          "BETWEEN",
-          "BIGINT",
-          "BINARY",
-          "BLOB",
-          "BOOLEAN",
-          "BOTH",
-          "BY",
-          "CALL",
-          "CALLED",
-          "CASCADED",
-          "CASE",
-          "CAST",
-          "CHAR",
-          "CHARACTER",
-          "CHECK",
-          "CLOB",
-          "CLOSE",
-          "COLLATE",
-          "COLUMN",
-          "COMMIT",
-          "CONDIITON",
-          "CONNECT",
-          "CONSTRAINT",
-          "CONTINUE",
-          "CORRESPONDING",
-          "CREATE",
-          "CROSS",
-          "CUBE",
-          "CURRENT",
-          "CURRENT_DATE",
-          "CURRENT_DEFAULT_TRANSFORM_GROUP",
-          "CURRENT_PATH",
-          "CURRENT_ROLE",
-          "CURRENT_TIME",
-          "CURRENT_TIMESTAMP",
-          "CURRENT_TRANSFORM_GROUP_FOR_TYPE",
-          "CURRENT_USER",
-          "CURSOR",
-          "CYCLE",
-          "DATE",
-          "DAY",
-          "DEALLOCATE",
-          "DEC",
-          "DECIMAL",
-          "DECLARE",
-          "DEFAULT",
-          "DELETE",
-          "DEREF",
-          "DESCRIBE",
-          "DETERMINISTIC",
-          "DISCONNECT",
-          "DISTINCT",
-          "DO",
-          "DOUBLE",
-          "DROP",
-          "DYNAMIC",
-          "EACH",
-          "ELEMENT",
-          "ELSE",
-          "ELSEIF",
-          "END",
-          "ESCAPE",
-          "EXCEPT",
-          "EXEC",
-          "EXECUTE",
-          "EXISTS",
-          "EXIT",
-          "EXTERNAL",
-          "FALSE",
-          "FETCH",
-          "FILTER",
-          "FLOAT",
-          "FOR",
-          "FOREIGN",
-          "FREE",
-          "FROM",
-          "FULL",
-          "FUNCTION",
-          "GET",
-          "GLOBAL",
-          "GRANT",
-          "GROUP",
-          "GROUPING",
-          "HANDLER",
-          "HAVING",
-          "HEADER",
-          "HOLD",
-          "HOUR",
-          "IDENTITY",
-          "IF",
-          "IMMEDIATE",
-          "IN",
-          "INDICATOR",
-          "INNER",
-          "INOUT",
-          "INPUT",
-          "INSENSITIVE",
-          "INSERT",
-          "INT",
-          "INTEGER",
-          "INTERSECT",
-          "INTERVAL",
-          "INTO",
-          "IS",
-          "ITERATE",
-          "JOIN",
-          "LANGUAGE",
-          "LARGE",
-          "LATERAL",
-          "LEADING",
-          "LEAVE",
-          "LEFT",
-          "LIKE",
-          "LOCAL",
-          "LOCALTIME",
-          "LOCALTIMESTAMP",
-          "LOOP",
-          "MATCH",
-          "MEMBER",
-          "METHOD",
-          "MINUTE",
-          "MODIFIES",
-          "MODULE",
-          "MONTH",
-          "MULTISET",
-          "NATIONAL",
-          "NAUTRAL",
-          "NCHAR",
-          "NCLOB",
-          "NEW",
-          "NEXT",
-          "NO",
-          "NONE",
-          "NOT",
-          "NULL",
-          "NUMERIC",
-          "OF",
-          "OLD",
-          "ON",
-          "ONLY",
-          "OPEN",
-          "OR",
-          "ORDER",
-          "OUT",
-          "OUTER",
-          "OUTPUT",
-          "OVER",
-          "OVERLAPS",
-          "PARAMETER",
-          "PARTITION",
-          "PRECISION",
-          "PREPARE",
-          "PRIMARY",
-          "PROCEDURE",
-          "RANGE",
-          "READS",
-          "REAL",
-          "RECURSIVE",
-          "REF",
-          "REFERENCES",
-          "REFERENCING",
-          "RELEASE",
-          "REPEAT",
-          "RESIGNAL",
-          "RESULT",
-          "RETURN",
-          "RETURNS",
-          "REVOKE",
-          "RIGHT",
-          "ROLLBACK",
-          "ROLLUP",
-          "ROW",
-          "ROWS",
-          "SAVEPOINT",
-          "SCOPE",
-          "SCROLL",
-          "SECOND",
-          "SEARCH",
-          "SELECT",
-          "SENSITIVE",
-          "SESSION_USER",
-          "SET",
-          "SIGNAL",
-          "SIMILAR",
-          "SMALLINT",
-          "SOME",
-          "SPECIFIC",
-          "SPECIFICTYPE",
-          "SQL",
-          "SQLEXCEPTION",
-          "SQLSTATE",
-          "SQLWARNING",
-          "START",
-          "STATIC",
-          "SUBMULTISET",
-          "SYMMETRIC",
-          "SYSTEM",
-          "SYSTEM_USER",
-          "TABLE",
-          "TABLESAMPLE",
-          "THEN",
-          "TIME",
-          "TIMESTAMP",
-          "TIMEZONE_HOUR",
-          "TIMEZONE_MINUTE",
-          "TO",
-          "TRAILING",
-          "TRANSLATION",
-          "TREAT",
-          "TRIGGER",
-          "TRUE",
-          "UNDO",
-          "UNION",
-          "UNIQUE",
-          "UNKNOWN",
-          "UNNEST",
-          "UNTIL",
-          "UPDATE",
-          "USER",
-          "USING",
-          "VALUE",
-          "VALUES",
-          "VARCHAR",
-          "VARYING",
-          "WHEN",
-          "WHENEVER",
-          "WHERE",
-          "WHILE",
-          "WINDOW",
-          "WITH",
-          "WITHIN",
-          "WITHOUT",
-          "YEAR",
-          "ALWAYS",
-          "ACTION",
-          "ADMIN",
-          "AFTER",
-          "ALIAS",
-          "ASC",
-          "AUTOCOMMIT",
-          "AVG",
-          "BACKUP",
-          "BEFORE",
-          "CACHED",
-          "CASCADE",
-          "CASEWHEN",
-          "CHECKPOINT",
-          "CLASS",
-          "COALESCE",
-          "COLLATION",
-          "COMPACT",
-          "COMPRESSED",
-          "CONCAT",
-          "CONVERT",
-          "COUNT",
-          "DATABASE",
-          "DEFRAG",
-          "DESC",
-          "EVERY",
-          "EXPLAIN",
-          "EXTRACT",
-          "GENERATED",
-          "IFNULL",
-          "IGNORECASE",
-          "IMMEDIATELY",
-          "INCREMENT",
-          "INDEX",
-          "KEY",
-          "LIMIT",
-          "LOGSIZE",
-          "MAX",
-          "MAXROWS",
-          "MEMORY",
-          "MERGE",
-          "MIN",
-          "MINUS",
-          "NOW",
-          "NOWAIT",
-          "NULLIF",
-          "NVL",
-          "OFFSET",
-          "PASSWORD",
-          "SCHEMA",
-          "PLAN",
-          "PRESERVE",
-          "POSITION",
-          "PROPERTY",
-          "PUBLIC",
-          "QUEUE",
-          "READONLY",
-          "REFERENTIAL_INTEGRITY",
-          "RENAME",
-          "RESTART",
-          "RESTRICT",
-          "ROLE",
-          "SCRIPT",
-          "SCRIPTFORMAT",
-          "SEQUENCE",
-          "SHUTDOWN",
-          "SOURCE",
-          "STDDEV_POP",
-          "STDDEV_SAMP",
-          "SUBSTRING",
-          "SUM",
-          "SYSDATE",
-          "TEMP",
-          "TEMPORARY",
-          "TEXT",
-          "TODAY",
-          "TOP",
-          "TRIM",
-          "VAR_POP",
-          "VAR_SAMP",
-          "VIEW",
-          "WORK",
-          "WRITE_DELAY"
-        },
+            "ADD",
+            "ALL",
+            "ALLOCATE",
+            "ALTER",
+            "AND",
+            "ANY",
+            "ARE",
+            "ARRAY",
+            "AS",
+            "ASENSITIVE",
+            "ASYMMETRIC",
+            "AT",
+            "ATOMIC",
+            "AUTHORIZATION",
+            "BEGIN",
+            "BETWEEN",
+            "BIGINT",
+            "BINARY",
+            "BLOB",
+            "BOOLEAN",
+            "BOTH",
+            "BY",
+            "CALL",
+            "CALLED",
+            "CASCADED",
+            "CASE",
+            "CAST",
+            "CHAR",
+            "CHARACTER",
+            "CHECK",
+            "CLOB",
+            "CLOSE",
+            "COLLATE",
+            "COLUMN",
+            "COMMIT",
+            "CONDIITON",
+            "CONNECT",
+            "CONSTRAINT",
+            "CONTINUE",
+            "CORRESPONDING",
+            "CREATE",
+            "CROSS",
+            "CUBE",
+            "CURRENT",
+            "CURRENT_DATE",
+            "CURRENT_DEFAULT_TRANSFORM_GROUP",
+            "CURRENT_PATH",
+            "CURRENT_ROLE",
+            "CURRENT_TIME",
+            "CURRENT_TIMESTAMP",
+            "CURRENT_TRANSFORM_GROUP_FOR_TYPE",
+            "CURRENT_USER",
+            "CURSOR",
+            "CYCLE",
+            "DATE",
+            "DAY",
+            "DEALLOCATE",
+            "DEC",
+            "DECIMAL",
+            "DECLARE",
+            "DEFAULT",
+            "DELETE",
+            "DEREF",
+            "DESCRIBE",
+            "DETERMINISTIC",
+            "DISCONNECT",
+            "DISTINCT",
+            "DO",
+            "DOUBLE",
+            "DROP",
+            "DYNAMIC",
+            "EACH",
+            "ELEMENT",
+            "ELSE",
+            "ELSEIF",
+            "END",
+            "ESCAPE",
+            "EXCEPT",
+            "EXEC",
+            "EXECUTE",
+            "EXISTS",
+            "EXIT",
+            "EXTERNAL",
+            "FALSE",
+            "FETCH",
+            "FILTER",
+            "FLOAT",
+            "FOR",
+            "FOREIGN",
+            "FREE",
+            "FROM",
+            "FULL",
+            "FUNCTION",
+            "GET",
+            "GLOBAL",
+            "GRANT",
+            "GROUP",
+            "GROUPING",
+            "HANDLER",
+            "HAVING",
+            "HEADER",
+            "HOLD",
+            "HOUR",
+            "IDENTITY",
+            "IF",
+            "IMMEDIATE",
+            "IN",
+            "INDICATOR",
+            "INNER",
+            "INOUT",
+            "INPUT",
+            "INSENSITIVE",
+            "INSERT",
+            "INT",
+            "INTEGER",
+            "INTERSECT",
+            "INTERVAL",
+            "INTO",
+            "IS",
+            "ITERATE",
+            "JOIN",
+            "LANGUAGE",
+            "LARGE",
+            "LATERAL",
+            "LEADING",
+            "LEAVE",
+            "LEFT",
+            "LIKE",
+            "LOCAL",
+            "LOCALTIME",
+            "LOCALTIMESTAMP",
+            "LOOP",
+            "MATCH",
+            "MEMBER",
+            "METHOD",
+            "MINUTE",
+            "MODIFIES",
+            "MODULE",
+            "MONTH",
+            "MULTISET",
+            "NATIONAL",
+            "NAUTRAL",
+            "NCHAR",
+            "NCLOB",
+            "NEW",
+            "NEXT",
+            "NO",
+            "NONE",
+            "NOT",
+            "NULL",
+            "NUMERIC",
+            "OF",
+            "OLD",
+            "ON",
+            "ONLY",
+            "OPEN",
+            "OR",
+            "ORDER",
+            "OUT",
+            "OUTER",
+            "OUTPUT",
+            "OVER",
+            "OVERLAPS",
+            "PARAMETER",
+            "PARTITION",
+            "PRECISION",
+            "PREPARE",
+            "PRIMARY",
+            "PROCEDURE",
+            "RANGE",
+            "READS",
+            "REAL",
+            "RECURSIVE",
+            "REF",
+            "REFERENCES",
+            "REFERENCING",
+            "RELEASE",
+            "REPEAT",
+            "RESIGNAL",
+            "RESULT",
+            "RETURN",
+            "RETURNS",
+            "REVOKE",
+            "RIGHT",
+            "ROLLBACK",
+            "ROLLUP",
+            "ROW",
+            "ROWS",
+            "SAVEPOINT",
+            "SCOPE",
+            "SCROLL",
+            "SECOND",
+            "SEARCH",
+            "SELECT",
+            "SENSITIVE",
+            "SESSION_USER",
+            "SET",
+            "SIGNAL",
+            "SIMILAR",
+            "SMALLINT",
+            "SOME",
+            "SPECIFIC",
+            "SPECIFICTYPE",
+            "SQL",
+            "SQLEXCEPTION",
+            "SQLSTATE",
+            "SQLWARNING",
+            "START",
+            "STATIC",
+            "SUBMULTISET",
+            "SYMMETRIC",
+            "SYSTEM",
+            "SYSTEM_USER",
+            "TABLE",
+            "TABLESAMPLE",
+            "THEN",
+            "TIME",
+            "TIMESTAMP",
+            "TIMEZONE_HOUR",
+            "TIMEZONE_MINUTE",
+            "TO",
+            "TRAILING",
+            "TRANSLATION",
+            "TREAT",
+            "TRIGGER",
+            "TRUE",
+            "UNDO",
+            "UNION",
+            "UNIQUE",
+            "UNKNOWN",
+            "UNNEST",
+            "UNTIL",
+            "UPDATE",
+            "USER",
+            "USING",
+            "VALUE",
+            "VALUES",
+            "VARCHAR",
+            "VARYING",
+            "WHEN",
+            "WHENEVER",
+            "WHERE",
+            "WHILE",
+            "WINDOW",
+            "WITH",
+            "WITHIN",
+            "WITHOUT",
+            "YEAR",
+            "ALWAYS",
+            "ACTION",
+            "ADMIN",
+            "AFTER",
+            "ALIAS",
+            "ASC",
+            "AUTOCOMMIT",
+            "AVG",
+            "BACKUP",
+            "BEFORE",
+            "CACHED",
+            "CASCADE",
+            "CASEWHEN",
+            "CHECKPOINT",
+            "CLASS",
+            "COALESCE",
+            "COLLATION",
+            "COMPACT",
+            "COMPRESSED",
+            "CONCAT",
+            "CONVERT",
+            "COUNT",
+            "DATABASE",
+            "DEFRAG",
+            "DESC",
+            "EVERY",
+            "EXPLAIN",
+            "EXTRACT",
+            "GENERATED",
+            "IFNULL",
+            "IGNORECASE",
+            "IMMEDIATELY",
+            "INCREMENT",
+            "INDEX",
+            "KEY",
+            "LIMIT",
+            "LOGSIZE",
+            "MAX",
+            "MAXROWS",
+            "MEMORY",
+            "MERGE",
+            "MIN",
+            "MINUS",
+            "NOW",
+            "NOWAIT",
+            "NULLIF",
+            "NVL",
+            "OFFSET",
+            "PASSWORD",
+            "SCHEMA",
+            "PLAN",
+            "PRESERVE",
+            "POSITION",
+            "PROPERTY",
+            "PUBLIC",
+            "QUEUE",
+            "READONLY",
+            "REFERENTIAL_INTEGRITY",
+            "RENAME",
+            "RESTART",
+            "RESTRICT",
+            "ROLE",
+            "SCRIPT",
+            "SCRIPTFORMAT",
+            "SEQUENCE",
+            "SHUTDOWN",
+            "SOURCE",
+            "STDDEV_POP",
+            "STDDEV_SAMP",
+            "SUBSTRING",
+            "SUM",
+            "SYSDATE",
+            "TEMP",
+            "TEMPORARY",
+            "TEXT",
+            "TODAY",
+            "TOP",
+            "TRIM",
+            "VAR_POP",
+            "VAR_SAMP",
+            "VIEW",
+            "WORK",
+            "WRITE_DELAY"},
         nativeMeta.getReservedWords());
 
     assertTrue(nativeMeta.isSupportsSequences());
@@ -413,170 +410,77 @@ public class HypersonicDatabaseMetaTest {
     assertEquals("SELECT * FROM FOO", nativeMeta.getSqlQueryFields("FOO"));
     assertEquals("SELECT 1 FROM FOO", nativeMeta.getSqlTableExists("FOO"));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR CHAR(1)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE PRECISION", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR INTEGER", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(10, 3)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(10, 3)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(21, 4)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
 
     assertEquals(
-        "ALTER TABLE FOO ADD BAR CHAR(1)",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+        "ALTER TABLE FOO ADD BAR LONGVARCHAR", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR VARCHAR(15)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, -7), "", false, "", false)); // Bug here - invalid SQL
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE PRECISION",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR INTEGER",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(10, 3)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(10, 3)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(21, 4)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR LONGVARCHAR",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0),
-            "",
-            false,
-            "",
-            false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR VARCHAR(15)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaNumber("BAR", 10, -7),
-            "",
-            false,
-            "",
-            false)); // Bug here - invalid SQL
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(22, 7)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE PRECISION",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(5, 7)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR  UNKNOWN",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(22, 7)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE PRECISION", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(5, 7)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR  UNKNOWN", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
 
     assertEquals(
         "ALTER TABLE FOO ADD BAR BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 0, INCREMENT BY 1) PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
+        nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
 
     assertEquals(
         "ALTER TABLE FOO ADD BAR BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 0, INCREMENT BY 1) PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
+        nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
 
     String lineSep = System.getProperty("line.separator");
-    assertEquals(
-        "ALTER TABLE FOO DROP BAR" + lineSep,
-        nativeMeta.getDropColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO DROP BAR" + lineSep, nativeMeta.getDropColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ALTER COLUMN BAR VARCHAR(15)",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO ALTER COLUMN BAR VARCHAR(15)", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ALTER COLUMN BAR VARCHAR()",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR"), "", false, "", true)); // I think this is a bug ..
+    assertEquals("ALTER TABLE FOO ALTER COLUMN BAR VARCHAR()", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", true)); // I think this is a
+                                                                                                                                                             // bug ..
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR SMALLINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR SMALLINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
 
     assertEquals(
         "ALTER TABLE FOO ADD BAR BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 0, INCREMENT BY 1) PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
+        nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR NUMERIC(22, 0)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR NUMERIC(22, 0)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR VARCHAR(1)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR VARCHAR(1)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR LONGVARCHAR",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR  UNKNOWN",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR LONGVARCHAR", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR  UNKNOWN", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
 
-    assertEquals(
-        "insert into FOO(FOOKEY, FOOVERSION) values (0, 1)",
-        nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
+    assertEquals("insert into FOO(FOOKEY, FOOVERSION) values (0, 1)", nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
   }
 
   @Test
   public void testGetSqlSequenceExists() throws Exception {
     String sql = hypersonicDatabaseMeta.getSqlSequenceExists(sequenceName);
-    String expectedSql =
-        "SELECT * FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
+    String expectedSql = "SELECT * FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
     assertEquals(expectedSql, sql);
     sql = hypersonicDatabaseMetaQouting.getSqlSequenceExists(sequenceName);
     assertEquals(expectedSql, sql);
@@ -587,8 +491,7 @@ public class HypersonicDatabaseMetaTest {
   @Test
   public void testGetSqlCurrentSequenceValue() throws Exception {
     String sql = hypersonicDatabaseMeta.getSqlCurrentSequenceValue(sequenceName);
-    String expectedSql =
-        "SELECT seQuence.currval FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
+    String expectedSql = "SELECT seQuence.currval FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
     assertEquals(expectedSql, sql);
     sql = hypersonicDatabaseMetaQouting.getSqlCurrentSequenceValue(sequenceName);
     assertEquals(expectedSql, sql);
@@ -599,8 +502,7 @@ public class HypersonicDatabaseMetaTest {
   @Test
   public void testGetSqlNextSequenceValue() throws Exception {
     String sql = hypersonicDatabaseMeta.getSqlNextSequenceValue(sequenceName);
-    String expectedSql =
-        "SELECT NEXT VALUE FOR seQuence FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
+    String expectedSql = "SELECT NEXT VALUE FOR seQuence FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_NAME = 'seQuence'";
     assertEquals(expectedSql, sql);
     sql = hypersonicDatabaseMetaQouting.getSqlNextSequenceValue(sequenceName);
     assertEquals(expectedSql, sql);

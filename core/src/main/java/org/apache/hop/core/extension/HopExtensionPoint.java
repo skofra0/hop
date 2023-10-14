@@ -25,8 +25,7 @@ public enum HopExtensionPoint {
   PipelinePrepareExecution("A Pipeline begins to prepare execution"),
   PipelineStartThreads("A Pipeline begins to start"),
   PipelineStart("A Pipeline has started"),
-  PipelineHeartbeat(
-      "A signal sent at regular intervals to indicate that the Pipeline is still active"),
+  PipelineHeartbeat("A signal sent at regular intervals to indicate that the Pipeline is still active"),
   PipelineFinish("A Pipeline finishes"),
   PipelineCompleted("A pipeline has completed after all finished listeners were fired"),
   PipelineMetaLoaded("Pipeline metadata was loaded"),
@@ -50,8 +49,7 @@ public enum HopExtensionPoint {
   PipelineBeforeDeleteTransforms("Pipeline transforms about to be deleted"),
 
   HopGuiPipelineMetaExecutionStart("Hop GUI initiates the execution of a pipeline (PipelineMeta)"),
-  HopGuiPipelineExecutionConfiguration(
-      "Right before Hop UI configuration of Pipeline to be executed takes place"),
+  HopGuiPipelineExecutionConfiguration("Right before Hop UI configuration of Pipeline to be executed takes place"),
   HopGuiPipelineBeforeStart("Right before the Pipeline is started (Pipeline)"),
 
   HopGuiWorkflowBeforeStart("Right before the workflow is started"),
@@ -80,13 +78,11 @@ public enum HopExtensionPoint {
   WorkflowAfterClose("A workflow file was closed"),
   WorkflowChanged("A workflow has been changed"),
   WorkflowGraphMouseDoubleClick("A left or right button was double-clicked in a workflow"),
-  WorkflowDialogShowRetrieveLogTableFields(
-      "Show or retrieve the contents of the fields of a log channel on the log channel composite"),
+  WorkflowDialogShowRetrieveLogTableFields("Show or retrieve the contents of the fields of a log channel on the log channel composite"),
 
   WorkflowMetaLoaded("Workflow metadata was loaded"),
   HopGuiWorkflowMetaExecutionStart("Hop UI initiates the execution of a workflow (WorkflowMeta)"),
-  HopGuiWorkflowExecutionConfiguration(
-      "Right before Hop UI configuration of workflow to be executed takes place"),
+  HopGuiWorkflowExecutionConfiguration("Right before Hop UI configuration of workflow to be executed takes place"),
 
   DatabaseCreated("A database connection was created"),
   DatabaseConnected("A connection to a database was made"),
@@ -106,26 +102,21 @@ public enum HopExtensionPoint {
   HopServerInit("Right before the Hop webserver starts"),
   HopServerStartup("Right after the Hop webserver has started and is fully functional"),
   HopServerShutdown("Right before the Hop webserver will shut down"),
-  HopServerCalculateFilename(
-      "Right after the server configuration filename is determined, before it is used"),
+  HopServerCalculateFilename("Right after the server configuration filename is determined, before it is used"),
 
-  HopGuiFileOpenDialog(
-      "Allows you to modify the file dialog before it's shown. If you want to show your own, set doIt to false ("),
+  HopGuiFileOpenDialog("Allows you to modify the file dialog before it's shown. If you want to show your own, set doIt to false ("),
   HopGuiNewPipelineTab("Determine the tab name of a pipeline (HopGuiPipelineGraph)"),
   HopGuiNewWorkflowTab("Determine the tab name of a workflow (HopGuiJobGraph)"),
 
-  HopGuiMetadataObjectCreateBeforeDialog(
-      "A new metadata object is created. Before showing the dialog"),
+  HopGuiMetadataObjectCreateBeforeDialog("A new metadata object is created. Before showing the dialog"),
   HopGuiMetadataObjectCreated("A new metadata object is created"),
   HopGuiMetadataObjectUpdated("A metadata object is updated"),
   HopGuiMetadataObjectDeleted("A metadata object is deleted"),
 
   HopGuiGetSearchablesLocations("Get a list of searchables locations (List<ISearchablesLocation>)"),
 
-  HopGuiPipelineGraphAreaHover(
-      "Mouse is hovering over a drawn area in a pipeline graph (HopGuiTooltipExtension)"),
-  HopGuiWorkflowGraphAreaHover(
-      "Mouse is hovering over a drawn area in a workflow graph (HopGuiTooltipExtension)"),
+  HopGuiPipelineGraphAreaHover("Mouse is hovering over a drawn area in a pipeline graph (HopGuiTooltipExtension)"),
+  HopGuiWorkflowGraphAreaHover("Mouse is hovering over a drawn area in a workflow graph (HopGuiTooltipExtension)"),
 
   HopRunCalculateFilename("Right after the filename is determined, before it is used in any way"),
   HopRunStart("At the start of the HopRun command line, before loading metadata execution"),
@@ -136,8 +127,7 @@ public enum HopExtensionPoint {
 
   GetFieldsExtension("Get Fields dialog"),
 
-  HopEnvironmentAfterInit(
-      "Called after HopEnvironment.init() was called.  It allows you to add your own plugins and so on at this time."),
+  HopEnvironmentAfterInit("Called after HopEnvironment.init() was called.  It allows you to add your own plugins and so on at this time."),
 
   HopGuiProjectAfterEnabled("Called after a project is enabled in Hop GUI"),
 
@@ -147,8 +137,7 @@ public enum HopExtensionPoint {
   HopImportStart("Executed at the start of the 'hop-import' command line tool"),
   HopImportEnd("Executed at the end of the 'hop-import' command line tool"),
 
-  HopRestServiceStart("Called during Hop REST services startup"),
-  ;
+  HopRestServiceStart("Called during Hop REST services startup"),;
 
   public String id;
 

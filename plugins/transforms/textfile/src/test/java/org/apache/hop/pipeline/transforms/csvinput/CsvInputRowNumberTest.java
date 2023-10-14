@@ -30,16 +30,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CsvInputRowNumberTest extends CsvInputUnitTestBase {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private CsvInput csvInput;
   private TransformMockHelper<CsvInputMeta, CsvInputData> transformMockHelper;
 
   @Before
   public void setUp() throws Exception {
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputRowNumberTest");
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputRowNumberTest");
   }
 
   @After
@@ -60,14 +59,7 @@ public class CsvInputRowNumberTest extends CsvInputUnitTestBase {
   public void doTest(File file) throws Exception {
     CsvInputData data = new CsvInputData();
     CsvInputMeta meta = createMeta(file, createInputFileFields("a", "b"));
-    csvInput =
-        new CsvInput(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
 
     List<Object[]> actual;
     try {
@@ -77,8 +69,7 @@ public class CsvInputRowNumberTest extends CsvInputUnitTestBase {
       csvInput.dispose();
     }
 
-    List<Object[]> expected =
-        Arrays.asList(new Object[] {"a", "b", 1L}, new Object[] {"a", null, 2L});
+    List<Object[]> expected = Arrays.asList(new Object[] {"a", "b", 1L}, new Object[] {"a", null, 2L});
     PipelineTestingUtil.assertResult(expected, actual);
   }
 

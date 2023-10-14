@@ -44,13 +44,7 @@ import java.util.Map;
  */
 public class CassandraOutput extends BaseTransform<CassandraOutputMeta, CassandraOutputData> {
 
-  public CassandraOutput(
-      TransformMeta transformMeta,
-      CassandraOutputMeta meta,
-      CassandraOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CassandraOutput(TransformMeta transformMeta, CassandraOutputMeta meta, CassandraOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
 
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -102,11 +96,9 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
     if (StringUtils.isEmpty(connectionName)) {
       throw new HopException("Please specify a Cassandra connection to use");
     }
-    CassandraConnection cassandraConnection =
-        metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
+    CassandraConnection cassandraConnection = metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
     if (cassandraConnection == null) {
-      throw new HopException(
-          "Cassandra connection '" + connectionName + "' couldn't be found in the metadata");
+      throw new HopException("Cassandra connection '" + connectionName + "' couldn't be found in the metadata");
     }
 
     // Verify a number of settings before running...
@@ -126,15 +118,11 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
         try {
           cqlBatchInsertTimeout = Integer.parseInt(batchTimeoutS);
           if (cqlBatchInsertTimeout < 500) {
-            logBasic(
-                BaseMessages.getString(
-                    CassandraOutputMeta.PKG, "CassandraOutput.Message.MinimumTimeout"));
+            logBasic(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.MinimumTimeout"));
             cqlBatchInsertTimeout = 500;
           }
         } catch (NumberFormatException e) {
-          logError(
-              BaseMessages.getString(
-                  CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTimeout"));
+          logError(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTimeout"));
           cqlBatchInsertTimeout = 10000;
         }
       }
@@ -143,28 +131,20 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
         try {
           this.batchSplitFactor = Integer.parseInt(batchSplitFactor);
         } catch (NumberFormatException e) {
-          logError(
-              BaseMessages.getString(
-                  CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseSubBatchSize"));
+          logError(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseSubBatchSize"));
         }
       }
 
       if (Utils.isEmpty(keyspaceName)) {
-        throw new HopException(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Error.MissingConnectionDetails"));
+        throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.MissingConnectionDetails"));
       }
 
       if (Utils.isEmpty(tableName)) {
-        throw new HopException(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Error.NoTableSpecified"));
+        throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.NoTableSpecified"));
       }
 
       if (Utils.isEmpty(keyField)) {
-        throw new HopException(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Error.NoIncomingKeySpecified"));
+        throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.NoIncomingKeySpecified"));
       }
 
       // check that the specified key field is present in the incoming data
@@ -173,19 +153,14 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
       for (String keyPart : keyParts) {
         int index = getInputRowMeta().indexOfValue(keyPart.trim());
         if (index < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  CassandraOutputMeta.PKG, "CassandraOutput.Error.CantFindKeyField", keyField));
+          throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantFindKeyField", keyField));
         }
         keyIndexes.add(index);
       }
 
       logBasic(
           BaseMessages.getString(
-              CassandraOutputMeta.PKG,
-              "CassandraOutput.Message.ConnectingForSchemaOperations",
-              cassandraConnection.getSchemaHostname(),
-              cassandraConnection.getSchemaPort(),
+              CassandraOutputMeta.PKG, "CassandraOutput.Message.ConnectingForSchemaOperations", cassandraConnection.getSchemaHostname(), cassandraConnection.getSchemaPort(),
               keyspaceName));
 
       DriverConnection connection = null;
@@ -200,19 +175,10 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
         if (!keyspace.tableExists(tableName)) {
           if (getMeta().isCreateTable()) {
             // create the table
-            boolean result =
-                keyspace.createTable(
-                    tableName,
-                    getInputRowMeta(),
-                    keyIndexes,
-                    resolve(getMeta().getCreateTableWithClause()),
-                    log);
+            boolean result = keyspace.createTable(tableName, getInputRowMeta(), keyIndexes, resolve(getMeta().getCreateTableWithClause()), log);
 
             if (!result) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      CassandraOutputMeta.PKG,
-                      "CassandraOutput.Error.NeedAtLeastOneFieldAppartFromKey"));
+              throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.NeedAtLeastOneFieldAppartFromKey"));
             }
 
             // Get the keyspace again since it's immutable
@@ -220,12 +186,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
             keyspace = connection.getKeyspace(keyspaceName);
 
           } else {
-            throw new HopException(
-                BaseMessages.getString(
-                    CassandraOutputMeta.PKG,
-                    "CassandraOutput.Error.TableDoesNotExist",
-                    tableName,
-                    keyspaceName));
+            throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.TableDoesNotExist", tableName, keyspaceName));
           }
         }
 
@@ -235,9 +196,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
         }
 
         // get the table meta data
-        logBasic(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Message.GettingMetaData", tableName));
+        logBasic(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.GettingMetaData", tableName));
 
         cassandraMeta = keyspace.getTableMetaData(tableName);
 
@@ -249,15 +208,11 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
           try {
             this.batchSize = Integer.parseInt(batchSize);
           } catch (NumberFormatException e) {
-            logError(
-                BaseMessages.getString(
-                    CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseBatchSize"));
+            logError(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseBatchSize"));
             this.batchSize = 100;
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  CassandraOutputMeta.PKG, "CassandraOutput.Error.NoBatchSizeSet"));
+          throw new HopException(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.NoBatchSizeSet"));
         }
 
         // Truncate (remove all data from) table first?
@@ -280,10 +235,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
       openConnection(false);
 
     } catch (Exception ex) {
-      logError(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG, "CassandraOutput.Error.InitializationProblem"),
-          ex);
+      logError(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.InitializationProblem"), ex);
     }
   }
 
@@ -336,12 +288,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
     try {
       doBatch(batch);
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG,
-              "CassandraOutput.Error.CommitFailed",
-              batchInsertCql.toString(),
-              e));
+      logError(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CommitFailed", batchInsertCql.toString(), e));
       throw new HopException(e.fillInStackTrace());
     }
 
@@ -353,16 +300,12 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
   protected void doBatch(List<Object[]> batch) throws Exception {
     // stopped?
     if (isStopped()) {
-      logDebug(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG, "CassandraOutput.Message.StoppedSkippingBatch"));
+      logDebug(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.StoppedSkippingBatch"));
       return;
     }
     // ignore empty batch
     if (batch == null || batch.isEmpty()) {
-      logDebug(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG, "CassandraOutput.Message.SkippingEmptyBatch"));
+      logDebug(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.SkippingEmptyBatch"));
       return;
     }
     // construct CQL/thrift batch and commit
@@ -375,37 +318,21 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
       DriverCqlRowHandler handler = (DriverCqlRowHandler) cqlHandler;
       validateTtlField(handler, options.get(CassandraUtils.BatchOptions.TTL));
       handler.setUnloggedBatch(getMeta().isUseUnloggedBatch());
-      handler.batchInsert(
-          getInputRowMeta(),
-          batch,
-          cassandraMeta,
-          consistencyLevel,
-          getMeta().isInsertFieldsNotInMeta());
+      handler.batchInsert(getInputRowMeta(), batch, cassandraMeta, consistencyLevel, getMeta().isInsertFieldsNotInMeta());
       // commit
       if (data.connection == null) {
         openConnection(false);
       }
 
-      logDetailed(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG,
-              "CassandraOutput.Message.CommittingBatch",
-              tableName,
-              "" + rowsAdded));
+      logDetailed(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.CommittingBatch", tableName, "" + rowsAdded));
     } catch (Exception e) {
       logError(e.getLocalizedMessage(), e);
       setErrors(getErrors() + 1);
       closeConnection(data.connection);
       data.connection = null;
-      logDetailed(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG, "CassandraOutput.Error.FailedToInsertBatch", "" + size),
-          e);
+      logDetailed(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.FailedToInsertBatch", "" + size), e);
 
-      logDetailed(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG,
-              "CassandraOutput.Message.WillNowTrySplittingIntoSubBatches"));
+      logDetailed(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.WillNowTrySplittingIntoSubBatches"));
 
       // is it possible to divide and conquer?
       if (size == 1) {
@@ -450,9 +377,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
       try {
         handler.setTtlSec(Integer.parseInt(ttl));
       } catch (NumberFormatException e) {
-        logDebug(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTTL", ttl));
+        logDebug(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTTL", ttl));
       }
     }
   }
@@ -470,11 +395,9 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
     if (StringUtils.isEmpty(connectionName)) {
       throw new HopException("Please specify a Cassandra connection to use");
     }
-    CassandraConnection cassandraConnection =
-        metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
+    CassandraConnection cassandraConnection = metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
     if (cassandraConnection == null) {
-      throw new HopException(
-          "Cassandra connection '" + connectionName + "' couldn't be found in the metadata");
+      throw new HopException("Cassandra connection '" + connectionName + "' couldn't be found in the metadata");
     }
 
     options = cassandraConnection.getOptionsMap(this);
@@ -484,11 +407,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
     setTTLIfSpecified();
 
     if (options.size() > 0) {
-      logBasic(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG,
-              "CassandraOutput.Message.UsingConnectionOptions",
-              CassandraUtils.optionsToString(options)));
+      logBasic(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.UsingConnectionOptions", CassandraUtils.optionsToString(options)));
     }
 
     // Get the connection to Cassandra
@@ -512,9 +431,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
     DriverConnection connection = null;
 
     try {
-      connection =
-          CassandraUtils.getCassandraConnection(
-              actualHostToUse, Const.toInt(actualPortToUse, -1), localDS, userS, passS, options);
+      connection = CassandraUtils.getCassandraConnection(actualHostToUse, Const.toInt(actualPortToUse, -1), localDS, userS, passS, options);
 
       // set the global connection only if this connection is not being used
       // just for schema changes
@@ -543,9 +460,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
         value = ttlUnit.convertToSeconds((int) value);
         options.put(CassandraUtils.BatchOptions.TTL, "" + value);
       } catch (NumberFormatException e) {
-        logDebug(
-            BaseMessages.getString(
-                CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTTL", ttl));
+        logDebug(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Error.CantParseTTL", ttl));
       }
     }
   }
@@ -563,9 +478,7 @@ public class CassandraOutput extends BaseTransform<CassandraOutputMeta, Cassandr
 
   protected void closeConnection(DriverConnection conn) throws HopException {
     if (conn != null) {
-      logBasic(
-          BaseMessages.getString(
-              CassandraOutputMeta.PKG, "CassandraOutput.Message.ClosingConnection"));
+      logBasic(BaseMessages.getString(CassandraOutputMeta.PKG, "CassandraOutput.Message.ClosingConnection"));
       try {
         conn.close();
       } catch (Exception e) {

@@ -34,22 +34,18 @@ import static org.mockito.Mockito.when;
 public class KerberosInvocationHandlerTest {
   @SuppressWarnings("unchecked")
   @Test
-  public void testInvocationHandlerCallsDoAsWhichCallsDelegate()
-      throws MongoDbException, PrivilegedActionException {
+  public void testInvocationHandlerCallsDoAsWhichCallsDelegate() throws MongoDbException, PrivilegedActionException {
     final MongoClientWrapper wrapper = mock(MongoClientWrapper.class);
     AuthContext authContext = mock(AuthContext.class);
-    MongoClientWrapper wrappedWrapper =
-        KerberosInvocationHandler.wrap(MongoClientWrapper.class, authContext, wrapper);
-    when(authContext.doAs(any(PrivilegedExceptionAction.class)))
-        .thenAnswer(
-            new Answer<Void>() {
+    MongoClientWrapper wrappedWrapper = KerberosInvocationHandler.wrap(MongoClientWrapper.class, authContext, wrapper);
+    when(authContext.doAs(any(PrivilegedExceptionAction.class))).thenAnswer(new Answer<Void>() {
 
-              @Override
-              public Void answer(InvocationOnMock invocation) throws Throwable {
-                wrapper.dispose();
-                return null;
-              }
-            });
+      @Override
+      public Void answer(InvocationOnMock invocation) throws Throwable {
+        wrapper.dispose();
+        return null;
+      }
+    });
     wrappedWrapper.dispose();
     verify(authContext, times(1)).doAs(any(PrivilegedExceptionAction.class));
     verify(wrapper, times(1)).dispose();

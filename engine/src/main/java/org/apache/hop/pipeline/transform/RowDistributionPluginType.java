@@ -70,8 +70,7 @@ public class RowDistributionPluginType extends BasePluginType<RowDistributionPlu
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, RowDistributionPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, RowDistributionPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(RowDistributionPlugin annotation) {

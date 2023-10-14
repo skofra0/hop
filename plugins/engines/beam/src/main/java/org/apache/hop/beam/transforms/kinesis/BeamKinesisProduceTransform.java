@@ -61,18 +61,8 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
     configOptions = new ArrayList<>();
   }
 
-  public BeamKinesisProduceTransform(
-      String transformName,
-      String rowMetaJson,
-      String accessKey,
-      String secretKey,
-      Regions regions,
-      String streamName,
-      String dataField,
-      String dataType,
-      String partitionKeyField,
-      String[] configOptionParameters,
-      String[] configOptionValues) {
+  public BeamKinesisProduceTransform(String transformName, String rowMetaJson, String accessKey, String secretKey, Regions regions, String streamName, String dataField,
+      String dataType, String partitionKeyField, String[] configOptionParameters, String[] configOptionValues) {
     super(transformName);
     // These non-transient privates get serialized to spread across nodes
     //
@@ -87,8 +77,7 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
     this.partitionKey = partitionKeyField;
     this.configOptions = new ArrayList<>();
     for (int i = 0; i < configOptionParameters.length; i++) {
-      this.configOptions.add(
-          new KinesisConfigOption(configOptionParameters[i], configOptionValues[i]));
+      this.configOptions.add(new KinesisConfigOption(configOptionParameters[i], configOptionValues[i]));
     }
   }
 
@@ -106,8 +95,7 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
 
       int messageIndex = rowMeta.indexOfValue(dataField);
       if (messageIndex < 0) {
-        throw new HopException(
-            "Unable to find message field " + dataField + " in input row: " + rowMeta.toString());
+        throw new HopException("Unable to find message field " + dataField + " in input row: " + rowMeta.toString());
       }
 
       if (!"String".equals(dataType)) {
@@ -122,21 +110,12 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
 
       // Convert to PCollection of KV<String, byte[]>
       //
-      PCollection<byte[]> messages =
-          input.apply(
-              ParDo.of(
-                  new HopRowToMessage(
-                      transformName,
-                      rowMetaJson,
-                      messageIndex)));
+      PCollection<byte[]> messages = input.apply(ParDo.of(new HopRowToMessage(transformName, rowMetaJson, messageIndex)));
 
       // Write to Kinesis stream with <String, byte[]>
       //
       KinesisIO.Write write =
-          KinesisIO.write()
-              .withAWSClientsProvider(accessKey, secretKey, regions)
-              .withStreamName(streamName)
-              .withPartitionKey(partitionKey)
+          KinesisIO.write().withAWSClientsProvider(accessKey, secretKey, regions).withStreamName(streamName).withPartitionKey(partitionKey)
               .withProducerProperties(producerProperties);
 
       return messages.apply(write);
@@ -158,10 +137,7 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
     private transient Counter outputCounter;
     private transient Counter readCounter;
 
-    public HopRowToMessage(
-        String transformName,
-        String rowMetaJson,
-        int messageIndex) {
+    public HopRowToMessage(String transformName, String rowMetaJson, int messageIndex) {
       this.transformName = transformName;
       this.rowMetaJson = rowMetaJson;
       this.messageIndex = messageIndex;
@@ -182,8 +158,7 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
         Metrics.counter(Pipeline.METRIC_NAME_INIT, transformName).inc();
       } catch (Exception e) {
         LOG.error("Error in setup of HopRow to kinesis message conversion function", e);
-        throw new RuntimeException(
-            "Error in setup of HopRow to kinesis message conversion function", e);
+        throw new RuntimeException("Error in setup of HopRow to kinesis message conversion function", e);
       }
     }
 
@@ -201,13 +176,7 @@ public class BeamKinesisProduceTransform extends PTransform<PCollection<HopRow>,
         processContext.output(message);
         outputCounter.inc();
       } catch (Exception e) {
-        throw new RuntimeException(
-            "Error converting message to a binary form, value nr "
-                + messageIndex
-                + " ("
-                + valueMeta.getName()
-                + ") in the input row",
-            e);
+        throw new RuntimeException("Error converting message to a binary form, value nr " + messageIndex + " (" + valueMeta.getName() + ") in the input row", e);
       }
     }
   }

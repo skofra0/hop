@@ -46,8 +46,7 @@ public class S3FileNameTest {
 
   @Test
   public void testCreateName() {
-    assertEquals(
-        "s3:///path/to/my/file", fileName.createName("/path/to/my/file", FileType.FILE).getURI());
+    assertEquals("s3:///path/to/my/file", fileName.createName("/path/to/my/file", FileType.FILE).getURI());
   }
 
   @Test
@@ -58,8 +57,7 @@ public class S3FileNameTest {
     String expectedUri = SCHEME + SCHEME_DELIMITER + fooFolder;
     assertEquals(expectedUri, fileName.getURI());
 
-    fileName =
-        new S3FileName(SCHEME, fooBucket, fooBucket + DELIMITER + fooFolder, FileType.FOLDER);
+    fileName = new S3FileName(SCHEME, fooBucket, fooBucket + DELIMITER + fooFolder, FileType.FOLDER);
     expectedUri = SCHEME + SCHEME_DELIMITER + fooBucket + DELIMITER + fooFolder;
     assertEquals(expectedUri, fileName.getURI());
   }

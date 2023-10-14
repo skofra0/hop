@@ -29,37 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "JsonExplorerFileType",
-    name = "JSON File Type",
-    description = "JSON file handling in the explorer perspective",
-    image = "json.svg")
-public class JsonExplorerFileType extends BaseTextExplorerFileType<JsonExplorerFileTypeHandler>
-    implements IExplorerFileType<JsonExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "JsonExplorerFileType", name = "JSON File Type", description = "JSON file handling in the explorer perspective", image = "json.svg")
+public class JsonExplorerFileType extends BaseTextExplorerFileType<JsonExplorerFileTypeHandler> implements IExplorerFileType<JsonExplorerFileTypeHandler> {
 
   public JsonExplorerFileType() {
-    super(
-        "JSON File",
-        ".json",
-        new String[] {"*.json"},
-        new String[] {"JSON files"},
-        FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+    super("JSON File", ".json", new String[] {"*.json"}, new String[] {"JSON files"}, FileTypeCapabilities.getCapabilities(
+        IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
-  public JsonExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public JsonExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new JsonExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

@@ -51,14 +51,12 @@ public class HopServerServlet extends HttpServlet {
   }
 
   @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     doGet(req, resp);
   }
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     String servletPath = req.getPathInfo();
     if (servletPath.endsWith("/")) {
       servletPath = servletPath.substring(0, servletPath.length() - 1);
@@ -100,8 +98,7 @@ public class HopServerServlet extends HttpServlet {
       try {
         registerServlet(loadServlet(plugin));
       } catch (HopPluginException e) {
-        log.logError(
-            "Unable to instantiate plugin for use with HopServerServlet " + plugin.getName());
+        log.logError("Unable to instantiate plugin for use with HopServerServlet " + plugin.getName());
       }
     }
 
@@ -122,45 +119,36 @@ public class HopServerServlet extends HttpServlet {
       } catch (IllegalAccessException e) {
         log.logError("Unable to access configured " + paramName + " of " + className, e);
       } catch (ClassCastException e) {
-        log.logError(
-            "Unable to cast configured "
-                + paramName
-                + " of "
-                + className
-                + " to "
-                + IHopServerPlugin.class,
-            e);
+        log.logError("Unable to cast configured " + paramName + " of " + className + " to " + IHopServerPlugin.class, e);
       }
     }
 
     // Catch servlets as they become available
-    pluginRegistry.addPluginListener(
-        HopServerPluginType.class,
-        new IPluginTypeListener() {
-          @Override
-          public void pluginAdded(Object serviceObject) {
-            try {
-              registerServlet(loadServlet((IPlugin) serviceObject));
-            } catch (HopPluginException e) {
-              log.logError(MessageFormat.format("Unable to load plugin: {0}", serviceObject), e);
-            }
-          }
+    pluginRegistry.addPluginListener(HopServerPluginType.class, new IPluginTypeListener() {
+      @Override
+      public void pluginAdded(Object serviceObject) {
+        try {
+          registerServlet(loadServlet((IPlugin) serviceObject));
+        } catch (HopPluginException e) {
+          log.logError(MessageFormat.format("Unable to load plugin: {0}", serviceObject), e);
+        }
+      }
 
-          @Override
-          public void pluginRemoved(Object serviceObject) {
-            try {
-              String key = getServletKey(loadServlet((IPlugin) serviceObject));
-              hopServerPluginRegistry.remove(key);
-            } catch (HopPluginException e) {
-              log.logError(MessageFormat.format("Unable to load plugin: {0}", serviceObject), e);
-            }
-          }
+      @Override
+      public void pluginRemoved(Object serviceObject) {
+        try {
+          String key = getServletKey(loadServlet((IPlugin) serviceObject));
+          hopServerPluginRegistry.remove(key);
+        } catch (HopPluginException e) {
+          log.logError(MessageFormat.format("Unable to load plugin: {0}", serviceObject), e);
+        }
+      }
 
-          @Override
-          public void pluginChanged(Object serviceObject) {
-            pluginAdded(serviceObject);
-          }
-        });
+      @Override
+      public void pluginChanged(Object serviceObject) {
+        pluginAdded(serviceObject);
+      }
+    });
   }
 
   private IHopServerPlugin loadServlet(IPlugin plugin) throws HopPluginException {

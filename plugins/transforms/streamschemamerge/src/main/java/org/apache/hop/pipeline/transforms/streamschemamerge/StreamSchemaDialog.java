@@ -58,12 +58,7 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
   // text field holding the name of the field to add to the row stream
   private TableView wTransforms;
 
-  public StreamSchemaDialog(
-      Shell parent,
-      IVariables variables,
-      Object in,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public StreamSchemaDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, transformName);
     meta = (StreamSchemaMeta) in;
   }
@@ -72,7 +67,8 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
    * The constructor should simply invoke super() and save the incoming meta object to a local
    * variable, so it can conveniently read and write settings from/to it.
    *
-   * <p>or null if the user cancelled the dialog.
+   * <p>
+   * or null if the user cancelled the dialog.
    */
   @Override
   public String open() {
@@ -95,7 +91,7 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
     ModifyListener lsMod = e -> meta.setChanged();
 
     // ------------------------------------------------------- //
-    // SWT code for building the actual settings dialog        //
+    // SWT code for building the actual settings dialog //
     // ------------------------------------------------------- //
     FormLayout formLayout = new FormLayout();
     formLayout.marginWidth = PropsUi.getFormMargin();
@@ -139,8 +135,7 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
 
     // Table with fields for inputting transform names
     Label wlTransforms = new Label(shell, SWT.NONE);
-    wlTransforms.setText(
-        BaseMessages.getString(PKG, "StreamSchemaTransformDialog.Transforms.Label"));
+    wlTransforms.setText(BaseMessages.getString(PKG, "StreamSchemaTransformDialog.Transforms.Label"));
     PropsUi.setLook(wlTransforms);
     FormData fdlTransforms = new FormData();
     fdlTransforms.left = new FormAttachment(0, 0);
@@ -153,22 +148,9 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
     previousTransforms = pipelineMeta.getPrevTransformNames(transformName);
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamSchemaTransformDialog.TransformName.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            previousTransforms,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "StreamSchemaTransformDialog.TransformName.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, previousTransforms, false);
 
-    wTransforms =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wTransforms = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdTransforms = new FormData();
     fdTransforms.left = new FormAttachment(0, 0);
@@ -260,8 +242,7 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
     if (infoStreams.size() == 0 || inputTransforms.length < infoStreams.size()) {
       if (inputTransforms.length != 0) {
         for (String inputTransform : inputTransforms) {
-          meta.getTransformIOMeta()
-              .addStream(new Stream(IStream.StreamType.INFO, null, "", StreamIcon.INFO, null));
+          meta.getTransformIOMeta().addStream(new Stream(IStream.StreamType.INFO, null, "", StreamIcon.INFO, null));
         }
         infoStreams = meta.getTransformIOMeta().getInfoStreams();
       }
@@ -269,8 +250,7 @@ public class StreamSchemaDialog extends BaseTransformDialog implements ITransfor
       int requiredStreams = inputTransforms.length - infoStreams.size();
 
       for (int i = 0; i < requiredStreams; i++) {
-        meta.getTransformIOMeta()
-            .addStream(new Stream(IStream.StreamType.INFO, null, "", StreamIcon.INFO, null));
+        meta.getTransformIOMeta().addStream(new Stream(IStream.StreamType.INFO, null, "", StreamIcon.INFO, null));
       }
       infoStreams = meta.getTransformIOMeta().getInfoStreams();
     }

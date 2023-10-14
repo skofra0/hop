@@ -89,13 +89,12 @@ public class StreamLookupData extends BaseTransformData implements ITransformDat
     metadataVerifiedIntegerPair = false;
     hasLookupRows = false;
 
-    comparator =
-        (k1, k2) -> {
-          try {
-            return cacheKeyMeta.compare(k1.getKey(), k2.getKey());
-          } catch (HopValueException e) {
-            throw new RuntimeException("Stream Lookup comparator error", e);
-          }
-        };
+    comparator = (k1, k2) -> {
+      try {
+        return cacheKeyMeta.compare(k1.getKey(), k2.getKey());
+      } catch (HopValueException e) {
+        throw new RuntimeException("Stream Lookup comparator error", e);
+      }
+    };
   }
 }

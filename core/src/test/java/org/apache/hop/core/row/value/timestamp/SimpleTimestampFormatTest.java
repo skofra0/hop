@@ -37,11 +37,11 @@ import static org.junit.Assert.assertEquals;
 
 /** User: Dzmitry Stsiapanau Date: 3/17/14 Time: 4:46 PM */
 public class SimpleTimestampFormatTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static Locale formatLocale;
-  private Set<Locale> locales =
-      new HashSet<>(Arrays.asList(Locale.US, Locale.GERMANY, Locale.JAPANESE, Locale.CHINESE));
+  private Set<Locale> locales = new HashSet<>(Arrays.asList(Locale.US, Locale.GERMANY, Locale.JAPANESE, Locale.CHINESE));
   private ResourceBundle tdb;
 
   private static String stringNinePrecision = "2014-03-15 15:30:45.123456789";
@@ -53,8 +53,7 @@ public class SimpleTimestampFormatTest {
   private Timestamp timestampFourPrecision = Timestamp.valueOf(stringFourPrecision);
   private Timestamp timestampThreePrecision = Timestamp.valueOf(stringThreePrecision);
   private Timestamp timestampWithoutPrecision = Timestamp.valueOf(stringWithoutPrecision);
-  private Timestamp timestampWithoutPrecisionWithDot =
-      Timestamp.valueOf(stringWithoutPrecisionWithDot);
+  private Timestamp timestampWithoutPrecisionWithDot = Timestamp.valueOf(stringWithoutPrecisionWithDot);
   private Date dateThreePrecision = new Date(timestampThreePrecision.getTime());
   private Date dateWithoutPrecision = new Date(timestampWithoutPrecision.getTime());
 
@@ -73,9 +72,7 @@ public class SimpleTimestampFormatTest {
   public void testFormat() throws Exception {
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org.apache.hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org.apache.hop/core/row/value/timestamp/messages/testdates", locale);
       checkFormat("HOP.LONG");
       checkFormat("LOCALE.DATE", new SimpleTimestampFormat(new SimpleDateFormat().toPattern()));
       // checkFormat( "LOCALE.TIMESTAMP", new SimpleTimestampFormat( new
@@ -94,38 +91,23 @@ public class SimpleTimestampFormatTest {
   private void checkFormat(String patternName, SimpleTimestampFormat stf) {
     String localeForErrorMSG = Locale.getDefault(Locale.Category.FORMAT).toLanguageTag();
     assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("TIMESTAMP.NINE." + patternName),
-        (stf.format(timestampNinePrecision)));
+        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("TIMESTAMP.NINE." + patternName), (stf.format(timestampNinePrecision)));
     assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("TIMESTAMP.THREE." + patternName),
-        (stf.format(timestampThreePrecision)));
+        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("TIMESTAMP.THREE." + patternName), (stf.format(timestampThreePrecision)));
     assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("TIMESTAMP.ZERO." + patternName),
-        (stf.format(timestampWithoutPrecision)));
+        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("TIMESTAMP.ZERO." + patternName), (stf.format(timestampWithoutPrecision)));
     assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("TIMESTAMP.DOT." + patternName),
+        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("TIMESTAMP.DOT." + patternName),
         (stf.format(timestampWithoutPrecisionWithDot)));
-    assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("DATE.THREE." + patternName),
-        (stf.format(dateThreePrecision)));
-    assertEquals(
-        localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-        tdb.getString("DATE.ZERO." + patternName),
-        (stf.format(dateWithoutPrecision)));
+    assertEquals(localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("DATE.THREE." + patternName), (stf.format(dateThreePrecision)));
+    assertEquals(localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), tdb.getString("DATE.ZERO." + patternName), (stf.format(dateWithoutPrecision)));
   }
 
   @Test
   public void testParse() throws Exception {
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org.apache.hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org.apache.hop/core/row/value/timestamp/messages/testdates", locale);
 
       checkParseHop();
       checkParseHopLong();
@@ -141,15 +123,10 @@ public class SimpleTimestampFormatTest {
     String patternName = "HOP";
     SimpleTimestampFormat stf = new SimpleTimestampFormat(tdb.getString("PATTERN." + patternName));
     String localeForErrorMSG = Locale.getDefault(Locale.Category.FORMAT).toLanguageTag();
-    parseUnit(
-        "TIMESTAMP.NINE." + patternName,
-        stf,
-        localeForErrorMSG,
-        timestampThreePrecision); // ThreePrecision only for Hop
+    parseUnit("TIMESTAMP.NINE." + patternName, stf, localeForErrorMSG, timestampThreePrecision); // ThreePrecision only for Hop
     parseUnit("TIMESTAMP.THREE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.ZERO." + patternName, stf, localeForErrorMSG, timestampWithoutPrecision);
-    parseUnit(
-        "TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
+    parseUnit("TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
     parseUnit("DATE.THREE." + patternName, stf, localeForErrorMSG, dateThreePrecision);
     parseUnit("DATE.ZERO." + patternName, stf, localeForErrorMSG, dateWithoutPrecision);
   }
@@ -158,15 +135,10 @@ public class SimpleTimestampFormatTest {
     String patternName = "HOP.LONG";
     SimpleTimestampFormat stf = new SimpleTimestampFormat(tdb.getString("PATTERN." + patternName));
     String localeForErrorMSG = Locale.getDefault(Locale.Category.FORMAT).toLanguageTag();
-    parseUnit(
-        "TIMESTAMP.NINE." + patternName,
-        stf,
-        localeForErrorMSG,
-        timestampFourPrecision); // FourPrecision only for Hop long
+    parseUnit("TIMESTAMP.NINE." + patternName, stf, localeForErrorMSG, timestampFourPrecision); // FourPrecision only for Hop long
     parseUnit("TIMESTAMP.THREE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.ZERO." + patternName, stf, localeForErrorMSG, timestampWithoutPrecision);
-    parseUnit(
-        "TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
+    parseUnit("TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
     parseUnit("DATE.THREE." + patternName, stf, localeForErrorMSG, dateThreePrecision);
     parseUnit("DATE.ZERO." + patternName, stf, localeForErrorMSG, dateWithoutPrecision);
   }
@@ -178,8 +150,7 @@ public class SimpleTimestampFormatTest {
     parseUnit("TIMESTAMP.NINE." + patternName, stf, localeForErrorMSG, timestampNinePrecision);
     parseUnit("TIMESTAMP.THREE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.ZERO." + patternName, stf, localeForErrorMSG, timestampWithoutPrecision);
-    parseUnit(
-        "TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
+    parseUnit("TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
     parseUnit("DATE.THREE." + patternName, stf, localeForErrorMSG, dateThreePrecision);
     parseUnit("DATE.ZERO." + patternName, stf, localeForErrorMSG, dateWithoutPrecision);
   }
@@ -191,8 +162,7 @@ public class SimpleTimestampFormatTest {
     parseUnit("TIMESTAMP.NINE." + patternName, stf, localeForErrorMSG, timestampNinePrecision);
     parseUnit("TIMESTAMP.THREE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.ZERO." + patternName, stf, localeForErrorMSG, timestampWithoutPrecision);
-    parseUnit(
-        "TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
+    parseUnit("TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
     parseUnit("DATE.THREE." + patternName, stf, localeForErrorMSG, dateThreePrecision);
     parseUnit("DATE.ZERO." + patternName, stf, localeForErrorMSG, dateWithoutPrecision);
   }
@@ -204,25 +174,16 @@ public class SimpleTimestampFormatTest {
     parseUnit("TIMESTAMP.NINE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.THREE." + patternName, stf, localeForErrorMSG, timestampThreePrecision);
     parseUnit("TIMESTAMP.ZERO." + patternName, stf, localeForErrorMSG, timestampWithoutPrecision);
-    parseUnit(
-        "TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
+    parseUnit("TIMESTAMP.DOT." + patternName, stf, localeForErrorMSG, timestampWithoutPrecisionWithDot);
     parseUnit("DATE.THREE." + patternName, stf, localeForErrorMSG, dateThreePrecision);
     parseUnit("DATE.ZERO." + patternName, stf, localeForErrorMSG, dateWithoutPrecision);
   }
 
-  private void parseUnit(
-      String patternName, SimpleTimestampFormat stf, String localeForErrorMSG, Date date)
-      throws ParseException {
+  private void parseUnit(String patternName, SimpleTimestampFormat stf, String localeForErrorMSG, Date date) throws ParseException {
     if (date instanceof Timestamp) {
-      assertEquals(
-          localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-          date,
-          (stf.parse(tdb.getString(patternName))));
+      assertEquals(localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), date, (stf.parse(tdb.getString(patternName))));
     } else {
-      assertEquals(
-          localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(),
-          date,
-          (stf.parse(tdb.getString(patternName))));
+      assertEquals(localeForErrorMSG + "=locale localized pattern= " + stf.toLocalizedPattern(), date, (stf.parse(tdb.getString(patternName))));
     }
   }
 
@@ -231,9 +192,7 @@ public class SimpleTimestampFormatTest {
   public void testToPattern() throws Exception {
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
       String patternExample = tdb.getString("PATTERN.HOP");
       SimpleTimestampFormat stf = new SimpleTimestampFormat(new SimpleDateFormat().toPattern());
       assertEquals(locale.toLanguageTag(), tdb.getString("PATTERN.LOCALE.DATE"), stf.toPattern());
@@ -249,20 +208,12 @@ public class SimpleTimestampFormatTest {
   public void testToLocalizedPattern() throws Exception {
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
       SimpleTimestampFormat stf = new SimpleTimestampFormat(new SimpleDateFormat().toPattern());
-      assertEquals(
-          locale.toLanguageTag(),
-          tdb.getString("PATTERN.LOCALE.COMPILED"),
-          stf.toLocalizedPattern());
+      assertEquals(locale.toLanguageTag(), tdb.getString("PATTERN.LOCALE.COMPILED"), stf.toLocalizedPattern());
       String patternExample = tdb.getString("PATTERN.HOP");
       stf = new SimpleTimestampFormat(patternExample);
-      assertEquals(
-          locale.toLanguageTag(),
-          tdb.getString("PATTERN.LOCALE.COMPILED_DATE"),
-          stf.toLocalizedPattern());
+      assertEquals(locale.toLanguageTag(), tdb.getString("PATTERN.LOCALE.COMPILED_DATE"), stf.toLocalizedPattern());
     }
   }
 
@@ -271,9 +222,7 @@ public class SimpleTimestampFormatTest {
   public void testApplyPattern() throws Exception {
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
       String patternExample = tdb.getString("PATTERN.HOP");
       SimpleTimestampFormat stf = new SimpleTimestampFormat(new SimpleDateFormat().toPattern());
       assertEquals(locale.toLanguageTag(), tdb.getString("PATTERN.LOCALE.DATE"), stf.toPattern());
@@ -288,14 +237,9 @@ public class SimpleTimestampFormatTest {
     SimpleTimestampFormat stf = new SimpleTimestampFormat(new SimpleDateFormat().toPattern());
     for (Locale locale : locales) {
       Locale.setDefault(Locale.Category.FORMAT, locale);
-      tdb =
-          ResourceBundle.getBundle(
-              "org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
+      tdb = ResourceBundle.getBundle("org/apache/hop/core/row/value/timestamp/messages/testdates", locale);
       stf.applyLocalizedPattern(tdb.getString("PATTERN.LOCALE.DEFAULT"));
-      assertEquals(
-          locale.toLanguageTag(),
-          tdb.getString("PATTERN.LOCALE.DEFAULT"),
-          stf.toLocalizedPattern());
+      assertEquals(locale.toLanguageTag(), tdb.getString("PATTERN.LOCALE.DEFAULT"), stf.toLocalizedPattern());
       checkFormat("LOCALE.DEFAULT", stf);
     }
   }

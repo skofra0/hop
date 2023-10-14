@@ -49,15 +49,8 @@ public class WriteToLogMeta extends BaseTransformMeta<WriteToLog, WriteToLogData
   /** by which fields to display? */
   private String[] fieldName;
 
-  public static String[] logLevelCodes = {
-    "log_level_nothing",
-    "log_level_error",
-    "log_level_minimal",
-    "log_level_basic",
-    "log_level_detailed",
-    "log_level_debug",
-    "log_level_rowlevel"
-  };
+  public static String[] logLevelCodes =
+      {"log_level_nothing", "log_level_error", "log_level_minimal", "log_level_basic", "log_level_detailed", "log_level_debug", "log_level_rowlevel"};
 
   private boolean displayHeader;
 
@@ -106,8 +99,7 @@ public class WriteToLogMeta extends BaseTransformMeta<WriteToLog, WriteToLogData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -246,19 +238,10 @@ public class WriteToLogMeta extends BaseTransformMeta<WriteToLog, WriteToLogData
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "WriteToLogMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -273,25 +256,16 @@ public class WriteToLogMeta extends BaseTransformMeta<WriteToLog, WriteToLogData
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.FieldsFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.FieldsFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fieldName.length > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.AllFieldsFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.AllFieldsFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  CheckResult.TYPE_RESULT_WARNING,
-                  BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.NoFieldsEntered"),
-                  transformMeta);
+          cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.NoFieldsEntered"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -299,19 +273,10 @@ public class WriteToLogMeta extends BaseTransformMeta<WriteToLog, WriteToLogData
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "WriteToLogMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "WriteToLogMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

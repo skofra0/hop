@@ -34,7 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SortedMergeMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrips() throws HopException {
@@ -49,22 +50,13 @@ public class SortedMergeMetaTest {
     setterMap.put("ascending", "setAscending");
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
-    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator =
-        new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator = new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
 
     fieldLoadSaveValidatorAttributeMap.put("name", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("ascending", booleanArrayLoadSaveValidator);
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            SortedMergeMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    LoadSaveTester loadSaveTester = new LoadSaveTester(SortedMergeMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }
@@ -77,8 +69,7 @@ public class SortedMergeMetaTest {
 
     try {
       String badXml = sortedMerge.getXml();
-      Assert.fail(
-          "Before calling afterInjectionSynchronization, should have thrown an ArrayIndexOOB");
+      Assert.fail("Before calling afterInjectionSynchronization, should have thrown an ArrayIndexOOB");
     } catch (Exception expected) {
       // Do Nothing
     }

@@ -63,7 +63,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class Vertica5DatabaseMetaTest extends VerticaDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME = "TEST_NAME";
   private static final String LOG_FIELD = "LOG_FIELD";
@@ -73,7 +74,8 @@ public class Vertica5DatabaseMetaTest extends VerticaDatabaseMetaTest {
   private Class<?> PKG = ValueMetaBase.PKG;
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;
@@ -167,13 +169,10 @@ public class Vertica5DatabaseMetaTest extends VerticaDatabaseMetaTest {
 
     when(metaData.getColumnType(varbinaryColumnIndex)).thenReturn(Types.BINARY);
     when(metaData.getPrecision(varbinaryColumnIndex)).thenReturn(expectedVarBinarylength);
-    when(metaData.getColumnDisplaySize(varbinaryColumnIndex))
-        .thenReturn(expectedVarBinarylength * 2);
+    when(metaData.getColumnDisplaySize(varbinaryColumnIndex)).thenReturn(expectedVarBinarylength * 2);
 
     // get value meta for binary type
-    IValueMeta binaryValueMeta =
-        obj.getValueFromSqlType(
-            variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
+    IValueMeta binaryValueMeta = obj.getValueFromSqlType(variables, dbMeta, TEST_NAME, metaData, binaryColumnIndex, false, false);
     assertNotNull(binaryValueMeta);
     assertTrue(TEST_NAME.equals(binaryValueMeta.getName()));
     assertTrue(IValueMeta.TYPE_BINARY == binaryValueMeta.getType());
@@ -181,9 +180,7 @@ public class Vertica5DatabaseMetaTest extends VerticaDatabaseMetaTest {
     assertFalse(binaryValueMeta.isLargeTextField());
 
     // get value meta for varbinary type
-    IValueMeta varbinaryValueMeta =
-        obj.getValueFromSqlType(
-            variables, dbMeta, TEST_NAME, metaData, varbinaryColumnIndex, false, false);
+    IValueMeta varbinaryValueMeta = obj.getValueFromSqlType(variables, dbMeta, TEST_NAME, metaData, varbinaryColumnIndex, false, false);
     assertNotNull(varbinaryValueMeta);
     assertTrue(TEST_NAME.equals(varbinaryValueMeta.getName()));
     assertTrue(IValueMeta.TYPE_BINARY == varbinaryValueMeta.getType());

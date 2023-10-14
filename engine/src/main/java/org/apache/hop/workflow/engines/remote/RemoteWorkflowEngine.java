@@ -74,10 +74,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@WorkflowEnginePlugin(
-    id = "Remote",
-    name = "Hop remote workflow engine",
-    description = "Executes your workflow on a remote hop server")
+@WorkflowEnginePlugin(id = "Remote", name = "Hop remote workflow engine", description = "Executes your workflow on a remote hop server")
 public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<WorkflowMeta> {
 
   private static final Class<?> PKG = Workflow.class; // For Translator
@@ -86,8 +83,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
    * Constant specifying a filename containing XML to inject into a ZIP file created during resource
    * export.
    */
-  public static final String CONFIGURATION_IN_EXPORT_FILENAME =
-      "__workflow_execution_configuration__.xml";
+  public static final String CONFIGURATION_IN_EXPORT_FILENAME = "__workflow_execution_configuration__.xml";
 
   protected WorkflowMeta workflowMeta;
   protected String pluginId;
@@ -120,8 +116,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
   protected Date executionStartDate;
   protected Date executionEndDate;
 
-  protected List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>>
-      workflowFinishedListeners;
+  protected List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners;
   protected List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners;
 
   protected List<IActionListener> actionListeners;
@@ -214,14 +209,11 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
         result = previousResult;
       }
 
-      IWorkflowEngineRunConfiguration engineRunConfiguration =
-          workflowRunConfiguration.getEngineRunConfiguration();
+      IWorkflowEngineRunConfiguration engineRunConfiguration = workflowRunConfiguration.getEngineRunConfiguration();
       if (!(engineRunConfiguration instanceof RemoteWorkflowRunConfiguration)) {
-        throw new HopException(
-            "The remote workflow engine expects a remote workflow configuration");
+        throw new HopException("The remote workflow engine expects a remote workflow configuration");
       }
-      remoteWorkflowRunConfiguration =
-          (RemoteWorkflowRunConfiguration) workflowRunConfiguration.getEngineRunConfiguration();
+      remoteWorkflowRunConfiguration = (RemoteWorkflowRunConfiguration) workflowRunConfiguration.getEngineRunConfiguration();
 
       String hopServerName = resolve(remoteWorkflowRunConfiguration.getHopServerName());
       if (StringUtils.isEmpty(hopServerName)) {
@@ -232,29 +224,20 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
         throw new HopException("No run configuration was specified to the remote workflow with");
       }
       if (metadataProvider == null) {
-        throw new HopException(
-            "The remote workflow engine didn't receive a metadata to load hop server '"
-                + hopServerName
-                + "'");
+        throw new HopException("The remote workflow engine didn't receive a metadata to load hop server '" + hopServerName + "'");
       }
 
-      logChannel.logBasic(
-          "Executing this workflow using the Remote Workflow Engine with run configuration '"
-              + workflowRunConfiguration.getName()
-              + "'");
+      logChannel.logBasic("Executing this workflow using the Remote Workflow Engine with run configuration '" + workflowRunConfiguration.getName() + "'");
 
-      serverPollDelay =
-          Const.toLong(resolve(remoteWorkflowRunConfiguration.getServerPollDelay()), 1000L);
-      serverPollInterval =
-          Const.toLong(resolve(remoteWorkflowRunConfiguration.getServerPollInterval()), 2000L);
+      serverPollDelay = Const.toLong(resolve(remoteWorkflowRunConfiguration.getServerPollDelay()), 1000L);
+      serverPollInterval = Const.toLong(resolve(remoteWorkflowRunConfiguration.getServerPollInterval()), 2000L);
 
       hopServer = metadataProvider.getSerializer(HopServer.class).load(hopServerName);
       if (hopServer == null) {
         throw new HopException("Hop server '" + hopServerName + "' could not be found");
       }
 
-      WorkflowExecutionConfiguration workflowExecutionConfiguration =
-          new WorkflowExecutionConfiguration();
+      WorkflowExecutionConfiguration workflowExecutionConfiguration = new WorkflowExecutionConfiguration();
       workflowExecutionConfiguration.setRunConfiguration(remoteRunConfigurationName);
       if (logLevel != null) {
         workflowExecutionConfiguration.setLogLevel(logLevel);
@@ -312,8 +295,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
       return;
     }
     try {
-      workflowStatus =
-          hopServer.getWorkflowStatus(this, workflowMeta.getName(), containerId, lastLogLineNr);
+      workflowStatus = hopServer.getWorkflowStatus(this, workflowMeta.getName(), containerId, lastLogLineNr);
       lastLogLineNr = workflowStatus.getLastLoggingLineNr();
       if (StringUtils.isNotEmpty(workflowStatus.getLoggingString())) {
         // TODO implement detailed logging and add option to log at all
@@ -337,13 +319,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
       hopServer.stopWorkflow(this, workflowMeta.getName(), containerId);
       getWorkflowStatus();
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Stopping of pipeline '"
-              + workflowMeta.getName()
-              + "' with ID "
-              + containerId
-              + " failed",
-          e);
+      throw new RuntimeException("Stopping of pipeline '" + workflowMeta.getName() + "' with ID " + containerId + " failed", e);
     }
   }
 
@@ -355,11 +331,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
    * @param metadataProvider the metadataProvider
    * @throws HopException the hop exception
    */
-  public void sendToHopServer(
-      IVariables variables,
-      WorkflowMeta workflowMeta,
-      WorkflowExecutionConfiguration executionConfiguration,
-      IHopMetadataProvider metadataProvider)
+  public void sendToHopServer(IVariables variables, WorkflowMeta workflowMeta, WorkflowExecutionConfiguration executionConfiguration, IHopMetadataProvider metadataProvider)
       throws HopException {
 
     if (hopServer == null) {
@@ -388,53 +360,31 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
         parametersMap.put(param, getVariable(param));
       }
 
-
       if (remoteWorkflowRunConfiguration.isExportingResources()) {
         // First export the workflow...
         //
-        FileObject tempFile =
-            HopVfs.createTempFile("workflowExport", ".zip", System.getProperty("java.io.tmpdir"));
+        FileObject tempFile = HopVfs.createTempFile("workflowExport", ".zip", System.getProperty("java.io.tmpdir"));
 
         TopLevelResource topLevelResource =
             ResourceUtil.serializeResourceExportInterface(
-                tempFile.getName().toString(),
-                workflowMeta,
-                this,
-                metadataProvider,
-                executionConfiguration,
-                CONFIGURATION_IN_EXPORT_FILENAME,
-                remoteWorkflowRunConfiguration.getNamedResourcesSourceFolder(),
-                remoteWorkflowRunConfiguration.getNamedResourcesTargetFolder(),
+                tempFile.getName().toString(), workflowMeta, this, metadataProvider, executionConfiguration, CONFIGURATION_IN_EXPORT_FILENAME,
+                remoteWorkflowRunConfiguration.getNamedResourcesSourceFolder(), remoteWorkflowRunConfiguration.getNamedResourcesTargetFolder(),
                 executionConfiguration.getVariablesMap());
 
         // Send the zip file over to the hop server...
-        String result =
-            hopServer.sendExport(
-                this,
-                topLevelResource.getArchiveName(),
-                RegisterPackageServlet.TYPE_WORKFLOW,
-                topLevelResource.getBaseResourceName());
+        String result = hopServer.sendExport(this, topLevelResource.getArchiveName(), RegisterPackageServlet.TYPE_WORKFLOW, topLevelResource.getBaseResourceName());
         WebResult webResult = WebResult.fromXmlString(result);
         if (!webResult.getResult().equalsIgnoreCase(WebResult.STRING_OK)) {
-          throw new HopException(
-              "There was an error passing the exported workflow to the remote server: "
-                  + Const.CR
-                  + webResult.getMessage());
+          throw new HopException("There was an error passing the exported workflow to the remote server: " + Const.CR + webResult.getMessage());
         }
         containerId = webResult.getId();
       } else {
-        String xml =
-            new WorkflowConfiguration(workflowMeta, executionConfiguration, metadataProvider)
-                .getXml(variables);
+        String xml = new WorkflowConfiguration(workflowMeta, executionConfiguration, metadataProvider).getXml(variables);
 
-        String reply =
-            hopServer.sendXml(this, xml, RegisterWorkflowServlet.CONTEXT_PATH + "/?xml=Y");
+        String reply = hopServer.sendXml(this, xml, RegisterWorkflowServlet.CONTEXT_PATH + "/?xml=Y");
         WebResult webResult = WebResult.fromXmlString(reply);
         if (!webResult.getResult().equalsIgnoreCase(WebResult.STRING_OK)) {
-          throw new HopException(
-              "There was an error posting the workflow on the remote server: "
-                  + Const.CR
-                  + webResult.getMessage());
+          throw new HopException("There was an error posting the workflow on the remote server: " + Const.CR + webResult.getMessage());
         }
         containerId = webResult.getId();
       }
@@ -443,10 +393,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
       //
       WebResult webResult = hopServer.startWorkflow(this, workflowMeta.getName(), containerId);
       if (!webResult.getResult().equalsIgnoreCase(WebResult.STRING_OK)) {
-        throw new HopException(
-            "There was an error starting the workflow on the remote server: "
-                + Const.CR
-                + webResult.getMessage().replace('\t', '\n'));
+        throw new HopException("There was an error starting the workflow on the remote server: " + Const.CR + webResult.getMessage().replace('\t', '\n'));
       }
     } catch (HopException ke) {
       throw ke;
@@ -456,8 +403,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
   }
 
   @Override
-  public void addWorkflowFinishedListener(
-      IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
+  public void addWorkflowFinishedListener(IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
     synchronized (workflowFinishedListeners) {
       workflowFinishedListeners.add(finishedListener);
     }
@@ -473,8 +419,7 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
   }
 
   @Override
-  public void addWorkflowStartedListener(
-      IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
+  public void addWorkflowStartedListener(IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
     synchronized (workflowStartedListeners) {
       workflowStartedListeners.add(finishedListener);
     }
@@ -574,12 +519,12 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String, java.lang.String,
+   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String,
+   * java.lang.String,
    * java.lang.String)
    */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
@@ -626,7 +571,8 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.parameters.INamedParameters#setParameterValue(java.lang.String, java.lang.String)
+   * @see org.apache.hop.core.parameters.INamedParameters#setParameterValue(java.lang.String,
+   * java.lang.String)
    */
   @Override
   public void setParameterValue(String key, String value) throws UnknownParamException {
@@ -1024,14 +970,12 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
    * @return value of workflowFinishedListeners
    */
   @Override
-  public List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>>
-      getWorkflowFinishedListeners() {
+  public List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> getWorkflowFinishedListeners() {
     return workflowFinishedListeners;
   }
 
   /** @param workflowFinishedListeners The workflowFinishedListeners to set */
-  public void setWorkflowFinishedListeners(
-      List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners) {
+  public void setWorkflowFinishedListeners(List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners) {
     this.workflowFinishedListeners = workflowFinishedListeners;
   }
 
@@ -1041,14 +985,12 @@ public class RemoteWorkflowEngine extends Variables implements IWorkflowEngine<W
    * @return value of workflowStartedListeners
    */
   @Override
-  public List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>>
-      getWorkflowStartedListeners() {
+  public List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> getWorkflowStartedListeners() {
     return workflowStartedListeners;
   }
 
   /** @param workflowStartedListeners The workflowStartedListeners to set */
-  public void setWorkflowStartedListeners(
-      List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners) {
+  public void setWorkflowStartedListeners(List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners) {
     this.workflowStartedListeners = workflowStartedListeners;
   }
 

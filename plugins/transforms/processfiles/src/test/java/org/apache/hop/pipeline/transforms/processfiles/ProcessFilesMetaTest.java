@@ -30,30 +30,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ProcessFilesMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testSerialization() throws HopException {
     List<String> attributes =
-        Arrays.asList(
-            "SourceFilenameField",
-            "TargetFilenameField",
-            "OperationType",
-            "AddResultFilenames",
-            "OverwriteTargetFile",
-            "CreateParentFolder",
-            "Simulate");
+        Arrays.asList("SourceFilenameField", "TargetFilenameField", "OperationType", "AddResultFilenames", "OverwriteTargetFile", "CreateParentFolder", "Simulate");
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attributeMap = new HashMap<>();
-    attributeMap.put(
-        "OperationType", new IntLoadSaveValidator(ProcessFilesMeta.operationTypeCode.length));
+    attributeMap.put("OperationType", new IntLoadSaveValidator(ProcessFilesMeta.operationTypeCode.length));
     Map<String, IFieldLoadSaveValidator<?>> typeMap = new HashMap<>();
 
-    LoadSaveTester<ProcessFilesMeta> tester =
-        new LoadSaveTester<>(
-            ProcessFilesMeta.class, attributes, getterMap, setterMap, attributeMap, typeMap);
+    LoadSaveTester<ProcessFilesMeta> tester = new LoadSaveTester<>(ProcessFilesMeta.class, attributes, getterMap, setterMap, attributeMap, typeMap);
 
     tester.testSerialization();
   }

@@ -54,8 +54,7 @@ public class AddPipelineServlet extends BaseHttpServlet implements IHopServerPlu
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -106,60 +105,40 @@ public class AddPipelineServlet extends BaseHttpServlet implements IHopServerPlu
       }
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
       servletLoggingObject.setLogLevel(pipelineExecutionConfiguration.getLogLevel());
 
-      IHopMetadataProvider metadataProvider =
-          new MultiMetadataProvider(
-              variables,
-              getServerConfig().getMetadataProvider(),
-              pipelineConfiguration.getMetadataProvider());
+      IHopMetadataProvider metadataProvider = new MultiMetadataProvider(variables, getServerConfig().getMetadataProvider(), pipelineConfiguration.getMetadataProvider());
 
       String runConfigurationName = pipelineExecutionConfiguration.getRunConfiguration();
-      final IPipelineEngine<PipelineMeta> pipeline =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, variables.resolve(runConfigurationName), metadataProvider, pipelineMeta);
+      final IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(variables, variables.resolve(runConfigurationName), metadataProvider, pipelineMeta);
       pipeline.setParent(servletLoggingObject);
 
       if (pipelineExecutionConfiguration.isSetLogfile()) {
         realLogFilename = pipelineExecutionConfiguration.getLogFileName();
         final LogChannelFileWriter logChannelFileWriter;
         try {
-          FileUtil.createParentFolder(
-              AddPipelineServlet.class,
-              realLogFilename,
-              pipelineExecutionConfiguration.isCreateParentFolder(),
-              pipeline.getLogChannel());
+          FileUtil.createParentFolder(AddPipelineServlet.class, realLogFilename, pipelineExecutionConfiguration.isCreateParentFolder(), pipeline.getLogChannel());
           logChannelFileWriter =
-              new LogChannelFileWriter(
-                  servletLoggingObject.getLogChannelId(),
-                  HopVfs.getFileObject(realLogFilename),
-                  pipelineExecutionConfiguration.isSetAppendLogfile());
+              new LogChannelFileWriter(servletLoggingObject.getLogChannelId(), HopVfs.getFileObject(realLogFilename), pipelineExecutionConfiguration.isSetAppendLogfile());
           logChannelFileWriter.startLogging();
 
-          pipeline.addExecutionFinishedListener(
-              pipelineEngine -> {
-                if (logChannelFileWriter != null) {
-                  logChannelFileWriter.stopLogging();
-                }
-              });
+          pipeline.addExecutionFinishedListener(pipelineEngine -> {
+            if (logChannelFileWriter != null) {
+              logChannelFileWriter.stopLogging();
+            }
+          });
 
         } catch (HopException e) {
           logError(Const.getStackTracker(e));
         }
       }
 
-      getPipelineMap()
-          .addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
+      getPipelineMap().addPipeline(pipelineMeta.getName(), serverObjectId, pipeline, pipelineConfiguration);
       pipeline.setContainerId(serverObjectId);
 
-      String message =
-          "Pipeline '"
-              + pipeline.getPipelineMeta().getName()
-              + "' was added to HopServer with id "
-              + serverObjectId;
+      String message = "Pipeline '" + pipeline.getPipelineMeta().getName() + "' was added to HopServer with id " + serverObjectId;
 
       if (useXML) {
         // Return the log channel id as well

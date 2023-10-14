@@ -95,13 +95,7 @@ public class ConcatFieldsMeta extends BaseTransformMeta<ConcatFields, ConcatFiel
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // remove selected fields from the stream when true
     if (extraFields.isRemoveSelectedFields()) {
@@ -121,13 +115,10 @@ public class ConcatFieldsMeta extends BaseTransformMeta<ConcatFields, ConcatFiel
 
     // Check Target Field Name
     if (StringUtil.isEmpty(extraFields.getTargetFieldName())) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.TargetFieldNameMissing"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.TargetFieldNameMissing"));
     }
     // add targetFieldName
-    IValueMeta vValue =
-        new ValueMetaString(
-            extraFields.getTargetFieldName(), extraFields.getTargetFieldLength(), 0);
+    IValueMeta vValue = new ValueMetaString(extraFields.getTargetFieldName(), extraFields.getTargetFieldLength(), 0);
     vValue.setOrigin(name);
     row.addValueMeta(vValue);
   }
@@ -147,33 +138,19 @@ public class ConcatFieldsMeta extends BaseTransformMeta<ConcatFields, ConcatFiel
 
     // Check Target Field Name
     if (StringUtil.isEmpty(extraFields.getTargetFieldName())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.TargetFieldNameMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.TargetFieldNameMissing"), transformMeta);
       remarks.add(cr);
     }
 
     // Check Target Field Length when Fast Data Dump
     if (extraFields.getTargetFieldLength() <= 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "ConcatFieldsMeta.CheckResult.TargetFieldLengthMissingFastDataDump"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.TargetFieldLengthMissingFastDataDump"), transformMeta);
       remarks.add(cr);
     }
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ConcatFieldsMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -188,17 +165,11 @@ public class ConcatFieldsMeta extends BaseTransformMeta<ConcatFields, ConcatFiel
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "ConcatFieldsMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ConcatFieldsMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }

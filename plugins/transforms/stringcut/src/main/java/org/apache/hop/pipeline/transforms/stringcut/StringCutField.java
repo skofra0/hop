@@ -22,28 +22,16 @@ import java.util.Objects;
 
 public class StringCutField {
 
-  @HopMetadataProperty(
-      key = "in_stream_name",
-      injectionKey = "FIELD_IN_STREAM",
-      injectionKeyDescription = "StringCutDialog.Injection.InStream.Field")
+  @HopMetadataProperty(key = "in_stream_name", injectionKey = "FIELD_IN_STREAM", injectionKeyDescription = "StringCutDialog.Injection.InStream.Field")
   private String fieldInStream;
 
-  @HopMetadataProperty(
-      key = "out_stream_name",
-      injectionKey = "FIELD_OUT_STREAM",
-      injectionKeyDescription = "StringCutDialog.Injection.OutStream.Field")
+  @HopMetadataProperty(key = "out_stream_name", injectionKey = "FIELD_OUT_STREAM", injectionKeyDescription = "StringCutDialog.Injection.OutStream.Field")
   private String fieldOutStream;
 
-  @HopMetadataProperty(
-      key = "cut_from",
-      injectionKey = "CUT_FROM",
-      injectionKeyDescription = "StringCutDialog.Injection.CutFrom.Field")
+  @HopMetadataProperty(key = "cut_from", injectionKey = "CUT_FROM", injectionKeyDescription = "StringCutDialog.Injection.CutFrom.Field")
   private String cutFrom;
 
-  @HopMetadataProperty(
-      key = "cut_to",
-      injectionKey = "CUT_TO",
-      injectionKeyDescription = "StringCutDialog.Injection.CutTo.Field")
+  @HopMetadataProperty(key = "cut_to", injectionKey = "CUT_TO", injectionKeyDescription = "StringCutDialog.Injection.CutTo.Field")
   private String cutTo;
 
   public StringCutField() {}
@@ -96,12 +84,12 @@ public class StringCutField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     StringCutField that = (StringCutField) o;
-    return Objects.equals(fieldInStream, that.fieldInStream)
-        && Objects.equals(cutFrom, that.cutFrom)
-        && Objects.equals(cutTo, that.cutTo);
+    return Objects.equals(fieldInStream, that.fieldInStream) && Objects.equals(cutFrom, that.cutFrom) && Objects.equals(cutTo, that.cutTo);
   }
 
   @Override

@@ -35,11 +35,14 @@ import org.apache.hop.metadata.api.IHopMetadata;
     documentationUrl = "/metadata-types/splunk-connection.html")
 public class SplunkConnection extends HopMetadataBase implements Cloneable, IHopMetadata {
 
-  @HopMetadataProperty private String hostname;
+  @HopMetadataProperty
+  private String hostname;
 
-  @HopMetadataProperty private String port;
+  @HopMetadataProperty
+  private String port;
 
-  @HopMetadataProperty private String username;
+  @HopMetadataProperty
+  private String username;
 
   @HopMetadataProperty(password = true)
   private String password;
@@ -56,8 +59,7 @@ public class SplunkConnection extends HopMetadataBase implements Cloneable, IHop
     this.password = source.password;
   }
 
-  public SplunkConnection(
-      String name, String hostname, String port, String username, String password) {
+  public SplunkConnection(String name, String hostname, String port, String username, String password) {
     this.name = name;
     this.hostname = hostname;
     this.port = port;

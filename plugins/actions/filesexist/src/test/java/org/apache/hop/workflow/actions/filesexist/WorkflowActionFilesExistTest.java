@@ -40,7 +40,8 @@ public class WorkflowActionFilesExistTest {
   private String existingFile1;
   private String existingFile2;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUp() throws Exception {
@@ -54,10 +55,8 @@ public class WorkflowActionFilesExistTest {
 
     workflow.setStopped(false);
 
-    existingFile1 =
-        TestUtils.createRamFile(getClass().getSimpleName() + "/existingFile1.ext", action);
-    existingFile2 =
-        TestUtils.createRamFile(getClass().getSimpleName() + "/existingFile2.ext", action);
+    existingFile1 = TestUtils.createRamFile(getClass().getSimpleName() + "/existingFile1.ext", action);
+    existingFile2 = TestUtils.createRamFile(getClass().getSimpleName() + "/existingFile2.ext", action);
   }
 
   @After
@@ -70,10 +69,7 @@ public class WorkflowActionFilesExistTest {
     Result res = action.execute(new Result(), 0);
 
     assertFalse("Entry should fail", res.getResult());
-    assertEquals(
-        "Files not found. Result is false. But... No of errors should be zero",
-        0,
-        res.getNrErrors());
+    assertEquals("Files not found. Result is false. But... No of errors should be zero", 0, res.getNrErrors());
   }
 
   @Test
@@ -83,8 +79,7 @@ public class WorkflowActionFilesExistTest {
     Result res = action.execute(new Result(), 0);
 
     assertFalse("Entry should fail", res.getResult());
-    assertEquals(
-        "File with wrong name was specified. One error should be reported", 1, res.getNrErrors());
+    assertEquals("File with wrong name was specified. One error should be reported", 1, res.getNrErrors());
   }
 
   @Test
@@ -98,10 +93,7 @@ public class WorkflowActionFilesExistTest {
 
   @Test
   public void testExecuteFail() throws Exception {
-    action.setArguments(
-        new String[] {
-          existingFile1, existingFile2, "nonExistingFile1.ext", "nonExistingFile2.ext"
-        });
+    action.setArguments(new String[] {existingFile1, existingFile2, "nonExistingFile1.ext", "nonExistingFile2.ext"});
 
     Result res = action.execute(new Result(), 0);
 

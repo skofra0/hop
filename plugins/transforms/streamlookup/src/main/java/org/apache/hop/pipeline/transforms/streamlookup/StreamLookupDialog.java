@@ -74,8 +74,7 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
 
   private ColumnInfo[] ciReturn;
 
-  public StreamLookupDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public StreamLookupDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (StreamLookupMeta) in;
   }
@@ -150,16 +149,15 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     wTransform = new Combo(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTransform);
 
-    List<TransformMeta> previousTransforms =
-        pipelineMeta.findPreviousTransforms(transformMeta, true);
+    List<TransformMeta> previousTransforms = pipelineMeta.findPreviousTransforms(transformMeta, true);
     for (TransformMeta previousTransform : previousTransforms) {
       wTransform.add(previousTransform.getName());
     }
 
     wTransform.addModifyListener(lsMod);
     wTransform.addListener(SWT.Selection, e -> {
-        input.setChanged();
-        updateComboFields();    
+      input.setChanged();
+      updateComboFields();
     });
 
     FormData fdTransform = new FormData();
@@ -180,28 +178,10 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     int nrKeyRows = (input.getKeystream() != null ? input.getKeystream().length : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Field"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.LookupField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Field"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.LookupField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
 
-    wKey =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     FormData fdKey = new FormData();
     fdKey.left = new FormAttachment(0, 0);
@@ -247,8 +227,7 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     wIntegerPair.addListener(SWT.Selection, e -> input.setChanged());
 
     Label wlPreserveMemory = new Label(shell, SWT.RIGHT);
-    wlPreserveMemory.setText(
-        BaseMessages.getString(PKG, "StreamLookupDialog.PreserveMemory.Label"));
+    wlPreserveMemory.setText(BaseMessages.getString(PKG, "StreamLookupDialog.PreserveMemory.Label"));
     PropsUi.setLook(wlPreserveMemory);
     FormData fdlPreserveMemory = new FormData();
     fdlPreserveMemory.left = new FormAttachment(0, 0);
@@ -263,15 +242,13 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     fdPreserveMemory.right = new FormAttachment(100, 0);
     wPreserveMemory.setLayoutData(fdPreserveMemory);
     wPreserveMemory.addListener(SWT.Selection, e -> input.setChanged());
-    
+
     // preserve memory should be enabled to have this options on.
-    wPreserveMemory.addListener(
-        SWT.Selection,
-        event -> {
-          boolean selection = wPreserveMemory.getSelection();
-          wSortedList.setEnabled(selection);
-          wIntegerPair.setEnabled(selection);
-        });
+    wPreserveMemory.addListener(SWT.Selection, event -> {
+      boolean selection = wPreserveMemory.getSelection();
+      wSortedList.setEnabled(selection);
+      wIntegerPair.setEnabled(selection);
+    });
 
     // THE UPDATE/INSERT TABLE
     Label wlReturn = new Label(shell, SWT.NONE);
@@ -286,37 +263,12 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     int upInsRows = (input.getValue() != null ? input.getValue().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.FieldReturn"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.NewName"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Default"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciReturn[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Type"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaFactory.getValueMetaNames());
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.FieldReturn"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.NewName"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Default"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciReturn[3] = new ColumnInfo(BaseMessages.getString(PKG, "StreamLookupDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames());
 
-    wReturn =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     FormData fdReturn = new FormData();
     fdReturn.left = new FormAttachment(0, 0);
@@ -327,7 +279,6 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
 
     getData();
 
-    
     updateComboFields();
     input.setChanged(changed);
 
@@ -337,66 +288,62 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
   }
 
   /**
-  /* Search the input and lookup fields in the background
+   * /* Search the input and lookup fields in the background
    **/
   protected void updateComboFields() {
 
-    final Runnable runnable =
-        () -> {
-          
-          String lookupTransformName = wTransform.getText();
-          
-          // Input fields
-          //
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta rowMeta = new RowMeta();              
-              for (String prevTransformName: pipelineMeta.getPrevTransformNames(transformName)) {
-                  if ( !prevTransformName.equalsIgnoreCase(lookupTransformName) ) {                  
-                  IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta, prevTransformName, null);
+    final Runnable runnable = () -> {
 
-                  // See if the add fields are not already in the row
-                  for (int i = 0; i < row.size(); i++) {
-                    IValueMeta valueMeta = row.getValueMeta(i);                  
-                    if (rowMeta.searchValueMeta(valueMeta.getName()) == null) {
-                      rowMeta.addValueMeta(valueMeta);
-                    }
-                  }
+      String lookupTransformName = wTransform.getText();
+
+      // Input fields
+      //
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta rowMeta = new RowMeta();
+          for (String prevTransformName : pipelineMeta.getPrevTransformNames(transformName)) {
+            if (!prevTransformName.equalsIgnoreCase(lookupTransformName)) {
+              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta, prevTransformName, null);
+
+              // See if the add fields are not already in the row
+              for (int i = 0; i < row.size(); i++) {
+                IValueMeta valueMeta = row.getValueMeta(i);
+                if (rowMeta.searchValueMeta(valueMeta.getName()) == null) {
+                  rowMeta.addValueMeta(valueMeta);
                 }
               }
-
-              String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
-
-              // return fields
-              ciKey[0].setComboValues(fieldNames);
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
             }
           }
-          
-          // Lookup fields
-          //
-          TransformMeta lookupTransformMeta = pipelineMeta.findTransform(lookupTransformName);
-          if (lookupTransformMeta != null) {
-            try {
-              IRowMeta rowMeta = pipelineMeta.getTransformFields(variables, lookupTransformMeta);
 
-              String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
+          String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
 
-              // return fields
-              ciReturn[0].setComboValues(fieldNames);
-              ciKey[1].setComboValues(fieldNames);
-            } catch (HopException e) {
-              logError(
-                  "It was not possible to retrieve the list of fields for transform ["
-                      + wTransform.getText()
-                      + "]!");
-            }
-          }
-          
-        };
-        shell.getDisplay().asyncExec(runnable);
+          // return fields
+          ciKey[0].setComboValues(fieldNames);
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+
+      // Lookup fields
+      //
+      TransformMeta lookupTransformMeta = pipelineMeta.findTransform(lookupTransformName);
+      if (lookupTransformMeta != null) {
+        try {
+          IRowMeta rowMeta = pipelineMeta.getTransformFields(variables, lookupTransformMeta);
+
+          String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
+
+          // return fields
+          ciReturn[0].setComboValues(fieldNames);
+          ciKey[1].setComboValues(fieldNames);
+        } catch (HopException e) {
+          logError("It was not possible to retrieve the list of fields for transform [" + wTransform.getText() + "]!");
+        }
+      }
+
+    };
+    shell.getDisplay().asyncExec(runnable);
   }
 
   /** Copy information from the meta-data input to the dialog fields. */
@@ -423,8 +370,7 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
         if (input.getValue()[i] != null) {
           item.setText(1, input.getValue()[i]);
         }
-        if (input.getValueName()[i] != null
-            && !input.getValueName()[i].equals(input.getValue()[i])) {
+        if (input.getValueName()[i] != null && !input.getValueName()[i].equals(input.getValue()[i])) {
           item.setText(2, input.getValueName()[i]);
         }
         if (input.getValueDefault()[i] != null) {
@@ -506,21 +452,12 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     if (infoStream.getTransformMeta() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
       if (Utils.isEmpty(wTransform.getText())) {
-        mb.setMessage(
-            BaseMessages.getString(
-                PKG,
-                "StreamLookupDialog.NotTransformSpecified.DialogMessage",
-                wTransform.getText()));
+        mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.NotTransformSpecified.DialogMessage", wTransform.getText()));
       } else {
-        mb.setMessage(
-            BaseMessages.getString(
-                PKG,
-                "StreamLookupDialog.TransformCanNotFound.DialogMessage",
-                wTransform.getText()));
+        mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.TransformCanNotFound.DialogMessage", wTransform.getText()));
       }
 
-      mb.setText(
-          BaseMessages.getString(PKG, "StreamLookupDialog.TransformCanNotFound.DialogTitle"));
+      mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.TransformCanNotFound.DialogTitle"));
       mb.open();
     }
 
@@ -532,12 +469,8 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
   private void get() {
     if (pipelineMeta.findTransform(wTransform.getText()) == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "StreamLookupDialog.PleaseSelectATransformToReadFrom.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(
-              PKG, "StreamLookupDialog.PleaseSelectATransformToReadFrom.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.PleaseSelectATransformToReadFrom.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.PleaseSelectATransformToReadFrom.DialogTitle"));
       mb.open();
       return;
     }
@@ -545,30 +478,23 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wKey, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       } else {
         String transformFrom = wTransform.getText();
         if (!Utils.isEmpty(transformFrom)) {
           r = pipelineMeta.getTransformFields(variables, transformFrom);
           if (r != null) {
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wKey, 2, new int[] {1, 2}, new int[] {}, -1, -1, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wKey, 2, new int[] {1, 2}, new int[] {}, -1, -1, null);
           } else {
             MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-            mb.setMessage(
-                BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogMessage"));
-            mb.setText(
-                BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogTitle"));
+            mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogTitle"));
             mb.open();
           }
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(
-                  PKG, "StreamLookupDialog.TransformNameRequired.DialogMessage"));
-          mb.setText(
-              BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogTitle"));
+          mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogTitle"));
           mb.open();
         }
       }
@@ -587,22 +513,17 @@ public class StreamLookupDialog extends BaseTransformDialog implements ITransfor
       if (!Utils.isEmpty(transformFrom)) {
         IRowMeta r = pipelineMeta.getTransformFields(variables, transformFrom);
         if (r != null && !r.isEmpty()) {
-          BaseTransformDialog.getFieldsFromPrevious(
-              r, wReturn, 1, new int[] {1}, new int[] {4}, -1, -1, null);
+          BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1}, new int[] {4}, -1, -1, null);
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogMessage"));
-          mb.setText(
-              BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogTitle"));
+          mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.CouldNotFindFields.DialogTitle"));
           mb.open();
         }
       } else {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogMessage"));
-        mb.setText(
-            BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogTitle"));
+        mb.setMessage(BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogMessage"));
+        mb.setText(BaseMessages.getString(PKG, "StreamLookupDialog.TransformNameRequired.DialogTitle"));
         mb.open();
       }
     } catch (HopException ke) {

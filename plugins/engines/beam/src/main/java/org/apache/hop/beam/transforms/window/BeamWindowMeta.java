@@ -61,14 +61,15 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamWindowMeta.keyword",
     documentationUrl = "/pipeline/transforms/beamwindow.html")
-public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
-    implements IBeamPipelineTransformHandler {
+public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "window_type")
   private String windowType;
 
-  @HopMetadataProperty private String duration;
-  @HopMetadataProperty private String every;
+  @HopMetadataProperty
+  private String duration;
+  @HopMetadataProperty
+  private String every;
 
   @HopMetadataProperty(key = "max_window_field")
   private String maxWindowField;
@@ -111,13 +112,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (StringUtils.isNotEmpty(startWindowField)) {
@@ -168,10 +163,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
       String parentLogChannelId)
       throws HopException {
     if (StringUtils.isEmpty(windowType)) {
-      throw new HopException(
-          "Please specify a window type in Beam Window transform '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("Please specify a window type in Beam Window transform '" + transformMeta.getName() + "'");
     }
 
     String realDuration = variables.resolve(duration);
@@ -184,10 +176,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
     if (BeamDefaults.WINDOW_TYPE_FIXED.equals(windowType)) {
 
       if (durationSeconds <= 0) {
-        throw new HopException(
-            "Please specify a valid positive window size (duration) for Beam window transform '"
-                + transformMeta.getName()
-                + "'");
+        throw new HopException("Please specify a valid positive window size (duration) for Beam window transform '" + transformMeta.getName() + "'");
       }
 
       FixedWindows fixedWindows = FixedWindows.of(Duration.standardSeconds(durationSeconds));
@@ -195,18 +184,13 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
     } else if (BeamDefaults.WINDOW_TYPE_SLIDING.equals(windowType)) {
 
       if (durationSeconds <= 0) {
-        throw new HopException(
-            "Please specify a valid positive window size (duration) for Beam window transform '"
-                + transformMeta.getName()
-                + "'");
+        throw new HopException("Please specify a valid positive window size (duration) for Beam window transform '" + transformMeta.getName() + "'");
       }
 
       String realEvery = variables.resolve(every);
       long everySeconds = Const.toLong(realEvery, -1L);
 
-      SlidingWindows slidingWindows =
-          SlidingWindows.of(Duration.standardSeconds(durationSeconds))
-              .every(Duration.standardSeconds(everySeconds));
+      SlidingWindows slidingWindows = SlidingWindows.of(Duration.standardSeconds(durationSeconds)).every(Duration.standardSeconds(everySeconds));
       window = Window.into(slidingWindows);
 
     } else if (BeamDefaults.WINDOW_TYPE_SESSION.equals(windowType)) {
@@ -226,12 +210,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
       window = Window.into(new GlobalWindows());
 
     } else {
-      throw new HopException(
-          "Beam Window type '"
-              + windowType
-              + " is not supported in transform '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("Beam Window type '" + windowType + " is not supported in transform '" + transformMeta.getName() + "'");
     }
 
     // Set an allowed lateness
@@ -267,9 +246,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
 
     // Now get window information about the window if we asked about it...
     //
-    if (StringUtils.isNotEmpty(startWindowField)
-        || StringUtils.isNotEmpty(endWindowField)
-        || StringUtils.isNotEmpty(maxWindowField)) {
+    if (StringUtils.isNotEmpty(startWindowField) || StringUtils.isNotEmpty(endWindowField) || StringUtils.isNotEmpty(maxWindowField)) {
 
       WindowInfoFn windowInfoFn =
           new WindowInfoFn(
@@ -285,12 +262,7 @@ public class BeamWindowMeta extends BaseTransformMeta<Dummy, DummyData>
     // Save this in the map
     //
     transformCollectionMap.put(transformMeta.getName(), transformPCollection);
-    log.logBasic(
-        "Handled transform (WINDOW) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransforms.size()
-            + " previous transform(s)");
+    log.logBasic("Handled transform (WINDOW) : " + transformMeta.getName() + ", gets data from " + previousTransforms.size() + " previous transform(s)");
   }
 
   /**

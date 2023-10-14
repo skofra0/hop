@@ -24,13 +24,14 @@ import java.util.List;
 /**
  * The interface of a action validator.
  *
- * <p>Action validators can provide convenience methods for adding information to the validator
+ * <p>
+ * Action validators can provide convenience methods for adding information to the validator
  * context. Those methods should following a naming convention: putX where X is the name of the
  * object being adding to the context. An example:
  *
  * <ul>
- *   <li>ValidatorContext putSomeObject(Object someObject)
- *   <li>void putSomeObject(ValidatorContext context, Object someObject)
+ * <li>ValidatorContext putSomeObject(Object someObject)
+ * <li>void putSomeObject(ValidatorContext context, Object someObject)
  * </ul>
  */
 public interface IActionValidator {
@@ -48,11 +49,7 @@ public interface IActionValidator {
    * @param context any other information needed to perform the validation
    * @return validation result
    */
-  boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context);
+  boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context);
 
   /**
    * Returns the name of this validator, unique among all validators.

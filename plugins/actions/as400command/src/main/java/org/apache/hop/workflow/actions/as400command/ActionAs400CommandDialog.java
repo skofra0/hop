@@ -67,8 +67,7 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
 
   private LabelTextVar wCommand;
 
-  public ActionAs400CommandDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionAs400CommandDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionAs400Command) action;
     if (this.action.getName() == null) {
@@ -136,8 +135,7 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
     systemGroupLayout.marginWidth = PropsUi.getFormMargin();
     systemGroupLayout.marginHeight = PropsUi.getFormMargin();
     systemGroup.setLayout(systemGroupLayout);
-    systemGroup.setLayoutData(
-        new FormDataBuilder().top(spacer, PropsUi.getFormMargin()).fullWidth().result());
+    systemGroup.setLayoutData(new FormDataBuilder().top(spacer, PropsUi.getFormMargin()).fullWidth().result());
     PropsUi.setLook(systemGroup);
 
     // Widget ServerName
@@ -180,8 +178,7 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
     proxyGroupLayout.marginWidth = PropsUi.getFormMargin();
     proxyGroupLayout.marginHeight = PropsUi.getFormMargin();
     proxyGroup.setLayout(proxyGroupLayout);
-    proxyGroup.setLayoutData(
-        new FormDataBuilder().top(systemGroup, PropsUi.getFormMargin()).fullWidth().result());
+    proxyGroup.setLayoutData(new FormDataBuilder().top(systemGroup, PropsUi.getFormMargin()).fullWidth().result());
     PropsUi.setLook(proxyGroup);
 
     // Widget proxy host
@@ -207,14 +204,12 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
     PropsUi.setLook(wProxyPort);
 
     Group commandGroup = new Group(shell, SWT.SHADOW_NONE);
-    commandGroup.setText(
-        BaseMessages.getString(PKG, "ActionAs400CommandDialog.Command.Group.Label"));
+    commandGroup.setText(BaseMessages.getString(PKG, "ActionAs400CommandDialog.Command.Group.Label"));
     FormLayout commandGroupLayout = new FormLayout();
     commandGroupLayout.marginWidth = PropsUi.getFormMargin();
     commandGroupLayout.marginHeight = PropsUi.getFormMargin();
     commandGroup.setLayout(commandGroupLayout);
-    commandGroup.setLayoutData(
-        new FormDataBuilder().top(proxyGroup, PropsUi.getFormMargin()).fullWidth().result());
+    commandGroup.setLayoutData(new FormDataBuilder().top(proxyGroup, PropsUi.getFormMargin()).fullWidth().result());
     PropsUi.setLook(commandGroup);
 
     // Widget Command
@@ -238,8 +233,7 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
     Button wTest = new Button(shell, SWT.PUSH);
     wTest.setText(BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Label"));
     wTest.addListener(SWT.Selection, (Event e) -> onTest());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wTest, wOk, wCancel}, PropsUi.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wTest, wOk, wCancel}, PropsUi.getMargin(), null);
 
     getData();
 
@@ -301,19 +295,14 @@ public class ActionAs400CommandDialog extends ActionDialog implements IActionDia
       this.action.test(variables, server, user, password, proxyHost, proxyPort);
 
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setText(
-          BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Shell.Title"));
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Success", server));
+      mb.setText(BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Shell.Title"));
+      mb.setMessage(BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Success", server));
       mb.open();
 
     } catch (Exception e) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setText(
-          BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Shell.Title"));
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "ActionAs400CommandDialog.TestConnection.Failed", server, e.getMessage()));
+      mb.setText(BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Shell.Title"));
+      mb.setMessage(BaseMessages.getString(PKG, "ActionAs400CommandDialog.TestConnection.Failed", server, e.getMessage()));
       mb.open();
     }
   }

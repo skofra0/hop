@@ -58,8 +58,7 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
 
   private final DenormaliserMeta input;
 
-  public DenormaliserDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public DenormaliserDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (DenormaliserMeta) in;
   }
@@ -135,21 +134,9 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
     int nrKeyRows = (input.getGroupFields() != null ? input.getGroupFields().size() : 1);
 
     final ColumnInfo[] ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.GroupField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.GroupField"), ColumnInfo.COLUMN_TYPE_CCOMBO, false);
 
-    wGroup =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wGroup = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     Button wGet = new Button(shell, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "DenormaliserDialog.GetFields.Button"));
@@ -174,78 +161,31 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
     fdlTarget.top = new FormAttachment(wGroup, margin);
     wlTarget.setLayoutData(fdlTarget);
 
-    int upInsRows =
-        (input.getDenormaliserTargetFields() != null
-            ? input.getDenormaliserTargetFields().size()
-            : 1);
+    int upInsRows = (input.getDenormaliserTargetFields() != null ? input.getDenormaliserTargetFields().size() : 1);
 
     final ColumnInfo[] ciTarget =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.TargetFieldname"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.ValueFieldname"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Keyvalue"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              4),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.NullIf"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Aggregation"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              DenormaliserTargetField.DenormaliseAggregation.getDescriptions(),
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.TargetFieldname"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.ValueFieldname"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Keyvalue"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 4),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.NullIf"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "DenormaliserDialog.ColumnInfo.Aggregation"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                DenormaliserTargetField.DenormaliseAggregation.getDescriptions(),
+                false),};
 
-    ciTarget[ciTarget.length - 1].setToolTip(
-        BaseMessages.getString(PKG, "DenormaliserDialog.CiTarget.Title"));
+    ciTarget[ciTarget.length - 1].setToolTip(BaseMessages.getString(PKG, "DenormaliserDialog.CiTarget.Title"));
     ciTarget[2].setUsingVariables(true);
 
-    wTarget =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciTarget,
-            upInsRows,
-            lsMod,
-            props);
+    wTarget = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciTarget, upInsRows, lsMod, props);
 
     Button wGetAgg = new Button(shell, SWT.PUSH);
     wGetAgg.setText(BaseMessages.getString(PKG, "DenormaliserDialog.GetLookupFields.Button"));
@@ -276,30 +216,29 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
     wCancel.addListener(SWT.Selection, e -> cancel());
 
     getData();
-        
+
     // Search the fields in the background
     shell.getDisplay().asyncExec(() -> {
-        String keyValue = wKeyField.getText();
-        try {
-            IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformName);
-            
-            if (rowMeta != null) {
-              String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
+      String keyValue = wKeyField.getText();
+      try {
+        IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-              for (String fieldName:fieldNames) {
-                wKeyField.add(fieldName);
-              }              
-              ciKey[0].setComboValues(fieldNames);  
-              ciTarget[1].setComboValues(fieldNames);
-            }
-        } catch (Exception e) {
-          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        if (rowMeta != null) {
+          String[] fieldNames = Const.sortStrings(rowMeta.getFieldNames());
+
+          for (String fieldName : fieldNames) {
+            wKeyField.add(fieldName);
+          }
+          ciKey[0].setComboValues(fieldNames);
+          ciTarget[1].setComboValues(fieldNames);
         }
-        finally {
-          if (keyValue != null) {
-            wKeyField.setText(keyValue);
-          }          
+      } catch (Exception e) {
+        logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+      } finally {
+        if (keyValue != null) {
+          wKeyField.setText(keyValue);
         }
+      }
     });
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
@@ -419,8 +358,7 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
       field.setTargetDecimalSymbol(item.getText(9));
       field.setTargetGroupingSymbol(item.getText(10));
       field.setTargetNullString(item.getText(11));
-      field.setTargetAggregationType(
-          DenormaliserTargetField.DenormaliseAggregation.getTypeWithDescription(item.getText(12)));
+      field.setTargetAggregationType(DenormaliserTargetField.DenormaliseAggregation.getTypeWithDescription(item.getText(12)));
 
       // CHECKSTYLE:Indentation:OFF
       input.getDenormaliserTargetFields().add(field);
@@ -433,12 +371,9 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "DenormaliserDialog.Unpivot.DialogTitle"),
-              BaseMessages.getString(
-                  PKG, "DenormaliserDialog.Unpivot.DialogMessage", Const.CR, Const.CR),
+              BaseMessages.getString(PKG, "DenormaliserDialog.Unpivot.DialogMessage", Const.CR, Const.CR),
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "DenormaliserDialog.WarningMessage.Option.1")
-              },
+              new String[] {BaseMessages.getString(PKG, "DenormaliserDialog.WarningMessage.Option.1")},
               BaseMessages.getString(PKG, "DenormaliserDialog.WarningMessage.Option.2"),
               "N".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y")));
       md.open();
@@ -452,8 +387,7 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -471,34 +405,22 @@ public class DenormaliserDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r,
-            wTarget,
-            2,
-            new int[] {},
-            new int[] {},
-            -1,
-            -1,
-            (tableItem, v) -> {
-              if (Const.indexOfString(v.getName(), groupingFields) < 0
-                  && !wKeyField.getText().equalsIgnoreCase(v.getName())) { // Not a grouping field
-                // Not the key field
-                int nr = tableItem.getParent().indexOf(tableItem) + 1;
-                tableItem.setText(
-                    1,
-                    BaseMessages.getString(PKG, "DenormaliserDialog.TargetFieldname.Label")
-                        + nr); // the target fieldname
-                tableItem.setText(2, v.getName());
-                tableItem.setText(4, v.getTypeDesc());
-                if (v.getLength() >= 0) {
-                  tableItem.setText(6, "" + v.getLength());
-                }
-                if (v.getPrecision() >= 0) {
-                  tableItem.setText(7, "" + v.getPrecision());
-                }
-              }
-              return true;
-            });
+        BaseTransformDialog.getFieldsFromPrevious(r, wTarget, 2, new int[] {}, new int[] {}, -1, -1, (tableItem, v) -> {
+          if (Const.indexOfString(v.getName(), groupingFields) < 0 && !wKeyField.getText().equalsIgnoreCase(v.getName())) { // Not a grouping field
+            // Not the key field
+            int nr = tableItem.getParent().indexOf(tableItem) + 1;
+            tableItem.setText(1, BaseMessages.getString(PKG, "DenormaliserDialog.TargetFieldname.Label") + nr); // the target fieldname
+            tableItem.setText(2, v.getName());
+            tableItem.setText(4, v.getTypeDesc());
+            if (v.getLength() >= 0) {
+              tableItem.setText(6, "" + v.getLength());
+            }
+            if (v.getPrecision() >= 0) {
+              tableItem.setText(7, "" + v.getPrecision());
+            }
+          }
+          return true;
+        });
       }
     } catch (HopException ke) {
       new ErrorDialog(

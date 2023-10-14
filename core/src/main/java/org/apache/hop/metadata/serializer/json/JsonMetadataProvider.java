@@ -46,8 +46,7 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
     baseFolder = "metadata";
   }
 
-  public JsonMetadataProvider(
-      ITwoWayPasswordEncoder twoWayPasswordEncoder, String baseFolder, IVariables variables) {
+  public JsonMetadataProvider(ITwoWayPasswordEncoder twoWayPasswordEncoder, String baseFolder, IVariables variables) {
     super(variables, DEFAULT_DESCRIPTION + " in folder " + baseFolder);
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
     this.baseFolder = baseFolder;
@@ -63,8 +62,7 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
   }
 
   @Override
-  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException {
+  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException {
     if (managedClass == null) {
       throw new HopException("You need to specify the class to serialize");
     }
@@ -73,17 +71,10 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
     //
     HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
     if (hopMetadata == null) {
-      throw new HopException(
-          "To serialize class "
-              + managedClass.getClass().getName()
-              + " it needs to have annotation "
-              + HopMetadata.class.getName());
+      throw new HopException("To serialize class " + managedClass.getClass().getName() + " it needs to have annotation " + HopMetadata.class.getName());
     }
     String classFolder = Const.NVL(hopMetadata.key(), hopMetadata.name());
-    String serializerBaseFolderName =
-        baseFolder
-            + (baseFolder.endsWith(Const.FILE_SEPARATOR) ? "" : Const.FILE_SEPARATOR)
-            + classFolder;
+    String serializerBaseFolderName = baseFolder + (baseFolder.endsWith(Const.FILE_SEPARATOR) ? "" : Const.FILE_SEPARATOR) + classFolder;
 
     // Check if the folder exists...
     //
@@ -93,15 +84,10 @@ public class JsonMetadataProvider extends BaseMetadataProvider implements IHopMe
         serializerBaseFolder.createFolder();
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error validating or creating folder  '"
-              + serializerBaseFolderName
-              + "'to store JSON serialized objects in from class "
-              + managedClass.getName());
+      throw new HopException("Error validating or creating folder  '" + serializerBaseFolderName + "'to store JSON serialized objects in from class " + managedClass.getName());
     }
 
-    return new JsonMetadataSerializer<>(
-        this, serializerBaseFolderName, managedClass, variables, hopMetadata.name());
+    return new JsonMetadataSerializer<>(this, serializerBaseFolderName, managedClass, variables, hopMetadata.name());
   }
 
   /**

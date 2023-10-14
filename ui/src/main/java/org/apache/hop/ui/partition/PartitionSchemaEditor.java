@@ -59,8 +59,7 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
   private Label wlPartitions;
   private TableView wPartitions;
 
-  public PartitionSchemaEditor(
-      HopGui hopGui, MetadataManager<PartitionSchema> manager, PartitionSchema metadata) {
+  public PartitionSchemaEditor(HopGui hopGui, MetadataManager<PartitionSchema> manager, PartitionSchema metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -138,12 +137,7 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
     fdlNumber.right = new FormAttachment(100, 0);
     wlNumber.setLayoutData(fdlNumber);
 
-    wNumber =
-        new TextVar(
-            this.getHopGui().getVariables(),
-            parent,
-            SWT.LEFT | SWT.BORDER | SWT.SINGLE,
-            BaseMessages.getString(PKG, "PartitionSchemaDialog.Number.Tooltip"));
+    wNumber = new TextVar(this.getHopGui().getVariables(), parent, SWT.LEFT | SWT.BORDER | SWT.SINGLE, BaseMessages.getString(PKG, "PartitionSchemaDialog.Number.Tooltip"));
     PropsUi.setLook(wNumber);
     FormData fdNumber = new FormData();
     fdNumber.top = new FormAttachment(wlNumber, margin);
@@ -162,22 +156,8 @@ public class PartitionSchemaEditor extends MetadataEditor<PartitionSchema> {
     wlPartitions.setLayoutData(fdlPartitions);
 
     ColumnInfo[] partitionColumns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PartitionSchemaDialog.PartitionID.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
-    wPartitions =
-        new TableView(
-            manager.getVariables(),
-            parent,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            partitionColumns,
-            1,
-            null,
-            props);
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "PartitionSchemaDialog.PartitionID.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wPartitions = new TableView(manager.getVariables(), parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, partitionColumns, 1, null, props);
     PropsUi.setLook(wPartitions);
     FormData fdPartitions = new FormData();
     fdPartitions.left = new FormAttachment(0, 0);

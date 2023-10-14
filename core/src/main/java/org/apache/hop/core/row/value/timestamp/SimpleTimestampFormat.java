@@ -69,11 +69,9 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
 
   private static final String DEFAULT_MILLISECOND_DATE_FORMAT = "SSS";
 
-  private static final SimpleDateFormat defaultTimestampFormat =
-      new SimpleDateFormat(DEFAULT_TIMESTAMP_FORMAT_FOR_TIMESTAMP, Locale.US);
+  private static final SimpleDateFormat defaultTimestampFormat = new SimpleDateFormat(DEFAULT_TIMESTAMP_FORMAT_FOR_TIMESTAMP, Locale.US);
 
-  private static final SimpleDateFormat defaultMillisecondDateFormat =
-      new SimpleDateFormat(DEFAULT_MILLISECOND_DATE_FORMAT, Locale.US);
+  private static final SimpleDateFormat defaultMillisecondDateFormat = new SimpleDateFormat(DEFAULT_MILLISECOND_DATE_FORMAT, Locale.US);
 
   /**
    * Nanoseconds placeholder to specify unformatted nanoseconds position after formatting <code>Date
@@ -82,8 +80,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
   private static final String NANOSECOND_PLACEHOLDER = "NANO";
 
   private static final char FORMATTER_ESCAPE_CHARACTER = '\'';
-  private static final String ESCAPED_NANOSECOND_PLACEHOLDER =
-      FORMATTER_ESCAPE_CHARACTER + "NANO" + FORMATTER_ESCAPE_CHARACTER;
+  private static final String ESCAPED_NANOSECOND_PLACEHOLDER = FORMATTER_ESCAPE_CHARACTER + "NANO" + FORMATTER_ESCAPE_CHARACTER;
 
   /** Default format of the <code>Timestamp</code> object for sql. */
   public static final String DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.SSSSSSSSS";
@@ -118,8 +115,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    */
   @Override
   public void setDateFormatSymbols(DateFormatSymbols newFormatSymbols) {
-    patternNanosecond =
-        newFormatSymbols.getLocalPatternChars().charAt(PATTERN_MILLISECOND_POSITION);
+    patternNanosecond = newFormatSymbols.getLocalPatternChars().charAt(PATTERN_MILLISECOND_POSITION);
     super.setDateFormatSymbols(newFormatSymbols);
   }
 
@@ -146,8 +142,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
     }
 
     String patternToApply;
-    if (startNanosecondPatternPosition == -1
-        || endNanosecondPatternPosition - startNanosecondPatternPosition < 3) {
+    if (startNanosecondPatternPosition == -1 || endNanosecondPatternPosition - startNanosecondPatternPosition < 3) {
 
       compatibleToSuperPattern = true;
       patternToApply = originalPattern;
@@ -227,7 +222,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    * @param timestamp the date-time value to be formatted into a date-time string.
    * @param toAppendTo where the new date-time text is to be appended.
    * @param pos the formatting position. On input: an alignment field, if desired. On output: the
-   *     offsets of the alignment field.
+   *        offsets of the alignment field.
    * @return the formatted date-time string.
    * @throws NullPointerException if the given {@code timestamp} is {@code null}.
    */
@@ -290,21 +285,20 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
   @Override
   public AttributedCharacterIterator formatToCharacterIterator(Object obj) {
     if (obj instanceof Timestamp) {
-      throw new IllegalArgumentException(
-          "This functionality for Timestamp object has not been implemented yet");
+      throw new IllegalArgumentException("This functionality for Timestamp object has not been implemented yet");
     }
     if (compatibleToSuperPattern) {
       return super.formatToCharacterIterator(obj);
     } else {
-      throw new IllegalArgumentException(
-          "This functionality for specified format pattern has not been implemented yet");
+      throw new IllegalArgumentException("This functionality for specified format pattern has not been implemented yet");
     }
   }
 
   /**
    * Parses text from a string to produce a <code>Timestamp</code>.
    *
-   * <p>The method attempts to parse text starting at the index given by <code>pos</code>. If
+   * <p>
+   * The method attempts to parse text starting at the index given by <code>pos</code>. If
    * parsing succeeds, then the index of <code>pos</code> is updated to the index after the last
    * character used (parsing does not necessarily use all characters up to the end of the string),
    * and the parsed date is returned. The updated <code>pos</code> can be used to indicate the
@@ -314,7 +308,8 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    *
    * <p>
    *
-   * <p>This parsing operation uses the {@link SimpleDateFormat#calendar calendar} to produce a
+   * <p>
+   * This parsing operation uses the {@link SimpleDateFormat#calendar calendar} to produce a
    * {@code Date}. All of the {@code calendar}'s date-time fields are {@linkplain
    * java.util.Calendar#clear() cleared} before parsing, and the {@code calendar}'s default values
    * of the date-time fields are used for any missing date-time information. For example, the year
@@ -326,7 +321,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    *
    * @param text A <code>String</code>, part of which should be parsed.
    * @param pos A <code>ParsePosition</code> object with index and error index information as
-   *     described above.
+   *        described above.
    * @return A <code>Date</code> parsed from the string. In case of error, returns null.
    * @throws NullPointerException if <code>text</code> or <code>pos</code> is null.
    */
@@ -348,15 +343,9 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
     }
 
     int startNanosecondsPosition = positionError.getErrorIndex();
-    int endNanosecondsPosition =
-        endNanosecondPatternPosition
-            - startNanosecondPatternPosition
-            + 1
-            + startNanosecondsPosition;
-    endNanosecondsPosition =
-        (endNanosecondsPosition >= dateText.length()) ? dateText.length() : endNanosecondsPosition;
-    String nanoseconds =
-        String.valueOf(dateText.subSequence(startNanosecondsPosition, endNanosecondsPosition));
+    int endNanosecondsPosition = endNanosecondPatternPosition - startNanosecondPatternPosition + 1 + startNanosecondsPosition;
+    endNanosecondsPosition = (endNanosecondsPosition >= dateText.length()) ? dateText.length() : endNanosecondsPosition;
+    String nanoseconds = String.valueOf(dateText.subSequence(startNanosecondsPosition, endNanosecondsPosition));
     dateText.delete(startNanosecondsPosition, endNanosecondsPosition);
     ParsePosition position = new ParsePosition(0);
     dateText.append(NANOSECOND_PLACEHOLDER);
@@ -395,9 +384,7 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
     } else {
       StringBuffer pattern = new StringBuffer(super.toLocalizedPattern());
       int placeholderPosition = replaceHolder(pattern, true);
-      for (int i = placeholderPosition;
-          i <= endNanosecondPatternPosition - startNanosecondPatternPosition + placeholderPosition;
-          i++) {
+      for (int i = placeholderPosition; i <= endNanosecondPatternPosition - startNanosecondPatternPosition + placeholderPosition; i++) {
         pattern.insert(i, patternNanosecond);
       }
       return pattern.toString();
@@ -434,7 +421,8 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    * Parses text from the beginning of the given string to produce a date. The method may not use
    * the entire text of the given string.
    *
-   * <p>See the {@link #parse(String, java.text.ParsePosition)} method for more information on date
+   * <p>
+   * See the {@link #parse(String, java.text.ParsePosition)} method for more information on date
    * parsing.
    *
    * @param source A <code>String</code> whose beginning should be parsed.
@@ -449,7 +437,8 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
   /**
    * Parses text from a string to produce a <code>Date</code>.
    *
-   * <p>The method attempts to parse text starting at the index given by <code>pos</code>. If
+   * <p>
+   * The method attempts to parse text starting at the index given by <code>pos</code>. If
    * parsing succeeds, then the index of <code>pos</code> is updated to the index after the last
    * character used (parsing does not necessarily use all characters up to the end of the string),
    * and the parsed date is returned. The updated <code>pos</code> can be used to indicate the
@@ -457,12 +446,13 @@ public class SimpleTimestampFormat extends SimpleDateFormat {
    * pos</code> is not changed, the error index of <code>pos</code> is set to the index of the
    * character where the error occurred, and null is returned.
    *
-   * <p>See the {@link #parse(String, java.text.ParsePosition)} method for more information on date
+   * <p>
+   * See the {@link #parse(String, java.text.ParsePosition)} method for more information on date
    * parsing.
    *
    * @param source A <code>String</code>, part of which should be parsed.
    * @param pos A <code>ParsePosition</code> object with index and error index information as
-   *     described above.
+   *        described above.
    * @return A <code>Date</code> parsed from the string. In case of error, returns null.
    * @throws NullPointerException if <code>pos</code> is null.
    */

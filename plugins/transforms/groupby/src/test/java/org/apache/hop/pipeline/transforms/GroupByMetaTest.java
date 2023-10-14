@@ -42,11 +42,7 @@ public class GroupByMetaTest {
     GroupByMeta meta1 = generateTestMeta();
     String xml = "<transform>" + XmlMetadataUtil.serializeObjectToXml(meta1) + "</transform>";
 
-    GroupByMeta meta2 =
-        XmlMetadataUtil.deSerializeFromXml(
-            XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), "transform"),
-            GroupByMeta.class,
-            new MemoryMetadataProvider());
+    GroupByMeta meta2 = XmlMetadataUtil.deSerializeFromXml(XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), "transform"), GroupByMeta.class, new MemoryMetadataProvider());
 
     compareMetas(meta1, meta2);
   }
@@ -76,28 +72,17 @@ public class GroupByMetaTest {
     meta.setGroupingFields(List.of(new GroupingField("field1")));
     meta.setAggregations(
         List.of(
-            new Aggregation("field02", "subject02", getDesc("SUM"), null),
-            new Aggregation("field03", "subject03", getDesc("AVERAGE"), null),
-            new Aggregation("field04", "subject04", getDesc("MEDIAN"), null),
-            new Aggregation("field05", "subject05", getDesc("PERCENTILE"), null),
-            new Aggregation("field06", "subject06", getDesc("MIN"), null),
-            new Aggregation("field07", "subject07", getDesc("MAX"), null),
-            new Aggregation("field08", "subject08", getDesc("COUNT_ALL"), null),
-            new Aggregation("field09", "subject09", getDesc("CONCAT_COMMA"), null),
-            new Aggregation("field10", "subject10", getDesc("FIRST"), null),
-            new Aggregation("field11", "subject11", getDesc("LAST"), null),
-            new Aggregation("field12", "subject12", getDesc("FIRST_INCL_NULL"), null),
-            new Aggregation("field13", "subject13", getDesc("LAST_INCL_NULL"), null),
-            new Aggregation("field14", "subject14", getDesc("CUM_SUM"), null),
-            new Aggregation("field15", "subject15", getDesc("CUM_AVG"), null),
-            new Aggregation("field16", "subject16", getDesc("STD_DEV"), null),
-            new Aggregation("field17", "subject17", getDesc("CONCAT_STRING"), "value17"),
-            new Aggregation("field18", "subject18", getDesc("COUNT_DISTINCT"), null),
-            new Aggregation("field19", "subject19", getDesc("COUNT_ANY"), null),
-            new Aggregation("field20", "subject20", getDesc("COUNT_ANY"), null),
-            new Aggregation("field21", "subject21", getDesc("STD_DEV_SAMPLE"), "value21"),
-            new Aggregation("field22", "subject22", getDesc("PERCENTILE_NEAREST_RANK"), "value22"),
-            new Aggregation("field23", "subject23", getDesc("CONCAT_STRING_CRLF"), null),
+            new Aggregation("field02", "subject02", getDesc("SUM"), null), new Aggregation("field03", "subject03", getDesc("AVERAGE"), null),
+            new Aggregation("field04", "subject04", getDesc("MEDIAN"), null), new Aggregation("field05", "subject05", getDesc("PERCENTILE"), null),
+            new Aggregation("field06", "subject06", getDesc("MIN"), null), new Aggregation("field07", "subject07", getDesc("MAX"), null),
+            new Aggregation("field08", "subject08", getDesc("COUNT_ALL"), null), new Aggregation("field09", "subject09", getDesc("CONCAT_COMMA"), null),
+            new Aggregation("field10", "subject10", getDesc("FIRST"), null), new Aggregation("field11", "subject11", getDesc("LAST"), null),
+            new Aggregation("field12", "subject12", getDesc("FIRST_INCL_NULL"), null), new Aggregation("field13", "subject13", getDesc("LAST_INCL_NULL"), null),
+            new Aggregation("field14", "subject14", getDesc("CUM_SUM"), null), new Aggregation("field15", "subject15", getDesc("CUM_AVG"), null),
+            new Aggregation("field16", "subject16", getDesc("STD_DEV"), null), new Aggregation("field17", "subject17", getDesc("CONCAT_STRING"), "value17"),
+            new Aggregation("field18", "subject18", getDesc("COUNT_DISTINCT"), null), new Aggregation("field19", "subject19", getDesc("COUNT_ANY"), null),
+            new Aggregation("field20", "subject20", getDesc("COUNT_ANY"), null), new Aggregation("field21", "subject21", getDesc("STD_DEV_SAMPLE"), "value21"),
+            new Aggregation("field22", "subject22", getDesc("PERCENTILE_NEAREST_RANK"), "value22"), new Aggregation("field23", "subject23", getDesc("CONCAT_STRING_CRLF"), null),
             new Aggregation("field24", "subject23", getDesc("CONCAT_DISTINCT"), "value24")));
     meta.setPassAllRows(true);
     meta.setAlwaysGivingBackOneRow(true);

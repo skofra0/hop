@@ -47,18 +47,11 @@ public class RowGenerator extends BaseTransform<RowGeneratorMeta, RowGeneratorDa
 
   private static final Class<?> PKG = RowGeneratorMeta.class; // For Translator
 
-  public RowGenerator(
-      TransformMeta transformMeta,
-      RowGeneratorMeta meta,
-      RowGeneratorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public RowGenerator(TransformMeta transformMeta, RowGeneratorMeta meta, RowGeneratorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static final RowMetaAndData buildRow(
-      RowGeneratorMeta meta, List<ICheckResult> remarks, String origin) throws HopPluginException {
+  public static final RowMetaAndData buildRow(RowGeneratorMeta meta, List<ICheckResult> remarks, String origin) throws HopPluginException {
     IRowMeta rowMeta = new RowMeta();
     Object[] rowData = RowDataUtil.allocateRowData(meta.getFields().size() + 2);
     int index = 0;
@@ -78,8 +71,7 @@ public class RowGenerator extends BaseTransform<RowGeneratorMeta, RowGeneratorDa
     for (GeneratorField field : meta.getFields()) {
       int typeString = ValueMetaFactory.getIdForValueMeta(field.getType());
       if (StringUtils.isNotEmpty(field.getType())) {
-        IValueMeta valueMeta =
-            ValueMetaFactory.createValueMeta(field.getName(), typeString); // build a
+        IValueMeta valueMeta = ValueMetaFactory.createValueMeta(field.getName(), typeString); // build a
         // value!
         valueMeta.setLength(field.getLength());
         valueMeta.setPrecision(field.getPrecision());
@@ -102,12 +94,7 @@ public class RowGenerator extends BaseTransform<RowGeneratorMeta, RowGeneratorDa
             rowData[index] = null;
 
             if (valueMeta.getType() == IValueMeta.TYPE_NONE) {
-              String message =
-                  BaseMessages.getString(
-                      PKG,
-                      "RowGenerator.CheckResult.SpecifyTypeError",
-                      valueMeta.getName(),
-                      stringValue);
+              String message = BaseMessages.getString(PKG, "RowGenerator.CheckResult.SpecifyTypeError", valueMeta.getName(), stringValue);
               remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
             }
           } else {
@@ -118,69 +105,34 @@ public class RowGenerator extends BaseTransform<RowGeneratorMeta, RowGeneratorDa
             } catch (HopValueException e) {
               switch (valueMeta.getType()) {
                 case IValueMeta.TYPE_NUMBER:
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.BuildRow.Error.Parsing.Number",
-                          valueMeta.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "RowGenerator.BuildRow.Error.Parsing.Number", valueMeta.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
 
                 case IValueMeta.TYPE_DATE:
-                  message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.BuildRow.Error.Parsing.Date",
-                          valueMeta.getName(),
-                          stringValue,
-                          e.toString());
+                  message = BaseMessages.getString(PKG, "RowGenerator.BuildRow.Error.Parsing.Date", valueMeta.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
 
                 case IValueMeta.TYPE_INTEGER:
-                  message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.BuildRow.Error.Parsing.Integer",
-                          valueMeta.getName(),
-                          stringValue,
-                          e.toString());
+                  message = BaseMessages.getString(PKG, "RowGenerator.BuildRow.Error.Parsing.Integer", valueMeta.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
 
                 case IValueMeta.TYPE_BIGNUMBER:
-                  message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.BuildRow.Error.Parsing.BigNumber",
-                          valueMeta.getName(),
-                          stringValue,
-                          e.toString());
+                  message = BaseMessages.getString(PKG, "RowGenerator.BuildRow.Error.Parsing.BigNumber", valueMeta.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
 
                 case IValueMeta.TYPE_TIMESTAMP:
-                  message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.BuildRow.Error.Parsing.Timestamp",
-                          valueMeta.getName(),
-                          stringValue,
-                          e.toString());
+                  message = BaseMessages.getString(PKG, "RowGenerator.BuildRow.Error.Parsing.Timestamp", valueMeta.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
 
                 default:
                   // Boolean and binary don't throw errors normally, so it's probably an unspecified
                   // error problem...
-                  message =
-                      BaseMessages.getString(
-                          PKG,
-                          "RowGenerator.CheckResult.SpecifyTypeError",
-                          valueMeta.getName(),
-                          stringValue);
+                  message = BaseMessages.getString(PKG, "RowGenerator.CheckResult.SpecifyTypeError", valueMeta.getName(), stringValue);
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                   break;
               }
@@ -241,19 +193,12 @@ public class RowGenerator extends BaseTransform<RowGeneratorMeta, RowGeneratorDa
     data.rowsWritten++;
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG,
-              "RowGenerator.Log.Wrote.Row",
-              Long.toString(data.rowsWritten),
-              data.outputRowMeta.getString(r)));
+      logRowlevel(BaseMessages.getString(PKG, "RowGenerator.Log.Wrote.Row", Long.toString(data.rowsWritten), data.outputRowMeta.getString(r)));
     }
 
     if (checkFeedback(data.rowsWritten)) {
       if (log.isBasic()) {
-        logBasic(
-            BaseMessages.getString(
-                PKG, "RowGenerator.Log.LineNr", Long.toString(data.rowsWritten)));
+        logBasic(BaseMessages.getString(PKG, "RowGenerator.Log.LineNr", Long.toString(data.rowsWritten)));
       }
     }
 

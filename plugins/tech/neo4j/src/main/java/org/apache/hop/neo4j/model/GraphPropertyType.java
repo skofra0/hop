@@ -104,37 +104,27 @@ public enum GraphPropertyType {
       case Date:
         return valueMeta.getDate(valueData).toInstant().atZone(timeZone.toZoneId()).toLocalDate();
       case LocalDateTime:
-        return valueMeta
-            .getDate(valueData)
-            .toInstant()
-            .atZone(timeZone.toZoneId())
-            .toLocalDateTime();
+        return valueMeta.getDate(valueData).toInstant().atZone(timeZone.toZoneId()).toLocalDateTime();
       case ByteArray:
         return valueMeta.getBinary(valueData);
-      case DateTime:
-        {
-          ZonedDateTime zonedDateTime;
-          if (valueMeta instanceof ValueMetaTimestamp) {
-            ValueMetaTimestamp valueMetaTimestamp = (ValueMetaTimestamp) valueMeta;
-            Timestamp timestamp = valueMetaTimestamp.getTimestamp(valueData);
-            zonedDateTime = timestamp.toInstant().atZone(timeZone.toZoneId());
-          } else {
-            java.util.Date date = valueMeta.getDate(valueData);
-            zonedDateTime = date.toInstant().atZone(timeZone.toZoneId());
-          }
-          return zonedDateTime;
+      case DateTime: {
+        ZonedDateTime zonedDateTime;
+        if (valueMeta instanceof ValueMetaTimestamp) {
+          ValueMetaTimestamp valueMetaTimestamp = (ValueMetaTimestamp) valueMeta;
+          Timestamp timestamp = valueMetaTimestamp.getTimestamp(valueData);
+          zonedDateTime = timestamp.toInstant().atZone(timeZone.toZoneId());
+        } else {
+          java.util.Date date = valueMeta.getDate(valueData);
+          zonedDateTime = date.toInstant().atZone(timeZone.toZoneId());
         }
+        return zonedDateTime;
+      }
       case LocalTime:
       case Time:
       case Point:
       case Duration:
       default:
-        throw new HopValueException(
-            "Data conversion to Neo4j type '"
-                + name()
-                + "' from value '"
-                + valueMeta.toStringMeta()
-                + "' is not supported yet");
+        throw new HopValueException("Data conversion to Neo4j type '" + name() + "' from value '" + valueMeta.toStringMeta() + "' is not supported yet");
     }
   }
 

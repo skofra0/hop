@@ -103,15 +103,12 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
 
   // These should not be translated, they are required to exist on all
   // platforms according to the documentation of "Charset".
-  private static final String[] encodings = {
-    "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"
-  };
+  private static final String[] encodings = {"US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"};
 
   private FTPClient ftpclient = null;
   private String pwdFolder = null;
 
-  public ActionFtpPutDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionFtpPutDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionFtpPut) action;
     if (this.action.getName() == null) {
@@ -127,12 +124,11 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     PropsUi.setLook(shell);
     WorkflowDialog.setShellImage(shell, action);
 
-    ModifyListener lsMod =
-        e -> {
-          ftpclient = null;
-          pwdFolder = null;
-          action.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      ftpclient = null;
+      pwdFolder = null;
+      action.setChanged();
+    };
     changed = action.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -377,8 +373,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     // /
     Group wAdvancedSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdvancedSettings);
-    wAdvancedSettings.setText(
-        BaseMessages.getString(PKG, "ActionFtpPut.AdvancedSettings.Group.Label"));
+    wAdvancedSettings.setText(BaseMessages.getString(PKG, "ActionFtpPut.AdvancedSettings.Group.Label"));
     FormLayout advancedSettingsgroupLayout = new FormLayout();
     advancedSettingsgroupLayout.marginWidth = 10;
     advancedSettingsgroupLayout.marginHeight = 10;
@@ -411,12 +406,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     fdlTimeout.top = new FormAttachment(wlBinaryMode, 2 * margin);
     fdlTimeout.right = new FormAttachment(middle, 0);
     wlTimeout.setLayoutData(fdlTimeout);
-    wTimeout =
-        new TextVar(
-            variables,
-            wAdvancedSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtpPut.Timeout.Tooltip"));
+    wTimeout = new TextVar(variables, wAdvancedSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtpPut.Timeout.Tooltip"));
     PropsUi.setLook(wTimeout);
     wTimeout.setToolTipText(BaseMessages.getString(PKG, "ActionFtpPut.Timeout.Tooltip"));
     FormData fdTimeout = new FormData();
@@ -457,8 +447,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     fdlControlEncoding.right = new FormAttachment(middle, 0);
     wlControlEncoding.setLayoutData(fdlControlEncoding);
     wControlEncoding = new Combo(wAdvancedSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wControlEncoding.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFtpPut.ControlEncoding.Tooltip"));
+    wControlEncoding.setToolTipText(BaseMessages.getString(PKG, "ActionFtpPut.ControlEncoding.Tooltip"));
     wControlEncoding.setItems(encodings);
     PropsUi.setLook(wControlEncoding);
     FormData fdControlEncoding = new FormData();
@@ -535,15 +524,9 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     fdbLocalDirectory.right = new FormAttachment(100, 0);
     fdbLocalDirectory.top = new FormAttachment(0, margin);
     wbLocalDirectory.setLayoutData(fdbLocalDirectory);
-    wbLocalDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wLocalDirectory, variables));
+    wbLocalDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wLocalDirectory, variables));
 
-    wLocalDirectory =
-        new TextVar(
-            variables,
-            wSourceSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtpPut.LocalDir.Tooltip"));
+    wLocalDirectory = new TextVar(variables, wSourceSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtpPut.LocalDir.Tooltip"));
     PropsUi.setLook(wLocalDirectory);
     wLocalDirectory.addModifyListener(lsMod);
     FormData fdLocalDirectory = new FormData();
@@ -561,12 +544,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     fdlWildcard.top = new FormAttachment(wLocalDirectory, margin);
     fdlWildcard.right = new FormAttachment(middle, -margin);
     wlWildcard.setLayoutData(fdlWildcard);
-    wWildcard =
-        new TextVar(
-            variables,
-            wSourceSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtpPut.Wildcard.Tooltip"));
+    wWildcard = new TextVar(variables, wSourceSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtpPut.Wildcard.Tooltip"));
     PropsUi.setLook(wWildcard);
     wWildcard.addModifyListener(lsMod);
     FormData fdWildcard = new FormData();
@@ -644,21 +622,14 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     // Test remote folder button ...
     Button wbTestRemoteDirectoryExists = new Button(wTargetSettings, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbTestRemoteDirectoryExists);
-    wbTestRemoteDirectoryExists.setText(
-        BaseMessages.getString(PKG, "ActionFtpPut.TestFolderExists.Label"));
+    wbTestRemoteDirectoryExists.setText(BaseMessages.getString(PKG, "ActionFtpPut.TestFolderExists.Label"));
     FormData fdbTestRemoteDirectoryExists = new FormData();
     fdbTestRemoteDirectoryExists.right = new FormAttachment(100, 0);
     fdbTestRemoteDirectoryExists.top = new FormAttachment(wSourceSettings, margin);
     wbTestRemoteDirectoryExists.setLayoutData(fdbTestRemoteDirectoryExists);
-    wbTestRemoteDirectoryExists.addListener(
-        SWT.Selection, e -> checkRemoteFolder(variables.resolve(wRemoteDirectory.getText())));
+    wbTestRemoteDirectoryExists.addListener(SWT.Selection, e -> checkRemoteFolder(variables.resolve(wRemoteDirectory.getText())));
 
-    wRemoteDirectory =
-        new TextVar(
-            variables,
-            wTargetSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtpPut.RemoteDir.Tooltip"));
+    wRemoteDirectory = new TextVar(variables, wTargetSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtpPut.RemoteDir.Tooltip"));
     PropsUi.setLook(wRemoteDirectory);
     wRemoteDirectory.addModifyListener(lsMod);
     FormData fdRemoteDirectory = new FormData();
@@ -839,9 +810,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
   private void test() {
     if (connectToFtp(false, null)) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionFtpPut.Connected.OK", wServerName.getText())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionFtpPut.Connected.OK", wServerName.getText()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionFtpPut.Connected.Title.Ok"));
       mb.open();
     }
@@ -852,9 +821,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
     if (!Utils.isEmpty(remoteFoldername)) {
       if (connectToFtp(true, remoteFoldername)) {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "ActionFtpPut.FolderExists.OK", remoteFoldername)
-                + Const.CR);
+        mb.setMessage(BaseMessages.getString(PKG, "ActionFtpPut.FolderExists.OK", remoteFoldername) + Const.CR);
         mb.setText(BaseMessages.getString(PKG, "ActionFtpPut.FolderExists.Title.Ok"));
         mb.open();
       }
@@ -871,9 +838,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
       if (ftpclient == null || !ftpclient.isConnected()) {
         // Create ftp client to host:port ...
         //
-        ftpclient =
-            FtpClientUtil.connectAndLogin(
-                LogChannel.UI, variables, actionFtpPut, actionFtpPut.getName());
+        ftpclient = FtpClientUtil.connectAndLogin(LogChannel.UI, variables, actionFtpPut, actionFtpPut.getName());
 
         pwdFolder = ftpclient.printWorkingDirectory();
       }
@@ -902,10 +867,7 @@ public class ActionFtpPutDialog extends ActionDialog implements IActionDialog {
         FtpClientUtil.clearSocksJvmSettings();
       }
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-                  PKG, "ActionFtpPut.ErrorConnect.NOK", realServername, e.getMessage())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionFtpPut.ErrorConnect.NOK", realServername, e.getMessage()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionFtpPut.ErrorConnect.Title.Bad"));
       mb.open();
     }

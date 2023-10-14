@@ -29,37 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "MarkDownExplorerFileType",
-    name = "MarkDown File Type",
-    description = "MarkDown file handling in the explorer perspective",
-    image = "textfile.svg")
-public class MarkDownExplorerFileType extends BaseTextExplorerFileType<TextExplorerFileTypeHandler>
-    implements IExplorerFileType<TextExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "MarkDownExplorerFileType", name = "MarkDown File Type", description = "MarkDown file handling in the explorer perspective", image = "textfile.svg")
+public class MarkDownExplorerFileType extends BaseTextExplorerFileType<TextExplorerFileTypeHandler> implements IExplorerFileType<TextExplorerFileTypeHandler> {
 
   public MarkDownExplorerFileType() {
-    super(
-        "MarkDown File",
-        ".md",
-        new String[] {"*.md"},
-        new String[] {"MarkDown files"},
-        FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+    super("MarkDown File", ".md", new String[] {"*.md"}, new String[] {"MarkDown files"}, FileTypeCapabilities.getCapabilities(
+        IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
-  public TextExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public TextExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new TextExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

@@ -24,9 +24,7 @@ public class FuzzyMatchMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    FuzzyMatchMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/fuzzy-match-transform.xml", FuzzyMatchMeta.class);
+    FuzzyMatchMeta meta = TransformSerializationTestUtil.testSerialization("/fuzzy-match-transform.xml", FuzzyMatchMeta.class);
 
     Assert.assertEquals("Data grid", meta.getLookupTransformName());
     Assert.assertEquals("name", meta.getLookupField());

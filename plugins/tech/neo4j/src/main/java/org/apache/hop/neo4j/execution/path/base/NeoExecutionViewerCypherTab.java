@@ -40,8 +40,7 @@ public class NeoExecutionViewerCypherTab extends NeoExecutionViewerTabBase {
   }
 
   public void addNeo4jCypherTab(CTabFolder tabFolder) {
-    Image neo4jImage =
-        GuiResource.getInstance().getImage("neo4j_cypher.svg", classLoader, iconSize, iconSize);
+    Image neo4jImage = GuiResource.getInstance().getImage("neo4j_cypher.svg", classLoader, iconSize, iconSize);
     CTabItem cypherTab = new CTabItem(tabFolder, SWT.NONE);
     cypherTab.setFont(GuiResource.getInstance().getFontDefault());
     cypherTab.setText(BaseMessages.getString(PKG, "Neo4jPerspectiveDialog.Cypher.Tab"));
@@ -53,30 +52,20 @@ public class NeoExecutionViewerCypherTab extends NeoExecutionViewerTabBase {
 
     // If the tab becomes visible, refresh
     //
-    tabFolder.addListener(
-        SWT.Selection,
-        e -> {
-          if (cypherTab == tabFolder.getSelection()) {
-            // Cypher tab selected!
-            refresh();
-          }
-        });
+    tabFolder.addListener(SWT.Selection, e -> {
+      if (cypherTab == tabFolder.getSelection()) {
+        // Cypher tab selected!
+        refresh();
+      }
+    });
   }
 
   private void refresh() {
     String cypher;
     if (StringUtils.isEmpty(viewer.getExecution().getParentId())) {
-      cypher =
-          "This execution does not have a parent and is as such a root execution. "
-              + Const.CR
-              + "You can look it up like this:"
-              + Const.CR
-              + Const.CR;
+      cypher = "This execution does not have a parent and is as such a root execution. " + Const.CR + "You can look it up like this:" + Const.CR + Const.CR;
     } else {
-      cypher =
-          "This is the Cypher used to get the list of paths to the root execution:"
-              + Const.CR
-              + Const.CR;
+      cypher = "This is the Cypher used to get the list of paths to the root execution:" + Const.CR + Const.CR;
     }
     String rootCypher = getPathToRootCypher();
     String activeId = getActiveLogChannelId();
@@ -85,10 +74,7 @@ public class NeoExecutionViewerCypherTab extends NeoExecutionViewerTabBase {
     ExecutionState state = viewer.getExecutionState();
     if (state != null) {
       cypher += Const.CR + Const.CR;
-      cypher +=
-          "Execute this Cypher to get the paths to the lowest level failed execution nodes, if there are any:"
-              + Const.CR
-              + Const.CR;
+      cypher += "Execute this Cypher to get the paths to the lowest level failed execution nodes, if there are any:" + Const.CR + Const.CR;
       cypher += getPathToFailedCypher();
     }
     cypher = cypher.replace("$executionId", "\"" + getActiveLogChannelId() + "\"");

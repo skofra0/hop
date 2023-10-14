@@ -27,8 +27,7 @@ public class ExecutionDataSetMeta {
 
   public ExecutionDataSetMeta() {}
 
-  public ExecutionDataSetMeta(
-      String setKey, String logChannelId, String name, String copyNr, String description) {
+  public ExecutionDataSetMeta(String setKey, String logChannelId, String name, String copyNr, String description) {
     this.setKey = setKey;
     this.logChannelId = logChannelId;
     this.name = name;
@@ -36,14 +35,7 @@ public class ExecutionDataSetMeta {
     this.description = description;
   }
 
-  public ExecutionDataSetMeta(
-      String setKey,
-      String logChannelId,
-      String name,
-      String copyNr,
-      String fieldName,
-      String sampleDescription,
-      String description) {
+  public ExecutionDataSetMeta(String setKey, String logChannelId, String name, String copyNr, String fieldName, String sampleDescription, String description) {
     this.setKey = setKey;
     this.logChannelId = logChannelId;
     this.name = name;

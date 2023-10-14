@@ -34,17 +34,11 @@ public class BaseMessageDialog extends BaseDialog {
     this(shell, title, message, BaseMessages.getString(PKG, "System.Button.OK"), -1);
   }
 
-  public BaseMessageDialog(
-      final Shell shell, final String title, final String message, final int width) {
+  public BaseMessageDialog(final Shell shell, final String title, final String message, final int width) {
     this(shell, title, message, BaseMessages.getString(PKG, "System.Button.OK"), width);
   }
 
-  public BaseMessageDialog(
-      final Shell shell,
-      final String title,
-      final String message,
-      final String buttonLabel,
-      final int width) {
+  public BaseMessageDialog(final Shell shell, final String title, final String message, final String buttonLabel, final int width) {
     super(shell, title, width);
     this.message = message;
     this.buttons.put(buttonLabel, event -> dispose());

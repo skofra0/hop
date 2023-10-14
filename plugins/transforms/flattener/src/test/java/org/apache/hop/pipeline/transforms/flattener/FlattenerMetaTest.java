@@ -23,9 +23,7 @@ import org.junit.Test;
 public class FlattenerMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    FlattenerMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/flattener-transform.xml", FlattenerMeta.class);
+    FlattenerMeta meta = TransformSerializationTestUtil.testSerialization("/flattener-transform.xml", FlattenerMeta.class);
 
     Assert.assertEquals("flatten", meta.getFieldName());
     Assert.assertEquals(2, meta.getTargetFields().size());

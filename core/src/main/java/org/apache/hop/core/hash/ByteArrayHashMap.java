@@ -36,7 +36,7 @@ public class ByteArrayHashMap extends AbstractHashedMap {
    * @param initialCapacity the initial capacity
    * @param loadFactor the load factor
    * @throws IllegalArgumentException if the initial capacity is negative or the load factor is
-   *     nonpositive
+   *         nonpositive
    */
   public ByteArrayHashMap(int initialCapacity, float loadFactor, IRowMeta keyMeta) {
     super(initialCapacity, loadFactor);
@@ -89,7 +89,8 @@ public class ByteArrayHashMap extends AbstractHashedMap {
    * index contains an entry that is equal to the given key, or {@code null} if this is not the
    * case.
    *
-   * <p>More formally, if this index contains an entry {@code e} such that {@code key.equals(e))},
+   * <p>
+   * More formally, if this index contains an entry {@code e} such that {@code key.equals(e))},
    * then this method returns {@code e}; otherwise it returns {@code null}. (There can be at most
    * one such entry.)
    *
@@ -120,7 +121,7 @@ public class ByteArrayHashMap extends AbstractHashedMap {
   public List<byte[]> getKeys() {
     List<byte[]> rtn = new ArrayList<>(this.size());
     Set<byte[]> kSet = this.keySet();
-    for (Iterator<byte[]> it = kSet.iterator(); it.hasNext(); ) {
+    for (Iterator<byte[]> it = kSet.iterator(); it.hasNext();) {
       rtn.add(it.next());
     }
     return rtn;

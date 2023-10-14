@@ -103,7 +103,8 @@ public class ValueMetaBaseTest {
     }
   }
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   protected static final String TEST_NAME = "TEST_NAME";
   protected static final String LOG_FIELD = "LOG_FIELD";
@@ -113,7 +114,8 @@ public class ValueMetaBaseTest {
   protected Class<?> PKG = ValueMetaBase.PKG;
   protected StoreLoggingEventListener listener;
 
-  @Spy protected DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  protected DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   protected PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   protected ResultSet resultSet;
   protected DatabaseMeta dbMeta;
@@ -146,8 +148,7 @@ public class ValueMetaBaseTest {
     listener = new StoreLoggingEventListener();
   }
 
-  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data)
-      throws HopDatabaseException {
+  protected void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data) throws HopDatabaseException {
     IValueMeta valueMetaString = new ValueMetaString(LOG_FIELD, length, 0);
     databaseMetaSpy.setIDatabase(dbMeta);
     valueMetaString.setPreparedStatementValue(databaseMetaSpy, preparedStatementMock, 0, data);
@@ -190,80 +191,40 @@ public class ValueMetaBaseTest {
   @Test
   public void testGetDataXML() throws IOException {
     BigDecimal bigDecimal = BigDecimal.ONE;
-    ValueMetaBase valueDoubleMetaBase =
-        new ValueMetaBase(String.valueOf(bigDecimal), IValueMeta.TYPE_BIGNUMBER);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(String.valueOf(bigDecimal))
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        valueDoubleMetaBase.getDataXml(bigDecimal));
+    ValueMetaBase valueDoubleMetaBase = new ValueMetaBase(String.valueOf(bigDecimal), IValueMeta.TYPE_BIGNUMBER);
+    assertEquals("<value-data>" + Encode.forXml(String.valueOf(bigDecimal)) + "</value-data>" + SystemUtils.LINE_SEPARATOR, valueDoubleMetaBase.getDataXml(bigDecimal));
 
     boolean valueBoolean = Boolean.TRUE;
-    ValueMetaBase valueBooleanMetaBase =
-        new ValueMetaBase(String.valueOf(valueBoolean), IValueMeta.TYPE_BOOLEAN);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(String.valueOf(valueBoolean))
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        valueBooleanMetaBase.getDataXml(valueBoolean));
+    ValueMetaBase valueBooleanMetaBase = new ValueMetaBase(String.valueOf(valueBoolean), IValueMeta.TYPE_BOOLEAN);
+    assertEquals("<value-data>" + Encode.forXml(String.valueOf(valueBoolean)) + "</value-data>" + SystemUtils.LINE_SEPARATOR, valueBooleanMetaBase.getDataXml(valueBoolean));
 
     Date date = new Date(0);
     ValueMetaBase dateMetaBase = new ValueMetaBase(date.toString(), IValueMeta.TYPE_DATE);
     SimpleDateFormat formaterData = new SimpleDateFormat(ValueMetaBase.DEFAULT_DATE_FORMAT_MASK);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(formaterData.format(date))
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        dateMetaBase.getDataXml(date));
+    assertEquals("<value-data>" + Encode.forXml(formaterData.format(date)) + "</value-data>" + SystemUtils.LINE_SEPARATOR, dateMetaBase.getDataXml(date));
 
     InetAddress inetAddress = InetAddress.getByName("127.0.0.1");
-    ValueMetaBase inetAddressMetaBase =
-        new ValueMetaBase(inetAddress.toString(), IValueMeta.TYPE_INET);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(inetAddress.toString())
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        inetAddressMetaBase.getDataXml(inetAddress));
+    ValueMetaBase inetAddressMetaBase = new ValueMetaBase(inetAddress.toString(), IValueMeta.TYPE_INET);
+    assertEquals("<value-data>" + Encode.forXml(inetAddress.toString()) + "</value-data>" + SystemUtils.LINE_SEPARATOR, inetAddressMetaBase.getDataXml(inetAddress));
 
     long value = Long.MAX_VALUE;
-    ValueMetaBase integerMetaBase =
-        new ValueMetaBase(String.valueOf(value), IValueMeta.TYPE_INTEGER);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(String.valueOf(value))
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        integerMetaBase.getDataXml(value));
+    ValueMetaBase integerMetaBase = new ValueMetaBase(String.valueOf(value), IValueMeta.TYPE_INTEGER);
+    assertEquals("<value-data>" + Encode.forXml(String.valueOf(value)) + "</value-data>" + SystemUtils.LINE_SEPARATOR, integerMetaBase.getDataXml(value));
 
     String stringValue = "TEST_STRING";
     ValueMetaBase valueMetaBase = new ValueMetaString(stringValue);
-    assertEquals(
-        "<value-data>" + Encode.forXml(stringValue) + "</value-data>" + SystemUtils.LINE_SEPARATOR,
-        valueMetaBase.getDataXml(stringValue));
+    assertEquals("<value-data>" + Encode.forXml(stringValue) + "</value-data>" + SystemUtils.LINE_SEPARATOR, valueMetaBase.getDataXml(stringValue));
 
     Timestamp timestamp = new Timestamp(0);
     ValueMetaBase valueMetaBaseTimeStamp = new ValueMetaTimestamp(timestamp.toString());
     SimpleDateFormat formater = new SimpleDateFormat(ValueMetaBase.DEFAULT_TIMESTAMP_FORMAT_MASK);
-    assertEquals(
-        "<value-data>"
-            + Encode.forXml(formater.format(timestamp))
-            + "</value-data>"
-            + SystemUtils.LINE_SEPARATOR,
-        valueMetaBaseTimeStamp.getDataXml(timestamp));
+    assertEquals("<value-data>" + Encode.forXml(formater.format(timestamp)) + "</value-data>" + SystemUtils.LINE_SEPARATOR, valueMetaBaseTimeStamp.getDataXml(timestamp));
 
     byte[] byteTestValues = {0, 1, 2, 3};
     ValueMetaBase valueMetaBaseByteArray = new ValueMetaString(byteTestValues.toString());
     valueMetaBaseByteArray.setStorageType(IValueMeta.STORAGE_TYPE_BINARY_STRING);
     assertEquals(
-        "<value-data><binary-string>"
-            + Encode.forXml(XmlHandler.encodeBinaryData(byteTestValues))
-            + "</binary-string>"
-            + Const.CR
-            + "</value-data>",
+        "<value-data><binary-string>" + Encode.forXml(XmlHandler.encodeBinaryData(byteTestValues)) + "</binary-string>" + Const.CR + "</value-data>",
         valueMetaBaseByteArray.getDataXml(byteTestValues));
   }
 
@@ -277,11 +238,9 @@ public class ValueMetaBaseTest {
     doReturn(iDatabase).when(dbMeta).getIDatabase();
 
     ResultSetMetaData metaData = mock(ResultSetMetaData.class);
-    valueMetaBaseSpy.getValueFromSqlType(
-        variables, dbMeta, TEST_NAME, metaData, varbinaryColumnIndex, false, false);
+    valueMetaBaseSpy.getValueFromSqlType(variables, dbMeta, TEST_NAME, metaData, varbinaryColumnIndex, false, false);
 
-    verify(iDatabase, times(1))
-        .customizeValueFromSqlType(any(IValueMeta.class), any(ResultSetMetaData.class), anyInt());
+    verify(iDatabase, times(1)).customizeValueFromSqlType(any(IValueMeta.class), any(ResultSetMetaData.class), anyInt());
   }
 
   @Test
@@ -318,41 +277,18 @@ public class ValueMetaBaseTest {
     Object result;
 
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "N");
-    result =
-        outValueMetaString.convertDataFromString(
-            inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
-    assertEquals(
-        "HOP_EMPTY_STRING_DIFFERS_FROM_NULL = N: "
-            + "Conversion from empty string to string must return empty string",
-        StringUtils.EMPTY,
-        result);
+    result = outValueMetaString.convertDataFromString(inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
+    assertEquals("HOP_EMPTY_STRING_DIFFERS_FROM_NULL = N: " + "Conversion from empty string to string must return empty string", StringUtils.EMPTY, result);
 
-    result =
-        outValueMetaString.convertDataFromString(
-            inputValueNullString, inValueMetaString, nullIf, ifNull, trimType);
-    assertEquals(
-        "HOP_EMPTY_STRING_DIFFERS_FROM_NULL = N: " + "Conversion from null string must return null",
-        null,
-        result);
+    result = outValueMetaString.convertDataFromString(inputValueNullString, inValueMetaString, nullIf, ifNull, trimType);
+    assertEquals("HOP_EMPTY_STRING_DIFFERS_FROM_NULL = N: " + "Conversion from null string must return null", null, result);
 
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y");
-    result =
-        outValueMetaString.convertDataFromString(
-            inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
-    assertEquals(
-        "HOP_EMPTY_STRING_DIFFERS_FROM_NULL = Y: "
-            + "Conversion from empty string to string must return empty string",
-        StringUtils.EMPTY,
-        result);
+    result = outValueMetaString.convertDataFromString(inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
+    assertEquals("HOP_EMPTY_STRING_DIFFERS_FROM_NULL = Y: " + "Conversion from empty string to string must return empty string", StringUtils.EMPTY, result);
 
-    result =
-        outValueMetaString.convertDataFromString(
-            inputValueNullString, inValueMetaString, nullIf, ifNull, trimType);
-    assertEquals(
-        "HOP_EMPTY_STRING_DIFFERS_FROM_NULL = Y: "
-            + "Conversion from null string must return empty string",
-        StringUtils.EMPTY,
-        result);
+    result = outValueMetaString.convertDataFromString(inputValueNullString, inValueMetaString, nullIf, ifNull, trimType);
+    assertEquals("HOP_EMPTY_STRING_DIFFERS_FROM_NULL = Y: " + "Conversion from null string must return empty string", StringUtils.EMPTY, result);
   }
 
   @Test
@@ -365,9 +301,7 @@ public class ValueMetaBaseTest {
     int trimType = 0;
     Object result;
 
-    result =
-        outValueMetaDate.convertDataFromString(
-            inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
+    result = outValueMetaDate.convertDataFromString(inputValueEmptyString, inValueMetaString, nullIf, ifNull, trimType);
     assertEquals("Conversion from empty string to date must return null", result, null);
   }
 
@@ -380,8 +314,7 @@ public class ValueMetaBaseTest {
     String ifNull = null;
     int trimType = 0;
 
-    valueMetaBase.convertDataFromString(
-        inputValueEmptyString, iValueMeta, nullIf, ifNull, trimType);
+    valueMetaBase.convertDataFromString(inputValueEmptyString, iValueMeta, nullIf, ifNull, trimType);
   }
 
   @Test(expected = HopValueException.class)
@@ -409,13 +342,7 @@ public class ValueMetaBaseTest {
       assertTrue(Integer.toString(type), ValueMetaBase.isNumeric(type));
     }
 
-    int[] notNumTypes = {
-      IValueMeta.TYPE_INET,
-      IValueMeta.TYPE_BOOLEAN,
-      IValueMeta.TYPE_BINARY,
-      IValueMeta.TYPE_DATE,
-      IValueMeta.TYPE_STRING
-    };
+    int[] notNumTypes = {IValueMeta.TYPE_INET, IValueMeta.TYPE_BOOLEAN, IValueMeta.TYPE_BINARY, IValueMeta.TYPE_DATE, IValueMeta.TYPE_STRING};
     for (int type : notNumTypes) {
       assertFalse(Integer.toString(type), ValueMetaBase.isNumeric(type));
     }
@@ -447,18 +374,10 @@ public class ValueMetaBaseTest {
 
   @Test
   public void testGetTrimTypeByDesc() {
-    assertEquals(
-        ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.None")),
-        IValueMeta.TRIM_TYPE_NONE);
-    assertEquals(
-        ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Left")),
-        IValueMeta.TRIM_TYPE_LEFT);
-    assertEquals(
-        ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Right")),
-        IValueMeta.TRIM_TYPE_RIGHT);
-    assertEquals(
-        ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Both")),
-        IValueMeta.TRIM_TYPE_BOTH);
+    assertEquals(ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.None")), IValueMeta.TRIM_TYPE_NONE);
+    assertEquals(ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Left")), IValueMeta.TRIM_TYPE_LEFT);
+    assertEquals(ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Right")), IValueMeta.TRIM_TYPE_RIGHT);
+    assertEquals(ValueMetaBase.getTrimTypeByDesc(BaseMessages.getString(PKG, "ValueMeta.TrimType.Both")), IValueMeta.TRIM_TYPE_BOTH);
     assertEquals(ValueMetaBase.getTrimTypeByDesc(null), IValueMeta.TRIM_TYPE_NONE);
     assertEquals(ValueMetaBase.getTrimTypeByDesc(""), IValueMeta.TRIM_TYPE_NONE);
     assertEquals(ValueMetaBase.getTrimTypeByDesc("fake"), IValueMeta.TRIM_TYPE_NONE);
@@ -466,23 +385,12 @@ public class ValueMetaBaseTest {
 
   @Test
   public void testGetTrimTypeDesc() {
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_NONE),
-        BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_LEFT),
-        BaseMessages.getString(PKG, "ValueMeta.TrimType.Left"));
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_RIGHT),
-        BaseMessages.getString(PKG, "ValueMeta.TrimType.Right"));
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_BOTH),
-        BaseMessages.getString(PKG, "ValueMeta.TrimType.Both"));
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(-1), BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
-    assertEquals(
-        ValueMetaBase.getTrimTypeDesc(10000),
-        BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_NONE), BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_LEFT), BaseMessages.getString(PKG, "ValueMeta.TrimType.Left"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_RIGHT), BaseMessages.getString(PKG, "ValueMeta.TrimType.Right"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(IValueMeta.TRIM_TYPE_BOTH), BaseMessages.getString(PKG, "ValueMeta.TrimType.Both"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(-1), BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
+    assertEquals(ValueMetaBase.getTrimTypeDesc(10000), BaseMessages.getString(PKG, "ValueMeta.TrimType.None"));
   }
 
   @Test
@@ -611,8 +519,7 @@ public class ValueMetaBaseTest {
   public void testCompareDateNoStorageMask() throws HopValueException {
     IValueMeta storageMeta = new ValueMetaString("string");
     storageMeta.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
-    storageMeta.setConversionMask(
-        null); // explicit set to null, to make sure test condition are met
+    storageMeta.setConversionMask(null); // explicit set to null, to make sure test condition are met
 
     IValueMeta dateMeta = new ValueMetaDate("date");
     dateMeta.setStorageType(IValueMeta.STORAGE_TYPE_BINARY_STRING);
@@ -654,17 +561,12 @@ public class ValueMetaBaseTest {
 
     // try to convert date by 'start-of-date' make - old behavior
     dateMeta.setConversionMask("yyyy-MM-dd");
-    assertEquals(
-        local(1918, 3, 25, 0, 0, 0, 0),
-        dateMeta.convertStringToDate("1918-03-25T07:40:03.012+03:00"));
+    assertEquals(local(1918, 3, 25, 0, 0, 0, 0), dateMeta.convertStringToDate("1918-03-25T07:40:03.012+03:00"));
 
     // convert ISO-8601 date - supported since Java 7
     dateMeta.setConversionMask("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-    assertEquals(
-        utc(1918, 3, 25, 5, 10, 3, 12),
-        dateMeta.convertStringToDate("1918-03-25T07:40:03.012+02:30"));
-    assertEquals(
-        utc(1918, 3, 25, 7, 40, 3, 12), dateMeta.convertStringToDate("1918-03-25T07:40:03.012Z"));
+    assertEquals(utc(1918, 3, 25, 5, 10, 3, 12), dateMeta.convertStringToDate("1918-03-25T07:40:03.012+02:30"));
+    assertEquals(utc(1918, 3, 25, 7, 40, 3, 12), dateMeta.convertStringToDate("1918-03-25T07:40:03.012Z"));
 
     // convert date
     dateMeta.setConversionMask("yyyy-MM-dd");
@@ -680,9 +582,7 @@ public class ValueMetaBaseTest {
 
     // try to convert date by 'start-of-date' make - old behavior
     dateMeta.setConversionMask("yyyy-MM-dd");
-    assertEquals(
-        local(1918, 3, 25, 0, 0, 0, 0),
-        dateMeta.convertStringToDate("1918-03-25T07:40:03.012+03:00"));
+    assertEquals(local(1918, 3, 25, 0, 0, 0, 0), dateMeta.convertStringToDate("1918-03-25T07:40:03.012+03:00"));
   }
 
   @Test
@@ -702,18 +602,13 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testValueMetaBaseOnlyHasOneLogger()
-      throws NoSuchFieldException, IllegalAccessException {
+  public void testValueMetaBaseOnlyHasOneLogger() throws NoSuchFieldException, IllegalAccessException {
     Field log = ValueMetaBase.class.getDeclaredField("log");
     assertTrue(Modifier.isStatic(log.getModifiers()));
     assertTrue(Modifier.isFinal(log.getModifiers()));
     log.setAccessible(true);
     try {
-      assertEquals(
-          LoggingRegistry.getInstance()
-              .findExistingLoggingSource(new LoggingObject("ValueMetaBase"))
-              .getLogChannelId(),
-          ((ILogChannel) log.get(null)).getLogChannelId());
+      assertEquals(LoggingRegistry.getInstance().findExistingLoggingSource(new LoggingObject("ValueMetaBase")).getLogChannelId(), ((ILogChannel) log.get(null)).getLogChannelId());
     } finally {
       log.setAccessible(false);
     }
@@ -754,8 +649,7 @@ public class ValueMetaBaseTest {
       baseMeta.convertDataUsingConversionMetaData(customData);
       fail("Should have thrown a Hop Value Exception with a proper message. Not a NPE stack trace");
     } catch (HopValueException e) {
-      String expectedMessage =
-          "CUSTOM_VALUEMETA_STRING String : I can't convert the specified value to data type : 999";
+      String expectedMessage = "CUSTOM_VALUEMETA_STRING String : I can't convert the specified value to data type : 999";
       assertEquals(expectedMessage, e.getMessage().trim());
     }
   }
@@ -767,8 +661,7 @@ public class ValueMetaBaseTest {
 
     base.setConversionMetadata(new ValueMetaString("STRING"));
     Object defaultStringData = "STRING DATA";
-    String convertedStringData =
-        (String) base.convertDataUsingConversionMetaData(defaultStringData);
+    String convertedStringData = (String) base.convertDataUsingConversionMetaData(defaultStringData);
     assertEquals("STRING DATA", convertedStringData);
 
     base.setConversionMetadata(new ValueMetaInteger("INTEGER"));
@@ -778,8 +671,7 @@ public class ValueMetaBaseTest {
 
     base.setConversionMetadata(new ValueMetaNumber("NUMBER"));
     Object defaultNumberData = "1.999";
-    double convertedNumberData =
-        (double) base.convertDataUsingConversionMetaData(defaultNumberData);
+    double convertedNumberData = (double) base.convertDataUsingConversionMetaData(defaultNumberData);
     assertEquals(1.999, convertedNumberData, DELTA);
 
     IValueMeta dateConversionMeta = new ValueMetaDate("DATE");
@@ -792,8 +684,7 @@ public class ValueMetaBaseTest {
 
     base.setConversionMetadata(new ValueMetaBigNumber("BIG_NUMBER"));
     Object defaultBigNumber = String.valueOf(BigDecimal.ONE);
-    BigDecimal convertedBigNumber =
-        (BigDecimal) base.convertDataUsingConversionMetaData(defaultBigNumber);
+    BigDecimal convertedBigNumber = (BigDecimal) base.convertDataUsingConversionMetaData(defaultBigNumber);
     assertEquals(BigDecimal.ONE, convertedBigNumber);
 
     base.setConversionMetadata(new ValueMetaBoolean("BOOLEAN"));
@@ -820,8 +711,7 @@ public class ValueMetaBaseTest {
     dataOutputStream.writeInt(address.length);
     dataOutputStream.write(address);
 
-    DataInputStream dis =
-        new DataInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+    DataInputStream dis = new DataInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
     ValueMetaBase vm = new ValueMetaInternetAddress();
     assertEquals(localhost, vm.readData(dis));
   }
@@ -879,19 +769,12 @@ public class ValueMetaBaseTest {
     assertEquals(68933l, valueMetaBase.getValue(xmlNode));
 
     valueMetaBase = new ValueMetaDate("test");
-    xmlNode =
-        XmlHandler.loadXmlString("<value-data>2017/11/27 08:47:10.000</value-data>")
-            .getFirstChild();
-    assertEquals(
-        XmlHandler.stringToDate("2017/11/27 08:47:10.000"), valueMetaBase.getValue(xmlNode));
+    xmlNode = XmlHandler.loadXmlString("<value-data>2017/11/27 08:47:10.000</value-data>").getFirstChild();
+    assertEquals(XmlHandler.stringToDate("2017/11/27 08:47:10.000"), valueMetaBase.getValue(xmlNode));
 
     valueMetaBase = new ValueMetaTimestamp("test");
-    xmlNode =
-        XmlHandler.loadXmlString("<value-data>2017/11/27 08:47:10.123456789</value-data>")
-            .getFirstChild();
-    assertEquals(
-        XmlHandler.stringToTimestamp("2017/11/27 08:47:10.123456789"),
-        valueMetaBase.getValue(xmlNode));
+    xmlNode = XmlHandler.loadXmlString("<value-data>2017/11/27 08:47:10.123456789</value-data>").getFirstChild();
+    assertEquals(XmlHandler.stringToTimestamp("2017/11/27 08:47:10.123456789"), valueMetaBase.getValue(xmlNode));
 
     valueMetaBase = new ValueMetaBoolean("test");
     xmlNode = XmlHandler.loadXmlString("<value-data>Y</value-data>").getFirstChild();
@@ -900,10 +783,7 @@ public class ValueMetaBaseTest {
     valueMetaBase = new ValueMetaBinary("test");
     byte[] bytes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     String s = XmlHandler.encodeBinaryData(bytes);
-    xmlNode =
-        XmlHandler.loadXmlString(
-                "<value-data>test<binary-value>" + s + "</binary-value></value-data>")
-            .getFirstChild();
+    xmlNode = XmlHandler.loadXmlString("<value-data>test<binary-value>" + s + "</binary-value></value-data>").getFirstChild();
     assertArrayEquals(bytes, (byte[]) valueMetaBase.getValue(xmlNode));
 
     valueMetaBase = new ValueMetaString("test");
@@ -914,8 +794,7 @@ public class ValueMetaBaseTest {
   @Test(expected = HopException.class)
   public void testGetValueUnknownType() throws Exception {
     ValueMetaBase valueMetaBase = new ValueMetaNone("test");
-    valueMetaBase.getValue(
-        XmlHandler.loadXmlString("<value-data>not empty</value-data>").getFirstChild());
+    valueMetaBase.getValue(XmlHandler.loadXmlString("<value-data>not empty</value-data>").getFirstChild());
   }
 
   @Test
@@ -925,8 +804,7 @@ public class ValueMetaBaseTest {
 
     ValueMetaBase base = new ValueMetaString("ValueMetaStringColumn");
     base.setConversionMetadata(new ValueMetaTimestamp("ValueMetaTimestamp"));
-    Timestamp timestamp =
-        (Timestamp) base.convertDataUsingConversionMetaData(timestampStringRepresentation);
+    Timestamp timestamp = (Timestamp) base.convertDataUsingConversionMetaData(timestampStringRepresentation);
     assertEquals(expectedTimestamp, timestamp);
   }
 
@@ -1049,8 +927,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlLongVarcharToHopString()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlLongVarcharToHopString() throws SQLException, HopDatabaseException {
     doReturn(Types.LONGVARCHAR).when(resultSet).getInt("DATA_TYPE");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
     assertTrue(valueMeta.isString());
@@ -1093,8 +970,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlSmallIntToHopInteger()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlSmallIntToHopInteger() throws SQLException, HopDatabaseException {
     doReturn(Types.SMALLINT).when(resultSet).getInt("DATA_TYPE");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
     assertTrue(valueMeta.isInteger());
@@ -1112,8 +988,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDecimalToHopBigNumber()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDecimalToHopBigNumber() throws SQLException, HopDatabaseException {
     doReturn(Types.DECIMAL).when(resultSet).getInt("DATA_TYPE");
     doReturn(20).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -1158,8 +1033,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDoubleWithoutDecimalDigits()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDoubleWithoutDecimalDigits() throws SQLException, HopDatabaseException {
     doReturn(Types.DOUBLE).when(resultSet).getInt("DATA_TYPE");
     doReturn(3).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -1171,8 +1045,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDoubleToHopBigNumber()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDoubleToHopBigNumber() throws SQLException, HopDatabaseException {
     doReturn(Types.DOUBLE).when(resultSet).getInt("DATA_TYPE");
     doReturn(20).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -1208,8 +1081,7 @@ public class ValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewUnsupportedSqlTimestamp()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewUnsupportedSqlTimestamp() throws SQLException, HopDatabaseException {
     doReturn(Types.TIMESTAMP).when(resultSet).getInt("DATA_TYPE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
     doReturn(19).when(resultSet).getInt("DECIMAL_DIGITS");

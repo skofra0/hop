@@ -58,21 +58,22 @@ import static org.mockito.Mockito.when;
 
 public class MongoDbOutputDataTest {
 
-  @Mock private IVariables variables;
-  @Mock private MongoClientWrapper client;
-  @Mock private MongoCollectionWrapper collection;
-  @Mock private IRowMeta rowMeta;
-  @Mock private IValueMeta valueMeta;
+  @Mock
+  private IVariables variables;
+  @Mock
+  private MongoClientWrapper client;
+  @Mock
+  private MongoCollectionWrapper collection;
+  @Mock
+  private IRowMeta rowMeta;
+  @Mock
+  private IValueMeta valueMeta;
 
   @Before
   public void before() {
     MockitoAnnotations.openMocks(this);
-    when(variables.resolve(any(String.class)))
-        .thenAnswer(
-            (Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
-    when(variables.resolve(any(String.class)))
-        .thenAnswer(
-            (Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
+    when(variables.resolve(any(String.class))).thenAnswer((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
+    when(variables.resolve(any(String.class))).thenAnswer((Answer<String>) invocationOnMock -> (String) invocationOnMock.getArguments()[0]);
   }
 
   @BeforeClass
@@ -90,9 +91,7 @@ public class MongoDbOutputDataTest {
 
     ArgumentCaptor<BasicDBObject> captorIndexes = ArgumentCaptor.forClass(BasicDBObject.class);
     ArgumentCaptor<BasicDBObject> captorOptions = ArgumentCaptor.forClass(BasicDBObject.class);
-    doNothing()
-        .when(collectionWrapper)
-        .createIndex(captorIndexes.capture(), captorOptions.capture());
+    doNothing().when(collectionWrapper).createIndex(captorIndexes.capture(), captorOptions.capture());
 
     MongoIndex index = new MongoIndex();
     index.pathToFields = "FirstName:1";
@@ -176,9 +175,7 @@ public class MongoDbOutputDataTest {
     data.setCollection(collectionWrapper);
 
     ArgumentCaptor<BasicDBObject> captorIndexes = ArgumentCaptor.forClass(BasicDBObject.class);
-    doNothing()
-        .when(collectionWrapper)
-        .createIndex(captorIndexes.capture(), any(BasicDBObject.class));
+    doNothing().when(collectionWrapper).createIndex(captorIndexes.capture(), any(BasicDBObject.class));
 
     MongoIndex index = new MongoIndex();
     index.pathToFields = "FirstName:1";
@@ -239,12 +236,7 @@ public class MongoDbOutputDataTest {
 
     when(valueMeta.isString()).thenReturn(false);
     try {
-      MongoDbOutputData.getQueryObject(
-          Collections.singletonList(field1),
-          rowMeta,
-          row,
-          variables,
-          MongoDbOutputData.MongoTopLevel.RECORD);
+      MongoDbOutputData.getQueryObject(Collections.singletonList(field1), rowMeta, row, variables, MongoDbOutputData.MongoTopLevel.RECORD);
       fail("expected an exception, can't construct query from non-string.");
     } catch (Exception e) {
       assertThat(e, instanceOf(HopException.class));
@@ -252,13 +244,7 @@ public class MongoDbOutputDataTest {
 
     when(valueMeta.isString()).thenReturn(true);
     assertThat(
-        MongoDbOutputData.getQueryObject(
-            Collections.singletonList(field1),
-            rowMeta,
-            row,
-            variables,
-            MongoDbOutputData.MongoTopLevel.RECORD),
-        equalTo(BasicDBObject.parse(query)));
+        MongoDbOutputData.getQueryObject(Collections.singletonList(field1), rowMeta, row, variables, MongoDbOutputData.MongoTopLevel.RECORD), equalTo(BasicDBObject.parse(query)));
   }
 
   @Test

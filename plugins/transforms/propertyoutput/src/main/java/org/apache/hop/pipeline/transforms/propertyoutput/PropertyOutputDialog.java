@@ -93,8 +93,7 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
 
   private final PropertyOutputMeta input;
 
-  public PropertyOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public PropertyOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (PropertyOutputMeta) in;
   }
@@ -234,8 +233,7 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdlComment.right = new FormAttachment(middle, -margin);
     wlComment.setLayoutData(fdlComment);
 
-    wComment =
-        new Text(wGeneralComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wComment = new Text(wGeneralComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     wComment.setToolTipText(BaseMessages.getString(PKG, "PropertyOutputDialog.Comment.Tooltip"));
     PropsUi.setLook(wComment);
     wComment.addModifyListener(lsMod);
@@ -344,18 +342,16 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdAppend.top = new FormAttachment(wlAppend, 0, SWT.CENTER);
     fdAppend.right = new FormAttachment(100, 0);
     wAppend.setLayoutData(fdAppend);
-    wAppend.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        });
+    wAppend.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    });
 
     // Create Parent Folder
     Label wlCreateParentFolder = new Label(wFileName, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -363,26 +359,23 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdlCreateParentFolder.right = new FormAttachment(middle, -margin);
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wFileName, SWT.CHECK);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "PropertyOutputDialog.CreateParentFolder.Tooltip"));
     PropsUi.setLook(wCreateParentFolder);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
     fdCreateParentFolder.right = new FormAttachment(100, 0);
     wCreateParentFolder.setLayoutData(fdCreateParentFolder);
-    wCreateParentFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wCreateParentFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // FileNameInField line
     Label wlFileNameInField = new Label(wFileName, SWT.RIGHT);
-    wlFileNameInField.setText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameInField.Label"));
+    wlFileNameInField.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameInField.Label"));
     PropsUi.setLook(wlFileNameInField);
     FormData fdlFileNameInField = new FormData();
     fdlFileNameInField.left = new FormAttachment(0, 0);
@@ -390,27 +383,24 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdlFileNameInField.right = new FormAttachment(middle, -margin);
     wlFileNameInField.setLayoutData(fdlFileNameInField);
     wFileNameInField = new Button(wFileName, SWT.CHECK);
-    wlFileNameInField.setToolTipText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameInField.Label"));
+    wlFileNameInField.setToolTipText(BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameInField.Label"));
     PropsUi.setLook(wFileNameInField);
     FormData fdFileNameInField = new FormData();
     fdFileNameInField.left = new FormAttachment(middle, 0);
     fdFileNameInField.top = new FormAttachment(wlFileNameInField, 0, SWT.CENTER);
     fdFileNameInField.right = new FormAttachment(100, 0);
     wFileNameInField.setLayoutData(fdFileNameInField);
-    wFileNameInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activateFilenameInField();
-          }
-        });
+    wFileNameInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activateFilenameInField();
+      }
+    });
 
     // FileNameField Line
     wlFileNameField = new Label(wFileName, SWT.RIGHT);
-    wlFileNameField.setText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameField.Label"));
+    wlFileNameField.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.FileNameField.Label"));
     PropsUi.setLook(wlFileNameField);
     FormData fdlFileNameField = new FormData();
     fdlFileNameField.left = new FormAttachment(0, 0);
@@ -450,8 +440,7 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
 
     // Create multi-part file?
     wlAddTransformNr = new Label(wFileName, SWT.RIGHT);
-    wlAddTransformNr.setText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.AddTransformnr.Label"));
+    wlAddTransformNr.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.AddTransformnr.Label"));
     PropsUi.setLook(wlAddTransformNr);
     FormData fdlAddTransformNr = new FormData();
     fdlAddTransformNr.left = new FormAttachment(0, 0);
@@ -465,13 +454,12 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdAddTransformNr.top = new FormAttachment(wlAddTransformNr, 0, SWT.CENTER);
     fdAddTransformNr.right = new FormAttachment(100, 0);
     wAddTransformNr.setLayoutData(fdAddTransformNr);
-    wAddTransformNr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTransformNr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddDate = new Label(wFileName, SWT.RIGHT);
@@ -489,13 +477,12 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
     // Create multi-part file?
     wlAddTime = new Label(wFileName, SWT.RIGHT);
     wlAddTime.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.AddTime.Label"));
@@ -512,13 +499,12 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     wbShowFiles = new Button(wFileName, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbShowFiles);
@@ -527,33 +513,29 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdbShowFiles.left = new FormAttachment(middle, 0);
     fdbShowFiles.top = new FormAttachment(wAddTime, margin * 2);
     wbShowFiles.setLayoutData(fdbShowFiles);
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            PropertyOutputMeta tfoi = new PropertyOutputMeta();
-            getInfo(tfoi);
-            String[] files = tfoi.getFiles(variables);
-            if (files != null && files.length > 0) {
-              EnterSelectionDialog esd =
-                  new EnterSelectionDialog(
-                      shell,
-                      files,
-                      BaseMessages.getString(
-                          PKG, "PropertyOutputDialog.SelectOutputFiles.DialogTitle"),
-                      BaseMessages.getString(
-                          PKG, "PropertyOutputDialog.SelectOutputFiles.DialogMessage"));
-              esd.setViewOnly();
-              esd.open();
-            } else {
-              MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-              mb.setMessage(
-                  BaseMessages.getString(PKG, "PropertyOutputDialog.NoFilesFound.DialogMessage"));
-              mb.setText(BaseMessages.getString(PKG, "System.DialogTitle.Error"));
-              mb.open();
-            }
-          }
-        });
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        PropertyOutputMeta tfoi = new PropertyOutputMeta();
+        getInfo(tfoi);
+        String[] files = tfoi.getFiles(variables);
+        if (files != null && files.length > 0) {
+          EnterSelectionDialog esd =
+              new EnterSelectionDialog(
+                  shell,
+                  files,
+                  BaseMessages.getString(PKG, "PropertyOutputDialog.SelectOutputFiles.DialogTitle"),
+                  BaseMessages.getString(PKG, "PropertyOutputDialog.SelectOutputFiles.DialogMessage"));
+          esd.setViewOnly();
+          esd.open();
+        } else {
+          MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+          mb.setMessage(BaseMessages.getString(PKG, "PropertyOutputDialog.NoFilesFound.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "System.DialogTitle.Error"));
+          mb.open();
+        }
+      }
+    });
 
     FormData fdFileName = new FormData();
     fdFileName.left = new FormAttachment(0, margin);
@@ -581,8 +563,7 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
 
     // Add File to the result files name
     Label wlAddToResult = new Label(wResultFile, SWT.RIGHT);
-    wlAddToResult.setText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.AddFileToResult.Label"));
+    wlAddToResult.setText(BaseMessages.getString(PKG, "PropertyOutputDialog.AddFileToResult.Label"));
     PropsUi.setLook(wlAddToResult);
     FormData fdlAddToResult = new FormData();
     fdlAddToResult.left = new FormAttachment(0, 0);
@@ -590,21 +571,19 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     fdlAddToResult.right = new FormAttachment(middle, -margin);
     wlAddToResult.setLayoutData(fdlAddToResult);
     wAddToResult = new Button(wResultFile, SWT.CHECK);
-    wAddToResult.setToolTipText(
-        BaseMessages.getString(PKG, "PropertyOutputDialog.AddFileToResult.Tooltip"));
+    wAddToResult.setToolTipText(BaseMessages.getString(PKG, "PropertyOutputDialog.AddFileToResult.Tooltip"));
     PropsUi.setLook(wAddToResult);
     FormData fdAddToResult = new FormData();
     fdAddToResult.left = new FormAttachment(middle, 0);
     fdAddToResult.top = new FormAttachment(wlAddToResult, 0, SWT.CENTER);
     fdAddToResult.right = new FormAttachment(100, 0);
     wAddToResult.setLayoutData(fdAddToResult);
-    SelectionAdapter lsSelAR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelAR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddToResult.addSelectionListener(lsSelAR);
 
     FormData fdResultFile = new FormData();
@@ -641,18 +620,13 @@ public class PropertyOutputDialog extends BaseTransformDialog implements ITransf
     // Add listeners
     wbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.txt", "*.csv", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.TextFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            shell, wFilename, variables, new String[] {"*.txt", "*.csv", "*"},
+            new String[] {
+                BaseMessages.getString(PKG, "System.FileType.TextFiles"),
+                BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
+                BaseMessages.getString(PKG, "System.FileType.AllFiles")},
+            true));
 
     wTabFolder.setSelection(0);
 

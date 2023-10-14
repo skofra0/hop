@@ -21,7 +21,8 @@ public class MetaBeanLevel2 extends MetaBeanLevel2Base {
   @Injection(name = "SEPARATOR")
   private String separator;
 
-  @InjectionDeep MetaBeanLevel3[] files;
+  @InjectionDeep
+  MetaBeanLevel3[] files;
 
   @InjectionDeep(prefix = "SECOND")
   private MetaBeanLevel4 filesSecond;

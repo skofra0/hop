@@ -26,9 +26,11 @@ import java.lang.annotation.Annotation;
  * currently imported into OSGI as part of the System Bundle [0], which we cannot modify in such a
  * way.
  *
- * <p>Unless you're running within OSGI, you should never use this class.
+ * <p>
+ * Unless you're running within OSGI, you should never use this class.
  *
- * <p>Created by nbaker on 2/11/15.
+ * <p>
+ * Created by nbaker on 2/11/15.
  */
 public class BasePluginTypeExposer {
   private BasePluginType pluginType;

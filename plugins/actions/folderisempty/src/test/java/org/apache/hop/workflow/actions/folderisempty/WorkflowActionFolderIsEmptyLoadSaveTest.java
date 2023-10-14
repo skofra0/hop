@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionFolderIsEmptyLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionFolderIsEmpty> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionFolderIsEmptyLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionFolderIsEmpty> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionFolderIsEmpty> getActionClass() {
@@ -40,19 +40,11 @@ public class WorkflowActionFolderIsEmptyLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "foldername", "getFolderName",
-        "includeSubfolders", "isIncludeSubFolders",
-        "specifywildcard", "isSpecifyWildcard",
-        "wildcard", "getWildcard");
+    return toMap("foldername", "getFolderName", "includeSubfolders", "isIncludeSubFolders", "specifywildcard", "isSpecifyWildcard", "wildcard", "getWildcard");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "foldername", "setFolderName",
-        "includeSubfolders", "setIncludeSubFolders",
-        "specifywildcard", "setSpecifyWildcard",
-        "wildcard", "setWildcard");
+    return toMap("foldername", "setFolderName", "includeSubfolders", "setIncludeSubFolders", "specifywildcard", "setSpecifyWildcard", "wildcard", "setWildcard");
   }
 }

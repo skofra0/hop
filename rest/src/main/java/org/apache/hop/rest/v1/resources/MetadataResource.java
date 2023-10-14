@@ -86,8 +86,7 @@ public class MetadataResource extends BaseResource {
   @GET
   @Path("/{key}/{name}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getElement(@PathParam("key") String key, @PathParam("name") String name)
-      throws HopException {
+  public Response getElement(@PathParam("key") String key, @PathParam("name") String name) throws HopException {
     IHopMetadataProvider provider = hop.getMetadataProvider();
     Class<IHopMetadata> metadataClass = provider.getMetadataClassForKey(key);
     IHopMetadataSerializer<IHopMetadata> serializer = provider.getSerializer(metadataClass);
@@ -111,8 +110,7 @@ public class MetadataResource extends BaseResource {
   @POST
   @Path("/{key}/")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response saveElement(@PathParam("key") String key, String metadataJson)
-      throws HopException {
+  public Response saveElement(@PathParam("key") String key, String metadataJson) throws HopException {
     try {
       IHopMetadataProvider provider = hop.getMetadataProvider();
       Class<IHopMetadata> metadataClass = provider.getMetadataClassForKey(key);
@@ -139,9 +137,7 @@ public class MetadataResource extends BaseResource {
   @DELETE
   @Path("/{key}/{elementName}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response deleteElement(
-      @PathParam("key") String key, @PathParam("elementName") String elementName)
-      throws HopException {
+  public Response deleteElement(@PathParam("key") String key, @PathParam("elementName") String elementName) throws HopException {
     try {
       IHopMetadataProvider provider = hop.getMetadataProvider();
       Class<IHopMetadata> metadataClass = provider.getMetadataClassForKey(key);
@@ -149,8 +145,7 @@ public class MetadataResource extends BaseResource {
       serializer.delete(elementName);
       return Response.ok().entity(elementName).build();
     } catch (Exception e) {
-      return getServerError(
-          "Error deleting element of type " + key + " with name " + elementName, e, true);
+      return getServerError("Error deleting element of type " + key + " with name " + elementName, e, true);
     }
   }
 }

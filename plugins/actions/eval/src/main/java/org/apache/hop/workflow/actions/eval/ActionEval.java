@@ -89,8 +89,7 @@ public class ActionEval extends ActionBase implements Cloneable, IAction {
    * @param parentWorkflow the parent workflow
    * @return The boolean result of the evaluation script.
    */
-  public boolean evaluate(
-      Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result prevResult) {
+  public boolean evaluate(Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result prevResult) {
     Context cx;
     Scriptable scope;
 
@@ -187,16 +186,7 @@ public class ActionEval extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "script",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "script", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

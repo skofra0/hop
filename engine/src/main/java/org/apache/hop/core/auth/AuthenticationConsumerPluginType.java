@@ -26,8 +26,7 @@ import java.util.Map;
 @PluginMainClassType(IAuthenticationConsumerType.class)
 @PluginAnnotationType(AuthenticationConsumerPlugin.class)
 public class AuthenticationConsumerPluginType extends BasePluginType<AuthenticationConsumerPlugin> {
-  protected static AuthenticationConsumerPluginType pluginType =
-      new AuthenticationConsumerPluginType();
+  protected static AuthenticationConsumerPluginType pluginType = new AuthenticationConsumerPluginType();
 
   private AuthenticationConsumerPluginType() {
     super(AuthenticationConsumerPlugin.class, "AUTHENTICATION_CONSUMER", "Authentication Consumer");
@@ -63,8 +62,7 @@ public class AuthenticationConsumerPluginType extends BasePluginType<Authenticat
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, AuthenticationConsumerPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, AuthenticationConsumerPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(AuthenticationConsumerPlugin annotation) {

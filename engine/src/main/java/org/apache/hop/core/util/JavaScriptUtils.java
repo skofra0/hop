@@ -32,8 +32,7 @@ import java.util.Date;
  */
 public class JavaScriptUtils {
 
-  public static Object convertFromJs(Object value, int type, String fieldName)
-      throws HopValueException {
+  public static Object convertFromJs(Object value, int type, String fieldName) throws HopValueException {
     String classType = value.getClass().getName();
     switch (type) {
       case IValueMeta.TYPE_NUMBER:
@@ -55,15 +54,12 @@ public class JavaScriptUtils {
       case IValueMeta.TYPE_BIGNUMBER:
         return jsToBigNumber(value, classType);
 
-      case IValueMeta.TYPE_BINARY:
-        {
-          return Context.jsToJava(value, byte[].class);
-        }
-      case IValueMeta.TYPE_NONE:
-        {
-          throw new RuntimeException(
-              "No data output data type was specified for new field [" + fieldName + "]");
-        }
+      case IValueMeta.TYPE_BINARY: {
+        return Context.jsToJava(value, byte[].class);
+      }
+      case IValueMeta.TYPE_NONE: {
+        throw new RuntimeException("No data output data type was specified for new field [" + fieldName + "]");
+      }
       default:
         return Context.jsToJava(value, Object.class);
     }
@@ -127,8 +123,7 @@ public class JavaScriptUtils {
     } else {
       if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeDate")) {
         dbl = Context.toNumber(value);
-      } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject")
-          || classType.equalsIgnoreCase("java.util.Date")) {
+      } else if (classType.equalsIgnoreCase("org.mozilla.javascript.NativeJavaObject") || classType.equalsIgnoreCase("java.util.Date")) {
         // Is it a java Date() class ?
         try {
           Date dat = (Date) Context.jsToJava(value, java.util.Date.class);
@@ -179,8 +174,7 @@ public class JavaScriptUtils {
     } else if (classType.equalsIgnoreCase("java.lang.String")) {
       return BigDecimal.valueOf((new Long((String) value)).longValue());
     } else {
-      throw new RuntimeException(
-          "JavaScript conversion to BigNumber not implemented for " + classType);
+      throw new RuntimeException("JavaScript conversion to BigNumber not implemented for " + classType);
     }
   }
 }

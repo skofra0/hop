@@ -22,10 +22,7 @@ import java.util.Objects;
 
 public class Field {
 
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "FIELD_NAME",
-      injectionKeyDescription = "CheckSum.Injection.FIELD_NAME")
+  @HopMetadataProperty(key = "name", injectionKey = "FIELD_NAME", injectionKeyDescription = "CheckSum.Injection.FIELD_NAME")
   private String name;
 
   public Field() {}

@@ -66,8 +66,7 @@ public class FieldSplitterDialog extends BaseTransformDialog implements ITransfo
 
   private boolean gotPreviousFields = false;
 
-  public FieldSplitterDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public FieldSplitterDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (FieldSplitterMeta) in;
   }
@@ -125,15 +124,13 @@ public class FieldSplitterDialog extends BaseTransformDialog implements ITransfo
     fdSplitField.top = new FormAttachment(wTransformName, margin);
     fdSplitField.right = new FormAttachment(100, 0);
     wSplitField.setLayoutData(fdSplitField);
-    wSplitField.addListener(
-        SWT.FocusIn,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          getFields();
-          shell.setCursor(null);
-          busy.dispose();
-        });
+    wSplitField.addListener(SWT.FocusIn, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      getFields();
+      shell.setCursor(null);
+      busy.dispose();
+    });
 
     // Delimiter line
     Label wlDelimiter = new Label(shell, SWT.RIGHT);
@@ -182,8 +179,7 @@ public class FieldSplitterDialog extends BaseTransformDialog implements ITransfo
     fdlEscapeString.right = new FormAttachment(middle, -margin);
     wlEscapeString.setLayoutData(fdlEscapeString);
     wEscapeString = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wEscapeString.setToolTipText(
-        BaseMessages.getString(PKG, "FieldSplitterDialog.EscapeString.Tooltip"));
+    wEscapeString.setToolTipText(BaseMessages.getString(PKG, "FieldSplitterDialog.EscapeString.Tooltip"));
     PropsUi.setLook(wEscapeString);
     FormData fdEscapeString = new FormData();
     fdEscapeString.top = new FormAttachment(wEnclosure, margin);
@@ -210,69 +206,20 @@ public class FieldSplitterDialog extends BaseTransformDialog implements ITransfo
 
     final ColumnInfo[] fieldColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.NewField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.ID"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.RemoveID"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"Y", "N"}),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              4),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Nullif"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.IfNull"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.TrimType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaString.trimTypeDesc,
-              true),
-        };
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            fieldColumns,
-            fieldsRows,
-            null,
-            props);
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.NewField"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.ID"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.RemoveID"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 4),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.Nullif"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.IfNull"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FieldSplitterDialog.ColumnInfo.TrimType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaString.trimTypeDesc, true),};
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, fieldColumns, fieldsRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);

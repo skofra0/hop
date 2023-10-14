@@ -38,13 +38,7 @@ import java.util.HashSet;
 public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
   private static final Class<?> PKG = LdapInputMeta.class; // For Translator
 
-  public LdapInput(
-      TransformMeta transformMeta,
-      LdapInputMeta meta,
-      LdapInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public LdapInput(TransformMeta transformMeta, LdapInputMeta meta, LdapInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -57,8 +51,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
 
       // Create the output row meta-data
       data.outputRowMeta = new RowMeta();
-      meta.getFields(
-          data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
       // metadata
       // populated
 
@@ -83,9 +76,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
       putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "LdapInput.log.ReadRow"),
-            data.outputRowMeta.getString(outputRowData));
+        logRowlevel(BaseMessages.getString(PKG, "LdapInput.log.ReadRow"), data.outputRowMeta.getString(outputRowData));
       }
 
       if (checkFeedback(getLinesInput()) && log.isDetailed()) {
@@ -132,24 +123,16 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
       first = false;
 
       if (meta.isDynamicSearch() && Utils.isEmpty(meta.getDynamicSearchFieldName())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "LdapInput.Error.DynamicSearchFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "LdapInput.Error.DynamicSearchFieldMissing"));
       }
       if (meta.isDynamicFilter() && Utils.isEmpty(meta.getDynamicFilterFieldName())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "LdapInput.Error.DynamicFilterFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "LdapInput.Error.DynamicFilterFieldMissing"));
       }
 
       // Create the output row meta-data
       data.nrIncomingFields = getInputRowMeta().size();
       data.outputRowMeta = getInputRowMeta().clone();
-      meta.getFields(
-          data.outputRowMeta,
-          getTransformName(),
-          null,
-          null,
-          this,
-          metadataProvider); // get the metadata
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the metadata
       // populated
 
       // Create convert meta-data objects that will contain Date & Number formatters
@@ -157,22 +140,17 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
       data.convertRowMeta = data.outputRowMeta.cloneToType(IValueMeta.TYPE_STRING);
 
       if (meta.isDynamicSearch()) {
-        data.indexOfSearchBaseField =
-            getInputRowMeta().indexOfValue(meta.getDynamicSearchFieldName());
+        data.indexOfSearchBaseField = getInputRowMeta().indexOfValue(meta.getDynamicSearchFieldName());
         if (data.indexOfSearchBaseField < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "LdapInput.Exception.CouldnotFindField", meta.getDynamicSearchFieldName()));
+          throw new HopException(BaseMessages.getString(PKG, "LdapInput.Exception.CouldnotFindField", meta.getDynamicSearchFieldName()));
         }
       }
       if (meta.isDynamicFilter()) {
         data.indexOfFilterField = getInputRowMeta().indexOfValue(meta.getDynamicFilterFieldName());
         if (data.indexOfFilterField < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "LdapInput.Exception.CouldnotFindField", meta.getDynamicFilterFieldName()));
+          throw new HopException(BaseMessages.getString(PKG, "LdapInput.Exception.CouldnotFindField", meta.getDynamicFilterFieldName()));
         }
       }
     } // end if
@@ -258,8 +236,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
 
       IRowMeta irow = getInputRowMeta();
 
-      data.previousRow =
-          irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
+      data.previousRow = irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
       // surely the next transform doesn't change it in between...
       data.rownr++;
 
@@ -271,8 +248,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
     return outputRowData;
   }
 
-  private Object getAttributeValue(
-      LdapInputField field, Attribute attr, int i, Object outputRowData) throws Exception {
+  private Object getAttributeValue(LdapInputField field, Attribute attr, int i, Object outputRowData) throws Exception {
 
     if (field.getType() == IValueMeta.TYPE_BINARY) {
       // It's a binary field
@@ -285,8 +261,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
     }
 
     String retval = null;
-    if (field.getReturnType() == LdapInputField.FETCH_ATTRIBUTE_AS_BINARY
-        && field.getType() == IValueMeta.TYPE_STRING) {
+    if (field.getReturnType() == LdapInputField.FETCH_ATTRIBUTE_AS_BINARY && field.getType() == IValueMeta.TYPE_STRING) {
       // Convert byte[] to string
       return LdapConnection.extractBytesAndConvertToString(attr, field.isObjectSid());
     }
@@ -318,7 +293,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
 
   private String extractString(Attribute attr) throws Exception {
     StringBuilder attrStr = new StringBuilder();
-    for (NamingEnumeration<?> eattr = attr.getAll(); eattr.hasMore(); ) {
+    for (NamingEnumeration<?> eattr = attr.getAll(); eattr.hasMore();) {
       if (attrStr.length() > 0) {
         attrStr.append(data.multiValuedFieldSeparator);
       }
@@ -380,8 +355,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
 
     // Set the filter string. The more exact of the search string
     // Set the Search base.This is the place where the search will
-    data.connection.search(
-        searchBase, filter, meta.getRowLimit(), data.attrReturned, meta.getSearchScope());
+    data.connection.search(searchBase, filter, meta.getRowLimit(), data.attrReturned, meta.getSearchScope());
   }
 
   /**
@@ -431,8 +405,7 @@ public class LdapInput extends BaseTransform<LdapInputMeta, LdapInputData> {
         // close connection
         data.connection.close();
       } catch (HopException e) {
-        logError(
-            BaseMessages.getString(PKG, "LdapInput.Exception.ErrorDisconecting", e.toString()));
+        logError(BaseMessages.getString(PKG, "LdapInput.Exception.ErrorDisconecting", e.toString()));
       }
     }
     data.attributesBinary = null;

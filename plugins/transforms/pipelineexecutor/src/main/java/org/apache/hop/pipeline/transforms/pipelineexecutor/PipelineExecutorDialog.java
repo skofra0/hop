@@ -145,8 +145,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
   private final int middle = props.getMiddlePct();
   private final int margin = props.getMargin();
 
-  public PipelineExecutorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public PipelineExecutorDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     pipelineExecutorMeta = (PipelineExecutorMeta) in;
     jobModified = false;
@@ -190,8 +189,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -243,25 +241,22 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     wbPipelineNameInField = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wbPipelineNameInField);
-    wbPipelineNameInField.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.PipelineNameInField.Label"));
+    wbPipelineNameInField.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.PipelineNameInField.Label"));
     FormData fdPipelineNameInField = new FormData();
     fdPipelineNameInField.left = new FormAttachment(middle, margin);
     fdPipelineNameInField.top = new FormAttachment(wPath, margin);
     wbPipelineNameInField.setLayoutData(fdPipelineNameInField);
-    wbPipelineNameInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            pipelineExecutorMeta.setChanged();
-            activePipelineNameField();
-          }
-        });
+    wbPipelineNameInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        pipelineExecutorMeta.setChanged();
+        activePipelineNameField();
+      }
+    });
 
     // FileNameField Line
     wlPipelineNameField = new Label(shell, SWT.RIGHT);
-    wlPipelineNameField.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.PipelineNameField.Label"));
+    wlPipelineNameField.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.PipelineNameField.Label"));
     PropsUi.setLook(wlPipelineNameField);
     FormData fdlPipelineNameField = new FormData();
     fdlPipelineNameField.left = new FormAttachment(0, 0);
@@ -278,25 +273,23 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     fdPipelineNameField.right = new FormAttachment(100, 0);
     wPipelineNameField.setLayoutData(fdPipelineNameField);
     wPipelineNameField.setEnabled(false);
-    wPipelineNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wPipelineNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
     /* End */
 
     wlRunConfiguration = new Label(shell, SWT.RIGHT);
-    wlRunConfiguration.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.RunConfiguration.Label"));
+    wlRunConfiguration.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.RunConfiguration.Label"));
     PropsUi.setLook(wlRunConfiguration);
     FormData fdlRunConfiguration = new FormData();
     fdlRunConfiguration.left = new FormAttachment(0, 0);
@@ -375,12 +368,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
   }
 
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "ui/images/pipelineexecutor.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "ui/images/pipelineexecutor.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 
   private void selectPipelineFile() {
@@ -388,31 +376,18 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     String parentFolder = null;
     try {
-      parentFolder =
-          HopVfs.getFileObject(variables.resolve(pipelineMeta.getFilename()))
-              .getParent()
-              .toString();
+      parentFolder = HopVfs.getFileObject(variables.resolve(pipelineMeta.getFilename())).getParent().toString();
     } catch (Exception e) {
       // Take no action
     }
 
     try {
-      HopPipelineFileType<PipelineMeta> fileType =
-          HopGui.getDataOrchestrationPerspective().getPipelineFileType();
-      String filename =
-          BaseDialog.presentFileDialog(
-              shell,
-              wPath,
-              variables,
-              fileType.getFilterExtensions(),
-              fileType.getFilterNames(),
-              true);
+      HopPipelineFileType<PipelineMeta> fileType = HopGui.getDataOrchestrationPerspective().getPipelineFileType();
+      String filename = BaseDialog.presentFileDialog(shell, wPath, variables, fileType.getFilterExtensions(), fileType.getFilterNames(), true);
       if (filename != null) {
         loadPipelineFile(filename);
         if (parentFolder != null && filename.startsWith(parentFolder)) {
-          filename =
-              filename.replace(
-                  parentFolder, "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}");
+          filename = filename.replace(parentFolder, "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}");
         }
         wPath.setText(filename);
       }
@@ -452,15 +427,11 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wPath.setText(Const.NVL(pipelineExecutorMeta.getFilename(), ""));
 
     try {
-      List<String> runConfigurations =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class).listObjectNames();
+      List<String> runConfigurations = metadataProvider.getSerializer(PipelineRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, PipelineMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, PipelineMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }
@@ -493,8 +464,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
       wResultFilesTarget.setItems(prevTransforms);
       wOutputRowsSource.setItems(prevTransforms);
 
-      String[] inputFields =
-          pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames();
+      String[] inputFields = pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames();
       parameterColumns[1].setComboValues(inputFields);
       wGroupField.setItems(inputFields);
     } catch (Exception e) {
@@ -505,38 +475,22 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wGroupTime.setText(Const.NVL(pipelineExecutorMeta.getGroupTime(), ""));
     wGroupField.setText(Const.NVL(pipelineExecutorMeta.getGroupField(), ""));
 
-    wExecutionResultTarget.setText(
-        pipelineExecutorMeta.getExecutionResultTargetTransformMeta() == null
-            ? ""
-            : pipelineExecutorMeta.getExecutionResultTargetTransformMeta().getName());
-    tiExecutionTimeField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionTimeField(), ""));
-    tiExecutionResultField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionResultField(), ""));
-    tiExecutionNrErrorsField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionNrErrorsField(), ""));
-    tiExecutionLinesReadField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesReadField(), ""));
-    tiExecutionLinesWrittenField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesWrittenField(), ""));
-    tiExecutionLinesInputField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesInputField(), ""));
-    tiExecutionLinesOutputField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesOutputField(), ""));
-    tiExecutionLinesRejectedField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesRejectedField(), ""));
-    tiExecutionLinesUpdatedField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesUpdatedField(), ""));
-    tiExecutionLinesDeletedField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesDeletedField(), ""));
-    tiExecutionFilesRetrievedField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionFilesRetrievedField(), ""));
-    tiExecutionExitStatusField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionExitStatusField(), ""));
-    tiExecutionLogTextField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLogTextField(), ""));
-    tiExecutionLogChannelIdField.setText(
-        FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLogChannelIdField(), ""));
+    wExecutionResultTarget
+        .setText(pipelineExecutorMeta.getExecutionResultTargetTransformMeta() == null ? "" : pipelineExecutorMeta.getExecutionResultTargetTransformMeta().getName());
+    tiExecutionTimeField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionTimeField(), ""));
+    tiExecutionResultField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionResultField(), ""));
+    tiExecutionNrErrorsField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionNrErrorsField(), ""));
+    tiExecutionLinesReadField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesReadField(), ""));
+    tiExecutionLinesWrittenField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesWrittenField(), ""));
+    tiExecutionLinesInputField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesInputField(), ""));
+    tiExecutionLinesOutputField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesOutputField(), ""));
+    tiExecutionLinesRejectedField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesRejectedField(), ""));
+    tiExecutionLinesUpdatedField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesUpdatedField(), ""));
+    tiExecutionLinesDeletedField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLinesDeletedField(), ""));
+    tiExecutionFilesRetrievedField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionFilesRetrievedField(), ""));
+    tiExecutionExitStatusField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionExitStatusField(), ""));
+    tiExecutionLogTextField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLogTextField(), ""));
+    tiExecutionLogChannelIdField.setText(FIELD_NAME, Const.NVL(pipelineExecutorMeta.getExecutionLogChannelIdField(), ""));
 
     if (pipelineExecutorMeta.getExecutorsOutputTransformMeta() != null) {
       executorOutputTransform = pipelineExecutorMeta.getExecutorsOutputTransformMeta().getName();
@@ -544,23 +498,16 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     // result files
     //
-    wResultFilesTarget.setText(
-        pipelineExecutorMeta.getResultFilesTargetTransformMeta() == null
-            ? ""
-            : pipelineExecutorMeta.getResultFilesTargetTransformMeta().getName());
+    wResultFilesTarget.setText(pipelineExecutorMeta.getResultFilesTargetTransformMeta() == null ? "" : pipelineExecutorMeta.getResultFilesTargetTransformMeta().getName());
     wResultFileNameField.setText(Const.NVL(pipelineExecutorMeta.getResultFilesFileNameField(), ""));
 
     // Result rows
     //
-    wOutputRowsSource.setText(
-        pipelineExecutorMeta.getOutputRowsSourceTransformMeta() == null
-            ? ""
-            : pipelineExecutorMeta.getOutputRowsSourceTransformMeta().getName());
+    wOutputRowsSource.setText(pipelineExecutorMeta.getOutputRowsSourceTransformMeta() == null ? "" : pipelineExecutorMeta.getOutputRowsSourceTransformMeta().getName());
     for (int i = 0; i < pipelineExecutorMeta.getOutputRowsField().length; i++) {
       TableItem item = new TableItem(wOutputFields.table, SWT.NONE);
       item.setText(1, Const.NVL(pipelineExecutorMeta.getOutputRowsField()[i], ""));
-      item.setText(
-          2, ValueMetaFactory.getValueMetaName(pipelineExecutorMeta.getOutputRowsType()[i]));
+      item.setText(2, ValueMetaFactory.getValueMetaName(pipelineExecutorMeta.getOutputRowsType()[i]));
       int length = pipelineExecutorMeta.getOutputRowsLength()[i];
       item.setText(3, length < 0 ? "" : Integer.toString(length));
       int precision = pipelineExecutorMeta.getOutputRowsPrecision()[i];
@@ -588,8 +535,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     CTabItem wParametersTab = new CTabItem(wTabFolder, SWT.NONE);
     wParametersTab.setFont(GuiResource.getInstance().getFontDefault());
     wParametersTab.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.Title"));
-    wParametersTab.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.Tooltip"));
+    wParametersTab.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.Tooltip"));
 
     Composite wParametersComposite = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wParametersComposite);
@@ -602,8 +548,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     // Add a button: get parameters
     //
     Button wGetParameters = new Button(wParametersComposite, SWT.PUSH);
-    wGetParameters.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.GetParameters"));
+    wGetParameters.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.GetParameters"));
     PropsUi.setLook(wGetParameters);
     FormData fdGetParameters = new FormData();
     fdGetParameters.bottom = new FormAttachment(100, 0);
@@ -615,8 +560,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     // Add a button: get parameters
     //
     Button wMapParameters = new Button(wParametersComposite, SWT.PUSH);
-    wMapParameters.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.MapParameters"));
+    wMapParameters.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.MapParameters"));
     PropsUi.setLook(wMapParameters);
     FormData fdMapParameters = new FormData();
     fdMapParameters.bottom = new FormAttachment(100, 0);
@@ -630,36 +574,14 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     //
     parameterColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Variable"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Field"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Input"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Variable"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Field"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.column.Input"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     parameterColumns[1].setUsingVariables(true);
 
     PipelineExecutorParameters parameters = pipelineExecutorMeta.getParameters();
     wPipelineExecutorParameters =
-        new TableView(
-            variables,
-            wParametersComposite,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            parameterColumns,
-            parameters.getVariable().length,
-            false,
-            null,
-            props,
-            false);
+        new TableView(variables, wParametersComposite, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, parameterColumns, parameters.getVariable().length, false, null, props, false);
     PropsUi.setLook(wPipelineExecutorParameters);
     FormData fdPipelineExecutors = new FormData();
     fdPipelineExecutors.left = new FormAttachment(0, 0);
@@ -680,8 +602,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     // Add a checkbox: inherit all variables...
     //
     wInheritAll = new Button(wParametersComposite, SWT.CHECK);
-    wInheritAll.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.InheritAll"));
+    wInheritAll.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.Parameters.InheritAll"));
     PropsUi.setLook(wInheritAll);
     FormData fdInheritAll = new FormData();
     fdInheritAll.top = new FormAttachment(wPipelineExecutorParameters, 15);
@@ -719,8 +640,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Message"),
+          BaseMessages.getString(PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Message"),
           e);
     }
   }
@@ -749,8 +669,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
       // Now we can ask for the mapping...
       //
-      EnterMappingDialog enterMappingDialog =
-          new EnterMappingDialog(shell, inputFieldNames, parameters, mappings);
+      EnterMappingDialog enterMappingDialog = new EnterMappingDialog(shell, inputFieldNames, parameters, mappings);
       mappings = enterMappingDialog.open();
       if (mappings != null) {
         wPipelineExecutorParameters.removeAll();
@@ -807,8 +726,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wlGroupSize = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlGroupSize);
     wlGroupSize.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.GroupSize.Label"));
-    wlGroupSize.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.GroupSize.Tooltip"));
+    wlGroupSize.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutorDialog.GroupSize.Tooltip"));
     FormData fdlGroupSize = new FormData();
     fdlGroupSize.top = new FormAttachment(0, 0);
     fdlGroupSize.left = new FormAttachment(0, 0);
@@ -861,7 +779,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     PropsUi.setLook(wGroupTime);
     FormData fdGroupTime = new FormData();
     fdGroupTime.right = new FormAttachment(100);
-    fdGroupTime.top = new FormAttachment(wlGroupTime,  0, SWT.CENTER);
+    fdGroupTime.top = new FormAttachment(wlGroupTime, 0, SWT.CENTER);
     fdGroupTime.left = new FormAttachment(wlGroupTime, margin);
     wGroupTime.setLayoutData(fdGroupTime);
 
@@ -874,11 +792,9 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     final CTabItem wTab = new CTabItem(wTabFolder, SWT.NONE);
     wTab.setFont(GuiResource.getInstance().getFontDefault());
     wTab.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResults.Title"));
-    wTab.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResults.Tooltip"));
+    wTab.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResults.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -891,8 +807,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlExecutionResultTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlExecutionResultTarget);
-    wlExecutionResultTarget.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResultTarget.Label"));
+    wlExecutionResultTarget.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResultTarget.Label"));
     FormData fdlExecutionResultTarget = new FormData();
     fdlExecutionResultTarget.top = new FormAttachment(0, 0);
     fdlExecutionResultTarget.right = new FormAttachment(middle, -margin);
@@ -908,31 +823,11 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     ColumnInfo[] executionResultColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineExecutorMeta.ExecutionResults.FieldDescription.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorMeta.ExecutionResults.FieldName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorMeta.ExecutionResults.FieldDescription.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorMeta.ExecutionResults.FieldName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false)};
     executionResultColumns[1].setUsingVariables(true);
 
-    TableView wExectionResults =
-        new TableView(
-            variables,
-            wInputComposite,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            executionResultColumns,
-            14,
-            false,
-            null,
-            props,
-            false);
+    TableView wExectionResults = new TableView(variables, wInputComposite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, executionResultColumns, 14, false, null, props, false);
     PropsUi.setLook(wExectionResults);
     FormData fdExecutionResults = new FormData();
     fdExecutionResults.left = new FormAttachment(0);
@@ -958,48 +853,20 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     tiExecutionLogTextField = wExectionResults.table.getItem(index++);
     tiExecutionLogChannelIdField = wExectionResults.table.getItem(index++);
 
-    tiExecutionTimeField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionTimeField.Label"));
-    tiExecutionResultField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResultField.Label"));
-    tiExecutionNrErrorsField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionNrErrorsField.Label"));
-    tiExecutionLinesReadField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesReadField.Label"));
-    tiExecutionLinesWrittenField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesWrittenField.Label"));
-    tiExecutionLinesInputField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesInputField.Label"));
-    tiExecutionLinesOutputField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesOutputField.Label"));
-    tiExecutionLinesRejectedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesRejectedField.Label"));
-    tiExecutionLinesUpdatedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesUpdatedField.Label"));
-    tiExecutionLinesDeletedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesDeletedField.Label"));
-    tiExecutionFilesRetrievedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionFilesRetrievedField.Label"));
-    tiExecutionExitStatusField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionExitStatusField.Label"));
-    tiExecutionLogTextField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLogTextField.Label"));
-    tiExecutionLogChannelIdField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLogChannelIdField.Label"));
+    tiExecutionTimeField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionTimeField.Label"));
+    tiExecutionResultField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionResultField.Label"));
+    tiExecutionNrErrorsField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionNrErrorsField.Label"));
+    tiExecutionLinesReadField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesReadField.Label"));
+    tiExecutionLinesWrittenField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesWrittenField.Label"));
+    tiExecutionLinesInputField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesInputField.Label"));
+    tiExecutionLinesOutputField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesOutputField.Label"));
+    tiExecutionLinesRejectedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesRejectedField.Label"));
+    tiExecutionLinesUpdatedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesUpdatedField.Label"));
+    tiExecutionLinesDeletedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLinesDeletedField.Label"));
+    tiExecutionFilesRetrievedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionFilesRetrievedField.Label"));
+    tiExecutionExitStatusField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionExitStatusField.Label"));
+    tiExecutionLogTextField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLogTextField.Label"));
+    tiExecutionLogChannelIdField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "PipelineExecutorDialog.ExecutionLogChannelIdField.Label"));
 
     wPipelineExecutorParameters.setRowNums();
     wPipelineExecutorParameters.optWidth(true);
@@ -1024,8 +891,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wTab.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFiles.Title"));
     wTab.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFiles.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -1038,8 +904,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlResultFilesTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultFilesTarget);
-    wlResultFilesTarget.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFilesTarget.Label"));
+    wlResultFilesTarget.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFilesTarget.Label"));
     FormData fdlResultFilesTarget = new FormData();
     fdlResultFilesTarget.top = new FormAttachment(0, 0);
     fdlResultFilesTarget.left = new FormAttachment(0, 0);
@@ -1058,16 +923,14 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     //
     Label wlResultFileNameField = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultFileNameField);
-    wlResultFileNameField.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFileNameField.Label"));
+    wlResultFileNameField.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFileNameField.Label"));
     FormData fdlResultFileNameField = new FormData();
     fdlResultFileNameField.top = new FormAttachment(wResultFilesTarget, margin * 2);
     fdlResultFileNameField.left = new FormAttachment(0, 0);
     fdlResultFileNameField.right = new FormAttachment(middle, -margin);
     wlResultFileNameField.setLayoutData(fdlResultFileNameField);
 
-    wResultFileNameField =
-        new TextVar(variables, wInputComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wResultFileNameField = new TextVar(variables, wInputComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wResultFileNameField);
     FormData fdResultFileNameField = new FormData();
     fdResultFileNameField.width = 250;
@@ -1096,8 +959,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wTab.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultRows.Title"));
     wTab.setToolTipText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultRows.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -1110,8 +972,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlResultRowsTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultRowsTarget);
-    wlResultRowsTarget.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.OutputRowsSource.Label"));
+    wlResultRowsTarget.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.OutputRowsSource.Label"));
     FormData fdlResultRowsTarget = new FormData();
     fdlResultRowsTarget.top = new FormAttachment(0, 0);
     fdlResultRowsTarget.left = new FormAttachment(0, 0);
@@ -1127,51 +988,24 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     wOutputRowsSource.setLayoutData(fdResultRowsTarget);
 
     Label wlOutputFields = new Label(wInputComposite, SWT.NONE);
-    wlOutputFields.setText(
-        BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFields.Label"));
+    wlOutputFields.setText(BaseMessages.getString(PKG, "PipelineExecutorDialog.ResultFields.Label"));
     PropsUi.setLook(wlOutputFields);
     FormData fdlResultFields = new FormData();
     fdlResultFields.left = new FormAttachment(0, 0);
     fdlResultFields.top = new FormAttachment(wOutputRowsSource, 10);
     wlOutputFields.setLayoutData(fdlResultFields);
 
-    int nrRows =
-        (pipelineExecutorMeta.getOutputRowsField() != null
-            ? pipelineExecutorMeta.getOutputRowsField().length
-            : 1);
+    int nrRows = (pipelineExecutorMeta.getOutputRowsField() != null ? pipelineExecutorMeta.getOutputRowsField().length : 1);
 
     ColumnInfo[] ciResultFields =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Field"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineExecutorDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     wOutputFields =
-        new TableView(
-            variables,
-            wInputComposite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciResultFields,
-            nrRows,
-            false,
-            null,
-            props,
-            false);
+        new TableView(variables, wInputComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciResultFields, nrRows, false, null, props, false);
 
     FormData fdResultFields = new FormData();
     fdResultFields.left = new FormAttachment(0, 0);
@@ -1197,11 +1031,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
   private void setFlags() {
     // Enable/disable fields...
     //
-    if (wlGroupSize == null
-        || wlGroupField == null
-        || wGroupField == null
-        || wlGroupTime == null
-        || wGroupTime == null) {
+    if (wlGroupSize == null || wlGroupField == null || wGroupField == null || wlGroupTime == null || wGroupTime == null) {
       return;
     }
     boolean enableSize = Const.toInt(variables.resolve(wGroupSize.getText()), -1) >= 0;
@@ -1234,8 +1064,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Message"),
+          BaseMessages.getString(PKG, "PipelineExecutorDialog.ErrorLoadingSpecifiedPipeline.Message"),
           e);
     }
 
@@ -1284,48 +1113,35 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     pipelineExecutorMeta.setGroupTime(wGroupTime.getText());
 
     pipelineExecutorMeta.setExecutionResultTargetTransform(wExecutionResultTarget.getText());
-    pipelineExecutorMeta.setExecutionResultTargetTransformMeta(
-        pipelineMeta.findTransform(wExecutionResultTarget.getText()));
+    pipelineExecutorMeta.setExecutionResultTargetTransformMeta(pipelineMeta.findTransform(wExecutionResultTarget.getText()));
     pipelineExecutorMeta.setExecutionTimeField(tiExecutionTimeField.getText(FIELD_NAME));
     pipelineExecutorMeta.setExecutionResultField(tiExecutionResultField.getText(FIELD_NAME));
     pipelineExecutorMeta.setExecutionNrErrorsField(tiExecutionNrErrorsField.getText(FIELD_NAME));
     pipelineExecutorMeta.setExecutionLinesReadField(tiExecutionLinesReadField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesWrittenField(
-        tiExecutionLinesWrittenField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesInputField(
-        tiExecutionLinesInputField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesOutputField(
-        tiExecutionLinesOutputField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesRejectedField(
-        tiExecutionLinesRejectedField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesUpdatedField(
-        tiExecutionLinesUpdatedField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLinesDeletedField(
-        tiExecutionLinesDeletedField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionFilesRetrievedField(
-        tiExecutionFilesRetrievedField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionExitStatusField(
-        tiExecutionExitStatusField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesWrittenField(tiExecutionLinesWrittenField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesInputField(tiExecutionLinesInputField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesOutputField(tiExecutionLinesOutputField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesRejectedField(tiExecutionLinesRejectedField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesUpdatedField(tiExecutionLinesUpdatedField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLinesDeletedField(tiExecutionLinesDeletedField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionFilesRetrievedField(tiExecutionFilesRetrievedField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionExitStatusField(tiExecutionExitStatusField.getText(FIELD_NAME));
     pipelineExecutorMeta.setExecutionLogTextField(tiExecutionLogTextField.getText(FIELD_NAME));
-    pipelineExecutorMeta.setExecutionLogChannelIdField(
-        tiExecutionLogChannelIdField.getText(FIELD_NAME));
+    pipelineExecutorMeta.setExecutionLogChannelIdField(tiExecutionLogChannelIdField.getText(FIELD_NAME));
 
     pipelineExecutorMeta.setResultFilesTargetTransform(wResultFilesTarget.getText());
-    pipelineExecutorMeta.setResultFilesTargetTransformMeta(
-        pipelineMeta.findTransform(wResultFilesTarget.getText()));
+    pipelineExecutorMeta.setResultFilesTargetTransformMeta(pipelineMeta.findTransform(wResultFilesTarget.getText()));
     pipelineExecutorMeta.setResultFilesFileNameField(wResultFileNameField.getText());
 
     if (!Utils.isEmpty(executorOutputTransform)) {
       pipelineExecutorMeta.setExecutorsOutputTransform(executorOutputTransform);
-      pipelineExecutorMeta.setExecutorsOutputTransformMeta(
-          pipelineMeta.findTransform(executorOutputTransform));
+      pipelineExecutorMeta.setExecutorsOutputTransformMeta(pipelineMeta.findTransform(executorOutputTransform));
     }
 
     // Result row info
     //
     pipelineExecutorMeta.setOutputRowsSourceTransform(wOutputRowsSource.getText());
-    pipelineExecutorMeta.setOutputRowsSourceTransformMeta(
-        pipelineMeta.findTransform(wOutputRowsSource.getText()));
+    pipelineExecutorMeta.setOutputRowsSourceTransformMeta(pipelineMeta.findTransform(wOutputRowsSource.getText()));
     int nrFields = wOutputFields.nrNonEmpty();
     pipelineExecutorMeta.setOutputRowsField(new String[nrFields]);
     pipelineExecutorMeta.setOutputRowsType(new int[nrFields]);
@@ -1336,8 +1152,7 @@ public class PipelineExecutorDialog extends BaseTransformDialog implements ITran
     for (int i = 0; i < nrFields; i++) {
       TableItem item = wOutputFields.getNonEmpty(i);
       pipelineExecutorMeta.getOutputRowsField()[i] = item.getText(1);
-      pipelineExecutorMeta.getOutputRowsType()[i] =
-          ValueMetaFactory.getIdForValueMeta(item.getText(2));
+      pipelineExecutorMeta.getOutputRowsType()[i] = ValueMetaFactory.getIdForValueMeta(item.getText(2));
       pipelineExecutorMeta.getOutputRowsLength()[i] = Const.toInt(item.getText(3), -1);
       pipelineExecutorMeta.getOutputRowsPrecision()[i] = Const.toInt(item.getText(4), -1);
     }

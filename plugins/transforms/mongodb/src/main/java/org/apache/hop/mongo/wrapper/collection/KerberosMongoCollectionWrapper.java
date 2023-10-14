@@ -33,7 +33,6 @@ public class KerberosMongoCollectionWrapper extends DefaultMongoCollectionWrappe
 
   @Override
   protected MongoCursorWrapper wrap(DBCursor cursor) {
-    return KerberosInvocationHandler.wrap(
-        MongoCursorWrapper.class, authContext, new KerberosMongoCursorWrapper(cursor, authContext));
+    return KerberosInvocationHandler.wrap(MongoCursorWrapper.class, authContext, new KerberosMongoCursorWrapper(cursor, authContext));
   }
 }

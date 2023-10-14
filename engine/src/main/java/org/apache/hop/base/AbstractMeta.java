@@ -54,8 +54,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 import org.apache.hop.server.HopServer;
 
-public abstract class AbstractMeta
-    implements IChanged, IUndo, IEngineMeta, INamedParameterDefinitions, IAttributes {
+public abstract class AbstractMeta implements IChanged, IUndo, IEngineMeta, INamedParameterDefinitions, IAttributes {
 
   /** Constant = 1 */
   public static final int TYPE_UNDO_CHANGE = 1;
@@ -71,17 +70,13 @@ public abstract class AbstractMeta
 
   protected String filename;
 
-  protected Set<INameChangedListener> nameChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<INameChangedListener> nameChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<IFilenameChangedListener> filenameChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<IFilenameChangedListener> filenameChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<IContentChangedListener> contentChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<IContentChangedListener> contentChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  protected Set<ICurrentDirectoryChangedListener> currentDirectoryChangedListeners =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  protected Set<ICurrentDirectoryChangedListener> currentDirectoryChangedListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @HopMetadataProperty(groupKey = "notepads", key = NotePadMeta.XML_TAG)
   protected List<NotePadMeta> notes;
@@ -128,8 +123,7 @@ public abstract class AbstractMeta
 
   protected abstract String getExtension();
 
-  public static final String extractNameFromFilename(
-      boolean sync, String name, String filename, String extension) {
+  public static final String extractNameFromFilename(boolean sync, String name, String filename, String extension) {
     if (filename == null) {
       return name;
     } else {
@@ -274,8 +268,7 @@ public abstract class AbstractMeta
       DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(name);
       return databaseMeta;
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load database with name '" + name + "' from the metadata", e);
+      throw new RuntimeException("Unable to load database with name '" + name + "' from the metadata", e);
     }
   }
 
@@ -295,7 +288,7 @@ public abstract class AbstractMeta
    * 
    * @param name The database name to look for
    * @param variables IVariables to use to resolve possible database name
-   * @param haltOnMissingMeta Raise an exception in case connection is missing 
+   * @param haltOnMissingMeta Raise an exception in case connection is missing
    * @returnThe database connection or null if nothing was found.
    */
   public DatabaseMeta findDatabase(String name, IVariables variables, boolean haltOnMissingMeta) {
@@ -303,8 +296,7 @@ public abstract class AbstractMeta
       return null;
     }
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(name));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(name));
       if (databaseMeta == null && haltOnMissingMeta) {
         throw new RuntimeException(
             "Unable to load database with name '"
@@ -314,9 +306,7 @@ public abstract class AbstractMeta
 
       return databaseMeta;
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load database with name '" + variables.resolve(name) + "' from the metadata",
-          e);
+      throw new RuntimeException("Unable to load database with name '" + variables.resolve(name) + "' from the metadata", e);
     }
   }
 
@@ -324,8 +314,7 @@ public abstract class AbstractMeta
     try {
       return metadataProvider.getSerializer(DatabaseMeta.class).listObjectNames().size();
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to count the number of RDBMS connections in the metadata", e);
+      throw new RuntimeException("Unable to count the number of RDBMS connections in the metadata", e);
     }
   }
 
@@ -485,8 +474,7 @@ public abstract class AbstractMeta
     try {
       return metadataProvider.getSerializer(HopServer.class).load(getName());
     } catch (HopException e) {
-      throw new RuntimeException(
-          "Unable to load hop server with name '" + getName() + "' from the metadata", e);
+      throw new RuntimeException("Unable to load hop server with name '" + getName() + "' from the metadata", e);
     }
   }
 
@@ -512,14 +500,7 @@ public abstract class AbstractMeta
    * org.apache.hop.core.gui.Point[], org.apache.hop.core.gui.Point[], int, boolean)
    */
   @Override
-  public void addUndo(
-      Object[] from,
-      Object[] to,
-      int[] pos,
-      Point[] prev,
-      Point[] curr,
-      int typeOfChange,
-      boolean nextAlso) {
+  public void addUndo(Object[] from, Object[] to, int[] pos, Point[] prev, Point[] curr, int typeOfChange, boolean nextAlso) {
     // First clean up after the current position.
     // Example: position at 3, size=5
     // 012345
@@ -755,7 +736,7 @@ public abstract class AbstractMeta
    * @param x the x-coordinate of the point queried
    * @param y the y-coordinate of the point queried
    * @return The note information if a note is located at the point. Otherwise, if nothing was
-   *     found: null.
+   *         found: null.
    */
   public NotePadMeta getNote(int x, int y) {
     int i;
@@ -767,10 +748,7 @@ public abstract class AbstractMeta
       NotePadMeta ni = notes.get(i);
       Point loc = ni.getLocation();
       Point p = new Point(loc.x, loc.y);
-      if (x >= p.x
-          && x <= p.x + ni.width + 2 * Const.NOTE_MARGIN
-          && y >= p.y
-          && y <= p.y + ni.height + 2 * Const.NOTE_MARGIN) {
+      if (x >= p.x && x <= p.x + ni.width + 2 * Const.NOTE_MARGIN && y >= p.y && y <= p.y + ni.height + 2 * Const.NOTE_MARGIN) {
         return ni;
       }
     }
@@ -940,12 +918,12 @@ public abstract class AbstractMeta
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String, java.lang.String,
+   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String,
+   * java.lang.String,
    * java.lang.String)
    */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
@@ -1176,8 +1154,7 @@ public abstract class AbstractMeta
     if (StringUtils.isNotEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename())) {
       return 1;
     }
-    if ((StringUtils.isEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename())
-        || (meta1.getFilename().equals(meta2.getFilename())))) {
+    if ((StringUtils.isEmpty(meta1.getFilename()) && StringUtils.isEmpty(meta2.getFilename()) || (meta1.getFilename().equals(meta2.getFilename())))) {
       // Compare names...
       //
       if (Utils.isEmpty(meta1.getName()) && !Utils.isEmpty(meta2.getName())) {

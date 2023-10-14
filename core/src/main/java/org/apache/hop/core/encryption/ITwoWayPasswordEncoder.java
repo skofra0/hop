@@ -50,7 +50,7 @@ public interface ITwoWayPasswordEncoder {
    *
    * @param encodedPassword The encoded password with or without a prefix
    * @param optionallyEncrypted Set to true if the password is optionally encrypted (indicated by a
-   *     prefix).
+   *        prefix).
    * @return The decoded password string
    */
   String decode(String encodedPassword, boolean optionallyEncrypted);

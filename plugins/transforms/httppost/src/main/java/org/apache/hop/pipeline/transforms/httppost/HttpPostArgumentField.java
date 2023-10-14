@@ -71,8 +71,10 @@ public class HttpPostArgumentField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     HttpPostArgumentField that = (HttpPostArgumentField) o;
     return header == that.header && Objects.equals(name, that.name) && Objects.equals(parameter, that.parameter);
   }

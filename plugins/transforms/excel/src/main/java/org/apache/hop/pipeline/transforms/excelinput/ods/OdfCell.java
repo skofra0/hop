@@ -54,9 +54,7 @@ public class OdfCell implements IKCell {
       } else {
         return KCellType.BOOLEAN_FORMULA;
       }
-    } else if (TYPE_CURRENCY.equals(type)
-        || TYPE_FLOAT.equals(type)
-        || TYPE_PERCENTAGE.equals(type)) {
+    } else if (TYPE_CURRENCY.equals(type) || TYPE_FLOAT.equals(type) || TYPE_PERCENTAGE.equals(type)) {
       if (Utils.isEmpty(cell.getFormula())) {
         return KCellType.NUMBER;
       } else {
@@ -107,9 +105,7 @@ public class OdfCell implements IKCell {
           return null;
       }
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Unable to get value of cell (" + cell.getColumnIndex() + ", " + cell.getRowIndex() + ")",
-          e);
+      throw new RuntimeException("Unable to get value of cell (" + cell.getColumnIndex() + ", " + cell.getRowIndex() + ")", e);
     }
   }
 
@@ -122,13 +118,7 @@ public class OdfCell implements IKCell {
       }
       return value.toString();
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Unable to get string content of cell ("
-              + cell.getColumnIndex()
-              + ", "
-              + cell.getRowIndex()
-              + ")",
-          e);
+      throw new RuntimeException("Unable to get string content of cell (" + cell.getColumnIndex() + ", " + cell.getRowIndex() + ")", e);
     }
   }
 

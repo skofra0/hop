@@ -43,8 +43,7 @@ public interface MongoCollectionWrapper {
 
   void drop() throws MongoDbException;
 
-  WriteResult update(DBObject updateQuery, DBObject insertUpdate, boolean upsert, boolean multi)
-      throws MongoDbException;
+  WriteResult update(DBObject updateQuery, DBObject insertUpdate, boolean upsert, boolean multi) throws MongoDbException;
 
   WriteResult insert(List<DBObject> batch) throws MongoDbException;
 

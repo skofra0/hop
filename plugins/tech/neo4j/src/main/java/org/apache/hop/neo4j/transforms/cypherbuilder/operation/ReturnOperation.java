@@ -27,11 +27,14 @@ import java.util.Objects;
 
 public class ReturnOperation implements IOperation {
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private OperationType operationType;
+  @HopMetadataProperty
+  private OperationType operationType;
 
-  @HopMetadataProperty private List<ReturnValue> returnValues;
+  @HopMetadataProperty
+  private List<ReturnValue> returnValues;
 
   public ReturnOperation() {
     this.operationType = OperationType.RETURN;
@@ -55,8 +58,10 @@ public class ReturnOperation implements IOperation {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ReturnOperation that = (ReturnOperation) o;
     if (this.operationType != that.operationType) {
       return false;
@@ -78,8 +83,7 @@ public class ReturnOperation implements IOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
     // RETURN
     StringBuilder cypher = new StringBuilder(operationType.keyWord());
     // n.value1 AS Value1, o.value2 AS Value2

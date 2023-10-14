@@ -54,11 +54,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionDosToUnix.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionDosToUnix.Filetype.Xml"),
-        BaseMessages.getString(PKG, "ActionDosToUnix.Filetype.All")
-      };
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionDosToUnix.Filetype.Xml"), BaseMessages.getString(PKG, "ActionDosToUnix.Filetype.All")};
 
   private Text wName;
 
@@ -95,8 +91,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
   private Label wlNrErrorsLessThan;
   private TextVar wNrErrorsLessThan;
 
-  public ActionDosToUnixDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionDosToUnixDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionDosToUnix) action;
 
@@ -188,8 +183,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     wSettings.setLayout(groupLayout);
 
     Label wlIncludeSubfolders = new Label(wSettings, SWT.RIGHT);
-    wlIncludeSubfolders.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.IncludeSubfolders.Label"));
+    wlIncludeSubfolders.setText(BaseMessages.getString(PKG, "ActionDosToUnix.IncludeSubfolders.Label"));
     PropsUi.setLook(wlIncludeSubfolders);
     FormData fdlIncludeSubfolders = new FormData();
     fdlIncludeSubfolders.left = new FormAttachment(0, 0);
@@ -198,20 +192,18 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     wlIncludeSubfolders.setLayoutData(fdlIncludeSubfolders);
     wIncludeSubfolders = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubfolders);
-    wIncludeSubfolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.IncludeSubfolders.Tooltip"));
+    wIncludeSubfolders.setToolTipText(BaseMessages.getString(PKG, "ActionDosToUnix.IncludeSubfolders.Tooltip"));
     FormData fdIncludeSubfolders = new FormData();
     fdIncludeSubfolders.left = new FormAttachment(middle, 0);
     fdIncludeSubfolders.top = new FormAttachment(wlIncludeSubfolders, 0, SWT.CENTER);
     fdIncludeSubfolders.right = new FormAttachment(100, 0);
     wIncludeSubfolders.setLayoutData(fdIncludeSubfolders);
-    wIncludeSubfolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubfolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // previous
     Label wlPrevious = new Label(wSettings, SWT.RIGHT);
@@ -231,14 +223,13 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            refreshArgFromPrevious();
-          }
-        });
+        refreshArgFromPrevious();
+      }
+    });
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
     fdSettings.top = new FormAttachment(wName, margin);
@@ -251,8 +242,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
 
     // SourceFileFolder line
     wlSourceFileFolder = new Label(wGeneralComp, SWT.RIGHT);
-    wlSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.SourceFileFolder.Label"));
+    wlSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionDosToUnix.SourceFileFolder.Label"));
     PropsUi.setLook(wlSourceFileFolder);
     FormData fdlSourceFileFolder = new FormData();
     fdlSourceFileFolder.left = new FormAttachment(0, 0);
@@ -269,8 +259,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdbSourceDirectory.top = new FormAttachment(wSettings, margin);
     wbSourceDirectory.setLayoutData(fdbSourceDirectory);
 
-    wbSourceDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceFileFolder, variables));
+    wbSourceDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceFileFolder, variables));
 
     // Browse Source files button ...
     wbSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
@@ -291,8 +280,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     wbaSourceFileFolder.setLayoutData(fdbaSourceFileFolder);
 
     wSourceFileFolder = new TextVar(variables, wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.SourceFileFolder.Tooltip"));
+    wSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionDosToUnix.SourceFileFolder.Tooltip"));
 
     PropsUi.setLook(wSourceFileFolder);
     wSourceFileFolder.addModifyListener(lsMod);
@@ -303,19 +291,9 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     wSourceFileFolder.setLayoutData(fdSourceFileFolder);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wSourceFileFolder.addModifyListener(
-        e -> wSourceFileFolder.setToolTipText(variables.resolve(wSourceFileFolder.getText())));
+    wSourceFileFolder.addModifyListener(e -> wSourceFileFolder.setToolTipText(variables.resolve(wSourceFileFolder.getText())));
 
-    wbSourceFileFolder.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wSourceFileFolder,
-                variables,
-                new String[] {"*.xml;*.XML", "*"},
-                FILETYPES,
-                true));
+    wbSourceFileFolder.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wSourceFileFolder, variables, new String[] {"*.xml;*.XML", "*"}, FILETYPES, true));
 
     // Wildcard
     wlWildcard = new Label(wGeneralComp, SWT.RIGHT);
@@ -349,10 +327,8 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     // Buttons to the right of the screen...
     wbdSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdSourceFileFolder);
-    wbdSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.FilenameDelete.Button"));
-    wbdSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.FilenameDelete.Tooltip"));
+    wbdSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionDosToUnix.FilenameDelete.Button"));
+    wbdSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionDosToUnix.FilenameDelete.Tooltip"));
     FormData fdbdSourceFileFolder = new FormData();
     fdbdSourceFileFolder.right = new FormAttachment(100, 0);
     fdbdSourceFileFolder.top = new FormAttachment(wlFields, margin);
@@ -361,52 +337,28 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     wbeSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeSourceFileFolder);
     wbeSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionDosToUnix.FilenameEdit.Button"));
-    wbeSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.FilenameEdit.Tooltip"));
+    wbeSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionDosToUnix.FilenameEdit.Tooltip"));
     FormData fdbeSourceFileFolder = new FormData();
     fdbeSourceFileFolder.right = new FormAttachment(100, 0);
     fdbeSourceFileFolder.left = new FormAttachment(wbdSourceFileFolder, 0, SWT.LEFT);
     fdbeSourceFileFolder.top = new FormAttachment(wbdSourceFileFolder, margin);
     wbeSourceFileFolder.setLayoutData(fdbeSourceFileFolder);
 
-    int rows =
-        action.sourceFileFolder == null
-            ? 1
-            : (action.sourceFileFolder.length == 0 ? 0 : action.sourceFileFolder.length);
+    int rows = action.sourceFileFolder == null ? 1 : (action.sourceFileFolder.length == 0 ? 0 : action.sourceFileFolder.length);
     final int FieldsRows = rows;
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionDosToUnix.Fields.SourceFileFolder.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionDosToUnix.Fields.Wildcard.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionDosToUnix.Fields.ConversionType.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ActionDosToUnix.ConversionTypeDesc,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionDosToUnix.Fields.SourceFileFolder.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionDosToUnix.Fields.Wildcard.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionDosToUnix.Fields.ConversionType.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, ActionDosToUnix.ConversionTypeDesc, false),};
 
     colinf[0].setUsingVariables(true);
-    colinf[0].setToolTip(
-        BaseMessages.getString(PKG, "ActionDosToUnix.Fields.SourceFileFolder.Tooltip"));
+    colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionDosToUnix.Fields.SourceFileFolder.Tooltip"));
     colinf[1].setUsingVariables(true);
     colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionDosToUnix.Fields.Wildcard.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -418,50 +370,47 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     refreshArgFromPrevious();
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFields.add(new String[] {wSourceFileFolder.getText(), wWildcard.getText()});
-            wSourceFileFolder.setText("");
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFields.add(new String[] {wSourceFileFolder.getText(), wWildcard.getText()});
+        wSourceFileFolder.setText("");
 
-            wWildcard.setText("");
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-            wFields.optWidth(true);
-          }
-        };
+        wWildcard.setText("");
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+        wFields.optWidth(true);
+      }
+    };
     wbaSourceFileFolder.addSelectionListener(selA);
     wSourceFileFolder.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdSourceFileFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdSourceFileFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeSourceFileFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFields.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFields.getItem(idx);
-              wSourceFileFolder.setText(string[0]);
-              wWildcard.setText(string[1]);
-              wFields.remove(idx);
-            }
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbeSourceFileFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFields.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFields.getItem(idx);
+          wSourceFileFolder.setText(string[0]);
+          wWildcard.setText(string[1]);
+          wFields.remove(idx);
+        }
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     FormData fdGeneralComp = new FormData();
     fdGeneralComp.left = new FormAttachment(0, 0);
@@ -510,8 +459,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
 
     // Success Condition
     Label wlSuccessCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessCondition.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.SuccessCondition.Label"));
+    wlSuccessCondition.setText(BaseMessages.getString(PKG, "ActionDosToUnix.SuccessCondition.Label"));
     PropsUi.setLook(wlSuccessCondition);
     FormData fdlSuccessCondition = new FormData();
     fdlSuccessCondition.left = new FormAttachment(0, 0);
@@ -519,11 +467,9 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdlSuccessCondition.top = new FormAttachment(0, margin);
     wlSuccessCondition.setLayoutData(fdlSuccessCondition);
     wSuccessCondition = new CCombo(wSuccessOn, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.SuccessWhenAllWorksFine.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionDosToUnix.SuccessWhenAllWorksFine.Label"));
     wSuccessCondition.add(BaseMessages.getString(PKG, "ActionDosToUnix.SuccessWhenAtLeat.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.SuccessWhenBadFormedLessThan.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionDosToUnix.SuccessWhenBadFormedLessThan.Label"));
     wSuccessCondition.select(0); // +1: starts at -1
 
     PropsUi.setLook(wSuccessCondition);
@@ -532,18 +478,16 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdSuccessCondition.top = new FormAttachment(0, margin);
     fdSuccessCondition.right = new FormAttachment(100, 0);
     wSuccessCondition.setLayoutData(fdSuccessCondition);
-    wSuccessCondition.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeSuccessCondition();
-          }
-        });
+    wSuccessCondition.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeSuccessCondition();
+      }
+    });
 
     // Success when number of errors less than
     wlNrErrorsLessThan = new Label(wSuccessOn, SWT.RIGHT);
-    wlNrErrorsLessThan.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.NrErrorFilesCountLessThan.Label"));
+    wlNrErrorsLessThan.setText(BaseMessages.getString(PKG, "ActionDosToUnix.NrErrorFilesCountLessThan.Label"));
     PropsUi.setLook(wlNrErrorsLessThan);
     FormData fdlNrErrorsLessThan = new FormData();
     fdlNrErrorsLessThan.left = new FormAttachment(0, 0);
@@ -551,12 +495,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdlNrErrorsLessThan.right = new FormAttachment(middle, -margin);
     wlNrErrorsLessThan.setLayoutData(fdlNrErrorsLessThan);
 
-    wNrErrorsLessThan =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionDosToUnix.NrErrorFilesCountLessThan.Tooltip"));
+    wNrErrorsLessThan = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionDosToUnix.NrErrorFilesCountLessThan.Tooltip"));
     PropsUi.setLook(wNrErrorsLessThan);
     wNrErrorsLessThan.addModifyListener(lsMod);
     FormData fdNrErrorsLessThan = new FormData();
@@ -590,8 +529,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
 
     // Add Filenames to result filenames?
     Label wlAddFilenameToResult = new Label(wFileResult, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionDosToUnix.AddFilenameToResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionDosToUnix.AddFilenameToResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -599,14 +537,10 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdlAddFilenameToResult.top = new FormAttachment(0, margin);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new CCombo(wFileResult, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.AddNoFilesToResult.Label"));
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.AddAllFilenamesToResult.Label"));
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.AddOnlyProcessedFilenames.Label"));
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionDosToUnix.AddOnlyErrorFilenames.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionDosToUnix.AddNoFilesToResult.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionDosToUnix.AddAllFilenamesToResult.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionDosToUnix.AddOnlyProcessedFilenames.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionDosToUnix.AddOnlyErrorFilenames.Label"));
     wAddFilenameToResult.select(0); // +1: starts at -1
 
     PropsUi.setLook(wAddFilenameToResult);
@@ -615,11 +549,10 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     fdAddFilenameToResult.top = new FormAttachment(0, margin);
     fdAddFilenameToResult.right = new FormAttachment(100, 0);
     wAddFilenameToResult.setLayoutData(fdAddFilenameToResult);
-    wAddFilenameToResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wAddFilenameToResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     FormData fdFileResult = new FormData();
     fdFileResult.left = new FormAttachment(0, margin);
@@ -713,9 +646,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
     }
 
     if (action.getSuccessCondition() != null) {
-      if (action
-          .getSuccessCondition()
-          .equals(ActionDosToUnix.SUCCESS_IF_AT_LEAST_X_FILES_PROCESSED)) {
+      if (action.getSuccessCondition().equals(ActionDosToUnix.SUCCESS_IF_AT_LEAST_X_FILES_PROCESSED)) {
         wSuccessCondition.select(1);
       } else if (action.getSuccessCondition().equals(ActionDosToUnix.SUCCESS_IF_ERROR_FILES_LESS)) {
         wSuccessCondition.select(2);
@@ -800,8 +731,7 @@ public class ActionDosToUnixDialog extends ActionDialog implements IActionDialog
       if (source != null && source.length() != 0) {
         action.sourceFileFolder[nr] = source;
         action.wildcard[nr] = wild;
-        action.conversionTypes[nr] =
-            ActionDosToUnix.getConversionTypeByDesc(wFields.getNonEmpty(i).getText(3));
+        action.conversionTypes[nr] = ActionDosToUnix.getConversionTypeByDesc(wFields.getNonEmpty(i).getText(3));
         nr++;
       }
     }

@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionDeleteFoldersLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionDeleteFolders> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionDeleteFoldersLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionDeleteFolders> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionDeleteFolders> getActionClass() {
@@ -40,16 +40,11 @@ public class WorkflowActionDeleteFoldersLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "success_condition", "getSuccessCondition",
-        "limit_folders", "getLimitFolders");
+    return toMap("success_condition", "getSuccessCondition", "limit_folders", "getLimitFolders");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "argFromPrevious", "setPrevious",
-        "success_condition", "setSuccessCondition",
-        "limit_folders", "setLimitFolders");
+    return toMap("argFromPrevious", "setPrevious", "success_condition", "setSuccessCondition", "limit_folders", "setLimitFolders");
   }
 }

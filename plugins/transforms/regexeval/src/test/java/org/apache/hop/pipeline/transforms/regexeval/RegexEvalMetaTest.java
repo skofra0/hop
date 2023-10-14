@@ -56,7 +56,8 @@ public class RegexEvalMetaTest implements IInitializer<ITransform> {
   IVariables mockVariableSpace;
   LoadSaveTester loadSaveTester;
   Class<RegexEvalMeta> testMetaClass = RegexEvalMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setupClass() throws HopException {
@@ -152,91 +153,67 @@ public class RegexEvalMetaTest implements IInitializer<ITransform> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "script",
-            "matcher",
-            "resultfieldname",
-            "usevar",
-            "allowcapturegroups",
-            "replacefields",
-            "canoneq",
-            "caseinsensitive",
-            "comment",
-            "dotall",
-            "multiline",
-            "unicode",
-            "unix",
-            "fieldName",
-            "fieldFormat",
-            "fieldGroup",
-            "fieldDecimal",
-            "fieldCurrency",
-            "fieldNullIf",
-            "fieldIfNull",
-            "fieldTrimType",
-            "fieldLength",
-            "fieldPrecision",
+            "script", "matcher", "resultfieldname", "usevar", "allowcapturegroups", "replacefields", "canoneq", "caseinsensitive", "comment", "dotall", "multiline", "unicode",
+            "unix", "fieldName", "fieldFormat", "fieldGroup", "fieldDecimal", "fieldCurrency", "fieldNullIf", "fieldIfNull", "fieldTrimType", "fieldLength", "fieldPrecision",
             "fieldType");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("script", "getScript");
-            put("matcher", "getMatcher");
-            put("resultfieldname", "getResultFieldName");
-            put("usevar", "isUseVariableInterpolationFlagSet");
-            put("allowcapturegroups", "isAllowCaptureGroupsFlagSet");
-            put("replacefields", "isReplacefields");
-            put("canoneq", "isCanonicalEqualityFlagSet");
-            put("caseinsensitive", "isCaseInsensitiveFlagSet");
-            put("comment", "isCommentFlagSet");
-            put("dotall", "isDotAllFlagSet");
-            put("multiline", "isMultilineFlagSet");
-            put("unicode", "isUnicodeFlagSet");
-            put("unix", "isUnixLineEndingsFlagSet");
-            put("fieldName", "getFieldName");
-            put("fieldFormat", "getFieldFormat");
-            put("fieldGroup", "getFieldGroup");
-            put("fieldDecimal", "getFieldDecimal");
-            put("fieldCurrency", "getFieldCurrency");
-            put("fieldNullIf", "getFieldNullIf");
-            put("fieldIfNull", "getFieldIfNull");
-            put("fieldTrimType", "getFieldTrimType");
-            put("fieldLength", "getFieldLength");
-            put("fieldPrecision", "getFieldPrecision");
-            put("fieldType", "getFieldType");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("script", "setScript");
-            put("matcher", "setMatcher");
-            put("resultfieldname", "setResultFieldName");
-            put("usevar", "setUseVariableInterpolationFlag");
-            put("allowcapturegroups", "setAllowCaptureGroupsFlag");
-            put("replacefields", "setReplacefields");
-            put("canoneq", "setCanonicalEqualityFlag");
-            put("caseinsensitive", "setCaseInsensitiveFlag");
-            put("comment", "setCommentFlag");
-            put("dotall", "setDotAllFlag");
-            put("multiline", "setMultilineFlag");
-            put("unicode", "setUnicodeFlag");
-            put("unix", "setUnixLineEndingsFlag");
-            put("fieldName", "setFieldName");
-            put("fieldFormat", "setFieldFormat");
-            put("fieldGroup", "setFieldGroup");
-            put("fieldDecimal", "setFieldDecimal");
-            put("fieldCurrency", "setFieldCurrency");
-            put("fieldNullIf", "setFieldNullIf");
-            put("fieldIfNull", "setFieldIfNull");
-            put("fieldTrimType", "setFieldTrimType");
-            put("fieldLength", "setFieldLength");
-            put("fieldPrecision", "setFieldPrecision");
-            put("fieldType", "setFieldType");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("script", "getScript");
+        put("matcher", "getMatcher");
+        put("resultfieldname", "getResultFieldName");
+        put("usevar", "isUseVariableInterpolationFlagSet");
+        put("allowcapturegroups", "isAllowCaptureGroupsFlagSet");
+        put("replacefields", "isReplacefields");
+        put("canoneq", "isCanonicalEqualityFlagSet");
+        put("caseinsensitive", "isCaseInsensitiveFlagSet");
+        put("comment", "isCommentFlagSet");
+        put("dotall", "isDotAllFlagSet");
+        put("multiline", "isMultilineFlagSet");
+        put("unicode", "isUnicodeFlagSet");
+        put("unix", "isUnixLineEndingsFlagSet");
+        put("fieldName", "getFieldName");
+        put("fieldFormat", "getFieldFormat");
+        put("fieldGroup", "getFieldGroup");
+        put("fieldDecimal", "getFieldDecimal");
+        put("fieldCurrency", "getFieldCurrency");
+        put("fieldNullIf", "getFieldNullIf");
+        put("fieldIfNull", "getFieldIfNull");
+        put("fieldTrimType", "getFieldTrimType");
+        put("fieldLength", "getFieldLength");
+        put("fieldPrecision", "getFieldPrecision");
+        put("fieldType", "getFieldType");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("script", "setScript");
+        put("matcher", "setMatcher");
+        put("resultfieldname", "setResultFieldName");
+        put("usevar", "setUseVariableInterpolationFlag");
+        put("allowcapturegroups", "setAllowCaptureGroupsFlag");
+        put("replacefields", "setReplacefields");
+        put("canoneq", "setCanonicalEqualityFlag");
+        put("caseinsensitive", "setCaseInsensitiveFlag");
+        put("comment", "setCommentFlag");
+        put("dotall", "setDotAllFlag");
+        put("multiline", "setMultilineFlag");
+        put("unicode", "setUnicodeFlag");
+        put("unix", "setUnixLineEndingsFlag");
+        put("fieldName", "setFieldName");
+        put("fieldFormat", "setFieldFormat");
+        put("fieldGroup", "setFieldGroup");
+        put("fieldDecimal", "setFieldDecimal");
+        put("fieldCurrency", "setFieldCurrency");
+        put("fieldNullIf", "setFieldNullIf");
+        put("fieldIfNull", "setFieldIfNull");
+        put("fieldTrimType", "setFieldTrimType");
+        put("fieldLength", "setFieldLength");
+        put("fieldPrecision", "setFieldPrecision");
+        put("fieldType", "setFieldType");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fieldName", stringArrayLoadSaveValidator);
@@ -246,28 +223,14 @@ public class RegexEvalMetaTest implements IInitializer<ITransform> {
     attrValidatorMap.put("fieldCurrency", stringArrayLoadSaveValidator);
     attrValidatorMap.put("fieldNullIf", stringArrayLoadSaveValidator);
     attrValidatorMap.put("fieldIfNull", stringArrayLoadSaveValidator);
-    attrValidatorMap.put(
-        "fieldTrimType",
-        new PrimitiveIntArrayLoadSaveValidator(
-            new IntLoadSaveValidator(ValueMetaBase.getTrimTypeCodes().length), 5));
-    attrValidatorMap.put(
-        "fieldLength", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
-    attrValidatorMap.put(
-        "fieldPrecision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
-    attrValidatorMap.put(
-        "fieldType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
+    attrValidatorMap.put("fieldTrimType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(ValueMetaBase.getTrimTypeCodes().length), 5));
+    attrValidatorMap.put("fieldLength", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
+    attrValidatorMap.put("fieldPrecision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
+    attrValidatorMap.put("fieldType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

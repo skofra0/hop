@@ -34,10 +34,7 @@ public class BlockingTransformMetaTest {
 
     String xml = meta.getXml();
 
-    String transformXml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + xml
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String transformXml = XmlHandler.openTag(TransformMeta.XML_TAG) + xml + XmlHandler.closeTag(TransformMeta.XML_TAG);
 
     BlockingTransformMeta meta2 = new BlockingTransformMeta();
     meta2.loadXml(XmlHandler.loadXmlString(transformXml, TransformMeta.XML_TAG), null);

@@ -41,13 +41,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
   String schemaName;
   String tableName;
 
-  public SQLFileOutput(
-      TransformMeta transformMeta,
-      SQLFileOutputMeta meta,
-      SQLFileOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SQLFileOutput(TransformMeta transformMeta, SQLFileOutputMeta meta, SQLFileOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,10 +71,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
     boolean sendToErrorRow = false;
     String errorMessage = null;
 
-    if (r != null
-        && getLinesOutput() > 0
-        && meta.getSplitEvery() > 0
-        && ((getLinesOutput() + 1) % meta.getSplitEvery()) == 0) {
+    if (r != null && getLinesOutput() > 0 && meta.getSplitEvery() > 0 && ((getLinesOutput() + 1) % meta.getSplitEvery()) == 0) {
 
       // Done with this part or with everything.
       closeFile();
@@ -111,8 +102,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
         // Truncate table
         if (meta.truncateTable()) {
           // Write to file
-          String truncatetable =
-              data.db.getDDLTruncateTable(schemaName, tableName + ";" + Const.CR + Const.CR);
+          String truncatetable = data.db.getDDLTruncateTable(schemaName, tableName + ";" + Const.CR + Const.CR);
           data.writer.write(truncatetable);
         }
       }
@@ -122,9 +112,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
     }
 
     try {
-      String sql =
-          data.db.getSqlOutput(schemaName, tableName, data.insertRowMeta, r, meta.getDateFormat())
-              + ";";
+      String sql = data.db.getSqlOutput(schemaName, tableName, data.insertRowMeta, r, meta.getDateFormat()) + ";";
 
       // Do we start a new line for this statement ?
       if (meta.StartNewLine()) {
@@ -157,8 +145,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
         errorMessage = e.toString();
       } else {
 
-        logError(
-            BaseMessages.getString(PKG, "SQLFileOutputMeta.Log.ErrorInTransform") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "SQLFileOutputMeta.Log.ErrorInTransform") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -187,12 +174,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
       String filename = buildFilename();
       if (meta.AddToResult()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(filename),
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
         resultFile.setComment("This file was created with a text file output transform");
         addResultFile(resultFile);
       }
@@ -213,9 +195,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
         if (log.isBasic()) {
           logDetailed("Opening output stream in encoding: " + meta.getEncoding());
         }
-        data.writer =
-            new OutputStreamWriter(
-                new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
+        data.writer = new OutputStreamWriter(new BufferedOutputStream(outputStream, 5000), resolve(meta.getEncoding()));
       } else {
         if (log.isBasic()) {
           logDetailed("Opening output stream in default encoding");
@@ -280,9 +260,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
           throw new HopTransformException("The connection is not defined (empty)");
         }
         if (meta.getDatabaseMeta() == null) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "SQLFileOutput.Init.ConnectionMissing", getTransformName()));
+          logError(BaseMessages.getString(PKG, "SQLFileOutput.Init.ConnectionMissing", getTransformName()));
           return false;
         }
         data.db = new Database(this, this, meta.getDatabaseMeta());
@@ -297,8 +275,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
             String filename = resolve(meta.getFileName());
             parentfolder = HopVfs.getFileObject(filename).getParent();
             if (!parentfolder.exists()) {
-              log.logBasic(
-                  "Folder parent", "Folder parent " + parentfolder.getName() + " does not exist !");
+              log.logBasic("Folder parent", "Folder parent " + parentfolder.getName() + " does not exist !");
               parentfolder.createFolder();
               log.logBasic("Folder parent", "Folder parent was created.");
             }
@@ -332,8 +309,7 @@ public class SQLFileOutput extends BaseTransform<SQLFileOutputMeta, SQLFileOutpu
           throw new HopTransformException("The tablename is not defined (empty)");
         }
 
-        schemaTable =
-            data.db.getDatabaseMeta().getQuotedSchemaTableCombination(this, schemaName, tableName);
+        schemaTable = data.db.getDatabaseMeta().getQuotedSchemaTableCombination(this, schemaName, tableName);
 
       } catch (Exception e) {
         logError("An error occurred intialising this transform: " + e.getMessage());

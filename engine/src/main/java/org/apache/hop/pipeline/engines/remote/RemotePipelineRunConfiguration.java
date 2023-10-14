@@ -25,15 +25,13 @@ import org.apache.hop.pipeline.config.PipelineRunConfiguration;
 import org.apache.hop.pipeline.engines.EmptyPipelineRunConfiguration;
 
 @GuiPlugin(description = "Remote pipeline run configuration widgets")
-public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguration
-    implements IPipelineEngineRunConfiguration {
+public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguration implements IPipelineEngineRunConfiguration {
 
   @GuiWidgetElement(
       order = "10",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.HopServer.Label",
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.HopServer.Label",
       typeMetadata = HopServerTypeMetadata.class)
   @HopMetadataProperty(key = "hop_server")
   protected String hopServerName;
@@ -42,8 +40,7 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "20",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.METADATA,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RunConfiguration.Label",
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RunConfiguration.Label",
       typeMetadata = PipelineRunConfigurationTypeMetadata.class)
   @HopMetadataProperty(key = "run_config")
   protected String runConfigurationName;
@@ -52,8 +49,7 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "30",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ServerPollDelay.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ServerPollDelay.Label")
   @HopMetadataProperty(key = "server_poll_delay")
   protected String serverPollDelay;
 
@@ -61,8 +57,7 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "40",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ServerPollInterval.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ServerPollInterval.Label")
   @HopMetadataProperty(key = "server_poll_interval")
   protected String serverPollInterval;
 
@@ -70,10 +65,8 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "50",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ExportResources.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ExportResources.ToolTip")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ExportResources.Label",
+      toolTip = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.ExportResources.ToolTip")
   @HopMetadataProperty(key = "export_resources")
   protected boolean exportingResources;
 
@@ -81,10 +74,8 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "60",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceSourceFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceSourceFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceSourceFolder.ToolTip")
   @HopMetadataProperty(key = "resources_source_folder")
   protected String namedResourcesSourceFolder;
 
@@ -92,10 +83,8 @@ public class RemotePipelineRunConfiguration extends EmptyPipelineRunConfiguratio
       order = "70",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceTargetFolder.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceTargetFolder.Label",
+      toolTip = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.NamedResourceTargetFolder.ToolTip")
   @HopMetadataProperty(key = "resources_target_folder")
   protected String namedResourcesTargetFolder;
 

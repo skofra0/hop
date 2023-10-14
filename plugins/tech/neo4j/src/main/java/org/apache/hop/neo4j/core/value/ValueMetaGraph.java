@@ -25,10 +25,7 @@ import org.apache.hop.core.row.value.ValueMetaPlugin;
 import org.apache.hop.neo4j.core.data.GraphData;
 import org.w3c.dom.Node;
 
-@ValueMetaPlugin(
-    id = "303",
-    name = "Graph",
-    description = "Graph data type containing nodes, relationships and their properties")
+@ValueMetaPlugin(id = "303", name = "Graph", description = "Graph data type containing nodes, relationships and their properties")
 public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
 
   /**
@@ -67,8 +64,7 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
           case STORAGE_TYPE_NORMAL:
             return (GraphData) object;
           default:
-            throw new HopValueException(
-                "Only normal storage type is supported for Graph value : " + toString());
+            throw new HopValueException("Only normal storage type is supported for Graph value : " + toString());
         }
       case TYPE_STRING:
         switch (storageType) {
@@ -76,17 +72,13 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
             try {
               return new GraphData((String) object);
             } catch (Exception e) {
-              throw new HopValueException(
-                  "Error converting a JSON representation of Graph value data to a native representation",
-                  e);
+              throw new HopValueException("Error converting a JSON representation of Graph value data to a native representation", e);
             }
           default:
-            throw new HopValueException(
-                "Only normal storage type is supported for Graph value : " + toString());
+            throw new HopValueException("Only normal storage type is supported for Graph value : " + toString());
         }
       default:
-        throw new HopValueException(
-            "Unable to convert data type " + toString() + " to Graph value");
+        throw new HopValueException("Unable to convert data type " + toString() + " to Graph value");
     }
   }
 
@@ -115,8 +107,7 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : (String) index[((Integer) object).intValue()];
               break;
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           if (string != null) {
             string = trim(string);
@@ -124,24 +115,19 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
           break;
 
         case TYPE_DATE:
-          throw new HopValueException(
-              "You can't convert a Date to a Graph data type for : " + toString());
+          throw new HopValueException("You can't convert a Date to a Graph data type for : " + toString());
 
         case TYPE_NUMBER:
-          throw new HopValueException(
-              "You can't convert a Number to a Graph data type for : " + toString());
+          throw new HopValueException("You can't convert a Number to a Graph data type for : " + toString());
 
         case TYPE_INTEGER:
-          throw new HopValueException(
-              "You can't convert an Integer to a Graph data type for : " + toString());
+          throw new HopValueException("You can't convert an Integer to a Graph data type for : " + toString());
 
         case TYPE_BIGNUMBER:
-          throw new HopValueException(
-              "You can't convert a BigNumber to a Graph data type for : " + toString());
+          throw new HopValueException("You can't convert a BigNumber to a Graph data type for : " + toString());
 
         case TYPE_BOOLEAN:
-          throw new HopValueException(
-              "You can't convert a Boolean to a Graph data type for : " + toString());
+          throw new HopValueException("You can't convert a Boolean to a Graph data type for : " + toString());
 
         case TYPE_BINARY:
           switch (storageType) {
@@ -152,14 +138,10 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
               string = convertBinaryStringToString((byte[]) object);
               break;
             case STORAGE_TYPE_INDEXED:
-              string =
-                  object == null
-                      ? null
-                      : convertBinaryStringToString((byte[]) index[((Integer) object).intValue()]);
+              string = object == null ? null : convertBinaryStringToString((byte[]) index[((Integer) object).intValue()]);
               break;
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           break;
 
@@ -175,8 +157,7 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : index[((Integer) object).intValue()].toString();
               break; // just go for the default toString()
             default:
-              throw new HopValueException(
-                  toString() + " : Unknown storage type " + storageType + " specified.");
+              throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
           }
           break;
 
@@ -186,12 +167,7 @@ public class ValueMetaGraph extends ValueMetaBase implements IValueMeta {
               string = object == null ? null : ((GraphData) object).toJsonString();
               break;
             default:
-              throw new HopValueException(
-                  toString()
-                      + " : Unsupported storage type "
-                      + getStorageTypeDesc()
-                      + " for "
-                      + toString());
+              throw new HopValueException(toString() + " : Unsupported storage type " + getStorageTypeDesc() + " for " + toString());
           }
           break;
 

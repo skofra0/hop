@@ -34,8 +34,7 @@ public class SimpleLoggingObject implements ILoggingObject {
    * @param loggingObjectType
    * @param parent
    */
-  public SimpleLoggingObject(
-      String objectName, LoggingObjectType loggingObjectType, ILoggingObject parent) {
+  public SimpleLoggingObject(String objectName, LoggingObjectType loggingObjectType, ILoggingObject parent) {
     this.objectName = objectName;
     this.objectType = loggingObjectType;
     this.parent = parent;

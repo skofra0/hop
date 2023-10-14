@@ -73,17 +73,10 @@ public class RunThread implements Runnable {
         String logChannelId = log.getLogChannelId();
         ILoggingObject loggingObject = LoggingRegistry.getInstance().getLoggingObject(logChannelId);
         String parentLogChannelId = loggingObject.getParent().getLogChannelId();
-        List<String> logChannelChildren =
-            LoggingRegistry.getInstance().getLogChannelChildren(parentLogChannelId);
+        List<String> logChannelChildren = LoggingRegistry.getInstance().getLogChannelChildren(parentLogChannelId);
         int childIndex = Const.indexOfString(log.getLogChannelId(), logChannelChildren);
         if (log.isDebug()) {
-          log.logDebug(
-              "child index = "
-                  + childIndex
-                  + ", logging object : "
-                  + loggingObject.toString()
-                  + " parent="
-                  + parentLogChannelId);
+          log.logDebug("child index = " + childIndex + ", logging object : " + loggingObject.toString() + " parent=" + parentLogChannelId);
         }
         HopLogStore.getAppender().getBuffer("2bcc6b3f-c660-4a8b-8b17-89e8cbd5b29b", false);
       } catch (OutOfMemoryError e) {
@@ -111,24 +104,12 @@ public class RunThread implements Runnable {
         if (li > 0 || lo > 0 || lr > 0 || lw > 0 || lu > 0 || lj > 0 || e > 0) {
           log.logBasic(
               BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.Log.SummaryInfo",
-                  String.valueOf(li),
-                  String.valueOf(lo),
-                  String.valueOf(lr),
-                  String.valueOf(lw),
-                  String.valueOf(lu),
+                  PKG, "BaseTransform.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lu),
                   String.valueOf(e + lj)));
         } else {
           log.logDetailed(
               BaseMessages.getString(
-                  PKG,
-                  "BaseTransform.Log.SummaryInfo",
-                  String.valueOf(li),
-                  String.valueOf(lo),
-                  String.valueOf(lr),
-                  String.valueOf(lw),
-                  String.valueOf(lu),
+                  PKG, "BaseTransform.Log.SummaryInfo", String.valueOf(li), String.valueOf(lo), String.valueOf(lr), String.valueOf(lw), String.valueOf(lu),
                   String.valueOf(e + lj)));
         }
       } catch (Throwable t) {

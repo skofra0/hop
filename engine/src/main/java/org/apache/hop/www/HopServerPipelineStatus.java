@@ -86,9 +86,7 @@ public class HopServerPipelineStatus {
 
   @JsonIgnore
   public String getXml() throws HopException {
-    boolean sendResultXmlWithStatus =
-        EnvUtil.getSystemProperty("HOP_COMPATIBILITY_SEND_RESULT_XML_WITH_FULL_STATUS", "N")
-            .equalsIgnoreCase("Y");
+    boolean sendResultXmlWithStatus = EnvUtil.getSystemProperty("HOP_COMPATIBILITY_SEND_RESULT_XML_WITH_FULL_STATUS", "N").equalsIgnoreCase("Y");
     return getXml(sendResultXmlWithStatus);
   }
 
@@ -101,13 +99,8 @@ public class HopServerPipelineStatus {
     xml.append("  ").append(XmlHandler.addTagValue("status_desc", statusDescription));
     xml.append("  ").append(XmlHandler.addTagValue("error_desc", errorDescription));
     xml.append("  ").append(XmlHandler.addTagValue("log_date", XmlHandler.date2string(logDate)));
-    xml.append("  ")
-        .append(
-            XmlHandler.addTagValue(
-                "execution_start_date", XmlHandler.date2string(executionStartDate)));
-    xml.append("  ")
-        .append(
-            XmlHandler.addTagValue("execution_end_date", XmlHandler.date2string(executionEndDate)));
+    xml.append("  ").append(XmlHandler.addTagValue("execution_start_date", XmlHandler.date2string(executionStartDate)));
+    xml.append("  ").append(XmlHandler.addTagValue("execution_end_date", XmlHandler.date2string(executionEndDate)));
     xml.append("  ").append(XmlHandler.addTagValue("paused", paused));
 
     xml.append("  ").append(XmlHandler.openTag("transform_status_list")).append(Const.CR);
@@ -125,8 +118,7 @@ public class HopServerPipelineStatus {
       xml.append(resultXML);
     }
 
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("logging_string", XmlHandler.buildCDATA(loggingString)));
+    xml.append("  ").append(XmlHandler.addTagValue("logging_string", XmlHandler.buildCDATA(loggingString)));
 
     xml.append(XmlHandler.closeTag(XML_TAG));
 
@@ -140,44 +132,31 @@ public class HopServerPipelineStatus {
     statusDescription = XmlHandler.getTagValue(pipelineStatusNode, "status_desc");
     errorDescription = XmlHandler.getTagValue(pipelineStatusNode, "error_desc");
     logDate = XmlHandler.stringToDate(XmlHandler.getTagValue(pipelineStatusNode, "log_date"));
-    executionStartDate =
-        XmlHandler.stringToDate(XmlHandler.getTagValue(pipelineStatusNode, "execution_start_date"));
-    executionEndDate =
-        XmlHandler.stringToDate(XmlHandler.getTagValue(pipelineStatusNode, "execution_end_date"));
+    executionStartDate = XmlHandler.stringToDate(XmlHandler.getTagValue(pipelineStatusNode, "execution_start_date"));
+    executionEndDate = XmlHandler.stringToDate(XmlHandler.getTagValue(pipelineStatusNode, "execution_end_date"));
     paused = "Y".equalsIgnoreCase(XmlHandler.getTagValue(pipelineStatusNode, "paused"));
 
     Node statusListNode = XmlHandler.getSubNode(pipelineStatusNode, "transform_status_list");
     int nr = XmlHandler.countNodes(statusListNode, TransformStatus.XML_TAG);
     for (int i = 0; i < nr; i++) {
-      Node transformStatusNode =
-          XmlHandler.getSubNodeByNr(statusListNode, TransformStatus.XML_TAG, i);
+      Node transformStatusNode = XmlHandler.getSubNodeByNr(statusListNode, TransformStatus.XML_TAG, i);
       TransformStatus transformStatus = new TransformStatus(transformStatusNode);
       transformStatusList.add(transformStatus);
     }
 
-    firstLoggingLineNr =
-        Const.toInt(XmlHandler.getTagValue(pipelineStatusNode, "first_log_line_nr"), 0);
-    lastLoggingLineNr =
-        Const.toInt(XmlHandler.getTagValue(pipelineStatusNode, "last_log_line_nr"), 0);
+    firstLoggingLineNr = Const.toInt(XmlHandler.getTagValue(pipelineStatusNode, "first_log_line_nr"), 0);
+    lastLoggingLineNr = Const.toInt(XmlHandler.getTagValue(pipelineStatusNode, "last_log_line_nr"), 0);
 
     String loggingString64 = XmlHandler.getTagValue(pipelineStatusNode, "logging_string");
 
     if (!Utils.isEmpty(loggingString64)) {
       // This is a CDATA block with a Base64 encoded GZIP compressed stream of data.
       //
-      String dataString64 =
-          loggingString64.substring(
-              "<![CDATA[".length(), loggingString64.length() - "]]>".length());
+      String dataString64 = loggingString64.substring("<![CDATA[".length(), loggingString64.length() - "]]>".length());
       try {
         loggingString = HttpUtil.decodeBase64ZippedString(dataString64);
       } catch (IOException e) {
-        loggingString =
-            "Unable to decode logging from remote server : "
-                + e.toString()
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e);
+        loggingString = "Unable to decode logging from remote server : " + e.toString() + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e);
       }
     } else {
       loggingString = "";
@@ -190,13 +169,7 @@ public class HopServerPipelineStatus {
       try {
         result = new Result(resultNode);
       } catch (HopException e) {
-        loggingString +=
-            "Unable to serialize result object as XML"
-                + Const.CR
-                + Const.getSimpleStackTrace(e)
-                + Const.CR
-                + Const.getStackTracker(e)
-                + Const.CR;
+        loggingString += "Unable to serialize result object as XML" + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e) + Const.CR;
       }
       result.setLogText(loggingString);
     }
@@ -204,8 +177,7 @@ public class HopServerPipelineStatus {
 
   public static HopServerPipelineStatus fromXml(String xml) throws HopException {
     Document document = XmlHandler.loadXmlString(xml);
-    HopServerPipelineStatus status =
-        new HopServerPipelineStatus(XmlHandler.getSubNode(document, XML_TAG));
+    HopServerPipelineStatus status = new HopServerPipelineStatus(XmlHandler.getSubNode(document, XML_TAG));
     return status;
   }
 
@@ -260,27 +232,22 @@ public class HopServerPipelineStatus {
   }
 
   public boolean isRunning() {
-    return getStatusDescription() != null
-        && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_RUNNING)
-            || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_INITIALIZING)
-            || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_PAUSED));
+    return getStatusDescription() != null && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_RUNNING)
+        || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_INITIALIZING) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_PAUSED));
   }
 
   public boolean isStopped() {
     return getStatusDescription() != null
-        && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED)
-            || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED_WITH_ERRORS));
+        && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_STOPPED_WITH_ERRORS));
   }
 
   public boolean isWaiting() {
-    return getStatusDescription() != null
-        && getStatusDescription().equalsIgnoreCase(Pipeline.STRING_WAITING);
+    return getStatusDescription() != null && getStatusDescription().equalsIgnoreCase(Pipeline.STRING_WAITING);
   }
 
   public boolean isFinished() {
     return getStatusDescription() != null
-        && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED)
-            || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED_WITH_ERRORS));
+        && (getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED) || getStatusDescription().equalsIgnoreCase(Pipeline.STRING_FINISHED_WITH_ERRORS));
   }
 
   public long getNrTransformErrors() {
@@ -297,10 +264,7 @@ public class HopServerPipelineStatus {
 
     for (TransformStatus transformStatus : transformStatusList) {
 
-      result.setNrErrors(
-          result.getNrErrors()
-              + transformStatus.getErrors()
-              + (result.isStopped() ? 1 : 0)); // If the
+      result.setNrErrors(result.getNrErrors() + transformStatus.getErrors() + (result.isStopped() ? 1 : 0)); // If the
       // remote
       // pipeline is
       // stopped,
@@ -310,15 +274,11 @@ public class HopServerPipelineStatus {
       // For every transform metric, take the maximum amount
       //
       result.setNrLinesRead(Math.max(result.getNrLinesRead(), transformStatus.getLinesRead()));
-      result.setNrLinesWritten(
-          Math.max(result.getNrLinesWritten(), transformStatus.getLinesWritten()));
+      result.setNrLinesWritten(Math.max(result.getNrLinesWritten(), transformStatus.getLinesWritten()));
       result.setNrLinesInput(Math.max(result.getNrLinesInput(), transformStatus.getLinesInput()));
-      result.setNrLinesOutput(
-          Math.max(result.getNrLinesOutput(), transformStatus.getLinesOutput()));
-      result.setNrLinesUpdated(
-          Math.max(result.getNrLinesUpdated(), transformStatus.getLinesUpdated()));
-      result.setNrLinesRejected(
-          Math.max(result.getNrLinesRejected(), transformStatus.getLinesRejected()));
+      result.setNrLinesOutput(Math.max(result.getNrLinesOutput(), transformStatus.getLinesOutput()));
+      result.setNrLinesUpdated(Math.max(result.getNrLinesUpdated(), transformStatus.getLinesUpdated()));
+      result.setNrLinesRejected(Math.max(result.getNrLinesRejected(), transformStatus.getLinesRejected()));
 
       if (transformStatus.isStopped()) {
         result.setStopped(true);

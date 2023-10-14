@@ -57,18 +57,13 @@ import org.eclipse.swt.widgets.Text;
 public class XsltDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = Xslt.class; // For Translator
 
-  private static final String[] FILETYPES_XML =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xml"),
-        BaseMessages.getString(PKG, "ActionXSLT.Filetype.All")
-      };
+  private static final String[] FILETYPES_XML = new String[] {BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xml"), BaseMessages.getString(PKG, "ActionXSLT.Filetype.All")};
 
   private static final String[] FILETYPES_XSL =
       new String[] {
-        BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xsl"),
-        BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xslt"),
-        BaseMessages.getString(PKG, "ActionXSLT.Filetype.All")
-      };
+          BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xsl"),
+          BaseMessages.getString(PKG, "ActionXSLT.Filetype.Xslt"),
+          BaseMessages.getString(PKG, "ActionXSLT.Filetype.All")};
 
   private Text wName;
 
@@ -207,14 +202,13 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            refreshArgFromPrevious();
-          }
-        });
+        refreshArgFromPrevious();
+      }
+    });
 
     // Filename 1 line
     wlxmlFilename = new Label(wFiles, SWT.RIGHT);
@@ -242,18 +236,8 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     wxmlFilename.setLayoutData(fdxmlFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wxmlFilename.addModifyListener(
-        e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
-    wbxmlFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wxmlFilename,
-                variables,
-                new String[] {"*.xml;*.XML", "*"},
-                FILETYPES_XML,
-                true));
+    wxmlFilename.addModifyListener(e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
+    wbxmlFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wxmlFilename, variables, new String[] {"*.xml;*.XML", "*"}, FILETYPES_XML, true));
 
     // Filename 2 line
     wlxslFilename = new Label(wFiles, SWT.RIGHT);
@@ -281,18 +265,9 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     wxslFilename.setLayoutData(fdxslFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wxslFilename.addModifyListener(
-        e -> wxslFilename.setToolTipText(variables.resolve(wxslFilename.getText())));
-    wbxslFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wxslFilename,
-                variables,
-                new String[] {"*.xsl;*.XSL", "*.xslt;*.XSLT", "*"},
-                FILETYPES_XSL,
-                true));
+    wxslFilename.addModifyListener(e -> wxslFilename.setToolTipText(variables.resolve(wxslFilename.getText())));
+    wbxslFilename
+        .addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wxslFilename, variables, new String[] {"*.xsl;*.XSL", "*.xslt;*.XSLT", "*"}, FILETYPES_XSL, true));
 
     // Browse Source folders button ...
     Button wbOutputDirectory = new Button(wFiles, SWT.PUSH | SWT.CENTER);
@@ -302,8 +277,7 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     fdbOutputDirectory.right = new FormAttachment(100, 0);
     fdbOutputDirectory.top = new FormAttachment(wXSLTFactory, margin);
     wbOutputDirectory.setLayoutData(fdbOutputDirectory);
-    wbOutputDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputFilename, variables));
+    wbOutputDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputFilename, variables));
 
     // OutputFilename
     wlOutputFilename = new Label(wFiles, SWT.RIGHT);
@@ -323,8 +297,7 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     fdbMovetoDirectory.right = new FormAttachment(100, 0);
     fdbMovetoDirectory.top = new FormAttachment(wxslFilename, margin);
     wbMovetoDirectory.setLayoutData(fdbMovetoDirectory);
-    wbMovetoDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputFilename, variables));
+    wbMovetoDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputFilename, variables));
 
     wOutputFilename = new TextVar(variables, wFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wOutputFilename);
@@ -336,8 +309,7 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     wOutputFilename.setLayoutData(fdOutputFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wOutputFilename.addModifyListener(
-        e -> wOutputFilename.setToolTipText(variables.resolve(wOutputFilename.getText())));
+    wOutputFilename.addModifyListener(e -> wOutputFilename.setToolTipText(variables.resolve(wOutputFilename.getText())));
 
     FormData fdFiles = new FormData();
     fdFiles.left = new FormAttachment(0, margin);
@@ -422,20 +394,18 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
     wlAddFileToResult.setLayoutData(fdlAddFileToResult);
     wAddFileToResult = new Button(wFileResult, SWT.CHECK);
     PropsUi.setLook(wAddFileToResult);
-    wAddFileToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionXSLT.AddFileToResult.Tooltip"));
+    wAddFileToResult.setToolTipText(BaseMessages.getString(PKG, "ActionXSLT.AddFileToResult.Tooltip"));
     FormData fdAddFileToResult = new FormData();
     fdAddFileToResult.left = new FormAttachment(middle, 0);
     fdAddFileToResult.top = new FormAttachment(wlAddFileToResult, 0, SWT.CENTER);
     fdAddFileToResult.right = new FormAttachment(100, 0);
     wAddFileToResult.setLayoutData(fdAddFileToResult);
-    wAddFileToResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddFileToResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     FormData fdFileResult = new FormData();
     fdFileResult.left = new FormAttachment(0, margin);
@@ -490,28 +460,12 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.OutputProperties.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[0].setComboValues(XsltMeta.outputProperties);
     colinf[1].setUsingVariables(true);
 
-    wOutputProperties =
-        new TableView(
-            variables,
-            wAdvancedComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            OutputPropertiesRows,
-            lsMod,
-            props);
+    wOutputProperties = new TableView(variables, wAdvancedComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, OutputPropertiesRows, lsMod, props);
     FormData fdOutputProperties = new FormData();
     fdOutputProperties.left = new FormAttachment(0, 0);
     fdOutputProperties.top = new FormAttachment(wlOutputProperties, margin);
@@ -533,27 +487,12 @@ public class XsltDialog extends ActionDialog implements IActionDialog {
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "XsltDialog.ColumnInfo.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[1].setUsingVariables(true);
     colinf[0].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            wAdvancedComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wAdvancedComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
     fdFields.top = new FormAttachment(wlFields, margin);

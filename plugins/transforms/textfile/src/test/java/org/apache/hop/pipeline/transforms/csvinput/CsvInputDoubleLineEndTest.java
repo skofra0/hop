@@ -39,7 +39,8 @@ import static org.mockito.Mockito.when;
  * @see CsvInput
  */
 public class CsvInputDoubleLineEndTest extends CsvInputUnitTestBase {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   private static final String ASCII = "windows-1252";
   private static final String UTF8 = "UTF-8";
   private static final String UTF16LE = "UTF-16LE";
@@ -50,11 +51,8 @@ public class CsvInputDoubleLineEndTest extends CsvInputUnitTestBase {
 
   @BeforeClass
   public static void setUp() throws HopException {
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputDoubleLineEndTest");
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputDoubleLineEndTest");
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -83,33 +81,23 @@ public class CsvInputDoubleLineEndTest extends CsvInputUnitTestBase {
     doTest(UTF8, UTF8, TEST_DATA);
   }
 
-  private void doTest(
-      final String fileEncoding, final String transformEncoding, final String testData)
-      throws Exception {
+  private void doTest(final String fileEncoding, final String transformEncoding, final String testData) throws Exception {
     String testFilePath = createTestFile(fileEncoding, testData).getAbsolutePath();
 
     CsvInputMeta meta = createTransformMeta(testFilePath, transformEncoding);
     CsvInputData data = new CsvInputData();
 
-    CsvInput csvInput =
-        new CsvInput(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    CsvInput csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
 
     csvInput.init();
-    csvInput.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            for (int i = 0; i < rowMeta.size(); i++) {
-              assertEquals("Value", row[i]);
-            }
-          }
-        });
+    csvInput.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        for (int i = 0; i < rowMeta.size(); i++) {
+          assertEquals("Value", row[i]);
+        }
+      }
+    });
 
     boolean haveRowsToRead;
     do {

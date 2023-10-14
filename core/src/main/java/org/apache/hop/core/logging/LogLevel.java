@@ -31,15 +31,15 @@ public enum LogLevel implements IEnumHasCodeAndDescription {
 
   private static final Class<?> PKG = LogLevel.class; // For Translator
 
-  public static final String[] logLevelDescriptions = {
-    BaseMessages.getString(PKG, "LogWriter.Level.Nothing.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Error.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Minimal.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Basic.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Detailed.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Debug.LongDesc"),
-    BaseMessages.getString(PKG, "LogWriter.Level.Rowlevel.LongDesc"),
-  };
+  public static final String[] logLevelDescriptions =
+      {
+          BaseMessages.getString(PKG, "LogWriter.Level.Nothing.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Error.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Minimal.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Basic.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Detailed.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Debug.LongDesc"),
+          BaseMessages.getString(PKG, "LogWriter.Level.Rowlevel.LongDesc"),};
 
   private final int level;
   private final String code;
@@ -62,7 +62,7 @@ public enum LogLevel implements IEnumHasCodeAndDescription {
   public String getDescription() {
     return logLevelDescriptions[level];
   }
-  
+
   /**
    * Return the log level for a certain log level code
    *
@@ -73,23 +73,23 @@ public enum LogLevel implements IEnumHasCodeAndDescription {
   public static LogLevel getLogLevelForCode(String code) {
     return IEnumHasCode.lookupCode(LogLevel.class, code, LogLevel.BASIC);
   }
-  
+
   /**
    * Return the log level for a certain log level code
    *
    * @param code the code to look for
    * @return the log level or BASIC if nothing matches.
-   */  
+   */
   public static LogLevel lookupCode(final String code) {
     return IEnumHasCode.lookupCode(LogLevel.class, code, LogLevel.BASIC);
   }
-  
+
   /**
    * Return the log level for a certain log level description
    *
    * @param description the description to look for
    * @return the log level or BASIC if nothing matches.
-   */  
+   */
   public static LogLevel lookupDescription(final String description) {
     return IEnumHasCodeAndDescription.lookupDescription(LogLevel.class, description, LogLevel.BASIC);
   }
@@ -137,7 +137,7 @@ public enum LogLevel implements IEnumHasCodeAndDescription {
     return this.level >= ROWLEVEL.level;
   }
 
-  /** 
+  /**
    * Return an array of log level descriptions, sorted by level (0==Nothing, 6=Row Level)
    * @return An array of log level descriptions
    */

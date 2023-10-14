@@ -50,9 +50,7 @@ public class DenormaliserMeta extends BaseTransformMeta<Denormaliser, Denormalis
   private List<DenormaliserGroupField> groupFields;
 
   /** The key field */
-  @HopMetadataProperty(
-      key = "key_field",
-      injectionKeyDescription = "DenormaliserDialog.KeyField.Label")
+  @HopMetadataProperty(key = "key_field", injectionKeyDescription = "DenormaliserDialog.KeyField.Label")
   private String keyField;
 
   /** The fields to unpivot */
@@ -112,13 +110,7 @@ public class DenormaliserMeta extends BaseTransformMeta<Denormaliser, Denormalis
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // Remove the key value (there will be different entries for each output row)
@@ -126,14 +118,11 @@ public class DenormaliserMeta extends BaseTransformMeta<Denormaliser, Denormalis
     if (keyField != null && keyField.length() > 0) {
       int idx = row.indexOfValue(keyField);
       if (idx < 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "DenormaliserMeta.Exception.UnableToLocateKeyField", keyField));
+        throw new HopTransformException(BaseMessages.getString(PKG, "DenormaliserMeta.Exception.UnableToLocateKeyField", keyField));
       }
       row.removeValueMeta(idx);
     } else {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DenormaliserMeta.Exception.RequiredKeyField"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DenormaliserMeta.Exception.RequiredKeyField"));
     }
 
     // Remove all field value(s) (there will be different entries for each output row)
@@ -146,18 +135,14 @@ public class DenormaliserMeta extends BaseTransformMeta<Denormaliser, Denormalis
           row.removeValueMeta(idx);
         }
       } else {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "DenormaliserMeta.Exception.RequiredTargetFieldName", (i + 1) + ""));
+        throw new HopTransformException(BaseMessages.getString(PKG, "DenormaliserMeta.Exception.RequiredTargetFieldName", (i + 1) + ""));
       }
     }
 
     // Re-add the target fields
     for (DenormaliserTargetField field : denormaliserTargetFields) {
       try {
-        IValueMeta target =
-            ValueMetaFactory.createValueMeta(
-                field.getTargetName(), ValueMetaFactory.getIdForValueMeta(field.getTargetType()));
+        IValueMeta target = ValueMetaFactory.createValueMeta(field.getTargetName(), ValueMetaFactory.getIdForValueMeta(field.getTargetType()));
         target.setLength(field.getTargetLength(), field.getTargetPrecision());
         target.setOrigin(name);
         row.addValueMeta(target);
@@ -181,19 +166,10 @@ public class DenormaliserMeta extends BaseTransformMeta<Denormaliser, Denormalis
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DenormaliserMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DenormaliserMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DenormaliserMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DenormaliserMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }

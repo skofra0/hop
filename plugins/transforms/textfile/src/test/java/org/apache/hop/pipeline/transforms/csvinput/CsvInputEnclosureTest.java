@@ -36,16 +36,15 @@ public class CsvInputEnclosureTest extends CsvInputUnitTestBase {
   private static final String QUOTATION_AND_EXCLAMATION_MARK = "\"!";
   private static final String QUOTATION_MARK = "\"";
   private static final String SEMICOLON = ";";
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private CsvInput csvInput;
   private TransformMockHelper<CsvInputMeta, CsvInputData> transformMockHelper;
 
   @Before
   public void setUp() throws Exception {
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputEnclosureTest");
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputEnclosureTest");
   }
 
   @After
@@ -115,14 +114,7 @@ public class CsvInputEnclosureTest extends CsvInputUnitTestBase {
     try {
       CsvInputMeta meta = createMeta(tmp, createInputFileFields("f1", "f2"), enclosure);
       CsvInputData data = new CsvInputData();
-      csvInput =
-          new CsvInput(
-              transformMockHelper.transformMeta,
-              meta,
-              data,
-              0,
-              transformMockHelper.pipelineMeta,
-              transformMockHelper.pipeline);
+      csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
       csvInput.init();
 
       csvInput.addRowSetToOutputRowSets(output);

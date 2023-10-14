@@ -89,8 +89,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
   private TableView wMongoFields;
   private TableView wMongoIndexes;
 
-  public MongoDbOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
+  public MongoDbOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
 
     super(parent, variables, (BaseTransformMeta) in, tr, name);
 
@@ -196,8 +195,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     // collection line
     Label collectionLab = new Label(wOutputComp, SWT.RIGHT);
     collectionLab.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.Collection.Label"));
-    collectionLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.Collection.TipText"));
+    collectionLab.setToolTipText(BaseMessages.getString(PKG, "MongoDbOutputDialog.Collection.TipText"));
     PropsUi.setLook(collectionLab);
     fd = new FormData();
     fd.left = new FormAttachment(0, 0);
@@ -207,8 +205,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     Button wbGetCollections = new Button(wOutputComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetCollections);
-    wbGetCollections.setText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.GetCollections.Button"));
+    wbGetCollections.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.GetCollections.Button"));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(collectionLab, 0, SWT.CENTER);
@@ -218,12 +215,11 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     wCollectionField = new CCombo(wOutputComp, SWT.BORDER);
     PropsUi.setLook(wCollectionField);
-    wCollectionField.addModifyListener(
-        e -> {
-          currentMeta.setChanged();
+    wCollectionField.addModifyListener(e -> {
+      currentMeta.setChanged();
 
-          wCollectionField.setToolTipText(variables.resolve(wCollectionField.getText()));
-        });
+      wCollectionField.setToolTipText(variables.resolve(wCollectionField.getText()));
+    });
     fd = new FormData();
     fd.left = new FormAttachment(middle, 0);
     fd.top = new FormAttachment(collectionLab, 0, SWT.CENTER);
@@ -235,8 +231,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     Label batchLab = new Label(wOutputComp, SWT.RIGHT);
     batchLab.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.BatchInsertSize.Label"));
     PropsUi.setLook(batchLab);
-    batchLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.BatchInsertSize.TipText"));
+    batchLab.setToolTipText(BaseMessages.getString(PKG, "MongoDbOutputDialog.BatchInsertSize.TipText"));
     fd = new FormData();
     fd.left = new FormAttachment(0, 0);
     fd.top = new FormAttachment(lastControl, margin);
@@ -247,10 +242,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     PropsUi.setLook(wBatchInsertSizeField);
     wBatchInsertSizeField.addModifyListener(lsMod);
     // set the tool tip to the contents with any env variables expanded
-    wBatchInsertSizeField.addModifyListener(
-        e ->
-            wBatchInsertSizeField.setToolTipText(
-                variables.resolve(wBatchInsertSizeField.getText())));
+    wBatchInsertSizeField.addModifyListener(e -> wBatchInsertSizeField.setToolTipText(variables.resolve(wBatchInsertSizeField.getText())));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(batchLab, 0, SWT.CENTER);
@@ -302,23 +294,21 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     // multi update can only be used when the update document
     // contains modifier operations:
     // http://docs.mongodb.org/manual/reference/method/db.collection.update/#multi-parameter
-    wbUpdate.addListener(
-        SWT.Selection,
-        e -> {
-          currentMeta.setChanged();
-          wbUpsert.setEnabled(wbUpdate.getSelection());
-          wbModifierUpdate.setEnabled(wbUpdate.getSelection());
-          wbMulti.setEnabled(wbUpdate.getSelection());
-          if (!wbUpdate.getSelection()) {
-            wbModifierUpdate.setSelection(false);
-            wbMulti.setSelection(false);
-            wbUpsert.setSelection(false);
-          }
-          wbMulti.setEnabled(wbModifierUpdate.getSelection());
-          if (!wbMulti.getEnabled()) {
-            wbMulti.setSelection(false);
-          }
-        });
+    wbUpdate.addListener(SWT.Selection, e -> {
+      currentMeta.setChanged();
+      wbUpsert.setEnabled(wbUpdate.getSelection());
+      wbModifierUpdate.setEnabled(wbUpdate.getSelection());
+      wbMulti.setEnabled(wbUpdate.getSelection());
+      if (!wbUpdate.getSelection()) {
+        wbModifierUpdate.setSelection(false);
+        wbMulti.setSelection(false);
+        wbUpsert.setSelection(false);
+      }
+      wbMulti.setEnabled(wbModifierUpdate.getSelection());
+      if (!wbMulti.getEnabled()) {
+        wbMulti.setSelection(false);
+      }
+    });
 
     // upsert line
     Label upsertLab = new Label(wOutputComp, SWT.RIGHT);
@@ -374,30 +364,26 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     wbModifierUpdate = new Button(wOutputComp, SWT.CHECK);
     PropsUi.setLook(wbModifierUpdate);
-    wbModifierUpdate.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.Modifier.TipText"));
+    wbModifierUpdate.setToolTipText(BaseMessages.getString(PKG, "MongoDbOutputDialog.Modifier.TipText"));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(modifierLab, 0, SWT.CENTER);
     fd.left = new FormAttachment(middle, 0);
     wbModifierUpdate.setLayoutData(fd);
-    wbModifierUpdate.addListener(
-        SWT.Selection,
-        e -> {
-          currentMeta.setChanged();
-          wbMulti.setEnabled(wbModifierUpdate.getSelection());
-          if (!wbModifierUpdate.getSelection()) {
-            wbMulti.setSelection(false);
-          }
-        });
+    wbModifierUpdate.addListener(SWT.Selection, e -> {
+      currentMeta.setChanged();
+      wbMulti.setEnabled(wbModifierUpdate.getSelection());
+      if (!wbModifierUpdate.getSelection()) {
+        wbMulti.setSelection(false);
+      }
+    });
     lastControl = modifierLab;
 
     // retries stuff
     Label retriesLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesLab);
     retriesLab.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.WriteRetries.Label"));
-    retriesLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.WriteRetries.TipText"));
+    retriesLab.setToolTipText(BaseMessages.getString(PKG, "MongoDbOutputDialog.WriteRetries.TipText"));
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(lastControl, margin);
@@ -411,13 +397,11 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     fd.top = new FormAttachment(retriesLab, 0, SWT.CENTER);
     fd.right = new FormAttachment(100, 0);
     wWriteRetries.setLayoutData(fd);
-    wWriteRetries.addModifyListener(
-        e -> wWriteRetries.setToolTipText(variables.resolve(wWriteRetries.getText())));
+    wWriteRetries.addModifyListener(e -> wWriteRetries.setToolTipText(variables.resolve(wWriteRetries.getText())));
 
     Label retriesDelayLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesDelayLab);
-    retriesDelayLab.setText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.WriteRetriesDelay.Label"));
+    retriesDelayLab.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.WriteRetriesDelay.Label"));
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(wWriteRetries, margin);
@@ -455,47 +439,18 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     final ColumnInfo[] colInf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.Incoming"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.Path"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.UseIncomingName"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"Y", "N"}),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert"),
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Ignore")),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.JSON"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              "Y",
-              "N"),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.UpdateMatchField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              "Y",
-              "N"),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.ModifierUpdateOperation"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              "N/A",
-              "$set",
-              "$inc",
-              "$push"),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.ModifierApplyPolicy"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              "Insert&Update",
-              "Insert",
-              "Update")
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.Incoming"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.Path"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.UseIncomingName"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert"),
+                BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Ignore")),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.JSON"), ColumnInfo.COLUMN_TYPE_CCOMBO, "Y", "N"),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.UpdateMatchField"), ColumnInfo.COLUMN_TYPE_CCOMBO, "Y", "N"),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.ModifierUpdateOperation"), ColumnInfo.COLUMN_TYPE_CCOMBO, "N/A", "$set", "$inc", "$push"),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.ModifierApplyPolicy"), ColumnInfo.COLUMN_TYPE_CCOMBO, "Insert&Update", "Insert", "Update")};
 
     // get fields but
     Button wbGetFields = new Button(wFieldsComp, SWT.PUSH | SWT.CENTER);
@@ -509,17 +464,14 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     Button wbPreviewDocStruct = new Button(wFieldsComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbPreviewDocStruct);
-    wbPreviewDocStruct.setText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewDocStructBut"));
+    wbPreviewDocStruct.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewDocStructBut"));
     fd = new FormData();
     fd.bottom = new FormAttachment(100, -margin * 2);
     fd.left = new FormAttachment(wbGetFields, margin);
     wbPreviewDocStruct.setLayoutData(fd);
     wbPreviewDocStruct.addListener(SWT.Selection, e -> previewDocStruct());
 
-    wMongoFields =
-        new TableView(
-            variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colInf, 1, lsMod, props);
+    wMongoFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colInf, 1, lsMod, props);
 
     fd = new FormData();
     fd.top = new FormAttachment(0, margin * 2);
@@ -541,8 +493,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     // indexes tab ------------------
     CTabItem wMongoIndexesTab = new CTabItem(wTabFolder, SWT.NONE);
     wMongoIndexesTab.setFont(GuiResource.getInstance().getFontDefault());
-    wMongoIndexesTab.setText(
-        BaseMessages.getString(PKG, "MongoDbOutputDialog.IndexesTab.TabTitle"));
+    wMongoIndexesTab.setText(BaseMessages.getString(PKG, "MongoDbOutputDialog.IndexesTab.TabTitle"));
     Composite wIndexesComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wIndexesComp);
     FormLayout indexesLayout = new FormLayout();
@@ -551,23 +502,10 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     wIndexesComp.setLayout(indexesLayout);
     final ColumnInfo[] colInf2 =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.IndexFields"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.IndexOpp"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.Unique"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.Sparse"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.IndexFields"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.IndexOpp"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.Unique"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbOutputDialog.Indexes.Sparse"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),};
     colInf2[1].setComboValues(new String[] {"Create", "Drop"});
     colInf2[1].setReadOnly(true);
     colInf2[2].setComboValues(new String[] {"Y", "N"}); //
@@ -586,9 +524,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     wbShowIndexes.addListener(SWT.Selection, e -> showIndexInfo());
 
-    wMongoIndexes =
-        new TableView(
-            variables, wIndexesComp, SWT.FULL_SELECTION | SWT.MULTI, colInf2, 1, lsMod, props);
+    wMongoIndexes = new TableView(variables, wIndexesComp, SWT.FULL_SELECTION | SWT.MULTI, colInf2, 1, lsMod, props);
 
     fd = new FormData();
     fd.top = new FormAttachment(0, margin * 2);
@@ -644,10 +580,8 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
           new ShowMessageDialog(
               shell,
               SWT.ICON_WARNING | SWT.OK,
-              BaseMessages.getString(
-                  PKG, "MongoDbOutputDialog.ErrorMessage.NoFieldPathsDefined.Title"),
-              BaseMessages.getString(
-                  PKG, "MongoDbOutputDialog.ErrorMessage.NoFieldPathsDefined")); //
+              BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.NoFieldPathsDefined.Title"),
+              BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.NoFieldPathsDefined")); //
       smd.open();
     }
 
@@ -716,11 +650,8 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
         MongoDbOutputMeta.MongoField newField = new MongoDbOutputMeta.MongoField();
         newField.incomingFieldName = incoming;
         newField.mongoDocPath = path;
-        newField.useIncomingFieldNameAsMongoFieldName =
-            ((useIncoming.length() > 0) ? useIncoming.equals("Y") : true); //
-        newField.insertNull =
-            BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert")
-                .equals(allowNull);
+        newField.useIncomingFieldNameAsMongoFieldName = ((useIncoming.length() > 0) ? useIncoming.equals("Y") : true); //
+        newField.insertNull = BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert").equals(allowNull);
         newField.inputJson = ((json.length() > 0) ? json.equals("Y") : false); //
         newField.updateMatchField = (updateMatch.equals("Y")); //
         if (modifierOp.length() == 0) {
@@ -762,13 +693,11 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     wWriteRetries.setText(
         Const.NVL(
-            currentMeta.getWriteRetries(),
-            "" //
+            currentMeta.getWriteRetries(), "" //
                 + MongoDbOutputMeta.RETRIES));
     wWriteRetryDelay.setText(
         Const.NVL(
-            currentMeta.getWriteRetryDelay(),
-            "" //
+            currentMeta.getWriteRetryDelay(), "" //
                 + MongoDbOutputMeta.RETRIES));
 
     List<MongoDbOutputMeta.MongoField> mongoFields = currentMeta.getMongoFields();
@@ -782,11 +711,9 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
         item.setText(3, field.useIncomingFieldNameAsMongoFieldName ? "Y" : "N"); //
         String insertNullString;
         if (field.insertNull) {
-          insertNullString =
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert");
+          insertNullString = BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Insert");
         } else {
-          insertNullString =
-              BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Ignore");
+          insertNullString = BaseMessages.getString(PKG, "MongoDbOutputDialog.Fields.NullValues.Ignore");
         }
         item.setText(4, insertNullString);
         item.setText(5, field.inputJson ? "Y" : "N"); //
@@ -813,8 +740,8 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
           item.setText(2, "Create"); //
         }
 
-        item.setText(3, Const.NVL(index.unique ? "Y" : "N", "N")); //   //
-        item.setText(4, Const.NVL(index.sparse ? "Y" : "N", "N")); //   //
+        item.setText(3, Const.NVL(index.unique ? "Y" : "N", "N")); // //
+        item.setText(4, Const.NVL(index.sparse ? "Y" : "N", "N")); // //
       }
 
       wMongoIndexes.removeEmptyRows();
@@ -834,8 +761,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
 
     if (!StringUtils.isEmpty(connectionName)) {
       try {
-        MongoDbConnection connection =
-            metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+        MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
         if (connection == null) {
           throw new HopException("Unable to find MongoDB connection " + connectionName);
         }
@@ -855,8 +781,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
           wCollectionField.add(c);
         }
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.UnableToConnect"), e); //
+        logError(BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.UnableToConnect"), e); //
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.UnableToConnect"),
@@ -875,12 +800,10 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
           new ShowMessageDialog(
               shell,
               SWT.ICON_WARNING | SWT.OK,
-              BaseMessages.getString(
-                  PKG, "MongoDbOutputDialog.ErrorMessage.MissingConnectionDetails.Title"),
+              BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.MissingConnectionDetails.Title"),
               BaseMessages.getString(
                   PKG, //
-                  "MongoDbOutputDialog.ErrorMessage.MissingConnectionDetails",
-                  missingConnDetails)); //
+                  "MongoDbOutputDialog.ErrorMessage.MissingConnectionDetails", missingConnDetails)); //
       smd.open();
     }
 
@@ -893,18 +816,13 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wMongoFields, 1, new int[] {1}, null, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wMongoFields, 1, new int[] {1}, null, -1, -1, null);
       }
     } catch (HopException e) {
       logError(
           BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), //
           e);
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          e); //
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), e); //
     }
   }
 
@@ -1023,8 +941,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
       // Initialize Variable variables to allow for environment substitution during doc preview.
       IVariables vs = new Variables();
       vs.initializeFrom(variables);
-      boolean hasTopLevelJSONDocInsert =
-          MongoDbOutputData.scanForInsertTopLevelJSONDoc(mongoFields);
+      boolean hasTopLevelJSONDocInsert = MongoDbOutputData.scanForInsertTopLevelJSONDoc(mongoFields);
 
       for (MongoDbOutputMeta.MongoField field : mongoFields) {
         field.init(vs);
@@ -1039,8 +956,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
           switch (actualR.getValueMeta(index).getType()) {
             case IValueMeta.TYPE_STRING:
               if (field.inputJson) {
-                if (!field.useIncomingFieldNameAsMongoFieldName
-                    && StringUtils.isEmpty(field.environUpdateMongoDocPath)) {
+                if (!field.useIncomingFieldNameAsMongoFieldName && StringUtils.isEmpty(field.environUpdateMongoDocPath)) {
                   // we will actually have to parse some kind of JSON doc
                   // here in the case where the matching doc/doc to be inserted is
                   // a full top-level incoming JSON doc
@@ -1081,57 +997,44 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
         dummyRow[i++] = val;
       }
 
-      MongoDbOutputData.MongoTopLevel topLevelStruct =
-          MongoDbOutputData.checkTopLevelConsistency(mongoFields, vs);
+      MongoDbOutputData.MongoTopLevel topLevelStruct = MongoDbOutputData.checkTopLevelConsistency(mongoFields, vs);
       for (MongoDbOutputMeta.MongoField m : mongoFields) {
         m.modifierOperationApplyPolicy = "Insert&Update"; //
       }
 
       String toDisplay = ""; //
-      String windowTitle =
-          BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewDocStructure.Title"); //
+      String windowTitle = BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewDocStructure.Title"); //
 
       if (!wbModifierUpdate.getSelection()) {
-        DBObject result =
-            MongoDbOutputData.hopRowToMongo(
-                mongoFields, r, dummyRow, topLevelStruct, hasTopLevelJSONDocInsert);
+        DBObject result = MongoDbOutputData.hopRowToMongo(mongoFields, r, dummyRow, topLevelStruct, hasTopLevelJSONDocInsert);
         toDisplay = prettyPrintDocStructure(result.toString());
       } else {
-        DBObject query =
-            MongoDbOutputData.getQueryObject(mongoFields, r, dummyRow, vs, topLevelStruct);
-        DBObject modifier =
-            new MongoDbOutputData()
-                .getModifierUpdateObject(mongoFields, r, dummyRow, vs, topLevelStruct);
+        DBObject query = MongoDbOutputData.getQueryObject(mongoFields, r, dummyRow, vs, topLevelStruct);
+        DBObject modifier = new MongoDbOutputData().getModifierUpdateObject(mongoFields, r, dummyRow, vs, topLevelStruct);
         toDisplay =
             BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewModifierUpdate.Heading1") //
                 + ":\n\n" //
                 + prettyPrintDocStructure(query.toString())
-                + BaseMessages.getString(
-                    PKG, "MongoDbOutputDialog.PreviewModifierUpdate.Heading2") //
+                + BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewModifierUpdate.Heading2") //
                 + ":\n\n" //
                 + prettyPrintDocStructure(modifier.toString());
-        windowTitle =
-            BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewModifierUpdate.Title"); //
+        windowTitle = BaseMessages.getString(PKG, "MongoDbOutputDialog.PreviewModifierUpdate.Title"); //
       }
 
-      ShowMessageDialog smd =
-          new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, windowTitle, toDisplay, true);
+      ShowMessageDialog smd = new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, windowTitle, toDisplay, true);
       smd.open();
     } catch (Exception ex) {
       logError(
-          BaseMessages.getString(
-                  PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
+          BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
               //
               + ":\n\n"
               + ex.getMessage(),
           ex); //
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Title"),
+          BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Title"),
           //
-          BaseMessages.getString(
-                  PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
+          BaseMessages.getString(PKG, "MongoDbOutputDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
               //
               + ":\n\n"
               + ex.getMessage(),
@@ -1148,8 +1051,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
         MongoDbOutputMeta meta = new MongoDbOutputMeta();
         getInfo(meta);
 
-        MongoDbConnection connection =
-            metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+        MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
         if (connection == null) {
           throw new HopException("Unable to find MongoDB connection " + connectionName);
         }
@@ -1164,12 +1066,7 @@ public class MongoDbOutputDialog extends BaseTransformDialog implements ITransfo
         }
 
         ShowMessageDialog smd =
-            new ShowMessageDialog(
-                shell,
-                SWT.ICON_INFORMATION | SWT.OK,
-                BaseMessages.getString(PKG, "MongoDbOutputDialog.IndexInfo", collectionName),
-                result.toString(),
-                true); //
+            new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, BaseMessages.getString(PKG, "MongoDbOutputDialog.IndexInfo", collectionName), result.toString(), true); //
         smd.open();
       } catch (Exception e) {
         logError(

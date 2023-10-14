@@ -80,18 +80,10 @@ public class AreaOwner<Parent, Owner> {
    * @param height
    * @param owner
    */
-  public AreaOwner(
-      AreaType areaType,
-      int x,
-      int y,
-      int width,
-      int height,
-      DPoint offset,
-      Parent parent,
-      Owner owner) {
+  public AreaOwner(AreaType areaType, int x, int y, int width, int height, DPoint offset, Parent parent, Owner owner) {
     super();
     this.areaType = areaType;
-    this.area = new Rectangle((int)(x - offset.x), (int)(y - offset.y), width, height);
+    this.area = new Rectangle((int) (x - offset.x), (int) (y - offset.y), width, height);
     this.parent = parent;
     this.owner = owner;
   }
@@ -143,8 +135,7 @@ public class AreaOwner<Parent, Owner> {
    * @param y The y coordinate
    * @return The area owner or null if nothing could be found
    */
-  public static synchronized <Owner, Parent> AreaOwner<Owner, Parent> getVisibleAreaOwner(
-      List<AreaOwner<Owner, Parent>> areaOwners, int x, int y) {
+  public static synchronized <Owner, Parent> AreaOwner<Owner, Parent> getVisibleAreaOwner(List<AreaOwner<Owner, Parent>> areaOwners, int x, int y) {
 
     for (int i = areaOwners.size() - 1; i >= 0; i--) {
       AreaOwner<Owner, Parent> areaOwner = areaOwners.get(i);

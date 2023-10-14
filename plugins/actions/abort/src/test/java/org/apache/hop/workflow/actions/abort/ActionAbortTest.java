@@ -31,8 +31,7 @@ public class ActionAbortTest {
     action.setMessageAbort(message);
     String xml = action.getXml();
 
-    String actionXml =
-        XmlHandler.openTag(ActionMeta.XML_TAG) + xml + XmlHandler.closeTag(ActionMeta.XML_TAG);
+    String actionXml = XmlHandler.openTag(ActionMeta.XML_TAG) + xml + XmlHandler.closeTag(ActionMeta.XML_TAG);
     ActionAbort action2 = new ActionAbort();
     action2.loadXml(XmlHandler.loadXmlString(actionXml, ActionMeta.XML_TAG), null, new Variables());
 

@@ -34,8 +34,7 @@ public class ExcelWriterWorkbookDefinition {
   private CellStyle[] cellStyleCache;
   private CellStyle[] cellLinkStyleCache;
 
-  public ExcelWriterWorkbookDefinition(
-      String fileName, FileObject file, Workbook workbook, Sheet sheet, int posX, int posY) {
+  public ExcelWriterWorkbookDefinition(String fileName, FileObject file, Workbook workbook, Sheet sheet, int posX, int posY) {
     this.fileName = fileName;
     this.file = file;
     this.workbook = workbook;

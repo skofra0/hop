@@ -30,11 +30,7 @@ public class CheckTransformsExtension {
   private final TransformMeta[] transformMetas;
   private final IHopMetadataProvider metadataProvider;
 
-  public CheckTransformsExtension(
-      List<ICheckResult> remarks,
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta[] transformMetas,
+  public CheckTransformsExtension(List<ICheckResult> remarks, IVariables variables, PipelineMeta pipelineMeta, TransformMeta[] transformMetas,
       IHopMetadataProvider metadataProvider) {
     this.remarks = remarks;
     this.variables = variables;

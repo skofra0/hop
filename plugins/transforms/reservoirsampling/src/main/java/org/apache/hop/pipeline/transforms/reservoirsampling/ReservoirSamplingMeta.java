@@ -35,13 +35,11 @@ import java.util.List;
     image = "reservoirsampling.svg",
     name = "i18n::ReservoirSampling.Name",
     description = "i18n::ReservoirSampling.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
     keywords = "i18n::ReservoirSamplingMeta.keyword",
     documentationUrl = "/pipeline/transforms/reservoirsampling.html")
-@HopMetadataWrapper(tag="reservoir_sampling")
-public class ReservoirSamplingMeta
-    extends BaseTransformMeta<ReservoirSampling, ReservoirSamplingData> {
+@HopMetadataWrapper(tag = "reservoir_sampling")
+public class ReservoirSamplingMeta extends BaseTransformMeta<ReservoirSampling, ReservoirSamplingData> {
 
   public static final String XML_TAG = "reservoir_sampling";
 
@@ -82,13 +80,7 @@ public class ReservoirSamplingMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // nothing to do, as no fields are added/deleted
   }
@@ -108,35 +100,19 @@ public class ReservoirSamplingMeta
     CheckResult cr;
 
     if ((prev == null) || (prev.size() == 0)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              "Not receiving any fields from previous transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, "Not receiving any fields from previous transforms!", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is connected to previous one, receiving " + prev.size() + " fields",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is connected to previous one, receiving " + prev.size() + " fields", transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is receiving info from other transforms.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is receiving info from other transforms.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "No input received from other transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "No input received from other transforms!", transformMeta);
       remarks.add(cr);
     }
   }

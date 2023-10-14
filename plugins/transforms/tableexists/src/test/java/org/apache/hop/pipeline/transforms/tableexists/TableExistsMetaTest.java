@@ -28,7 +28,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TableExistsMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -37,8 +38,7 @@ public class TableExistsMetaTest {
 
   @Test
   public void testLoadSave() throws HopException {
-    List<String> attributes =
-        Arrays.asList("Connection", "TableNameField", "ResultFieldName", "SchemaName");
+    List<String> attributes = Arrays.asList("Connection", "TableNameField", "ResultFieldName", "SchemaName");
 
     LoadSaveTester loadSaveTester = new LoadSaveTester(TableExistsMeta.class, attributes);
 

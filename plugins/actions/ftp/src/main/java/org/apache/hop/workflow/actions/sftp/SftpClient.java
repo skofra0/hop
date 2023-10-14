@@ -59,8 +59,7 @@ public class SftpClient {
   private static final String PREFERRED_AUTH_CONFIG_NAME = "PreferredAuthentications";
   private static final String PREFERRED_AUTH_DEFAULT = "publickey,keyboard-interactive,password";
   // adding GSSAPI to be the last one
-  private static final String PREFERRED_AUTH_WITH_GSSAPI =
-      PREFERRED_AUTH_DEFAULT + ",gssapi-with-mic";
+  private static final String PREFERRED_AUTH_WITH_GSSAPI = PREFERRED_AUTH_DEFAULT + ",gssapi-with-mic";
 
   private InetAddress serverIP;
   private int serverPort;
@@ -81,8 +80,7 @@ public class SftpClient {
    * @param userName username of remote server
    * @throws HopWorkflowException
    */
-  public SftpClient(InetAddress serverIP, int serverPort, String userName)
-      throws HopWorkflowException {
+  public SftpClient(InetAddress serverIP, int serverPort, String userName) throws HopWorkflowException {
     this(serverIP, serverPort, userName, null, null);
   }
 
@@ -95,9 +93,7 @@ public class SftpClient {
    * @param privateKeyFilename filename of private key
    * @throws HopWorkflowException
    */
-  public SftpClient(
-      InetAddress serverIP, int serverPort, String userName, String privateKeyFilename)
-      throws HopWorkflowException {
+  public SftpClient(InetAddress serverIP, int serverPort, String userName, String privateKeyFilename) throws HopWorkflowException {
     this(serverIP, serverPort, userName, privateKeyFilename, null);
   }
 
@@ -111,17 +107,10 @@ public class SftpClient {
    * @param passPhrase passphrase
    * @throws HopWorkflowException
    */
-  public SftpClient(
-      InetAddress serverIP,
-      int serverPort,
-      String userName,
-      String privateKeyFilename,
-      String passPhrase)
-      throws HopWorkflowException {
+  public SftpClient(InetAddress serverIP, int serverPort, String userName, String privateKeyFilename, String passPhrase) throws HopWorkflowException {
 
     if (serverIP == null || serverPort < 0 || userName == null || userName.equals("")) {
-      throw new HopWorkflowException(
-          "For a SFTP connection server name and username must be set and server port must be greater than zero.");
+      throw new HopWorkflowException("For a SFTP connection server name and username must be set and server port must be greater than zero.");
     }
 
     this.serverIP = serverIP;
@@ -140,8 +129,7 @@ public class SftpClient {
           passphrasebytes = GetPrivateKeyPassPhrase().getBytes();
         }
         jsch.addIdentity(
-            getUserName(),
-            FileUtil.getContent(HopVfs.getFileObject(prvkey)), // byte[] privateKey
+            getUserName(), FileUtil.getContent(HopVfs.getFileObject(prvkey)), // byte[] privateKey
             null, // byte[] publicKey
             passphrasebytes); // byte[] passPhrase
       }
@@ -315,8 +303,7 @@ public class SftpClient {
   }
 
   /** Rename the file. */
-  public void renameFile(String sourcefilename, String destinationfilename)
-      throws HopWorkflowException {
+  public void renameFile(String sourcefilename, String destinationfilename) throws HopWorkflowException {
     try {
       c.rename(sourcefilename, destinationfilename);
     } catch (SftpException e) {
@@ -364,12 +351,10 @@ public class SftpClient {
     return retval;
   }
 
-  public void setProxy(String host, String port, String user, String pass, String proxyType)
-      throws HopWorkflowException {
+  public void setProxy(String host, String port, String user, String pass, String proxyType) throws HopWorkflowException {
 
     if (Utils.isEmpty(host) || Const.toInt(port, 0) == 0) {
-      throw new HopWorkflowException(
-          "Proxy server name must be set and server port must be greater than zero.");
+      throw new HopWorkflowException("Proxy server name must be set and server port must be greater than zero.");
     }
     Proxy proxy = null;
     String proxyhost = host + ":" + port;

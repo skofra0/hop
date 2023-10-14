@@ -144,7 +144,7 @@
         <httpclient.version>4.5.13</httpclient.version>
         <httpccore.version>4.4.15</httpccore.version>
         <jackcess.version>4.0.4</jackcess.version>
-        <jackson.version>2.15.2</jackson.version>
+        <jackson.version>2.15.3</jackson.version>
         <jakarta.version>3.1.0</jakarta.version>
         <jakarta-mail.version>2.0.1</jakarta-mail.version>
         <jandex.version>3.1.5</jandex.version>

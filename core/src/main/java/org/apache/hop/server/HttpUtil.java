@@ -53,35 +53,18 @@ public class HttpUtil {
    * @return
    * @throws UnsupportedEncodingException
    */
-  public static String constructUrl(
-      IVariables variables,
-      String hostname,
-      String port,
-      String webAppName,
-      String serviceAndArguments)
-      throws UnsupportedEncodingException {
+  public static String constructUrl(IVariables variables, String hostname, String port, String webAppName, String serviceAndArguments) throws UnsupportedEncodingException {
     return constructUrl(variables, hostname, port, webAppName, serviceAndArguments, false);
   }
 
-  public static String constructUrl(
-      IVariables variables,
-      String hostname,
-      String port,
-      String webAppName,
-      String serviceAndArguments,
-      boolean isSecure)
+  public static String constructUrl(IVariables variables, String hostname, String port, String webAppName, String serviceAndArguments, boolean isSecure)
       throws UnsupportedEncodingException {
     String realHostname = variables.resolve(hostname);
     if (!StringUtils.isEmpty(webAppName)) {
       serviceAndArguments = "/" + variables.resolve(webAppName) + serviceAndArguments;
     }
     String protocol = isSecure ? PROTOCOL_SECURE : PROTOCOL_UNSECURE;
-    String retval =
-        protocol
-            + "://"
-            + realHostname
-            + getPortSpecification(variables, port)
-            + serviceAndArguments;
+    String retval = protocol + "://" + realHostname + getPortSpecification(variables, port) + serviceAndArguments;
     retval = Const.replace(retval, " ", "%20");
     return retval;
   }
@@ -122,7 +105,7 @@ public class HttpUtil {
 
       // use same buffer size
       char[] buff = new char[HttpUtil.ZIP_BUFFER_SIZE];
-      for (int length = 0; (length = reader.read(buff)) > 0; ) {
+      for (int length = 0; (length = reader.read(buff)) > 0;) {
         writer.write(buff, 0, length);
       }
     }
@@ -131,8 +114,7 @@ public class HttpUtil {
 
   public static String encodeBase64ZippedString(String in) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-    try (Base64OutputStream base64OutputStream = new Base64OutputStream(baos);
-        GZIPOutputStream gzos = new GZIPOutputStream(base64OutputStream)) {
+    try (Base64OutputStream base64OutputStream = new Base64OutputStream(baos); GZIPOutputStream gzos = new GZIPOutputStream(base64OutputStream)) {
       gzos.write(in.getBytes(StandardCharsets.UTF_8));
     }
     return baos.toString();

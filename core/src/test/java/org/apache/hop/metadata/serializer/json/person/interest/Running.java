@@ -21,11 +21,14 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class Running implements IInterest {
-  @HopMetadataProperty private InterestType type;
+  @HopMetadataProperty
+  private InterestType type;
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public Running() {}
 
@@ -44,9 +47,7 @@ public class Running implements IInterest {
       return false;
     }
     Running running = (Running) o;
-    return type == running.type
-        && Objects.equals(name, running.name)
-        && Objects.equals(description, running.description);
+    return type == running.type && Objects.equals(name, running.name) && Objects.equals(description, running.description);
   }
 
   @Override

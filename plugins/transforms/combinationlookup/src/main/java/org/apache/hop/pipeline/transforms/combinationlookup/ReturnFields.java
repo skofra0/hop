@@ -20,30 +20,18 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class ReturnFields {
   /** Technical Key field to return */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "TECHNICAL_KEY_FIELD",
-      injectionKeyDescription = "CombinationLookup.Injection.TECHNICAL_KEY_FIELD")
+  @HopMetadataProperty(key = "name", injectionKey = "TECHNICAL_KEY_FIELD", injectionKeyDescription = "CombinationLookup.Injection.TECHNICAL_KEY_FIELD")
   private String technicalKeyField;
 
   /** Use the auto-increment feature of the database to generate keys. */
-  @HopMetadataProperty(
-      key = "use_autoinc",
-      injectionKey = "AUTO_INC",
-      injectionKeyDescription = "CombinationLookup.Injection.AUTO_INC")
+  @HopMetadataProperty(key = "use_autoinc", injectionKey = "AUTO_INC", injectionKeyDescription = "CombinationLookup.Injection.AUTO_INC")
   private boolean useAutoIncrement;
 
-  @HopMetadataProperty(
-      key = "last_update_field",
-      injectionKey = "LAST_UPDATE_FIELD",
-      injectionKeyDescription = "CombinationLookup.Injection.LAST_UPDATE_FIELD")
+  @HopMetadataProperty(key = "last_update_field", injectionKey = "LAST_UPDATE_FIELD", injectionKeyDescription = "CombinationLookup.Injection.LAST_UPDATE_FIELD")
   private String lastUpdateField;
 
   /** Which method to use for the creation of the tech key */
-  @HopMetadataProperty(
-      key = "creation_method",
-      injectionKey = "TECHNICAL_KEY_CREATION",
-      injectionKeyDescription = "CombinationLookup.Injection.TECHNICAL_KEY_CREATION")
+  @HopMetadataProperty(key = "creation_method", injectionKey = "TECHNICAL_KEY_CREATION", injectionKeyDescription = "CombinationLookup.Injection.TECHNICAL_KEY_CREATION")
   private String techKeyCreation = null;
 
   public ReturnFields() {}

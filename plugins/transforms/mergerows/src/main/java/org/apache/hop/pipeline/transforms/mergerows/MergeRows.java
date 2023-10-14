@@ -45,13 +45,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
   private static final String VALUE_NEW = "new";
   private static final String VALUE_DELETED = "deleted";
 
-  public MergeRows(
-      TransformMeta transformMeta,
-      MergeRowsMeta meta,
-      MergeRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MergeRows(TransformMeta transformMeta, MergeRowsMeta meta, MergeRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,15 +62,14 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
       data.oneRowSet = findInputRowSet(infoStreams.get(0).getTransformName());
       // twoRowSet is the "Comparison" stream
       data.twoRowSet = findInputRowSet(infoStreams.get(1).getTransformName());
-      
+
       data.one = getRowFrom(data.oneRowSet);
       data.two = getRowFrom(data.twoRowSet);
 
       try {
         checkInputLayoutValid(data.oneRowSet.getRowMeta(), data.twoRowSet.getRowMeta());
       } catch (HopRowException e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "MergeRows.Exception.InvalidLayoutDetected"), e);
+        throw new HopException(BaseMessages.getString(PKG, "MergeRows.Exception.InvalidLayoutDetected"), e);
       }
 
       if (data.one != null) {
@@ -85,11 +78,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
         for (int i = 0; i < data.keyNrs.length; i++) {
           data.keyNrs[i] = data.oneRowSet.getRowMeta().indexOfValue(meta.getKeyFields()[i]);
           if (data.keyNrs[i] < 0) {
-            String message =
-                BaseMessages.getString(
-                    PKG,
-                    "MergeRows.Exception.UnableToFindFieldInReferenceStream",
-                    meta.getKeyFields()[i]);
+            String message = BaseMessages.getString(PKG, "MergeRows.Exception.UnableToFindFieldInReferenceStream", meta.getKeyFields()[i]);
             logError(message);
             throw new HopTransformException(message);
           }
@@ -101,11 +90,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
         for (int i = 0; i < data.valueNrs.length; i++) {
           data.valueNrs[i] = data.twoRowSet.getRowMeta().indexOfValue(meta.getValueFields()[i]);
           if (data.valueNrs[i] < 0) {
-            String message =
-                BaseMessages.getString(
-                    PKG,
-                    "MergeRows.Exception.UnableToFindFieldInReferenceStream",
-                    meta.getValueFields()[i]);
+            String message = BaseMessages.getString(PKG, "MergeRows.Exception.UnableToFindFieldInReferenceStream", meta.getValueFields()[i]);
             logError(message);
             throw new HopTransformException(message);
           }
@@ -114,9 +99,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "MergeRows.Log.DataInfo", Arrays.toString(data.one) + "")
-              + Arrays.toString(data.two));
+      logRowlevel(BaseMessages.getString(PKG, "MergeRows.Log.DataInfo", Arrays.toString(data.one) + "") + Arrays.toString(data.two));
     }
 
     if (data.one == null && data.two == null) {
@@ -127,21 +110,9 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
     if (data.outputRowMeta == null) {
       data.outputRowMeta = new RowMeta();
       if (data.one != null) {
-        meta.getFields(
-            data.outputRowMeta,
-            getTransformName(),
-            new IRowMeta[] {data.oneRowSet.getRowMeta()},
-            null,
-            this,
-            metadataProvider);
+        meta.getFields(data.outputRowMeta, getTransformName(), new IRowMeta[] {data.oneRowSet.getRowMeta()}, null, this, metadataProvider);
       } else {
-        meta.getFields(
-            data.outputRowMeta,
-            getTransformName(),
-            new IRowMeta[] {data.twoRowSet.getRowMeta()},
-            null,
-            this,
-            metadataProvider);
+        meta.getFields(data.outputRowMeta, getTransformName(), new IRowMeta[] {data.twoRowSet.getRowMeta()}, null, this, metadataProvider);
       }
     }
 
@@ -172,7 +143,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
         int compareValues = data.oneRowSet.getRowMeta().compare(data.one, data.two, data.valueNrs);
         if (compareValues == 0) {
           outputRow = data.two; // documented behavior: use the comparison stream
-          outputIndex = data.twoRowSet.getRowMeta().size();          
+          outputIndex = data.twoRowSet.getRowMeta().size();
           flagField = VALUE_IDENTICAL;
         } else {
           // Return the compare (most recent) row
@@ -217,7 +188,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
 
   /**
    * @see ITransform#init(org.apache.hop.pipeline.transform.ITransform,
-   *     org.apache.hop.pipeline.transform.ITransformData)
+   *      org.apache.hop.pipeline.transform.ITransformData)
    */
   @Override
   public boolean init() {
@@ -225,8 +196,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
     if (super.init()) {
       List<IStream> infoStreams = meta.getTransformIOMeta().getInfoStreams();
 
-      if (infoStreams.get(0).getTransformMeta() != null
-          ^ infoStreams.get(1).getTransformMeta() != null) {
+      if (infoStreams.get(0).getTransformMeta() != null ^ infoStreams.get(1).getTransformMeta() != null) {
         logError(BaseMessages.getString(PKG, "MergeRows.Log.BothTrueAndFalseNeeded"));
       } else {
         return true;
@@ -243,8 +213,7 @@ public class MergeRows extends BaseTransform<MergeRowsMeta, MergeRowsData> {
    * @return true when templates are compatible.
    * @throws HopRowException in case there is a compatibility error.
    */
-  static void checkInputLayoutValid(IRowMeta referenceRowMeta, IRowMeta compareRowMeta)
-      throws HopRowException {
+  static void checkInputLayoutValid(IRowMeta referenceRowMeta, IRowMeta compareRowMeta) throws HopRowException {
     if (referenceRowMeta != null && compareRowMeta != null) {
       BaseTransform.safeModeChecking(referenceRowMeta, compareRowMeta);
     }

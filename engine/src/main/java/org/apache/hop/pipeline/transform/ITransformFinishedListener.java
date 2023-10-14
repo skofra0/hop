@@ -28,6 +28,5 @@ public interface ITransformFinishedListener {
    * @param transformMeta
    * @param transform
    */
-  void transformFinished(
-      IPipelineEngine pipeline, TransformMeta transformMeta, ITransform transform);
+  void transformFinished(IPipelineEngine pipeline, TransformMeta transformMeta, ITransform transform);
 }

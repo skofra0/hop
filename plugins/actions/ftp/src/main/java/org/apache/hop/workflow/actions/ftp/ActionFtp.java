@@ -214,9 +214,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     xml.append("      ").append(XmlHandler.addTagValue("port", serverPort));
     xml.append("      ").append(XmlHandler.addTagValue("servername", serverName));
     xml.append("      ").append(XmlHandler.addTagValue("username", userName));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    xml.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
     xml.append("      ").append(XmlHandler.addTagValue("ftpdirectory", remoteDirectory));
     xml.append("      ").append(XmlHandler.addTagValue("targetdirectory", targetDirectory));
     xml.append("      ").append(XmlHandler.addTagValue("wildcard", wildcard));
@@ -233,26 +231,18 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     xml.append("      ").append(XmlHandler.addTagValue("addtime", addTime));
     xml.append("      ").append(XmlHandler.addTagValue("SpecifyFormat", specifyFormat));
     xml.append("      ").append(XmlHandler.addTagValue("date_time_format", dateTimeFormat));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("AddDateBeforeExtension", addDateBeforeExtension));
+    xml.append("      ").append(XmlHandler.addTagValue("AddDateBeforeExtension", addDateBeforeExtension));
     xml.append("      ").append(XmlHandler.addTagValue("isaddresult", isAddResult));
     xml.append("      ").append(XmlHandler.addTagValue("createmovefolder", createMoveFolder));
 
     xml.append("      ").append(XmlHandler.addTagValue("proxy_host", proxyHost));
     xml.append("      ").append(XmlHandler.addTagValue("proxy_port", proxyPort));
     xml.append("      ").append(XmlHandler.addTagValue("proxy_username", proxyUsername));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
+    xml.append("      ").append(XmlHandler.addTagValue("proxy_password", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_host", socksProxyHost));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_port", socksProxyPort));
     xml.append("      ").append(XmlHandler.addTagValue("socksproxy_username", socksProxyUsername));
-    xml.append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "socksproxy_password",
-                Encr.encryptPasswordIfNotUsingVariables(socksProxyPassword)));
+    xml.append("      ").append(XmlHandler.addTagValue("socksproxy_password", Encr.encryptPasswordIfNotUsingVariables(socksProxyPassword)));
 
     xml.append("      ").append(XmlHandler.addTagValue("ifFileExists", stringIfFileExists));
 
@@ -263,15 +253,13 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
   }
 
   @Override
-  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entryNode);
       serverPort = XmlHandler.getTagValue(entryNode, "port");
       serverName = XmlHandler.getTagValue(entryNode, "servername");
       userName = XmlHandler.getTagValue(entryNode, "username");
-      password =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entryNode, "password"));
+      password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entryNode, "password"));
       remoteDirectory = XmlHandler.getTagValue(entryNode, "ftpdirectory");
       targetDirectory = XmlHandler.getTagValue(entryNode, "targetdirectory");
       wildcard = XmlHandler.getTagValue(entryNode, "wildcard");
@@ -293,8 +281,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
       addTime = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "addtime"));
       specifyFormat = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "SpecifyFormat"));
       dateTimeFormat = XmlHandler.getTagValue(entryNode, "date_time_format");
-      addDateBeforeExtension =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "AddDateBeforeExtension"));
+      addDateBeforeExtension = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "AddDateBeforeExtension"));
 
       String addresult = XmlHandler.getTagValue(entryNode, "isaddresult");
 
@@ -304,21 +291,16 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
         isAddResult = "Y".equalsIgnoreCase(addresult);
       }
 
-      createMoveFolder =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "createmovefolder"));
+      createMoveFolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, "createmovefolder"));
 
       proxyHost = XmlHandler.getTagValue(entryNode, "proxy_host");
       proxyPort = XmlHandler.getTagValue(entryNode, "proxy_port");
       proxyUsername = XmlHandler.getTagValue(entryNode, "proxy_username");
-      proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entryNode, "proxy_password"));
+      proxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entryNode, "proxy_password"));
       socksProxyHost = XmlHandler.getTagValue(entryNode, "socksproxy_host");
       socksProxyPort = XmlHandler.getTagValue(entryNode, "socksproxy_port");
       socksProxyUsername = XmlHandler.getTagValue(entryNode, "socksproxy_username");
-      socksProxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entryNode, "socksproxy_password"));
+      socksProxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entryNode, "socksproxy_password"));
       stringIfFileExists = XmlHandler.getTagValue(entryNode, "ifFileExists");
       if (Utils.isEmpty(stringIfFileExists)) {
         ifFileExists = ifFileExistsSkip;
@@ -332,8 +314,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
         }
       }
       nrLimit = XmlHandler.getTagValue(entryNode, "nr_limit");
-      successCondition =
-          Const.NVL(XmlHandler.getTagValue(entryNode, "success_condition"), SUCCESS_IF_NO_ERRORS);
+      successCondition = Const.NVL(XmlHandler.getTagValue(entryNode, "success_condition"), SUCCESS_IF_NO_ERRORS);
 
     } catch (HopXmlException xe) {
       throw new HopXmlException("Unable to load action of type 'ftp' from XML node", xe);
@@ -400,9 +381,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
           ftpClient.changeWorkingDirectory(realMoveToFolder);
           // Switch back to the previous location.
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionFTP.CheckMoveToFolderSwitchBack", originalLocation));
+            logDetailed(BaseMessages.getString(PKG, "ActionFTP.CheckMoveToFolderSwitchBack", originalLocation));
           }
           ftpClient.changeWorkingDirectory(originalLocation);
         } catch (Exception e) {
@@ -414,8 +393,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
           if (createMoveFolder) {
             ftpClient.makeDirectory(realMoveToFolder);
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "ActionFTP.MoveToFolderCreated", realMoveToFolder));
+              logDetailed(BaseMessages.getString(PKG, "ActionFTP.MoveToFolderCreated", realMoveToFolder));
             }
           } else {
             logError(BaseMessages.getString(PKG, "ActionFTP.MoveToFolderNotExist"));
@@ -431,9 +409,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
         FTPFile[] ftpFiles = ftpClient.listFiles();
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionFTP.FoundNFiles", String.valueOf(ftpFiles.length)));
+          logDetailed(BaseMessages.getString(PKG, "ActionFTP.FoundNFiles", String.valueOf(ftpFiles.length)));
         }
 
         // Some FTP servers return a message saying no files found as a string in the filenlist
@@ -468,8 +444,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
           }
 
           if (successConditionBroken) {
-            throw new Exception(
-                BaseMessages.getString(PKG, "ActionFTP.SuccesConditionBroken", "" + nrErrors));
+            throw new Exception(BaseMessages.getString(PKG, "ActionFTP.SuccesConditionBroken", "" + nrErrors));
           }
 
           boolean getIt = true;
@@ -533,21 +508,13 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     return result;
   }
 
-  private void downloadFile(
-      FTPClient ftpclient,
-      String filename,
-      String realMoveToFolder,
-      IWorkflowEngine<WorkflowMeta> parentWorkflow,
-      Result result)
-      throws Exception {
+  private void downloadFile(FTPClient ftpclient, String filename, String realMoveToFolder, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result result) throws Exception {
     String localFilename = filename;
     targetFilename = HopVfs.getFilename(HopVfs.getFileObject(returnTargetFilename(localFilename)));
 
     if ((!onlyGettingNewFiles) || (onlyGettingNewFiles && needsDownload(targetFilename))) {
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "ActionFTP.GettingFile", filename, resolve(targetDirectory)));
+        logDetailed(BaseMessages.getString(PKG, "ActionFTP.GettingFile", filename, resolve(targetDirectory)));
       }
       try (OutputStream outputStream = HopVfs.getOutputStream(targetFilename, false)) {
         ftpclient.retrieveFile(filename, outputStream);
@@ -576,8 +543,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
           ftpclient.rename(filename, realMoveToFolder + FILE_SEPARATOR + filename);
 
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ActionFTP.MovedFile", filename, realMoveToFolder));
+            logDetailed(BaseMessages.getString(PKG, "ActionFTP.MovedFile", filename, realMoveToFolder));
           }
         }
       }
@@ -601,21 +567,14 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     return normalizedPath;
   }
 
-  private void addFilenameToResultFilenames(
-      Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow, String filename)
-      throws HopException {
+  private void addFilenameToResultFilenames(Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow, String filename) throws HopException {
     if (isAddResult) {
       FileObject targetFile = null;
       try {
         targetFile = HopVfs.getFileObject(filename);
 
         // Add to the result files...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                targetFile,
-                parentWorkflow.getWorkflowName(),
-                toString());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, targetFile, parentWorkflow.getWorkflowName(), toString());
         resultFile.setComment(BaseMessages.getString(PKG, "ActionFTP.Downloaded", serverName));
         result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
 
@@ -639,8 +598,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     if (isDetailed()) {
       logDetailed("=======================================");
       logDetailed(BaseMessages.getString(PKG, "ActionFTP.Log.Info.FilesInError", "" + nrErrors));
-      logDetailed(
-          BaseMessages.getString(PKG, "ActionFTP.Log.Info.FilesRetrieved", "" + nrFilesRetrieved));
+      logDetailed(BaseMessages.getString(PKG, "ActionFTP.Log.Info.FilesRetrieved", "" + nrFilesRetrieved));
       logDetailed("=======================================");
     }
   }
@@ -649,8 +607,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
     boolean retval = false;
 
     if ((nrErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrFilesRetrieved >= limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_DOWNLOADED))
+        || (nrFilesRetrieved >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_DOWNLOADED))
         || (nrErrors <= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
@@ -668,8 +625,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
 
   private boolean checkIfSuccessConditionBroken() {
     boolean retval = false;
-    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrErrors >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
+    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS)) || (nrErrors >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
     return retval;
@@ -778,10 +734,7 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
           lastindexOfDot = lenstring;
         }
 
-        targetFilename =
-            targetFilename.substring(0, lastindexOfDot)
-                + StringUtil.getFormattedDateTimeNow(true)
-                + targetFilename.substring(lastindexOfDot, lenstring);
+        targetFilename = targetFilename.substring(0, lastindexOfDot) + StringUtil.getFormattedDateTimeNow(true) + targetFilename.substring(lastindexOfDot, lenstring);
 
         return true;
       } else if (ifFileExists == ifFileExistsFail) {
@@ -809,42 +762,16 @@ public class ActionFtp extends ActionBase implements Cloneable, IAction, IFtpCon
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "serverName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "targetDirectory",
-            remarks,
-            AndValidator.putValidators(
-                ActionValidatorUtils.notBlankValidator(),
-                ActionValidatorUtils.fileExistsValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "userName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "password",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+        .validate(this, "targetDirectory", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "userName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "password", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(serverName)) {
       String realServername = resolve(serverName);

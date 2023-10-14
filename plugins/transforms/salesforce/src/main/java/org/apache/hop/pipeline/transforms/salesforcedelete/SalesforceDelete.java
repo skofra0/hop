@@ -30,17 +30,10 @@ import org.apache.hop.pipeline.transforms.salesforce.SalesforceTransform;
  * Read data from Salesforce module, convert them to rows and writes these to one or more output
  * streams.
  */
-public class SalesforceDelete
-    extends SalesforceTransform<SalesforceDeleteMeta, SalesforceDeleteData> {
+public class SalesforceDelete extends SalesforceTransform<SalesforceDeleteMeta, SalesforceDeleteData> {
   private static final Class<?> PKG = SalesforceDeleteMeta.class; // For Translator
 
-  public SalesforceDelete(
-      TransformMeta transformMeta,
-      SalesforceDeleteMeta meta,
-      SalesforceDeleteData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceDelete(TransformMeta transformMeta, SalesforceDeleteMeta meta, SalesforceDeleteData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -73,25 +66,21 @@ public class SalesforceDelete
       // Check deleteKeyField
       String realFieldName = resolve(meta.getDeleteField());
       if (Utils.isEmpty(realFieldName)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceDelete.Error.DeleteKeyFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceDelete.Error.DeleteKeyFieldMissing"));
       }
 
       // return the index of the field in the input stream
       data.indexOfKeyField = getInputRowMeta().indexOfValue(realFieldName);
       if (data.indexOfKeyField < 0) {
         // the field is unreachable!
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "SalesforceDelete.Error.CanNotFindFDeleteKeyField", realFieldName));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceDelete.Error.CanNotFindFDeleteKeyField", realFieldName));
       }
     }
 
     try {
       writeToSalesForce(outputRowData);
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "SalesforceDelete.log.Exception"), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "SalesforceDelete.log.Exception"), e);
     }
     return true;
   }
@@ -100,12 +89,7 @@ public class SalesforceDelete
     try {
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "SalesforceDelete.Log.WriteToSalesforce",
-                data.iBufferPos,
-                meta.getBatchSizeInt()));
+        logDetailed(BaseMessages.getString(PKG, "SalesforceDelete.Log.WriteToSalesforce", data.iBufferPos, meta.getBatchSizeInt()));
       }
 
       // if there is room in the buffer
@@ -124,8 +108,7 @@ public class SalesforceDelete
         flushBuffers();
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceDelete.Error.WriteToSalesforce", e.getMessage()));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceDelete.Error.WriteToSalesforce", e.getMessage()));
     }
   }
 
@@ -148,9 +131,7 @@ public class SalesforceDelete
 
           if (checkFeedback(getLinesInput())) {
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "SalesforceDelete.log.LineRow", String.valueOf(getLinesInput())));
+              logDetailed(BaseMessages.getString(PKG, "SalesforceDelete.log.LineRow", String.valueOf(getLinesInput())));
             }
           }
 
@@ -165,38 +146,20 @@ public class SalesforceDelete
             }
 
             com.sforce.soap.partner.Error err = data.deleteResult[j].getErrors()[0];
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceDelete.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage()));
+            throw new HopException(BaseMessages.getString(PKG, "SalesforceDelete.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage()));
           }
           String errorMessage = "";
           int nrErrors = data.deleteResult[j].getErrors().length;
           for (int i = 0; i < nrErrors; i++) {
             // get the next error
             com.sforce.soap.partner.Error err = data.deleteResult[j].getErrors()[i];
-            errorMessage +=
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceDelete.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage());
+            errorMessage += BaseMessages.getString(PKG, "SalesforceDelete.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage());
           }
           // Simply add this row to the error row
           if (log.isDebug()) {
             logDebug(BaseMessages.getString(PKG, "SalesforceDelete.PassingRowToErrorTransform"));
           }
-          putError(
-              getInputRowMeta(),
-              data.outputBuffer[j],
-              1,
-              errorMessage,
-              null,
-              "SalesforceDelete001");
+          putError(getInputRowMeta(), data.outputBuffer[j], 1, errorMessage, null, "SalesforceDelete001");
         }
       }
 
@@ -207,8 +170,7 @@ public class SalesforceDelete
 
     } catch (Exception e) {
       if (!getTransformMeta().isDoingErrorHandling()) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceDelete.FailedToDeleted", e.getMessage()));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceDelete.FailedToDeleted", e.getMessage()));
       }
       // Simply add this row to the error row
       if (log.isDebug()) {
@@ -216,13 +178,7 @@ public class SalesforceDelete
       }
 
       for (int i = 0; i < data.iBufferPos; i++) {
-        putError(
-            data.inputRowMeta,
-            data.outputBuffer[i],
-            1,
-            e.getMessage(),
-            null,
-            "SalesforceDelete002");
+        putError(data.inputRowMeta, data.outputBuffer[i], 1, e.getMessage(), null, "SalesforceDelete002");
       }
     } finally {
       if (data.deleteResult != null) {
@@ -249,10 +205,7 @@ public class SalesforceDelete
 
         return true;
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SalesforceDelete.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SalesforceDelete.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
         return false;
       }
     }

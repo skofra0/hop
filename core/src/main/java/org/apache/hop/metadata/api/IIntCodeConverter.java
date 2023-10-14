@@ -17,7 +17,8 @@
 package org.apache.hop.metadata.api;
 
 /**
- * The class that implements this interface can convert between an integer and a code string. This is
+ * The class that implements this interface can convert between an integer and a code string. This
+ * is
  * used to convert from old-style integer codes to their string code equivalent. We can use it
  * primarily to convert from the integer ID of value metadata to the String form of the data type.
  */

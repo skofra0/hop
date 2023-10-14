@@ -38,10 +38,7 @@ public class NeoWorkflowExecutionViewerLineageTab extends NeoExecutionViewerLine
     super(viewer);
   }
 
-  @GuiTab(
-      id = "90000-workflow-execution-viewer-neo4j-execution-lineage-tab",
-      parentId = WorkflowExecutionViewer.WORKFLOW_EXECUTION_VIEWER_TABS,
-      description = "Execution lineage")
+  @GuiTab(id = "90000-workflow-execution-viewer-neo4j-execution-lineage-tab", parentId = WorkflowExecutionViewer.WORKFLOW_EXECUTION_VIEWER_TABS, description = "Execution lineage")
   @Override
   public void addNeoExecutionPathTab(CTabFolder tabFolder) {
     super.addNeoExecutionPathTab(tabFolder);

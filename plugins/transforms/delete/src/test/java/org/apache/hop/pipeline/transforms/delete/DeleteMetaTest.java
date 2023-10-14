@@ -52,70 +52,53 @@ import static org.junit.Assert.fail;
 public class DeleteMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<DeleteMeta> testMetaClass = DeleteMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
     PluginRegistry.init();
     List<String> attributes = Arrays.asList("commit", "connection", "lookup");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("commit", "getCommitSize");
-            put("connection", "getConnection");
-            put("lookup", "getLookup");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("commit", "setCommitSize");
-            put("connection", "setConnection");
-            put("lookup", "setLookup");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("commit", "getCommitSize");
+        put("connection", "getConnection");
+        put("lookup", "getLookup");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("commit", "setCommitSize");
+        put("connection", "setConnection");
+        put("lookup", "setLookup");
+      }
+    };
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
 
-    IFieldLoadSaveValidatorFactory validatorFactory =
-        loadSaveTester.getFieldLoadSaveValidatorFactory();
+    IFieldLoadSaveValidatorFactory validatorFactory = loadSaveTester.getFieldLoadSaveValidatorFactory();
 
     validatorFactory.registerValidator(
         validatorFactory.getName(DeleteLookupField.class),
-        new ObjectValidator<>(
-            validatorFactory,
-            DeleteLookupField.class,
-            Arrays.asList("schema", "table", "key"),
-            new HashMap<String, String>() {
-              {
-                put("table", "getTableName");
-                put("schema", "getSchemaName");
-                put("key", "getFields");
-              }
-            },
-            new HashMap<String, String>() {
-              {
-                put("table", "setTableName");
-                put("schema", "setSchemaName");
-                put("key", "setFields");
-              }
-            }));
+        new ObjectValidator<>(validatorFactory, DeleteLookupField.class, Arrays.asList("schema", "table", "key"), new HashMap<String, String>() {
+          {
+            put("table", "getTableName");
+            put("schema", "getSchemaName");
+            put("key", "getFields");
+          }
+        }, new HashMap<String, String>() {
+          {
+            put("table", "setTableName");
+            put("schema", "setSchemaName");
+            put("key", "setFields");
+          }
+        }));
 
-    validatorFactory.registerValidator(
-        validatorFactory.getName(List.class, DeleteKeyField.class),
-        new ListLoadSaveValidator<>(new DeleteKeyFieldInputFieldLoadSaveValidator()));
+    validatorFactory.registerValidator(validatorFactory.getName(List.class, DeleteKeyField.class), new ListLoadSaveValidator<>(new DeleteKeyFieldInputFieldLoadSaveValidator()));
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -124,14 +107,10 @@ public class DeleteMetaTest implements IInitializer<ITransformMeta> {
     if (someMeta instanceof DeleteMeta) {
       DeleteLookupField dlf = ((DeleteMeta) someMeta).getLookup();
       dlf.getFields().clear();
-      dlf.getFields()
-          .addAll(
-              Arrays.asList(
-                  new DeleteKeyField("StreamField1", "=", "1", null),
-                  new DeleteKeyField("StreamField2", "<>", "20", null),
-                  new DeleteKeyField("StreamField3", "BETWEEN", "1", "10"),
-                  new DeleteKeyField("StreamField4", "<=", "3", null),
-                  new DeleteKeyField("StreamField5", ">=", "40", null)));
+      dlf.getFields().addAll(
+          Arrays.asList(
+              new DeleteKeyField("StreamField1", "=", "1", null), new DeleteKeyField("StreamField2", "<>", "20", null), new DeleteKeyField("StreamField3", "BETWEEN", "1", "10"),
+              new DeleteKeyField("StreamField4", "<=", "3", null), new DeleteKeyField("StreamField5", ">=", "40", null)));
     }
   }
 
@@ -194,16 +173,13 @@ public class DeleteMetaTest implements IInitializer<ITransformMeta> {
     }
   }
 
-  public class DeleteLookupKeyFieldInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<DeleteLookupField> {
+  public class DeleteLookupKeyFieldInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<DeleteLookupField> {
     final Random rand = new Random();
 
     @Override
     public DeleteLookupField getTestObject() {
 
-      DeleteLookupField field =
-          new DeleteLookupField(
-              UUID.randomUUID().toString(), UUID.randomUUID().toString(), new ArrayList<>());
+      DeleteLookupField field = new DeleteLookupField(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new ArrayList<>());
 
       return field;
     }
@@ -214,27 +190,18 @@ public class DeleteMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       DeleteLookupField another = (DeleteLookupField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getSchemaName(), another.getSchemaName())
-          .append(testObject.getTableName(), another.getTableName())
-          .append(testObject.getFields(), another.getFields())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getSchemaName(), another.getSchemaName()).append(testObject.getTableName(), another.getTableName())
+          .append(testObject.getFields(), another.getFields()).isEquals();
     }
   }
 
-  public class DeleteKeyFieldInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<DeleteKeyField> {
+  public class DeleteKeyFieldInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<DeleteKeyField> {
     final Random rand = new Random();
 
     @Override
     public DeleteKeyField getTestObject() {
 
-      DeleteKeyField field =
-          new DeleteKeyField(
-              UUID.randomUUID().toString(),
-              "=",
-              UUID.randomUUID().toString(),
-              UUID.randomUUID().toString());
+      DeleteKeyField field = new DeleteKeyField(UUID.randomUUID().toString(), "=", UUID.randomUUID().toString(), UUID.randomUUID().toString());
 
       return field;
     }
@@ -245,12 +212,8 @@ public class DeleteMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       DeleteKeyField another = (DeleteKeyField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getKeyLookup(), another.getKeyLookup())
-          .append(testObject.getKeyCondition(), another.getKeyCondition())
-          .append(testObject.getKeyStream(), another.getKeyStream())
-          .append(testObject.getKeyStream2(), another.getKeyStream2())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getKeyLookup(), another.getKeyLookup()).append(testObject.getKeyCondition(), another.getKeyCondition())
+          .append(testObject.getKeyStream(), another.getKeyStream()).append(testObject.getKeyStream2(), another.getKeyStream2()).isEquals();
     }
   }
 }

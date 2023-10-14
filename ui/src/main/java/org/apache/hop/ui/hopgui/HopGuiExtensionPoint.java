@@ -26,35 +26,22 @@ import org.apache.hop.ui.hopgui.perspective.execution.PipelineExecutionViewer;
 import org.apache.hop.ui.hopgui.perspective.explorer.ExplorerPerspective;
 
 public enum HopGuiExtensionPoint {
-  HopGuiFileOpenDialog(
-      "Allows you to modify the file open dialog before it's shown. If you want to show your own, set doIt to false",
-      HopGuiFileDialogExtension.class),
-  HopGuiFileOpenedDialog(
-      "Allows you to modify the file open dialog after a file is selected.",
-      HopGuiFileOpenedExtension.class),
-  HopGuiFileSaveDialog(
-      "Allows you to modify the file save dialog before it's shown. If you want to show your own, set doIt to false",
-      HopGuiFileDialogExtension.class),
+  HopGuiFileOpenDialog("Allows you to modify the file open dialog before it's shown. If you want to show your own, set doIt to false", HopGuiFileDialogExtension.class),
+  HopGuiFileOpenedDialog("Allows you to modify the file open dialog after a file is selected.", HopGuiFileOpenedExtension.class),
+  HopGuiFileSaveDialog("Allows you to modify the file save dialog before it's shown. If you want to show your own, set doIt to false", HopGuiFileDialogExtension.class),
   HopGuiNewPipelineTab("Determine the tab name of a pipeline", HopGuiPipelineGraph.class),
 
-  HopGuiFileDirectoryDialog(
-      "Called before a DirectoryDialog is presented", HopGuiFileDialogExtension.class),
-  HopGuiDirectorySelected(
-      "Called after a folder is selected in the DirectoryDialog",
-      HopGuiDirectorySelectedExtension.class),
+  HopGuiFileDirectoryDialog("Called before a DirectoryDialog is presented", HopGuiFileDialogExtension.class),
+  HopGuiDirectorySelected("Called after a folder is selected in the DirectoryDialog", HopGuiDirectorySelectedExtension.class),
 
-  HopGuiDetermineExplorerRoot(
-      "Determine the root folder of the explorer perspective",
-      ExplorerPerspective.DetermineRootFolderExtension.class),
+  HopGuiDetermineExplorerRoot("Determine the root folder of the explorer perspective", ExplorerPerspective.DetermineRootFolderExtension.class),
 
-  HopGuiWorkflowClipboardFilePaste(
-      "A filename is pasted into a workflow", HopGuiWorkflowClipboardExtension.class),
+  HopGuiWorkflowClipboardFilePaste("A filename is pasted into a workflow", HopGuiWorkflowClipboardExtension.class),
 
   HopGuiPipelineFinished("A pipeline finished in the GUI", HopGuiPipelineFinishedExtension.class),
 
   HopGuiPipelineGraphUpdateGui("When the UI needs updating and you want to enable/disable widgets", HopGuiPipelineGraph.class),
-  PipelineExecutionViewerUpdate("When the UI needs updating and you want to enable/disable widgets", PipelineExecutionViewer.class),
-  ;
+  PipelineExecutionViewerUpdate("When the UI needs updating and you want to enable/disable widgets", PipelineExecutionViewer.class),;
 
   public String id;
 

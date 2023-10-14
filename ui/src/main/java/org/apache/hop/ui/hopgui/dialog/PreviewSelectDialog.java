@@ -75,9 +75,7 @@ public class PreviewSelectDialog extends Dialog {
     formLayout.marginHeight = PropsUi.getFormMargin();
 
     shell.setLayout(formLayout);
-    shell.setText(
-        BaseMessages.getString(
-            PKG, "PreviewSelectDialog.Dialog.PreviewSelection.Title")); // Preview
+    shell.setText(BaseMessages.getString(PKG, "PreviewSelectDialog.Dialog.PreviewSelection.Title")); // Preview
     // selection
     // screen
     shell.setImage(GuiResource.getInstance().getImageHopUi());
@@ -92,12 +90,10 @@ public class PreviewSelectDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Close"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wPreview, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wPreview, wCancel}, margin, null);
 
     Label wlFields = new Label(shell, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "PreviewSelectDialog.Label.Transforms")); // Transforms:
+    wlFields.setText(BaseMessages.getString(PKG, "PreviewSelectDialog.Label.Transforms")); // Transforms:
     PropsUi.setLook(wlFields);
     FormData fdlFields = new FormData();
     fdlFields.left = new FormAttachment(0, 0);
@@ -107,18 +103,11 @@ public class PreviewSelectDialog extends Dialog {
     List<TransformMeta> usedTransforms = pipelineMeta.getUsedTransforms();
     final int nrRows = usedTransforms.size();
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PreviewSelectDialog.Column.TransformName"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // TransformName
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PreviewSelectDialog.Column.PreviewSize"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false), // Preview size
-    };
+    ColumnInfo[] columns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "PreviewSelectDialog.Column.TransformName"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // TransformName
+            new ColumnInfo(BaseMessages.getString(PKG, "PreviewSelectDialog.Column.PreviewSize"), ColumnInfo.COLUMN_TYPE_TEXT, false, false), // Preview size
+        };
 
     wFields =
         new TableView(

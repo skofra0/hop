@@ -31,7 +31,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SwitchCaseMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester<SwitchCaseMeta> loadSaveTester;
 
@@ -39,13 +40,8 @@ public class SwitchCaseMetaTest {
     // SwitchCaseMeta bean-like attributes
     List<String> attributes =
         Arrays.asList(
-            "fieldName",
-            "usingContains",
-            "caseValueFormat",
-            "caseValueDecimal", /* "caseValueType",*/
-            "caseValueGroup",
-            "defaultTargetTransformName",
-            "caseTargets");
+            "fieldName", "usingContains", "caseValueFormat", "caseValueDecimal", /* "caseValueType", */
+            "caseValueGroup", "defaultTargetTransformName", "caseTargets");
 
     // Non-standard getters & setters
     Map<String, String> getterMap = new HashMap<>();
@@ -58,43 +54,29 @@ public class SwitchCaseMetaTest {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    this.loadSaveTester =
-        new LoadSaveTester<>(
-            SwitchCaseMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap);
+    this.loadSaveTester = new LoadSaveTester<>(SwitchCaseMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
 
-    IFieldLoadSaveValidatorFactory validatorFactory =
-        loadSaveTester.getFieldLoadSaveValidatorFactory();
+    IFieldLoadSaveValidatorFactory validatorFactory = loadSaveTester.getFieldLoadSaveValidatorFactory();
 
-    IFieldLoadSaveValidator<SwitchCaseTarget> targetValidator =
-        new IFieldLoadSaveValidator<SwitchCaseTarget>() {
-          @Override
-          public SwitchCaseTarget getTestObject() {
-            return new SwitchCaseTarget() {
-              {
-                setCaseValue(UUID.randomUUID().toString());
-                setCaseTargetTransformName(UUID.randomUUID().toString());
-              }
-            };
-          }
-
-          @Override
-          public boolean validateTestObject(SwitchCaseTarget testObject, Object actual) {
-            return testObject.getCaseValue().equals(((SwitchCaseTarget) actual).getCaseValue())
-                && testObject
-                    .getCaseTargetTransformName()
-                    .equals(((SwitchCaseTarget) actual).getCaseTargetTransformName());
+    IFieldLoadSaveValidator<SwitchCaseTarget> targetValidator = new IFieldLoadSaveValidator<SwitchCaseTarget>() {
+      @Override
+      public SwitchCaseTarget getTestObject() {
+        return new SwitchCaseTarget() {
+          {
+            setCaseValue(UUID.randomUUID().toString());
+            setCaseTargetTransformName(UUID.randomUUID().toString());
           }
         };
+      }
 
-    validatorFactory.registerValidator(
-        validatorFactory.getName(SwitchCaseTarget.class), targetValidator);
-    validatorFactory.registerValidator(
-        validatorFactory.getName(List.class, SwitchCaseTarget.class),
-        new ListLoadSaveValidator<>(targetValidator));
+      @Override
+      public boolean validateTestObject(SwitchCaseTarget testObject, Object actual) {
+        return testObject.getCaseValue().equals(((SwitchCaseTarget) actual).getCaseValue())
+            && testObject.getCaseTargetTransformName().equals(((SwitchCaseTarget) actual).getCaseTargetTransformName());
+      }
+    };
+
+    validatorFactory.registerValidator(validatorFactory.getName(SwitchCaseTarget.class), targetValidator);
+    validatorFactory.registerValidator(validatorFactory.getName(List.class, SwitchCaseTarget.class), new ListLoadSaveValidator<>(targetValidator));
   }
 }

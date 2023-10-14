@@ -61,8 +61,7 @@ public class HttpTest {
 
   @Before
   public void setup() throws Exception {
-    HttpClientManager.HttpClientBuilderFacade builder =
-        mock(HttpClientManager.HttpClientBuilderFacade.class);
+    HttpClientManager.HttpClientBuilderFacade builder = mock(HttpClientManager.HttpClientBuilderFacade.class);
 
     HttpClientManager manager = mock(HttpClientManager.class);
     doReturn(builder).when(manager).createBuilder();
@@ -89,9 +88,7 @@ public class HttpTest {
     doReturn(false).when(log).isDetailed();
 
     doCallRealMethod().when(http).callHttpService(any(IRowMeta.class), any(Object[].class));
-    doReturn(HttpURLConnection.HTTP_OK)
-        .when(http)
-        .requestStatusCode(any(CloseableHttpResponse.class));
+    doReturn(HttpURLConnection.HTTP_OK).when(http).requestStatusCode(any(CloseableHttpResponse.class));
     doReturn(new Header[0]).when(http).searchForHeaders(any(CloseableHttpResponse.class));
     setInternalState(http, "log", log);
     setInternalState(http, "data", data);

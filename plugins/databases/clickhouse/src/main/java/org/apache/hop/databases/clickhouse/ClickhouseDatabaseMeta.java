@@ -29,7 +29,8 @@ import org.apache.hop.core.util.Utils;
 /**
  * Contains Clickhouse specific information through static final members
  *
- * <p>https://clickhouse.tech/docs/en/sql-reference/
+ * <p>
+ * https://clickhouse.tech/docs/en/sql-reference/
  */
 @DatabaseMetaPlugin(type = "CLICKHOUSE", typeDescription = "ClickHouse", documentationUrl = "/database/databases/clickhouse.html")
 @GuiPlugin(id = "GUI-ClickhouseDatabaseMeta")
@@ -99,45 +100,32 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
 
     boolean isFirstQueryParam = true;
     if (!Utils.isEmpty(databaseName)) {
-      if (isFirstQueryParam) url = url + "/" + databaseName;
-      else url = url + databaseName;
+      if (isFirstQueryParam)
+        url = url + "/" + databaseName;
+      else
+        url = url + databaseName;
     }
 
     return url;
   }
 
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD COLUMN "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD COLUMN " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getDropColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     return "ALTER TABLE " + tableName + " DROP COLUMN " + v.getName() + Const.CR;
   }
 
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY COLUMN "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY COLUMN " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v,
-      String surrogateKey,
-      String primaryKey,
-      boolean useAutoinc,
-      boolean addFieldName,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String surrogateKey, String primaryKey, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String fieldDefinitionDdl = "";
 
     String newline = addCr ? Const.CR : "";
@@ -147,17 +135,13 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
     int precision = v.getPrecision();
     int type = v.getType();
 
-    boolean isKeyField =
-        fieldname.equalsIgnoreCase(surrogateKey) || fieldname.equalsIgnoreCase(primaryKey);
+    boolean isKeyField = fieldname.equalsIgnoreCase(surrogateKey) || fieldname.equalsIgnoreCase(primaryKey);
 
     if (addFieldName) {
       fieldDefinitionDdl += fieldname + " ";
     }
     if (isKeyField) {
-      Validate.isTrue(
-          type == IValueMeta.TYPE_NUMBER
-              || type == IValueMeta.TYPE_INTEGER
-              || type == IValueMeta.TYPE_BIGNUMBER);
+      Validate.isTrue(type == IValueMeta.TYPE_NUMBER || type == IValueMeta.TYPE_INTEGER || type == IValueMeta.TYPE_BIGNUMBER);
       return ddlForPrimaryKey() + newline;
     }
     switch (type) {
@@ -255,7 +239,7 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
 
   /**
    * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
+   *         ; )
    */
   @Override
   public String getExtraOptionSeparator() {
@@ -315,89 +299,88 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ALL",
-      "ALTER",
-      "AND",
-      "ANY",
-      "AS",
-      "ASC",
-      "BETWEEN",
-      "BY",
-      "CASE",
-      "CAST",
-      "CHECK",
-      "CLUSTER",
-      "COLUMN",
-      "CONNECT",
-      "CREATE",
-      "CROSS",
-      "CURRENT",
-      "DELETE",
-      "DESC",
-      "DISTINCT",
-      "DROP",
-      "ELSE",
-      "EXCLUSIVE",
-      "EXISTS",
-      "FALSE",
-      "FOR",
-      "FROM",
-      "FULL",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "IDENTIFIED",
-      "IMMEDIATE",
-      "IN",
-      "INCREMENT",
-      "INNER",
-      "INSERT",
-      "INTERSECT",
-      "INTO",
-      "IS",
-      "JOIN",
-      "LATERAL",
-      "LEFT",
-      "LIKE",
-      "LOCK",
-      "LONG",
-      "MAXEXTENTS",
-      "MINUS",
-      "MODIFY",
-      "NATURAL",
-      "NOT",
-      "NULL",
-      "OF",
-      "ON",
-      "OPTION",
-      "OR",
-      "ORDER",
-      "REGEXP",
-      "RENAME",
-      "REVOKE",
-      "RIGHT",
-      "RLIKE",
-      "ROW",
-      "ROWS",
-      "SELECT",
-      "SET",
-      "SOME",
-      "START",
-      "TABLE",
-      "THEN",
-      "TO",
-      "TRIGGER",
-      "TRUE",
-      "UNION",
-      "UNIQUE",
-      "UPDATE",
-      "USING",
-      "VALUES",
-      "WHEN",
-      "WHENEVER",
-      "WHERE",
-      "WITH"
-    };
+        "ALL",
+        "ALTER",
+        "AND",
+        "ANY",
+        "AS",
+        "ASC",
+        "BETWEEN",
+        "BY",
+        "CASE",
+        "CAST",
+        "CHECK",
+        "CLUSTER",
+        "COLUMN",
+        "CONNECT",
+        "CREATE",
+        "CROSS",
+        "CURRENT",
+        "DELETE",
+        "DESC",
+        "DISTINCT",
+        "DROP",
+        "ELSE",
+        "EXCLUSIVE",
+        "EXISTS",
+        "FALSE",
+        "FOR",
+        "FROM",
+        "FULL",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "IDENTIFIED",
+        "IMMEDIATE",
+        "IN",
+        "INCREMENT",
+        "INNER",
+        "INSERT",
+        "INTERSECT",
+        "INTO",
+        "IS",
+        "JOIN",
+        "LATERAL",
+        "LEFT",
+        "LIKE",
+        "LOCK",
+        "LONG",
+        "MAXEXTENTS",
+        "MINUS",
+        "MODIFY",
+        "NATURAL",
+        "NOT",
+        "NULL",
+        "OF",
+        "ON",
+        "OPTION",
+        "OR",
+        "ORDER",
+        "REGEXP",
+        "RENAME",
+        "REVOKE",
+        "RIGHT",
+        "RLIKE",
+        "ROW",
+        "ROWS",
+        "SELECT",
+        "SET",
+        "SOME",
+        "START",
+        "TABLE",
+        "THEN",
+        "TO",
+        "TRIGGER",
+        "TRUE",
+        "UNION",
+        "UNIQUE",
+        "UPDATE",
+        "USING",
+        "VALUES",
+        "WHEN",
+        "WHENEVER",
+        "WHERE",
+        "WITH"};
   }
 
   @Override
@@ -406,8 +389,7 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
   }
 
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + keyField + ", " + versionField + ") values (1, 1)";
   }
 
@@ -436,7 +418,7 @@ public class ClickhouseDatabaseMeta extends BaseDatabaseMeta implements IDatabas
 
   /**
    * @return true if we need to supply the schema-name to getTables in order to get a correct list
-   *     of items.
+   *         of items.
    */
   @Override
   public boolean useSchemaNameForTableList() {

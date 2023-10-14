@@ -27,25 +27,34 @@ import org.apache.hop.workflow.action.ActionMeta;
 /**
  * This class store undo and redo information...
  *
- * <p>Possible changes to a pipeline:
+ * <p>
+ * Possible changes to a pipeline:
  *
- * <p>transform
+ * <p>
+ * transform
  *
- * <p>hop
+ * <p>
+ * hop
  *
- * <p>note
+ * <p>
+ * note
  *
- * <p>connection
+ * <p>
+ * connection
  *
  * <p>
  *
- * <p>Build an Undo/Redo class containing:
+ * <p>
+ * Build an Undo/Redo class containing:
  *
- * <p>Type of change
+ * <p>
+ * Type of change
  *
- * <p>Description of action
+ * <p>
+ * Description of action
  *
- * <p>Link to previous infomation
+ * <p>
+ * Link to previous infomation
  *
  * <p>
  */
@@ -84,8 +93,7 @@ public class ChangeAction {
     ChangeTableRow(BaseMessages.getString(PKG, "TransAction.label.ChangeTableRow")),
     NewTableRow(BaseMessages.getString(PKG, "TransAction.label.NewTableRow")),
     DeleteTableRow(BaseMessages.getString(PKG, "TransAction.label.DeleteTableRow")),
-    PositionTableRow(BaseMessages.getString(PKG, "TransAction.label.PositionTableRow")),
-    ;
+    PositionTableRow(BaseMessages.getString(PKG, "TransAction.label.PositionTableRow")),;
 
     private String description;
 

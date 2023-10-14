@@ -21,30 +21,20 @@ import org.apache.hop.i18n.BaseMessages;
 public enum GetLoggingInfoTypes {
   TYPE_SYSTEM_INFO_NONE("", ""),
 
-  TYPE_SYSTEM_INFO_PIPELINE_DATE_FROM(
-      "Specified pipeline: Start of date range", "Types.Desc.PipelineStartDateRange"),
-  TYPE_SYSTEM_INFO_PIPELINE_DATE_TO(
-      "Specified pipeline: End of date range", "Types.Desc.PipelineEndDateRange"),
-  TYPE_SYSTEM_INFO_PIPELINE_PREVIOUS_EXECUTION_DATE(
-      "Specified pipeline : Previous execution date", "Types.Desc.PipelinePreviousExecutionDate"),
-  TYPE_SYSTEM_INFO_PIPELINE_PREVIOUS_SUCCESS_DATE(
-      "Specified pipeline : Previous success date", "Types.Desc.PipelinePreviousSuccessDate"),
+  TYPE_SYSTEM_INFO_PIPELINE_DATE_FROM("Specified pipeline: Start of date range", "Types.Desc.PipelineStartDateRange"),
+  TYPE_SYSTEM_INFO_PIPELINE_DATE_TO("Specified pipeline: End of date range", "Types.Desc.PipelineEndDateRange"),
+  TYPE_SYSTEM_INFO_PIPELINE_PREVIOUS_EXECUTION_DATE("Specified pipeline : Previous execution date", "Types.Desc.PipelinePreviousExecutionDate"),
+  TYPE_SYSTEM_INFO_PIPELINE_PREVIOUS_SUCCESS_DATE("Specified pipeline : Previous success date", "Types.Desc.PipelinePreviousSuccessDate"),
 
-  TYPE_SYSTEM_INFO_WORKFLOW_DATE_FROM(
-      "Specified workflow: Start of date range", "Types.Desc.WorkflowStartDateRange"),
-  TYPE_SYSTEM_INFO_WORKFLOW_DATE_TO(
-      "Specified workflow: End of date range", "Types.Desc.WorkflowEndDateRange"),
-  TYPE_SYSTEM_INFO_WORKFLOW_PREVIOUS_EXECUTION_DATE(
-      "Specified workflow: Previous execution date", "Types.Desc.WorkflowPreviousExecutionDate"),
-  TYPE_SYSTEM_INFO_WORKFLOW_PREVIOUS_SUCCESS_DATE(
-      "Specified workflow: Previous success date", "Types.Desc.WorkflowPreviousSuccessDate"),
-  ;
+  TYPE_SYSTEM_INFO_WORKFLOW_DATE_FROM("Specified workflow: Start of date range", "Types.Desc.WorkflowStartDateRange"),
+  TYPE_SYSTEM_INFO_WORKFLOW_DATE_TO("Specified workflow: End of date range", "Types.Desc.WorkflowEndDateRange"),
+  TYPE_SYSTEM_INFO_WORKFLOW_PREVIOUS_EXECUTION_DATE("Specified workflow: Previous execution date", "Types.Desc.WorkflowPreviousExecutionDate"),
+  TYPE_SYSTEM_INFO_WORKFLOW_PREVIOUS_SUCCESS_DATE("Specified workflow: Previous success date", "Types.Desc.WorkflowPreviousSuccessDate"),;
 
   private String code;
   private String description;
 
-  private static Class<?> PKG =
-      GetLoggingInfoMeta.class; // For Translator
+  private static Class<?> PKG = GetLoggingInfoMeta.class; // For Translator
 
   public String getCode() {
     return code;
@@ -61,9 +51,7 @@ public enum GetLoggingInfoTypes {
         typeStr = "previous result nr lines rejected";
       }
 
-      if (type.toString().equals(typeStr)
-          || type.code.equalsIgnoreCase(typeStr)
-          || type.description.equalsIgnoreCase(typeStr)) {
+      if (type.toString().equals(typeStr) || type.code.equalsIgnoreCase(typeStr) || type.description.equalsIgnoreCase(typeStr)) {
         return type;
       }
     }

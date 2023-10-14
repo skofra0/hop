@@ -25,17 +25,9 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.util.HashMap;
 
-public abstract class BaseNeoTransform<
-        Meta extends ITransformMeta, Data extends BaseNeoTransformData>
-    extends BaseTransform<Meta, Data> {
+public abstract class BaseNeoTransform<Meta extends ITransformMeta, Data extends BaseNeoTransformData> extends BaseTransform<Meta, Data> {
 
-  public BaseNeoTransform(
-      TransformMeta transformMeta,
-      Meta meta,
-      Data data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BaseNeoTransform(TransformMeta transformMeta, Meta meta, Data data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

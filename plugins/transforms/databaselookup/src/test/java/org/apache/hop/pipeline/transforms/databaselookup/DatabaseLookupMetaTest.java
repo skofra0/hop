@@ -60,44 +60,16 @@ public class DatabaseLookupMetaTest {
     HopClientEnvironment.init();
     databaseLookupMeta = new DatabaseLookupMeta();
     metadataProvider = new MemoryMetadataProvider();
-    metadataProvider
-        .getSerializer(DatabaseMeta.class)
-        .save(
-            new DatabaseMeta(
-                "postgres", "NONE", "JDBC", "localhost", "test", "${PORT}", "hop", "pass"));
+    metadataProvider.getSerializer(DatabaseMeta.class).save(new DatabaseMeta("postgres", "NONE", "JDBC", "localhost", "test", "${PORT}", "hop", "pass"));
   }
 
   @Test
   public void getFieldWithValueUsedTwice() throws HopTransformException {
 
     Lookup lookup = databaseLookupMeta.getLookup();
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "match",
-                "v1",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "match",
-                "v2",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "mismatch",
-                "v3",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("match", "v1", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("match", "v2", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("mismatch", "v3", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
 
     IValueMeta v1 = new ValueMetaString("match");
     IValueMeta v2 = new ValueMetaString("match1");
@@ -111,11 +83,7 @@ public class DatabaseLookupMetaTest {
 
     databaseLookupMeta.getFields(row, "", info, null, null, null);
 
-    List<IValueMeta> expectedRow =
-        Arrays.asList(
-            new IValueMeta[] {
-              new ValueMetaString("value"), new ValueMetaString("v1"), new ValueMetaString("v2"),
-            });
+    List<IValueMeta> expectedRow = Arrays.asList(new IValueMeta[] {new ValueMetaString("value"), new ValueMetaString("v1"), new ValueMetaString("v2"),});
     assertEquals(3, row.getValueMetaList().size());
     for (int i = 0; i < 3; i++) {
       assertEquals(expectedRow.get(i).getName(), row.getValueMetaList().get(i).getName());
@@ -127,39 +95,14 @@ public class DatabaseLookupMetaTest {
 
     DatabaseLookupMeta meta = new DatabaseLookupMeta();
     Lookup lookup = meta.getLookup();
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "f1",
-                "s4",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "f2",
-                "s5",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "f3",
-                "s6",
-                "",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("f1", "s4", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("f2", "s5", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("f3", "s6", "", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
 
     DatabaseLookupData databaseLookupData = new DatabaseLookupData();
 
     databaseLookupData.returnMeta = Mockito.mock(RowMeta.class);
-    assertEquals(
-        databaseLookupData.returnMeta, meta.getRowMeta(new Variables(), databaseLookupData));
+    assertEquals(databaseLookupData.returnMeta, meta.getRowMeta(new Variables(), databaseLookupData));
     assertEquals(3, meta.getDatabaseFields().size());
     assertEquals("f1", meta.getDatabaseFields().get(0));
     assertEquals("f2", meta.getDatabaseFields().get(1));
@@ -179,24 +122,8 @@ public class DatabaseLookupMetaTest {
     Lookup lookup = meta.getLookup();
     lookup.getKeyFields().add(new KeyField("aa", "gg", "ee", "cc"));
     lookup.getKeyFields().add(new KeyField("bb", "hh", "ff", "dd"));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "ii",
-                "kk",
-                "mm",
-                "String",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_BOTH)));
-    lookup
-        .getReturnValues()
-        .add(
-            new ReturnValue(
-                "jj",
-                "ll",
-                "nn",
-                "Integer",
-                ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
+    lookup.getReturnValues().add(new ReturnValue("ii", "kk", "mm", "String", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_BOTH)));
+    lookup.getReturnValues().add(new ReturnValue("jj", "ll", "nn", "Integer", ValueMetaString.getTrimTypeCode(IValueMeta.TRIM_TYPE_NONE)));
     lookup.setOrderByClause("FOO DESC");
     lookup.setEatingRowOnLookupFailure(true);
     lookup.setFailingOnMultipleResults(true);
@@ -247,11 +174,7 @@ public class DatabaseLookupMetaTest {
     String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     String transformXml = XmlHandler.openTag(tag) + xml + XmlHandler.closeTag(tag);
     DatabaseLookupMeta meta = new DatabaseLookupMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml, tag),
-        DatabaseLookupMeta.class,
-        meta,
-        metadataProvider);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml, tag), DatabaseLookupMeta.class, meta, metadataProvider);
 
     Lookup lookup = meta.getLookup();
 
@@ -263,11 +186,7 @@ public class DatabaseLookupMetaTest {
     DatabaseLookupMeta meta2 = new DatabaseLookupMeta();
     String transformXml2 = XmlHandler.openTag(tag) + xml2 + XmlHandler.closeTag(tag);
 
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG),
-        DatabaseLookupMeta.class,
-        meta2,
-        metadataProvider);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG), DatabaseLookupMeta.class, meta2, metadataProvider);
 
     // Compare meta1 and meta2 to see if all serialization survived correctly...
     //
@@ -304,37 +223,15 @@ public class DatabaseLookupMetaTest {
 
   @Test
   public void testInjection() throws Exception {
-    BeanInjectionInfo<DatabaseLookupMeta> injectionInfo =
-        new BeanInjectionInfo<>(DatabaseLookupMeta.class);
+    BeanInjectionInfo<DatabaseLookupMeta> injectionInfo = new BeanInjectionInfo<>(DatabaseLookupMeta.class);
     BeanInjector<DatabaseLookupMeta> injector = new BeanInjector<>(injectionInfo, metadataProvider);
 
     DatabaseLookupMeta meta = new DatabaseLookupMeta();
 
     IRowMeta rowMeta =
-        new RowMetaBuilder()
-            .addString("database")
-            .addString("schema")
-            .addString("table")
-            .addString("cache?")
-            .addString("cacheSize")
-            .addString("loadAll?")
-            .addString("orderBy")
-            .addString("failOnMultiple?")
-            .addString("eatRow?")
-            .build();
-    List<RowMetaAndData> rows =
-        Arrays.asList(
-            new RowMetaAndData(
-                rowMeta,
-                "postgres",
-                "schema1",
-                "table1",
-                "Y",
-                "123",
-                "Y",
-                "field1 DESC",
-                "Y",
-                "Y"));
+        new RowMetaBuilder().addString("database").addString("schema").addString("table").addString("cache?").addString("cacheSize").addString("loadAll?").addString("orderBy")
+            .addString("failOnMultiple?").addString("eatRow?").build();
+    List<RowMetaAndData> rows = Arrays.asList(new RowMetaAndData(rowMeta, "postgres", "schema1", "table1", "Y", "123", "Y", "field1 DESC", "Y", "Y"));
 
     injector.setProperty(meta, "connection", rows, "database");
     assertNotNull(meta.getConnection());
@@ -359,17 +256,10 @@ public class DatabaseLookupMetaTest {
 
     // Keys...
     //
-    IRowMeta keyRowMeta =
-        new RowMetaBuilder()
-            .addString("tableField")
-            .addString("condition")
-            .addString("stream1")
-            .addString("stream2")
-            .build();
+    IRowMeta keyRowMeta = new RowMetaBuilder().addString("tableField").addString("condition").addString("stream1").addString("stream2").build();
     List<RowMetaAndData> keyRows =
         Arrays.asList(
-            new RowMetaAndData(keyRowMeta, "tableField1", "=", "inputField11", "inputField12"),
-            new RowMetaAndData(keyRowMeta, "tableField2", "=", "inputField21", "inputField22"));
+            new RowMetaAndData(keyRowMeta, "tableField1", "=", "inputField11", "inputField12"), new RowMetaAndData(keyRowMeta, "tableField2", "=", "inputField21", "inputField22"));
 
     injector.setProperty(meta, "key_input_field1", keyRows, "stream1");
     injector.setProperty(meta, "key_input_field2", keyRows, "stream2");
@@ -387,15 +277,8 @@ public class DatabaseLookupMetaTest {
     assertEquals("inputField22", meta.getLookup().getKeyFields().get(1).getStreamField2());
 
     // Return values...
-    IRowMeta returnRowMeta =
-        new RowMetaBuilder()
-            .addString("tableField")
-            .addString("rename")
-            .addString("default")
-            .addString("type")
-            .build();
-    List<RowMetaAndData> returnRows =
-        Arrays.asList(new RowMetaAndData(returnRowMeta, "tableField3", "f3", "?", "String"));
+    IRowMeta returnRowMeta = new RowMetaBuilder().addString("tableField").addString("rename").addString("default").addString("type").build();
+    List<RowMetaAndData> returnRows = Arrays.asList(new RowMetaAndData(returnRowMeta, "tableField3", "f3", "?", "String"));
 
     injector.setProperty(meta, "return_table_field", returnRows, "tableField");
     injector.setProperty(meta, "return_rename", returnRows, "rename");

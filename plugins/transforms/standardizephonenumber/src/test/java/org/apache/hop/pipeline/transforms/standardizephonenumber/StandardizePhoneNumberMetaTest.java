@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class StandardizePhoneNumberMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   /** @throws HopException */
   public void test() throws HopException {
@@ -40,13 +41,7 @@ public class StandardizePhoneNumberMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
     LoadSaveTester<StandardizePhoneNumberMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            StandardizePhoneNumberMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+        new LoadSaveTester<>(StandardizePhoneNumberMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }

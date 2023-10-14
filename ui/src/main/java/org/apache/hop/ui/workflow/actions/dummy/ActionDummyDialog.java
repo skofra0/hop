@@ -45,8 +45,7 @@ public class ActionDummyDialog extends ActionDialog implements IActionDialog {
 
   private Text wName;
 
-  public ActionDummyDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionDummyDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionDummy) action;
   }

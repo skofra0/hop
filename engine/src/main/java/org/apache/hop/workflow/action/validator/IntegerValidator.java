@@ -32,11 +32,7 @@ public class IntegerValidator implements IActionValidator {
   private String VALIDATOR_NAME = "integer";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
 
     Object result = null;
     String value = null;
@@ -50,12 +46,7 @@ public class IntegerValidator implements IActionValidator {
     result = GenericTypeValidator.formatInt(value);
 
     if (result == null) {
-      ActionValidatorUtils.addFailureRemark(
-          source,
-          propertyName,
-          VALIDATOR_NAME,
-          remarks,
-          ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
+      ActionValidatorUtils.addFailureRemark(source, propertyName, VALIDATOR_NAME, remarks, ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
       return false;
     }
     return true;

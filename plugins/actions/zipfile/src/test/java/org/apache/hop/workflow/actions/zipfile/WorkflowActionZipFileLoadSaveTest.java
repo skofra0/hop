@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionZipFileLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionZipFile> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionZipFileLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionZipFile> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionZipFile> getActionClass() {
@@ -58,23 +58,7 @@ public class WorkflowActionZipFileLoadSaveTest
     // the member variables
     // and their getters/setters don't follow the bean getter/setter pattern.
     return Arrays.asList(
-        "zipFilename",
-        "compressionRate",
-        "ifZipFileExists",
-        "afterZip",
-        "wildcard",
-        "wildcardExclude",
-        "sourceDirectory",
-        "moveToDirectory",
-        "addFileToResult",
-        "datafromprevious",
-        "createParentFolder",
-        "dateInFilename",
-        "timeInFilename",
-        "specifyFormat",
-        "dateTimeFormat",
-        "createMoveToDirectory",
-        "includingSubFolders",
-        "storedSourcePathDepth");
+        "zipFilename", "compressionRate", "ifZipFileExists", "afterZip", "wildcard", "wildcardExclude", "sourceDirectory", "moveToDirectory", "addFileToResult", "datafromprevious",
+        "createParentFolder", "dateInFilename", "timeInFilename", "specifyFormat", "dateTimeFormat", "createMoveToDirectory", "includingSubFolders", "storedSourcePathDepth");
   }
 }

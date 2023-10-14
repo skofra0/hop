@@ -47,10 +47,7 @@ public class StringToHopFn extends DoFn<String, HopRow> {
 
   private transient IRowMeta rowMeta;
 
-  public StringToHopFn(
-      String transformName,
-      String rowMetaJson,
-      String separator) {
+  public StringToHopFn(String transformName, String rowMetaJson, String separator) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
     this.separator = separator;
@@ -96,16 +93,9 @@ public class StringToHopFn extends DoFn<String, HopRow> {
         IValueMeta stringMeta = new ValueMetaString("SourceString");
         stringMeta.setConversionMask(valueMeta.getConversionMask());
         try {
-          row[index] =
-              valueMeta.convertDataFromString(
-                  sourceString, stringMeta, null, null, IValueMeta.TRIM_TYPE_NONE);
+          row[index] = valueMeta.convertDataFromString(sourceString, stringMeta, null, null, IValueMeta.TRIM_TYPE_NONE);
         } catch (HopValueException ve) {
-          throw new HopException(
-              "Unable to convert value '"
-                  + sourceString
-                  + "' to value : "
-                  + valueMeta.toStringMeta(),
-              ve);
+          throw new HopException("Unable to convert value '" + sourceString + "' to value : " + valueMeta.toStringMeta(), ve);
         }
         index++;
       }
@@ -117,11 +107,7 @@ public class StringToHopFn extends DoFn<String, HopRow> {
 
     } catch (Exception e) {
       Metrics.counter(Pipeline.METRIC_NAME_ERROR, transformName).inc();
-      LOG.error(
-          "Error converting input data into Hop rows "
-              + processContext.element()
-              + ", "
-              + e.getMessage());
+      LOG.error("Error converting input data into Hop rows " + processContext.element() + ", " + e.getMessage());
       throw new RuntimeException("Error converting input data into Hop rows", e);
     }
   }

@@ -47,11 +47,7 @@ public class WelcomeBeam {
 
   private static final String WELCOME_BEAM_PARENT_ID = "WelcomeBeam.Parent.ID";
 
-  @GuiWidgetElement(
-      type = GuiElementType.COMPOSITE,
-      id = "20000-beam-welcome",
-      label = "Apache Beam",
-      parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
+  @GuiWidgetElement(type = GuiElementType.COMPOSITE, id = "20000-beam-welcome", label = "Apache Beam", parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
   public void welcome(Composite parent) {
     PropsUi props = PropsUi.getInstance();
 
@@ -65,40 +61,33 @@ public class WelcomeBeam {
     parentComposite.setLayoutData(fdParentComposite);
     PropsUi.setLook(parentComposite);
 
-    GuiCompositeWidgets compositeWidgets =
-        new GuiCompositeWidgets(HopGui.getInstance().getVariables());
-    compositeWidgets.createCompositeWidgets(
-        this, null, parentComposite, WELCOME_BEAM_PARENT_ID, null);
+    GuiCompositeWidgets compositeWidgets = new GuiCompositeWidgets(HopGui.getInstance().getVariables());
+    compositeWidgets.createCompositeWidgets(this, null, parentComposite, WELCOME_BEAM_PARENT_ID, null);
     // No data to set on these widgets
   }
 
-  public static final String WEB_NAME_BEAM_GETTING_STARTED =
-      "Getting started with Apache Beam page";
-  public static final String WEB_LINK_BEAM_GETTING_STARTED =
-      "https://hop.apache.org/manual/latest/pipeline/beam/getting-started-with-beam.html";
+  public static final String WEB_NAME_BEAM_GETTING_STARTED = "Getting started with Apache Beam page";
+  public static final String WEB_LINK_BEAM_GETTING_STARTED = "https://hop.apache.org/manual/latest/pipeline/beam/getting-started-with-beam.html";
 
   @GuiWidgetElement(
       id = "WelcomeBeam.10010.getting-started",
       parentId = WELCOME_BEAM_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "To get started with building and running Beam pipelines, see our <a>"
-              + WEB_NAME_BEAM_GETTING_STARTED
-              + "</a>.\n\nYou can also open one of the 'Hello, world' examples below:")
+      label = "To get started with building and running Beam pipelines, see our <a>"
+          + WEB_NAME_BEAM_GETTING_STARTED
+          + "</a>.\n\nYou can also open one of the 'Hello, world' examples below:")
   public void homepageLink(Event event) {
     handleWebLinkEvent(event, WEB_NAME_BEAM_GETTING_STARTED, WEB_LINK_BEAM_GETTING_STARTED);
   }
 
   private static final String EXAMPLE1_NAME = "input-process-output.hpl";
-  private static final String EXAMPLE1_FILE =
-      "${PROJECT_HOME}/beam/pipelines/input-process-output.hpl";
+  private static final String EXAMPLE1_FILE = "${PROJECT_HOME}/beam/pipelines/input-process-output.hpl";
 
   @GuiWidgetElement(
       id = "WelcomeBeam.11000.example1",
       parentId = WELCOME_BEAM_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "- A simple pipeline which read from and writes to a file: <a>" + EXAMPLE1_NAME + "</a>")
+      label = "- A simple pipeline which read from and writes to a file: <a>" + EXAMPLE1_NAME + "</a>")
   public void openBeamSample1(Event event) {
     openSampleFileEvent(event, EXAMPLE1_NAME, EXAMPLE1_FILE);
   }
@@ -110,10 +99,7 @@ public class WelcomeBeam {
       id = "WelcomeBeam.11000.example1",
       parentId = WELCOME_BEAM_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "- Open a more complex pipeline showcasing the possibilities: <a>"
-              + EXAMPLE2_NAME
-              + "</a>")
+      label = "- Open a more complex pipeline showcasing the possibilities: <a>" + EXAMPLE2_NAME + "</a>")
   public void openBeamSample2(Event event) {
     openSampleFileEvent(event, EXAMPLE2_NAME, EXAMPLE2_FILE);
   }
@@ -125,15 +111,14 @@ public class WelcomeBeam {
       id = "WelcomeBeam.12000.running-a-sample",
       parentId = WELCOME_BEAM_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "\nTo run a sample, click on the start icon (triangle).  You can safely use the Direct, Spark and Flink run configurations to execute.\n"
-              + "During the execution you can take a look in the <a>"
-              + EI_PERSPECTIVE_NAME
-              + "</a>.\n"
-              + "The results of the pipelines are written to the beam/output folder in the form of CSV files. "
-              + "You can list and even open these files with the <a>"
-              + EXP_PERSPECTIVE_NAME
-              + "</a>.\n")
+      label = "\nTo run a sample, click on the start icon (triangle).  You can safely use the Direct, Spark and Flink run configurations to execute.\n"
+          + "During the execution you can take a look in the <a>"
+          + EI_PERSPECTIVE_NAME
+          + "</a>.\n"
+          + "The results of the pipelines are written to the beam/output folder in the form of CSV files. "
+          + "You can list and even open these files with the <a>"
+          + EXP_PERSPECTIVE_NAME
+          + "</a>.\n")
   public void runningSamples(Event event) {
     if (EI_PERSPECTIVE_NAME.equals(event.text)) {
       HopGui.getExecutionPerspective().activate();
@@ -156,8 +141,7 @@ public class WelcomeBeam {
         HopGui.getInstance().fileDelegate.fileOpen(variables.resolve(filename));
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(), "Error", "Error opening sample file " + filename, e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error opening sample file " + filename, e);
     }
   }
 
@@ -181,9 +165,7 @@ public class WelcomeBeam {
     //
     MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.YES | SWT.NO | SWT.CANCEL);
     box.setText("Switch to samples project");
-    box.setMessage(
-        "This example works best in the samples project.\n"
-            + "Do you want to switch to the samples project now?\n");
+    box.setMessage("This example works best in the samples project.\n" + "Do you want to switch to the samples project now?\n");
     int answer = box.open();
     if ((answer & SWT.NO) != 0) {
       return true;
@@ -196,8 +178,7 @@ public class WelcomeBeam {
         String guiPluginClassName = "org.apache.hop.projects.gui.ProjectsGuiPlugin";
         IPlugin plugin = registry.findPluginWithId(GuiPluginType.class, guiPluginClassName);
         if (plugin == null) {
-          throw new HopException(
-              "Unable to switch projects because the projects GUI plugin couldn't be found");
+          throw new HopException("Unable to switch projects because the projects GUI plugin couldn't be found");
         }
         ClassLoader classLoader = registry.getClassLoader(plugin);
         Class<?> guiPluginClass = classLoader.loadClass(guiPluginClassName);
@@ -207,11 +188,7 @@ public class WelcomeBeam {
         method.invoke(null, "samples");
         return true;
       } catch (Exception e) {
-        new ErrorDialog(
-            HopGui.getInstance().getShell(),
-            "Error",
-            "Sorry, I couldn't switch to the samples project",
-            e);
+        new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Sorry, I couldn't switch to the samples project", e);
         return false;
       }
     }

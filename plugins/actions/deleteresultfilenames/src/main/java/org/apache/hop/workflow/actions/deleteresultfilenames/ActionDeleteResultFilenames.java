@@ -93,8 +93,7 @@ public class ActionDeleteResultFilenames extends ActionBase implements Cloneable
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       folderName = XmlHandler.getTagValue(entrynode, "foldername");
@@ -103,9 +102,7 @@ public class ActionDeleteResultFilenames extends ActionBase implements Cloneable
       wildcardExclude = XmlHandler.getTagValue(entrynode, "wildcardexclude");
 
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "ActionDeleteResultFilenames.CanNotLoadFromXML", xe.getMessage()));
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.CanNotLoadFromXML", xe.getMessage()));
     }
   }
 
@@ -154,36 +151,28 @@ public class ActionDeleteResultFilenames extends ActionBase implements Cloneable
       try {
         int size = previousResult.getResultFiles().size();
         if (log.isBasic()) {
-          logBasic(
-              BaseMessages.getString(PKG, "ActionDeleteResultFilenames.log.FilesFound", "" + size));
+          logBasic(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.log.FilesFound", "" + size));
         }
         if (!specifyWildcard) {
           // Delete all files
           previousResult.getResultFiles().clear();
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionDeleteResultFilenames.log.DeletedFiles", "" + size));
+            logDetailed(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.log.DeletedFiles", "" + size));
           }
         } else {
 
           List<ResultFile> resultFiles = result.getResultFilesList();
           if (resultFiles != null && resultFiles.size() > 0) {
-            for (Iterator<ResultFile> it = resultFiles.iterator();
-                it.hasNext() && !parentWorkflow.isStopped(); ) {
+            for (Iterator<ResultFile> it = resultFiles.iterator(); it.hasNext() && !parentWorkflow.isStopped();) {
               ResultFile resultFile = it.next();
               FileObject file = resultFile.getFile();
               if (file != null && file.exists()) {
-                if (CheckFileWildcard(file.getName().getBaseName(), resolve(wildcard), true)
-                    && !CheckFileWildcard(
-                        file.getName().getBaseName(), resolve(wildcardExclude), false)) {
+                if (CheckFileWildcard(file.getName().getBaseName(), resolve(wildcard), true) && !CheckFileWildcard(file.getName().getBaseName(), resolve(wildcardExclude), false)) {
                   // Remove file from result files list
                   result.getResultFiles().remove(resultFile.getFile().toString());
 
                   if (log.isDetailed()) {
-                    logDetailed(
-                        BaseMessages.getString(
-                            PKG, "ActionDeleteResultFilenames.log.DeletedFile", file.toString()));
+                    logDetailed(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.log.DeletedFile", file.toString()));
                   }
                 }
               }
@@ -226,17 +215,10 @@ public class ActionDeleteResultFilenames extends ActionBase implements Cloneable
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx,
-        ActionValidatorUtils.notNullValidator(),
-        ActionValidatorUtils.fileDoesNotExistValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileDoesNotExistValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
   }
 }

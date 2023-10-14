@@ -49,8 +49,7 @@ public class ActionSuccessDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionSuccessDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSuccessDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSuccess) action;
     if (this.action.getName() == null) {

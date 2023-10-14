@@ -72,7 +72,7 @@ public class BasePropertyHandler implements ILafChangeListener<IPropertyHandler>
    * @param key
    * @param defValue
    * @return a string representing either the value associated with the passed key or defValue
-   *     should that key not be found
+   *         should that key not be found
    */
   public static String getProperty(String key, String defValue) {
     return getInstanceHandler().getProperty(key, defValue);

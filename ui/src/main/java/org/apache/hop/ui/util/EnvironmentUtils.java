@@ -61,10 +61,8 @@ public class EnvironmentUtils {
     if (userAgent == null) {
       return true;
     }
-    return checkUserAgent(
-            MSIE_PATTERN.matcher(userAgent), getSupportedVersion("min.windows.browser.supported"))
-        || checkUserAgent(
-            SAFARI_PATTERN.matcher(userAgent), getSupportedVersion("min.mac.browser.supported"));
+    return checkUserAgent(MSIE_PATTERN.matcher(userAgent), getSupportedVersion("min.windows.browser.supported"))
+        || checkUserAgent(SAFARI_PATTERN.matcher(userAgent), getSupportedVersion("min.mac.browser.supported"));
   }
 
   private boolean checkUserAgent(Matcher matcher, int version) {
@@ -93,20 +91,14 @@ public class EnvironmentUtils {
    * Checks the existence of the webkit library on ubuntu 16 or ubuntu 14 .
    *
    * @return 'true' if the webkit library is not present in ubuntu 16 or ubuntu 14 , 'false'
-   *     otherwise.
+   *         otherwise.
    */
   public synchronized boolean isWebkitUnavailable() {
     String path = getWebkitPath();
     String osName = getEnvironmentName();
     return ((path == null || path.length() < 1 || !path.contains("webkit"))
-        && (osName.contains(
-                SUPPORTED_DISTRIBUTION_NAME
-                    + " "
-                    + getSupportedVersion("max.ubuntu.os.distribution.supported"))
-            || osName.contains(
-                SUPPORTED_DISTRIBUTION_NAME
-                    + " "
-                    + getSupportedVersion("min.ubuntu.os.distribution.supported"))));
+        && (osName.contains(SUPPORTED_DISTRIBUTION_NAME + " " + getSupportedVersion("max.ubuntu.os.distribution.supported"))
+            || osName.contains(SUPPORTED_DISTRIBUTION_NAME + " " + getSupportedVersion("min.ubuntu.os.distribution.supported"))));
   }
 
   /**
@@ -158,7 +150,7 @@ public class EnvironmentUtils {
    * Ask for the running linux distribution.
    *
    * @return a string that contains the distribution name or a empty string if it could not find the
-   *     name.
+   *         name.
    */
   private String getLinuxDistribution() {
     Process p = null;

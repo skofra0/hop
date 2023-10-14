@@ -60,12 +60,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
 
   private SimpleDateFormat simpleDateFormat;
 
-  public TeraFast(
-      final TransformMeta transformMeta,
-      final TeraFastMeta meta,
-      final GenericTransformData data,
-      final int copyNr,
-      final PipelineMeta pipelineMeta,
+  public TeraFast(final TransformMeta transformMeta, final TeraFastMeta meta, final GenericTransformData data, final int copyNr, final PipelineMeta pipelineMeta,
       final Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -82,8 +77,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
     }
     final StringBuilder builder = new StringBuilder();
     try {
-      final FileObject fileObject =
-          HopVfs.getFileObject(resolve(this.meta.getFastloadPath().getValue()));
+      final FileObject fileObject = HopVfs.getFileObject(resolve(this.meta.getFastloadPath().getValue()));
       final String fastloadExec = HopVfs.getFilename(fileObject);
       builder.append(fastloadExec);
     } catch (Exception e) {
@@ -105,8 +99,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
   protected void verifyDatabaseConnection() throws HopException {
     // Confirming Database Connection is defined.
     if (this.meta.getDbMeta() == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TeraFastDialog.GetSQL.NoConnectionDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "TeraFastDialog.GetSQL.NoConnectionDefined"));
     }
   }
 
@@ -131,8 +124,11 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
     Object[] row = getRow();
     if (row == null) {
 
-      /* In case we have no data, we need to ensure that the printstream was ever initialized. It will if there is
-       *  data. So we check for a null printstream, then we close the dataFile and execute only if it existed.
+      /*
+       * In case we have no data, we need to ensure that the printstream was ever initialized. It will if
+       * there is
+       * data. So we check for a null printstream, then we close the dataFile and execute only if it
+       * existed.
        */
       if (this.dataFilePrintStream != null) {
         this.dataFilePrintStream.close();
@@ -175,8 +171,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
       // size as in the
       // targetTable
       IRowMeta tableRowMeta = this.meta.getRequiredFields(this);
-      IRowMeta streamRowMeta =
-          this.getPipelineMeta().getPrevTransformFields(this, this.getTransformMeta());
+      IRowMeta streamRowMeta = this.getPipelineMeta().getPrevTransformFields(this, this.getTransformMeta());
       List<Integer> columnSortOrder = new ArrayList<>(tableRowMeta.size());
       for (int i = 0; i < tableRowMeta.size(); i++) {
         IValueMeta column = tableRowMeta.getValueMeta(i);
@@ -245,9 +240,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
             dataFilePrintStream.print(byt);
             break;
           default:
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "TeraFast.Exception.TypeNotSupported", valueMeta.getType()));
+            throw new HopException(BaseMessages.getString(PKG, "TeraFast.Exception.TypeNotSupported", valueMeta.getType()));
         }
       }
       dataFilePrintStream.print(FastloadControlBuilder.DATAFILE_COLUMN_SEPERATOR);
@@ -298,14 +291,8 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
     this.logBasic("About to execute: " + command);
     try {
       this.process = Runtime.getRuntime().exec(command);
-      new Thread(
-              new ConfigurableStreamLogger(
-                  getLogChannel(), this.process.getErrorStream(), LogLevel.ERROR, "ERROR"))
-          .start();
-      new Thread(
-              new ConfigurableStreamLogger(
-                  getLogChannel(), this.process.getInputStream(), LogLevel.DETAILED, "OUTPUT"))
-          .start();
+      new Thread(new ConfigurableStreamLogger(getLogChannel(), this.process.getErrorStream(), LogLevel.ERROR, "ERROR")).start();
+      new Thread(new ConfigurableStreamLogger(getLogChannel(), this.process.getInputStream(), LogLevel.DETAILED, "OUTPUT")).start();
       this.fastload = this.process.getOutputStream();
     } catch (Exception e) {
       throw new HopException("Error while setup: " + command, e);
@@ -332,8 +319,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
       IOUtils.write(controlContent, this.fastload);
       this.fastload.flush();
     } catch (IOException e) {
-      throw new HopException(
-          "Cannot pipe content of control file to fastload [path=" + controlFile + "]", e);
+      throw new HopException("Cannot pipe content of control file to fastload [path=" + controlFile + "]", e);
     } finally {
       IOUtils.closeQuietly(control);
       IOUtils.closeQuietly(this.fastload);
@@ -349,27 +335,17 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
     final FastloadControlBuilder builder = new FastloadControlBuilder();
     builder.setSessions(this.meta.getSessions().getValue());
     builder.setErrorLimit(this.meta.getErrorLimit().getValue());
-    builder.logon(
-        this.meta.getDbMeta().getHostname(),
-        this.meta.getDbMeta().getUsername(),
-        this.meta.getDbMeta().getPassword());
+    builder.logon(this.meta.getDbMeta().getHostname(), this.meta.getDbMeta().getUsername(), this.meta.getDbMeta().getPassword());
     builder.setRecordFormat(FastloadControlBuilder.RECORD_VARTEXT);
     try {
-      builder.define(
-          this.meta.getRequiredFields(this),
-          meta.getTableFieldList(),
-          resolveFileName(this.meta.getDataFile().getValue()));
+      builder.define(this.meta.getRequiredFields(this), meta.getTableFieldList(), resolveFileName(this.meta.getDataFile().getValue()));
     } catch (Exception ex) {
       throw new HopException("Error defining data file!", ex);
     }
     builder.show();
-    builder.beginLoading(
-        this.meta.getDbMeta().getPreferredSchemaName(), this.meta.getTargetTable().getValue());
+    builder.beginLoading(this.meta.getDbMeta().getPreferredSchemaName(), this.meta.getTargetTable().getValue());
 
-    builder.insert(
-        this.meta.getRequiredFields(this),
-        meta.getTableFieldList(),
-        this.meta.getTargetTable().getValue());
+    builder.insert(this.meta.getRequiredFields(this), meta.getTableFieldList(), this.meta.getTargetTable().getValue());
     builder.endLoading();
     builder.logoff();
     final String control = builder.toString();
@@ -377,8 +353,7 @@ public class TeraFast extends AbstractTransform<TeraFastMeta, GenericTransformDa
       logDetailed("Control file: " + control);
       IOUtils.write(control, this.fastload);
     } catch (IOException e) {
-      throw new HopException(
-          "Error while execution control command [controlCommand=" + control + "]", e);
+      throw new HopException("Error while execution control command [controlCommand=" + control + "]", e);
     } finally {
       IOUtils.closeQuietly(this.fastload);
     }

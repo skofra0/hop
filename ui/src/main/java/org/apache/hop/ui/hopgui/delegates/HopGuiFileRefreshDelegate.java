@@ -44,29 +44,27 @@ public class HopGuiFileRefreshDelegate {
   public HopGuiFileRefreshDelegate(HopGui hopGui) {
     this.hopGui = hopGui;
     this.fileHandlerMap = new HashMap<>();
-    this.fileMonitor =
-        new DefaultFileMonitor(
-            new FileListener() {
+    this.fileMonitor = new DefaultFileMonitor(new FileListener() {
 
-              @Override
-              public void fileChanged(FileChangeEvent arg0) throws Exception {
-                String fileName = arg0.getFileObject().getName().getURI();
-                if (fileName != null) {
-                  IHopFileTypeHandler fileHandler = fileHandlerMap.get(fileName);
-                  if (fileHandler != null) {
-                    if (!hopGui.getDisplay().isDisposed()) {
-                      hopGui.getDisplay().asyncExec(fileHandler::reload);
-                    }
-                  }
-                }
-              }
+      @Override
+      public void fileChanged(FileChangeEvent arg0) throws Exception {
+        String fileName = arg0.getFileObject().getName().getURI();
+        if (fileName != null) {
+          IHopFileTypeHandler fileHandler = fileHandlerMap.get(fileName);
+          if (fileHandler != null) {
+            if (!hopGui.getDisplay().isDisposed()) {
+              hopGui.getDisplay().asyncExec(fileHandler::reload);
+            }
+          }
+        }
+      }
 
-              @Override
-              public void fileCreated(FileChangeEvent arg0) throws Exception {}
+      @Override
+      public void fileCreated(FileChangeEvent arg0) throws Exception {}
 
-              @Override
-              public void fileDeleted(FileChangeEvent arg0) throws Exception {}
-            });
+      @Override
+      public void fileDeleted(FileChangeEvent arg0) throws Exception {}
+    });
     fileMonitor.setDelay(DELAY);
     fileMonitor.start();
   }

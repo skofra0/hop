@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionWriteToFileTest
-    extends WorkflowActionLoadSaveTestSupport<ActionWriteToFile> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionWriteToFileTest extends WorkflowActionLoadSaveTestSupport<ActionWriteToFile> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionWriteToFile> getActionClass() {
@@ -40,21 +40,11 @@ public class WorkflowActionWriteToFileTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "filename", "getFilename",
-        "createParentFolder", "isCreateParentFolder",
-        "appendFile", "isAppendFile",
-        "content", "getContent",
-        "encoding", "getEncoding");
+    return toMap("filename", "getFilename", "createParentFolder", "isCreateParentFolder", "appendFile", "isAppendFile", "content", "getContent", "encoding", "getEncoding");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "filename", "setFilename",
-        "createParentFolder", "setCreateParentFolder",
-        "appendFile", "setAppendFile",
-        "content", "setContent",
-        "encoding", "setEncoding");
+    return toMap("filename", "setFilename", "createParentFolder", "setCreateParentFolder", "appendFile", "setAppendFile", "content", "setContent", "encoding", "setEncoding");
   }
 }

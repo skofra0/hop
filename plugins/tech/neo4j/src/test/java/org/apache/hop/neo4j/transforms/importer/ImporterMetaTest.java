@@ -25,8 +25,7 @@ public class ImporterMetaTest {
   @Test
   public void testSerialization() throws HopException {
 
-    TransformLoadSaveTester<ImporterMeta> tester =
-        new TransformLoadSaveTester<>(ImporterMeta.class);
+    TransformLoadSaveTester<ImporterMeta> tester = new TransformLoadSaveTester<>(ImporterMeta.class);
     tester.testSerialization();
   }
 }

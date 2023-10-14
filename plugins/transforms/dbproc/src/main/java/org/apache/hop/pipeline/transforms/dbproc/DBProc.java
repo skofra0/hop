@@ -40,13 +40,7 @@ import java.util.List;
 public class DBProc extends BaseTransform<DBProcMeta, DBProcData> {
   private static final Class<?> PKG = DBProcMeta.class; // For Translator
 
-  public DBProc(
-      TransformMeta transformMeta,
-      DBProcMeta meta,
-      DBProcData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DBProc(TransformMeta transformMeta, DBProcMeta meta, DBProcData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -65,13 +59,8 @@ public class DBProc extends BaseTransform<DBProcMeta, DBProcData> {
         if (!argument.getDirection().equalsIgnoreCase("OUT")) { // IN or INOUT
           data.argnrs[i] = rowMeta.indexOfValue(argument.getName());
           if (data.argnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(PKG, "DBProc.Log.ErrorFindingField")
-                    + argument.getName()
-                    + "]");
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "DBProc.Exception.CouldnotFindField", argument.getName()));
+            logError(BaseMessages.getString(PKG, "DBProc.Log.ErrorFindingField") + argument.getName() + "]");
+            throw new HopTransformException(BaseMessages.getString(PKG, "DBProc.Exception.CouldnotFindField", argument.getName()));
           }
         } else {
           data.argnrs[i] = -1;
@@ -79,31 +68,15 @@ public class DBProc extends BaseTransform<DBProcMeta, DBProcData> {
       }
 
       data.db.setProcLookup(
-          resolve(meta.getProcedure()),
-          meta.argumentNames(),
-          meta.argumentDirections(),
-          meta.argumentTypes(),
-          meta.getResult().getName(),
-          meta.getResult().getHopType());
+          resolve(meta.getProcedure()), meta.argumentNames(), meta.argumentDirections(), meta.argumentTypes(), meta.getResult().getName(), meta.getResult().getHopType());
     }
 
     Object[] outputRowData = RowDataUtil.resizeArray(rowData, data.outputMeta.size());
     int outputIndex = rowMeta.size();
 
-    data.db.setProcValues(
-        rowMeta,
-        rowData,
-        data.argnrs,
-        meta.argumentDirections(),
-        StringUtils.isNotEmpty(meta.getResult().getName()));
+    data.db.setProcValues(rowMeta, rowData, data.argnrs, meta.argumentDirections(), StringUtils.isNotEmpty(meta.getResult().getName()));
 
-    RowMetaAndData add =
-        data.db.callProcedure(
-            meta.argumentNames(),
-            meta.argumentDirections(),
-            meta.argumentTypes(),
-            meta.getResult().getName(),
-            meta.getResult().getHopType());
+    RowMetaAndData add = data.db.callProcedure(meta.argumentNames(), meta.argumentDirections(), meta.argumentTypes(), meta.getResult().getName(), meta.getResult().getHopType());
     int addIndex = 0;
 
     // Function return?
@@ -156,8 +129,7 @@ public class DBProc extends BaseTransform<DBProcMeta, DBProcData> {
     }
 
     try {
-      Object[] outputRowData =
-          runProc(data.inputRowMeta, r); // add new values to the row in rowset[0].
+      Object[] outputRowData = runProc(data.inputRowMeta, r); // add new values to the row in rowset[0].
       putRow(data.outputMeta, outputRowData); // copy row to output rowset(s)
 
       if (checkFeedback(getLinesRead())) {

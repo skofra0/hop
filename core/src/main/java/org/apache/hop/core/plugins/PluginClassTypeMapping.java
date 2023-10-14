@@ -24,7 +24,8 @@ import java.lang.annotation.Target;
 /**
  * This annotation describes extra plugin-specific class types to be managed by the registry.
  *
- * <p>The type, implementation and nodeName arrays are correlated 1-to-1.
+ * <p>
+ * The type, implementation and nodeName arrays are correlated 1-to-1.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -43,6 +44,6 @@ public @interface PluginClassTypeMapping {
    * @return
    */
   Class<?>[] implementationClass() default {
-    // Empty
+      // Empty
   };
 }

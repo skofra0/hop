@@ -24,42 +24,28 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 public class StandardizePhoneField implements Cloneable {
 
   /** The input field name */
-  @HopMetadataProperty(
-      key = "input",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.InputField")
+  @HopMetadataProperty(key = "input", injectionKeyDescription = "StandardizePhoneNumber.Injection.InputField")
   private String inputField = null;
 
   /** The target field name */
-  @HopMetadataProperty(
-      key = "output",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.OutputField")
+  @HopMetadataProperty(key = "output", injectionKeyDescription = "StandardizePhoneNumber.Injection.OutputField")
   private String outputField = null;
 
   /** The format */
-  @HopMetadataProperty(
-      key = "format",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.NumberFormat")
+  @HopMetadataProperty(key = "format", injectionKeyDescription = "StandardizePhoneNumber.Injection.NumberFormat")
   private String numberFormat = PhoneNumberFormat.E164.name();
 
   /** The country field name */
-  @HopMetadataProperty(
-      key = "country",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.CountryField")
+  @HopMetadataProperty(key = "country", injectionKeyDescription = "StandardizePhoneNumber.Injection.CountryField")
   private String countryField = null;
 
-  @HopMetadataProperty(
-      key = "defaultCountry",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.DefaultCountry")
+  @HopMetadataProperty(key = "defaultCountry", injectionKeyDescription = "StandardizePhoneNumber.Injection.DefaultCountry")
   private String defaultCountry;
 
-  @HopMetadataProperty(
-      key = "numbertype",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.NumberTypeField")
+  @HopMetadataProperty(key = "numbertype", injectionKeyDescription = "StandardizePhoneNumber.Injection.NumberTypeField")
   private String numberTypeField;
 
-  @HopMetadataProperty(
-      key = "isvalidnumber",
-      injectionKeyDescription = "StandardizePhoneNumber.Injection.IsValidNumberField")
+  @HopMetadataProperty(key = "isvalidnumber", injectionKeyDescription = "StandardizePhoneNumber.Injection.IsValidNumberField")
   private String isValidNumberField = null;
 
   public StandardizePhoneField() {

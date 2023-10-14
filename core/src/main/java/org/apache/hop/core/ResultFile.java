@@ -46,17 +46,19 @@ public class ResultFile implements Cloneable {
 
   public static final String[] fileTypeCode = {"GENERAL", "LOG", "ERRORLINE", "ERROR", "WARNING"};
 
-  public static final String[] fileTypeDesc = {
-    BaseMessages.getString(PKG, "ResultFile.FileType.General"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Log"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Error"),
-    BaseMessages.getString(PKG, "ResultFile.FileType.Warning")
-  };
+  public static final String[] fileTypeDesc =
+      {
+          BaseMessages.getString(PKG, "ResultFile.FileType.General"),
+          BaseMessages.getString(PKG, "ResultFile.FileType.Log"),
+          BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"),
+          BaseMessages.getString(PKG, "ResultFile.FileType.Error"),
+          BaseMessages.getString(PKG, "ResultFile.FileType.Warning")};
   private static final String XML_TAG = "result-file";
 
-  @JsonIgnore private int type;
-  @JsonIgnore private FileObject file;
+  @JsonIgnore
+  private int type;
+  @JsonIgnore
+  private FileObject file;
   private String originParent;
   private String origin;
   private String comment;
@@ -145,7 +147,7 @@ public class ResultFile implements Cloneable {
 
   /**
    * @param originParent The originParent to set : the pipeline or workflow that generated this
-   *     result file
+   *        result file
    */
   public void setOriginParent(String originParent) {
     this.originParent = originParent;
@@ -296,17 +298,12 @@ public class ResultFile implements Cloneable {
   }
 
   public static enum FileType implements IEnumHasCodeAndDescription {
-    GENERAL(
-        "GENERAL", BaseMessages.getString(PKG, "ResultFile.FileType.General"), FILE_TYPE_GENERAL),
+    GENERAL("GENERAL", BaseMessages.getString(PKG, "ResultFile.FileType.General"), FILE_TYPE_GENERAL),
     LOG("LOG", BaseMessages.getString(PKG, "ResultFile.FileType.Log"), FILE_TYPE_LOG),
-    ERROR_LINE(
-        "ERRORLINE",
-        BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"),
-        FILE_TYPE_ERRORLINE),
+    ERROR_LINE("ERRORLINE", BaseMessages.getString(PKG, "ResultFile.FileType.ErrorLine"), FILE_TYPE_ERRORLINE),
     ERROR("ERROR", BaseMessages.getString(PKG, "ResultFile.FileType.Error"), FILE_TYPE_ERROR),
-    WARNING(
-        "WARNING", BaseMessages.getString(PKG, "ResultFile.FileType.Warning"), FILE_TYPE_WARNING),
-    ;
+    WARNING("WARNING", BaseMessages.getString(PKG, "ResultFile.FileType.Warning"), FILE_TYPE_WARNING),;
+
     private final String code;
     private final String description;
     private final int type;

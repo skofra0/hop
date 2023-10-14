@@ -23,25 +23,24 @@ import java.util.List;
 
 public class RuleValidationException extends Exception {
 
-    List<String> messages;
+  List<String> messages;
 
-    /**
-     * Constructs a new throwable with the specified set of detail messages.
-     *
-     * @param messages the detailed messages (which is saved for later retrieval by the getMessages()
-     *     method).
-     */
-    public RuleValidationException(List<Message> messages) {
-        super();
-        this.messages = new ArrayList<String>();
-        for (Message item : messages) {
+  /**
+   * Constructs a new throwable with the specified set of detail messages.
+   *
+   * @param messages the detailed messages (which is saved for later retrieval by the getMessages()
+   *        method).
+   */
+  public RuleValidationException(List<Message> messages) {
+    super();
+    this.messages = new ArrayList<String>();
+    for (Message item : messages) {
 
-            this.messages.add("Severity: " + item.getLevel().toString() +
-                    " - Line: " + item.getLine() + " - Message: " + item.getText());
-        }
+      this.messages.add("Severity: " + item.getLevel().toString() + " - Line: " + item.getLine() + " - Message: " + item.getText());
     }
+  }
 
-    public List<String> getMessages() {
-        return messages;
-    }
+  public List<String> getMessages() {
+    return messages;
+  }
 }

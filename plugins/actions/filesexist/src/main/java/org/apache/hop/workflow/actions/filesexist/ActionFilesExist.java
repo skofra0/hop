@@ -97,8 +97,7 @@ public class ActionFilesExist extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       filename = XmlHandler.getTagValue(entrynode, "filename");
@@ -116,11 +115,7 @@ public class ActionFilesExist extends ActionBase implements Cloneable, IAction {
         arguments[i] = XmlHandler.getTagValue(fnode, "name");
       }
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG,
-              "ActionFilesExist.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node",
-              xe.getMessage()));
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionFilesExist.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node", xe.getMessage()));
     }
   }
 
@@ -157,27 +152,21 @@ public class ActionFilesExist extends ActionBase implements Cloneable, IAction {
           String realFilefoldername = resolve(arguments[i]);
           file = HopVfs.getFileObject(realFilefoldername);
 
-          if (file.exists()
-              && file.isReadable()) { // TODO: is it needed to check file for readability?
+          if (file.exists() && file.isReadable()) { // TODO: is it needed to check file for readability?
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "ActionFilesExist.File_Exists", realFilefoldername));
+              logDetailed(BaseMessages.getString(PKG, "ActionFilesExist.File_Exists", realFilefoldername));
             }
           } else {
             missingfiles++;
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "ActionFilesExist.File_Does_Not_Exist", realFilefoldername));
+              logDetailed(BaseMessages.getString(PKG, "ActionFilesExist.File_Does_Not_Exist", realFilefoldername));
             }
           }
 
         } catch (Exception e) {
           nrErrors++;
           missingfiles++;
-          logError(
-              BaseMessages.getString(PKG, "ActionFilesExist.ERROR_0004_IO_Exception", e.toString()),
-              e);
+          logError(BaseMessages.getString(PKG, "ActionFilesExist.ERROR_0004_IO_Exception", e.toString()), e);
         } finally {
           if (file != null) {
             try {
@@ -206,9 +195,5 @@ public class ActionFilesExist extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {}
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {}
 }

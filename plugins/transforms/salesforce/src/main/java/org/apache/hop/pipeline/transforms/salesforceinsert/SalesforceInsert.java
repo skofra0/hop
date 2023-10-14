@@ -38,17 +38,10 @@ import java.util.ArrayList;
  * Read data from Salesforce module, convert them to rows and writes these to one or more output
  * streams.
  */
-public class SalesforceInsert
-    extends SalesforceTransform<SalesforceInsertMeta, SalesforceInsertData> {
+public class SalesforceInsert extends SalesforceTransform<SalesforceInsertMeta, SalesforceInsertData> {
   private static final Class<?> PKG = SalesforceInsertMeta.class; // For Translator
 
-  public SalesforceInsert(
-      TransformMeta transformMeta,
-      SalesforceInsertMeta meta,
-      SalesforceInsertData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceInsert(TransformMeta transformMeta, SalesforceInsertMeta meta, SalesforceInsertData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -79,8 +72,7 @@ public class SalesforceInsert
 
       // Check if field list is filled
       if (data.nrFields == 0) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceInsertDialog.FieldsMissing.DialogMessage"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceInsertDialog.FieldsMissing.DialogMessage"));
       }
 
       // Create the output row meta-data
@@ -93,9 +85,7 @@ public class SalesforceInsert
       for (int i = 0; i < meta.getUpdateStream().length; i++) {
         data.fieldnrs[i] = getInputRowMeta().indexOfValue(meta.getUpdateStream()[i]);
         if (data.fieldnrs[i] < 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "SalesforceInsert.CanNotFindField", meta.getUpdateStream()[i]));
+          throw new HopException(BaseMessages.getString(PKG, "SalesforceInsert.CanNotFindField", meta.getUpdateStream()[i]));
         }
       }
     }
@@ -104,8 +94,7 @@ public class SalesforceInsert
       writeToSalesForce(outputRowData);
 
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "SalesforceInsert.log.Exception", e));
+      throw new HopTransformException(BaseMessages.getString(PKG, "SalesforceInsert.log.Exception", e));
     }
     return true;
   }
@@ -115,12 +104,7 @@ public class SalesforceInsert
     try {
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "SalesforceInsert.WriteToSalesforce",
-                data.iBufferPos,
-                meta.getBatchSizeInt()));
+        logDetailed(BaseMessages.getString(PKG, "SalesforceInsert.WriteToSalesforce", data.iBufferPos, meta.getBatchSizeInt()));
       }
 
       // if there is room in the buffer
@@ -137,14 +121,10 @@ public class SalesforceInsert
           if (valueMeta.isNull(value)) {
             // The value is null
             // We need to keep track of this field
-            fieldsToNull.add(
-                SalesforceUtils.getFieldToNullName(
-                    log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
+            fieldsToNull.add(SalesforceUtils.getFieldToNullName(log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
           } else {
             Object normalObject = normalizeValue(valueMeta, value);
-            insertfields.add(
-                SalesforceConnection.createMessageElement(
-                    meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
+            insertfields.add(SalesforceConnection.createMessageElement(meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
           }
         }
 
@@ -192,8 +172,7 @@ public class SalesforceInsert
           }
 
           // write out the row with the SalesForce ID
-          Object[] newRow =
-              RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
+          Object[] newRow = RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
 
           if (data.realSalesforceFieldName != null) {
             int newIndex = getInputRowMeta().size();
@@ -207,8 +186,7 @@ public class SalesforceInsert
           incrementLinesOutput();
 
           if (checkFeedback(getLinesInput()) && log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "SalesforceInsert.log.LineRow", getLinesInput()));
+            logDetailed(BaseMessages.getString(PKG, "SalesforceInsert.log.LineRow", getLinesInput()));
           }
 
         } else {
@@ -225,39 +203,21 @@ public class SalesforceInsert
             // Only show the first error
             //
             com.sforce.soap.partner.Error err = data.saveResult[j].getErrors()[0];
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceInsert.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage()));
+            throw new HopException(BaseMessages.getString(PKG, "SalesforceInsert.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage()));
           }
 
           String errorMessage = "";
           for (int i = 0; i < data.saveResult[j].getErrors().length; i++) {
             // get the next error
             com.sforce.soap.partner.Error err = data.saveResult[j].getErrors()[i];
-            errorMessage +=
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceInsert.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage());
+            errorMessage += BaseMessages.getString(PKG, "SalesforceInsert.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage());
           }
 
           // Simply add this row to the error row
           if (log.isDetailed()) {
             logDetailed(BaseMessages.getString(PKG, "SalesforceInsert.PassingRowToErrorTransform"));
           }
-          putError(
-              getInputRowMeta(),
-              data.outputBuffer[j],
-              1,
-              errorMessage,
-              null,
-              "SalesforceInsert001");
+          putError(getInputRowMeta(), data.outputBuffer[j], 1, errorMessage, null, "SalesforceInsert001");
         }
       }
 
@@ -268,8 +228,7 @@ public class SalesforceInsert
 
     } catch (Exception e) {
       if (!getTransformMeta().isDoingErrorHandling()) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceInsert.FailedToInsertObject", e.getMessage()));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceInsert.FailedToInsertObject", e.getMessage()));
       }
       // Simply add this row to the error row
       if (log.isDebug()) {
@@ -277,13 +236,7 @@ public class SalesforceInsert
       }
 
       for (int i = 0; i < data.iBufferPos; i++) {
-        putError(
-            data.inputRowMeta,
-            data.outputBuffer[i],
-            1,
-            e.getMessage(),
-            null,
-            "SalesforceInsert002");
+        putError(data.inputRowMeta, data.outputBuffer[i], 1, e.getMessage(), null, "SalesforceInsert002");
       }
     } finally {
       if (data.saveResult != null) {
@@ -308,10 +261,7 @@ public class SalesforceInsert
         // Now connect ...
         data.connection.connect();
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SalesforceInsert.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SalesforceInsert.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
         return false;
       }
       return true;

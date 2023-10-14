@@ -18,8 +18,7 @@ package org.apache.hop.core;
 
 import java.util.Comparator;
 
-public class ObjectUsageCount
-    implements Comparator<ObjectUsageCount>, Comparable<ObjectUsageCount> {
+public class ObjectUsageCount implements Comparator<ObjectUsageCount>, Comparable<ObjectUsageCount> {
   private String objectName;
 
   private int nrUses;

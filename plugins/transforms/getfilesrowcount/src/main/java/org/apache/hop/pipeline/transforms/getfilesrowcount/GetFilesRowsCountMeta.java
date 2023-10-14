@@ -50,15 +50,10 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
     keywords = "i18n::GetFilesRowsCountMeta.keyword",
     documentationUrl = "/pipeline/transforms/getfilesrowcount.html")
-public class GetFilesRowsCountMeta
-    extends BaseTransformMeta<GetFilesRowsCount, GetFilesRowsCountData> {
+public class GetFilesRowsCountMeta extends BaseTransformMeta<GetFilesRowsCount, GetFilesRowsCountData> {
   private static final Class<?> PKG = GetFilesRowsCountMeta.class; // For Translator
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
   private static final String YES = "Y";
 
@@ -137,13 +132,7 @@ public class GetFilesRowsCountMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     IValueMeta v = new ValueMetaInteger(variables.resolve(rowsCountFieldName));
     v.setLength(IValueMeta.DEFAULT_INTEGER_LENGTH, 0);
     v.setOrigin(name);
@@ -182,13 +171,7 @@ public class GetFilesRowsCountMeta
   }
 
   public FileInputList getFiles(IVariables variables) {
-    return FileInputList.createFileList(
-        variables,
-        getFilesNames(),
-        getFilesMasks(),
-        getFilesExcludeMasks(),
-        getFilesRequired(),
-        getFilesSubFolderIncluded());
+    return FileInputList.createFileList(variables, getFilesNames(), getFilesMasks(), getFilesExcludeMasks(), getFilesRequired(), getFilesSubFolderIncluded());
   }
 
   @Override
@@ -207,55 +190,32 @@ public class GetFilesRowsCountMeta
 
     // See if we get input...
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoInputExpected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoInput"), transformMeta);
       remarks.add(cr);
     }
 
     FileInputList fileInputList = getFiles(variables);
 
     if (fileInputList == null || fileInputList.getFiles().isEmpty()) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoFiles"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoFiles"), transformMeta);
       remarks.add(cr);
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "GetFilesRowsCountMeta.CheckResult.FilesOk",
-                  "" + fileInputList.getFiles().size()),
+              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()),
               transformMeta);
       remarks.add(cr);
     }
 
     if ((rowSeparatorFormat.equals("CUSTOM")) && (rowSeparator == null)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoSeparator"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.NoSeparator"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.SeparatorOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetFilesRowsCountMeta.CheckResult.SeparatorOk"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -273,11 +233,7 @@ public class GetFilesRowsCountMeta
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -287,9 +243,7 @@ public class GetFilesRowsCountMeta
       if (!fileFromField) {
         for (GCFile file : files) {
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(file.getName()));
-          file.setName(
-              iResourceNaming.nameResource(
-                  fileObject, variables, StringUtils.isEmpty(file.getMask())));
+          file.setName(iResourceNaming.nameResource(fileObject, variables, StringUtils.isEmpty(file.getMask())));
         }
       }
       return null;
@@ -597,19 +551,12 @@ public class GetFilesRowsCountMeta
   }
 
   public enum SeparatorFormat implements IEnumHasCodeAndDescription {
-    CR(
-        "CARRIAGERETURN",
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CR.Label")),
-    LF(
-        "LINEFEED",
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.LF.Label")),
-    CRLF(
-        "CRLF",
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CRLF.Label")),
+    CR("CARRIAGERETURN", BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CR.Label")),
+    LF("LINEFEED", BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.LF.Label")),
+    CRLF("CRLF", BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CRLF.Label")),
     TAB("TAB", BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.TAB.Label")),
-    CUSTOM(
-        "CUSTOM",
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CUSTOM.Label"));
+    CUSTOM("CUSTOM", BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CUSTOM.Label"));
+
     private final String code;
     private final String description;
 

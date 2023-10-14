@@ -58,11 +58,7 @@ public class EnterPreviewRowsDialog extends Dialog {
   private java.util.List<java.util.List<Object[]>> rowDatas;
   private PropsUi props;
 
-  public EnterPreviewRowsDialog(
-      Shell parent,
-      int style,
-      java.util.List<String> transformNames,
-      java.util.List<IRowMeta> rowMetas,
+  public EnterPreviewRowsDialog(Shell parent, int style, java.util.List<String> transformNames, java.util.List<IRowMeta> rowMetas,
       java.util.List<java.util.List<Object[]>> rowBuffers) {
     super(parent, style);
     this.transformNames = transformNames;
@@ -83,9 +79,7 @@ public class EnterPreviewRowsDialog extends Dialog {
     formLayout.marginHeight = PropsUi.getFormMargin();
 
     shell.setLayout(formLayout);
-    shell.setText(
-        BaseMessages.getString(
-            PKG, "EnterPreviewRowsDialog.Dialog.PreviewTransform.Title")); // Select the
+    shell.setText(BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.PreviewTransform.Title")); // Select the
     // preview transform:
     shell.setImage(GuiResource.getInstance().getImageHopUi());
 
@@ -94,19 +88,14 @@ public class EnterPreviewRowsDialog extends Dialog {
 
     // Filename line
     Label wlTransformList = new Label(shell, SWT.NONE);
-    wlTransformList.setText(
-        BaseMessages.getString(
-            PKG, "EnterPreviewRowsDialog.Dialog.PreviewTransform.Message")); // Transform
+    wlTransformList.setText(BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.PreviewTransform.Message")); // Transform
     // name :
     PropsUi.setLook(wlTransformList);
     FormData fdlTransformList = new FormData();
     fdlTransformList.left = new FormAttachment(0, 0);
     fdlTransformList.top = new FormAttachment(0, margin);
     wlTransformList.setLayoutData(fdlTransformList);
-    wTransformList =
-        new List(
-            shell,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.H_SCROLL);
+    wTransformList = new List(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.H_SCROLL);
     for (int i = 0; i < transformNames.size(); i++) {
       wTransformList.add(transformNames.get(i));
     }
@@ -118,13 +107,12 @@ public class EnterPreviewRowsDialog extends Dialog {
     fdTransformList.bottom = new FormAttachment(100, -60);
     fdTransformList.right = new FormAttachment(100, 0);
     wTransformList.setLayoutData(fdTransformList);
-    wTransformList.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetDefaultSelected(SelectionEvent arg0) {
-            show();
-          }
-        });
+    wTransformList.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetDefaultSelected(SelectionEvent arg0) {
+        show();
+      }
+    });
 
     Button wShow = new Button(shell, SWT.PUSH);
     wShow.setText(BaseMessages.getString(PKG, "System.Button.Show"));
@@ -141,13 +129,12 @@ public class EnterPreviewRowsDialog extends Dialog {
     wClose.addListener(SWT.Selection, lsClose);
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            close();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        close();
+      }
+    });
 
     getData();
 
@@ -194,16 +181,12 @@ public class EnterPreviewRowsDialog extends Dialog {
     String name = transformNames.get(nr);
 
     if (rowMeta != null && buffer != null && buffer.size() > 0) {
-      PreviewRowsDialog prd =
-          new PreviewRowsDialog(
-              shell, Variables.getADefaultVariableSpace(), SWT.NONE, name, rowMeta, buffer);
+      PreviewRowsDialog prd = new PreviewRowsDialog(shell, Variables.getADefaultVariableSpace(), SWT.NONE, name, rowMeta, buffer);
       prd.open();
     } else {
       MessageBox mb = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
-      mb.setText(
-          BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.NoPreviewRowsFound.Title"));
-      mb.setMessage(
-          BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.NoPreviewRowsFound.Message"));
+      mb.setText(BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.NoPreviewRowsFound.Title"));
+      mb.setMessage(BaseMessages.getString(PKG, "EnterPreviewRowsDialog.Dialog.NoPreviewRowsFound.Message"));
       mb.open();
     }
   }

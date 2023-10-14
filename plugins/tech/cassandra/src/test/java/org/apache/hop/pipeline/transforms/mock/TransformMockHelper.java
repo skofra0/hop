@@ -60,8 +60,7 @@ public class TransformMockHelper<Meta extends ITransformMeta, Data extends ITran
   public final ILogChannelFactory logChannelFactory;
   public final ILogChannelFactory originalLogChannelFactory;
 
-  public TransformMockHelper(
-      String transformName, Class<Meta> transformMetaClass, Class<Data> transformDataClass) {
+  public TransformMockHelper(String transformName, Class<Meta> transformMetaClass, Class<Data> transformDataClass) {
     originalLogChannelFactory = HopLogStore.getLogChannelFactory();
     logChannelFactory = mock(ILogChannelFactory.class);
     logChannel = mock(ILogChannel.class);
@@ -85,11 +84,10 @@ public class TransformMockHelper<Meta extends ITransformMeta, Data extends ITran
   public IRowSet getMockInputRowSet(final List<Object[]> rows) {
     final AtomicInteger index = new AtomicInteger(0);
     IRowSet rowSet = mock(IRowSet.class, Mockito.RETURNS_MOCKS);
-    Answer<Object[]> answer =
-        invocation -> {
-          int i = index.getAndIncrement();
-          return i < rows.size() ? rows.get(i) : null;
-        };
+    Answer<Object[]> answer = invocation -> {
+      int i = index.getAndIncrement();
+      return i < rows.size() ? rows.get(i) : null;
+    };
     when(rowSet.getRowWait(anyLong(), any(TimeUnit.class))).thenAnswer(answer);
     when(rowSet.getRow()).thenAnswer(answer);
     when(rowSet.isDone()).thenAnswer((Answer<Boolean>) invocation -> index.get() >= rows.size());
@@ -116,28 +114,24 @@ public class TransformMockHelper<Meta extends ITransformMeta, Data extends ITran
     final LogChannel log = spy(new LogChannel(this.getClass().getName(), true));
     log.setLogLevel(channelLogLevel);
     when(logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(log);
-    doAnswer(
-            (Answer<Object>)
-                invocation -> {
-                  Object[] args = invocation.getArguments();
+    doAnswer((Answer<Object>) invocation -> {
+      Object[] args = invocation.getArguments();
 
-                  LogLevel logLevel = (LogLevel) args[1];
-                  LogLevel channelLogLevel1 = log.getLogLevel();
+      LogLevel logLevel = (LogLevel) args[1];
+      LogLevel channelLogLevel1 = log.getLogLevel();
 
-                  if (!logLevel.isVisible(channelLogLevel1)) {
-                    return null; // not for our eyes.
-                  }
-                  if (channelLogLevel1.getLevel() >= logLevel.getLevel()) {
-                    ILogMessage logMessage = (ILogMessage) args[0];
-                    out.write(logMessage.getMessage().getBytes());
-                    out.write('\n');
-                    out.write('\r');
-                    out.flush();
-                    return true;
-                  }
-                  return false;
-                })
-        .when(log)
-        .println((ILogMessage) anyObject(), (LogLevel) anyObject());
+      if (!logLevel.isVisible(channelLogLevel1)) {
+        return null; // not for our eyes.
+      }
+      if (channelLogLevel1.getLevel() >= logLevel.getLevel()) {
+        ILogMessage logMessage = (ILogMessage) args[0];
+        out.write(logMessage.getMessage().getBytes());
+        out.write('\n');
+        out.write('\r');
+        out.flush();
+        return true;
+      }
+      return false;
+    }).when(log).println((ILogMessage) anyObject(), (LogLevel) anyObject());
   }
 }

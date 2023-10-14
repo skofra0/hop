@@ -43,16 +43,15 @@ public class BlockingRowSet extends BaseRowSet implements Comparable<IRowSet>, I
     // create an empty queue
     queArray = new ArrayBlockingQueue<>(maxSize, false);
 
-    timeoutGet =
-        Const.toInt(System.getProperty(Const.HOP_ROWSET_GET_TIMEOUT), Const.TIMEOUT_GET_MILLIS);
-    timeoutPut =
-        Const.toInt(System.getProperty(Const.HOP_ROWSET_PUT_TIMEOUT), Const.TIMEOUT_PUT_MILLIS);
+    timeoutGet = Const.toInt(System.getProperty(Const.HOP_ROWSET_GET_TIMEOUT), Const.TIMEOUT_GET_MILLIS);
+    timeoutPut = Const.toInt(System.getProperty(Const.HOP_ROWSET_PUT_TIMEOUT), Const.TIMEOUT_PUT_MILLIS);
   }
 
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta, java.lang.Object[])
+   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[])
    */
   @Override
   public boolean putRow(IRowMeta rowMeta, Object[] rowData) {
@@ -62,7 +61,8 @@ public class BlockingRowSet extends BaseRowSet implements Comparable<IRowSet>, I
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta, java.lang.Object[],
+   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[],
    * long, java.util.concurrent.TimeUnit)
    */
   @Override

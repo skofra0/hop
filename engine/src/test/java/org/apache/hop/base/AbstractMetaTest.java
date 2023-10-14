@@ -61,7 +61,8 @@ import static org.mockito.Mockito.when;
 public class AbstractMetaTest {
   AbstractMeta meta;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -269,7 +270,6 @@ public class AbstractMetaTest {
     assertEquals(2, indexes.length);
   }
 
-
   @Test
   public void testAddDeleteModifyObserver() throws Exception {
     IHopObserver observer = mock(IHopObserver.class);
@@ -305,12 +305,9 @@ public class AbstractMetaTest {
   public void testMultithreadHammeringOfListener() throws Exception {
 
     CountDownLatch latch = new CountDownLatch(3);
-    AbstractMetaListenerThread th1 =
-        new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
-    AbstractMetaListenerThread th2 =
-        new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
-    AbstractMetaListenerThread th3 =
-        new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
+    AbstractMetaListenerThread th1 = new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
+    AbstractMetaListenerThread th2 = new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
+    AbstractMetaListenerThread th3 = new AbstractMetaListenerThread(meta, 1000000, latch, 50); // do 1M random add/delete/fire
 
     Thread t1 = new Thread(th1);
     Thread t2 = new Thread(th2);
@@ -443,8 +440,7 @@ public class AbstractMetaTest {
     int maxListeners;
     private Random random;
 
-    AbstractMetaListenerThread(
-        AbstractMeta aMeta, int times, CountDownLatch latch, int maxListeners) {
+    AbstractMetaListenerThread(AbstractMeta aMeta, int times, CountDownLatch latch, int maxListeners) {
       this.metaToWork = aMeta;
       this.times = times;
       this.whenDone = latch;
@@ -458,42 +454,36 @@ public class AbstractMetaTest {
       // Add a bunch of listeners to start with
       //
       for (int i = 0; i < random.nextInt(maxListeners) / 2; i++) {
-        metaToWork.addFilenameChangedListener(
-            new MockFilenameChangeListener(random.nextInt(maxListeners)));
+        metaToWork.addFilenameChangedListener(new MockFilenameChangeListener(random.nextInt(maxListeners)));
       }
 
       for (int i = 0; i < times; i++) {
         int randomNum = random.nextInt(3);
         switch (randomNum) {
-          case 0:
-            {
-              try {
-                metaToWork.addFilenameChangedListener(
-                    new MockFilenameChangeListener(random.nextInt(maxListeners)));
-              } catch (Throwable ex) {
-                message = "Exception adding listener.";
-              }
-              break;
+          case 0: {
+            try {
+              metaToWork.addFilenameChangedListener(new MockFilenameChangeListener(random.nextInt(maxListeners)));
+            } catch (Throwable ex) {
+              message = "Exception adding listener.";
             }
-          case 1:
-            {
-              try {
-                metaToWork.removeFilenameChangedListener(
-                    new MockFilenameChangeListener(random.nextInt(maxListeners)));
-              } catch (Throwable ex) {
-                message = "Exception removing listener.";
-              }
-              break;
+            break;
+          }
+          case 1: {
+            try {
+              metaToWork.removeFilenameChangedListener(new MockFilenameChangeListener(random.nextInt(maxListeners)));
+            } catch (Throwable ex) {
+              message = "Exception removing listener.";
             }
-          default:
-            {
-              try {
-                metaToWork.fireFilenameChangedListeners("oldName", "newName");
-              } catch (Throwable ex) {
-                message = "Exception firing listeners.";
-              }
-              break;
+            break;
+          }
+          default: {
+            try {
+              metaToWork.fireFilenameChangedListeners("oldName", "newName");
+            } catch (Throwable ex) {
+              message = "Exception firing listeners.";
             }
+            break;
+          }
         }
       }
       if (message == null) {

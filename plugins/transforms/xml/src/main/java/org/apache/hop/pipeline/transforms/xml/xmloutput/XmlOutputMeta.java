@@ -115,7 +115,8 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
   /* THE FIELD SPECIFICATIONS ... */
 
   /** The output fields */
-  @InjectionDeep private XmlField[] outputFields;
+  @InjectionDeep
+  private XmlField[] outputFields;
 
   /** Flag : Do not open new file when transformation start */
   @Injection(name = "DO_NOT_CREATE_FILE_AT_STARTUP")
@@ -270,8 +271,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       setEncoding(XmlHandler.getTagValue(transformNode, "encoding"));
       setNameSpace(XmlHandler.getTagValue(transformNode, "name_space"));
@@ -281,26 +281,15 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
       setFileName(XmlHandler.getTagValue(transformNode, "file", "name"));
       setExtension(XmlHandler.getTagValue(transformNode, "file", "extention"));
 
-      setDoNotOpenNewFileInit(
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "do_not_open_newfile_init")));
-      setTransformNrInFilename(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split")));
-      setDateInFilename(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date")));
-      setTimeInFilename(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time")));
-      setSpecifyFormat(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "SpecifyFormat")));
-      setOmitNullValues(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omit_null_values")));
+      setDoNotOpenNewFileInit("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "do_not_open_newfile_init")));
+      setTransformNrInFilename("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split")));
+      setDateInFilename("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date")));
+      setTimeInFilename("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time")));
+      setSpecifyFormat("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "SpecifyFormat")));
+      setOmitNullValues("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "omit_null_values")));
       setDateTimeFormat(XmlHandler.getTagValue(transformNode, "file", "date_time_format"));
 
-      setAddToResultFiles(
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "add_to_result_filenames")));
+      setAddToResultFiles("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_to_result_filenames")));
 
       setZipped("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "zipped")));
       setSplitEvery(Const.toInt(XmlHandler.getTagValue(transformNode, "file", "splitevery"), 0));
@@ -314,8 +303,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
         Node fnode = XmlHandler.getSubNodeByNr(fields, "field", i);
 
         outputFields[i] = new XmlField();
-        String contentTypeString =
-            Const.NVL(XmlHandler.getTagValue(fnode, "content_type"), ContentType.Element.name());
+        String contentTypeString = Const.NVL(XmlHandler.getTagValue(fnode, "content_type"), ContentType.Element.name());
         outputFields[i].setContentType(ContentType.valueOf(contentTypeString));
         String fieldName = XmlHandler.getTagValue(fnode, "name");
         outputFields[i].setFieldName(fieldName);
@@ -406,8 +394,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
     return retval;
   }
 
-  public String buildFilename(
-      IVariables variables, int transformnr, int splitnr, boolean ziparchive) {
+  public String buildFilename(IVariables variables, int transformnr, int splitnr, boolean ziparchive) {
     SimpleDateFormat daf = new SimpleDateFormat();
     DecimalFormat df = new DecimalFormat("00000");
 
@@ -458,13 +445,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // No values are added to the row in this type of transform
     // However, in case of Fixed length records,
@@ -484,9 +465,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
     RowMeta row = new RowMeta();
     for (int i = 0; i < outputFields.length; i++) {
       XmlField field = outputFields[i];
-      row.addValueMeta(
-          new ValueMetaBase(
-              field.getFieldName(), field.getType(), field.getLength(), field.getPrecision()));
+      row.addValueMeta(new ValueMetaBase(field.getFieldName(), field.getType(), field.getLength(), field.getPrecision()));
     }
     return row;
   }
@@ -504,18 +483,14 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
     retval.append("      ").append(XmlHandler.addTagValue("name", fileName));
     retval.append("      ").append(XmlHandler.addTagValue("extention", extension));
 
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("do_not_open_newfile_init", doNotOpenNewFileInit));
+    retval.append("      ").append(XmlHandler.addTagValue("do_not_open_newfile_init", doNotOpenNewFileInit));
     retval.append("      ").append(XmlHandler.addTagValue("split", transformNrInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("add_date", dateInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("add_time", timeInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("SpecifyFormat", specifyFormat));
     retval.append("      ").append(XmlHandler.addTagValue("omit_null_values", omitNullValues));
     retval.append("      ").append(XmlHandler.addTagValue("date_time_format", dateTimeFormat));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("add_to_result_filenames", addToResultFilenames));
+    retval.append("      ").append(XmlHandler.addTagValue("add_to_result_filenames", addToResultFilenames));
     retval.append("      ").append(XmlHandler.addTagValue("zipped", zipped));
     retval.append("      ").append(XmlHandler.addTagValue("splitevery", splitEvery));
     retval.append("    </file>").append(Const.CR);
@@ -525,22 +500,14 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
 
       if (field.getFieldName() != null && field.getFieldName().length() != 0) {
         retval.append("      <field>").append(Const.CR);
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("content_type", field.getContentType().name()));
+        retval.append("        ").append(XmlHandler.addTagValue("content_type", field.getContentType().name()));
         retval.append("        ").append(XmlHandler.addTagValue("name", field.getFieldName()));
         retval.append("        ").append(XmlHandler.addTagValue("element", field.getElementName()));
         retval.append("        ").append(XmlHandler.addTagValue("type", field.getTypeDesc()));
         retval.append("        ").append(XmlHandler.addTagValue("format", field.getFormat()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("group", field.getGroupingSymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
+        retval.append("        ").append(XmlHandler.addTagValue("group", field.getGroupingSymbol()));
         retval.append("        ").append(XmlHandler.addTagValue("nullif", field.getNullString()));
         retval.append("        ").append(XmlHandler.addTagValue("length", field.getLength()));
         retval.append("        ").append(XmlHandler.addTagValue("precision", field.getPrecision()));
@@ -567,12 +534,7 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "XMLOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transforminfo);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -587,42 +549,25 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.AllFieldsFound"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.AllFieldsFound"), transforminfo);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.ExpectedInputOk"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.ExpectedInputOk"), transforminfo);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.ExpectedInputError"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.ExpectedInputError"), transforminfo);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.FilesNotChecked"),
-            transforminfo);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "XMLOutputMeta.CheckResult.FilesNotChecked"), transforminfo);
     remarks.add(cr);
   }
 
@@ -681,16 +626,12 @@ public class XmlOutputMeta extends BaseTransformMeta<XmlOutput, XmlOutputData> {
    * @param variables the variable variables to use
    * @param definitions
    * @param resourceNamingInterface The repository to optionally load other resources from (to be
-   *     converted to XML)
+   *        converted to XML)
    * @param metadataProvider the metadataProvider in which non-Hop metadata could reside.
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming resourceNamingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming resourceNamingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

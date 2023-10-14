@@ -37,24 +37,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-@ExtensionPoint(
-    id = "SetTransformDebugLevelExtensionPoint",
-    description = "Set Transform Debug Level Extension Point Plugin",
-    extensionPointId = "PipelineStartThreads")
+@ExtensionPoint(id = "SetTransformDebugLevelExtensionPoint", description = "Set Transform Debug Level Extension Point Plugin", extensionPointId = "PipelineStartThreads")
 /** set the debug level right before the transform starts to run */
-public class SetTransformDebugLevelExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+public class SetTransformDebugLevelExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
-    Map<String, String> transformLevelMap =
-        pipeline.getPipelineMeta().getAttributesMap().get(Defaults.DEBUG_GROUP);
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
+    Map<String, String> transformLevelMap = pipeline.getPipelineMeta().getAttributesMap().get(Defaults.DEBUG_GROUP);
 
     if (transformLevelMap != null) {
-      log.logDetailed(
-          "Set debug level information on pipeline : " + pipeline.getPipelineMeta().getName());
+      log.logDetailed("Set debug level information on pipeline : " + pipeline.getPipelineMeta().getName());
 
       // Figure out which transforms were involved from the map.
       // Trying to go after each transform in a very large pipeline might otherwise
@@ -75,34 +67,21 @@ public class SetTransformDebugLevelExtensionPoint
         log.logDetailed("Handling debug level for transform : " + transformName);
 
         try {
-          final TransformDebugLevel debugLevel =
-              DebugLevelUtil.getTransformDebugLevel(transformLevelMap, transformName);
+          final TransformDebugLevel debugLevel = DebugLevelUtil.getTransformDebugLevel(transformLevelMap, transformName);
           if (debugLevel != null) {
             log.logDetailed("Found debug level info for transform " + transformName);
 
             List<IEngineComponent> transformCopies = pipeline.getComponentCopies(transformName);
 
-            if (debugLevel.getStartRow() < 0
-                && debugLevel.getEndRow() < 0
-                && debugLevel.getCondition().isEmpty()) {
-              log.logDetailed(
-                  "Set logging level for transform "
-                      + transformName
-                      + " to "
-                      + debugLevel.getLogLevel().getDescription());
+            if (debugLevel.getStartRow() < 0 && debugLevel.getEndRow() < 0 && debugLevel.getCondition().isEmpty()) {
+              log.logDetailed("Set logging level for transform " + transformName + " to " + debugLevel.getLogLevel().getDescription());
 
               // Just a general log level on the transform
               //
               for (IEngineComponent transformCopy : transformCopies) {
                 LogLevel logLevel = debugLevel.getLogLevel();
                 transformCopy.getLogChannel().setLogLevel(logLevel);
-                log.logDetailed(
-                    "Applied logging level "
-                        + logLevel.getDescription()
-                        + " on transform copy "
-                        + transformCopy.getName()
-                        + "."
-                        + transformCopy.getCopyNr());
+                log.logDetailed("Applied logging level " + logLevel.getDescription() + " on transform copy " + transformCopy.getName() + "." + transformCopy.getCopyNr());
               }
             } else {
               // We need to look at every row
@@ -112,54 +91,43 @@ public class SetTransformDebugLevelExtensionPoint
                 final LogLevel baseLogLevel = transformCopy.getLogChannel().getLogLevel();
                 final AtomicLong rowCounter = new AtomicLong(0L);
 
-                transformCopy.addRowListener(
-                    new IRowListener() {
-                      @Override
-                      public void rowReadEvent(IRowMeta rowMeta, Object[] row) {
-                        rowCounter.incrementAndGet();
-                        boolean enabled = false;
+                transformCopy.addRowListener(new IRowListener() {
+                  @Override
+                  public void rowReadEvent(IRowMeta rowMeta, Object[] row) {
+                    rowCounter.incrementAndGet();
+                    boolean enabled = false;
 
-                        Condition condition = debugLevel.getCondition();
+                    Condition condition = debugLevel.getCondition();
 
-                        if (debugLevel.getStartRow() > 0
-                            && rowCounter.get() >= debugLevel.getStartRow()
-                            && debugLevel.getEndRow() >= 0
-                            && debugLevel.getEndRow() >= rowCounter.get()) {
-                          // If we have a start and an end, we want to stay between start and end
-                          enabled = true;
-                        } else if (debugLevel.getStartRow() <= 0
-                            && debugLevel.getEndRow() >= 0
-                            && rowCounter.get() <= debugLevel.getEndRow()) {
-                          // If don't have a start row, just and end...
-                          enabled = true;
-                        } else if (debugLevel.getEndRow() <= 0
-                            && debugLevel.getStartRow() >= 0
-                            && rowCounter.get() >= debugLevel.getStartRow()) {
-                          enabled = true;
-                        }
+                    if (debugLevel.getStartRow() > 0 && rowCounter.get() >= debugLevel.getStartRow() && debugLevel.getEndRow() >= 0 && debugLevel.getEndRow() >= rowCounter.get()) {
+                      // If we have a start and an end, we want to stay between start and end
+                      enabled = true;
+                    } else if (debugLevel.getStartRow() <= 0 && debugLevel.getEndRow() >= 0 && rowCounter.get() <= debugLevel.getEndRow()) {
+                      // If don't have a start row, just and end...
+                      enabled = true;
+                    } else if (debugLevel.getEndRow() <= 0 && debugLevel.getStartRow() >= 0 && rowCounter.get() >= debugLevel.getStartRow()) {
+                      enabled = true;
+                    }
 
-                        if ((debugLevel.getStartRow() <= 0 && debugLevel.getEndRow() <= 0
-                                || enabled)
-                            && !condition.isEmpty()) {
-                          enabled = condition.evaluate(rowMeta, row);
-                        }
+                    if ((debugLevel.getStartRow() <= 0 && debugLevel.getEndRow() <= 0 || enabled) && !condition.isEmpty()) {
+                      enabled = condition.evaluate(rowMeta, row);
+                    }
 
-                        if (enabled) {
-                          transformCopy.setLogLevel(debugLevel.getLogLevel());
-                        }
-                      }
+                    if (enabled) {
+                      transformCopy.setLogLevel(debugLevel.getLogLevel());
+                    }
+                  }
 
-                      @Override
-                      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                          throws HopTransformException {
-                        // Set the log level back to the original value.
-                        //
-                        transformCopy.getLogChannel().setLogLevel(baseLogLevel);
-                      }
+                  @Override
+                  public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+                    // Set the log level back to the original value.
+                    //
+                    transformCopy.getLogChannel().setLogLevel(baseLogLevel);
+                  }
 
-                      @Override
-                      public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row) {}
-                    });
+                  @Override
+                  public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row) {}
+                });
               }
             }
           }

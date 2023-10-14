@@ -73,13 +73,7 @@ public class BeamBQOutputMeta extends BaseTransformMeta<Dummy, DummyData> implem
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // This is an endpoint in Beam, produces no further output
@@ -137,11 +131,7 @@ public class BeamBQOutputMeta extends BaseTransformMeta<Dummy, DummyData> implem
     // No need to store this, it's PDone.
     //
     input.apply(beamOutputTransform);
-    log.logBasic(
-        "Handled transform (BQ OUTPUT) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (BQ OUTPUT) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   /**

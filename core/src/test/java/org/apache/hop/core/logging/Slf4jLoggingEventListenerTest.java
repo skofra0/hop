@@ -34,11 +34,16 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class Slf4jLoggingEventListenerTest {
 
-  @Mock private Logger pipelineLogger, jobLogger, diLogger;
-  @Mock private HopLoggingEvent logEvent;
-  @Mock private ILoggingObject loggingObject;
-  @Mock private LogMessage message;
-  @Mock private Function<String, ILoggingObject> logObjProvider;
+  @Mock
+  private Logger pipelineLogger, jobLogger, diLogger;
+  @Mock
+  private HopLoggingEvent logEvent;
+  @Mock
+  private ILoggingObject loggingObject;
+  @Mock
+  private LogMessage message;
+  @Mock
+  private Function<String, ILoggingObject> logObjProvider;
 
   private String logChannelId = "logChannelId";
   private String msgText = "message";

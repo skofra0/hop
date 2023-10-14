@@ -39,12 +39,7 @@ public class ExplorerFile {
     contentChangedListeners = new ArrayList<>();
   }
 
-  public ExplorerFile(
-      String name,
-      Image tabImage,
-      String filename,
-      IExplorerFileType fileType,
-      IExplorerFileTypeHandler fileTypeHandler) {
+  public ExplorerFile(String name, Image tabImage, String filename, IExplorerFileType fileType, IExplorerFileTypeHandler fileTypeHandler) {
     this();
     this.name = name;
     this.tabImage = tabImage;

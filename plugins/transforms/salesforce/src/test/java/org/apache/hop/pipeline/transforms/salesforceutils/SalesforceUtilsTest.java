@@ -98,9 +98,8 @@ public class SalesforceUtilsTest {
     inputFieldName = "AccountId";
     verify(logMock, never()).logDebug(anyString());
     SalesforceUtils.getFieldToNullName(logMock, inputFieldName, true);
-    verify(logMock)
-        .logDebug(
-            "The field has incorrect external key syntax: AccountId. Syntax for external key should be : object:externalId/lookupField. Trying to use fieldToNullName=AccountId.");
+    verify(logMock).logDebug(
+        "The field has incorrect external key syntax: AccountId. Syntax for external key should be : object:externalId/lookupField. Trying to use fieldToNullName=AccountId.");
   }
 
   @Test
@@ -109,9 +108,8 @@ public class SalesforceUtilsTest {
     inputFieldName = "AccountId";
     verify(logMock, never()).logDebug(anyString());
     SalesforceUtils.getFieldToNullName(logMock, inputFieldName, true);
-    verify(logMock, never())
-        .logDebug(
-            "The field has incorrect external key syntax: AccountId. Syntax for external key should be : object:externalId/lookupField. Trying to use fieldToNullName=AccountId.");
+    verify(logMock, never()).logDebug(
+        "The field has incorrect external key syntax: AccountId. Syntax for external key should be : object:externalId/lookupField. Trying to use fieldToNullName=AccountId.");
   }
 
   @Test

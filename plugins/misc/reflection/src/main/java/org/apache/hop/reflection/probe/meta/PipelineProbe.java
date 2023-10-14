@@ -32,9 +32,12 @@ import java.util.List;
     documentationUrl = "/metadata-types/pipeline-probe.html")
 public class PipelineProbe extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private String pipelineFilename;
-  @HopMetadataProperty private List<DataProbeLocation> dataProbeLocations;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private String pipelineFilename;
+  @HopMetadataProperty
+  private List<DataProbeLocation> dataProbeLocations;
 
   public PipelineProbe() {
     enabled = true;
@@ -46,11 +49,7 @@ public class PipelineProbe extends HopMetadataBase implements IHopMetadata {
     dataProbeLocations = new ArrayList<>();
   }
 
-  public PipelineProbe(
-      String name,
-      boolean enabled,
-      String pipelineFilename,
-      List<DataProbeLocation> dataProbeLocations) {
+  public PipelineProbe(String name, boolean enabled, String pipelineFilename, List<DataProbeLocation> dataProbeLocations) {
     super(name);
     this.enabled = enabled;
     this.pipelineFilename = pipelineFilename;

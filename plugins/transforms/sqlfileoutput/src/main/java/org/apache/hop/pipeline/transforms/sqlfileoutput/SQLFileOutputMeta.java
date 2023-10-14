@@ -109,8 +109,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
   private boolean doNotOpenNewFileInit;
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -204,7 +203,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
 
   /**
    * @return The desired encoding of output file, null or empty if the default system encoding needs
-   *     to be used.
+   *         to be used.
    */
   public String getEncoding() {
     return encoding;
@@ -217,7 +216,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
 
   /**
    * @param encoding The desired encoding of output file, null or empty if the default system
-   *     encoding needs to be used.
+   *        encoding needs to be used.
    */
   public void setEncoding(String encoding) {
     this.encoding = encoding;
@@ -369,8 +368,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
     return retval;
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
 
       String con = XmlHandler.getTagValue(transformNode, "connection");
@@ -386,25 +384,15 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
       startNewLine = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "StartNewLine"));
 
       fileName = XmlHandler.getTagValue(transformNode, "file", "name");
-      createparentfolder =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "create_parent_folder"));
+      createparentfolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "create_parent_folder"));
       extension = XmlHandler.getTagValue(transformNode, "file", "extention");
       fileAppended = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "append"));
-      transformNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
-      partNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
-      dateInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
-      timeInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
+      transformNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "split"));
+      partNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "haspartno"));
+      dateInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_date"));
+      timeInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "add_time"));
       splitEvery = Const.toInt(XmlHandler.getTagValue(transformNode, "file", "splitevery"), 0);
-      doNotOpenNewFileInit =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "file", "DoNotOpenNewFileInit"));
+      doNotOpenNewFileInit = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "file", "DoNotOpenNewFileInit"));
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
@@ -423,10 +411,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
   public String getXml() {
     StringBuilder retval = new StringBuilder();
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "connection", databaseMeta == null ? "" : databaseMeta.getName()));
+    retval.append("    " + XmlHandler.addTagValue("connection", databaseMeta == null ? "" : databaseMeta.getName()));
     retval.append("    " + XmlHandler.addTagValue("schema", schemaName));
     retval.append("    " + XmlHandler.addTagValue("table", tableName));
     retval.append("    " + XmlHandler.addTagValue("truncate", truncateTable));
@@ -466,45 +451,26 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
     if (databaseMeta != null) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ConnectionExists"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ConnectionExists"), transformMeta);
       remarks.add(cr);
 
       Database db = new Database(loggingObject, variables, databaseMeta);
       try {
         db.connect();
 
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ConnectionOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ConnectionOk"), transformMeta);
         remarks.add(cr);
 
         if (!Utils.isEmpty(tableName)) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
           // Check if this table exists...
           if (db.checkTableExists(schemaName, tableName)) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(
-                        PKG, "SQLFileOutputMeta.CheckResult.TableAccessible", schemaTable),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.TableAccessible", schemaTable), transformMeta);
             remarks.add(cr);
 
             IRowMeta r = db.getTableFieldsMeta(schemaName, tableName);
             if (r != null) {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "SQLFileOutputMeta.CheckResult.TableOk", schemaTable),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.TableOk", schemaTable), transformMeta);
               remarks.add(cr);
 
               String errorMessage = "";
@@ -512,12 +478,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
               // OK, we have the table fields.
               // Now see what we can find as previous transform...
               if (prev != null && prev.size() > 0) {
-                cr =
-                    new CheckResult(
-                        ICheckResult.TYPE_RESULT_OK,
-                        BaseMessages.getString(
-                            PKG, "SQLFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-                        transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
                 remarks.add(cr);
 
                 // Starting from prev...
@@ -525,27 +486,17 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
                   IValueMeta pv = prev.getValueMeta(i);
                   int idx = r.indexOfValue(pv.getName());
                   if (idx < 0) {
-                    errorMessage +=
-                        "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
+                    errorMessage += "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
                     errorFound = true;
                   }
                 }
                 if (errorFound) {
-                  errorMessage =
-                      BaseMessages.getString(
-                          PKG,
-                          "SQLFileOutputMeta.CheckResult.FieldsNotFoundInOutput",
-                          errorMessage);
+                  errorMessage = BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.FieldsNotFoundInOutput", errorMessage);
 
                   cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
                   remarks.add(cr);
                 } else {
-                  cr =
-                      new CheckResult(
-                          ICheckResult.TYPE_RESULT_OK,
-                          BaseMessages.getString(
-                              PKG, "SQLFileOutputMeta.CheckResult.AllFieldsFoundInOutput"),
-                          transformMeta);
+                  cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.AllFieldsFoundInOutput"), transformMeta);
                   remarks.add(cr);
                 }
 
@@ -554,97 +505,52 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
                   IValueMeta rv = r.getValueMeta(i);
                   int idx = prev.indexOfValue(rv.getName());
                   if (idx < 0) {
-                    errorMessage +=
-                        "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
+                    errorMessage += "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
                     errorFound = true;
                   }
                 }
                 if (errorFound) {
-                  errorMessage =
-                      BaseMessages.getString(
-                          PKG, "SQLFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+                  errorMessage = BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
 
-                  cr =
-                      new CheckResult(
-                          ICheckResult.TYPE_RESULT_WARNING, errorMessage, transformMeta);
+                  cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, errorMessage, transformMeta);
                   remarks.add(cr);
                 } else {
-                  cr =
-                      new CheckResult(
-                          ICheckResult.TYPE_RESULT_OK,
-                          BaseMessages.getString(
-                              PKG, "SQLFileOutputMeta.CheckResult.AllFieldsFound"),
-                          transformMeta);
+                  cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
                   remarks.add(cr);
                 }
               } else {
-                cr =
-                    new CheckResult(
-                        ICheckResult.TYPE_RESULT_ERROR,
-                        BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoFields"),
-                        transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoFields"), transformMeta);
                 remarks.add(cr);
               }
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_ERROR,
-                      BaseMessages.getString(
-                          PKG, "SQLFileOutputMeta.CheckResult.TableNotAccessible"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.TableNotAccessible"), transformMeta);
               remarks.add(cr);
             }
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_ERROR,
-                    BaseMessages.getString(
-                        PKG, "SQLFileOutputMeta.CheckResult.TableError", schemaTable),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.TableError", schemaTable), transformMeta);
             remarks.add(cr);
           }
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoTableName"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoTableName"), transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "SQLFileOutputMeta.CheckResult.UndefinedError", e.getMessage()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.UndefinedError", e.getMessage()), transformMeta);
         remarks.add(cr);
       } finally {
         db.disconnect();
       }
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoConnection"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.NoConnection"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SQLFileOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -697,14 +603,8 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -713,8 +613,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
             String crTable = db.getDDL(schemaTable, prev);
 
             // Empty string means: nothing to do: set it to null...
@@ -724,15 +623,12 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
 
             retval.setSql(crTable);
           } catch (HopDatabaseException dbe) {
-            retval.setError(
-                BaseMessages.getString(
-                    PKG, "SQLFileOutputMeta.Error.ErrorConnecting", dbe.getMessage()));
+            retval.setError(BaseMessages.getString(PKG, "SQLFileOutputMeta.Error.ErrorConnecting", dbe.getMessage()));
           } finally {
             db.disconnect();
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotSpecified"));
+          retval.setError(BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotSpecified"));
         }
       } else {
         retval.setError(BaseMessages.getString(PKG, "SQLFileOutputMeta.Error.NoInput"));
@@ -759,22 +655,18 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
           if (db.checkTableExists(realSchemaName, realTableName)) {
             return db.getTableFieldsMeta(realSchemaName, realTableName);
           } else {
-            throw new HopException(
-                BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.TableNotSpecified"));
         }
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.ErrorGettingFields"), e);
+        throw new HopException(BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.ErrorGettingFields"), e);
       } finally {
         db.disconnect();
       }
     } else {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.ConnectionNotDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "SQLFileOutputMeta.Exception.ConnectionNotDefined"));
     }
   }
 
@@ -806,11 +698,7 @@ public class SQLFileOutputMeta extends BaseTransformMeta<SQLFileOutput, SQLFileO
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

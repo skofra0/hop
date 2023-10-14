@@ -48,7 +48,7 @@ public interface IPropertyHandler extends IHandler {
    * @param key
    * @param defValue
    * @return a string representing either the value associated with the passed key or defValue
-   *     should that key not be found
+   *         should that key not be found
    */
   String getProperty(String key, String defValue);
 }

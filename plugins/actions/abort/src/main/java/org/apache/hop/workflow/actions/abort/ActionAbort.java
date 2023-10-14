@@ -94,9 +94,7 @@ public class ActionAbort extends ActionBase implements Cloneable, IAction {
     } catch (Exception e) {
       result.setNrErrors(1);
       result.setResult(false);
-      logError(
-          BaseMessages.getString(PKG, "ActionAbort.Meta.CheckResult.CouldNotExecute")
-              + e.toString());
+      logError(BaseMessages.getString(PKG, "ActionAbort.Meta.CheckResult.CouldNotExecute") + e.toString());
     }
 
     // we fail so stop workflow execution
@@ -148,11 +146,7 @@ public class ActionAbort extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ActionValidatorUtils.addOkRemark(this, "messageabort", remarks);
   }
 }

@@ -100,7 +100,7 @@ public class PipelineMetaTest {
     assertEquals(minimalCanvasPoint.x, point.x);
     assertEquals(minimalCanvasPoint.y, point.y);
 
-    // when Pipeline  content Transform  than pipeline should return minimal coordinate of transform
+    // when Pipeline content Transform than pipeline should return minimal coordinate of transform
     TransformMeta transformMeta = mock(TransformMeta.class);
     when(transformMeta.getLocation()).thenReturn(transformPoint);
     pipelineMeta.addTransform(transformMeta);
@@ -236,8 +236,7 @@ public class PipelineMetaTest {
   @Test
   public void testAddTransformWithChangeListenerInterface() {
     TransformMeta transformMeta = mock(TransformMeta.class);
-    TransformMetaChangeListenerInterfaceMock metaInterface =
-        mock(TransformMetaChangeListenerInterfaceMock.class);
+    TransformMetaChangeListenerInterfaceMock metaInterface = mock(TransformMetaChangeListenerInterfaceMock.class);
     when(transformMeta.getTransform()).thenReturn(metaInterface);
     assertEquals(0, pipelineMeta.transforms.size());
     assertEquals(0, pipelineMeta.transformChangeListeners.size());
@@ -253,8 +252,7 @@ public class PipelineMetaTest {
 
   @Test
   public void testIsAnySelectedTransformUsedInPipelineHopsNothingSelectedCase() {
-    List<TransformMeta> selectedTransforms =
-        asList(new TransformMeta(), new TransformMeta(), new TransformMeta());
+    List<TransformMeta> selectedTransforms = asList(new TransformMeta(), new TransformMeta(), new TransformMeta());
     pipelineMeta.getTransforms().addAll(selectedTransforms);
 
     assertFalse(pipelineMeta.isAnySelectedTransformUsedInPipelineHops());
@@ -266,8 +264,7 @@ public class PipelineMetaTest {
     transformMeta.setName(TRANSFORM_NAME);
     PipelineHopMeta pipelineHopMeta = new PipelineHopMeta();
     transformMeta.setSelected(true);
-    List<TransformMeta> selectedTransforms =
-        asList(new TransformMeta(), transformMeta, new TransformMeta());
+    List<TransformMeta> selectedTransforms = asList(new TransformMeta(), transformMeta, new TransformMeta());
 
     pipelineHopMeta.setToTransform(transformMeta);
     pipelineHopMeta.setFromTransform(transformMeta);
@@ -293,8 +290,7 @@ public class PipelineMetaTest {
     return meta;
   }
 
-  public abstract static class TransformMetaChangeListenerInterfaceMock
-      implements ITransformMeta, ITransformMetaChangeListener {
+  public abstract static class TransformMetaChangeListenerInterfaceMock implements ITransformMeta, ITransformMetaChangeListener {
     @Override
     public abstract Object clone();
   }
@@ -303,35 +299,34 @@ public class PipelineMetaTest {
   public void testLoadXml() throws HopException {
     String directory = "/home/admin";
     Node workflowNode = Mockito.mock(Node.class);
-    NodeList nodeList =
-        new NodeList() {
-          ArrayList<Node> nodes = new ArrayList<>();
+    NodeList nodeList = new NodeList() {
+      ArrayList<Node> nodes = new ArrayList<>();
 
-          {
-            Node nodeInfo = Mockito.mock(Node.class);
-            Mockito.when(nodeInfo.getNodeName()).thenReturn(PipelineMeta.XML_TAG_INFO);
-            Mockito.when(nodeInfo.getChildNodes()).thenReturn(this);
+      {
+        Node nodeInfo = Mockito.mock(Node.class);
+        Mockito.when(nodeInfo.getNodeName()).thenReturn(PipelineMeta.XML_TAG_INFO);
+        Mockito.when(nodeInfo.getChildNodes()).thenReturn(this);
 
-            Node nodeDirectory = Mockito.mock(Node.class);
-            Mockito.when(nodeDirectory.getNodeName()).thenReturn("directory");
-            Node child = Mockito.mock(Node.class);
-            Mockito.when(nodeDirectory.getFirstChild()).thenReturn(child);
-            Mockito.when(child.getNodeValue()).thenReturn(directory);
+        Node nodeDirectory = Mockito.mock(Node.class);
+        Mockito.when(nodeDirectory.getNodeName()).thenReturn("directory");
+        Node child = Mockito.mock(Node.class);
+        Mockito.when(nodeDirectory.getFirstChild()).thenReturn(child);
+        Mockito.when(child.getNodeValue()).thenReturn(directory);
 
-            nodes.add(nodeDirectory);
-            nodes.add(nodeInfo);
-          }
+        nodes.add(nodeDirectory);
+        nodes.add(nodeInfo);
+      }
 
-          @Override
-          public Node item(int index) {
-            return nodes.get(index);
-          }
+      @Override
+      public Node item(int index) {
+        return nodes.get(index);
+      }
 
-          @Override
-          public int getLength() {
-            return nodes.size();
-          }
-        };
+      @Override
+      public int getLength() {
+        return nodes.size();
+      }
+    };
 
     Mockito.when(workflowNode.getChildNodes()).thenReturn(nodeList);
 
@@ -348,32 +343,28 @@ public class PipelineMetaTest {
   public void infoTransformFieldsAreNotIncludedInGetTransformFields() throws HopTransformException {
     // validates that the fields from info transforms are not included in the resulting transform
     // fields for a transformMeta.
-    //  This is important with transforms like StreamLookup and Append, where the previous
+    // This is important with transforms like StreamLookup and Append, where the previous
     // transforms may or may not
-    //  have their fields included in the current transform.
+    // have their fields included in the current transform.
 
     PipelineMeta pipelineMeta = new PipelineMeta();
     TransformMeta toBeAppended1 =
         testTransform(
-            "toBeAppended1",
-            emptyList(), // no info transforms
+            "toBeAppended1", emptyList(), // no info transforms
             asList("field1", "field2") // names of fields from this transform
-            );
-    TransformMeta toBeAppended2 =
-        testTransform("toBeAppended2", emptyList(), asList("field1", "field2"));
+        );
+    TransformMeta toBeAppended2 = testTransform("toBeAppended2", emptyList(), asList("field1", "field2"));
 
     TransformMeta append =
         testTransform(
-            "append",
-            asList("toBeAppended1", "toBeAppended2"), // info transform names
+            "append", asList("toBeAppended1", "toBeAppended2"), // info transform names
             singletonList("outputField") // output field of this transform
-            );
+        );
     TransformMeta after = new TransformMeta("after", new DummyMeta());
 
     wireUpTestPipelineMeta(pipelineMeta, toBeAppended1, toBeAppended2, append, after);
 
-    IRowMeta results =
-        pipelineMeta.getTransformFields(variables, append, after, mock(IProgressMonitor.class));
+    IRowMeta results = pipelineMeta.getTransformFields(variables, append, after, mock(IProgressMonitor.class));
 
     assertThat(1, equalTo(results.size()));
     assertThat("outputField", equalTo(results.getFieldNames()[0]));
@@ -383,26 +374,19 @@ public class PipelineMetaTest {
   public void prevTransformFieldsAreIncludedInGetTransformFields() throws HopTransformException {
 
     PipelineMeta pipelineMeta = new PipelineMeta();
-    TransformMeta prevTransform1 =
-        testTransform("prevTransform1", emptyList(), asList("field1", "field2"));
-    TransformMeta prevTransform2 =
-        testTransform("prevTransform2", emptyList(), asList("field3", "field4", "field5"));
+    TransformMeta prevTransform1 = testTransform("prevTransform1", emptyList(), asList("field1", "field2"));
+    TransformMeta prevTransform2 = testTransform("prevTransform2", emptyList(), asList("field3", "field4", "field5"));
 
-    TransformMeta someTransform =
-        testTransform("transform", asList("prevTransform1"), asList("outputField"));
+    TransformMeta someTransform = testTransform("transform", asList("prevTransform1"), asList("outputField"));
 
     TransformMeta after = new TransformMeta("after", new DummyMeta());
 
     wireUpTestPipelineMeta(pipelineMeta, prevTransform1, prevTransform2, someTransform, after);
 
-    IRowMeta results =
-        pipelineMeta.getTransformFields(
-            variables, someTransform, after, mock(IProgressMonitor.class));
+    IRowMeta results = pipelineMeta.getTransformFields(variables, someTransform, after, mock(IProgressMonitor.class));
 
     assertThat(4, equalTo(results.size()));
-    assertThat(
-        new String[] {"field3", "field4", "field5", "outputField"},
-        equalTo(results.getFieldNames()));
+    assertThat(new String[] {"field3", "field4", "field5", "outputField"}, equalTo(results.getFieldNames()));
   }
 
   @Test
@@ -414,12 +398,7 @@ public class PipelineMetaTest {
     assertThat(result, equalTo(new ArrayList<>()));
   }
 
-  private void wireUpTestPipelineMeta(
-      PipelineMeta pipelineMeta,
-      TransformMeta toBeAppended1,
-      TransformMeta toBeAppended2,
-      TransformMeta append,
-      TransformMeta after) {
+  private void wireUpTestPipelineMeta(PipelineMeta pipelineMeta, TransformMeta toBeAppended1, TransformMeta toBeAppended2, TransformMeta append, TransformMeta after) {
     pipelineMeta.addTransform(append);
     pipelineMeta.addTransform(after);
     pipelineMeta.addTransform(toBeAppended1);
@@ -430,35 +409,24 @@ public class PipelineMetaTest {
     pipelineMeta.addPipelineHop(new PipelineHopMeta(append, after));
   }
 
-  private TransformMeta testTransform(
-      String name, List<String> infoTransformNames, List<String> fieldNames)
-      throws HopTransformException {
-    ITransformMeta smi =
-        transformMetaInterfaceWithFields(new DummyMeta(), infoTransformNames, fieldNames);
+  private TransformMeta testTransform(String name, List<String> infoTransformNames, List<String> fieldNames) throws HopTransformException {
+    ITransformMeta smi = transformMetaInterfaceWithFields(new DummyMeta(), infoTransformNames, fieldNames);
     return new TransformMeta(name, smi);
   }
 
-  private ITransformMeta transformMetaInterfaceWithFields(
-      ITransformMeta smi, List<String> infoTransformNames, List<String> fieldNames)
-      throws HopTransformException {
+  private ITransformMeta transformMetaInterfaceWithFields(ITransformMeta smi, List<String> infoTransformNames, List<String> fieldNames) throws HopTransformException {
     RowMeta rowMetaWithFields = new RowMeta();
     TransformIOMeta transformIOMeta = mock(TransformIOMeta.class);
-    when(transformIOMeta.getInfoTransformNames())
-        .thenReturn(infoTransformNames.toArray(new String[0]));
-    fieldNames.stream()
-        .forEach(field -> rowMetaWithFields.addValueMeta(new ValueMetaString(field)));
+    when(transformIOMeta.getInfoTransformNames()).thenReturn(infoTransformNames.toArray(new String[0]));
+    fieldNames.stream().forEach(field -> rowMetaWithFields.addValueMeta(new ValueMetaString(field)));
     ITransformMeta newSmi = spy(smi);
     when(newSmi.getTransformIOMeta()).thenReturn(transformIOMeta);
 
-    doAnswer(
-            (Answer<Void>)
-                invocationOnMock -> {
-                  IRowMeta passedRmi = (IRowMeta) invocationOnMock.getArguments()[0];
-                  passedRmi.addRowMeta(rowMetaWithFields);
-                  return null;
-                })
-        .when(newSmi)
-        .getFields(any(), any(), any(), any(), any(), any());
+    doAnswer((Answer<Void>) invocationOnMock -> {
+      IRowMeta passedRmi = (IRowMeta) invocationOnMock.getArguments()[0];
+      passedRmi.addRowMeta(rowMetaWithFields);
+      return null;
+    }).when(newSmi).getFields(any(), any(), any(), any(), any(), any());
 
     return newSmi;
   }
@@ -473,29 +441,21 @@ public class PipelineMetaTest {
   public void testSetInternalEntryCurrentDirectoryWithFilename() {
     PipelineMeta pipelineMetaTest = new PipelineMeta();
     pipelineMetaTest.setFilename("hasFilename");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
     pipelineMetaTest.setInternalEntryCurrentDirectory(variables);
 
-    assertEquals(
-        "file:///C:/SomeFilenameDirectory",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("file:///C:/SomeFilenameDirectory", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
   public void testSetInternalEntryCurrentDirectoryWithoutFilename() {
     PipelineMeta pipelineMetaTest = new PipelineMeta();
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    variables.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
+    variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    variables.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
     pipelineMetaTest.setInternalEntryCurrentDirectory(variables);
 
-    assertEquals(
-        "Original value defined at run execution",
-        variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("Original value defined at run execution", variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
@@ -518,8 +478,7 @@ public class PipelineMetaTest {
 
     // Re-inflate from XML
     //
-    PipelineMeta copy =
-        new PipelineMeta(XmlHandler.loadXmlString(xml, PipelineMeta.XML_TAG), metadataProvider);
+    PipelineMeta copy = new PipelineMeta(XmlHandler.loadXmlString(xml, PipelineMeta.XML_TAG), metadataProvider);
 
     assertEquals(xml, copy.getXml(variables));
   }

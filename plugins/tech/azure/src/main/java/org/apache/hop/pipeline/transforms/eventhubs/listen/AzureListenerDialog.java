@@ -72,12 +72,7 @@ public class AzureListenerDialog extends BaseTransformDialog implements ITransfo
 
   private AzureListenerMeta input;
 
-  public AzureListenerDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta transMeta,
-      String transformName) {
+  public AzureListenerDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta transMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, transMeta, transformName);
     input = (AzureListenerMeta) inputMetadata;
   }
@@ -521,16 +516,9 @@ public class AzureListenerDialog extends BaseTransformDialog implements ITransfo
   }
 
   private void browseForPipeline() {
-    HopPipelineFileType<PipelineMeta> type =
-        HopGui.getDataOrchestrationPerspective().getPipelineFileType();
+    HopPipelineFileType<PipelineMeta> type = HopGui.getDataOrchestrationPerspective().getPipelineFileType();
 
-    BaseDialog.presentFileDialog(
-        shell,
-        wBatchPipeline,
-        (FileObject) null,
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(shell, wBatchPipeline, (FileObject) null, type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   private void selectInputTransform() {
@@ -545,11 +533,9 @@ public class AzureListenerDialog extends BaseTransformDialog implements ITransfo
     try {
       AzureListenerMeta meta = new AzureListenerMeta();
       getInfo(meta);
-      PipelineMeta pipelineMeta =
-          AzureListenerMeta.loadBatchPipelineMeta(meta, metadataProvider, variables);
+      PipelineMeta pipelineMeta = AzureListenerMeta.loadBatchPipelineMeta(meta, metadataProvider, variables);
       String[] transformNames = pipelineMeta.getTransformNames();
-      EnterSelectionDialog dialog =
-          new EnterSelectionDialog(shell, transformNames, "Select transform", message);
+      EnterSelectionDialog dialog = new EnterSelectionDialog(shell, transformNames, "Select transform", message);
       String transformName = dialog.open();
       if (transformName != null) {
         textVar.setText(transformName);

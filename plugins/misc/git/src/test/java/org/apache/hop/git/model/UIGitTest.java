@@ -170,13 +170,7 @@ public class UIGitTest extends RepositoryTestCase {
 
     // Test for unstaged
     unStagedObjects = uiGit.getUnstagedFiles();
-    assertEquals(
-        ChangeType.DELETE,
-        unStagedObjects.stream()
-            .filter(obj -> obj.getName().equals("b.hwf"))
-            .findFirst()
-            .get()
-            .getChangeType());
+    assertEquals(ChangeType.DELETE, unStagedObjects.stream().filter(obj -> obj.getName().equals("b.hwf")).findFirst().get().getChangeType());
 
     // Test for staged
     git.add().addFilepattern(".").call();
@@ -184,27 +178,9 @@ public class UIGitTest extends RepositoryTestCase {
     git.rm().addFilepattern(b.getName()).call();
     stagedObjects = uiGit.getStagedFiles();
     assertEquals(4, stagedObjects.size());
-    assertEquals(
-        ChangeType.DELETE,
-        stagedObjects.stream()
-            .filter(obj -> obj.getName().equals("b.hwf"))
-            .findFirst()
-            .get()
-            .getChangeType());
-    assertEquals(
-        ChangeType.ADD,
-        stagedObjects.stream()
-            .filter(obj -> obj.getName().equals("a2.hpl"))
-            .findFirst()
-            .get()
-            .getChangeType());
-    assertEquals(
-        ChangeType.MODIFY,
-        stagedObjects.stream()
-            .filter(obj -> obj.getName().equals("c.hwf"))
-            .findFirst()
-            .get()
-            .getChangeType());
+    assertEquals(ChangeType.DELETE, stagedObjects.stream().filter(obj -> obj.getName().equals("b.hwf")).findFirst().get().getChangeType());
+    assertEquals(ChangeType.ADD, stagedObjects.stream().filter(obj -> obj.getName().equals("a2.hpl")).findFirst().get().getChangeType());
+    assertEquals(ChangeType.MODIFY, stagedObjects.stream().filter(obj -> obj.getName().equals("c.hwf")).findFirst().get().getChangeType());
   }
 
   @Test
@@ -254,13 +230,13 @@ public class UIGitTest extends RepositoryTestCase {
 
     assertTrue(uiGit.pull());
 
-    //  Change at local
+    // Change at local
     targetFile = new File(db.getWorkTree(), "SomeFile.txt");
     FileUtils.writeStringToFile(targetFile, "Another change\nChange A", "UTF-8");
     git.add().addFilepattern("SomeFile.txt").call();
     git.commit().setMessage("Change A at local").call();
 
-    //  Change the source file in a way that conflicts with the change at local
+    // Change the source file in a way that conflicts with the change at local
     FileUtils.writeStringToFile(sourceFile, "Another change\nChange B", "UTF-8");
     git2.add().addFilepattern("SomeFile.txt").call();
     git2.commit().setMessage("Change B at remote").call();
@@ -327,7 +303,8 @@ public class UIGitTest extends RepositoryTestCase {
     assertEquals("refs/remotes/origin/master", uiGit.getExpandedName("origin/master", "branch"));
   }
 
-  @Rule public ExpectedException thrown = ExpectedException.none();
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void testShouldPushOnlyToOrigin() throws Exception {
@@ -369,8 +346,7 @@ public class UIGitTest extends RepositoryTestCase {
   public void testDiff() throws Exception {
     File file = writeTrashFile("Test.txt", "Hello world");
 
-    String diff =
-        uiGit.diff(VCS.INDEX, uiGit.getShortenedName(VCS.WORKINGTREE, VCS.TYPE_COMMIT), "Test.txt");
+    String diff = uiGit.diff(VCS.INDEX, uiGit.getShortenedName(VCS.WORKINGTREE, VCS.TYPE_COMMIT), "Test.txt");
     assertTrue(diff.contains("+Hello world"));
 
     git.add().addFilepattern("Test.txt").call();
@@ -381,8 +357,7 @@ public class UIGitTest extends RepositoryTestCase {
     assertTrue(diff.contains("+Hello world"));
 
     // abbreviated commit id should work
-    String diff2 =
-        uiGit.diff(null, uiGit.getShortenedName(commit1.getName(), VCS.TYPE_COMMIT), "Test.txt");
+    String diff2 = uiGit.diff(null, uiGit.getShortenedName(commit1.getName(), VCS.TYPE_COMMIT), "Test.txt");
     assertEquals(diff, diff2);
 
     // Add another line

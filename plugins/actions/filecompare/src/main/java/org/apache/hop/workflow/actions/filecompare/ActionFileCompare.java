@@ -113,12 +113,8 @@ public class ActionFileCompare extends ActionBase implements Cloneable, IAction 
     DataInputStream in1 = null;
     DataInputStream in2 = null;
     try {
-      in1 =
-          new DataInputStream(
-              new BufferedInputStream(HopVfs.getInputStream(HopVfs.getFilename(file1))));
-      in2 =
-          new DataInputStream(
-              new BufferedInputStream(HopVfs.getInputStream(HopVfs.getFilename(file2))));
+      in1 = new DataInputStream(new BufferedInputStream(HopVfs.getInputStream(HopVfs.getFilename(file1))));
+      in2 = new DataInputStream(new BufferedInputStream(HopVfs.getInputStream(HopVfs.getFilename(file2))));
 
       char ch1;
       char ch2;
@@ -178,36 +174,20 @@ public class ActionFileCompare extends ActionBase implements Cloneable, IAction 
           }
 
           // add filename to result filenames
-          if (addFilenameToResult
-              && file1.getType() == FileType.FILE
-              && file2.getType() == FileType.FILE) {
-            ResultFile resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_GENERAL,
-                    file1,
-                    parentWorkflow.getWorkflowName(),
-                    toString());
+          if (addFilenameToResult && file1.getType() == FileType.FILE && file2.getType() == FileType.FILE) {
+            ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file1, parentWorkflow.getWorkflowName(), toString());
             resultFile.setComment(BaseMessages.getString(PKG, "ActionWaitForFile.FilenameAdded"));
             result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
-            resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_GENERAL,
-                    file2,
-                    parentWorkflow.getWorkflowName(),
-                    toString());
+            resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file2, parentWorkflow.getWorkflowName(), toString());
             resultFile.setComment(BaseMessages.getString(PKG, "ActionWaitForFile.FilenameAdded"));
             result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
           }
         } else {
           if (!file1.exists()) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionFileCompare.ERROR_0004_File1_Does_Not_Exist", realFilename1));
+            logError(BaseMessages.getString(PKG, "ActionFileCompare.ERROR_0004_File1_Does_Not_Exist", realFilename1));
           }
           if (!file2.exists()) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionFileCompare.ERROR_0005_File2_Does_Not_Exist", realFilename2));
+            logError(BaseMessages.getString(PKG, "ActionFileCompare.ERROR_0005_File2_Does_Not_Exist", realFilename2));
           }
           result.setResult(false);
           result.setNrErrors(1);
@@ -218,13 +198,7 @@ public class ActionFileCompare extends ActionBase implements Cloneable, IAction 
     } catch (Exception e) {
       result.setResult(false);
       result.setNrErrors(1);
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "ActionFileCompare.ERROR_0007_Comparing_Files",
-              realFilename2,
-              realFilename2,
-              e.getMessage()));
+      logError(BaseMessages.getString(PKG, "ActionFileCompare.ERROR_0007_Comparing_Files", realFilename2, realFilename2, e.getMessage()));
     } finally {
       try {
         if (file1 != null) {
@@ -274,8 +248,7 @@ public class ActionFileCompare extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if ((!Utils.isEmpty(filename1)) && (!Utils.isEmpty(filename2))) {
       String realFilename1 = resolve(filename1);
@@ -289,15 +262,10 @@ public class ActionFileCompare extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename1", remarks, ctx);
     ActionValidatorUtils.andValidator().validate(this, "filename2", remarks, ctx);
   }

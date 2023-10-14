@@ -23,13 +23,7 @@ import org.apache.hop.core.row.RowMeta;
 
 public class RowMetaUtils {
 
-  public static IRowMeta getRowMetaForUpdate(
-      IRowMeta prev,
-      String[] keyLookup,
-      String[] keyStream,
-      String[] updateLookup,
-      String[] updateStream)
-      throws HopTransformException {
+  public static IRowMeta getRowMetaForUpdate(IRowMeta prev, String[] keyLookup, String[] keyStream, String[] updateLookup, String[] updateStream) throws HopTransformException {
     IRowMeta tableFields = new RowMeta();
 
     // Now change the field names
@@ -42,8 +36,7 @@ public class RowMetaUtils {
           tableField.setName(keyLookup[i]);
           tableFields.addValueMeta(tableField);
         } else {
-          throw new HopTransformException(
-              "Unable to find field [" + keyStream[i] + "] in the input rows");
+          throw new HopTransformException("Unable to find field [" + keyStream[i] + "] in the input rows");
         }
       }
     }
@@ -58,8 +51,7 @@ public class RowMetaUtils {
           tableFields.addValueMeta(tableField);
         }
       } else {
-        throw new HopTransformException(
-            "Unable to find field [" + updateStream[i] + "] in the input rows");
+        throw new HopTransformException("Unable to find field [" + updateStream[i] + "] in the input rows");
       }
     }
     return tableFields;

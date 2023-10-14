@@ -21,24 +21,15 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 public class InsertUpdateValue {
 
   /** Field value to update after lookup */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_LOOKUP",
-      injectionKey = "UPDATE_LOOKUP")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_LOOKUP", injectionKey = "UPDATE_LOOKUP")
   private String updateLookup;
 
   /** Stream name to update value with */
-  @HopMetadataProperty(
-      key = "rename",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_STREAM",
-      injectionKey = "UPDATE_STREAM")
+  @HopMetadataProperty(key = "rename", injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_STREAM", injectionKey = "UPDATE_STREAM")
   private String updateStream;
 
   /** Stream name to update value with */
-  @HopMetadataProperty(
-      key = "update",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_FLAG",
-      injectionKey = "UPDATE_FLAG")
+  @HopMetadataProperty(key = "update", injectionKeyDescription = "InsertUpdateMeta.Injection.UPDATE_FLAG", injectionKey = "UPDATE_FLAG")
   private boolean update;
 
   public InsertUpdateValue() {}

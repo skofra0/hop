@@ -38,17 +38,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-public class SynchronizeAfterMerge
-    extends BaseTransform<SynchronizeAfterMergeMeta, SynchronizeAfterMergeData> {
+public class SynchronizeAfterMerge extends BaseTransform<SynchronizeAfterMergeMeta, SynchronizeAfterMergeData> {
 
   private static final Class<?> PKG = SynchronizeAfterMergeMeta.class; // For Translator
 
-  public SynchronizeAfterMerge(
-      TransformMeta transformMeta,
-      SynchronizeAfterMergeMeta meta,
-      SynchronizeAfterMergeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
+  public SynchronizeAfterMerge(TransformMeta transformMeta, SynchronizeAfterMergeMeta meta, SynchronizeAfterMergeData data, int copyNr, PipelineMeta pipelineMeta,
       Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -74,11 +68,7 @@ public class SynchronizeAfterMerge
 
     try {
       if (operation == null) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "SynchronizeAfterMerge.Log.OperationFieldEmpty",
-                meta.getOperationOrderField()));
+        throw new HopException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.OperationFieldEmpty", meta.getOperationOrderField()));
       }
 
       if (meta.istablenameInField()) {
@@ -87,10 +77,7 @@ public class SynchronizeAfterMerge
         if (Utils.isEmpty(data.realTableName)) {
           throw new HopTransformException("The name of the table is not specified!");
         }
-        data.realSchemaTable =
-            data.db
-                .getDatabaseMeta()
-                .getQuotedSchemaTableCombination(this, data.realSchemaName, data.realTableName);
+        data.realSchemaTable = data.db.getDatabaseMeta().getQuotedSchemaTableCombination(this, data.realSchemaName, data.realTableName);
       }
 
       if (operation.equals(data.insertValue)) {
@@ -101,8 +88,7 @@ public class SynchronizeAfterMerge
          */
 
         if (log.isRowLevel()) {
-          logRowlevel(
-              BaseMessages.getString(PKG, "SynchronizeAfterMerge.InsertRow", Arrays.toString(row)));
+          logRowlevel(BaseMessages.getString(PKG, "SynchronizeAfterMerge.InsertRow", Arrays.toString(row)));
         }
 
         // The values to insert are those in the update section
@@ -115,9 +101,7 @@ public class SynchronizeAfterMerge
         if (meta.istablenameInField()) {
           data.insertStatement = data.preparedStatements.get(data.realSchemaTable + "insert");
           if (data.insertStatement == null) {
-            String sql =
-                data.db.getInsertStatement(
-                    data.realSchemaName, data.realTableName, data.insertRowMeta);
+            String sql = data.db.getInsertStatement(data.realSchemaName, data.realTableName, data.insertRowMeta);
 
             if (log.isDebug()) {
               logDebug("Preparation of the insert SQL statement: " + sql);
@@ -182,11 +166,7 @@ public class SynchronizeAfterMerge
 
           data.db.setValues(data.lookupParameterRowMeta, lookupRow, data.lookupStatement);
           if (log.isRowLevel()) {
-            logRowlevel(
-                BaseMessages.getString(
-                    PKG,
-                    "SynchronizeAfterMerge.Log.ValuesSetForLookup",
-                    data.lookupParameterRowMeta.getString(lookupRow)));
+            logRowlevel(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.ValuesSetForLookup", data.lookupParameterRowMeta.getString(lookupRow)));
           }
           Object[] add = data.db.getLookup(data.lookupStatement);
           incrementLinesInput();
@@ -195,9 +175,7 @@ public class SynchronizeAfterMerge
             // nothing was found:
 
             if (data.stringErrorKeyNotFound == null) {
-              data.stringErrorKeyNotFound =
-                  BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.KeyCouldNotFound")
-                      + data.lookupParameterRowMeta.getString(lookupRow);
+              data.stringErrorKeyNotFound = BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.KeyCouldNotFound") + data.lookupParameterRowMeta.getString(lookupRow);
               data.stringFieldnames = "";
               for (int i = 0; i < data.lookupParameterRowMeta.size(); i++) {
                 if (i > 0) {
@@ -207,18 +185,10 @@ public class SynchronizeAfterMerge
               }
             }
             data.lookupFailure = true;
-            throw new HopDatabaseException(
-                BaseMessages.getString(
-                    PKG,
-                    "SynchronizeAfterMerge.Exception.KeyCouldNotFound",
-                    data.lookupParameterRowMeta.getString(lookupRow)));
+            throw new HopDatabaseException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.KeyCouldNotFound", data.lookupParameterRowMeta.getString(lookupRow)));
           } else {
             if (log.isRowLevel()) {
-              logRowlevel(
-                  BaseMessages.getString(
-                      PKG,
-                      "SynchronizeAfterMerge.Log.FoundRowForUpdate",
-                      data.insertRowMeta.getString(row)));
+              logRowlevel(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.FoundRowForUpdate", data.insertRowMeta.getString(row)));
             }
 
             for (int i = 0; i < data.valuenrs.length; i++) {
@@ -279,11 +249,7 @@ public class SynchronizeAfterMerge
             data.db.setValues(data.updateParameterRowMeta, updateRow, data.updateStatement);
             if (log.isRowLevel()) {
               logRowlevel(
-                  BaseMessages.getString(
-                      PKG,
-                      "SynchronizeAfterMerge.Log.SetValuesForUpdate",
-                      data.updateParameterRowMeta.getString(updateRow),
-                      data.inputRowMeta.getString(row)));
+                  BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.SetValuesForUpdate", data.updateParameterRowMeta.getString(updateRow), data.inputRowMeta.getString(row)));
             }
             data.db.insertRow(data.updateStatement, data.batchMode);
             performUpdate = true;
@@ -333,11 +299,7 @@ public class SynchronizeAfterMerge
           data.db.setValues(data.deleteParameterRowMeta, deleteRow, data.deleteStatement);
           if (log.isRowLevel()) {
             logRowlevel(
-                BaseMessages.getString(
-                    PKG,
-                    "SynchronizeAfterMerge.Log.SetValuesForDelete",
-                    data.deleteParameterRowMeta.getString(deleteRow),
-                    data.inputRowMeta.getString(row)));
+                BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.SetValuesForDelete", data.deleteParameterRowMeta.getString(deleteRow), data.inputRowMeta.getString(row)));
           }
           data.db.insertRow(data.deleteStatement, data.batchMode);
           performDelete = true;
@@ -352,10 +314,7 @@ public class SynchronizeAfterMerge
       // If we skip a line we need to empty the buffer and skip the line in question.
       // The skipped line is never added to the buffer!
       //
-      if (performInsert
-          || performUpdate
-          || performDelete
-          || (data.batchBuffer.size() > 0 && lineSkipped)) {
+      if (performInsert || performUpdate || performDelete || (data.batchBuffer.size() > 0 && lineSkipped)) {
         // Get a commit counter per prepared statement to keep track of separate tables, etc.
         //
         String tableName = data.realSchemaTable;
@@ -401,8 +360,7 @@ public class SynchronizeAfterMerge
                 data.deleteStatement.clearBatch();
               }
             } catch (SQLException ex) {
-              throw Database.createHopDatabaseBatchException(
-                  BaseMessages.getString(PKG, "SynchronizeAfterMerge.Error.UpdatingBatch"), ex);
+              throw Database.createHopDatabaseBatchException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Error.UpdatingBatch"), ex);
             } catch (Exception ex) {
               throw new HopDatabaseException("Unexpected error inserting row", ex);
             }
@@ -439,9 +397,7 @@ public class SynchronizeAfterMerge
         data.db.commit(true);
       } else {
         data.db.rollback();
-        StringBuilder msg =
-            new StringBuilder(
-                "Error batch inserting rows into table [" + data.realTableName + "].");
+        StringBuilder msg = new StringBuilder("Error batch inserting rows into table [" + data.realTableName + "].");
         msg.append(Const.CR);
         msg.append("Errors encountered (first 10):").append(Const.CR);
         for (int x = 0; x < be.getExceptionsList().size() && x < 10; x++) {
@@ -472,12 +428,7 @@ public class SynchronizeAfterMerge
       } else {
         setErrors(getErrors() + 1);
         data.db.rollback();
-        throw new HopException(
-            "Error inserting row into table ["
-                + data.realTableName
-                + "] with values: "
-                + data.inputRowMeta.getString(row),
-            dbe);
+        throw new HopException("Error inserting row into table [" + data.realTableName + "] with values: " + data.inputRowMeta.getString(row), dbe);
       }
     }
 
@@ -499,9 +450,7 @@ public class SynchronizeAfterMerge
           for (int i = 0; i < data.batchBuffer.size(); i++) {
             Object[] rowb = data.batchBuffer.get(i);
             putRow(data.outputRowMeta, rowb);
-            if (data.inputRowMeta
-                .getString(rowb, data.indexOfOperationOrderField)
-                .equals(data.insertValue)) {
+            if (data.inputRowMeta.getString(rowb, data.indexOfOperationOrderField).equals(data.insertValue)) {
               incrementLinesOutput();
             }
           }
@@ -518,13 +467,7 @@ public class SynchronizeAfterMerge
     } else {
       if (sendToErrorRow) {
         if (data.lookupFailure) {
-          putError(
-              data.inputRowMeta,
-              row,
-              1,
-              data.stringErrorKeyNotFound,
-              data.stringFieldnames,
-              "SUYNC001");
+          putError(data.inputRowMeta, row, 1, data.stringErrorKeyNotFound, data.stringFieldnames, "SUYNC001");
         } else {
           putError(data.inputRowMeta, row, 1, errorMessage, null, "SUYNC001");
         }
@@ -532,8 +475,7 @@ public class SynchronizeAfterMerge
     }
   }
 
-  private void processBatchException(
-      String errorMessage, int[] updateCounts, List<Exception> exceptionsList) throws HopException {
+  private void processBatchException(String errorMessage, int[] updateCounts, List<Exception> exceptionsList) throws HopException {
     // There was an error with the commit
     // We should put all the failing rows out there...
     //
@@ -583,8 +525,7 @@ public class SynchronizeAfterMerge
         sql += ", ";
       }
       sql += databaseMeta.quoteField(meta.getUpdateLookup()[i]);
-      data.lookupReturnRowMeta.addValueMeta(
-          rowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone());
+      data.lookupReturnRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone());
     }
 
     sql += " FROM " + data.realSchemaTable + " WHERE ";
@@ -599,8 +540,7 @@ public class SynchronizeAfterMerge
         data.lookupParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream()[i]));
         data.lookupParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream2()[i]));
       } else {
-        if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i])
-            || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
+        if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i]) || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
           sql += " " + meta.getKeyCondition()[i] + " ";
         } else {
           sql += " " + meta.getKeyCondition()[i] + " ? ";
@@ -631,8 +571,7 @@ public class SynchronizeAfterMerge
 
         sql += databaseMeta.quoteField(meta.getUpdateLookup()[i]);
         sql += " = ?" + Const.CR;
-        data.updateParameterRowMeta.addValueMeta(
-            rowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone());
+        data.updateParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone());
       }
     }
 
@@ -647,13 +586,11 @@ public class SynchronizeAfterMerge
         sql += " BETWEEN ? AND ? ";
         data.updateParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream()[i]));
         data.updateParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream2()[i]));
-      } else if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i])
-          || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
+      } else if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i]) || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
         sql += " " + meta.getKeyCondition()[i] + " ";
       } else {
         sql += " " + meta.getKeyCondition()[i] + " ? ";
-        data.updateParameterRowMeta.addValueMeta(
-            rowMeta.searchValueMeta(meta.getKeyStream()[i]).clone());
+        data.updateParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream()[i]).clone());
       }
     }
     return sql;
@@ -676,8 +613,7 @@ public class SynchronizeAfterMerge
         sql += " BETWEEN ? AND ? ";
         data.deleteParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream()[i]));
         data.deleteParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(meta.getKeyStream2()[i]));
-      } else if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i])
-          || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
+      } else if ("IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i]) || "IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i])) {
         sql += " " + meta.getKeyCondition()[i] + " ";
       } else {
         sql += " " + meta.getKeyCondition()[i] + " ? ";
@@ -707,10 +643,7 @@ public class SynchronizeAfterMerge
         if (data.indexOfTableNameField < 0) {
           data.indexOfTableNameField = data.inputRowMeta.indexOfValue(meta.gettablenameField());
           if (data.indexOfTableNameField < 0) {
-            String message =
-                "It was not possible to find table ["
-                    + meta.gettablenameField()
-                    + "] in the input fields.";
+            String message = "It was not possible to find table [" + meta.gettablenameField() + "] in the input fields.";
             logError(message);
             throw new HopTransformException(message);
           }
@@ -718,24 +651,16 @@ public class SynchronizeAfterMerge
       } else {
         data.realTableName = resolve(meta.getTableName());
         if (Utils.isEmpty(data.realTableName)) {
-          throw new HopTransformException(
-              "The table name is not specified (or the input field is empty)");
+          throw new HopTransformException("The table name is not specified (or the input field is empty)");
         }
-        data.realSchemaTable =
-            data.db
-                .getDatabaseMeta()
-                .getQuotedSchemaTableCombination(this, data.realSchemaName, data.realTableName);
+        data.realSchemaTable = data.db.getDatabaseMeta().getQuotedSchemaTableCombination(this, data.realSchemaName, data.realTableName);
       }
 
       // ICache the position of the operation order field
       if (data.indexOfOperationOrderField < 0) {
-        data.indexOfOperationOrderField =
-            data.inputRowMeta.indexOfValue(meta.getOperationOrderField());
+        data.indexOfOperationOrderField = data.inputRowMeta.indexOfValue(meta.getOperationOrderField());
         if (data.indexOfOperationOrderField < 0) {
-          String message =
-              "It was not possible to find operation field ["
-                  + meta.getOperationOrderField()
-                  + "] in the input stream!";
+          String message = "It was not possible to find operation field [" + meta.getOperationOrderField() + "] in the input stream!";
           logError(message);
           throw new HopTransformException(message);
         }
@@ -749,40 +674,28 @@ public class SynchronizeAfterMerge
 
       // lookup the values!
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.CheckingRow")
-                + Arrays.toString(nextRow));
+        logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.CheckingRow") + Arrays.toString(nextRow));
       }
 
       data.keynrs = new int[meta.getKeyStream().length];
       data.keynrs2 = new int[meta.getKeyStream().length];
       for (int i = 0; i < meta.getKeyStream().length; i++) {
         data.keynrs[i] = data.inputRowMeta.indexOfValue(meta.getKeyStream()[i]);
-        if (data.keynrs[i] < 0
-            && // couldn't find field!
-            !"IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i])
-            && // No field needed!
+        if (data.keynrs[i] < 0 && // couldn't find field!
+            !"IS NULL".equalsIgnoreCase(meta.getKeyCondition()[i]) && // No field needed!
             !"IS NOT NULL".equalsIgnoreCase(meta.getKeyCondition()[i]) // No field needed!
         ) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getKeyStream()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getKeyStream()[i]));
         }
         data.keynrs2[i] = data.inputRowMeta.indexOfValue(meta.getKeyStream2()[i]);
-        if (data.keynrs2[i] < 0
-            && // couldn't find field!
+        if (data.keynrs2[i] < 0 && // couldn't find field!
             "BETWEEN".equalsIgnoreCase(meta.getKeyCondition()[i]) // 2 fields needed!
         ) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getKeyStream2()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getKeyStream2()[i]));
         }
 
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                      PKG, "SynchronizeAfterMerge.Log.FieldHasDataNumbers", meta.getKeyStream()[i])
-                  + data.keynrs[i]);
+          logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.FieldHasDataNumbers", meta.getKeyStream()[i]) + data.keynrs[i]);
         }
       }
 
@@ -792,14 +705,11 @@ public class SynchronizeAfterMerge
         if (insValue == null) { // Don't add twice!
           // we already checked that this value exists so it's probably safe to ignore lookup
           // failure...
-          IValueMeta insertValue =
-              data.inputRowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone();
+          IValueMeta insertValue = data.inputRowMeta.searchValueMeta(meta.getUpdateStream()[i]).clone();
           insertValue.setName(meta.getUpdateLookup()[i]);
           data.insertRowMeta.addValueMeta(insertValue);
         } else {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMerge.Error.SameColumnInsertedTwice", insValue.getName()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Error.SameColumnInsertedTwice", insValue.getName()));
         }
       }
 
@@ -809,17 +719,10 @@ public class SynchronizeAfterMerge
       for (int i = 0; i < meta.getUpdateLookup().length; i++) {
         data.valuenrs[i] = data.inputRowMeta.indexOfValue(meta.getUpdateStream()[i]);
         if (data.valuenrs[i] < 0) { // couldn't find field!
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getUpdateStream()[i]));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Exception.FieldRequired", meta.getUpdateStream()[i]));
         }
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                      PKG,
-                      "SynchronizeAfterMerge.Log.FieldHasDataNumbers",
-                      meta.getUpdateStream()[i])
-                  + data.valuenrs[i]);
+          logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.FieldHasDataNumbers", meta.getUpdateStream()[i]) + data.valuenrs[i]);
         }
       }
 
@@ -841,9 +744,7 @@ public class SynchronizeAfterMerge
         // Prepare Insert statement
         data.insertStatement = data.preparedStatements.get(data.realSchemaTable + "insert");
         if (data.insertStatement == null) {
-          String sql =
-              data.db.getInsertStatement(
-                  data.realSchemaName, data.realTableName, data.insertRowMeta);
+          String sql = data.db.getInsertStatement(data.realSchemaName, data.realTableName, data.insertRowMeta);
 
           if (log.isDebug()) {
             logDebug("Preparation of the Insert SQL statement : " + sql);
@@ -888,8 +789,7 @@ public class SynchronizeAfterMerge
 
       if (checkFeedback(getLinesRead())) {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.LineNumber") + getLinesRead());
+          logDetailed(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.LineNumber") + getLinesRead());
         }
       }
     } catch (HopException e) {
@@ -910,8 +810,7 @@ public class SynchronizeAfterMerge
         data.realSchemaName = resolve(meta.getSchemaName());
         if (meta.istablenameInField()) {
           if (Utils.isEmpty(meta.gettablenameField())) {
-            logError(
-                BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.Error.TableFieldnameEmpty"));
+            logError(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.Error.TableFieldnameEmpty"));
             return false;
           }
         }
@@ -930,9 +829,7 @@ public class SynchronizeAfterMerge
         // Batch updates are not supported on PostgreSQL (and look-a-likes) together with error
         // handling
         //
-        data.specialErrorHandling =
-            getTransformMeta().isDoingErrorHandling()
-                && meta.getDatabaseMeta().supportsErrorHandlingOnBatchUpdates();
+        data.specialErrorHandling = getTransformMeta().isDoingErrorHandling() && meta.getDatabaseMeta().supportsErrorHandlingOnBatchUpdates();
 
         data.supportsSavepoints = meta.getDatabaseMeta().getIDatabase().isUseSafePoints();
 
@@ -944,9 +841,7 @@ public class SynchronizeAfterMerge
         }
 
         if (meta.getDatabaseMeta() == null) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMerge.Init.ConnectionMissing", getTransformName()));
+          logError(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Init.ConnectionMissing", getTransformName()));
           return false;
         }
         data.db = new Database(this, this, meta.getDatabaseMeta());
@@ -955,10 +850,7 @@ public class SynchronizeAfterMerge
 
         return true;
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SynchronizeAfterMerge.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SynchronizeAfterMerge.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
       }
     }
     return false;
@@ -983,9 +875,7 @@ public class SynchronizeAfterMerge
           for (int i = 0; i < data.batchBuffer.size(); i++) {
             Object[] row = data.batchBuffer.get(i);
             putRow(data.outputRowMeta, row);
-            if (data.inputRowMeta
-                .getString(row, data.indexOfOperationOrderField)
-                .equals(data.insertValue)) {
+            if (data.inputRowMeta.getString(row, data.indexOfOperationOrderField).equals(data.insertValue)) {
               incrementLinesOutput();
             }
           }

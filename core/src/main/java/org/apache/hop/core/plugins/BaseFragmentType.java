@@ -23,49 +23,43 @@ import java.util.Map;
 
 public abstract class BaseFragmentType<T extends Annotation> extends BasePluginType<T> {
 
-  BaseFragmentType(
-      Class<T> pluginType, String id, String name, Class<? extends IPluginType> typeToTrack) {
+  BaseFragmentType(Class<T> pluginType, String id, String name, Class<? extends IPluginType> typeToTrack) {
     super(pluginType, id, name);
     initListeners(this.getClass(), typeToTrack);
   }
 
-  protected void initListeners(
-      Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
+  protected void initListeners(Class<? extends IPluginType> aClass, Class<? extends IPluginType> typeToTrack) {
     // keep track of new fragments
-    registry.addPluginListener(
-        aClass,
-        new FragmentTypeListener(registry, typeToTrack) {
-          /**
-           * Keep track of new Fragments, keep note of the method signature's order
-           *
-           * @param fragment The plugin fragment to merge
-           * @param plugin The plugin to be merged
-           */
-          @Override
-          void mergePlugin(IPlugin fragment, IPlugin plugin) {
-            if (plugin != null) {
-              plugin.merge(fragment);
-            }
-          }
-        });
+    registry.addPluginListener(aClass, new FragmentTypeListener(registry, typeToTrack) {
+      /**
+       * Keep track of new Fragments, keep note of the method signature's order
+       *
+       * @param fragment The plugin fragment to merge
+       * @param plugin The plugin to be merged
+       */
+      @Override
+      void mergePlugin(IPlugin fragment, IPlugin plugin) {
+        if (plugin != null) {
+          plugin.merge(fragment);
+        }
+      }
+    });
 
     // start listening to interested parties
-    registry.addPluginListener(
-        typeToTrack,
-        new FragmentTypeListener(registry, aClass) {
-          /**
-           * Keep track of new Fragments, keep note of the method signature's order
-           *
-           * @param plugin The plugin to be merged
-           * @param fragment The plugin fragment to merge
-           */
-          @Override
-          void mergePlugin(IPlugin plugin, IPlugin fragment) {
-            if (plugin != null) {
-              plugin.merge(fragment);
-            }
-          }
-        });
+    registry.addPluginListener(typeToTrack, new FragmentTypeListener(registry, aClass) {
+      /**
+       * Keep track of new Fragments, keep note of the method signature's order
+       *
+       * @param plugin The plugin to be merged
+       * @param fragment The plugin fragment to merge
+       */
+      @Override
+      void mergePlugin(IPlugin plugin, IPlugin fragment) {
+        if (plugin != null) {
+          plugin.merge(fragment);
+        }
+      }
+    });
   }
 
   @Override

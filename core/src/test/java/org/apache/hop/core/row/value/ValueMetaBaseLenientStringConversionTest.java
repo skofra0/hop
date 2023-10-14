@@ -29,15 +29,7 @@ public class ValueMetaBaseLenientStringConversionTest {
   public void testStrToIntLenient() throws Exception {
     System.setProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "Y");
 
-    Object[] values =
-        new Object[] {
-          1L, "1",
-          1L, "1b",
-          1L, "1,5",
-          1L, "1.5",
-          10L, "10,000,000.25",
-          10L, "10.000.000,25"
-        };
+    Object[] values = new Object[] {1L, "1", 1L, "1b", 1L, "1,5", 1L, "1.5", 10L, "10,000,000.25", 10L, "10.000.000,25"};
 
     ValueMetaInteger meta = new ValueMetaInteger();
     for (int i = 0; i < values.length; i += 2) {
@@ -62,9 +54,7 @@ public class ValueMetaBaseLenientStringConversionTest {
       } catch (Exception e) {
         exc = e;
       } finally {
-        Assert.assertTrue(
-            "Conversion of '" + value + "' didn't fail. Value is " + converted,
-            exc instanceof HopValueException);
+        Assert.assertTrue("Conversion of '" + value + "' didn't fail. Value is " + converted, exc instanceof HopValueException);
         exc = null;
       }
     }
@@ -74,15 +64,7 @@ public class ValueMetaBaseLenientStringConversionTest {
   public void testStrToBigNumberLenient() throws Exception {
     System.setProperty(Const.HOP_LENIENT_STRING_TO_NUMBER_CONVERSION, "Y");
 
-    Object[] values =
-        new Object[] {
-          1D, "1",
-          1D, "1b",
-          1D, "1,5",
-          1.5D, "1.5",
-          10D, "10,000,000.25",
-          10D, "10.000.000,25"
-        };
+    Object[] values = new Object[] {1D, "1", 1D, "1b", 1D, "1,5", 1.5D, "1.5", 10D, "10,000,000.25", 10D, "10.000.000,25"};
 
     ValueMetaBigNumber meta = new ValueMetaBigNumber();
     for (int i = 0; i < values.length; i += 2) {
@@ -108,9 +90,7 @@ public class ValueMetaBaseLenientStringConversionTest {
       } catch (Exception e) {
         exc = e;
       } finally {
-        Assert.assertTrue(
-            "Conversion of '" + value + "' didn't fail. Value is " + converted,
-            exc instanceof HopValueException);
+        Assert.assertTrue("Conversion of '" + value + "' didn't fail. Value is " + converted, exc instanceof HopValueException);
         exc = null;
       }
     }

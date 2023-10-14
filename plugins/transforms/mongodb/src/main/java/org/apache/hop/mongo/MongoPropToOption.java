@@ -40,12 +40,7 @@ class MongoPropToOption {
       try {
         return Integer.parseInt(value);
       } catch (NumberFormatException n) {
-        logWarn(
-            BaseMessages.getString(
-                PKG,
-                "MongoPropToOption.Warning.Message.NumberFormat",
-                value,
-                Integer.toString(defaultVal)));
+        logWarn(BaseMessages.getString(PKG, "MongoPropToOption.Warning.Message.NumberFormat", value, Integer.toString(defaultVal)));
         return defaultVal;
       }
     }
@@ -57,12 +52,7 @@ class MongoPropToOption {
       try {
         return Long.parseLong(value);
       } catch (NumberFormatException n) {
-        logWarn(
-            BaseMessages.getString(
-                PKG,
-                "MongoPropToOption.Warning.Message.NumberFormat",
-                value,
-                Long.toString(defaultVal)));
+        logWarn(BaseMessages.getString(PKG, "MongoPropToOption.Warning.Message.NumberFormat", value, Long.toString(defaultVal)));
         return defaultVal;
       }
     }
@@ -85,35 +75,20 @@ class MongoPropToOption {
     DBObject[] tagSets = getTagSets(props);
     NamedReadPreference preference = NamedReadPreference.byName(readPreference);
     if (preference == null) {
-      throw new MongoDbException(
-          BaseMessages.getString(
-              PKG,
-              "MongoPropToOption.ErrorMessage.ReadPreferenceNotFound",
-              readPreference,
-              getPrettyListOfValidPreferences()));
+      throw new MongoDbException(BaseMessages.getString(PKG, "MongoPropToOption.ErrorMessage.ReadPreferenceNotFound", readPreference, getPrettyListOfValidPreferences()));
     }
-    logInfo(
-        BaseMessages.getString(
-            PKG, "MongoPropToOption.Message.UsingReadPreference", preference.getName()));
+    logInfo(BaseMessages.getString(PKG, "MongoPropToOption.Message.UsingReadPreference", preference.getName()));
 
     if (preference == NamedReadPreference.PRIMARY && tagSets.length > 0) {
-      // Invalid combination.  Tag sets are not used with PRIMARY
-      logWarn(
-          BaseMessages.getString(
-              PKG, "MongoPropToOption.Message.Warning.PrimaryReadPrefWithTagSets"));
+      // Invalid combination. Tag sets are not used with PRIMARY
+      logWarn(BaseMessages.getString(PKG, "MongoPropToOption.Message.Warning.PrimaryReadPrefWithTagSets"));
       return preference.getPreference();
     } else if (tagSets.length > 0) {
-      logInfo(
-          BaseMessages.getString(
-              PKG,
-              "MongoPropToOption.Message.UsingReadPreferenceTagSets",
-              Arrays.toString(tagSets)));
-      DBObject[] remainder =
-          tagSets.length > 1 ? Arrays.copyOfRange(tagSets, 1, tagSets.length) : new DBObject[0];
+      logInfo(BaseMessages.getString(PKG, "MongoPropToOption.Message.UsingReadPreferenceTagSets", Arrays.toString(tagSets)));
+      DBObject[] remainder = tagSets.length > 1 ? Arrays.copyOfRange(tagSets, 1, tagSets.length) : new DBObject[0];
       return preference.getTaggableReadPreference(tagSets[0], remainder);
     } else {
-      logInfo(
-          BaseMessages.getString(PKG, "MongoPropToOption.Message.NoReadPreferenceTagSetsDefined"));
+      logInfo(BaseMessages.getString(PKG, "MongoPropToOption.Message.NoReadPreferenceTagSetsDefined"));
       return preference.getPreference();
     }
   }
@@ -135,10 +110,7 @@ class MongoPropToOption {
         list = (BasicDBList) JSON.parse(tagSet);
         return list.toArray(new DBObject[list.size()]);
       } catch (Exception parseException) {
-        throw new MongoDbException(
-            BaseMessages.getString(
-                PKG, "MongoPropToOption.ErrorMessage.UnableToParseTagSets", tagSet),
-            parseException);
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoPropToOption.ErrorMessage.UnableToParseTagSets", tagSet), parseException);
       }
     }
     return new DBObject[0];
@@ -157,9 +129,7 @@ class MongoPropToOption {
       concern = new WriteConcern(1);
 
       if (log != null) {
-        log.info(
-            BaseMessages.getString(
-                PKG, "MongoPropToOption.Message.ConfiguringWithDefaultWriteConcern"));
+        log.info(BaseMessages.getString(PKG, "MongoPropToOption.Message.ConfiguringWithDefaultWriteConcern"));
       }
     } else {
       int wt = 0;
@@ -186,16 +156,8 @@ class MongoPropToOption {
       }
 
       if (log != null) {
-        String lwc =
-            "w = "
-                + String.valueOf(concern.getWObject())
-                + ", wTimeout = "
-                + concern.getWtimeout()
-                + ", journaled = "
-                + concern.getJ();
-        log.info(
-            BaseMessages.getString(
-                PKG, "MongoPropToOption.Message.ConfiguringWithWriteConcern", lwc));
+        String lwc = "w = " + String.valueOf(concern.getWObject()) + ", wTimeout = " + concern.getWtimeout() + ", journaled = " + concern.getJ();
+        log.info(BaseMessages.getString(PKG, "MongoPropToOption.Message.ConfiguringWithWriteConcern", lwc));
       }
     }
     return concern;

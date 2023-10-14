@@ -85,39 +85,30 @@ public class AsyncRunServlet extends BaseHttpServlet implements IHopServerPlugin
 
     IVariables variables = pipelineMap.getHopServerConfig().getVariables();
 
-    MultiMetadataProvider metadataProvider =
-        new MultiMetadataProvider(Encr.getEncoder(), new ArrayList<>(), variables);
+    MultiMetadataProvider metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), new ArrayList<>(), variables);
     metadataProvider.getProviders().add(HopMetadataUtil.getStandardHopMetadataProvider(variables));
 
     String metadataFolder = pipelineMap.getHopServerConfig().getMetadataFolder();
     if (StringUtils.isNotEmpty(metadataFolder)) {
       // Get the metadata from the specified metadata folder...
       //
-      metadataProvider
-          .getProviders()
-          .add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
+      metadataProvider.getProviders().add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
     }
 
     String webServiceName = request.getParameter("service");
     if (StringUtils.isEmpty(webServiceName)) {
-      log.logError(
-          "Please specify a service parameter pointing to the name of the asynchronous webservice object");
+      log.logError("Please specify a service parameter pointing to the name of the asynchronous webservice object");
     }
     String runConfigurationName = request.getParameter("runConfig");
     if (StringUtils.isNotEmpty(runConfigurationName)) {
-      log.logBasic(
-          "Running asynchronous workflow with run configuration '" + runConfigurationName + "'");
+      log.logBasic("Running asynchronous workflow with run configuration '" + runConfigurationName + "'");
     }
 
     try {
-      IHopMetadataSerializer<AsyncWebService> serializer =
-          metadataProvider.getSerializer(AsyncWebService.class);
+      IHopMetadataSerializer<AsyncWebService> serializer = metadataProvider.getSerializer(AsyncWebService.class);
       AsyncWebService webService = serializer.load(webServiceName);
       if (webService == null) {
-        throw new HopException(
-            "Unable to find asynchronous web service '"
-                + webServiceName
-                + "'.  You can set option metadata_folder in the Hop server XML configuration");
+        throw new HopException("Unable to find asynchronous web service '" + webServiceName + "'.  You can set option metadata_folder in the Hop server XML configuration");
       }
 
       if (!webService.isEnabled()) {
@@ -138,8 +129,7 @@ public class AsyncRunServlet extends BaseHttpServlet implements IHopServerPlugin
       response.setCharacterEncoding(Const.XML_ENCODING);
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
 
       // Load and start the workflow
@@ -151,13 +141,7 @@ public class AsyncRunServlet extends BaseHttpServlet implements IHopServerPlugin
       if (StringUtils.isEmpty(runConfigurationName)) {
         workflow = new LocalWorkflowEngine(workflowMeta, servletLoggingObject);
       } else {
-        workflow =
-            WorkflowEngineFactory.createWorkflowEngine(
-                variables,
-                runConfigurationName,
-                metadataProvider,
-                workflowMeta,
-                servletLoggingObject);
+        workflow = WorkflowEngineFactory.createWorkflowEngine(variables, runConfigurationName, metadataProvider, workflowMeta, servletLoggingObject);
       }
       workflow.setContainerId(serverObjectId);
       workflow.setMetadataProvider(metadataProvider);
@@ -212,13 +196,8 @@ public class AsyncRunServlet extends BaseHttpServlet implements IHopServerPlugin
 
       // Add the workflow to the status map, so we can retrieve statuses later on
       //
-      WorkflowExecutionConfiguration workflowExecutionConfiguration =
-          new WorkflowExecutionConfiguration();
-      WorkflowConfiguration workflowConfiguration =
-          new WorkflowConfiguration(
-              workflowMeta,
-              workflowExecutionConfiguration,
-              new SerializableMetadataProvider(metadataProvider));
+      WorkflowExecutionConfiguration workflowExecutionConfiguration = new WorkflowExecutionConfiguration();
+      WorkflowConfiguration workflowConfiguration = new WorkflowConfiguration(workflowMeta, workflowExecutionConfiguration, new SerializableMetadataProvider(metadataProvider));
 
       // We use the service name to store the workflow under!
       // That way we don't have to look up the name of the workflow when retrieving the status.

@@ -46,8 +46,7 @@ public class PausePipelineServlet extends BaseHttpServlet implements IHopServerP
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -75,10 +74,7 @@ public class PausePipelineServlet extends BaseHttpServlet implements IHopServerP
         response.setContentType("text/html;charset=UTF-8");
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "PausePipelineServlet.PausePipeline")
-                + "</TITLE>");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "PausePipelineServlet.PausePipeline") + "</TITLE>");
         out.println(
             "<META http-equiv=\"Refresh\" content=\"2;url="
                 + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -117,14 +113,10 @@ public class PausePipelineServlet extends BaseHttpServlet implements IHopServerP
         String message;
         if (pipeline.isPaused()) {
           pipeline.resumeExecution();
-          message =
-              BaseMessages.getString(
-                  PKG, "PausePipelineServlet.PipelineResumeRequested", pipelineName);
+          message = BaseMessages.getString(PKG, "PausePipelineServlet.PipelineResumeRequested", pipelineName);
         } else {
           pipeline.pauseExecution();
-          message =
-              BaseMessages.getString(
-                  PKG, "PausePipelineServlet.PipelinePauseRequested", pipelineName);
+          message = BaseMessages.getString(PKG, "PausePipelineServlet.PipelinePauseRequested", pipelineName);
         }
 
         if (useXML) {
@@ -143,19 +135,13 @@ public class PausePipelineServlet extends BaseHttpServlet implements IHopServerP
                   + "</a><p>");
         }
       } else {
-        String message =
-            BaseMessages.getString(PKG, "PausePipelineServlet.CanNotFindPipeline", pipelineName);
+        String message = BaseMessages.getString(PKG, "PausePipelineServlet.CanNotFindPipeline", pipelineName);
 
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_ERROR, message).getXml());
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }

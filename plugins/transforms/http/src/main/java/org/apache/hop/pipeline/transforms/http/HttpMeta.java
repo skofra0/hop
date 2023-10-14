@@ -216,8 +216,7 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -275,13 +274,7 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!Utils.isEmpty(fieldName)) {
       IValueMeta v = new ValueMetaString(fieldName);
@@ -316,16 +309,12 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
     retval.append("    " + XmlHandler.addTagValue("urlField", urlField));
     retval.append("    " + XmlHandler.addTagValue("encoding", encoding));
     retval.append("    " + XmlHandler.addTagValue("httpLogin", httpLogin));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "httpPassword", Encr.encryptPasswordIfNotUsingVariables(httpPassword)));
+    retval.append("    " + XmlHandler.addTagValue("httpPassword", Encr.encryptPasswordIfNotUsingVariables(httpPassword)));
     retval.append("    " + XmlHandler.addTagValue("proxyHost", proxyHost));
     retval.append("    " + XmlHandler.addTagValue("proxyPort", proxyPort));
     retval.append("    " + XmlHandler.addTagValue("socketTimeout", socketTimeout));
     retval.append("    " + XmlHandler.addTagValue("connectionTimeout", connectionTimeout));
-    retval.append(
-        "    " + XmlHandler.addTagValue("closeIdleConnectionsTime", closeIdleConnectionsTime));
+    retval.append("    " + XmlHandler.addTagValue("closeIdleConnectionsTime", closeIdleConnectionsTime));
 
     retval.append("    <lookup>").append(Const.CR);
 
@@ -348,16 +337,13 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
     retval.append("      ").append(XmlHandler.addTagValue("name", fieldName));
     retval.append("      ").append(XmlHandler.addTagValue("code", resultCodeFieldName));
     retval.append("      ").append(XmlHandler.addTagValue("response_time", responseTimeFieldName));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("response_header", responseHeaderFieldName));
+    retval.append("      ").append(XmlHandler.addTagValue("response_header", responseHeaderFieldName));
     retval.append("    </result>").append(Const.CR);
 
     return retval.toString();
   }
 
-  private void readData(Node transformNode)
-      throws HopXmlException {
+  private void readData(Node transformNode) throws HopXmlException {
     try {
       int nrargs;
 
@@ -367,9 +353,7 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
       urlField = XmlHandler.getTagValue(transformNode, "urlField");
       encoding = XmlHandler.getTagValue(transformNode, "encoding");
       httpLogin = XmlHandler.getTagValue(transformNode, "httpLogin");
-      httpPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "httpPassword"));
+      httpPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "httpPassword"));
       proxyHost = XmlHandler.getTagValue(transformNode, "proxyHost");
       proxyPort = XmlHandler.getTagValue(transformNode, "proxyPort");
 
@@ -401,8 +385,7 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
       responseTimeFieldName = XmlHandler.getTagValue(transformNode, "result", "response_time");
       responseHeaderFieldName = XmlHandler.getTagValue(transformNode, "result", "response_header");
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "HTTPMeta.Exception.UnableToReadTransformMeta"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "HTTPMeta.Exception.UnableToReadTransformMeta"), e);
     }
   }
 
@@ -421,49 +404,25 @@ public class HttpMeta extends BaseTransformMeta<Http, HttpData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "HTTPMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "HTTPMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
     // check Url
     if (urlInField) {
       if (Utils.isEmpty(urlField)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlfieldMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlfieldMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlfieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlfieldOk"), transformMeta);
       }
 
     } else {
       if (Utils.isEmpty(url)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "HTTPMeta.CheckResult.UrlOk"), transformMeta);
       }
     }
     remarks.add(cr);

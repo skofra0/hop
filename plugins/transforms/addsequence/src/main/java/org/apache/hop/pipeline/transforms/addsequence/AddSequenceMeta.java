@@ -50,54 +50,34 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
 
   private static final Class<?> PKG = AddSequenceMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "valuename",
-      injectionKeyDescription = "AddSequenceDialog.Valuename.Label")
+  @HopMetadataProperty(key = "valuename", injectionKeyDescription = "AddSequenceDialog.Valuename.Label")
   private String valueName;
 
-  @HopMetadataProperty(
-      key = "use_database",
-      injectionKeyDescription = "AddSequenceDialog.UseDatabase.Label")
+  @HopMetadataProperty(key = "use_database", injectionKeyDescription = "AddSequenceDialog.UseDatabase.Label")
   private boolean databaseUsed;
 
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "AddSequenceMeta.Injection.Connection")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "AddSequenceMeta.Injection.Connection")
   private String connection;
 
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKeyDescription = "AddSequenceMeta.Injection.SchemaName")
+  @HopMetadataProperty(key = "schema", injectionKeyDescription = "AddSequenceMeta.Injection.SchemaName")
   private String schemaName;
 
-  @HopMetadataProperty(
-      key = "seqname",
-      injectionKeyDescription = "AddSequenceMeta.Injection.SequenceName")
+  @HopMetadataProperty(key = "seqname", injectionKeyDescription = "AddSequenceMeta.Injection.SequenceName")
   private String sequenceName;
 
-  @HopMetadataProperty(
-      key = "use_counter",
-      injectionKeyDescription = "AddSequenceMeta.Injection.UseCounter")
+  @HopMetadataProperty(key = "use_counter", injectionKeyDescription = "AddSequenceMeta.Injection.UseCounter")
   private boolean counterUsed;
 
-  @HopMetadataProperty(
-      key = "counter_name",
-      injectionKeyDescription = "AddSequenceMeta.Injection.CounterName")
+  @HopMetadataProperty(key = "counter_name", injectionKeyDescription = "AddSequenceMeta.Injection.CounterName")
   private String counterName;
 
-  @HopMetadataProperty(
-      key = "start_at",
-      injectionKeyDescription = "AddSequenceMeta.Injection.StartAt")
+  @HopMetadataProperty(key = "start_at", injectionKeyDescription = "AddSequenceMeta.Injection.StartAt")
   private String startAt;
 
-  @HopMetadataProperty(
-      key = "increment_by",
-      injectionKeyDescription = "AddSequenceMeta.Injection.IncrementBy")
+  @HopMetadataProperty(key = "increment_by", injectionKeyDescription = "AddSequenceMeta.Injection.IncrementBy")
   private String incrementBy;
 
-  @HopMetadataProperty(
-      key = "max_value",
-      injectionKeyDescription = "AddSequenceMeta.Injection.MaxValue")
+  @HopMetadataProperty(key = "max_value", injectionKeyDescription = "AddSequenceMeta.Injection.MaxValue")
   private String maxValue;
 
   public String getConnection() {
@@ -213,13 +193,7 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     IValueMeta v = new ValueMetaInteger(valueName);
     v.setOrigin(name);
     row.addValueMeta(v);
@@ -240,27 +214,18 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
     Database db = null;
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseUsed) {
         db = new Database(loggingObject, variables, databaseMeta);
         db.connect();
-        if (db.checkSequenceExists(
-            variables.resolve(schemaName), variables.resolve(sequenceName))) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.SequenceExists.Title"),
-                  transformMeta);
+        if (db.checkSequenceExists(variables.resolve(schemaName), variables.resolve(sequenceName))) {
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.SequenceExists.Title"), transformMeta);
         } else {
           cr =
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(
-                      PKG,
-                      "AddSequenceMeta.CheckResult.SequenceCouldNotBeFound.Title",
-                      sequenceName),
+                  BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.SequenceCouldNotBeFound.Title", sequenceName),
                   transformMeta);
         }
         remarks.add(cr);
@@ -269,9 +234,7 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.UnableToConnectDB.Title")
-                  + Const.CR
-                  + e.getMessage(),
+              BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.UnableToConnectDB.Title") + Const.CR + e.getMessage(),
               transformMeta);
       remarks.add(cr);
     } finally {
@@ -281,34 +244,20 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
     }
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.TransformIsReceving.Title"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.TransformIsReceving.Title"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.NoInputReceived.Title"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AddSequenceMeta.CheckResult.NoInputReceived.Title"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
     Database db = null;
     SqlStatement retval = null;
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
       retval = new SqlStatement(transformMeta.getName(), databaseMeta, null);
       // default: nothing to do!
       if (databaseUsed) {
@@ -317,23 +266,18 @@ public class AddSequenceMeta extends BaseTransformMeta<AddSequence, AddSequenceD
           db = new Database(loggingObject, variables, databaseMeta);
           db.connect();
           if (!db.checkSequenceExists(schemaName, sequenceName)) {
-            String crTable =
-                db.getCreateSequenceStatement(sequenceName, startAt, incrementBy, maxValue, true);
+            String crTable = db.getCreateSequenceStatement(sequenceName, startAt, incrementBy, maxValue, true);
             retval.setSql(crTable);
           } else {
             retval.setSql(null); // Empty string means: nothing to do: set it to null...
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "AddSequenceMeta.ErrorMessage.NoConnectionDefined"));
+          retval.setError(BaseMessages.getString(PKG, "AddSequenceMeta.ErrorMessage.NoConnectionDefined"));
         }
       }
     } catch (HopException e) {
       if (retval != null) {
-        retval.setError(
-            BaseMessages.getString(PKG, "AddSequenceMeta.ErrorMessage.UnableToConnectDB")
-                + Const.CR
-                + e.getMessage());
+        retval.setError(BaseMessages.getString(PKG, "AddSequenceMeta.ErrorMessage.UnableToConnectDB") + Const.CR + e.getMessage());
       }
     } finally {
       if (db != null) {

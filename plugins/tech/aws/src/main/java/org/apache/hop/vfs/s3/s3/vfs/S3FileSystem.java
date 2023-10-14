@@ -31,8 +31,7 @@ public class S3FileSystem extends S3CommonFileSystem {
 
   private static final Class<?> PKG = S3FileSystem.class; // For Translator
 
-  private static final ILogChannel consoleLog =
-      new LogChannel(BaseMessages.getString(PKG, "TITLE.S3File"));
+  private static final ILogChannel consoleLog = new LogChannel(BaseMessages.getString(PKG, "TITLE.S3File"));
 
   public StorageUnitConverter storageUnitConverter;
   public S3HopProperty s3HopProperty;
@@ -53,11 +52,7 @@ public class S3FileSystem extends S3CommonFileSystem {
     this(rootName, fileSystemOptions, new StorageUnitConverter(), new S3HopProperty());
   }
 
-  public S3FileSystem(
-      final FileName rootName,
-      final FileSystemOptions fileSystemOptions,
-      final StorageUnitConverter storageUnitConverter,
-      final S3HopProperty s3HopProperty) {
+  public S3FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions, final StorageUnitConverter storageUnitConverter, final S3HopProperty s3HopProperty) {
     super(rootName, fileSystemOptions);
     this.storageUnitConverter = storageUnitConverter;
     this.s3HopProperty = s3HopProperty;
@@ -76,17 +71,13 @@ public class S3FileSystem extends S3CommonFileSystem {
   public long parsePartSize(String partSizeString) {
     long parsePartSize = convertToLong(partSizeString);
     if (parsePartSize < convertToLong(MIN_PART_SIZE)) {
-      consoleLog.logBasic(
-          BaseMessages.getString(
-              PKG, "WARN.S3MultiPart.DefaultPartSize", partSizeString, MIN_PART_SIZE));
+      consoleLog.logBasic(BaseMessages.getString(PKG, "WARN.S3MultiPart.DefaultPartSize", partSizeString, MIN_PART_SIZE));
       parsePartSize = convertToLong(MIN_PART_SIZE);
     }
 
     // still allow > 5GB, api might be updated in the future
     if (parsePartSize > convertToLong(MAX_PART_SIZE)) {
-      consoleLog.logBasic(
-          BaseMessages.getString(
-              PKG, "WARN.S3MultiPart.MaximumPartSize", partSizeString, MAX_PART_SIZE));
+      consoleLog.logBasic(BaseMessages.getString(PKG, "WARN.S3MultiPart.MaximumPartSize", partSizeString, MAX_PART_SIZE));
     }
     return parsePartSize;
   }

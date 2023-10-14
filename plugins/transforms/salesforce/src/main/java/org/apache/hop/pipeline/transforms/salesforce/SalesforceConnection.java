@@ -65,8 +65,7 @@ public class SalesforceConnection {
   private static final FieldType ID_FIELD_TYPE = FieldType.id;
   private static final FieldType REFERENCE_FIELD_TYPE = FieldType.reference;
 
-  private static final
-  Class<?> PKG = SalesforceConnection.class; // For Translator
+  private static final Class<?> PKG = SalesforceConnection.class; // For Translator
 
   private String url;
   private String username;
@@ -94,8 +93,7 @@ public class SalesforceConnection {
   private ILogChannel log;
 
   /** Construct a new Salesforce Connection */
-  public SalesforceConnection(
-      ILogChannel logInterface, String url, String username, String password) throws HopException {
+  public SalesforceConnection(ILogChannel logInterface, String url, String username, String password) throws HopException {
     if (logInterface == null) {
       this.log = HopLogStore.getLogChannelFactory().create(this);
     } else {
@@ -124,19 +122,16 @@ public class SalesforceConnection {
 
     // check target URL
     if (Utils.isEmpty(getURL())) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.TargetURLMissing.Error"));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.TargetURLMissing.Error"));
     }
 
     // check username
     if (Utils.isEmpty(getUsername())) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.UsernameMissing.Error"));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.UsernameMissing.Error"));
     }
 
     if (log.isDetailed()) {
-      logInterface.logDetailed(
-          BaseMessages.getString(PKG, "SalesforceConnection.Log.NewConnection"));
+      logInterface.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.NewConnection"));
     }
   }
 
@@ -156,25 +151,20 @@ public class SalesforceConnection {
     this.queryAll = value;
   }
 
-  public void setCalendar(int recordsFilter, GregorianCalendar startDate, GregorianCalendar endDate)
-      throws HopException {
+  public void setCalendar(int recordsFilter, GregorianCalendar startDate, GregorianCalendar endDate) throws HopException {
     this.startDate = startDate;
     this.endDate = endDate;
     this.recordsFilter = recordsFilter;
     if (this.startDate == null || this.endDate == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.EmptyStartDateOrEndDate"));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.EmptyStartDateOrEndDate"));
     }
     if (this.startDate.getTime().compareTo(this.endDate.getTime()) >= 0) {
       throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.WrongDates"));
     }
     // Calculate difference in days
-    long diffDays =
-        (this.endDate.getTime().getTime() - this.startDate.getTime().getTime())
-            / (24 * 60 * 60 * 1000);
+    long diffDays = (this.endDate.getTime().getTime() - this.startDate.getTime().getTime()) / (24 * 60 * 60 * 1000);
     if (diffDays > 30) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.StartDateTooOlder"));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.StartDateTooOlder"));
     }
   }
 
@@ -266,8 +256,7 @@ public class SalesforceConnection {
     if (StringUtils.isNotEmpty(proxyUrl)) {
       int proxyPort = Integer.parseInt(System.getProperty("http.proxyPort", "80"));
       String proxyUser = System.getProperty("http.proxyUser", null);
-      String proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(System.getProperty("http.proxyPassword", null));
+      String proxyPassword = Encr.decryptPasswordOptionallyEncrypted(System.getProperty("http.proxyPassword", null));
       config.setProxy(proxyUrl, proxyPort);
       config.setProxyUsername(proxyUser);
       config.setProxyPassword(proxyPassword);
@@ -276,9 +265,7 @@ public class SalesforceConnection {
     // Set timeout
     if (getTimeOut() > 0) {
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(
-                PKG, "SalesforceConnection.Log.SettingTimeout", "" + this.timeout));
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.SettingTimeout", "" + this.timeout));
       }
       config.setConnectionTimeout(getTimeOut());
       config.setReadTimeout(getTimeOut());
@@ -288,9 +275,7 @@ public class SalesforceConnection {
       PartnerConnection pConnection = createBinding(config);
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG, "SalesforceConnection.Log.LoginURL", config.getAuthEndpoint()));
+        log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginURL", config.getAuthEndpoint()));
       }
 
       if (isRollbackAllChangesOnError()) {
@@ -304,29 +289,19 @@ public class SalesforceConnection {
         log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginNow"));
         log.logDetailed("----------------------------------------->");
         log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginURL", getURL()));
-        log.logDetailed(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginUsername", getUsername()));
+        log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginUsername", getUsername()));
         if (getModule() != null) {
-          log.logDetailed(
-              BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginModule", getModule()));
+          log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.LoginModule", getModule()));
         }
         log.logDetailed("<-----------------------------------------");
       }
 
       // Login
-      this.loginResult =
-          pConnection.login(
-              config.getUsername(), Encr.decryptPasswordOptionallyEncrypted(config.getPassword()));
+      this.loginResult = pConnection.login(config.getUsername(), Encr.decryptPasswordOptionallyEncrypted(config.getPassword()));
 
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.SessionId")
-                + " : "
-                + this.loginResult.getSessionId());
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.NewServerURL")
-                + " : "
-                + this.loginResult.getServerUrl());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.SessionId") + " : " + this.loginResult.getSessionId());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.NewServerURL") + " : " + this.loginResult.getServerUrl());
       }
 
       // Create a new session header object and set the session id to that
@@ -337,34 +312,18 @@ public class SalesforceConnection {
       // Return the user Infos
       this.userInfo = pConnection.getUserInfo();
       if (log.isDebug()) {
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.UserInfos")
-                + " : "
-                + this.userInfo.getUserFullName());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.UserInfos") + " : " + this.userInfo.getUserFullName());
         log.logDebug("----------------------------------------->");
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.UserName")
-                + " : "
-                + this.userInfo.getUserFullName());
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.UserEmail")
-                + " : "
-                + this.userInfo.getUserEmail());
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.UserLanguage")
-                + " : "
-                + this.userInfo.getUserLanguage());
-        log.logDebug(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.UserOrganization")
-                + " : "
-                + this.userInfo.getOrganizationName());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.UserName") + " : " + this.userInfo.getUserFullName());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.UserEmail") + " : " + this.userInfo.getUserEmail());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.UserLanguage") + " : " + this.userInfo.getUserLanguage());
+        log.logDebug(BaseMessages.getString(PKG, "SalesforceConnection.Log.UserOrganization") + " : " + this.userInfo.getOrganizationName());
         log.logDebug("<-----------------------------------------");
       }
 
       this.serverTimestamp = pConnection.getServerTimestamp().getTimestamp().getTime();
       if (log.isDebug()) {
-        BaseMessages.getString(
-            PKG, "SalesforceConnection.Log.ServerTimestamp", getServerTimestamp());
+        BaseMessages.getString(PKG, "SalesforceConnection.Log.ServerTimestamp", getServerTimestamp());
       }
 
       if (log.isDetailed()) {
@@ -374,32 +333,22 @@ public class SalesforceConnection {
     } catch (LoginFault ex) {
       // The LoginFault derives from AxisFault
       ExceptionCode exCode = ex.getExceptionCode();
-      if (exCode == ExceptionCode.FUNCTIONALITY_NOT_ENABLED
-          || exCode == ExceptionCode.INVALID_CLIENT
-          || exCode == ExceptionCode.INVALID_LOGIN
-          || exCode == ExceptionCode.LOGIN_DURING_RESTRICTED_DOMAIN
-          || exCode == ExceptionCode.LOGIN_DURING_RESTRICTED_TIME
-          || exCode == ExceptionCode.ORG_LOCKED
-          || exCode == ExceptionCode.PASSWORD_LOCKOUT
-          || exCode == ExceptionCode.SERVER_UNAVAILABLE
-          || exCode == ExceptionCode.TRIAL_EXPIRED
+      if (exCode == ExceptionCode.FUNCTIONALITY_NOT_ENABLED || exCode == ExceptionCode.INVALID_CLIENT || exCode == ExceptionCode.INVALID_LOGIN
+          || exCode == ExceptionCode.LOGIN_DURING_RESTRICTED_DOMAIN || exCode == ExceptionCode.LOGIN_DURING_RESTRICTED_TIME || exCode == ExceptionCode.ORG_LOCKED
+          || exCode == ExceptionCode.PASSWORD_LOCKOUT || exCode == ExceptionCode.SERVER_UNAVAILABLE || exCode == ExceptionCode.TRIAL_EXPIRED
           || exCode == ExceptionCode.UNSUPPORTED_CLIENT) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceConnection.Error.InvalidUsernameOrPassword"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.InvalidUsernameOrPassword"));
       }
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.Connection"), ex);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.Connection"), ex);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.Connection"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.Connection"), e);
     }
   }
 
   public void query(boolean specifyQuery) throws HopException {
 
     if (getBinding() == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Exception.CanNotGetBiding"));
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Exception.CanNotGetBiding"));
     }
 
     try {
@@ -407,34 +356,27 @@ public class SalesforceConnection {
         // check if we can query this Object
         DescribeSObjectResult describeSObjectResult = getBinding().describeSObject(getModule());
         if (describeSObjectResult == null) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "SalesforceConnection.ErrorGettingObject"));
+          throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.ErrorGettingObject"));
         }
         if (!describeSObjectResult.isQueryable()) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "SalesforceConnection.ObjectNotQueryable", module));
+          throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.ObjectNotQueryable", module));
         }
-        if (this.recordsFilter == SalesforceConnectionUtils.RECORDS_FILTER_UPDATED
-            || this.recordsFilter == SalesforceConnectionUtils.RECORDS_FILTER_DELETED) {
+        if (this.recordsFilter == SalesforceConnectionUtils.RECORDS_FILTER_UPDATED || this.recordsFilter == SalesforceConnectionUtils.RECORDS_FILTER_DELETED) {
           // The object must be replicateable
           if (!describeSObjectResult.isReplicateable()) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "SalesforceConnection.Error.ObjectNotReplicable", getModule()));
+            throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.ObjectNotReplicable", getModule()));
           }
         }
       }
 
       if (getSQL() != null && log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(PKG, "SalesforceConnection.Log.SQLString") + " : " + getSQL());
+        log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.SQLString") + " : " + getSQL());
       }
 
       switch (this.recordsFilter) {
         case SalesforceConnectionUtils.RECORDS_FILTER_UPDATED:
           // Updated records ...
-          GetUpdatedResult updatedRecords =
-              getBinding().getUpdated(getModule(), this.startDate, this.endDate);
+          GetUpdatedResult updatedRecords = getBinding().getUpdated(getModule(), this.startDate, this.endDate);
 
           if (updatedRecords.getIds() != null) {
             int nr = updatedRecords.getIds().length;
@@ -449,12 +391,7 @@ public class SalesforceConnection {
                   list.add(updatedRecords.getIds()[i]);
 
                   if (i % SalesforceConnectionUtils.MAX_UPDATED_OBJECTS_IDS == 0 || i == nr - 1) {
-                    SObject[] s =
-                        getBinding()
-                            .retrieve(
-                                this.fieldsList,
-                                getModule(),
-                                list.toArray(new String[list.size()]));
+                    SObject[] s = getBinding().retrieve(this.fieldsList, getModule(), list.toArray(new String[list.size()]));
                     System.arraycopy(s, 0, this.sObjects, desPos, s.length);
                     desPos += s.length;
                     s = null;
@@ -472,18 +409,12 @@ public class SalesforceConnection {
           break;
         case SalesforceConnectionUtils.RECORDS_FILTER_DELETED:
           // Deleted records ...
-          GetDeletedResult deletedRecordsResult =
-              getBinding().getDeleted(getModule(), this.startDate, this.endDate);
+          GetDeletedResult deletedRecordsResult = getBinding().getDeleted(getModule(), this.startDate, this.endDate);
 
           DeletedRecord[] deletedRecords = deletedRecordsResult.getDeletedRecords();
 
           if (log.isDebug()) {
-            log.logDebug(
-                toString(),
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceConnection.DeletedRecordsFound",
-                    String.valueOf(deletedRecords == null ? 0 : deletedRecords.length)));
+            log.logDebug(toString(), BaseMessages.getString(PKG, "SalesforceConnection.DeletedRecordsFound", String.valueOf(deletedRecords == null ? 0 : deletedRecords.length)));
           }
 
           if (deletedRecords != null && deletedRecords.length > 0) {
@@ -511,8 +442,7 @@ public class SalesforceConnection {
       }
     } catch (Exception e) {
       log.logError(Const.getStackTracker(e));
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Exception.Query"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Exception.Query"), e);
     }
   }
 
@@ -542,8 +472,7 @@ public class SalesforceConnection {
         log.logDetailed(BaseMessages.getString(PKG, "SalesforceConnection.Log.ConnectionClosed"));
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.ClosingConnection"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.ClosingConnection"), e);
     }
   }
 
@@ -576,9 +505,7 @@ public class SalesforceConnection {
         // this record was not deleted in the range datetime
         // let's move forward and see if we find records that might interest us
 
-        while (con != null
-            && index < getRecordsCount() - 1
-            && !getDeletedList.containsKey(con.getId())) {
+        while (con != null && index < getRecordsCount() - 1 && !getDeletedList.containsKey(con.getId())) {
           // still not a record for us !!!
           // let's continue ...
           index++;
@@ -589,9 +516,7 @@ public class SalesforceConnection {
         // or we have fetched all available records
         retval.setRecordIndexChanges(true);
         retval.setRecordIndex(index);
-        if (con != null
-            && getChildren(con)[index] != null
-            && getDeletedList.containsKey(con.getId())) {
+        if (con != null && getChildren(con)[index] != null && getDeletedList.containsKey(con.getId())) {
           retval.setRecordValue(con);
           retval.setDeletionDate(getDeletedList.get(con.getId()));
         }
@@ -714,8 +639,7 @@ public class SalesforceConnection {
         return false;
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.QueringMore"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.QueringMore"), e);
     }
   }
 
@@ -740,8 +664,7 @@ public class SalesforceConnection {
       }
       return objects.toArray(new String[objects.size()]);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceConnection.Error.GettingModules"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.GettingModules"), e);
     } finally {
       if (dgr != null) {
         dgr = null;
@@ -766,17 +689,13 @@ public class SalesforceConnection {
       }
 
       if (!describeSObjectResult.isQueryable()) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceConnection.ObjectNotQueryable", this.module));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.ObjectNotQueryable", this.module));
       } else {
         // we can query this object
         return describeSObjectResult.getFields();
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "SalesforceConnection.Error.GettingModuleFields", this.module),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.Error.GettingModuleFields", this.module), e);
     } finally {
       if (describeSObjectResult != null) {
         describeSObjectResult = null;
@@ -790,12 +709,11 @@ public class SalesforceConnection {
    *
    * @param objectName the name of Saleforce object
    * @param excludeNonUpdatableFields the flag that indicates if non-updatable fields should be
-   *     excluded or not
+   *        excluded or not
    * @return the list of object fields depending on filter or not non-updatable fields.
    * @throws HopException if any exception occurs
    */
-  public Field[] getObjectFields(String objectName, boolean excludeNonUpdatableFields)
-      throws HopException {
+  public Field[] getObjectFields(String objectName, boolean excludeNonUpdatableFields) throws HopException {
     Field[] fieldList = getObjectFields(objectName);
     if (excludeNonUpdatableFields) {
       ArrayList<Field> finalFieldList = new ArrayList<>();
@@ -835,14 +753,12 @@ public class SalesforceConnection {
    *
    * @param objectName object name
    * @param excludeNonUpdatableFields the flag that indicates if non-updatable fields should be
-   *     excluded or not
+   *        excluded or not
    * @return fields' names
    * @throws HopException in case of error
    */
-  public String[] getFields(String objectName, boolean excludeNonUpdatableFields)
-      throws HopException {
-    return getFields(
-        getObjectFields(objectName, excludeNonUpdatableFields), excludeNonUpdatableFields);
+  public String[] getFields(String objectName, boolean excludeNonUpdatableFields) throws HopException {
+    return getFields(getObjectFields(objectName, excludeNonUpdatableFields), excludeNonUpdatableFields);
   }
 
   /**
@@ -874,7 +790,7 @@ public class SalesforceConnection {
    *
    * @param fields fields
    * @param excludeNonUpdatableFields the flag that indicates if non-updatable fields should be
-   *     excluded or not
+   *        excluded or not
    * @return fields' names
    * @throws HopException
    */
@@ -888,13 +804,11 @@ public class SalesforceConnection {
         // possible idLookup fields
         if (isReferenceField(field)) {
           String referenceTo = field.getReferenceTo()[0];
-          Field[] referenceObjectFields =
-              this.getObjectFields(referenceTo, excludeNonUpdatableFields);
+          Field[] referenceObjectFields = this.getObjectFields(referenceTo, excludeNonUpdatableFields);
 
           for (Field f : referenceObjectFields) {
             if (f.isIdLookup() && !isIdField(f)) {
-              fieldsList.add(
-                  String.format("%s:%s/%s", referenceTo, f.getName(), field.getRelationshipName()));
+              fieldsList.add(String.format("%s:%s/%s", referenceTo, f.getName(), field.getRelationshipName()));
             }
           }
         }
@@ -920,8 +834,7 @@ public class SalesforceConnection {
           normalizedSfBuffer.add(part);
         }
       }
-      return getBinding()
-          .create(normalizedSfBuffer.toArray(new SObject[normalizedSfBuffer.size()]));
+      return getBinding().create(normalizedSfBuffer.toArray(new SObject[normalizedSfBuffer.size()]));
     } catch (Exception e) {
       throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.ErrorInsert", e));
     }
@@ -943,8 +856,7 @@ public class SalesforceConnection {
     }
   }
 
-  public static XmlObject createMessageElement(String name, Object value, boolean useExternalKey)
-      throws Exception {
+  public static XmlObject createMessageElement(String name, Object value, boolean useExternalKey) throws Exception {
 
     XmlObject me = null;
 
@@ -974,8 +886,7 @@ public class SalesforceConnection {
         }
         me = createForeignKeyElement(type, lookupField, extIdName, value);
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceConnection.UnableToFindObjectType"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceConnection.UnableToFindObjectType"));
       }
     } else {
       me = fromTemplateElement(name, value, true);
@@ -984,8 +895,7 @@ public class SalesforceConnection {
     return me;
   }
 
-  private static XmlObject createForeignKeyElement(
-      String type, String lookupField, String extIdName, Object extIdValue) throws Exception {
+  private static XmlObject createForeignKeyElement(String type, String lookupField, String extIdName, Object extIdValue) throws Exception {
 
     // Foreign key relationship to the object
     XmlObject me = fromTemplateElement(lookupField, null, false);
@@ -995,8 +905,7 @@ public class SalesforceConnection {
     return me;
   }
 
-  public static XmlObject fromTemplateElement(String name, Object value, boolean setValue)
-      throws SOAPException {
+  public static XmlObject fromTemplateElement(String name, Object value, boolean setValue) throws SOAPException {
     // Use the TEMPLATE org.w3c.dom.Element to create new Message Elements
     XmlObject me = new XmlObject();
     if (setValue) {
@@ -1015,8 +924,7 @@ public class SalesforceConnection {
     Iterator<XmlObject> iterator = object.getChildren();
     while (iterator.hasNext()) {
       XmlObject child = iterator.next();
-      if (child.getName().getNamespaceURI().equals(Constants.PARTNER_SOBJECT_NS)
-          && reservedFieldNames.contains(child.getName().getLocalPart())) {
+      if (child.getName().getNamespaceURI().equals(Constants.PARTNER_SOBJECT_NS) && reservedFieldNames.contains(child.getName().getLocalPart())) {
         continue;
       }
       children.add(child);

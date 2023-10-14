@@ -43,7 +43,8 @@ import static org.mockito.Mockito.when;
 
 /** Note: In Europe (e.g. in UK), week starts on Monday. In USA, it starts on Sunday. */
 public class SelectValues_LocaleHandling_Test {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {
@@ -59,17 +60,13 @@ public class SelectValues_LocaleHandling_Test {
     current = Locale.getDefault();
     Locale.setDefault(Locale.UK);
 
-    helper =
-        TransformMockUtil.getTransformMockHelper(
-            SelectValuesMeta.class, SelectValuesData.class, "SelectValues_LocaleHandling_Test");
+    helper = TransformMockUtil.getTransformMockHelper(SelectValuesMeta.class, SelectValuesData.class, "SelectValues_LocaleHandling_Test");
     when(helper.transformMeta.isDoingErrorHandling()).thenReturn(true);
   }
 
   @Ignore
-  private void configureTransform(SelectValuesMeta meta, SelectValuesData data)
-      throws HopException {
-    transform =
-        new SelectValues(helper.transformMeta, meta, data, 1, helper.pipelineMeta, helper.pipeline);
+  private void configureTransform(SelectValuesMeta meta, SelectValuesData data) throws HopException {
+    transform = new SelectValues(helper.transformMeta, meta, data, 1, helper.pipelineMeta, helper.pipeline);
     transform = spy(transform);
 
     // Dec 28, 2015
@@ -115,21 +112,7 @@ public class SelectValues_LocaleHandling_Test {
     transformMeta.getSelectFields()[0] = new SelectField();
     transformMeta.getSelectFields()[0].setName("field");
     transformMeta.getMeta()[0] =
-        new SelectMetadataChange(
-            "field",
-            null,
-            IValueMeta.TYPE_STRING,
-            -2,
-            -2,
-            IValueMeta.STORAGE_TYPE_NORMAL,
-            "ww",
-            false,
-            locale,
-            null,
-            false,
-            null,
-            null,
-            null);
+        new SelectMetadataChange("field", null, IValueMeta.TYPE_STRING, -2, -2, IValueMeta.STORAGE_TYPE_NORMAL, "ww", false, locale, null, false, null, null, null);
 
     SelectValuesData transformData = new SelectValuesData();
     transformData.select = true;
@@ -144,7 +127,6 @@ public class SelectValues_LocaleHandling_Test {
     transform.setInputRowMeta(inputRowMeta);
 
     List<Object[]> execute = PipelineTestingUtil.execute(transform, 1, true);
-    PipelineTestingUtil.assertResult(
-        execute, Collections.singletonList(new Object[] {expectedWeekNumber}));
+    PipelineTestingUtil.assertResult(execute, Collections.singletonList(new Object[] {expectedWeekNumber}));
   }
 }

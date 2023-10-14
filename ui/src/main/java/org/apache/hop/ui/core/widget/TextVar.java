@@ -68,67 +68,24 @@ public class TextVar extends Composite {
     this(variables, composite, flags, toolTipText, null, null);
   }
 
-  public TextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public TextVar(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     this(variables, composite, flags, null, getCaretPositionInterface, insertTextInterface);
   }
 
-  public TextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public TextVar(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     super(composite, SWT.NONE);
-    initialize(
-        variables,
-        composite,
-        flags,
-        toolTipText,
-        getCaretPositionInterface,
-        insertTextInterface,
-        null);
+    initialize(variables, composite, flags, toolTipText, getCaretPositionInterface, insertTextInterface, null);
   }
 
-  public TextVar(
-      Composite composite,
-      IVariables variables,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface,
+  public TextVar(Composite composite, IVariables variables, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface,
       SelectionListener selectionListener) {
-    this(
-        variables,
-        composite,
-        flags,
-        null,
-        getCaretPositionInterface,
-        insertTextInterface,
-        selectionListener);
+    this(variables, composite, flags, null, getCaretPositionInterface, insertTextInterface, selectionListener);
   }
 
-  public TextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface,
+  public TextVar(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface,
       SelectionListener selectionListener) {
     super(composite, SWT.NONE);
-    initialize(
-        variables,
-        composite,
-        flags,
-        toolTipText,
-        getCaretPositionInterface,
-        insertTextInterface,
-        selectionListener);
+    initialize(variables, composite, flags, toolTipText, getCaretPositionInterface, insertTextInterface, selectionListener);
   }
 
   protected void initialize(
@@ -179,9 +136,7 @@ public class TextVar extends Composite {
     modifyListenerTooltipText = getModifyListenerTooltipText(wText);
     wText.addModifyListener(modifyListenerTooltipText);
 
-    controlSpaceKeyAdapter =
-        new ControlSpaceKeyAdapter(
-            variables, wText, getCaretPositionInterface, insertTextInterface);
+    controlSpaceKeyAdapter = new ControlSpaceKeyAdapter(variables, wText, getCaretPositionInterface, insertTextInterface);
     wText.addKeyListener(controlSpaceKeyAdapter);
   }
 

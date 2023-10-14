@@ -64,8 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@GuiPlugin(
-    description = "This dialog allows you to configure the various pipeline run configurations")
+@GuiPlugin(description = "This dialog allows you to configure the various pipeline run configurations")
 /**
  * The editor for metadata object PipelineRunConfiguration Don't move this class around as it's
  * sync'ed with the PipelineRunConfiguration package to find the dialog.
@@ -95,19 +94,14 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
    * @param manager
    * @param runConfiguration The object to edit
    */
-  public PipelineRunConfigurationEditor(
-      HopGui hopGui,
-      MetadataManager<PipelineRunConfiguration> manager,
-      PipelineRunConfiguration runConfiguration) {
+  public PipelineRunConfigurationEditor(HopGui hopGui, MetadataManager<PipelineRunConfiguration> manager, PipelineRunConfiguration runConfiguration) {
     super(hopGui, manager, runConfiguration);
 
     this.runConfiguration = runConfiguration;
     this.workingConfiguration = new PipelineRunConfiguration(runConfiguration);
     metaMap = populateMetaMap();
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      metaMap.put(
-          workingConfiguration.getEngineRunConfiguration().getEnginePluginName(),
-          workingConfiguration.getEngineRunConfiguration());
+      metaMap.put(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), workingConfiguration.getEngineRunConfiguration());
     }
   }
 
@@ -116,21 +110,17 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
     List<IPlugin> plugins = PluginRegistry.getInstance().getPlugins(PipelineEnginePluginType.class);
     for (IPlugin plugin : plugins) {
       try {
-        IPipelineEngine<?> engine =
-            PluginRegistry.getInstance().loadClass(plugin, IPipelineEngine.class);
+        IPipelineEngine<?> engine = PluginRegistry.getInstance().loadClass(plugin, IPipelineEngine.class);
 
         // Get the default run configuration for the engine.
         //
-        IPipelineEngineRunConfiguration engineRunConfiguration =
-            engine.createDefaultPipelineEngineRunConfiguration();
+        IPipelineEngineRunConfiguration engineRunConfiguration = engine.createDefaultPipelineEngineRunConfiguration();
         engineRunConfiguration.setEnginePluginId(plugin.getIds()[0]);
         engineRunConfiguration.setEnginePluginName(plugin.getName());
 
         metaMap.put(engineRunConfiguration.getEnginePluginName(), engineRunConfiguration);
       } catch (Exception e) {
-        HopGui.getInstance()
-            .getLog()
-            .logError("Error instantiating pipeline run configuration plugin", e);
+        HopGui.getInstance().getLog().logError("Error instantiating pipeline run configuration plugin", e);
       }
     }
 
@@ -156,8 +146,7 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     CTabItem wMainTab = new CTabItem(wTabFolder, SWT.NONE);
     wMainTab.setFont(GuiResource.getInstance().getFontDefault());
-    wMainTab.setText(
-        BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.MainTab.TabTitle"));
+    wMainTab.setText(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.MainTab.TabTitle"));
     wMainTab.setImage(GuiResource.getInstance().getImageRun());
 
     ScrolledComposite wMainSComp = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
@@ -194,8 +183,7 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     Label wlDescription = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlDescription);
-    wlDescription.setText(
-        BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.Description"));
+    wlDescription.setText(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.Description"));
     FormData fdlDescription = new FormData();
     fdlDescription.top = new FormAttachment(lastControl, margin);
     fdlDescription.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -212,14 +200,13 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     Label wlDefault = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlDefault);
-    wlDefault.setText(
-            BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.Default"));
+    wlDefault.setText(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.Default"));
     FormData fdlDefault = new FormData();
     fdlDefault.top = new FormAttachment(lastControl, margin);
     fdlDefault.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlDefault.right = new FormAttachment(middle, -margin);
     wlDefault.setLayoutData(fdlDefault);
-    wDefault = new Button(wMainComp, SWT.CHECK | SWT.LEFT );
+    wDefault = new Button(wMainComp, SWT.CHECK | SWT.LEFT);
     PropsUi.setLook(wDefault);
     FormData fdDefault = new FormData();
     fdDefault.top = new FormAttachment(wlDefault, 0, SWT.CENTER);
@@ -237,10 +224,8 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
             ExecutionInfoLocation.class,
             wMainComp,
             SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(
-                PKG, "PipelineRunConfigurationDialog.label.ExecutionInfoLocation"),
-            BaseMessages.getString(
-                PKG, "PipelineRunConfigurationDialog.toolTip.ExecutionInfoLocation"));
+            BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.ExecutionInfoLocation"),
+            BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.toolTip.ExecutionInfoLocation"));
     FormData fdExecutionInfoLocation = new FormData();
     fdExecutionInfoLocation.top = new FormAttachment(lastControl, margin);
     fdExecutionInfoLocation.left = new FormAttachment(0, 0); // To the right of the label
@@ -255,10 +240,8 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
             ExecutionDataProfile.class,
             wMainComp,
             SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(
-                PKG, "PipelineRunConfigurationDialog.label.ExecutionDataProfile"),
-            BaseMessages.getString(
-                PKG, "PipelineRunConfigurationDialog.toolTip.ExecutionDataProfile"));
+            BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.ExecutionDataProfile"),
+            BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.toolTip.ExecutionDataProfile"));
     FormData fdProfile = new FormData();
     fdProfile.top = new FormAttachment(lastControl, margin);
     fdProfile.left = new FormAttachment(0, 0); // To the right of the label
@@ -270,15 +253,13 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
     //
     Label wlPluginType = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlPluginType);
-    wlPluginType.setText(
-        BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.EngineType"));
+    wlPluginType.setText(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.label.EngineType"));
     FormData fdlPluginType = new FormData();
     fdlPluginType.top = new FormAttachment(lastControl, margin);
     fdlPluginType.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlPluginType.right = new FormAttachment(middle, -margin);
     wlPluginType.setLayoutData(fdlPluginType);
-    wPluginType =
-        new ComboVar(manager.getVariables(), wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPluginType = new ComboVar(manager.getVariables(), wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wPluginType);
     wPluginType.setItems(getPluginTypes());
     FormData fdPluginType = new FormData();
@@ -344,12 +325,10 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
     //
     CTabItem wVariablesTab = new CTabItem(wTabFolder, SWT.NONE);
     wVariablesTab.setFont(GuiResource.getInstance().getFontDefault());
-    wVariablesTab.setText(
-        BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.VariablesTab.TabTitle"));
+    wVariablesTab.setText(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.VariablesTab.TabTitle"));
     wVariablesTab.setImage(GuiResource.getInstance().getImageVariable());
 
-    ScrolledComposite wVariablesSComp =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite wVariablesSComp = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     wVariablesSComp.setLayout(new FillLayout());
 
     Composite wVariablesComp = new Composite(wVariablesSComp, SWT.NONE);
@@ -360,28 +339,13 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
     variablesLayout.marginHeight = 0;
     wVariablesComp.setLayout(variablesLayout);
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.Variables.Column.Name"),
-          ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.Variables.Column.Value"),
-          ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo(
-          BaseMessages.getString(
-              PKG, "PipelineRunConfigurationDialog.Variables.Column.Description"),
-          ColumnInfo.COLUMN_TYPE_TEXT),
-    };
+    ColumnInfo[] columns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.Variables.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.Variables.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineRunConfigurationDialog.Variables.Column.Description"), ColumnInfo.COLUMN_TYPE_TEXT),};
 
-    wVariables =
-        new TableView(
-            manager.getVariables(),
-            wVariablesComp,
-            SWT.NONE,
-            columns,
-            workingConfiguration.getConfigurationVariables().size(),
-            e -> setChanged(),
-            props);
+    wVariables = new TableView(manager.getVariables(), wVariablesComp, SWT.NONE, columns, workingConfiguration.getConfigurationVariables().size(), e -> setChanged(), props);
     PropsUi.setLook(wVariables);
     FormData fdVariables = new FormData();
     fdVariables.top = new FormAttachment(0, 0);
@@ -446,20 +410,14 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     if (workingConfiguration.getEngineRunConfiguration() != null) {
       guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-      guiCompositeWidgets.createCompositeWidgets(
-          workingConfiguration.getEngineRunConfiguration(),
-          null,
-          wPluginSpecificComp,
-          PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-          null);
-      guiCompositeWidgets.setWidgetsListener(
-          new GuiCompositeWidgetsAdapter() {
-            @Override
-            public void widgetModified(
-                GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-              setChanged();
-            }
-          });
+      guiCompositeWidgets
+          .createCompositeWidgets(workingConfiguration.getEngineRunConfiguration(), null, wPluginSpecificComp, PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
+      guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+        @Override
+        public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+          setChanged();
+        }
+      });
     }
   }
 
@@ -478,9 +436,7 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     // Save the state of this type so we can switch back and forth
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      metaMap.put(
-          workingConfiguration.getEngineRunConfiguration().getEnginePluginName(),
-          workingConfiguration.getEngineRunConfiguration());
+      metaMap.put(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), workingConfiguration.getEngineRunConfiguration());
     }
 
     changeWorkingEngineConfiguration(workingConfiguration);
@@ -512,18 +468,12 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
     try {
       wExecutionInfoLocation.fillItems();
     } catch (Exception e) {
-      new ErrorDialog(
-          getShell(), "Error", "Error getting the list of execution information locations", e);
+      new ErrorDialog(getShell(), "Error", "Error getting the list of execution information locations", e);
     }
-    wExecutionInfoLocation.setText(
-        Const.NVL(workingConfiguration.getExecutionInfoLocationName(), ""));
+    wExecutionInfoLocation.setText(Const.NVL(workingConfiguration.getExecutionInfoLocationName(), ""));
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      wPluginType.setText(
-          Const.NVL(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), ""));
-      guiCompositeWidgets.setWidgetsContents(
-          workingConfiguration.getEngineRunConfiguration(),
-          wPluginSpecificComp,
-          PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
+      wPluginType.setText(Const.NVL(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), ""));
+      guiCompositeWidgets.setWidgetsContents(workingConfiguration.getEngineRunConfiguration(), wPluginSpecificComp, PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
     } else {
       wPluginType.setText("");
     }
@@ -558,11 +508,8 @@ public class PipelineRunConfigurationEditor extends MetadataEditor<PipelineRunCo
 
     // Get the plugin specific information from the widgets on the screen
     //
-    if (meta.getEngineRunConfiguration() != null
-        && guiCompositeWidgets != null
-        && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
-      guiCompositeWidgets.getWidgetsContents(
-          meta.getEngineRunConfiguration(), PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    if (meta.getEngineRunConfiguration() != null && guiCompositeWidgets != null && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
+      guiCompositeWidgets.getWidgetsContents(meta.getEngineRunConfiguration(), PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
     }
 
     meta.setExecutionDataProfileName(wProfile.getText());

@@ -84,10 +84,7 @@ import org.neo4j.driver.Transaction;
 import org.neo4j.driver.Value;
 
 @GuiPlugin(description = "Neo4j execution information location GUI elements")
-@ExecutionInfoLocationPlugin(
-    id = "neo4j-location",
-    name = "Neo4j location",
-    description = "Stores execution information in a Neo4j graph database")
+@ExecutionInfoLocationPlugin(id = "neo4j-location", name = "Neo4j location", description = "Stores execution information in a Neo4j graph database")
 public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   public static final String EL_EXECUTION = "Execution";
   public static final String EP_ID = "id";
@@ -156,9 +153,11 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   public static final String R_HAS_DATASET = "HAS_DATASET";
   public static final String R_HAS_ROW = "HAS_ROW";
 
-  @HopMetadataProperty protected String pluginId;
+  @HopMetadataProperty
+  protected String pluginId;
 
-  @HopMetadataProperty protected String pluginName;
+  @HopMetadataProperty
+  protected String pluginName;
 
   @GuiWidgetElement(
       id = "connectionName",
@@ -189,17 +188,13 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public void initialize(IVariables variables, IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public void initialize(IVariables variables, IHopMetadataProvider metadataProvider) throws HopException {
     this.log = LogChannel.GENERAL;
 
     validateSettings();
 
     try {
-      NeoConnection connection =
-          metadataProvider
-              .getSerializer(NeoConnection.class)
-              .load(variables.resolve(connectionName));
+      NeoConnection connection = metadataProvider.getSerializer(NeoConnection.class).load(variables.resolve(connectionName));
 
       if (connection == null) {
         throw new HopException("Unable to find Neo4j connection " + connectionName);
@@ -210,10 +205,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       this.driver = connection.getDriver(log, variables);
       this.session = connection.getSession(log, driver, variables);
     } catch (Exception e) {
-      throw new HopException(
-          "Error initializing Neo4j Execution Information location for connection "
-              + connectionName,
-          e);
+      throw new HopException("Error initializing Neo4j Execution Information location for connection " + connectionName, e);
     }
   }
 
@@ -243,34 +235,12 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     addIndex(cypher, "idx_execution_parent_id", EL_EXECUTION, EP_PARENT_ID);
     addIndex(cypher, "idx_execution_metric_id", EL_EXECUTION, EP_ID, EP_NAME, EP_COPY_NR);
     addIndex(cypher, "idx_execution_data_id", DL_EXECUTION_DATA, DP_PARENT_ID, DP_OWNER_ID);
-    addIndex(
-        cypher,
-        "idx_execution_data_set_meta_id",
-        ML_EXECUTION_DATA_SET_META,
-        MP_PARENT_ID,
-        MP_OWNER_ID,
-        MP_SET_KEY);
-    addIndex(
-        cypher,
-        "idx_execution_data_set_id",
-        TL_EXECUTION_DATA_SET,
-        TP_PARENT_ID,
-        TP_OWNER_ID,
-        TP_SET_KEY);
-    addIndex(
-        cypher,
-        "idx_execution_data_set_row_id",
-        OL_EXECUTION_DATA_SET_ROW,
-        OP_PARENT_ID,
-        OP_OWNER_ID,
-        OP_SET_KEY);
+    addIndex(cypher, "idx_execution_data_set_meta_id", ML_EXECUTION_DATA_SET_META, MP_PARENT_ID, MP_OWNER_ID, MP_SET_KEY);
+    addIndex(cypher, "idx_execution_data_set_id", TL_EXECUTION_DATA_SET, TP_PARENT_ID, TP_OWNER_ID, TP_SET_KEY);
+    addIndex(cypher, "idx_execution_data_set_row_id", OL_EXECUTION_DATA_SET_ROW, OP_PARENT_ID, OP_OWNER_ID, OP_SET_KEY);
 
     EnterTextDialog textDialog =
-        new EnterTextDialog(
-            HopGui.getInstance().getShell(),
-            "Indexes DDL",
-            "Here is the list of Cypher statements to execute for the Neo4j location",
-            cypher.toString());
+        new EnterTextDialog(HopGui.getInstance().getShell(), "Indexes DDL", "Here is the list of Cypher statements to execute for the Neo4j location", cypher.toString());
     textDialog.open();
   }
 
@@ -289,13 +259,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       keysClause += "n." + key;
     }
     keysClause += ") ";
-    cypher
-        .append("CREATE INDEX ")
-        .append(indexName)
-        .append(" IF NOT EXISTS FOR (n:")
-        .append(label)
-        .append(") ")
-        .append(keysClause);
+    cypher.append("CREATE INDEX ").append(indexName).append(" IF NOT EXISTS FOR (n:").append(label).append(") ").append(keysClause);
     cypher.append(Const.CR).append(";").append(Const.CR);
   }
 
@@ -315,11 +279,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       if (StringUtils.isNotEmpty(connectionName)) {
         // Load the connection
         //
-        NeoConnection neoConnection =
-            HopGui.getInstance()
-                .getMetadataProvider()
-                .getSerializer(NeoConnection.class)
-                .load(connectionName);
+        NeoConnection neoConnection = HopGui.getInstance().getMetadataProvider().getSerializer(NeoConnection.class).load(connectionName);
         neo4jIndex.setConnection(neoConnection);
       }
 
@@ -328,27 +288,9 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       addIndex(neo4jIndex, "idx_execution_parent_id", EL_EXECUTION, EP_PARENT_ID);
       addIndex(neo4jIndex, "idx_execution_metric_id", EL_EXECUTION, EP_ID, EP_NAME, EP_COPY_NR);
       addIndex(neo4jIndex, "idx_execution_data_id", DL_EXECUTION_DATA, DP_PARENT_ID, DP_OWNER_ID);
-      addIndex(
-          neo4jIndex,
-          "idx_execution_data_set_meta_id",
-          ML_EXECUTION_DATA_SET_META,
-          MP_PARENT_ID,
-          MP_OWNER_ID,
-          MP_SET_KEY);
-      addIndex(
-          neo4jIndex,
-          "idx_execution_data_set_id",
-          TL_EXECUTION_DATA_SET,
-          TP_PARENT_ID,
-          TP_OWNER_ID,
-          TP_SET_KEY);
-      addIndex(
-          neo4jIndex,
-          "idx_execution_data_set_row_id",
-          OL_EXECUTION_DATA_SET_ROW,
-          OP_PARENT_ID,
-          OP_OWNER_ID,
-          OP_SET_KEY);
+      addIndex(neo4jIndex, "idx_execution_data_set_meta_id", ML_EXECUTION_DATA_SET_META, MP_PARENT_ID, MP_OWNER_ID, MP_SET_KEY);
+      addIndex(neo4jIndex, "idx_execution_data_set_id", TL_EXECUTION_DATA_SET, TP_PARENT_ID, TP_OWNER_ID, TP_SET_KEY);
+      addIndex(neo4jIndex, "idx_execution_data_set_row_id", OL_EXECUTION_DATA_SET_ROW, OP_PARENT_ID, OP_OWNER_ID, OP_SET_KEY);
 
       // Wrap it in an ActionMeta object
       //
@@ -360,18 +302,13 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
 
       // Show the message box
       //
-      MessageBox box =
-          new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
+      MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
       box.setText("Copied to clipboard");
       box.setMessage(
           "A Neo4j Index action was copied to the clipboard.  You can paste this in a workflow to make sure you have great performance when updating execution information in this Neo4j location.");
       box.open();
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(),
-          "Error",
-          "Error copying Neo4j Index action to the clipboard",
-          e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error copying Neo4j Index action to the clipboard", e);
     }
   }
 
@@ -383,9 +320,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       }
       properties.append(key);
     }
-    IndexUpdate indexUpdate =
-        new IndexUpdate(
-            UpdateType.CREATE, ObjectType.NODE, indexName, label, properties.toString());
+    IndexUpdate indexUpdate = new IndexUpdate(UpdateType.CREATE, ObjectType.NODE, indexName, label, properties.toString());
     neo4jIndex.getIndexUpdates().add(indexUpdate);
   }
 
@@ -400,8 +335,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     synchronized (this) {
       try {
         assert execution.getName() != null : "Please register executions with a name";
-        assert execution.getExecutionType() != null
-            : "Please register executions with an execution type";
+        assert execution.getExecutionType() != null : "Please register executions with an execution type";
 
         session.writeTransaction(transaction -> registerNeo4jExecution(transaction, execution));
       } catch (Exception e) {
@@ -413,28 +347,17 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   private boolean registerNeo4jExecution(Transaction transaction, Execution execution) {
     try {
       CypherMergeBuilder builder =
-          CypherMergeBuilder.of()
-              .withLabelAndKey(EL_EXECUTION, EP_ID, execution.getId())
-              .withValue(EP_NAME, execution.getName())
-              .withValue(EP_COPY_NR, execution.getCopyNr())
-              .withValue(EP_FILENAME, execution.getFilename())
-              .withValue(EP_PARENT_ID, execution.getParentId())
-              .withValue(EP_EXECUTION_TYPE, execution.getExecutionType().name())
-              .withValue(EP_EXECUTOR_XML, execution.getExecutorXml())
-              .withValue(EP_METADATA_JSON, execution.getMetadataJson())
+          CypherMergeBuilder.of().withLabelAndKey(EL_EXECUTION, EP_ID, execution.getId()).withValue(EP_NAME, execution.getName()).withValue(EP_COPY_NR, execution.getCopyNr())
+              .withValue(EP_FILENAME, execution.getFilename()).withValue(EP_PARENT_ID, execution.getParentId()).withValue(EP_EXECUTION_TYPE, execution.getExecutionType().name())
+              .withValue(EP_EXECUTOR_XML, execution.getExecutorXml()).withValue(EP_METADATA_JSON, execution.getMetadataJson())
               .withValue(EP_RUN_CONFIG_NAME, execution.getRunConfigurationName())
-              .withValue(
-                  EP_LOG_LEVEL,
-                  execution.getLogLevel() == null ? null : execution.getLogLevel().getCode())
-              .withValue(EP_REGISTRATION_DATE, execution.getRegistrationDate())
+              .withValue(EP_LOG_LEVEL, execution.getLogLevel() == null ? null : execution.getLogLevel().getCode()).withValue(EP_REGISTRATION_DATE, execution.getRegistrationDate())
               .withValue(EP_EXECUTION_START_DATE, execution.getExecutionStartDate());
       execute(transaction, builder);
 
       if (StringUtils.isNotEmpty(execution.getParentId())) {
         CypherRelationshipBuilder selfRelationshipBuilder =
-            CypherRelationshipBuilder.of()
-                .withMatch(EL_EXECUTION, "e1", EP_ID, execution.getId())
-                .withMatch(EL_EXECUTION, "e2", EP_ID, execution.getParentId())
+            CypherRelationshipBuilder.of().withMatch(EL_EXECUTION, "e1", EP_ID, execution.getId()).withMatch(EL_EXECUTION, "e2", EP_ID, execution.getParentId())
                 .withMerge("e2", "e1", R_EXECUTES);
         execute(transaction, selfRelationshipBuilder);
       }
@@ -451,8 +374,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   public boolean deleteExecution(String executionId) throws HopException {
     synchronized (this) {
       try {
-        return session.writeTransaction(
-            transaction -> deleteNeo4jExecution(transaction, executionId));
+        return session.writeTransaction(transaction -> deleteNeo4jExecution(transaction, executionId));
       } catch (Exception e) {
         throw new HopException("Error deleting execution with id " + executionId + " in Neo4j", e);
       }
@@ -471,51 +393,27 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     //
     // Rows
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(OL_EXECUTION_DATA_SET_ROW, "n", Map.of(OP_PARENT_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(OL_EXECUTION_DATA_SET_ROW, "n", Map.of(OP_PARENT_ID, executionId)).withDetachDelete("n"));
 
     // SetMeta
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(ML_EXECUTION_DATA_SET_META, "n", Map.of(MP_PARENT_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(ML_EXECUTION_DATA_SET_META, "n", Map.of(MP_PARENT_ID, executionId)).withDetachDelete("n"));
 
     // DataSet
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(TL_EXECUTION_DATA_SET, "n", Map.of(TP_PARENT_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(TL_EXECUTION_DATA_SET, "n", Map.of(TP_PARENT_ID, executionId)).withDetachDelete("n"));
 
     // Data
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(DL_EXECUTION_DATA, "n", Map.of(DP_PARENT_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(DL_EXECUTION_DATA, "n", Map.of(DP_PARENT_ID, executionId)).withDetachDelete("n"));
 
     // The execution metrics
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(CL_EXECUTION_METRIC, "n", Map.of(CP_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(CL_EXECUTION_METRIC, "n", Map.of(CP_ID, executionId)).withDetachDelete("n"));
 
     // The execution itself
     //
-    execute(
-        transaction,
-        CypherDeleteBuilder.of()
-            .withMatch(EL_EXECUTION, "n", Map.of(EP_ID, executionId))
-            .withDetachDelete("n"));
+    execute(transaction, CypherDeleteBuilder.of().withMatch(EL_EXECUTION, "n", Map.of(EP_ID, executionId)).withDetachDelete("n"));
 
     return true;
   }
@@ -533,21 +431,9 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
 
   private Execution getNeo4jExecution(Transaction transaction, String executionId) {
     CypherQueryBuilder builder =
-        CypherQueryBuilder.of()
-            .withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId)
-            .withReturnValues(
-                "n",
-                EP_NAME,
-                EP_COPY_NR,
-                EP_FILENAME,
-                EP_PARENT_ID,
-                EP_EXECUTION_TYPE,
-                EP_EXECUTOR_XML,
-                EP_METADATA_JSON,
-                EP_RUN_CONFIG_NAME,
-                EP_LOG_LEVEL,
-                EP_REGISTRATION_DATE,
-                EP_EXECUTION_START_DATE);
+        CypherQueryBuilder.of().withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId).withReturnValues(
+            "n", EP_NAME, EP_COPY_NR, EP_FILENAME, EP_PARENT_ID, EP_EXECUTION_TYPE, EP_EXECUTOR_XML, EP_METADATA_JSON, EP_RUN_CONFIG_NAME, EP_LOG_LEVEL, EP_REGISTRATION_DATE,
+            EP_EXECUTION_START_DATE);
     Result result = transaction.run(builder.cypher(), builder.parameters());
 
     // We expect exactly one result
@@ -557,48 +443,34 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     }
     org.neo4j.driver.Record record = result.next();
 
-    return ExecutionBuilder.of()
-        .withId(executionId)
-        .withParentId(getString(record, EP_PARENT_ID))
-        .withName(getString(record, EP_NAME))
-        .withCopyNr(getString(record, EP_COPY_NR))
-        .withFilename(getString(record, EP_FILENAME))
-        .withExecutorType(ExecutionType.valueOf(getString(record, EP_EXECUTION_TYPE)))
-        .withExecutorXml(getString(record, EP_EXECUTOR_XML))
-        .withMetadataJson(getString(record, EP_METADATA_JSON))
-        .withRunConfigurationName(getString(record, EP_RUN_CONFIG_NAME))
-        .withLogLevel(LogLevel.getLogLevelForCode(getString(record, EP_LOG_LEVEL)))
-        .withRegistrationDate(getDate(record, EP_REGISTRATION_DATE))
-        .withExecutionStartDate(getDate(record, EP_EXECUTION_START_DATE))
-        .build();
+    return ExecutionBuilder.of().withId(executionId).withParentId(getString(record, EP_PARENT_ID)).withName(getString(record, EP_NAME)).withCopyNr(getString(record, EP_COPY_NR))
+        .withFilename(getString(record, EP_FILENAME)).withExecutorType(ExecutionType.valueOf(getString(record, EP_EXECUTION_TYPE)))
+        .withExecutorXml(getString(record, EP_EXECUTOR_XML)).withMetadataJson(getString(record, EP_METADATA_JSON)).withRunConfigurationName(getString(record, EP_RUN_CONFIG_NAME))
+        .withLogLevel(LogLevel.getLogLevelForCode(getString(record, EP_LOG_LEVEL))).withRegistrationDate(getDate(record, EP_REGISTRATION_DATE))
+        .withExecutionStartDate(getDate(record, EP_EXECUTION_START_DATE)).build();
   }
 
   @Override
   public List<String> getExecutionIds(boolean includeChildren, int limit) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> getNeo4jExecutionIds(transaction, includeChildren, limit));
+        return session.readTransaction(transaction -> getNeo4jExecutionIds(transaction, includeChildren, limit));
       } catch (Exception e) {
         throw new HopException("Error getting execution from Neo4j", e);
       }
     }
   }
 
-  private List<String> getNeo4jExecutionIds(
-      Transaction transaction, boolean includeChildren, int limit) {
+  private List<String> getNeo4jExecutionIds(Transaction transaction, boolean includeChildren, int limit) {
     List<String> ids = new ArrayList<>();
 
-    CypherQueryBuilder builder =
-        CypherQueryBuilder.of().withLabelWithoutKey("n", EL_EXECUTION) // Get all nodes
-        ;
+    CypherQueryBuilder builder = CypherQueryBuilder.of().withLabelWithoutKey("n", EL_EXECUTION) // Get all nodes
+    ;
     if (!includeChildren) {
       builder.withWhereIsNull("n", EP_PARENT_ID);
     }
-    builder
-        .withReturnValues("n", EP_ID) // Just return the execution ID
-        .withOrderBy("n", EP_REGISTRATION_DATE, false)
-        .withLimit(limit);
+    builder.withReturnValues("n", EP_ID) // Just return the execution ID
+        .withOrderBy("n", EP_REGISTRATION_DATE, false).withLimit(limit);
 
     Result result = transaction.run(builder.cypher());
     while (result.hasNext()) {
@@ -613,11 +485,9 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     synchronized (this) {
       try {
         assert executionState.getName() != null : "Please update execution states with a name";
-        assert executionState.getExecutionType() != null
-            : "Please update execution states with an execution type";
+        assert executionState.getExecutionType() != null : "Please update execution states with an execution type";
 
-        session.writeTransaction(
-            transaction -> updateNeo4jExecutionState(transaction, executionState));
+        session.writeTransaction(transaction -> updateNeo4jExecutionState(transaction, executionState));
       } catch (Exception e) {
         throw new HopException("Error updating execution state in Neo4j", e);
       }
@@ -629,15 +499,9 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       // Update information in the Execution node
       //
       CypherMergeBuilder stateCypherBuilder =
-          CypherMergeBuilder.of()
-              .withLabelAndKey(EL_EXECUTION, EP_ID, state.getId())
-              .withValue(EP_STATUS_DESCRIPTION, state.getStatusDescription())
-              .withValue(EP_LOGGING_TEXT, state.getLoggingText())
-              .withValue(EP_UPDATE_TIME, state.getUpdateTime())
-              .withValue(EP_CHILD_IDS, state.getChildIds())
-              .withValue(EP_FAILED, state.isFailed())
-              .withValue(EP_DETAILS, state.getDetails())
-              .withValue(EP_CONTAINER_ID, state.getContainerId())
+          CypherMergeBuilder.of().withLabelAndKey(EL_EXECUTION, EP_ID, state.getId()).withValue(EP_STATUS_DESCRIPTION, state.getStatusDescription())
+              .withValue(EP_LOGGING_TEXT, state.getLoggingText()).withValue(EP_UPDATE_TIME, state.getUpdateTime()).withValue(EP_CHILD_IDS, state.getChildIds())
+              .withValue(EP_FAILED, state.isFailed()).withValue(EP_DETAILS, state.getDetails()).withValue(EP_CONTAINER_ID, state.getContainerId())
               .withValue(EP_EXECUTION_END_DATE, state.getExecutionEndDate());
 
       transaction.run(stateCypherBuilder.cypher(), stateCypherBuilder.parameters());
@@ -652,12 +516,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
             CypherCreateBuilder metricBuilder =
                 CypherCreateBuilder.of()
                     .withLabelAndKeys(
-                        CL_EXECUTION_METRIC,
-                        Map.of(
-                            CP_ID, state.getId(),
-                            CP_NAME, metric.getComponentName(),
-                            CP_COPY_NR, metric.getComponentCopy(),
-                            CP_METRIC_KEY, metricKey))
+                        CL_EXECUTION_METRIC, Map.of(CP_ID, state.getId(), CP_NAME, metric.getComponentName(), CP_COPY_NR, metric.getComponentCopy(), CP_METRIC_KEY, metricKey))
                     .withValue(CP_METRIC_VALUE, metric.getMetrics().get(metricKey));
             execute(transaction, metricBuilder);
           }
@@ -678,37 +537,21 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public ExecutionState getExecutionState(String executionId, boolean includeLogging)
-      throws HopException {
+  public ExecutionState getExecutionState(String executionId, boolean includeLogging) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> getNeo4jExecutionState(transaction, executionId, includeLogging));
+        return session.readTransaction(transaction -> getNeo4jExecutionState(transaction, executionId, includeLogging));
       } catch (Exception e) {
         throw new HopException("Error getting execution from Neo4j", e);
       }
     }
   }
 
-  private ExecutionState getNeo4jExecutionState(
-      Transaction transaction, String executionId, boolean includeLogging) {
+  private ExecutionState getNeo4jExecutionState(Transaction transaction, String executionId, boolean includeLogging) {
     CypherQueryBuilder executionBuilder =
-        CypherQueryBuilder.of()
-            .withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId)
-            .withReturnValues(
-                "n",
-                EP_NAME,
-                EP_EXECUTION_TYPE,
-                EP_COPY_NR,
-                EP_PARENT_ID,
-                EP_LOGGING_TEXT,
-                EP_STATUS_DESCRIPTION,
-                EP_UPDATE_TIME,
-                EP_CHILD_IDS,
-                EP_FAILED,
-                EP_DETAILS,
-                EP_CONTAINER_ID,
-                EP_EXECUTION_END_DATE);
+        CypherQueryBuilder.of().withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId).withReturnValues(
+            "n", EP_NAME, EP_EXECUTION_TYPE, EP_COPY_NR, EP_PARENT_ID, EP_LOGGING_TEXT, EP_STATUS_DESCRIPTION, EP_UPDATE_TIME, EP_CHILD_IDS, EP_FAILED, EP_DETAILS, EP_CONTAINER_ID,
+            EP_EXECUTION_END_DATE);
     Result result = transaction.run(executionBuilder.cypher(), executionBuilder.parameters());
 
     // We expect exactly one result
@@ -726,28 +569,17 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     }
 
     ExecutionStateBuilder stateBuilder =
-        ExecutionStateBuilder.of()
-            .withId(executionId)
-            .withName(getString(record, EP_NAME))
-            .withCopyNr(getString(record, EP_COPY_NR))
-            .withParentId(getString(record, EP_PARENT_ID))
-            .withLoggingText(loggingText)
-            .withExecutionType(ExecutionType.valueOf(getString(record, EP_EXECUTION_TYPE)))
-            .withStatusDescription(getString(record, EP_STATUS_DESCRIPTION))
-            .withUpdateTime(getDate(record, EP_UPDATE_TIME))
-            .withChildIds(getList(record, EP_CHILD_IDS))
-            .withFailed(getBoolean(record, EP_FAILED))
-            .withDetails(getMap(record, EP_DETAILS))
-            .withContainerId(getString(record, EP_CONTAINER_ID))
+        ExecutionStateBuilder.of().withId(executionId).withName(getString(record, EP_NAME)).withCopyNr(getString(record, EP_COPY_NR)).withParentId(getString(record, EP_PARENT_ID))
+            .withLoggingText(loggingText).withExecutionType(ExecutionType.valueOf(getString(record, EP_EXECUTION_TYPE)))
+            .withStatusDescription(getString(record, EP_STATUS_DESCRIPTION)).withUpdateTime(getDate(record, EP_UPDATE_TIME)).withChildIds(getList(record, EP_CHILD_IDS))
+            .withFailed(getBoolean(record, EP_FAILED)).withDetails(getMap(record, EP_DETAILS)).withContainerId(getString(record, EP_CONTAINER_ID))
             .withExecutionEndDate(getDate(record, EP_EXECUTION_END_DATE));
 
     // Add the metrics to the state...
     //
     Result metricsResult =
         execute(
-            transaction,
-            CypherQueryBuilder.of()
-                .withLabelAndKeys("n", CL_EXECUTION_METRIC, Map.of(CP_ID, executionId))
+            transaction, CypherQueryBuilder.of().withLabelAndKeys("n", CL_EXECUTION_METRIC, Map.of(CP_ID, executionId))
                 .withReturnValues("n", CP_NAME, CP_COPY_NR, CP_METRIC_KEY, CP_METRIC_VALUE));
 
     Map<String, ExecutionStateComponentMetrics> metricsMap = new HashMap<>();
@@ -762,10 +594,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       if (metricValue != null) {
         // Add it to the map...
         //
-        ExecutionStateComponentMetrics metric =
-            metricsMap.computeIfAbsent(
-                componentKey,
-                f -> new ExecutionStateComponentMetrics(componentName, componentCopy));
+        ExecutionStateComponentMetrics metric = metricsMap.computeIfAbsent(componentKey, f -> new ExecutionStateComponentMetrics(componentName, componentCopy));
 
         // Add the value
         metric.getMetrics().put(metricKey, metricValue);
@@ -778,24 +607,18 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public String getExecutionStateLoggingText(String executionId, int sizeLimit)
-      throws HopException {
+  public String getExecutionStateLoggingText(String executionId, int sizeLimit) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> getNeo4jExecutionStateLoggingText(transaction, executionId, sizeLimit));
+        return session.readTransaction(transaction -> getNeo4jExecutionStateLoggingText(transaction, executionId, sizeLimit));
       } catch (Exception e) {
         throw new HopException("Error getting execution from Neo4j", e);
       }
     }
   }
 
-  private String getNeo4jExecutionStateLoggingText(
-      Transaction transaction, String executionId, int sizeLimit) {
-    CypherQueryBuilder executionBuilder =
-        CypherQueryBuilder.of()
-            .withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId)
-            .withReturnValues("n", EP_LOGGING_TEXT);
+  private String getNeo4jExecutionStateLoggingText(Transaction transaction, String executionId, int sizeLimit) {
+    CypherQueryBuilder executionBuilder = CypherQueryBuilder.of().withLabelAndKey("n", EL_EXECUTION, EP_ID, executionId).withReturnValues("n", EP_LOGGING_TEXT);
     Result result = transaction.run(executionBuilder.cypher(), executionBuilder.parameters());
 
     // We expect exactly one result
@@ -823,8 +646,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   public List<Execution> findExecutions(String parentExecutionId) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> findNeo4jExecutions(transaction, parentExecutionId));
+        return session.readTransaction(transaction -> findNeo4jExecutions(transaction, parentExecutionId));
       } catch (Exception e) {
         throw new HopException("Error getting execution from Neo4j", e);
       }
@@ -841,23 +663,18 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
    * @throws HopException
    */
   @Override
-  public Execution findPreviousSuccessfulExecution(ExecutionType executionType, String name)
-      throws HopException {
+  public Execution findPreviousSuccessfulExecution(ExecutionType executionType, String name) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> findNeo4jPreviousSuccessfulExecution(transaction, executionType, name));
+        return session.readTransaction(transaction -> findNeo4jPreviousSuccessfulExecution(transaction, executionType, name));
       } catch (Exception e) {
         throw new HopException("Error find previous successful execution in Neo4j", e);
       }
     }
   }
 
-  private Execution findNeo4jPreviousSuccessfulExecution(
-      Transaction transaction, ExecutionType executionType, String name) {
-    List<Execution> executions =
-        findNeo4jExecutions(
-            transaction, e -> e.getExecutionType() == executionType && name.equals(e.getName()));
+  private Execution findNeo4jPreviousSuccessfulExecution(Transaction transaction, ExecutionType executionType, String name) {
+    List<Execution> executions = findNeo4jExecutions(transaction, e -> e.getExecutionType() == executionType && name.equals(e.getName()));
     for (Execution execution : executions) {
       ExecutionState executionState = getNeo4jExecutionState(transaction, execution.getId(), false);
       if (executionState != null && !executionState.isFailed()) {
@@ -877,12 +694,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
   private List<Execution> findNeo4jExecutions(Transaction transaction, String parentExecutionId) {
     List<Execution> executions = new ArrayList<>();
 
-    Result result =
-        execute(
-            transaction,
-            CypherQueryBuilder.of()
-                .withLabelAndKey("n", EL_EXECUTION, EP_PARENT_ID, parentExecutionId)
-                .withReturnValues("n", EP_ID));
+    Result result = execute(transaction, CypherQueryBuilder.of().withLabelAndKey("n", EL_EXECUTION, EP_PARENT_ID, parentExecutionId).withReturnValues("n", EP_ID));
     while (result.hasNext()) {
       org.neo4j.driver.Record record = result.next();
       String executionId = getString(record, EP_ID);
@@ -893,8 +705,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
           executions.add(execution);
         }
       } catch (Exception e) {
-        log.logError(
-            "Error loading execution with id : " + executionId + " from Neo4j (non-fatal)", e);
+        log.logError("Error loading execution with id : " + executionId + " from Neo4j (non-fatal)", e);
       }
     }
     return executions;
@@ -944,25 +755,15 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       // Merge the ExecutionData node
       //
       CypherMergeBuilder stateCypherBuilder =
-          CypherMergeBuilder.of()
-              .withLabelAndKeys(
-                  DL_EXECUTION_DATA,
-                  Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId()))
-              .withValue(DP_EXECUTION_TYPE, data.getExecutionType().name())
-              .withValue(DP_FINISHED, data.isFinished())
-              .withValue(DP_COLLECTION_DATE, data.getCollectionDate());
+          CypherMergeBuilder.of().withLabelAndKeys(DL_EXECUTION_DATA, Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId()))
+              .withValue(DP_EXECUTION_TYPE, data.getExecutionType().name()).withValue(DP_FINISHED, data.isFinished()).withValue(DP_COLLECTION_DATE, data.getCollectionDate());
       execute(transaction, stateCypherBuilder);
 
       // Merge the relationship between Execution and ExecutionData and ExecutionState
       //
       CypherRelationshipBuilder executionDataRelCypherBuilder =
-          CypherRelationshipBuilder.of()
-              .withMatch(EL_EXECUTION, "n", EP_ID, data.getParentId())
-              .withMatch(
-                  DL_EXECUTION_DATA,
-                  "d",
-                  Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId()))
-              .withMerge("n", "d", R_HAS_DATA);
+          CypherRelationshipBuilder.of().withMatch(EL_EXECUTION, "n", EP_ID, data.getParentId())
+              .withMatch(DL_EXECUTION_DATA, "d", Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId())).withMerge("n", "d", R_HAS_DATA);
       execute(transaction, executionDataRelCypherBuilder);
 
       // Do we have metadata directly at the top level of the execution data?
@@ -975,21 +776,8 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
         //
         execute(
             transaction,
-            CypherRelationshipBuilder.of()
-                .withMatch(
-                    DL_EXECUTION_DATA,
-                    "s",
-                    Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId()))
-                .withMatch(
-                    ML_EXECUTION_DATA_SET_META,
-                    "m",
-                    Map.of(
-                        MP_PARENT_ID,
-                        data.getParentId(),
-                        MP_OWNER_ID,
-                        data.getOwnerId(),
-                        MP_SET_KEY,
-                        dataSetMeta.getSetKey()))
+            CypherRelationshipBuilder.of().withMatch(DL_EXECUTION_DATA, "s", Map.of(DP_PARENT_ID, data.getParentId(), DP_OWNER_ID, data.getOwnerId()))
+                .withMatch(ML_EXECUTION_DATA_SET_META, "m", Map.of(MP_PARENT_ID, data.getParentId(), MP_OWNER_ID, data.getOwnerId(), MP_SET_KEY, dataSetMeta.getSetKey()))
                 .withMerge("s", "m", R_HAS_METADATA));
       }
 
@@ -998,8 +786,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       for (String setKey : data.getDataSets().keySet()) {
         RowBuffer rowBuffer = data.getDataSets().get(setKey);
         ExecutionDataSetMeta setMeta = data.getSetMetaData().get(setKey);
-        saveNeo4jRowsAndMeta(
-            transaction, data.getParentId(), data.getOwnerId(), rowBuffer, setMeta);
+        saveNeo4jRowsAndMeta(transaction, data.getParentId(), data.getOwnerId(), rowBuffer, setMeta);
       }
 
       transaction.commit();
@@ -1010,12 +797,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     }
   }
 
-  private void saveNeo4jRowsAndMeta(
-      Transaction transaction,
-      String parentId,
-      String ownerId,
-      RowBuffer rowBuffer,
-      ExecutionDataSetMeta setMeta) {
+  private void saveNeo4jRowsAndMeta(Transaction transaction, String parentId, String ownerId, RowBuffer rowBuffer, ExecutionDataSetMeta setMeta) {
 
     try {
       IRowMeta rowMeta = rowBuffer.getRowMeta();
@@ -1024,37 +806,14 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       // Save the Execution Data Set node
       //
       execute(
-          transaction,
-          CypherMergeBuilder.of()
-              .withLabelAndKeys(
-                  TL_EXECUTION_DATA_SET,
-                  Map.of(
-                      TP_PARENT_ID,
-                      parentId,
-                      TP_OWNER_ID,
-                      ownerId,
-                      TP_SET_KEY,
-                      setMeta.getSetKey()))
+          transaction, CypherMergeBuilder.of().withLabelAndKeys(TL_EXECUTION_DATA_SET, Map.of(TP_PARENT_ID, parentId, TP_OWNER_ID, ownerId, TP_SET_KEY, setMeta.getSetKey()))
               .withValue(TP_ROW_META_JSON, rowMetaJson));
 
       // Create a relationship between the execution data and the data set
       //
       execute(
-          transaction,
-          CypherRelationshipBuilder.of()
-              .withMatch(
-                  DL_EXECUTION_DATA, "d", Map.of(DP_PARENT_ID, parentId, DP_OWNER_ID, ownerId))
-              .withMatch(
-                  TL_EXECUTION_DATA_SET,
-                  "s",
-                  Map.of(
-                      TP_PARENT_ID,
-                      parentId,
-                      TP_OWNER_ID,
-                      ownerId,
-                      TP_SET_KEY,
-                      setMeta.getSetKey()))
-              .withMerge("d", "s", R_HAS_DATASET));
+          transaction, CypherRelationshipBuilder.of().withMatch(DL_EXECUTION_DATA, "d", Map.of(DP_PARENT_ID, parentId, DP_OWNER_ID, ownerId))
+              .withMatch(TL_EXECUTION_DATA_SET, "s", Map.of(TP_PARENT_ID, parentId, TP_OWNER_ID, ownerId, TP_SET_KEY, setMeta.getSetKey())).withMerge("d", "s", R_HAS_DATASET));
 
       // Save the metadata for this data set
       //
@@ -1064,27 +823,8 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       //
       execute(
           transaction,
-          CypherRelationshipBuilder.of()
-              .withMatch(
-                  TL_EXECUTION_DATA_SET,
-                  "s",
-                  Map.of(
-                      TP_PARENT_ID,
-                      parentId,
-                      TP_OWNER_ID,
-                      ownerId,
-                      TP_SET_KEY,
-                      setMeta.getSetKey()))
-              .withMatch(
-                  ML_EXECUTION_DATA_SET_META,
-                  "m",
-                  Map.of(
-                      MP_PARENT_ID,
-                      parentId,
-                      MP_OWNER_ID,
-                      ownerId,
-                      MP_SET_KEY,
-                      setMeta.getSetKey()))
+          CypherRelationshipBuilder.of().withMatch(TL_EXECUTION_DATA_SET, "s", Map.of(TP_PARENT_ID, parentId, TP_OWNER_ID, ownerId, TP_SET_KEY, setMeta.getSetKey()))
+              .withMatch(ML_EXECUTION_DATA_SET_META, "m", Map.of(MP_PARENT_ID, parentId, MP_OWNER_ID, ownerId, MP_SET_KEY, setMeta.getSetKey()))
               .withMerge("s", "m", R_HAS_METADATA));
 
       // Now save rows for this data set
@@ -1093,46 +833,16 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       //
       execute(
           transaction,
-          CypherDeleteBuilder.of()
-              .withMatch(
-                  TL_EXECUTION_DATA_SET,
-                  "s",
-                  Map.of(
-                      TP_PARENT_ID,
-                      parentId,
-                      TP_OWNER_ID,
-                      ownerId,
-                      TP_SET_KEY,
-                      setMeta.getSetKey()))
-              .withMatch(
-                  OL_EXECUTION_DATA_SET_ROW,
-                  "r",
-                  Map.of(
-                      OP_PARENT_ID,
-                      parentId,
-                      OP_OWNER_ID,
-                      ownerId,
-                      OP_SET_KEY,
-                      setMeta.getSetKey()))
-              .withRelationshipMatch(R_HAS_ROW, "rel", "s", "r")
-              .withDelete("r", "rel"));
+          CypherDeleteBuilder.of().withMatch(TL_EXECUTION_DATA_SET, "s", Map.of(TP_PARENT_ID, parentId, TP_OWNER_ID, ownerId, TP_SET_KEY, setMeta.getSetKey()))
+              .withMatch(OL_EXECUTION_DATA_SET_ROW, "r", Map.of(OP_PARENT_ID, parentId, OP_OWNER_ID, ownerId, OP_SET_KEY, setMeta.getSetKey()))
+              .withRelationshipMatch(R_HAS_ROW, "rel", "s", "r").withDelete("r", "rel"));
       // Add the new rows
       //
       for (int rowNr = 1; rowNr <= rowBuffer.getBuffer().size(); rowNr++) {
         Object[] row = rowBuffer.getBuffer().get(rowNr - 1);
         CypherCreateBuilder builder =
             CypherCreateBuilder.of()
-                .withLabelAndKeys(
-                    OL_EXECUTION_DATA_SET_ROW,
-                    Map.of(
-                        OP_PARENT_ID,
-                        parentId,
-                        OP_OWNER_ID,
-                        ownerId,
-                        OP_SET_KEY,
-                        setMeta.getSetKey(),
-                        OP_ROW_NR,
-                        rowNr));
+                .withLabelAndKeys(OL_EXECUTION_DATA_SET_ROW, Map.of(OP_PARENT_ID, parentId, OP_OWNER_ID, ownerId, OP_SET_KEY, setMeta.getSetKey(), OP_ROW_NR, rowNr));
         for (int v = 0; v < rowMeta.size(); v++) {
           IValueMeta valueMeta = rowMeta.getValueMeta(v);
           builder.withValue("field" + v, valueMeta.getNativeDataType(row[v]));
@@ -1143,29 +853,8 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
         //
         execute(
             transaction,
-            CypherRelationshipBuilder.of()
-                .withMatch(
-                    TL_EXECUTION_DATA_SET,
-                    "s",
-                    Map.of(
-                        TP_PARENT_ID,
-                        parentId,
-                        TP_OWNER_ID,
-                        ownerId,
-                        TP_SET_KEY,
-                        setMeta.getSetKey()))
-                .withMatch(
-                    OL_EXECUTION_DATA_SET_ROW,
-                    "r",
-                    Map.of(
-                        OP_PARENT_ID,
-                        parentId,
-                        OP_OWNER_ID,
-                        ownerId,
-                        OP_SET_KEY,
-                        setMeta.getSetKey(),
-                        OP_ROW_NR,
-                        rowNr))
+            CypherRelationshipBuilder.of().withMatch(TL_EXECUTION_DATA_SET, "s", Map.of(TP_PARENT_ID, parentId, TP_OWNER_ID, ownerId, TP_SET_KEY, setMeta.getSetKey()))
+                .withMatch(OL_EXECUTION_DATA_SET_ROW, "r", Map.of(OP_PARENT_ID, parentId, OP_OWNER_ID, ownerId, OP_SET_KEY, setMeta.getSetKey(), OP_ROW_NR, rowNr))
                 .withCreate("s", "r", R_HAS_ROW));
       }
     } catch (Exception e) {
@@ -1173,49 +862,32 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     }
   }
 
-  private void saveDataSetMeta(
-      Transaction transaction, String parentId, String ownerId, ExecutionDataSetMeta dataSetMeta) {
+  private void saveDataSetMeta(Transaction transaction, String parentId, String ownerId, ExecutionDataSetMeta dataSetMeta) {
     // Save the data set meta node
     //
     execute(
         transaction,
-        CypherMergeBuilder.of()
-            .withLabelAndKeys(
-                ML_EXECUTION_DATA_SET_META,
-                Map.of(
-                    MP_PARENT_ID,
-                    parentId,
-                    MP_OWNER_ID,
-                    ownerId,
-                    MP_SET_KEY,
-                    dataSetMeta.getSetKey()))
-            .withValue(MP_NAME, dataSetMeta.getName())
-            .withValue(MP_COPY_NR, dataSetMeta.getCopyNr())
-            .withValue(MP_DESCRIPTION, dataSetMeta.getDescription())
-            .withValue(MP_FIELD_NAME, dataSetMeta.getFieldName())
-            .withValue(MP_LOG_CHANNEL_ID, dataSetMeta.getLogChannelId())
+        CypherMergeBuilder.of().withLabelAndKeys(ML_EXECUTION_DATA_SET_META, Map.of(MP_PARENT_ID, parentId, MP_OWNER_ID, ownerId, MP_SET_KEY, dataSetMeta.getSetKey()))
+            .withValue(MP_NAME, dataSetMeta.getName()).withValue(MP_COPY_NR, dataSetMeta.getCopyNr()).withValue(MP_DESCRIPTION, dataSetMeta.getDescription())
+            .withValue(MP_FIELD_NAME, dataSetMeta.getFieldName()).withValue(MP_LOG_CHANNEL_ID, dataSetMeta.getLogChannelId())
             .withValue(MP_SAMPLE_DESCRIPTION, dataSetMeta.getSampleDescription()));
   }
 
   @Override
-  public ExecutionData getExecutionData(String parentExecutionId, String executionId)
-      throws HopException {
+  public ExecutionData getExecutionData(String parentExecutionId, String executionId) throws HopException {
     synchronized (this) {
       try {
-        return session.readTransaction(
-            transaction -> getNeo4jExecutionData(transaction, parentExecutionId, executionId));
+        return session.readTransaction(transaction -> getNeo4jExecutionData(transaction, parentExecutionId, executionId));
       } catch (Exception e) {
         throw new HopException("Error getting execution from Neo4j", e);
       }
     }
   }
 
-  private ExecutionData getNeo4jExecutionData(
-      Transaction transaction, String parentExecutionId, String executionId) {
+  private ExecutionData getNeo4jExecutionData(Transaction transaction, String parentExecutionId, String executionId) {
     // Find the Execution Data node information.
     //
-    ExecutionDataBuilder builder =
-        ExecutionDataBuilder.of().withParentId(parentExecutionId).withOwnerId(executionId);
+    ExecutionDataBuilder builder = ExecutionDataBuilder.of().withParentId(parentExecutionId).withOwnerId(executionId);
 
     Map<String, Object> keyValueMap = new HashMap<>();
     keyValueMap.put(DP_PARENT_ID, parentExecutionId);
@@ -1228,10 +900,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
     Result result =
         execute(
             transaction,
-            CypherQueryBuilder.of()
-                .withLabelAndKeys("n", DL_EXECUTION_DATA, keyValueMap)
-                .withReturnValues(
-                    "n", DP_EXECUTION_TYPE, DP_OWNER_ID, DP_FINISHED, DP_COLLECTION_DATE));
+            CypherQueryBuilder.of().withLabelAndKeys("n", DL_EXECUTION_DATA, keyValueMap).withReturnValues("n", DP_EXECUTION_TYPE, DP_OWNER_ID, DP_FINISHED, DP_COLLECTION_DATE));
     boolean foundData = false;
     boolean allFinished = true;
     while (result.hasNext()) {
@@ -1250,8 +919,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       // The parentId would be the execution ID of a workflow.
       // The executionId would be of the action.
       //
-      ExecutionDataSetMeta setMeta =
-          getNeo4jExecutionDataSetMeta(transaction, parentExecutionId, ownerId);
+      ExecutionDataSetMeta setMeta = getNeo4jExecutionDataSetMeta(transaction, parentExecutionId, ownerId);
       if (setMeta != null) {
         if (StringUtils.isNotEmpty(executionId)) {
           builder.withDataSetMeta(setMeta);
@@ -1266,12 +934,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       //
       Result dataSetsResults =
           execute(
-              transaction,
-              CypherQueryBuilder.of()
-                  .withLabelAndKeys(
-                      "n",
-                      TL_EXECUTION_DATA_SET,
-                      Map.of(TP_PARENT_ID, parentExecutionId, TP_OWNER_ID, ownerId))
+              transaction, CypherQueryBuilder.of().withLabelAndKeys("n", TL_EXECUTION_DATA_SET, Map.of(TP_PARENT_ID, parentExecutionId, TP_OWNER_ID, ownerId))
                   .withReturnValues("n", TP_SET_KEY, TP_ROW_META_JSON));
       while (dataSetsResults.hasNext()) {
         org.neo4j.driver.Record record = dataSetsResults.next();
@@ -1284,12 +947,11 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
           rowMeta = JsonRowMeta.fromJson(rowMetaJson);
         }
         if (!rowMeta.isEmpty()) {
-          ExecutionDataSetMeta dataSetMeta =
-              getNeo4jExecutionDataSetMeta(transaction, parentExecutionId, ownerId, setKey);
+          ExecutionDataSetMeta dataSetMeta = getNeo4jExecutionDataSetMeta(transaction, parentExecutionId, ownerId, setKey);
           if (dataSetMeta != null) {
             builder.addSetMeta(setKey, dataSetMeta);
 
-            // Load the rows for the set straight from the row nodes.  The row metadata is already
+            // Load the rows for the set straight from the row nodes. The row metadata is already
             // known.
             //
             List<String> fieldNames = new ArrayList<>();
@@ -1302,19 +964,8 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
             Result rowsResult =
                 execute(
                     transaction,
-                    CypherQueryBuilder.of()
-                        .withLabelAndKeys(
-                            "n",
-                            OL_EXECUTION_DATA_SET_ROW,
-                            Map.of(
-                                OP_PARENT_ID,
-                                parentExecutionId,
-                                OP_OWNER_ID,
-                                ownerId,
-                                OP_SET_KEY,
-                                setKey))
-                        .withReturnValues("n", fieldNames.toArray(new String[0]))
-                        .withOrderBy("n", OP_ROW_NR, true));
+                    CypherQueryBuilder.of().withLabelAndKeys("n", OL_EXECUTION_DATA_SET_ROW, Map.of(OP_PARENT_ID, parentExecutionId, OP_OWNER_ID, ownerId, OP_SET_KEY, setKey))
+                        .withReturnValues("n", fieldNames.toArray(new String[0])).withOrderBy("n", OP_ROW_NR, true));
             RowBuffer rowBuffer = new RowBuffer(rowMeta);
             while (rowsResult.hasNext()) {
               org.neo4j.driver.Record rowsRecord = rowsResult.next();
@@ -1362,45 +1013,25 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       case IValueMeta.TYPE_NUMBER:
         return value.asDouble();
       default:
-        log.logError(
-            "Data type not yet supported : "
-                + valueMeta.getTypeDesc()
-                + " (non-fatal, returning null)");
+        log.logError("Data type not yet supported : " + valueMeta.getTypeDesc() + " (non-fatal, returning null)");
         return null;
     }
   }
 
-  private ExecutionDataSetMeta getNeo4jExecutionDataSetMeta(
-      Transaction transaction, String parentExecutionId, String ownerId) {
+  private ExecutionDataSetMeta getNeo4jExecutionDataSetMeta(Transaction transaction, String parentExecutionId, String ownerId) {
     // If there is a direct relationship between Data and DataSetMeta we can
     // follow that relationship and get the metadata from the result.
-    // There should always just be one node found.  There's no need to include the set key to do
+    // There should always just be one node found. There's no need to include the set key to do
     // this
     // as there is no data set associated with this information.
     //
     Result result =
         execute(
             transaction,
-            CypherQueryBuilder.of()
-                .withLabelAndKeys(
-                    "d",
-                    DL_EXECUTION_DATA,
-                    Map.of(MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId))
-                .withMatch(
-                    "n",
-                    ML_EXECUTION_DATA_SET_META,
-                    Map.of(
-                        MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId, MP_SET_KEY, ownerId))
+            CypherQueryBuilder.of().withLabelAndKeys("d", DL_EXECUTION_DATA, Map.of(MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId))
+                .withMatch("n", ML_EXECUTION_DATA_SET_META, Map.of(MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId, MP_SET_KEY, ownerId))
                 .withRelationship("d", "n", R_HAS_METADATA)
-                .withReturnValues(
-                    "n",
-                    MP_SET_KEY,
-                    MP_NAME,
-                    MP_COPY_NR,
-                    MP_DESCRIPTION,
-                    MP_FIELD_NAME,
-                    MP_LOG_CHANNEL_ID,
-                    MP_SAMPLE_DESCRIPTION));
+                .withReturnValues("n", MP_SET_KEY, MP_NAME, MP_COPY_NR, MP_DESCRIPTION, MP_FIELD_NAME, MP_LOG_CHANNEL_ID, MP_SAMPLE_DESCRIPTION));
 
     if (result.hasNext()) {
       return extractDataSetMeta(result.next());
@@ -1418,32 +1049,18 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
    * @param setKey
    * @return
    */
-  private ExecutionDataSetMeta getNeo4jExecutionDataSetMeta(
-      Transaction transaction, String parentExecutionId, String ownerId, String setKey) {
+  private ExecutionDataSetMeta getNeo4jExecutionDataSetMeta(Transaction transaction, String parentExecutionId, String ownerId, String setKey) {
     // If there is a direct relationship between Data and DataSetMeta we can
     // follow that relationship and get the metadata from the result.
-    // There should always just be one node found.  There's no need to include the set key to do
+    // There should always just be one node found. There's no need to include the set key to do
     // this
     // as there is no data set associated with this information.
     //
     Result result =
         execute(
             transaction,
-            CypherQueryBuilder.of()
-                .withLabelAndKeys(
-                    "n",
-                    ML_EXECUTION_DATA_SET_META,
-                    Map.of(
-                        MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId, MP_SET_KEY, setKey))
-                .withReturnValues(
-                    "n",
-                    MP_SET_KEY,
-                    MP_NAME,
-                    MP_COPY_NR,
-                    MP_DESCRIPTION,
-                    MP_FIELD_NAME,
-                    MP_LOG_CHANNEL_ID,
-                    MP_SAMPLE_DESCRIPTION));
+            CypherQueryBuilder.of().withLabelAndKeys("n", ML_EXECUTION_DATA_SET_META, Map.of(MP_PARENT_ID, parentExecutionId, MP_OWNER_ID, ownerId, MP_SET_KEY, setKey))
+                .withReturnValues("n", MP_SET_KEY, MP_NAME, MP_COPY_NR, MP_DESCRIPTION, MP_FIELD_NAME, MP_LOG_CHANNEL_ID, MP_SAMPLE_DESCRIPTION));
 
     if (result.hasNext()) {
       return extractDataSetMeta(result.next());
@@ -1476,14 +1093,12 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       }
       return null;
     } catch (Exception e) {
-      throw new HopException(
-          "Error looking up the last execution of type " + executionType + " and name " + name, e);
+      throw new HopException("Error looking up the last execution of type " + executionType + " and name " + name, e);
     }
   }
 
   @Override
-  public List<String> findChildIds(ExecutionType parentExecutionType, String parentExecutionId)
-      throws HopException {
+  public List<String> findChildIds(ExecutionType parentExecutionType, String parentExecutionId) throws HopException {
     try {
       ExecutionState state = getExecutionState(parentExecutionId);
       if (state != null) {
@@ -1491,12 +1106,7 @@ public class NeoExecutionInfoLocation implements IExecutionInfoLocation {
       }
       return Collections.emptyList();
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding children of "
-              + parentExecutionType.name()
-              + " execution "
-              + parentExecutionId,
-          e);
+      throw new HopException("Error finding children of " + parentExecutionType.name() + " execution " + parentExecutionId, e);
     }
   }
 

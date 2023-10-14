@@ -97,9 +97,7 @@ public class FieldHelperTest {
     ValueMetaString v = new ValueMetaString("Name");
     String accessor = FieldHelper.getAccessor(true, "Name");
 
-    assertEquals(
-        "String Name = get(Fields.In, \"Name\").getString(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("String Name = get(Fields.In, \"Name\").getString(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getString", Object[].class));
   }
 
@@ -108,9 +106,7 @@ public class FieldHelperTest {
     ValueMetaInternetAddress v = new ValueMetaInternetAddress("IP");
     String accessor = FieldHelper.getAccessor(true, "IP");
 
-    assertEquals(
-        "InetAddress IP = get(Fields.In, \"IP\").getInetAddress(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("InetAddress IP = get(Fields.In, \"IP\").getInetAddress(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getInetAddress", Object[].class));
   }
 
@@ -119,9 +115,7 @@ public class FieldHelperTest {
     ValueMetaTimestamp v = new ValueMetaTimestamp("TS");
     String accessor = FieldHelper.getAccessor(true, "TS");
 
-    assertEquals(
-        "Timestamp TS = get(Fields.In, \"TS\").getTimestamp(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Timestamp TS = get(Fields.In, \"TS\").getTimestamp(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getTimestamp", Object[].class));
   }
 
@@ -130,9 +124,7 @@ public class FieldHelperTest {
     ValueMetaBinary v = new ValueMetaBinary("Data");
     String accessor = FieldHelper.getAccessor(true, "Data");
 
-    assertEquals(
-        "byte[] Data = get(Fields.In, \"Data\").getBinary(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("byte[] Data = get(Fields.In, \"Data\").getBinary(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getBinary", Object[].class));
   }
 
@@ -141,9 +133,7 @@ public class FieldHelperTest {
     ValueMetaBigNumber v = new ValueMetaBigNumber("Number");
     String accessor = FieldHelper.getAccessor(true, "Number");
 
-    assertEquals(
-        "BigDecimal Number = get(Fields.In, \"Number\").getBigDecimal(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("BigDecimal Number = get(Fields.In, \"Number\").getBigDecimal(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getBigDecimal", Object[].class));
   }
 
@@ -152,9 +142,7 @@ public class FieldHelperTest {
     ValueMetaBoolean v = new ValueMetaBoolean("Value");
     String accessor = FieldHelper.getAccessor(true, "Value");
 
-    assertEquals(
-        "Boolean Value = get(Fields.In, \"Value\").getBoolean(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Boolean Value = get(Fields.In, \"Value\").getBoolean(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getBoolean", Object[].class));
   }
 
@@ -163,8 +151,7 @@ public class FieldHelperTest {
     ValueMetaDate v = new ValueMetaDate("DT");
     String accessor = FieldHelper.getAccessor(true, "DT");
 
-    assertEquals(
-        "Date DT = get(Fields.In, \"DT\").getDate(r);", FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Date DT = get(Fields.In, \"DT\").getDate(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getDate", Object[].class));
   }
 
@@ -173,9 +160,7 @@ public class FieldHelperTest {
     ValueMetaInteger v = new ValueMetaInteger("Value");
     String accessor = FieldHelper.getAccessor(true, "Value");
 
-    assertEquals(
-        "Long Value = get(Fields.In, \"Value\").getLong(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Long Value = get(Fields.In, \"Value\").getLong(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getLong", Object[].class));
   }
 
@@ -184,9 +169,7 @@ public class FieldHelperTest {
     ValueMetaNumber v = new ValueMetaNumber("Value");
     String accessor = FieldHelper.getAccessor(true, "Value");
 
-    assertEquals(
-        "Double Value = get(Fields.In, \"Value\").getDouble(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Double Value = get(Fields.In, \"Value\").getDouble(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getDouble", Object[].class));
   }
 
@@ -198,9 +181,7 @@ public class FieldHelperTest {
     ValueMetaSerializable v = new ValueMetaSerializable("Data");
     String accessor = FieldHelper.getAccessor(true, "Data");
 
-    assertEquals(
-        "Object Data = get(Fields.In, \"Data\").getObject(r);",
-        FieldHelper.getGetSignature(accessor, v));
+    assertEquals("Object Data = get(Fields.In, \"Data\").getObject(r);", FieldHelper.getGetSignature(accessor, v));
     assertNotNull(getMethod(FieldHelper.class, "getObject", Object[].class));
   }
 
@@ -212,9 +193,7 @@ public class FieldHelperTest {
     doReturn(v).when(row).searchValueMeta(anyString());
     doReturn(0).when(row).indexOfValue(anyString());
 
-    assertEquals(
-        InetAddress.getLoopbackAddress(),
-        new FieldHelper(row, "IP").getInetAddress(new Object[] {InetAddress.getLoopbackAddress()}));
+    assertEquals(InetAddress.getLoopbackAddress(), new FieldHelper(row, "IP").getInetAddress(new Object[] {InetAddress.getLoopbackAddress()}));
   }
 
   @Test
@@ -225,10 +204,7 @@ public class FieldHelperTest {
     doReturn(v).when(row).searchValueMeta(anyString());
     doReturn(0).when(row).indexOfValue(anyString());
 
-    assertEquals(
-        Timestamp.valueOf("2018-07-23 12:40:55"),
-        new FieldHelper(row, "TS")
-            .getTimestamp(new Object[] {Timestamp.valueOf("2018-07-23 12:40:55")}));
+    assertEquals(Timestamp.valueOf("2018-07-23 12:40:55"), new FieldHelper(row, "TS").getTimestamp(new Object[] {Timestamp.valueOf("2018-07-23 12:40:55")}));
   }
 
   @Test
@@ -250,9 +226,7 @@ public class FieldHelperTest {
     doReturn(v).when(row).searchValueMeta(anyString());
     doReturn(0).when(row).indexOfValue(anyString());
 
-    assertArrayEquals(
-        new byte[] {0, 1, 2},
-        new FieldHelper(row, "Data").getBinary(new Object[] {new byte[] {0, 1, 2}}));
+    assertArrayEquals(new byte[] {0, 1, 2}, new FieldHelper(row, "Data").getBinary(new Object[] {new byte[] {0, 1, 2}}));
   }
 
   @Test

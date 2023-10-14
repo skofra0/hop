@@ -55,114 +55,70 @@ import java.util.List;
     name = "i18n::BaseTransform.TypeLongDesc.VerticaBulkLoaderMessage",
     description = "i18n::BaseTransform.TypeTooltipDesc.VerticaBulkLoaderMessage",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Bulk",
-    documentationUrl =
-        "https://hop.apache.org/manual/latest/plugins/transforms/verticabulkloader.html")
-public class VerticaBulkLoaderMeta
-    extends BaseTransformMeta<VerticaBulkLoader, VerticaBulkLoaderData>
-    implements IProvidesModelerMeta {
+    documentationUrl = "https://hop.apache.org/manual/latest/plugins/transforms/verticabulkloader.html")
+public class VerticaBulkLoaderMeta extends BaseTransformMeta<VerticaBulkLoader, VerticaBulkLoaderData> implements IProvidesModelerMeta {
   private static final Class<?> PKG = VerticaBulkLoaderMeta.class;
 
-  @HopMetadataProperty(
-    key = "connection",
-    injectionKey = "CONNECTIONNAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.CONNECTIONNAME"
-  )
+  @HopMetadataProperty(key = "connection", injectionKey = "CONNECTIONNAME", injectionKeyDescription = "VerticaBulkLoader.Injection.CONNECTIONNAME")
   private String connection;
 
-  @HopMetadataProperty(
-    key = "schema",
-    injectionKey = "SCHEMANAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.SCHEMANAME"
-  )
+  @HopMetadataProperty(key = "schema", injectionKey = "SCHEMANAME", injectionKeyDescription = "VerticaBulkLoader.Injection.SCHEMANAME")
   private String schemaName;
 
-  @HopMetadataProperty(
-    key = "table",
-    injectionKey = "TABLENAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.TABLENAME"
-  )
+  @HopMetadataProperty(key = "table", injectionKey = "TABLENAME", injectionKeyDescription = "VerticaBulkLoader.Injection.TABLENAME")
   private String tablename;
 
-  @HopMetadataProperty(
-          key = "truncate",
-          injectionKey = "TRUNCATE_TABLE",
-          injectionKeyDescription = "VerticaBulkLoader.Injection.TruncateTable.Field")
+  @HopMetadataProperty(key = "truncate", injectionKey = "TRUNCATE_TABLE", injectionKeyDescription = "VerticaBulkLoader.Injection.TruncateTable.Field")
   private boolean truncateTable;
 
-  @HopMetadataProperty(
-          key = "only_when_have_rows",
-          injectionKey = "ONLY_WHEN_HAVE_ROWS",
-          injectionKeyDescription = "VerticaBulkLoader.Inject.OnlyWhenHaveRows.Field")
+  @HopMetadataProperty(key = "only_when_have_rows", injectionKey = "ONLY_WHEN_HAVE_ROWS", injectionKeyDescription = "VerticaBulkLoader.Inject.OnlyWhenHaveRows.Field")
   private boolean onlyWhenHaveRows;
-  @HopMetadataProperty(
-    key = "direct",
-    injectionKey = "DIRECT",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.DIRECT"
-  )
+  @HopMetadataProperty(key = "direct", injectionKey = "DIRECT", injectionKeyDescription = "VerticaBulkLoader.Injection.DIRECT")
   private boolean direct = true;
 
-  @HopMetadataProperty(
-    key = "abort_on_error",
-    injectionKey = "ABORTONERROR",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.ABORTONERROR"
-  )
+  @HopMetadataProperty(key = "abort_on_error", injectionKey = "ABORTONERROR", injectionKeyDescription = "VerticaBulkLoader.Injection.ABORTONERROR")
   private boolean abortOnError = true;
 
-  @HopMetadataProperty(
-    key = "exceptions_filename",
-    injectionKey = "EXCEPTIONSFILENAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.EXCEPTIONSFILENAME"
-  )
+  @HopMetadataProperty(key = "exceptions_filename", injectionKey = "EXCEPTIONSFILENAME", injectionKeyDescription = "VerticaBulkLoader.Injection.EXCEPTIONSFILENAME")
   private String exceptionsFileName;
 
-  @HopMetadataProperty(
-    key = "rejected_data_filename",
-    injectionKey = "REJECTEDDATAFILENAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.REJECTEDDATAFILENAME"
-  )
+  @HopMetadataProperty(key = "rejected_data_filename", injectionKey = "REJECTEDDATAFILENAME", injectionKeyDescription = "VerticaBulkLoader.Injection.REJECTEDDATAFILENAME")
   private String rejectedDataFileName;
 
-  @HopMetadataProperty(
-    key = "stream_name",
-    injectionKey = "STREAMNAME",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.STREAMNAME"
-  )
+  @HopMetadataProperty(key = "stream_name", injectionKey = "STREAMNAME", injectionKeyDescription = "VerticaBulkLoader.Injection.STREAMNAME")
   private String streamName;
 
   /** Do we explicitly select the fields to update in the database */
-  @HopMetadataProperty(
-    key = "specify_fields",
-    injectionKeyDescription = ""
-  )
+  @HopMetadataProperty(key = "specify_fields", injectionKeyDescription = "")
   private boolean specifyFields;
 
   @HopMetadataProperty(
-    groupKey = "fields",
-    key = "field",
-    injectionGroupKey = "FIELDS",
-    injectionGroupDescription = "VerticaBulkLoader.Injection.FIELDS",
-    injectionKey = "FIELDSTREAM",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.FIELDSTREAM"
-  )
-/**
- * Fields containing the values in the input stream to insert
- * */
+      groupKey = "fields",
+      key = "field",
+      injectionGroupKey = "FIELDS",
+      injectionGroupDescription = "VerticaBulkLoader.Injection.FIELDS",
+      injectionKey = "FIELDSTREAM",
+      injectionKeyDescription = "VerticaBulkLoader.Injection.FIELDSTREAM")
+  /**
+   * Fields containing the values in the input stream to insert
+   */
   private List<VerticaBulkLoaderField> fields;
 
-  public List<VerticaBulkLoaderField> getFields(){ return fields;}
+  public List<VerticaBulkLoaderField> getFields() {
+    return fields;
+  }
 
-  public void setFields(List<VerticaBulkLoaderField> fields){
+  public void setFields(List<VerticaBulkLoaderField> fields) {
     this.fields = fields;
   }
 
   @HopMetadataProperty(
-    groupKey = "fields",
-    key = "field",
-    injectionGroupKey = "FIELDS",
-    injectionGroupDescription = "VerticaBulkLoader.Injection.FIELDS",
-    injectionKey = "FIELDDATABASE",
-    injectionKeyDescription = "VerticaBulkLoader.Injection.FIELDDATABASE"
-  )
+      groupKey = "fields",
+      key = "field",
+      injectionGroupKey = "FIELDS",
+      injectionGroupDescription = "VerticaBulkLoader.Injection.FIELDS",
+      injectionKey = "FIELDDATABASE",
+      injectionKeyDescription = "VerticaBulkLoader.Injection.FIELDDATABASE")
   /** Fields in the table to insert */
   private String[] fieldDatabase;
 
@@ -179,7 +135,7 @@ public class VerticaBulkLoaderMeta
   /**
    * @return returns the database connection name
    */
-  public String getConnection(){
+  public String getConnection() {
     return connection;
   }
 
@@ -187,13 +143,13 @@ public class VerticaBulkLoaderMeta
    * sets the database connection name
    * @param connection the database connection name to set
    */
-  public void setConnection(String connection){
+  public void setConnection(String connection) {
     this.connection = connection;
   }
 
-/*
+  /*
   */
-/**
+  /**
    * @return Returns the database.
    */
   public DatabaseMeta getDatabaseMeta() {
@@ -248,7 +204,6 @@ public class VerticaBulkLoaderMeta
   public void setOnlyWhenHaveRows(boolean onlyWhenHaveRows) {
     this.onlyWhenHaveRows = onlyWhenHaveRows;
   }
-
 
   /**
    * @param specifyFields The specify fields flag to set.
@@ -329,17 +284,12 @@ public class VerticaBulkLoaderMeta
 
     Database db = null;
 
-    try{
+    try {
 
-      DatabaseMeta databaseMeta =
-              metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseMeta != null) {
-        CheckResult cr =
-                new CheckResult(
-                        ICheckResult.TYPE_RESULT_OK,
-                        BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ConnectionExists"),
-                        transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ConnectionExists"), transformMeta);
         remarks.add(cr);
 
         db = new Database(loggingObject, variables, databaseMeta);
@@ -347,37 +297,21 @@ public class VerticaBulkLoaderMeta
         try {
           db.connect();
 
-          cr =
-                  new CheckResult(
-                          ICheckResult.TYPE_RESULT_OK,
-                          BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ConnectionOk"),
-                          transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ConnectionOk"), transformMeta);
           remarks.add(cr);
 
           if (!StringUtil.isEmpty(tablename)) {
-            String schemaTable =
-                    databaseMeta.getQuotedSchemaTableCombination(
-                            variables, db.resolve(schemaName), db.resolve(tablename));
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, db.resolve(schemaName), db.resolve(tablename));
             // Check if this table exists...
             String realSchemaName = db.resolve(schemaName);
             String realTableName = db.resolve(tablename);
             if (db.checkTableExists(realSchemaName, realTableName)) {
-              cr =
-                      new CheckResult(
-                              ICheckResult.TYPE_RESULT_OK,
-                              BaseMessages.getString(
-                                      PKG, "VerticaBulkLoaderMeta.CheckResult.TableAccessible", schemaTable),
-                              transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.TableAccessible", schemaTable), transformMeta);
               remarks.add(cr);
 
               IRowMeta r = db.getTableFields(schemaTable);
               if (r != null) {
-                cr =
-                        new CheckResult(
-                                ICheckResult.TYPE_RESULT_OK,
-                                BaseMessages.getString(
-                                        PKG, "VerticaBulkLoaderMeta.CheckResult.TableOk", schemaTable),
-                                transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.TableOk", schemaTable), transformMeta);
                 remarks.add(cr);
 
                 String error_message = "";
@@ -386,13 +320,10 @@ public class VerticaBulkLoaderMeta
                 // Now see what we can find as previous transform...
                 if (prev != null && prev.size() > 0) {
                   cr =
-                          new CheckResult(
-                                  ICheckResult.TYPE_RESULT_OK,
-                                  BaseMessages.getString(
-                                          PKG,
-                                          "VerticaBulkLoaderMeta.CheckResult.FieldsReceived",
-                                          "" + prev.size()),
-                                  transformMeta);
+                      new CheckResult(
+                          ICheckResult.TYPE_RESULT_OK,
+                          BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsReceived", "" + prev.size()),
+                          transformMeta);
                   remarks.add(cr);
 
                   if (!specifyFields()) {
@@ -401,29 +332,17 @@ public class VerticaBulkLoaderMeta
                       IValueMeta pv = prev.getValueMeta(i);
                       int idx = r.indexOfValue(pv.getName());
                       if (idx < 0) {
-                        error_message +=
-                                "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
+                        error_message += "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
                         error_found = true;
                       }
                     }
                     if (error_found) {
-                      error_message =
-                              BaseMessages.getString(
-                                      PKG,
-                                      "VerticaBulkLoaderMeta.CheckResult.FieldsNotFoundInOutput",
-                                      error_message);
+                      error_message = BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsNotFoundInOutput", error_message);
 
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
                       remarks.add(cr);
                     } else {
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_OK,
-                                      BaseMessages.getString(
-                                              PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFoundInOutput"),
-                                      transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFoundInOutput"), transformMeta);
                       remarks.add(cr);
                     }
                   } else {
@@ -436,23 +355,12 @@ public class VerticaBulkLoaderMeta
                       }
                     }
                     if (error_found) {
-                      error_message =
-                              BaseMessages.getString(
-                                      PKG,
-                                      "VerticaBulkLoaderMeta.CheckResult.FieldsSpecifiedNotInTable",
-                                      error_message);
+                      error_message = BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsSpecifiedNotInTable", error_message);
 
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
                       remarks.add(cr);
                     } else {
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_OK,
-                                      BaseMessages.getString(
-                                              PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFoundInOutput"),
-                                      transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFoundInOutput"), transformMeta);
                       remarks.add(cr);
                     }
                   }
@@ -464,27 +372,17 @@ public class VerticaBulkLoaderMeta
                       IValueMeta rv = r.getValueMeta(i);
                       int idx = prev.indexOfValue(rv.getName());
                       if (idx < 0) {
-                        error_message +=
-                                "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
+                        error_message += "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
                         error_found = true;
                       }
                     }
                     if (error_found) {
-                      error_message =
-                              BaseMessages.getString(
-                                      PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsNotFound", error_message);
+                      error_message = BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsNotFound", error_message);
 
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_WARNING, error_message, transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, error_message, transformMeta);
                       remarks.add(cr);
                     } else {
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_OK,
-                                      BaseMessages.getString(
-                                              PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFound"),
-                                      transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFound"), transformMeta);
                       remarks.add(cr);
                     }
                   } else {
@@ -498,102 +396,53 @@ public class VerticaBulkLoaderMeta
                       }
                     }
                     if (error_found) {
-                      error_message =
-                              BaseMessages.getString(
-                                      PKG,
-                                      "VerticaBulkLoaderMeta.CheckResult.FieldsSpecifiedNotFound",
-                                      error_message);
+                      error_message = BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.FieldsSpecifiedNotFound", error_message);
 
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, error_message, transformMeta);
                       remarks.add(cr);
                     } else {
-                      cr =
-                              new CheckResult(
-                                      ICheckResult.TYPE_RESULT_OK,
-                                      BaseMessages.getString(
-                                              PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFound"),
-                                      transformMeta);
+                      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.AllFieldsFound"), transformMeta);
                       remarks.add(cr);
                     }
                   }
                 } else {
-                  cr =
-                          new CheckResult(
-                                  ICheckResult.TYPE_RESULT_ERROR,
-                                  BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoFields"),
-                                  transformMeta);
+                  cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoFields"), transformMeta);
                   remarks.add(cr);
                 }
               } else {
-                cr =
-                        new CheckResult(
-                                ICheckResult.TYPE_RESULT_ERROR,
-                                BaseMessages.getString(
-                                        PKG, "VerticaBulkLoaderMeta.CheckResult.TableNotAccessible"),
-                                transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.TableNotAccessible"), transformMeta);
                 remarks.add(cr);
               }
             } else {
-              cr =
-                      new CheckResult(
-                              ICheckResult.TYPE_RESULT_ERROR,
-                              BaseMessages.getString(
-                                      PKG, "VerticaBulkLoaderMeta.CheckResult.TableError", schemaTable),
-                              transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.TableError", schemaTable), transformMeta);
               remarks.add(cr);
             }
           } else {
-            cr =
-                    new CheckResult(
-                            ICheckResult.TYPE_RESULT_ERROR,
-                            BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoTableName"),
-                            transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoTableName"), transformMeta);
             remarks.add(cr);
           }
         } catch (HopException e) {
-          cr =
-                  new CheckResult(
-                          ICheckResult.TYPE_RESULT_ERROR,
-                          BaseMessages.getString(
-                                  PKG, "VerticaBulkLoaderMeta.CheckResult.UndefinedError", e.getMessage()),
-                          transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.UndefinedError", e.getMessage()), transformMeta);
           remarks.add(cr);
         } finally {
           db.disconnect();
         }
       } else {
-        CheckResult cr =
-                new CheckResult(
-                        ICheckResult.TYPE_RESULT_ERROR,
-                        BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoConnection"),
-                        transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.NoConnection"), transformMeta);
         remarks.add(cr);
       }
-    }catch(HopException e){
-      CheckResult cr = new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                      PKG, "VerticaBulkLoaderMeta.CheckResult.UndefinedError", e.getMessage()),
-              transformMeta);
-        remarks.add(cr);
+    } catch (HopException e) {
+      CheckResult cr =
+          new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.UndefinedError", e.getMessage()), transformMeta);
+      remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -607,9 +456,10 @@ public class VerticaBulkLoaderMeta
       String[] input,
       String[] output,
       IRowMeta info,
-      IHopMetadataProvider metadataProvider) throws HopTransformException{
+      IHopMetadataProvider metadataProvider)
+      throws HopTransformException {
 
-    try{
+    try {
       DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       // The values that are entering this transform are in "prev":
@@ -617,36 +467,30 @@ public class VerticaBulkLoaderMeta
         for (int i = 0; i < prev.size(); i++) {
           IValueMeta v = prev.getValueMeta(i);
           DatabaseImpact ii =
-                  new DatabaseImpact(
-                          DatabaseImpact.TYPE_IMPACT_WRITE,
-                          pipelineMeta.getName(),
-                          transformMeta.getName(),
-                          databaseMeta.getDatabaseName(),
-                          tablename,
-                          v.getName(),
-                          v.getName(),
-                          v != null ? v.getOrigin() : "?",
-                          "",
-                          "Type = " + v.toStringMeta());
+              new DatabaseImpact(
+                  DatabaseImpact.TYPE_IMPACT_WRITE,
+                  pipelineMeta.getName(),
+                  transformMeta.getName(),
+                  databaseMeta.getDatabaseName(),
+                  tablename,
+                  v.getName(),
+                  v.getName(),
+                  v != null ? v.getOrigin() : "?",
+                  "",
+                  "Type = " + v.toStringMeta());
           impact.add(ii);
         }
       }
-    }catch(HopException e){
+    } catch (HopException e) {
       throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection));
     }
   }
 
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
 
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connection, variables);
 
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -655,8 +499,7 @@ public class VerticaBulkLoaderMeta
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tablename);
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tablename);
             String cr_table = db.getDDL(schemaTable, prev);
 
             // Empty string means: nothing to do: set it to null...
@@ -666,9 +509,7 @@ public class VerticaBulkLoaderMeta
 
             retval.setSql(cr_table);
           } catch (HopDatabaseException dbe) {
-            retval.setError(
-                BaseMessages.getString(
-                    PKG, "VerticaBulkLoaderMeta.Error.ErrorConnecting", dbe.getMessage()));
+            retval.setError(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Error.ErrorConnecting", dbe.getMessage()));
           } finally {
             db.disconnect();
           }
@@ -689,8 +530,7 @@ public class VerticaBulkLoaderMeta
     String realTableName = variables.resolve(tablename);
     String realSchemaName = variables.resolve(schemaName);
 
-    DatabaseMeta databaseMeta =
-            getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
+    DatabaseMeta databaseMeta = getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
 
     if (databaseMeta != null) {
       Database db = new Database(loggingObject, variables, databaseMeta);
@@ -698,30 +538,24 @@ public class VerticaBulkLoaderMeta
         db.connect();
 
         if (!StringUtil.isEmpty(realTableName)) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(
-                  variables, realSchemaName, realTableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchemaName, realTableName);
 
           // Check if this table exists...
           if (db.checkTableExists(realSchemaName, realTableName)) {
             return db.getTableFields(schemaTable);
           } else {
-            throw new HopException(
-                BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.TableNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.TableNotSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.TableNotSpecified"));
         }
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.ErrorGettingFields"), e);
+        throw new HopException(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.ErrorGettingFields"), e);
       } finally {
         db.disconnect();
       }
     } else {
-      throw new HopException(
-          BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.ConnectionNotDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Exception.ConnectionNotDefined"));
     }
   }
 
@@ -733,15 +567,13 @@ public class VerticaBulkLoaderMeta
     return fieldDatabase;
   }
 
-
-/**
+  /**
    * @param fieldDatabase The fields containing the names of the fields to insert.
    */
 
   public void setFieldDatabase(String[] fieldDatabase) {
     this.fieldDatabase = fieldDatabase;
   }
-
 
   /**
    * @return the schemaName
@@ -777,7 +609,7 @@ public class VerticaBulkLoaderMeta
     List<String> items = Collections.emptyList();
     if (specifyFields()) {
       items = new ArrayList<>();
-      for(VerticaBulkLoaderField vbf : fields){
+      for (VerticaBulkLoaderField vbf : fields) {
         items.add(vbf.getFieldDatabase());
       }
     }
@@ -789,7 +621,7 @@ public class VerticaBulkLoaderMeta
     List<String> items = Collections.emptyList();
     if (specifyFields()) {
       items = new ArrayList<>();
-      for(VerticaBulkLoaderField vbf : fields){
+      for (VerticaBulkLoaderField vbf : fields) {
         items.add(vbf.getFieldStream());
       }
     }

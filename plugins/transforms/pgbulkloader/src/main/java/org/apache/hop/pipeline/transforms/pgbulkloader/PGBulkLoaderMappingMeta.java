@@ -24,21 +24,15 @@ public class PGBulkLoaderMappingMeta {
   private static final Class<?> PKG = PGBulkLoaderMeta.class; // For Translator
 
   /** Field value to dateMask after lookup */
-  @HopMetadataProperty(
-      key = "stream_name",
-      injectionKeyDescription = "PGBulkLoader.Injection.StreamName.Label")
+  @HopMetadataProperty(key = "stream_name", injectionKeyDescription = "PGBulkLoader.Injection.StreamName.Label")
   private String fieldTable;
 
   /** Field name in the stream */
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKeyDescription = "PGBulkLoader.Injection.FieldName.Label")
+  @HopMetadataProperty(key = "field_name", injectionKeyDescription = "PGBulkLoader.Injection.FieldName.Label")
   private String fieldStream;
 
   /** boolean indicating if field needs to be updated */
-  @HopMetadataProperty(
-      key = "date_mask",
-      injectionKeyDescription = "PGBulkLoader.Injection.DateMask.Label")
+  @HopMetadataProperty(key = "date_mask", injectionKeyDescription = "PGBulkLoader.Injection.DateMask.Label")
   private String dateMask;
 
   public PGBulkLoaderMappingMeta() {
@@ -61,8 +55,10 @@ public class PGBulkLoaderMappingMeta {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     PGBulkLoaderMappingMeta that = (PGBulkLoaderMappingMeta) o;
     return Objects.equals(fieldTable, that.fieldTable) && Objects.equals(fieldStream, that.fieldStream) && Objects.equals(dateMask, that.dateMask);
   }

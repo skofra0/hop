@@ -50,8 +50,7 @@ class RemoveAltKeyMessageHandler implements IMessageHandler {
   }
 
   @Override
-  public String getString(
-      String packageName, String key, Class<?> resourceClass, String... parameters) {
+  public String getString(String packageName, String key, Class<?> resourceClass, String... parameters) {
     return trimAltKey(defMessageHandler.getString(packageName, key, resourceClass, parameters));
   }
 
@@ -59,8 +58,8 @@ class RemoveAltKeyMessageHandler implements IMessageHandler {
     Matcher matcher = altKeyPattern.matcher(value);
     if (matcher.find()) {
       value = value.substring(0, matcher.start());
-      if (matcher.group(1) != null){
-          value += matcher.group(1);
+      if (matcher.group(1) != null) {
+        value += matcher.group(1);
       }
     }
     return value;

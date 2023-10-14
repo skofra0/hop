@@ -30,8 +30,7 @@ import org.apache.hop.ui.hopgui.delegates.HopGuiFileDialogExtension;
 public class HopGuiFileDefaultFolder implements IExtensionPoint<HopGuiFileDialogExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiFileDialogExtension ext) {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiFileDialogExtension ext) {
 
     // Is there an active project?
     //

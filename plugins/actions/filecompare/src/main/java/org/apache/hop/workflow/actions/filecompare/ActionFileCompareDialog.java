@@ -45,8 +45,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionFileCompareDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionFileCompare.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionFileCompare.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionFileCompare.Filetype.All")};
 
   private Text wName;
 
@@ -59,8 +58,7 @@ public class ActionFileCompareDialog extends ActionDialog implements IActionDial
 
   private boolean changed;
 
-  public ActionFileCompareDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionFileCompareDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionFileCompare) action;
     if (this.action.getName() == null) {
@@ -135,14 +133,9 @@ public class ActionFileCompareDialog extends ActionDialog implements IActionDial
     wFilename1.setLayoutData(fdFilename1);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename1.addModifyListener(
-        e -> wFilename1.setToolTipText(variables.resolve(wFilename1.getText())));
+    wFilename1.addModifyListener(e -> wFilename1.setToolTipText(variables.resolve(wFilename1.getText())));
 
-    wbFilename1.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename1, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename1.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename1, variables, new String[] {"*"}, FILETYPES, true));
 
     // Filename 2 line
     Label wlFilename2 = new Label(shell, SWT.RIGHT);
@@ -170,19 +163,13 @@ public class ActionFileCompareDialog extends ActionDialog implements IActionDial
     wFilename2.setLayoutData(fdFilename2);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename2.addModifyListener(
-        e -> wFilename2.setToolTipText(variables.resolve(wFilename2.getText())));
+    wFilename2.addModifyListener(e -> wFilename2.setToolTipText(variables.resolve(wFilename2.getText())));
 
-    wbFilename2.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename2, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename2.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename2, variables, new String[] {"*"}, FILETYPES, true));
 
     // Add filename to result filenames
     Label wlAddFilenameResult = new Label(shell, SWT.RIGHT);
-    wlAddFilenameResult.setText(
-        BaseMessages.getString(PKG, "ActionFileCompare.AddFilenameResult.Label"));
+    wlAddFilenameResult.setText(BaseMessages.getString(PKG, "ActionFileCompare.AddFilenameResult.Label"));
     PropsUi.setLook(wlAddFilenameResult);
     FormData fdlAddFilenameResult = new FormData();
     fdlAddFilenameResult.left = new FormAttachment(0, 0);
@@ -191,20 +178,18 @@ public class ActionFileCompareDialog extends ActionDialog implements IActionDial
     wlAddFilenameResult.setLayoutData(fdlAddFilenameResult);
     wAddFilenameResult = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAddFilenameResult);
-    wAddFilenameResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFileCompare.AddFilenameResult.Tooltip"));
+    wAddFilenameResult.setToolTipText(BaseMessages.getString(PKG, "ActionFileCompare.AddFilenameResult.Tooltip"));
     FormData fdAddFilenameResult = new FormData();
     fdAddFilenameResult.left = new FormAttachment(middle, 0);
     fdAddFilenameResult.top = new FormAttachment(wlAddFilenameResult, 0, SWT.CENTER);
     fdAddFilenameResult.right = new FormAttachment(100, 0);
     wAddFilenameResult.setLayoutData(fdAddFilenameResult);
-    wAddFilenameResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddFilenameResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Buttons at the bottom
     //
@@ -214,8 +199,7 @@ public class ActionFileCompareDialog extends ActionDialog implements IActionDial
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
 

@@ -28,12 +28,8 @@ import java.util.List;
 import java.util.Random;
 
 @GuiPlugin
-@ExecutionDataSamplerPlugin(
-    id = "RandomRowsExecutionDataSampler",
-    name = "Random output rows",
-    description = "Do reservoir sampling on the output rows of a transform")
-public class RandomRowsExecutionDataSampler
-    extends ExecutionDataSamplerBase<RandomRowsExecutionDataSamplerStore>
+@ExecutionDataSamplerPlugin(id = "RandomRowsExecutionDataSampler", name = "Random output rows", description = "Do reservoir sampling on the output rows of a transform")
+public class RandomRowsExecutionDataSampler extends ExecutionDataSamplerBase<RandomRowsExecutionDataSamplerStore>
     implements IExecutionDataSampler<RandomRowsExecutionDataSamplerStore> {
 
   public RandomRowsExecutionDataSampler() {
@@ -60,11 +56,7 @@ public class RandomRowsExecutionDataSampler
   }
 
   @Override
-  public void sampleRow(
-          RandomRowsExecutionDataSamplerStore samplerStore,
-      IStream.StreamType streamType,
-      IRowMeta rowMeta,
-      Object[] row) {
+  public void sampleRow(RandomRowsExecutionDataSamplerStore samplerStore, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row) {
 
     synchronized (samplerStore.getRows()) {
       List<Object[]> rows = samplerStore.getRows();

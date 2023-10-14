@@ -31,8 +31,7 @@ public class ValidatorMessages {
     return getStringFromBundle(BUNDLE_NAME, key, params);
   }
 
-  public static String getStringFromBundle(
-      final String bundleName, final String key, final Object... params) {
+  public static String getStringFromBundle(final String bundleName, final String key, final Object... params) {
     ResourceBundle bundle = null;
     try {
       bundle = GlobalMessageUtil.getBundle(bundleName, ValidatorMessages.class);

@@ -36,13 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MetadataInput extends BaseTransform<MetadataInputMeta, MetadataInputData> {
-  public MetadataInput(
-      TransformMeta transformMeta,
-      MetadataInputMeta meta,
-      MetadataInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MetadataInput(TransformMeta transformMeta, MetadataInputMeta meta, MetadataInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -62,8 +56,7 @@ public class MetadataInput extends BaseTransform<MetadataInputMeta, MetadataInpu
     // Loop over the metadata classes (types)
     List<Class<IHopMetadata>> metadataClasses = metadataProvider.getMetadataClasses();
     for (Class<IHopMetadata> metadataClass : metadataClasses) {
-      IHopMetadataSerializer<IHopMetadata> serializer =
-          metadataProvider.getSerializer(metadataClass);
+      IHopMetadataSerializer<IHopMetadata> serializer = metadataProvider.getSerializer(metadataClass);
       HopMetadata annotation = HopMetadataUtil.getHopMetadataAnnotation(metadataClass);
 
       // See if we need to include this class in the output...
@@ -79,8 +72,7 @@ public class MetadataInput extends BaseTransform<MetadataInputMeta, MetadataInpu
         continue;
       }
 
-      JsonMetadataParser<IHopMetadata> parser =
-          new JsonMetadataParser<>(metadataClass, metadataProvider);
+      JsonMetadataParser<IHopMetadata> parser = new JsonMetadataParser<>(metadataClass, metadataProvider);
 
       // Loop over the objects of the specified class
       //

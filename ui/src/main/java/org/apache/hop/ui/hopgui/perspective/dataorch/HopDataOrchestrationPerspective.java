@@ -131,8 +131,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
   @Override
   public void perspectiveActivated() {
     IHopFileTypeHandler handler = getActiveFileTypeHandler();
-    HopGui.getInstance()
-        .handleFileCapabilities(handler.getFileType(), handler.hasChanged(), false, false);
+    HopGui.getInstance().handleFileCapabilities(handler.getFileType(), handler.hasChanged(), false, false);
     setActiveFileTypeHandler(handler);
   }
 
@@ -172,13 +171,12 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
     fdLabel.bottom = new FormAttachment(100, 0);
     tabFolder.setLayoutData(fdLabel);
 
-    tabFolder.addCTabFolder2Listener(
-        new CTabFolder2Adapter() {
-          @Override
-          public void close(CTabFolderEvent event) {
-            handleTabCloseEvent(event);
-          }
-        });
+    tabFolder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+      @Override
+      public void close(CTabFolderEvent event) {
+        handleTabCloseEvent(event);
+      }
+    });
     tabFolder.addListener(SWT.Selection, event -> handleTabSelectionEvent(event));
 
     // Create tab item context menu
@@ -234,14 +232,11 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
    * @param pipelineMeta
    * @return
    */
-  public IHopFileTypeHandler addPipeline(
-      HopGui hopGui, PipelineMeta pipelineMeta, HopPipelineFileType pipelineFile)
-      throws HopException {
+  public IHopFileTypeHandler addPipeline(HopGui hopGui, PipelineMeta pipelineMeta, HopPipelineFileType pipelineFile) throws HopException {
     CTabItem tabItem = new CTabItem(tabFolder, SWT.CLOSE);
     tabItem.setFont(GuiResource.getInstance().getFontDefault());
     tabItem.setImage(GuiResource.getInstance().getImagePipeline());
-    HopGuiPipelineGraph pipelineGraph =
-        new HopGuiPipelineGraph(tabFolder, hopGui, tabItem, this, pipelineMeta, pipelineFile);
+    HopGuiPipelineGraph pipelineGraph = new HopGuiPipelineGraph(tabFolder, hopGui, tabItem, this, pipelineMeta, pipelineFile);
     // Set the tab name
     //
     updateTabLabel(tabItem, pipelineMeta.getFilename(), pipelineMeta.getName());
@@ -252,8 +247,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
     // If it's a new pipeline, the file name will be null. So, ignore
     //
     if (pipelineMeta.getFilename() != null) {
-      hopGui.fileRefreshDelegate.register(
-          HopVfs.getFileObject(pipelineMeta.getFilename()).getPublicURIString(), pipelineGraph);
+      hopGui.fileRefreshDelegate.register(HopVfs.getFileObject(pipelineMeta.getFilename()).getPublicURIString(), pipelineGraph);
     }
 
     // Update the internal variables (file specific) in the pipeline graph variables
@@ -279,17 +273,9 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
     tabSelectionIndex = tabSelectionHistory.size() - 1;
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          pipelineGraph.getVariables(),
-          HopExtensionPoint.HopGuiNewPipelineTab.id,
-          pipelineGraph);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), pipelineGraph.getVariables(), HopExtensionPoint.HopGuiNewPipelineTab.id, pipelineGraph);
     } catch (Exception e) {
-      throw new HopException(
-          "Error calling extension point plugin for plugin id "
-              + HopExtensionPoint.HopGuiNewPipelineTab.id
-              + " trying to handle a new pipeline tab",
-          e);
+      throw new HopException("Error calling extension point plugin for plugin id " + HopExtensionPoint.HopGuiNewPipelineTab.id + " trying to handle a new pipeline tab", e);
     }
 
     pipelineGraph.setFocus();
@@ -310,21 +296,17 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
    * @param workflowMeta
    * @return The file type handler
    */
-  public IHopFileTypeHandler addWorkflow(
-      HopGui hopGui, WorkflowMeta workflowMeta, HopWorkflowFileType workflowFile)
-      throws HopException {
+  public IHopFileTypeHandler addWorkflow(HopGui hopGui, WorkflowMeta workflowMeta, HopWorkflowFileType workflowFile) throws HopException {
     CTabItem tabItem = new CTabItem(tabFolder, SWT.CLOSE);
     tabItem.setFont(GuiResource.getInstance().getFontDefault());
     tabItem.setImage(GuiResource.getInstance().getImageWorkflow());
-    HopGuiWorkflowGraph workflowGraph =
-        new HopGuiWorkflowGraph(tabFolder, hopGui, tabItem, this, workflowMeta, workflowFile);
+    HopGuiWorkflowGraph workflowGraph = new HopGuiWorkflowGraph(tabFolder, hopGui, tabItem, this, workflowMeta, workflowFile);
     tabItem.setControl(workflowGraph);
 
     // If it's a new workflow, the file name will be null
     //
     if (workflowMeta.getFilename() != null) {
-      hopGui.fileRefreshDelegate.register(
-          HopVfs.getFileObject(workflowMeta.getFilename()).getPublicURIString(), workflowGraph);
+      hopGui.fileRefreshDelegate.register(HopVfs.getFileObject(workflowMeta.getFilename()).getPublicURIString(), workflowGraph);
     }
 
     // Update the internal variables (file specific) in the workflow graph variables
@@ -354,17 +336,9 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
     tabSelectionIndex = tabSelectionHistory.size() - 1;
 
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(),
-          workflowGraph.getVariables(),
-          HopExtensionPoint.HopGuiNewWorkflowTab.id,
-          workflowGraph);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), workflowGraph.getVariables(), HopExtensionPoint.HopGuiNewWorkflowTab.id, workflowGraph);
     } catch (Exception e) {
-      throw new HopException(
-          "Error calling extension point plugin for plugin id "
-              + HopExtensionPoint.HopGuiNewWorkflowTab.id
-              + " trying to handle a new workflow tab",
-          e);
+      throw new HopException("Error calling extension point plugin for plugin id " + HopExtensionPoint.HopGuiNewWorkflowTab.id + " trying to handle a new workflow tab", e);
     }
 
     workflowGraph.setFocus();
@@ -378,7 +352,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
    *
    * @param typeHandler The file type handler to remove
    * @return true if the handler was removed from the perspective, false if it wasn't (cancelled,
-   *     not possible, ...)
+   *         not possible, ...)
    */
   @Override
   public boolean remove(IHopFileTypeHandler typeHandler) {
@@ -402,21 +376,13 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
       if (typeHandler.getSubject() != null) {
         if (typeHandler.getSubject() instanceof PipelineMeta) {
           try {
-            ExtensionPointHandler.callExtensionPoint(
-                hopGui.getLog(),
-                hopGui.getVariables(),
-                HopExtensionPoint.HopGuiPipelineAfterClose.id,
-                typeHandler.getSubject());
+            ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), hopGui.getVariables(), HopExtensionPoint.HopGuiPipelineAfterClose.id, typeHandler.getSubject());
           } catch (Exception e) {
             hopGui.getLog().logError("Error calling extension point 'HopGuiPipelineAfterClose'", e);
           }
         } else if (typeHandler.getSubject() instanceof WorkflowMeta) {
           try {
-            ExtensionPointHandler.callExtensionPoint(
-                hopGui.getLog(),
-                hopGui.getVariables(),
-                HopExtensionPoint.HopGuiWorkflowAfterClose.id,
-                typeHandler.getSubject());
+            ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), hopGui.getVariables(), HopExtensionPoint.HopGuiWorkflowAfterClose.id, typeHandler.getSubject());
           } catch (Exception e) {
             hopGui.getLog().logError("Error calling extension point 'HopGuiWorkflowAfterClose'", e);
           }
@@ -433,7 +399,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
    * anything.
    *
    * @return the active file type handler or if none is active return an empty handler which does do
-   *     anything.
+   *         anything.
    */
   @Override
   public IHopFileTypeHandler getActiveFileTypeHandler() {
@@ -541,41 +507,40 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
       // The type handler is the pipeline or workflow
       //
       IHopFileTypeHandler typeHandler = item.getTypeHandler();
-      searchables.add(
-          new ISearchable() {
-            @Override
-            public String getLocation() {
-              return "Data orchestration perspective in tab : " + item.getTabItem().getText();
-            }
+      searchables.add(new ISearchable() {
+        @Override
+        public String getLocation() {
+          return "Data orchestration perspective in tab : " + item.getTabItem().getText();
+        }
 
-            @Override
-            public String getName() {
-              return typeHandler.getName();
-            }
+        @Override
+        public String getName() {
+          return typeHandler.getName();
+        }
 
-            @Override
-            public String getType() {
-              return typeHandler.getFileType().getName();
-            }
+        @Override
+        public String getType() {
+          return typeHandler.getFileType().getName();
+        }
 
-            @Override
-            public String getFilename() {
-              return typeHandler.getFilename();
-            }
+        @Override
+        public String getFilename() {
+          return typeHandler.getFilename();
+        }
 
-            @Override
-            public Object getSearchableObject() {
-              return typeHandler.getSubject();
-            }
+        @Override
+        public Object getSearchableObject() {
+          return typeHandler.getSubject();
+        }
 
-            @Override
-            public ISearchableCallback getSearchCallback() {
-              return (searchable, searchResult) -> {
-                activate();
-                switchToTab(item);
-              };
-            }
-          });
+        @Override
+        public ISearchableCallback getSearchCallback() {
+          return (searchable, searchResult) -> {
+            activate();
+            switchToTab(item);
+          };
+        }
+      });
     }
     return searchables;
   }
@@ -706,7 +671,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
 
   @Override
   public void closeTab(CTabFolderEvent event, CTabItem tabItem) {
-    // A tab is closed.  We need to handle this gracefully.
+    // A tab is closed. We need to handle this gracefully.
     // - Look up which tab it is
     // - Look up which file it contains
     // - Save the file if it was changed
@@ -725,8 +690,7 @@ public class HopDataOrchestrationPerspective implements IHopPerspective, TabClos
     // Remove the file in refreshDelegate
     try {
       if (isRemoved && typeHandler.getFilename() != null) {
-        hopGui.fileRefreshDelegate.remove(
-            HopVfs.getFileObject(typeHandler.getFilename()).getPublicURIString());
+        hopGui.fileRefreshDelegate.remove(HopVfs.getFileObject(typeHandler.getFilename()).getPublicURIString());
       }
     } catch (HopFileException e) {
       hopGui.getLog().logError("Error getting VFS fileObject", e);

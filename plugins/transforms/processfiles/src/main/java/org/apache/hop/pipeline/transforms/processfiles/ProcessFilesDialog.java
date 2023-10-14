@@ -70,8 +70,7 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
 
   private boolean gotPreviousFields = false;
 
-  public ProcessFilesDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ProcessFilesDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ProcessFilesMeta) in;
   }
@@ -86,13 +85,12 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
 
     ModifyListener lsMod = e -> input.setChanged();
 
-    SelectionAdapter lsButtonChanged =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsButtonChanged = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
 
     changed = input.hasChanged();
 
@@ -157,18 +155,16 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
     fdOperation.right = new FormAttachment(100, -margin);
     wOperation.setLayoutData(fdOperation);
     wOperation.setItems(ProcessFilesMeta.operationTypeDesc);
-    wOperation.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            updateOperation();
-          }
-        });
+    wOperation.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        updateOperation();
+      }
+    });
 
     // Create target parent folder?
     wlCreateParentFolder = new Label(wSettingsGroup, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "ProcessFilesDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -177,8 +173,7 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wCreateParentFolder);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "ProcessFilesDialog.CreateParentFolder.Tooltip"));
     wCreateParentFolder.addSelectionListener(lsButtonChanged);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
@@ -187,8 +182,7 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
 
     // Overwrite target file?
     wlOverwriteTarget = new Label(wSettingsGroup, SWT.RIGHT);
-    wlOverwriteTarget.setText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.OverwriteTarget.Label"));
+    wlOverwriteTarget.setText(BaseMessages.getString(PKG, "ProcessFilesDialog.OverwriteTarget.Label"));
     PropsUi.setLook(wlOverwriteTarget);
     FormData fdlOverwriteTarget = new FormData();
     fdlOverwriteTarget.left = new FormAttachment(0, 0);
@@ -197,8 +191,7 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
     wlOverwriteTarget.setLayoutData(fdlOverwriteTarget);
     wOverwriteTarget = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wOverwriteTarget);
-    wOverwriteTarget.setToolTipText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.OverwriteTarget.Tooltip"));
+    wOverwriteTarget.setToolTipText(BaseMessages.getString(PKG, "ProcessFilesDialog.OverwriteTarget.Tooltip"));
     wOverwriteTarget.addSelectionListener(lsButtonChanged);
     FormData fdOverwriteTarget = new FormData();
     fdOverwriteTarget.left = new FormAttachment(middle, 0);
@@ -253,8 +246,7 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
 
     // SourceFileNameField field
     Label wlSourceFileNameField = new Label(shell, SWT.RIGHT);
-    wlSourceFileNameField.setText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.SourceFileNameField.Label"));
+    wlSourceFileNameField.setText(BaseMessages.getString(PKG, "ProcessFilesDialog.SourceFileNameField.Label"));
     PropsUi.setLook(wlSourceFileNameField);
     FormData fdlSourceFileNameField = new FormData();
     fdlSourceFileNameField.left = new FormAttachment(0, 0);
@@ -271,26 +263,24 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
     fdSourceFileNameField.top = new FormAttachment(wSettingsGroup, 2 * margin);
     fdSourceFileNameField.right = new FormAttachment(100, -margin);
     wSourceFileNameField.setLayoutData(fdSourceFileNameField);
-    wSourceFileNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focusLost event
-          }
+    wSourceFileNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focusLost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
     // TargetFileNameField field
     wlTargetFileNameField = new Label(shell, SWT.RIGHT);
-    wlTargetFileNameField.setText(
-        BaseMessages.getString(PKG, "ProcessFilesDialog.TargetFileNameField.Label"));
+    wlTargetFileNameField.setText(BaseMessages.getString(PKG, "ProcessFilesDialog.TargetFileNameField.Label"));
     PropsUi.setLook(wlTargetFileNameField);
     FormData fdlTargetFileNameField = new FormData();
     fdlTargetFileNameField.left = new FormAttachment(0, 0);
@@ -307,22 +297,21 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
     fdTargetFileNameField.top = new FormAttachment(wSourceFileNameField, margin);
     fdTargetFileNameField.right = new FormAttachment(100, -margin);
     wTargetFileNameField.setLayoutData(fdTargetFileNameField);
-    wTargetFileNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focusLost event
-          }
+    wTargetFileNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focusLost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
@@ -346,30 +335,14 @@ public class ProcessFilesDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void updateOperation() {
-    wlOverwriteTarget.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wOverwriteTarget.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wlAddResult.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wAddResult.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wlTargetFileNameField.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wTargetFileNameField.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wlCreateParentFolder.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
-    wCreateParentFolder.setEnabled(
-        ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText())
-            != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wlOverwriteTarget.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wOverwriteTarget.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wlAddResult.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wAddResult.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wlTargetFileNameField.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wTargetFileNameField.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wlCreateParentFolder.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
+    wCreateParentFolder.setEnabled(ProcessFilesMeta.getOperationTypeByDesc(wOperation.getText()) != ProcessFilesMeta.OPERATION_TYPE_DELETE);
   }
 
   /** Copy information from the meta-data input to the dialog fields. */

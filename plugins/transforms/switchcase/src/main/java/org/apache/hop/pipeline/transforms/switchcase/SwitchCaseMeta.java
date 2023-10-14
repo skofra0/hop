@@ -53,38 +53,23 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
   private static final Class<?> PKG = SwitchCaseMeta.class; // For Translator
 
   /** The field to switch over */
-  @HopMetadataProperty(
-      key = "fieldname",
-      injectionKey = "FIELD_NAME",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.FIELD_NAME")
+  @HopMetadataProperty(key = "fieldname", injectionKey = "FIELD_NAME", injectionKeyDescription = "SwitchCaseMeta.Injection.FIELD_NAME")
   private String fieldName;
 
   /** The case value type to help parse numeric and date-time data */
-  @HopMetadataProperty(
-      key = "case_value_type",
-      injectionKey = "VALUE_TYPE",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_TYPE")
+  @HopMetadataProperty(key = "case_value_type", injectionKey = "VALUE_TYPE", injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_TYPE")
   private String caseValueType;
 
   /** The case value format to help parse numeric and date-time data */
-  @HopMetadataProperty(
-      key = "case_value_format",
-      injectionKey = "VALUE_FORMAT",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_FORMAT")
+  @HopMetadataProperty(key = "case_value_format", injectionKey = "VALUE_FORMAT", injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_FORMAT")
   private String caseValueFormat;
 
   /** The decimal symbol to help parse numeric data */
-  @HopMetadataProperty(
-      key = "case_value_decimal",
-      injectionKey = "VALUE_DECIMAL",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_DECIMAL")
+  @HopMetadataProperty(key = "case_value_decimal", injectionKey = "VALUE_DECIMAL", injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_DECIMAL")
   private String caseValueDecimal;
 
   /** The grouping symbol to help parse numeric data */
-  @HopMetadataProperty(
-      key = "case_value_group",
-      injectionKey = "VALUE_GROUP",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_GROUP")
+  @HopMetadataProperty(key = "case_value_group", injectionKey = "VALUE_GROUP", injectionKeyDescription = "SwitchCaseMeta.Injection.VALUE_GROUP")
   private String caseValueGroup;
 
   /** The targets to switch over */
@@ -99,10 +84,7 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
   private String defaultTargetTransformName;
 
   /** True if the comparison is a String.contains instead of equals */
-  @HopMetadataProperty(
-      key = "use_contains",
-      injectionKey = "CONTAINS",
-      injectionKeyDescription = "SwitchCaseMeta.Injection.CONTAINS")
+  @HopMetadataProperty(key = "use_contains", injectionKey = "CONTAINS", injectionKeyDescription = "SwitchCaseMeta.Injection.CONTAINS")
   private boolean usingContains;
 
   public SwitchCaseMeta() {
@@ -129,13 +111,7 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: nothing changes to rowMeta
   }
@@ -159,47 +135,25 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "SwitchCaseMeta.CheckResult.TargetTransformInvalid",
-                    "false",
-                    target.getCaseTargetTransformName()),
+                BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.TargetTransformInvalid", "false", target.getCaseTargetTransformName()),
                 transformMeta);
         remarks.add(cr);
       }
     }
 
     if (Utils.isEmpty(fieldName)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.NoFieldSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.NoFieldSpecified"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.FieldSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.FieldSpecified"), transformMeta);
     }
     remarks.add(cr);
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SwitchCaseMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "SwitchCaseMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SwitchCaseMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -287,10 +241,7 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
             new Stream(
                 StreamType.TARGET,
                 null,
-                BaseMessages.getString(
-                    PKG,
-                    "SwitchCaseMeta.TargetStream.CaseTarget.Description",
-                    Const.NVL(target.getCaseValue(), "")),
+                BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.CaseTarget.Description", Const.NVL(target.getCaseValue(), "")),
                 StreamIcon.TARGET,
                 target.getCaseTargetTransformName());
         ioMeta.addStream(stream);
@@ -300,12 +251,7 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
       //
       if (StringUtils.isNotEmpty(defaultTargetTransformName)) {
         ioMeta.addStream(
-            new Stream(
-                StreamType.TARGET,
-                null,
-                BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.Default.Description"),
-                StreamIcon.TARGET,
-                defaultTargetTransformName));
+            new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.Default.Description"), StreamIcon.TARGET, defaultTargetTransformName));
       }
       setTransformIOMeta(ioMeta);
     }
@@ -320,16 +266,14 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
     for (SwitchCaseTarget target : caseTargets) {
       IStream stream = targetStreams.get(index++);
 
-      TransformMeta transformMeta =
-          TransformMeta.findTransform(transforms, target.getCaseTargetTransformName());
+      TransformMeta transformMeta = TransformMeta.findTransform(transforms, target.getCaseTargetTransformName());
       stream.setTransformMeta(transformMeta);
     }
     // Extra one is the default target (if any)...
     //
     if (StringUtils.isNotEmpty(defaultTargetTransformName)) {
       IStream stream = targetStreams.get(index);
-      TransformMeta transformMeta =
-          TransformMeta.findTransform(transforms, defaultTargetTransformName);
+      TransformMeta transformMeta = TransformMeta.findTransform(transforms, defaultTargetTransformName);
       stream.setTransformMeta(transformMeta);
     }
   }
@@ -340,19 +284,9 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
   }
 
   private static IStream newDefaultStream =
-      new Stream(
-          StreamType.TARGET,
-          null,
-          BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.Default.Description"),
-          StreamIcon.TARGET,
-          null);
+      new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.Default.Description"), StreamIcon.TARGET, null);
   private static IStream newCaseTargetStream =
-      new Stream(
-          StreamType.TARGET,
-          null,
-          BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.NewCaseTarget.Description"),
-          StreamIcon.TARGET,
-          null);
+      new Stream(StreamType.TARGET, null, BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.NewCaseTarget.Description"), StreamIcon.TARGET, null);
 
   @Override
   public List<IStream> getOptionalStreams() {
@@ -390,10 +324,7 @@ public class SwitchCaseMeta extends BaseTransformMeta<SwitchCase, SwitchCaseData
           new Stream(
               StreamType.TARGET,
               stream.getTransformMeta(),
-              BaseMessages.getString(
-                  PKG,
-                  "SwitchCaseMeta.TargetStream.CaseTarget.Description",
-                  Const.NVL(target.getCaseValue(), "")),
+              BaseMessages.getString(PKG, "SwitchCaseMeta.TargetStream.CaseTarget.Description", Const.NVL(target.getCaseValue(), "")),
               StreamIcon.TARGET,
               stream.getTransformMeta().getName());
       getTransformIOMeta().addStream(newStream);

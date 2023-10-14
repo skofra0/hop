@@ -65,27 +65,11 @@ public class SwtUniversalImageSvg extends SwtUniversalImage {
 
     if (!keepOriginal && PropsUi.getInstance().isDarkMode()) {
       DOMImplementation domImplementation = SVGDOMImplementation.getDOMImplementation();
-      SVGDocument clonedDocument =
-          (SVGDocument) DOMUtilities.deepCloneDocument(svg.getDocument(), domImplementation);
+      SVGDocument clonedDocument = (SVGDocument) DOMUtilities.deepCloneDocument(svg.getDocument(), domImplementation);
       SVGSVGElement root = clonedDocument.getRootElement();
 
       Map<String, String> colorsMap = PropsUi.getInstance().getContrastingColorStrings();
-      List<String> tags =
-          Arrays.asList(
-              "path",
-              "fill",
-              "bordercolor",
-              "fillcolor",
-              "style",
-              "text",
-              "polygon",
-              "rect",
-              "circle",
-              "ellipse",
-              "stop",
-              "tspan",
-              "polyline",
-              "mask");
+      List<String> tags = Arrays.asList("path", "fill", "bordercolor", "fillcolor", "style", "text", "polygon", "rect", "circle", "ellipse", "stop", "tspan", "polyline", "mask");
 
       contrastColors(root, tags, colorsMap);
 
@@ -103,8 +87,7 @@ public class SwtUniversalImageSvg extends SwtUniversalImage {
     }
   }
 
-  private void contrastColors(
-      SVGSVGElement root, List<String> tags, Map<String, String> colorsMap) {
+  private void contrastColors(SVGSVGElement root, List<String> tags, Map<String, String> colorsMap) {
     for (String tag : tags) {
 
       NodeList nodeList = root.getElementsByTagName(tag);
@@ -141,18 +124,14 @@ public class SwtUniversalImageSvg extends SwtUniversalImage {
 
   @Override
   protected Image renderSimple(Device device) {
-    return renderSimple(
-        device,
-        (int) Math.round(svgGraphicsSize.getWidth()),
-        (int) Math.round(svgGraphicsSize.getHeight()));
+    return renderSimple(device, (int) Math.round(svgGraphicsSize.getWidth()), (int) Math.round(svgGraphicsSize.getHeight()));
   }
 
   @Override
   protected Image renderSimple(Device device, int width, int height) {
     BufferedImage area = SwingUniversalImage.createBitmap(width, height);
     Graphics2D gc = SwingUniversalImage.createGraphics(area);
-    SwingUniversalImageSvg.render(
-        gc, svgGraphicsNode, svgGraphicsSize, width / 2, height / 2, width, height, 0);
+    SwingUniversalImageSvg.render(gc, svgGraphicsNode, svgGraphicsSize, width / 2, height / 2, width, height, 0);
     gc.dispose();
 
     return swing2swt(device, area);
@@ -163,15 +142,7 @@ public class SwtUniversalImageSvg extends SwtUniversalImage {
     BufferedImage doubleArea = SwingUniversalImage.createDoubleBitmap(width, height);
 
     Graphics2D gc = SwingUniversalImage.createGraphics(doubleArea);
-    SwingUniversalImageSvg.render(
-        gc,
-        svgGraphicsNode,
-        svgGraphicsSize,
-        doubleArea.getWidth() / 2,
-        doubleArea.getHeight() / 2,
-        width,
-        height,
-        angleRadians);
+    SwingUniversalImageSvg.render(gc, svgGraphicsNode, svgGraphicsSize, doubleArea.getWidth() / 2, doubleArea.getHeight() / 2, width, height, angleRadians);
 
     gc.dispose();
 

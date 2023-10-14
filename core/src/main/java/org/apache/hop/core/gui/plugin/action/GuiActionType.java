@@ -22,6 +22,5 @@ public enum GuiActionType {
   Delete,
   Duplicate,
   Info,
-  Custom,
-  ;
+  Custom,;
 }

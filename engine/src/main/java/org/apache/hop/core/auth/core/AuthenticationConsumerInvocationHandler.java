@@ -28,10 +28,7 @@ public class AuthenticationConsumerInvocationHandler implements InvocationHandle
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    return target
-        .getClass()
-        .getMethod(method.getName(), method.getParameterTypes())
-        .invoke(target, args);
+    return target.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(target, args);
   }
 
   public static boolean isCompatible(Class<?> proxyInterface, Object targetObject) {

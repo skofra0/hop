@@ -68,13 +68,7 @@ public class BeamTimestampMeta extends BaseTransformMeta<Dummy, DummyData> imple
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (readingTimestamp) {
@@ -113,29 +107,17 @@ public class BeamTimestampMeta extends BaseTransformMeta<Dummy, DummyData> imple
       throws HopException {
     if (!readingTimestamp && StringUtils.isNotEmpty(fieldName)) {
       if (rowMeta.searchValueMeta(fieldName) == null) {
-        throw new HopException(
-            "Please specify a valid field name '" + transformMeta.getName() + "'");
+        throw new HopException("Please specify a valid field name '" + transformMeta.getName() + "'");
       }
     }
 
     PCollection<HopRow> transformPCollection =
-        input.apply(
-            ParDo.of(
-                new TimestampFn(
-                    transformMeta.getName(),
-                    JsonRowMeta.toJson(rowMeta),
-                    variables.resolve(fieldName),
-                    readingTimestamp)));
+        input.apply(ParDo.of(new TimestampFn(transformMeta.getName(), JsonRowMeta.toJson(rowMeta), variables.resolve(fieldName), readingTimestamp)));
 
     // Save this in the map
     //
     transformCollectionMap.put(transformMeta.getName(), transformPCollection);
-    log.logBasic(
-        "Handled transform (TIMESTAMP) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransforms.size()
-            + " previous transform(s)");
+    log.logBasic("Handled transform (TIMESTAMP) : " + transformMeta.getName() + ", gets data from " + previousTransforms.size() + " previous transform(s)");
   }
 
   /**

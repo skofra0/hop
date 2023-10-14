@@ -40,7 +40,8 @@ public class YamlInputMetaTest implements IInitializer<YamlInputMeta> {
   LoadSaveTester<YamlInputMeta> loadSaveTester;
   Class<YamlInputMeta> testMetaClass = YamlInputMeta.class;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -48,75 +49,55 @@ public class YamlInputMetaTest implements IInitializer<YamlInputMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "includeFilename",
-            "filenameField",
-            "includeRowNumber",
-            "rowNumberField",
-            "rowLimit",
-            "encoding",
-            "yamlField",
-            "inFields",
-            "IsAFile",
-            "addResultFile",
-            "validating",
-            "IsIgnoreEmptyFile",
-            "doNotFailIfNoFile",
-            "fileName",
-            "fileMask",
-            "fileRequired",
-            "includeSubFolders",
-            "inputFields");
+            "includeFilename", "filenameField", "includeRowNumber", "rowNumberField", "rowLimit", "encoding", "yamlField", "inFields", "IsAFile", "addResultFile", "validating",
+            "IsIgnoreEmptyFile", "doNotFailIfNoFile", "fileName", "fileMask", "fileRequired", "includeSubFolders", "inputFields");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("includeFilename", "includeFilename");
-            put("filenameField", "getFilenameField");
-            put("includeRowNumber", "includeRowNumber");
-            put("rowNumberField", "getRowNumberField");
-            put("rowLimit", "getRowLimit");
-            put("encoding", "getEncoding");
-            put("yamlField", "getYamlField");
-            put("inFields", "isInFields");
-            put("IsAFile", "getIsAFile");
-            put("addResultFile", "addResultFile");
-            put("validating", "isValidating");
-            put("IsIgnoreEmptyFile", "isIgnoreEmptyFile");
-            put("doNotFailIfNoFile", "isdoNotFailIfNoFile");
-            put("fileName", "getFileName");
-            put("fileMask", "getFileMask");
-            put("fileRequired", "getFileRequired");
-            put("includeSubFolders", "getIncludeSubFolders");
-            put("inputFields", "getInputFields");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("includeFilename", "setIncludeFilename");
-            put("filenameField", "setFilenameField");
-            put("includeRowNumber", "setIncludeRowNumber");
-            put("rowNumberField", "setRowNumberField");
-            put("rowLimit", "setRowLimit");
-            put("encoding", "setEncoding");
-            put("yamlField", "setYamlField");
-            put("inFields", "setInFields");
-            put("IsAFile", "setIsAFile");
-            put("addResultFile", "setAddResultFile");
-            put("validating", "setValidating");
-            put("IsIgnoreEmptyFile", "setIgnoreEmptyFile");
-            put("doNotFailIfNoFile", "setdoNotFailIfNoFile");
-            put("fileName", "setFileName");
-            put("fileMask", "setFileMask");
-            put("fileRequired", "setFileRequired");
-            put("includeSubFolders", "setIncludeSubFolders");
-            put("inputFields", "setInputFields");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
-    IFieldLoadSaveValidator<YamlInputField[]> yamlInputFieldArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new YamlInputFieldLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("includeFilename", "includeFilename");
+        put("filenameField", "getFilenameField");
+        put("includeRowNumber", "includeRowNumber");
+        put("rowNumberField", "getRowNumberField");
+        put("rowLimit", "getRowLimit");
+        put("encoding", "getEncoding");
+        put("yamlField", "getYamlField");
+        put("inFields", "isInFields");
+        put("IsAFile", "getIsAFile");
+        put("addResultFile", "addResultFile");
+        put("validating", "isValidating");
+        put("IsIgnoreEmptyFile", "isIgnoreEmptyFile");
+        put("doNotFailIfNoFile", "isdoNotFailIfNoFile");
+        put("fileName", "getFileName");
+        put("fileMask", "getFileMask");
+        put("fileRequired", "getFileRequired");
+        put("includeSubFolders", "getIncludeSubFolders");
+        put("inputFields", "getInputFields");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("includeFilename", "setIncludeFilename");
+        put("filenameField", "setFilenameField");
+        put("includeRowNumber", "setIncludeRowNumber");
+        put("rowNumberField", "setRowNumberField");
+        put("rowLimit", "setRowLimit");
+        put("encoding", "setEncoding");
+        put("yamlField", "setYamlField");
+        put("inFields", "setInFields");
+        put("IsAFile", "setIsAFile");
+        put("addResultFile", "setAddResultFile");
+        put("validating", "setValidating");
+        put("IsIgnoreEmptyFile", "setIgnoreEmptyFile");
+        put("doNotFailIfNoFile", "setdoNotFailIfNoFile");
+        put("fileName", "setFileName");
+        put("fileMask", "setFileMask");
+        put("fileRequired", "setFileRequired");
+        put("includeSubFolders", "setIncludeSubFolders");
+        put("inputFields", "setInputFields");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<YamlInputField[]> yamlInputFieldArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new YamlInputFieldLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fileName", stringArrayLoadSaveValidator);
@@ -127,15 +108,7 @@ public class YamlInputMetaTest implements IInitializer<YamlInputMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

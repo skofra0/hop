@@ -39,54 +39,19 @@ import static org.junit.Assert.assertNotSame;
 
 public class LoadSaveTester<T extends ITransformMeta> extends LoadSaveBase<T> {
 
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap,
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap,
+      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap,
       IInitializer<T> metaInitializerIFace) throws HopException {
-    super(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        fieldLoadSaveValidatorAttributeMap,
-        fieldLoadSaveValidatorTypeMap,
-        metaInitializerIFace);
+    super(clazz, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, fieldLoadSaveValidatorTypeMap, metaInitializerIFace);
   }
 
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
-    this(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        fieldLoadSaveValidatorAttributeMap,
-        fieldLoadSaveValidatorTypeMap,
-        null);
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap,
+      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
+    this(clazz, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, fieldLoadSaveValidatorTypeMap, null);
   }
 
-
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap) throws HopException {
-    this(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        new HashMap<>(),
-        new HashMap<>());
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap) throws HopException {
+    this(clazz, attributes, getterMap, setterMap, new HashMap<>(), new HashMap<>());
   }
 
   public LoadSaveTester(Class<T> clazz, List<String> attributes) throws HopException {
@@ -103,8 +68,7 @@ public class LoadSaveTester<T extends ITransformMeta> extends LoadSaveBase<T> {
 
   @Override
   @SuppressWarnings("unchecked")
-  protected Map<String, IFieldLoadSaveValidator<?>> createValidatorMapAndInvokeSetters(
-      List<String> attributes, T metaToSave) {
+  protected Map<String, IFieldLoadSaveValidator<?>> createValidatorMapAndInvokeSetters(List<String> attributes, T metaToSave) {
     Map<String, IFieldLoadSaveValidator<?>> validatorMap = new HashMap<>();
     for (String attribute : attributes) {
       IGetter<?> getter = manipulator.getGetter(attribute);
@@ -136,8 +100,7 @@ public class LoadSaveTester<T extends ITransformMeta> extends LoadSaveBase<T> {
     if (initializer != null) {
       initializer.modify(metaToSave);
     }
-    Map<String, IFieldLoadSaveValidator<?>> validatorMap =
-        createValidatorMapAndInvokeSetters(attributes, metaToSave);
+    Map<String, IFieldLoadSaveValidator<?>> validatorMap = createValidatorMapAndInvokeSetters(attributes, metaToSave);
 
     T metaLoaded = (T) metaToSave.clone();
     assertNotSame(metaToSave, metaLoaded);
@@ -147,24 +110,21 @@ public class LoadSaveTester<T extends ITransformMeta> extends LoadSaveBase<T> {
   /**
    * @throws HopException
    * @deprecated the {@link #testSerialization()} method should be used instead, as additional tests
-   *     may be added in the future to cover other topics related to transform serialization
+   *             may be added in the future to cover other topics related to transform serialization
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   // TODO Change method visibility to protected
   public void testXmlRoundTrip() throws HopException {
     T metaToSave = createMeta();
     if (initializer != null) {
       initializer.modify(metaToSave);
     }
-    Map<String, IFieldLoadSaveValidator<?>> validatorMap =
-        createValidatorMapAndInvokeSetters(attributes, metaToSave);
+    Map<String, IFieldLoadSaveValidator<?>> validatorMap = createValidatorMapAndInvokeSetters(attributes, metaToSave);
 
     T metaLoaded = createMeta();
     String xml = "<transform>" + metaToSave.getXml() + "</transform>";
     InputStream is = new ByteArrayInputStream(xml.getBytes());
-    metaLoaded.loadXml(
-        XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "transform"),
-        metadataProvider);
+    metaLoaded.loadXml(XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "transform"), metadataProvider);
     validateLoadedMeta(attributes, validatorMap, metaToSave, metaLoaded);
 
     // TODO Remove after method visibility changed, it should be called in testSerialization

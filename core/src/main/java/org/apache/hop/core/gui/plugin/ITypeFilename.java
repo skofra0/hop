@@ -22,7 +22,8 @@ public interface ITypeFilename {
   /**
    * For WidgetSubType.Filename
    *
-   * <p>Returns the default file extension in lowercase prefixed with dot (.xxx) for this file type.
+   * <p>
+   * Returns the default file extension in lowercase prefixed with dot (.xxx) for this file type.
    *
    * @return The default file extension
    */

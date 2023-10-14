@@ -70,7 +70,7 @@ public class GuiCompositeWidgets {
 
   /**
    * @deprecated The maximum number of items used to pad to a maximum number of control lines is no
-   *     longer implemented.
+   *             longer implemented.
    * @param variables
    * @param maxNrItems
    */
@@ -82,12 +82,7 @@ public class GuiCompositeWidgets {
     compositeWidgetsListener = null;
   }
 
-  public void createCompositeWidgets(
-      Object sourceData,
-      String parentKey,
-      Composite parent,
-      String parentGuiElementId,
-      Control lastControl) {
+  public void createCompositeWidgets(Object sourceData, String parentKey, Composite parent, String parentGuiElementId, Control lastControl) {
     // Find the GUI Elements for the given class...
     //
     GuiRegistry registry = GuiRegistry.getInstance();
@@ -99,11 +94,7 @@ public class GuiCompositeWidgets {
     }
     GuiElements guiElements = registry.findGuiElements(key, parentGuiElementId);
     if (guiElements == null) {
-      System.err.println(
-          "Create widgets: no GUI elements found for parent: "
-              + key
-              + ", parent ID: "
-              + parentGuiElementId);
+      System.err.println("Create widgets: no GUI elements found for parent: " + key + ", parent ID: " + parentGuiElementId);
       return;
     }
 
@@ -120,8 +111,7 @@ public class GuiCompositeWidgets {
     parent.layout(true, true);
   }
 
-  private Control addCompositeWidgets(
-      Object sourceObject, Composite parent, GuiElements guiElements, Control lastControl) {
+  private Control addCompositeWidgets(Object sourceObject, Composite parent, GuiElements guiElements, Control lastControl) {
 
     if (guiElements.isIgnored()) {
       return lastControl;
@@ -146,10 +136,7 @@ public class GuiCompositeWidgets {
       // Add the label on the left-hand side...
       // For metadata, the label is handled in the meta selection line widget below
       //
-      if (StringUtils.isNotEmpty(guiElements.getLabel())
-          && elementType != GuiElementType.METADATA
-          && elementType != GuiElementType.BUTTON
-          && elementType != GuiElementType.LINK) {
+      if (StringUtils.isNotEmpty(guiElements.getLabel()) && elementType != GuiElementType.METADATA && elementType != GuiElementType.BUTTON && elementType != GuiElementType.LINK) {
         label = new Label(parent, SWT.RIGHT | SWT.SINGLE);
         PropsUi.setLook(label);
         label.setText(Const.NVL(guiElements.getLabel(), ""));
@@ -217,13 +204,7 @@ public class GuiCompositeWidgets {
     return previousControl;
   }
 
-  private Control getComboControl(
-      Object sourceObject,
-      Composite parent,
-      GuiElements guiElements,
-      PropsUi props,
-      Control lastControl,
-      Label label) {
+  private Control getComboControl(Object sourceObject, Composite parent, GuiElements guiElements, PropsUi props, Control lastControl, Label label) {
     Control control;
     String[] comboItems = getEnumValues(guiElements.getFieldClass());
     if (comboItems == null) {
@@ -254,8 +235,7 @@ public class GuiCompositeWidgets {
     return control;
   }
 
-  private Control getMetadataControl(
-      Composite parent, GuiElements guiElements, PropsUi props, Control lastControl) {
+  private Control getMetadataControl(Composite parent, GuiElements guiElements, PropsUi props, Control lastControl) {
 
     ITypeMetadata typeMetadata = instantiateTypeMetadata(guiElements);
     MetaSelectionLine<? extends IHopMetadata> metaSelectionLine =
@@ -286,12 +266,7 @@ public class GuiCompositeWidgets {
     return metaSelectionLine;
   }
 
-  private Button getButtonControl(
-      Object sourceObject,
-      Composite parent,
-      GuiElements guiElements,
-      PropsUi props,
-      Control lastControl) {
+  private Button getButtonControl(Object sourceObject, Composite parent, GuiElements guiElements, PropsUi props, Control lastControl) {
 
     Button button = new Button(parent, SWT.PUSH);
     PropsUi.setLook(button);
@@ -301,43 +276,32 @@ public class GuiCompositeWidgets {
     }
     widgetsMap.put(guiElements.getId(), button);
 
-    button.addListener(
-        SWT.Selection,
-        event -> {
-          // This widget annotation was on top of a method.
-          // We need to instantiate the method using the provided classloader.
-          //
-          Method buttonMethod = guiElements.getButtonMethod();
-          Class<?> methodClass = buttonMethod.getDeclaringClass();
+    button.addListener(SWT.Selection, event -> {
+      // This widget annotation was on top of a method.
+      // We need to instantiate the method using the provided classloader.
+      //
+      Method buttonMethod = guiElements.getButtonMethod();
+      Class<?> methodClass = buttonMethod.getDeclaringClass();
 
-          try {
-            // ClassLoader classLoader = guiElements.getClassLoader();
+      try {
+        // ClassLoader classLoader = guiElements.getClassLoader();
 
-            Object guiObject = methodClass.getDeclaredConstructor().newInstance();
+        Object guiObject = methodClass.getDeclaredConstructor().newInstance();
 
-            // Invoke the button method
-            //
-            buttonMethod.invoke(guiObject, sourceObject);
-          } catch (Exception e) {
-            LogChannel.UI.logError(
-                "Error invoking method "
-                    + buttonMethod.getName()
-                    + " in class "
-                    + methodClass.getName(),
-                e);
-          }
-        });
+        // Invoke the button method
+        //
+        buttonMethod.invoke(guiObject, sourceObject);
+      } catch (Exception e) {
+        LogChannel.UI.logError("Error invoking method " + buttonMethod.getName() + " in class " + methodClass.getName(), e);
+      }
+    });
 
     layoutControlBetweenLabelAndRightControl(props, lastControl, null, button, null);
 
     return button;
   }
 
-  private Link getLinkControl(
-      Composite parent,
-      GuiElements guiElements,
-      PropsUi props,
-      Control lastControl) {
+  private Link getLinkControl(Composite parent, GuiElements guiElements, PropsUi props, Control lastControl) {
 
     Link link = new Link(parent, SWT.NONE);
     PropsUi.setLook(link);
@@ -347,37 +311,30 @@ public class GuiCompositeWidgets {
     }
     widgetsMap.put(guiElements.getId(), link);
 
-    link.addListener(
-        SWT.Selection,
-        event -> {
-          // This widget annotation was on top of a method.
-          // We need to instantiate the method using the provided classloader.
-          //
-          Method buttonMethod = guiElements.getButtonMethod();
-          Class<?> methodClass = buttonMethod.getDeclaringClass();
+    link.addListener(SWT.Selection, event -> {
+      // This widget annotation was on top of a method.
+      // We need to instantiate the method using the provided classloader.
+      //
+      Method buttonMethod = guiElements.getButtonMethod();
+      Class<?> methodClass = buttonMethod.getDeclaringClass();
 
-          try {
-            // ClassLoader classLoader = guiElements.getClassLoader();
+      try {
+        // ClassLoader classLoader = guiElements.getClassLoader();
 
-            Object guiObject = methodClass.getDeclaredConstructor().newInstance();
+        Object guiObject = methodClass.getDeclaredConstructor().newInstance();
 
-            // Invoke the link method
-            //
-            if (buttonMethod.getParameterCount() == 0) {
-              buttonMethod.invoke(guiObject);
-            } else {
-              // Also pass along the event to detect which link was clicked.
-              buttonMethod.invoke(guiObject, event);
-            }
-          } catch (Exception e) {
-            LogChannel.UI.logError(
-                "Error invoking method "
-                    + buttonMethod.getName()
-                    + " in class "
-                    + methodClass.getName(),
-                e);
-          }
-        });
+        // Invoke the link method
+        //
+        if (buttonMethod.getParameterCount() == 0) {
+          buttonMethod.invoke(guiObject);
+        } else {
+          // Also pass along the event to detect which link was clicked.
+          buttonMethod.invoke(guiObject, event);
+        }
+      } catch (Exception e) {
+        LogChannel.UI.logError("Error invoking method " + buttonMethod.getName() + " in class " + methodClass.getName(), e);
+      }
+    });
 
     layoutControlBelowLast(props, lastControl, link);
 
@@ -407,14 +364,12 @@ public class GuiCompositeWidgets {
     } catch (Exception e) {
       // This is unexpected, log it!
       //
-      LogChannel.UI.logError(
-          "Error finding enum values of field class: " + fieldClass.getName(), e);
+      LogChannel.UI.logError("Error finding enum values of field class: " + fieldClass.getName(), e);
       return null;
     }
   }
 
-  private Control getCheckboxControl(
-      Composite parent, GuiElements guiElements, PropsUi props, Control lastControl, Label label) {
+  private Control getCheckboxControl(Composite parent, GuiElements guiElements, PropsUi props, Control lastControl, Label label) {
     Control control;
     Button button = new Button(parent, SWT.CHECK | SWT.LEFT);
     PropsUi.setLook(button);
@@ -427,8 +382,7 @@ public class GuiCompositeWidgets {
     return control;
   }
 
-  private Control getTextControl(
-      Composite parent, GuiElements guiElements, PropsUi props, Control lastControl, Label label) {
+  private Control getTextControl(Composite parent, GuiElements guiElements, PropsUi props, Control lastControl, Label label) {
     Control control;
     Control actionControl = null; // The control to add an action to
     Text text;
@@ -480,35 +434,24 @@ public class GuiCompositeWidgets {
         //
         ITypeFilename typeFilename = instantiateTypeFilename(guiElements);
         if (actionControl != null) {
-          actionControl.addListener(
-              SWT.Selection,
-              e -> {
-                String filename =
-                    BaseDialog.presentFileDialog(
-                        parent.getShell(),
-                        null,
-                        variables,
-                        typeFilename.getFilterExtensions(),
-                        typeFilename.getFilterNames(),
-                        true);
-                if (StringUtils.isNotEmpty(filename)) {
-                  text.setText(filename);
-                }
-              });
+          actionControl.addListener(SWT.Selection, e -> {
+            String filename = BaseDialog.presentFileDialog(parent.getShell(), null, variables, typeFilename.getFilterExtensions(), typeFilename.getFilterNames(), true);
+            if (StringUtils.isNotEmpty(filename)) {
+              text.setText(filename);
+            }
+          });
         }
         break;
       case FOLDER:
         // ask for a folder
         //
         if (actionControl != null) {
-          actionControl.addListener(
-              SWT.Selection,
-              e -> {
-                String folder = BaseDialog.presentDirectoryDialog(parent.getShell(), variables);
-                if (StringUtils.isNotEmpty(folder)) {
-                  text.setText(folder);
-                }
-              });
+          actionControl.addListener(SWT.Selection, e -> {
+            String folder = BaseDialog.presentDirectoryDialog(parent.getShell(), variables);
+            if (StringUtils.isNotEmpty(folder)) {
+              text.setText(folder);
+            }
+          });
         }
         break;
       default:
@@ -521,8 +464,7 @@ public class GuiCompositeWidgets {
   public ITypeFilename instantiateTypeFilename(GuiElements guiElements) {
     Class<? extends ITypeFilename> typeFilenameClass = guiElements.getTypeFilename();
     if (typeFilenameClass == null) {
-      throw new RuntimeException(
-          "Please specify a ITypeFilename class to use for widget " + guiElements.getId());
+      throw new RuntimeException("Please specify a ITypeFilename class to use for widget " + guiElements.getId());
     }
     // Instantiate the class...
     //
@@ -530,22 +472,14 @@ public class GuiCompositeWidgets {
       ITypeFilename typeFilename = typeFilenameClass.newInstance();
       return typeFilename;
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error instantiating class "
-              + typeFilenameClass.getName()
-              + " for GUI elements "
-              + guiElements.getId()
-              + " and type "
-              + guiElements.getType(),
-          e);
+      throw new RuntimeException("Error instantiating class " + typeFilenameClass.getName() + " for GUI elements " + guiElements.getId() + " and type " + guiElements.getType(), e);
     }
   }
 
   public ITypeMetadata instantiateTypeMetadata(GuiElements guiElements) {
     Class<? extends ITypeMetadata> typeMetadataClass = guiElements.getTypeMetadata();
     if (typeMetadataClass == null) {
-      throw new RuntimeException(
-          "Please specify a ITypeMetadata class to use for widget " + guiElements.getId());
+      throw new RuntimeException("Please specify a ITypeMetadata class to use for widget " + guiElements.getId());
     }
     // Instantiate the class...
     //
@@ -553,19 +487,11 @@ public class GuiCompositeWidgets {
       ITypeMetadata typeMetadata = typeMetadataClass.newInstance();
       return typeMetadata;
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error instantiating class "
-              + typeMetadataClass.getName()
-              + " for GUI elements "
-              + guiElements.getId()
-              + " and type "
-              + guiElements.getType(),
-          e);
+      throw new RuntimeException("Error instantiating class " + typeMetadataClass.getName() + " for GUI elements " + guiElements.getId() + " and type " + guiElements.getType(), e);
     }
   }
 
-  private void layoutControlOnRight(
-      PropsUi props, Control lastControl, Control control, Label label) {
+  private void layoutControlOnRight(PropsUi props, Control lastControl, Control control, Label label) {
     FormData fdControl = new FormData();
     fdControl.right = new FormAttachment(100, 0);
     if (label != null) {
@@ -580,8 +506,7 @@ public class GuiCompositeWidgets {
     control.setLayoutData(fdControl);
   }
 
-  private void layoutControlBetweenLabelAndRightControl(
-      PropsUi props, Control lastControl, Label label, Control control, Control rightControl) {
+  private void layoutControlBetweenLabelAndRightControl(PropsUi props, Control lastControl, Label label, Control control, Control rightControl) {
     FormData fdControl = new FormData();
     if (label != null) {
       fdControl.left = new FormAttachment(props.getMiddlePct(), 0);
@@ -644,40 +569,22 @@ public class GuiCompositeWidgets {
 
   private String[] getComboItems(Object sourceObject, String getComboValuesMethod) {
     try {
-      Method method =
-          sourceObject
-              .getClass()
-              .getMethod(getComboValuesMethod, ILogChannel.class, IHopMetadataProvider.class);
+      Method method = sourceObject.getClass().getMethod(getComboValuesMethod, ILogChannel.class, IHopMetadataProvider.class);
       if (method == null) {
-        throw new HopException(
-            "Unable to find method '"
-                + getComboValuesMethod
-                + "' with parameters ILogChannel and IHopMetadataProvider in object '"
-                + sourceObject
-                + "'");
+        throw new HopException("Unable to find method '" + getComboValuesMethod + "' with parameters ILogChannel and IHopMetadataProvider in object '" + sourceObject + "'");
       }
-      List<String> names =
-          (List<String>)
-              method.invoke(
-                  sourceObject, LogChannel.UI, HopGui.getInstance().getMetadataProvider());
+      List<String> names = (List<String>) method.invoke(sourceObject, LogChannel.UI, HopGui.getInstance().getMetadataProvider());
       return names.toArray(new String[0]);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error getting list of combo items for method '"
-              + getComboValuesMethod
-              + "' on source object: "
-              + sourceObject,
-          e);
+      LogChannel.UI.logError("Error getting list of combo items for method '" + getComboValuesMethod + "' on source object: " + sourceObject, e);
       return new String[] {};
     }
   }
 
-  public void setWidgetsContents(
-      Object sourceData, Composite parentComposite, String parentGuiElementId) {
+  public void setWidgetsContents(Object sourceData, Composite parentComposite, String parentGuiElementId) {
 
     GuiRegistry registry = GuiRegistry.getInstance();
-    GuiElements guiElements =
-        registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
+    GuiElements guiElements = registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
     if (guiElements == null) {
       return;
     }
@@ -712,16 +619,9 @@ public class GuiCompositeWidgets {
         //
         Object value = null;
         try {
-          value =
-              new PropertyDescriptor(guiElements.getFieldName(), sourceData.getClass())
-                  .getReadMethod()
-                  .invoke(sourceData);
+          value = new PropertyDescriptor(guiElements.getFieldName(), sourceData.getClass()).getReadMethod().invoke(sourceData);
         } catch (Exception e) {
-          System.err.println(
-              "Unable to get value for field: '"
-                  + guiElements.getFieldName()
-                  + "' : "
-                  + e.getMessage());
+          System.err.println("Unable to get value for field: '" + guiElements.getFieldName() + "' : " + e.getMessage());
           e.printStackTrace();
         }
         String stringValue = value == null ? "" : Const.NVL(value.toString(), "");
@@ -760,21 +660,12 @@ public class GuiCompositeWidgets {
             // No data to set
             break;
           default:
-            System.err.println(
-                "WARNING: setting data on widget with ID "
-                    + guiElements.getId()
-                    + " : not implemented type "
-                    + guiElements.getType()
-                    + " yet.");
+            System.err.println("WARNING: setting data on widget with ID " + guiElements.getId() + " : not implemented type " + guiElements.getType() + " yet.");
             break;
         }
 
       } else {
-        System.err.println(
-            "Widget not found to set value on for id: "
-                + guiElements.getId()
-                + ", label: "
-                + guiElements.getLabel());
+        System.err.println("Widget not found to set value on for id: " + guiElements.getId() + ", label: " + guiElements.getLabel());
       }
     } else {
 
@@ -788,14 +679,9 @@ public class GuiCompositeWidgets {
 
   public void getWidgetsContents(Object sourceData, String parentGuiElementId) {
     GuiRegistry registry = GuiRegistry.getInstance();
-    GuiElements guiElements =
-        registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
+    GuiElements guiElements = registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
     if (guiElements == null) {
-      System.err.println(
-          "getWidgetsContents: no GUI elements found for class: "
-              + sourceData.getClass().getName()
-              + ", parent ID: "
-              + parentGuiElementId);
+      System.err.println("getWidgetsContents: no GUI elements found for class: " + sourceData.getClass().getName() + ", parent ID: " + parentGuiElementId);
       return;
     }
 
@@ -856,12 +742,7 @@ public class GuiCompositeWidgets {
             // No data to retrieve from widget
             break;
           default:
-            System.err.println(
-                "WARNING: getting data from widget with ID "
-                    + guiElements.getId()
-                    + " : not implemented type "
-                    + guiElements.getType()
-                    + " yet.");
+            System.err.println("WARNING: getting data from widget with ID " + guiElements.getId() + " : not implemented type " + guiElements.getType() + " yet.");
             break;
         }
 
@@ -880,27 +761,15 @@ public class GuiCompositeWidgets {
               value = Enum.valueOf(enumClass, value.toString());
             }
           }
-          new PropertyDescriptor(guiElements.getFieldName(), sourceData.getClass())
-              .getWriteMethod()
-              .invoke(sourceData, value);
+          new PropertyDescriptor(guiElements.getFieldName(), sourceData.getClass()).getWriteMethod().invoke(sourceData, value);
 
         } catch (Exception e) {
-          System.err.println(
-              "Unable to set value '"
-                  + value
-                  + "'on field: '"
-                  + guiElements.getFieldName()
-                  + "' : "
-                  + e.getMessage());
+          System.err.println("Unable to set value '" + value + "'on field: '" + guiElements.getFieldName() + "' : " + e.getMessage());
           e.printStackTrace();
         }
 
       } else {
-        System.err.println(
-            "Widget not found to set value on for id: "
-                + guiElements.getId()
-                + ", label: "
-                + guiElements.getLabel());
+        System.err.println("Widget not found to set value on for id: " + guiElements.getId() + ", label: " + guiElements.getLabel());
       }
     } else {
 
@@ -922,14 +791,9 @@ public class GuiCompositeWidgets {
 
   public void enableWidgets(Object sourceData, String parentGuiElementId, boolean enabled) {
     GuiRegistry registry = GuiRegistry.getInstance();
-    GuiElements guiElements =
-        registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
+    GuiElements guiElements = registry.findGuiElements(sourceData.getClass().getName(), parentGuiElementId);
     if (guiElements == null) {
-      System.err.println(
-          "enableWidgets: no GUI elements found for class: "
-              + sourceData.getClass().getName()
-              + ", parent ID: "
-              + parentGuiElementId);
+      System.err.println("enableWidgets: no GUI elements found for class: " + sourceData.getClass().getName() + ", parent ID: " + parentGuiElementId);
       return;
     }
 

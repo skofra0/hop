@@ -63,11 +63,7 @@ import org.eclipse.swt.widgets.Text;
 public class GetFileNamesDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = GetFileNamesMeta.class; // For Translator
 
-  private static final String[] YES_NO_COMBO =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  private static final String[] YES_NO_COMBO = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   private Button wDoNotFailIfNoFile;
   private Label wlDoNotFailIfNoFile;
@@ -129,8 +125,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
   private boolean getPreviousFields = false;
 
-  public GetFileNamesDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetFileNamesDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (GetFileNamesMeta) in;
   }
@@ -235,15 +230,14 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     fdFileField.left = new FormAttachment(middle, -margin);
     fdFileField.top = new FormAttachment(wlFileField, 0, SWT.CENTER);
     wFileField.setLayoutData(fdFileField);
-    SelectionAdapter lfilefield =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateFileField();
-            setFileField();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lfilefield = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateFileField();
+        setFileField();
+        input.setChanged();
+      }
+    };
     wFileField.addSelectionListener(lfilefield);
 
     // Filename field
@@ -288,8 +282,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     // ExcludeWildcard field
     wlExcludeWildcardField = new Label(wOriginFiles, SWT.RIGHT);
-    wlExcludeWildcardField.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeWildcardField.Label"));
+    wlExcludeWildcardField.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeWildcardField.Label"));
     PropsUi.setLook(wlExcludeWildcardField);
     FormData fdlExcludeWildcardField = new FormData();
     fdlExcludeWildcardField.left = new FormAttachment(0, -margin);
@@ -309,8 +302,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     // Is includeSubFoldername defined in a Field
     wlIncludeSubFolder = new Label(wOriginFiles, SWT.RIGHT);
-    wlIncludeSubFolder.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubFolder.Label"));
+    wlIncludeSubFolder.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubFolder.Label"));
     PropsUi.setLook(wlIncludeSubFolder);
     FormData fdlIncludeSubFolder = new FormData();
     fdlIncludeSubFolder.left = new FormAttachment(0, -margin);
@@ -320,19 +312,17 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     wIncludeSubFolder = new Button(wOriginFiles, SWT.CHECK);
     PropsUi.setLook(wIncludeSubFolder);
-    wIncludeSubFolder.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubFolder.Tooltip"));
+    wIncludeSubFolder.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubFolder.Tooltip"));
     FormData fdIncludeSubFolder = new FormData();
     fdIncludeSubFolder.left = new FormAttachment(middle, -margin);
     fdIncludeSubFolder.top = new FormAttachment(wlIncludeSubFolder, 0, SWT.CENTER);
     wIncludeSubFolder.setLayoutData(fdIncludeSubFolder);
-    wIncludeSubFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            input.setChanged();
-          }
-        });
+    wIncludeSubFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        input.setChanged();
+      }
+    });
 
     FormData fdOriginFiles = new FormData();
     fdOriginFiles.left = new FormAttachment(0, margin);
@@ -357,8 +347,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wbbFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "System.Button.Browse"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
@@ -367,8 +356,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wbaFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbaFilename);
     wbaFilename.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameAdd.Button"));
-    wbaFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameAdd.Tooltip"));
+    wbaFilename.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameAdd.Tooltip"));
     FormData fdbaFilename = new FormData();
     fdbaFilename.right = new FormAttachment(wbbFilename, -margin);
     fdbaFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
@@ -401,8 +389,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wFilemask.setLayoutData(fdFilemask);
 
     wlExcludeFilemask = new Label(wFileComp, SWT.RIGHT);
-    wlExcludeFilemask.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeFilemask.Label"));
+    wlExcludeFilemask.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeFilemask.Label"));
     PropsUi.setLook(wlExcludeFilemask);
     FormData fdlExcludeFilemask = new FormData();
     fdlExcludeFilemask.left = new FormAttachment(0, 0);
@@ -432,8 +419,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wbdFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
     wbdFilename.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameDelete.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameDelete.Tooltip"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameDelete.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wExcludeFilemask, margin);
@@ -442,8 +428,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wbeFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFilename);
     wbeFilename.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameEdit.Button"));
-    wbeFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameEdit.Tooltip"));
+    wbeFilename.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilenameEdit.Tooltip"));
     FormData fdbeFilename = new FormData();
     fdbeFilename.right = new FormAttachment(100, 0);
     fdbeFilename.left = new FormAttachment(wbdFilename, 0, SWT.LEFT);
@@ -460,46 +445,21 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] colinfo =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetFileNamesDialog.FileDirColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetFileNamesDialog.WildcardColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeWildcardColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetFileNamesDialog.Required.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              YES_NO_COMBO),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubDirs.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              YES_NO_COMBO)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "GetFileNamesDialog.FileDirColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetFileNamesDialog.WildcardColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeWildcardColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetFileNamesDialog.Required.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES_NO_COMBO),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubDirs.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES_NO_COMBO)};
 
     colinfo[0].setUsingVariables(true);
     colinfo[1].setUsingVariables(true);
     colinfo[1].setToolTip(BaseMessages.getString(PKG, "GetFileNamesDialog.RegExpColumn.Column"));
     colinfo[2].setUsingVariables(true);
-    colinfo[2].setToolTip(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeRegExpColumn.Column"));
+    colinfo[2].setToolTip(BaseMessages.getString(PKG, "GetFileNamesDialog.ExcludeRegExpColumn.Column"));
     colinfo[3].setToolTip(BaseMessages.getString(PKG, "GetFileNamesDialog.Required.Tooltip"));
     colinfo[4].setToolTip(BaseMessages.getString(PKG, "GetFileNamesDialog.IncludeSubDirs.ToolTip"));
 
-    wFilenameList =
-        new TableView(
-            variables,
-            wFileComp,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            colinfo.length,
-            lsMod,
-            props);
+    wFilenameList = new TableView(variables, wFileComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, colinfo.length, lsMod, props);
     PropsUi.setLook(wFilenameList);
     FormData fdFilenameList = new FormData();
     fdFilenameList.left = new FormAttachment(middle, 0);
@@ -546,8 +506,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     // Filter File Type
     Label wlFilterFileType = new Label(wFilterComp, SWT.RIGHT);
-    wlFilterFileType.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.Label"));
+    wlFilterFileType.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.Label"));
     PropsUi.setLook(wlFilterFileType);
     FormData fdlFilterFileType = new FormData();
     fdlFilterFileType.left = new FormAttachment(0, 0);
@@ -555,12 +514,9 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     fdlFilterFileType.top = new FormAttachment(0, 3 * margin);
     wlFilterFileType.setLayoutData(fdlFilterFileType);
     wFilterFileType = new CCombo(wFilterComp, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wFilterFileType.add(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.All.Label"));
-    wFilterFileType.add(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.OnlyFile.Label"));
-    wFilterFileType.add(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.OnlyFolder.Label"));
+    wFilterFileType.add(BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.All.Label"));
+    wFilterFileType.add(BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.OnlyFile.Label"));
+    wFilterFileType.add(BaseMessages.getString(PKG, "GetFileNamesDialog.FilterTab.FileType.OnlyFolder.Label"));
     // wFilterFileType.select(0); // +1: starts at -1
     PropsUi.setLook(wFilterFileType);
     FormData fdFilterFileType = new FormData();
@@ -576,8 +532,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     Group wAdditionalGroup = new Group(wFilterComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalGroup);
-    wAdditionalGroup.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.Group.AdditionalGroup.Label"));
+    wAdditionalGroup.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.Group.AdditionalGroup.Label"));
 
     FormLayout additionalgroupLayout = new FormLayout();
     additionalgroupLayout.marginWidth = 10;
@@ -594,23 +549,20 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wlInclRownum.setLayoutData(fdlInclRownum);
     wInclRownum = new Button(wAdditionalGroup, SWT.CHECK);
     PropsUi.setLook(wInclRownum);
-    wInclRownum.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.InclRownum.Tooltip"));
+    wInclRownum.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.InclRownum.Tooltip"));
     FormData fdRownum = new FormData();
     fdRownum.left = new FormAttachment(middle, 0);
     fdRownum.top = new FormAttachment(wlInclRownum, 0, SWT.CENTER);
     wInclRownum.setLayoutData(fdRownum);
-    wInclRownum.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            input.setChanged();
-          }
-        });
+    wInclRownum.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        input.setChanged();
+      }
+    });
 
     Label wlInclRownumField = new Label(wAdditionalGroup, SWT.RIGHT);
-    wlInclRownumField.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.InclRownumField.Label"));
+    wlInclRownumField.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.InclRownumField.Label"));
     PropsUi.setLook(wlInclRownumField);
     FormData fdlInclRownumField = new FormData();
     fdlInclRownumField.left = new FormAttachment(wInclRownum, margin);
@@ -642,8 +594,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     Group wNoFilesFolderGroup = new Group(wFilterComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wNoFilesFolderGroup);
-    wNoFilesFolderGroup.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.Group.NoFilesFolder.Label"));
+    wNoFilesFolderGroup.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.Group.NoFilesFolder.Label"));
 
     FormLayout noFilesOrFoldersGroupLayout = new FormLayout();
     noFilesOrFoldersGroupLayout.marginWidth = 10;
@@ -652,8 +603,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     // do not fail if no files?
     wlDoNotFailIfNoFile = new Label(wNoFilesFolderGroup, SWT.RIGHT);
-    wlDoNotFailIfNoFile.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.DoNotFailIfNoFile.Label"));
+    wlDoNotFailIfNoFile.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.DoNotFailIfNoFile.Label"));
     PropsUi.setLook(wlDoNotFailIfNoFile);
     FormData fdldoNotFailIfNoFile = new FormData();
     fdldoNotFailIfNoFile.left = new FormAttachment(0, 0);
@@ -663,8 +613,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     wDoNotFailIfNoFile = new Button(wNoFilesFolderGroup, SWT.CHECK);
     PropsUi.setLook(wDoNotFailIfNoFile);
-    wDoNotFailIfNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.DoNotFailIfNoFile.Tooltip"));
+    wDoNotFailIfNoFile.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.DoNotFailIfNoFile.Tooltip"));
     FormData fddoNotFailIfNoFile = new FormData();
     fddoNotFailIfNoFile.left = new FormAttachment(middle, 0);
     fddoNotFailIfNoFile.top = new FormAttachment(wlDoNotFailIfNoFile, 0, SWT.CENTER);
@@ -672,8 +621,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     // Raise an exception if no file?
     wlRaiseAnExceptionIfNoFile = new Label(wNoFilesFolderGroup, SWT.RIGHT);
-    wlRaiseAnExceptionIfNoFile.setText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.RaiseAnExceptionIfNoFiles.Label"));
+    wlRaiseAnExceptionIfNoFile.setText(BaseMessages.getString(PKG, "GetFileNamesDialog.RaiseAnExceptionIfNoFiles.Label"));
     PropsUi.setLook(wlRaiseAnExceptionIfNoFile);
     FormData fdlRaiseAnExceptionIfNoFile = new FormData();
     fdlRaiseAnExceptionIfNoFile.left = new FormAttachment(0, 0);
@@ -683,33 +631,29 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     wRaiseAnExceptionIfNoFile = new Button(wNoFilesFolderGroup, SWT.CHECK);
     PropsUi.setLook(wRaiseAnExceptionIfNoFile);
-    wRaiseAnExceptionIfNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "GetFileNamesDialog.RaiseAnExceptionIfNoFiles.Tooltip"));
+    wRaiseAnExceptionIfNoFile.setToolTipText(BaseMessages.getString(PKG, "GetFileNamesDialog.RaiseAnExceptionIfNoFiles.Tooltip"));
     FormData fddoRaiseAnExceptionIfNoFile = new FormData();
     fddoRaiseAnExceptionIfNoFile.left = new FormAttachment(middle, 0);
-    fddoRaiseAnExceptionIfNoFile.top =
-        new FormAttachment(wlRaiseAnExceptionIfNoFile, 0, SWT.CENTER);
+    fddoRaiseAnExceptionIfNoFile.top = new FormAttachment(wlRaiseAnExceptionIfNoFile, 0, SWT.CENTER);
     wRaiseAnExceptionIfNoFile.setLayoutData(fddoRaiseAnExceptionIfNoFile);
-    wRaiseAnExceptionIfNoFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            wDoNotFailIfNoFile.setSelection(false);
-            wlDoNotFailIfNoFile.setEnabled(!wRaiseAnExceptionIfNoFile.getSelection());
-            wDoNotFailIfNoFile.setEnabled(!wRaiseAnExceptionIfNoFile.getSelection());
-            input.setChanged();
-          }
-        });
+    wRaiseAnExceptionIfNoFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        wDoNotFailIfNoFile.setSelection(false);
+        wlDoNotFailIfNoFile.setEnabled(!wRaiseAnExceptionIfNoFile.getSelection());
+        wDoNotFailIfNoFile.setEnabled(!wRaiseAnExceptionIfNoFile.getSelection());
+        input.setChanged();
+      }
+    });
 
-    wDoNotFailIfNoFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            wlRaiseAnExceptionIfNoFile.setEnabled(!wDoNotFailIfNoFile.getSelection());
-            wRaiseAnExceptionIfNoFile.setEnabled(!wDoNotFailIfNoFile.getSelection());
-            input.setChanged();
-          }
-        });
+    wDoNotFailIfNoFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        wlRaiseAnExceptionIfNoFile.setEnabled(!wDoNotFailIfNoFile.getSelection());
+        wRaiseAnExceptionIfNoFile.setEnabled(!wDoNotFailIfNoFile.getSelection());
+        input.setChanged();
+      }
+    });
 
     FormData fdNoFilesOrFoldersGroup = new FormData();
     fdNoFilesOrFoldersGroup.left = new FormAttachment(0, margin);
@@ -753,13 +697,12 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     fdAddResult.left = new FormAttachment(middle, 0);
     fdAddResult.top = new FormAttachment(wlAddResult, 0, SWT.CENTER);
     wAddResult.setLayoutData(fdAddResult);
-    wAddResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            input.setChanged();
-          }
-        });
+    wAddResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        input.setChanged();
+      }
+    });
 
     FormData fdFilterComp = new FormData();
     fdFilterComp.left = new FormAttachment(0, 0);
@@ -776,108 +719,87 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     // ///////////////////////////////////////////////////////////
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFilenameList.add(
-                new String[] {
-                  wFilename.getText(),
-                  wFilemask.getText(),
-                  wExcludeFilemask.getText(),
-                  GetFileNamesMeta.RequiredFilesCode[0],
-                  GetFileNamesMeta.RequiredFilesCode[0]
-                });
-            wFilename.setText("");
-            wFilemask.setText("");
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            wFilenameList.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFilenameList
+            .add(new String[] {wFilename.getText(), wFilemask.getText(), wExcludeFilemask.getText(), GetFileNamesMeta.RequiredFilesCode[0], GetFileNamesMeta.RequiredFilesCode[0]});
+        wFilename.setText("");
+        wFilemask.setText("");
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        wFilenameList.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFilenameList.getSelectionIndices();
-            wFilenameList.remove(idx);
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            input.setChanged();
-          }
-        });
+    wbdFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFilenameList.getSelectionIndices();
+        wFilenameList.remove(idx);
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        input.setChanged();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFilenameList.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFilenameList.getItem(idx);
-              wFilename.setText(string[0]);
-              wFilemask.setText(string[1]);
-              wExcludeFilemask.setText(string[2]);
-              wFilenameList.remove(idx);
-            }
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            input.setChanged();
-          }
-        });
+    wbeFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFilenameList.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFilenameList.getItem(idx);
+          wFilename.setText(string[0]);
+          wFilemask.setText(string[1]);
+          wExcludeFilemask.setText(string[2]);
+          wFilenameList.remove(idx);
+        }
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        input.setChanged();
+      }
+    });
 
     // Show the files that are selected at this time...
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            GetFileNamesMeta tfii = new GetFileNamesMeta();
-            getInfo(tfii);
-            String[] files = tfii.getFilePaths(variables);
-            if (files != null && files.length > 0) {
-              EnterSelectionDialog esd =
-                  new EnterSelectionDialog(shell, files, "Files read", "Files read:");
-              esd.setViewOnly();
-              esd.open();
-            } else {
-              String elementTypeToGet =
-                  FileInputList.FileTypeFilter.getByOrdinal(wFilterFileType.getSelectionIndex())
-                      .toString();
-              MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-              mb.setMessage(
-                  BaseMessages.getString(
-                      PKG, "GetFileNamesDialog.NoFilesFound.DialogMessage", elementTypeToGet));
-              mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-              mb.open();
-            }
-          }
-        });
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        GetFileNamesMeta tfii = new GetFileNamesMeta();
+        getInfo(tfii);
+        String[] files = tfii.getFilePaths(variables);
+        if (files != null && files.length > 0) {
+          EnterSelectionDialog esd = new EnterSelectionDialog(shell, files, "Files read", "Files read:");
+          esd.setViewOnly();
+          esd.open();
+        } else {
+          String elementTypeToGet = FileInputList.FileTypeFilter.getByOrdinal(wFilterFileType.getSelectionIndex()).toString();
+          MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+          mb.setMessage(BaseMessages.getString(PKG, "GetFileNamesDialog.NoFilesFound.DialogMessage", elementTypeToGet));
+          mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+          mb.open();
+        }
+      }
+    });
 
     // Listen to the Browse... button
-    wbbFilename.addListener(
-        SWT.Selection,
-        e -> {
-          if (!Utils.isEmpty(wFilemask.getText()) || !Utils.isEmpty(wExcludeFilemask.getText())) {
-            BaseDialog.presentDirectoryDialog(shell, wFilename, variables);
-          } else {
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.txt;*.csv", "*.csv", "*.txt", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "GetFileNamesDialog.FileType.TextAndCSVFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.TextFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true);
-          }
-        });
+    wbbFilename.addListener(SWT.Selection, e -> {
+      if (!Utils.isEmpty(wFilemask.getText()) || !Utils.isEmpty(wExcludeFilemask.getText())) {
+        BaseDialog.presentDirectoryDialog(shell, wFilename, variables);
+      } else {
+        BaseDialog.presentFileDialog(
+            shell, wFilename, variables, new String[] {"*.txt;*.csv", "*.csv", "*.txt", "*"},
+            new String[] {
+                BaseMessages.getString(PKG, "GetFileNamesDialog.FileType.TextAndCSVFiles"),
+                BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
+                BaseMessages.getString(PKG, "System.FileType.TextFiles"),
+                BaseMessages.getString(PKG, "System.FileType.AllFiles")},
+            true);
+      }
+    });
 
     wTabFolder.setSelection(0);
 
@@ -994,9 +916,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     wFilenameList.setRowNums();
     wFilenameList.optWidth(true);
 
-    FileInputList.FileTypeFilter elementTypeToGet =
-        FileInputList.FileTypeFilter.getByName(
-            in.getFilterItemList().get(0).getFileTypeFilterSelection());
+    FileInputList.FileTypeFilter elementTypeToGet = FileInputList.FileTypeFilter.getByName(in.getFilterItemList().get(0).getFileTypeFilterSelection());
     if (elementTypeToGet != null) {
       wFilterFileType.select(elementTypeToGet.ordinal());
     } else {
@@ -1048,22 +968,12 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
 
     for (int i = 0; i < itemsNum; i++) {
 
-      FileItem fi =
-          new FileItem(
-              wFilenameList.getItem(i, 1),
-              wFilenameList.getItem(i, 2),
-              wFilenameList.getItem(i, 3),
-              wFilenameList.getItem(i, 4),
-              wFilenameList.getItem(i, 5));
+      FileItem fi = new FileItem(wFilenameList.getItem(i, 1), wFilenameList.getItem(i, 2), wFilenameList.getItem(i, 3), wFilenameList.getItem(i, 4), wFilenameList.getItem(i, 5));
       in.getFilesList().add(fi);
     }
 
     in.getFilterItemList().clear();
-    in.getFilterItemList()
-        .add(
-            new FilterItem(
-                FileInputList.FileTypeFilter.getByOrdinal(wFilterFileType.getSelectionIndex())
-                    .toString()));
+    in.getFilterItemList().add(new FilterItem(FileInputList.FileTypeFilter.getByOrdinal(wFilterFileType.getSelectionIndex()).toString()));
 
     in.setIncludeRowNumber(wInclRownum.getSelection());
     in.setAddResultFile(wAddResult.getSelection());
@@ -1084,9 +994,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     GetFileNamesMeta oneMeta = new GetFileNamesMeta();
     getInfo(oneMeta);
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -1097,12 +1005,7 @@ public class GetFileNamesDialog extends BaseTransformDialog implements ITransfor
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

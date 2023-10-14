@@ -64,8 +64,7 @@ public class SchemaMapper {
         // check if we need to change the data type to string
         IValueMeta baseField = base.getValueMeta(basePosition);
         if (baseField.getType() != field.getType()) {
-          IValueMeta updatedField =
-              ValueMetaFactory.cloneValueMeta(baseField, IValueMeta.TYPE_STRING);
+          IValueMeta updatedField = ValueMetaFactory.cloneValueMeta(baseField, IValueMeta.TYPE_STRING);
           base.setValueMeta(basePosition, updatedField);
         }
       }

@@ -146,17 +146,9 @@ public enum GraphPropertyDataType {
       case Integer:
         return valueMeta.getInteger(valueData);
       case Date:
-        return valueMeta
-            .getDate(valueData)
-            .toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDate();
+        return valueMeta.getDate(valueData).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
       case LocalDateTime:
-        return valueMeta
-            .getDate(valueData)
-            .toInstant()
-            .atZone(ZoneId.systemDefault())
-            .toLocalDateTime();
+        return valueMeta.getDate(valueData).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
       case ByteArray:
         return valueMeta.getBinary(valueData);
       case Duration:
@@ -167,12 +159,7 @@ public enum GraphPropertyDataType {
       case Map:
       case List:
       default:
-        throw new HopValueException(
-            "Data conversion to Neo4j type '"
-                + name()
-                + "' from value '"
-                + valueMeta.toStringMeta()
-                + "' is not supported yet");
+        throw new HopValueException("Data conversion to Neo4j type '" + name() + "' from value '" + valueMeta.toStringMeta() + "' is not supported yet");
     }
   }
 
@@ -204,8 +191,7 @@ public enum GraphPropertyDataType {
       case Point:
       case LocalTime:
       default:
-        throw new HopValueException(
-            "Data conversion to Neo4j type '" + name() + "' is not supported yet");
+        throw new HopValueException("Data conversion to Neo4j type '" + name() + "' is not supported yet");
     }
   }
 

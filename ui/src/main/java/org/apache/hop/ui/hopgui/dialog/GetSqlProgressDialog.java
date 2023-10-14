@@ -50,19 +50,13 @@ public class GetSqlProgressDialog {
   }
 
   public List<SqlStatement> open() {
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            stats = pipelineMeta.getSqlStatements(variables, new ProgressMonitorAdapter(monitor));
-          } catch (HopException e) {
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG,
-                    "GetSQLProgressDialog.RuntimeError.UnableToGenerateSQL.Exception",
-                    e.getMessage()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        stats = pipelineMeta.getSqlStatements(variables, new ProgressMonitorAdapter(monitor));
+      } catch (HopException e) {
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "GetSQLProgressDialog.RuntimeError.UnableToGenerateSQL.Exception", e.getMessage()));
+      }
+    };
 
     try {
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);

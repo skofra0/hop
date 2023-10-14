@@ -31,18 +31,11 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.util.List;
 
-public class PipelineLogging extends BaseTransform<PipelineLoggingMeta, PipelineLoggingData>
-{
+public class PipelineLogging extends BaseTransform<PipelineLoggingMeta, PipelineLoggingData> {
   private IPipelineEngine<PipelineMeta> loggingPipeline;
   private String loggingPhase;
 
-  public PipelineLogging(
-      TransformMeta transformMeta,
-      PipelineLoggingMeta meta,
-      PipelineLoggingData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public PipelineLogging(TransformMeta transformMeta, PipelineLoggingMeta meta, PipelineLoggingData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -93,8 +86,7 @@ public class PipelineLogging extends BaseTransform<PipelineLoggingMeta, Pipeline
     pipelineRow[index++] = parent == null ? null : parent.getLogChannelId();
 
     // Logging text of the pipeline
-    pipelineRow[index++] =
-        HopLogStore.getAppender().getBuffer(loggingPipeline.getLogChannelId(), false).toString();
+    pipelineRow[index++] = HopLogStore.getAppender().getBuffer(loggingPipeline.getLogChannelId(), false).toString();
 
     // Number of errors in the pipeline
     pipelineRow[index++] = (long) loggingPipeline.getErrors();

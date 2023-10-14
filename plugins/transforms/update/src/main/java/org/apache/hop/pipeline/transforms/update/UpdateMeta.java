@@ -56,10 +56,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
   private IHopMetadataProvider metadataProvider;
 
   /** Commit size for inserts/updates */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKeyDescription = "UpdateMeta.Injection.CommitSize",
-      injectionKey = "COMMIT_SIZE")
+  @HopMetadataProperty(key = "commit", injectionKeyDescription = "UpdateMeta.Injection.CommitSize", injectionKey = "COMMIT_SIZE")
   private String commitSize;
 
   /** Lookup key fields * */
@@ -67,41 +64,26 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
   private UpdateLookupField lookupField;
 
   /** update errors are ignored if this flag is set to true */
-  @HopMetadataProperty(
-      key = "error_ignored",
-      injectionKeyDescription = "UpdateMeta.Injection.IgnoreLookupFailure",
-      injectionKey = "IGNORE_LOOKUP_FAILURE")
+  @HopMetadataProperty(key = "error_ignored", injectionKeyDescription = "UpdateMeta.Injection.IgnoreLookupFailure", injectionKey = "IGNORE_LOOKUP_FAILURE")
   private boolean errorIgnored;
 
   /** adds a boolean field to the output indicating success of the update */
-  @HopMetadataProperty(
-      key = "ignore_flag_field",
-      injectionKeyDescription = "UpdateMeta.Injection.IgnoreFlagField",
-      injectionKey = "FLAG_FIELD")
+  @HopMetadataProperty(key = "ignore_flag_field", injectionKeyDescription = "UpdateMeta.Injection.IgnoreFlagField", injectionKey = "FLAG_FIELD")
   private String ignoreFlagField;
 
   /** adds a boolean field to skip lookup and directly update selected fields */
-  @HopMetadataProperty(
-      key = "skip_lookup",
-      injectionKeyDescription = "UpdateMeta.Injection.SkipLookup",
-      injectionKey = "SKIP_LOOKUP")
+  @HopMetadataProperty(key = "skip_lookup", injectionKeyDescription = "UpdateMeta.Injection.SkipLookup", injectionKey = "SKIP_LOOKUP")
   private boolean skipLookup;
 
   /**
    * Flag to indicate the use of batch updates, enabled by default but disabled for backward
    * compatibility
    */
-  @HopMetadataProperty(
-      key = "use_batch",
-      injectionKeyDescription = "UpdateMeta.Injection.UseBatchUpdate",
-      injectionKey = "BATCH_UPDATE")
+  @HopMetadataProperty(key = "use_batch", injectionKeyDescription = "UpdateMeta.Injection.UseBatchUpdate", injectionKey = "BATCH_UPDATE")
   private boolean useBatchUpdate;
 
   /** database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "UpdateMeta.Injection.Connection",
-      injectionKey = "CONNECTIONNAME")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "UpdateMeta.Injection.Connection", injectionKey = "CONNECTIONNAME")
   private String connection;
 
   public String getConnection() {
@@ -124,7 +106,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
    * @return Returns the commitSize.
    * @deprecated use public String getCommitSizeVar() instead
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   public int getCommitSize() {
     return Integer.parseInt(commitSize);
   }
@@ -136,7 +118,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
 
   /**
    * @param vs - variable variables to be used for searching variable value usually "this" for a
-   *     calling transform
+   *        calling transform
    * @return Returns the commitSize.
    */
   public int getCommitSize(IVariables vs) {
@@ -149,7 +131,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
    * @param commitSize The commitSize to set.
    * @deprecated use public void setCommitSize( String commitSize ) instead
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   public void setCommitSize(int commitSize) {
     this.commitSize = Integer.toString(commitSize);
   }
@@ -210,13 +192,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (ignoreFlagField != null && ignoreFlagField.length() > 0) {
       IValueMeta v = new ValueMetaBoolean(ignoreFlagField);
@@ -243,15 +219,9 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "UpdateMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)), transformMeta);
       remarks.add(cr);
     }
 
@@ -261,11 +231,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
         db.connect();
 
         if (!Utils.isEmpty(lookupField.getTableName())) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TableNameOK"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TableNameOK"), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -273,14 +239,9 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
           errorMessage = "";
 
           // Check fields in table
-          IRowMeta r =
-              db.getTableFieldsMeta(lookupField.getSchemaName(), lookupField.getTableName());
+          IRowMeta r = db.getTableFieldsMeta(lookupField.getSchemaName(), lookupField.getTableName());
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TableExists"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TableExists"), transformMeta);
             remarks.add(cr);
 
             for (int i = 0; i < lookupField.getLookupKeys().size(); i++) {
@@ -289,10 +250,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "UpdateMeta.CheckResult.MissingCompareFieldsInTargetTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingCompareFieldsInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + keyItem.getKeyLookup() + Const.CR;
@@ -301,11 +259,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllLookupFieldsFound"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllLookupFieldsFound"), transformMeta);
             }
             remarks.add(cr);
 
@@ -321,10 +275,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "UpdateMeta.CheckResult.MissingFieldsToUpdateInTargetTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsToUpdateInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + fieldItem.getUpdateLookup() + Const.CR;
@@ -333,17 +284,11 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "UpdateMeta.CheckResult.AllFieldsToUpdateFoundInTargetTable"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllFieldsToUpdateFoundInTargetTable"), transformMeta);
             }
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "UpdateMeta.CheckResult.CouldNotReadTableInfo");
+            errorMessage = BaseMessages.getString(PKG, "UpdateMeta.CheckResult.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
@@ -351,12 +296,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
 
         // Look up fields in the input stream <prev>
         if (prev != null && prev.size() > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "UpdateMeta.CheckResult.TransformReceivingDatas", prev.size() + ""),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TransformReceivingDatas", prev.size() + ""), transformMeta);
           remarks.add(cr);
 
           boolean first = true;
@@ -369,9 +309,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + keyItem.getKeyStream() + Const.CR;
@@ -384,9 +322,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput2")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput2") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + keyItem.getKeyStream2() + Const.CR;
@@ -396,11 +332,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllFieldsFoundInInput"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllFieldsFoundInInput"), transformMeta);
           }
           remarks.add(cr);
 
@@ -415,9 +347,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingInputStreamFields")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingInputStreamFields") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + fieldItem.getUpdateStream() + Const.CR;
@@ -426,24 +356,16 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllFieldsFoundInInput2"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.AllFieldsFoundInInput2"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput3")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingFieldsInInput3") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "UpdateMeta.CheckResult.DatabaseErrorOccurred")
-                + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "UpdateMeta.CheckResult.DatabaseErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
@@ -457,40 +379,24 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "UpdateMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "UpdateMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "UpdateMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider)
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     SqlStatement retval = null;
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
-      retval =
-          new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+      retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
       if (databaseMeta != null) {
         if (prev != null && prev.size() > 0) {
@@ -528,13 +434,9 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
             }
           }
           // Copy the row
-          IRowMeta tableFields =
-              RowMetaUtils.getRowMetaForUpdate(
-                  prev, keyLookup, keyStream, updateLookup, updateStream);
+          IRowMeta tableFields = RowMetaUtils.getRowMetaForUpdate(prev, keyLookup, keyStream, updateLookup, updateStream);
           if (!Utils.isEmpty(lookupField.getTableName())) {
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(
-                    variables, lookupField.getSchemaName(), lookupField.getTableName());
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, lookupField.getSchemaName(), lookupField.getTableName());
 
             Database db = new Database(loggingObject, variables, databaseMeta);
             try {
@@ -555,18 +457,13 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
                   idxFields[i] = lookupField.getLookupKeys().get(i).getKeyLookup();
                 }
               } else {
-                retval.setError(
-                    BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingKeyFields"));
+                retval.setError(BaseMessages.getString(PKG, "UpdateMeta.CheckResult.MissingKeyFields"));
               }
 
               // Key lookup dimensions...
-              if (idxFields != null
-                  && idxFields.length > 0
-                  && !db.checkIndexExists(schemaTable, idxFields)) {
+              if (idxFields != null && idxFields.length > 0 && !db.checkIndexExists(schemaTable, idxFields)) {
                 String indexname = "idx_" + lookupField.getTableName() + "_lookup";
-                crIndex =
-                    db.getCreateIndexStatement(
-                        schemaTable, indexname, idxFields, false, false, false, true);
+                crIndex = db.getCreateIndexStatement(schemaTable, indexname, idxFields, false, false, false, true);
               }
 
               String sql = crTable + crIndex;
@@ -576,25 +473,19 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
                 retval.setSql(sql);
               }
             } catch (HopException e) {
-              retval.setError(
-                  BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.ErrorOccurred")
-                      + e.getMessage());
+              retval.setError(BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.ErrorOccurred") + e.getMessage());
             }
           } else {
-            retval.setError(
-                BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.NoTableDefinedOnConnection"));
+            retval.setError(BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.NoTableDefinedOnConnection"));
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.NotReceivingAnyFields"));
+          retval.setError(BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.NotReceivingAnyFields"));
         }
       } else {
         retval.setError(BaseMessages.getString(PKG, "UpdateMeta.ReturnValue.NoConnectionDefined"));
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
     return retval;
   }
@@ -613,8 +504,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
       throws HopTransformException {
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
       if (prev != null) {
         // Lookup: we do a lookup on the natural keys
         for (int i = 0; i < lookupField.getLookupKeys().size(); i++) {
@@ -657,9 +547,7 @@ public class UpdateMeta extends BaseTransformMeta<Update, UpdateData> {
         }
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
   }
 

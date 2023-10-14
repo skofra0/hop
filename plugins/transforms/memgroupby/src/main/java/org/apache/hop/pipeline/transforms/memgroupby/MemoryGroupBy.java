@@ -56,13 +56,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
   private boolean allNullsAreZero = false;
   private boolean minNullIsValued = false;
 
-  public MemoryGroupBy(
-      TransformMeta transformMeta,
-      MemoryGroupByMeta meta,
-      MemoryGroupByData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MemoryGroupBy(TransformMeta transformMeta, MemoryGroupByMeta meta, MemoryGroupByData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -114,11 +108,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
             data.subjectnrs[i] = data.inputRowMeta.indexOfValue(aggregate.getSubject());
           }
           if (data.subjectnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG,
-                    "MemoryGroupBy.Log.AggregateSubjectFieldCouldNotFound",
-                    aggregate.getSubject()));
+            logError(BaseMessages.getString(PKG, "MemoryGroupBy.Log.AggregateSubjectFieldCouldNotFound", aggregate.getSubject()));
             setErrors(1);
             stopAll();
             return false;
@@ -129,9 +119,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
           String groupField = meta.getGroups().get(i).getField();
           data.groupnrs[i] = data.inputRowMeta.indexOfValue(groupField);
           if (data.groupnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "MemoryGroupBy.Log.GroupFieldCouldNotFound", groupField));
+            logError(BaseMessages.getString(PKG, "MemoryGroupBy.Log.GroupFieldCouldNotFound", groupField));
             setErrors(1);
             stopAll();
             return false;
@@ -196,12 +184,10 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
       Object[] outputRowData = RowDataUtil.allocateRowData(data.outputRowMeta.size());
       int index = 0;
       for (int i = 0; i < data.groupMeta.size(); i++) {
-        outputRowData[index++] =
-            data.groupMeta.getValueMeta(i).convertToNormalStorageType(entry.getGroupData()[i]);
+        outputRowData[index++] = data.groupMeta.getValueMeta(i).convertToNormalStorageType(entry.getGroupData()[i]);
       }
       for (int i = 0; i < data.aggMeta.size(); i++) {
-        outputRowData[index++] =
-            data.aggMeta.getValueMeta(i).convertToNormalStorageType(aggregateResult[i]);
+        outputRowData[index++] = data.aggMeta.getValueMeta(i).convertToNormalStorageType(aggregateResult[i]);
       }
       putRow(data.outputRowMeta, outputRowData);
     }
@@ -217,9 +203,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
       }
       for (int i = 0; i < data.aggMeta.size(); i++) {
         GAggregate aggregate = meta.getAggregates().get(i);
-        if (aggregate.getType() == CountAll
-            || aggregate.getType() == CountAny
-            || aggregate.getType() == CountDistinct) {
+        if (aggregate.getType() == CountAll || aggregate.getType() == CountAny || aggregate.getType() == CountDistinct) {
           outputRowData[index++] = 0L;
         } else {
           outputRowData[index++] = null;
@@ -464,9 +448,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
           throw new HopException("Unknown data type for aggregation : " + agg.getField());
       }
 
-      if (agg.getType() != CountAll
-          && agg.getType() != CountDistinct
-          && agg.getType() != CountAny) {
+      if (agg.getType() != CountAll && agg.getType() != CountDistinct && agg.getType() != CountAny) {
         vMeta.setLength(subjMeta.getLength(), subjMeta.getPrecision());
       }
       if (aggregate == null) {
@@ -507,9 +489,7 @@ public class MemoryGroupBy extends BaseTransform<MemoryGroupByMeta, MemoryGroupB
         case Sum:
           break;
         case Average:
-          ag =
-              ValueDataUtil.divide(
-                  data.aggMeta.getValueMeta(i), ag, new ValueMetaInteger("c"), aggregate.counts[i]);
+          ag = ValueDataUtil.divide(data.aggMeta.getValueMeta(i), ag, new ValueMetaInteger("c"), aggregate.counts[i]);
           break;
         case Median:
         case Percentile:

@@ -35,13 +35,16 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class LdapConnectionTest {
 
-  @Mock private ILogChannel logChannelInterface;
+  @Mock
+  private ILogChannel logChannelInterface;
 
-  @Mock private IVariables variables;
+  @Mock
+  private IVariables variables;
 
   private LdapInputMeta meta;
 
-  @Rule public ExpectedException expectedEx = ExpectedException.none();
+  @Rule
+  public ExpectedException expectedEx = ExpectedException.none();
 
   @Test
   public void testFake() {
@@ -113,8 +116,7 @@ public class LdapConnectionTest {
     meta.setProtocol("LDAP SSL");
     meta.setHost("localhost");
     meta.setPort("1636");
-    meta.setTrustStorePath(
-        getClass().getClassLoader().getResource("self-signed.truststore").getPath());
+    meta.setTrustStorePath(getClass().getClassLoader().getResource("self-signed.truststore").getPath());
     meta.setTrustStorePassword("changeit");
     meta.setUseCertificate(true);
     meta.setTrustAllCertificates(false);

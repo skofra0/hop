@@ -38,11 +38,10 @@ public class MetricsSnapshot implements IMetricsSnapshot {
    * @param type
    * @param metric the metric to use (ex. Connect to database)
    * @param subject the name of the metric subject (ex. the name of the database we're connecting
-   *     to)
+   *        to)
    * @param logChannelId
    */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, String subject, String logChannelId) {
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, String subject, String logChannelId) {
     this.date = new Date();
     this.type = type;
     this.metric = metric;
@@ -70,8 +69,7 @@ public class MetricsSnapshot implements IMetricsSnapshot {
    * @param value The value
    * @param logChannelId The logging channel to reference.
    */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, String subject, long value, String logChannelId) {
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, String subject, long value, String logChannelId) {
     this(type, metric, subject, logChannelId);
     this.value = value;
   }
@@ -84,8 +82,7 @@ public class MetricsSnapshot implements IMetricsSnapshot {
    * @param value The value
    * @param logChannelId The logging channel to reference.
    */
-  public MetricsSnapshot(
-      MetricsSnapshotType type, IMetrics metric, long value, String logChannelId) {
+  public MetricsSnapshot(MetricsSnapshotType type, IMetrics metric, long value, String logChannelId) {
     this(type, metric, null, value, logChannelId);
   }
 
@@ -116,13 +113,7 @@ public class MetricsSnapshot implements IMetricsSnapshot {
       subject = "-";
     }
 
-    return subject
-        + " - "
-        + getKey()
-        + " @ "
-        + StringUtil.getFormattedDateTime(date, true)
-        + " : "
-        + type.toString();
+    return subject + " - " + getKey() + " @ " + StringUtil.getFormattedDateTime(date, true) + " : " + type.toString();
   }
 
   /** @return the date */

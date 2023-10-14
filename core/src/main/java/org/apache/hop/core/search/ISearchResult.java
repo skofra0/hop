@@ -30,7 +30,7 @@ public interface ISearchResult {
 
   /**
    * @return The transform, action, variable, ... where the string was found or null if the string
-   *     was found in the searchable itself.
+   *         was found in the searchable itself.
    */
   String getComponent();
 }

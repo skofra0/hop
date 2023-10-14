@@ -30,10 +30,7 @@ public class BlockUntilTransformsFinishMetaTest {
     meta.getBlockingTransforms().add(new BlockingTransform("C", "2"));
     String xml = meta.getXml();
 
-    String transformXml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + xml
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String transformXml = XmlHandler.openTag(TransformMeta.XML_TAG) + xml + XmlHandler.closeTag(TransformMeta.XML_TAG);
     BlockUntilTransformsFinishMeta meta2 = new BlockUntilTransformsFinishMeta();
     meta2.loadXml(XmlHandler.loadXmlString(transformXml, TransformMeta.XML_TAG), null);
   }

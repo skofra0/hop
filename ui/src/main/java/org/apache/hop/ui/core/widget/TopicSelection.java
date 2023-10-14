@@ -94,14 +94,13 @@ public class TopicSelection extends Composite {
     PropsUi.setLook(wTopicFromText);
     PropsUi.setLook(wTopicFromField);
 
-    SelectionAdapter selectionListener =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent selectionEvent) {
-            super.widgetSelected(selectionEvent);
-            setTopicWidgetVisibility(wTopicFromField);
-          }
-        };
+    SelectionAdapter selectionListener = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent selectionEvent) {
+        super.widgetSelected(selectionEvent);
+        setTopicWidgetVisibility(wTopicFromField);
+      }
+    };
 
     wTopicFromField.addSelectionListener(selectionListener);
     wTopicFromText.addSelectionListener(selectionListener);
@@ -158,8 +157,7 @@ public class TopicSelection extends Composite {
   }
 
   private void setTopicWidgetVisibility(Button topicComesFromField) {
-    transformMeta.setChanged(
-        transformMeta.hasChanged() || topicInField != topicComesFromField.getSelection());
+    transformMeta.setChanged(transformMeta.hasChanged() || topicInField != topicComesFromField.getSelection());
     wTopicField.setVisible(topicComesFromField.getSelection());
     wTopicText.setVisible(!topicComesFromField.getSelection());
     if (topicComesFromField.getSelection()) {

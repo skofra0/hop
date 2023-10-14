@@ -25,8 +25,7 @@ public class SelectedRelationship {
   private SelectedNode targetNode;
   private GraphRelationship relationship;
 
-  public SelectedRelationship(
-      SelectedNode sourceNode, SelectedNode targetNode, GraphRelationship relationship) {
+  public SelectedRelationship(SelectedNode sourceNode, SelectedNode targetNode, GraphRelationship relationship) {
     this.sourceNode = sourceNode;
     this.targetNode = targetNode;
     this.relationship = relationship;
@@ -41,9 +40,7 @@ public class SelectedRelationship {
       return false;
     }
     SelectedRelationship that = (SelectedRelationship) o;
-    return Objects.equals(sourceNode, that.sourceNode)
-        && Objects.equals(targetNode, that.targetNode)
-        && Objects.equals(relationship, that.relationship);
+    return Objects.equals(sourceNode, that.sourceNode) && Objects.equals(targetNode, that.targetNode) && Objects.equals(relationship, that.relationship);
   }
 
   @Override
@@ -53,12 +50,7 @@ public class SelectedRelationship {
 
   @Override
   public String toString() {
-    return "SelectedRelationship{"
-        + "sourceNode="
-        + sourceNode
-        + ", targetNode="
-        + targetNode
-        + '}';
+    return "SelectedRelationship{" + "sourceNode=" + sourceNode + ", targetNode=" + targetNode + '}';
   }
 
   /**

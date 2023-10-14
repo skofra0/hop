@@ -50,18 +50,7 @@ import java.util.List;
 public class RestMeta extends BaseTransformMeta<Rest, RestData> {
   private static final Class<?> PKG = RestMeta.class; // For Translator
 
-  public static final String[] APPLICATION_TYPES =
-      new String[] {
-        "TEXT PLAIN",
-        "XML",
-        "JSON",
-        "OCTET STREAM",
-        "XHTML",
-        "FORM URLENCODED",
-        "ATOM XML",
-        "SVG XML",
-        "TEXT XML"
-      };
+  public static final String[] APPLICATION_TYPES = new String[] {"TEXT PLAIN", "XML", "JSON", "OCTET STREAM", "XHTML", "FORM URLENCODED", "ATOM XML", "SVG XML", "TEXT XML"};
   public static final String APPLICATION_TYPE_TEXT_PLAIN = "TEXT PLAIN";
   public static final String APPLICATION_TYPE_XML = "XML";
   public static final String APPLICATION_TYPE_JSON = "JSON";
@@ -74,8 +63,7 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
 
   private String applicationType;
 
-  public static final String[] HTTP_METHODS =
-      new String[] {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "PATCH"};
+  public static final String[] HTTP_METHODS = new String[] {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "PATCH"};
 
   public static final String HTTP_METHOD_GET = "GET";
   public static final String HTTP_METHOD_POST = "POST";
@@ -300,8 +288,7 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -351,13 +338,7 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!Utils.isEmpty(fieldName)) {
       IValueMeta v = new ValueMetaString(variables.resolve(fieldName));
@@ -396,22 +377,14 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
     retval.append("    ").append(XmlHandler.addTagValue("urlField", urlField));
     retval.append("    ").append(XmlHandler.addTagValue("bodyField", bodyField));
     retval.append("    ").append(XmlHandler.addTagValue("httpLogin", httpLogin));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "httpPassword", Encr.encryptPasswordIfNotUsingVariables(httpPassword)));
+    retval.append("    ").append(XmlHandler.addTagValue("httpPassword", Encr.encryptPasswordIfNotUsingVariables(httpPassword)));
 
     retval.append("    ").append(XmlHandler.addTagValue("proxyHost", proxyHost));
     retval.append("    ").append(XmlHandler.addTagValue("proxyPort", proxyPort));
     retval.append("    ").append(XmlHandler.addTagValue("preemptive", preemptive));
 
     retval.append("    ").append(XmlHandler.addTagValue("trustStoreFile", trustStoreFile));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
+    retval.append("    ").append(XmlHandler.addTagValue("trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
     retval.append("    ").append(XmlHandler.addTagValue("ignoreSsl", ignoreSsl));
 
     retval.append("    <headers>").append(Const.CR);
@@ -433,9 +406,7 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
     retval.append("      </parameters>").append(Const.CR);
 
     retval.append("    <matrixParameters>").append(Const.CR);
-    for (int i = 0, len = (matrixParameterName != null ? matrixParameterName.length : 0);
-        i < len;
-        i++) {
+    for (int i = 0, len = (matrixParameterName != null ? matrixParameterName.length : 0); i < len; i++) {
       retval.append("      <matrixParameter>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("field", matrixParameterField[i]));
       retval.append("        ").append(XmlHandler.addTagValue("name", matrixParameterName[i]));
@@ -447,16 +418,13 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
     retval.append("      ").append(XmlHandler.addTagValue("name", fieldName));
     retval.append("      ").append(XmlHandler.addTagValue("code", resultCodeFieldName));
     retval.append("      ").append(XmlHandler.addTagValue("response_time", responseTimeFieldName));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("response_header", responseHeaderFieldName));
+    retval.append("      ").append(XmlHandler.addTagValue("response_header", responseHeaderFieldName));
     retval.append("      </result>").append(Const.CR);
 
     return retval.toString();
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       applicationType = XmlHandler.getTagValue(transformNode, "applicationType");
       method = XmlHandler.getTagValue(transformNode, "method");
@@ -468,18 +436,14 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
       urlField = XmlHandler.getTagValue(transformNode, "urlField");
       bodyField = XmlHandler.getTagValue(transformNode, "bodyField");
       httpLogin = XmlHandler.getTagValue(transformNode, "httpLogin");
-      httpPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "httpPassword"));
+      httpPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "httpPassword"));
 
       proxyHost = XmlHandler.getTagValue(transformNode, "proxyHost");
       proxyPort = XmlHandler.getTagValue(transformNode, "proxyPort");
       preemptive = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "preemptive"));
 
       trustStoreFile = XmlHandler.getTagValue(transformNode, "trustStoreFile");
-      trustStorePassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "trustStorePassword"));
+      trustStorePassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "trustStorePassword"));
       ignoreSsl = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "ignoreSsl"));
 
       Node headernode = XmlHandler.getSubNode(transformNode, "headers");
@@ -507,16 +471,11 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
       }
 
       fieldName = XmlHandler.getTagValue(transformNode, "result", "name"); // Optional, can be null
-      resultCodeFieldName =
-          XmlHandler.getTagValue(transformNode, "result", "code"); // Optional, can be null
-      responseTimeFieldName =
-          XmlHandler.getTagValue(transformNode, "result", "response_time"); // Optional, can be null
-      responseHeaderFieldName =
-          XmlHandler.getTagValue(
-              transformNode, "result", "response_header"); // Optional, can be null
+      resultCodeFieldName = XmlHandler.getTagValue(transformNode, "result", "code"); // Optional, can be null
+      responseTimeFieldName = XmlHandler.getTagValue(transformNode, "result", "response_time"); // Optional, can be null
+      responseHeaderFieldName = XmlHandler.getTagValue(transformNode, "result", "response_header"); // Optional, can be null
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "RestMeta.Exception.UnableToReadTransformMeta"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "RestMeta.Exception.UnableToReadTransformMeta"), e);
     }
   }
 
@@ -535,49 +494,25 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RestMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RestMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RestMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.NoInpuReceived"), transformMeta);
     }
     remarks.add(cr);
 
     // check Url
     if (urlInField) {
       if (Utils.isEmpty(urlField)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlfieldMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlfieldMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlfieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlfieldOk"), transformMeta);
       }
 
     } else {
       if (Utils.isEmpty(url)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RestMeta.CheckResult.UrlOk"), transformMeta);
       }
     }
     remarks.add(cr);
@@ -585,32 +520,16 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
     // Check method
     if (dynamicMethod) {
       if (Utils.isEmpty(methodFieldName)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodFieldMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodFieldMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodFieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodFieldOk"), transformMeta);
       }
 
     } else {
       if (Utils.isEmpty(method)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RestMeta.CheckResult.MethodOk"), transformMeta);
       }
     }
     remarks.add(cr);
@@ -765,18 +684,13 @@ public class RestMeta extends BaseTransformMeta<Rest, RestData> {
     if (Utils.isEmpty(method)) {
       return false;
     }
-    return (method.equals(HTTP_METHOD_POST)
-        || method.equals(HTTP_METHOD_PUT)
-        || method.equals(HTTP_METHOD_PATCH));
+    return (method.equals(HTTP_METHOD_POST) || method.equals(HTTP_METHOD_PUT) || method.equals(HTTP_METHOD_PATCH));
   }
 
   public static boolean isActiveParameters(String method) {
     if (Utils.isEmpty(method)) {
       return false;
     }
-    return (method.equals(HTTP_METHOD_POST)
-        || method.equals(HTTP_METHOD_PUT)
-        || method.equals(HTTP_METHOD_PATCH)
-        || method.equals(HTTP_METHOD_DELETE));
+    return (method.equals(HTTP_METHOD_POST) || method.equals(HTTP_METHOD_PUT) || method.equals(HTTP_METHOD_PATCH) || method.equals(HTTP_METHOD_DELETE));
   }
 }

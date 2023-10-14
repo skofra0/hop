@@ -48,13 +48,7 @@ public class StaticHopRowFn extends DoFn<KV<byte[], byte[]>, HopRow> {
   private transient Counter writtenCounter;
   private transient Date previousDate;
 
-  public StaticHopRowFn(
-      String transformName,
-      String rowMetaJson,
-      String rowDataXml,
-      boolean neverEnding,
-      int currentTimeFieldIndex,
-      int previousTimeFieldIndex) {
+  public StaticHopRowFn(String transformName, String rowMetaJson, String rowDataXml, boolean neverEnding, int currentTimeFieldIndex, int previousTimeFieldIndex) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
     this.rowDataXml = rowDataXml;

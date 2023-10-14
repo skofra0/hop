@@ -21,8 +21,10 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class DorisHeader {
-  @HopMetadataProperty private String name;
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String name;
+  @HopMetadataProperty
+  private String value;
 
   public DorisHeader() {}
 
@@ -33,8 +35,10 @@ public class DorisHeader {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     DorisHeader that = (DorisHeader) o;
     return Objects.equals(name, that.name);
   }

@@ -54,9 +54,7 @@ public class AbortMeta extends BaseTransformMeta<Abort, AbortData> {
   }
 
   /** Threshold to abort. */
-  @HopMetadataProperty(
-      key = "row_threshold",
-      injectionKeyDescription = "AbortDialog.Options.RowThreshold.Label")
+  @HopMetadataProperty(key = "row_threshold", injectionKeyDescription = "AbortDialog.Options.RowThreshold.Label")
   private String rowThreshold;
 
   /** Message to put in log when aborting. */
@@ -64,14 +62,10 @@ public class AbortMeta extends BaseTransformMeta<Abort, AbortData> {
   private String message;
 
   /** Always log rows. */
-  @HopMetadataProperty(
-      key = "always_log_rows",
-      injectionKeyDescription = "AbortDialog.Logging.AlwaysLogRows.Label")
+  @HopMetadataProperty(key = "always_log_rows", injectionKeyDescription = "AbortDialog.Logging.AlwaysLogRows.Label")
   private boolean alwaysLogRows;
 
-  @HopMetadataProperty(
-      key = "abort_option",
-      injectionKeyDescription = "AbortMeta.Injection.AbortOption")
+  @HopMetadataProperty(key = "abort_option", injectionKeyDescription = "AbortMeta.Injection.AbortOption")
   private AbortOption abortOption;
 
   public AbortMeta() {
@@ -79,13 +73,7 @@ public class AbortMeta extends BaseTransformMeta<Abort, AbortData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Default: no values are added to the row in the transform
   }
@@ -103,11 +91,7 @@ public class AbortMeta extends BaseTransformMeta<Abort, AbortData> {
       IHopMetadataProvider metadataProvider) {
     // See if we have input streams leading to this transform!
     if (input.length == 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "AbortMeta.CheckResult.NoInputReceivedError"),
-              transforminfo);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "AbortMeta.CheckResult.NoInputReceivedError"), transforminfo);
       remarks.add(cr);
     }
   }
@@ -121,8 +105,7 @@ public class AbortMeta extends BaseTransformMeta<Abort, AbortData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
 
     // Backward compatible code

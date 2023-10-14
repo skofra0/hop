@@ -47,8 +47,7 @@ import java.util.List;
 
 public class XsltTest extends TestCase {
 
-  private static final String TEST1_XML =
-      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><message>Yep, it worked!</message>";
+  private static final String TEST1_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><message>Yep, it worked!</message>";
 
   private static final String TEST1_XSL =
       "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -87,9 +86,7 @@ public class XsltTest extends TestCase {
   public IRowMeta createRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaString("XML"), new ValueMetaString("XSL"), new ValueMetaString("filename"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaString("XML"), new ValueMetaString("XSL"), new ValueMetaString("filename"),};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -113,10 +110,7 @@ public class XsltTest extends TestCase {
   public IRowMeta createResultRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaString("XML"), new ValueMetaString("XSL"),
-      new ValueMetaString("filename"), new ValueMetaString("result"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaString("XML"), new ValueMetaString("XSL"), new ValueMetaString("filename"), new ValueMetaString("result"),};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -148,10 +142,9 @@ public class XsltTest extends TestCase {
    * @param rows1 set 1 of rows to compare
    * @param rows2 set 2 of rows to compare
    * @param fileNameColumn Number of the column containing the filename. This is only checked for
-   *     being non-null (some systems maybe canonize names differently than we input).
+   *        being non-null (some systems maybe canonize names differently than we input).
    */
-  public void checkRows(
-      List<RowMetaAndData> rows1, List<RowMetaAndData> rows2, int fileNameColumn) {
+  public void checkRows(List<RowMetaAndData> rows1, List<RowMetaAndData> rows2, int fileNameColumn) {
     int idx = 1;
     if (rows1.size() != rows2.size()) {
       fail("Number of rows is not the same: " + rows1.size() + " and " + rows2.size());
@@ -246,14 +239,7 @@ public class XsltTest extends TestCase {
     runTestWithParams("XML", "result", false, false, "filename", fileName, "SAXON");
   }
 
-  public void runTestWithParams(
-      String xmlFieldname,
-      String resultFieldname,
-      boolean xslInField,
-      boolean xslFileInField,
-      String xslFileField,
-      String xslFilename,
-      String xslFactory)
+  public void runTestWithParams(String xmlFieldname, String resultFieldname, boolean xslInField, boolean xslFileInField, String xslFileField, String xslFilename, String xslFactory)
       throws Exception {
 
     HopEnvironment.init();

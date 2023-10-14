@@ -31,10 +31,7 @@ public class DropboxFileSystem extends AbstractFileSystem {
 
   private final DbxClientV2 client;
 
-  protected DropboxFileSystem(
-      final FileName rootName,
-      final DbxClientV2 client,
-      final FileSystemOptions fileSystemOptions) {
+  protected DropboxFileSystem(final FileName rootName, final DbxClientV2 client, final FileSystemOptions fileSystemOptions) {
     super(rootName, null, fileSystemOptions);
     this.client = client;
   }

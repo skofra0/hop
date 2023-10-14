@@ -48,8 +48,7 @@ public class ReadAllCache implements DatabaseLookupData.ICache {
   // such structure was chosen not to introduce separate data-container class
   private final int[][] otherConditions;
 
-  ReadAllCache(
-      DatabaseLookupData transformData, Object[][] keys, IRowMeta keysMeta, Object[][] data) {
+  ReadAllCache(DatabaseLookupData transformData, Object[][] keys, IRowMeta keysMeta, Object[][] data) {
     this.transformData = transformData;
     this.keys = keys;
     this.keysMeta = keysMeta;
@@ -60,16 +59,14 @@ public class ReadAllCache implements DatabaseLookupData.ICache {
     otherConditions = (int[][]) pair[1];
   }
 
-  private static Object[] createIndexes(
-      DatabaseLookupData transformData, IRowMeta keysMeta, Object[][] keys) {
+  private static Object[] createIndexes(DatabaseLookupData transformData, IRowMeta keysMeta, Object[][] keys) {
     final int rowsAmount = keys.length;
     final int[] conditions = transformData.conditions;
 
     // it makes sense to apply restrictions in the specific order, namely, to use those, that can
     // filter more elements
     // Index.restrictionComparator() uses heuristic "restriction power" of each index
-    PriorityQueue<Index> indexes =
-        new PriorityQueue<>(conditions.length, Index.restrictionComparator());
+    PriorityQueue<Index> indexes = new PriorityQueue<>(conditions.length, Index.restrictionComparator());
     List<int[]> otherConditions = new ArrayList<>();
     for (int i = 0, len = conditions.length; i < len; i++) {
       int condition = conditions[i];
@@ -108,10 +105,7 @@ public class ReadAllCache implements DatabaseLookupData.ICache {
       }
     }
 
-    return new Object[] {
-      indexes.toArray(new Index[indexes.size()]),
-      otherConditions.toArray(new int[otherConditions.size()][])
-    };
+    return new Object[] {indexes.toArray(new Index[indexes.size()]), otherConditions.toArray(new int[otherConditions.size()][])};
   }
 
   @Override
@@ -189,8 +183,7 @@ public class ReadAllCache implements DatabaseLookupData.ICache {
   }
 
   @Override
-  public void storeRowInCache(
-      DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add) {
+  public void storeRowInCache(DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add) {
     throw new UnsupportedOperationException("This cache is read-only");
   }
 

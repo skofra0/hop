@@ -25,8 +25,7 @@ public class CsvInputDataTest {
   public void testRemoveEscapedEnclosuresWithOneEscapedInMiddle() {
     CsvInputData csvInputData = new CsvInputData();
     csvInputData.enclosure = "\"".getBytes();
-    String result =
-        new String(csvInputData.removeEscapedEnclosures("abcd \"\" defg".getBytes(), 1));
+    String result = new String(csvInputData.removeEscapedEnclosures("abcd \"\" defg".getBytes(), 1));
     assertEquals("abcd \" defg", result);
   }
 
@@ -34,8 +33,7 @@ public class CsvInputDataTest {
   public void testRemoveEscapedEnclosuresWithTwoEscapedInMiddle() {
     CsvInputData csvInputData = new CsvInputData();
     csvInputData.enclosure = "\"".getBytes();
-    String result =
-        new String(csvInputData.removeEscapedEnclosures("abcd \"\"\"\" defg".getBytes(), 2));
+    String result = new String(csvInputData.removeEscapedEnclosures("abcd \"\"\"\" defg".getBytes(), 2));
     assertEquals("abcd \"\" defg", result);
   }
 
@@ -59,8 +57,7 @@ public class CsvInputDataTest {
   public void testRemoveEscapedEnclosuresWithCharacterInTheMiddleOfThem() {
     CsvInputData csvInputData = new CsvInputData();
     csvInputData.enclosure = "\"".getBytes();
-    String result =
-        new String(csvInputData.removeEscapedEnclosures("345\"\"1\"\"abc".getBytes(), 2));
+    String result = new String(csvInputData.removeEscapedEnclosures("345\"\"1\"\"abc".getBytes(), 2));
     assertEquals("345\"1\"abc", result);
   }
 }

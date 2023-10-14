@@ -30,7 +30,8 @@ import java.util.List;
  * last version of a dimension entry, but all versions. So basically, the entry key is the natural
  * key as well as the from-to date range.
  *
- * <p>The way to achieve that result is to keep a sorted list in memory. Because we want as few
+ * <p>
+ * The way to achieve that result is to keep a sorted list in memory. Because we want as few
  * conversion errors as possible, we'll use the same row as we get from the database.
  */
 public class DimensionCache implements Comparator<Object[]> {
@@ -88,7 +89,7 @@ public class DimensionCache implements Comparator<Object[]> {
    * Looks up a row in the (sorted) cache.
    *
    * @param lookupRowData The data of the lookup row. Make sure that on the index of the from date,
-   *     you put the lookup date.
+   *        you put the lookup date.
    * @throws a HopException in case there are conversion errors during the lookup of the row
    */
   public int lookupRow(Object[] lookupRowData) throws HopException {
@@ -137,8 +138,7 @@ public class DimensionCache implements Comparator<Object[]> {
                 // TODO: print the row perhaps?
                 //
                 throw new HopException(
-                    "Key sorting problem detected during row cache lookup: the lookup date of "
-                        + "the row retrieved is higher than or equal to the end of the date range.");
+                    "Key sorting problem detected during row cache lookup: the lookup date of " + "the row retrieved is higher than or equal to the end of the date range.");
               }
             } else if (fromDate != null && toDate == null) {
               // This is the case where the toDate is null and the fromDate is not.
@@ -152,8 +152,7 @@ public class DimensionCache implements Comparator<Object[]> {
                 // TODO: print the row perhaps?
                 //
                 throw new HopException(
-                    "Key sorting problem detected during row cache lookup: the lookup date of the row "
-                        + "retrieved is lower than or equal to the start of the date range.");
+                    "Key sorting problem detected during row cache lookup: the lookup date of the row " + "retrieved is lower than or equal to the start of the date range.");
               }
             } else {
               // Both dates are available: simply see if the lookup date falls in between...

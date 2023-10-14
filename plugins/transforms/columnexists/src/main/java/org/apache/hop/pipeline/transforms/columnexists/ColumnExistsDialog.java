@@ -74,8 +74,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
 
   private final ColumnExistsMeta input;
 
-  public ColumnExistsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ColumnExistsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ColumnExistsMeta) in;
   }
@@ -143,18 +142,16 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     fdbSchema.top = new FormAttachment(wConnection, 2 * margin);
     fdbSchema.right = new FormAttachment(100, 0);
     wbSchema.setLayoutData(fdbSchema);
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
 
     wSchemaname = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaname);
-    wSchemaname.setToolTipText(
-        BaseMessages.getString(PKG, "ColumnExistsDialog.Schemaname.Tooltip"));
+    wSchemaname.setToolTipText(BaseMessages.getString(PKG, "ColumnExistsDialog.Schemaname.Tooltip"));
     wSchemaname.addModifyListener(lsMod);
     FormData fdSchemaname = new FormData();
     fdSchemaname.left = new FormAttachment(middle, 0);
@@ -164,8 +161,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
 
     // TablenameText fieldname ...
     wlTablenameText = new Label(shell, SWT.RIGHT);
-    wlTablenameText.setText(
-        BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameTextField.Label"));
+    wlTablenameText.setText(BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameTextField.Label"));
     PropsUi.setLook(wlTablenameText);
     FormData fdlTablenameText = new FormData();
     fdlTablenameText.left = new FormAttachment(0, 0);
@@ -180,17 +176,15 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     fdbTable.right = new FormAttachment(100, 0);
     fdbTable.top = new FormAttachment(wbSchema, margin);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wTablenameText = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wTablenameText.setToolTipText(
-        BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameTextField.Tooltip"));
+    wTablenameText.setToolTipText(BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameTextField.Tooltip"));
     PropsUi.setLook(wTablenameText);
     wTablenameText.addModifyListener(lsMod);
     FormData fdTablenameText = new FormData();
@@ -201,8 +195,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
 
     // Is tablename is field?
     Label wlTablenameInField = new Label(shell, SWT.RIGHT);
-    wlTablenameInField.setText(
-        BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameInfield.Label"));
+    wlTablenameInField.setText(BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameInfield.Label"));
     PropsUi.setLook(wlTablenameInField);
     FormData fdlTablenameInField = new FormData();
     fdlTablenameInField.left = new FormAttachment(0, 0);
@@ -210,22 +203,20 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     fdlTablenameInField.right = new FormAttachment(middle, -margin);
     wlTablenameInField.setLayoutData(fdlTablenameInField);
     wTablenameInField = new Button(shell, SWT.CHECK);
-    wTablenameInField.setToolTipText(
-        BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameInfield.Tooltip"));
+    wTablenameInField.setToolTipText(BaseMessages.getString(PKG, "ColumnExistsDialog.TablenameInfield.Tooltip"));
     PropsUi.setLook(wTablenameInField);
     FormData fdTablenameInField = new FormData();
     fdTablenameInField.left = new FormAttachment(middle, 0);
     fdTablenameInField.top = new FormAttachment(wlTablenameInField, 0, SWT.CENTER);
     fdTablenameInField.right = new FormAttachment(100, 0);
     wTablenameInField.setLayoutData(fdTablenameInField);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-            activeTablenameInField();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+        activeTablenameInField();
+      }
+    };
     wTablenameInField.addSelectionListener(lsSelR);
 
     // Dynamic tablename
@@ -246,22 +237,21 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     fdTableName.top = new FormAttachment(wTablenameInField, margin * 2);
     fdTableName.right = new FormAttachment(100, -margin);
     wTableName.setLayoutData(fdTableName);
-    wTableName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable Focuslost event
-          }
+    wTableName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable Focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Dynamic column name field
     Label wlColumnName = new Label(shell, SWT.RIGHT);
@@ -281,22 +271,21 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     fdColumnName.top = new FormAttachment(wTableName, margin);
     fdColumnName.right = new FormAttachment(100, -margin);
     wColumnName.setLayoutData(fdColumnName);
-    wColumnName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable Focuslost event
-          }
+    wColumnName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable Focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Result fieldname ...
     Label wlResult = new Label(shell, SWT.RIGHT);
@@ -397,8 +386,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
 
     if (input.getDatabaseName() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ColumnExistsDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "ColumnExistsDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "ColumnExistsDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -440,9 +428,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
     }
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchemaname.getText(), wTablenameText.getText());
       if (std.open()) {
         wSchemaname.setText(Const.NVL(std.getSchemaName(), ""));
@@ -450,8 +436,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ColumnExistsDialog.ConnectionError2.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "ColumnExistsDialog.ConnectionError2.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
     }
@@ -473,8 +458,7 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Message"));
           String d = dialog.open();
           if (d != null) {
@@ -483,17 +467,12 @@ public class ColumnExistsDialog extends BaseTransformDialog implements ITransfor
 
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
+          mb.setMessage(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Message"));
           mb.setText(BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.Empty.Title"));
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "System.Dialog.AvailableSchemas.ConnectionError"), e);
       }
     }
   }

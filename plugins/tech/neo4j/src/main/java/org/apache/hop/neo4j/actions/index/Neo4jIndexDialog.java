@@ -60,8 +60,7 @@ public class Neo4jIndexDialog extends ActionDialog implements IActionDialog {
   private MetaSelectionLine<NeoConnection> wConnection;
   private TableView wUpdates;
 
-  public Neo4jIndexDialog(
-      Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
+  public Neo4jIndexDialog(Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.meta = (Neo4jIndex) iAction;
 
@@ -153,28 +152,13 @@ public class Neo4jIndexDialog extends ActionDialog implements IActionDialog {
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.UpdateType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              UpdateType.getNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ObjectType.getNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.IndexName"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectName"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectProperties"),
-              ColumnInfo.COLUMN_TYPE_TEXT),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.UpdateType"), ColumnInfo.COLUMN_TYPE_CCOMBO, UpdateType.getNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ObjectType.getNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.IndexName"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectName"), ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4jIndexDialog.IndexUpdates.Column.ObjectProperties"), ColumnInfo.COLUMN_TYPE_TEXT),};
 
-    wUpdates =
-        new TableView(
-            variables, shell, SWT.NONE, columns, meta.getIndexUpdates().size(), false, null, props);
+    wUpdates = new TableView(variables, shell, SWT.NONE, columns, meta.getIndexUpdates().size(), false, null, props);
     PropsUi.setLook(wUpdates);
     wUpdates.addModifyListener(lsMod);
     FormData fdCypher = new FormData();
@@ -186,13 +170,7 @@ public class Neo4jIndexDialog extends ActionDialog implements IActionDialog {
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, margin, null);
 
     getData();
 
@@ -247,8 +225,7 @@ public class Neo4jIndexDialog extends ActionDialog implements IActionDialog {
       meta.setConnection(null);
     } else {
       try {
-        meta.setConnection(
-            metadataProvider.getSerializer(NeoConnection.class).load(connectionName));
+        meta.setConnection(metadataProvider.getSerializer(NeoConnection.class).load(connectionName));
       } catch (Exception e) {
         new ErrorDialog(shell, "Error", "Error finding connection " + connectionName, e);
         return;
@@ -263,8 +240,7 @@ public class Neo4jIndexDialog extends ActionDialog implements IActionDialog {
       String indexName = item.getText(3);
       String objectName = item.getText(4);
       String objectProperties = item.getText(5);
-      meta.getIndexUpdates()
-          .add(new IndexUpdate(type, objectType, indexName, objectName, objectProperties));
+      meta.getIndexUpdates().add(new IndexUpdate(type, objectType, indexName, objectName, objectProperties));
     }
 
     dispose();

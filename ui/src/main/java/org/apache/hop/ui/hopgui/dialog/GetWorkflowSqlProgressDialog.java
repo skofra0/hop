@@ -43,27 +43,20 @@ public class GetWorkflowSqlProgressDialog {
   private List<SqlStatement> stats;
 
   /** Creates a new dialog that will handle the wait while getting the SQL for a workflow... */
-  public GetWorkflowSqlProgressDialog(
-      Shell shell, IVariables variables, WorkflowMeta workflowMeta) {
+  public GetWorkflowSqlProgressDialog(Shell shell, IVariables variables, WorkflowMeta workflowMeta) {
     this.shell = shell;
     this.variables = variables;
     this.workflowMeta = workflowMeta;
   }
 
   public List<SqlStatement> open() {
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            stats = workflowMeta.getSqlStatements(new ProgressMonitorAdapter(monitor), variables);
-          } catch (HopException e) {
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG,
-                    "GetJobSQLProgressDialog.RuntimeError.UnableToGenerateSQL.Exception",
-                    e.getMessage()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        stats = workflowMeta.getSqlStatements(new ProgressMonitorAdapter(monitor), variables);
+      } catch (HopException e) {
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "GetJobSQLProgressDialog.RuntimeError.UnableToGenerateSQL.Exception", e.getMessage()));
+      }
+    };
 
     try {
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);

@@ -66,6 +66,7 @@ public class GoogleDriveFileObject extends AbstractFileObject {
   public enum MIME_TYPES {
     FILE("application/vnd.google-apps.file", FileType.FILE),
     FOLDER("application/vnd.google-apps.folder", FileType.FOLDER);
+
     private final String mimeType;
     private final FileType fileType;
 
@@ -85,9 +86,7 @@ public class GoogleDriveFileObject extends AbstractFileObject {
     }
   }
 
-  protected GoogleDriveFileObject(
-      final AbstractFileName fileName, final GoogleDriveFileSystem fileSystem)
-      throws FileSystemException {
+  protected GoogleDriveFileObject(final AbstractFileName fileName, final GoogleDriveFileSystem fileSystem) throws FileSystemException {
     super(fileName, fileSystem);
     try {
       HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -156,27 +155,22 @@ public class GoogleDriveFileObject extends AbstractFileObject {
 
   @Override
   protected OutputStream doGetOutputStream(boolean append) throws Exception {
-    final File parent =
-        getName().getParent() != null
-            ? searchFile(getName().getParent().getBaseName(), null)
-            : null;
-    ByteArrayOutputStream out =
-        new ByteArrayOutputStream() {
-          @Override
-          public void close() throws IOException {
-            File file = new File();
-            file.setName(getName().getBaseName());
-            if (parent != null) {
-              file.setParents(Collections.singletonList(parent.getId()));
-            }
-            ByteArrayContent fileContent =
-                new ByteArrayContent("application/octet-stream", toByteArray());
-            if (count > 0) {
-              driveService.files().create(file, fileContent).execute();
-              ((GoogleDriveFileSystem) getFileSystem()).clearFileFromCache(getName());
-            }
-          }
-        };
+    final File parent = getName().getParent() != null ? searchFile(getName().getParent().getBaseName(), null) : null;
+    ByteArrayOutputStream out = new ByteArrayOutputStream() {
+      @Override
+      public void close() throws IOException {
+        File file = new File();
+        file.setName(getName().getBaseName());
+        if (parent != null) {
+          file.setParents(Collections.singletonList(parent.getId()));
+        }
+        ByteArrayContent fileContent = new ByteArrayContent("application/octet-stream", toByteArray());
+        if (count > 0) {
+          driveService.files().create(file, fileContent).execute();
+          ((GoogleDriveFileSystem) getFileSystem()).clearFileFromCache(getName());
+        }
+      }
+    };
     return out;
   }
 
@@ -230,31 +224,25 @@ public class GoogleDriveFileObject extends AbstractFileObject {
    * @return An authorized Credential object.
    * @throws IOException If the credentials.json file cannot be found.
    */
-  private static Credential getCredentials(final NetHttpTransport httpTransport)
-      throws IOException {
+  private static Credential getCredentials(final NetHttpTransport httpTransport) throws IOException {
     // Load client secrets.
     InputStream in = new FileInputStream(getCredentialsFile());
     if (in == null) {
       throw new FileNotFoundException("Resource not found: " + getCredentialsFile());
     }
-    GoogleClientSecrets clientSecrets =
-        GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
     // Build flow and trigger user authorization request.
     GoogleAuthorizationCodeFlow flow =
-        new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
-            .setDataStoreFactory(new FileDataStoreFactory(getTokensFolder()))
-            .setAccessType("offline")
-            .build();
+        new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES).setDataStoreFactory(new FileDataStoreFactory(getTokensFolder()))
+            .setAccessType("offline").build();
     LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
     return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
   }
 
   private Drive getDriveService() throws IOException {
     Credential credential = getCredentials(HTTP_TRANSPORT);
-    return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-        .setApplicationName(APPLICATION_NAME)
-        .build();
+    return new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
   }
 
   private static java.io.File getTokensFolder() throws FileSystemException {

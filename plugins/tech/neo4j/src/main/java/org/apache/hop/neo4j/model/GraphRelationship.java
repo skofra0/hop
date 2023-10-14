@@ -25,29 +25,29 @@ import java.util.List;
 
 public class GraphRelationship {
 
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
-  @HopMetadataProperty protected String description;
+  @HopMetadataProperty
+  protected String description;
 
-  @HopMetadataProperty protected String label;
+  @HopMetadataProperty
+  protected String label;
 
-  @HopMetadataProperty protected List<GraphProperty> properties;
+  @HopMetadataProperty
+  protected List<GraphProperty> properties;
 
-  @HopMetadataProperty protected String nodeSource;
+  @HopMetadataProperty
+  protected String nodeSource;
 
-  @HopMetadataProperty protected String nodeTarget;
+  @HopMetadataProperty
+  protected String nodeTarget;
 
   public GraphRelationship() {
     properties = new ArrayList<>();
   }
 
-  public GraphRelationship(
-      String name,
-      String description,
-      String label,
-      List<GraphProperty> properties,
-      String nodeSource,
-      String nodeTarget) {
+  public GraphRelationship(String name, String description, String label, List<GraphProperty> properties, String nodeSource, String nodeTarget) {
     this.name = name;
     this.description = description;
     this.label = label;
@@ -129,20 +129,10 @@ public class GraphRelationship {
       }
     }
     if (!sourceFound) {
-      throw new HopException(
-          "Source node '"
-              + getNodeSource()
-              + "' of relationship '"
-              + name
-              + "' can not be found in the model");
+      throw new HopException("Source node '" + getNodeSource() + "' of relationship '" + name + "' can not be found in the model");
     }
     if (!targetFound) {
-      throw new HopException(
-          "Target node '"
-              + getNodeTarget()
-              + "' of relationship '"
-              + name
-              + "' can not be found in the model");
+      throw new HopException("Target node '" + getNodeTarget() + "' of relationship '" + name + "' can not be found in the model");
     }
   }
 

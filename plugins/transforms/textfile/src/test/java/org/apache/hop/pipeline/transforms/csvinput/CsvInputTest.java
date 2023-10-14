@@ -42,9 +42,7 @@ public class CsvInputTest extends CsvInputUnitTestBase {
   @Before
   public void setUp() throws Exception {
     logChannelInterface = mock(ILogChannel.class);
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputTest");
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputTest");
     csvInputMeta = mock(CsvInputMeta.class);
   }
 
@@ -56,13 +54,7 @@ public class CsvInputTest extends CsvInputUnitTestBase {
   @Test
   public void guessStringsFromLineWithEmptyLine() throws Exception {
     // This only validates that, given a null 'line', a null is returned!
-    String[] saData =
-        TextFileLineUtil.guessStringsFromLine(
-            logChannelInterface,
-            null,
-            csvInputMeta.getDelimiter(),
-            csvInputMeta.getEnclosure(),
-            csvInputMeta.getEscapeCharacter());
+    String[] saData = TextFileLineUtil.guessStringsFromLine(logChannelInterface, null, csvInputMeta.getDelimiter(), csvInputMeta.getEnclosure(), csvInputMeta.getEscapeCharacter());
 
     assertNull(saData);
   }
@@ -78,14 +70,7 @@ public class CsvInputTest extends CsvInputUnitTestBase {
     CsvInputMeta meta = createMeta(tmpFile, inputFileFields);
     CsvInputData data = new CsvInputData();
     IRowSet output = new QueueRowSet();
-    CsvInput csvInput =
-        new CsvInput(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    CsvInput csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
     csvInput.init();
     csvInput.addRowSetToOutputRowSets(output);
 

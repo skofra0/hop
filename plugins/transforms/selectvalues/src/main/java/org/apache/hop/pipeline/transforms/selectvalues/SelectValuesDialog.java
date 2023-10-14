@@ -97,8 +97,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
 
   private final Map<String, Integer> inputFields;
 
-  public SelectValuesDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SelectValuesDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SelectValuesMeta) in;
     inputFields = new HashMap<>();
@@ -112,13 +111,12 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    SelectionListener lsSel =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionListener lsSel = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
 
     ModifyListener lsMod = e -> input.setChanged();
     changed = input.hasChanged();
@@ -152,7 +150,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
     fdTransformName.right = new FormAttachment(100, 0);
     wTransformName.setLayoutData(fdTransformName);
 
-    // Buttons go at the bottom.  The tabs in between
+    // Buttons go at the bottom. The tabs in between
     //
     wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
@@ -219,32 +217,12 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
             ColumnInfo.COLUMN_TYPE_CCOMBO,
             new String[] {BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading")},
             false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.RenameTo"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Length"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Precision"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.RenameTo"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[3] = new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
     fieldColumns.add(colinf[0]);
-    wFields =
-        new TableView(
-            variables,
-            wSelectComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wSelectComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, lsMod, props);
 
     Button wGetSelect = new Button(wSelectComp, SWT.PUSH);
     wGetSelect.setText(BaseMessages.getString(PKG, "SelectValuesDialog.GetSelect.Button"));
@@ -319,15 +297,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
             new String[] {BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading")},
             false);
     fieldColumns.add(colrem[0]);
-    wRemove =
-        new TableView(
-            variables,
-            wRemoveComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colrem,
-            RemoveRows,
-            lsMod,
-            props);
+    wRemove = new TableView(variables, wRemoveComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colrem, RemoveRows, lsMod, props);
 
     Button wGetRemove = new Button(wRemoveComp, SWT.PUSH);
     wGetRemove.setText(BaseMessages.getString(PKG, "SelectValuesDialog.GetRemove.Button"));
@@ -386,91 +356,37 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] colmeta =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading")},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Renameto"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Storage.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No"),
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateLenient"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No"),
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateFormatLocale"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              EnvUtil.getLocaleList()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateFormatTimeZone"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              EnvUtil.getTimeZones()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.LenientStringToNumber"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No"),
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Encoding"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              getCharsets(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Grouping"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
-    colmeta[5].setToolTip(
-        BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Storage.Tooltip"));
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Fieldname"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading")},
+                false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Renameto"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Storage.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No"),}),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateLenient"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No"),}),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateFormatLocale"), ColumnInfo.COLUMN_TYPE_CCOMBO, EnvUtil.getLocaleList()),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.DateFormatTimeZone"), ColumnInfo.COLUMN_TYPE_CCOMBO, EnvUtil.getTimeZones()),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.LenientStringToNumber"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No"),}),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Encoding"), ColumnInfo.COLUMN_TYPE_CCOMBO, getCharsets(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Grouping"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
+    colmeta[5].setToolTip(BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Storage.Tooltip"));
     fieldColumns.add(colmeta[0]);
-    wMeta =
-        new TableView(
-            variables,
-            wMetaComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colmeta,
-            MetaRows,
-            lsMod,
-            props);
+    wMeta = new TableView(variables, wMetaComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colmeta, MetaRows, lsMod, props);
 
     Button wGetMeta = new Button(wMetaComp, SWT.PUSH);
     wGetMeta.setText(BaseMessages.getString(PKG, "SelectValuesDialog.GetMeta.Button"));
@@ -515,23 +431,22 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
     //
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
-              prevFields = row;
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.put(row.getValueMeta(i).getName(), i);
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+          prevFields = row;
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.put(row.getValueMeta(i).getName(), i);
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -544,24 +459,21 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void setComboValues() {
-    Runnable fieldLoader =
-        () -> {
-          try {
-            prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
-          } catch (HopException e) {
-            prevFields = new RowMeta();
-            String msg =
-                BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.UnableToFindInput");
-            logError(msg);
-          }
-          String[] prevTransformFieldNames =
-              prevFields != null ? prevFields.getFieldNames() : new String[0];
-          Arrays.sort(prevTransformFieldNames);
-          bPreviousFieldsLoaded = true;
-          for (ColumnInfo colInfo : fieldColumns) {
-            colInfo.setComboValues(prevTransformFieldNames);
-          }
-        };
+    Runnable fieldLoader = () -> {
+      try {
+        prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
+      } catch (HopException e) {
+        prevFields = new RowMeta();
+        String msg = BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.UnableToFindInput");
+        logError(msg);
+      }
+      String[] prevTransformFieldNames = prevFields != null ? prevFields.getFieldNames() : new String[0];
+      Arrays.sort(prevTransformFieldNames);
+      bPreviousFieldsLoaded = true;
+      for (ColumnInfo colInfo : fieldColumns) {
+        colInfo.setComboValues(prevTransformFieldNames);
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -578,23 +490,11 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
         if (input.getSelectFields()[i].getName() != null) {
           item.setText(1, input.getSelectFields()[i].getName());
         }
-        if (input.getSelectFields()[i].getRename() != null
-            && !input
-                .getSelectFields()[i]
-                .getRename()
-                .equals(input.getSelectFields()[i].getName())) {
+        if (input.getSelectFields()[i].getRename() != null && !input.getSelectFields()[i].getRename().equals(input.getSelectFields()[i].getName())) {
           item.setText(2, input.getSelectFields()[i].getRename());
         }
-        item.setText(
-            3,
-            input.getSelectFields()[i].getLength() < 0
-                ? ""
-                : "" + input.getSelectFields()[i].getLength());
-        item.setText(
-            4,
-            input.getSelectFields()[i].getPrecision() < 0
-                ? ""
-                : "" + input.getSelectFields()[i].getPrecision());
+        item.setText(3, input.getSelectFields()[i].getLength() < 0 ? "" : "" + input.getSelectFields()[i].getLength());
+        item.setText(4, input.getSelectFields()[i].getPrecision() < 0 ? "" : "" + input.getSelectFields()[i].getPrecision());
       }
       wFields.setRowNums();
       wFields.optWidth(true);
@@ -636,29 +536,12 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
         item.setText(index++, change.getLength() < 0 ? "" : "" + change.getLength());
         item.setText(index++, change.getPrecision() < 0 ? "" : "" + change.getPrecision());
         item.setText(
-            index++,
-            change.getStorageType() == IValueMeta.STORAGE_TYPE_NORMAL
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No"));
+            index++, change.getStorageType() == IValueMeta.STORAGE_TYPE_NORMAL ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
         item.setText(index++, Const.NVL(change.getConversionMask(), ""));
-        item.setText(
-            index++,
-            change.isDateFormatLenient()
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No"));
-        item.setText(
-            index++,
-            change.getDateFormatLocale() == null ? "" : change.getDateFormatLocale().toString());
-        item.setText(
-            index++,
-            change.getDateFormatTimeZone() == null
-                ? ""
-                : change.getDateFormatTimeZone().toString());
-        item.setText(
-            index++,
-            change.isLenientStringToNumber()
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No"));
+        item.setText(index++, change.isDateFormatLenient() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
+        item.setText(index++, change.getDateFormatLocale() == null ? "" : change.getDateFormatLocale().toString());
+        item.setText(index++, change.getDateFormatTimeZone() == null ? "" : change.getDateFormatTimeZone().toString());
+        item.setText(index++, change.isLenientStringToNumber() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
         item.setText(index++, Const.NVL(change.getEncoding(), ""));
         item.setText(index++, Const.NVL(change.getDecimalSymbol(), ""));
         item.setText(index++, Const.NVL(change.getGroupingSymbol(), ""));
@@ -711,8 +594,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
       TableItem item = wFields.getNonEmpty(i);
       input.getSelectFields()[i].setName(item.getText(1));
       input.getSelectFields()[i].setRename(item.getText(2));
-      if (input.getSelectFields()[i].getRename() == null
-          || input.getSelectFields()[i].getName().length() == 0) {
+      if (input.getSelectFields()[i].getRename() == null || input.getSelectFields()[i].getName().length() == 0) {
         input.getSelectFields()[i].setRename(input.getSelectFields()[i].getName());
       }
       input.getSelectFields()[i].setLength(Const.toInt(item.getText(3), -2));
@@ -761,16 +643,10 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
 
       change.setConversionMask(item.getText(index++));
       // If DateFormatLenient is anything but Yes (including blank) then it is false
-      change.setDateFormatLenient(
-          item.getText(index++).equalsIgnoreCase(BaseMessages.getString(PKG, "System.Combo.Yes"))
-              ? true
-              : false);
+      change.setDateFormatLenient(item.getText(index++).equalsIgnoreCase(BaseMessages.getString(PKG, "System.Combo.Yes")) ? true : false);
       change.setDateFormatLocale(item.getText(index++));
       change.setDateFormatTimeZone(item.getText(index++));
-      change.setLenientStringToNumber(
-          item.getText(index++).equalsIgnoreCase(BaseMessages.getString(PKG, "System.Combo.Yes"))
-              ? true
-              : false);
+      change.setLenientStringToNumber(item.getText(index++).equalsIgnoreCase(BaseMessages.getString(PKG, "System.Combo.Yes")) ? true : false);
       change.setEncoding(item.getText(index++));
       change.setDecimalSymbol(item.getText(index++));
       change.setGroupingSymbol(item.getText(index++));
@@ -785,16 +661,13 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
       if (r != null && !r.isEmpty()) {
         switch (wTabFolder.getSelectionIndex()) {
           case 0:
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
             break;
           case 1:
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wRemove, 1, new int[] {1}, new int[] {}, -1, -1, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wRemove, 1, new int[] {1}, new int[] {}, -1, -1, null);
             break;
           case 2:
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wMeta, 1, new int[] {1}, new int[] {}, 4, 5, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wMeta, 1, new int[] {1}, new int[] {}, 4, 5, null);
             break;
           default:
             break;
@@ -817,9 +690,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
   private void generateMappings() {
     if (!bPreviousFieldsLoaded) {
       BaseDialog.openMessageBox(
-          shell,
-          BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading"),
-          BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading"),
+          shell, BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading"), BaseMessages.getString(PKG, "SelectValuesDialog.ColumnInfo.Loading"),
           SWT.ICON_ERROR | SWT.OK);
       return;
     }
@@ -829,9 +700,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
         for (String column : columns) {
           if (column.length() > 0) {
             BaseDialog.openMessageBox(
-                shell,
-                BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMetaTitle"),
-                BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMeta"),
+                shell, BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMetaTitle"), BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMeta"),
                 SWT.ICON_ERROR | SWT.OK);
             return;
           }
@@ -842,9 +711,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
         for (String col : columns) {
           if (col.length() > 0) {
             BaseDialog.openMessageBox(
-                shell,
-                BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMetaTitle"),
-                BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMeta"),
+                shell, BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMetaTitle"), BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoDeletOrMeta"),
                 SWT.ICON_ERROR | SWT.OK);
             return;
           }
@@ -858,9 +725,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
     List<TransformMeta> nextTransforms = pipelineMeta.findNextTransforms(transformMeta);
     if (nextTransforms.size() == 0 || nextTransforms.size() > 1) {
       BaseDialog.openMessageBox(
-          shell,
-          BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoNextTransformTitle"),
-          BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoNextTransform"),
+          shell, BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoNextTransformTitle"), BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.NoNextTransform"),
           SWT.ICON_ERROR | SWT.OK);
       return;
     }
@@ -916,18 +781,14 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
     if (missingFields.length() > 0) {
       int answer =
           BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              BaseMessages.getString(
-                  PKG, "SelectValuesDialog.DoMapping.SomeFieldsNotFound", missingFields.toString()),
-              SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+              shell, BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.SomeFieldsNotFoundTitle"),
+              BaseMessages.getString(PKG, "SelectValuesDialog.DoMapping.SomeFieldsNotFound", missingFields.toString()), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
       boolean goOn = (answer & SWT.YES) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(SelectValuesDialog.this.shell, inputNames, outputNames, mappings);
+    EnterMappingDialog d = new EnterMappingDialog(SelectValuesDialog.this.shell, inputNames, outputNames, mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -960,7 +821,7 @@ public class SelectValuesDialog extends BaseTransformDialog implements ITransfor
 
     String[] fieldNames = entries.toArray(new String[entries.size()]);
 
-    if ( PropsUi.getInstance().isSortFieldByName() ) {
+    if (PropsUi.getInstance().isSortFieldByName()) {
       Const.sortStrings(fieldNames);
     }
 

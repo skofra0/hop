@@ -48,10 +48,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
 
 @GuiPlugin(description = "File execution information location GUI elements")
-@ExecutionInfoLocationPlugin(
-    id = "local-folder",
-    name = "File location",
-    description = "Stores execution information in a folder structure")
+@ExecutionInfoLocationPlugin(id = "local-folder", name = "File location", description = "Stores execution information in a folder structure")
 public class FileExecutionInfoLocation implements IExecutionInfoLocation {
 
   public static final String FILENAME_EXECUTION_JSON = "execution.json";
@@ -60,9 +57,11 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
 
   public static final int MAX_JSON_LOGGING_TEXT_SIZE = 2000;
 
-  @HopMetadataProperty protected String pluginId;
+  @HopMetadataProperty
+  protected String pluginId;
 
-  @HopMetadataProperty protected String pluginName;
+  @HopMetadataProperty
+  protected String pluginName;
 
   @GuiWidgetElement(
       id = "rootFolder",
@@ -95,8 +94,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public void initialize(IVariables variables, IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public void initialize(IVariables variables, IHopMetadataProvider metadataProvider) throws HopException {
     this.variables = variables;
   }
 
@@ -156,8 +154,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized Execution findLastExecution(ExecutionType executionType, String name)
-      throws HopException {
+  public synchronized Execution findLastExecution(ExecutionType executionType, String name) throws HopException {
     try {
       List<String> ids = getExecutionIds(true, 100);
       for (String id : ids) {
@@ -168,8 +165,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
       }
       return null;
     } catch (Exception e) {
-      throw new HopException(
-          "Error looking up the last execution of type " + executionType + " and name " + name, e);
+      throw new HopException("Error looking up the last execution of type " + executionType + " and name " + name, e);
     }
   }
 
@@ -186,8 +182,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
         //
         ExecutionState oldState = getExecutionState(executionState.getId());
         if (oldState != null) {
-          executionState.setLoggingText(
-              oldState.getLoggingText() + executionState.getLoggingText());
+          executionState.setLoggingText(oldState.getLoggingText() + executionState.getLoggingText());
         }
       }
 
@@ -201,8 +196,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
       String updateFilename = getUpdateFilename(executionState);
 
       String loggingText = executionState.getLoggingText();
-      boolean saveLoggingToFile =
-          loggingText != null && loggingText.length() > MAX_JSON_LOGGING_TEXT_SIZE;
+      boolean saveLoggingToFile = loggingText != null && loggingText.length() > MAX_JSON_LOGGING_TEXT_SIZE;
       if (saveLoggingToFile) {
         // Only save the first 10k logging text in the JSON
         //
@@ -237,8 +231,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized ExecutionState getExecutionState(String executionId, boolean includeLogging)
-      throws HopException {
+  public synchronized ExecutionState getExecutionState(String executionId, boolean includeLogging) throws HopException {
     try {
       String updateFilename = getUpdateFilename(executionId);
       if (!HopVfs.fileExists(updateFilename)) {
@@ -263,14 +256,13 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public String getExecutionStateLoggingText(String executionId, int sizeLimit)
-      throws HopException {
+  public String getExecutionStateLoggingText(String executionId, int sizeLimit) throws HopException {
     try {
       // Get the execution state to determine the filename.
       // We don't load the logging for performance and to avoid an infinite loop.
       //
       ExecutionState state = getExecutionState(executionId, false);
-      if (state==null) {
+      if (state == null) {
         return null;
       }
       return getExecutionStateLoggingText(state, sizeLimit);
@@ -279,18 +271,14 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
     }
   }
 
-  protected String getExecutionStateLoggingText(ExecutionState executionState, int sizeLimit)
-      throws HopException {
+  protected String getExecutionStateLoggingText(ExecutionState executionState, int sizeLimit) throws HopException {
     try {
       // If there's a separate log file we'll read everything from there.
       String logFilename = getLogFilename(executionState);
       if (HopVfs.fileExists(logFilename)) {
         // Only read the first part of the file, if a size limit was set.
         //
-        try (Reader reader =
-            new BufferedReader(
-                new InputStreamReader(
-                    HopVfs.getInputStream(logFilename), StandardCharsets.UTF_8))) {
+        try (Reader reader = new BufferedReader(new InputStreamReader(HopVfs.getInputStream(logFilename), StandardCharsets.UTF_8))) {
           StringBuilder log = new StringBuilder();
           int c;
           while ((c = reader.read()) != -1 && (sizeLimit <= 0 || sizeLimit > log.length())) {
@@ -304,15 +292,10 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
         }
         // Return the first part of the logging text only.
         //
-        return executionState
-            .getLoggingText()
-            .substring(0, Math.min(sizeLimit, executionState.getLoggingText().length()));
+        return executionState.getLoggingText().substring(0, Math.min(sizeLimit, executionState.getLoggingText().length()));
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error loading the logging text associated with the execution state of "
-              + executionState.getId(),
-          e);
+      throw new HopException("Error loading the logging text associated with the execution state of " + executionState.getId(), e);
     }
   }
 
@@ -339,8 +322,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized List<String> getExecutionIds(boolean includeChildren, int limit)
-      throws HopException {
+  public synchronized List<String> getExecutionIds(boolean includeChildren, int limit) throws HopException {
     try {
       // The list of IDs is simply the content of the pipelines and workflows folders
       //
@@ -369,8 +351,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
           try (InputStream inputStream = HopVfs.getInputStream(executionFileObject)) {
             execution = objectMapper.readValue(inputStream, Execution.class);
           }
-          try (InputStream inputStream =
-              HopVfs.getInputStream(subFolder.getChild(FILENAME_STATE_JSON))) {
+          try (InputStream inputStream = HopVfs.getInputStream(subFolder.getChild(FILENAME_STATE_JSON))) {
             state = objectMapper.readValue(inputStream, ExecutionState.class);
           } catch (Exception e) {
             // Ignore
@@ -391,12 +372,11 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
 
       // Collect the IDs
       List<String> ids = new ArrayList<>();
-      list.forEach(
-          e -> {
-            if (limit <= 0 || ids.size() < limit) {
-              ids.add(e.id);
-            }
-          });
+      list.forEach(e -> {
+        if (limit <= 0 || ids.size() < limit) {
+          ids.add(e.id);
+        }
+      });
 
       return ids;
     } catch (Exception e) {
@@ -405,8 +385,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized List<String> findChildIds(
-      ExecutionType parentExecutionType, String parentExecutionId) throws HopException {
+  public synchronized List<String> findChildIds(ExecutionType parentExecutionType, String parentExecutionId) throws HopException {
     try {
       List<String> ids = new ArrayList<>();
 
@@ -430,12 +409,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
 
       return ids;
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding children of "
-              + parentExecutionType.name()
-              + " execution "
-              + parentExecutionId,
-          e);
+      throw new HopException("Error finding children of " + parentExecutionType.name() + " execution " + parentExecutionId, e);
     }
   }
 
@@ -477,14 +451,12 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
       }
       return executions;
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding child executions for parent ID " + parentExecutionId, e);
+      throw new HopException("Error finding child executions for parent ID " + parentExecutionId, e);
     }
   }
 
   @Override
-  public synchronized List<Execution> findExecutions(IExecutionMatcher matcher)
-      throws HopException {
+  public synchronized List<Execution> findExecutions(IExecutionMatcher matcher) throws HopException {
     try {
       List<Execution> executions = new ArrayList<>();
 
@@ -501,11 +473,9 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized Execution findPreviousSuccessfulExecution(
-      ExecutionType executionType, String name) throws HopException {
+  public synchronized Execution findPreviousSuccessfulExecution(ExecutionType executionType, String name) throws HopException {
     try {
-      List<Execution> executions =
-          findExecutions(e -> e.getExecutionType() == executionType && name.equals(e.getName()));
+      List<Execution> executions = findExecutions(e -> e.getExecutionType() == executionType && name.equals(e.getName()));
       for (Execution execution : executions) {
         ExecutionState executionState = getExecutionState(execution.getId());
         if (executionState != null && !executionState.isFailed()) {
@@ -534,8 +504,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
   }
 
   @Override
-  public synchronized ExecutionData getExecutionData(String parentExecutionId, String executionId)
-      throws HopException {
+  public synchronized ExecutionData getExecutionData(String parentExecutionId, String executionId) throws HopException {
     try {
       try (FileObject folder = HopVfs.getFileObject(getSubFolder(parentExecutionId))) {
         if (!folder.exists()) {
@@ -552,8 +521,7 @@ public class FileExecutionInfoLocation implements IExecutionInfoLocation {
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error looking up execution data for parent execution ID " + parentExecutionId, e);
+      throw new HopException("Error looking up execution data for parent execution ID " + parentExecutionId, e);
     }
   }
 

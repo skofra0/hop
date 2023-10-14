@@ -32,8 +32,7 @@ import static org.junit.Assert.fail;
 
 public class PipelineTestingUtil {
 
-  public static List<Object[]> execute(
-      BaseTransform transform, int expectedRowsAmount, boolean checkIsDone) throws Exception {
+  public static List<Object[]> execute(BaseTransform transform, int expectedRowsAmount, boolean checkIsDone) throws Exception {
     IRowSet output = new BlockingRowSet(Math.max(1, expectedRowsAmount));
     transform.setOutputRowSets(Collections.singletonList(output));
 
@@ -72,10 +71,7 @@ public class PipelineTestingUtil {
 
     boolean sizeCondition = (expected.length <= actual.length);
     if (!sizeCondition) {
-      fail(
-          String.format(
-              "Row [%d]: expected.length=[%d]; actual.length=[%d]",
-              index, expected.length, actual.length));
+      fail(String.format("Row [%d]: expected.length=[%d]; actual.length=[%d]", index, expected.length, actual.length));
     }
 
     int i = 0;

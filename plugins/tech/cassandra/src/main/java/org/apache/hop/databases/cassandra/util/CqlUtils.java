@@ -27,14 +27,10 @@ import java.util.regex.Pattern;
 public class CqlUtils {
 
   private static final Pattern WHITESPACE_PATTERN = Pattern.compile("(\\s){2,}");
-  private static final Pattern WHITESPACE_IN_FUNCTION_OPEN_BRACKET_PATTERN =
-      Pattern.compile("(\\s)*(\\()(\\s)*");
-  private static final Pattern WHITESPACE_IN_FUNCTION_CLOSE_BRACKET_PATTERN =
-      Pattern.compile("(\\s)*(\\))");
-  private static final Pattern UNNECESSARY_WHITESPACE_BEFORE_COMMA_PATTERN =
-      Pattern.compile("(\\s)+(,)");
-  private static final Pattern ADD_WHITESPACE_AFTER_COMMA_PATTERN =
-      Pattern.compile("(,)(?=[\\da-zA-Z])");
+  private static final Pattern WHITESPACE_IN_FUNCTION_OPEN_BRACKET_PATTERN = Pattern.compile("(\\s)*(\\()(\\s)*");
+  private static final Pattern WHITESPACE_IN_FUNCTION_CLOSE_BRACKET_PATTERN = Pattern.compile("(\\s)*(\\))");
+  private static final Pattern UNNECESSARY_WHITESPACE_BEFORE_COMMA_PATTERN = Pattern.compile("(\\s)+(,)");
+  private static final Pattern ADD_WHITESPACE_AFTER_COMMA_PATTERN = Pattern.compile("(,)(?=[\\da-zA-Z])");
   private static final Pattern DOUBLE_QUOTES_PATTERN = Pattern.compile("\"");
   private static final Pattern QUOTE_PATTERN = Pattern.compile("\'");
   private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");
@@ -82,12 +78,8 @@ public class CqlUtils {
     selectExpression = clean(selectExpression);
     while (selectExpression.length() > 0) {
       int possibleEnd = selectExpression.indexOf(COMMA);
-      String possibleSelectorElement =
-          (possibleEnd != -1) ? selectExpression.substring(0, possibleEnd) : selectExpression;
-      selectExpression =
-          (possibleEnd != -1)
-              ? selectExpression.substring(possibleEnd + 1, selectExpression.length()).trim()
-              : "";
+      String possibleSelectorElement = (possibleEnd != -1) ? selectExpression.substring(0, possibleEnd) : selectExpression;
+      selectExpression = (possibleEnd != -1) ? selectExpression.substring(possibleEnd + 1, selectExpression.length()).trim() : "";
 
       Selector realSelectorElement = buildSelector(possibleSelectorElement, isCql3);
 
@@ -99,14 +91,10 @@ public class CqlUtils {
         sb.append(possibleSelectorElement).append(COMMA).append(WHITESPACE);
         int indexFunctionEnd = selectExpression.indexOf(CLOSE_BRACKET);
         possibleEnd = selectExpression.indexOf(COMMA, indexFunctionEnd);
-        possibleSelectorElement =
-            (possibleEnd != -1) ? selectExpression.substring(0, possibleEnd) : selectExpression;
+        possibleSelectorElement = (possibleEnd != -1) ? selectExpression.substring(0, possibleEnd) : selectExpression;
         sb.append(possibleSelectorElement);
         possibleSelectorElement = sb.toString();
-        selectExpression =
-            (possibleEnd != -1)
-                ? selectExpression.substring(possibleEnd + 1, selectExpression.length()).trim()
-                : "";
+        selectExpression = (possibleEnd != -1) ? selectExpression.substring(possibleEnd + 1, selectExpression.length()).trim() : "";
         realSelectorElement = buildSelector(possibleSelectorElement, isCql3);
       }
       sList.add(realSelectorElement);
@@ -134,8 +122,7 @@ public class CqlUtils {
           selectExpression = selectExpression.substring(firstInd + FIRST.length()).trim();
           int nearWsIndex = selectExpression.indexOf(WHITESPACE);
           String numberPart = selectExpression.substring(0, nearWsIndex);
-          selectExpression =
-              isNumeric(numberPart) ? selectExpression.substring(nearWsIndex) : selectExpression;
+          selectExpression = isNumeric(numberPart) ? selectExpression.substring(nearWsIndex) : selectExpression;
         }
         int distInd = selectExpression.toLowerCase().indexOf(DISTINCT);
         if (distInd > -1) {
@@ -164,10 +151,7 @@ public class CqlUtils {
 
   public static Selector buildSelector(String selector, boolean isCql3) {
     String columnName = getColumnName(selector, isCql3);
-    return new Selector(
-        getGeneralVariantForSpecificNames(columnName),
-        getAlias(selector, isCql3),
-        getFunction(selector));
+    return new Selector(getGeneralVariantForSpecificNames(columnName), getAlias(selector, isCql3), getFunction(selector));
   }
 
   private static String getFunction(String selector) {
@@ -215,12 +199,9 @@ public class CqlUtils {
     String cleaned = null;
     if (input != null) {
       cleaned = WHITESPACE_PATTERN.matcher(input.trim()).replaceAll(WHITESPACE);
-      cleaned =
-          WHITESPACE_IN_FUNCTION_OPEN_BRACKET_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
-      cleaned =
-          WHITESPACE_IN_FUNCTION_CLOSE_BRACKET_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
-      cleaned =
-          UNNECESSARY_WHITESPACE_BEFORE_COMMA_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
+      cleaned = WHITESPACE_IN_FUNCTION_OPEN_BRACKET_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
+      cleaned = WHITESPACE_IN_FUNCTION_CLOSE_BRACKET_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
+      cleaned = UNNECESSARY_WHITESPACE_BEFORE_COMMA_PATTERN.matcher(cleaned.trim()).replaceAll("$2");
     }
     return cleaned;
   }

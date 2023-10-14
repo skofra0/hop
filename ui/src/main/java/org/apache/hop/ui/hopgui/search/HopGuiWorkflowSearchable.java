@@ -72,8 +72,7 @@ public class HopGuiWorkflowSearchable implements ISearchable<WorkflowMeta> {
       // See if the same workflow isn't already open.
       // Other file types we might allow to open more than once but not workflows for now.
       //
-      TabItemHandler tabItemHandlerWithFilename =
-          perspective.findTabItemHandlerWithFilename(workflowMeta.getFilename());
+      TabItemHandler tabItemHandlerWithFilename = perspective.findTabItemHandlerWithFilename(workflowMeta.getFilename());
       if (tabItemHandlerWithFilename != null) {
         // Same file so we can simply switch to it.
         // This will prevent confusion.
@@ -81,10 +80,7 @@ public class HopGuiWorkflowSearchable implements ISearchable<WorkflowMeta> {
         perspective.switchToTab(tabItemHandlerWithFilename);
         workflowGraph = (HopGuiWorkflowGraph) tabItemHandlerWithFilename.getTypeHandler();
       } else {
-        workflowGraph =
-            (HopGuiWorkflowGraph)
-                perspective.addWorkflow(
-                    HopGui.getInstance(), workflowMeta, perspective.getWorkflowFileType());
+        workflowGraph = (HopGuiWorkflowGraph) perspective.addWorkflow(HopGui.getInstance(), workflowMeta, perspective.getWorkflowFileType());
       }
 
       // Select and open the found action?

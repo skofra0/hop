@@ -128,14 +128,11 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
-      argFromPrevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
-      includeSubfolders =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
+      argFromPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
+      includeSubfolders = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
 
       Node fields = XmlHandler.getSubNode(entrynode, "fields");
 
@@ -149,8 +146,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
         filemasks[i] = XmlHandler.getTagValue(fnode, "filemask");
       }
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionDeleteFiles.UnableToLoadFromXml"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionDeleteFiles.UnableToLoadFromXml"), xe);
     }
   }
 
@@ -163,11 +159,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
     result.setNrErrors(1);
 
     if (argFromPrevious && log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "ActionDeleteFiles.FoundPreviousRows",
-              String.valueOf((resultRows != null ? resultRows.size() : 0))));
+      logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.FoundPreviousRows", String.valueOf((resultRows != null ? resultRows.size() : 0))));
     }
 
     Multimap<String, String> pathToMaskMap = populateDataForJobExecution(resultRows);
@@ -211,31 +203,27 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
    * obtained in two ways: 1. As an argument of a current action 2. As a table, that comes as a
    * result of execution previous workflow/pipeline.
    *
-   * <p>As the logic of processing this data is the same for both of this cases, we first populate
+   * <p>
+   * As the logic of processing this data is the same for both of this cases, we first populate
    * this data (in this method) and then process it.
    *
-   * <p>We are using guava multimap here, because if allows key duplication and there could be a
+   * <p>
+   * We are using guava multimap here, because if allows key duplication and there could be a
    * situation where two paths to one folder with different wildcards are provided.
    */
-  private Multimap<String, String> populateDataForJobExecution(
-      List<RowMetaAndData> rowsFromPreviousMeta) throws HopValueException {
+  private Multimap<String, String> populateDataForJobExecution(List<RowMetaAndData> rowsFromPreviousMeta) throws HopValueException {
     Multimap<String, String> pathToMaskMap = ArrayListMultimap.create();
     if (argFromPrevious && rowsFromPreviousMeta != null) {
       for (RowMetaAndData resultRow : rowsFromPreviousMeta) {
         if (resultRow.size() < 2) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionDeleteFiles.Error.InvalidNumberOfRowsFromPrevMeta",
-                  resultRow.size()));
+          logError(BaseMessages.getString(PKG, "ActionDeleteFiles.Error.InvalidNumberOfRowsFromPrevMeta", resultRow.size()));
           return pathToMaskMap;
         }
         String pathToFile = resultRow.getString(0, null);
         String fileMask = resultRow.getString(1, null);
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionDeleteFiles.ProcessingRow", pathToFile, fileMask));
+          logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.ProcessingRow", pathToFile, fileMask));
         }
 
         pathToMaskMap.put(pathToFile, fileMask);
@@ -243,9 +231,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
     } else if (arguments != null) {
       for (int i = 0; i < arguments.length; i++) {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionDeleteFiles.ProcessingArg", arguments[i], filemasks[i]));
+          logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.ProcessingArg", arguments[i], filemasks[i]));
         }
         pathToMaskMap.put(arguments[i], filemasks[i]);
       }
@@ -268,14 +254,10 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
             logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.ProcessingFolder", path));
           }
 
-          int totalDeleted =
-              fileFolder.delete(
-                  new TextFileSelector(fileFolder.toString(), wildcard, parentWorkflow));
+          int totalDeleted = fileFolder.delete(new TextFileSelector(fileFolder.toString(), wildcard, parentWorkflow));
 
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionDeleteFiles.TotalDeleted", String.valueOf(totalDeleted)));
+            logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.TotalDeleted", String.valueOf(totalDeleted)));
           }
           isDeleted = true;
         } else {
@@ -300,9 +282,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
         isDeleted = true;
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(PKG, "ActionDeleteFiles.CouldNotProcess", path, e.getMessage()),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionDeleteFiles.CouldNotProcess", path, e.getMessage()), e);
     } finally {
       if (fileFolder != null) {
         try {
@@ -321,8 +301,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
     String sourceFolder = null;
     IWorkflowEngine<WorkflowMeta> parentjob;
 
-    public TextFileSelector(
-        String sourcefolderin, String filewildcard, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
+    public TextFileSelector(String sourcefolderin, String filewildcard, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
 
       if (!Utils.isEmpty(sourcefolderin)) {
         sourceFolder = sourcefolderin;
@@ -345,24 +324,17 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
 
           if (!info.getFile().getParent().equals(info.getBaseFolder())) {
             // Not in the Base Folder..Only if include sub folders
-            if (includeSubfolders
-                && (info.getFile().getType() == FileType.FILE)
-                && getFileWildcard(shortFilename, fileWildcard)) {
+            if (includeSubfolders && (info.getFile().getType() == FileType.FILE) && getFileWildcard(shortFilename, fileWildcard)) {
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionDeleteFiles.DeletingFile", info.getFile().toString()));
+                logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.DeletingFile", info.getFile().toString()));
               }
               doReturnCode = true;
             }
           } else {
             // In the Base Folder...
-            if ((info.getFile().getType() == FileType.FILE)
-                && getFileWildcard(shortFilename, fileWildcard)) {
+            if ((info.getFile().getType() == FileType.FILE) && getFileWildcard(shortFilename, fileWildcard)) {
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionDeleteFiles.DeletingFile", info.getFile().toString()));
+                logDetailed(BaseMessages.getString(PKG, "ActionDeleteFiles.DeletingFile", info.getFile().toString()));
               }
               doReturnCode = true;
             }
@@ -371,11 +343,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
       } catch (Exception e) {
         log.logError(
             BaseMessages.getString(PKG, "ActionDeleteFiles.Error.Exception.DeleteProcessError"),
-            BaseMessages.getString(
-                PKG,
-                "JobDeleteFiles.Error.Exception.DeleteProcess",
-                info.getFile().toString(),
-                e.getMessage()));
+            BaseMessages.getString(PKG, "JobDeleteFiles.Error.Exception.DeleteProcess", info.getFile().toString(), e.getMessage()));
 
         doReturnCode = false;
       }
@@ -418,18 +386,8 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean isValid =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "arguments",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean isValid = ActionValidatorUtils.andValidator().validate(this, "arguments", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (!isValid) {
       return;
@@ -437,8 +395,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
 
     for (int i = 0; i < arguments.length; i++) {
       ActionValidatorUtils.andValidator().validate(this, "arguments[" + i + "]", remarks, ctx);
@@ -446,8 +403,7 @@ public class ActionDeleteFiles extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (arguments != null) {
       ResourceReference reference = null;

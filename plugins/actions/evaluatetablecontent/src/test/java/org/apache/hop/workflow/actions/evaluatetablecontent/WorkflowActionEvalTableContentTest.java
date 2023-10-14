@@ -59,7 +59,8 @@ public class WorkflowActionEvalTableContentTest {
   private ActionEvalTableContent action;
   private static IPlugin mockDbPlugin;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static class DBMockIface extends BaseDatabaseMeta {
 
@@ -69,13 +70,7 @@ public class WorkflowActionEvalTableContentTest {
     }
 
     @Override
-    public String getFieldDefinition(
-        IValueMeta v,
-        String tk,
-        String pk,
-        boolean useAutoIncrement,
-        boolean addFieldName,
-        boolean addCr) {
+    public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoIncrement, boolean addFieldName, boolean addCr) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -86,31 +81,18 @@ public class WorkflowActionEvalTableContentTest {
     }
 
     @Override
-    public String getURL(String hostname, String port, String databaseName)
-        throws HopDatabaseException {
+    public String getURL(String hostname, String port, String databaseName) throws HopDatabaseException {
       return "";
     }
 
     @Override
-    public String getAddColumnStatement(
-        String tableName,
-        IValueMeta v,
-        String tk,
-        boolean useAutoIncrement,
-        String pk,
-        boolean semicolon) {
+    public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public String getModifyColumnStatement(
-        String tableName,
-        IValueMeta v,
-        String tk,
-        boolean useAutoIncrement,
-        String pk,
-        boolean semicolon) {
+    public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -136,8 +118,7 @@ public class WorkflowActionEvalTableContentTest {
     when(mockDbPlugin.isNativePlugin()).thenReturn(true);
     when(mockDbPlugin.getMainType()).thenAnswer((Answer<Class<?>>) invocation -> IDatabase.class);
 
-    when(mockDbPlugin.getPluginType())
-        .thenAnswer((Answer<Class<? extends IPluginType>>) invocation -> DatabasePluginType.class);
+    when(mockDbPlugin.getPluginType()).thenAnswer((Answer<Class<? extends IPluginType>>) invocation -> DatabasePluginType.class);
 
     when(mockDbPlugin.getIds()).thenReturn(new String[] {"Oracle", "mock-db-id"});
     when(mockDbPlugin.getName()).thenReturn("mock-db-name");
@@ -182,12 +163,9 @@ public class WorkflowActionEvalTableContentTest {
     Result res = action.execute(new Result(), 0);
 
     assertFalse("Eval number of rows should fail", res.getResult());
-    assertEquals(
-        "No errors should be reported in result object accoding to the new behavior",
-        res.getNrErrors(),
-        0);
+    assertEquals("No errors should be reported in result object accoding to the new behavior", res.getNrErrors(), 0);
   }
-  
+
   @Test
   public void testNrErrorsSuccess() throws Exception {
     action.setLimit("5");

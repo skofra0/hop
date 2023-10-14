@@ -22,11 +22,14 @@ import java.util.Objects;
 
 public class Cooking implements IInterest {
 
-  @HopMetadataProperty private InterestType type;
+  @HopMetadataProperty
+  private InterestType type;
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public Cooking() {}
 
@@ -45,9 +48,7 @@ public class Cooking implements IInterest {
       return false;
     }
     Cooking cooking = (Cooking) o;
-    return type == cooking.type
-        && Objects.equals(name, cooking.name)
-        && Objects.equals(description, cooking.description);
+    return type == cooking.type && Objects.equals(name, cooking.name) && Objects.equals(description, cooking.description);
   }
 
   @Override

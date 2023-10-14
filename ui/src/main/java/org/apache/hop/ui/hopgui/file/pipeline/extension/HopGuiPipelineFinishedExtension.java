@@ -25,8 +25,7 @@ public class HopGuiPipelineFinishedExtension {
   public HopGuiPipelineGraph pipelineGraph;
   public IPipelineEngine<PipelineMeta> pipeline;
 
-  public HopGuiPipelineFinishedExtension(
-      HopGuiPipelineGraph pipelineGraph, IPipelineEngine<PipelineMeta> pipeline) {
+  public HopGuiPipelineFinishedExtension(HopGuiPipelineGraph pipelineGraph, IPipelineEngine<PipelineMeta> pipeline) {
     this.pipelineGraph = pipelineGraph;
     this.pipeline = pipeline;
   }

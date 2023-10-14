@@ -30,9 +30,7 @@ public class AzureFileSystem extends AbstractFileSystem {
 
   private CloudBlobClient client;
 
-  public AzureFileSystem(
-      AzureFileName fileName, CloudBlobClient service, FileSystemOptions fileSystemOptions)
-      throws FileSystemException {
+  public AzureFileSystem(AzureFileName fileName, CloudBlobClient service, FileSystemOptions fileSystemOptions) throws FileSystemException {
     super(fileName, null, fileSystemOptions);
     this.client = service;
   }

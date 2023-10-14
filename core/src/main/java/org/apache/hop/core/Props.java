@@ -57,8 +57,7 @@ public class Props implements Cloneable {
   public static final String STRING_ICON_SIZE = "IconSize";
   public static final String STRING_LINE_WIDTH = "LineWidth";
   public static final String STRING_MIDDLE_PCT = "MiddlePct";
-  public static final String STRING_INDICATE_SLOW_PIPELINE_TRANSFORMS =
-      "IndicateSlowPipelineTransforms";
+  public static final String STRING_INDICATE_SLOW_PIPELINE_TRANSFORMS = "IndicateSlowPipelineTransforms";
 
   public static final String STRING_LAST_PREVIEW_TRANSFORM = "LastPreviewTransform";
   public static final String STRING_LAST_PREVIEW_SIZE = "LastPreviewSize";
@@ -115,8 +114,7 @@ public class Props implements Cloneable {
       HopConfig.setGuiProperty(key, value);
       HopConfig.getInstance().saveToFile();
     } catch (Exception e) {
-      throw new RuntimeException(
-          "Error saving hop config option key '" + key + "', value '" + value + "'", e);
+      throw new RuntimeException("Error saving hop config option key '" + key + "', value '" + value + "'", e);
     }
   }
 

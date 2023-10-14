@@ -91,7 +91,7 @@ public class MongoArrayExpansion {
    * Reset this field. Should be called prior to processing a new field value from the avro file
    *
    * @param variables environment variables (values that environment variables resolve to cannot
-   *     contain "."s)
+   *        contain "."s)
    */
   public void reset(IVariables variables) {
     tempParts.clear();
@@ -112,16 +112,14 @@ public class MongoArrayExpansion {
     return result;
   }
 
-  public Object[][] convertToHopValue(BasicDBObject mongoObject, IVariables variables)
-      throws HopException {
+  public Object[][] convertToHopValue(BasicDBObject mongoObject, IVariables variables) throws HopException {
 
     if (mongoObject == null) {
       return nullResult();
     }
 
     if (tempParts.size() == 0) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathRecord"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathRecord"));
     }
 
     String part = tempParts.remove(0);
@@ -159,16 +157,14 @@ public class MongoArrayExpansion {
     return nullResult();
   }
 
-  public Object[][] convertToHopValue(BasicDBList mongoList, IVariables variables)
-      throws HopException {
+  public Object[][] convertToHopValue(BasicDBList mongoList, IVariables variables) throws HopException {
 
     if (mongoList == null) {
       return nullResult();
     }
 
     if (tempParts.size() == 0) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathArray"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.MalformedPathArray"));
     }
 
     String part = tempParts.remove(0);
@@ -188,8 +184,7 @@ public class MongoArrayExpansion {
 
     if (index.equals("*")) {
       // start the expansion - we delegate conversion to our subfields
-      Object[][] result =
-          new Object[mongoList.size()][outputRowMeta.size() + RowDataUtil.OVER_ALLOCATE_SIZE];
+      Object[][] result = new Object[mongoList.size()][outputRowMeta.size() + RowDataUtil.OVER_ALLOCATE_SIZE];
 
       for (int i = 0; i < mongoList.size(); i++) {
         Object element = mongoList.get(i);
@@ -216,9 +211,7 @@ public class MongoArrayExpansion {
       try {
         arrayI = Integer.parseInt(index.trim());
       } catch (NumberFormatException e) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "MongoDbInput.ErrorMessage.UnableToParseArrayIndex", index));
+        throw new HopException(BaseMessages.getString(PKG, "MongoDbInput.ErrorMessage.UnableToParseArrayIndex", index));
       }
 
       if (arrayI >= mongoList.size() || arrayI < 0) {

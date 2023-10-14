@@ -68,11 +68,7 @@ import java.util.List;
 public class HttpPostDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = HttpPostMeta.class; // For Translator
 
-  private static final String[] YES_NO_COMBO =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  private static final String[] YES_NO_COMBO = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   private static final String YES = BaseMessages.getString(PKG, "System.Combo.Yes");
   private static final String NO = BaseMessages.getString(PKG, "System.Combo.No");
 
@@ -130,8 +126,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
 
   private TextVar wCloseIdleConnectionsTime;
 
-  public HttpPostDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public HttpPostDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (HttpPostMeta) in;
   }
@@ -289,24 +284,23 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
     FormData fdAdditionalComp = new FormData();
     fdAdditionalComp.left = new FormAttachment(0, 0);
@@ -329,13 +323,12 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     // Add listeners
     wGet.addListener(SWT.Selection, e -> getQueryFields());
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -365,26 +358,10 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
 
     colinfquery =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.QueryName"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.QueryParameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.QueryName"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.QueryParameter"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinfquery[1].setUsingVariables(true);
-    wQuery =
-        new TableView(
-            variables,
-            wAdditionalComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinfquery,
-            queryRows,
-            lsMod,
-            props);
+    wQuery = new TableView(variables, wAdditionalComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinfquery, queryRows, lsMod, props);
 
     wGet = new Button(wAdditionalComp, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "HTTPPOSTDialog.GetFields.Button"));
@@ -418,30 +395,11 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Header"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              YES_NO_COMBO),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HTTPPOSTDialog.ColumnInfo.Header"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES_NO_COMBO),};
     colinf[1].setUsingVariables(true);
-    wFields =
-        new TableView(
-            variables,
-            wAdditionalComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wAdditionalComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, lsMod, props);
 
     Button wGetBodyParam = new Button(wAdditionalComp, SWT.PUSH);
     wGetBodyParam.setText(BaseMessages.getString(PKG, "HTTPPOSTDialog.GetFields.Button"));
@@ -531,8 +489,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     wlHttpPassword.setLayoutData(fdlHttpPassword);
     wHttpPassword = new PasswordTextVar(variables, gHttpAuth, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wHttpPassword.addModifyListener(lsMod);
-    wHttpPassword.setToolTipText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.HttpPassword.Tooltip"));
+    wHttpPassword.setToolTipText(BaseMessages.getString(PKG, "HTTPPOSTDialog.HttpPassword.Tooltip"));
     PropsUi.setLook(wHttpPassword);
     FormData fdHttpPassword = new FormData();
     fdHttpPassword.top = new FormAttachment(wHttpLogin, margin);
@@ -678,19 +635,16 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     int middle = props.getMiddlePct();
     int margin = props.getMargin();
     Label wlCloseIdleConnectionsTime = new Label(gSettings, SWT.RIGHT);
-    wlCloseIdleConnectionsTime.setText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.CloseIdleConnectionsTime.Label"));
+    wlCloseIdleConnectionsTime.setText(BaseMessages.getString(PKG, "HTTPPOSTDialog.CloseIdleConnectionsTime.Label"));
     PropsUi.setLook(wlCloseIdleConnectionsTime);
     FormData fdlCloseIdleConnectionsTime = new FormData();
     fdlCloseIdleConnectionsTime.top = new FormAttachment(wSocketTimeOut, margin);
     fdlCloseIdleConnectionsTime.left = new FormAttachment(0, 0);
     fdlCloseIdleConnectionsTime.right = new FormAttachment(middle, -margin);
     wlCloseIdleConnectionsTime.setLayoutData(fdlCloseIdleConnectionsTime);
-    wCloseIdleConnectionsTime =
-        new TextVar(variables, gSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wCloseIdleConnectionsTime = new TextVar(variables, gSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wCloseIdleConnectionsTime.addModifyListener(lsMod);
-    wCloseIdleConnectionsTime.setToolTipText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.CloseIdleConnectionsTime.Tooltip"));
+    wCloseIdleConnectionsTime.setToolTipText(BaseMessages.getString(PKG, "HTTPPOSTDialog.CloseIdleConnectionsTime.Tooltip"));
     PropsUi.setLook(wCloseIdleConnectionsTime);
     FormData fdCloseIdleConnectionsTime = new FormData();
     fdCloseIdleConnectionsTime.top = new FormAttachment(wSocketTimeOut, margin);
@@ -712,8 +666,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     wlSocketTimeOut.setLayoutData(fdlSocketTimeOut);
     wSocketTimeOut = new TextVar(variables, gSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wSocketTimeOut.addModifyListener(lsMod);
-    wSocketTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.SocketTimeOut.Tooltip"));
+    wSocketTimeOut.setToolTipText(BaseMessages.getString(PKG, "HTTPPOSTDialog.SocketTimeOut.Tooltip"));
     PropsUi.setLook(wSocketTimeOut);
     FormData fdSocketTimeOut = new FormData();
     fdSocketTimeOut.top = new FormAttachment(wConnectionTimeOut, margin);
@@ -726,8 +679,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     int middle = props.getMiddlePct();
     int margin = props.getMargin();
     Label wlConnectionTimeOut = new Label(gSettings, SWT.RIGHT);
-    wlConnectionTimeOut.setText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.ConnectionTimeOut.Label"));
+    wlConnectionTimeOut.setText(BaseMessages.getString(PKG, "HTTPPOSTDialog.ConnectionTimeOut.Label"));
     PropsUi.setLook(wlConnectionTimeOut);
     FormData fdlConnectionTimeOut = new FormData();
     fdlConnectionTimeOut.top = new FormAttachment(wPostAFile, margin);
@@ -736,8 +688,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     wlConnectionTimeOut.setLayoutData(fdlConnectionTimeOut);
     wConnectionTimeOut = new TextVar(variables, gSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wConnectionTimeOut.addModifyListener(lsMod);
-    wConnectionTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "HTTPPOSTDialog.ConnectionTimeOut.Tooltip"));
+    wConnectionTimeOut.setToolTipText(BaseMessages.getString(PKG, "HTTPPOSTDialog.ConnectionTimeOut.Tooltip"));
     PropsUi.setLook(wConnectionTimeOut);
     FormData fdConnectionTimeOut = new FormData();
     fdConnectionTimeOut.top = new FormAttachment(wPostAFile, margin);
@@ -746,7 +697,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     wConnectionTimeOut.setLayoutData(fdConnectionTimeOut);
   }
 
-  private void setupPostFileLine( Group gSettings) {
+  private void setupPostFileLine(Group gSettings) {
     // Post file?
     int middle = props.getMiddlePct();
     int margin = props.getMargin();
@@ -791,22 +742,21 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     fdRequestEntity.top = new FormAttachment(wEncoding, margin);
     fdRequestEntity.right = new FormAttachment(100, -margin);
     wRequestEntity.setLayoutData(fdRequestEntity);
-    wRequestEntity.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wRequestEntity.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setStreamFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setStreamFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupEncodingLine(ModifyListener lsMod, Group gSettings) {
@@ -829,22 +779,21 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     fdEncoding.top = new FormAttachment(wUrlField, margin);
     fdEncoding.right = new FormAttachment(100, -margin);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupUrlFieldNameLine(ModifyListener lsMod, Group gSettings) {
@@ -869,22 +818,21 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     fdUrlField.top = new FormAttachment(wIgnoreSsl, margin);
     fdUrlField.right = new FormAttachment(100, -margin);
     wUrlField.setLayoutData(fdUrlField);
-    wUrlField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wUrlField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setStreamFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setStreamFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupUrlInFieldLine(Group gSettings) {
@@ -906,14 +854,13 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     fdUrlInField.top = new FormAttachment(wlUrlInField, 0, SWT.CENTER);
     fdUrlInField.right = new FormAttachment(100, 0);
     wUrlInField.setLayoutData(fdUrlInField);
-    wUrlInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activeUrlInfield();
-          }
-        });
+    wUrlInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activeUrlInfield();
+      }
+    });
   }
 
   private void setupIgnoreSslLine(Group gSettings) {
@@ -936,13 +883,12 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     fdIgnoreSsl.top = new FormAttachment(wlIgnoreSsl, 0, SWT.CENTER);
     fdIgnoreSsl.right = new FormAttachment(100, 0);
     wIgnoreSsl.setLayoutData(fdIgnoreSsl);
-    wIgnoreSsl.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wIgnoreSsl.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
   }
 
   private void setupUrlLine(ModifyListener lsMod, Group gSettings) {
@@ -1082,8 +1028,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
         if (input.getLookupFields().get(0).getArgumentField().get(i).getParameter() != null) {
           item.setText(2, input.getLookupFields().get(0).getArgumentField().get(i).getParameter());
         }
-        item.setText(
-            3, (input.getLookupFields().get(0).getArgumentField().get(i).isHeader()) ? YES : NO);
+        item.setText(3, (input.getLookupFields().get(0).getArgumentField().get(i).isHeader()) ? YES : NO);
       }
     }
     if (input.getLookupFields().get(0).getQueryField() != null) {
@@ -1164,23 +1109,19 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     int nrargs = wFields.nrNonEmpty();
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "HTTPPOSTDialog.Log.FoundArguments", String.valueOf(nrargs)));
+      logDebug(BaseMessages.getString(PKG, "HTTPPOSTDialog.Log.FoundArguments", String.valueOf(nrargs)));
     }
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrargs; i++) {
       TableItem item = wFields.getNonEmpty(i);
-      HttpPostArgumentField argumentField =
-          new HttpPostArgumentField(item.getText(1), item.getText(2), YES.equals(item.getText(3)));
+      HttpPostArgumentField argumentField = new HttpPostArgumentField(item.getText(1), item.getText(2), YES.equals(item.getText(3)));
       loookupField.getArgumentField().add(argumentField);
     }
 
     int nrqueryparams = wQuery.nrNonEmpty();
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(
-              PKG, "HTTPPOSTDialog.Log.FoundQueryParameters", String.valueOf(nrqueryparams)));
+      logDebug(BaseMessages.getString(PKG, "HTTPPOSTDialog.Log.FoundQueryParameters", String.valueOf(nrqueryparams)));
     }
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrqueryparams; i++) {
@@ -1200,12 +1141,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     input.setUrlInField(wUrlInField.getSelection());
     input.setIgnoreSsl(wIgnoreSsl.getSelection());
 
-    HttpPostResultField httpPostResultField =
-        new HttpPostResultField(
-            wResultCode.getText(),
-            wResult.getText(),
-            wResponseTime.getText(),
-            wResponseHeader.getText());
+    HttpPostResultField httpPostResultField = new HttpPostResultField(wResultCode.getText(), wResult.getText(), wResponseTime.getText(), wResponseHeader.getText());
 
     List<HttpPostResultField> listHttpPostResultField = new ArrayList<>();
     listHttpPostResultField.add(httpPostResultField);
@@ -1230,13 +1166,11 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(3, NO); // default is "N"
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, null, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(3, NO); // default is "N"
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, null, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1251,8 +1185,7 @@ public class HttpPostDialog extends BaseTransformDialog implements ITransformDia
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wQuery, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wQuery, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

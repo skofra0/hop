@@ -176,8 +176,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
   private TextVar wEndMessage;
   private Button wIgnoreFieldErrors;
 
-  public MailInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MailInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MailInputMeta) in;
   }
@@ -190,20 +189,18 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    ModifyListener lsMod =
-        e -> {
-          closeMailConnection();
-          input.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      closeMailConnection();
+      input.setChanged();
+    };
 
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            closeMailConnection();
-          }
-        };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        closeMailConnection();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -227,8 +224,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wPreview, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wPreview, wCancel}, margin, null);
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
@@ -314,14 +310,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdUseSSL.right = new FormAttachment(100, 0);
     wUseSSL.setLayoutData(fdUseSSL);
 
-    wUseSSL.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            closeMailConnection();
-            refreshPort(true);
-          }
-        });
+    wUseSSL.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        closeMailConnection();
+        refreshPort(true);
+      }
+    });
 
     // USE connection with XOAUTH2
     wlUseXOAUTH2 = new Label(wServerSettings, SWT.RIGHT);
@@ -341,14 +336,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdUseXOAUTH2.right = new FormAttachment(100, 0);
     wUseXOAUTH2.setLayoutData(fdUseXOAUTH2);
 
-    wUseXOAUTH2.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            closeMailConnection();
-            refreshPort(true);
-          }
-        });
+    wUseXOAUTH2.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        closeMailConnection();
+        refreshPort(true);
+      }
+    });
 
     // port
     wlPort = new Label(wServerSettings, SWT.RIGHT);
@@ -424,14 +418,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdUseProxy.right = new FormAttachment(100, 0);
     wUseProxy.setLayoutData(fdUseProxy);
 
-    wUseProxy.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setUserProxy();
-            input.setChanged();
-          }
-        });
+    wUseProxy.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setUserProxy();
+        input.setChanged();
+      }
+    });
 
     // ProxyUsername line
     wlProxyUsername = new Label(wServerSettings, SWT.RIGHT);
@@ -446,20 +439,18 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wlUseBatch.setText(BaseMessages.getString(PKG, "MailInputDialog.UseBatch.Label"));
     wUseBatch = new Button(wServerSettings, SWT.CHECK);
     wUseBatch.setToolTipText(BaseMessages.getString(PKG, "MailInputDialog.UseBatch.Tooltip"));
-    wUseBatch.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setBatchSettingsEnabled();
-          }
-        });
+    wUseBatch.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setBatchSettingsEnabled();
+      }
+    });
     addLabelInputPairBelow(wlUseBatch, wUseBatch, wProxyUsername);
     // ignore field errors
     Label wlIgnoreFieldErrors = new Label(wServerSettings, SWT.RIGHT);
     wlIgnoreFieldErrors.setText(BaseMessages.getString(PKG, "MailInput.IgnoreFieldErrors.Label"));
     wIgnoreFieldErrors = new Button(wServerSettings, SWT.CHECK);
-    wIgnoreFieldErrors.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.IgnoreFieldErrors.Tooltip"));
+    wIgnoreFieldErrors.setToolTipText(BaseMessages.getString(PKG, "MailInput.IgnoreFieldErrors.Tooltip"));
     addLabelInputPairBelow(wlIgnoreFieldErrors, wIgnoreFieldErrors, wUseBatch);
 
     // Protocol
@@ -468,13 +459,12 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wProtocol = new CCombo(wServerSettings, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
     wProtocol.setItems(MailConnectionMeta.protocolCodes);
     wProtocol.select(0);
-    wProtocol.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            refreshProtocol(true);
-          }
-        });
+    wProtocol.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        refreshProtocol(true);
+      }
+    });
     addLabelInputPairBelow(wlProtocol, wProtocol, wIgnoreFieldErrors);
 
     // Test connection button
@@ -569,14 +559,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdListmails.right = new FormAttachment(100, 0);
     wListmails.setLayoutData(fdListmails);
 
-    wListmails.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            chooseListMails();
-          }
-        });
+    wListmails.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        chooseListMails();
+      }
+    });
 
     // Retrieve the first ... mails
     wlFirstmails = new Label(wPOP3Settings, SWT.RIGHT);
@@ -635,14 +624,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fddynamicFolder.left = new FormAttachment(middle, 0);
     fddynamicFolder.top = new FormAttachment(wlDynamicFolder, 0, SWT.CENTER);
     wDynamicFolder.setLayoutData(fddynamicFolder);
-    SelectionAdapter lsxmlstream =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activedynamicFolder();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsxmlstream = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activedynamicFolder();
+        input.setChanged();
+      }
+    };
     wDynamicFolder.addSelectionListener(lsxmlstream);
 
     // Folder field
@@ -664,38 +652,33 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdFolderField.top = new FormAttachment(wDynamicFolder, margin);
     fdFolderField.right = new FormAttachment(100, -margin);
     wFolderField.setLayoutData(fdFolderField);
-    wFolderField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wFolderField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            setFolderField();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        setFolderField();
+      }
+    });
 
     // SelectFolder button
     wSelectFolder = new Button(wIMAPSettings, SWT.PUSH);
     wSelectFolder.setImage(GuiResource.getInstance().getImageBol());
-    wSelectFolder.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.SelectFolderConnection.Label"));
+    wSelectFolder.setToolTipText(BaseMessages.getString(PKG, "MailInput.SelectFolderConnection.Label"));
     PropsUi.setLook(wSelectFolder);
     FormData fdSelectFolder = new FormData();
-    wSelectFolder.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.SelectFolderConnection.Tooltip"));
+    wSelectFolder.setToolTipText(BaseMessages.getString(PKG, "MailInput.SelectFolderConnection.Tooltip"));
     fdSelectFolder.top = new FormAttachment(wFolderField, margin);
     fdSelectFolder.right = new FormAttachment(100, 0);
     wSelectFolder.setLayoutData(fdSelectFolder);
 
     // TestIMAPFolder button
     wTestIMAPFolder = new Button(wIMAPSettings, SWT.PUSH);
-    wTestIMAPFolder.setText(
-        BaseMessages.getString(PKG, "MailInput.TestIMAPFolderConnection.Label"));
+    wTestIMAPFolder.setText(BaseMessages.getString(PKG, "MailInput.TestIMAPFolderConnection.Label"));
     PropsUi.setLook(wTestIMAPFolder);
     FormData fdTestIMAPFolder = new FormData();
-    wTestIMAPFolder.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.TestIMAPFolderConnection.Tooltip"));
+    wTestIMAPFolder.setToolTipText(BaseMessages.getString(PKG, "MailInput.TestIMAPFolderConnection.Tooltip"));
     fdTestIMAPFolder.top = new FormAttachment(wFolderField, margin);
     fdTestIMAPFolder.right = new FormAttachment(wSelectFolder, -margin);
     wTestIMAPFolder.setLayoutData(fdTestIMAPFolder);
@@ -721,8 +704,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
 
     // Include subfolders?
     wlIncludeSubFolders = new Label(wIMAPSettings, SWT.RIGHT);
-    wlIncludeSubFolders.setText(
-        BaseMessages.getString(PKG, "MailInput.IncludeSubFoldersMails.Label"));
+    wlIncludeSubFolders.setText(BaseMessages.getString(PKG, "MailInput.IncludeSubFoldersMails.Label"));
     PropsUi.setLook(wlIncludeSubFolders);
     FormData fdlIncludeSubFolders = new FormData();
     fdlIncludeSubFolders.left = new FormAttachment(0, 0);
@@ -732,8 +714,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wIncludeSubFolders = new Button(wIMAPSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubFolders);
     FormData fdIncludeSubFolders = new FormData();
-    wIncludeSubFolders.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.IncludeSubFoldersMails.Tooltip"));
+    wIncludeSubFolders.setToolTipText(BaseMessages.getString(PKG, "MailInput.IncludeSubFoldersMails.Tooltip"));
     fdIncludeSubFolders.left = new FormAttachment(middle, 0);
     fdIncludeSubFolders.top = new FormAttachment(wlIncludeSubFolders, 0, SWT.CENTER);
     fdIncludeSubFolders.right = new FormAttachment(100, 0);
@@ -760,11 +741,10 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdIMAPListmails.right = new FormAttachment(100, 0);
     wIMAPListmails.setLayoutData(fdIMAPListmails);
 
-    wIMAPListmails.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wIMAPListmails.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     // Retrieve the first ... mails
     wlIMAPFirstmails = new Label(wIMAPSettings, SWT.RIGHT);
@@ -797,11 +777,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     // ////////////////////////////////
     // START OF Batch Settings GROUP///
     //
-    Group wBatchSettingsGroup =
-        createGroup(
-            wSettingsComp,
-            wIMAPSettings,
-            BaseMessages.getString(PKG, "MailInputDialog.BatchSettingsGroup.Label"));
+    Group wBatchSettingsGroup = createGroup(wSettingsComp, wIMAPSettings, BaseMessages.getString(PKG, "MailInputDialog.BatchSettingsGroup.Label"));
 
     // Batch size
     Label wlBatchSize = new Label(wBatchSettingsGroup, SWT.RIGHT);
@@ -903,8 +879,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wNegateReceipient = new Button(wHeader, SWT.CHECK);
     PropsUi.setLook(wNegateReceipient);
     FormData fdNegateReceipient = new FormData();
-    wNegateReceipient.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.NegateReceipient.Tooltip"));
+    wNegateReceipient.setToolTipText(BaseMessages.getString(PKG, "MailInput.NegateReceipient.Tooltip"));
     fdNegateReceipient.top = new FormAttachment(wlReceipient, 0, SWT.CENTER);
     fdNegateReceipient.right = new FormAttachment(100, -margin);
     wNegateReceipient.setLayoutData(fdNegateReceipient);
@@ -966,16 +941,14 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wNegateReceivedDate = new Button(wReceivedDate, SWT.CHECK);
     PropsUi.setLook(wNegateReceivedDate);
     FormData fdNegateReceivedDate = new FormData();
-    wNegateReceivedDate.setToolTipText(
-        BaseMessages.getString(PKG, "MailInput.NegateReceivedDate.Tooltip"));
+    wNegateReceivedDate.setToolTipText(BaseMessages.getString(PKG, "MailInput.NegateReceivedDate.Tooltip"));
     fdNegateReceivedDate.top = new FormAttachment(wHeader, margin);
     fdNegateReceivedDate.right = new FormAttachment(100, -margin);
     wNegateReceivedDate.setLayoutData(fdNegateReceivedDate);
 
     // Received Date Condition
     wlConditionOnReceivedDate = new Label(wReceivedDate, SWT.RIGHT);
-    wlConditionOnReceivedDate.setText(
-        BaseMessages.getString(PKG, "MailInput.ConditionOnReceivedDate.Label"));
+    wlConditionOnReceivedDate.setText(BaseMessages.getString(PKG, "MailInput.ConditionOnReceivedDate.Label"));
     PropsUi.setLook(wlConditionOnReceivedDate);
     FormData fdlConditionOnReceivedDate = new FormData();
     fdlConditionOnReceivedDate.left = new FormAttachment(0, 0);
@@ -993,14 +966,13 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdConditionOnReceivedDate.top = new FormAttachment(wHeader, margin);
     fdConditionOnReceivedDate.right = new FormAttachment(wNegateReceivedDate, -margin);
     wConditionOnReceivedDate.setLayoutData(fdConditionOnReceivedDate);
-    wConditionOnReceivedDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            conditionReceivedDate();
-            input.setChanged();
-          }
-        });
+    wConditionOnReceivedDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        conditionReceivedDate();
+        input.setChanged();
+      }
+    });
 
     open = new Button(wReceivedDate, SWT.PUSH);
     open.setImage(GuiResource.getInstance().getImageCalendar());
@@ -1009,47 +981,44 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdlButton.top = new FormAttachment(wConditionOnReceivedDate, margin);
     fdlButton.right = new FormAttachment(100, 0);
     open.setLayoutData(fdlButton);
-    open.addSelectionListener(
-        new SelectionAdapter() {
+    open.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
+        dialog.setText(BaseMessages.getString(PKG, "MailInput.SelectDate"));
+        dialog.setImage(GuiResource.getInstance().getImageHopUi());
+        dialog.setLayout(new GridLayout(3, false));
+
+        final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
+        final DateTime time = new DateTime(dialog, SWT.TIME | SWT.TIME);
+        new Label(dialog, SWT.NONE);
+        new Label(dialog, SWT.NONE);
+
+        Button ok = new Button(dialog, SWT.PUSH);
+        ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        ok.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
-            dialog.setText(BaseMessages.getString(PKG, "MailInput.SelectDate"));
-            dialog.setImage(GuiResource.getInstance().getImageHopUi());
-            dialog.setLayout(new GridLayout(3, false));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, calendar.getYear());
+            cal.set(Calendar.MONTH, calendar.getMonth());
+            cal.set(Calendar.DAY_OF_MONTH, calendar.getDay());
 
-            final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
-            final DateTime time = new DateTime(dialog, SWT.TIME | SWT.TIME);
-            new Label(dialog, SWT.NONE);
-            new Label(dialog, SWT.NONE);
+            cal.set(Calendar.HOUR_OF_DAY, time.getHours());
+            cal.set(Calendar.MINUTE, time.getMinutes());
+            cal.set(Calendar.SECOND, time.getSeconds());
 
-            Button ok = new Button(dialog, SWT.PUSH);
-            ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            ok.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.YEAR, calendar.getYear());
-                    cal.set(Calendar.MONTH, calendar.getMonth());
-                    cal.set(Calendar.DAY_OF_MONTH, calendar.getDay());
+            wReadFrom.setText(new SimpleDateFormat(MailInputMeta.DATE_PATTERN).format(cal.getTime()));
 
-                    cal.set(Calendar.HOUR_OF_DAY, time.getHours());
-                    cal.set(Calendar.MINUTE, time.getMinutes());
-                    cal.set(Calendar.SECOND, time.getSeconds());
-
-                    wReadFrom.setText(
-                        new SimpleDateFormat(MailInputMeta.DATE_PATTERN).format(cal.getTime()));
-
-                    dialog.close();
-                  }
-                });
-            dialog.setDefaultButton(ok);
-            dialog.pack();
-            dialog.open();
+            dialog.close();
           }
         });
+        dialog.setDefaultButton(ok);
+        dialog.pack();
+        dialog.open();
+      }
+    });
 
     wlReadFrom = new Label(wReceivedDate, SWT.RIGHT);
     wlReadFrom.setText(BaseMessages.getString(PKG, "MailInput.ReadFrom.Label"));
@@ -1076,46 +1045,43 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     fdlButtonto.top = new FormAttachment(wReadFrom, 2 * margin);
     fdlButtonto.right = new FormAttachment(100, 0);
     opento.setLayoutData(fdlButtonto);
-    opento.addSelectionListener(
-        new SelectionAdapter() {
+    opento.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
+        dialogto.setText(BaseMessages.getString(PKG, "MailInput.SelectDate"));
+        dialogto.setImage(GuiResource.getInstance().getImageHopUi());
+        dialogto.setLayout(new GridLayout(3, false));
+
+        final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
+        final DateTime timeto = new DateTime(dialogto, SWT.TIME | SWT.TIME);
+        new Label(dialogto, SWT.NONE);
+        new Label(dialogto, SWT.NONE);
+        Button okto = new Button(dialogto, SWT.PUSH);
+        okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        okto.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
-            dialogto.setText(BaseMessages.getString(PKG, "MailInput.SelectDate"));
-            dialogto.setImage(GuiResource.getInstance().getImageHopUi());
-            dialogto.setLayout(new GridLayout(3, false));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, calendarto.getYear());
+            cal.set(Calendar.MONTH, calendarto.getMonth());
+            cal.set(Calendar.DAY_OF_MONTH, calendarto.getDay());
 
-            final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
-            final DateTime timeto = new DateTime(dialogto, SWT.TIME | SWT.TIME);
-            new Label(dialogto, SWT.NONE);
-            new Label(dialogto, SWT.NONE);
-            Button okto = new Button(dialogto, SWT.PUSH);
-            okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            okto.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.YEAR, calendarto.getYear());
-                    cal.set(Calendar.MONTH, calendarto.getMonth());
-                    cal.set(Calendar.DAY_OF_MONTH, calendarto.getDay());
+            cal.set(Calendar.HOUR_OF_DAY, timeto.getHours());
+            cal.set(Calendar.MINUTE, timeto.getMinutes());
+            cal.set(Calendar.SECOND, timeto.getSeconds());
 
-                    cal.set(Calendar.HOUR_OF_DAY, timeto.getHours());
-                    cal.set(Calendar.MINUTE, timeto.getMinutes());
-                    cal.set(Calendar.SECOND, timeto.getSeconds());
+            wReadTo.setText(new SimpleDateFormat(MailInputMeta.DATE_PATTERN).format(cal.getTime()));
 
-                    wReadTo.setText(
-                        new SimpleDateFormat(MailInputMeta.DATE_PATTERN).format(cal.getTime()));
-
-                    dialogto.close();
-                  }
-                });
-            dialogto.setDefaultButton(okto);
-            dialogto.pack();
-            dialogto.open();
+            dialogto.close();
           }
         });
+        dialogto.setDefaultButton(okto);
+        dialogto.pack();
+        dialogto.open();
+      }
+    });
 
     wlReadTo = new Label(wReceivedDate, SWT.RIGHT);
     wlReadTo.setText(BaseMessages.getString(PKG, "MailInput.ReadTo.Label"));
@@ -1201,32 +1167,14 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Column.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              MailInputField.ColumnDesc,
-              true),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Column.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, MailInputField.ColumnDesc, true),};
 
     colinf[0].setUsingVariables(true);
-    colinf[0].setToolTip(
-        BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Name.Column.Tooltip"));
-    colinf[1].setToolTip(
-        BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Column.Column.Tooltip"));
+    colinf[0].setToolTip(BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Name.Column.Tooltip"));
+    colinf[1].setToolTip(BaseMessages.getString(PKG, "MailInputdialog.FieldsTable.Column.Column.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1355,8 +1303,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
       wSubject.setText(input.getSubjectSearch());
     }
     wNegateSubject.setSelection(input.isNotTermSubjectSearch());
-    wConditionOnReceivedDate.setText(
-        MailConnectionMeta.getConditionDateDesc(input.getConditionOnReceivedDate()));
+    wConditionOnReceivedDate.setText(MailConnectionMeta.getConditionDateDesc(input.getConditionOnReceivedDate()));
     wNegateReceivedDate.setSelection(input.isNotTermReceivedDateSearch());
     if (input.getReceivedDate1() != null) {
       wReadFrom.setText(input.getReceivedDate1());
@@ -1395,10 +1342,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     wFields.optWidth(true);
 
     wUseBatch.setSelection(input.isUseBatch());
-    wBatchSize.setText(
-        input.getBatchSize() == null
-            ? String.valueOf(MailInputMeta.DEFAULT_BATCH_SIZE)
-            : input.getBatchSize().toString());
+    wBatchSize.setText(input.getBatchSize() == null ? String.valueOf(MailInputMeta.DEFAULT_BATCH_SIZE) : input.getBatchSize().toString());
     wStartMessage.setText(input.getStart() == null ? "" : input.getStart());
     wEndMessage.setText(input.getEnd() == null ? "" : input.getEnd());
     wIgnoreFieldErrors.setSelection(input.isStopOnError());
@@ -1461,8 +1405,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     in.setNotTermRecipientSearch(wNegateReceipient.getSelection());
     in.setSubjectSearch(wSubject.getText());
     in.setNotTermSubjectSearch(wNegateSubject.getSelection());
-    in.setConditionOnReceivedDate(
-        MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()));
+    in.setConditionOnReceivedDate(MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()));
     in.setNotTermReceivedDateSearch(wNegateReceivedDate.getSelection());
     in.setReceivedDate1(wReadFrom.getText());
     in.setReceivedDate2(wReadTo.getText());
@@ -1529,12 +1472,8 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
   }
 
   private void conditionReceivedDate() {
-    boolean activeReceivedDate =
-        MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText())
-            != MailConnectionMeta.CONDITION_DATE_IGNORE;
-    boolean useBetween =
-        MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText())
-            == MailConnectionMeta.CONDITION_DATE_BETWEEN;
+    boolean activeReceivedDate = MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()) != MailConnectionMeta.CONDITION_DATE_IGNORE;
+    boolean useBetween = MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()) == MailConnectionMeta.CONDITION_DATE_BETWEEN;
     wlReadFrom.setVisible(activeReceivedDate);
     wReadFrom.setVisible(activeReceivedDate);
     open.setVisible(activeReceivedDate);
@@ -1552,25 +1491,21 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
     if (refreshport) {
       if (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3)) {
         if (wUseSSL.getSelection()) {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT);
           }
         } else {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals(MailConnectionMeta.DEFAULT_IMAP_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals(MailConnectionMeta.DEFAULT_IMAP_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_POP3_PORT);
           }
         }
       } else if (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP)) {
         if (wUseSSL.getSelection()) {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT);
           }
         } else {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals(MailConnectionMeta.DEFAULT_POP3_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals(MailConnectionMeta.DEFAULT_POP3_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_IMAP_PORT);
           }
         }
@@ -1647,9 +1582,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
   }
 
   public void chooseListMails() {
-    boolean ok =
-        (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3)
-            && wListmails.getSelectionIndex() == 1);
+    boolean ok = (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3) && wListmails.getSelectionIndex() == 1);
     wlFirstmails.setEnabled(ok);
     wFirstmails.setEnabled(ok);
   }
@@ -1687,8 +1620,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
         mailConn =
             new MailConnection(
                 LogChannel.UI,
-                MailConnectionMeta.getProtocolFromString(
-                    wProtocol.getText(), MailConnectionMeta.PROTOCOL_IMAP),
+                MailConnectionMeta.getProtocolFromString(wProtocol.getText(), MailConnectionMeta.PROTOCOL_IMAP),
                 realserver,
                 realport,
                 realuser,
@@ -1707,11 +1639,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
 
     if (!retval) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-                  PKG, "MailInput.Connected.NOK.ConnectionBad", wServerName.getText())
-              + Const.CR
-              + Const.NVL(errordescription, ""));
+      mb.setMessage(BaseMessages.getString(PKG, "MailInput.Connected.NOK.ConnectionBad", wServerName.getText()) + Const.CR + Const.NVL(errordescription, ""));
       mb.setText(BaseMessages.getString(PKG, "MailInput.Connected.Title.Bad"));
       mb.open();
     }
@@ -1722,8 +1650,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
   private void test() {
     if (connect()) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "MailInput.Connected.OK", wServerName.getText()) + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "MailInput.Connected.OK", wServerName.getText()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "MailInput.Connected.Title.Ok"));
       mb.open();
     }
@@ -1735,15 +1662,12 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
         // check folder
         if (mailConn.folderExists(folderName)) {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "MailInput.IMAPFolderExists.OK", folderName) + Const.CR);
+          mb.setMessage(BaseMessages.getString(PKG, "MailInput.IMAPFolderExists.OK", folderName) + Const.CR);
           mb.setText(BaseMessages.getString(PKG, "MailInput.IMAPFolderExists.Title.Ok"));
           mb.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "MailInput.Connected.NOK.IMAPFolderExists", folderName)
-                  + Const.CR);
+          mb.setMessage(BaseMessages.getString(PKG, "MailInput.Connected.NOK.IMAPFolderExists", folderName) + Const.CR);
           mb.setText(BaseMessages.getString(PKG, "MailInput.IMAPFolderExists.Title.Bad"));
           mb.open();
         }
@@ -1757,9 +1681,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
       MailInputMeta oneMeta = new MailInputMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              metadataProvider, oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -1771,12 +1693,7 @@ public class MailInputDialog extends BaseTransformDialog implements ITransformDi
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {

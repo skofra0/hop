@@ -40,7 +40,8 @@ import java.util.Map;
 public class RowsFromResultMetaTest implements IInitializer<ITransformMeta> {
   LoadSaveTester loadSaveTester;
   Class<RowsFromResultMeta> testMetaClass = RowsFromResultMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -51,29 +52,17 @@ public class RowsFromResultMetaTest implements IInitializer<ITransformMeta> {
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fieldname", stringArrayLoadSaveValidator);
-    attrValidatorMap.put(
-        "type", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(7), 5));
-    attrValidatorMap.put(
-        "length", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
-    attrValidatorMap.put(
-        "precision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
+    attrValidatorMap.put("type", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(7), 5));
+    attrValidatorMap.put("length", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(100), 5));
+    attrValidatorMap.put("precision", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(9), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

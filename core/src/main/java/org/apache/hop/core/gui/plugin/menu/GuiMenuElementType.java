@@ -19,6 +19,5 @@ package org.apache.hop.core.gui.plugin.menu;
 public enum GuiMenuElementType {
   NONE, // To disable default options
   PARENT, // Is a placeholder for children
-  MENU_ITEM,
-  ;
+  MENU_ITEM,;
 }

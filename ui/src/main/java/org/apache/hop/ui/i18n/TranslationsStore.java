@@ -43,11 +43,7 @@ public class TranslationsStore {
    * @param sourcePackageOccurrences
    * @param bundlesStore
    */
-  public TranslationsStore(
-      ILogChannel log,
-      List<String> localeList,
-      String mainLocale,
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences,
+  public TranslationsStore(ILogChannel log, List<String> localeList, String mainLocale, Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences,
       BundlesStore bundlesStore) {
     super();
     this.log = log;
@@ -73,8 +69,7 @@ public class TranslationsStore {
     bundleStore.removeTranslation(messagesPackage, locale, key);
   }
 
-  public void storeValue(
-      String locale, String sourceFolder, String messagesPackage, String key, String value) {
+  public void storeValue(String locale, String sourceFolder, String messagesPackage, String key, String value) {
     bundleStore.addTranslation(sourceFolder, messagesPackage, locale, key, value);
   }
 
@@ -86,7 +81,7 @@ public class TranslationsStore {
   /**
    * @param searchLocale the locale the filter on.
    * @param messagesPackage the messagesPackage to filter on. Specify null to get all message
-   *     stores.
+   *        stores.
    * @return the list of messages bundle files for the locale
    */
   public List<BundleFile> findBundleFiles(String searchLocale, String messagesPackage) {
@@ -125,8 +120,7 @@ public class TranslationsStore {
     return sourcePackageOccurrences;
   }
 
-  public void setSourcePackageOccurrences(
-      Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
+  public void setSourcePackageOccurrences(Map<String, Map<String, List<KeyOccurrence>>> sourcePackageOccurrences) {
     this.sourcePackageOccurrences = sourcePackageOccurrences;
   }
 

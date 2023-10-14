@@ -43,8 +43,7 @@ public class SalesforceInputTest {
     SalesforceInputMeta meta = new SalesforceInputMeta();
     SalesforceInputData data = new SalesforceInputData();
 
-    SalesforceInput salesforceInput =
-        new SalesforceInput(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
+    SalesforceInput salesforceInput = new SalesforceInput(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
 
     data.outputRowMeta = Mockito.mock(RowMeta.class);
     Mockito.when(data.outputRowMeta.getValueMeta(Mockito.eq(0))).thenReturn(new ValueMetaBinary());

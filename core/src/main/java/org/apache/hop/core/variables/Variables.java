@@ -158,8 +158,7 @@ public class Variables implements IVariables {
    * @throws HopValueException In case there is a String conversion error
    */
   @Override
-  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  public String resolve(String aString, IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     if (aString == null || aString.length() == 0) {
       return aString;
     }
@@ -187,7 +186,7 @@ public class Variables implements IVariables {
     if (initialized) {
       // variables are already initialized
       if (map != null) {
-        for (Map.Entry<String,String> entry : map.entrySet()) {          
+        for (Map.Entry<String, String> entry : map.entrySet()) {
           if (!Utils.isEmpty(entry.getKey())) {
             properties.put(entry.getKey(), Const.NVL(entry.getValue(), ""));
           }
@@ -198,7 +197,7 @@ public class Variables implements IVariables {
       // We have our own personal copy, so changes afterwards
       // to the input properties don't affect us.
       injection = new Hashtable<>();
-      for (Map.Entry<String,String> entry : map.entrySet()) { 
+      for (Map.Entry<String, String> entry : map.entrySet()) {
         if (!Utils.isEmpty(entry.getKey())) {
           injection.put(entry.getKey(), Const.NVL(entry.getValue(), ""));
         }

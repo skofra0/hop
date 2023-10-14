@@ -56,8 +56,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
   public static final String SEND_RESULT = "sendResult";
 
-  private static final byte[] XML_HEADER =
-      XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
+  private static final byte[] XML_HEADER = XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
 
   public GetPipelineStatusServlet() {}
 
@@ -66,8 +65,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
@@ -79,12 +77,8 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
     String pipelineName = request.getParameter("name");
     String id = request.getParameter("id");
-    String root =
-        request.getRequestURI() == null
-            ? "/hop"
-            : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
-    String prefix =
-        isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
+    String root = request.getRequestURI() == null ? "/hop" : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
+    String prefix = isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
     boolean useXml = "Y".equalsIgnoreCase(request.getParameter("xml"));
     boolean useJson = "Y".equalsIgnoreCase(request.getParameter("json"));
     int startLineNr = Const.toInt(request.getParameter("from"), 0);
@@ -132,9 +126,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           String logText = getLogText(pipeline, startLineNr, lastLineNr);
 
-          HopServerPipelineStatus pipelineStatus =
-              new HopServerPipelineStatus(
-                  pipelineName, entry.getId(), pipeline.getStatusDescription());
+          HopServerPipelineStatus pipelineStatus = new HopServerPipelineStatus(pipelineName, entry.getId(), pipeline.getStatusDescription());
           pipelineStatus.setFirstLoggingLineNr(startLineNr);
           pipelineStatus.setLastLoggingLineNr(lastLineNr);
           pipelineStatus.setLogDate(new Date());
@@ -142,8 +134,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           pipelineStatus.setExecutionEndDate(pipeline.getExecutionEndDate());
 
           for (IEngineComponent component : pipeline.getComponents()) {
-            if ((component.isRunning())
-                || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
+            if ((component.isRunning()) || (component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY)) {
               TransformStatus transformStatus = new TransformStatus(component);
               pipelineStatus.getTransformStatusList().add(transformStatus);
             }
@@ -179,8 +170,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
             // JSON
             //
             ObjectMapper mapper = HopJson.newMapper();
-            String jsonString =
-                mapper.writerWithDefaultPrettyPrinter().writeValueAsString(pipelineStatus);
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(pipelineStatus);
             byte[] data = jsonString.getBytes(Charset.forName(Const.XML_ENCODING));
             response.setContentLength(data.length);
             out.write(data);
@@ -200,10 +190,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.HopPipelineStatus")
-                + "</TITLE>");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "PipelineStatusServlet.HopPipelineStatus") + "</TITLE>");
         if (EnvUtil.getSystemProperty(Const.HOP_SERVER_REFRESH_STATUS, "N").equalsIgnoreCase("Y")) {
           out.println(
               "<META http-equiv=\"Refresh\" content=\"10;url="
@@ -217,8 +204,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
         out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
 
         if (isJettyMode()) {
-          out.println(
-              "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
+          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
         }
 
         out.println("</HEAD>");
@@ -226,9 +212,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
         out.println("<div class=\"row\" id=\"pucHeader\">");
         out.println(
             "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 10px;\">"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "PipelineStatusServlet.TopPipelineStatus", pipelineName))
+                + Encode.forHtml(BaseMessages.getString(PKG, "PipelineStatusServlet.TopPipelineStatus", pipelineName))
                 + "</div>");
         out.println("</div>");
 
@@ -236,25 +220,16 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           out.println("<div class=\"row\" style=\"padding: 0px 0px 0px 30px\">");
           out.println("<div class=\"row\" style=\"padding-top: 30px;\">");
           out.print("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">");
-          out.print(
-              "<img src=\""
-                  + prefix
-                  + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
-          out.print(
-              BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
+          out.print("<img src=\"" + prefix + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
+          out.print(BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
           out.println("</div>");
           out.println("<div class=\"row\" style=\"padding: 30px 0px 75px 0px; display: table;\">");
           out.println("<div style=\"display: table-row;\">");
-          out.println(
-              "<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
-          out.println(
-              "<img src=\""
-                  + prefix
-                  + "/images/pipeline.svg\" style=\"width: 60px; height: 60px;\"></img>");
+          out.println("<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
+          out.println("<img src=\"" + prefix + "/images/pipeline.svg\" style=\"width: 60px; height: 60px;\"></img>");
           out.println("</div>");
           out.println("<div style=\"vertical-align: top; display: table-cell;\">");
-          out.println(
-              "<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
+          out.println("<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
           out.print(
               "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-top: none; border-color: #E3E3E3; font-size: 12; text-align: left;\"> <th style=\"font-weight: normal; "
                   + "padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
@@ -264,12 +239,8 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
                   + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
                   + BaseMessages.getString(PKG, "PipelineStatusServlet.StartDate")
                   + "</th> </tr>");
-          out.print(
-              "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align: left;\">");
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">"
-                  + Encode.forHtml(id)
-                  + "</td>");
+          out.print("<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align: left;\">");
+          out.print("<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">" + Encode.forHtml(id) + "</td>");
           out.print(
               "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell\" id=\"statusColor\" style=\"font-weight: bold;\">"
                   + Encode.forHtml(pipeline.getStatusDescription())
@@ -285,13 +256,11 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           // Download as XML section...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // XML Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
           out.print(
               "<a target=\"_blank\" href=\""
                   + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -324,13 +293,11 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           // Start of Download as JSON block...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // Start of JSON Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
           out.print(
               "<a target=\"_blank\" href=\""
                   + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -366,8 +333,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
           out.print("</div>");
 
           out.print("<div class=\"row\" style=\"padding: 0px 0px 75px 0px;\">");
-          out.print(
-              "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Transform detail</div>");
+          out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Transform detail</div>");
           out.println("<table class=\"hop-table\" border=\"" + tableBorder + "\">");
           out.print(
               "<tr class=\"cellTableRow\"> <th class=\"cellTableHeader\">"
@@ -400,8 +366,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           boolean evenRow = true;
           for (IEngineComponent component : pipeline.getComponents()) {
-            if ((component.isRunning())
-                || component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY) {
+            if ((component.isRunning()) || component.getStatus() != ComponentExecutionStatus.STATUS_EMPTY) {
               TransformStatus transformStatus = new TransformStatus(component);
               boolean snif = false;
               String htmlString = "";
@@ -506,8 +471,7 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
 
           if (supportGraphicEnvironment) {
             out.print("<div class=\"row\" style=\"padding: 0px 0px 75px 0px;\">");
-            out.print(
-                "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Canvas preview</div>");
+            out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Canvas preview</div>");
             // Get the pipeline image
             Point max = pipeline.getPipelineMeta().getMaximum();
             max.x = (int) (max.x * GetPipelineImageServlet.ZOOM_FACTOR) + 100;
@@ -524,15 +488,13 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
                     + URLEncoder.encode(pipelineName, "UTF-8")
                     + "&id="
                     + URLEncoder.encode(id, "UTF-8")
-                    + "\" frameborder=\"0\"></iframe>");
-            ;
+                    + "\" frameborder=\"0\"></iframe>");;
             out.print("</div>");
           }
 
           // Put the logging below that.
           out.print("<div class=\"row\" style=\"padding: 0px 0px 30px 0px;\">");
-          out.print(
-              "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Pipeline log</div>");
+          out.print("<div class=\"workspaceHeading\" style=\"padding: 0px 0px 30px 0px;\">Pipeline log</div>");
           out.println(
               "<textarea id=\"pipelinelog\" cols=\"120\" rows=\"20\" "
                   + "wrap=\"off\" name=\"Pipeline log\" readonly=\"readonly\" style=\"height: auto; width: 100%;\">"
@@ -566,24 +528,10 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
     } else {
       PrintWriter out = response.getWriter();
       if (useXml) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
       } else {
-        out.println(
-            "<H1>"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName))
-                + "</H1>");
-        out.println(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                + "</a><p>");
+        out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName)) + "</H1>");
+        out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
       }
     }
   }
@@ -602,12 +550,9 @@ public class GetPipelineStatusServlet extends BaseHttpServlet implements IHopSer
     return CONTEXT_PATH;
   }
 
-  private String getLogText(IPipelineEngine pipeline, int startLineNr, int lastLineNr)
-      throws HopException {
+  private String getLogText(IPipelineEngine pipeline, int startLineNr, int lastLineNr) throws HopException {
     try {
-      return HopLogStore.getAppender()
-          .getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr)
-          .toString();
+      return HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr).toString();
     } catch (OutOfMemoryError error) {
       throw new HopException("Log string is too long", error);
     }

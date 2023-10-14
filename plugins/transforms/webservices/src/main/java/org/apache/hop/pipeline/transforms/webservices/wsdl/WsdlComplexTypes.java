@@ -40,8 +40,7 @@ public final class WsdlComplexTypes implements java.io.Serializable {
     for (ExtensibilityElement schema : schemas) {
       Element schemaRoot = ((Schema) schema).getElement();
 
-      List<Element> types =
-          DomUtils.getChildElementsByName(schemaRoot, WsdlUtils.COMPLEX_TYPE_NAME);
+      List<Element> types = DomUtils.getChildElementsByName(schemaRoot, WsdlUtils.COMPLEX_TYPE_NAME);
       for (Element t : types) {
         String schemaTypeName = t.getAttribute(WsdlUtils.NAME_ATTR);
         complexTypes.put(schemaTypeName, new ComplexType(t, wsdlTypes));

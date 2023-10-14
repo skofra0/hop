@@ -31,8 +31,7 @@ import java.util.Map;
 public class LdapTlsProtocol extends LdapSslProtocol {
   private StartTlsResponse startTlsResponse;
 
-  public LdapTlsProtocol(
-      ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
+  public LdapTlsProtocol(ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
     super(log, variables, meta, binaryAttributes);
   }
 

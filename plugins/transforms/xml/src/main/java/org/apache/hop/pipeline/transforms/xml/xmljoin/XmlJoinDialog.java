@@ -78,8 +78,7 @@ public class XmlJoinDialog extends BaseTransformDialog implements ITransformDial
 
   private boolean gotEncodings = false;
 
-  public XmlJoinDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public XmlJoinDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (XmlJoinMeta) in;
   }
@@ -284,19 +283,18 @@ public class XmlJoinDialog extends BaseTransformDialog implements ITransformDial
     fdComplexJoin.top = new FormAttachment(wlComplexJoin, 0, SWT.CENTER);
     fdComplexJoin.right = new FormAttachment(100, 0);
     wComplexJoin.setLayoutData(fdComplexJoin);
-    wComplexJoin.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
+    wComplexJoin.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
 
-            if (wComplexJoin.getSelection()) {
-              wJoinCompareField.setEnabled(true);
-            } else {
-              wJoinCompareField.setEnabled(false);
-            }
-          }
-        });
+        if (wComplexJoin.getSelection()) {
+          wJoinCompareField.setEnabled(true);
+        } else {
+          wJoinCompareField.setEnabled(false);
+        }
+      }
+    });
 
     // Join Compare field line
     Label wlJoinCompareField = new Label(gJoin, SWT.RIGHT);
@@ -369,20 +367,19 @@ public class XmlJoinDialog extends BaseTransformDialog implements ITransformDial
     fdEncoding.top = new FormAttachment(wValueXmlField, margin);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Complex Join Line
     Label wlOmitXMLHeader = new Label(gResult, SWT.RIGHT);
@@ -400,13 +397,12 @@ public class XmlJoinDialog extends BaseTransformDialog implements ITransformDial
     fdOmitXMLHeader.top = new FormAttachment(wlOmitXMLHeader, 0, SWT.CENTER);
     fdOmitXMLHeader.right = new FormAttachment(100, 0);
     wOmitXmlHeader.setLayoutData(fdOmitXMLHeader);
-    wOmitXmlHeader.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wOmitXmlHeader.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlOmitNullValues = new Label(gResult, SWT.RIGHT);
     wlOmitNullValues.setText(BaseMessages.getString(PKG, "XmlJoin.OmitNullValues.Label"));
@@ -423,21 +419,19 @@ public class XmlJoinDialog extends BaseTransformDialog implements ITransformDial
     fdOmitNullValues.top = new FormAttachment(wlOmitNullValues, 0, SWT.CENTER);
     fdOmitNullValues.right = new FormAttachment(100, 0);
     wOmitNullValues.setLayoutData(fdOmitNullValues);
-    wOmitNullValues.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wOmitNullValues.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     shell.layout();
 
     getData();
     input.setChanged(changed);
 
-    List<TransformMeta> transforms =
-        pipelineMeta.findPreviousTransforms(pipelineMeta.findTransform(transformName), true);
+    List<TransformMeta> transforms = pipelineMeta.findPreviousTransforms(pipelineMeta.findTransform(transformName), true);
     for (TransformMeta transformMeta : transforms) {
       wTargetXmlTransform.add(transformMeta.getName());
       wSourceXmlTransform.add(transformMeta.getName());

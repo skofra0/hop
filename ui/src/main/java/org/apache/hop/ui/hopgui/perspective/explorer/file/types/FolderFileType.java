@@ -31,11 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-@HopFileTypePlugin(
-    id = "FolderFileType",
-    name = "Folder File Type",
-    description = "Folder handling in the explorer perspective",
-    image = "ui/images/folder.svg")
+@HopFileTypePlugin(id = "FolderFileType", name = "Folder File Type", description = "Folder handling in the explorer perspective", image = "ui/images/folder.svg")
 public class FolderFileType implements IHopFileType {
   @Override
   public String getName() {
@@ -68,14 +64,12 @@ public class FolderFileType implements IHopFileType {
   }
 
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 

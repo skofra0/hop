@@ -66,8 +66,7 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
 
   private final MergeRowsMeta input;
 
-  public MergeRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MergeRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MergeRowsMeta) in;
   }
@@ -109,14 +108,13 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
     fdbKeys.left = new FormAttachment(0, 0);
     fdbKeys.right = new FormAttachment(50, -margin);
     wbKeys.setLayoutData(fdbKeys);
-    wbKeys.addSelectionListener(
-        new SelectionAdapter() {
+    wbKeys.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getKeys();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getKeys();
+      }
+    });
 
     Button wbValues = new Button(shell, SWT.PUSH);
     wbValues.setText(BaseMessages.getString(PKG, "MergeRowsDialog.ValueFields.Button"));
@@ -125,14 +123,13 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
     fdbValues.left = new FormAttachment(50, 0);
     fdbValues.right = new FormAttachment(100, 0);
     wbValues.setLayoutData(fdbValues);
-    wbValues.addSelectionListener(
-        new SelectionAdapter() {
+    wbValues.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getValues();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getValues();
+      }
+    });
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
@@ -231,23 +228,9 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
 
     int nrKeyRows = (input.getKeyFields() != null ? input.getKeyFields().length : 1);
 
-    ColumnInfo[] ciKeys =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MergeRowsDialog.ColumnInfo.KeyField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] ciKeys = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "MergeRowsDialog.ColumnInfo.KeyField"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wKeys =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKeys,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKeys = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKeys, nrKeyRows, lsMod, props);
 
     FormData fdKeys = new FormData();
     fdKeys.top = new FormAttachment(wlKeys, margin);
@@ -267,23 +250,9 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
 
     int nrValueRows = (input.getValueFields() != null ? input.getValueFields().length : 1);
 
-    ColumnInfo[] ciValues =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MergeRowsDialog.ColumnInfo.ValueField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] ciValues = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "MergeRowsDialog.ColumnInfo.ValueField"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wValues =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciValues,
-            nrValueRows,
-            lsMod,
-            props);
+    wValues = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciValues, nrValueRows, lsMod, props);
 
     FormData fdValues = new FormData();
     fdValues.top = new FormAttachment(wlValues, margin);
@@ -362,19 +331,14 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
 
     transformName = wTransformName.getText(); // return value
 
-    if (nrKeys > 0
-        && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y"))) {
+    if (nrKeys > 0 && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y"))) {
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "MergeRowsDialog.MergeRowsWarningDialog.DialogTitle"),
-              BaseMessages.getString(
-                      PKG, "MergeRowsDialog.MergeRowsWarningDialog.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "MergeRowsDialog.MergeRowsWarningDialog.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "MergeRowsDialog.MergeRowsWarningDialog.Option1")
-              },
+              new String[] {BaseMessages.getString(PKG, "MergeRowsDialog.MergeRowsWarningDialog.Option1")},
               BaseMessages.getString(PKG, "MergeRowsDialog.MergeRowsWarningDialog.Option2"),
               "N".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y")));
       md.open();
@@ -390,8 +354,7 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
       if (transformMeta != null) {
         IRowMeta prev = pipelineMeta.getTransformFields(variables, transformMeta);
         if (prev != null) {
-          BaseTransformDialog.getFieldsFromPrevious(
-              prev, wKeys, 1, new int[] {1}, new int[] {}, -1, -1, null);
+          BaseTransformDialog.getFieldsFromPrevious(prev, wKeys, 1, new int[] {1}, new int[] {}, -1, -1, null);
         }
       }
     } catch (HopException e) {
@@ -409,8 +372,7 @@ public class MergeRowsDialog extends BaseTransformDialog implements ITransformDi
       if (transformMeta != null) {
         IRowMeta prev = pipelineMeta.getTransformFields(variables, transformMeta);
         if (prev != null) {
-          BaseTransformDialog.getFieldsFromPrevious(
-              prev, wValues, 1, new int[] {1}, new int[] {}, -1, -1, null);
+          BaseTransformDialog.getFieldsFromPrevious(prev, wValues, 1, new int[] {1}, new int[] {}, -1, -1, null);
         }
       }
     } catch (HopException e) {

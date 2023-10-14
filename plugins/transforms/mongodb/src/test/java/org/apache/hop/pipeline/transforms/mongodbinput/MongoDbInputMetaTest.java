@@ -41,8 +41,7 @@ public class MongoDbInputMetaTest {
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -62,15 +61,7 @@ public class MongoDbInputMetaTest {
     LoadSaveTester tester =
         new LoadSaveTester(
             MongoDbInputMeta.class,
-            Arrays.asList(
-                "fields_name",
-                "collection",
-                "json_field_name",
-                "json_query",
-                "output_json",
-                "query_is_pipeline",
-                "execute_for_each_row",
-                "mongo_fields"),
+            Arrays.asList("fields_name", "collection", "json_field_name", "json_query", "output_json", "query_is_pipeline", "execute_for_each_row", "mongo_fields"),
             getterMap,
             setterMap,
             fieldLoadSaveValidatorAttributeMap,
@@ -80,11 +71,7 @@ public class MongoDbInputMetaTest {
 
     validatorFactory.registerValidator(
         validatorFactory.getName(List.class, MongoField.class),
-        new ListLoadSaveValidator<>(
-            new ObjectValidator<>(
-                validatorFactory,
-                MongoField.class,
-                Arrays.asList("fieldName", "fieldPath", "hopType", "indexedValues"))));
+        new ListLoadSaveValidator<>(new ObjectValidator<>(validatorFactory, MongoField.class, Arrays.asList("fieldName", "fieldPath", "hopType", "indexedValues"))));
 
     tester.testXmlRoundTrip();
   }

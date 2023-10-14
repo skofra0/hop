@@ -49,59 +49,33 @@ public class ExecSqlRowMeta extends BaseTransformMeta<ExecSqlRow, ExecSqlRowData
 
   private IHopMetadataProvider metadataProvider;
 
-  @HopMetadataProperty(
-      key = "sql_field",
-      injectionKey = "SQL_FIELD_NAME",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.SQL_FIELD_NAME")
+  @HopMetadataProperty(key = "sql_field", injectionKey = "SQL_FIELD_NAME", injectionKeyDescription = "ExecSqlRowMeta.Injection.SQL_FIELD_NAME")
   private String sqlField;
 
-  @HopMetadataProperty(
-      key = "update_field",
-      injectionKey = "UPDATE_STATS",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.UPDATE_STATS")
+  @HopMetadataProperty(key = "update_field", injectionKey = "UPDATE_STATS", injectionKeyDescription = "ExecSqlRowMeta.Injection.UPDATE_STATS")
   private String updateField;
 
-  @HopMetadataProperty(
-      key = "insert_field",
-      injectionKey = "INSERT_STATS",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.INSERT_STATS")
+  @HopMetadataProperty(key = "insert_field", injectionKey = "INSERT_STATS", injectionKeyDescription = "ExecSqlRowMeta.Injection.INSERT_STATS")
   private String insertField;
 
-  @HopMetadataProperty(
-      key = "delete_field",
-      injectionKey = "DELETE_STATS",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.DELETE_STATS")
+  @HopMetadataProperty(key = "delete_field", injectionKey = "DELETE_STATS", injectionKeyDescription = "ExecSqlRowMeta.Injection.DELETE_STATS")
   private String deleteField;
 
-  @HopMetadataProperty(
-      key = "read_field",
-      injectionKey = "READ_STATS",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.READ_STATS")
+  @HopMetadataProperty(key = "read_field", injectionKey = "READ_STATS", injectionKeyDescription = "ExecSqlRowMeta.Injection.READ_STATS")
   private String readField;
 
   /** Commit size for inserts/updates */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKey = "COMMIT_SIZE",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.COMMIT_SIZE")
+  @HopMetadataProperty(key = "commit", injectionKey = "COMMIT_SIZE", injectionKeyDescription = "ExecSqlRowMeta.Injection.COMMIT_SIZE")
   private int commitSize;
 
-  @HopMetadataProperty(
-      injectionKey = "READ_SQL_FROM_FILE",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.READ_SQL_FROM_FILE",
-      defaultBoolean = false)
+  @HopMetadataProperty(injectionKey = "READ_SQL_FROM_FILE", injectionKeyDescription = "ExecSqlRowMeta.Injection.READ_SQL_FROM_FILE", defaultBoolean = false)
   private boolean sqlFromfile;
 
   /** Send SQL as single statement */
-  @HopMetadataProperty(
-      injectionKey = "SEND_SINGLE_STATEMENT",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.SEND_SINGLE_STATEMENT",
-      defaultBoolean = false)
+  @HopMetadataProperty(injectionKey = "SEND_SINGLE_STATEMENT", injectionKeyDescription = "ExecSqlRowMeta.Injection.SEND_SINGLE_STATEMENT", defaultBoolean = false)
   private boolean sendOneStatement;
 
-  @HopMetadataProperty(
-      injectionKey = "CONNECTION_NAME",
-      injectionKeyDescription = "ExecSqlRowMeta.Injection.CONNECTION_NAME")
+  @HopMetadataProperty(injectionKey = "CONNECTION_NAME", injectionKeyDescription = "ExecSqlRowMeta.Injection.CONNECTION_NAME")
   private String connection;
 
   public ExecSqlRowMeta() {
@@ -251,17 +225,9 @@ public class ExecSqlRowMeta extends BaseTransformMeta<ExecSqlRow, ExecSqlRowData
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
-    RowMetaAndData add =
-        ExecSqlRow.getResultRow(
-            new Result(), getUpdateField(), getInsertField(), getDeleteField(), getReadField());
+    RowMetaAndData add = ExecSqlRow.getResultRow(new Result(), getUpdateField(), getInsertField(), getDeleteField(), getReadField());
 
     r.mergeRowMeta(add.getRowMeta());
   }
@@ -282,75 +248,41 @@ public class ExecSqlRowMeta extends BaseTransformMeta<ExecSqlRow, ExecSqlRowData
 
     try {
 
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseMeta != null) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ConnectionExists"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ConnectionExists"), transformMeta);
         remarks.add(cr);
 
         db = new Database(loggingObject, variables, databaseMeta);
         databases = new Database[] {db}; // keep track of it for cancelling purposes...
 
         db.connect();
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.DBConnectionOK"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.DBConnectionOK"), transformMeta);
         remarks.add(cr);
 
         if (sqlField != null && sqlField.length() != 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.SQLFieldNameEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.SQLFieldNameEntered"), transformMeta);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.SQLFieldNameMissing"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.SQLFieldNameMissing"), transformMeta);
         }
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ConnectionNeeded"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ConnectionNeeded"), transformMeta);
         remarks.add(cr);
       }
     } catch (HopException e) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ErrorOccurred")
-                  + e.getMessage(),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.ErrorOccurred") + e.getMessage(), transformMeta);
       remarks.add(cr);
     } finally {
       db.disconnect();
     }
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.TransformReceivingInfoOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.TransformReceivingInfoOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecSqlRowMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

@@ -83,7 +83,7 @@ public class PoiWorkbook implements IKWorkbook {
   @Override
   public void close() {
     try {
-      if (workbook!=null) {
+      if (workbook != null) {
         workbook.close();
       }
       if (poifs != null) {

@@ -65,13 +65,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
   private static final Lock repoSaveLock = new ReentrantLock();
 
-  public MetaInject(
-      TransformMeta transformMeta,
-      MetaInjectMeta meta,
-      MetaInjectData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public MetaInject(TransformMeta transformMeta, MetaInjectMeta meta, MetaInjectData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
   }
 
@@ -86,8 +80,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
     for (String prevTransformName : getPipelineMeta().getPrevTransformNames(getTransformMeta())) {
       // Don't read from the streaming source transform
       //
-      if (!data.streaming
-          || !prevTransformName.equalsIgnoreCase(data.streamingSourceTransformName)) {
+      if (!data.streaming || !prevTransformName.equalsIgnoreCase(data.streamingSourceTransformName)) {
         List<RowMetaAndData> list = new ArrayList<>();
         IRowSet rowSet = findInputRowSet(prevTransformName);
         Object[] row = getRowFrom(rowSet);
@@ -99,7 +92,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
           row = getRowFrom(rowSet);
         }
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
           receivedRows = false;
           break;
         }
@@ -116,7 +109,8 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       newInjection(en.getKey(), en.getValue());
     }
     /*
-     * constants injection should be executed after transforms, because if constant should be inserted into target with array
+     * constants injection should be executed after transforms, because if constant should be inserted
+     * into target with array
      * in path, constants should be inserted into all arrays items
      */
     for (Entry<String, ITransformMeta> en : data.transformInjectionMetasMap.entrySet()) {
@@ -129,8 +123,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
     for (String targetTransformName : data.transformInjectionMetasMap.keySet()) {
       if (!data.transformInjectionMetasMap.containsKey(targetTransformName)) {
-        TransformMeta targetTransform =
-            TransformMeta.findTransform(transforms, targetTransformName);
+        TransformMeta targetTransform = TransformMeta.findTransform(transforms, targetTransformName);
         if (targetTransform != null) {
           targetTransform.getTransform().searchInfoAndTargetTransforms(transforms);
         }
@@ -172,10 +165,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
       // See if we need to stream some data over...
       //
-      RowProducer rowProducer =
-          data.streaming
-              ? injectPipeline.addRowProducer(data.streamingTargetTransformName, 0)
-              : null;
+      RowProducer rowProducer = data.streaming ? injectPipeline.addRowProducer(data.streamingTargetTransformName, 0) : null;
 
       // Finally, add the mapping transformation to the active sub-transformations
       // map in the parent transformation
@@ -183,22 +173,18 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       getPipeline().addActiveSubPipeline(getTransformName(), injectPipeline);
 
       if (!Utils.isEmpty(meta.getSourceTransformName())) {
-        ITransform transformInterface =
-            injectPipeline.getTransform(meta.getSourceTransformName(), 0);
+        ITransform transformInterface = injectPipeline.getTransform(meta.getSourceTransformName(), 0);
         if (transformInterface == null) {
-          throw new HopException(
-              "Unable to find transform '" + meta.getSourceTransformName() + "' to read from.");
+          throw new HopException("Unable to find transform '" + meta.getSourceTransformName() + "' to read from.");
         }
-        transformInterface.addRowListener(
-            new RowAdapter() {
-              @Override
-              public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                  throws HopTransformException {
-                // Just pass along the data as output of this transform...
-                //
-                MetaInject.this.putRow(rowMeta, row);
-              }
-            });
+        transformInterface.addRowListener(new RowAdapter() {
+          @Override
+          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+            // Just pass along the data as output of this transform...
+            //
+            MetaInject.this.putRow(rowMeta, row);
+          }
+        });
       }
 
       injectPipeline.startThreads();
@@ -209,10 +195,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
         //
         IRowSet rowSet = findInputRowSet(data.streamingSourceTransformName);
         if (rowSet == null) {
-          throw new HopException(
-              "Unable to find transform '"
-                  + data.streamingSourceTransformName
-                  + "' to stream data from");
+          throw new HopException("Unable to find transform '" + data.streamingSourceTransformName + "' to stream data from");
         }
         steamingFuture = ExecutorUtil.getExecutor().submit(() -> putRows(rowSet, rowProducer));
       }
@@ -280,10 +263,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
   Pipeline createInjectPipeline() throws HopException {
     LocalPipelineEngine lpe = new LocalPipelineEngine(data.pipelineMeta, this, this);
     if (!Utils.isEmpty(meta.getRunConfigurationName())) {
-      PipelineRunConfiguration prc =
-          metadataProvider
-              .getSerializer(PipelineRunConfiguration.class)
-              .load(meta.getRunConfigurationName());
+      PipelineRunConfiguration prc = metadataProvider.getSerializer(PipelineRunConfiguration.class).load(meta.getRunConfigurationName());
       lpe.setPipelineRunConfiguration(prc);
     }
     return lpe;
@@ -313,8 +293,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       os.write(XmlHandler.getXmlHeader().getBytes(Const.XML_ENCODING));
       os.write(data.pipelineMeta.getXml(this).getBytes(Const.XML_ENCODING));
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to write target file (hpl after injection) to file '" + targetFilePath + "'", e);
+      throw new HopException("Unable to write target file (hpl after injection) to file '" + targetFilePath + "'", e);
     } finally {
       if (os != null) {
         try {
@@ -336,32 +315,19 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
       if (parentfolder.exists()) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "MetaInject.Log.ParentFolderExist", HopVfs.getFriendlyURI(parentfolder)));
+          logDetailed(BaseMessages.getString(PKG, "MetaInject.Log.ParentFolderExist", HopVfs.getFriendlyURI(parentfolder)));
         }
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "MetaInject.Log.ParentFolderNotExist", HopVfs.getFriendlyURI(parentfolder)));
+          logDetailed(BaseMessages.getString(PKG, "MetaInject.Log.ParentFolderNotExist", HopVfs.getFriendlyURI(parentfolder)));
         }
         if (meta.isCreateParentFolder()) {
           parentfolder.createFolder();
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "MetaInject.Log.ParentFolderCreated",
-                    HopVfs.getFriendlyURI(parentfolder)));
+            logDetailed(BaseMessages.getString(PKG, "MetaInject.Log.ParentFolderCreated", HopVfs.getFriendlyURI(parentfolder)));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "MetaInject.Log.ParentFolderNotExistCreateIt",
-                  HopVfs.getFriendlyURI(parentfolder),
-                  HopVfs.getFriendlyURI(filename)));
+          throw new HopException(BaseMessages.getString(PKG, "MetaInject.Log.ParentFolderNotExistCreateIt", HopVfs.getFriendlyURI(parentfolder), HopVfs.getFriendlyURI(filename)));
         }
       }
     } finally {
@@ -376,8 +342,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
   }
 
   /** Inject values from transforms. */
-  private void newInjection(String targetTransform, ITransformMeta targetTransformMeta)
-      throws HopException {
+  private void newInjection(String targetTransform, ITransformMeta targetTransformMeta) throws HopException {
     if (log.isDetailed()) {
       logDetailed("Handing transform '" + targetTransform + "' injection!");
     }
@@ -407,30 +372,19 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
               boolean skip = false;
               for (RowMetaAndData r : rows) {
                 if (r.getRowMeta().indexOfValue(source.getField()) < 0) {
-                  logError(
-                      BaseMessages.getString(
-                          PKG,
-                          "MetaInject.SourceFieldIsNotDefined.Message",
-                          source.getField(),
-                          getPipelineMeta().getName()));
+                  logError(BaseMessages.getString(PKG, "MetaInject.SourceFieldIsNotDefined.Message", source.getField(), getPipelineMeta().getName()));
                   // source transform doesn't contain specified field
                   skip = true;
                 }
               }
               if (!skip) {
                 // specified field exist - need to inject
-                injector.setProperty(
-                    targetTransformMeta, target.getAttributeKey(), rows, source.getField());
+                injector.setProperty(targetTransformMeta, target.getAttributeKey(), rows, source.getField());
                 wasInjection = true;
               }
             } else {
               // target transform doesn't have specified key - just report but don't fail like in
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "MetaInject.TargetKeyIsNotDefined.Message",
-                      target.getAttributeKey(),
-                      getPipelineMeta().getName()));
+              logError(BaseMessages.getString(PKG, "MetaInject.TargetKeyIsNotDefined.Message", target.getAttributeKey(), getPipelineMeta().getName()));
             }
           }
         }
@@ -441,13 +395,13 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
     }
   }
 
-  /** Inject constant values.
+  /**
+   * Inject constant values.
    * @param variables
    * @param targetTransform
    * @param targetTransformMeta
    */
-  private void newInjectionConstants(IVariables variables, String targetTransform, ITransformMeta targetTransformMeta)
-      throws HopException {
+  private void newInjectionConstants(IVariables variables, String targetTransform, ITransformMeta targetTransformMeta) throws HopException {
     if (log.isDetailed()) {
       logDetailed("Handing transform '" + targetTransform + "' constants injection!");
     }
@@ -469,16 +423,10 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
           if (injector.hasProperty(targetTransformMeta, target.getAttributeKey())) {
             // target transform has specified key
             String value = variables.resolve(source.getField());
-            injector.setProperty(
-                targetTransformMeta, target.getAttributeKey(), null, value);
+            injector.setProperty(targetTransformMeta, target.getAttributeKey(), null, value);
           } else {
             // target transform doesn't have specified key - just report but don't fail like in 6.0
-            logError(
-                BaseMessages.getString(
-                    PKG,
-                    "MetaInject.TargetKeyIsNotDefined.Message",
-                    target.getAttributeKey(),
-                    getPipelineMeta().getName()));
+            logError(BaseMessages.getString(PKG, "MetaInject.TargetKeyIsNotDefined.Message", target.getAttributeKey(), getPipelineMeta().getName()));
           }
         }
       }
@@ -518,8 +466,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
         // See if we need to stream data from a specific transform into the template
         //
-        if (meta.getStreamSourceTransform() != null
-            && !Utils.isEmpty(meta.getStreamTargetTransformName())) {
+        if (meta.getStreamSourceTransform() != null && !Utils.isEmpty(meta.getStreamTargetTransformName())) {
           data.streaming = true;
           data.streamingSourceTransformName = meta.getStreamSourceTransform().getName();
           data.streamingTargetTransformName = meta.getStreamTargetTransformName();
@@ -536,11 +483,9 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
   }
 
   private void checkTargetTransformsAvailability() {
-    Set<String> existedTransformNames =
-        convertToUpperCaseSet(data.pipelineMeta.getTransformNames());
+    Set<String> existedTransformNames = convertToUpperCaseSet(data.pipelineMeta.getTransformNames());
     Map<TargetTransformAttribute, SourceTransformField> targetMap = meta.getTargetSourceMapping();
-    Set<TargetTransformAttribute> unavailableTargetTransforms =
-        getUnavailableTargetTransforms(targetMap, data.pipelineMeta);
+    Set<TargetTransformAttribute> unavailableTargetTransforms = getUnavailableTargetTransforms(targetMap, data.pipelineMeta);
     Set<String> alreadyMarkedTransforms = new HashSet<>();
     for (TargetTransformAttribute currentTarget : unavailableTargetTransforms) {
       if (alreadyMarkedTransforms.contains(currentTarget.getTransformName())) {
@@ -548,19 +493,9 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       }
       alreadyMarkedTransforms.add(currentTarget.getTransformName());
       if (existedTransformNames.contains(currentTarget.getTransformName().toUpperCase())) {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "MetaInject.TargetTransformIsNotUsed.Message",
-                currentTarget.getTransformName(),
-                data.pipelineMeta.getName()));
+        logError(BaseMessages.getString(PKG, "MetaInject.TargetTransformIsNotUsed.Message", currentTarget.getTransformName(), data.pipelineMeta.getName()));
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "MetaInject.TargetTransformIsNotDefined.Message",
-                currentTarget.getTransformName(),
-                data.pipelineMeta.getName()));
+        logError(BaseMessages.getString(PKG, "MetaInject.TargetTransformIsNotDefined.Message", currentTarget.getTransformName(), data.pipelineMeta.getName()));
       }
     }
     // alreadyMarked contains wrong transforms. Hop-Gui can report error if it will not fail
@@ -571,22 +506,18 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
       Map<TargetTransformAttribute, SourceTransformField> targetMap,
       Set<SourceTransformField> unavailableSourceTransforms,
       Set<TargetTransformAttribute> unavailableTargetTransforms) {
-    Iterator<Entry<TargetTransformAttribute, SourceTransformField>> targetMapIterator =
-        targetMap.entrySet().iterator();
+    Iterator<Entry<TargetTransformAttribute, SourceTransformField>> targetMapIterator = targetMap.entrySet().iterator();
     while (targetMapIterator.hasNext()) {
       Entry<TargetTransformAttribute, SourceTransformField> entry = targetMapIterator.next();
       SourceTransformField currentSourceTransformField = entry.getValue();
       TargetTransformAttribute currentTargetTransformAttribute = entry.getKey();
-      if (unavailableSourceTransforms.contains(currentSourceTransformField)
-          || unavailableTargetTransforms.contains(currentTargetTransformAttribute)) {
+      if (unavailableSourceTransforms.contains(currentSourceTransformField) || unavailableTargetTransforms.contains(currentTargetTransformAttribute)) {
         targetMapIterator.remove();
       }
     }
   }
 
-  public static Set<TargetTransformAttribute> getUnavailableTargetTransforms(
-      Map<TargetTransformAttribute, SourceTransformField> targetMap,
-      PipelineMeta injectedPipelineMeta) {
+  public static Set<TargetTransformAttribute> getUnavailableTargetTransforms(Map<TargetTransformAttribute, SourceTransformField> targetMap, PipelineMeta injectedPipelineMeta) {
     Set<String> usedTransformNames = getUsedTransformsForReferencedPipeline(injectedPipelineMeta);
     Set<TargetTransformAttribute> unavailableTargetTransforms = new HashSet<>();
     for (TargetTransformAttribute currentTarget : targetMap.keySet()) {
@@ -614,8 +545,7 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
     return missingKeys;
   }
 
-  private static Map<String, BeanInjectionInfo> getUsedTransformBeanInfos(
-      PipelineMeta pipelineMeta) {
+  private static Map<String, BeanInjectionInfo> getUsedTransformBeanInfos(PipelineMeta pipelineMeta) {
     Map<String, BeanInjectionInfo> res = new HashMap<>();
     for (TransformMeta transformMeta : pipelineMeta.getUsedTransforms()) {
       Class<? extends ITransformMeta> transformMetaClass = transformMeta.getTransform().getClass();
@@ -653,20 +583,14 @@ public class MetaInject extends BaseTransform<MetaInjectMeta, MetaInjectData> {
 
   private void checkSourceTransformsAvailability() {
     Map<TargetTransformAttribute, SourceTransformField> targetMap = meta.getTargetSourceMapping();
-    Set<SourceTransformField> unavailableSourceTransforms =
-        getUnavailableSourceTransforms(targetMap, getPipelineMeta(), getTransformMeta());
+    Set<SourceTransformField> unavailableSourceTransforms = getUnavailableSourceTransforms(targetMap, getPipelineMeta(), getTransformMeta());
     Set<String> alreadyMarkedTransforms = new HashSet<>();
     for (SourceTransformField currentSource : unavailableSourceTransforms) {
       if (alreadyMarkedTransforms.contains(currentSource.getTransformName())) {
         continue;
       }
       alreadyMarkedTransforms.add(currentSource.getTransformName());
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "MetaInject.SourceTransformIsNotAvailable.Message",
-              currentSource.getTransformName(),
-              getPipelineMeta().getName()));
+      logError(BaseMessages.getString(PKG, "MetaInject.SourceTransformIsNotAvailable.Message", currentSource.getTransformName(), getPipelineMeta().getName()));
     }
   }
 

@@ -70,8 +70,7 @@ public class PipelineEnginePluginType extends BasePluginType<PipelineEnginePlugi
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, PipelineEnginePlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, PipelineEnginePlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(PipelineEnginePlugin annotation) {

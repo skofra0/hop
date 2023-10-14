@@ -22,7 +22,6 @@ import org.junit.Test;
 public class GetTableNamesMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    TransformSerializationTestUtil.testSerialization(
-        "/get-table-names-transform.xml", GetTableNamesMeta.class);
+    TransformSerializationTestUtil.testSerialization("/get-table-names-transform.xml", GetTableNamesMeta.class);
   }
 }

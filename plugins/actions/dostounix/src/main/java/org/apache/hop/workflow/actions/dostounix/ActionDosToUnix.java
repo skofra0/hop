@@ -68,12 +68,10 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
   public static final String[] ConversionTypeDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.Guess.Label"),
-        BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.DosToUnix.Label"),
-        BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.UnixToDos.Label")
-      };
-  public static final String[] ConversionTypeCode =
-      new String[] {"guess", "dostounix", "unixtodos"};
+          BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.Guess.Label"),
+          BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.DosToUnix.Label"),
+          BaseMessages.getString(PKG, "ActionDosToUnix.ConversionType.UnixToDos.Label")};
+  public static final String[] ConversionTypeCode = new String[] {"guess", "dostounix", "unixtodos"};
 
   public static final int CONVERTION_TYPE_GUESS = 0;
   public static final int CONVERTION_TYPE_DOS_TO_UNIX = 1;
@@ -163,15 +161,9 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
     if (sourceFileFolder != null) {
       for (int i = 0; i < sourceFileFolder.length; i++) {
         retval.append("        <field>").append(Const.CR);
-        retval
-            .append("          ")
-            .append(XmlHandler.addTagValue("source_filefolder", sourceFileFolder[i]));
+        retval.append("          ").append(XmlHandler.addTagValue("source_filefolder", sourceFileFolder[i]));
         retval.append("          ").append(XmlHandler.addTagValue("wildcard", wildcard[i]));
-        retval
-            .append("          ")
-            .append(
-                XmlHandler.addTagValue(
-                    "ConversionType", getConversionTypeCode(conversionTypes[i])));
+        retval.append("          ").append(XmlHandler.addTagValue("ConversionType", getConversionTypeCode(conversionTypes[i])));
         retval.append("        </field>").append(Const.CR);
       }
     }
@@ -223,15 +215,12 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
 
-      argFromPrevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
-      includeSubFolders =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
+      argFromPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
+      includeSubFolders = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
 
       nrErrorsLessThan = XmlHandler.getTagValue(entrynode, "nr_errors_less_than");
       successCondition = XmlHandler.getTagValue(entrynode, "success_condition");
@@ -249,13 +238,11 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
         sourceFileFolder[i] = XmlHandler.getTagValue(fnode, "source_filefolder");
         wildcard[i] = XmlHandler.getTagValue(fnode, "wildcard");
-        conversionTypes[i] =
-            getConversionTypeByCode(Const.NVL(XmlHandler.getTagValue(fnode, "ConversionType"), ""));
+        conversionTypes[i] = getConversionTypeByCode(Const.NVL(XmlHandler.getTagValue(fnode, "ConversionType"), ""));
       }
     } catch (HopXmlException xe) {
 
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionDosToUnix.Error.Exception.UnableLoadXML"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionDosToUnix.Error.Exception.UnableLoadXML"), xe);
     }
   }
 
@@ -282,11 +269,7 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
     if (argFromPrevious) {
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "JobDosToUnix.Log.ArgFromPrevious.Found",
-                (rows != null ? rows.size() : 0) + ""));
+        logDetailed(BaseMessages.getString(PKG, "JobDosToUnix.Log.ArgFromPrevious.Found", (rows != null ? rows.size() : 0) + ""));
       }
     }
     if (argFromPrevious && rows != null) {
@@ -294,9 +277,7 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
       for (int iteration = 0; iteration < rows.size() && !parentWorkflow.isStopped(); iteration++) {
         if (successConditionBroken) {
           if (!successConditionBrokenExit) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
+            logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
             successConditionBrokenExit = true;
           }
           result.setEntryNr(nrAllErrors);
@@ -313,24 +294,16 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
         int conversionType = ActionDosToUnix.getConversionTypeByCode(resultRow.getString(2, null));
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "JobDosToUnix.Log.ProcessingRow",
-                  vSourceFileFolderPrevious,
-                  vWildcardPrevious));
+          logDetailed(BaseMessages.getString(PKG, "JobDosToUnix.Log.ProcessingRow", vSourceFileFolderPrevious, vWildcardPrevious));
         }
 
-        processFileFolder(
-            vSourceFileFolderPrevious, vWildcardPrevious, conversionType, parentWorkflow, result);
+        processFileFolder(vSourceFileFolderPrevious, vWildcardPrevious, conversionType, parentWorkflow, result);
       }
     } else if (vSourceFileFolder != null) {
       for (int i = 0; i < vSourceFileFolder.length && !parentWorkflow.isStopped(); i++) {
         if (successConditionBroken) {
           if (!successConditionBrokenExit) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
+            logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
             successConditionBrokenExit = true;
           }
           result.setEntryNr(nrAllErrors);
@@ -340,13 +313,10 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
         }
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionDosToUnix.Log.ProcessingRow", vSourceFileFolder[i], vwildcard[i]));
+          logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.ProcessingRow", vSourceFileFolder[i], vwildcard[i]));
         }
 
-        processFileFolder(
-            vSourceFileFolder[i], vwildcard[i], conversionTypes[i], parentWorkflow, result);
+        processFileFolder(vSourceFileFolder[i], vwildcard[i], conversionTypes[i], parentWorkflow, result);
       }
     }
 
@@ -369,17 +339,14 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
       logDetailed("=======================================");
       logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.Info.Errors", nrErrors));
       logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.Info.ErrorFiles", nrErrorFiles));
-      logDetailed(
-          BaseMessages.getString(PKG, "ActionDosToUnix.Log.Info.FilesProcessed", nrProcessedFiles));
+      logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.Info.FilesProcessed", nrProcessedFiles));
       logDetailed("=======================================");
     }
   }
 
   private boolean checkIfSuccessConditionBroken() {
     boolean retval = false;
-    if ((nrAllErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrErrorFiles >= limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_ERROR_FILES_LESS))) {
+    if ((nrAllErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS)) || (nrErrorFiles >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERROR_FILES_LESS))) {
       retval = true;
     }
     return retval;
@@ -389,10 +356,8 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
     boolean retval = false;
 
     if ((nrAllErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrProcessedFiles >= limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_PROCESSED))
-        || (nrErrorFiles < limitFiles
-            && getSuccessCondition().equals(SUCCESS_IF_ERROR_FILES_LESS))) {
+        || (nrProcessedFiles >= limitFiles && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FILES_PROCESSED))
+        || (nrErrorFiles < limitFiles && getSuccessCondition().equals(SUCCESS_IF_ERROR_FILES_LESS))) {
       retval = true;
     }
 
@@ -452,27 +417,20 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
       File source = new File(localfilename);
       if (isDetailed()) {
         if (toUnix) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionDosToUnix.Log.ConvertingFileToUnix", source.getAbsolutePath()));
+          logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.ConvertingFileToUnix", source.getAbsolutePath()));
         } else {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionDosToUnix.Log.ConvertingFileToDos", source.getAbsolutePath()));
+          logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.ConvertingFileToDos", source.getAbsolutePath()));
         }
       }
       File tempFile = new File(tempFolder, source.getName() + ".tmp");
 
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "ActionDosToUnix.Log.CreatingTempFile", tempFile.getAbsolutePath()));
+        logDebug(BaseMessages.getString(PKG, "ActionDosToUnix.Log.CreatingTempFile", tempFile.getAbsolutePath()));
       }
 
       final int FOUR_KB = 4 * 1024;
       byte[] buffer = new byte[FOUR_KB];
-      try (FileOutputStream out = new FileOutputStream(tempFile);
-          FileInputStream in = new FileInputStream(localfilename)) {
+      try (FileOutputStream out = new FileOutputStream(tempFile); FileInputStream in = new FileInputStream(localfilename)) {
 
         ConversionAutomata automata = new ConversionAutomata(out, toUnix);
         int read;
@@ -482,35 +440,22 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
       }
 
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "ActionDosToUnix.Log.DeletingSourceFile", localfilename));
+        logDebug(BaseMessages.getString(PKG, "ActionDosToUnix.Log.DeletingSourceFile", localfilename));
       }
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG,
-                "JobDosToUnix.Log.RenamingTempFile",
-                tempFile.getAbsolutePath(),
-                source.getAbsolutePath()));
+        logDebug(BaseMessages.getString(PKG, "JobDosToUnix.Log.RenamingTempFile", tempFile.getAbsolutePath(), source.getAbsolutePath()));
       }
       Files.move(tempFile.toPath(), source.toPath(), StandardCopyOption.REPLACE_EXISTING);
       retval = true;
 
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionDosToUnix.Log.ErrorConvertingFile", file.toString(), e.getMessage()));
+      logError(BaseMessages.getString(PKG, "ActionDosToUnix.Log.ErrorConvertingFile", file.toString(), e.getMessage()));
     }
 
     return retval;
   }
 
-  private boolean processFileFolder(
-      String sourcefilefoldername,
-      String wildcard,
-      int convertion,
-      IWorkflowEngine<WorkflowMeta> parentWorkflow,
-      Result result) {
+  private boolean processFileFolder(String sourcefilefoldername, String wildcard, int convertion, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result result) {
     boolean entrystatus = false;
     FileObject sourcefilefolder = null;
     FileObject currentFile = null;
@@ -518,8 +463,7 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
     // Get real source file and wilcard
     String realSourceFilefoldername = resolve(sourcefilefoldername);
     if (Utils.isEmpty(realSourceFilefoldername)) {
-      logError(
-          BaseMessages.getString(PKG, "ActionDosToUnix.log.FileFolderEmpty", sourcefilefoldername));
+      logError(BaseMessages.getString(PKG, "ActionDosToUnix.log.FileFolderEmpty", sourcefilefoldername));
       // Update Errors
       updateErrors();
 
@@ -532,56 +476,50 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
       if (sourcefilefolder.exists()) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionDosToUnix.Log.FileExists", sourcefilefolder.toString()));
+          logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.FileExists", sourcefilefolder.toString()));
         }
         if (sourcefilefolder.getType() == FileType.FILE) {
           entrystatus = convertOneFile(sourcefilefolder, convertion, result, parentWorkflow);
 
         } else if (sourcefilefolder.getType() == FileType.FOLDER) {
-          FileObject[] fileObjects =
-              sourcefilefolder.findFiles(
-                  new AllFileSelector() {
-                    @Override
-                    public boolean traverseDescendents(FileSelectInfo info) {
-                      return info.getDepth() == 0 || includeSubFolders;
-                    }
+          FileObject[] fileObjects = sourcefilefolder.findFiles(new AllFileSelector() {
+            @Override
+            public boolean traverseDescendents(FileSelectInfo info) {
+              return info.getDepth() == 0 || includeSubFolders;
+            }
 
-                    @Override
-                    public boolean includeFile(FileSelectInfo info) {
+            @Override
+            public boolean includeFile(FileSelectInfo info) {
 
-                      FileObject fileObject = info.getFile();
-                      try {
-                        if (fileObject == null) {
-                          return false;
-                        }
-                        if (fileObject.getType() != FileType.FILE) {
-                          return false;
-                        }
-                      } catch (Exception ex) {
-                        // Upon error don't process the file.
-                        return false;
-                      } finally {
-                        if (fileObject != null) {
-                          try {
-                            fileObject.close();
-                          } catch (IOException ex) {
-                            /* Ignore */
-                          }
-                        }
-                      }
-                      return true;
-                    }
-                  });
+              FileObject fileObject = info.getFile();
+              try {
+                if (fileObject == null) {
+                  return false;
+                }
+                if (fileObject.getType() != FileType.FILE) {
+                  return false;
+                }
+              } catch (Exception ex) {
+                // Upon error don't process the file.
+                return false;
+              } finally {
+                if (fileObject != null) {
+                  try {
+                    fileObject.close();
+                  } catch (IOException ex) {
+                    /* Ignore */
+                  }
+                }
+              }
+              return true;
+            }
+          });
 
           if (fileObjects != null) {
             for (int j = 0; j < fileObjects.length && !parentWorkflow.isStopped(); j++) {
               if (successConditionBroken) {
                 if (!successConditionBrokenExit) {
-                  logError(
-                      BaseMessages.getString(
-                          PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
+                  logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.SuccessConditionbroken", "" + nrAllErrors));
                   successConditionBrokenExit = true;
                 }
                 return false;
@@ -606,26 +544,17 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
             }
           }
         } else {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionDosToUnix.Error.UnknowFileFormat", sourcefilefolder.toString()));
+          logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.UnknowFileFormat", sourcefilefolder.toString()));
           // Update Errors
           updateErrors();
         }
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionDosToUnix.Error.SourceFileNotExists", realSourceFilefoldername));
+        logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.SourceFileNotExists", realSourceFilefoldername));
         // Update Errors
         updateErrors();
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "JobDosToUnix.Error.Exception.Processing",
-              realSourceFilefoldername.toString(),
-              e.getMessage()));
+      logError(BaseMessages.getString(PKG, "JobDosToUnix.Error.Exception.Processing", realSourceFilefoldername.toString(), e.getMessage()));
       // Update Errors
       updateErrors();
     } finally {
@@ -647,9 +576,7 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
     return entrystatus;
   }
 
-  private boolean convertOneFile(
-      FileObject file, int convertion, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow)
-      throws HopException {
+  private boolean convertOneFile(FileObject file, int convertion, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) throws HopException {
     boolean retval = false;
     try {
       // We deal with a file..
@@ -677,28 +604,20 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
       retval = convert(file, convertToUnix);
 
       if (!retval) {
-        logError(
-            BaseMessages.getString(PKG, "ActionDosToUnix.Error.FileNotConverted", file.toString()));
+        logError(BaseMessages.getString(PKG, "ActionDosToUnix.Error.FileNotConverted", file.toString()));
         // Update Bad files number
         updateBadFormed();
-        if (resultFilenames.equals(ADD_ALL_FILENAMES)
-            || resultFilenames.equals(ADD_ERROR_FILES_ONLY)) {
+        if (resultFilenames.equals(ADD_ALL_FILENAMES) || resultFilenames.equals(ADD_ERROR_FILES_ONLY)) {
           addFileToResultFilenames(file, result, parentWorkflow);
         }
       } else {
         if (isDetailed()) {
           logDetailed("---------------------------");
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionDosToUnix.Error.FileConverted",
-                  file,
-                  convertToUnix ? "UNIX" : "DOS"));
+          logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Error.FileConverted", file, convertToUnix ? "UNIX" : "DOS"));
         }
         // Update processed files number
         updateProcessedFormed();
-        if (resultFilenames.equals(ADD_ALL_FILENAMES)
-            || resultFilenames.equals(ADD_PROCESSED_FILES_ONLY)) {
+        if (resultFilenames.equals(ADD_ALL_FILENAMES) || resultFilenames.equals(ADD_PROCESSED_FILES_ONLY)) {
           addFileToResultFilenames(file, result, parentWorkflow);
         }
       }
@@ -718,30 +637,17 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
     updateAllErrors();
   }
 
-  private void addFileToResultFilenames(
-      FileObject fileaddentry, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
+  private void addFileToResultFilenames(FileObject fileaddentry, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
     try {
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              fileaddentry,
-              parentWorkflow.getWorkflowName(),
-              toString());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, fileaddentry, parentWorkflow.getWorkflowName(), toString());
       result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
 
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "ActionDosToUnix.Log.FileAddedToResultFilesName", fileaddentry));
+        logDetailed(BaseMessages.getString(PKG, "ActionDosToUnix.Log.FileAddedToResultFilesName", fileaddentry));
       }
 
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "JobDosToUnix.Error.AddingToFilenameResult",
-              fileaddentry.toString(),
-              e.getMessage()));
+      logError(BaseMessages.getString(PKG, "JobDosToUnix.Error.AddingToFilenameResult", fileaddentry.toString(), e.getMessage()));
     }
   }
 
@@ -826,13 +732,13 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
     private void toUnix(byte[] input, int amount) throws IOException {
       // [0]:
-      //     read CR -> goto [1];
-      //     read __ -> write __;
+      // read CR -> goto [1];
+      // read __ -> write __;
       // [1]:
-      //     read LF -> write LF;           goto [0];
-      //     read CR -> write CR;                    // two CRs in a row -- write the first and hold
+      // read LF -> write LF; goto [0];
+      // read CR -> write CR; // two CRs in a row -- write the first and hold
       // the second
-      //     read __ -> write CR; write __; goto [0];
+      // read __ -> write CR; write __; goto [0];
 
       int index = 0;
       while (index < amount) {
@@ -865,13 +771,13 @@ public class ActionDosToUnix extends ActionBase implements Cloneable, IAction {
 
     private void toDos(byte[] input, int amount) throws IOException {
       // [0]:
-      //     read CR -> goto [1];
-      //     read LF -> write CR; write LF;
-      //     read __ -> write __;
+      // read CR -> goto [1];
+      // read LF -> write CR; write LF;
+      // read __ -> write __;
       // [1]:
-      //     read LF -> write CR; write LF; goto [0]; // read CR,LF -> write them
-      //     read CR -> write CR;
-      //     read __ -> write CR; write __; goto [0];
+      // read LF -> write CR; write LF; goto [0]; // read CR,LF -> write them
+      // read CR -> write CR;
+      // read __ -> write CR; write __; goto [0];
 
       int index = 0;
       while (index < amount) {

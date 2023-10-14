@@ -25,15 +25,13 @@ import org.apache.hop.workflow.config.WorkflowRunConfiguration;
 import org.apache.hop.workflow.engines.empty.EmptyWorkflowRunConfiguration;
 
 @GuiPlugin(description = "Local workflow run configuration widgets")
-public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
-    implements IWorkflowEngineRunConfiguration {
+public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration implements IWorkflowEngineRunConfiguration {
 
   @GuiWidgetElement(
       order = "20",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
   @HopMetadataProperty(key = "safe_mode")
   protected boolean safeModeEnabled;
 
@@ -42,10 +40,8 @@ public class LocalWorkflowRunConfiguration extends EmptyWorkflowRunConfiguration
       order = "090",
       parentId = WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.ToolTip")
+      label = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.Label",
+      toolTip = "i18n:org.apache.hop.ui.workflow.config:WorkflowRunConfigurationDialog.Transactional.ToolTip")
   @HopMetadataProperty(key = "transactional")
   protected boolean transactional;
 

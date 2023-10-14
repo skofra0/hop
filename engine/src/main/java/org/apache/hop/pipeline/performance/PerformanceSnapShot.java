@@ -57,19 +57,8 @@ public class PerformanceSnapShot {
    * @param totalLinesRejected
    * @param totalErrors
    */
-  public PerformanceSnapShot(
-      int seqNr,
-      Date date,
-      String parentName,
-      String componentName,
-      int copyNr,
-      long totalLinesRead,
-      long totalLinesWritten,
-      long totalLinesInput,
-      long totalLinesOutput,
-      long totalLinesUpdated,
-      long totalLinesRejected,
-      long totalErrors) {
+  public PerformanceSnapShot(int seqNr, Date date, String parentName, String componentName, int copyNr, long totalLinesRead, long totalLinesWritten, long totalLinesInput,
+      long totalLinesOutput, long totalLinesUpdated, long totalLinesRejected, long totalErrors) {
     this.seqNr = seqNr;
     this.date = date;
     this.parentName = parentName;

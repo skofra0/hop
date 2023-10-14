@@ -77,8 +77,7 @@ public class MetadataPluginType extends BasePluginType<HopMetadata> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, HopMetadata annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, HopMetadata annotation) {}
 
   @Override
   protected String extractDocumentationUrl(HopMetadata annotation) {

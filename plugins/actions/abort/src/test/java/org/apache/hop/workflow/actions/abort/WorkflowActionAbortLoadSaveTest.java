@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionAbortLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionAbort> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionAbortLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionAbort> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionAbort> getActionClass() {
@@ -40,9 +40,7 @@ public class WorkflowActionAbortLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "messageAbort", "getMessageAbort",
-        "alwaysLogRows", "isAlwaysLogRows");
+    return toMap("messageAbort", "getMessageAbort", "alwaysLogRows", "isAlwaysLogRows");
   }
 
   @Override

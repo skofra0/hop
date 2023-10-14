@@ -40,10 +40,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Contains MySQL specific information through static final members */
-@DatabaseMetaPlugin(
-    type = "MYSQL",
-    typeDescription = "MySQL",
-    documentationUrl = "/database/databases/mysql.html")
+@DatabaseMetaPlugin(type = "MYSQL", typeDescription = "MySQL", documentationUrl = "/database/databases/mysql.html")
 @GuiPlugin(id = "GUI-MySQLDatabaseMeta")
 public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   private static final Class<?> PKG = MySqlDatabaseMeta.class; // For Translator
@@ -85,8 +82,7 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   private static final int VARCHAR_LIMIT = 65_535;
 
-  private static final Set<String> SHORT_MESSAGE_EXCEPTIONS =
-      Sets.newHashSet("com.mysql.jdbc.PacketTooBigException", "com.mysql.jdbc.MysqlDataTruncation");
+  private static final Set<String> SHORT_MESSAGE_EXCEPTIONS = Sets.newHashSet("com.mysql.jdbc.PacketTooBigException", "com.mysql.jdbc.MysqlDataTruncation");
 
   @Override
   public int[] getAccessTypeList() {
@@ -176,7 +172,7 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
+   *         ; )
    */
   @Override
   public String getExtraOptionSeparator() {
@@ -243,12 +239,8 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -263,17 +255,12 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
     String retval = "";
 
     String fieldname = v.getName();
@@ -304,8 +291,7 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           if (useAutoinc) {
@@ -384,222 +370,221 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ADD",
-      "ALL",
-      "ALTER",
-      "ANALYZE",
-      "AND",
-      "AS",
-      "ASC",
-      "ASENSITIVE",
-      "BEFORE",
-      "BETWEEN",
-      "BIGINT",
-      "BINARY",
-      "BLOB",
-      "BOTH",
-      "BY",
-      "CALL",
-      "CASCADE",
-      "CASE",
-      "CHANGE",
-      "CHAR",
-      "CHARACTER",
-      "CHECK",
-      "COLLATE",
-      "COLUMN",
-      "CONDITION",
-      "CONNECTION",
-      "CONSTRAINT",
-      "CONTINUE",
-      "CONVERT",
-      "CREATE",
-      "CROSS",
-      "CURRENT_DATE",
-      "CURRENT_TIME",
-      "CURRENT_TIMESTAMP",
-      "CURRENT_USER",
-      "CURSOR",
-      "DATABASE",
-      "DATABASES",
-      "DAY_HOUR",
-      "DAY_MICROSECOND",
-      "DAY_MINUTE",
-      "DAY_SECOND",
-      "DEC",
-      "DECIMAL",
-      "DECLARE",
-      "DEFAULT",
-      "DELAYED",
-      "DELETE",
-      "DESC",
-      "DESCRIBE",
-      "DETERMINISTIC",
-      "DISTINCT",
-      "DISTINCTROW",
-      "DIV",
-      "DOUBLE",
-      "DROP",
-      "DUAL",
-      "EACH",
-      "ELSE",
-      "ELSEIF",
-      "ENCLOSED",
-      "ESCAPED",
-      "EXISTS",
-      "EXIT",
-      "EXPLAIN",
-      "FALSE",
-      "FETCH",
-      "FLOAT",
-      "FOR",
-      "FORCE",
-      "FOREIGN",
-      "FROM",
-      "FULLTEXT",
-      "GOTO",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "HIGH_PRIORITY",
-      "HOUR_MICROSECOND",
-      "HOUR_MINUTE",
-      "HOUR_SECOND",
-      "IF",
-      "IGNORE",
-      "IN",
-      "INDEX",
-      "INFILE",
-      "INNER",
-      "INOUT",
-      "INSENSITIVE",
-      "INSERT",
-      "INT",
-      "INTEGER",
-      "INTERVAL",
-      "INTO",
-      "IS",
-      "ITERATE",
-      "JOIN",
-      "KEY",
-      "KEYS",
-      "KILL",
-      "LEADING",
-      "LEAVE",
-      "LEFT",
-      "LIKE",
-      "LIMIT",
-      "LINES",
-      "LOAD",
-      "LOCALTIME",
-      "LOCALTIMESTAMP",
-      "LOCATE",
-      "LOCK",
-      "LONG",
-      "LONGBLOB",
-      "LONGTEXT",
-      "LOOP",
-      "LOW_PRIORITY",
-      "MATCH",
-      "MEDIUMBLOB",
-      "MEDIUMINT",
-      "MEDIUMTEXT",
-      "MIDDLEINT",
-      "MINUTE_MICROSECOND",
-      "MINUTE_SECOND",
-      "MOD",
-      "MODIFIES",
-      "NATURAL",
-      "NOT",
-      "NO_WRITE_TO_BINLOG",
-      "NULL",
-      "NUMERIC",
-      "ON",
-      "OPTIMIZE",
-      "OPTION",
-      "OPTIONALLY",
-      "OR",
-      "ORDER",
-      "OUT",
-      "OUTER",
-      "OUTFILE",
-      "POSITION",
-      "PRECISION",
-      "PRIMARY",
-      "PROCEDURE",
-      "PURGE",
-      "READ",
-      "READS",
-      "REAL",
-      "REFERENCES",
-      "REGEXP",
-      "RENAME",
-      "REPEAT",
-      "REPLACE",
-      "REQUIRE",
-      "RESTRICT",
-      "RETURN",
-      "REVOKE",
-      "RIGHT",
-      "RLIKE",
-      "SCHEMA",
-      "SCHEMAS",
-      "SECOND_MICROSECOND",
-      "SELECT",
-      "SENSITIVE",
-      "SEPARATOR",
-      "SET",
-      "SHOW",
-      "SMALLINT",
-      "SONAME",
-      "SPATIAL",
-      "SPECIFIC",
-      "SQL",
-      "SQLEXCEPTION",
-      "SQLSTATE",
-      "SQLWARNING",
-      "SQL_BIG_RESULT",
-      "SQL_CALC_FOUND_ROWS",
-      "SQL_SMALL_RESULT",
-      "SSL",
-      "STARTING",
-      "STRAIGHT_JOIN",
-      "TABLE",
-      "TERMINATED",
-      "THEN",
-      "TINYBLOB",
-      "TINYINT",
-      "TINYTEXT",
-      "TO",
-      "TRAILING",
-      "TRIGGER",
-      "TRUE",
-      "UNDO",
-      "UNION",
-      "UNIQUE",
-      "UNLOCK",
-      "UNSIGNED",
-      "UPDATE",
-      "USAGE",
-      "USE",
-      "USING",
-      "UTC_DATE",
-      "UTC_TIME",
-      "UTC_TIMESTAMP",
-      "VALUES",
-      "VARBINARY",
-      "VARCHAR",
-      "VARCHARACTER",
-      "VARYING",
-      "WHEN",
-      "WHERE",
-      "WHILE",
-      "WITH",
-      "WRITE",
-      "XOR",
-      "YEAR_MONTH",
-      "ZEROFILL"
-    };
+        "ADD",
+        "ALL",
+        "ALTER",
+        "ANALYZE",
+        "AND",
+        "AS",
+        "ASC",
+        "ASENSITIVE",
+        "BEFORE",
+        "BETWEEN",
+        "BIGINT",
+        "BINARY",
+        "BLOB",
+        "BOTH",
+        "BY",
+        "CALL",
+        "CASCADE",
+        "CASE",
+        "CHANGE",
+        "CHAR",
+        "CHARACTER",
+        "CHECK",
+        "COLLATE",
+        "COLUMN",
+        "CONDITION",
+        "CONNECTION",
+        "CONSTRAINT",
+        "CONTINUE",
+        "CONVERT",
+        "CREATE",
+        "CROSS",
+        "CURRENT_DATE",
+        "CURRENT_TIME",
+        "CURRENT_TIMESTAMP",
+        "CURRENT_USER",
+        "CURSOR",
+        "DATABASE",
+        "DATABASES",
+        "DAY_HOUR",
+        "DAY_MICROSECOND",
+        "DAY_MINUTE",
+        "DAY_SECOND",
+        "DEC",
+        "DECIMAL",
+        "DECLARE",
+        "DEFAULT",
+        "DELAYED",
+        "DELETE",
+        "DESC",
+        "DESCRIBE",
+        "DETERMINISTIC",
+        "DISTINCT",
+        "DISTINCTROW",
+        "DIV",
+        "DOUBLE",
+        "DROP",
+        "DUAL",
+        "EACH",
+        "ELSE",
+        "ELSEIF",
+        "ENCLOSED",
+        "ESCAPED",
+        "EXISTS",
+        "EXIT",
+        "EXPLAIN",
+        "FALSE",
+        "FETCH",
+        "FLOAT",
+        "FOR",
+        "FORCE",
+        "FOREIGN",
+        "FROM",
+        "FULLTEXT",
+        "GOTO",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "HIGH_PRIORITY",
+        "HOUR_MICROSECOND",
+        "HOUR_MINUTE",
+        "HOUR_SECOND",
+        "IF",
+        "IGNORE",
+        "IN",
+        "INDEX",
+        "INFILE",
+        "INNER",
+        "INOUT",
+        "INSENSITIVE",
+        "INSERT",
+        "INT",
+        "INTEGER",
+        "INTERVAL",
+        "INTO",
+        "IS",
+        "ITERATE",
+        "JOIN",
+        "KEY",
+        "KEYS",
+        "KILL",
+        "LEADING",
+        "LEAVE",
+        "LEFT",
+        "LIKE",
+        "LIMIT",
+        "LINES",
+        "LOAD",
+        "LOCALTIME",
+        "LOCALTIMESTAMP",
+        "LOCATE",
+        "LOCK",
+        "LONG",
+        "LONGBLOB",
+        "LONGTEXT",
+        "LOOP",
+        "LOW_PRIORITY",
+        "MATCH",
+        "MEDIUMBLOB",
+        "MEDIUMINT",
+        "MEDIUMTEXT",
+        "MIDDLEINT",
+        "MINUTE_MICROSECOND",
+        "MINUTE_SECOND",
+        "MOD",
+        "MODIFIES",
+        "NATURAL",
+        "NOT",
+        "NO_WRITE_TO_BINLOG",
+        "NULL",
+        "NUMERIC",
+        "ON",
+        "OPTIMIZE",
+        "OPTION",
+        "OPTIONALLY",
+        "OR",
+        "ORDER",
+        "OUT",
+        "OUTER",
+        "OUTFILE",
+        "POSITION",
+        "PRECISION",
+        "PRIMARY",
+        "PROCEDURE",
+        "PURGE",
+        "READ",
+        "READS",
+        "REAL",
+        "REFERENCES",
+        "REGEXP",
+        "RENAME",
+        "REPEAT",
+        "REPLACE",
+        "REQUIRE",
+        "RESTRICT",
+        "RETURN",
+        "REVOKE",
+        "RIGHT",
+        "RLIKE",
+        "SCHEMA",
+        "SCHEMAS",
+        "SECOND_MICROSECOND",
+        "SELECT",
+        "SENSITIVE",
+        "SEPARATOR",
+        "SET",
+        "SHOW",
+        "SMALLINT",
+        "SONAME",
+        "SPATIAL",
+        "SPECIFIC",
+        "SQL",
+        "SQLEXCEPTION",
+        "SQLSTATE",
+        "SQLWARNING",
+        "SQL_BIG_RESULT",
+        "SQL_CALC_FOUND_ROWS",
+        "SQL_SMALL_RESULT",
+        "SSL",
+        "STARTING",
+        "STRAIGHT_JOIN",
+        "TABLE",
+        "TERMINATED",
+        "THEN",
+        "TINYBLOB",
+        "TINYINT",
+        "TINYTEXT",
+        "TO",
+        "TRAILING",
+        "TRIGGER",
+        "TRUE",
+        "UNDO",
+        "UNION",
+        "UNIQUE",
+        "UNLOCK",
+        "UNSIGNED",
+        "UPDATE",
+        "USAGE",
+        "USE",
+        "USING",
+        "UTC_DATE",
+        "UTC_TIME",
+        "UTC_TIMESTAMP",
+        "VALUES",
+        "VARBINARY",
+        "VARCHAR",
+        "VARCHARACTER",
+        "VARYING",
+        "WHEN",
+        "WHERE",
+        "WHILE",
+        "WITH",
+        "WRITE",
+        "XOR",
+        "YEAR_MONTH",
+        "ZEROFILL"};
   }
 
   /*
@@ -675,15 +660,14 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL to insert the unknown record into the SCD.
    */
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + keyField + ", " + versionField + ") values (1, 1)";
   }
 
   /**
    * @param string
    * @return A string that is properly quoted for use in a SQL statement (insert, update, delete,
-   *     etc)
+   *         etc)
    */
   @Override
   public String quoteSqlString(String string) {
@@ -695,7 +679,7 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return true if the database is a MySQL variant, like MySQL 5.1, InfiniDB, InfoBright, and so
-   *     on.
+   *         on.
    */
   @Override
   public boolean isMySqlVariant() {
@@ -749,36 +733,23 @@ public class MySqlDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @param rsMetaData
    * @param index
    * @return The column label if version is greater than 3 or the column name if version is lower or
-   *     equal to 3.
+   *         equal to 3.
    * @throws HopDatabaseException
    */
   @Override
-  public String getLegacyColumnName(
-      DatabaseMetaData dbMetaData, ResultSetMetaData rsMetaData, int index)
-      throws HopDatabaseException {
+  public String getLegacyColumnName(DatabaseMetaData dbMetaData, ResultSetMetaData rsMetaData, int index) throws HopDatabaseException {
     if (dbMetaData == null) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameNoDBMetaDataException"));
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameNoDBMetaDataException"));
     }
 
     if (rsMetaData == null) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameNoRSMetaDataException"));
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameNoRSMetaDataException"));
     }
 
     try {
-      return dbMetaData.getDriverMajorVersion() > 3
-          ? rsMetaData.getColumnLabel(index)
-          : rsMetaData.getColumnName(index);
+      return dbMetaData.getDriverMajorVersion() > 3 ? rsMetaData.getColumnLabel(index) : rsMetaData.getColumnName(index);
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          String.format(
-              "%s: %s",
-              BaseMessages.getString(PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameException"),
-              e.getMessage()),
-          e);
+      throw new HopDatabaseException(String.format("%s: %s", BaseMessages.getString(PKG, "MySQLDatabaseMeta.Exception.LegacyColumnNameException"), e.getMessage()), e);
     }
   }
 

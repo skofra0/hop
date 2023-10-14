@@ -76,15 +76,10 @@ public enum FakerType {
   Witcher(com.github.javafaker.Witcher.class, "witcher", "Witcher"),
   DragonBall(com.github.javafaker.DragonBall.class, "dragonBall", "Dragon Ball"),
   FunnyName(com.github.javafaker.FunnyName.class, "funnyName", "Funny name"),
-  HitchhikersGuideToTheGalaxy(
-      com.github.javafaker.HitchhikersGuideToTheGalaxy.class,
-      "hitchhikersGuideToTheGalaxy",
-      "Hitchhikers guide to the galaxy"),
+  HitchhikersGuideToTheGalaxy(com.github.javafaker.HitchhikersGuideToTheGalaxy.class, "hitchhikersGuideToTheGalaxy", "Hitchhikers guide to the galaxy"),
   Hobbit(com.github.javafaker.Hobbit.class, "hobbit", "Hobbit"),
-  HowIMetYourMother(
-      com.github.javafaker.HowIMetYourMother.class, "howIMetYourMother", "How I met your mother"),
-  LeagueOfLegends(
-      com.github.javafaker.LeagueOfLegends.class, "leagueOfLegends", "League of Legends"),
+  HowIMetYourMother(com.github.javafaker.HowIMetYourMother.class, "howIMetYourMother", "How I met your mother"),
+  LeagueOfLegends(com.github.javafaker.LeagueOfLegends.class, "leagueOfLegends", "League of Legends"),
   Overwatch(com.github.javafaker.Overwatch.class, "overwatch", "Overwatch"),
   Robin(com.github.javafaker.Robin.class, "robin", "Robin"),
   StarTrek(com.github.javafaker.StarTrek.class, "starTrek", "Star Trek"),
@@ -93,21 +88,14 @@ public enum FakerType {
   Medical(com.github.javafaker.Medical.class, "medical", "Medical"),
   Country(com.github.javafaker.Country.class, "country", "Country"),
   Animal(com.github.javafaker.Animal.class, "animal", "Animal"),
-  BackToTheFuture(
-      com.github.javafaker.BackToTheFuture.class, "backToTheFuture", "Back to the future"),
+  BackToTheFuture(com.github.javafaker.BackToTheFuture.class, "backToTheFuture", "Back to the future"),
   PrincessBride(com.github.javafaker.PrincessBride.class, "princessBride", "Princess bride"),
   Buffy(com.github.javafaker.Buffy.class, "buffy", "Buffy"),
   Relationships(com.github.javafaker.Relationships.class, "relationshops", "Relationships"),
   Nation(com.github.javafaker.Nation.class, "nation", "Nation"),
   Dune(com.github.javafaker.Dune.class, "dune", "Dune"),
-  AquaTeenHungerForce(
-      com.github.javafaker.AquaTeenHungerForce.class,
-      "aquaTeenHungerForce",
-      "Aqua teen hunger force"),
-  ProgrammingLanguage(
-      com.github.javafaker.ProgrammingLanguage.class,
-      "programmingLanguage",
-      "Programming language");
+  AquaTeenHungerForce(com.github.javafaker.AquaTeenHungerForce.class, "aquaTeenHungerForce", "Aqua teen hunger force"),
+  ProgrammingLanguage(com.github.javafaker.ProgrammingLanguage.class, "programmingLanguage", "Programming language");
 
   private Class<?> fakerClass;
   private String fakerMethod;

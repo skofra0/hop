@@ -62,11 +62,8 @@ public class LoggingObject implements ILoggingObject {
       // Different filenames : different objects...
       //
       if (StringUtils.isNotEmpty(getFilename()) && StringUtils.isEmpty(loggingObject.getFilename())
-          || StringUtils.isEmpty(getFilename())
-              && StringUtils.isNotEmpty(loggingObject.getFilename())
-          || (StringUtils.isNotEmpty(getFilename())
-              && StringUtils.isNotEmpty(loggingObject.getFilename())
-              && !getFilename().equals(loggingObject.getFilename()))) {
+          || StringUtils.isEmpty(getFilename()) && StringUtils.isNotEmpty(loggingObject.getFilename())
+          || (StringUtils.isNotEmpty(getFilename()) && StringUtils.isNotEmpty(loggingObject.getFilename()) && !getFilename().equals(loggingObject.getFilename()))) {
         return false;
       }
 
@@ -75,22 +72,15 @@ public class LoggingObject implements ILoggingObject {
       //
       boolean sameCarteFamily =
           (getContainerId() == null && loggingObject.getContainerId() == null)
-              || (getContainerId() != null
-                  && loggingObject.getContainerId() != null
-                  && getContainerId().equals(loggingObject.getContainerId()));
+              || (getContainerId() != null && loggingObject.getContainerId() != null && getContainerId().equals(loggingObject.getContainerId()));
 
       // Check if objects have the same parent
       boolean sameParents =
           loggingObject.getParent() == null && this.getParent() == null
-              || loggingObject.getParent() != null
-                  && this.getParent() != null
-                  && loggingObject.getParent().equals(this.getParent());
+              || loggingObject.getParent() != null && this.getParent() != null && loggingObject.getParent().equals(this.getParent());
 
       // If the filename is the same and parent is the same, it's the same object...
-      if (sameCarteFamily
-          && !Utils.isEmpty(loggingObject.getFilename())
-          && loggingObject.getFilename().equals(getFilename())
-          && sameParents
+      if (sameCarteFamily && !Utils.isEmpty(loggingObject.getFilename()) && loggingObject.getFilename().equals(getFilename()) && sameParents
           && StringUtils.equals(loggingObject.getObjectName(), getObjectName())) {
         return true;
       }
@@ -98,21 +88,16 @@ public class LoggingObject implements ILoggingObject {
       // See if the carte family, the name & type and parent name & type is the same.
       // This will catch most matches except for the most exceptional use-case.
       //
-      if (!sameCarteFamily
-          || (loggingObject.getObjectName() == null && getObjectName() != null)
-          || (loggingObject.getObjectName() != null && getObjectName() == null)) {
+      if (!sameCarteFamily || (loggingObject.getObjectName() == null && getObjectName() != null) || (loggingObject.getObjectName() != null && getObjectName() == null)) {
         return false;
       }
 
-      if (sameCarteFamily
-          && ((loggingObject.getObjectName() == null && getObjectName() == null)
-              || (loggingObject.getObjectName().equals(getObjectName())))
+      if (sameCarteFamily && ((loggingObject.getObjectName() == null && getObjectName() == null) || (loggingObject.getObjectName().equals(getObjectName())))
           && loggingObject.getObjectType().equals(getObjectType())) {
 
         // If there are multiple copies of this object, they both need their own channel
         //
-        if (!Utils.isEmpty(getObjectCopy())
-            && !getObjectCopy().equals(loggingObject.getObjectCopy())) {
+        if (!Utils.isEmpty(getObjectCopy()) && !getObjectCopy().equals(loggingObject.getObjectCopy())) {
           return false;
         }
 
@@ -179,8 +164,7 @@ public class LoggingObject implements ILoggingObject {
       // memory
       //
       if (parent.getLogChannelId() != null) {
-        ILoggingObject parentLoggingObject =
-            LoggingRegistry.getInstance().getLoggingObject(parent.getLogChannelId());
+        ILoggingObject parentLoggingObject = LoggingRegistry.getInstance().getLoggingObject(parent.getLogChannelId());
         if (parentLoggingObject != null) {
           parent = parentLoggingObject;
         }

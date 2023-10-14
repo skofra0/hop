@@ -52,13 +52,7 @@ public class ParquetField {
     this.targetPrecision = f.targetPrecision;
   }
 
-  public ParquetField(
-      String sourceField,
-      String targetField,
-      String targetType,
-      String targetFormat,
-      String targetLength,
-      String targetPrecision) {
+  public ParquetField(String sourceField, String targetField, String targetType, String targetFormat, String targetLength, String targetPrecision) {
     this.sourceField = sourceField;
     this.targetField = targetField;
     this.targetType = targetType;

@@ -33,7 +33,8 @@ import java.util.Map;
 public class SampleRowsMetaTest {
   LoadSaveTester loadSaveTester;
   Class<SampleRowsMeta> testMetaClass = SampleRowsMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {

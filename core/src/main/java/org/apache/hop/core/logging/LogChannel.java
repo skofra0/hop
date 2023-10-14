@@ -64,7 +64,6 @@ public class LogChannel implements ILogChannel {
     this(subject, parentObject, false, false);
   }
 
-
   public LogChannel(Object subject, ILoggingObject parentObject, boolean gatheringMetrics) {
     this(subject, parentObject, gatheringMetrics, false);
   }
@@ -111,10 +110,7 @@ public class LogChannel implements ILogChannel {
 
     // Are the message filtered?
     //
-    if (!logLevel.isError()
-        && !Utils.isEmpty(filter)
-        && subject.indexOf(filter) < 0
-        && logMessage.toString().indexOf(filter) < 0) {
+    if (!logLevel.isError() && !Utils.isEmpty(filter) && subject.indexOf(filter) < 0 && logMessage.toString().indexOf(filter) < 0) {
 
       return; // "filter" not found in row: don't show!
     }
@@ -122,8 +118,7 @@ public class LogChannel implements ILogChannel {
     // Let's not keep everything...
     //
     if (channelLogLevel.getLevel() >= logLevel.getLevel()) {
-      HopLoggingEvent loggingEvent =
-          new HopLoggingEvent(logMessage, System.currentTimeMillis(), logLevel);
+      HopLoggingEvent loggingEvent = new HopLoggingEvent(logMessage, System.currentTimeMillis(), logLevel);
       HopLogStore.getAppender().addLogggingEvent(loggingEvent);
 
       if (this.fileWriter == null) {
@@ -141,8 +136,7 @@ public class LogChannel implements ILogChannel {
     println(message, channelLogLevel);
 
     String stackTrace = Const.getStackTracker(e);
-    LogMessage traceMessage =
-        new LogMessage(stackTrace, message.getLogChannelId(), LogLevel.ERROR, simplified);
+    LogMessage traceMessage = new LogMessage(stackTrace, message.getLogChannelId(), LogLevel.ERROR, simplified);
     println(traceMessage, channelLogLevel);
   }
 
@@ -203,14 +197,12 @@ public class LogChannel implements ILogChannel {
 
   @Override
   public void logMinimal(String message, Object... arguments) {
-    println(
-        new LogMessage(message, logChannelId, arguments, LogLevel.MINIMAL, simplified), logLevel);
+    println(new LogMessage(message, logChannelId, arguments, LogLevel.MINIMAL, simplified), logLevel);
   }
 
   @Override
   public void logRowlevel(String message, Object... arguments) {
-    println(
-        new LogMessage(message, logChannelId, arguments, LogLevel.ROWLEVEL, simplified), logLevel);
+    println(new LogMessage(message, logChannelId, arguments, LogLevel.ROWLEVEL, simplified), logLevel);
   }
 
   @Override
@@ -317,8 +309,7 @@ public class LogChannel implements ILogChannel {
             snapshot.setDate(new Date());
           }
         } else {
-          snapshot =
-              new MetricsSnapshot(MetricsSnapshotType.MAX, metric, subject, value[0], logChannelId);
+          snapshot = new MetricsSnapshot(MetricsSnapshotType.MAX, metric, subject, value[0], logChannelId);
           metricsMap.put(key, snapshot);
         }
 
@@ -338,8 +329,7 @@ public class LogChannel implements ILogChannel {
             snapshot.setDate(new Date());
           }
         } else {
-          snapshot =
-              new MetricsSnapshot(MetricsSnapshotType.MIN, metric, subject, value[0], logChannelId);
+          snapshot = new MetricsSnapshot(MetricsSnapshotType.MIN, metric, subject, value[0], logChannelId);
           metricsMap.put(key, snapshot);
         }
 
@@ -350,8 +340,7 @@ public class LogChannel implements ILogChannel {
         if (snapshot != null) {
           snapshot.setValue(snapshot.getValue() + value[0]);
         } else {
-          snapshot =
-              new MetricsSnapshot(MetricsSnapshotType.SUM, metric, subject, value[0], logChannelId);
+          snapshot = new MetricsSnapshot(MetricsSnapshotType.SUM, metric, subject, value[0], logChannelId);
           metricsMap.put(key, snapshot);
         }
 
@@ -362,16 +351,14 @@ public class LogChannel implements ILogChannel {
         if (snapshot != null) {
           snapshot.setValue(snapshot.getValue() + 1L);
         } else {
-          snapshot =
-              new MetricsSnapshot(MetricsSnapshotType.COUNT, metric, subject, 1L, logChannelId);
+          snapshot = new MetricsSnapshot(MetricsSnapshotType.COUNT, metric, subject, 1L, logChannelId);
           metricsMap.put(key, snapshot);
         }
 
         break;
       case START:
         metricsList = metricsRegistry.getSnapshotList(logChannelId);
-        snapshot =
-            new MetricsSnapshot(MetricsSnapshotType.START, metric, subject, 1L, logChannelId);
+        snapshot = new MetricsSnapshot(MetricsSnapshotType.START, metric, subject, 1L, logChannelId);
         metricsList.add(snapshot);
 
         break;

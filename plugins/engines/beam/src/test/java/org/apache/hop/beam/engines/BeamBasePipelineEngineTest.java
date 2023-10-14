@@ -32,20 +32,16 @@ import static org.junit.Assert.assertNotNull;
 
 public class BeamBasePipelineEngineTest extends PipelineTestBase {
 
-  protected IPipelineEngine<PipelineMeta> createAndExecutePipeline(
-      String runConfigurationName, IHopMetadataProvider metadataProvider, PipelineMeta pipelineMeta)
+  protected IPipelineEngine<PipelineMeta> createAndExecutePipeline(String runConfigurationName, IHopMetadataProvider metadataProvider, PipelineMeta pipelineMeta)
       throws HopException {
-    IPipelineEngine<PipelineMeta> engine =
-        PipelineEngineFactory.createPipelineEngine(
-            variables, runConfigurationName, metadataProvider, pipelineMeta);
+    IPipelineEngine<PipelineMeta> engine = PipelineEngineFactory.createPipelineEngine(variables, runConfigurationName, metadataProvider, pipelineMeta);
     engine.prepareExecution();
     engine.startThreads();
     engine.waitUntilFinished();
     return engine;
   }
 
-  protected void validateInputOutputEngineMetrics(IPipelineEngine<PipelineMeta> engine)
-      throws Exception {
+  protected void validateInputOutputEngineMetrics(IPipelineEngine<PipelineMeta> engine) throws Exception {
     assertEquals("No errors expected", 0, engine.getErrors());
     EngineMetrics engineMetrics = engine.getEngineMetrics();
     assertNotNull("Engine metrics can't be null", engineMetrics);

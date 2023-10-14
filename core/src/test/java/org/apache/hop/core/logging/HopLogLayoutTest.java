@@ -25,17 +25,13 @@ public class HopLogLayoutTest {
 
   @Test
   public void testFormat() throws Exception {
-    LogMessage mcg =
-        new LogMessage("Log message for {0}", "Channel 01", new String[] {"Test"}, LogLevel.DEBUG);
+    LogMessage mcg = new LogMessage("Log message for {0}", "Channel 01", new String[] {"Test"}, LogLevel.DEBUG);
 
     HopLoggingEvent event = new HopLoggingEvent(mcg, 0, LogLevel.BASIC);
     HopLogLayout layout = new HopLogLayout();
 
     final String formattedMsg = layout.format(event);
 
-    assertEquals(
-        "The log message must be formatted and not contain placeholders.",
-        "Log message for Test",
-        formattedMsg.substring(formattedMsg.indexOf('-') + 2));
+    assertEquals("The log message must be formatted and not contain placeholders.", "Log message for Test", formattedMsg.substring(formattedMsg.indexOf('-') + 2));
   }
 }

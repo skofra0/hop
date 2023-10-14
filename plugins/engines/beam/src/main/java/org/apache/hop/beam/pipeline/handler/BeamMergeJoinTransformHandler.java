@@ -45,8 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler
-    implements IBeamPipelineTransformHandler {
+public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler implements IBeamPipelineTransformHandler {
 
   @Override
   public boolean isInput() {
@@ -85,33 +84,23 @@ public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler
     String[] leftKeys = meta.getKeyFields1().toArray(new String[0]);
     String[] rightKeys = meta.getKeyFields2().toArray(new String[0]);
 
-    TransformMeta leftInfoTransform =
-        meta.getTransformIOMeta().getInfoStreams().get(0).getTransformMeta();
+    TransformMeta leftInfoTransform = meta.getTransformIOMeta().getInfoStreams().get(0).getTransformMeta();
     if (leftInfoTransform == null) {
-      throw new HopException(
-          "The left source transform isn't defined in the Merge Join transform called '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("The left source transform isn't defined in the Merge Join transform called '" + transformMeta.getName() + "'");
     }
     PCollection<HopRow> leftPCollection = transformCollectionMap.get(leftInfoTransform.getName());
     if (leftPCollection == null) {
-      throw new HopException(
-          "The left source collection in the pipeline couldn't be found (probably a programming error)");
+      throw new HopException("The left source collection in the pipeline couldn't be found (probably a programming error)");
     }
     IRowMeta leftRowMeta = pipelineMeta.getTransformFields(variables, leftInfoTransform);
 
-    TransformMeta rightInfoTransform =
-        meta.getTransformIOMeta().getInfoStreams().get(1).getTransformMeta();
+    TransformMeta rightInfoTransform = meta.getTransformIOMeta().getInfoStreams().get(1).getTransformMeta();
     if (rightInfoTransform == null) {
-      throw new HopException(
-          "The right source transform isn't defined in the Merge Join transform called '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("The right source transform isn't defined in the Merge Join transform called '" + transformMeta.getName() + "'");
     }
     PCollection<HopRow> rightPCollection = transformCollectionMap.get(rightInfoTransform.getName());
     if (rightPCollection == null) {
-      throw new HopException(
-          "The right source collection in the pipeline couldn't be found (probably a programming error)");
+      throw new HopException("The right source collection in the pipeline couldn't be found (probably a programming error)");
     }
     IRowMeta rightRowMeta = pipelineMeta.getTransformFields(variables, rightInfoTransform);
 
@@ -130,12 +119,7 @@ public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler
       leftVRowMeta.addValueMeta(valueMeta.clone());
     }
 
-    HopKeyValueFn leftKVFn =
-        new HopKeyValueFn(
-            JsonRowMeta.toJson(leftRowMeta),
-            leftK.toArray(new String[0]),
-            leftV.toArray(new String[0]),
-            transformMeta.getName());
+    HopKeyValueFn leftKVFn = new HopKeyValueFn(JsonRowMeta.toJson(leftRowMeta), leftK.toArray(new String[0]), leftV.toArray(new String[0]), transformMeta.getName());
     PCollection<KV<HopRow, HopRow>> leftKVPCollection = leftPCollection.apply(ParDo.of(leftKVFn));
 
     // Create key-value pairs (KV) for the right collections
@@ -153,14 +137,8 @@ public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler
       rightVRowMeta.addValueMeta(valueMeta.clone());
     }
 
-    HopKeyValueFn rightKVFn =
-        new HopKeyValueFn(
-            JsonRowMeta.toJson(rightRowMeta),
-            rightK.toArray(new String[0]),
-            rightV.toArray(new String[0]),
-            transformMeta.getName());
-    PCollection<KV<HopRow, HopRow>> rightKVPCollection =
-        rightPCollection.apply(ParDo.of(rightKVFn));
+    HopKeyValueFn rightKVFn = new HopKeyValueFn(JsonRowMeta.toJson(rightRowMeta), rightK.toArray(new String[0]), rightV.toArray(new String[0]), transformMeta.getName());
+    PCollection<KV<HopRow, HopRow>> rightKVPCollection = rightPCollection.apply(ParDo.of(rightKVFn));
 
     PCollection<KV<HopRow, KV<HopRow, HopRow>>> kvpCollection;
 
@@ -178,21 +156,17 @@ public class BeamMergeJoinTransformHandler extends BeamBaseTransformHandler
     } else if (MergeJoinMeta.joinTypes[1].equals(joinType)) {
       // Left outer join
       //
-      kvpCollection =
-          Join.leftOuterJoin(leftKVPCollection, rightKVPCollection, new HopRow(rightNull));
+      kvpCollection = Join.leftOuterJoin(leftKVPCollection, rightKVPCollection, new HopRow(rightNull));
       assemblerJoinType = MergeJoinAssemblerFn.JOIN_TYPE_LEFT_OUTER;
     } else if (MergeJoinMeta.joinTypes[2].equals(joinType)) {
       // Right outer join
       //
-      kvpCollection =
-          Join.rightOuterJoin(leftKVPCollection, rightKVPCollection, new HopRow(leftNull));
+      kvpCollection = Join.rightOuterJoin(leftKVPCollection, rightKVPCollection, new HopRow(leftNull));
       assemblerJoinType = MergeJoinAssemblerFn.JOIN_TYPE_RIGHT_OUTER;
     } else if (MergeJoinMeta.joinTypes[3].equals(joinType)) {
       // Full outer join
       //
-      kvpCollection =
-          Join.fullOuterJoin(
-              leftKVPCollection, rightKVPCollection, new HopRow(leftNull), new HopRow(rightNull));
+      kvpCollection = Join.fullOuterJoin(leftKVPCollection, rightKVPCollection, new HopRow(leftNull), new HopRow(rightNull));
       assemblerJoinType = MergeJoinAssemblerFn.JOIN_TYPE_FULL_OUTER;
     } else {
       throw new HopException("Join type '" + joinType + "' is not recognized or supported");

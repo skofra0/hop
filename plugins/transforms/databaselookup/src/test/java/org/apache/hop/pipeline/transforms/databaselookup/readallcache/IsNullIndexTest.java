@@ -43,12 +43,7 @@ public class IsNullIndexTest {
     Long[][] sample3 = new Long[][] {{null}, {1L}, {null}, {1L}, {null}};
     Long[][] sample4 = new Long[][] {{null}, {null}, {null}, {null}, {null}};
     Long[][] sample5 = new Long[][] {{1L}, {1L}, {1L}, {1L}, {1L}};
-    return Arrays.asList(
-        new Object[] {sample1},
-        new Object[] {sample2},
-        new Object[] {sample3},
-        new Object[] {sample4},
-        new Object[] {sample5});
+    return Arrays.asList(new Object[] {sample1}, new Object[] {sample2}, new Object[] {sample3}, new Object[] {sample4}, new Object[] {sample5});
   }
 
   private final Long[][] rows;

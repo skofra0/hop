@@ -46,11 +46,8 @@ public class StringOperationsTest {
 
   @Before
   public void setup() throws Exception {
-    smh =
-        new TransformMockHelper<>(
-            "StringOperations", StringOperationsMeta.class, StringOperationsData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("StringOperations", StringOperationsMeta.class, StringOperationsData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -85,9 +82,7 @@ public class StringOperationsTest {
     doReturn(new int[] {StringOperationsMeta.INIT_CAP_NO}).when(meta).getInitCap();
     doReturn(new int[] {StringOperationsMeta.MASK_NONE}).when(meta).getMaskXML();
     doReturn(new int[] {StringOperationsMeta.DIGITS_NONE}).when(meta).getDigits();
-    doReturn(new int[] {StringOperationsMeta.REMOVE_SPECIAL_CHARACTERS_NONE})
-        .when(meta)
-        .getRemoveSpecialCharacters();
+    doReturn(new int[] {StringOperationsMeta.REMOVE_SPECIAL_CHARACTERS_NONE}).when(meta).getRemoveSpecialCharacters();
 
     return meta;
   }
@@ -96,8 +91,7 @@ public class StringOperationsTest {
     return mock(StringOperationsData.class);
   }
 
-  private boolean verifyOutput(Object[][] expectedRows, IRowSet outputRowSet)
-      throws HopValueException {
+  private boolean verifyOutput(Object[][] expectedRows, IRowSet outputRowSet) throws HopValueException {
     if (expectedRows.length == outputRowSet.size()) {
       for (Object[] expectedRow : expectedRows) {
         Object[] row = outputRowSet.getRow();
@@ -117,14 +111,7 @@ public class StringOperationsTest {
   @Test
   @Ignore
   public void testProcessBinaryInput() throws HopException {
-    StringOperations transform =
-        new StringOperations(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    StringOperations transform = new StringOperations(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.addRowSetToInputRowSets(mockInputRowSet());
 
     IRowSet outputRowSet = new QueueRowSet();

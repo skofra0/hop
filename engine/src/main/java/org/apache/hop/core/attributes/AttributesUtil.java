@@ -35,12 +35,15 @@ public class AttributesUtil {
   /**
    * Serialize an attributes group map to XML.
    *
-   * <p>The information will be encapsulated in the default tag: {@link #XML_TAG}.
+   * <p>
+   * The information will be encapsulated in the default tag: {@link #XML_TAG}.
    *
-   * <p>If a null or empty Map is given, the generated XML will have the default tag (with no
+   * <p>
+   * If a null or empty Map is given, the generated XML will have the default tag (with no
    * content).
    *
-   * <p>Equivalent to:
+   * <p>
+   * Equivalent to:
    *
    * <pre>  <code>getAttributesXml( attributesMap, AttributesUtil.XML_TAG )</code></pre>
    *
@@ -55,9 +58,11 @@ public class AttributesUtil {
   /**
    * Serialize an attributes group map to XML.
    *
-   * <p>The information will be encapsulated in the specified tag.
+   * <p>
+   * The information will be encapsulated in the specified tag.
    *
-   * <p>If a null or empty Map is given, the generated XML will have the provided tag (with no
+   * <p>
+   * If a null or empty Map is given, the generated XML will have the provided tag (with no
    * content).
    *
    * @param attributesMap the attribute groups to serialize
@@ -65,8 +70,7 @@ public class AttributesUtil {
    * @return the XML serialized attribute groups
    * @see #getAttributesXml(Map)
    */
-  public static String getAttributesXml(
-      Map<String, Map<String, String>> attributesMap, String xmlTag) {
+  public static String getAttributesXml(Map<String, Map<String, String>> attributesMap, String xmlTag) {
     StringBuilder xml = new StringBuilder();
 
     xml.append(XmlHandler.openTag(xmlTag));
@@ -101,7 +105,8 @@ public class AttributesUtil {
   /**
    * Load the attribute groups from an XML DOM Node.
    *
-   * <p>An empty Map will be returned if a null or empty Node is given.
+   * <p>
+   * An empty Map will be returned if a null or empty Node is given.
    *
    * @param attributesNode the attributes node to read from
    * @return the Map with the attribute groups

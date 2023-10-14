@@ -36,13 +36,7 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
 
   private static final Class<?> PKG = PropertyOutputMeta.class; // For Translator
 
-  public PropertyOutput(
-      TransformMeta transformMeta,
-      PropertyOutputMeta meta,
-      PropertyOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public PropertyOutput(TransformMeta transformMeta, PropertyOutputMeta meta, PropertyOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -66,42 +60,29 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
       data.indexOfKeyField = data.inputRowMeta.indexOfValue(meta.getKeyField());
       if (data.indexOfKeyField < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(
-                PKG, "PropertyOutput.Log.ErrorFindingField", meta.getKeyField()));
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "PropertyOutput.Log.ErrorFindingField", meta.getKeyField()));
+        logError(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getKeyField()));
+        throw new HopException(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getKeyField()));
       }
 
       // Let's take the index of Key field ...
       data.indexOfValueField = data.inputRowMeta.indexOfValue(meta.getValueField());
       if (data.indexOfValueField < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(
-                PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
+        logError(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
+        throw new HopException(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
       }
 
       if (meta.isFileNameInField()) {
         String realFieldName = resolve(meta.getFileNameField());
         if (Utils.isEmpty(realFieldName)) {
           logError(BaseMessages.getString(PKG, "PropertyOutput.Log.FilenameInFieldEmpty"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "PropertyOutput.Log.FilenameInFieldEmpty"));
+          throw new HopException(BaseMessages.getString(PKG, "PropertyOutput.Log.FilenameInFieldEmpty"));
         }
         data.indexOfFieldfilename = data.inputRowMeta.indexOfValue(realFieldName);
         if (data.indexOfFieldfilename < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(
-                  PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
+          logError(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
+          throw new HopException(BaseMessages.getString(PKG, "PropertyOutput.Log.ErrorFindingField", meta.getValueField()));
         }
       } else {
         // Let's check for filename...
@@ -123,8 +104,7 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
       if (meta.isFileNameInField()) {
         data.filename = data.inputRowMeta.getString(r, data.indexOfFieldfilename);
         if (Utils.isEmpty(data.filename)) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "PropertyOutputMeta.Log.FileNameEmty"));
+          throw new HopException(BaseMessages.getString(PKG, "PropertyOutputMeta.Log.FileNameEmty"));
         }
         if (!checkSameFile()) {
           // close previous file
@@ -158,9 +138,7 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "PropertyOutputMeta.Log.ErrorInTransform")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "PropertyOutputMeta.Log.ErrorInTransform") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -206,32 +184,16 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
         parentfolder = data.file.getParent();
         if (!parentfolder.exists()) {
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "PropertyOutput.Log.ParentFolderExists",
-                    parentfolder.getName().toString()));
+            logDetailed(BaseMessages.getString(PKG, "PropertyOutput.Log.ParentFolderExists", parentfolder.getName().toString()));
           }
           parentfolder.createFolder();
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "PropertyOutput.Log.CanNotCreateParentFolder",
-                    parentfolder.getName().toString()));
+            logDetailed(BaseMessages.getString(PKG, "PropertyOutput.Log.CanNotCreateParentFolder", parentfolder.getName().toString()));
           }
         }
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "PropertyOutput.Log.CanNotCreateParentFolder",
-                parentfolder.getName().toString()));
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "PropertyOutput.Log.CanNotCreateParentFolder",
-                parentfolder.getName().toString()));
+        logError(BaseMessages.getString(PKG, "PropertyOutput.Log.CanNotCreateParentFolder", parentfolder.getName().toString()));
+        throw new HopException(BaseMessages.getString(PKG, "PropertyOutput.Log.CanNotCreateParentFolder", parentfolder.getName().toString()));
       } finally {
         if (parentfolder != null) {
           try {
@@ -254,12 +216,7 @@ public class PropertyOutput extends BaseTransform<PropertyOutputMeta, PropertyOu
 
       if (meta.isAddToResult()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                data.file,
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), getTransformName());
         resultFile.setComment(BaseMessages.getString(PKG, "PropertyOutput.Log.FileAddedResult"));
         addResultFile(resultFile);
       }

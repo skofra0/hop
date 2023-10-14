@@ -88,13 +88,7 @@ public class EnterStringDialog extends Dialog {
    * @param allowVariables Indicates to allow environmental substitution
    * @param variables This object has the has the environmental variables
    */
-  public EnterStringDialog(
-      Shell parent,
-      String string,
-      String shellText,
-      String lineText,
-      boolean allowVariables,
-      IVariables variables) {
+  public EnterStringDialog(Shell parent, String string, String shellText, String lineText, boolean allowVariables, IVariables variables) {
     super(parent, SWT.NONE);
     this.props = PropsUi.getInstance();
     this.string = string;
@@ -164,8 +158,7 @@ public class EnterStringDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     // Add listeners
     wOk.addListener(SWT.Selection, e -> ok());

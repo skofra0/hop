@@ -47,8 +47,7 @@ public class DeleteExecutionInfoServlet extends BaseHttpServlet implements IHopS
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -80,15 +79,13 @@ public class DeleteExecutionInfoServlet extends BaseHttpServlet implements IHopS
         throw new HopException("Please specify the ID of the execution to delete.");
       }
       if (StringUtils.isEmpty(locationName)) {
-        throw new HopException(
-            "Please specify the name of the execution information location to delete in.");
+        throw new HopException("Please specify the name of the execution information location to delete in.");
       }
 
       // Look up the location in the metadata.
       //
       MultiMetadataProvider provider = pipelineMap.getHopServerConfig().getMetadataProvider();
-      IHopMetadataSerializer<ExecutionInfoLocation> serializer =
-          provider.getSerializer(ExecutionInfoLocation.class);
+      IHopMetadataSerializer<ExecutionInfoLocation> serializer = provider.getSerializer(ExecutionInfoLocation.class);
       ExecutionInfoLocation location = serializer.load(locationName);
       if (location == null) {
         throw new HopException("Unable to find execution information location " + locationName);
@@ -98,10 +95,7 @@ public class DeleteExecutionInfoServlet extends BaseHttpServlet implements IHopS
 
       // Return the log channel id as well
       //
-      out.println(
-          new WebResult(
-              WebResult.STRING_OK,
-              "Execution deletion was successful at location " + locationName));
+      out.println(new WebResult(WebResult.STRING_OK, "Execution deletion was successful at location " + locationName));
 
     } catch (Exception ex) {
 

@@ -69,8 +69,7 @@ public class CompressionPluginType extends BasePluginType<CompressionPlugin> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, CompressionPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, CompressionPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(CompressionPlugin annotation) {

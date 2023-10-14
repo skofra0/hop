@@ -77,12 +77,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
 
   private boolean ok;
 
-  public PipelineUnitTestSetLocationDialog(
-      Shell parent,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      PipelineUnitTestSetLocation location,
-      List<DataSet> dataSets,
+  public PipelineUnitTestSetLocationDialog(Shell parent, IVariables variables, IHopMetadataProvider metadataProvider, PipelineUnitTestSetLocation location, List<DataSet> dataSets,
       Map<String, IRowMeta> transformFieldsMap) {
     super(parent, SWT.NONE);
     this.variables = variables;
@@ -120,8 +115,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
     //
     Label wlTransformName = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlTransformName);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.TransformName.Label"));
     FormData fdlTransformName = new FormData();
     fdlTransformName.top = new FormAttachment(0, 0);
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -155,8 +149,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
     // The field mapping from the transform to the data set...
     //
     Label wlFieldMapping = new Label(shell, SWT.LEFT);
-    wlFieldMapping.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.FieldMapping.Label"));
+    wlFieldMapping.setText(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.FieldMapping.Label"));
     PropsUi.setLook(wlFieldMapping);
     FormData fdlFieldMapping = new FormData();
     fdlFieldMapping.left = new FormAttachment(0, 0);
@@ -165,8 +158,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
     wlFieldMapping.setLayoutData(fdlFieldMapping);
 
     Label wlFieldOrder = new Label(shell, SWT.LEFT);
-    wlFieldOrder.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.FieldOrder.Label"));
+    wlFieldOrder.setText(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.FieldOrder.Label"));
     PropsUi.setLook(wlFieldOrder);
     FormData fdlFieldOrder = new FormData();
     fdlFieldOrder.left = new FormAttachment(60, margin);
@@ -182,34 +174,22 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
     wOk.addListener(SWT.Selection, e -> ok());
     Button wMapFields = new Button(shell, SWT.PUSH);
-    wMapFields.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.MapFields.Button"));
+    wMapFields.setText(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.MapFields.Button"));
     wMapFields.addListener(SWT.Selection, e -> getFieldMappings());
     Button wGetSortFields = new Button(shell, SWT.PUSH);
-    wGetSortFields.setText(
-        BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.GetSortFields.Button"));
+    wGetSortFields.setText(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.GetSortFields.Button"));
     wGetSortFields.addListener(SWT.Selection, e -> getSortFields());
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wMapFields, wGetSortFields, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wMapFields, wGetSortFields, wCancel}, margin, null);
 
     // the field mapping grid in between on the left
     //
     ColumnInfo[] fieldMappingColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.TransformField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.DatasetField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.TransformField"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.DatasetField"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     wFieldMappings =
         new TableView(
@@ -231,13 +211,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
     // the field mapping grid in between on the left
     //
     ColumnInfo[] fieldOrderColumns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.DatasetField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "PipelineUnitTestSetLocationDialog.ColumnInfo.DatasetField"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     wFieldOrder =
         new TableView(
@@ -300,8 +274,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
       }
       // Edit them
       //
-      EnterMappingDialog mappingDialog =
-          new EnterMappingDialog(shell, transformFieldNames, setFieldNames, currentMappings);
+      EnterMappingDialog mappingDialog = new EnterMappingDialog(shell, transformFieldNames, setFieldNames, currentMappings);
       List<SourceToTargetMapping> newMappings = mappingDialog.open();
       if (newMappings != null) {
         // Simply clean everything and add the new mappings
@@ -411,8 +384,7 @@ public class PipelineUnitTestSetLocationDialog extends Dialog {
       int colnr = 1;
       String transformFieldName = item.getText(colnr++);
       String dataSetFieldName = item.getText(colnr++);
-      loc.getFieldMappings()
-          .add(new PipelineUnitTestFieldMapping(transformFieldName, dataSetFieldName));
+      loc.getFieldMappings().add(new PipelineUnitTestFieldMapping(transformFieldName, dataSetFieldName));
     }
 
     loc.getFieldOrder().clear();

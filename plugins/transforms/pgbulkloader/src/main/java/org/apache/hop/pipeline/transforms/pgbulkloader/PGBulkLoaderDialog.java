@@ -104,8 +104,7 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
 
   private static final String DATETIMEMASK_LABEL = "PGBulkLoaderDialog.DateTimeMask.Label";
 
-  public PGBulkLoaderDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public PGBulkLoaderDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (PGBulkLoaderMeta) in;
   }
@@ -119,13 +118,12 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    FocusListener lsFocusLost =
-        new FocusAdapter() {
-          @Override
-          public void focusLost(FocusEvent arg0) {
-            setTableFieldCombo();
-          }
-        };
+    FocusListener lsFocusLost = new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent arg0) {
+        setTableFieldCombo();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -238,8 +236,7 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
 
     // Db Name Override line
     Label wlDbNameOverride = new Label(shell, SWT.RIGHT);
-    wlDbNameOverride.setText(
-        BaseMessages.getString(PKG, "PGBulkLoaderDialog.DbNameOverride.Label"));
+    wlDbNameOverride.setText(BaseMessages.getString(PKG, "PGBulkLoaderDialog.DbNameOverride.Label"));
     PropsUi.setLook(wlDbNameOverride);
     FormData fdlDbNameOverride = new FormData();
     fdlDbNameOverride.left = new FormAttachment(0, 0);
@@ -308,13 +305,12 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     fdStopOnError.right = new FormAttachment(100, 0);
     wStopOnError.setLayoutData(fdStopOnError);
 
-    wStopOnError.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wStopOnError.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
@@ -338,39 +334,16 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     int upInsRows = (input.getMappings() != null ? input.getMappings().size() : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "PGBulkLoaderDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "PGBulkLoaderDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "PGBulkLoaderDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "PGBulkLoaderDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     ciReturn[2] =
         new ColumnInfo(
             BaseMessages.getString(PKG, DATEMASK_LABEL),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "",
-              BaseMessages.getString(PKG, PASSTROUGH_LABEL),
-              BaseMessages.getString(PKG, DATEMASK_LABEL),
-              BaseMessages.getString(PKG, DATETIMEMASK_LABEL)
-            },
+            new String[] {"", BaseMessages.getString(PKG, PASSTROUGH_LABEL), BaseMessages.getString(PKG, DATEMASK_LABEL), BaseMessages.getString(PKG, DATETIMEMASK_LABEL)},
             true);
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     Button wGetLU = new Button(shell, SWT.PUSH);
     wGetLU.setText(BaseMessages.getString(PKG, "PGBulkLoaderDialog.GetFields.Label"));
@@ -399,24 +372,23 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -425,13 +397,12 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     wSql.addListener(SWT.Selection, e -> create());
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     getData();
     setTableFieldCombo();
@@ -535,10 +506,8 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -551,10 +520,8 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -579,21 +546,11 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
 
       int sourceIndex = sourceFields.indexOfValue(source);
       if (sourceIndex < 0) {
-        missingSourceFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingSourceFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       int targetIndex = targetFields.indexOfValue(target);
       if (targetIndex < 0) {
-        missingTargetFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingTargetFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       if (sourceIndex < 0 || targetIndex < 0) {
         continue;
@@ -609,43 +566,22 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "PGBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "PGBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
 
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+          BaseDialog.openMessageBox(shell, BaseMessages.getString(PKG, "PGBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
       boolean goOn = (answer & SWT.OK) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            PGBulkLoaderDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(PGBulkLoaderDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -711,12 +647,10 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     String action = wLoadAction.getText();
     if (BaseMessages.getString(PKG, "PGBulkLoaderDialog.InsertLoadAction.Label").equals(action)) {
       inf.setLoadAction(PGBulkLoaderMeta.ACTION_INSERT);
-    } else if (BaseMessages.getString(PKG, "PGBulkLoaderDialog.TruncateLoadAction.Label")
-        .equals(action)) {
+    } else if (BaseMessages.getString(PKG, "PGBulkLoaderDialog.TruncateLoadAction.Label").equals(action)) {
       inf.setLoadAction(PGBulkLoaderMeta.ACTION_TRUNCATE);
     } else {
-      logDebug(
-          "Internal error: load_action set to default 'insert', value found '" + action + "'.");
+      logDebug("Internal error: load_action set to default 'insert', value found '" + action + "'.");
       inf.setLoadAction(PGBulkLoaderMeta.ACTION_INSERT);
     }
 
@@ -733,8 +667,7 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
 
     if (input.getDatabaseMeta() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -749,13 +682,9 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     }
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
-      logDebug(
-          BaseMessages.getString(PKG, "PGBulkLoaderDialog.Log.LookingAtConnection")
-              + databaseMeta.toString());
+      logDebug(BaseMessages.getString(PKG, "PGBulkLoaderDialog.Log.LookingAtConnection") + databaseMeta.toString());
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -763,8 +692,7 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "PGBulkLoaderDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -774,18 +702,16 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.getType() == IValueMeta.TYPE_DATE) {
-                // The default is date mask.
-                tableItem.setText(3, BaseMessages.getString(PKG, DATEMASK_LABEL));
-              } else {
-                tableItem.setText(3, "");
-              }
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.getType() == IValueMeta.TYPE_DATE) {
+            // The default is date mask.
+            tableItem.setText(3, BaseMessages.getString(PKG, DATEMASK_LABEL));
+          } else {
+            tableItem.setText(3, "");
+          }
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -804,23 +730,13 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
       getInfo(info);
 
       String name = transformName; // new name might not yet be linked to other transforms!
-      TransformMeta transformMeta =
-          new TransformMeta(
-              BaseMessages.getString(PKG, "PGBulkLoaderDialog.TransformMeta.Title"), name, info);
+      TransformMeta transformMeta = new TransformMeta(BaseMessages.getString(PKG, "PGBulkLoaderDialog.TransformMeta.Title"), name, info);
       IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
@@ -844,46 +760,43 @@ public class PGBulkLoaderDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText();
-            final String connectionName = wConnection.getText();
-            final String schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText();
+        final String connectionName = wConnection.getText();
+        final String schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
-              if (databaseMeta != null) {                
-                try (Database db = new Database(loggingObject, variables, databaseMeta)) {
-                  db.connect();
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+              db.connect();
 
-                  String schemaTable =
-                      databaseMeta.getQuotedSchemaTableCombination(
-                          variables, schemaName, tableName);
-                  IRowMeta r = db.getTableFields(schemaTable);
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+              IRowMeta r = db.getTableFields(schemaTable);
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
+                    colInfo.setComboValues(fieldNames);
                   }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user                
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 }

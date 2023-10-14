@@ -36,18 +36,11 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import java.util.List;
 import java.util.Map;
 
-public class UserDefinedJavaClass
-    extends BaseTransform<UserDefinedJavaClassMeta, UserDefinedJavaClassData> {
+public class UserDefinedJavaClass extends BaseTransform<UserDefinedJavaClassMeta, UserDefinedJavaClassData> {
   private TransformClassBase child;
   public static final String HOP_DEFAULT_CLASS_CACHE_SIZE = "HOP_DEFAULT_CLASS_CACHE_SIZE";
 
-  public UserDefinedJavaClass(
-      TransformMeta transformMeta,
-      UserDefinedJavaClassMeta meta,
-      UserDefinedJavaClassData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public UserDefinedJavaClass(TransformMeta transformMeta, UserDefinedJavaClassMeta meta, UserDefinedJavaClassData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
 
     if (copyNr == 0) {
@@ -910,14 +903,7 @@ public class UserDefinedJavaClass
   }
 
   @Override
-  public void putError(
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
+  public void putError(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
     if (child == null) {
       putErrorImpl(rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
     } else {
@@ -925,14 +911,7 @@ public class UserDefinedJavaClass
     }
   }
 
-  public void putErrorImpl(
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
+  public void putErrorImpl(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
     super.putError(rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
   }
 
@@ -950,8 +929,7 @@ public class UserDefinedJavaClass
   }
 
   @Override
-  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
     if (child == null) {
       putRowToImpl(rowMeta, row, rowSet);
     } else {
@@ -959,8 +937,7 @@ public class UserDefinedJavaClass
     }
   }
 
-  public void putRowToImpl(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+  public void putRowToImpl(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
     super.putRowTo(rowMeta, row, rowSet);
   }
 
@@ -1198,8 +1175,7 @@ public class UserDefinedJavaClass
     super.stopAll();
   }
 
-  public void stopRunning(ITransform transformMetaInterface, ITransformData iTransformData)
-      throws HopException {
+  public void stopRunning(ITransform transformMetaInterface, ITransformData iTransformData) throws HopException {
     if (child == null) {
       stopRunningImpl(transformMetaInterface, data);
     } else {
@@ -1207,8 +1183,7 @@ public class UserDefinedJavaClass
     }
   }
 
-  public void stopRunningImpl(ITransform transformMetaInterface, ITransformData iTransformData)
-      throws HopException {
+  public void stopRunningImpl(ITransform transformMetaInterface, ITransformData iTransformData) throws HopException {
     super.stopRunning();
   }
 

@@ -25,8 +25,7 @@ public interface IHopMetadataProvider {
 
   String getDescription();
 
-  <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException;
+  <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException;
 
   /** @return The password encoder/decoder used in the serializers for password encoding */
   ITwoWayPasswordEncoder getTwoWayPasswordEncoder();

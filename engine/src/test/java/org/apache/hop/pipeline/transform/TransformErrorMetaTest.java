@@ -35,15 +35,8 @@ public class TransformErrorMetaTest {
     vars.setVariable("VarErrorFields", "errorFields");
     vars.setVariable("VarErrorCodes", "errorCodes");
     TransformErrorMeta testObject =
-        new TransformErrorMeta(
-            new TransformMeta(),
-            new TransformMeta(),
-            "${VarNumberErrors}",
-            "${VarErrorDescription}",
-            "${VarErrorFields}",
-            "${VarErrorCodes}");
-    IRowMeta result =
-        testObject.getErrorRowMeta(vars); // 10, "some data was bad", "factId", "BAD131" );
+        new TransformErrorMeta(new TransformMeta(), new TransformMeta(), "${VarNumberErrors}", "${VarErrorDescription}", "${VarErrorFields}", "${VarErrorCodes}");
+    IRowMeta result = testObject.getErrorRowMeta(vars); // 10, "some data was bad", "factId", "BAD131" );
 
     assertNotNull(result);
     assertEquals(4, result.size());

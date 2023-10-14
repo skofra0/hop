@@ -49,13 +49,7 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
 
   protected long writeRetryDelay;
 
-  public MongoDbDelete(
-      TransformMeta transformMeta,
-      MongoDbDeleteMeta meta,
-      MongoDbDeleteData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MongoDbDelete(TransformMeta transformMeta, MongoDbDeleteMeta meta, MongoDbDeleteData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -126,12 +120,9 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
 
         putRow(data.getOutputRowMeta(), row);
 
-        DBObject query =
-            MongoDbDeleteData.getQueryObject(
-                data.mUserFields, getInputRowMeta(), row, MongoDbDelete.this);
+        DBObject query = MongoDbDeleteData.getQueryObject(data.mUserFields, getInputRowMeta(), row, MongoDbDelete.this);
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(PKG, "MongoDbDelete.Message.Debug.QueryForDelete", query));
+          logDebug(BaseMessages.getString(PKG, "MongoDbDelete.Message.Debug.QueryForDelete", query));
         }
         // We have query delete
         if (query != null) {
@@ -151,17 +142,12 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
 
       try {
         try {
-          data.connection =
-              metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+          data.connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
         } catch (Exception e) {
-          throw new Exception(
-              BaseMessages.getString(
-                  PKG, "MongoInput.ErrorMessage.ErrorLoadingMongoDbConnection", connectionName));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.ErrorLoadingMongoDbConnection", connectionName));
         }
         if (data.connection == null) {
-          throw new Exception(
-              BaseMessages.getString(
-                  PKG, "MongoInput.ErrorMessage.MongoDbConnection.NotFound", connectionName));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.MongoDbConnection.NotFound", connectionName));
         }
 
         String databaseName = resolve(data.connection.getDbName());
@@ -171,21 +157,13 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
 
         String collection = resolve(meta.getCollection());
         if (StringUtils.isEmpty(collection)) {
-          throw new Exception(
-              BaseMessages.getString(PKG, "MongoInput.ErrorMessage.NoCollectionSpecified"));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.NoCollectionSpecified"));
         }
 
         if (!StringUtils.isEmpty(data.connection.getAuthenticationUser())) {
           String authInfo =
-              (data.connection.isUsingKerberos()
-                  ? BaseMessages.getString(
-                      PKG,
-                      "MongoDbInput.Message.KerberosAuthentication",
-                      resolve(data.connection.getAuthenticationUser()))
-                  : BaseMessages.getString(
-                      PKG,
-                      "MongoDbInput.Message.NormalAuthentication",
-                      resolve(data.connection.getAuthenticationUser())));
+              (data.connection.isUsingKerberos() ? BaseMessages.getString(PKG, "MongoDbInput.Message.KerberosAuthentication", resolve(data.connection.getAuthenticationUser()))
+                  : BaseMessages.getString(PKG, "MongoDbInput.Message.NormalAuthentication", resolve(data.connection.getAuthenticationUser())));
           logBasic(authInfo);
         }
 
@@ -213,11 +191,7 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
       } catch (Exception e) {
         logError(
             BaseMessages.getString(
-                PKG,
-                "MongoDbInput.ErrorConnectingToMongoDb.Exception",
-                data.connection.getHostname(),
-                data.connection.getPort(),
-                data.connection.getDbName(),
+                PKG, "MongoDbInput.ErrorConnectingToMongoDb.Exception", data.connection.getHostname(), data.connection.getPort(), data.connection.getDbName(),
                 meta.getCollection()),
             e);
         return false;
@@ -265,8 +239,7 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
       WriteResult result = null;
       try {
         try {
-          logDetailed(
-              BaseMessages.getString(PKG, "MongoDbDelete.Message.ExecutingQuery", deleteQuery));
+          logDetailed(BaseMessages.getString(PKG, "MongoDbDelete.Message.ExecutingQuery", deleteQuery));
           result = data.getCollection().remove(deleteQuery);
         } catch (MongoDbException e) {
           throw new MongoException(e.getMessage(), e);
@@ -275,9 +248,7 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
         lastEx = me;
         retrys++;
         if (retrys <= writeRetries) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "MongoDbDelete.ErrorMessage.ErrorWritingToMongo", me.toString()));
+          logError(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.ErrorWritingToMongo", me.toString()));
           logBasic(BaseMessages.getString(PKG, "MongoDbDelete.Message.Retry", writeRetryDelay));
           try {
             Thread.sleep(writeRetryDelay * 1000);
@@ -320,11 +291,9 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
     return query;
   }
 
-  final void checkInputFieldsMatch(IRowMeta rmi, List<MongoDbDeleteField> mongoFields)
-      throws HopException {
+  final void checkInputFieldsMatch(IRowMeta rmi, List<MongoDbDeleteField> mongoFields) throws HopException {
     if (mongoFields == null || mongoFields.isEmpty()) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoFieldPathsDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoFieldPathsDefined"));
     }
 
     Set<String> expected = new HashSet<>(mongoFields.size(), 1);
@@ -350,19 +319,16 @@ public class MongoDbDelete extends BaseTransform<MongoDbDeleteMeta, MongoDbDelet
       for (String name : expected) {
         builder.append("'").append(name).append("', ");
       }
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "MongoDbDelete.MongoField.Error.FieldsNotFoundInMetadata", builder.toString()));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.MongoField.Error.FieldsNotFoundInMetadata", builder.toString()));
     }
 
     boolean found = actual.removeAll(expected);
     if (!found) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.NotDeleteAnyFields"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.NotDeleteAnyFields"));
     }
   }
 
   public void setWriteRetries(int writeRetries) {
-      this.writeRetries = writeRetries;
+    this.writeRetries = writeRetries;
   }
 }

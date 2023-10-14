@@ -44,30 +44,17 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/valuemapper.html")
 public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperData> {
   private static final Class<?> PKG = ValueMapperMeta.class; // For Translator
-  
-  @HopMetadataProperty(
-      key = "field_to_use",
-      injectionKey = "FIELDNAME",
-      injectionKeyDescription = "ValueMapper.Injection.FIELDNAME")
+
+  @HopMetadataProperty(key = "field_to_use", injectionKey = "FIELDNAME", injectionKeyDescription = "ValueMapper.Injection.FIELDNAME")
   private String fieldToUse;
-  
-  @HopMetadataProperty(
-      key = "target_field",
-      injectionKey = "TARGET_FIELDNAME",
-      injectionKeyDescription = "ValueMapper.Injection.TARGET_FIELDNAME")
+
+  @HopMetadataProperty(key = "target_field", injectionKey = "TARGET_FIELDNAME", injectionKeyDescription = "ValueMapper.Injection.TARGET_FIELDNAME")
   private String targetField;
 
-  @HopMetadataProperty(
-      key = "non_match_default",
-      injectionKey = "NON_MATCH_DEFAULT",
-      injectionKeyDescription = "ValueMapper.Injection.NON_MATCH_DEFAULT")
+  @HopMetadataProperty(key = "non_match_default", injectionKey = "NON_MATCH_DEFAULT", injectionKeyDescription = "ValueMapper.Injection.NON_MATCH_DEFAULT")
   private String nonMatchDefault;
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupKey = "VALUES",
-      injectionGroupDescription = "ValueMapper.Injection.VALUES")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "VALUES", injectionGroupDescription = "ValueMapper.Injection.VALUES")
   private List<Values> values;
 
   public ValueMapperMeta() {
@@ -80,12 +67,12 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
     for (Values v : meta.values) {
       values.add(new Values(v));
     }
-    
+
     this.fieldToUse = meta.fieldToUse;
     this.targetField = meta.targetField;
     this.nonMatchDefault = meta.nonMatchDefault;
   }
-  
+
   /** @return Returns the fieldValue. */
   public List<Values> getValues() {
     return values;
@@ -102,13 +89,7 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     IValueMeta extra = null;
     if (!Utils.isEmpty(getTargetField())) {
       extra = new ValueMetaString(getTargetField());
@@ -122,7 +103,7 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
           maxlen = v.getTarget().length();
         }
       }
-      
+
       // include default value in max length calculation
       //
       if (nonMatchDefault != null && nonMatchDefault.length() > maxlen) {
@@ -157,41 +138,23 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "ValueMapperMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "ValueMapperMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "ValueMapperMeta.CheckResult.ReceivingFieldsFromPreviousTransforms",
-                  "" + prev.size()),
+              BaseMessages.getString(PKG, "ValueMapperMeta.CheckResult.ReceivingFieldsFromPreviousTransforms", "" + prev.size()),
               transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ValueMapperMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ValueMapperMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "ValueMapperMeta.CheckResult.NotReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ValueMapperMeta.CheckResult.NotReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -218,7 +181,7 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
 
   /**
    * @return the non match default. This is the string that will be used to fill in the data when no
-   *     match is found.
+   *         match is found.
    */
   public String getNonMatchDefault() {
     return nonMatchDefault;
@@ -226,7 +189,7 @@ public class ValueMapperMeta extends BaseTransformMeta<ValueMapper, ValueMapperD
 
   /**
    * @param nonMatchDefault the non match default. This is the string that will be used to fill in
-   *     the data when no match is found.
+   *        the data when no match is found.
    */
   public void setNonMatchDefault(String nonMatchDefault) {
     this.nonMatchDefault = nonMatchDefault;

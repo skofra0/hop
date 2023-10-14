@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionGetPOPLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionGetPOP> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionGetPOPLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionGetPOP> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionGetPOP> getActionClass() {
@@ -39,59 +39,20 @@ public class WorkflowActionGetPOPLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "serverName",
-            "userName",
-            "password",
-            "useSSL",
-            "port",
-            "outputDirectory",
-            "filenamePattern",
-            "retrievemails",
-            "firstMails",
-            "delete",
-            "saveMessage",
-            "saveAttachment",
-            "differentFolderForAttachment",
-            "protocol",
-            "attachmentFolder",
-            "attachmentWildcard",
-            "valueImapList",
-            "firstIMAPMails",
-            "IMAPFolder",
-            "senderSearchTerm",
-            "notTermSenderSearch",
-            "receipientSearch",
-            "notTermReceipientSearch",
-            "subjectSearch",
-            "notTermSubjectSearch",
-            "bodySearch",
-            "notTermBodySearch",
-            "conditionReceivedDate",
-            "notTermReceivedDateSearch",
-            "receivedDate1",
-            "receivedDate2",
-            "actiontype",
-            "moveToIMAPFolder",
-            "createMoveToFolder",
-            "createLocalFolder",
-            "afterGetIMAP",
-            "includeSubFolders",
-            "useProxy",
-            "proxyUsername");
+        "serverName", "userName", "password", "useSSL", "port", "outputDirectory", "filenamePattern", "retrievemails", "firstMails", "delete", "saveMessage", "saveAttachment",
+        "differentFolderForAttachment", "protocol", "attachmentFolder", "attachmentWildcard", "valueImapList", "firstIMAPMails", "IMAPFolder", "senderSearchTerm",
+        "notTermSenderSearch", "receipientSearch", "notTermReceipientSearch", "subjectSearch", "notTermSubjectSearch", "bodySearch", "notTermBodySearch", "conditionReceivedDate",
+        "notTermReceivedDateSearch", "receivedDate1", "receivedDate2", "actiontype", "moveToIMAPFolder", "createMoveToFolder", "createLocalFolder", "afterGetIMAP",
+        "includeSubFolders", "useProxy", "proxyUsername");
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
-    validators.put(
-        "valueImapList", new IntLoadSaveValidator(MailConnectionMeta.valueIMAPListCode.length));
-    validators.put(
-        "conditionReceivedDate",
-        new IntLoadSaveValidator(MailConnectionMeta.conditionDateCode.length));
-    validators.put(
-        "actiontype", new IntLoadSaveValidator(MailConnectionMeta.actionTypeCode.length));
-    validators.put(
-        "afterGetIMAP", new IntLoadSaveValidator(MailConnectionMeta.afterGetIMAPCode.length));
+    validators.put("valueImapList", new IntLoadSaveValidator(MailConnectionMeta.valueIMAPListCode.length));
+    validators.put("conditionReceivedDate", new IntLoadSaveValidator(MailConnectionMeta.conditionDateCode.length));
+    validators.put("actiontype", new IntLoadSaveValidator(MailConnectionMeta.actionTypeCode.length));
+    validators.put("afterGetIMAP", new IntLoadSaveValidator(MailConnectionMeta.afterGetIMAPCode.length));
 
     return validators;
   }

@@ -45,8 +45,7 @@ public class ScriptValuesHelp {
     hatFunctionsList = new Hashtable<>();
     NodeList nlFunctions = dom.getElementsByTagName("jsFunction");
     for (int i = 0; i < nlFunctions.getLength(); i++) {
-      String strFunctionName =
-          nlFunctions.item(i).getAttributes().getNamedItem("name").getNodeValue();
+      String strFunctionName = nlFunctions.item(i).getAttributes().getNamedItem("name").getNodeValue();
       Node elType = ((Element) nlFunctions.item(i)).getElementsByTagName("type").item(0);
       String strType = "";
       if (elType.hasChildNodes()) {
@@ -89,8 +88,7 @@ public class ScriptValuesHelp {
       is.close();
       dom = XmlHandler.loadXmlString(buffer.toString());
     } catch (Exception e) {
-      throw new HopXmlException(
-          "Unable to read script values help file from file [" + strFileName + "]", e);
+      throw new HopXmlException("Unable to read script values help file from file [" + strFileName + "]", e);
     }
   }
 }

@@ -39,9 +39,7 @@ public class GoogleStorageFileSystem extends AbstractFileSystem {
 
   Storage storage = null;
 
-  protected GoogleStorageFileSystem(
-      FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
-      throws FileSystemException {
+  protected GoogleStorageFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException {
     super(rootName, parentLayer, fileSystemOptions);
   }
 
@@ -71,9 +69,7 @@ public class GoogleStorageFileSystem extends AbstractFileSystem {
     if (StringUtils.isEmpty(config.getServiceAccountKeyFile())) {
       credentials = ServiceAccountCredentials.getApplicationDefault();
     } else {
-      credentials =
-          ServiceAccountCredentials.fromStream(
-              new FileInputStream(config.getServiceAccountKeyFile()));
+      credentials = ServiceAccountCredentials.fromStream(new FileInputStream(config.getServiceAccountKeyFile()));
     }
 
     StorageOptions.Builder optionsBuilder = StorageOptions.newBuilder();

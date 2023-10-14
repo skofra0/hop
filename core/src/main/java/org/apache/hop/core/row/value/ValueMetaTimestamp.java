@@ -44,11 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-@ValueMetaPlugin(
-    id = "9",
-    name = "Timestamp",
-    description = "Timestamp",
-    image = "images/timestamp.svg")
+@ValueMetaPlugin(id = "9", name = "Timestamp", description = "Timestamp", image = "images/timestamp.svg")
 public class ValueMetaTimestamp extends ValueMetaDate {
 
   public ValueMetaTimestamp() {
@@ -99,17 +95,13 @@ public class ValueMetaTimestamp extends ValueMetaDate {
     if (timestamp == null) {
       return null;
     }
-    BigDecimal nanos =
-        BigDecimal.valueOf(timestamp.getTime())
-            .multiply(BigDecimal.valueOf(1000000000L))
-            .add(BigDecimal.valueOf(timestamp.getNanos()));
+    BigDecimal nanos = BigDecimal.valueOf(timestamp.getTime()).multiply(BigDecimal.valueOf(1000000000L)).add(BigDecimal.valueOf(timestamp.getNanos()));
     return nanos;
   }
 
   @Override
   public Boolean getBoolean(Object object) throws HopValueException {
-    throw new HopValueException(
-        toStringMeta() + ": it's not possible to convert from Timestamp to Boolean");
+    throw new HopValueException(toStringMeta() + ": it's not possible to convert from Timestamp to Boolean");
   }
 
   @Override
@@ -131,70 +123,58 @@ public class ValueMetaTimestamp extends ValueMetaDate {
           case STORAGE_TYPE_INDEXED:
             return (Timestamp) index[((Integer) object).intValue()];
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_STRING:
         switch (storageType) {
           case STORAGE_TYPE_NORMAL:
             return convertStringToTimestamp((String) object);
           case STORAGE_TYPE_BINARY_STRING:
-            return convertStringToTimestamp(
-                (String) convertBinaryStringToNativeType((byte[]) object));
+            return convertStringToTimestamp((String) convertBinaryStringToNativeType((byte[]) object));
           case STORAGE_TYPE_INDEXED:
             return convertStringToTimestamp((String) index[((Integer) object).intValue()]);
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_NUMBER:
         switch (storageType) {
           case STORAGE_TYPE_NORMAL:
             return convertNumberToTimestamp((Double) object);
           case STORAGE_TYPE_BINARY_STRING:
-            return convertNumberToTimestamp(
-                (Double) convertBinaryStringToNativeType((byte[]) object));
+            return convertNumberToTimestamp((Double) convertBinaryStringToNativeType((byte[]) object));
           case STORAGE_TYPE_INDEXED:
             return convertNumberToTimestamp((Double) index[((Integer) object).intValue()]);
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_INTEGER:
         switch (storageType) {
           case STORAGE_TYPE_NORMAL:
             return convertIntegerToTimestamp((Long) object);
           case STORAGE_TYPE_BINARY_STRING:
-            return convertIntegerToTimestamp(
-                (Long) convertBinaryStringToNativeType((byte[]) object));
+            return convertIntegerToTimestamp((Long) convertBinaryStringToNativeType((byte[]) object));
           case STORAGE_TYPE_INDEXED:
             return convertIntegerToTimestamp((Long) index[((Integer) object).intValue()]);
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_BIGNUMBER:
         switch (storageType) {
           case STORAGE_TYPE_NORMAL:
             return convertBigNumberToTimestamp((BigDecimal) object);
           case STORAGE_TYPE_BINARY_STRING:
-            return convertBigNumberToTimestamp(
-                (BigDecimal) convertBinaryStringToNativeType((byte[]) object));
+            return convertBigNumberToTimestamp((BigDecimal) convertBinaryStringToNativeType((byte[]) object));
           case STORAGE_TYPE_INDEXED:
             return convertBigNumberToTimestamp((BigDecimal) index[((Integer) object).intValue()]);
           default:
-            throw new HopValueException(
-                toString() + " : Unknown storage type " + storageType + " specified.");
+            throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
         }
       case TYPE_BOOLEAN:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a boolean to a timestamp.");
+        throw new HopValueException(toString() + " : I don't know how to convert a boolean to a timestamp.");
       case TYPE_BINARY:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a binary value to timestamp.");
+        throw new HopValueException(toString() + " : I don't know how to convert a binary value to timestamp.");
       case TYPE_SERIALIZABLE:
-        throw new HopValueException(
-            toString() + " : I don't know how to convert a serializable value to timestamp.");
+        throw new HopValueException(toString() + " : I don't know how to convert a serializable value to timestamp.");
 
       default:
         throw new HopValueException(toString() + " : Unknown type " + type + " specified.");
@@ -253,8 +233,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
     return timestamp;
   }
 
-  protected synchronized Timestamp convertStringToTimestamp(String string)
-      throws HopValueException {
+  protected synchronized Timestamp convertStringToTimestamp(String string) throws HopValueException {
     // See if trimming needs to be performed before conversion
     //
     string = Const.trimToType(string, getTrimType());
@@ -269,19 +248,13 @@ public class ValueMetaTimestamp extends ValueMetaDate {
       try {
         returnValue = (Timestamp) getDateFormat().parse(string);
       } catch (ParseException ex) {
-        throw new HopValueException(
-            toString()
-                + " : couldn't convert string ["
-                + string
-                + "] to a timestamp, expecting format [yyyy-mm-dd hh:mm:ss.ffffff]",
-            e);
+        throw new HopValueException(toString() + " : couldn't convert string [" + string + "] to a timestamp, expecting format [yyyy-mm-dd hh:mm:ss.ffffff]", e);
       }
     }
     return returnValue;
   }
 
-  protected synchronized String convertTimestampToString(Timestamp timestamp)
-      throws HopValueException {
+  protected synchronized String convertTimestampToString(Timestamp timestamp) throws HopValueException {
 
     if (timestamp == null) {
       return null;
@@ -291,9 +264,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
   }
 
   @Override
-  public Object convertDataFromString(
-      String pol, IValueMeta convertMeta, String nullIf, String ifNull, int trimType)
-      throws HopValueException {
+  public Object convertDataFromString(String pol, IValueMeta convertMeta, String nullIf, String ifNull, int trimType) throws HopValueException {
     // null handling and conversion of value to null
     //
     String nullValue = nullIf;
@@ -333,8 +304,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
       // Note that you can't pull the pad method up here as a nullComp variable
       // because you could get an NPE since you haven't checked isEmpty(pol)
       // yet!
-      if (Utils.isEmpty(pol)
-          || pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
+      if (Utils.isEmpty(pol) || pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
         pol = ifNull;
       }
     }
@@ -348,8 +318,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
       // if the null_value is specified, we try to match with that.
       //
       if (!Utils.isEmpty(nullValue)) {
-        if (nullValue.length() <= pol.length()
-            && pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
+        if (nullValue.length() <= pol.length() && pol.equalsIgnoreCase(Const.rightPad(new StringBuilder(nullValue), pol.length()))) {
           // If the polled value is equal to the spaces right-padded null_value,
           // we have a match
           //
@@ -458,8 +427,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
   }
 
   @Override
-  public IValueMeta getMetadataPreview(
-      IVariables variables, DatabaseMeta databaseMeta, ResultSet rs) throws HopDatabaseException {
+  public IValueMeta getMetadataPreview(IVariables variables, DatabaseMeta databaseMeta, ResultSet rs) throws HopDatabaseException {
 
     try {
       if (java.sql.Types.TIMESTAMP == rs.getInt("COLUMN_TYPE")) {
@@ -486,14 +454,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
   }
 
   @Override
-  public IValueMeta getValueFromSqlType(
-      IVariables variables,
-      DatabaseMeta databaseMeta,
-      String name,
-      ResultSetMetaData rm,
-      int index,
-      boolean ignoreLength,
-      boolean lazyConversion)
+  public IValueMeta getValueFromSqlType(IVariables variables, DatabaseMeta databaseMeta, String name, ResultSetMetaData rm, int index, boolean ignoreLength, boolean lazyConversion)
       throws HopDatabaseException {
 
     try {
@@ -522,23 +483,19 @@ public class ValueMetaTimestamp extends ValueMetaDate {
   }
 
   @Override
-  public Object getValueFromResultSet(IDatabase iDatabase, ResultSet resultSet, int index)
-      throws HopDatabaseException {
+  public Object getValueFromResultSet(IDatabase iDatabase, ResultSet resultSet, int index) throws HopDatabaseException {
 
     try {
 
       return resultSet.getTimestamp(index + 1);
 
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          toStringMeta() + " : Unable to get timestamp from resultset at index " + index, e);
+      throw new HopDatabaseException(toStringMeta() + " : Unable to get timestamp from resultset at index " + index, e);
     }
   }
 
   @Override
-  public void setPreparedStatementValue(
-      DatabaseMeta databaseMeta, PreparedStatement preparedStatement, int index, Object data)
-      throws HopDatabaseException {
+  public void setPreparedStatementValue(DatabaseMeta databaseMeta, PreparedStatement preparedStatement, int index, Object data) throws HopDatabaseException {
 
     try {
       if (data != null) {
@@ -547,17 +504,14 @@ public class ValueMetaTimestamp extends ValueMetaDate {
         preparedStatement.setNull(index, java.sql.Types.TIMESTAMP);
       }
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          toStringMeta() + " : Unable to set value on prepared statement on index " + index, e);
+      throw new HopDatabaseException(toStringMeta() + " : Unable to set value on prepared statement on index " + index, e);
     }
   }
 
   @Override
   public Object convertDataUsingConversionMetaData(Object data2) throws HopValueException {
     if (conversionMetadata == null) {
-      throw new HopValueException(
-          "API coding error: please specify the conversion metadata before attempting to convert value "
-              + name);
+      throw new HopValueException("API coding error: please specify the conversion metadata before attempting to convert value " + name);
     }
 
     return super.convertDataUsingConversionMetaData(data2);
@@ -578,13 +532,11 @@ public class ValueMetaTimestamp extends ValueMetaDate {
       case STORAGE_TYPE_NORMAL:
         return convertStringToBinaryString(getString(object));
       case STORAGE_TYPE_BINARY_STRING:
-        return convertStringToBinaryString(
-            (String) convertBinaryStringToNativeType((byte[]) object));
+        return convertStringToBinaryString((String) convertBinaryStringToNativeType((byte[]) object));
       case STORAGE_TYPE_INDEXED:
         return convertStringToBinaryString(getString(index[((Integer) object).intValue()]));
       default:
-        throw new HopValueException(
-            toString() + " : Unknown storage type " + storageType + " specified.");
+        throw new HopValueException(toString() + " : Unknown storage type " + storageType + " specified.");
     }
   }
 
@@ -633,8 +585,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
               + toStringMeta()
               + "]");
     } catch (IOException e) {
-      throw new HopFileException(
-          toString() + " : Unable to write value timestamp data to output stream", e);
+      throw new HopFileException(toString() + " : Unable to write value timestamp data to output stream", e);
     } catch (HopValueException e) {
       throw new RuntimeException(
           toString()
@@ -649,8 +600,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
   }
 
   @Override
-  public Object readData(DataInputStream inputStream)
-      throws HopFileException, HopEofException, SocketTimeoutException {
+  public Object readData(DataInputStream inputStream) throws HopFileException, HopEofException, SocketTimeoutException {
     try {
       // Is the value NULL?
       if (inputStream.readBoolean()) {
@@ -680,8 +630,7 @@ public class ValueMetaTimestamp extends ValueMetaDate {
     } catch (SocketTimeoutException e) {
       throw e;
     } catch (IOException e) {
-      throw new HopFileException(
-          toString() + " : Unable to read value timestamp data from input stream", e);
+      throw new HopFileException(toString() + " : Unable to read value timestamp data from input stream", e);
     }
   }
 

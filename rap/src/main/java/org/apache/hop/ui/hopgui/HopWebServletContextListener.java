@@ -24,14 +24,13 @@ import javax.servlet.ServletContextEvent;
 import java.util.logging.Logger;
 
 public class HopWebServletContextListener extends RWTServletContextListener {
-  private static final Logger logger =
-      Logger.getLogger(HopWebServletContextListener.class.getName());
+  private static final Logger logger = Logger.getLogger(HopWebServletContextListener.class.getName());
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
     /*
-     *  The following lines are from HopGui.main
-     *  because they are application-wide context.
+     * The following lines are from HopGui.main
+     * because they are application-wide context.
      */
     try {
       HopEnvironment.init();

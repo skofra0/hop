@@ -54,12 +54,7 @@ public class AzureWriterDialog extends BaseTransformDialog implements ITransform
 
   private AzureWriterMeta input;
 
-  public AzureWriterDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta transMeta,
-      String transformName) {
+  public AzureWriterDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta transMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, transMeta, transformName);
     input = (AzureWriterMeta) inputMetadata;
   }
@@ -250,8 +245,7 @@ public class AzureWriterDialog extends BaseTransformDialog implements ITransform
     wMessageField.setText(Const.NVL(input.getMessageField(), ""));
 
     try {
-      wMessageField.setItems(
-          pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
+      wMessageField.setItems(pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
     } catch (HopTransformException e) {
       // Ignore
     }

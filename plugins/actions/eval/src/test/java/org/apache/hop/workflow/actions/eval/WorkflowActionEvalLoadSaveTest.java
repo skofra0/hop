@@ -30,7 +30,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class WorkflowActionEvalLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionEval> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionEval> getActionClass() {

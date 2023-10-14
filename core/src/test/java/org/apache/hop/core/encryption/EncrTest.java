@@ -29,7 +29,8 @@ import static org.junit.Assert.assertTrue;
  * Test cases for encryption, to make sure that encrypted password remain the same between versions.
  */
 public class EncrTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -55,9 +56,7 @@ public class EncrTest {
     assertTrue("2be98afc86aa7f2e4cb79ce309ed2ef9a".equals(encryption));
 
     encryption = Encr.encryptPassword("Test of different encryptions!!@#$%");
-    assertTrue(
-        "54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f"
-            .equals(encryption));
+    assertTrue("54657374206f6620646966666572656e742067d0fbddb11ad39b8ba50aef31fed1eb9f".equals(encryption));
 
     encryption = Encr.encryptPassword("  Spaces left");
     assertTrue("2be98afe84af48285a81cbd30d297a9ce".equals(encryption));

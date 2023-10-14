@@ -46,16 +46,10 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = DtdValidator.class; // For Translator
 
   private static final String[] FILETYPES_XML =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.Xml"),
-        BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.Xml"), BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.All")};
 
   private static final String[] FILETYPES_DTD =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.Dtd"),
-        BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.Dtd"), BaseMessages.getString(PKG, "ActionDTDValidator.Filetype.All")};
 
   private Text wName;
 
@@ -71,8 +65,7 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public DtdValidatorDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public DtdValidatorDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (DtdValidator) action;
     if (this.action.getName() == null) {
@@ -145,18 +138,8 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
     wxmlFilename.setLayoutData(fdxmlFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wxmlFilename.addModifyListener(
-        e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
-    wbxmlFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wxmlFilename,
-                variables,
-                new String[] {"*.xml;*.XML", "*"},
-                FILETYPES_XML,
-                true));
+    wxmlFilename.addModifyListener(e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
+    wbxmlFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wxmlFilename, variables, new String[] {"*.xml;*.XML", "*"}, FILETYPES_XML, true));
 
     // DTD Intern ?
     // Intern DTD
@@ -176,14 +159,13 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
     fdDTDIntern.top = new FormAttachment(wlDTDIntern, 0, SWT.CENTER);
     fdDTDIntern.right = new FormAttachment(100, 0);
     wDTDIntern.setLayoutData(fdDTDIntern);
-    wDTDIntern.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeDTDFilename();
-            action.setChanged();
-          }
-        });
+    wDTDIntern.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeDTDFilename();
+        action.setChanged();
+      }
+    });
 
     // DTD Filename
     wldtdFilename = new Label(shell, SWT.RIGHT);
@@ -211,18 +193,8 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
     wdtdFilename.setLayoutData(fddtdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wdtdFilename.addModifyListener(
-        e -> wdtdFilename.setToolTipText(variables.resolve(wdtdFilename.getText())));
-    wbdtdFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wdtdFilename,
-                variables,
-                new String[] {"*.dtd;*.DTD", "*"},
-                FILETYPES_DTD,
-                true));
+    wdtdFilename.addModifyListener(e -> wdtdFilename.setToolTipText(variables.resolve(wdtdFilename.getText())));
+    wbdtdFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wdtdFilename, variables, new String[] {"*.dtd;*.DTD", "*"}, FILETYPES_DTD, true));
 
     // Buttons go at the very bottom
     //
@@ -232,8 +204,7 @@ public class DtdValidatorDialog extends ActionDialog implements IActionDialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, 2 * margin, wdtdFilename);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, 2 * margin, wdtdFilename);
 
     getData();
     activeDTDFilename();

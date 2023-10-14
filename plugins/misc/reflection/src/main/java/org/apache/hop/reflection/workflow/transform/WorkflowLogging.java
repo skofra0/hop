@@ -38,13 +38,7 @@ public class WorkflowLogging extends BaseTransform<WorkflowLoggingMeta, Workflow
   private IWorkflowEngine<WorkflowMeta> loggingWorkflow;
   private String loggingPhase;
 
-  public WorkflowLogging(
-      TransformMeta transformMeta,
-      WorkflowLoggingMeta meta,
-      WorkflowLoggingData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public WorkflowLogging(TransformMeta transformMeta, WorkflowLoggingMeta meta, WorkflowLoggingData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -95,8 +89,7 @@ public class WorkflowLogging extends BaseTransform<WorkflowLoggingMeta, Workflow
     pipelineRow[index++] = parent == null ? null : parent.getLogChannelId();
 
     // Logging text of the workflow
-    pipelineRow[index++] =
-        HopLogStore.getAppender().getBuffer(loggingWorkflow.getLogChannelId(), false).toString();
+    pipelineRow[index++] = HopLogStore.getAppender().getBuffer(loggingWorkflow.getLogChannelId(), false).toString();
 
     // Result object *after* execution:
     Result result = loggingWorkflow.getResult();

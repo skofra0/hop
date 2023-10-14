@@ -49,23 +49,19 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   private static final Class<?> PKG = JsonOutputMeta.class; // For Translator
 
   /** Operations type */
-  @HopMetadataProperty(
-      key = "operation_type",
-      injectionKeyDescription = "JsonOutput.Injection.OPERATION")
+  @HopMetadataProperty(key = "operation_type", injectionKeyDescription = "JsonOutput.Injection.OPERATION")
   private String operationType;
 
   /** The operations description */
   public static final Map<String, String> operationTypeDesc =
       Map.of(
-          "outputvalue", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"),
-          "writetofile", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"),
-          "both", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both"));
+          "outputvalue", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"), "writetofile",
+          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"), "both", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both"));
 
   public static final Map<String, String> operationDescType =
       Map.of(
-          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"), "outputvalue",
-          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"), "writetofile",
-          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both"), "both");
+          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"), "outputvalue", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"),
+          "writetofile", BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both"), "both");
 
   public static final String OPERATION_TYPE_OUTPUT_VALUE = "outputvalue";
 
@@ -222,7 +218,7 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
     nrRowsInBloc = "1";
     operationType = OPERATION_TYPE_WRITE_TO_FILE;
     extension = "json";
-    doNotOpenNewFileInit=true;
+    doNotOpenNewFileInit = true;
     int nrFields = 0;
 
     for (int i = 0; i < nrFields; i++) {
@@ -234,13 +230,7 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     if (!Objects.equals(getOperationType(), OPERATION_TYPE_WRITE_TO_FILE)) {
       IValueMeta v = new ValueMetaString(variables.resolve(this.getOutputValue()));
@@ -262,32 +252,18 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
       IHopMetadataProvider metadataProvider) {
 
     CheckResult cr;
-    if (!Objects.equals(getOperationType(), JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE)
-        && Utils.isEmpty(variables.resolve(getOutputValue()))) {
+    if (!Objects.equals(getOperationType(), JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE) && Utils.isEmpty(variables.resolve(getOutputValue()))) {
       // We need to have output field name
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonOutput.Error.MissingOutputFieldName"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutput.Error.MissingOutputFieldName"), transformMeta);
       remarks.add(cr);
     }
     if (Utils.isEmpty(variables.resolve(getFileName()))) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonOutput.Error.MissingTargetFilename"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutput.Error.MissingTargetFilename"), transformMeta);
       remarks.add(cr);
     }
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JsonOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -302,42 +278,25 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 

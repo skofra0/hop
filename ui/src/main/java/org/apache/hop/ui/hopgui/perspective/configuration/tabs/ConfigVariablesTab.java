@@ -57,10 +57,7 @@ public class ConfigVariablesTab {
     // calls the addConfigVariablesTab() method.
   }
 
-  @GuiTab(
-      id = "10200-config-perspective-variables-tab",
-      parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS,
-      description = "System variables")
+  @GuiTab(id = "10200-config-perspective-variables-tab", parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS, description = "System variables")
   public void addConfigVariablesTab(CTabFolder wTabFolder) {
     int margin = PropsUi.getMargin();
 
@@ -84,23 +81,11 @@ public class ConfigVariablesTab {
     wbSave.addListener(SWT.Selection, this::save);
     BaseTransformDialog.positionBottomButtons(wVarsTabComp, new Button[] {wbSave}, margin, null);
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-    };
+    ColumnInfo[] columns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columns[2].setDisabledListener(rowNr -> false);
 
     // Fields between the label and the buttons
@@ -108,7 +93,7 @@ public class ConfigVariablesTab {
     wFields =
         new TableView(
             Variables.getADefaultVariableSpace(),
-                wVarsTabComp,
+            wVarsTabComp,
             SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL,
             columns,
             0,
@@ -153,8 +138,7 @@ public class ConfigVariablesTab {
       new ErrorDialog(
           HopGui.getInstance().getShell(),
           "Error",
-          "Error saving described variables to the Hop configuration file: "
-              + HopConfig.getInstance().getConfigFilename(),
+          "Error saving described variables to the Hop configuration file: " + HopConfig.getInstance().getConfigFilename(),
           e);
     }
   }
@@ -163,8 +147,7 @@ public class ConfigVariablesTab {
     try {
       HopConfig.getInstance().saveToFile();
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
     }
   }
 }

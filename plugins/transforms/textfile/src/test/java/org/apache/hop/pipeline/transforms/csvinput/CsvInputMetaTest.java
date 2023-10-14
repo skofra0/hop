@@ -42,14 +42,13 @@ import java.util.UUID;
 public class CsvInputMetaTest implements IInitializer<ITransformMeta> {
   TransformLoadSaveTester<CsvInputMeta> transformLoadSaveTester;
   Class<CsvInputMeta> testMetaClass = CsvInputMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
-  private static class TextFileInputFieldValidator
-      implements IFieldLoadSaveValidator<TextFileInputField> {
+  private static class TextFileInputFieldValidator implements IFieldLoadSaveValidator<TextFileInputField> {
     @Override
     public TextFileInputField getTestObject() {
-      return new TextFileInputField(
-          UUID.randomUUID().toString(), new Random().nextInt(), new Random().nextInt());
+      return new TextFileInputField(UUID.randomUUID().toString(), new Random().nextInt(), new Random().nextInt());
     }
 
     @Override
@@ -59,12 +58,8 @@ public class CsvInputMetaTest implements IInitializer<ITransformMeta> {
       }
 
       TextFileInputField another = (TextFileInputField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getLength(), another.getLength())
-          .append(testObject.getType(), another.getType())
-          .append(testObject.getTrimType(), another.getTrimType())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getLength(), another.getLength()).append(testObject.getType(), another.getType())
+          .append(testObject.getTrimType(), another.getTrimType()).isEquals();
     }
   }
 
@@ -74,53 +69,31 @@ public class CsvInputMetaTest implements IInitializer<ITransformMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "bufferSize",
-            "delimiter",
-            "enclosure",
-            "encoding",
-            "filename",
-            "filenameField",
-            "inputFields",
-            "rowNumField",
-            "addResultFile",
-            "headerPresent",
-            "includingFilename",
-            "lazyConversionActive",
-            "newlinePossibleInFields",
-            "runningInParallel");
+            "bufferSize", "delimiter", "enclosure", "encoding", "filename", "filenameField", "inputFields", "rowNumField", "addResultFile", "headerPresent", "includingFilename",
+            "lazyConversionActive", "newlinePossibleInFields", "runningInParallel");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("inputFields", "getInputFields");
-            put("hasHeader", "hasHeader");
-            put("includeFilename", "includeFilename");
-            put("includeRowNumber", "includeRowNumber");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("inputFields", "setInputFields");
-            put("includeFilename", "includeFilename");
-            put("includeRowNumber", "includeRowNumber");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("inputFields", "getInputFields");
+        put("hasHeader", "hasHeader");
+        put("includeFilename", "includeFilename");
+        put("includeRowNumber", "includeRowNumber");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("inputFields", "setInputFields");
+        put("includeFilename", "includeFilename");
+        put("includeRowNumber", "includeRowNumber");
+      }
+    };
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "inputFields", new ArrayLoadSaveValidator<>(new TextFileInputFieldValidator(), 5));
+    attrValidatorMap.put("inputFields", new ArrayLoadSaveValidator<>(new TextFileInputFieldValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    transformLoadSaveTester =
-        new TransformLoadSaveTester(
-            testMetaClass,
-                attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap);
+    transformLoadSaveTester = new TransformLoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -156,7 +129,6 @@ public class CsvInputMetaTest implements IInitializer<ITransformMeta> {
 
     Assert.assertNotSame(original.getInputFields(), clone.getInputFields());
     Assert.assertNotSame(original.getInputFields()[0], clone.getInputFields()[0]);
-    Assert.assertEquals(
-        original.getInputFields()[0].getName(), clone.getInputFields()[0].getName());
+    Assert.assertEquals(original.getInputFields()[0].getName(), clone.getInputFields()[0].getName());
   }
 }

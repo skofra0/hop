@@ -40,7 +40,8 @@ import java.nio.charset.StandardCharsets;
  * @see CsvInput
  */
 public class CsvInputUnicodeTest extends CsvInputUnitTestBase {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   private static final String UTF8 = "UTF-8";
   private static final String UTF16LE = "UTF-16LE";
   private static final String UTF16LEBOM = "x-UTF-16LE-BOM";
@@ -50,40 +51,28 @@ public class CsvInputUnicodeTest extends CsvInputUnitTestBase {
   private static final String TEXT = "Header1%1$sHeader2\nValue%1$sValue\nValue%1$sValue\n";
   private static final String TEXTHEADER = "Header1%1$sHeader2\n";
   private static final String TEXTBODY = "Value%1$sValue\nValue%1$sValue\n";
-  private static final String TEXT_WITH_ENCLOSURES =
-      "Header1%1$sHeader2\n\"Value\"%1$s\"Value\"\n\"Value\"%1$s\"Value\"\n";
+  private static final String TEXT_WITH_ENCLOSURES = "Header1%1$sHeader2\n\"Value\"%1$s\"Value\"\n\"Value\"%1$s\"Value\"\n";
   private static final String TEST_DATA = String.format(TEXT, ONE_CHAR_DELIM);
   private static final String TEST_DATA1 = String.format(TEXT, MULTI_CHAR_DELIM);
   private static final String TEST_DATA2 = String.format(TEXT_WITH_ENCLOSURES, ONE_CHAR_DELIM);
   private static final String TEST_DATA3 = String.format(TEXT_WITH_ENCLOSURES, MULTI_CHAR_DELIM);
 
   private static final byte[] UTF8_BOM = {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
-  private static final String TEST_DATA_UTF8_BOM =
-      String.format(new String(UTF8_BOM, StandardCharsets.UTF_8) + TEXT, ONE_CHAR_DELIM);
-  private static final String TEST_DATA_NOHEADER_UTF8_BOM =
-      String.format(new String(UTF8_BOM, StandardCharsets.UTF_8) + TEXTBODY, ONE_CHAR_DELIM);
+  private static final String TEST_DATA_UTF8_BOM = String.format(new String(UTF8_BOM, StandardCharsets.UTF_8) + TEXT, ONE_CHAR_DELIM);
+  private static final String TEST_DATA_NOHEADER_UTF8_BOM = String.format(new String(UTF8_BOM, StandardCharsets.UTF_8) + TEXTBODY, ONE_CHAR_DELIM);
 
   private static final byte[] UTF16LE_BOM = {(byte) 0xFF, (byte) 0xFE};
-  private static final String TEST_DATA_UTF16LE_BOM =
-      String.format(
-          new String(UTF16LE_BOM, StandardCharsets.UTF_16LE) + TEST_DATA2, ONE_CHAR_DELIM);
+  private static final String TEST_DATA_UTF16LE_BOM = String.format(new String(UTF16LE_BOM, StandardCharsets.UTF_16LE) + TEST_DATA2, ONE_CHAR_DELIM);
 
   private static final byte[] UTF16BE_BOM = {(byte) 0xFE, (byte) 0xFF};
-  private static final String TEST_DATA_UTF16BE_BOM =
-      String.format(
-          new String(UTF16BE_BOM, StandardCharsets.UTF_16BE) + TEST_DATA2, ONE_CHAR_DELIM);
+  private static final String TEST_DATA_UTF16BE_BOM = String.format(new String(UTF16BE_BOM, StandardCharsets.UTF_16BE) + TEST_DATA2, ONE_CHAR_DELIM);
 
   private static TransformMockHelper<CsvInputMeta, CsvInputData> transformMockHelper;
 
   @BeforeClass
   public static void setUp() throws HopException {
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputUnicodeTest");
-    Mockito.when(
-            transformMockHelper.logChannelFactory.create(
-                Matchers.any(), Matchers.any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputUnicodeTest");
+    Mockito.when(transformMockHelper.logChannelFactory.create(Matchers.any(), Matchers.any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     Mockito.when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -172,37 +161,23 @@ public class CsvInputUnicodeTest extends CsvInputUnitTestBase {
     doTest(UTF8, UTF8, TEST_DATA3, MULTI_CHAR_DELIM, true);
   }
 
-  private void doTest(
-      final String fileEncoding,
-      final String transformEncoding,
-      final String testData,
-      final String delimiter,
-      final boolean useHeader)
-      throws Exception {
+  private void doTest(final String fileEncoding, final String transformEncoding, final String testData, final String delimiter, final boolean useHeader) throws Exception {
     String testFilePath = createTestFile(fileEncoding, testData).getAbsolutePath();
 
     CsvInputMeta meta = createTransformMeta(testFilePath, transformEncoding, delimiter, useHeader);
     CsvInputData data = new CsvInputData();
 
-    CsvInput csvInput =
-        new CsvInput(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    CsvInput csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
 
     csvInput.init();
-    csvInput.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            for (int i = 0; i < rowMeta.size(); i++) {
-              Assert.assertEquals("Value", row[i]);
-            }
-          }
-        });
+    csvInput.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        for (int i = 0; i < rowMeta.size(); i++) {
+          Assert.assertEquals("Value", row[i]);
+        }
+      }
+    });
 
     boolean haveRowsToRead;
     do {
@@ -213,11 +188,7 @@ public class CsvInputUnicodeTest extends CsvInputUnitTestBase {
     Assert.assertEquals(2, csvInput.getLinesWritten());
   }
 
-  private CsvInputMeta createTransformMeta(
-      final String testFilePath,
-      final String encoding,
-      final String delimiter,
-      final boolean useHeader) {
+  private CsvInputMeta createTransformMeta(final String testFilePath, final String encoding, final String delimiter, final boolean useHeader) {
     final CsvInputMeta meta = new CsvInputMeta();
     meta.setFilename(testFilePath);
     meta.setDelimiter(delimiter);

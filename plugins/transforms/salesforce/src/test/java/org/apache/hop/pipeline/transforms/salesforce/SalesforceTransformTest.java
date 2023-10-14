@@ -51,7 +51,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 public class SalesforceTransformTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private TransformMockHelper<SalesforceTransformMeta, SalesforceTransformData> smh;
 
@@ -62,11 +63,8 @@ public class SalesforceTransformTest {
 
   @Before
   public void setUp() throws HopException {
-    smh =
-        new TransformMockHelper<>(
-            "Salesforce", SalesforceTransformMeta.class, SalesforceTransformData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    smh = new TransformMockHelper<>("Salesforce", SalesforceTransformMeta.class, SalesforceTransformData.class);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -84,10 +82,7 @@ public class SalesforceTransformTest {
   @Test
   public void testInitDispose() {
     SalesforceTransformMeta meta = mock(SalesforceTransformMeta.class, Mockito.CALLS_REAL_METHODS);
-    SalesforceTransform transform =
-        spy(
-            new MockSalesforceTransform(
-                smh.transformMeta, meta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline));
+    SalesforceTransform transform = spy(new MockSalesforceTransform(smh.transformMeta, meta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline));
 
     /*
      * Salesforce Transform should fail if username and password are not set
@@ -124,14 +119,8 @@ public class SalesforceTransformTest {
     assertNull(smh.iTransformData.connection);
   }
 
-  class MockSalesforceTransform
-      extends SalesforceTransform<SalesforceTransformMeta, SalesforceTransformData> {
-    public MockSalesforceTransform(
-        TransformMeta transformMeta,
-        SalesforceTransformMeta meta,
-        SalesforceTransformData data,
-        int copyNr,
-        PipelineMeta pipelineMeta,
+  class MockSalesforceTransform extends SalesforceTransform<SalesforceTransformMeta, SalesforceTransformData> {
+    public MockSalesforceTransform(TransformMeta transformMeta, SalesforceTransformMeta meta, SalesforceTransformData data, int copyNr, PipelineMeta pipelineMeta,
         Pipeline pipeline) {
       super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     }
@@ -139,15 +128,7 @@ public class SalesforceTransformTest {
 
   @Test
   public void createIntObjectTest() throws HopValueException {
-    SalesforceTransform transform =
-        spy(
-            new MockSalesforceTransform(
-                smh.transformMeta,
-                smh.iTransformMeta,
-                smh.iTransformData,
-                0,
-                smh.pipelineMeta,
-                smh.pipeline));
+    SalesforceTransform transform = spy(new MockSalesforceTransform(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline));
     IValueMeta valueMeta = Mockito.mock(IValueMeta.class);
     Mockito.when(valueMeta.getType()).thenReturn(IValueMeta.TYPE_INTEGER);
     Object value = transform.normalizeValue(valueMeta, 100L);
@@ -156,15 +137,7 @@ public class SalesforceTransformTest {
 
   @Test
   public void createDateObjectTest() throws HopValueException, ParseException {
-    SalesforceTransform transform =
-        spy(
-            new MockSalesforceTransform(
-                smh.transformMeta,
-                smh.iTransformMeta,
-                smh.iTransformData,
-                0,
-                smh.pipelineMeta,
-                smh.pipeline));
+    SalesforceTransform transform = spy(new MockSalesforceTransform(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline));
     IValueMeta valueMeta = Mockito.mock(IValueMeta.class);
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     Date date = dateFormat.parse("12-10-2017 15:10:25");
@@ -175,7 +148,6 @@ public class SalesforceTransformTest {
     Assert.assertTrue(value instanceof Calendar);
     DateFormat minutesDateFormat = new SimpleDateFormat("mm:ss");
     // check not missing minutes and seconds
-    Assert.assertEquals(
-        minutesDateFormat.format(date), minutesDateFormat.format(((Calendar) value).getTime()));
+    Assert.assertEquals(minutesDateFormat.format(date), minutesDateFormat.format(((Calendar) value).getTime()));
   }
 }

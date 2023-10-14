@@ -127,8 +127,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
   protected LogChannel log;
 
-  public ActionBaseDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionBaseDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     log = new LogChannel(workflowMeta);
   }
@@ -199,8 +198,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
     wPath.setLayoutData(fdPath);
 
     Label wlRunConfiguration = new Label(shell, SWT.LEFT);
-    wlRunConfiguration.setText(
-        BaseMessages.getString(PKG, "ActionPipeline.RunConfiguration.Label"));
+    wlRunConfiguration.setText(BaseMessages.getString(PKG, "ActionPipeline.RunConfiguration.Label"));
     PropsUi.setLook(wlRunConfiguration);
     FormData fdlRunConfiguration = new FormData();
     fdlRunConfiguration.left = new FormAttachment(0, 0);
@@ -214,7 +212,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
     fdRunConfiguration.right = new FormAttachment(100, 0);
     fdRunConfiguration.top = new FormAttachment(wlRunConfiguration, Const.isOSX() ? 0 : 5);
     wRunConfiguration.setLayoutData(fdRunConfiguration);
-    
+
     CTabFolder wTabFolder = new CTabFolder(shell, SWT.BORDER);
     PropsUi.setLook(wTabFolder, Props.WIDGET_STYLE_TAB);
 
@@ -366,8 +364,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
     wCreateParentFolder = new Button(gLogFile, SWT.CHECK);
     PropsUi.setLook(wCreateParentFolder);
-    wCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "ActionPipeline.Logfile.CreateParentFolder.Label"));
+    wCreateParentFolder.setText(BaseMessages.getString(PKG, "ActionPipeline.Logfile.CreateParentFolder.Label"));
     FormData fdCreateParent = new FormData();
     fdCreateParent.left = new FormAttachment(0, 0);
     fdCreateParent.top = new FormAttachment(wAppendLogfile, 10);
@@ -418,13 +415,12 @@ public abstract class ActionBaseDialog extends ActionDialog {
     fdCopyResultsParams.left = new FormAttachment(0, 0);
     fdCopyResultsParams.top = new FormAttachment(0, 0);
     wPrevToParams.setLayoutData(fdCopyResultsParams);
-    wPrevToParams.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getAction().setChanged();
-          }
-        });
+    wPrevToParams.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getAction().setChanged();
+      }
+    });
 
     wPassParams = new Button(wParameterComp, SWT.CHECK);
     PropsUi.setLook(wPassParams);
@@ -444,32 +440,12 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.Parameter.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.ColumnName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionPipeline.Parameters.Value.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.Parameter.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.ColumnName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionPipeline.Parameters.Value.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
     colinf[2].setUsingVariables(true);
 
-    wParameters =
-        new TableView(
-            variables,
-            wParameterComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            parameterRows,
-            false,
-            lsMod,
-            props,
-            false);
+    wParameters = new TableView(variables, wParameterComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, parameterRows, false, lsMod, props, false);
     PropsUi.setLook(wParameters);
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -499,8 +475,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, PropsUi.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, PropsUi.getMargin(), null);
 
     Label hSpacer = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
     FormData fdhSpacer = new FormData();
@@ -511,7 +486,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
     FormData fdTabFolder = new FormData();
     fdTabFolder.left = new FormAttachment(0, 0);
-    fdTabFolder.top = new FormAttachment(wRunConfiguration, 20);    
+    fdTabFolder.top = new FormAttachment(wRunConfiguration, 20);
     fdTabFolder.right = new FormAttachment(100, 0);
     fdTabFolder.bottom = new FormAttachment(hSpacer, -15);
     wTabFolder.setLayoutData(fdTabFolder);
@@ -519,9 +494,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
 
   protected void selectLogFile(String[] filters) {
 
-    String filename =
-        BaseDialog.presentFileDialog(
-            shell, wLogfile, variables, new String[] {"*.txt", "*.log", "*"}, filters, true);
+    String filename = BaseDialog.presentFileDialog(shell, wLogfile, variables, new String[] {"*.txt", "*.log", "*"}, filters, true);
     if (filename != null) {
       FileObject file = null;
       try {
@@ -529,10 +502,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
         // Set file extension ..
         wLogext.setText(file.getName().getExtension());
         // Set filename without extension ...
-        wLogfile.setText(
-            wLogfile
-                .getText()
-                .substring(0, wLogfile.getText().length() - wLogext.getText().length() - 1));
+        wLogfile.setText(wLogfile.getText().substring(0, wLogfile.getText().length() - wLogext.getText().length() - 1));
       } catch (Exception ex) {
         // Ignore
       }
@@ -582,8 +552,7 @@ public abstract class ActionBaseDialog extends ActionDialog {
         String baseName = HopVfs.getFileObject(variables.resolve(filename)).getName().getBaseName();
         wName.setText(baseName);
       } catch (Exception e) {
-        new ErrorDialog(
-            shell, "Error", "Error extracting name from filename '" + filename + "'", e);
+        new ErrorDialog(shell, "Error", "Error extracting name from filename '" + filename + "'", e);
       }
     }
   }
@@ -597,6 +566,6 @@ public abstract class ActionBaseDialog extends ActionDialog {
   protected abstract Image getImage();
 
   protected abstract int getParameterCount();
-  
+
   protected abstract Control createRunConfigurationControl();
 }

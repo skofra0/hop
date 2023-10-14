@@ -43,11 +43,7 @@ public class CanvasFacadeImpl extends CanvasFacade {
   private void setDataCommon(Canvas canvas, float magnification, DPoint offset, Object meta) {
     JsonObject jsonProps = new JsonObject();
     jsonProps.add("themeId", System.getProperty(HopWeb.HOP_WEB_THEME, "light"));
-    jsonProps.add(
-        "gridSize",
-        PropsUi.getInstance().isShowCanvasGridEnabled()
-            ? PropsUi.getInstance().getCanvasGridSize()
-            : 1);
+    jsonProps.add("gridSize", PropsUi.getInstance().isShowCanvasGridEnabled() ? PropsUi.getInstance().getCanvasGridSize() : 1);
     jsonProps.add("iconSize", PropsUi.getInstance().getIconSize());
     jsonProps.add("magnification", (float) (magnification * PropsUi.getNativeZoomFactor()));
     jsonProps.add("offsetX", offset.x);
@@ -56,19 +52,16 @@ public class CanvasFacadeImpl extends CanvasFacade {
 
     JsonArray jsonNotes = new JsonArray();
     if (meta instanceof AbstractMeta) {
-      ((AbstractMeta) meta)
-          .getNotes()
-          .forEach(
-              note -> {
-                JsonObject jsonNote = new JsonObject();
-                jsonNote.add("x", note.getLocation().x);
-                jsonNote.add("y", note.getLocation().y);
-                jsonNote.add("width", note.getWidth());
-                jsonNote.add("height", note.getHeight());
-                jsonNote.add("selected", note.isSelected());
-                jsonNote.add("note", note.getNote());
-                jsonNotes.add(jsonNote);
-              });
+      ((AbstractMeta) meta).getNotes().forEach(note -> {
+        JsonObject jsonNote = new JsonObject();
+        jsonNote.add("x", note.getLocation().x);
+        jsonNote.add("y", note.getLocation().y);
+        jsonNote.add("width", note.getWidth());
+        jsonNote.add("height", note.getHeight());
+        jsonNote.add("selected", note.isSelected());
+        jsonNote.add("note", note.getNote());
+        jsonNotes.add(jsonNote);
+      });
     }
     canvas.setData("notes", jsonNotes);
   }
@@ -78,17 +71,14 @@ public class CanvasFacadeImpl extends CanvasFacade {
 
     // Store the individual SVG images of the actions as well
     //
-    workflowMeta
-        .getActions()
-        .forEach(
-            actionMeta -> {
-              JsonObject jsonNode = new JsonObject();
-              jsonNode.add("x", actionMeta.getLocation().x);
-              jsonNode.add("y", actionMeta.getLocation().y);
-              jsonNode.add("selected", actionMeta.isSelected());
+    workflowMeta.getActions().forEach(actionMeta -> {
+      JsonObject jsonNode = new JsonObject();
+      jsonNode.add("x", actionMeta.getLocation().x);
+      jsonNode.add("y", actionMeta.getLocation().y);
+      jsonNode.add("selected", actionMeta.isSelected());
 
-              jsonNodes.add(actionMeta.getName(), jsonNode);
-            });
+      jsonNodes.add(actionMeta.getName(), jsonNode);
+    });
     canvas.setData("nodes", jsonNodes);
 
     JsonArray jsonHops = new JsonArray();
@@ -105,17 +95,14 @@ public class CanvasFacadeImpl extends CanvasFacade {
   private void setDataPipeline(Canvas canvas, PipelineMeta pipelineMeta) {
     JsonObject jsonNodes = new JsonObject();
 
-    pipelineMeta
-        .getTransforms()
-        .forEach(
-            transformMeta -> {
-              JsonObject jsonNode = new JsonObject();
-              jsonNode.add("x", transformMeta.getLocation().x);
-              jsonNode.add("y", transformMeta.getLocation().y);
-              jsonNode.add("selected", transformMeta.isSelected());
+    pipelineMeta.getTransforms().forEach(transformMeta -> {
+      JsonObject jsonNode = new JsonObject();
+      jsonNode.add("x", transformMeta.getLocation().x);
+      jsonNode.add("y", transformMeta.getLocation().y);
+      jsonNode.add("selected", transformMeta.isSelected());
 
-              jsonNodes.add(transformMeta.getName(), jsonNode);
-            });
+      jsonNodes.add(transformMeta.getName(), jsonNode);
+    });
     canvas.setData("nodes", jsonNodes);
 
     JsonArray jsonHops = new JsonArray();

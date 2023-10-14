@@ -21,12 +21,8 @@ import org.apache.hop.partition.PartitionSchema;
 import java.util.ArrayList;
 import java.util.List;
 
-@SearchableAnalyserPlugin(
-    id = "PartitionSchemaSearchableAnalyser",
-    name = "Search in partition schema metadata")
-public class PartitionSchemaSearchableAnalyser
-    extends BaseMetadataSearchableAnalyser<PartitionSchema>
-    implements ISearchableAnalyser<PartitionSchema> {
+@SearchableAnalyserPlugin(id = "PartitionSchemaSearchableAnalyser", name = "Search in partition schema metadata")
+public class PartitionSchemaSearchableAnalyser extends BaseMetadataSearchableAnalyser<PartitionSchema> implements ISearchableAnalyser<PartitionSchema> {
 
   @Override
   public Class<PartitionSchema> getSearchableClass() {
@@ -34,27 +30,14 @@ public class PartitionSchemaSearchableAnalyser
   }
 
   @Override
-  public List<ISearchResult> search(
-      ISearchable<PartitionSchema> searchable, ISearchQuery searchQuery) {
+  public List<ISearchResult> search(ISearchable<PartitionSchema> searchable, ISearchQuery searchQuery) {
     PartitionSchema partitionSchema = searchable.getSearchableObject();
     String component = getMetadataComponent();
 
     List<ISearchResult> results = new ArrayList<>();
 
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Partition schema name",
-        partitionSchema.getName(),
-        component);
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Partition schema number of partitions",
-        partitionSchema.getNumberOfPartitions(),
-        component);
+    matchProperty(searchable, results, searchQuery, "Partition schema name", partitionSchema.getName(), component);
+    matchProperty(searchable, results, searchQuery, "Partition schema number of partitions", partitionSchema.getNumberOfPartitions(), component);
     return results;
   }
 }

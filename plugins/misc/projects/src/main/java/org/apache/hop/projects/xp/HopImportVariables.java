@@ -25,15 +25,11 @@ import org.apache.hop.core.variables.DescribedVariable;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.vfs.HopVfs;
 
-@ExtensionPoint(
-    id = "HopImportVariables",
-    description = "Imports variables into a Hop project",
-    extensionPointId = "HopImportVariables")
+@ExtensionPoint(id = "HopImportVariables", description = "Imports variables into a Hop project", extensionPointId = "HopImportVariables")
 public class HopImportVariables implements IExtensionPoint<Object[]> {
 
   @Override
-  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, Object[] payload)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, Object[] payload) throws HopException {
 
     String configFilename = (String) payload[0];
     IVariables collectedVariables = (IVariables) payload[1];
@@ -60,8 +56,7 @@ public class HopImportVariables implements IExtensionPoint<Object[]> {
       //
       configFile.saveToFile();
     } catch (Exception e) {
-      throw new HopException(
-          "Error importing variables to environment config file '" + configFilename, e);
+      throw new HopException("Error importing variables to environment config file '" + configFilename, e);
     }
   }
 }

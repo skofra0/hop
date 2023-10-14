@@ -22,9 +22,11 @@ import java.util.Objects;
 
 public class PropBeanListChild {
 
-  @HopMetadataProperty private String f1;
+  @HopMetadataProperty
+  private String f1;
 
-  @HopMetadataProperty private String f2;
+  @HopMetadataProperty
+  private String f2;
 
   public PropBeanListChild() {}
 

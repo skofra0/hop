@@ -57,8 +57,7 @@ public class PipelineTestFactory {
 
   static PluginRegistry registry = PluginRegistry.getInstance();
 
-  public static PipelineMeta generateTestTransformation(
-      IVariables parent, ITransformMeta oneMeta, String oneTransformName) {
+  public static PipelineMeta generateTestTransformation(IVariables parent, ITransformMeta oneMeta, String oneTransformName) {
     PipelineMeta previewMeta = new PipelineMeta();
 
     // First the injector transform...
@@ -67,11 +66,9 @@ public class PipelineTestFactory {
 
     // Then the middle transform to test...
     //
-    TransformMeta one =
-        new TransformMeta(
-            registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
+    TransformMeta one = new TransformMeta(registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
     one.setLocation(150, 50);
-    //    one.setDraw( true );
+    // one.setDraw( true );
     previewMeta.addTransform(one);
 
     // Then we add the dummy transform to read the results from
@@ -87,8 +84,7 @@ public class PipelineTestFactory {
     return previewMeta;
   }
 
-  public static PipelineMeta generateTestTransformationError(
-      IVariables parent, ITransformMeta oneMeta, String oneTransformName) {
+  public static PipelineMeta generateTestTransformationError(IVariables parent, ITransformMeta oneMeta, String oneTransformName) {
     PipelineMeta previewMeta = new PipelineMeta();
 
     if (parent == null) {
@@ -101,11 +97,9 @@ public class PipelineTestFactory {
 
     // Then the middle transform to test...
     //
-    TransformMeta one =
-        new TransformMeta(
-            registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
+    TransformMeta one = new TransformMeta(registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
     one.setLocation(150, 50);
-    //    one.setDraw( true );
+    // one.setDraw( true );
     previewMeta.addTransform(one);
 
     // Then we add the dummy transform to read the results from
@@ -188,16 +182,9 @@ public class PipelineTestFactory {
     return dummyRc.getRowsRead();
   }
 
-  public static Map<String, RowTransformCollector> executeTestTransformationError(
-      PipelineMeta pipelineMeta, String testTransformName, List<RowMetaAndData> inputData)
+  public static Map<String, RowTransformCollector> executeTestTransformationError(PipelineMeta pipelineMeta, String testTransformName, List<RowMetaAndData> inputData)
       throws HopException {
-    return executeTestTransformationError(
-        pipelineMeta,
-        INJECTOR_TRANSFORMNAME,
-        testTransformName,
-        DUMMY_TRANSFORMNAME,
-        ERROR_TRANSFORMNAME,
-        inputData);
+    return executeTestTransformationError(pipelineMeta, INJECTOR_TRANSFORMNAME, testTransformName, DUMMY_TRANSFORMNAME, ERROR_TRANSFORMNAME, inputData);
   }
 
   public static Map<String, RowTransformCollector> executeTestTransformationError(
@@ -266,11 +253,7 @@ public class PipelineTestFactory {
 
   static TransformMeta getInjectorTransformMeta() {
     InjectorMeta zeroMeta = new InjectorMeta();
-    TransformMeta zero =
-        new TransformMeta(
-            registry.getPluginId(TransformPluginType.class, zeroMeta),
-            INJECTOR_TRANSFORMNAME,
-            zeroMeta);
+    TransformMeta zero = new TransformMeta(registry.getPluginId(TransformPluginType.class, zeroMeta), INJECTOR_TRANSFORMNAME, zeroMeta);
     zero.setLocation(50, 50);
     // zero.setDraw( true );
     return zero;
@@ -278,10 +261,9 @@ public class PipelineTestFactory {
 
   static TransformMeta getReadTransformMeta(String name) {
     DummyMeta twoMeta = new DummyMeta();
-    TransformMeta two =
-        new TransformMeta(registry.getPluginId(TransformPluginType.class, twoMeta), name, twoMeta);
+    TransformMeta two = new TransformMeta(registry.getPluginId(TransformPluginType.class, twoMeta), name, twoMeta);
     two.setLocation(250, 50);
-    //    two.setDraw( true );
+    // two.setDraw( true );
     return two;
   }
 

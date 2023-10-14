@@ -32,8 +32,7 @@ public class LdapProtocolFactoryTest {
     String protocolName = "LDAP";
     String host = "localhost";
 
-    LdapProtocolFactory ldapProtocolFactory =
-        new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
+    LdapProtocolFactory ldapProtocolFactory = new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
     IVariables variables = Mockito.mock(IVariables.class);
     ILdapMeta meta = Mockito.mock(ILdapMeta.class);
     Mockito.doReturn(ldapVariable).when(meta).getProtocol();
@@ -41,12 +40,9 @@ public class LdapProtocolFactoryTest {
     Mockito.doReturn(host).when(meta).getHost();
     Mockito.doReturn(host).when(variables).resolve(host);
 
-    LdapProtocol ldapProtocol =
-        ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
+    LdapProtocol ldapProtocol = ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
     Mockito.verify(variables, Mockito.times(1)).resolve(ldapVariable);
-    Assert.assertTrue(
-        "Invalid protocol created",
-        protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
+    Assert.assertTrue("Invalid protocol created", protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
   }
 
   @Test
@@ -55,8 +51,7 @@ public class LdapProtocolFactoryTest {
     String protocolName = "LDAP SSL";
     String host = "localhost";
 
-    LdapProtocolFactory ldapProtocolFactory =
-        new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
+    LdapProtocolFactory ldapProtocolFactory = new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
     IVariables variables = Mockito.mock(IVariables.class);
     ILdapMeta meta = Mockito.mock(ILdapMeta.class);
     Mockito.doReturn(ldapVariable).when(meta).getProtocol();
@@ -64,12 +59,9 @@ public class LdapProtocolFactoryTest {
     Mockito.doReturn(host).when(meta).getHost();
     Mockito.doReturn(host).when(variables).resolve(host);
 
-    LdapProtocol ldapProtocol =
-        ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
+    LdapProtocol ldapProtocol = ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
     Mockito.verify(variables, Mockito.times(1)).resolve(ldapVariable);
-    Assert.assertTrue(
-        "Invalid protocol created",
-        protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
+    Assert.assertTrue("Invalid protocol created", protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
   }
 
   @Test
@@ -78,8 +70,7 @@ public class LdapProtocolFactoryTest {
     String protocolName = "LDAP TLS";
     String host = "localhost";
 
-    LdapProtocolFactory ldapProtocolFactory =
-        new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
+    LdapProtocolFactory ldapProtocolFactory = new LdapProtocolFactory(Mockito.mock(ILogChannel.class));
     IVariables variables = Mockito.mock(IVariables.class);
     ILdapMeta meta = Mockito.mock(ILdapMeta.class);
     Mockito.doReturn(ldapVariable).when(meta).getProtocol();
@@ -87,11 +78,8 @@ public class LdapProtocolFactoryTest {
     Mockito.doReturn(host).when(meta).getHost();
     Mockito.doReturn(host).when(variables).resolve(host);
 
-    LdapProtocol ldapProtocol =
-        ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
+    LdapProtocol ldapProtocol = ldapProtocolFactory.createLdapProtocol(variables, meta, Collections.emptyList());
     Mockito.verify(variables, Mockito.times(1)).resolve(ldapVariable);
-    Assert.assertTrue(
-        "Invalid protocol created",
-        protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
+    Assert.assertTrue("Invalid protocol created", protocolName.equals(ldapProtocol.getClass().getMethod("getName").invoke(null).toString()));
   }
 }

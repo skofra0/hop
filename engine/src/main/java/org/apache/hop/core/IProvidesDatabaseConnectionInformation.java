@@ -51,7 +51,7 @@ public interface IProvidesDatabaseConnectionInformation {
    * missing information.
    *
    * @return A friendly message that describes that database connection information is missing and,
-   *     potentially, why.
+   *         potentially, why.
    */
   String getMissingDatabaseConnectionInformationMessage();
 }

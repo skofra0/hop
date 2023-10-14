@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 /** Defines a link between 2 transforms in a pipeline */
-public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
-    implements Comparable<PipelineHopMeta>, Cloneable {
+public class PipelineHopMeta extends BaseHopMeta<TransformMeta> implements Comparable<PipelineHopMeta>, Cloneable {
   private static final Class<?> PKG = Pipeline.class; // For Translator
 
   public PipelineHopMeta(TransformMeta from, TransformMeta to, boolean en) {
@@ -50,25 +49,16 @@ public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
 
   public PipelineHopMeta(Node hopNode, List<TransformMeta> transforms) throws HopXmlException {
     try {
-      this.from = searchTransform(transforms,
-          XmlHandler.getTagValue(hopNode, XML_FROM_TAG));
-      this.to =
-          searchTransform(transforms, XmlHandler.getTagValue(hopNode, XML_TO_TAG));
-      this.enabled = getTagValueAsBoolean(hopNode, XML_ENABLED_TAG, true);    
+      this.from = searchTransform(transforms, XmlHandler.getTagValue(hopNode, XML_FROM_TAG));
+      this.to = searchTransform(transforms, XmlHandler.getTagValue(hopNode, XML_TO_TAG));
+      this.enabled = getTagValueAsBoolean(hopNode, XML_ENABLED_TAG, true);
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "PipelineHopMeta.Exception.UnableToLoadHopInfo"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "PipelineHopMeta.Exception.UnableToLoadHopInfo"), e);
     }
   }
 
   public PipelineHopMeta(PipelineHopMeta hop) {
-    super(
-        hop.isSplit(),
-        hop.getFromTransform(),
-        hop.getToTransform(),
-        hop.isEnabled(),
-        hop.hasChanged(),
-        hop.isErrorHop());
+    super(hop.isSplit(), hop.getFromTransform(), hop.getToTransform(), hop.isEnabled(), hop.hasChanged(), hop.isErrorHop());
   }
 
   @Override
@@ -137,10 +127,8 @@ public class PipelineHopMeta extends BaseHopMeta<TransformMeta>
 
     if (this.from != null && this.to != null) {
       xml.append("    ").append(XmlHandler.openTag(XML_HOP_TAG)).append(Const.CR);
-      xml.append("      ")
-          .append(XmlHandler.addTagValue(XML_FROM_TAG, this.from.getName()));
-      xml.append("      ")
-          .append(XmlHandler.addTagValue(XML_TO_TAG, this.to.getName()));
+      xml.append("      ").append(XmlHandler.addTagValue(XML_FROM_TAG, this.from.getName()));
+      xml.append("      ").append(XmlHandler.addTagValue(XML_TO_TAG, this.to.getName()));
       xml.append("      ").append(XmlHandler.addTagValue(XML_ENABLED_TAG, enabled));
       xml.append("    ").append(XmlHandler.closeTag(XML_HOP_TAG)).append(Const.CR);
     }

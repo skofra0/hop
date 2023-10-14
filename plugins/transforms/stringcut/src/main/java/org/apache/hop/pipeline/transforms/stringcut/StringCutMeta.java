@@ -48,11 +48,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
 
   private static final Class<?> PKG = StringCutMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupDescription = "StringCutMeta.Injection.Fields",
-      injectionKeyDescription = "StringCutMeta.Injection.Field")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupDescription = "StringCutMeta.Injection.Fields", injectionKeyDescription = "StringCutMeta.Injection.Field")
   private List<StringCutField> fields;
 
   public StringCutMeta() {
@@ -87,13 +83,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < fields.size(); i++) {
       IValueMeta v;
@@ -132,8 +122,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
     boolean errorFound = false;
 
     if (prev == null) {
-      errorMessage +=
-          BaseMessages.getString(PKG, "StringCutMeta.CheckResult.NoInputReceived") + Const.CR;
+      errorMessage += BaseMessages.getString(PKG, "StringCutMeta.CheckResult.NoInputReceived") + Const.CR;
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       remarks.add(cr);
     } else {
@@ -146,9 +135,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
         if (v == null) {
           if (first) {
             first = false;
-            errorMessage +=
-                BaseMessages.getString(PKG, "StringCutMeta.CheckResult.MissingInStreamFields")
-                    + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "StringCutMeta.CheckResult.MissingInStreamFields") + Const.CR;
           }
           errorFound = true;
           errorMessage += "\t\t" + field + Const.CR;
@@ -157,11 +144,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
       if (errorFound) {
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "StringCutMeta.CheckResult.FoundInStreamFields"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StringCutMeta.CheckResult.FoundInStreamFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -176,9 +159,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
 
           if (first) {
             first = false;
-            errorMessage +=
-                BaseMessages.getString(PKG, "StringCutMeta.CheckResult.OperationOnNonStringFields")
-                    + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "StringCutMeta.CheckResult.OperationOnNonStringFields") + Const.CR;
           }
           errorFound = true;
           errorMessage += "\t\t" + field + Const.CR;
@@ -187,12 +168,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
       if (errorFound) {
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "StringCutMeta.CheckResult.AllOperationsOnStringFields"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StringCutMeta.CheckResult.AllOperationsOnStringFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -203,10 +179,7 @@ public class StringCutMeta extends BaseTransformMeta<StringCut, StringCutData> {
             cr =
                 new CheckResult(
                     ICheckResult.TYPE_RESULT_ERROR,
-                    BaseMessages.getString(
-                        PKG,
-                        "StringCutMeta.CheckResult.InStreamFieldMissing",
-                        Integer.toString(idx + 1)),
+                    BaseMessages.getString(PKG, "StringCutMeta.CheckResult.InStreamFieldMissing", Integer.toString(idx + 1)),
                     transforminfo);
             remarks.add(cr);
           }

@@ -32,7 +32,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class NumberRangeMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
@@ -51,26 +52,16 @@ public class NumberRangeMetaTest {
     setterMap.put("rules", "setRules");
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
-    fieldLoadSaveValidatorAttributeMap.put(
-        "rules", new ListLoadSaveValidator<>(new NumberRangeRuleFieldLoadSaveValidator(), 25));
+    fieldLoadSaveValidatorAttributeMap.put("rules", new ListLoadSaveValidator<>(new NumberRangeRuleFieldLoadSaveValidator(), 25));
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            NumberRangeMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+    LoadSaveTester loadSaveTester = new LoadSaveTester(NumberRangeMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, new HashMap<>());
     loadSaveTester.testSerialization();
   }
 
-  public class NumberRangeRuleFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<NumberRangeRule> {
+  public class NumberRangeRuleFieldLoadSaveValidator implements IFieldLoadSaveValidator<NumberRangeRule> {
     @Override
     public NumberRangeRule getTestObject() {
-      return new NumberRangeRule(
-          String.valueOf(new Random().nextDouble()), String.valueOf(new Random().nextDouble()), UUID.randomUUID().toString());
+      return new NumberRangeRule(String.valueOf(new Random().nextDouble()), String.valueOf(new Random().nextDouble()), UUID.randomUUID().toString());
     }
 
     @Override

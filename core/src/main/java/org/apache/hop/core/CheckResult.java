@@ -22,13 +22,13 @@ import org.apache.hop.i18n.BaseMessages;
 public class CheckResult implements ICheckResult {
   private static final Class<?> PKG = Const.class; // For Translator
 
-  public static final String[] typeDesc = {
-    "",
-    BaseMessages.getString(PKG, "CheckResult.OK"),
-    BaseMessages.getString(PKG, "CheckResult.Remark"),
-    BaseMessages.getString(PKG, "CheckResult.Warning"),
-    BaseMessages.getString(PKG, "CheckResult.Error")
-  };
+  public static final String[] typeDesc =
+      {
+          "",
+          BaseMessages.getString(PKG, "CheckResult.OK"),
+          BaseMessages.getString(PKG, "CheckResult.Remark"),
+          BaseMessages.getString(PKG, "CheckResult.Warning"),
+          BaseMessages.getString(PKG, "CheckResult.Error")};
 
   private int type;
 

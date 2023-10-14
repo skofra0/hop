@@ -22,65 +22,34 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 /** Describes a single field in an excel file */
 public class ExcelInputField implements Cloneable {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "NAME",
-      injectionKeyDescription = "ExcelInput.Injection.NAME")
+  @HopMetadataProperty(key = "name", injectionKey = "NAME", injectionKeyDescription = "ExcelInput.Injection.NAME")
   private String name;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "TYPE",
-      injectionKeyDescription = "ExcelInput.Injection.TYPE")
+  @HopMetadataProperty(key = "type", injectionKey = "TYPE", injectionKeyDescription = "ExcelInput.Injection.TYPE")
   private String type;
 
-  @HopMetadataProperty(
-      key = "length",
-      injectionKey = "LENGTH",
-      injectionKeyDescription = "ExcelInput.Injection.LENGTH")
+  @HopMetadataProperty(key = "length", injectionKey = "LENGTH", injectionKeyDescription = "ExcelInput.Injection.LENGTH")
   private int length = -1;
 
-  @HopMetadataProperty(
-      key = "precision",
-      injectionKey = "PRECISION",
-      injectionKeyDescription = "ExcelInput.Injection.PRECISION")
+  @HopMetadataProperty(key = "precision", injectionKey = "PRECISION", injectionKeyDescription = "ExcelInput.Injection.PRECISION")
   private int precision = -1;
 
-  @HopMetadataProperty(
-      key = "trim_type",
-      storeWithCode = true,
-      injectionKey = "TRIM_TYPE",
-      injectionKeyDescription = "ExcelInput.Injection.TRIM_TYPE")
+  @HopMetadataProperty(key = "trim_type", storeWithCode = true, injectionKey = "TRIM_TYPE", injectionKeyDescription = "ExcelInput.Injection.TRIM_TYPE")
   private IValueMeta.TrimType trimType;
 
-  @HopMetadataProperty(
-      key = "format",
-      injectionKey = "FORMAT",
-      injectionKeyDescription = "ExcelInput.Injection.FORMAT")
+  @HopMetadataProperty(key = "format", injectionKey = "FORMAT", injectionKeyDescription = "ExcelInput.Injection.FORMAT")
   private String format;
 
-  @HopMetadataProperty(
-      key = "currency",
-      injectionKey = "CURRENCY",
-      injectionKeyDescription = "ExcelInput.Injection.CURRENCY")
+  @HopMetadataProperty(key = "currency", injectionKey = "CURRENCY", injectionKeyDescription = "ExcelInput.Injection.CURRENCY")
   private String currencySymbol;
 
-  @HopMetadataProperty(
-      key = "decimal",
-      injectionKey = "DECIMAL",
-      injectionKeyDescription = "ExcelInput.Injection.DECIMAL")
+  @HopMetadataProperty(key = "decimal", injectionKey = "DECIMAL", injectionKeyDescription = "ExcelInput.Injection.DECIMAL")
   private String decimalSymbol;
 
-  @HopMetadataProperty(
-      key = "group",
-      injectionKey = "GROUP",
-      injectionKeyDescription = "ExcelInput.Injection.GROUP")
+  @HopMetadataProperty(key = "group", injectionKey = "GROUP", injectionKeyDescription = "ExcelInput.Injection.GROUP")
   private String groupSymbol;
 
-  @HopMetadataProperty(
-      key = "repeat",
-      injectionKey = "REPEAT",
-      injectionKeyDescription = "ExcelInput.Injection.REPEAT")
+  @HopMetadataProperty(key = "repeat", injectionKey = "REPEAT", injectionKeyDescription = "ExcelInput.Injection.REPEAT")
   private boolean repeat;
 
   public ExcelInputField() {}

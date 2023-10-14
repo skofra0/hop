@@ -54,14 +54,7 @@ public class BeamOutputTransform extends PTransform<PCollection<HopRow>, PDone> 
 
   public BeamOutputTransform() {}
 
-  public BeamOutputTransform(
-      String transformName,
-      String outputLocation,
-      String filePrefix,
-      String fileSuffix,
-      String separator,
-      String enclosure,
-      boolean windowed,
+  public BeamOutputTransform(String transformName, String outputLocation, String filePrefix, String fileSuffix, String separator, String enclosure, boolean windowed,
       String rowMetaJson) {
     this.transformName = transformName;
     this.outputLocation = outputLocation;
@@ -88,16 +81,7 @@ public class BeamOutputTransform extends PTransform<PCollection<HopRow>, PDone> 
       // This is the end of a computing chain, we write out the results
       // We write a bunch of Strings, one per line basically
       //
-      PCollection<String> stringCollection =
-          input.apply(
-              transformName,
-              ParDo.of(
-                  new HopToStringFn(
-                      transformName,
-                      outputLocation,
-                      separator,
-                      enclosure,
-                      rowMetaJson)));
+      PCollection<String> stringCollection = input.apply(transformName, ParDo.of(new HopToStringFn(transformName, outputLocation, separator, enclosure, rowMetaJson)));
 
       // We need to transform these lines into a file and then we're PDone
       //

@@ -172,12 +172,10 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     int repetitionNr = 0;
     while (repeat && !parentWorkflow.isStopped()) {
       repetitionNr++;
-      executionResult =
-          executePipelineOrWorkflow(realFilename, nr, executionResult, repetitionNr);
+      executionResult = executePipelineOrWorkflow(realFilename, nr, executionResult, repetitionNr);
       Result result = executionResult.result;
       if (!result.getResult() || result.getNrErrors() > 0 || result.isStopped()) {
-        log.logError(
-            "The repeating work encountered and error or was stopped. This ends the loop.");
+        log.logError("The repeating work encountered and error or was stopped. This ends the loop.");
 
         // On an false result, stop the loop
         //
@@ -200,8 +198,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
         // See if we need to delay
         //
         long startTime = System.currentTimeMillis();
-        while (!parentWorkflow.isStopped()
-            && (System.currentTimeMillis() - startTime < delayInMs)) {
+        while (!parentWorkflow.isStopped() && (System.currentTimeMillis() - startTime < delayInMs)) {
           try {
             Thread.sleep(100);
           } catch (Exception e) {
@@ -220,9 +217,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     return prevResult;
   }
 
-  private ExecutionResult executePipelineOrWorkflow(
-      String realFilename, int nr, ExecutionResult previousResult, int repetitionNr)
-      throws HopException {
+  private ExecutionResult executePipelineOrWorkflow(String realFilename, int nr, ExecutionResult previousResult, int repetitionNr) throws HopException {
     if (isPipeline(realFilename)) {
       return executePipeline(realFilename, nr, previousResult, repetitionNr);
     }
@@ -232,13 +227,9 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     throw new HopException("Sorry, I don't know if this is a pipeline or a workflow");
   }
 
-  private ExecutionResult executePipeline(
-      String realFilename, int nr, ExecutionResult previousResult, int repetitionNr)
-      throws HopException {
+  private ExecutionResult executePipeline(String realFilename, int nr, ExecutionResult previousResult, int repetitionNr) throws HopException {
     PipelineMeta pipelineMeta = loadPipeline(realFilename, getMetadataProvider(), this);
-    IPipelineEngine<PipelineMeta> pipeline =
-        PipelineEngineFactory.createPipelineEngine(
-            this, resolve(runConfigurationName), getMetadataProvider(), pipelineMeta);
+    IPipelineEngine<PipelineMeta> pipeline = PipelineEngineFactory.createPipelineEngine(this, resolve(runConfigurationName), getMetadataProvider(), pipelineMeta);
     pipeline.setParentWorkflow(getParentWorkflow());
     pipeline.setParent(this);
     if (keepingValues && previousResult != null) {
@@ -257,8 +248,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     pipeline.setVariables(getVariablesMap(getParentWorkflow(), previousResult));
 
     // TODO: check this!
-    INamedParameters previousParams =
-        previousResult == null ? null : (INamedParameters) previousResult.variables;
+    INamedParameters previousParams = previousResult == null ? null : (INamedParameters) previousResult.variables;
     IVariables previousVars = previousResult == null ? null : previousResult.variables;
     updateParameters(pipeline, previousVars, getParentWorkflow(), previousParams);
 
@@ -289,8 +279,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     }
   }
 
-  private LogChannelFileWriter logToFile(ILoggingObject loggingObject, int repetitionNr)
-      throws HopException {
+  private LogChannelFileWriter logToFile(ILoggingObject loggingObject, int repetitionNr) throws HopException {
 
     // Calculate the filename
     //
@@ -309,20 +298,14 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     filename += "." + resolve(logFileExtension);
 
     String logChannelId = loggingObject.getLogChannelId();
-    LogChannelFileWriter fileWriter =
-        new LogChannelFileWriter(
-            logChannelId,
-            HopVfs.getFileObject(filename),
-            logFileAppended,
-            Const.toInt(logFileUpdateInterval, 5000));
+    LogChannelFileWriter fileWriter = new LogChannelFileWriter(logChannelId, HopVfs.getFileObject(filename), logFileAppended, Const.toInt(logFileUpdateInterval, 5000));
 
     fileWriter.startLogging();
 
     return fileWriter;
   }
 
-  private Map<String, String> getVariablesMap(
-      INamedParameters namedParams, ExecutionResult previousResult) {
+  private Map<String, String> getVariablesMap(INamedParameters namedParams, ExecutionResult previousResult) {
     String[] params = namedParams.listParameters();
     Map<String, String> variablesMap = new HashMap<>();
 
@@ -341,14 +324,10 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     return variablesMap;
   }
 
-  private ExecutionResult executeWorkflow(
-      String realFilename, int nr, ExecutionResult previousResult, int repetitionNr)
-      throws HopException {
+  private ExecutionResult executeWorkflow(String realFilename, int nr, ExecutionResult previousResult, int repetitionNr) throws HopException {
 
     WorkflowMeta workflowMeta = loadWorkflow(realFilename, getMetadataProvider(), this);
-    IWorkflowEngine<WorkflowMeta> workflow =
-        WorkflowEngineFactory.createWorkflowEngine(
-            this, resolve(runConfigurationName), getMetadataProvider(), workflowMeta, this);
+    IWorkflowEngine<WorkflowMeta> workflow = WorkflowEngineFactory.createWorkflowEngine(this, resolve(runConfigurationName), getMetadataProvider(), workflowMeta, this);
     workflow.setParentWorkflow(getParentWorkflow());
     workflow.setParentVariables(this);
     if (keepingValues && previousResult != null) {
@@ -365,8 +344,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     workflow.setVariables(getVariablesMap(workflow, previousResult));
 
     // TODO: check this!
-    INamedParameters previousParams =
-        previousResult == null ? null : (INamedParameters) previousResult.variables;
+    INamedParameters previousParams = previousResult == null ? null : (INamedParameters) previousResult.variables;
     IVariables previousVars = previousResult == null ? null : (IVariables) previousResult.variables;
     updateParameters(workflow, previousVars, getParentWorkflow(), previousParams);
 
@@ -405,11 +383,11 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     }
   }
 
-  private void updateParameters(
-      INamedParameters subParams, IVariables subVars, INamedParameters... params) {
+  private void updateParameters(INamedParameters subParams, IVariables subVars, INamedParameters... params) {
     // Inherit
     for (INamedParameters param : params) {
-      if (param != null) {}
+      if (param != null) {
+      }
     }
 
     // Any parameters to initialize from the workflow action?
@@ -504,8 +482,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
   }
 
   @Override
-  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     super.loadXml(actionNode);
 
     filename = XmlHandler.getTagValue(actionNode, FILENAME);
@@ -519,8 +496,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     logFileAppended = "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, LOGFILE_APPENDED));
     logFileDateAdded = "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, LOGFILE_ADD_DATE));
     logFileTimeAdded = "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, LOGFILE_ADD_TIME));
-    logFileRepetitionAdded =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, LOGFILE_ADD_REPETITION));
+    logFileRepetitionAdded = "Y".equalsIgnoreCase(XmlHandler.getTagValue(actionNode, LOGFILE_ADD_REPETITION));
     logFileBase = XmlHandler.getTagValue(actionNode, LOGFILE_BASE);
     logFileExtension = XmlHandler.getTagValue(actionNode, LOGFILE_EXTENSION);
     logFileUpdateInterval = XmlHandler.getTagValue(actionNode, LOGFILE_UPDATE_INTERVAL);
@@ -557,8 +533,7 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
   }
 
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     String realFilename = variables.resolve(filename);
     if (isPipeline(realFilename)) {
       return loadPipeline(realFilename, metadataProvider, variables);
@@ -567,17 +542,12 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     } else {
       // TODO: open the file, see what's in there.
       //
-      throw new HopException(
-          "Can't tell if this workflow action is referencing a transformation or a workflow");
+      throw new HopException("Can't tell if this workflow action is referencing a transformation or a workflow");
     }
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
 
     copyFrom(variables);
@@ -589,14 +559,11 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     } else if (isWorkflow(realFileName)) {
       pipelineOrWorkflow = loadWorkflow(realFileName, metadataProvider, this);
     } else {
-      throw new HopException(
-          "Can't tell if this workflow action is referencing a transformation or a workflow");
+      throw new HopException("Can't tell if this workflow action is referencing a transformation or a workflow");
     }
 
-    String proposedNewFilename =
-        ((IResourceExport) pipelineOrWorkflow).exportResources(variables, definitions, namingInterface, metadataProvider);
-    String newFilename =
-        "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
+    String proposedNewFilename = ((IResourceExport) pipelineOrWorkflow).exportResources(variables, definitions, namingInterface, metadataProvider);
+    String newFilename = "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
     pipelineOrWorkflow.setFilename(newFilename);
     filename = newFilename;
     return proposedNewFilename;
@@ -631,16 +598,12 @@ public class Repeat extends ActionBase implements IAction, Cloneable {
     return false;
   }
 
-  private PipelineMeta loadPipeline(
-      String realFilename, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  private PipelineMeta loadPipeline(String realFilename, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     PipelineMeta pipelineMeta = new PipelineMeta(realFilename, metadataProvider, variables);
     return pipelineMeta;
   }
 
-  private WorkflowMeta loadWorkflow(
-      String realFilename, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  private WorkflowMeta loadWorkflow(String realFilename, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     WorkflowMeta workflowMeta = new WorkflowMeta(variables, realFilename, metadataProvider);
     return workflowMeta;
   }

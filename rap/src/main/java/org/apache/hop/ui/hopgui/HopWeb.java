@@ -76,8 +76,7 @@ public class HopWeb implements ApplicationConfiguration {
 
       // Find metadata, perspective plugins
       //
-      List<IPlugin> plugins =
-              PluginRegistry.getInstance().getPlugins(MetadataPluginType.class);
+      List<IPlugin> plugins = PluginRegistry.getInstance().getPlugins(MetadataPluginType.class);
       plugins.addAll(PluginRegistry.getInstance().getPlugins(HopPerspectivePluginType.class));
 
       // Add the plugin images as resources
@@ -90,38 +89,29 @@ public class HopWeb implements ApplicationConfiguration {
       e.printStackTrace();
     }
 
-    application.addResource(
-        "ui/images/logo_icon.png",
-        new ResourceLoader() {
-          @Override
-          public InputStream getResourceAsStream(String resourceName) throws IOException {
-            // Convert svg to png without Display
-            PNGTranscoder t = new PNGTranscoder();
-            InputStream inputStream =
-                this.getClass().getClassLoader().getResourceAsStream("ui/images/logo_icon.svg");
-            TranscoderInput input = new TranscoderInput(inputStream);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            TranscoderOutput output = new TranscoderOutput(outputStream);
-            try {
-              t.transcode(input, output);
-            } catch (TranscoderException e) {
-              e.printStackTrace();
-            }
-            return new ByteArrayInputStream(outputStream.toByteArray());
-          }
-        });
-    Stream.of("org/apache/hop/ui/hopgui/clipboard.js")
-        .forEach(
-            str ->
-                application.addResource(
-                    "js/" + FilenameUtils.getName(str),
-                    new ResourceLoader() {
-                      @Override
-                      public InputStream getResourceAsStream(String resourceName)
-                          throws IOException {
-                        return this.getClass().getClassLoader().getResourceAsStream(str);
-                      }
-                    }));
+    application.addResource("ui/images/logo_icon.png", new ResourceLoader() {
+      @Override
+      public InputStream getResourceAsStream(String resourceName) throws IOException {
+        // Convert svg to png without Display
+        PNGTranscoder t = new PNGTranscoder();
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("ui/images/logo_icon.svg");
+        TranscoderInput input = new TranscoderInput(inputStream);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        TranscoderOutput output = new TranscoderOutput(outputStream);
+        try {
+          t.transcode(input, output);
+        } catch (TranscoderException e) {
+          e.printStackTrace();
+        }
+        return new ByteArrayInputStream(outputStream.toByteArray());
+      }
+    });
+    Stream.of("org/apache/hop/ui/hopgui/clipboard.js").forEach(str -> application.addResource("js/" + FilenameUtils.getName(str), new ResourceLoader() {
+      @Override
+      public InputStream getResourceAsStream(String resourceName) throws IOException {
+        return this.getClass().getClassLoader().getResourceAsStream(str);
+      }
+    }));
 
     // Only 2 choices for now
     //
@@ -156,28 +146,26 @@ public class HopWeb implements ApplicationConfiguration {
     System.out.println("HOP_GUI_ZOOM_FACTOR: " + System.getProperty("HOP_GUI_ZOOM_FACTOR"));
   }
 
-  private void addResource(
-      Application application, final String imageFilename, final ClassLoader classLoader) {
+  private void addResource(Application application, final String imageFilename, final ClassLoader classLoader) {
     if (StringUtils.isEmpty(imageFilename)) {
       return;
     }
     // See if the resource was already added.q
     //
-    if (SvgCache.findSvg(imageFilename)!=null) {
+    if (SvgCache.findSvg(imageFilename) != null) {
       return;
     }
 
-    ResourceLoader loader =
-        filename -> {
-          try {
-            SvgFile svgFile = new SvgFile(filename, classLoader);
-            SvgCacheEntry cacheEntry = SvgCache.loadSvg(svgFile);
-            String svgXml = XmlHandler.getXmlString(cacheEntry.getSvgDocument(), false, false);
-            return new ByteArrayInputStream(svgXml.getBytes(StandardCharsets.UTF_8));
-          } catch (Exception e) {
-            throw new RuntimeException("Error loading SVG resource filename: " + imageFilename, e);
-          }
-        };
+    ResourceLoader loader = filename -> {
+      try {
+        SvgFile svgFile = new SvgFile(filename, classLoader);
+        SvgCacheEntry cacheEntry = SvgCache.loadSvg(svgFile);
+        String svgXml = XmlHandler.getXmlString(cacheEntry.getSvgDocument(), false, false);
+        return new ByteArrayInputStream(svgXml.getBytes(StandardCharsets.UTF_8));
+      } catch (Exception e) {
+        throw new RuntimeException("Error loading SVG resource filename: " + imageFilename, e);
+      }
+    };
     application.addResource(imageFilename, loader);
   }
 

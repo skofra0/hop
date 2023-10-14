@@ -231,8 +231,7 @@ public class ActionFolderIsEmpty extends ActionBase implements Cloneable, IActio
           if ((info.getFile().getType() == FileType.FILE)) {
             if (info.getFile().getParent().equals(info.getBaseFolder())) {
               // We are in the Base folder
-              if ((isSpecifyWildcard() && GetFileWildcard(info.getFile().getName().getBaseName()))
-                  || !isSpecifyWildcard()) {
+              if ((isSpecifyWildcard() && GetFileWildcard(info.getFile().getName().getBaseName())) || !isSpecifyWildcard()) {
                 if (log.isDetailed()) {
                   log.logDetailed("We found file : " + info.getFile().toString());
                 }
@@ -242,8 +241,7 @@ public class ActionFolderIsEmpty extends ActionBase implements Cloneable, IActio
               // We are not in the base Folder...ONLY if Use sub folders
               // We are in the Base folder
               if (isIncludeSubFolders()) {
-                if ((isSpecifyWildcard() && GetFileWildcard(info.getFile().getName().getBaseName()))
-                    || !isSpecifyWildcard()) {
+                if ((isSpecifyWildcard() && GetFileWildcard(info.getFile().getName().getBaseName())) || !isSpecifyWildcard()) {
                   if (log.isDetailed()) {
                     log.logDetailed("We found file : " + info.getFile().toString());
                   }
@@ -265,11 +263,7 @@ public class ActionFolderIsEmpty extends ActionBase implements Cloneable, IActio
         if (!rethrow) {
           log.logError(
               BaseMessages.getString(PKG, "ActionFolderIsEmpty.Error"),
-              BaseMessages.getString(
-                  PKG,
-                  "ActionFolderIsEmpty.Error.Exception",
-                  info.getFile().toString(),
-                  e.getMessage()));
+              BaseMessages.getString(PKG, "ActionFolderIsEmpty.Error.Exception", info.getFile().toString(), e.getMessage()));
           returncode = false;
         } else {
           throw (ExpectedException) e;
@@ -315,16 +309,7 @@ public class ActionFolderIsEmpty extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

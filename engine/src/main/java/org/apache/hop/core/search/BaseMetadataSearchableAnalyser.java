@@ -19,8 +19,7 @@ package org.apache.hop.core.search;
 import org.apache.hop.metadata.api.HopMetadata;
 import org.apache.hop.metadata.api.IHopMetadata;
 
-public abstract class BaseMetadataSearchableAnalyser<T extends IHopMetadata>
-    extends BaseSearchableAnalyser<T> {
+public abstract class BaseMetadataSearchableAnalyser<T extends IHopMetadata> extends BaseSearchableAnalyser<T> {
 
   public abstract Class<T> getSearchableClass();
 

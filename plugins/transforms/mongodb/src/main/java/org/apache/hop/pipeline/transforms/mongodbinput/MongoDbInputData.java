@@ -57,8 +57,7 @@ public class MongoDbInputData extends BaseTransformData implements ITransformDat
   private List<MongoField> userFields;
   private MongoArrayExpansion expansionHandler;
 
-  protected static MongoArrayExpansion checkFieldPaths(
-      List<MongoField> normalFields, IRowMeta outputRowMeta) throws HopException {
+  protected static MongoArrayExpansion checkFieldPaths(List<MongoField> normalFields, IRowMeta outputRowMeta) throws HopException {
 
     // here we check whether there are any full array expansions
     // specified in the paths (via [*]). If so, we want to make sure
@@ -76,11 +75,7 @@ public class MongoDbInputData extends BaseTransformData implements ITransformDat
       if (path != null && path.lastIndexOf("[*]") >= 0) {
 
         if (path.indexOf("[*]") != path.lastIndexOf("[*]")) {
-          throw new HopException(
-              BaseMessages.getString(
-                  MongoDbInputMeta.PKG,
-                  "MongoInput.ErrorMessage.PathContainsMultipleExpansions",
-                  path));
+          throw new HopException(BaseMessages.getString(MongoDbInputMeta.PKG, "MongoInput.ErrorMessage.PathContainsMultipleExpansions", path));
         }
 
         String pathPart = path.substring(0, path.lastIndexOf("[*]") + 3);
@@ -89,9 +84,7 @@ public class MongoDbInputData extends BaseTransformData implements ITransformDat
           expansion = pathPart;
         } else {
           if (!expansion.equals(pathPart)) {
-            throw new HopException(
-                BaseMessages.getString(
-                    MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.MutipleDifferentExpansions"));
+            throw new HopException(BaseMessages.getString(MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.MutipleDifferentExpansions"));
           }
         }
 
@@ -175,8 +168,7 @@ public class MongoDbInputData extends BaseTransformData implements ITransformDat
    * @return populated Hop row(s)
    * @throws HopException if a problem occurs
    */
-  public Object[][] mongoDocumentToHop(DBObject mongoObj, IVariables variables)
-      throws HopException {
+  public Object[][] mongoDocumentToHop(DBObject mongoObj, IVariables variables) throws HopException {
 
     Object[][] result = null;
 

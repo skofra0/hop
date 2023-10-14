@@ -63,9 +63,7 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
   public static final String RESOURCE_MONITOR = "resourceMonitor";
   public static final String CONNECTION = "connection";
   /** The type of management actions this action supports */
-  private static final String[] MANAGEMENT_ACTIONS = {
-    "create", "drop", "resume", "suspend", "alter"
-  };
+  private static final String[] MANAGEMENT_ACTIONS = {"create", "drop", "resume", "suspend", "alter"};
 
   public static final int MANAGEMENT_ACTION_CREATE = 0;
   public static final int MANAGEMENT_ACTION_DROP = 1;
@@ -74,9 +72,7 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
   public static final int MANAGEMENT_ACTION_ALTER = 4;
 
   /** The valid warehouse sizes */
-  private static final String[] WAREHOUSE_SIZES = {
-    "XSMALL", "SMALL", "MEDIUM", "LARGE", "XLARGE", "XXLARGE", "XXXLARGE"
-  };
+  private static final String[] WAREHOUSE_SIZES = {"XSMALL", "SMALL", "MEDIUM", "LARGE", "XLARGE", "XXLARGE", "XXXLARGE"};
   /** The valid warehouse types */
   private static final String[] WAREHOUSE_TYPES = {"Standard", "Enterprise"};
 
@@ -329,78 +325,27 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
     StringBuffer returnValue = new StringBuffer(300);
 
     returnValue.append(super.getXml());
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                CONNECTION, databaseMeta == null ? null : databaseMeta.getName()));
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                MANAGEMENT_ACTION, getManagementAction())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(XmlHandler.addTagValue(REPLACE, isReplace())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(FAIL_IF_EXISTS, isFailIfExists())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                WAREHOUSE_NAME, getWarehouseName())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                WAREHOUSE_SIZE, getWarehouseSize())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                WAREHOUSE_TYPE, getWarehouseType())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                MAX_CLUSTER_COUNT, getMaxClusterCount())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                MIN_CLUSTER_COUNT, getMinClusterCount())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(AUTO_SUSPEND, getAutoSuspend())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(XmlHandler.addTagValue(AUTO_RESUME, isAutoResume())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                INITIALLY_SUSPENDED, isInitiallySuspended())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                RESOURCE_MONITOR, getResourceMonitor())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(XmlHandler.addTagValue(COMMENT, getComment())); // $NON-NLS-1$ //$NON-NLS-2$
-    returnValue
-        .append("      ")
-        .append(XmlHandler.addTagValue(FAIL_IF_NOT_EXISTS, isFailIfNotExists()));
+    returnValue.append("      ").append(XmlHandler.addTagValue(CONNECTION, databaseMeta == null ? null : databaseMeta.getName()));
+    returnValue.append("      ").append(XmlHandler.addTagValue(MANAGEMENT_ACTION, getManagementAction())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(REPLACE, isReplace())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(FAIL_IF_EXISTS, isFailIfExists())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(WAREHOUSE_NAME, getWarehouseName())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(WAREHOUSE_SIZE, getWarehouseSize())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(WAREHOUSE_TYPE, getWarehouseType())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(MAX_CLUSTER_COUNT, getMaxClusterCount())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(MIN_CLUSTER_COUNT, getMinClusterCount())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(AUTO_SUSPEND, getAutoSuspend())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(AUTO_RESUME, isAutoResume())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(INITIALLY_SUSPENDED, isInitiallySuspended())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(RESOURCE_MONITOR, getResourceMonitor())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(COMMENT, getComment())); // $NON-NLS-1$ //$NON-NLS-2$
+    returnValue.append("      ").append(XmlHandler.addTagValue(FAIL_IF_NOT_EXISTS, isFailIfNotExists()));
 
     return returnValue.toString();
   }
 
   @Override
-  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entryNode);
       String dbname = XmlHandler.getTagValue(entryNode, CONNECTION);
@@ -416,16 +361,12 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
       setMinClusterCount(XmlHandler.getTagValue(entryNode, MIN_CLUSTER_COUNT));
       setAutoSuspend(XmlHandler.getTagValue(entryNode, AUTO_SUSPEND));
       setAutoResume("Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, AUTO_RESUME)));
-      setInitiallySuspended(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, INITIALLY_SUSPENDED)));
+      setInitiallySuspended("Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, INITIALLY_SUSPENDED)));
       setResourceMonitor(XmlHandler.getTagValue(entryNode, RESOURCE_MONITOR));
       setComment(XmlHandler.getTagValue(entryNode, COMMENT));
-      setFailIfNotExists(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, FAIL_IF_NOT_EXISTS)));
+      setFailIfNotExists("Y".equalsIgnoreCase(XmlHandler.getTagValue(entryNode, FAIL_IF_NOT_EXISTS)));
     } catch (HopXmlException dbe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Error.Exception.UnableLoadXML"),
-          dbe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Error.Exception.UnableLoadXML"), dbe);
     }
   }
 
@@ -459,32 +400,20 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
       logError(BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Validate.ManagementAction"));
       result = false;
     } else if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_CREATE])) {
-      if (!StringUtil.isEmpty(resolve(maxClusterCount))
-          && Const.toInt(resolve(maxClusterCount), -1) <= 0) {
+      if (!StringUtil.isEmpty(resolve(maxClusterCount)) && Const.toInt(resolve(maxClusterCount), -1) <= 0) {
 
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "SnowflakeWarehouseManager.Validate.MaxClusterCount",
-                resolve(maxClusterCount)));
+        logError(BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Validate.MaxClusterCount", resolve(maxClusterCount)));
         return false;
       }
 
-      if (!StringUtil.isEmpty(resolve(minClusterCount))
-          && Const.toInt(resolve(minClusterCount), -1) < 0) {
+      if (!StringUtil.isEmpty(resolve(minClusterCount)) && Const.toInt(resolve(minClusterCount), -1) < 0) {
 
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "SnowflakeWarehouseManager.Validate.MinClusterCount",
-                resolve(minClusterCount)));
+        logError(BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Validate.MinClusterCount", resolve(minClusterCount)));
         return false;
       }
 
       if (!StringUtil.isEmpty(resolve(autoSuspend)) && Const.toInt(resolve(autoSuspend), -1) < 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "SnowflakeWarehouseManager.Validate.AutoSuspend", resolve(autoSuspend)));
+        logError(BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Validate.AutoSuspend", resolve(autoSuspend)));
         return false;
       }
     }
@@ -507,19 +436,16 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
 
       if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_CREATE])) {
         sql = getCreateSQL();
-        successMessage =
-            BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Create.Success");
+        successMessage = BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Create.Success");
       } else if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_DROP])) {
         sql = getDropSQL();
         successMessage = BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Drop.Success");
       } else if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_RESUME])) {
         sql = getResumeSQL();
-        successMessage =
-            BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Resume.Success");
+        successMessage = BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Resume.Success");
       } else if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_SUSPEND])) {
         sql = getSuspendSQL();
-        successMessage =
-            BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Suspend.Success");
+        successMessage = BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Suspend.Success");
       } else if (managementAction.equals(MANAGEMENT_ACTIONS[MANAGEMENT_ACTION_ALTER])) {
         sql = getAlterSQL();
         successMessage = BaseMessages.getString(PKG, "SnowflakeWarehouseManager.Log.Alter.Success");
@@ -679,11 +605,7 @@ public class WarehouseManager extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     andValidator().validate(this, CONNECTION, remarks, putValidators(notBlankValidator()));
     andValidator().validate(this, WAREHOUSE_NAME, remarks, putValidators(notBlankValidator()));
     andValidator().validate(this, MANAGEMENT_ACTION, remarks, putValidators(notBlankValidator()));

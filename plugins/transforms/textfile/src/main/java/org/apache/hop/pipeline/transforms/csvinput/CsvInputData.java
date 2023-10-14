@@ -233,8 +233,7 @@ public class CsvInputData extends BaseTransformData implements ITransformData {
     return result;
   }
 
-  byte[] getField(
-      boolean delimiterFound, boolean enclosureFound, boolean newLineFound, boolean endOfBuffer) {
+  byte[] getField(boolean delimiterFound, boolean enclosureFound, boolean newLineFound, boolean endOfBuffer) {
     int fieldStart = startBuffer;
     int fieldEnd = endBuffer;
 
@@ -289,8 +288,7 @@ public class CsvInputData extends BaseTransformData implements ITransformData {
   }
 
   boolean newLineFound() {
-    return crLfMatcher.isReturn(byteBuffer, endBuffer)
-        || crLfMatcher.isLineFeed(byteBuffer, endBuffer);
+    return crLfMatcher.isReturn(byteBuffer, endBuffer) || crLfMatcher.isLineFeed(byteBuffer, endBuffer);
   }
 
   boolean delimiterFound() {

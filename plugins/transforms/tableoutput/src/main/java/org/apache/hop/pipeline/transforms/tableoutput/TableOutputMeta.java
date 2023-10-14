@@ -54,71 +54,40 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Output",
     keywords = "i18n::TableOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/tableoutput.html")
-public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputData>
-    implements IProvidesModelerMeta {
+public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputData> implements IProvidesModelerMeta {
   private static final Class<?> PKG = TableOutputMeta.class; // For Translator
 
   private static final String PARTION_PER_DAY = "DAY";
   private static final String PARTION_PER_MONTH = "MONTH";
 
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "TableOutputMeta.Injection.Connection")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "TableOutputMeta.Injection.Connection")
   private String connection;
 
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKey = "TARGET_SCHEMA",
-      injectionKeyDescription = "TableOutputMeta.Injection.SchemaName.Field")
+  @HopMetadataProperty(key = "schema", injectionKey = "TARGET_SCHEMA", injectionKeyDescription = "TableOutputMeta.Injection.SchemaName.Field")
   private String schemaName;
 
-  @HopMetadataProperty(
-      key = "table",
-      injectionKey = "TARGET_TABLE",
-      injectionKeyDescription = "TableOutputMeta.Injection.TableName.Field")
+  @HopMetadataProperty(key = "table", injectionKey = "TARGET_TABLE", injectionKeyDescription = "TableOutputMeta.Injection.TableName.Field")
   private String tableName;
 
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKey = "COMMIT_SIZE",
-      injectionKeyDescription = "TableOutputMeta.Injection.CommitSize.Field")
+  @HopMetadataProperty(key = "commit", injectionKey = "COMMIT_SIZE", injectionKeyDescription = "TableOutputMeta.Injection.CommitSize.Field")
   private String commitSize;
 
-  @HopMetadataProperty(
-      key = "truncate",
-      injectionKey = "TRUNCATE_TABLE",
-      injectionKeyDescription = "TableOutputMeta.Injection.TruncateTable.Field")
+  @HopMetadataProperty(key = "truncate", injectionKey = "TRUNCATE_TABLE", injectionKeyDescription = "TableOutputMeta.Injection.TruncateTable.Field")
   private boolean truncateTable;
 
-  @HopMetadataProperty(
-      key = "only_when_have_rows",
-      injectionKey = "ONLY_WHEN_HAVE_ROWS",
-      injectionKeyDescription = "TableOutputMeta.Inject.OnlyWhenHaveRows.Field")
+  @HopMetadataProperty(key = "only_when_have_rows", injectionKey = "ONLY_WHEN_HAVE_ROWS", injectionKeyDescription = "TableOutputMeta.Inject.OnlyWhenHaveRows.Field")
   private boolean onlyWhenHaveRows;
 
-  @HopMetadataProperty(
-      key = "ignore_errors",
-      injectionKey = "IGNORE_INSERT_ERRORS",
-      injectionKeyDescription = "TableOutputMeta.Injection.IgnoreErrors.Field")
+  @HopMetadataProperty(key = "ignore_errors", injectionKey = "IGNORE_INSERT_ERRORS", injectionKeyDescription = "TableOutputMeta.Injection.IgnoreErrors.Field")
   private boolean ignoreErrors;
 
-  @HopMetadataProperty(
-      key = "use_batch",
-      injectionKey = "USE_BATCH_UPDATE",
-      defaultBoolean = true,
-      injectionKeyDescription = "TableOutputMeta.Injection.UseBatch.Field")
+  @HopMetadataProperty(key = "use_batch", injectionKey = "USE_BATCH_UPDATE", defaultBoolean = true, injectionKeyDescription = "TableOutputMeta.Injection.UseBatch.Field")
   private boolean useBatchUpdate;
 
-  @HopMetadataProperty(
-      key = "partitioning_enabled",
-      injectionKey = "PARTITION_OVER_TABLES",
-      injectionKeyDescription = "TableOutputMeta.Injection.PartitioningEnabled.Field")
+  @HopMetadataProperty(key = "partitioning_enabled", injectionKey = "PARTITION_OVER_TABLES", injectionKeyDescription = "TableOutputMeta.Injection.PartitioningEnabled.Field")
   private boolean partitioningEnabled;
 
-  @HopMetadataProperty(
-      key = "partitioning_field",
-      injectionKey = "PARTITIONING_FIELD",
-      injectionKeyDescription = "TableOutputMeta.Injection.PartitioningField.Field")
+  @HopMetadataProperty(key = "partitioning_field", injectionKey = "PARTITIONING_FIELD", injectionKeyDescription = "TableOutputMeta.Injection.PartitioningField.Field")
   private String partitioningField;
 
   @HopMetadataProperty(key = "partitioning_daily", isExcludedFromInjection = true)
@@ -127,46 +96,27 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
   @HopMetadataProperty(key = "partitioning_monthly", isExcludedFromInjection = true)
   private boolean partitioningMonthly;
 
-  @HopMetadataProperty(
-      injectionKey = "PARTITION_DATA_PER",
-      injectionKeyDescription = "TableOutputMeta.Injection.PartitionDataPer.Field")
+  @HopMetadataProperty(injectionKey = "PARTITION_DATA_PER", injectionKeyDescription = "TableOutputMeta.Injection.PartitionDataPer.Field")
   @SuppressWarnings("java:S2065") // disable sonar warning on transient
   private transient String partitionDataPer;
 
-  @HopMetadataProperty(
-      key = "tablename_in_field",
-      injectionKey = "TABLE_NAME_DEFINED_IN_FIELD",
-      injectionKeyDescription = "TableOutputMeta.Injection.TableNameInField.Field")
+  @HopMetadataProperty(key = "tablename_in_field", injectionKey = "TABLE_NAME_DEFINED_IN_FIELD", injectionKeyDescription = "TableOutputMeta.Injection.TableNameInField.Field")
   private boolean tableNameInField;
 
-  @HopMetadataProperty(
-      key = "tablename_field",
-      injectionKey = "TABLE_NAME_FIELD",
-      injectionKeyDescription = "TableOutputMeta.Injection.TableNameField.Field")
+  @HopMetadataProperty(key = "tablename_field", injectionKey = "TABLE_NAME_FIELD", injectionKeyDescription = "TableOutputMeta.Injection.TableNameField.Field")
   private String tableNameField;
 
-  @HopMetadataProperty(
-      key = "tablename_in_table",
-      injectionKey = "STORE_TABLE_NAME",
-      injectionKeyDescription = "TableOutputMeta.Injection.TableNameInTable.Field")
+  @HopMetadataProperty(key = "tablename_in_table", injectionKey = "STORE_TABLE_NAME", injectionKeyDescription = "TableOutputMeta.Injection.TableNameInTable.Field")
   private boolean tableNameInTable;
 
-  @HopMetadataProperty(
-      key = "return_keys",
-      injectionKeyDescription = "TableOutputMeta.Injection.ReturningGeneratedKeys.Field")
+  @HopMetadataProperty(key = "return_keys", injectionKeyDescription = "TableOutputMeta.Injection.ReturningGeneratedKeys.Field")
   private boolean returningGeneratedKeys;
 
-  @HopMetadataProperty(
-      key = "return_field",
-      injectionKey = "RETURN_AUTO_GENERATED_KEY",
-      injectionKeyDescription = "TableOutputMeta.Injection.GeneratedKeys.Field")
+  @HopMetadataProperty(key = "return_field", injectionKey = "RETURN_AUTO_GENERATED_KEY", injectionKeyDescription = "TableOutputMeta.Injection.GeneratedKeys.Field")
   private String generatedKeyField;
 
   /** Do we explicitly select the fields to update in the database */
-  @HopMetadataProperty(
-      key = "specify_fields",
-      injectionKey = "AUTO_GENERATED_KEY_FIELD",
-      injectionKeyDescription = "TableOutputMeta.Injection.SpecifyFields.Field")
+  @HopMetadataProperty(key = "specify_fields", injectionKey = "AUTO_GENERATED_KEY_FIELD", injectionKeyDescription = "TableOutputMeta.Injection.SpecifyFields.Field")
   private boolean specifyFields;
 
   @HopMetadataProperty(
@@ -474,13 +424,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Just add the returning key field...
     if (returningGeneratedKeys && generatedKeyField != null && generatedKeyField.length() > 0) {
@@ -505,51 +449,30 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
     Database db = null;
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseMeta != null) {
-        CheckResult cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ConnectionExists"),
-                transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ConnectionExists"), transformMeta);
         remarks.add(cr);
 
         db = new Database(loggingObject, variables, databaseMeta);
         db.connect();
 
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ConnectionOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ConnectionOk"), transformMeta);
         remarks.add(cr);
 
         if (!Utils.isEmpty(tableName)) {
           String realSchemaName = db.resolve(schemaName);
           String realTableName = db.resolve(tableName);
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(
-                  variables, realSchemaName, realTableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchemaName, realTableName);
           // Check if this table exists...
           if (db.checkTableExists(realSchemaName, realTableName)) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(
-                        PKG, "TableOutputMeta.CheckResult.TableAccessible", schemaTable),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.TableAccessible", schemaTable), transformMeta);
             remarks.add(cr);
 
             IRowMeta r = db.getTableFieldsMeta(realSchemaName, realTableName);
             if (r != null) {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "TableOutputMeta.CheckResult.TableOk", schemaTable),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.TableOk", schemaTable), transformMeta);
               remarks.add(cr);
 
               String errorMessage = "";
@@ -557,12 +480,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
               // OK, we have the table fields.
               // Now see what we can find as previous transform...
               if (prev != null && prev.size() > 0) {
-                cr =
-                    new CheckResult(
-                        ICheckResult.TYPE_RESULT_OK,
-                        BaseMessages.getString(
-                            PKG, "TableOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-                        transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
                 remarks.add(cr);
 
                 if (!isSpecifyFields()) {
@@ -571,29 +489,17 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
                     IValueMeta pv = prev.getValueMeta(i);
                     int idx = r.indexOfValue(pv.getName());
                     if (idx < 0) {
-                      errorMessage +=
-                          "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
+                      errorMessage += "\t\t" + pv.getName() + " (" + pv.getTypeDesc() + ")" + Const.CR;
                       errorFound = true;
                     }
                   }
                   if (errorFound) {
-                    errorMessage =
-                        BaseMessages.getString(
-                            PKG,
-                            "TableOutputMeta.CheckResult.FieldsNotFoundInOutput",
-                            errorMessage);
+                    errorMessage = BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.FieldsNotFoundInOutput", errorMessage);
 
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
                     remarks.add(cr);
                   } else {
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_OK,
-                            BaseMessages.getString(
-                                PKG, "TableOutputMeta.CheckResult.AllFieldsFoundInOutput"),
-                            transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.AllFieldsFoundInOutput"), transformMeta);
                     remarks.add(cr);
                   }
                 } else {
@@ -607,23 +513,12 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
                     }
                   }
                   if (errorFound) {
-                    errorMessage =
-                        BaseMessages.getString(
-                            PKG,
-                            "TableOutputMeta.CheckResult.FieldsSpecifiedNotInTable",
-                            errorMessage);
+                    errorMessage = BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.FieldsSpecifiedNotInTable", errorMessage);
 
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
                     remarks.add(cr);
                   } else {
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_OK,
-                            BaseMessages.getString(
-                                PKG, "TableOutputMeta.CheckResult.AllFieldsFoundInOutput"),
-                            transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.AllFieldsFoundInOutput"), transformMeta);
                     remarks.add(cr);
                   }
                 }
@@ -635,27 +530,17 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
                     IValueMeta rv = r.getValueMeta(i);
                     int idx = prev.indexOfValue(rv.getName());
                     if (idx < 0) {
-                      errorMessage +=
-                          "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
+                      errorMessage += "\t\t" + rv.getName() + " (" + rv.getTypeDesc() + ")" + Const.CR;
                       errorFound = true;
                     }
                   }
                   if (errorFound) {
-                    errorMessage =
-                        BaseMessages.getString(
-                            PKG, "TableOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+                    errorMessage = BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.FieldsNotFound", errorMessage);
 
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_WARNING, errorMessage, transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, errorMessage, transformMeta);
                     remarks.add(cr);
                   } else {
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_OK,
-                            BaseMessages.getString(
-                                PKG, "TableOutputMeta.CheckResult.AllFieldsFound"),
-                            transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
                     remarks.add(cr);
                   }
                 } else {
@@ -669,74 +554,37 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
                     }
                   }
                   if (errorFound) {
-                    errorMessage =
-                        BaseMessages.getString(
-                            PKG,
-                            "TableOutputMeta.CheckResult.FieldsSpecifiedNotFound",
-                            errorMessage);
+                    errorMessage = BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.FieldsSpecifiedNotFound", errorMessage);
 
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
                     remarks.add(cr);
                   } else {
-                    cr =
-                        new CheckResult(
-                            ICheckResult.TYPE_RESULT_OK,
-                            BaseMessages.getString(
-                                PKG, "TableOutputMeta.CheckResult.AllFieldsFound"),
-                            transformMeta);
+                    cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
                     remarks.add(cr);
                   }
                 }
               } else {
-                cr =
-                    new CheckResult(
-                        ICheckResult.TYPE_RESULT_ERROR,
-                        BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoFields"),
-                        transformMeta);
+                cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoFields"), transformMeta);
                 remarks.add(cr);
               }
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_ERROR,
-                      BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.TableNotAccessible"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.TableNotAccessible"), transformMeta);
               remarks.add(cr);
             }
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_ERROR,
-                    BaseMessages.getString(
-                        PKG, "TableOutputMeta.CheckResult.TableError", schemaTable),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.TableError", schemaTable), transformMeta);
             remarks.add(cr);
           }
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoTableName"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoTableName"), transformMeta);
           remarks.add(cr);
         }
       } else {
-        CheckResult cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoConnection"),
-                transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.NoConnection"), transformMeta);
         remarks.add(cr);
       }
     } catch (HopException e) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "TableOutputMeta.CheckResult.UndefinedError", e.getMessage()),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.UndefinedError", e.getMessage()), transformMeta);
       remarks.add(cr);
     } finally {
       db.disconnect();
@@ -744,18 +592,10 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TableOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -774,8 +614,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
       throws HopTransformException {
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (truncateTable) {
         DatabaseImpact ii =
@@ -812,18 +651,12 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
         }
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection));
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection));
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
     return getSqlStatements(variables, pipelineMeta, transformMeta, prev, null, false, null);
   }
 
@@ -838,8 +671,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
 
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connection, variables);
 
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
@@ -848,8 +680,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
           try {
             db.connect();
 
-            String schemaTable =
-                databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
             String crTable = db.getDDL(schemaTable, prev, tk, useAutoIncrement, pk);
 
             // Empty string means: nothing to do: set it to null...
@@ -859,9 +690,7 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
 
             retval.setSql(crTable);
           } catch (HopDatabaseException dbe) {
-            retval.setError(
-                BaseMessages.getString(
-                    PKG, "TableOutputMeta.Error.ErrorConnecting", dbe.getMessage()));
+            retval.setError(BaseMessages.getString(PKG, "TableOutputMeta.Error.ErrorConnecting", dbe.getMessage()));
           } finally {
             db.disconnect();
           }
@@ -883,15 +712,12 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
     String realTableName = variables.resolve(tableName);
     String realSchemaName = variables.resolve(schemaName);
 
-    DatabaseMeta databaseMeta =
-        getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
+    DatabaseMeta databaseMeta = getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
 
     return getTableFields(databaseMeta, realTableName, realSchemaName, variables);
   }
 
-  public IRowMeta getTableFields(
-      DatabaseMeta databaseMeta, String tableName, String schemaName, IVariables variables)
-      throws HopException {
+  public IRowMeta getTableFields(DatabaseMeta databaseMeta, String tableName, String schemaName, IVariables variables) throws HopException {
 
     if (databaseMeta != null) {
       Database db = new Database(loggingObject, variables, databaseMeta);
@@ -903,22 +729,18 @@ public class TableOutputMeta extends BaseTransformMeta<TableOutput, TableOutputD
           if (db.checkTableExists(schemaName, tableName)) {
             return db.getTableFieldsMeta(schemaName, tableName);
           } else {
-            throw new HopException(
-                BaseMessages.getString(PKG, "TableOutputMeta.Exception.TableNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "TableOutputMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "TableOutputMeta.Exception.TableNotSpecified"));
+          throw new HopException(BaseMessages.getString(PKG, "TableOutputMeta.Exception.TableNotSpecified"));
         }
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "TableOutputMeta.Exception.ErrorGettingFields"), e);
+        throw new HopException(BaseMessages.getString(PKG, "TableOutputMeta.Exception.ErrorGettingFields"), e);
       } finally {
         db.disconnect();
       }
     } else {
-      throw new HopException(
-          BaseMessages.getString(PKG, "TableOutputMeta.Exception.ConnectionNotDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "TableOutputMeta.Exception.ConnectionNotDefined"));
     }
   }
 

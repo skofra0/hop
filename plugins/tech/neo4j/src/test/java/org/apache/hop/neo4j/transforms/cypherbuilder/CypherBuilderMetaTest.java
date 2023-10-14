@@ -55,14 +55,11 @@ public class CypherBuilderMetaTest {
     merge.setLabels(List.of("Customer"));
     merge.setAlias("n");
     merge.setKeys(List.of(new Property("id", "pId")));
-    merge.setProperties(
-        List.of(new Property("lastName", "pLastName"), new Property("firstName", "pFirstName")));
+    merge.setProperties(List.of(new Property("lastName", "pLastName"), new Property("firstName", "pFirstName")));
 
     meta.getOperations().add(merge);
 
-    assertEquals(
-        "MERGE(n:Customer {id:{pId}} ) SET n.lastName={pLastName}, n.firstName={pFirstName} " + Const.CR,
-        meta.getCypher(variables));
+    assertEquals("MERGE(n:Customer {id:{pId}} ) SET n.lastName={pLastName}, n.firstName={pFirstName} " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -74,14 +71,11 @@ public class CypherBuilderMetaTest {
     merge.setLabels(List.of("Customer"));
     merge.setAlias("n");
     merge.setKeys(List.of(new Property("id", "pId")));
-    merge.setProperties(
-        List.of(new Property("lastName", "pLastName"), new Property("firstName", "pFirstName")));
+    merge.setProperties(List.of(new Property("lastName", "pLastName"), new Property("firstName", "pFirstName")));
     meta.getOperations().add(merge);
 
     assertEquals(
-        "UNWIND $rows AS row " + Const.CR
-            + "MERGE(n:Customer {id:row.pId} ) SET n.lastName=row.pLastName, n.firstName=row.pFirstName " + Const.CR,
-        meta.getCypher(variables));
+        "UNWIND $rows AS row " + Const.CR + "MERGE(n:Customer {id:row.pId} ) SET n.lastName=row.pLastName, n.firstName=row.pFirstName " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -97,9 +91,7 @@ public class CypherBuilderMetaTest {
     create.setProperties(List.of(new Property("firstName", "pFirstName")));
     meta.getOperations().add(create);
 
-    assertEquals(
-        "CREATE(n:Customer {id:{pId}} ) SET n.firstName={pFirstName} " + Const.CR,
-        meta.getCypher(variables));
+    assertEquals("CREATE(n:Customer {id:{pId}} ) SET n.firstName={pFirstName} " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -115,10 +107,7 @@ public class CypherBuilderMetaTest {
     create.setProperties(List.of(new Property("firstName", "pFirstName")));
     meta.getOperations().add(create);
 
-    assertEquals(
-        "UNWIND $rows AS row " + Const.CR
-            + "CREATE(n:Customer {id:row.pId} ) SET n.firstName=row.pFirstName " + Const.CR,
-        meta.getCypher(variables));
+    assertEquals("UNWIND $rows AS row " + Const.CR + "CREATE(n:Customer {id:row.pId} ) SET n.firstName=row.pFirstName " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -149,9 +138,7 @@ public class CypherBuilderMetaTest {
     match.setKeys(List.of(new Property("id", "pId")));
     meta.getOperations().add(match);
 
-    assertEquals(
-        "UNWIND $rows AS row " + Const.CR + "MATCH(c:Customer {id:row.pId} ) " + Const.CR,
-            meta.getCypher(variables));
+    assertEquals("UNWIND $rows AS row " + Const.CR + "MATCH(c:Customer {id:row.pId} ) " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -168,15 +155,10 @@ public class CypherBuilderMetaTest {
 
     ReturnOperation ret = new ReturnOperation();
     ret.setReturnValues(
-        List.of(
-            new ReturnValue("c", "firstName", null, null, "first_name", "String", "String"),
-            new ReturnValue("c", "lastName", null, null, "last_name", "String", "String")));
+        List.of(new ReturnValue("c", "firstName", null, null, "first_name", "String", "String"), new ReturnValue("c", "lastName", null, null, "last_name", "String", "String")));
     meta.getOperations().add(ret);
 
-    assertEquals(
-        "MATCH(c:Customer {id:{pId}} ) " + Const.CR
-            + "RETURN c.firstName AS first_name, c.lastName AS last_name " + Const.CR,
-        meta.getCypher(variables));
+    assertEquals("MATCH(c:Customer {id:{pId}} ) " + Const.CR + "RETURN c.firstName AS first_name, c.lastName AS last_name " + Const.CR, meta.getCypher(variables));
     testSerialization(meta);
   }
 
@@ -201,9 +183,7 @@ public class CypherBuilderMetaTest {
     meta.getOperations().add(edgeCreate);
 
     assertEquals(
-        "MATCH(c:Customer {id:{pId}} ) " + Const.CR
-            + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR
-            + "MATCH(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
+        "MATCH(c:Customer {id:{pId}} ) " + Const.CR + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR + "MATCH(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
         meta.getCypher(variables));
     testSerialization(meta);
   }
@@ -229,9 +209,7 @@ public class CypherBuilderMetaTest {
     meta.getOperations().add(edgeCreate);
 
     assertEquals(
-        "MATCH(c:Customer {id:{pId}} ) " + Const.CR
-            + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR
-            + "CREATE(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
+        "MATCH(c:Customer {id:{pId}} ) " + Const.CR + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR + "CREATE(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
         meta.getCypher(variables));
     testSerialization(meta);
   }
@@ -257,9 +235,7 @@ public class CypherBuilderMetaTest {
     meta.getOperations().add(edgeCreate);
 
     assertEquals(
-        "MATCH(c:Customer {id:{pId}} ) " + Const.CR
-            + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR
-            + "MERGE(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
+        "MATCH(c:Customer {id:{pId}} ) " + Const.CR + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR + "MERGE(c)-[r:HAS_LOCATION]->(o) " + Const.CR,
         meta.getCypher(variables));
     testSerialization(meta);
   }
@@ -287,16 +263,19 @@ public class CypherBuilderMetaTest {
     ReturnOperation ret = new ReturnOperation();
     ret.setReturnValues(
         List.of(
-            new ReturnValue("c", "firstName", null, null, "first_name", "String", "String"),
-            new ReturnValue("c", "lastName", null, null, "last_name", "String", "String"),
+            new ReturnValue("c", "firstName", null, null, "first_name", "String", "String"), new ReturnValue("c", "lastName", null, null, "last_name", "String", "String"),
             new ReturnValue("o", "city", null, null, null, "String", "String")));
     meta.getOperations().add(ret);
 
     assertEquals(
-        "MATCH(c:Customer {id:{pId}} ) " + Const.CR
-            + "MATCH(o:Location {zipCode:{pZipCode}} ) " + Const.CR
-            + "MATCH(c)-[r:HAS_LOCATION]->(o) " + Const.CR
-            + "RETURN c.firstName AS first_name, c.lastName AS last_name, o.city " + Const.CR,
+        "MATCH(c:Customer {id:{pId}} ) "
+            + Const.CR
+            + "MATCH(o:Location {zipCode:{pZipCode}} ) "
+            + Const.CR
+            + "MATCH(c)-[r:HAS_LOCATION]->(o) "
+            + Const.CR
+            + "RETURN c.firstName AS first_name, c.lastName AS last_name, o.city "
+            + Const.CR,
         meta.getCypher(variables));
     testSerialization(meta);
   }
@@ -318,12 +297,8 @@ public class CypherBuilderMetaTest {
 
   private List<Parameter> createCustomerParameters() {
     return List.of(
-        new Parameter("pId", "customer_id", "String"),
-        new Parameter("pLastName", "last_name", "String"),
-        new Parameter("pFirstName", "first_name", "String"),
-        new Parameter("pZipCode", "zip_code", "String"),
-        new Parameter("pCity", "city", "String"),
-        new Parameter("pState", "state", "String"));
+        new Parameter("pId", "customer_id", "String"), new Parameter("pLastName", "last_name", "String"), new Parameter("pFirstName", "first_name", "String"),
+        new Parameter("pZipCode", "zip_code", "String"), new Parameter("pCity", "city", "String"), new Parameter("pState", "state", "String"));
   }
 
   /**
@@ -333,15 +308,9 @@ public class CypherBuilderMetaTest {
    * @throws Exception
    */
   private void testSerialization(CypherBuilderMeta meta) throws Exception {
-    String xml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + meta.getXml()
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String xml = XmlHandler.openTag(TransformMeta.XML_TAG) + meta.getXml() + XmlHandler.closeTag(TransformMeta.XML_TAG);
     CypherBuilderMeta copy =
-        XmlMetadataUtil.deSerializeFromXml(
-            XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), TransformMeta.XML_TAG),
-            CypherBuilderMeta.class,
-            new MemoryMetadataProvider());
+        XmlMetadataUtil.deSerializeFromXml(XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), TransformMeta.XML_TAG), CypherBuilderMeta.class, new MemoryMetadataProvider());
 
     assertEquals(meta.getXml(), copy.getXml());
 

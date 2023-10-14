@@ -43,25 +43,16 @@ import java.util.Date;
 import java.util.List;
 
 public class Tika extends BaseTransform<TikaMeta, TikaData> {
-  private static final Class<?> PKG =
-      TikaMeta.class; // For Translator
+  private static final Class<?> PKG = TikaMeta.class; // For Translator
 
-  public Tika(
-      TransformMeta transformMeta,
-      TikaMeta meta,
-      TikaData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Tika(TransformMeta transformMeta, TikaMeta meta, TikaData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   private void addFileToResultFilesname(FileObject file) {
     if (meta.isAddingResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment("File was read by a Tika transform");
       addResultFile(resultFile);
     }
@@ -85,8 +76,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
 
           data.inputRowMeta = getInputRowMeta();
           data.outputRowMeta = data.inputRowMeta.clone();
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Create convert meta-data objects that will contain Date & Number formatters
           //
@@ -101,18 +91,11 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
 
             // cache the position of the field
             if (data.indexOfFilenameField < 0) {
-              data.indexOfFilenameField =
-                  data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
+              data.indexOfFilenameField = data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
               if (data.indexOfFilenameField < 0) {
                 // The field is unreachable !
-                logError(
-                    BaseMessages.getString(PKG, "Tika.Log.ErrorFindingField")
-                        + "["
-                        + meta.getDynamicFilenameField()
-                        + "]");
-                throw new HopException(
-                    BaseMessages.getString(
-                        PKG, "Tika.Exception.CouldnotFindField", meta.getDynamicFilenameField()));
+                logError(BaseMessages.getString(PKG, "Tika.Log.ErrorFindingField") + "[" + meta.getDynamicFilenameField() + "]");
+                throw new HopException(BaseMessages.getString(PKG, "Tika.Exception.CouldnotFindField", meta.getDynamicFilenameField()));
               }
             }
             // Get the number of previous fields
@@ -124,9 +107,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
         String fieldvalue = data.inputRowMeta.getString(data.readRow, data.indexOfFilenameField);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "Tika.Log.Stream", meta.getDynamicFilenameField(), fieldvalue));
+          logDetailed(BaseMessages.getString(PKG, "Tika.Log.Stream", meta.getDynamicFilenameField(), fieldvalue));
         }
 
         try {
@@ -206,14 +187,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
         }
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "Tika.Log.UnableToOpenFile",
-              "" + data.fileNr,
-              data.file.toString(),
-              e.toString()),
-          e);
+      logError(BaseMessages.getString(PKG, "Tika.Log.UnableToOpenFile", "" + data.fileNr, data.file.toString(), e.toString()), e);
       stopAll();
       setErrors(1);
       return false;
@@ -233,15 +207,12 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
       }
 
       if (isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG, "Tika.Log.ReadRow", data.outputRowMeta.getString(outputRowData)));
+        logRowlevel(BaseMessages.getString(PKG, "Tika.Log.ReadRow", data.outputRowMeta.getString(outputRowData)));
       }
 
       putRow(data.outputRowMeta, outputRowData);
 
-      if (meta.getRowLimit() > 0
-          && data.rowNr > meta.getRowLimit()) // limit has been reached: stop now.
+      if (meta.getRowLimit() > 0 && data.rowNr > meta.getRowLimit()) // limit has been reached: stop now.
       {
         setOutputDone();
         return false;
@@ -250,12 +221,10 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
       String errorMessage = "Error encountered : " + e.getMessage();
 
       if (getTransformMeta().isDoingErrorHandling()) {
-        putError(
-            getInputRowMeta(), new Object[0], 1, errorMessage, meta.getFilenameField(), "Tika001");
+        putError(getInputRowMeta(), new Object[0], 1, errorMessage, meta.getFilenameField(), "Tika001");
       } else {
         logError(BaseMessages.getString(PKG, "Tika.ErrorInTransformRunning", e.getMessage()));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "Tika.ErrorInTransformRunning"), e);
+        throw new HopTransformException(BaseMessages.getString(PKG, "Tika.ErrorInTransformRunning"), e);
       }
     }
     return true;
@@ -285,8 +254,8 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
     String retval = null;
     try {
       // HACK: Check for local files, use a FileInputStream in that case
-      //  The version of VFS we use will close the stream when all bytes are read, and if
-      //  the file is less than 64KB (which is what Tika will read), then bad things happen.
+      // The version of VFS we use will close the stream when all bytes are read, and if
+      // the file is less than 64KB (which is what Tika will read), then bad things happen.
       if (vfsFilename.startsWith("file:")) {
         inputStream = new FileInputStream(vfsFilename.substring(5));
       } else {
@@ -296,9 +265,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
       data.tikaOutput.parse(inputStream, meta.getOutputFormat(), baos);
       retval = baos.toString();
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "Tika.Error.GettingFileContent", vfsFilename, e.toString()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "Tika.Error.GettingFileContent", vfsFilename, e.toString()), e);
     }
     if (inputStream != null) {
       try {
@@ -315,9 +282,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
 
     if (!nonExistantFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
-      logError(
-          BaseMessages.getString(PKG, "Tika.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "Tika.Log.RequiredFiles", message));
+      logError(BaseMessages.getString(PKG, "Tika.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "Tika.Log.RequiredFiles", message));
 
       throw new HopException(BaseMessages.getString(PKG, "Tika.Log.RequiredFilesMissing", message));
     }
@@ -325,11 +290,8 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
     List<FileObject> nonAccessibleFiles = data.files.getNonAccessibleFiles();
     if (!nonAccessibleFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
-      logError(
-          BaseMessages.getString(PKG, "Tika.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "Tika.Log.RequiredNotAccessibleFiles", message));
-      throw new HopException(
-          BaseMessages.getString(PKG, "Tika.Log.RequiredNotAccessibleFilesMissing", message));
+      logError(BaseMessages.getString(PKG, "Tika.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "Tika.Log.RequiredNotAccessibleFiles", message));
+      throw new HopException(BaseMessages.getString(PKG, "Tika.Log.RequiredNotAccessibleFilesMissing", message));
     }
   }
 
@@ -438,8 +400,7 @@ public class Tika extends BaseTransform<TikaMeta, TikaData> {
 
           // Get the output row metadata populated
           //
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Create convert meta-data objects that will contain Date & Number formatters
           //

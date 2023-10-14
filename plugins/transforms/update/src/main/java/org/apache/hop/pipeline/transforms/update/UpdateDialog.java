@@ -98,8 +98,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
   /** List of ColumnInfo that should have the field names of the selected database table */
   private final List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
-  public UpdateDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public UpdateDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (UpdateMeta) in;
   }
@@ -112,19 +111,17 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTableFieldCombo();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTableFieldCombo();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -248,14 +245,13 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     fdBatch.top = new FormAttachment(wlBatch, 0, SWT.CENTER);
     fdBatch.right = new FormAttachment(100, 0);
     wBatch.setLayoutData(fdBatch);
-    wBatch.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            setFlags();
-            input.setChanged();
-          }
-        });
+    wBatch.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        setFlags();
+        input.setChanged();
+      }
+    });
 
     // UsePart update
     Label wlSkipLookup = new Label(shell, SWT.RIGHT);
@@ -274,14 +270,13 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     fdSkipLookup.top = new FormAttachment(wlSkipLookup, 0, SWT.CENTER);
     fdSkipLookup.right = new FormAttachment(100, 0);
     wSkipLookup.setLayoutData(fdSkipLookup);
-    wSkipLookup.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setActiveIgnoreLookup();
-          }
-        });
+    wSkipLookup.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setActiveIgnoreLookup();
+      }
+    });
 
     wlErrorIgnored = new Label(shell, SWT.RIGHT);
     wlErrorIgnored.setText(BaseMessages.getString(PKG, "UpdateDialog.ErrorIgnored.Label"));
@@ -298,14 +293,13 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     fdErrorIgnored.left = new FormAttachment(middle, 0);
     fdErrorIgnored.top = new FormAttachment(wlErrorIgnored, 0, SWT.CENTER);
     wErrorIgnored.setLayoutData(fdErrorIgnored);
-    wErrorIgnored.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setFlags();
-          }
-        });
+    wErrorIgnored.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setFlags();
+      }
+    });
 
     wlIgnoreFlagField = new Label(shell, SWT.LEFT);
     wlIgnoreFlagField.setText(BaseMessages.getString(PKG, "UpdateDialog.FlagField.Label"));
@@ -332,57 +326,19 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     wlKey.setLayoutData(fdlKey);
 
     int nrKeyCols = 4;
-    int nrKeyRows =
-        (input.getLookupField().getLookupKeys() != null
-            ? input.getLookupField().getLookupKeys().size()
-            : 1);
+    int nrKeyRows = (input.getLookupField().getLookupKeys() != null ? input.getLookupField().getLookupKeys().size() : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     ciKey[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.Comparator"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "=",
-              "= ~NULL",
-              "<>",
-              "<",
-              "<=",
-              ">",
-              ">=",
-              "LIKE",
-              "BETWEEN",
-              "IS NULL",
-              "IS NOT NULL"
-            });
-    ciKey[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField1"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField2"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+            new String[] {"=", "= ~NULL", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL"});
+    ciKey[2] = new ColumnInfo(BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField1"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField2"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciKey[0]);
-    wKey =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     wGet = new Button(shell, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "UpdateDialog.GetFields.Button"));
@@ -418,34 +374,13 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     wlReturn.setLayoutData(fdlReturn);
 
     int upInsCols = 2;
-    int upInsRows =
-        (input.getLookupField().getUpdateFields() != null
-            ? input.getLookupField().getUpdateFields().size()
-            : 1);
+    int upInsRows = (input.getLookupField().getUpdateFields() != null ? input.getLookupField().getUpdateFields().size() : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "UpdateDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     Button wGetLU = new Button(shell, SWT.PUSH);
     wGetLU.setText(BaseMessages.getString(PKG, "UpdateDialog.GetAndUpdateFields"));
@@ -465,24 +400,23 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -492,20 +426,18 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     wSql.addListener(SWT.Selection, e -> create());
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     getData();
     setActiveIgnoreLookup();
@@ -551,63 +483,56 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     // If we are on PostgreSQL (and look-a-likes), error handling is not supported.
     //
     boolean enableBatch = wBatch.getSelection();
-    enableBatch =
-        enableBatch
-            && !(databaseMeta != null
-                && databaseMeta.supportsErrorHandlingOnBatchUpdates()
-                && hasErrorHandling);
+    enableBatch = enableBatch && !(databaseMeta != null && databaseMeta.supportsErrorHandlingOnBatchUpdates() && hasErrorHandling);
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText();
-            final String connectionName = wConnection.getText();
-            final String schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText();
+        final String connectionName = wConnection.getText();
+        final String schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
-              if (databaseMeta != null) {
-                Database db = new Database(loggingObject, variables, databaseMeta);
-                try {
-                  db.connect();
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            Database db = new Database(loggingObject, variables, databaseMeta);
+            try {
+              db.connect();
 
-                  IRowMeta r =
-                      db.getTableFieldsMeta(
-                          variables.resolve(schemaName), variables.resolve(tableName));
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              IRowMeta r = db.getTableFieldsMeta(variables.resolve(schemaName), variables.resolve(tableName));
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
-                  }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user
-                } finally {
-                  try {
-                    if (db != null) {
-                      db.disconnect();
-                    }
-                  } catch (Exception ignored) {
-                    // ignore any errors here.
-                    db = null;
+                    colInfo.setComboValues(fieldNames);
                   }
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
+            } finally {
+              try {
+                if (db != null) {
+                  db.disconnect();
+                }
+              } catch (Exception ignored) {
+                // ignore any errors here.
+                db = null;
+              }
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -626,8 +551,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     }
 
     wKey.table.clearAll();
-    if (input.getLookupField().getLookupKeys() != null
-        && input.getLookupField().getLookupKeys().size() > 0) {
+    if (input.getLookupField().getLookupKeys() != null && input.getLookupField().getLookupKeys().size() > 0) {
       for (int i = 0; i < input.getLookupField().getLookupKeys().size(); i++) {
         UpdateKeyField keyField = input.getLookupField().getLookupKeys().get(i);
         TableItem item = wKey.table.getItem(i);
@@ -646,8 +570,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
       }
     }
 
-    if (input.getLookupField().getUpdateFields() != null
-        && input.getLookupField().getUpdateFields().size() > 0) {
+    if (input.getLookupField().getUpdateFields() != null && input.getLookupField().getUpdateFields().size() > 0) {
       wReturn.table.clearAll();
       for (int i = 0; i < input.getLookupField().getUpdateFields().size(); i++) {
         UpdateField fieldItem = input.getLookupField().getUpdateFields().get(i);
@@ -706,8 +629,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrkeys; i++) {
       TableItem item = wKey.getNonEmpty(i);
-      UpdateKeyField keyItem =
-          new UpdateKeyField(item.getText(3), item.getText(1), item.getText(2), item.getText(4));
+      UpdateKeyField keyItem = new UpdateKeyField(item.getText(3), item.getText(1), item.getText(2), item.getText(4));
 
       inf.getLookupField().getLookupKeys().add(keyItem);
     }
@@ -756,14 +678,10 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "UpdateDialog.Log.LookingAtConnection")
-                + databaseMeta.toString());
+        logDebug(BaseMessages.getString(PKG, "UpdateDialog.Log.LookingAtConnection") + databaseMeta.toString());
       }
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -782,13 +700,11 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(2, "=");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(2, "=");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -803,8 +719,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -824,18 +739,13 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
       getInfo(info);
 
       String name = transformName; // new name might not yet be linked to other transforms!
-      TransformMeta transforminfo =
-          new TransformMeta(
-              BaseMessages.getString(PKG, "UpdateDialog.TransformMeta.Title"), name, info);
+      TransformMeta transforminfo = new TransformMeta(BaseMessages.getString(PKG, "UpdateDialog.TransformMeta.Title"), name, info);
       IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transforminfo, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transforminfo, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
@@ -872,10 +782,8 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "UpdateDialog.AvailableSchemas.Title", wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG, "UpdateDialog.AvailableSchemas.Message", wConnection.getText()));
+                  BaseMessages.getString(PKG, "UpdateDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "UpdateDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -889,11 +797,7 @@ public class UpdateDialog extends BaseTransformDialog implements ITransformDialo
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "UpdateDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "UpdateDialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }

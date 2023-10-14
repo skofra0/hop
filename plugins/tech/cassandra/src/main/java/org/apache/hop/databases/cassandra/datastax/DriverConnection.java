@@ -126,8 +126,7 @@ public class DriverConnection implements AutoCloseable {
       builder = builder.withLocalDatacenter(localDataCenter);
     }
 
-    ProgrammaticDriverConfigLoaderBuilder configLoaderBuilder =
-        DriverConfigLoader.programmaticBuilder();
+    ProgrammaticDriverConfigLoaderBuilder configLoaderBuilder = DriverConfigLoader.programmaticBuilder();
 
     // Authentication
     //
@@ -138,21 +137,14 @@ public class DriverConnection implements AutoCloseable {
     // Timeout
     //
     if (opts.containsKey(CassandraUtils.ConnectionOptions.SOCKET_TIMEOUT)) {
-      int timeoutMs =
-          Integer.parseUnsignedInt(
-              opts.get(CassandraUtils.ConnectionOptions.SOCKET_TIMEOUT).trim());
+      int timeoutMs = Integer.parseUnsignedInt(opts.get(CassandraUtils.ConnectionOptions.SOCKET_TIMEOUT).trim());
 
-      configLoaderBuilder =
-          configLoaderBuilder.withDuration(
-              TypedDriverOption.CONNECTION_CONNECT_TIMEOUT.getRawOption(),
-              Duration.ofMillis(timeoutMs));
+      configLoaderBuilder = configLoaderBuilder.withDuration(TypedDriverOption.CONNECTION_CONNECT_TIMEOUT.getRawOption(), Duration.ofMillis(timeoutMs));
     }
     // Compression
     //
     if (useCompression) {
-      configLoaderBuilder =
-          configLoaderBuilder.withString(
-              TypedDriverOption.PROTOCOL_COMPRESSION.getRawOption(), "lz4");
+      configLoaderBuilder = configLoaderBuilder.withString(TypedDriverOption.PROTOCOL_COMPRESSION.getRawOption(), "lz4");
     }
 
     DefaultCodecRegistry codecRegistry = new DefaultCodecRegistry("Apache Hop");
@@ -167,13 +159,11 @@ public class DriverConnection implements AutoCloseable {
   }
 
   public CqlSession getSession(String keyspace) {
-    return sessions.computeIfAbsent(
-        keyspace, ks -> getSessionBuilder().withKeyspace(keyspace).build());
+    return sessions.computeIfAbsent(keyspace, ks -> getSessionBuilder().withKeyspace(keyspace).build());
   }
 
   public Keyspace getKeyspace(String keyspaceName) throws Exception {
-    Optional<KeyspaceMetadata> optionalKeyspace =
-        getSession(keyspaceName).getMetadata().getKeyspace(keyspaceName);
+    Optional<KeyspaceMetadata> optionalKeyspace = getSession(keyspaceName).getMetadata().getKeyspace(keyspaceName);
     if (optionalKeyspace.isEmpty()) {
       throw new Exception("Unable to find keyspace '" + keyspaceName + "'");
     }
@@ -192,9 +182,7 @@ public class DriverConnection implements AutoCloseable {
     }
   }
 
-  public void createKeyspace(
-      String keyspaceName, boolean ifNotExists, Map<String, Object> createOptions)
-      throws Exception {
+  public void createKeyspace(String keyspaceName, boolean ifNotExists, Map<String, Object> createOptions) throws Exception {
     CreateKeyspaceStart keyspaceStart = SchemaBuilder.createKeyspace(keyspaceName);
     if (ifNotExists) {
       keyspaceStart = keyspaceStart.ifNotExists();
@@ -245,74 +233,70 @@ public class DriverConnection implements AutoCloseable {
   }
 
   private void registerCodecs(MutableCodecRegistry registry) {
-    registry.register(
-        new MappingCodec<>(TypeCodecs.INT, GenericType.LONG.unwrap()) {
-          @Nullable
-          @Override
-          protected Long innerToOuter(@Nullable Integer value) {
-            return value == null ? null : value.longValue();
-          }
+    registry.register(new MappingCodec<>(TypeCodecs.INT, GenericType.LONG.unwrap()) {
+      @Nullable
+      @Override
+      protected Long innerToOuter(@Nullable Integer value) {
+        return value == null ? null : value.longValue();
+      }
 
-          @Nullable
-          @Override
-          protected Integer outerToInner(@Nullable Long value) {
-            return value == null ? null : value.intValue();
-          }
-        });
-    registry.register(
-        new MappingCodec<>(TypeCodecs.FLOAT, GenericType.DOUBLE.unwrap()) {
-          @Override
-          protected Float outerToInner(Double value) {
-            return value == null ? null : value.floatValue();
-          }
+      @Nullable
+      @Override
+      protected Integer outerToInner(@Nullable Long value) {
+        return value == null ? null : value.intValue();
+      }
+    });
+    registry.register(new MappingCodec<>(TypeCodecs.FLOAT, GenericType.DOUBLE.unwrap()) {
+      @Override
+      protected Float outerToInner(Double value) {
+        return value == null ? null : value.floatValue();
+      }
 
-          @Override
-          protected Double innerToOuter(Float value) {
-            return value == null ? null : value.doubleValue();
-          }
-        });
-    registry.register(
-        new MappingCodec<>(TypeCodecs.TIMESTAMP, GenericType.of(Date.class)) {
-          @Nullable
-          @Override
-          protected Date innerToOuter(@Nullable Instant instant) {
-            if (instant == null) {
-              return null;
-            }
-            return new Date(instant.toEpochMilli());
-          }
+      @Override
+      protected Double innerToOuter(Float value) {
+        return value == null ? null : value.doubleValue();
+      }
+    });
+    registry.register(new MappingCodec<>(TypeCodecs.TIMESTAMP, GenericType.of(Date.class)) {
+      @Nullable
+      @Override
+      protected Date innerToOuter(@Nullable Instant instant) {
+        if (instant == null) {
+          return null;
+        }
+        return new Date(instant.toEpochMilli());
+      }
 
-          @Nullable
-          @Override
-          protected Instant outerToInner(@Nullable Date date) {
-            if (date == null) {
-              return null;
-            }
-            return Instant.ofEpochMilli(date.getTime());
-          }
-        });
-    registry.register(
-        new MappingCodec<>(TypeCodecs.TIMESTAMP, GenericType.of(Timestamp.class)) {
-          @Nullable
-          @Override
-          protected Timestamp innerToOuter(@Nullable Instant value) {
-            if (value == null) {
-              return null;
-            }
-            Timestamp timestamp = new Timestamp(value.toEpochMilli());
-            timestamp.setNanos(value.getNano());
-            return timestamp;
-          }
+      @Nullable
+      @Override
+      protected Instant outerToInner(@Nullable Date date) {
+        if (date == null) {
+          return null;
+        }
+        return Instant.ofEpochMilli(date.getTime());
+      }
+    });
+    registry.register(new MappingCodec<>(TypeCodecs.TIMESTAMP, GenericType.of(Timestamp.class)) {
+      @Nullable
+      @Override
+      protected Timestamp innerToOuter(@Nullable Instant value) {
+        if (value == null) {
+          return null;
+        }
+        Timestamp timestamp = new Timestamp(value.toEpochMilli());
+        timestamp.setNanos(value.getNano());
+        return timestamp;
+      }
 
-          @Nullable
-          @Override
-          protected Instant outerToInner(@Nullable Timestamp timestamp) {
-            if (timestamp == null) {
-              return null;
-            }
-            return Instant.ofEpochMilli(timestamp.getTime()).plusNanos(timestamp.getNanos());
-          }
-        });
+      @Nullable
+      @Override
+      protected Instant outerToInner(@Nullable Timestamp timestamp) {
+        if (timestamp == null) {
+          return null;
+        }
+        return Instant.ofEpochMilli(timestamp.getTime()).plusNanos(timestamp.getNanos());
+      }
+    });
   }
 
   /**

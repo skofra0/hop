@@ -56,8 +56,7 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
 
   private boolean changed;
 
-  public ActionWebServiceAvailableDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionWebServiceAvailableDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionWebServiceAvailable) action;
     if (this.action.getName() == null) {
@@ -130,8 +129,7 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
 
     // connect timeout line
     Label wlConnectTimeOut = new Label(shell, SWT.RIGHT);
-    wlConnectTimeOut.setText(
-        BaseMessages.getString(PKG, "ActionWebServiceAvailable.ConnectTimeOut.Label"));
+    wlConnectTimeOut.setText(BaseMessages.getString(PKG, "ActionWebServiceAvailable.ConnectTimeOut.Label"));
     PropsUi.setLook(wlConnectTimeOut);
     FormData fdlConnectTimeOut = new FormData();
     fdlConnectTimeOut.left = new FormAttachment(0, 0);
@@ -140,8 +138,7 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
     wlConnectTimeOut.setLayoutData(fdlConnectTimeOut);
 
     wConnectTimeOut = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wConnectTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWebServiceAvailable.ConnectTimeOut.Tooltip"));
+    wConnectTimeOut.setToolTipText(BaseMessages.getString(PKG, "ActionWebServiceAvailable.ConnectTimeOut.Tooltip"));
     PropsUi.setLook(wConnectTimeOut);
     wConnectTimeOut.addModifyListener(lsMod);
     FormData fdConnectTimeOut = new FormData();
@@ -151,13 +148,11 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
     wConnectTimeOut.setLayoutData(fdConnectTimeOut);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wConnectTimeOut.addModifyListener(
-        e -> wConnectTimeOut.setToolTipText(variables.resolve(wConnectTimeOut.getText())));
+    wConnectTimeOut.addModifyListener(e -> wConnectTimeOut.setToolTipText(variables.resolve(wConnectTimeOut.getText())));
 
     // Read timeout line
     Label wlReadTimeOut = new Label(shell, SWT.RIGHT);
-    wlReadTimeOut.setText(
-        BaseMessages.getString(PKG, "ActionWebServiceAvailable.ReadTimeOut.Label"));
+    wlReadTimeOut.setText(BaseMessages.getString(PKG, "ActionWebServiceAvailable.ReadTimeOut.Label"));
     PropsUi.setLook(wlReadTimeOut);
     FormData fdlReadTimeOut = new FormData();
     fdlReadTimeOut.left = new FormAttachment(0, 0);
@@ -166,8 +161,7 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
     wlReadTimeOut.setLayoutData(fdlReadTimeOut);
 
     wReadTimeOut = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wReadTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "ActionWebServiceAvailable.ReadTimeOut.Tooltip"));
+    wReadTimeOut.setToolTipText(BaseMessages.getString(PKG, "ActionWebServiceAvailable.ReadTimeOut.Tooltip"));
     PropsUi.setLook(wReadTimeOut);
     wReadTimeOut.addModifyListener(lsMod);
     FormData fdReadTimeOut = new FormData();
@@ -177,8 +171,7 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
     wReadTimeOut.setLayoutData(fdReadTimeOut);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wReadTimeOut.addModifyListener(
-        e -> wReadTimeOut.setToolTipText(variables.resolve(wReadTimeOut.getText())));
+    wReadTimeOut.addModifyListener(e -> wReadTimeOut.setToolTipText(variables.resolve(wReadTimeOut.getText())));
 
     // Buttons go at the very bottom
     //
@@ -188,8 +181,8 @@ public class ActionWebServiceAvailableDialog extends ActionDialog implements IAc
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);    getData();
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
+    getData();
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
 

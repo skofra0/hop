@@ -30,8 +30,7 @@ public class TwoWayPasswordEncoderPluginType extends BasePluginType<TwoWayPasswo
   private static TwoWayPasswordEncoderPluginType twoWayPasswordEncoderPluginType;
 
   private TwoWayPasswordEncoderPluginType() {
-    super(
-        TwoWayPasswordEncoderPlugin.class, "TWOWAYPASSWORDENCODERPLUGIN", "TwoWayPasswordEncoder");
+    super(TwoWayPasswordEncoderPlugin.class, "TWOWAYPASSWORDENCODERPLUGIN", "TwoWayPasswordEncoder");
   }
 
   public static TwoWayPasswordEncoderPluginType getInstance() {
@@ -72,8 +71,7 @@ public class TwoWayPasswordEncoderPluginType extends BasePluginType<TwoWayPasswo
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, TwoWayPasswordEncoderPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, TwoWayPasswordEncoderPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(TwoWayPasswordEncoderPlugin annotation) {

@@ -69,9 +69,7 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
   private TextVar wInterval;
   private TableView wPipelines;
 
-
-  public PipelineLogEditor(
-      HopGui hopGui, MetadataManager<PipelineLog> manager, PipelineLog metadata) {
+  public PipelineLogEditor(HopGui hopGui, MetadataManager<PipelineLog> manager, PipelineLog metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -139,8 +137,7 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
     //
     Label wlLoggingParentsOnly = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlLoggingParentsOnly);
-    wlLoggingParentsOnly.setText(
-        BaseMessages.getString(PKG, "PipelineLoggingEditor.LoggingParentsOnly.Label"));
+    wlLoggingParentsOnly.setText(BaseMessages.getString(PKG, "PipelineLoggingEditor.LoggingParentsOnly.Label"));
     FormData fdlLoggingParentsOnly = new FormData();
     fdlLoggingParentsOnly.left = new FormAttachment(0, 0);
     fdlLoggingParentsOnly.right = new FormAttachment(middle, 0);
@@ -288,22 +285,8 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
     fdlSources.top = new FormAttachment(lastControl, 2 * margin);
     wlSources.setLayoutData(fdlSources);
     lastControl = wlSources;
-    ColumnInfo[] columns = {
-            new ColumnInfo(
-                    BaseMessages.getString(PKG, "PipelineLoggingEditor.SourcesTable.Column.Pipeline"),
-                    ColumnInfo.COLUMN_TYPE_TEXT,
-                    false,
-                    false),
-    };
-    wPipelines =
-            new TableView(
-                    manager.getVariables(),
-                    parent,
-                    SWT.BORDER,
-                    columns,
-                    0,
-                    e -> setChanged(),
-                    props);
+    ColumnInfo[] columns = {new ColumnInfo(BaseMessages.getString(PKG, "PipelineLoggingEditor.SourcesTable.Column.Pipeline"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wPipelines = new TableView(manager.getVariables(), parent, SWT.BORDER, columns, 0, e -> setChanged(), props);
     FormData fdSources = new FormData();
     fdSources.left = new FormAttachment(0, 0);
     fdSources.top = new FormAttachment(lastControl, margin);
@@ -360,12 +343,7 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
       String filename =
           BaseDialog.presentFileDialog(
               true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+              parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -409,13 +387,7 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
 
   private void selectPipelineFilename(Composite parent) {
     HopPipelineFileType<?> type = new HopPipelineFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   private void enableFields(Event event) {
@@ -438,7 +410,7 @@ public class PipelineLogEditor extends MetadataEditor<PipelineLog> {
     wInterval.setText(Const.NVL(pl.getIntervalInSeconds(), ""));
     wPipelines.removeAll();
     List<PipelineToLogLocation> pipelinesToLog = pl.getPipelinesToLog();
-    for(PipelineToLogLocation pipelineToLog : pipelinesToLog){
+    for (PipelineToLogLocation pipelineToLog : pipelinesToLog) {
       TableItem item = new TableItem(wPipelines.table, SWT.NONE);
       item.setText(1, Const.NVL(pipelineToLog.getPipelineToLogFilename(), ""));
     }

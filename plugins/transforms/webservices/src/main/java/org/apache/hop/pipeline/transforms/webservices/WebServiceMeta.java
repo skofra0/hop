@@ -112,20 +112,13 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
     fieldsOut = new ArrayList<>();
   }
 
-  public WebServiceMeta(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public WebServiceMeta(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     this();
     loadXml(transformNode, metadataProvider);
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Input rows and output rows are different in the webservice transform
     //
@@ -186,35 +179,19 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              CheckResult.TYPE_RESULT_WARNING,
-              "Not receiving any fields from previous transforms!",
-              transformMeta);
+      cr = new CheckResult(CheckResult.TYPE_RESULT_WARNING, "Not receiving any fields from previous transforms!", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is connected to previous one, receiving " + prev.size() + " fields",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is connected to previous one, receiving " + prev.size() + " fields", transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is receiving info from other transforms.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is receiving info from other transforms.", transformMeta);
       remarks.add(cr);
     } else if (getInFieldArgumentName() != null || getInFieldContainerName() != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "No input received from other transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "No input received from other transforms!", transformMeta);
       remarks.add(cr);
     }
   }
@@ -234,8 +211,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
     retval.append("    " + XmlHandler.addTagValue("wsOperationNamespace", getOperationNamespace()));
     retval.append("    " + XmlHandler.addTagValue("wsInFieldContainer", getInFieldContainerName()));
     retval.append("    " + XmlHandler.addTagValue("wsInFieldArgument", getInFieldArgumentName()));
-    retval.append(
-        "    " + XmlHandler.addTagValue("wsOutFieldContainer", getOutFieldContainerName()));
+    retval.append("    " + XmlHandler.addTagValue("wsOutFieldContainer", getOutFieldContainerName()));
     retval.append("    " + XmlHandler.addTagValue("wsOutFieldArgument", getOutFieldArgumentName()));
     retval.append("    " + XmlHandler.addTagValue("proxyHost", getProxyHost()));
     retval.append("    " + XmlHandler.addTagValue("proxyPort", getProxyPort()));
@@ -280,8 +256,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     // Load the URL
     //
     setUrl(XmlHandler.getTagValue(transformNode, "wsURL"));
@@ -299,15 +274,12 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
     setProxyPort(XmlHandler.getTagValue(transformNode, "proxyPort"));
     setHttpLogin(XmlHandler.getTagValue(transformNode, "httpLogin"));
     setHttpPassword(XmlHandler.getTagValue(transformNode, "httpPassword"));
-    setCallTransform(
-        Const.toInt(XmlHandler.getTagValue(transformNode, "callTransform"), DEFAULT_TRANSFORM));
-    setPassingInputData(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "passingInputData")));
+    setCallTransform(Const.toInt(XmlHandler.getTagValue(transformNode, "callTransform"), DEFAULT_TRANSFORM));
+    setPassingInputData("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "passingInputData")));
     String compat = XmlHandler.getTagValue(transformNode, "compatible");
     setCompatible(Utils.isEmpty(compat) || "Y".equalsIgnoreCase(compat));
     setRepeatingElementName(XmlHandler.getTagValue(transformNode, "repeating_element"));
-    setReturningReplyAsString(
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "reply_as_string")));
+    setReturningReplyAsString("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "reply_as_string")));
 
     // Load the input fields mapping
     //
@@ -353,7 +325,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
 
   public WebServiceField getFieldInFromName(String name) {
     WebServiceField param = null;
-    for (Iterator<WebServiceField> iter = getFieldsIn().iterator(); iter.hasNext(); ) {
+    for (Iterator<WebServiceField> iter = getFieldsIn().iterator(); iter.hasNext();) {
       WebServiceField paramCour = iter.next();
       if (name.equals(paramCour.getName())) {
         param = paramCour;
@@ -368,7 +340,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
    *
    * @param wsName The name of the WebServiceField to return
    * @param ignoreWsNsPrefix If true the lookup of the cache of WebServiceFields will not include
-   *     the target namespace prefix.
+   *        the target namespace prefix.
    * @return
    */
   public WebServiceField getFieldOutFromWsName(String wsName, boolean ignoreWsNsPrefix) {
@@ -387,7 +359,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
     }
 
     // we now look for the wsname
-    for (Iterator<WebServiceField> iter = getFieldsOut().iterator(); iter.hasNext(); ) {
+    for (Iterator<WebServiceField> iter = getFieldsOut().iterator(); iter.hasNext();) {
       WebServiceField paramCour = iter.next();
       if (paramCour.getWsName().equals(wsName)) {
         param = paramCour;
@@ -550,7 +522,7 @@ public class WebServiceMeta extends BaseTransformMeta<WebService, WebServiceData
 
   /**
    * @param returningReplyAsString true if the reply from the service is simply passed on as a
-   *     String, mostly in XML
+   *        String, mostly in XML
    */
   public void setReturningReplyAsString(boolean returningReplyAsString) {
     this.returningReplyAsString = returningReplyAsString;

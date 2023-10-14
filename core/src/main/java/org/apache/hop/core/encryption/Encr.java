@@ -36,12 +36,10 @@ public class Encr {
 
   public static void init(String encoderPluginId) throws HopException {
     if (Utils.isEmpty(encoderPluginId)) {
-      throw new HopException(
-          "Unable to initialize the two way password encoder: No encoder plugin type specified.");
+      throw new HopException("Unable to initialize the two way password encoder: No encoder plugin type specified.");
     }
     PluginRegistry registry = PluginRegistry.getInstance();
-    IPlugin plugin =
-        registry.findPluginWithId(TwoWayPasswordEncoderPluginType.class, encoderPluginId);
+    IPlugin plugin = registry.findPluginWithId(TwoWayPasswordEncoderPluginType.class, encoderPluginId);
     if (plugin == null) {
       throw new HopException("Unable to find plugin with ID '" + encoderPluginId + "'");
     }
@@ -84,7 +82,7 @@ public class Encr {
    *
    * @param password The encrypted password
    * @return The decrypted password or the original value if the password doesn't start with
-   *     "Encrypted "
+   *         "Encrypted "
    */
   public static final String decryptPasswordOptionallyEncrypted(String password) {
 
@@ -149,16 +147,10 @@ public class Encr {
     System.err.println("  encr <-hop|-server> <password>");
     System.err.println("  Options:");
     System.err.println("    -hop: generate an obfuscated password to include in Hop XML files");
-    System.err.println(
-        "    -server : generate an obfuscated password to include in the hop-server password file 'pwd/hop.pwd'");
-    System.err.println(
-        "\nThis command line tool obfuscates a plain text password for use in XML and password files.");
-    System.err.println(
-        "Make sure to also copy the '"
-            + PASSWORD_ENCRYPTED_PREFIX
-            + "' prefix to indicate the obfuscated nature of the password.");
-    System.err.println(
-        "Hop will then be able to make the distinction between regular plain text passwords and obfuscated ones.");
+    System.err.println("    -server : generate an obfuscated password to include in the hop-server password file 'pwd/hop.pwd'");
+    System.err.println("\nThis command line tool obfuscates a plain text password for use in XML and password files.");
+    System.err.println("Make sure to also copy the '" + PASSWORD_ENCRYPTED_PREFIX + "' prefix to indicate the obfuscated nature of the password.");
+    System.err.println("Hop will then be able to make the distinction between regular plain text passwords and obfuscated ones.");
     System.err.println();
   }
 }

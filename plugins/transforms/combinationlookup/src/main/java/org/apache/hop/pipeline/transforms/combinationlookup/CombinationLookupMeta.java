@@ -51,13 +51,10 @@ import java.util.List;
     image = "combinationlookup.svg",
     name = "i18n::CombinationLookup.Name",
     description = "i18n::CombinationLookup.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.DataWarehouse",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.DataWarehouse",
     keywords = "i18n::CombinationLookupMeta.keyword",
     documentationUrl = "/pipeline/transforms/combinationlookup.html")
-public class CombinationLookupMeta
-    extends BaseTransformMeta<CombinationLookup, CombinationLookupData>
-    implements IProvidesModelerMeta {
+public class CombinationLookupMeta extends BaseTransformMeta<CombinationLookup, CombinationLookupData> implements IProvidesModelerMeta {
 
   private static final Class<?> PKG = CombinationLookupMeta.class; // For Translator
 
@@ -65,67 +62,39 @@ public class CombinationLookupMeta
   public static final int DEFAULT_CACHE_SIZE = 9999;
 
   /** what's the lookup schema? */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKey = "SCHEMA_NAME",
-      injectionKeyDescription = "CombinationLookup.Injection.SCHEMA_NAME")
+  @HopMetadataProperty(key = "schema", injectionKey = "SCHEMA_NAME", injectionKeyDescription = "CombinationLookup.Injection.SCHEMA_NAME")
   private String schemaName;
 
   /** what's the lookup table? */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKey = "TABLE_NAME",
-      injectionKeyDescription = "CombinationLookup.Injection.TABLE_NAME")
+  @HopMetadataProperty(key = "table", injectionKey = "TABLE_NAME", injectionKeyDescription = "CombinationLookup.Injection.TABLE_NAME")
   private String tableName;
 
   /** database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      storeWithName = true,
-      injectionKey = "CONNECTIONNAME",
-      injectionKeyDescription = "CombinationLookup.Injection.CONNECTION_NAME")
+  @HopMetadataProperty(key = "connection", storeWithName = true, injectionKey = "CONNECTIONNAME", injectionKeyDescription = "CombinationLookup.Injection.CONNECTION_NAME")
   private DatabaseMeta databaseMeta;
 
   /** replace fields with technical key? */
-  @HopMetadataProperty(
-      key = "replace",
-      injectionKey = "REPLACE_FIELDS",
-      injectionKeyDescription = "CombinationLookup.Injection.REPLACE_FIELDS")
+  @HopMetadataProperty(key = "replace", injectionKey = "REPLACE_FIELDS", injectionKeyDescription = "CombinationLookup.Injection.REPLACE_FIELDS")
   private boolean replaceFields;
 
   /** Use checksum algorithm to limit index size? */
-  @HopMetadataProperty(
-      key = "crc",
-      injectionKey = "USE_HASH",
-      injectionKeyDescription = "CombinationLookup.Injection.USE_HASH")
+  @HopMetadataProperty(key = "crc", injectionKey = "USE_HASH", injectionKeyDescription = "CombinationLookup.Injection.USE_HASH")
   private boolean useHash;
 
   /** Name of the CRC field in the dimension */
-  @HopMetadataProperty(
-      key = "crcfield",
-      injectionKey = "HASH_FIELD",
-      injectionKeyDescription = "CombinationLookup.Injection.HASH_FIELD")
+  @HopMetadataProperty(key = "crcfield", injectionKey = "HASH_FIELD", injectionKeyDescription = "CombinationLookup.Injection.HASH_FIELD")
   private String hashField;
 
   /** Commit size for insert / update */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKey = "COMMIT_SIZE",
-      injectionKeyDescription = "CombinationLookup.Injection.COMMIT_SIZE")
+  @HopMetadataProperty(key = "commit", injectionKey = "COMMIT_SIZE", injectionKeyDescription = "CombinationLookup.Injection.COMMIT_SIZE")
   private int commitSize;
 
   /** Preload the cache, defaults to false */
-  @HopMetadataProperty(
-      key = "preloadCache",
-      injectionKey = "PRELOAD_CACHE",
-      injectionKeyDescription = "CombinationLookup.Injection.PRELOAD_CACHE")
+  @HopMetadataProperty(key = "preloadCache", injectionKey = "PRELOAD_CACHE", injectionKeyDescription = "CombinationLookup.Injection.PRELOAD_CACHE")
   private boolean preloadCache = false;
 
   /** Limit the cache size to this! */
-  @HopMetadataProperty(
-      key = "cache_size",
-      injectionKey = "CACHE_SIZE",
-      injectionKeyDescription = "CombinationLookup.Injection.CACHE_SIZE")
+  @HopMetadataProperty(key = "cache_size", injectionKey = "CACHE_SIZE", injectionKeyDescription = "CombinationLookup.Injection.CACHE_SIZE")
   private int cacheSize;
 
   @HopMetadataProperty
@@ -148,7 +117,6 @@ public class CombinationLookupMeta
     return new CombinationLookupMeta(this);
   }
 
-
   @Override
   public void setDefault() {
     schemaName = "";
@@ -165,13 +133,7 @@ public class CombinationLookupMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     IValueMeta v = new ValueMetaInteger(fields.getReturnFields().getTechnicalKeyField());
     v.setLength(10);
@@ -214,8 +176,7 @@ public class CombinationLookupMeta
           boolean errorFound = false;
           errorMessage = "";
 
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
           IRowMeta r = db.getTableFields(schemaTable);
           if (r != null) {
             for (int i = 0; i < fields.getKeyFields().size(); i++) {
@@ -226,10 +187,7 @@ public class CombinationLookupMeta
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "CombinationLookupMeta.CheckResult.MissingCompareFields")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.MissingCompareFields") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + lookupField + Const.CR;
@@ -238,12 +196,7 @@ public class CombinationLookupMeta
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "CombinationLookupMeta.CheckResult.AllFieldsFound"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.AllFieldsFound"), transformMeta);
             }
             remarks.add(cr);
 
@@ -251,27 +204,15 @@ public class CombinationLookupMeta
 
             /* Also, check the fields: tk, version, from-to, ... */
             if (r.indexOfValue(technicalKeyField) < 0) {
-              errorMessage =
-                  BaseMessages.getString(
-                          PKG,
-                          "CombinationLookupMeta.CheckResult.TechnicalKeyNotFound",
-                          technicalKeyField)
-                      + Const.CR;
+              errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.TechnicalKeyNotFound", technicalKeyField) + Const.CR;
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              errorMessage =
-                  BaseMessages.getString(
-                          PKG,
-                          "CombinationLookupMeta.CheckResult.TechnicalKeyFound",
-                          technicalKeyField)
-                      + Const.CR;
+              errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.TechnicalKeyFound", technicalKeyField) + Const.CR;
               cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
             }
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(
-                    PKG, "CombinationLookupMeta.CheckResult.CouldNotReadTableInfo");
+            errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
@@ -289,9 +230,7 @@ public class CombinationLookupMeta
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.MissingFields")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.MissingFields") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + keyField.getName() + Const.CR;
@@ -300,18 +239,11 @@ public class CombinationLookupMeta
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(
-                        PKG, "CombinationLookupMeta.CheckResult.AllFieldsFoundInInputStream"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.AllFieldsFoundInInputStream"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.CouldNotReadFields")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.CouldNotReadFields") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
@@ -322,26 +254,18 @@ public class CombinationLookupMeta
         // Check sequence
         if (databaseMeta.supportsSequences() && CREATION_METHOD_SEQUENCE.equals(techKeyCreation)) {
           if (Utils.isEmpty(sequenceFrom)) {
-            errorMessage +=
-                BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorNoSequenceName")
-                    + "!";
+            errorMessage += BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorNoSequenceName") + "!";
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           } else {
             // It doesn't make sense to check the sequence name
             // if it's not filled in.
             if (db.checkSequenceExists(sequenceFrom)) {
-              errorMessage =
-                  BaseMessages.getString(
-                      PKG, "CombinationLookupMeta.CheckResult.ReadingSequenceOK", sequenceFrom);
+              errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ReadingSequenceOK", sequenceFrom);
               cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
               remarks.add(cr);
             } else {
-              errorMessage +=
-                  BaseMessages.getString(
-                          PKG, "CombinationLookupMeta.CheckResult.ErrorReadingSequence")
-                      + sequenceFrom
-                      + "!";
+              errorMessage += BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorReadingSequence") + sequenceFrom + "!";
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
               remarks.add(cr);
             }
@@ -350,71 +274,45 @@ public class CombinationLookupMeta
 
         if (techKeyCreation != null) {
           // post 2.2 version
-          if (!(CREATION_METHOD_AUTOINC.equals(techKeyCreation)
-              || CREATION_METHOD_SEQUENCE.equals(techKeyCreation)
-              || CREATION_METHOD_TABLEMAX.equals(techKeyCreation))) {
-            errorMessage +=
-                BaseMessages.getString(
-                        PKG, "CombinationLookupMeta.CheckResult.ErrorTechKeyCreation")
-                    + ": "
-                    + techKeyCreation
-                    + "!";
+          if (!(CREATION_METHOD_AUTOINC.equals(techKeyCreation) || CREATION_METHOD_SEQUENCE.equals(techKeyCreation) || CREATION_METHOD_TABLEMAX.equals(techKeyCreation))) {
+            errorMessage += BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorTechKeyCreation") + ": " + techKeyCreation + "!";
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorOccurred")
-                + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
         db.disconnect();
       }
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.InvalidConnection");
+      errorMessage = BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.InvalidConnection");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "CombinationLookupMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CombinationLookupMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider) {
-    SqlStatement retval =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider) {
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     int i;
 
     if (databaseMeta != null) {
       if (prev != null && prev.size() > 0) {
         if (!Utils.isEmpty(tableName)) {
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
           Database db = new Database(loggingObject, variables, databaseMeta);
           try {
             boolean doHash = false;
@@ -466,14 +364,11 @@ public class CombinationLookupMeta
                   IValueMeta newValue = v.clone();
                   newValue.setName(name);
 
-                  if (name.equals(vkeyfield.getName())
-                      || (doHash && name.equals(vhashfield.getName()))) {
+                  if (name.equals(vkeyfield.getName()) || (doHash && name.equals(vhashfield.getName()))) {
                     errorField += name;
                   }
                   if (errorField.length() > 0) {
-                    retval.setError(
-                        BaseMessages.getString(
-                            PKG, "CombinationLookupMeta.ReturnValue.NameCollision", errorField));
+                    retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NameCollision", errorField));
                   } else {
                     fields.addValueMeta(newValue);
                   }
@@ -531,24 +426,15 @@ public class CombinationLookupMeta
                 fields.addValueMeta(vhashfield);
               }
 
-              if (vLastUpdateField != null
-                  && tabFields.searchValueMeta(vLastUpdateField.getName()) == null) {
+              if (vLastUpdateField != null && tabFields.searchValueMeta(vLastUpdateField.getName()) == null) {
                 fields.addValueMeta(vLastUpdateField);
               }
             }
 
             crTable =
                 db.getDDL(
-                    schemaTable,
-                    fields,
-                    (CREATION_METHOD_SEQUENCE.equals(technicalKeyField)
-                            && sequenceFrom != null
-                            && sequenceFrom.length() != 0)
-                        ? null
-                        : technicalKeyField,
-                    CREATION_METHOD_AUTOINC.equals(technicalKeyField),
-                    null,
-                    true);
+                    schemaTable, fields, (CREATION_METHOD_SEQUENCE.equals(technicalKeyField) && sequenceFrom != null && sequenceFrom.length() != 0) ? null : technicalKeyField,
+                    CREATION_METHOD_AUTOINC.equals(technicalKeyField), null, true);
 
             //
             // OK, now let's build the index
@@ -563,9 +449,7 @@ public class CombinationLookupMeta
               if (hashField != null && hashField.length() > 0) {
                 idxFields = new String[] {hashField};
               } else {
-                retval.setError(
-                    BaseMessages.getString(
-                        PKG, "CombinationLookupMeta.ReturnValue.NotHashFieldSpecified"));
+                retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotHashFieldSpecified"));
               }
             } else {
               // index on all key fields...
@@ -581,9 +465,7 @@ public class CombinationLookupMeta
                   idxFields[i] = keyField.getLookup();
                 }
               } else {
-                retval.setError(
-                    BaseMessages.getString(
-                        PKG, "CombinationLookupMeta.ReturnValue.NotFieldsSpecified"));
+                retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotFieldsSpecified"));
               }
             }
 
@@ -593,9 +475,7 @@ public class CombinationLookupMeta
               String[] techKeyArr = new String[] {technicalKeyField};
               if (!db.checkIndexExists(schemaTable, techKeyArr)) {
                 String indexname = "idx_" + tableName + "_pk";
-                crUniqIndex =
-                    db.getCreateIndexStatement(
-                        schemaTable, indexname, techKeyArr, true, true, false, true);
+                crUniqIndex = db.getCreateIndexStatement(schemaTable, indexname, techKeyArr, true, true, false, true);
                 crUniqIndex += Const.CR;
               }
             }
@@ -603,9 +483,7 @@ public class CombinationLookupMeta
             // OK, now get the create lookup index statement...
             if (!Utils.isEmpty(idxFields) && !db.checkIndexExists(schemaTable, idxFields)) {
               String indexname = "idx_" + tableName + "_lookup";
-              crIndex =
-                  db.getCreateIndexStatement(
-                      schemaTable, indexname, idxFields, false, false, false, true);
+              crIndex = db.getCreateIndexStatement(schemaTable, indexname, idxFields, false, false, false, true);
               crIndex += Const.CR;
             }
 
@@ -621,22 +499,16 @@ public class CombinationLookupMeta
             }
             retval.setSql(variables.resolve(crTable + crUniqIndex + crIndex + crSeq));
           } catch (HopException e) {
-            retval.setError(
-                BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.ErrorOccurred")
-                    + Const.CR
-                    + e.getMessage());
+            retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.ErrorOccurred") + Const.CR + e.getMessage());
           }
         } else {
-          retval.setError(
-              BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotTableDefined"));
+          retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotTableDefined"));
         }
       } else {
-        retval.setError(
-            BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotReceivingField"));
+        retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotReceivingField"));
       }
     } else {
-      retval.setError(
-          BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotConnectionDefined"));
+      retval.setError(BaseMessages.getString(PKG, "CombinationLookupMeta.ReturnValue.NotConnectionDefined"));
     }
 
     return retval;
@@ -668,9 +540,7 @@ public class CombinationLookupMeta
               keyField.getName(),
               v != null ? v.getOrigin() : "?",
               "",
-              useHash
-                  ? BaseMessages.getString(PKG, "CombinationLookupMeta.ReadAndInsert.Label")
-                  : BaseMessages.getString(PKG, "CombinationLookupMeta.LookupAndInsert.Label"));
+              useHash ? BaseMessages.getString(PKG, "CombinationLookupMeta.ReadAndInsert.Label") : BaseMessages.getString(PKG, "CombinationLookupMeta.LookupAndInsert.Label"));
       impact.add(ii);
     }
 
@@ -702,8 +572,7 @@ public class CombinationLookupMeta
     return true;
   }
 
-  protected IRowMeta getDatabaseTableFields(Database db, String schemaName, String tableName)
-      throws HopDatabaseException {
+  protected IRowMeta getDatabaseTableFields(Database db, String schemaName, String tableName) throws HopDatabaseException {
     // First try without connecting to the database... (can be S L O W)
     String schemaTable = databaseMeta.getQuotedSchemaTableCombination(db, schemaName, tableName);
     IRowMeta extraFields = db.getTableFields(schemaTable);
@@ -721,8 +590,7 @@ public class CombinationLookupMeta
   @Override
   public RowMeta getRowMeta(IVariables variables, ITransformData transformData) {
     try {
-      return (RowMeta)
-          getDatabaseTableFields(createDatabaseObject(variables), schemaName, getTableName());
+      return (RowMeta) getDatabaseTableFields(createDatabaseObject(variables), schemaName, getTableName());
     } catch (HopDatabaseException e) {
       log.logError("", e);
       return new RowMeta();

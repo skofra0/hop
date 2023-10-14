@@ -141,7 +141,7 @@ public class WindowProperty {
    *
    * @param shell The dialog to position and size
    * @param onlyPosition Unused argument. If the window is outside the viewable client are, it must
-   *     be resized to prevent inaccessibility.
+   *        be resized to prevent inaccessibility.
    * @param minWidth
    * @param minHeight
    */
@@ -175,8 +175,7 @@ public class WindowProperty {
     shell.setBounds(shellSize);
 
     Rectangle entireClientArea = shell.getDisplay().getClientArea();
-    Rectangle resizedRect =
-        new Rectangle(shellSize.x, shellSize.y, shellSize.width, shellSize.height);
+    Rectangle resizedRect = new Rectangle(shellSize.x, shellSize.y, shellSize.width, shellSize.height);
     constrainRectangleToContainer(resizedRect, entireClientArea);
 
     // If the persisted size/location doesn't perfectly fit
@@ -185,8 +184,7 @@ public class WindowProperty {
     // Relocate the shell into either the parent monitor or if
     // there is no parent, the primary monitor then center it.
     //
-    if (!resizedRect.equals(shellSize)
-        || isClippedByUnalignedMonitors(resizedRect, shell.getDisplay())) {
+    if (!resizedRect.equals(shellSize) || isClippedByUnalignedMonitors(resizedRect, shell.getDisplay())) {
       Monitor monitor = shell.getDisplay().getPrimaryMonitor();
       if (shell.getParent() != null) {
         monitor = shell.getParent().getMonitor();
@@ -218,10 +216,7 @@ public class WindowProperty {
     // Detect if the dialog was positioned outside the container
     // If so, center the child in the container...
     //
-    if (child.x < container.x
-        || child.y < container.y
-        || child.x + child.width > container.x + container.width
-        || child.y + child.height > container.y + container.height) {
+    if (child.x < container.x || child.y < container.y || child.x + child.width > container.x + container.width || child.y + child.height > container.y + container.height) {
       child.x = (container.width - child.width) / 2;
       child.y = (container.height - child.height) / 2;
     }

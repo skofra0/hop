@@ -77,12 +77,7 @@ public class HopGuiPipelineRunDelegate {
     pipelinePreviewMetaMap = new HashMap<>();
   }
 
-  public PipelineExecutionConfiguration executePipeline(
-      final ILogChannel log,
-      final PipelineMeta pipelineMeta,
-      final boolean preview,
-      final boolean debug,
-      LogLevel logLevel)
+  public PipelineExecutionConfiguration executePipeline(final ILogChannel log, final PipelineMeta pipelineMeta, final boolean preview, final boolean debug, LogLevel logLevel)
       throws HopException {
 
     if (pipelineMeta == null) {
@@ -157,9 +152,7 @@ public class HopGuiPipelineRunDelegate {
     int debugAnswer = PipelineDebugDialog.DEBUG_CONFIG;
 
     if (debug || preview) {
-      PipelineDebugDialog pipelineDebugDialog =
-          new PipelineDebugDialog(
-              hopGui.getShell(), pipelineGraph.getVariables(), pipelineDebugMeta);
+      PipelineDebugDialog pipelineDebugDialog = new PipelineDebugDialog(hopGui.getShell(), pipelineGraph.getVariables(), pipelineDebugMeta);
       debugAnswer = pipelineDebugDialog.open();
       if (debugAnswer == PipelineDebugDialog.DEBUG_CANCEL) {
         // If we cancel the debug dialog, we don't go further with the execution either.
@@ -176,23 +169,21 @@ public class HopGuiPipelineRunDelegate {
     executionConfiguration.setLogLevel(logLevel);
 
     if (debug || preview) {
-      // Make sure to re-set the default parameter values. They could have been changed since the last execution.
+      // Make sure to re-set the default parameter values. They could have been changed since the last
+      // execution.
       //
       for (String parameterName : pipelineMeta.listParameters()) {
         String defaultValue = pipelineMeta.getParameterDefault(parameterName);
-        if ( StringUtils.isNotEmpty(defaultValue)) {
+        if (StringUtils.isNotEmpty(defaultValue)) {
           executionConfiguration.getParametersMap().put(parameterName, defaultValue);
         }
       }
     }
 
-
     boolean execConfigAnswer = true;
 
     if (debugAnswer == PipelineDebugDialog.DEBUG_CONFIG && pipelineMeta.isShowDialog()) {
-      PipelineExecutionConfigurationDialog dialog =
-          new PipelineExecutionConfigurationDialog(
-              hopGui.getShell(), executionConfiguration, pipelineMeta);
+      PipelineExecutionConfigurationDialog dialog = new PipelineExecutionConfigurationDialog(hopGui.getShell(), executionConfiguration, pipelineMeta);
       execConfigAnswer = dialog.open();
     }
 
@@ -204,16 +195,8 @@ public class HopGuiPipelineRunDelegate {
       // Set the run options
       pipelineMeta.setClearingLog(executionConfiguration.isClearingLog());
 
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          pipelineGraph.getVariables(),
-          HopExtensionPoint.HopGuiPipelineMetaExecutionStart.id,
-          pipelineMeta);
-      ExtensionPointHandler.callExtensionPoint(
-          log,
-          pipelineGraph.getVariables(),
-          HopExtensionPoint.HopGuiPipelineExecutionConfiguration.id,
-          executionConfiguration);
+      ExtensionPointHandler.callExtensionPoint(log, pipelineGraph.getVariables(), HopExtensionPoint.HopGuiPipelineMetaExecutionStart.id, pipelineMeta);
+      ExtensionPointHandler.callExtensionPoint(log, pipelineGraph.getVariables(), HopExtensionPoint.HopGuiPipelineExecutionConfiguration.id, executionConfiguration);
 
       // Verify if there is at least one transform specified to debug or preview...
       // TODO: Is this a local preview or debugging execution? We might want to get rid of the
@@ -221,12 +204,8 @@ public class HopGuiPipelineRunDelegate {
       if (debug || preview) {
         if (pipelineDebugMeta.getNrOfUsedTransforms() == 0) {
           MessageBox box = new MessageBox(hopGui.getShell(), SWT.ICON_WARNING | SWT.YES | SWT.NO);
-          box.setText(
-              BaseMessages.getString(
-                  PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Title"));
-          box.setMessage(
-              BaseMessages.getString(
-                  PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Message"));
+          box.setText(BaseMessages.getString(PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Title"));
+          box.setMessage(BaseMessages.getString(PKG, "HopGui.Dialog.Warning.NoPreviewOrDebugTransforms.Message"));
           int answer = box.open();
           if (answer != SWT.YES) {
             return null;
@@ -278,8 +257,7 @@ public class HopGuiPipelineRunDelegate {
   }
 
   /** @param pipelineExecutionConfiguration The pipelineExecutionConfiguration to set */
-  public void setPipelineExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineExecutionConfiguration) {
+  public void setPipelineExecutionConfiguration(PipelineExecutionConfiguration pipelineExecutionConfiguration) {
     this.pipelineExecutionConfiguration = pipelineExecutionConfiguration;
   }
 
@@ -295,8 +273,7 @@ public class HopGuiPipelineRunDelegate {
   /**
    * @param pipelinePreviewExecutionConfiguration The pipelinePreviewExecutionConfiguration to set
    */
-  public void setPipelinePreviewExecutionConfiguration(
-      PipelineExecutionConfiguration pipelinePreviewExecutionConfiguration) {
+  public void setPipelinePreviewExecutionConfiguration(PipelineExecutionConfiguration pipelinePreviewExecutionConfiguration) {
     this.pipelinePreviewExecutionConfiguration = pipelinePreviewExecutionConfiguration;
   }
 
@@ -310,8 +287,7 @@ public class HopGuiPipelineRunDelegate {
   }
 
   /** @param pipelineDebugExecutionConfiguration The pipelineDebugExecutionConfiguration to set */
-  public void setPipelineDebugExecutionConfiguration(
-      PipelineExecutionConfiguration pipelineDebugExecutionConfiguration) {
+  public void setPipelineDebugExecutionConfiguration(PipelineExecutionConfiguration pipelineDebugExecutionConfiguration) {
     this.pipelineDebugExecutionConfiguration = pipelineDebugExecutionConfiguration;
   }
 
@@ -353,8 +329,7 @@ public class HopGuiPipelineRunDelegate {
   }
 
   /** @param pipelinePreviewMetaMap The pipelinePreviewMetaMap to set */
-  public void setPipelinePreviewMetaMap(
-      Map<PipelineMeta, PipelineDebugMeta> pipelinePreviewMetaMap) {
+  public void setPipelinePreviewMetaMap(Map<PipelineMeta, PipelineDebugMeta> pipelinePreviewMetaMap) {
     this.pipelinePreviewMetaMap = pipelinePreviewMetaMap;
   }
 }

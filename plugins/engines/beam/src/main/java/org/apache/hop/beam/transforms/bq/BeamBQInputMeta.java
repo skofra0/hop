@@ -77,20 +77,13 @@ public class BeamBQInputMeta extends BaseTransformMeta<BeamBQInput, BeamBQInputD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     try {
       for (BQField field : fields) {
         int type = ValueMetaFactory.getIdForValueMeta(field.getHopType());
-        IValueMeta valueMeta =
-            ValueMetaFactory.createValueMeta(field.getNewNameOrName(), type, -1, -1);
+        IValueMeta valueMeta = ValueMetaFactory.createValueMeta(field.getNewNameOrName(), type, -1, -1);
         valueMeta.setOrigin(name);
         inputRowMeta.addValueMeta(valueMeta);
       }

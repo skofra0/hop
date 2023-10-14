@@ -32,10 +32,7 @@ public class ExplorerPerspectiveConfigSingleton {
   private ExplorerPerspectiveConfigSingleton() {
     // Load from the HopConfig store
     //
-    Object configObject =
-        HopConfig.getInstance()
-            .getConfigMap()
-            .get(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY);
+    Object configObject = HopConfig.getInstance().getConfigMap().get(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY);
     if (configObject == null) {
       explorerPerspectiveConfig = new ExplorerPerspectiveConfig();
     } else {
@@ -45,8 +42,7 @@ public class ExplorerPerspectiveConfigSingleton {
       //
       try {
         ObjectMapper mapper = HopJson.newMapper();
-        explorerPerspectiveConfig =
-            mapper.readValue(new Gson().toJson(configObject), ExplorerPerspectiveConfig.class);
+        explorerPerspectiveConfig = mapper.readValue(new Gson().toJson(configObject), ExplorerPerspectiveConfig.class);
       } catch (Exception e) {
         LogChannel.GENERAL.logError(
             "Error reading explorer perspective configuration, please check property '"
@@ -56,11 +52,7 @@ public class ExplorerPerspectiveConfigSingleton {
         explorerPerspectiveConfig = new ExplorerPerspectiveConfig();
       }
     }
-    HopConfig.getInstance()
-        .getConfigMap()
-        .put(
-            ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY,
-            explorerPerspectiveConfig);
+    HopConfig.getInstance().getConfigMap().put(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY, explorerPerspectiveConfig);
   }
 
   public static ExplorerPerspectiveConfigSingleton getInstance() {
@@ -75,10 +67,7 @@ public class ExplorerPerspectiveConfigSingleton {
   }
 
   public static void saveConfig() throws HopException {
-    HopConfig.getInstance()
-        .saveOption(
-            ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY,
-            configSingleton.explorerPerspectiveConfig);
+    HopConfig.getInstance().saveOption(ExplorerPerspectiveConfig.HOP_CONFIG_EXPLORER_PERSPECTIVE_CONFIG_KEY, configSingleton.explorerPerspectiveConfig);
     HopConfig.getInstance().saveToFile();
   }
 }

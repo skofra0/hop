@@ -22,9 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 public class PartitionMethodSelector {
 
   public String askForPartitionMethod(Shell shell, PartitionSettings settings) {
-    EnterSelectionDialog dialog =
-        new EnterSelectionDialog(
-            shell, settings.getOptions(), "Partioning method", "Select the partitioning method");
+    EnterSelectionDialog dialog = new EnterSelectionDialog(shell, settings.getOptions(), "Partioning method", "Select the partitioning method");
     return dialog.open(settings.getDefaultSelectedMethodIndex());
   }
 }

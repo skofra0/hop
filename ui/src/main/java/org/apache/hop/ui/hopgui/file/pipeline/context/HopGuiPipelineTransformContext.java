@@ -37,8 +37,7 @@ import org.apache.hop.ui.hopgui.perspective.dataorch.HopDataOrchestrationPerspec
 import java.util.ArrayList;
 import java.util.List;
 
-public class HopGuiPipelineTransformContext extends BaseGuiContextHandler
-    implements IGuiContextHandler {
+public class HopGuiPipelineTransformContext extends BaseGuiContextHandler implements IGuiContextHandler {
 
   public static final Class<?> PKG = HopGuiPipelineTransformContext.class; // i18n
 
@@ -50,11 +49,7 @@ public class HopGuiPipelineTransformContext extends BaseGuiContextHandler
   private Point click;
   private GuiActionLambdaBuilder<HopGuiPipelineTransformContext> lambdaBuilder;
 
-  public HopGuiPipelineTransformContext(
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      HopGuiPipelineGraph pipelineGraph,
-      Point click) {
+  public HopGuiPipelineTransformContext(PipelineMeta pipelineMeta, TransformMeta transformMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
     super();
     this.pipelineMeta = pipelineMeta;
     this.transformMeta = transformMeta;
@@ -91,20 +86,10 @@ public class HopGuiPipelineTransformContext extends BaseGuiContextHandler
             new GuiAction(
                 "transform-open-referenced-" + objectDescription,
                 GuiActionType.Info,
-                BaseMessages.getString(
-                    PKG,
-                    "HopGuiPipelineTransformContext.OpenReferencedAction.Name",
-                    objectDescription),
-                BaseMessages.getString(
-                    PKG, "HopGuiPipelineTransformContext.OpenReferencedAction.Tooltip"),
+                BaseMessages.getString(PKG, "HopGuiPipelineTransformContext.OpenReferencedAction.Name", objectDescription),
+                BaseMessages.getString(PKG, "HopGuiPipelineTransformContext.OpenReferencedAction.Tooltip"),
                 "ui/images/open.svg",
-                (shiftAction, controlAction, t) ->
-                    openReferencedObject(
-                        pipelineMeta,
-                        pipelineGraph.getVariables(),
-                        iTransformMeta,
-                        objectDescription,
-                        index));
+                (shiftAction, controlAction, t) -> openReferencedObject(pipelineMeta, pipelineGraph.getVariables(), iTransformMeta, objectDescription, index));
         openReferencedAction.setCategory("Basic");
         openReferencedAction.setCategoryOrder("1");
         actions.add(openReferencedAction);
@@ -123,16 +108,10 @@ public class HopGuiPipelineTransformContext extends BaseGuiContextHandler
     return actions;
   }
 
-  public static final void openReferencedObject(
-      PipelineMeta pipelineMeta,
-      IVariables variables,
-      ITransformMeta iTransformMeta,
-      String objectDescription,
-      int index) {
+  public static final void openReferencedObject(PipelineMeta pipelineMeta, IVariables variables, ITransformMeta iTransformMeta, String objectDescription, int index) {
     HopGui hopGui = HopGui.getInstance();
     try {
-      IHasFilename hasFilename =
-          iTransformMeta.loadReferencedObject(index, pipelineMeta.getMetadataProvider(), variables);
+      IHasFilename hasFilename = iTransformMeta.loadReferencedObject(index, pipelineMeta.getMetadataProvider(), variables);
       if (hasFilename != null) {
         String filename = variables.resolve(hasFilename.getFilename());
 
@@ -147,11 +126,7 @@ public class HopGuiPipelineTransformContext extends BaseGuiContextHandler
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error opening referenced object '" + objectDescription + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error opening referenced object '" + objectDescription + "'", e);
     }
   }
 

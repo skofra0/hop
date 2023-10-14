@@ -42,22 +42,18 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
 
   private static final Class<?> PKG = SelectValuesMeta.class; // For Translator
 
-  public SelectValues(
-      TransformMeta transformMeta,
-      SelectValuesMeta meta,
-      SelectValuesData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SelectValues(TransformMeta transformMeta, SelectValuesMeta meta, SelectValuesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   /**
    * Only select the values that are still needed...
    *
-   * <p>Put the values in the right order...
+   * <p>
+   * Put the values in the right order...
    *
-   * <p>Change the meta-data information if needed...
+   * <p>
+   * Change the meta-data information if needed...
    *
    * <p>
    *
@@ -65,8 +61,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
    * @param rowData the row data to manipulate
    * @return true if everything went well, false if we need to stop because of an error!
    */
-  private synchronized Object[] selectValues(IRowMeta rowMeta, Object[] rowData)
-      throws HopValueException {
+  private synchronized Object[] selectValues(IRowMeta rowMeta, Object[] rowData) throws HopValueException {
     if (data.firstselect) {
       data.firstselect = false;
 
@@ -77,9 +72,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       for (int i = 0; i < data.fieldnrs.length; i++) {
         data.fieldnrs[i] = rowMeta.indexOfValue(meta.getSelectFields()[i].getName());
         if (data.fieldnrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "SelectValues.Log.CouldNotFindField", meta.getSelectFields()[i].getName()));
+          logError(BaseMessages.getString(PKG, "SelectValues.Log.CouldNotFindField", meta.getSelectFields()[i].getName()));
           setErrors(1);
           stopAll();
           return null;
@@ -92,18 +85,14 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       for (int i = 0; i < meta.getSelectFields().length; i++) {
         cnt[i] = 0;
         for (int j = 0; j < meta.getSelectFields().length; j++) {
-          String one =
-              Const.NVL(meta.getSelectFields()[i].getRename(), meta.getSelectFields()[i].getName());
-          String two =
-              Const.NVL(meta.getSelectFields()[j].getRename(), meta.getSelectFields()[j].getName());
+          String one = Const.NVL(meta.getSelectFields()[i].getRename(), meta.getSelectFields()[i].getName());
+          String two = Const.NVL(meta.getSelectFields()[j].getRename(), meta.getSelectFields()[j].getName());
           if (one.equals(two)) {
             cnt[i]++;
           }
 
           if (cnt[i] > 1) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice", one));
+            logError(BaseMessages.getString(PKG, "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice", one));
             setErrors(1);
             stopAll();
             return null;
@@ -167,8 +156,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
         outputData[outputIndex++] = valueMeta.cloneValueData(rowData[idx]);
       } else {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "SelectValues.Log.MixingStreamWithDifferentFields"));
+          logDetailed(BaseMessages.getString(PKG, "SelectValues.Log.MixingStreamWithDifferentFields"));
         }
       }
     }
@@ -199,9 +187,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       for (int i = 0; i < data.removenrs.length; i++) {
         data.removenrs[i] = rowMeta.indexOfValue(meta.getDeleteName()[i]);
         if (data.removenrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "SelectValues.Log.CouldNotFindField", meta.getDeleteName()[i]));
+          logError(BaseMessages.getString(PKG, "SelectValues.Log.CouldNotFindField", meta.getDeleteName()[i]));
           setErrors(1);
           stopAll();
           return null;
@@ -218,11 +204,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
           }
 
           if (cnt[i] > 1) {
-            logError(
-                BaseMessages.getString(
-                    PKG,
-                    "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice2",
-                    meta.getDeleteName()[i]));
+            logError(BaseMessages.getString(PKG, "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice2", meta.getDeleteName()[i]));
             setErrors(1);
             stopAll();
             return null;
@@ -235,7 +217,8 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
     }
 
     /*
-     * Remove the field values Take into account that field indexes change once you remove them!!! Therefore removenrs
+     * Remove the field values Take into account that field indexes change once you remove them!!!
+     * Therefore removenrs
      * is sorted in reverse on index...
      */
     return RowDataUtil.removeItems(rowData, data.removenrs);
@@ -244,7 +227,8 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
   /**
    * Change the meta-data of certain fields.
    *
-   * <p>This, we can do VERY fast.
+   * <p>
+   * This, we can do VERY fast.
    *
    * <p>
    *
@@ -262,9 +246,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       for (int i = 0; i < data.metanrs.length; i++) {
         data.metanrs[i] = rowMeta.indexOfValue(meta.getMeta()[i].getName());
         if (data.metanrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "SelectValues.Log.CouldNotFindField", meta.getMeta()[i].getName()));
+          logError(BaseMessages.getString(PKG, "SelectValues.Log.CouldNotFindField", meta.getMeta()[i].getName()));
           setErrors(1);
           stopAll();
           return null;
@@ -281,11 +263,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
           }
 
           if (cnt[i] > 1) {
-            logError(
-                BaseMessages.getString(
-                    PKG,
-                    "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice2",
-                    meta.getMeta()[i].getName()));
+            logError(BaseMessages.getString(PKG, "SelectValues.Log.FieldCouldNotSpecifiedMoreThanTwice2", meta.getMeta()[i].getName()));
             setErrors(1);
             stopAll();
             return null;
@@ -334,20 +312,14 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       // If we need to change from BINARY_STRING storage type to NORMAL...
       //
       try {
-        if (fromMeta.isStorageBinaryString()
-            && meta.getMeta()[i].getStorageType() == IValueMeta.STORAGE_TYPE_NORMAL) {
+        if (fromMeta.isStorageBinaryString() && meta.getMeta()[i].getStorageType() == IValueMeta.STORAGE_TYPE_NORMAL) {
           rowData[index] = fromMeta.convertBinaryStringToNativeType((byte[]) rowData[index]);
         }
-        if (meta.getMeta()[i].getType() != IValueMeta.TYPE_NONE
-            && fromMeta.getType() != toMeta.getType()) {
+        if (meta.getMeta()[i].getType() != IValueMeta.TYPE_NONE && fromMeta.getType() != toMeta.getType()) {
           rowData[index] = toMeta.convertData(fromMeta, rowData[index]);
         }
       } catch (HopValueException e) {
-        throw new HopConversionException(
-            e.getMessage(),
-            Collections.<Exception>singletonList(e),
-            Collections.singletonList(toMeta),
-            rowData);
+        throw new HopConversionException(e.getMessage(), Collections.<Exception>singletonList(e), Collections.singletonList(toMeta), rowData);
       }
     }
 
@@ -369,9 +341,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "SelectValues.Log.GotRowFromPreviousTransform")
-              + getInputRowMeta().getString(rowData));
+      logRowlevel(BaseMessages.getString(PKG, "SelectValues.Log.GotRowFromPreviousTransform") + getInputRowMeta().getString(rowData));
     }
 
     if (first) {
@@ -407,9 +377,7 @@ public class SelectValues extends BaseTransform<SelectValuesMeta, SelectValuesDa
       //
       putRow(data.metadataRowMeta, outputData);
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "SelectValues.Log.WroteRowToNextTransform")
-                + data.metadataRowMeta.getString(outputData));
+        logRowlevel(BaseMessages.getString(PKG, "SelectValues.Log.WroteRowToNextTransform") + data.metadataRowMeta.getString(outputData));
       }
 
     } catch (HopException e) {

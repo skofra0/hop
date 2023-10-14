@@ -21,8 +21,7 @@ import org.apache.hop.i18n.BaseMessages;
 import java.util.regex.Pattern;
 
 public class MonetDbVersion implements Comparable<MonetDbVersion> {
-  private static final Class<?> PKG =
-      MonetDbVersion.class; // For Translator
+  private static final Class<?> PKG = MonetDbVersion.class; // For Translator
 
   private Integer minorVersion;
 
@@ -36,14 +35,18 @@ public class MonetDbVersion implements Comparable<MonetDbVersion> {
    * The pattern to determine if the given string is a valid MonetDB version in the assumption that
    * it should contain only digits separated by dots. Ideally version should be represented as
    *
-   * <p><code>majorVersion.minorVersion.patchVersion</code>
+   * <p>
+   * <code>majorVersion.minorVersion.patchVersion</code>
    *
-   * <p>But also we could have any additional groups of digits after <code>patchVersion</code>. Or
+   * <p>
+   * But also we could have any additional groups of digits after <code>patchVersion</code>. Or
    * have only major and minor version parts.
    *
-   * <p><b>Examples of valid MonetDB versions:</b>
+   * <p>
+   * <b>Examples of valid MonetDB versions:</b>
    *
-   * <p><code>
+   * <p>
+   * <code>
    * <p>11.17.17
    * <p>11.0
    * <p>11.5.17.1
@@ -62,10 +65,7 @@ public class MonetDbVersion implements Comparable<MonetDbVersion> {
 
   /** Jan2014-SP2 release MonetDB version. */
   public static final MonetDbVersion JAN_2014_SP2_DB_VERSION =
-      new MonetDbVersion(
-          JAN_2014_SP2_RELEASE_DB_MAJOR_VERSION,
-          JAN_2014_SP2_RELEASE_DB_MINOR_VERSION,
-          JAN_2014_SP2_RELEASE_DB_PATCH_VERSION);
+      new MonetDbVersion(JAN_2014_SP2_RELEASE_DB_MAJOR_VERSION, JAN_2014_SP2_RELEASE_DB_MINOR_VERSION, JAN_2014_SP2_RELEASE_DB_PATCH_VERSION);
 
   public MonetDbVersion() {
     super();
@@ -128,18 +128,15 @@ public class MonetDbVersion implements Comparable<MonetDbVersion> {
    *
    * @param productVersion a string representation of version
    * @throws MonetDbVersionException if productVersion is null or has incorrect format ( see {@link
-   *     MonetDbVersion#VERSION_PATTERN} )
+   *         MonetDbVersion#VERSION_PATTERN} )
    */
   private void parseVersion(String productVersion) throws MonetDbVersionException {
     if (productVersion == null) {
-      throw new MonetDbVersionException(
-          BaseMessages.getString(PKG, "MonetDBVersion.Exception.VersionIsNull"));
+      throw new MonetDbVersionException(BaseMessages.getString(PKG, "MonetDBVersion.Exception.VersionIsNull"));
     }
 
     if (!VERSION_PATTERN.matcher(productVersion).matches()) {
-      throw new MonetDbVersionException(
-          BaseMessages.getString(
-              PKG, "MonetDBVersion.Exception.VersionFormatIsInvalid", productVersion));
+      throw new MonetDbVersionException(BaseMessages.getString(PKG, "MonetDBVersion.Exception.VersionFormatIsInvalid", productVersion));
     }
 
     int startIndex = 0;

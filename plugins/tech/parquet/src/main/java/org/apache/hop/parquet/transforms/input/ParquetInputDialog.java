@@ -69,12 +69,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
 
   private String returnValue;
 
-  public ParquetInputDialog(
-      Shell parent,
-      IVariables variables,
-      Object in,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public ParquetInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, transformName);
     input = (ParquetInputMeta) in;
   }
@@ -157,38 +152,17 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.SourceField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              new String[0]),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetType.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetFormat.Label"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetLength.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              true,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetPrecision.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              true,
-              false),
-        };
-    wFields =
-        new TableView(
-            variables, shell, SWT.BORDER, columns, input.getFields().size(), false, null, props);
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.SourceField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, new String[0]),
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetType.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                ValueMetaFactory.getValueMetaNames(),
+                false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetFormat.Label"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetLength.Label"), ColumnInfo.COLUMN_TYPE_TEXT, true, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetInputDialog.FieldsColumn.TargetPrecision.Label"), ColumnInfo.COLUMN_TYPE_TEXT, true, false),};
+    wFields = new TableView(variables, shell, SWT.BORDER, columns, input.getFields().size(), false, null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -207,12 +181,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
     try {
       // Ask for a file to get metadata from...
       //
-      String filename =
-          BaseDialog.presentFileDialog(
-              shell,
-              new String[] {"*.parquet*", "*.*"},
-              new String[] {"Parquet files", "All files"},
-              true);
+      String filename = BaseDialog.presentFileDialog(shell, new String[] {"*.parquet*", "*.*"}, new String[] {"Parquet files", "All files"}, true);
       if (filename != null) {
         FileObject fileObject = HopVfs.getFileObject(variables.resolve(filename));
 
@@ -227,8 +196,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
         // Empty list of fields to retrieve: we still grab the schema
         //
         ParquetReadSupport readSupport = new ParquetReadSupport(new ArrayList<>());
-        ParquetReader<RowMetaAndData> reader =
-            new ParquetReaderBuilder<>(readSupport, inputFile).build();
+        ParquetReader<RowMetaAndData> reader = new ParquetReaderBuilder<>(readSupport, inputFile).build();
 
         // Read one empty row...
         //
@@ -274,8 +242,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
           rowMeta.addValueMeta(valueMeta);
         }
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            rowMeta, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(rowMeta, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
       }
     } catch (Exception e) {
       LogChannel.UI.logError("Error getting parquet file fields", e);
@@ -284,8 +251,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
 
   private void getData() {
     try {
-      wFilenameField.setItems(
-          pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
+      wFilenameField.setItems(pipelineMeta.getPrevTransformFields(variables, transformName).getFieldNames());
     } catch (Exception e) {
       LogChannel.UI.logError("Error getting source fields", e);
     }
@@ -319,14 +285,7 @@ public class ParquetInputDialog extends BaseTransformDialog implements ITransfor
     for (TableItem item : wFields.getNonEmptyItems()) {
       int index = 1;
       meta.getFields()
-          .add(
-              new ParquetField(
-                  item.getText(index++),
-                  item.getText(index++),
-                  item.getText(index++),
-                  item.getText(index++),
-                  item.getText(index++),
-                  item.getText(index)));
+          .add(new ParquetField(item.getText(index++), item.getText(index++), item.getText(index++), item.getText(index++), item.getText(index++), item.getText(index)));
     }
   }
 

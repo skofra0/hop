@@ -30,10 +30,7 @@ import java.util.List;
  * This class handles basic encryption of passwords in Hop. Note that it's not really encryption,
  * it's more obfuscation. Passwords are <b>difficult</b> to read, not impossible.
  */
-@TwoWayPasswordEncoderPlugin(
-    id = "Hop",
-    name = "Hop Password Encoder",
-    description = "Hop Password Encoder")
+@TwoWayPasswordEncoderPlugin(id = "Hop", name = "Hop Password Encoder", description = "Hop Password Encoder")
 public class HopTwoWayPasswordEncoder implements ITwoWayPasswordEncoder {
   private static final int RADIX = 16;
   private String Seed;
@@ -44,10 +41,7 @@ public class HopTwoWayPasswordEncoder implements ITwoWayPasswordEncoder {
   public static final String PASSWORD_ENCRYPTED_PREFIX = "Encrypted ";
 
   public HopTwoWayPasswordEncoder() {
-    String envSeed =
-        Const.NVL(
-            EnvUtil.getSystemProperty(Const.HOP_TWO_WAY_PASSWORD_ENCODER_SEED),
-            "0933910847463829827159347601486730416058");
+    String envSeed = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_TWO_WAY_PASSWORD_ENCODER_SEED), "0933910847463829827159347601486730416058");
     Seed = envSeed;
   }
 

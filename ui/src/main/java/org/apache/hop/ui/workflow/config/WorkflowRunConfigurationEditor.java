@@ -53,8 +53,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@GuiPlugin(
-    description = "This dialog allows you to configure the various workflow run configurations")
+@GuiPlugin(description = "This dialog allows you to configure the various workflow run configurations")
 /**
  * The dialog for metadata object WorkflowRunConfiguration Don't move this class around as it's
  * sync'ed with the WorkflowRunConfiguration package to find the dialog.
@@ -83,10 +82,7 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
    * @param manager The metadata manager
    * @param runConfiguration The object to edit
    */
-  public WorkflowRunConfigurationEditor(
-      HopGui hopGui,
-      MetadataManager<WorkflowRunConfiguration> manager,
-      WorkflowRunConfiguration runConfiguration) {
+  public WorkflowRunConfigurationEditor(HopGui hopGui, MetadataManager<WorkflowRunConfiguration> manager, WorkflowRunConfiguration runConfiguration) {
     super(hopGui, manager, runConfiguration);
 
     this.runConfiguration = runConfiguration;
@@ -94,9 +90,7 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
 
     metaMap = populateMetaMap();
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      metaMap.put(
-          workingConfiguration.getEngineRunConfiguration().getEnginePluginName(),
-          workingConfiguration.getEngineRunConfiguration());
+      metaMap.put(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), workingConfiguration.getEngineRunConfiguration());
     }
   }
 
@@ -105,21 +99,17 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
     List<IPlugin> plugins = PluginRegistry.getInstance().getPlugins(WorkflowEnginePluginType.class);
     for (IPlugin plugin : plugins) {
       try {
-        IWorkflowEngine<?> engine =
-            PluginRegistry.getInstance().loadClass(plugin, IWorkflowEngine.class);
+        IWorkflowEngine<?> engine = PluginRegistry.getInstance().loadClass(plugin, IWorkflowEngine.class);
 
         // Get the default run configuration for the engine.
         //
-        IWorkflowEngineRunConfiguration engineRunConfiguration =
-            engine.createDefaultWorkflowEngineRunConfiguration();
+        IWorkflowEngineRunConfiguration engineRunConfiguration = engine.createDefaultWorkflowEngineRunConfiguration();
         engineRunConfiguration.setEnginePluginId(plugin.getIds()[0]);
         engineRunConfiguration.setEnginePluginName(plugin.getName());
 
         metaMap.put(engineRunConfiguration.getEnginePluginName(), engineRunConfiguration);
       } catch (Exception e) {
-        HopGui.getInstance()
-            .getLog()
-            .logError("Error instantiating workflow run configuration plugin", e);
+        HopGui.getInstance().getLog().logError("Error instantiating workflow run configuration plugin", e);
       }
     }
 
@@ -159,8 +149,7 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
 
     Label wlDescription = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlDescription);
-    wlDescription.setText(
-        BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.Description"));
+    wlDescription.setText(BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.Description"));
     FormData fdlDescription = new FormData();
     fdlDescription.top = new FormAttachment(lastControl, margin);
     fdlDescription.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -177,14 +166,13 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
 
     Label wlDefault = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlDefault);
-    wlDefault.setText(
-            BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.Default"));
+    wlDefault.setText(BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.Default"));
     FormData fdlDefault = new FormData();
     fdlDefault.top = new FormAttachment(lastControl, margin);
     fdlDefault.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlDefault.right = new FormAttachment(middle, -margin);
     wlDefault.setLayoutData(fdlDefault);
-    wDefault = new Button(parent, SWT.CHECK | SWT.LEFT );
+    wDefault = new Button(parent, SWT.CHECK | SWT.LEFT);
     PropsUi.setLook(wDefault);
     FormData fdDefault = new FormData();
     fdDefault.top = new FormAttachment(wlDefault, 0, SWT.CENTER);
@@ -196,16 +184,16 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
     // Which location should the execution information go to?
     //
     wExecutionInfoLocation =
-            new MetaSelectionLine<>(
-                    manager.getVariables(),
-                    manager.getMetadataProvider(),
-                    ExecutionInfoLocation.class,
-                    parent,
-                    SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-                    BaseMessages.getString(
-                            PKG, "WorkflowRunConfigurationDialog.label.ExecutionInfoLocation"),
-                    BaseMessages.getString(
-                            PKG, "WorkflowRunConfigurationDialog.toolTip.ExecutionInfoLocation"), false, true);
+        new MetaSelectionLine<>(
+            manager.getVariables(),
+            manager.getMetadataProvider(),
+            ExecutionInfoLocation.class,
+            parent,
+            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
+            BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.ExecutionInfoLocation"),
+            BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.toolTip.ExecutionInfoLocation"),
+            false,
+            true);
     FormData fdExecutionInfoLocation = new FormData();
     fdExecutionInfoLocation.top = new FormAttachment(lastControl, margin);
     fdExecutionInfoLocation.left = new FormAttachment(0, 0); // To the right of the label
@@ -217,8 +205,7 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
     //
     Label wlPluginType = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlPluginType);
-    wlPluginType.setText(
-        BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.EngineType"));
+    wlPluginType.setText(BaseMessages.getString(PKG, "WorkflowRunConfigurationDialog.label.EngineType"));
     FormData fdlPluginType = new FormData();
     fdlPluginType.top = new FormAttachment(lastControl, margin);
     fdlPluginType.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -278,20 +265,14 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
     //
     if (workingConfiguration.getEngineRunConfiguration() != null) {
       guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-      guiCompositeWidgets.createCompositeWidgets(
-          workingConfiguration.getEngineRunConfiguration(),
-          null,
-          wPluginSpecificComp,
-          WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-          null);
-      guiCompositeWidgets.setWidgetsListener(
-          new GuiCompositeWidgetsAdapter() {
-            @Override
-            public void widgetModified(
-                GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-              setChanged();
-            }
-          });
+      guiCompositeWidgets
+          .createCompositeWidgets(workingConfiguration.getEngineRunConfiguration(), null, wPluginSpecificComp, WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, null);
+      guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+        @Override
+        public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+          setChanged();
+        }
+      });
     }
   }
 
@@ -310,9 +291,7 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
 
     // Save the state of this type so we can switch back and forth
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      metaMap.put(
-          workingConfiguration.getEngineRunConfiguration().getEnginePluginName(),
-          workingConfiguration.getEngineRunConfiguration());
+      metaMap.put(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), workingConfiguration.getEngineRunConfiguration());
     }
 
     changeWorkingEngineConfiguration(workingConfiguration);
@@ -343,17 +322,13 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
     wDefault.setSelection(workingConfiguration.isDefaultSelection());
     try {
       wExecutionInfoLocation.fillItems();
-    } catch(Exception e) {
+    } catch (Exception e) {
       new ErrorDialog(getShell(), "Error", "Error getting the list of execution information locations", e);
     }
     wExecutionInfoLocation.setText(Const.NVL(workingConfiguration.getExecutionInfoLocationName(), ""));
     if (workingConfiguration.getEngineRunConfiguration() != null) {
-      wPluginType.setText(
-          Const.NVL(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), ""));
-      guiCompositeWidgets.setWidgetsContents(
-          workingConfiguration.getEngineRunConfiguration(),
-          wPluginSpecificComp,
-          WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
+      wPluginType.setText(Const.NVL(workingConfiguration.getEngineRunConfiguration().getEnginePluginName(), ""));
+      guiCompositeWidgets.setWidgetsContents(workingConfiguration.getEngineRunConfiguration(), wPluginSpecificComp, WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
     } else {
       wPluginType.setText("");
     }
@@ -369,11 +344,8 @@ public class WorkflowRunConfigurationEditor extends MetadataEditor<WorkflowRunCo
 
     // Get the plugin specific information from the widgets on the screen
     //
-    if (meta.getEngineRunConfiguration() != null
-        && guiCompositeWidgets != null
-        && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
-      guiCompositeWidgets.getWidgetsContents(
-          meta.getEngineRunConfiguration(), WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    if (meta.getEngineRunConfiguration() != null && guiCompositeWidgets != null && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
+      guiCompositeWidgets.getWidgetsContents(meta.getEngineRunConfiguration(), WorkflowRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID);
     }
   }
 

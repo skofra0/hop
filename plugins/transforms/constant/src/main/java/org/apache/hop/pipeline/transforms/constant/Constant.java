@@ -42,18 +42,11 @@ import java.util.List;
 public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
   private static final Class<?> PKG = ConstantMeta.class; // For Translator
 
-  public Constant(
-      TransformMeta transformMeta,
-      ConstantMeta meta,
-      ConstantData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Constant(TransformMeta transformMeta, ConstantMeta meta, ConstantData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static final RowMetaAndData buildRow(
-      ConstantMeta meta, ConstantData data, List<ICheckResult> remarks) {
+  public static final RowMetaAndData buildRow(ConstantMeta meta, ConstantData data, List<ICheckResult> remarks) {
     IRowMeta rowMeta = new RowMeta();
     Object[] rowData = new Object[meta.getFields().size()];
 
@@ -65,8 +58,7 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
         try {
           value = ValueMetaFactory.createValueMeta(field.getFieldName(), valtype);
         } catch (Exception exception) {
-          remarks.add(
-              new CheckResult(ICheckResult.TYPE_RESULT_ERROR, exception.getMessage(), null));
+          remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, exception.getMessage(), null));
           continue;
         }
         value.setLength(field.getFieldLength());
@@ -84,19 +76,14 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
             rowData[i] = null;
 
             if (value.getType() == IValueMeta.TYPE_NONE) {
-              String message =
-                  BaseMessages.getString(
-                      PKG, "Constant.CheckResult.SpecifyTypeError", value.getName(), stringValue);
+              String message = BaseMessages.getString(PKG, "Constant.CheckResult.SpecifyTypeError", value.getName(), stringValue);
               remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
             }
           } else {
             switch (value.getType()) {
               case IValueMeta.TYPE_NUMBER:
                 try {
-                  if (field.getFieldFormat() != null
-                      || field.getDecimal() != null
-                      || field.getGroup() != null
-                      || field.getCurrency() != null) {
+                  if (field.getFieldFormat() != null || field.getDecimal() != null || field.getGroup() != null || field.getCurrency() != null) {
                     if (!StringUtils.isEmpty(field.getFieldFormat())) {
                       data.df.applyPattern(field.getFieldFormat());
                     }
@@ -115,13 +102,7 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
 
                   rowData[i] = Double.valueOf(data.nf.parse(stringValue).doubleValue());
                 } catch (Exception e) {
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "Constant.BuildRow.Error.Parsing.Number",
-                          value.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "Constant.BuildRow.Error.Parsing.Number", value.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                 }
                 break;
@@ -139,13 +120,7 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
 
                   rowData[i] = data.daf.parse(stringValue);
                 } catch (Exception e) {
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "Constant.BuildRow.Error.Parsing.Date",
-                          value.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "Constant.BuildRow.Error.Parsing.Date", value.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                 }
                 break;
@@ -154,13 +129,7 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
                 try {
                   rowData[i] = Long.valueOf(stringValue);
                 } catch (Exception e) {
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "Constant.BuildRow.Error.Parsing.Integer",
-                          value.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "Constant.BuildRow.Error.Parsing.Integer", value.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                 }
                 break;
@@ -169,21 +138,13 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
                 try {
                   rowData[i] = new BigDecimal(stringValue);
                 } catch (Exception e) {
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "Constant.BuildRow.Error.Parsing.BigNumber",
-                          value.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "Constant.BuildRow.Error.Parsing.BigNumber", value.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                 }
                 break;
 
               case IValueMeta.TYPE_BOOLEAN:
-                rowData[i] =
-                    Boolean.valueOf(
-                        "Y".equalsIgnoreCase(stringValue) || "TRUE".equalsIgnoreCase(stringValue));
+                rowData[i] = Boolean.valueOf("Y".equalsIgnoreCase(stringValue) || "TRUE".equalsIgnoreCase(stringValue));
                 break;
 
               case IValueMeta.TYPE_BINARY:
@@ -194,21 +155,13 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
                 try {
                   rowData[i] = Timestamp.valueOf(stringValue);
                 } catch (Exception e) {
-                  String message =
-                      BaseMessages.getString(
-                          PKG,
-                          "Constant.BuildRow.Error.Parsing.Timestamp",
-                          value.getName(),
-                          stringValue,
-                          e.toString());
+                  String message = BaseMessages.getString(PKG, "Constant.BuildRow.Error.Parsing.Timestamp", value.getName(), stringValue, e.toString());
                   remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
                 }
                 break;
 
               default:
-                String message =
-                    BaseMessages.getString(
-                        PKG, "Constant.CheckResult.SpecifyTypeError", value.getName(), stringValue);
+                String message = BaseMessages.getString(PKG, "Constant.CheckResult.SpecifyTypeError", value.getName(), stringValue);
                 remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, null));
             }
           }
@@ -247,17 +200,11 @@ public class Constant extends BaseTransform<ConstantMeta, ConstantData> {
     putRow(data.outputMeta, r);
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG,
-              "Constant.Log.Wrote.Row",
-              Long.toString(getLinesWritten()),
-              getInputRowMeta().getString(r)));
+      logRowlevel(BaseMessages.getString(PKG, "Constant.Log.Wrote.Row", Long.toString(getLinesWritten()), getInputRowMeta().getString(r)));
     }
 
     if (checkFeedback(getLinesWritten()) && log.isBasic()) {
-      logBasic(
-          BaseMessages.getString(PKG, "Constant.Log.LineNr", Long.toString(getLinesWritten())));
+      logBasic(BaseMessages.getString(PKG, "Constant.Log.LineNr", Long.toString(getLinesWritten())));
     }
 
     return true;

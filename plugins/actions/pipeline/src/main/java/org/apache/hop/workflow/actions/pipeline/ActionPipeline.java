@@ -117,8 +117,10 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
   }
 
   public static final class Parameter {
-    @HopMetadataProperty public String name;
-    @HopMetadataProperty public String value;
+    @HopMetadataProperty
+    public String name;
+    @HopMetadataProperty
+    public String value;
 
     @HopMetadataProperty(key = "stream_name")
     public String field;
@@ -300,21 +302,16 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
         return result;
       }
       // create parent folder?
-      if (!FileUtil.createParentFolder(
-          PKG, realLogFilename, createParentFolder, this.getLogChannel())) {
+      if (!FileUtil.createParentFolder(PKG, realLogFilename, createParentFolder, this.getLogChannel())) {
         result.setNrErrors(1);
         result.setResult(false);
         return result;
       }
       try {
-        logChannelFileWriter =
-            new LogChannelFileWriter(
-                this.getLogChannelId(), HopVfs.getFileObject(realLogFilename), setAppendLogfile);
+        logChannelFileWriter = new LogChannelFileWriter(this.getLogChannelId(), HopVfs.getFileObject(realLogFilename), setAppendLogfile);
         logChannelFileWriter.startLogging();
       } catch (HopException e) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionPipeline.Error.UnableOpenAppender", realLogFilename, e.toString()));
+        logError(BaseMessages.getString(PKG, "ActionPipeline.Error.UnableOpenAppender", realLogFilename, e.toString()));
 
         logError(Const.getStackTracker(e));
         result.setNrErrors(1);
@@ -323,8 +320,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
       }
     }
 
-    logDetailed(
-        BaseMessages.getString(PKG, "ActionPipeline.Log.OpeningPipeline", resolve(getFilename())));
+    logDetailed(BaseMessages.getString(PKG, "ActionPipeline.Log.OpeningPipeline", resolve(getFilename())));
 
     // Load the pipeline only once for the complete loop!
     // Throws an exception if it was not possible to load the pipeline, for example if the XML file
@@ -335,14 +331,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
     try {
       pipelineMeta = getPipelineMeta(getMetadataProvider(), this);
     } catch (HopException e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "ActionPipeline.Exception.UnableToRunWorkflow",
-              parentWorkflowMeta.getName(),
-              getName(),
-              StringUtils.trim(e.getMessage())),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionPipeline.Exception.UnableToRunWorkflow", parentWorkflowMeta.getName(), getName(), StringUtils.trim(e.getMessage())), e);
       result.setNrErrors(1);
       result.setResult(false);
       return result;
@@ -354,9 +343,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
     boolean first = true;
     List<RowMetaAndData> rows = new ArrayList<>(result.getRows());
 
-    while ((first && !execPerRow)
-        || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0)
-            && !parentWorkflow.isStopped()) {
+    while ((first && !execPerRow) || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0) && !parentWorkflow.isStopped()) {
       // Clear the result rows of the result
       // Otherwise we double the amount of rows every iteration in the simple cases.
       //
@@ -398,13 +385,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
 
       try {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionPipeline.StartingPipeline",
-                  getFilename(),
-                  getName(),
-                  getDescription()));
+          logDetailed(BaseMessages.getString(PKG, "ActionPipeline.StartingPipeline", getFilename(), getName(), getDescription()));
         }
 
         if (clearResultRows) {
@@ -439,8 +420,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
               if (!Utils.isEmpty(parameter.getName())) {
                 // We have a parameter
                 if (Utils.isEmpty(Const.trim(parameter.getField()))) {
-                  namedParam.setParameterValue(
-                      parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
+                  namedParam.setParameterValue(parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
                 } else {
                   String fieldValue = "";
 
@@ -461,8 +441,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
               if (!Utils.isEmpty(parameter.getName())) {
                 // We have a parameter
                 if (Utils.isEmpty(Const.trim(parameter.getField()))) {
-                  namedParam.setParameterValue(
-                      parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
+                  namedParam.setParameterValue(parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
                 } else {
                   String fieldValue = "";
 
@@ -484,19 +463,15 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
         prepareFieldNamesParameters(parameterDefinition.getParameters(), namedParam, this);
 
         if (StringUtils.isEmpty(runConfiguration)) {
-          throw new HopException(
-              "This action needs a run configuration to use to execute the specified pipeline");
+          throw new HopException("This action needs a run configuration to use to execute the specified pipeline");
         }
 
         runConfiguration = resolve(runConfiguration);
-        log.logBasic(
-            BaseMessages.getString(PKG, "ActionPipeline.RunConfig.Message", runConfiguration));
+        log.logBasic(BaseMessages.getString(PKG, "ActionPipeline.RunConfig.Message", runConfiguration));
 
         // Create the pipeline from meta-data
         //
-        pipeline =
-            PipelineEngineFactory.createPipelineEngine(
-                this, runConfiguration, getMetadataProvider(), pipelineMeta);
+        pipeline = PipelineEngineFactory.createPipelineEngine(this, runConfiguration, getMetadataProvider(), pipelineMeta);
         pipeline.setParent(this);
 
         // set the parent workflow on the pipeline, variables are taken from here...
@@ -517,13 +492,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
         // Pass the parameter values and activate...
         //
         TransformWithMappingMeta.activateParams(
-            pipeline,
-            pipeline,
-            this,
-            parameterNames,
-            parameterDefinition.getNames(),
-            parameterDefinition.getValues(),
-            parameterDefinition.isPassingAllParameters());
+            pipeline, pipeline, this, parameterNames, parameterDefinition.getNames(), parameterDefinition.getValues(), parameterDefinition.isPassingAllParameters());
 
         // First get the root workflow
         //
@@ -549,12 +518,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
             updateResult(result);
           }
           if (setLogfile) {
-            ResultFile resultFile =
-                new ResultFile(
-                    ResultFile.FILE_TYPE_LOG,
-                    HopVfs.getFileObject(realLogFilename),
-                    parentWorkflow.getWorkflowName(),
-                    toString());
+            ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_LOG, HopVfs.getFileObject(realLogFilename), parentWorkflow.getWorkflowName(), toString());
             result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
           }
         } catch (HopException e) {
@@ -565,8 +529,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
 
       } catch (Exception e) {
 
-        logError(
-            BaseMessages.getString(PKG, "ActionPipeline.ErrorUnableOpenPipeline", e.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionPipeline.ErrorUnableOpenPipeline", e.getMessage()));
         logError(Const.getStackTracker(e));
         result.setNrErrors(1);
       }
@@ -577,12 +540,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
       if (logChannelFileWriter != null) {
         logChannelFileWriter.stopLogging();
 
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_LOG,
-                logChannelFileWriter.getLogFile(),
-                parentWorkflow.getWorkflowName(),
-                getName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_LOG, logChannelFileWriter.getLogFile(), parentWorkflow.getWorkflowName(), getName());
         result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
 
         // See if anything went wrong during file writing...
@@ -616,8 +574,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
     }
   }
 
-  public PipelineMeta getPipelineMeta(IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public PipelineMeta getPipelineMeta(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     try {
       PipelineMeta pipelineMeta = null;
       CurrentDirectoryResolver r = new CurrentDirectoryResolver();
@@ -638,8 +595,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
       // if we get a HopException, simply re-throw it
       throw ke;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ActionPipeline.Exception.MetaDataLoad"), e);
+      throw new HopException(BaseMessages.getString(PKG, "ActionPipeline.Exception.MetaDataLoad"), e);
     }
   }
 
@@ -654,8 +610,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<SqlStatement> getSqlStatements(
-      IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     this.copyFrom(variables);
     PipelineMeta pipelineMeta = getPipelineMeta(metadataProvider, this);
 
@@ -663,45 +618,20 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     if (setLogfile) {
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "logfile",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "logfile", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     }
     if (!Utils.isEmpty(filename)) {
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "filename",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     } else {
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "pipeline-name",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "directory",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "pipeline-name", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "directory", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
     }
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       // During this phase, the variable variables hasn't been initialized yet - it seems
@@ -720,24 +650,21 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
    * filename, modify that filename in this entries. The parent caller will have made a copy of it,
    * so it should be OK to do so.
    *
-   * <p>Exports the object to a flat-file system, adding content with filename keys to a set of
+   * <p>
+   * Exports the object to a flat-file system, adding content with filename keys to a set of
    * definitions. The supplied resource naming interface allows the object to name appropriately
    * without worrying about those parts of the implementation specific details.
    *
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     // Try to load the pipeline from a file.
     // Modify this recursively too...
@@ -751,13 +678,11 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
 
     // Also go down into the pipeline and export the files there. (mapping recursively down)
     //
-    String proposedNewFilename =
-        pipelineMeta.exportResources(variables, definitions, namingInterface, metadataProvider);
+    String proposedNewFilename = pipelineMeta.exportResources(variables, definitions, namingInterface, metadataProvider);
 
     // To get a relative path to it, we inject ${Internal.Entry.Current.Directory}
     //
-    String newFilename =
-        "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
+    String newFilename = "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
 
     // Set the correct filename inside the XML.
     //
@@ -802,13 +727,11 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
 
   /**
    * @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
-   *     reducer, a combiner, ...
+   *         reducer, a combiner, ...
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      BaseMessages.getString(PKG, "ActionPipeline.ReferencedObject.Description"),
-    };
+    return new String[] {BaseMessages.getString(PKG, "ActionPipeline.ReferencedObject.Description"),};
   }
 
   private boolean isPipelineDefined() {
@@ -817,9 +740,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isPipelineDefined(),
-    };
+    return new boolean[] {isPipelineDefined(),};
   }
 
   /**
@@ -832,8 +753,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return getPipelineMeta(metadataProvider, variables);
   }
 
@@ -842,9 +762,7 @@ public class ActionPipeline extends ActionBase implements Cloneable, IAction {
     super.setParentWorkflowMeta(parentWorkflowMeta);
   }
 
-  public void prepareFieldNamesParameters(
-      List<Parameter> parameters, INamedParameters namedParam, ActionPipeline actionPipeline)
-      throws UnknownParamException {
+  public void prepareFieldNamesParameters(List<Parameter> parameters, INamedParameters namedParam, ActionPipeline actionPipeline) throws UnknownParamException {
     for (Parameter parameter : parameters) {
       // Grab the parameter value set in the Pipeline action
       // Set parameter.getField() only if exists and if it is not declared any static

@@ -38,14 +38,14 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class SshMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -68,38 +68,17 @@ public class SshMetaTest {
     xmlString.append(XmlHandler.closeTag("transform")).append(Const.CR);
     Node sshXmlNode = XmlHandler.loadXmlString(xmlString.toString(), "transform");
 
-    assertEquals(
-        Encr.encryptPasswordIfNotUsingVariables(plaintextPassword),
-        XmlHandler.getTagValue(sshXmlNode, "password"));
-    assertEquals(
-        Encr.encryptPasswordIfNotUsingVariables(plaintextPassphrase),
-        XmlHandler.getTagValue(sshXmlNode, "passPhrase"));
-    assertEquals(
-        Encr.encryptPasswordIfNotUsingVariables(plaintextProxyPassword),
-        XmlHandler.getTagValue(sshXmlNode, "proxyPassword"));
+    assertEquals(Encr.encryptPasswordIfNotUsingVariables(plaintextPassword), XmlHandler.getTagValue(sshXmlNode, "password"));
+    assertEquals(Encr.encryptPasswordIfNotUsingVariables(plaintextPassphrase), XmlHandler.getTagValue(sshXmlNode, "passPhrase"));
+    assertEquals(Encr.encryptPasswordIfNotUsingVariables(plaintextProxyPassword), XmlHandler.getTagValue(sshXmlNode, "proxyPassword"));
   }
 
   @Test
   public void testRoundTrips() throws HopException {
     List<String> commonFields =
         Arrays.<String>asList(
-            "dynamicCommandField",
-            "command",
-            "commandFieldName",
-            "port",
-            "serverName",
-            "userName",
-            "password",
-            "usePrivateKey",
-            "keyFileName",
-            "passPhrase",
-            "stdOutFieldName",
-            "stdErrFieldName",
-            "timeOut",
-            "proxyHost",
-            "proxyPort",
-            "proxyUsername",
-            "proxyPassword");
+            "dynamicCommandField", "command", "commandFieldName", "port", "serverName", "userName", "password", "usePrivateKey", "keyFileName", "passPhrase", "stdOutFieldName",
+            "stdErrFieldName", "timeOut", "proxyHost", "proxyPort", "proxyUsername", "proxyPassword");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();

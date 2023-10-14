@@ -29,7 +29,8 @@ import org.junit.Test;
 import java.util.UUID;
 
 public class FieldsChangeSequenceMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -38,18 +39,15 @@ public class FieldsChangeSequenceMetaTest {
 
   @Test
   public void testTransformMeta() throws Exception {
-    LoadSaveTester<FieldsChangeSequenceMeta> tester =
-        new LoadSaveTester<>(FieldsChangeSequenceMeta.class);
+    LoadSaveTester<FieldsChangeSequenceMeta> tester = new LoadSaveTester<>(FieldsChangeSequenceMeta.class);
 
     tester.getFieldLoadSaveValidatorFactory().registerValidator(
-            FieldsChangeSequenceMeta.class.getDeclaredField("fields").getGenericType().toString(),
-            new ListLoadSaveValidator<>(new FieldChangeSequenceFieldValidator()));
+        FieldsChangeSequenceMeta.class.getDeclaredField("fields").getGenericType().toString(), new ListLoadSaveValidator<>(new FieldChangeSequenceFieldValidator()));
 
     tester.testSerialization();
   }
 
-  private static final class FieldChangeSequenceFieldValidator
-      implements IFieldLoadSaveValidator<FieldsChangeSequenceField> {
+  private static final class FieldChangeSequenceFieldValidator implements IFieldLoadSaveValidator<FieldsChangeSequenceField> {
 
     @Override
     public FieldsChangeSequenceField getTestObject() {

@@ -41,16 +41,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@ExtensionPoint(
-    id = "HopImportConnections",
-    description = "Import relational database connections into a Hop project",
-    extensionPointId = "HopImportConnections")
+@ExtensionPoint(id = "HopImportConnections", description = "Import relational database connections into a Hop project", extensionPointId = "HopImportConnections")
 public class HopImportDbConnections implements IExtensionPoint<Object[]> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel iLogChannel, IVariables variables, Object[] connectionObject)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, Object[] connectionObject) throws HopException {
     String projectName = (String) connectionObject[0];
     List<DatabaseMeta> connectionList = (List<DatabaseMeta>) connectionObject[1];
     TreeMap<String, String> connectionFileMap = (TreeMap<String, String>) connectionObject[2];
@@ -62,11 +57,9 @@ public class HopImportDbConnections implements IExtensionPoint<Object[]> {
 
     ProjectConfig projectConfig = config.findProjectConfig(projectName);
     Project project = projectConfig.loadProject(hopGui.getVariables());
-    ProjectsUtil.enableProject(
-        hopGui.getLog(), projectName, project, variables, Collections.emptyList(), null, hopGui);
+    ProjectsUtil.enableProject(hopGui.getLog(), projectName, project, variables, Collections.emptyList(), null, hopGui);
     IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-    IHopMetadataSerializer<DatabaseMeta> databaseSerializer =
-        metadataProvider.getSerializer(DatabaseMeta.class);
+    IHopMetadataSerializer<DatabaseMeta> databaseSerializer = metadataProvider.getSerializer(DatabaseMeta.class);
     projectConfig.getProjectHome();
 
     Iterator<DatabaseMeta> connectionIterator = connectionList.iterator();
@@ -74,14 +67,12 @@ public class HopImportDbConnections implements IExtensionPoint<Object[]> {
       DatabaseMeta databaseMeta = connectionIterator.next();
       try {
         if (databaseSerializer.exists(databaseMeta.getName())) {
-          log.logBasic(
-              "Skipped: a connection with name '" + databaseMeta.getName() + "' already exists.");
+          log.logBasic("Skipped: a connection with name '" + databaseMeta.getName() + "' already exists.");
         } else {
           databaseSerializer.save(databaseMeta);
         }
       } catch (HopException e) {
-        throw new HopException(
-            "Error importing database metadata [" + databaseMeta.getName() + "]", e);
+        throw new HopException("Error importing database metadata [" + databaseMeta.getName() + "]", e);
       }
     }
 
@@ -89,8 +80,7 @@ public class HopImportDbConnections implements IExtensionPoint<Object[]> {
 
     // only create connections csv if we have connections
     if (connectionList.size() > 0) {
-      String connectionsFileName =
-          projectConfig.getProjectHome() + System.getProperty("file.separator") + "connections.csv";
+      String connectionsFileName = projectConfig.getProjectHome() + System.getProperty("file.separator") + "connections.csv";
       try (OutputStream outputStream = HopVfs.getOutputStream(connectionsFileName, false)) {
         for (Map.Entry<String, String> entry : connectionFileMap.entrySet()) {
           outputStream.write(entry.getKey().getBytes(StandardCharsets.UTF_8));

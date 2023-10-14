@@ -25,9 +25,7 @@ public class FilterPipelineTest extends PipelineTestBase {
   @Test
   public void testFilterRowsPipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateFilterRowsPipelineMeta(
-            "io-filter-rows-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateFilterRowsPipelineMeta("io-filter-rows-output", "INPUT", "OUTPUT", metadataProvider);
 
     try {
       createRunPipeline(variables, pipelineMeta);

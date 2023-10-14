@@ -41,7 +41,7 @@ public class SelectValuesData extends BaseTransformData implements ITransformDat
   public boolean select; // "normal" selection of fields.
   public boolean deselect; // de-select mode
   public boolean metadata; // change meta-data (rename & change length/precision)
-  
+
   public SelectValuesData() {
     super();
   }

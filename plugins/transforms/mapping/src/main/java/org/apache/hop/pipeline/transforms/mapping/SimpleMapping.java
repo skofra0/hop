@@ -44,13 +44,7 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
 
   private static final Class<?> PKG = SimpleMappingMeta.class; // For Translator
 
-  public SimpleMapping(
-      TransformMeta transformMeta,
-      SimpleMappingMeta meta,
-      SimpleMappingData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SimpleMapping(TransformMeta transformMeta, SimpleMappingMeta meta, SimpleMappingData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -78,10 +72,8 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
         // Rows produced by the mapping are read and passed on.
         //
         String mappingOutputTransformName = data.mappingOutput.getTransformName();
-        ITransform iOutputTransform =
-            data.mappingPipeline.getTransform(mappingOutputTransformName, 0);
-        RowOutputDataMapper outputDataMapper =
-            new RowOutputDataMapper(meta.getInputMapping(), meta.getOutputMapping(), this::putRow);
+        ITransform iOutputTransform = data.mappingPipeline.getTransform(mappingOutputTransformName, 0);
+        RowOutputDataMapper outputDataMapper = new RowOutputDataMapper(meta.getInputMapping(), meta.getOutputMapping(), this::putRow);
         iOutputTransform.addRowListener(outputDataMapper);
 
         // Start the mapping/sub-pipeline threads
@@ -130,45 +122,33 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
     String runConfigName = resolve(meta.getRunConfigurationName());
     if (StringUtils.isEmpty(runConfigName)) {
       // Create the pipeline from meta-data...
-      simpleMappingData.mappingPipeline =
-          new LocalPipelineEngine(simpleMappingData.mappingPipelineMeta, this, this);
+      simpleMappingData.mappingPipeline = new LocalPipelineEngine(simpleMappingData.mappingPipelineMeta, this, this);
     } else {
       // Validate the run configuration to be a local one.
       //
-      PipelineRunConfiguration runConfig =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class).load(runConfigName);
+      PipelineRunConfiguration runConfig = metadataProvider.getSerializer(PipelineRunConfiguration.class).load(runConfigName);
       if (runConfig == null) {
         throw new HopException("Unable to find run configuration with name " + runConfigName);
       }
       if (!(runConfig.getEngineRunConfiguration() instanceof LocalPipelineRunConfiguration)) {
-        throw new HopException(
-            "Apache Hop can only run simple mappings with a local pipeline engine, not with run configuration "
-                + runConfigName);
+        throw new HopException("Apache Hop can only run simple mappings with a local pipeline engine, not with run configuration " + runConfigName);
       }
 
       // We can use the pipeline engine factory if we have a run configuration name.
       //
       simpleMappingData.mappingPipeline =
-          (LocalPipelineEngine)
-              PipelineEngineFactory.createPipelineEngine(
-                  this, runConfigName, metadataProvider, simpleMappingData.mappingPipelineMeta);
+          (LocalPipelineEngine) PipelineEngineFactory.createPipelineEngine(this, runConfigName, metadataProvider, simpleMappingData.mappingPipelineMeta);
     }
 
     // Copy the parameters over...
     //
-    simpleMappingData.mappingPipeline.copyParametersFromDefinitions(
-        simpleMappingData.mappingPipelineMeta);
+    simpleMappingData.mappingPipeline.copyParametersFromDefinitions(simpleMappingData.mappingPipelineMeta);
 
     // Set the parameters values in the mapping.
     //
     TransformWithMappingMeta.activateParams(
-        simpleMappingData.mappingPipeline,
-        simpleMappingData.mappingPipeline,
-        this,
-        simpleMappingData.mappingPipelineMeta.listParameters(),
-        meta.getMappingParameters().getVariables(),
-        meta.getMappingParameters().getInputs(),
-        meta.getMappingParameters().isInheritingAllVariables());
+        simpleMappingData.mappingPipeline, simpleMappingData.mappingPipeline, this, simpleMappingData.mappingPipelineMeta.listParameters(),
+        meta.getMappingParameters().getVariables(), meta.getMappingParameters().getInputs(), meta.getMappingParameters().isInheritingAllVariables());
 
     // Leave a path up so that we can set variables in sub-pipelines...
     //
@@ -192,9 +172,7 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
     try {
       simpleMappingData.mappingPipeline.prepareExecution();
     } catch (HopException e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SimpleMapping.Exception.UnableToPrepareExecutionOfMapping"),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "SimpleMapping.Exception.UnableToPrepareExecutionOfMapping"), e);
     }
 
     // If there is no read/write logging transform set, we can insert the data from
@@ -202,23 +180,19 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
     //
     List<MappingInput> mappingInputs = findMappingInputs(simpleMappingData.mappingPipeline);
     if (mappingInputs.isEmpty()) {
-      throw new HopException(
-          "The simple mapping transform needs one Mapping Input transform to write to in the sub-pipeline");
+      throw new HopException("The simple mapping transform needs one Mapping Input transform to write to in the sub-pipeline");
     }
     if (mappingInputs.size() > 1) {
-      throw new HopException(
-          "The simple mapping transform does not support multiple Mapping Input transforms to write to in the sub-pipeline");
+      throw new HopException("The simple mapping transform does not support multiple Mapping Input transforms to write to in the sub-pipeline");
     }
     simpleMappingData.mappingInput = mappingInputs.get(0);
 
     List<MappingOutput> mappingOutputs = findMappingOutputs(simpleMappingData.mappingPipeline);
     if (mappingOutputs.isEmpty()) {
-      throw new HopException(
-          "The simple mapping transform needs one Mapping Output transform to read from in the sub-pipeline");
+      throw new HopException("The simple mapping transform needs one Mapping Output transform to read from in the sub-pipeline");
     }
     if (mappingOutputs.size() > 1) {
-      throw new HopException(
-          "The simple mapping transform does not support multiple Mapping Output transforms to read from in the sub-pipeline");
+      throw new HopException("The simple mapping transform does not support multiple Mapping Output transforms to read from in the sub-pipeline");
     }
     simpleMappingData.mappingOutput = mappingOutputs.get(0);
 
@@ -262,8 +236,7 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
       try {
         // Pass the MetaStore down to the metadata object...
         //
-        data.mappingPipelineMeta =
-            SimpleMappingMeta.loadMappingMeta(meta, getMetadataProvider(), this);
+        data.mappingPipelineMeta = SimpleMappingMeta.loadMappingMeta(meta, getMetadataProvider(), this);
         if (data.mappingPipelineMeta != null) { // Do we have a mapping at all?
 
           // OK, now prepare the execution of the mapping.
@@ -334,16 +307,16 @@ public class SimpleMapping extends BaseTransform<SimpleMappingMeta, SimpleMappin
 
   @Override
   public void startBundle() throws HopException {
-    //    if (!first) {
-    //      prepareMappingExecution();
-    //    }
+    // if (!first) {
+    // prepareMappingExecution();
+    // }
   }
 
   @Override
   public void finishBundle() throws HopException {
-    //    setOutputDone();
-    //    first=true;
-    //    data.wasStarted=false;
+    // setOutputDone();
+    // first=true;
+    // data.wasStarted=false;
   }
 
   @Override

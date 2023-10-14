@@ -36,12 +36,10 @@ public interface ICsvInputAwareImportProgressDialog {
    * @param row an Object array containing row data
    * @param index the index representing the column in a row
    * @param failOnParseError when true, Exceptions are reported back to the called, when false,
-   *     exceptions are ignored and a null value is returned
+   *        exceptions are ignored and a null value is returned
    * @return the row value at the given index
    */
-  default String getStringFromRow(
-      final IRowMeta rowMeta, final Object[] row, final int index, final boolean failOnParseError)
-      throws HopException {
+  default String getStringFromRow(final IRowMeta rowMeta, final Object[] row, final int index, final boolean failOnParseError) throws HopException {
     String string = null;
     Exception exc = null;
     try {

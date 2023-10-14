@@ -50,10 +50,9 @@ public class ActionFileExistsDialog extends ActionDialog implements IActionDialo
 
   private static final String[] FILETYPES =
       new String[] {
-        BaseMessages.getString(PKG, "ActionFileExists.Filetype.Text"),
-        BaseMessages.getString(PKG, "ActionFileExists.Filetype.CSV"),
-        BaseMessages.getString(PKG, "ActionFileExists.Filetype.All")
-      };
+          BaseMessages.getString(PKG, "ActionFileExists.Filetype.Text"),
+          BaseMessages.getString(PKG, "ActionFileExists.Filetype.CSV"),
+          BaseMessages.getString(PKG, "ActionFileExists.Filetype.All")};
 
   private Text wName;
 
@@ -63,8 +62,7 @@ public class ActionFileExistsDialog extends ActionDialog implements IActionDialo
 
   private boolean changed;
 
-  public ActionFileExistsDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionFileExistsDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionFileExists) action;
     if (this.action.getName() == null) {
@@ -141,13 +139,8 @@ public class ActionFileExistsDialog extends ActionDialog implements IActionDialo
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, EXTENSIONS, FILETYPES, false));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, EXTENSIONS, FILETYPES, false));
 
     // Buttons go at the very bottom
     //
@@ -157,8 +150,7 @@ public class ActionFileExistsDialog extends ActionDialog implements IActionDialo
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
 

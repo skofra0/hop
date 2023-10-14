@@ -43,7 +43,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ValueDataUtilTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   private static String yyyy_MM_dd = "yyyy-MM-dd";
 
   @BeforeClass
@@ -56,10 +57,7 @@ public class ValueDataUtilTest {
 
     long longValue = 1;
 
-    assertEquals(
-        longValue,
-        ValueDataUtil.plus(
-            new ValueMetaInteger(), longValue, new ValueMetaString(), StringUtils.EMPTY));
+    assertEquals(longValue, ValueDataUtil.plus(new ValueMetaInteger(), longValue, new ValueMetaString(), StringUtils.EMPTY));
   }
 
   @Test
@@ -72,16 +70,14 @@ public class ValueDataUtilTest {
   @Test
   public void checksumMissingFileTest() throws Exception {
     String nonExistingFile = "nonExistingFile";
-    String checksum =
-        ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
+    String checksum = ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
     assertNull(checksum);
   }
 
   @Test
   public void checksumNullPathTest() throws Exception {
     String nonExistingFile = "nonExistingFile";
-    String checksum =
-        ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
+    String checksum = ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
     assertNull(checksum);
   }
 
@@ -102,8 +98,7 @@ public class ValueDataUtilTest {
   @Test
   public void checksumNoFailIfNoFileTest() throws HopFileNotFoundException {
     String nonExistingFile = "nonExistingFile";
-    String checksum =
-        ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
+    String checksum = ValueDataUtil.createChecksum(new ValueMetaString(), nonExistingFile, "MD5", false);
     assertNull(checksum);
   }
 
@@ -218,56 +213,49 @@ public class ValueDataUtilTest {
   @Test
   public void xmlFileWellFormedTest() throws HopFileNotFoundException {
     String xmlFilePath = getClass().getResource("xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, true);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, true);
     assertTrue(wellFormed);
   }
 
   @Test
   public void xmlFileBadlyFormedTest() throws HopFileNotFoundException {
     String invalidXmlFilePath = getClass().getResource("invalid-xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, true);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, true);
     assertFalse(wellFormed);
   }
 
   @Test
   public void xmlFileWellFormedWithFailIfNoFileTest() throws HopFileNotFoundException {
     String xmlFilePath = getClass().getResource("xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, true);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, true);
     assertTrue(wellFormed);
   }
 
   @Test
   public void xmlFileWellFormedWithoutFailIfNoFileTest() throws HopFileNotFoundException {
     String xmlFilePath = getClass().getResource("xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, false);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), xmlFilePath, false);
     assertTrue(wellFormed);
   }
 
   @Test
   public void xmlFileBadlyFormedWithFailIfNoFileTest() throws HopFileNotFoundException {
     String invalidXmlFilePath = getClass().getResource("invalid-xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, true);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, true);
     assertFalse(wellFormed);
   }
 
   @Test
   public void xmlFileBadlyFormedWithNoFailIfNoFileTest() throws HopFileNotFoundException {
     String invalidXmlFilePath = getClass().getResource("invalid-xml-sample.xml").getPath();
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, false);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), invalidXmlFilePath, false);
     assertFalse(wellFormed);
   }
 
   @Test
   public void xmlFileWellFormedNoFailIfNoFileTest() throws HopFileNotFoundException {
     String nonExistingPath = "nonExistingPath";
-    boolean wellFormed =
-        ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), nonExistingPath, false);
+    boolean wellFormed = ValueDataUtil.isXmlFileWellFormed(new ValueMetaString(), nonExistingPath, false);
     assertFalse(wellFormed);
   }
 
@@ -299,13 +287,11 @@ public class ValueDataUtilTest {
   @Test
   public void loadFileContentInBinaryNoFailIfNoFileTest() throws Exception {
     String nonExistingPath = "nonExistingPath";
-    assertNull(
-        ValueDataUtil.loadFileContentInBinary(new ValueMetaString(), nonExistingPath, false));
+    assertNull(ValueDataUtil.loadFileContentInBinary(new ValueMetaString(), nonExistingPath, false));
   }
 
   @Test(expected = HopFileNotFoundException.class)
-  public void loadFileContentInBinaryFailIfNoFileTest()
-      throws HopFileNotFoundException, HopValueException {
+  public void loadFileContentInBinaryFailIfNoFileTest() throws HopFileNotFoundException, HopValueException {
     String nonExistingPath = "nonExistingPath";
     ValueDataUtil.loadFileContentInBinary(new ValueMetaString(), nonExistingPath, true);
   }
@@ -316,8 +302,7 @@ public class ValueDataUtilTest {
   }
 
   @Test
-  public void loadFileContentInBinaryNullPathFailTest()
-      throws HopFileNotFoundException, HopValueException {
+  public void loadFileContentInBinaryNullPathFailTest() throws HopFileNotFoundException, HopValueException {
     assertNull(ValueDataUtil.loadFileContentInBinary(new ValueMetaString(), null, true));
   }
 
@@ -375,10 +360,8 @@ public class ValueDataUtilTest {
     assertEquals(expResult1, ValueDataUtil.multiplyBigDecimals(field1, field2, null));
     assertEquals(expResult2, ValueDataUtil.multiplyBigDecimals(field1, field3, null));
 
-    assertEquals(
-        expResult3, ValueDataUtil.multiplyBigDecimals(field1, field2, new MathContext(23)));
-    assertEquals(
-        expResult4, ValueDataUtil.multiplyBigDecimals(field1, field3, new MathContext(21)));
+    assertEquals(expResult3, ValueDataUtil.multiplyBigDecimals(field1, field2, new MathContext(23)));
+    assertEquals(expResult4, ValueDataUtil.multiplyBigDecimals(field1, field3, new MathContext(21)));
   }
 
   @Test
@@ -409,14 +392,8 @@ public class ValueDataUtilTest {
     BigDecimal expResult1 = new BigDecimal("0.1234567890123456789");
     BigDecimal expResult2 = new BigDecimal("1.1234567890123456789");
 
-    assertEquals(
-        expResult1,
-        ValueDataUtil.remainder(
-            new ValueMetaBigNumber(), field1, new ValueMetaBigNumber(), field2));
-    assertEquals(
-        expResult2,
-        ValueDataUtil.remainder(
-            new ValueMetaBigNumber(), field1, new ValueMetaBigNumber(), field3));
+    assertEquals(expResult1, ValueDataUtil.remainder(new ValueMetaBigNumber(), field1, new ValueMetaBigNumber(), field2));
+    assertEquals(expResult2, ValueDataUtil.remainder(new ValueMetaBigNumber(), field1, new ValueMetaBigNumber(), field3));
   }
 
   @Test

@@ -34,8 +34,7 @@ public final class PluginPropertyHandler {
      * @see org.apache.commons.collections.Closure#execute(java.lang.Object)
      */
     @Override
-    public final void execute(final Object property)
-        throws IllegalArgumentException, FunctorException {
+    public final void execute(final Object property) throws IllegalArgumentException, FunctorException {
       Assert.assertNotNull(property, "Plugin property cannot be null");
       try {
         this.handle((IPluginProperty) property);
@@ -153,8 +152,7 @@ public final class PluginPropertyHandler {
    * @param properties properties to test.
    * @throws IllegalArgumentException if properties is null.
    */
-  public static void assertProperties(final KeyValueSet properties)
-      throws IllegalArgumentException {
+  public static void assertProperties(final KeyValueSet properties) throws IllegalArgumentException {
     Assert.assertNotNull(properties, "Properties cannot be null");
   }
 
@@ -176,8 +174,7 @@ public final class PluginPropertyHandler {
    * @throws HopException ...
    * @throws IllegalArgumentException if properties is null.
    */
-  public static void walk(final KeyValueSet properties, final Closure handler)
-      throws HopException, IllegalArgumentException {
+  public static void walk(final KeyValueSet properties, final Closure handler) throws HopException, IllegalArgumentException {
     assertProperties(properties);
     try {
       properties.walk(handler);

@@ -58,56 +58,80 @@ import java.util.logging.Level;
     documentationUrl = "/metadata-types/neo4j/neo4j-connection.html")
 public class NeoConnection extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String server;
+  @HopMetadataProperty
+  private String server;
 
-  @HopMetadataProperty private String databaseName;
+  @HopMetadataProperty
+  private String databaseName;
 
-  @HopMetadataProperty private String boltPort;
+  @HopMetadataProperty
+  private String boltPort;
 
-  @HopMetadataProperty private String browserPort;
+  @HopMetadataProperty
+  private String browserPort;
 
-  @HopMetadataProperty private boolean routing;
+  @HopMetadataProperty
+  private boolean routing;
 
-  @HopMetadataProperty private String routingVariable;
+  @HopMetadataProperty
+  private String routingVariable;
 
-  @HopMetadataProperty private String routingPolicy;
+  @HopMetadataProperty
+  private String routingPolicy;
 
-  @HopMetadataProperty private String username;
+  @HopMetadataProperty
+  private String username;
 
   @HopMetadataProperty(password = true)
   private String password;
 
-  @HopMetadataProperty private boolean usingEncryption;
+  @HopMetadataProperty
+  private boolean usingEncryption;
 
-  @HopMetadataProperty private String usingEncryptionVariable;
+  @HopMetadataProperty
+  private String usingEncryptionVariable;
 
-  @HopMetadataProperty private boolean trustAllCertificates;
+  @HopMetadataProperty
+  private boolean trustAllCertificates;
 
-  @HopMetadataProperty private String trustAllCertificatesVariable;
+  @HopMetadataProperty
+  private String trustAllCertificatesVariable;
 
-  @HopMetadataProperty private List<String> manualUrls;
+  @HopMetadataProperty
+  private List<String> manualUrls;
 
-  @HopMetadataProperty private String connectionLivenessCheckTimeout;
+  @HopMetadataProperty
+  private String connectionLivenessCheckTimeout;
 
-  @HopMetadataProperty private String maxConnectionLifetime;
+  @HopMetadataProperty
+  private String maxConnectionLifetime;
 
-  @HopMetadataProperty private String maxConnectionPoolSize;
+  @HopMetadataProperty
+  private String maxConnectionPoolSize;
 
-  @HopMetadataProperty private String connectionAcquisitionTimeout;
+  @HopMetadataProperty
+  private String connectionAcquisitionTimeout;
 
-  @HopMetadataProperty private String connectionTimeout;
+  @HopMetadataProperty
+  private String connectionTimeout;
 
-  @HopMetadataProperty private String maxTransactionRetryTime;
+  @HopMetadataProperty
+  private String maxTransactionRetryTime;
 
-  @HopMetadataProperty private boolean version4;
+  @HopMetadataProperty
+  private boolean version4;
 
-  @HopMetadataProperty private String version4Variable;
+  @HopMetadataProperty
+  private String version4Variable;
 
-  @HopMetadataProperty private boolean automatic;
+  @HopMetadataProperty
+  private boolean automatic;
 
-  @HopMetadataProperty private String automaticVariable;
+  @HopMetadataProperty
+  private String automaticVariable;
 
-  @HopMetadataProperty private String protocol;
+  @HopMetadataProperty
+  private String protocol;
 
   public NeoConnection() {
     boltPort = "7687";
@@ -212,8 +236,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
         int zero = value.asInt();
         assert (zero == 0);
       } catch (Exception e) {
-        throw new HopException(
-            "Unable to connect to database '" + name + "' : " + e.getMessage(), e);
+        throw new HopException("Unable to connect to database '" + name + "' : " + e.getMessage(), e);
       }
     }
   }
@@ -285,15 +308,11 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
 
     // We don't add these options if the automatic flag is set
     //
-    if (!isAutomatic(variables)
-        && isUsingRouting(variables)
-        && StringUtils.isNotEmpty(routingPolicyString)) {
+    if (!isAutomatic(variables) && isUsingRouting(variables) && StringUtils.isNotEmpty(routingPolicyString)) {
       try {
         url += "?policy=" + URLEncoder.encode(routingPolicyString, "UTF-8");
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error encoding routing policy context '" + routingPolicyString + "' in connection URL",
-            e);
+        LogChannel.GENERAL.logError("Error encoding routing policy context '" + routingPolicyString + "' in connection URL", e);
         url += "?policy=" + routingPolicyString;
       }
     }
@@ -355,8 +374,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
         if (encryptionVariableSet(variables) || usingEncryption) {
           configBuilder = Config.builder().withEncryption();
           if (trustAllCertificatesVariableSet(variables) || trustAllCertificates) {
-            configBuilder =
-                configBuilder.withTrustStrategy(Config.TrustStrategy.trustAllCertificates());
+            configBuilder = configBuilder.withTrustStrategy(Config.TrustStrategy.trustAllCertificates());
           }
         } else {
           configBuilder = Config.builder().withoutEncryption();
@@ -367,8 +385,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
       if (StringUtils.isNotEmpty(connectionLivenessCheckTimeout)) {
         long seconds = Const.toLong(variables.resolve(connectionLivenessCheckTimeout), -1L);
         if (seconds > 0) {
-          configBuilder =
-              configBuilder.withConnectionLivenessCheckTimeout(seconds, TimeUnit.MILLISECONDS);
+          configBuilder = configBuilder.withConnectionLivenessCheckTimeout(seconds, TimeUnit.MILLISECONDS);
         }
       }
       if (StringUtils.isNotEmpty(maxConnectionLifetime)) {
@@ -386,8 +403,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
       if (StringUtils.isNotEmpty(connectionAcquisitionTimeout)) {
         long seconds = Const.toLong(variables.resolve(connectionAcquisitionTimeout), -1L);
         if (seconds > 0) {
-          configBuilder =
-              configBuilder.withConnectionAcquisitionTimeout(seconds, TimeUnit.MILLISECONDS);
+          configBuilder = configBuilder.withConnectionAcquisitionTimeout(seconds, TimeUnit.MILLISECONDS);
         }
       }
       if (StringUtils.isNotEmpty(connectionTimeout)) {
@@ -411,11 +427,9 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
 
       Driver driver;
       if (isUsingRouting(variables)) {
-        driver =
-            GraphDatabase.routingDriver(uris, AuthTokens.basic(realUsername, realPassword), config);
+        driver = GraphDatabase.routingDriver(uris, AuthTokens.basic(realUsername, realPassword), config);
       } else {
-        driver =
-            GraphDatabase.driver(uris.get(0), AuthTokens.basic(realUsername, realPassword), config);
+        driver = GraphDatabase.driver(uris.get(0), AuthTokens.basic(realUsername, realPassword), config);
       }
 
       // Verify connectivity at this point to ensure we're not being dishonest when testing
@@ -424,9 +438,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
 
       return driver;
     } catch (URISyntaxException e) {
-      throw new HopConfigException(
-          "URI syntax problem, check your settings, hostnames especially.  For routing use comma separated server values.",
-          e);
+      throw new HopConfigException("URI syntax problem, check your settings, hostnames especially.  For routing use comma separated server values.", e);
     } catch (Exception e) {
       throw new HopConfigException("Error obtaining driver for a Neo4j connection", e);
     }
@@ -805,7 +817,7 @@ public class NeoConnection extends HopMetadataBase implements IHopMetadata {
 
   /**
    * @param automaticVariable The variable expression to set which allows you to enable or disable
-   *     the automatic flag
+   *        the automatic flag
    */
   public void setAutomaticVariable(String automaticVariable) {
     this.automaticVariable = automaticVariable;

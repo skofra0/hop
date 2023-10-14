@@ -142,12 +142,9 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
 
   // These should not be translated, they are required to exist on all
   // platforms according to the documentation of "Charset".
-  private static final String[] encodings = {
-    "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"
-  };
+  private static final String[] encodings = {"US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"};
 
-  public ActionFtpDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionFtpDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionFtp) action;
     if (this.action.getName() == null) {
@@ -163,11 +160,10 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     PropsUi.setLook(shell);
     WorkflowDialog.setShellImage(shell, action);
 
-    ModifyListener lsMod =
-        e -> {
-          ftpclient = null;
-          action.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      ftpclient = null;
+      action.setChanged();
+    };
     changed = action.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -181,11 +177,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     int margin = PropsUi.getMargin();
 
     // Action name line
-    wName =
-        new LabelText(
-            shell,
-            BaseMessages.getString(PKG, "ActionFtp.Name.Label"),
-            BaseMessages.getString(PKG, "ActionFtp.Name.Tooltip"));
+    wName = new LabelText(shell, BaseMessages.getString(PKG, "ActionFtp.Name.Label"), BaseMessages.getString(PKG, "ActionFtp.Name.Tooltip"));
     wName.addModifyListener(lsMod);
     FormData fdName = new FormData();
     fdName.top = new FormAttachment(0, 0);
@@ -405,8 +397,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     // /
     Group wAdvancedSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdvancedSettings);
-    wAdvancedSettings.setText(
-        BaseMessages.getString(PKG, "ActionFtp.AdvancedSettings.Group.Label"));
+    wAdvancedSettings.setText(BaseMessages.getString(PKG, "ActionFtp.AdvancedSettings.Group.Label"));
     FormLayout advancedSettingsgroupLayout = new FormLayout();
     advancedSettingsgroupLayout.marginWidth = 10;
     advancedSettingsgroupLayout.marginHeight = 10;
@@ -480,8 +471,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdlControlEncoding.right = new FormAttachment(middle, 0);
     wlControlEncoding.setLayoutData(fdlControlEncoding);
     wControlEncoding = new Combo(wAdvancedSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wControlEncoding.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFtp.ControlEncoding.Tooltip"));
+    wControlEncoding.setToolTipText(BaseMessages.getString(PKG, "ActionFtp.ControlEncoding.Tooltip"));
     wControlEncoding.setItems(encodings);
     PropsUi.setLook(wControlEncoding);
     FormData fdControlEncoding = new FormData();
@@ -556,19 +546,13 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     // Test remote folder button ...
     Button wbTestChangeFolderExists = new Button(wgRemoteSettings, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbTestChangeFolderExists);
-    wbTestChangeFolderExists.setText(
-        BaseMessages.getString(PKG, "ActionFtp.TestFolderExists.Label"));
+    wbTestChangeFolderExists.setText(BaseMessages.getString(PKG, "ActionFtp.TestFolderExists.Label"));
     FormData fdbTestChangeFolderExists = new FormData();
     fdbTestChangeFolderExists.right = new FormAttachment(100, 0);
     fdbTestChangeFolderExists.top = new FormAttachment(0, margin);
     wbTestChangeFolderExists.setLayoutData(fdbTestChangeFolderExists);
 
-    wFtpDirectory =
-        new TextVar(
-            variables,
-            wgRemoteSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtp.RemoteDir.Tooltip"));
+    wFtpDirectory = new TextVar(variables, wgRemoteSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtp.RemoteDir.Tooltip"));
     PropsUi.setLook(wFtpDirectory);
     wFtpDirectory.addModifyListener(lsMod);
     FormData fdFtpDirectory = new FormData();
@@ -613,16 +597,15 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdRemove.right = new FormAttachment(100, 0);
     wRemove.setLayoutData(fdRemove);
 
-    wRemove.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (wRemove.getSelection()) {
-              wMove.setSelection(false);
-              activateMoveTo();
-            }
-          }
-        });
+    wRemove.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (wRemove.getSelection()) {
+          wMove.setSelection(false);
+          activateMoveTo();
+        }
+      }
+    });
 
     // Move files after the transfert?...
     Label wlMove = new Label(wgRemoteSettings, SWT.RIGHT);
@@ -641,16 +624,15 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdMove.top = new FormAttachment(wlMove, 0, SWT.CENTER);
     fdMove.right = new FormAttachment(100, 0);
     wMove.setLayoutData(fdMove);
-    wMove.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activateMoveTo();
-            if (wMove.getSelection()) {
-              wRemove.setSelection(false);
-            }
-          }
-        });
+    wMove.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activateMoveTo();
+        if (wMove.getSelection()) {
+          wRemove.setSelection(false);
+        }
+      }
+    });
 
     // Move to directory
     wlMoveToDirectory = new Label(wgRemoteSettings, SWT.RIGHT);
@@ -671,12 +653,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdbTestFolderExists.top = new FormAttachment(wMove, margin);
     wbTestFolderExists.setLayoutData(fdbTestFolderExists);
 
-    wMoveToDirectory =
-        new TextVar(
-            variables,
-            wgRemoteSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtp.MoveToDirectory.Tooltip"));
+    wMoveToDirectory = new TextVar(variables, wgRemoteSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtp.MoveToDirectory.Tooltip"));
     wMoveToDirectory.setToolTipText(BaseMessages.getString(PKG, "ActionFtp.MoveFolder.Tooltip"));
     PropsUi.setLook(wMoveToDirectory);
     wMoveToDirectory.addModifyListener(lsMod);
@@ -696,8 +673,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdlCreateMoveFolder.right = new FormAttachment(middle, 0);
     wlCreateMoveFolder.setLayoutData(fdlCreateMoveFolder);
     wCreateMoveFolder = new Button(wgRemoteSettings, SWT.CHECK);
-    wCreateMoveFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFtp.CreateMoveFolder.Tooltip"));
+    wCreateMoveFolder.setToolTipText(BaseMessages.getString(PKG, "ActionFtp.CreateMoveFolder.Tooltip"));
     PropsUi.setLook(wCreateMoveFolder);
     FormData fdCreateMoveFolder = new FormData();
     fdCreateMoveFolder.left = new FormAttachment(middle, margin);
@@ -746,15 +722,9 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdbTargetDirectory.top = new FormAttachment(wlTargetDirectory, 0, SWT.CENTER);
     wbTargetDirectory.setLayoutData(fdbTargetDirectory);
 
-    wbTargetDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wTargetDirectory, variables));
+    wbTargetDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wTargetDirectory, variables));
 
-    wTargetDirectory =
-        new TextVar(
-            variables,
-            wgLocalSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtp.TargetDir.Tooltip"));
+    wTargetDirectory = new TextVar(variables, wgLocalSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtp.TargetDir.Tooltip"));
     PropsUi.setLook(wTargetDirectory);
     wTargetDirectory.addModifyListener(lsMod);
     FormData fdTargetDirectory = new FormData();
@@ -780,13 +750,12 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
     // Create multi-part file?
     wlAddTime = new Label(wgLocalSettings, SWT.RIGHT);
     wlAddTime.setText(BaseMessages.getString(PKG, "ActionFtp.AddTime.Label"));
@@ -804,13 +773,12 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Specify date time format?
     Label wlSpecifyFormat = new Label(wgLocalSettings, SWT.RIGHT);
@@ -829,15 +797,14 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdSpecifyFormat.top = new FormAttachment(wlSpecifyFormat, 0, SWT.CENTER);
     fdSpecifyFormat.right = new FormAttachment(100, 0);
     wSpecifyFormat.setLayoutData(fdSpecifyFormat);
-    wSpecifyFormat.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setDateTimeFormat();
-            setAddDateBeforeExtension();
-          }
-        });
+    wSpecifyFormat.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setDateTimeFormat();
+        setAddDateBeforeExtension();
+      }
+    });
 
     // Prepare a list of possible DateTimeFormats...
     String[] dats = Const.getDateFormats();
@@ -866,8 +833,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
 
     // Add Date before extension?
     wlAddDateBeforeExtension = new Label(wgLocalSettings, SWT.RIGHT);
-    wlAddDateBeforeExtension.setText(
-        BaseMessages.getString(PKG, "ActionFtp.AddDateBeforeExtension.Label"));
+    wlAddDateBeforeExtension.setText(BaseMessages.getString(PKG, "ActionFtp.AddDateBeforeExtension.Label"));
     PropsUi.setLook(wlAddDateBeforeExtension);
     FormData fdlAddDateBeforeExtension = new FormData();
     fdlAddDateBeforeExtension.left = new FormAttachment(0, 0);
@@ -876,20 +842,18 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     wlAddDateBeforeExtension.setLayoutData(fdlAddDateBeforeExtension);
     wAddDateBeforeExtension = new Button(wgLocalSettings, SWT.CHECK);
     PropsUi.setLook(wAddDateBeforeExtension);
-    wAddDateBeforeExtension.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFtp.AddDateBeforeExtension.Tooltip"));
+    wAddDateBeforeExtension.setToolTipText(BaseMessages.getString(PKG, "ActionFtp.AddDateBeforeExtension.Tooltip"));
     FormData fdAddDateBeforeExtension = new FormData();
     fdAddDateBeforeExtension.left = new FormAttachment(middle, margin);
     fdAddDateBeforeExtension.top = new FormAttachment(wlAddDateBeforeExtension, 0, SWT.CENTER);
     fdAddDateBeforeExtension.right = new FormAttachment(100, 0);
     wAddDateBeforeExtension.setLayoutData(fdAddDateBeforeExtension);
-    wAddDateBeforeExtension.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddDateBeforeExtension.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // OnlyNew files after retrieval...
     Label wlOnlyNew = new Label(wgLocalSettings, SWT.RIGHT);
@@ -908,14 +872,13 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdOnlyNew.top = new FormAttachment(wlOnlyNew, 0, SWT.CENTER);
     fdOnlyNew.right = new FormAttachment(100, 0);
     wOnlyNew.setLayoutData(fdOnlyNew);
-    wOnlyNew.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeIfExists();
-            action.setChanged();
-          }
-        });
+    wOnlyNew.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeIfExists();
+        action.setChanged();
+      }
+    });
 
     // If File Exists
     wlIfFileExists = new Label(wgLocalSettings, SWT.RIGHT);
@@ -940,18 +903,16 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdIfFileExists.right = new FormAttachment(100, 0);
     wIfFileExists.setLayoutData(fdIfFileExists);
 
-    wIfFileExists.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            //Ignore widget selected event
-          }
-        });
+    wIfFileExists.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        // Ignore widget selected event
+      }
+    });
 
     // Add filenames to result filenames...
     Label wlAddFilenameToResult = new Label(wgLocalSettings, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionFtp.AddFilenameToResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionFtp.AddFilenameToResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -959,8 +920,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdlAddFilenameToResult.right = new FormAttachment(middle, 0);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new Button(wgLocalSettings, SWT.CHECK);
-    wAddFilenameToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionFtp.AddFilenameToResult.Tooltip"));
+    wAddFilenameToResult.setToolTipText(BaseMessages.getString(PKG, "ActionFtp.AddFilenameToResult.Tooltip"));
     PropsUi.setLook(wAddFilenameToResult);
     FormData fdAddFilenameToResult = new FormData();
     fdAddFilenameToResult.left = new FormAttachment(middle, margin);
@@ -1024,8 +984,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
 
     // Success Condition
     Label wlSuccessCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessCondition.setText(
-        BaseMessages.getString(PKG, "ActionFtp.SuccessCondition.Label") + " ");
+    wlSuccessCondition.setText(BaseMessages.getString(PKG, "ActionFtp.SuccessCondition.Label") + " ");
     PropsUi.setLook(wlSuccessCondition);
     FormData fdlSuccessCondition = new FormData();
     fdlSuccessCondition.left = new FormAttachment(0, 0);
@@ -1035,8 +994,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     wSuccessCondition = new CCombo(wSuccessOn, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
     wSuccessCondition.add(BaseMessages.getString(PKG, "ActionFtp.SuccessWhenAllWorksFine.Label"));
     wSuccessCondition.add(BaseMessages.getString(PKG, "ActionFtp.SuccessWhenAtLeat.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionFtp.SuccessWhenNrErrorsLessThan.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionFtp.SuccessWhenNrErrorsLessThan.Label"));
     wSuccessCondition.select(0); // +1: starts at -1
 
     PropsUi.setLook(wSuccessCondition);
@@ -1045,18 +1003,16 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdSuccessCondition.top = new FormAttachment(0, margin);
     fdSuccessCondition.right = new FormAttachment(100, 0);
     wSuccessCondition.setLayoutData(fdSuccessCondition);
-    wSuccessCondition.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeSuccessCondition();
-          }
-        });
+    wSuccessCondition.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeSuccessCondition();
+      }
+    });
 
     // Success when number of errors less than
     wlNrErrorsLessThan = new Label(wSuccessOn, SWT.RIGHT);
-    wlNrErrorsLessThan.setText(
-        BaseMessages.getString(PKG, "ActionFtp.NrBadFormedLessThan.Label") + " ");
+    wlNrErrorsLessThan.setText(BaseMessages.getString(PKG, "ActionFtp.NrBadFormedLessThan.Label") + " ");
     PropsUi.setLook(wlNrErrorsLessThan);
     FormData fdlNrErrorsLessThan = new FormData();
     fdlNrErrorsLessThan.left = new FormAttachment(0, 0);
@@ -1064,12 +1020,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     fdlNrErrorsLessThan.right = new FormAttachment(middle, -margin);
     wlNrErrorsLessThan.setLayoutData(fdlNrErrorsLessThan);
 
-    wNrErrorsLessThan =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionFtp.NrBadFormedLessThan.Tooltip"));
+    wNrErrorsLessThan = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionFtp.NrBadFormedLessThan.Tooltip"));
     PropsUi.setLook(wNrErrorsLessThan);
     wNrErrorsLessThan.addModifyListener(lsMod);
     FormData fdNrErrorsLessThan = new FormData();
@@ -1228,10 +1179,8 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
 
     // Add listeners
     wTest.addListener(SWT.Selection, e -> test());
-    wbTestFolderExists.addListener(
-        SWT.Selection, e -> checkRemoteFolder(false, true, wMoveToDirectory.getText()));
-    wbTestChangeFolderExists.addListener(
-        SWT.Selection, e -> checkRemoteFolder(true, false, wFtpDirectory.getText()));
+    wbTestFolderExists.addListener(SWT.Selection, e -> checkRemoteFolder(false, true, wMoveToDirectory.getText()));
+    wbTestChangeFolderExists.addListener(SWT.Selection, e -> checkRemoteFolder(true, false, wFtpDirectory.getText()));
 
     getData();
     activateMoveTo();
@@ -1255,8 +1204,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
   private void test() {
     if (connectToFtp(false, false)) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionFtp.Connected.OK", wServerName.getText()) + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionFtp.Connected.OK", wServerName.getText()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionFtp.Connected.Title.Ok"));
       mb.open();
     }
@@ -1267,8 +1215,7 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
     if (!Utils.isEmpty(foldername) && connectToFtp(ftpFolfer, checkMoveFolder)) {
 
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionFtp.FolderExists.OK", foldername) + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionFtp.FolderExists.OK", foldername) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionFtp.FolderExists.Title.Ok"));
       mb.open();
     }
@@ -1283,15 +1230,12 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
         getInfo(actionFtp);
 
         // Create ftp client to host:port ...
-        ftpclient =
-            FtpClientUtil.connectAndLogin(LogChannel.UI, variables, actionFtp, wName.getText());
+        ftpclient = FtpClientUtil.connectAndLogin(LogChannel.UI, variables, actionFtp, wName.getText());
       }
       retval = true;
     } catch (Exception e) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionFtp.ErrorConnect.NOK", realServername, e.getMessage())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionFtp.ErrorConnect.NOK", realServername, e.getMessage()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionFtp.ErrorConnect.Title.Bad"));
       mb.open();
     }
@@ -1304,10 +1248,8 @@ public class ActionFtpDialog extends ActionDialog implements IActionDialog {
   }
 
   private void setAddDateBeforeExtension() {
-    wlAddDateBeforeExtension.setEnabled(
-        wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
-    wAddDateBeforeExtension.setEnabled(
-        wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
+    wlAddDateBeforeExtension.setEnabled(wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
+    wAddDateBeforeExtension.setEnabled(wAddDate.getSelection() || wAddTime.getSelection() || wSpecifyFormat.getSelection());
     if (!wAddDate.getSelection() && !wAddTime.getSelection() && !wSpecifyFormat.getSelection()) {
       wAddDateBeforeExtension.setSelection(false);
     }

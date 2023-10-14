@@ -29,13 +29,7 @@ import org.apache.hop.www.HopServerStatus;
 import org.apache.hop.www.HopServerWorkflowStatus;
 
 public class GetServerStatus extends BaseTransform<GetServerStatusMeta, GetServerStatusData> {
-  public GetServerStatus(
-      TransformMeta transformMeta,
-      GetServerStatusMeta meta,
-      GetServerStatusData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetServerStatus(TransformMeta transformMeta, GetServerStatusMeta meta, GetServerStatusData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

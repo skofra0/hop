@@ -40,7 +40,8 @@ import java.util.UUID;
 public class LdapInputMetaTest implements IInitializer<LdapInputMeta> {
   LoadSaveTester<LdapInputMeta> loadSaveTester;
   Class<LdapInputMeta> testMetaClass = LdapInputMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -48,52 +49,20 @@ public class LdapInputMetaTest implements IInitializer<LdapInputMeta> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "useAuthentication",
-            "paging",
-            "pageSize",
-            "includeRowNumber",
-            "rowNumberField",
-            "rowLimit",
-            "Host",
-            "userName",
-            "password",
-            "port",
-            "filterString",
-            "searchBase",
-            "timeLimit",
-            "multiValuedSeparator",
-            "dynamicSearch",
-            "dynamicSearchFieldName",
-            "dynamicFilter",
-            "dynamicFilterFieldName",
-            "searchScope",
-            "protocol",
-            "useCertificate",
-            "trustStorePath",
-            "trustStorePassword",
-            "trustAllCertificates",
-            "inputFields");
+            "useAuthentication", "paging", "pageSize", "includeRowNumber", "rowNumberField", "rowLimit", "Host", "userName", "password", "port", "filterString", "searchBase",
+            "timeLimit", "multiValuedSeparator", "dynamicSearch", "dynamicSearchFieldName", "dynamicFilter", "dynamicFilterFieldName", "searchScope", "protocol", "useCertificate",
+            "trustStorePath", "trustStorePassword", "trustAllCertificates", "inputFields");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "inputFields", new ArrayLoadSaveValidator<>(new LDAPInputFieldLoadSaveValidator(), 5));
-    attrValidatorMap.put(
-        "searchScope", new IntLoadSaveValidator(LdapInputMeta.searchScopeCode.length));
+    attrValidatorMap.put("inputFields", new ArrayLoadSaveValidator<>(new LDAPInputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("searchScope", new IntLoadSaveValidator(LdapInputMeta.searchScopeCode.length));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester<>(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester<>(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -137,21 +106,12 @@ public class LdapInputMetaTest implements IInitializer<LdapInputMeta> {
         return false;
       }
       LdapInputField another = (LdapInputField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getAttribute(), another.getAttribute())
-          .append(testObject.getReturnType(), another.getReturnType())
-          .append(testObject.getType(), another.getType())
-          .append(testObject.getLength(), another.getLength())
-          .append(testObject.getFormat(), another.getFormat())
-          .append(testObject.getTrimType(), another.getTrimType())
-          .append(testObject.getPrecision(), another.getPrecision())
-          .append(testObject.getCurrencySymbol(), another.getCurrencySymbol())
-          .append(testObject.getDecimalSymbol(), another.getDecimalSymbol())
-          .append(testObject.getGroupSymbol(), another.getGroupSymbol())
-          .append(testObject.isRepeated(), another.isRepeated())
-          .append(testObject.isSortedKey(), another.isSortedKey())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getAttribute(), another.getAttribute())
+          .append(testObject.getReturnType(), another.getReturnType()).append(testObject.getType(), another.getType()).append(testObject.getLength(), another.getLength())
+          .append(testObject.getFormat(), another.getFormat()).append(testObject.getTrimType(), another.getTrimType()).append(testObject.getPrecision(), another.getPrecision())
+          .append(testObject.getCurrencySymbol(), another.getCurrencySymbol()).append(testObject.getDecimalSymbol(), another.getDecimalSymbol())
+          .append(testObject.getGroupSymbol(), another.getGroupSymbol()).append(testObject.isRepeated(), another.isRepeated())
+          .append(testObject.isSortedKey(), another.isSortedKey()).isEquals();
     }
   }
 }

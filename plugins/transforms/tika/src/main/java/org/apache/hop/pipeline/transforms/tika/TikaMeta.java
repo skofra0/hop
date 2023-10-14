@@ -48,38 +48,28 @@ import java.util.Map;
     name = "i18n::Tika.Name",
     description = "i18n::Tika.Description",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
-    documentationUrl = "/pipeline/transforms/apache-tika.html",       
+    documentationUrl = "/pipeline/transforms/apache-tika.html",
     keywords = "i18n::Tika.Keywords")
 public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
   private static final Class<?> PKG = TikaMeta.class; // for Translator
 
   /** The list of files to read */
-  @HopMetadataProperty(
-      groupKey = "files",
-      key = "file",
-      injectionGroupDescription = "TikaMeta.Injection.Files",
-      injectionKeyDescription = "TikaMeta.Injection.File")
+  @HopMetadataProperty(groupKey = "files", key = "file", injectionGroupDescription = "TikaMeta.Injection.Files", injectionKeyDescription = "TikaMeta.Injection.File")
   private List<TikaFile> files;
 
   /** The name of the field in the output containing the filename */
-  @HopMetadataProperty(
-      key = "include-filename-field",
-      injectionKeyDescription = "TikaMeta.Injection.FilenameField")
+  @HopMetadataProperty(key = "include-filename-field", injectionKeyDescription = "TikaMeta.Injection.FilenameField")
   private String filenameField;
 
   /** The name of the field in the output containing the row number */
-  @HopMetadataProperty(
-      key = "include-row-number-field",
-      injectionKeyDescription = "TikaMeta.Injection.RowNumberField")
+  @HopMetadataProperty(key = "include-row-number-field", injectionKeyDescription = "TikaMeta.Injection.RowNumberField")
   private String rowNumberField;
 
   /** The maximum number or lines to read */
   @HopMetadataProperty(key = "row-limit", injectionKeyDescription = "TikaMeta.Injection.RowLimit")
   private long rowLimit;
 
-  @HopMetadataProperty(
-      key = "output-format",
-      injectionKeyDescription = "TikaMeta.Injection.OutputFormat")
+  @HopMetadataProperty(key = "output-format", injectionKeyDescription = "TikaMeta.Injection.OutputFormat")
   private String outputFormat;
 
   /** The encoding to use for reading: null or empty string means system default encoding */
@@ -87,80 +77,52 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
   private String encoding;
 
   /** Dynamic FilenameField */
-  @HopMetadataProperty(
-      key = "dynamic-filename-field",
-      injectionKeyDescription = "TikaMeta.Injection.DynamicFilenameField")
+  @HopMetadataProperty(key = "dynamic-filename-field", injectionKeyDescription = "TikaMeta.Injection.DynamicFilenameField")
   private String dynamicFilenameField;
 
   /** Is In fields */
-  @HopMetadataProperty(
-      key = "file-in-field",
-      injectionKeyDescription = "TikaMeta.Injection.FileInField")
+  @HopMetadataProperty(key = "file-in-field", injectionKeyDescription = "TikaMeta.Injection.FileInField")
   private boolean fileInField;
 
   /** Flag: add result filename */
-  @HopMetadataProperty(
-      key = "add-result-file",
-      injectionKeyDescription = "TikaMeta.Injection.AddResultFile")
+  @HopMetadataProperty(key = "add-result-file", injectionKeyDescription = "TikaMeta.Injection.AddResultFile")
   private boolean addingResultFile;
 
   /** Flag : do we ignore empty file? */
-  @HopMetadataProperty(
-      key = "ignore-empty-file",
-      injectionKeyDescription = "TikaMeta.Injection.IgnoreEmptyFile")
+  @HopMetadataProperty(key = "ignore-empty-file", injectionKeyDescription = "TikaMeta.Injection.IgnoreEmptyFile")
   private boolean ignoreEmptyFile;
 
   /** Content field name */
-  @HopMetadataProperty(
-      key = "content-field",
-      injectionKeyDescription = "TikaMeta.Injection.ContentFieldName")
+  @HopMetadataProperty(key = "content-field", injectionKeyDescription = "TikaMeta.Injection.ContentFieldName")
   private String contentFieldName;
 
   /** file size field name */
-  @HopMetadataProperty(
-      key = "file-size-field",
-      injectionKeyDescription = "TikaMeta.Injection.FileSizeFieldName")
+  @HopMetadataProperty(key = "file-size-field", injectionKeyDescription = "TikaMeta.Injection.FileSizeFieldName")
   private String fileSizeFieldName;
 
   /** Additional fields */
-  @HopMetadataProperty(
-      key = "short-filename-field",
-      injectionKeyDescription = "TikaMeta.Injection.ShortFileFieldName")
+  @HopMetadataProperty(key = "short-filename-field", injectionKeyDescription = "TikaMeta.Injection.ShortFileFieldName")
   private String shortFileFieldName;
 
-  @HopMetadataProperty(
-      key = "path-field",
-      injectionKeyDescription = "TikaMeta.Injection.PathFieldName")
+  @HopMetadataProperty(key = "path-field", injectionKeyDescription = "TikaMeta.Injection.PathFieldName")
   private String pathFieldName;
 
-  @HopMetadataProperty(
-      key = "hidden-field",
-      injectionKeyDescription = "TikaMeta.Injection.HiddenFlagFieldName")
+  @HopMetadataProperty(key = "hidden-field", injectionKeyDescription = "TikaMeta.Injection.HiddenFlagFieldName")
   private String hiddenFieldName;
 
-  @HopMetadataProperty(
-      key = "last-modification-time-field",
-      injectionKeyDescription = "TikaMeta.Injection.LastModDateFieldName")
+  @HopMetadataProperty(key = "last-modification-time-field", injectionKeyDescription = "TikaMeta.Injection.LastModDateFieldName")
   private String lastModificationTimeFieldName;
 
-  @HopMetadataProperty(
-      key = "uri-field",
-      injectionKeyDescription = "TikaMeta.Injection.UriFieldName")
+  @HopMetadataProperty(key = "uri-field", injectionKeyDescription = "TikaMeta.Injection.UriFieldName")
   private String uriFieldName;
 
-  @HopMetadataProperty(
-      key = "root-uri-field",
-      injectionKeyDescription = "TikaMeta.Injection.RootUriFieldName")
+  @HopMetadataProperty(key = "root-uri-field", injectionKeyDescription = "TikaMeta.Injection.RootUriFieldName")
   private String rootUriNameFieldName;
 
-  @HopMetadataProperty(
-      key = "extension-field",
-      injectionKeyDescription = "TikaMeta.Injection.ExtensionFieldName")
+  @HopMetadataProperty(key = "extension-field", injectionKeyDescription = "TikaMeta.Injection.ExtensionFieldName")
   private String extensionFieldName;
 
-  @HopMetadataProperty(
-      key = "metadata-field",
-      injectionKeyDescription = "TikaMeta.Injection.MetadataFieldName")
+  @HopMetadataProperty(key = "metadata-field", injectionKeyDescription = "TikaMeta.Injection.MetadataFieldName")
   private String metadataFieldName;
 
   public TikaMeta() {
@@ -204,13 +166,7 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     if (!isFileInField()) {
       rowMeta.clear();
     }
@@ -321,13 +277,7 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
   }
 
   public FileInputList getFiles(IVariables variables) {
-    return FileInputList.createFileList(
-        variables,
-        getFileNames(),
-        getFileMasks(),
-        getExcludeFileMasks(),
-        getFileRequired(),
-        getIncludeSubFolders());
+    return FileInputList.createFileList(variables, getFileNames(), getFileMasks(), getExcludeFileMasks(), getFileRequired(), getIncludeSubFolders());
   }
 
   @Override
@@ -346,54 +296,29 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
 
     // See if we get input...
     if (input.length <= 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoInputExpected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoInput"), transformMeta);
       remarks.add(cr);
     }
 
     if (isFileInField()) {
       if (StringUtils.isEmpty(getDynamicFilenameField())) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoField"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoField"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TikaMeta.CheckResult.FieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TikaMeta.CheckResult.FieldOk"), transformMeta);
         remarks.add(cr);
       }
     } else {
       FileInputList fileInputList = getFiles(variables);
 
       if (fileInputList == null || fileInputList.getFiles().isEmpty()) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoFiles"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TikaMeta.CheckResult.NoFiles"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "TikaMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TikaMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()), transformMeta);
         remarks.add(cr);
       }
     }
@@ -407,11 +332,7 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
 
     try {
@@ -421,9 +342,7 @@ public class TikaMeta extends BaseTransformMeta<Tika, TikaData> {
       if (!fileInField) {
         for (TikaFile file : files) {
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(file.getName()));
-          file.setName(
-              iResourceNaming.nameResource(
-                  fileObject, variables, StringUtils.isEmpty(file.getMask())));
+          file.setName(iResourceNaming.nameResource(fileObject, variables, StringUtils.isEmpty(file.getMask())));
         }
       }
       return null;

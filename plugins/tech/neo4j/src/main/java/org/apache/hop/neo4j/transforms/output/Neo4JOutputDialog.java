@@ -61,8 +61,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class Neo4JOutputDialog extends BaseTransformDialog implements ITransformDialog {
-  private static final Class<?> PKG =
-      Neo4JOutputMeta.class; // For Translator
+  private static final Class<?> PKG = Neo4JOutputMeta.class; // For Translator
 
   private Neo4JOutputMeta input;
 
@@ -90,8 +89,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
   private Button wReadOnlyFromNode;
   private Button wReadOnlyToNode;
 
-  public Neo4JOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public Neo4JOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (Neo4JOutputMeta) in;
   }
@@ -242,8 +240,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
 
     Label wlReturnGraph = new Label(shell, SWT.RIGHT);
     wlReturnGraph.setText("Return graph data?");
-    String returnGraphTooltipText =
-        "The update data to be updated in the form of Graph a value in the output of this transform";
+    String returnGraphTooltipText = "The update data to be updated in the form of Graph a value in the output of this transform";
     wlReturnGraph.setToolTipText(returnGraphTooltipText);
     PropsUi.setLook(wlReturnGraph);
     FormData fdlReturnGraph = new FormData();
@@ -321,8 +318,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     // Read only "from" node?
     //
     wReadOnlyFromNode = new Button(wFromComp, SWT.CHECK);
-    wReadOnlyFromNode.setText(
-        BaseMessages.getString(PKG, "Neo4JOutputDialog.LabelsField.ReadOnlyFromNode"));
+    wReadOnlyFromNode.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.LabelsField.ReadOnlyFromNode"));
     PropsUi.setLook(wReadOnlyFromNode);
     FormData fdReadOnlyFromNode = new FormData();
     fdReadOnlyFromNode.left = new FormAttachment(middle, margin);
@@ -340,41 +336,24 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     fdlFromLabels.right = new FormAttachment(middle, 0);
     fdlFromLabels.top = new FormAttachment(lastFromControl, margin);
     wlFromLabel.setLayoutData(fdlFromLabels);
-    final int fromLabelRows =
-        (input.getFromNodeLabels() != null ? input.getFromNodeLabels().length : 10);
+    final int fromLabelRows = (input.getFromNodeLabels() != null ? input.getFromNodeLabels().length : 10);
     ColumnInfo[] fromLabelInf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.FromLabelsTable.FromFields"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              fieldNames),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.FromLabelsTable.FromValues"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.FromLabelsTable.FromFields"), ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.FromLabelsTable.FromValues"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     fromLabelInf[1].setUsingVariables(true);
     wFromLabelGrid =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            wFromComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            fromLabelInf,
-            fromLabelRows,
-            null,
-            PropsUi.getInstance());
+        new TableView(Variables.getADefaultVariableSpace(), wFromComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, fromLabelInf, fromLabelRows, null, PropsUi.getInstance());
     PropsUi.setLook(wFromLabelGrid);
 
     Button wGetFromLabel = new Button(wFromComp, SWT.PUSH);
     wGetFromLabel.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.GetFields.Button"));
-    wGetFromLabel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            get(0);
-          }
-        });
+    wGetFromLabel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        get(0);
+      }
+    });
     FormData fdGetFromLabel = new FormData();
     fdGetFromLabel.right = new FormAttachment(100, 0);
     fdGetFromLabel.top = new FormAttachment(lastFromControl, margin);
@@ -385,8 +364,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     fdFromLabelGrid.left = new FormAttachment(middle, margin);
     fdFromLabelGrid.top = new FormAttachment(lastFromControl, margin);
     fdFromLabelGrid.right = new FormAttachment(wGetFromLabel, 0);
-    fdFromLabelGrid.bottom =
-        new FormAttachment(0, margin * 2 + (int) (props.getZoomFactor() * 150));
+    fdFromLabelGrid.bottom = new FormAttachment(0, margin * 2 + (int) (props.getZoomFactor() * 150));
     wFromLabelGrid.setLayoutData(fdFromLabelGrid);
     lastFromControl = wFromLabelGrid;
 
@@ -399,51 +377,24 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     fdlFromFields.right = new FormAttachment(middle, 0);
     fdlFromFields.top = new FormAttachment(lastFromControl, margin);
     wlFromFields.setLayoutData(fdlFromFields);
-    final int fromPropsRows =
-        (input.getFromNodeProps() != null ? input.getFromNodeProps().length : 10);
+    final int fromPropsRows = (input.getFromNodeProps() != null ? input.getFromNodeProps().length : 10);
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.FromFieldsTable.FromPropFields"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              fieldNames,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.FromFieldsTable.FromPropFieldsName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              fieldNames,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GraphPropertyType.getNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.PropPrimary"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"Y", "N"},
-              false),
-        };
-    wFromPropsGrid =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            wFromComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fromPropsRows,
-            null,
-            props);
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.FromFieldsTable.FromPropFields"), ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.FromFieldsTable.FromPropFieldsName"), ColumnInfo.COLUMN_TYPE_TEXT, fieldNames, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"), ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.PropPrimary"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),};
+    wFromPropsGrid = new TableView(Variables.getADefaultVariableSpace(), wFromComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fromPropsRows, null, props);
     PropsUi.setLook(wFromPropsGrid);
 
     Button wGetFromProps = new Button(wFromComp, SWT.PUSH);
     wGetFromProps.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.GetFields.Button"));
-    wGetFromProps.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            get(1);
-          }
-        });
+    wGetFromProps.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        get(1);
+      }
+    });
     FormData fdGetFromProps = new FormData();
     fdGetFromProps.right = new FormAttachment(100, 0);
     fdGetFromProps.top = new FormAttachment(lastFromControl, margin);
@@ -486,8 +437,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     // Read only "to" node?
     //
     wReadOnlyToNode = new Button(wToComp, SWT.CHECK);
-    wReadOnlyToNode.setText(
-        BaseMessages.getString(PKG, "Neo4JOutputDialog.LabelsField.ReadOnlyToNode"));
+    wReadOnlyToNode.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.LabelsField.ReadOnlyToNode"));
     PropsUi.setLook(wReadOnlyToNode);
     FormData fdReadOnlyToNode = new FormData();
     fdReadOnlyToNode.left = new FormAttachment(middle, margin);
@@ -508,38 +458,21 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     final int toLabelRows = (input.getToNodeLabels() != null ? input.getToNodeLabels().length : 10);
     ColumnInfo[] toLabelInf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.ToLabelsTable.ToFields"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              fieldNames),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.ToLabelsTable.ToValues"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.ToLabelsTable.ToFields"), ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.ToLabelsTable.ToValues"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     toLabelInf[1].setUsingVariables(true);
 
-    wToLabelGrid =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            wToComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            toLabelInf,
-            toLabelRows,
-            null,
-            PropsUi.getInstance());
+    wToLabelGrid = new TableView(Variables.getADefaultVariableSpace(), wToComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, toLabelInf, toLabelRows, null, PropsUi.getInstance());
     PropsUi.setLook(wToLabelGrid);
 
     Button wGetToLabel = new Button(wToComp, SWT.PUSH);
     wGetToLabel.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.GetFields.Button"));
-    wGetToLabel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            get(2);
-          }
-        });
+    wGetToLabel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        get(2);
+      }
+    });
     FormData fdGetToLabel = new FormData();
     fdGetToLabel.right = new FormAttachment(100, 0);
     fdGetToLabel.top = new FormAttachment(lastToControl, margin);
@@ -566,48 +499,23 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     final int toPropsRows = (input.getToNodeProps() != null ? input.getToNodeProps().length : 10);
     ColumnInfo[] toColinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.ToFieldsTable.ToFields"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              fieldNames,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.ToFieldsTable.ToFieldsName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GraphPropertyType.getNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.PropPrimary"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"Y", "N"},
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.ToFieldsTable.ToFields"), ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.ToFieldsTable.ToFieldsName"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"), ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.PropPrimary"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, false),};
 
-    wToPropsGrid =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            wToComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            toColinf,
-            toPropsRows,
-            null,
-            PropsUi.getInstance());
+    wToPropsGrid = new TableView(Variables.getADefaultVariableSpace(), wToComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, toColinf, toPropsRows, null, PropsUi.getInstance());
 
     PropsUi.setLook(wToPropsGrid);
 
     Button wGetToProps = new Button(wToComp, SWT.PUSH);
     wGetToProps.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.GetFields.Button"));
-    wGetToProps.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            get(3);
-          }
-        });
+    wGetToProps.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        get(3);
+      }
+    });
     FormData fdGetToProps = new FormData();
     fdGetToProps.right = new FormAttachment(100, 0);
     fdGetToProps.top = new FormAttachment(lastToControl, margin);
@@ -686,8 +594,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
 
     // Relationship properties
     Label wlRelProps = new Label(wRelationshipsComp, SWT.RIGHT);
-    wlRelProps.setText(
-        BaseMessages.getString(PKG, "Neo4JOutputDialog.RelationshipProperties.Label"));
+    wlRelProps.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.RelationshipProperties.Label"));
     PropsUi.setLook(wlRelProps);
     FormData fdlRelProps = new FormData();
     fdlRelProps.left = new FormAttachment(0, 0);
@@ -698,21 +605,9 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     final int relPropsRows = (input.getRelProps() != null ? input.getRelProps().length : 10);
     ColumnInfo[] relPropsInf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.RelPropsTable.PropertiesField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              fieldNames,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.RelPropsTable.PropertiesFieldName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GraphPropertyType.getNames(),
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.RelPropsTable.PropertiesField"), ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.RelPropsTable.PropertiesFieldName"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Neo4JOutputDialog.PropType"), ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),};
     wRelPropsGrid =
         new TableView(
             Variables.getADefaultVariableSpace(),
@@ -726,13 +621,12 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
 
     Button wbRelProps = new Button(wRelationshipsComp, SWT.PUSH);
     wbRelProps.setText(BaseMessages.getString(PKG, "Neo4JOutputDialog.GetFields.Button"));
-    wbRelProps.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            get(4);
-          }
-        });
+    wbRelProps.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        get(4);
+      }
+    });
     FormData fdRelProps = new FormData();
     fdRelProps.right = new FormAttachment(100, 0);
     fdRelProps.top = new FormAttachment(lastControl, margin * 3);
@@ -962,8 +856,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     dispose();
   }
 
-  public static final String STRING_DYNAMIC_LABELS_WARNING =
-      "NEO4J_OUTPUT_SHOW_DYNAMIC_LABELS_WARNING";
+  public static final String STRING_DYNAMIC_LABELS_WARNING = "NEO4J_OUTPUT_SHOW_DYNAMIC_LABELS_WARNING";
 
   private void validateAndWarn(Neo4JOutputMeta input) {
     StringBuffer message = new StringBuffer();
@@ -973,58 +866,39 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
     boolean dynamicFrom = input.dynamicFromLabels() && input.isUsingCreate();
     if (dynamicFrom) {
       message.append(Const.CR);
-      message.append(
-          BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.SortDynamicFromLabels", Const.CR));
+      message.append(BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.SortDynamicFromLabels", Const.CR));
     }
     boolean dynamicTo = input.dynamicToLabels() && input.isUsingCreate();
     if (dynamicTo) {
       message.append(Const.CR);
-      message.append(
-          BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.SortDynamicToLabels", Const.CR));
+      message.append(BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.SortDynamicToLabels", Const.CR));
     }
-    if (input.isOnlyCreatingRelationships()
-        && input.isCreatingRelationships()
-        && (input.dynamicFromLabels() || input.dynamicToLabels())) {
+    if (input.isOnlyCreatingRelationships() && input.isCreatingRelationships() && (input.dynamicFromLabels() || input.dynamicToLabels())) {
       message.append(Const.CR);
-      message.append(
-          BaseMessages.getString(
-              PKG, "Neo4JOutputDialog.Warning.SortDynamicRelationshipLabel", Const.CR));
+      message.append(BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.SortDynamicRelationshipLabel", Const.CR));
     }
 
     // Verify that the defined connection is available
     //
     try {
-      IHopMetadataSerializer<NeoConnection> connectionSerializer =
-          metadataProvider.getSerializer(NeoConnection.class);
+      IHopMetadataSerializer<NeoConnection> connectionSerializer = metadataProvider.getSerializer(NeoConnection.class);
       NeoConnection connection = connectionSerializer.load(input.getConnection());
       if (connection == null) {
         message.append(Const.CR);
-        message.append(
-            BaseMessages.getString(
-                PKG,
-                "Neo4JOutputDialog.Warning.ReferencedNeo4jConnectionDoesntExist",
-                input.getConnection(),
-                Const.CR));
+        message.append(BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.ReferencedNeo4jConnectionDoesntExist", input.getConnection(), Const.CR));
       }
     } catch (Exception e) {
-      message
-          .append("There was an error verifying the existence of the used Neo4j connection")
-          .append(Const.CR)
-          .append(Const.getStackTracker(e))
-          .append(Const.CR);
+      message.append("There was an error verifying the existence of the used Neo4j connection").append(Const.CR).append(Const.getStackTracker(e)).append(Const.CR);
     }
 
     // Warn people about the "Create indexes" button
     //
     if (input.isCreatingIndexes() && (input.dynamicFromLabels() || input.dynamicToLabels())) {
       message.append(Const.CR);
-      message.append(
-          BaseMessages.getString(
-              PKG, "Neo4JOutputDialog.Warning.CreateIndexesIsLimited", Const.CR));
+      message.append(BaseMessages.getString(PKG, "Neo4JOutputDialog.Warning.CreateIndexesIsLimited", Const.CR));
     }
 
-    if (message.length() > 0
-        && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_DYNAMIC_LABELS_WARNING, "Y"))) {
+    if (message.length() > 0 && "Y".equalsIgnoreCase(props.getCustomParameter(STRING_DYNAMIC_LABELS_WARNING, "Y"))) {
 
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
@@ -1032,9 +906,7 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
               BaseMessages.getString(PKG, "Neo4JOutputDialog.DynamicLabelsWarning.DialogTitle"),
               message + Const.CR,
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "Neo4JOutputDialog.DynamicLabelsWarning.Understood")
-              },
+              new String[] {BaseMessages.getString(PKG, "Neo4JOutputDialog.DynamicLabelsWarning.Understood")},
               BaseMessages.getString(PKG, "Neo4JOutputDialog.DynamicLabelsWarning.HideNextTime"),
               "N".equalsIgnoreCase(props.getCustomParameter(STRING_DYNAMIC_LABELS_WARNING, "Y")));
       md.open();
@@ -1047,55 +919,30 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
         switch (button) {
-            /* 0: from labels grid
-             * 1: from properties grid
-             * 2: to labels grid
-             * 3: to properties grid
-             * 4: relationship properties grid
-             */
+          /*
+           * 0: from labels grid
+           * 1: from properties grid
+           * 2: to labels grid
+           * 3: to properties grid
+           * 4: relationship properties grid
+           */
           case 0:
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wFromLabelGrid, 1, new int[] {1}, new int[] {}, -1, -1, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wFromLabelGrid, 1, new int[] {1}, new int[] {}, -1, -1, null);
             break;
           case 1:
             BaseTransformDialog.getFieldsFromPrevious(
-                r,
-                wFromPropsGrid,
-                1,
-                new int[] {1, 2},
-                new int[] {},
-                -1,
-                -1,
-                (item, valueMeta) ->
-                    getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
+                r, wFromPropsGrid, 1, new int[] {1, 2}, new int[] {}, -1, -1, (item, valueMeta) -> getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
             break;
           case 2:
-            BaseTransformDialog.getFieldsFromPrevious(
-                r, wToLabelGrid, 1, new int[] {1}, new int[] {}, -1, -1, null);
+            BaseTransformDialog.getFieldsFromPrevious(r, wToLabelGrid, 1, new int[] {1}, new int[] {}, -1, -1, null);
             break;
           case 3:
             BaseTransformDialog.getFieldsFromPrevious(
-                r,
-                wToPropsGrid,
-                1,
-                new int[] {1, 2},
-                new int[] {},
-                -1,
-                -1,
-                (item, valueMeta) ->
-                    getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
+                r, wToPropsGrid, 1, new int[] {1, 2}, new int[] {}, -1, -1, (item, valueMeta) -> getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
             break;
           case 4:
             BaseTransformDialog.getFieldsFromPrevious(
-                r,
-                wRelPropsGrid,
-                1,
-                new int[] {1, 2},
-                new int[] {},
-                -1,
-                -1,
-                (item, valueMeta) ->
-                    getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
+                r, wRelPropsGrid, 1, new int[] {1, 2}, new int[] {}, -1, -1, (item, valueMeta) -> getPropertyNameTypePrimary(item, valueMeta, new int[] {2}, new int[] {3}, 4));
             break;
         }
       }
@@ -1104,22 +951,17 @@ public class Neo4JOutputDialog extends BaseTransformDialog implements ITransform
           shell,
           BaseMessages.getString(PKG, "SelectValuesDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "SelectValuesDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-2$
+          ke); // $NON-NLS-2$
     }
   }
 
-  public static boolean getPropertyNameTypePrimary(
-      TableItem item,
-      IValueMeta valueMeta,
-      int[] nameColumns,
-      int[] typeColumns,
-      int primaryColumn) {
+  public static boolean getPropertyNameTypePrimary(TableItem item, IValueMeta valueMeta, int[] nameColumns, int[] typeColumns, int primaryColumn) {
 
     for (int nameColumn : nameColumns) {
       // Initcap the names in there, remove spaces and weird characters, lowercase first character
       // Issue #13
-      //   Text Area 1 --> textArea1
-      //   My_Silly_Column --> mySillyColumn
+      // Text Area 1 --> textArea1
+      // My_Silly_Column --> mySillyColumn
       //
       String propertyName = Neo4jUtil.standardizePropertyName(valueMeta);
 

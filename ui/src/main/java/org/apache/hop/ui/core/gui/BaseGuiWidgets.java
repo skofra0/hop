@@ -65,15 +65,11 @@ public class BaseGuiWidgets {
     this.guiPluginObject = guiPluginObject;
     GuiRegistry guiRegistry = GuiRegistry.getInstance();
     guiPluginClassName = guiPluginObject.getClass().getName();
-    guiRegistry.registerGuiPluginObject(
-        HopGui.getInstance().getId(), guiPluginClassName, instanceId, guiPluginObject);
+    guiRegistry.registerGuiPluginObject(HopGui.getInstance().getId(), guiPluginClassName, instanceId, guiPluginObject);
   }
 
   protected void addDeRegisterGuiPluginObjectListener(Control control) {
-    control.addDisposeListener(
-        e ->
-            GuiRegistry.getInstance()
-                .removeGuiPluginObjects(HopGui.getInstance().getId(), instanceId));
+    control.addDisposeListener(e -> GuiRegistry.getInstance().removeGuiPluginObjects(HopGui.getInstance().getId(), instanceId));
   }
 
   public void dispose() {
@@ -81,15 +77,13 @@ public class BaseGuiWidgets {
     GuiRegistry.getInstance().removeGuiPluginObjects(hopGuiId, instanceId);
   }
 
-  protected static Object findGuiPluginInstance(
-      ClassLoader classLoader, String listenerClassName, String instanceId) throws Exception {
+  protected static Object findGuiPluginInstance(ClassLoader classLoader, String listenerClassName, String instanceId) throws Exception {
     try {
       // This is the class that owns the listener method
       // It's a GuiPlugin class in other words
       //
       String hopGuiId = HopGui.getInstance().getId();
-      Object guiPluginObject =
-          GuiRegistry.getInstance().findGuiPluginObject(hopGuiId, listenerClassName, instanceId);
+      Object guiPluginObject = GuiRegistry.getInstance().findGuiPluginObject(hopGuiId, listenerClassName, instanceId);
       if (guiPluginObject == null) {
         // Create a new instance
         //
@@ -97,25 +91,17 @@ public class BaseGuiWidgets {
 
         // Store it
         //
-        GuiRegistry.getInstance()
-            .registerGuiPluginObject(hopGuiId, listenerClassName, instanceId, guiPluginObject);
+        GuiRegistry.getInstance().registerGuiPluginObject(hopGuiId, listenerClassName, instanceId, guiPluginObject);
       }
       return guiPluginObject;
     } catch (Exception e) {
-      throw new HopException(
-          "Error finding GuiPlugin instance for class '"
-              + listenerClassName
-              + "' and instance ID : "
-              + instanceId,
-          e);
+      throw new HopException("Error finding GuiPlugin instance for class '" + listenerClassName + "' and instance ID : " + instanceId, e);
     }
   }
 
   protected String[] getComboItems(GuiToolbarItem toolbarItem) {
     try {
-      Object singleton =
-          findGuiPluginInstance(
-              toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), instanceId);
+      Object singleton = findGuiPluginInstance(toolbarItem.getClassLoader(), toolbarItem.getListenerClass(), instanceId);
       if (singleton == null) {
         LogChannel.UI.logError(
             "Could not get instance of class '"
@@ -134,26 +120,12 @@ public class BaseGuiWidgets {
       Method method;
       Object[] arguments;
       try {
-        method =
-            singleton
-                .getClass()
-                .getMethod(
-                    toolbarItem.getGetComboValuesMethod(),
-                    ILogChannel.class,
-                    IHopMetadataProvider.class);
+        method = singleton.getClass().getMethod(toolbarItem.getGetComboValuesMethod(), ILogChannel.class, IHopMetadataProvider.class);
         arguments = new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider()};
       } catch (NoSuchMethodException nsme) {
         try {
-          method =
-              singleton
-                  .getClass()
-                  .getMethod(
-                      toolbarItem.getGetComboValuesMethod(),
-                      ILogChannel.class,
-                      IHopMetadataProvider.class,
-                      String.class); // Instance ID
-          arguments =
-              new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider(), instanceId};
+          method = singleton.getClass().getMethod(toolbarItem.getGetComboValuesMethod(), ILogChannel.class, IHopMetadataProvider.class, String.class); // Instance ID
+          arguments = new Object[] {LogChannel.UI, HopGui.getInstance().getMetadataProvider(), instanceId};
         } catch (NoSuchMethodException nsme2) {
           // Try to find the method without arguments...
           //
@@ -174,18 +146,12 @@ public class BaseGuiWidgets {
       List<String> values = (List<String>) method.invoke(singleton, arguments);
       return values.toArray(new String[0]);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error getting list of combo items for method '"
-              + toolbarItem.getGetComboValuesMethod()
-              + "' in class : "
-              + toolbarItem.getListenerClass(),
-          e);
+      LogChannel.UI.logError("Error getting list of combo items for method '" + toolbarItem.getGetComboValuesMethod() + "' in class : " + toolbarItem.getListenerClass(), e);
       return new String[] {};
     }
   }
 
-  protected Listener getListener(
-      ClassLoader classLoader, String listenerClassName, String listenerMethodName) {
+  protected Listener getListener(ClassLoader classLoader, String listenerClassName, String listenerMethodName) {
 
     // Call the method to which the GuiToolbarElement annotation belongs.
     //
@@ -196,32 +162,22 @@ public class BaseGuiWidgets {
         //
         try {
           Class<?> listenerClass = classLoader.loadClass(listenerClassName);
-          Method listenerMethod =
-              listenerClass.getMethod(listenerMethodName, guiPluginObject.getClass());
+          Method listenerMethod = listenerClass.getMethod(listenerMethodName, guiPluginObject.getClass());
           listenerMethod.invoke(null, guiPluginObject);
           return;
-        } catch (NoSuchMethodException
-            | ClassNotFoundException
-            | InvocationTargetException exception) {
+        } catch (NoSuchMethodException | ClassNotFoundException | InvocationTargetException exception) {
           // Ignore this and re-try with the standard empty method
         } catch (Exception exception) {
           // An exception thrown by the method itself
           throw exception;
         }
 
-        Object guiPluginInstance =
-                findGuiPluginInstance(classLoader, listenerClassName, instanceId);
+        Object guiPluginInstance = findGuiPluginInstance(classLoader, listenerClassName, instanceId);
         Method listenerMethod = guiPluginInstance.getClass().getDeclaredMethod(listenerMethodName);
         listenerMethod.invoke(guiPluginInstance);
 
       } catch (Exception exception) {
-        LogChannel.UI.logError(
-            "Unable to call method "
-                + listenerMethodName
-                + " in class "
-                + listenerClassName
-                + " : "
-                + exception.getMessage(), e);
+        LogChannel.UI.logError("Unable to call method " + listenerMethodName + " in class " + listenerClassName + " : " + exception.getMessage(), e);
       }
     };
   }

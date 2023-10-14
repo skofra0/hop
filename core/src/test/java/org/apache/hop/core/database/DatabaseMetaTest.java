@@ -56,7 +56,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   private static final String TABLE_NAME = "tableName";
   private static final String DROP_STATEMENT = "dropStatement";
   private static final String DROP_STATEMENT_FALLBACK = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -82,28 +83,24 @@ public class DatabaseMetaTest {
   }
 
   @Test
-  public void testGetDatabaseInterfacesMapWontReturnNullIfCalledSimultaneouslyWithClear()
-      throws InterruptedException, ExecutionException {
+  public void testGetDatabaseInterfacesMapWontReturnNullIfCalledSimultaneouslyWithClear() throws InterruptedException, ExecutionException {
     final AtomicBoolean done = new AtomicBoolean(false);
     ExecutorService executorService = Executors.newCachedThreadPool();
-    executorService.submit(
-        () -> {
-          while (!done.get()) {
-            DatabaseMeta.clearDatabaseInterfacesMap();
-          }
-        });
-    Future<Exception> getFuture =
-        executorService.submit(
-            () -> {
-              int i = 0;
-              while (!done.get()) {
-                assertNotNull("Got null on try: " + i++, DatabaseMeta.getIDatabaseMap());
-                if (i > 30000) {
-                  done.set(true);
-                }
-              }
-              return null;
-            });
+    executorService.submit(() -> {
+      while (!done.get()) {
+        DatabaseMeta.clearDatabaseInterfacesMap();
+      }
+    });
+    Future<Exception> getFuture = executorService.submit(() -> {
+      int i = 0;
+      while (!done.get()) {
+        assertNotNull("Got null on try: " + i++, DatabaseMeta.getIDatabaseMap());
+        if (i > 30000) {
+          done.set(true);
+        }
+      }
+      return null;
+    });
     getFuture.get();
   }
 

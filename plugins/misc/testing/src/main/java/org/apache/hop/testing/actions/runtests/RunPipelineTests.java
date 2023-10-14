@@ -68,8 +68,7 @@ public class RunPipelineTests extends ActionBase implements IAction, Cloneable {
   @Override
   public Result execute(Result prevResult, int nr) throws HopException {
 
-    IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-        getMetadataProvider().getSerializer(PipelineUnitTest.class);
+    IHopMetadataSerializer<PipelineUnitTest> testSerializer = getMetadataProvider().getSerializer(PipelineUnitTest.class);
 
     AtomicBoolean success = new AtomicBoolean(true);
 
@@ -78,18 +77,12 @@ public class RunPipelineTests extends ActionBase implements IAction, Cloneable {
       PipelineUnitTest test = testSerializer.load(testName);
 
       UnitTestUtil.executeUnitTest(
-          test,
-          this,
-          getLogLevel(),
-          prevResult,
-          getMetadataProvider(),
-          this,
+          test, this, getLogLevel(), prevResult, getMetadataProvider(), this,
           // Something went wrong executing the pipeline itself.
           //
           (pipeline, result) -> {
             if (result.getNrErrors() > 0) {
-              this.logError(
-                  "There was an error running the pipeline for unit test '" + test.getName() + "'");
+              this.logError("There was an error running the pipeline for unit test '" + test.getName() + "'");
               success.set(false);
             }
           },
@@ -98,22 +91,15 @@ public class RunPipelineTests extends ActionBase implements IAction, Cloneable {
             int errorCount = 0;
             for (UnitTestResult testResult : testResults) {
               if (testResult.isError()) {
-                this.logError(
-                    "Error in validating test data set '"
-                        + testResult.getDataSetName()
-                        + " : "
-                        + testResult.getComment());
+                this.logError("Error in validating test data set '" + testResult.getDataSetName() + " : " + testResult.getComment());
                 errorCount++;
               }
             }
             if (errorCount > 0) {
-              this.logError(
-                  "There were test result evaluation errors in pipeline unit test '"
-                      + test.getName());
+              this.logError("There were test result evaluation errors in pipeline unit test '" + test.getName());
               success.set(false);
             }
-          },
-          (test1, pipelineMeta, e) -> {
+          }, (test1, pipelineMeta, e) -> {
             if (test == null) {
               this.logError("Unable to load unit test for '" + testName, e);
             } else {
@@ -152,8 +138,7 @@ public class RunPipelineTests extends ActionBase implements IAction, Cloneable {
   }
 
   @Override
-  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entryNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     super.loadXml(entryNode);
 
     Node testNamesNode = XmlHandler.getSubNode(entryNode, TEST_NAMES);
@@ -184,11 +169,9 @@ public class RunPipelineTests extends ActionBase implements IAction, Cloneable {
   }
 
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
 
-    IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-        metadataProvider.getSerializer(PipelineUnitTest.class);
+    IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
     String testName = testNames.get(index);
     PipelineUnitTest test = testSerializer.load(testName);
     if (test == null) {

@@ -50,13 +50,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
 
   private Object[] lastRow;
 
-  public BlockingTransform(
-      TransformMeta transformMeta,
-      BlockingTransformMeta meta,
-      BlockingTransformData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BlockingTransform(TransformMeta transformMeta, BlockingTransformMeta meta, BlockingTransformData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -67,9 +61,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
 
     // Time to write to disk: buffer in core is full!
     if (data.buffer.size() == meta.getCacheSize() // Buffer is full: dump to disk
-        || (data.files.size() > 0
-            && r == null
-            && data.buffer.size() > 0) // No more records: join from disk
+        || (data.files.size() > 0 && r == null && data.buffer.size() > 0) // No more records: join from disk
     ) {
       // Then write them to disk...
       DataOutputStream dos;
@@ -77,8 +69,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
       int p;
 
       try {
-        FileObject fileObject =
-            HopVfs.createTempFile(meta.getPrefix(), ".tmp", resolve(meta.getDirectory()));
+        FileObject fileObject = HopVfs.createTempFile(meta.getPrefix(), ".tmp", resolve(meta.getDirectory()));
 
         data.files.add(fileObject); // Remember the files!
         OutputStream outputStream = HopVfs.getOutputStream(fileObject, false);
@@ -127,10 +118,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
         FileObject fileObject = data.files.get(0);
         String filename = HopVfs.getFilename(fileObject);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "BlockingTransform.Log.Openfilename1")
-                  + filename
-                  + BaseMessages.getString(PKG, "BlockingTransform.Log.Openfilename2"));
+          logDetailed(BaseMessages.getString(PKG, "BlockingTransform.Log.Openfilename1") + filename + BaseMessages.getString(PKG, "BlockingTransform.Log.Openfilename2"));
         }
         InputStream fi = HopVfs.getInputStream(fileObject);
         DataInputStream di;
@@ -162,8 +150,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
           data.rowbuffer.add(data.outputRowMeta.readData(di));
         }
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(PKG, "BlockingTransformMeta.ErrorReadingFile") + e.toString());
+        logError(BaseMessages.getString(PKG, "BlockingTransformMeta.ErrorReadingFile") + e.toString());
         logError(Const.getStackTracker(e));
       }
     }
@@ -192,8 +179,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
         try {
           data.rowbuffer.add(0, data.outputRowMeta.readData(di));
         } catch (SocketTimeoutException e) {
-          logError(
-              BaseMessages.getString(PKG, "System.Log.UnexpectedError") + " : " + e.toString());
+          logError(BaseMessages.getString(PKG, "System.Log.UnexpectedError") + " : " + e.toString());
           logError(Const.getStackTracker(e));
           setErrors(1);
           stopAll();
@@ -207,9 +193,7 @@ public class BlockingTransform extends BaseTransform<BlockingTransformMeta, Bloc
             }
             file.delete();
           } catch (IOException e) {
-            logError(
-                BaseMessages.getString(PKG, "BlockingTransformMeta.UnableDeleteFile")
-                    + file.toString());
+            logError(BaseMessages.getString(PKG, "BlockingTransformMeta.UnableDeleteFile") + file.toString());
             setErrors(1);
             stopAll();
             return null;

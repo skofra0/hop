@@ -64,13 +64,7 @@ public class AvroFileInputMeta extends BaseTransformMeta<AvroFileInput, AvroFile
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output is one extra field with an Avro data type
     // We don't have a schema just yet.

@@ -23,17 +23,11 @@ import java.util.Objects;
 public class UpdateField {
 
   /** Field value to update after lookup */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "UpdateMeta.Injection.UpdateLookup",
-      injectionKey = "UPDATE_LOOKUP")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "UpdateMeta.Injection.UpdateLookup", injectionKey = "UPDATE_LOOKUP")
   private String updateLookup;
 
   /** Stream name to update value with */
-  @HopMetadataProperty(
-      key = "rename",
-      injectionKeyDescription = "UpdateMeta.Injection.UpdateStream",
-      injectionKey = "UPDATE_STREAM")
+  @HopMetadataProperty(key = "rename", injectionKeyDescription = "UpdateMeta.Injection.UpdateStream", injectionKey = "UPDATE_STREAM")
   private String updateStream;
 
   public UpdateField() {}
@@ -61,8 +55,10 @@ public class UpdateField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     UpdateField that = (UpdateField) o;
     return updateLookup.equals(that.updateLookup) && updateStream.equals(that.updateStream);
   }

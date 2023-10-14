@@ -38,8 +38,7 @@ public class IOMappings implements Cloneable {
     this();
     this.inputMapping = m.inputMapping != null ? new MappingIODefinition(m.inputMapping) : null;
     this.outputMapping = m.outputMapping != null ? new MappingIODefinition(m.outputMapping) : null;
-    this.mappingParameters =
-        m.mappingParameters != null ? new MappingParameters(m.mappingParameters) : null;
+    this.mappingParameters = m.mappingParameters != null ? new MappingParameters(m.mappingParameters) : null;
   }
 
   @Override

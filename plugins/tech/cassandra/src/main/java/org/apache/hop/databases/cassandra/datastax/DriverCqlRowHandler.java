@@ -60,8 +60,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
 
   private int ttlSec;
 
-  public DriverCqlRowHandler(
-      DriverKeyspace keyspace, CqlSession session, boolean expandCollection) {
+  public DriverCqlRowHandler(DriverKeyspace keyspace, CqlSession session, boolean expandCollection) {
     this.keyspace = keyspace;
     this.session = session;
   }
@@ -76,21 +75,13 @@ public class DriverCqlRowHandler implements CqlRowHandler {
   }
 
   @Override
-  public void newRowQuery(
-      ITransform requestingTransform,
-      String tableName,
-      String cqlQuery,
-      String compress,
-      String consistencyLevel,
-      ILogChannel log)
-      throws Exception {
+  public void newRowQuery(ITransform requestingTransform, String tableName, String cqlQuery, String compress, String consistencyLevel, ILogChannel log) throws Exception {
     result = getSession().execute(cqlQuery);
     columns = result.getColumnDefinitions();
   }
 
   @Override
-  public Object[][] getNextOutputRow(IRowMeta outputRowMeta, Map<String, Integer> outputFormatMap)
-      throws Exception {
+  public Object[][] getNextOutputRow(IRowMeta outputRowMeta, Map<String, Integer> outputFormatMap) throws Exception {
     if (result == null || !result.iterator().hasNext()) {
       result = null;
       columns = null;
@@ -98,8 +89,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
     }
     Row row = result.one();
     Object[][] outputRowData = new Object[1][];
-    Object[] baseOutputRowData =
-        RowDataUtil.allocateRowData(Math.max(outputRowMeta.size(), columns.size()));
+    Object[] baseOutputRowData = RowDataUtil.allocateRowData(Math.max(outputRowMeta.size(), columns.size()));
     for (int i = 0; i < columns.size(); i++) {
       baseOutputRowData[i] = readValue(outputRowMeta.getValueMeta(i), row, i);
     }
@@ -137,13 +127,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
     return hopRow;
   }
 
-  public void batchInsert(
-      IRowMeta inputMeta,
-      Iterable<Object[]> rows,
-      ITableMetaData tableMeta,
-      String consistencyLevel,
-      boolean insertFieldsNotInMetadata)
-      throws Exception {
+  public void batchInsert(IRowMeta inputMeta, Iterable<Object[]> rows, ITableMetaData tableMeta, String consistencyLevel, boolean insertFieldsNotInMetadata) throws Exception {
     String[] columnNames = getColumnNames(inputMeta);
 
     InsertInto insertInto = QueryBuilder.insertInto(tableMeta.getTableName());
@@ -171,8 +155,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
 
     // Add all bound statements to a batch
     //
-    BatchStatementBuilder batchBuilder =
-        new BatchStatementBuilder(unloggedBatch ? BatchType.UNLOGGED : BatchType.LOGGED);
+    BatchStatementBuilder batchBuilder = new BatchStatementBuilder(unloggedBatch ? BatchType.UNLOGGED : BatchType.LOGGED);
     PreparedStatement preparedInsert = getSession().prepare(insert.asCql());
 
     for (Object[] row : rows) {
@@ -190,8 +173,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
     // Set the consistency level (if any)
     //
     if (StringUtils.isNotEmpty(consistencyLevel)) {
-      batchBuilder =
-          batchBuilder.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
+      batchBuilder = batchBuilder.setConsistencyLevel(DefaultConsistencyLevel.valueOf(consistencyLevel));
     }
 
     // Execute the batch statement
@@ -201,22 +183,23 @@ public class DriverCqlRowHandler implements CqlRowHandler {
     session.execute(batch);
 
     /*
-
-      TODO: set write timeout somewhere
-
-    if (batchInsertTimeout > 0) {
-      try {
-        getSession()
-            .executeAsync(batch)
-            .getUninterruptibly(batchInsertTimeout, TimeUnit.MILLISECONDS);
-      } catch (TimeoutException e) {
-        log.logError(
-            BaseMessages.getString(
-                DriverCqlRowHandler.class, "DriverCqlRowHandler.Error.TimeoutReached"));
-      }
-    } else {
-      getSession().execute(batch);
-    }*/
+     * 
+     * TODO: set write timeout somewhere
+     * 
+     * if (batchInsertTimeout > 0) {
+     * try {
+     * getSession()
+     * .executeAsync(batch)
+     * .getUninterruptibly(batchInsertTimeout, TimeUnit.MILLISECONDS);
+     * } catch (TimeoutException e) {
+     * log.logError(
+     * BaseMessages.getString(
+     * DriverCqlRowHandler.class, "DriverCqlRowHandler.Error.TimeoutReached"));
+     * }
+     * } else {
+     * getSession().execute(batch);
+     * }
+     */
   }
 
   private String[] getColumnNames(IRowMeta inputMeta) {
@@ -228,13 +211,7 @@ public class DriverCqlRowHandler implements CqlRowHandler {
   }
 
   @Override
-  public void commitCQLBatch(
-      ITransform requestingTransform,
-      StringBuilder batch,
-      String compress,
-      String consistencyLevel,
-      ILogChannel log)
-      throws Exception {
+  public void commitCQLBatch(ITransform requestingTransform, StringBuilder batch, String compress, String consistencyLevel, ILogChannel log) throws Exception {
     throw new NotImplementedException();
   }
 

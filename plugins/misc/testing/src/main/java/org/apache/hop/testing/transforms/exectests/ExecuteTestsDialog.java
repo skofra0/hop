@@ -59,12 +59,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
 
   private boolean hasPreviousTransforms;
 
-  public ExecuteTestsDialog(
-      Shell parent,
-      IVariables variables,
-      Object basePipelineMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public ExecuteTestsDialog(Shell parent, IVariables variables, Object basePipelineMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) basePipelineMeta, pipelineMeta, transformName);
 
     input = (ExecuteTestsMeta) basePipelineMeta;
@@ -94,17 +89,12 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     try {
       TransformMeta[] prevTransforms = pipelineMeta.getPrevTransforms(transformMeta);
       if (prevTransforms.length > 0) {
-        IRowMeta prevTransformFields =
-            pipelineMeta.getPrevTransformFields(variables, transformMeta);
+        IRowMeta prevTransformFields = pipelineMeta.getPrevTransformFields(variables, transformMeta);
         inputFieldNames = prevTransformFields.getFieldNames();
         hasPreviousTransforms = true;
       }
     } catch (HopException e) {
-      log.logError(
-          "Couldn't get input fields for transform "
-              + transformMeta.getName()
-              + " : "
-              + e.getMessage());
+      log.logError("Couldn't get input fields for transform " + transformMeta.getName() + " : " + e.getMessage());
     }
 
     // Transform name...
@@ -130,8 +120,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     // Optional test name input field
     //
     Label wlTestNameInputField = new Label(shell, SWT.RIGHT);
-    wlTestNameInputField.setText(
-        BaseMessages.getString(PKG, "ExecuteTestsDialog.TestNameInputField.Label"));
+    wlTestNameInputField.setText(BaseMessages.getString(PKG, "ExecuteTestsDialog.TestNameInputField.Label"));
     PropsUi.setLook(wlTestNameInputField);
     FormData fdlTestNameInputField = new FormData();
     fdlTestNameInputField.left = new FormAttachment(0, 0);
@@ -170,8 +159,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     // Transformation name field
     //
     Label wlPipelineNameField = new Label(shell, SWT.RIGHT);
-    wlPipelineNameField.setText(
-        BaseMessages.getString(PKG, "ExecuteTestsDialog.PipelineNameField.Label"));
+    wlPipelineNameField.setText(BaseMessages.getString(PKG, "ExecuteTestsDialog.PipelineNameField.Label"));
     PropsUi.setLook(wlPipelineNameField);
     FormData fdlPipelineNameField = new FormData();
     fdlPipelineNameField.left = new FormAttachment(0, 0);
@@ -190,8 +178,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     // Unit test name field
     //
     Label wlUnitTestNameField = new Label(shell, SWT.RIGHT);
-    wlUnitTestNameField.setText(
-        BaseMessages.getString(PKG, "ExecuteTestsDialog.UnitTestNameField.Label"));
+    wlUnitTestNameField.setText(BaseMessages.getString(PKG, "ExecuteTestsDialog.UnitTestNameField.Label"));
     PropsUi.setLook(wlUnitTestNameField);
     FormData fdlUnitTestNameField = new FormData();
     fdlUnitTestNameField.left = new FormAttachment(0, 0);
@@ -210,8 +197,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     // Data Set Name field
     //
     Label wlDataSetNameField = new Label(shell, SWT.RIGHT);
-    wlDataSetNameField.setText(
-        BaseMessages.getString(PKG, "ExecuteTestsDialog.DataSetNameField.Label"));
+    wlDataSetNameField.setText(BaseMessages.getString(PKG, "ExecuteTestsDialog.DataSetNameField.Label"));
     PropsUi.setLook(wlDataSetNameField);
     FormData fdlDataSetNameField = new FormData();
     fdlDataSetNameField.left = new FormAttachment(0, 0);
@@ -230,8 +216,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     // Transform Name field
     //
     Label wlTransformNameField = new Label(shell, SWT.RIGHT);
-    wlTransformNameField.setText(
-        BaseMessages.getString(PKG, "ExecuteTestsDialog.TransformNameField.Label"));
+    wlTransformNameField.setText(BaseMessages.getString(PKG, "ExecuteTestsDialog.TransformNameField.Label"));
     PropsUi.setLook(wlTransformNameField);
     FormData fdlTransformNameField = new FormData();
     fdlTransformNameField.left = new FormAttachment(0, 0);
@@ -293,8 +278,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 
@@ -304,8 +288,7 @@ public class ExecuteTestsDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void enableFields() {
-    boolean previous =
-        hasPreviousTransforms && StringUtils.isNotEmpty(wTestNameInputField.getText());
+    boolean previous = hasPreviousTransforms && StringUtils.isNotEmpty(wTestNameInputField.getText());
     wTestNameInputField.setEnabled(hasPreviousTransforms);
     wTypeToExecute.setEnabled(!previous);
   }

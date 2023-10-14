@@ -85,13 +85,7 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
    * Creates a new dialog that will handle the wait while we're finding out what tables, views etc
    * we can reach in the database.
    */
-  public TextFileCSVImportProgressDialog(
-      Shell shell,
-      IVariables variables,
-      TextFileInputMeta meta,
-      PipelineMeta pipelineMeta,
-      InputStreamReader reader,
-      int samples,
+  public TextFileCSVImportProgressDialog(Shell shell, IVariables variables, TextFileInputMeta meta, PipelineMeta pipelineMeta, InputStreamReader reader, int samples,
       boolean replaceMeta) {
     this.shell = shell;
     this.variables = variables;
@@ -116,28 +110,20 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
 
   /**
    * @param failOnParseError if set to true, parsing failure on any line will cause parsing to be
-   *     terminated; when set to false, parsing failure on a given line will not prevent remaining
-   *     lines from being parsed - this allows us to analyze fields, even if some field is
-   *     mis-configured and causes a parsing error for the values of that field.
+   *        terminated; when set to false, parsing failure on a given line will not prevent remaining
+   *        lines from being parsed - this allows us to analyze fields, even if some field is
+   *        mis-configured and causes a parsing error for the values of that field.
    */
   @Override
   public String open(final boolean failOnParseError) {
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            message = doScan(monitor, failOnParseError);
-          } catch (Exception e) {
-            e.printStackTrace();
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG,
-                    "TextFileCSVImportProgressDialog.Exception.ErrorScanningFile",
-                    "" + rownumber,
-                    debug,
-                    e.toString()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        message = doScan(monitor, failOnParseError);
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Exception.ErrorScanningFile", "" + rownumber, debug, e.toString()));
+      }
+    };
 
     try {
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
@@ -163,15 +149,11 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
     return doScan(monitor, true);
   }
 
-  private String doScan(IProgressMonitor monitor, final boolean failOnParseError)
-      throws HopException {
+  private String doScan(IProgressMonitor monitor, final boolean failOnParseError) throws HopException {
     if (samples > 0) {
-      monitor.beginTask(
-          BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.ScanningFile"),
-          samples + 1);
+      monitor.beginTask(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.ScanningFile"), samples + 1);
     } else {
-      monitor.beginTask(
-          BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.ScanningFile"), 2);
+      monitor.beginTask(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.ScanningFile"), 2);
     }
 
     String line = "";
@@ -203,8 +185,7 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
     // Date info
     boolean[] isDate = new boolean[nrFields]; // is the field perhaps a Date?
     int[] dateFormatCount = new int[nrFields]; // How many date formats work?
-    boolean[][] dateFormat =
-        new boolean[nrFields][Const.getDateFormats().length]; // What are the date formats that
+    boolean[][] dateFormat = new boolean[nrFields][Const.getDateFormats().length]; // What are the date formats that
     // work?
     Date[][] minDate = new Date[nrFields][Const.getDateFormats().length]; // min date value
     Date[][] maxDate = new Date[nrFields][Const.getDateFormats().length]; // max date value
@@ -212,15 +193,12 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
     // Number info
     boolean[] isNumber = new boolean[nrFields]; // is the field perhaps a Number?
     int[] numberFormatCount = new int[nrFields]; // How many number formats work?
-    boolean[][] numberFormat =
-        new boolean[nrFields][Const.getNumberFormats().length]; // What are the number format
+    boolean[][] numberFormat = new boolean[nrFields][Const.getNumberFormats().length]; // What are the number format
     // that work?
     double[][] minValue = new double[nrFields][Const.getDateFormats().length]; // min number value
     double[][] maxValue = new double[nrFields][Const.getDateFormats().length]; // max number value
-    int[][] numberPrecision =
-        new int[nrFields][Const.getNumberFormats().length]; // remember the precision?
-    int[][] numberLength =
-        new int[nrFields][Const.getNumberFormats().length]; // remember the length?
+    int[][] numberPrecision = new int[nrFields][Const.getNumberFormats().length]; // remember the precision?
+    int[][] numberLength = new int[nrFields][Const.getNumberFormats().length]; // remember the length?
 
     for (int i = 0; i < nrFields; i++) {
       BaseFileField field = meta.inputFields[i];
@@ -305,13 +283,8 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
     SimpleDateFormat daf2 = new SimpleDateFormat();
 
     boolean errorFound = false;
-    while (!errorFound
-        && line != null
-        && (linenr <= samples || samples == 0)
-        && !monitor.isCanceled()) {
-      monitor.subTask(
-          BaseMessages.getString(
-              PKG, "TextFileCSVImportProgressDialog.Task.ScanningLine", "" + linenr));
+    while (!errorFound && line != null && (linenr <= samples || samples == 0) && !monitor.isCanceled()) {
+      monitor.subTask(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.ScanningLine", "" + linenr));
       if (samples > 0) {
         monitor.worked(1);
       }
@@ -332,35 +305,11 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
       String escapeCharacter = variables.resolve(meta.content.escapeCharacter);
       Object[] r =
           TextFileInputUtils.convertLineToRow(
-              log,
-              new TextFileLine(line, fileLineNumber, null),
-              strinfo,
-              null,
-              0,
-              outputRowMeta,
-              convertRowMeta,
+              log, new TextFileLine(line, fileLineNumber, null), strinfo, null, 0, outputRowMeta, convertRowMeta,
               FileInputList.createFilePathList(
-                  variables,
-                  meta.inputFiles.fileName,
-                  meta.inputFiles.fileMask,
-                  meta.inputFiles.excludeFileMask,
-                  meta.inputFiles.fileRequired,
+                  variables, meta.inputFiles.fileName, meta.inputFiles.fileMask, meta.inputFiles.excludeFileMask, meta.inputFiles.fileRequired,
                   meta.inputFiles.includeSubFolderBoolean())[0],
-              rownumber,
-              delimiter,
-              enclosure,
-              escapeCharacter,
-              null,
-              new BaseFileInputAdditionalField(),
-              null,
-              null,
-              false,
-              null,
-              null,
-              null,
-              null,
-              null,
-              failOnParseError);
+              rownumber, delimiter, enclosure, escapeCharacter, null, new BaseFileInputAdditionalField(), null, null, false, null, null, null, null, null, failOnParseError);
 
       if (r == null) {
         errorFound = true;
@@ -395,17 +344,13 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
     }
 
     monitor.worked(1);
-    monitor.setTaskName(
-        BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.AnalyzingResults"));
+    monitor.setTaskName(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Task.AnalyzingResults"));
 
     // Show information on items using a dialog box
     //
     StringBuilder message = new StringBuilder();
-    message.append(
-        BaseMessages.getString(
-            PKG, "TextFileCSVImportProgressDialog.Info.ResultAfterScanning", "" + (linenr - 1)));
-    message.append(
-        BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.HorizontalLine"));
+    message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.ResultAfterScanning", "" + (linenr - 1)));
+    message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.HorizontalLine"));
 
     for (int i = 0; i < nrFields; i++) {
       BaseFileField field = meta.inputFields[i];
@@ -437,172 +382,84 @@ public class TextFileCSVImportProgressDialog implements ICsvInputAwareImportProg
         }
       }
 
-      message.append(
-          BaseMessages.getString(
-              PKG, "TextFileCSVImportProgressDialog.Info.FieldNumber", "" + (i + 1)));
+      message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.FieldNumber", "" + (i + 1)));
 
-      message.append(
-          BaseMessages.getString(
-              PKG, "TextFileCSVImportProgressDialog.Info.FieldName", field.getName()));
-      message.append(
-          BaseMessages.getString(
-              PKG, "TextFileCSVImportProgressDialog.Info.FieldType", field.getTypeDesc()));
+      message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.FieldName", field.getName()));
+      message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.FieldType", field.getTypeDesc()));
 
       switch (field.getType()) {
         case IValueMeta.TYPE_NUMBER:
-          message.append(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileCSVImportProgressDialog.Info.EstimatedLength",
-                  (field.getLength() < 0 ? "-" : "" + field.getLength())));
-          message.append(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileCSVImportProgressDialog.Info.EstimatedPrecision",
-                  field.getPrecision() < 0 ? "-" : "" + field.getPrecision()));
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.NumberFormat", field.getFormat()));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.EstimatedLength", (field.getLength() < 0 ? "-" : "" + field.getLength())));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.EstimatedPrecision", field.getPrecision() < 0 ? "-" : "" + field.getPrecision()));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberFormat", field.getFormat()));
 
           if (!evaluationResults.isEmpty()) {
             if (evaluationResults.size() > 1) {
-              message.append(
-                  BaseMessages.getString(
-                      PKG, "TextFileCSVImportProgressDialog.Info.WarnNumberFormat"));
+              message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.WarnNumberFormat"));
             }
 
             for (StringEvaluationResult seResult : evaluationResults) {
               String mask = seResult.getConversionMeta().getConversionMask();
 
-              message.append(
-                  BaseMessages.getString(
-                      PKG, "TextFileCSVImportProgressDialog.Info.NumberFormat2", mask));
-              message.append(
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileCSVImportProgressDialog.Info.TrimType",
-                      seResult.getConversionMeta().getTrimType()));
-              message.append(
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileCSVImportProgressDialog.Info.NumberMinValue",
-                      seResult.getMin()));
-              message.append(
-                  BaseMessages.getString(
-                      PKG,
-                      "TextFileCSVImportProgressDialog.Info.NumberMaxValue",
-                      seResult.getMax()));
+              message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberFormat2", mask));
+              message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.TrimType", seResult.getConversionMeta().getTrimType()));
+              message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberMinValue", seResult.getMin()));
+              message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberMaxValue", seResult.getMax()));
 
               try {
                 df2.applyPattern(mask);
                 df2.setDecimalFormatSymbols(dfs2);
                 double mn = df2.parse(seResult.getMin().toString()).doubleValue();
-                message.append(
-                    BaseMessages.getString(
-                        PKG,
-                        "TextFileCSVImportProgressDialog.Info.NumberExample",
-                        mask,
-                        seResult.getMin(),
-                        Double.toString(mn)));
+                message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberExample", mask, seResult.getMin(), Double.toString(mn)));
               } catch (Exception e) {
                 if (log.isDetailed()) {
-                  log.logDetailed(
-                      "This is unexpected: parsing ["
-                          + seResult.getMin()
-                          + "] with format ["
-                          + mask
-                          + "] did not work.");
+                  log.logDetailed("This is unexpected: parsing [" + seResult.getMin() + "] with format [" + mask + "] did not work.");
                 }
               }
             }
           }
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.NumberNrNullValues", "" + nrnull[i]));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.NumberNrNullValues", "" + nrnull[i]));
           break;
         case IValueMeta.TYPE_STRING:
-          message.append(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileCSVImportProgressDialog.Info.StringMaxLength",
-                  "" + field.getLength()));
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.StringMinValue", minstr[i]));
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.StringMaxValue", maxstr[i]));
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.StringNrNullValues", "" + nrnull[i]));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.StringMaxLength", "" + field.getLength()));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.StringMinValue", minstr[i]));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.StringMaxValue", maxstr[i]));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.StringNrNullValues", "" + nrnull[i]));
           break;
         case IValueMeta.TYPE_DATE:
-          message.append(
-              BaseMessages.getString(
-                  PKG,
-                  "TextFileCSVImportProgressDialog.Info.DateMaxLength",
-                  field.getLength() < 0 ? "-" : "" + field.getLength()));
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.DateFormat", field.getFormat()));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateMaxLength", field.getLength() < 0 ? "-" : "" + field.getLength()));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateFormat", field.getFormat()));
           if (dateFormatCount[i] > 1) {
-            message.append(
-                BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.WarnDateFormat"));
+            message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.WarnDateFormat"));
           }
           if (!Utils.isEmpty(minstr[i])) {
             for (int x = 0; x < Const.getDateFormats().length; x++) {
               if (dateFormat[i][x]) {
-                message.append(
-                    BaseMessages.getString(
-                        PKG,
-                        "TextFileCSVImportProgressDialog.Info.DateFormat2",
-                        Const.getDateFormats()[x]));
+                message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateFormat2", Const.getDateFormats()[x]));
                 Date mindate = minDate[i][x];
                 Date maxdate = maxDate[i][x];
-                message.append(
-                    BaseMessages.getString(
-                        PKG,
-                        "TextFileCSVImportProgressDialog.Info.DateMinValue",
-                        mindate.toString()));
-                message.append(
-                    BaseMessages.getString(
-                        PKG,
-                        "TextFileCSVImportProgressDialog.Info.DateMaxValue",
-                        maxdate.toString()));
+                message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateMinValue", mindate.toString()));
+                message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateMaxValue", maxdate.toString()));
 
                 daf2.applyPattern(Const.getDateFormats()[x]);
                 try {
                   Date md = daf2.parse(minstr[i]);
-                  message.append(
-                      BaseMessages.getString(
-                          PKG,
-                          "TextFileCSVImportProgressDialog.Info.DateExample",
-                          Const.getDateFormats()[x],
-                          minstr[i],
-                          md.toString()));
+                  message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateExample", Const.getDateFormats()[x], minstr[i], md.toString()));
                 } catch (Exception e) {
                   if (log.isDetailed()) {
-                    log.logDetailed(
-                        "This is unexpected: parsing ["
-                            + minstr[i]
-                            + "] with format ["
-                            + Const.getDateFormats()[x]
-                            + "] did not work.");
+                    log.logDetailed("This is unexpected: parsing [" + minstr[i] + "] with format [" + Const.getDateFormats()[x] + "] did not work.");
                   }
                 }
               }
             }
           }
-          message.append(
-              BaseMessages.getString(
-                  PKG, "TextFileCSVImportProgressDialog.Info.DateNrNullValues", "" + nrnull[i]));
+          message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.DateNrNullValues", "" + nrnull[i]));
           break;
         default:
           break;
       }
       if (nrnull[i] == linenr - 1) {
-        message.append(
-            BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.AllNullValues"));
+        message.append(BaseMessages.getString(PKG, "TextFileCSVImportProgressDialog.Info.AllNullValues"));
       }
       message.append(Const.CR);
     }

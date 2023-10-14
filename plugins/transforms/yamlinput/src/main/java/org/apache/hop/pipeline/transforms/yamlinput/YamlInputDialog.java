@@ -125,8 +125,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
   ArrayList<String> listpath = new ArrayList<>();
   String precNodeName = null;
 
-  public YamlInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public YamlInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (YamlInputMeta) in;
   }
@@ -226,20 +225,18 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wlXmlStreamField.setLayoutData(fdlXMLStreamField);
     wYAMLStreamField = new Button(wOutputField, SWT.CHECK);
     PropsUi.setLook(wYAMLStreamField);
-    wYAMLStreamField.setToolTipText(
-        BaseMessages.getString(PKG, "YamlInputDialog.wYAMLStreamField.Tooltip"));
+    wYAMLStreamField.setToolTipText(BaseMessages.getString(PKG, "YamlInputDialog.wYAMLStreamField.Tooltip"));
     FormData fdYAMLStreamField = new FormData();
     fdYAMLStreamField.left = new FormAttachment(middle, -margin);
     fdYAMLStreamField.top = new FormAttachment(wlXmlStreamField, 0, SWT.CENTER);
     wYAMLStreamField.setLayoutData(fdYAMLStreamField);
-    SelectionAdapter lsyamlstream =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            activateStreamField();
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsyamlstream = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        activateStreamField();
+        input.setChanged();
+      }
+    };
     wYAMLStreamField.addSelectionListener(lsyamlstream);
 
     // Is XML source is a file?
@@ -258,14 +255,13 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     fdYAMLIsAFile.left = new FormAttachment(middle, -margin);
     fdYAMLIsAFile.top = new FormAttachment(wlYamlIsAFile, 0, SWT.CENTER);
     wYAMLIsAFile.setLayoutData(fdYAMLIsAFile);
-    SelectionAdapter lsyamlisafile =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-            enableFileSettings();
-          }
-        };
+    SelectionAdapter lsyamlisafile = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+        enableFileSettings();
+      }
+    };
     wYAMLIsAFile.addSelectionListener(lsyamlisafile);
 
     // If XML string defined in a Field
@@ -287,20 +283,19 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     fdXMLField.top = new FormAttachment(wYAMLIsAFile, margin);
     fdXMLField.right = new FormAttachment(100, -margin);
     wYAMLLField.setLayoutData(fdXMLField);
-    wYAMLLField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wYAMLLField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setXMLStreamField();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setXMLStreamField();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdOutputField = new FormData();
     fdOutputField.left = new FormAttachment(0, margin);
@@ -325,8 +320,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wbbFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "YamlInputDialog.FilenameBrowse.Button"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wOutputField, margin);
@@ -381,8 +375,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wbdFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
     wbdFilename.setText(BaseMessages.getString(PKG, "YamlInputDialog.FilenameRemove.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "YamlInputDialog.FilenameRemove.Tooltip"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "YamlInputDialog.FilenameRemove.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wFilemask, 40);
@@ -407,42 +400,18 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wbShowFiles.setLayoutData(fdbShowFiles);
 
     ColumnInfo[] colinfo = new ColumnInfo[4];
-    colinfo[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "YamlInputDialog.Files.Filename.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinfo[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "YamlInputDialog.Files.Wildcard.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinfo[0] = new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.Files.Filename.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinfo[1] = new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.Files.Wildcard.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
     colinfo[0].setUsingVariables(true);
     colinfo[1].setUsingVariables(true);
     colinfo[1].setToolTip(BaseMessages.getString(PKG, "YamlInputDialog.Files.Wildcard.Tooltip"));
-    colinfo[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "YamlInputDialog.Required.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            YamlInputMeta.RequiredFilesDesc);
+    colinfo[2] = new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.Required.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YamlInputMeta.RequiredFilesDesc);
     colinfo[2].setToolTip(BaseMessages.getString(PKG, "YamlInputDialog.Required.Tooltip"));
-    colinfo[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "YamlInputDialog.IncludeSubDirs.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            YamlInputMeta.RequiredFilesDesc);
+    colinfo[3] = new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.IncludeSubDirs.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YamlInputMeta.RequiredFilesDesc);
     colinfo[3].setToolTip(BaseMessages.getString(PKG, "YamlInputDialog.IncludeSubDirs.Tooltip"));
 
-    wFilenameList =
-        new TableView(
-            variables,
-            wFileComp,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            2,
-            lsMod,
-            props);
+    wFilenameList = new TableView(variables, wFileComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, 2, lsMod, props);
     PropsUi.setLook(wFilenameList);
     FormData fdFilenameList = new FormData();
     fdFilenameList.left = new FormAttachment(middle, 0);
@@ -504,8 +473,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wlIgnoreEmptyFile.setLayoutData(fdlIgnoreEmptyFile);
     wIgnoreEmptyFile = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wIgnoreEmptyFile);
-    wIgnoreEmptyFile.setToolTipText(
-        BaseMessages.getString(PKG, "YamlInputDialog.IgnoreEmptyFile.Tooltip"));
+    wIgnoreEmptyFile.setToolTipText(BaseMessages.getString(PKG, "YamlInputDialog.IgnoreEmptyFile.Tooltip"));
     FormData fdIgnoreEmptyFile = new FormData();
     fdIgnoreEmptyFile.left = new FormAttachment(middle, 0);
     fdIgnoreEmptyFile.top = new FormAttachment(wlIgnoreEmptyFile, 0, SWT.CENTER);
@@ -514,8 +482,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
 
     // do not fail if no files?
     wlDoNotFailIfNoFile = new Label(wXmlConf, SWT.RIGHT);
-    wlDoNotFailIfNoFile.setText(
-        BaseMessages.getString(PKG, "YamlInputDialog.doNotFailIfNoFile.Label"));
+    wlDoNotFailIfNoFile.setText(BaseMessages.getString(PKG, "YamlInputDialog.doNotFailIfNoFile.Label"));
     PropsUi.setLook(wlDoNotFailIfNoFile);
     FormData fdlDoNotFailIfNoFile = new FormData();
     fdlDoNotFailIfNoFile.left = new FormAttachment(0, 0);
@@ -524,8 +491,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wlDoNotFailIfNoFile.setLayoutData(fdlDoNotFailIfNoFile);
     wDoNotFailIfNoFile = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wDoNotFailIfNoFile);
-    wDoNotFailIfNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "YamlInputDialog.doNotFailIfNoFile.Tooltip"));
+    wDoNotFailIfNoFile.setToolTipText(BaseMessages.getString(PKG, "YamlInputDialog.doNotFailIfNoFile.Tooltip"));
     FormData fdDoNotFailIfNoFile = new FormData();
     fdDoNotFailIfNoFile.left = new FormAttachment(middle, 0);
     fdDoNotFailIfNoFile.top = new FormAttachment(wlDoNotFailIfNoFile, 0, SWT.CENTER);
@@ -565,8 +531,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
 
     Group wAdditionalFields = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalFields);
-    wAdditionalFields.setText(
-        BaseMessages.getString(PKG, "YamlInputDialog.wAdditionalFields.Label"));
+    wAdditionalFields.setText(BaseMessages.getString(PKG, "YamlInputDialog.wAdditionalFields.Label"));
 
     FormLayout additionalFieldsgroupLayout = new FormLayout();
     additionalFieldsgroupLayout.marginWidth = 10;
@@ -583,8 +548,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wlInclFilename.setLayoutData(fdlInclFilename);
     wInclFilename = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclFilename);
-    wInclFilename.setToolTipText(
-        BaseMessages.getString(PKG, "YamlInputDialog.InclFilename.Tooltip"));
+    wInclFilename.setToolTipText(BaseMessages.getString(PKG, "YamlInputDialog.InclFilename.Tooltip"));
     FormData fdInclFilename = new FormData();
     fdInclFilename.left = new FormAttachment(middle, 0);
     fdInclFilename.top = new FormAttachment(wlInclFilename, 0, SWT.CENTER);
@@ -592,15 +556,13 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wInclFilename.addSelectionListener(new ComponentSelectionListener(input));
 
     wlInclFilenameField = new Label(wAdditionalFields, SWT.LEFT);
-    wlInclFilenameField.setText(
-        BaseMessages.getString(PKG, "YamlInputDialog.InclFilenameField.Label"));
+    wlInclFilenameField.setText(BaseMessages.getString(PKG, "YamlInputDialog.InclFilenameField.Label"));
     PropsUi.setLook(wlInclFilenameField);
     FormData fdlInclFilenameField = new FormData();
     fdlInclFilenameField.left = new FormAttachment(wInclFilename, margin);
     fdlInclFilenameField.top = new FormAttachment(wLimit, 4 * margin);
     wlInclFilenameField.setLayoutData(fdlInclFilenameField);
-    wInclFilenameField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclFilenameField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclFilenameField);
     wInclFilenameField.addModifyListener(lsMod);
     FormData fdInclFilenameField = new FormData();
@@ -633,8 +595,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     fdlInclRownumField.left = new FormAttachment(wInclRownum, margin);
     fdlInclRownumField.top = new FormAttachment(wInclFilenameField, margin);
     wlInclRownumField.setLayoutData(fdlInclRownumField);
-    wInclRownumField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclRownumField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclRownumField);
     wInclRownumField.addModifyListener(lsMod);
     FormData fdInclRownumField = new FormData();
@@ -732,66 +693,23 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.XPath.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Format.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Currency.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Decimal.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Group.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.TrimType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              YamlInputField.trimTypeDesc,
-              true)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.XPath.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), true),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.TrimType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, YamlInputField.trimTypeDesc, true)};
 
     colinf[0].setUsingVariables(true);
-    colinf[0].setToolTip(
-        BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Name.Column.Tooltip"));
+    colinf[0].setToolTip(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.Name.Column.Tooltip"));
     colinf[1].setUsingVariables(true);
-    colinf[1].setToolTip(
-        BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.XPath.Column.Tooltip"));
+    colinf[1].setToolTip(BaseMessages.getString(PKG, "YamlInputDialog.FieldsTable.XPath.Column.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -821,104 +739,95 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
     wGet.addListener(SWT.Selection, e -> get());
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFilenameList.add(new String[] {wFilename.getText(), wFilemask.getText()});
-            wFilename.setText("");
-            wFilemask.setText("");
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            wFilenameList.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFilenameList.add(new String[] {wFilename.getText(), wFilemask.getText()});
+        wFilename.setText("");
+        wFilemask.setText("");
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        wFilenameList.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFilenameList.getSelectionIndices();
-            wFilenameList.remove(idx);
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-          }
-        });
+    wbdFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFilenameList.getSelectionIndices();
+        wFilenameList.remove(idx);
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFilenameList.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFilenameList.getItem(idx);
-              wFilename.setText(string[0]);
-              wFilemask.setText(string[1]);
-              wFilenameList.remove(idx);
-            }
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-          }
-        });
+    wbeFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFilenameList.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFilenameList.getItem(idx);
+          wFilename.setText(string[0]);
+          wFilemask.setText(string[1]);
+          wFilenameList.remove(idx);
+        }
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+      }
+    });
 
     // Show the files that are selected at this time...
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            try {
-              YamlInputMeta tfii = new YamlInputMeta();
-              getInfo(tfii);
-              FileInputList fileInputList = tfii.getFiles(variables);
-              String[] files = fileInputList.getFileStrings();
-              if (files != null && files.length > 0) {
-                EnterSelectionDialog esd =
-                    new EnterSelectionDialog(
-                        shell,
-                        files,
-                        BaseMessages.getString(
-                            PKG, "YamlInputDialog.FilesReadSelection.DialogTitle"),
-                        BaseMessages.getString(
-                            PKG, "YamlInputDialog.FilesReadSelection.DialogMessage"));
-                esd.setViewOnly();
-                esd.open();
-              } else {
-                MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-                mb.setMessage(
-                    BaseMessages.getString(PKG, "YamlInputDialog.NoFileFound.DialogMessage"));
-                mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-                mb.open();
-              }
-            } catch (HopException ex) {
-              new ErrorDialog(
-                  shell,
-                  BaseMessages.getString(PKG, "YamlInputDialog.ErrorParsingData.DialogTitle"),
-                  BaseMessages.getString(PKG, "YamlInputDialog.ErrorParsingData.DialogMessage"),
-                  ex);
-            }
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        try {
+          YamlInputMeta tfii = new YamlInputMeta();
+          getInfo(tfii);
+          FileInputList fileInputList = tfii.getFiles(variables);
+          String[] files = fileInputList.getFileStrings();
+          if (files != null && files.length > 0) {
+            EnterSelectionDialog esd =
+                new EnterSelectionDialog(
+                    shell,
+                    files,
+                    BaseMessages.getString(PKG, "YamlInputDialog.FilesReadSelection.DialogTitle"),
+                    BaseMessages.getString(PKG, "YamlInputDialog.FilesReadSelection.DialogMessage"));
+            esd.setViewOnly();
+            esd.open();
+          } else {
+            MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+            mb.setMessage(BaseMessages.getString(PKG, "YamlInputDialog.NoFileFound.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+            mb.open();
           }
-        });
+        } catch (HopException ex) {
+          new ErrorDialog(
+              shell,
+              BaseMessages.getString(PKG, "YamlInputDialog.ErrorParsingData.DialogTitle"),
+              BaseMessages.getString(PKG, "YamlInputDialog.ErrorParsingData.DialogMessage"),
+              ex);
+        }
+      }
+    });
     // Enable/disable the right fields to allow a filename to be added to each row...
-    wInclFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setIncludeFilename();
-          }
-        });
+    wInclFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setIncludeFilename();
+      }
+    });
 
     // Enable/disable the right fields to allow a row number to be added to each row...
-    wInclRownum.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setIncludeRownum();
-          }
-        });
+    wInclRownum.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setIncludeRownum();
+      }
+    });
 
     // Whenever something changes, set the tooltip to the expanded version of the filename:
     wFilename.addModifyListener(e -> wFilename.setToolTipText(wFilename.getText()));
@@ -929,16 +838,9 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
       //
       wbbFilename.addListener(
           SWT.Selection,
-          e ->
-              BaseDialog.presentFileDialog(
-                  shell,
-                  wFilename,
-                  variables,
-                  new String[] {"*.yaml;*.YAML;*.yml;*.YML", "*"},
-                  new String[] {
-                    "Yaml files", BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                  },
-                  true));
+          e -> BaseDialog.presentFileDialog(
+              shell, wFilename, variables, new String[] {"*.yaml;*.YAML;*.yml;*.YML", "*"}, new String[] {"Yaml files", BaseMessages.getString(PKG, "System.FileType.AllFiles")},
+              true));
     }
 
     wTabFolder.setSelection(0);
@@ -1017,9 +919,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
   }
 
   private void enableFileSettings() {
-    boolean active =
-        !wYAMLStreamField.getSelection()
-            || (wYAMLStreamField.getSelection() && wYAMLIsAFile.getSelection());
+    boolean active = !wYAMLStreamField.getSelection() || (wYAMLStreamField.getSelection() && wYAMLIsAFile.getSelection());
     wlIgnoreEmptyFile.setEnabled(active);
     wIgnoreEmptyFile.setEnabled(active);
     wlDoNotFailIfNoFile.setEnabled(active);
@@ -1090,13 +990,8 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
       wFilenameList.removeAll();
 
       for (int i = 0; i < in.getFileName().length; i++) {
-        wFilenameList.add(
-            new String[] {
-              in.getFileName()[i],
-              in.getFileMask()[i],
-              in.getRequiredFilesDesc(in.getFileRequired()[i]),
-              in.getRequiredFilesDesc(in.getIncludeSubFolders()[i])
-            });
+        wFilenameList
+            .add(new String[] {in.getFileName()[i], in.getFileMask()[i], in.getRequiredFilesDesc(in.getFileRequired()[i]), in.getRequiredFilesDesc(in.getIncludeSubFolders()[i])});
       }
       wFilenameList.removeEmptyRows();
       wFilenameList.setRowNums();
@@ -1255,9 +1150,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
       YamlInputMeta oneMeta = new YamlInputMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -1269,12 +1162,7 @@ public class YamlInputDialog extends BaseTransformDialog implements ITransformDi
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {

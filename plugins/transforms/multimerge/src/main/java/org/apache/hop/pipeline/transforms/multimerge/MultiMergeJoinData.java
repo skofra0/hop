@@ -42,9 +42,7 @@ public class MultiMergeJoinData extends BaseTransformData implements ITransformD
     @Override
     public int compare(QueueEntry a, QueueEntry b) {
       try {
-        int cmp =
-            data.metas[a.index].compare(
-                a.row, data.metas[b.index], b.row, data.keyNrs[a.index], data.keyNrs[b.index]);
+        int cmp = data.metas[a.index].compare(a.row, data.metas[b.index], b.row, data.keyNrs[a.index], data.keyNrs[b.index]);
         return cmp > 0 ? 1 : cmp < 0 ? -1 : 0;
       } catch (HopException e) {
         throw new RuntimeException(e.getMessage());

@@ -51,8 +51,7 @@ public class BeamSubscribeDialog extends BaseTransformDialog implements ITransfo
   private Combo wMessageType;
   private TextVar wMessageField;
 
-  public BeamSubscribeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamSubscribeDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamSubscribeMeta) in;
   }
@@ -173,8 +172,7 @@ public class BeamSubscribeDialog extends BaseTransformDialog implements ITransfo
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 

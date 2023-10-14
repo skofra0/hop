@@ -56,11 +56,7 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
 
   public GroupByFn() {}
 
-  public GroupByFn(
-      String counterName,
-      String groupRowMetaJson,
-      String subjectRowMetaJson,
-      String[] aggregations) {
+  public GroupByFn(String counterName, String groupRowMetaJson, String subjectRowMetaJson, String[] aggregations) {
     this.counterName = counterName;
     this.groupRowMetaJson = groupRowMetaJson;
     this.subjectRowMetaJson = subjectRowMetaJson;
@@ -135,25 +131,22 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
               if (!subjectValueMeta.isNull(subject)) {
                 counts[i]++;
               }
-            case SUM:
-              {
-                if (result == null) {
-                  result = subject;
-                } else {
-                  switch (subjectValueMeta.getType()) {
-                    case IValueMeta.TYPE_INTEGER:
-                      result = (Long) result + (Long) subject;
-                      break;
-                    case IValueMeta.TYPE_NUMBER:
-                      result = (Double) result + (Double) subject;
-                      break;
-                    default:
-                      throw new HopException(
-                          "SUM aggregation not yet implemented for field and data type : "
-                              + subjectValueMeta.toString());
-                  }
+            case SUM: {
+              if (result == null) {
+                result = subject;
+              } else {
+                switch (subjectValueMeta.getType()) {
+                  case IValueMeta.TYPE_INTEGER:
+                    result = (Long) result + (Long) subject;
+                    break;
+                  case IValueMeta.TYPE_NUMBER:
+                    result = (Double) result + (Double) subject;
+                    break;
+                  default:
+                    throw new HopException("SUM aggregation not yet implemented for field and data type : " + subjectValueMeta.toString());
                 }
               }
+            }
               break;
             case COUNT_ALL:
               if (subject != null) {
@@ -166,7 +159,7 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
               break;
             case MIN:
               if (subjectValueMeta.isNull(result)) {
-                // Previous result was null?  Then take the subject
+                // Previous result was null? Then take the subject
                 result = subject;
               } else {
                 if (subjectValueMeta.compare(subject, result) < 0) {
@@ -176,7 +169,7 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
               break;
             case MAX:
               if (subjectValueMeta.isNull(result)) {
-                // Previous result was null?  Then take the subject
+                // Previous result was null? Then take the subject
                 result = subject;
               } else {
                 if (subjectValueMeta.compare(subject, result) > 0) {
@@ -205,10 +198,7 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
               }
               break;
             default:
-              throw new HopException(
-                  "Sorry, aggregation type yet: "
-                      + aggregationTypes[i].name()
-                      + " isn't implemented yet");
+              throw new HopException("Sorry, aggregation type yet: " + aggregationTypes[i].name() + " isn't implemented yet");
           }
           results[i] = result;
         }
@@ -242,8 +232,7 @@ public class GroupByFn extends DoFn<KV<HopRow, Iterable<HopRow>>, HopRow> {
                 }
                 results[i] = bd;
               default:
-                throw new HopException(
-                    "Unable to calculate average on data type : " + subjectValueMeta.getTypeDesc());
+                throw new HopException("Unable to calculate average on data type : " + subjectValueMeta.getTypeDesc());
             }
         }
       }

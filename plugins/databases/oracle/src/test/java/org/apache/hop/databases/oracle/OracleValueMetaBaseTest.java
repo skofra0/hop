@@ -45,7 +45,8 @@ import static org.mockito.Mockito.when;
 
 public class OracleValueMetaBaseTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private DatabaseMeta databaseMeta;
   private IValueMeta valueMetaBase;
@@ -79,8 +80,7 @@ public class OracleValueMetaBaseTest {
   }
 
   @Test
-  public void testMetadataPreviewSqlLongVarBinaryToString()
-      throws SQLException, HopDatabaseException {
+  public void testMetadataPreviewSqlLongVarBinaryToString() throws SQLException, HopDatabaseException {
     when(resultSet.getInt("DATA_TYPE")).thenReturn(Types.LONGVARBINARY);
 
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, databaseMeta, resultSet);
@@ -88,8 +88,7 @@ public class OracleValueMetaBaseTest {
   }
 
   @Test
-  public void testMetadataPreviewSqlNumericWithStrictBigNumberInterpretation()
-      throws SQLException, HopDatabaseException {
+  public void testMetadataPreviewSqlNumericWithStrictBigNumberInterpretation() throws SQLException, HopDatabaseException {
 
     when(resultSet.getInt("DATA_TYPE")).thenReturn(Types.NUMERIC);
     when(resultSet.getInt("COLUMN_SIZE")).thenReturn(38);
@@ -101,8 +100,7 @@ public class OracleValueMetaBaseTest {
   }
 
   @Test
-  public void testMetadataPreviewSqlNumericWithoutStrictBigNumberInterpretation()
-      throws SQLException, HopDatabaseException {
+  public void testMetadataPreviewSqlNumericWithoutStrictBigNumberInterpretation() throws SQLException, HopDatabaseException {
     when(resultSet.getInt("DATA_TYPE")).thenReturn(Types.NUMERIC);
     when(resultSet.getInt("COLUMN_SIZE")).thenReturn(38);
     when(resultSet.getInt("DECIMAL_DIGITS")).thenReturn(0);
@@ -126,8 +124,7 @@ public class OracleValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDoubleWithTooBigLengthAndPrecision()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDoubleWithTooBigLengthAndPrecision() throws SQLException, HopDatabaseException {
     doReturn(Types.DOUBLE).when(resultSet).getInt("DATA_TYPE");
     doReturn(128).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");

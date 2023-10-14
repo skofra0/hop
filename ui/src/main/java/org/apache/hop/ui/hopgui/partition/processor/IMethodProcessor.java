@@ -22,7 +22,5 @@ import org.apache.hop.ui.hopgui.partition.PartitionSettings;
 import org.eclipse.swt.widgets.Shell;
 
 public interface IMethodProcessor {
-  void schemaSelection(
-      PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection)
-      throws HopException;
+  void schemaSelection(PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection) throws HopException;
 }

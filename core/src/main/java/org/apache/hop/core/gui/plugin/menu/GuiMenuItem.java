@@ -51,11 +51,7 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
 
   public GuiMenuItem() {}
 
-  public GuiMenuItem(
-      GuiMenuElement guiElement,
-      Method guiPluginMethod,
-      String guiPluginClassName,
-      ClassLoader classLoader) {
+  public GuiMenuItem(GuiMenuElement guiElement, Method guiPluginMethod, String guiPluginClassName, ClassLoader classLoader) {
     this();
 
     this.root = guiElement.root();
@@ -68,16 +64,8 @@ public class GuiMenuItem extends BaseGuiElements implements Comparable<GuiMenuIt
     this.listenerMethod = guiPluginMethod.getName();
     this.listenerClassName = guiPluginClassName; // Ask the classloader for the class
     this.singleTon = true; // Always a singleton for now
-    this.label =
-        getTranslation(
-            guiElement.label(),
-            guiPluginMethod.getDeclaringClass().getPackage().getName(),
-            guiPluginMethod.getDeclaringClass());
-    this.toolTip =
-        getTranslation(
-            guiElement.toolTip(),
-            guiPluginMethod.getDeclaringClass().getPackage().getName(),
-            guiPluginMethod.getDeclaringClass());
+    this.label = getTranslation(guiElement.label(), guiPluginMethod.getDeclaringClass().getPackage().getName(), guiPluginMethod.getDeclaringClass());
+    this.toolTip = getTranslation(guiElement.toolTip(), guiPluginMethod.getDeclaringClass().getPackage().getName(), guiPluginMethod.getDeclaringClass());
     this.classLoader = classLoader;
   }
 

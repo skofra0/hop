@@ -23,21 +23,15 @@ import java.util.Objects;
 public class OraBulkLoaderMappingMeta {
 
   /** Field value to dateMask after lookup */
-  @HopMetadataProperty(
-      key = "stream_name",
-      injectionKeyDescription = "OraBulkLoader.Injection.Mapping.StreamName")
+  @HopMetadataProperty(key = "stream_name", injectionKeyDescription = "OraBulkLoader.Injection.Mapping.StreamName")
   private String fieldTable;
 
   /** Field name in the stream */
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKeyDescription = "OraBulkLoader.Injection.Mapping.FieldName")
+  @HopMetadataProperty(key = "field_name", injectionKeyDescription = "OraBulkLoader.Injection.Mapping.FieldName")
   private String fieldStream;
 
   /** boolean indicating if field needs to be updated */
-  @HopMetadataProperty(
-      key = "date_mask",
-      injectionKeyDescription = "OraBulkLoader.Injection.Mapping.DateMask")
+  @HopMetadataProperty(key = "date_mask", injectionKeyDescription = "OraBulkLoader.Injection.Mapping.DateMask")
   private String dateMask;
 
   public OraBulkLoaderMappingMeta() {
@@ -60,8 +54,10 @@ public class OraBulkLoaderMappingMeta {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     OraBulkLoaderMappingMeta that = (OraBulkLoaderMappingMeta) o;
     return Objects.equals(fieldTable, that.fieldTable) && Objects.equals(fieldStream, that.fieldStream) && Objects.equals(dateMask, that.dateMask);
   }

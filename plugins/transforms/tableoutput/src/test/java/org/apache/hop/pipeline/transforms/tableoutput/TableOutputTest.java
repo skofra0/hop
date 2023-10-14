@@ -68,9 +68,7 @@ public class TableOutputTest {
 
     transformMeta = mock(TransformMeta.class);
     doReturn("transform").when(transformMeta).getName();
-    doReturn(mock(TransformPartitioningMeta.class))
-        .when(transformMeta)
-        .getTargetTransformPartitioningMeta();
+    doReturn(mock(TransformPartitioningMeta.class)).when(transformMeta).getTargetTransformPartitioningMeta();
     doReturn(tableOutputMeta).when(transformMeta).getTransform();
 
     db = mock(Database.class);
@@ -90,14 +88,7 @@ public class TableOutputTest {
 
   private void setupTableOutputSpy() throws Exception {
 
-    tableOutput =
-        new TableOutput(
-            transformMeta,
-            tableOutputMeta,
-            tableOutputData,
-            1,
-            pipelineMeta,
-            spy(new LocalPipelineEngine()));
+    tableOutput = new TableOutput(transformMeta, tableOutputMeta, tableOutputData, 1, pipelineMeta, spy(new LocalPipelineEngine()));
     tableOutputSpy = spy(tableOutput);
     doReturn(transformMeta).when(tableOutputSpy).getTransformMeta();
     doReturn(false).when(tableOutputSpy).isRowLevel();
@@ -195,8 +186,7 @@ public class TableOutputTest {
     doNothing().when(tableOutputSpy).logError(anyString());
 
     when(tableOutputMeta.getCommitSize()).thenReturn("1");
-    when(tableOutputSpy.getPipelineMeta().findDatabase(any(String.class), any(IVariables.class)))
-        .thenReturn(databaseMeta);
+    when(tableOutputSpy.getPipelineMeta().findDatabase(any(String.class), any(IVariables.class))).thenReturn(databaseMeta);
     when(databaseMeta.getIDatabase()).thenReturn(dbInterface);
 
     String unsupportedTableOutputMessage = "unsupported exception";
@@ -208,7 +198,6 @@ public class TableOutputTest {
     tableOutputSpy.init();
 
     HopException ke = new HopException(unsupportedTableOutputMessage);
-    verify(tableOutputSpy, times(1))
-        .logError("An error occurred initializing this transform: " + ke.getMessage());
+    verify(tableOutputSpy, times(1)).logError("An error occurred initializing this transform: " + ke.getMessage());
   }
 }

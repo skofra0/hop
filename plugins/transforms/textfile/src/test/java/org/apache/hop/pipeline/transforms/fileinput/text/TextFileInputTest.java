@@ -62,15 +62,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TextFileInputTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {
     HopEnvironment.init();
   }
 
-  private static InputStreamReader getInputStreamReader(String data)
-      throws UnsupportedEncodingException {
+  private static InputStreamReader getInputStreamReader(String data) throws UnsupportedEncodingException {
     return new InputStreamReader(new ByteArrayInputStream(data.getBytes(("UTF-8"))));
   }
 
@@ -78,12 +78,7 @@ public class TextFileInputTest {
   public void testGetLineDOS() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\r\ndata1\tdata2\tdata3\r\n";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileLineUtil.FILE_FORMAT_DOS,
-            new StringBuilder(1000));
+    String output = TextFileLineUtil.getLine(null, getInputStreamReader(input), TextFileLineUtil.FILE_FORMAT_DOS, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -91,12 +86,7 @@ public class TextFileInputTest {
   public void testGetLineUnix() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\ndata1\tdata2\tdata3\n";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileLineUtil.FILE_FORMAT_UNIX,
-            new StringBuilder(1000));
+    String output = TextFileLineUtil.getLine(null, getInputStreamReader(input), TextFileLineUtil.FILE_FORMAT_UNIX, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -104,12 +94,7 @@ public class TextFileInputTest {
   public void testGetLineOSX() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\rdata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileLineUtil.FILE_FORMAT_UNIX,
-            new StringBuilder(1000));
+    String output = TextFileLineUtil.getLine(null, getInputStreamReader(input), TextFileLineUtil.FILE_FORMAT_UNIX, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -117,12 +102,7 @@ public class TextFileInputTest {
   public void testGetLineMixed() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\r\ndata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileLineUtil.FILE_FORMAT_MIXED,
-            new StringBuilder(1000));
+    String output = TextFileLineUtil.getLine(null, getInputStreamReader(input), TextFileLineUtil.FILE_FORMAT_MIXED, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -133,40 +113,14 @@ public class TextFileInputTest {
     String inputOSX = "col1\tcol2\tcol3\rdata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
 
-    assertEquals(
-        expected,
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(inputDOS),
-            TextFileLineUtil.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
-    assertEquals(
-        expected,
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(inputUnix),
-            TextFileLineUtil.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
-    assertEquals(
-        expected,
-        TextFileLineUtil.getLine(
-            null,
-            getInputStreamReader(inputOSX),
-            TextFileLineUtil.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
+    assertEquals(expected, TextFileLineUtil.getLine(null, getInputStreamReader(inputDOS), TextFileLineUtil.FILE_FORMAT_UNIX, new StringBuilder(1000)));
+    assertEquals(expected, TextFileLineUtil.getLine(null, getInputStreamReader(inputUnix), TextFileLineUtil.FILE_FORMAT_UNIX, new StringBuilder(1000)));
+    assertEquals(expected, TextFileLineUtil.getLine(null, getInputStreamReader(inputOSX), TextFileLineUtil.FILE_FORMAT_UNIX, new StringBuilder(1000)));
   }
 
   @Test
   public void readWrappedInputWithoutHeaders() throws Exception {
-    final String content =
-        new StringBuilder()
-            .append("r1c1")
-            .append('\n')
-            .append(";r1c2\n")
-            .append("r2c1")
-            .append('\n')
-            .append(";r2c2")
-            .toString();
+    final String content = new StringBuilder().append("r1c1").append('\n').append(";r1c2\n").append("r2c1").append('\n').append(";r2c2").toString();
     final String virtualFile = createVirtualFile("pdi-2607.txt", content);
 
     TextFileInputMeta meta = createMetaObject(field("col1"), field("col2"));
@@ -175,14 +129,7 @@ public class TextFileInputTest {
 
     TextFileInputData data = createDataObject(virtualFile, ";", "col1", "col2");
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
     List<Object[]> output = PipelineTestingUtil.execute(input, 2, false);
     PipelineTestingUtil.assertResult(new Object[] {"r1c1", "r1c2"}, output.get(0));
     PipelineTestingUtil.assertResult(new Object[] {"r2c1", "r2c2"}, output.get(1));
@@ -200,14 +147,7 @@ public class TextFileInputTest {
     TextFileInputMeta meta = createMetaObject(field("col1"), field2, field("col3"));
     TextFileInputData data = createDataObject(virtualFile, ",", "col1", "col2", "col3");
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
     List<Object[]> output = PipelineTestingUtil.execute(input, 2, false);
     PipelineTestingUtil.assertResult(new Object[] {"1", "1", "1"}, output.get(0));
     PipelineTestingUtil.assertResult(new Object[] {"2", "1", "2"}, output.get(1));
@@ -225,14 +165,7 @@ public class TextFileInputTest {
     TextFileInputMeta meta = createMetaObject(field("col1"), col2);
     TextFileInputData data = createDataObject(virtualFile, ",", "col1", "col2");
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
 
     List<Object[]> output = PipelineTestingUtil.execute(input, 1, false);
     PipelineTestingUtil.assertResult(new Object[] {"-"}, output.get(0));
@@ -250,14 +183,7 @@ public class TextFileInputTest {
     TextFileInputMeta meta = createMetaObject(field("col1"), col2);
     TextFileInputData data = createDataObject(virtualFile, ",", "col1", "col2");
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
 
     List<Object[]> output = PipelineTestingUtil.execute(input, 1, false);
     PipelineTestingUtil.assertResult(new Object[] {"1", "DEFAULT"}, output.get(0));
@@ -268,17 +194,7 @@ public class TextFileInputTest {
   @Test
   public void testErrorHandlerLineNumber() throws Exception {
     final String content =
-        new StringBuilder()
-            .append("123")
-            .append('\n')
-            .append("333\n")
-            .append("345")
-            .append('\n')
-            .append("773\n")
-            .append("aaa")
-            .append('\n')
-            .append("444")
-            .toString();
+        new StringBuilder().append("123").append('\n').append("333\n").append("345").append('\n').append("773\n").append("aaa").append('\n').append("444").toString();
     final String virtualFile = createVirtualFile("pdi-2607.txt", content);
 
     TextFileInputMeta meta = createMetaObject(field("col1"));
@@ -290,14 +206,7 @@ public class TextFileInputTest {
     TextFileInputData data = createDataObject(virtualFile, ";", "col1");
     data.dataErrorLineHandler = Mockito.mock(IFileErrorHandler.class);
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
 
     List<Object[]> output = PipelineTestingUtil.execute(input, 4, false);
 
@@ -308,8 +217,7 @@ public class TextFileInputTest {
 
   @Test
   public void testHandleOpenFileException() throws Exception {
-    final String content =
-        new StringBuilder().append("123").append('\n').append("333\n").toString();
+    final String content = new StringBuilder().append("123").append('\n').append("333\n").toString();
     final String virtualFile = createVirtualFile("pdi-16697.txt", content);
 
     TextFileInputMeta meta = createMetaObject(field("col1"));
@@ -321,15 +229,7 @@ public class TextFileInputTest {
     TextFileInputData data = createDataObject(virtualFile, ";", "col1");
     data.dataErrorLineHandler = Mockito.mock(IFileErrorHandler.class);
 
-    TestTextFileInput textFileInput =
-        Mockito.spy(
-            TransformMockUtil.getTransform(
-                TestTextFileInput.class,
-                meta,
-                data,
-                TextFileInputMeta.class,
-                TextFileInputData.class,
-                "test"));
+    TestTextFileInput textFileInput = Mockito.spy(TransformMockUtil.getTransform(TestTextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test"));
     TransformMeta transformMeta = textFileInput.getTransformMeta();
     Mockito.doReturn(true).when(transformMeta).isDoingErrorHandling();
 
@@ -354,15 +254,7 @@ public class TextFileInputTest {
     meta.inputFiles.acceptingFilenames = true;
     TextFileInputData data = createDataObject(virtualFile, ",", "col1", "col2");
 
-    TextFileInput input =
-        Mockito.spy(
-            TransformMockUtil.getTransform(
-                TextFileInput.class,
-                meta,
-                data,
-                TextFileInputMeta.class,
-                TextFileInputData.class,
-                "test"));
+    TextFileInput input = Mockito.spy(TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test"));
 
     IRowSet rowset = Mockito.mock(IRowSet.class);
     IRowMeta rwi = Mockito.mock(IRowMeta.class);
@@ -410,13 +302,7 @@ public class TextFileInputTest {
     FileObject mockFO = mock(FileObject.class);
     when(mockFO.getContent()).thenReturn(mockFileContent);
 
-    TextFileInputReader tFIR =
-        new TextFileInputReader(
-            mock(IBaseFileInputTransformControl.class),
-            mockTFIM,
-            mockTFID,
-            mockFO,
-            mock(ILogChannel.class));
+    TextFileInputReader tFIR = new TextFileInputReader(mock(IBaseFileInputTransformControl.class), mockTFIM, mockTFID, mockFO, mock(ILogChannel.class));
 
     assertEquals(3, mockTFID.lineBuffer.size());
     tFIR.close();
@@ -437,8 +323,7 @@ public class TextFileInputTest {
     return meta;
   }
 
-  private TextFileInputData createDataObject(String file, String separator, String... outputFields)
-      throws Exception {
+  private TextFileInputData createDataObject(String file, String separator, String... outputFields) throws Exception {
     TextFileInputData data = new TextFileInputData();
     data.files = new FileInputList();
     data.files.addFile(HopVfs.getFileObject(file));
@@ -487,19 +372,12 @@ public class TextFileInputTest {
   }
 
   public static class TestTextFileInput extends TextFileInput {
-    public TestTextFileInput(
-        TransformMeta transformMeta,
-        TextFileInputMeta meta,
-        TextFileInputData data,
-        int copyNr,
-        PipelineMeta pipelineMeta,
-        Pipeline pipeline) {
+    public TestTextFileInput(TransformMeta transformMeta, TextFileInputMeta meta, TextFileInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
       super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     }
 
     @Override
-    protected IBaseFileInputReader createReader(
-        TextFileInputMeta meta, TextFileInputData data, FileObject file) throws Exception {
+    protected IBaseFileInputReader createReader(TextFileInputMeta meta, TextFileInputData data, FileObject file) throws Exception {
       throw new Exception("Can not create reader for the file object " + file);
     }
   }

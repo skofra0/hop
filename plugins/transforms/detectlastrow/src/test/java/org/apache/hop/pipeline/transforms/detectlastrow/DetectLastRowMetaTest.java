@@ -34,14 +34,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DetectLastRowMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
     List<String> attributes = Arrays.asList("ResultFieldName");
 
-    LoadSaveTester<DetectLastRowMeta> loadSaveTester =
-        new LoadSaveTester<>(DetectLastRowMeta.class, attributes);
+    LoadSaveTester<DetectLastRowMeta> loadSaveTester = new LoadSaveTester<>(DetectLastRowMeta.class, attributes);
     loadSaveTester.testSerialization();
   }
 

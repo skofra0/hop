@@ -24,9 +24,9 @@ import org.apache.hop.pipeline.transforms.loadsave.validator.ListLoadSaveValidat
 import org.apache.hop.workflow.action.loadsave.WorkflowActionLoadSaveTestSupport;
 import org.junit.ClassRule;
 
-public class ActionTruncateTablesLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionTruncateTables> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class ActionTruncateTablesLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionTruncateTables> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionTruncateTables> getActionClass() {
@@ -40,28 +40,26 @@ public class ActionTruncateTablesLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("connection", "getConnection");
-            put("arg_from_previous", "isArgFromPrevious");
-            put("items", "getItems");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("connection", "getConnection");
+        put("arg_from_previous", "isArgFromPrevious");
+        put("items", "getItems");
+      }
+    };
 
     return getterMap;
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("connection", "setConnection");
-            put("arg_from_previous", "setArgFromPrevious");
-            put("items", "setItems");
-          }
-        };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("connection", "setConnection");
+        put("arg_from_previous", "setArgFromPrevious");
+        put("items", "setItems");
+      }
+    };
 
     return setterMap;
   }
@@ -70,39 +68,31 @@ public class ActionTruncateTablesLoadSaveTest
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
 
-    validators.put(
-        "items", new ListLoadSaveValidator<TruncateTableItem>(new TruncateTableItemLoadSaveValidator()));
+    validators.put("items", new ListLoadSaveValidator<TruncateTableItem>(new TruncateTableItemLoadSaveValidator()));
 
     return validators;
   }
 
-  public class TruncateTableItemLoadSaveValidator
-          implements IFieldLoadSaveValidator<TruncateTableItem> {
+  public class TruncateTableItemLoadSaveValidator implements IFieldLoadSaveValidator<TruncateTableItem> {
     final Random rand = new Random();
 
     @Override
     public TruncateTableItem getTestObject() {
 
-      TruncateTableItem field =
-              new TruncateTableItem(
-                      UUID.randomUUID().toString(),
-                      UUID.randomUUID().toString());
+      TruncateTableItem field = new TruncateTableItem(UUID.randomUUID().toString(), UUID.randomUUID().toString());
 
       return field;
     }
 
     @Override
     public boolean validateTestObject(TruncateTableItem testObject, Object actual) {
-      
+
       if (!(actual instanceof TruncateTableItem)) {
         return false;
       }
-      
+
       TruncateTableItem another = (TruncateTableItem) actual;
-      return new EqualsBuilder()
-              .append(testObject.getSchemaName(), another.getSchemaName())
-              .append(testObject.getTableName(), another.getTableName())
-              .isEquals();
+      return new EqualsBuilder().append(testObject.getSchemaName(), another.getSchemaName()).append(testObject.getTableName(), another.getTableName()).isEquals();
     }
   }
 }

@@ -30,9 +30,7 @@ public class AzureWriterMetaTest {
   @Test
   public void testSerialization() throws Exception {
     HopClientEnvironment.init(List.of(TwoWayPasswordEncoderPluginType.getInstance()));
-    AzureWriterMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/azure-writer-transform.xml", AzureWriterMeta.class);
+    AzureWriterMeta meta = TransformSerializationTestUtil.testSerialization("/azure-writer-transform.xml", AzureWriterMeta.class);
     assertEquals("namespace", meta.getNamespace());
     assertEquals("instance", meta.getEventHubName());
     assertEquals("key-name", meta.getSasKeyName());

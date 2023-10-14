@@ -42,18 +42,11 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
 
   private static final Class<?> PKG = ReplaceStringMeta.class; // For Translator
 
-  public ReplaceString(
-      TransformMeta transformMeta,
-      ReplaceStringMeta meta,
-      ReplaceStringData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ReplaceString(TransformMeta transformMeta, ReplaceStringMeta meta, ReplaceStringData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static String replaceString(
-      String originalString, Pattern pattern, String replaceByString) {
+  public static String replaceString(String originalString, Pattern pattern, String replaceByString) {
     if (originalString == null) {
       return null;
     }
@@ -71,12 +64,7 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
   }
 
   @VisibleForTesting
-  static Pattern buildPattern(
-      boolean literalParsing,
-      boolean caseSensitive,
-      boolean wholeWord,
-      String patternString,
-      boolean isUnicode) {
+  static Pattern buildPattern(boolean literalParsing, boolean caseSensitive, boolean wholeWord, String patternString, boolean isUnicode) {
     int flags = 0;
     if (literalParsing && !wholeWord) {
       flags |= Pattern.LITERAL;
@@ -89,7 +77,8 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
     }
 
     /*
-     * XXX: I don't like this parameter. I think it would almost always be better for the user to define either word
+     * XXX: I don't like this parameter. I think it would almost always be better for the user to define
+     * either word
      * boundaries or ^/$ anchors explicitly in their pattern.
      */
     if (wholeWord) {
@@ -115,10 +104,10 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
     }
 
     String str = getInputRowMeta().getString(row, data.replaceFieldIndex[index]);
-    
-    // Escape the regex pattern backslash  
-    if ( str!=null ) {
-      str = str.replace("\\","\\\\");      
+
+    // Escape the regex pattern backslash
+    if (str != null) {
+      str = str.replace("\\", "\\\\");
     }
     return str;
   }
@@ -129,15 +118,8 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
     Set<Integer> numFieldsAlreadyBeenTransformed = new HashSet<>();
     for (int i = 0; i < data.numFields; i++) {
 
-      IRowMeta currentRowMeta =
-          (numFieldsAlreadyBeenTransformed.contains(data.inStreamNrs[i]))
-              ? data.outputRowMeta
-              : getInputRowMeta();
-      String value =
-          replaceString(
-              currentRowMeta.getString(rowData, data.inStreamNrs[i]),
-              data.patterns[i],
-              getResolvedReplaceByString(i, row));
+      IRowMeta currentRowMeta = (numFieldsAlreadyBeenTransformed.contains(data.inStreamNrs[i])) ? data.outputRowMeta : getInputRowMeta();
+      String value = replaceString(currentRowMeta.getString(rowData, data.inStreamNrs[i]), data.patterns[i], getResolvedReplaceByString(i, row));
 
       if (Utils.isEmpty(data.outStreamNrs[i])) {
         // update field value
@@ -181,41 +163,28 @@ public class ReplaceString extends BaseTransform<ReplaceStringMeta, ReplaceStrin
         ReplaceStringMeta.RSField field = meta.getFields().get(i);
         data.inStreamNrs[i] = getInputRowMeta().indexOfValue(field.getFieldInStream());
         if (data.inStreamNrs[i] < 0) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "ReplaceString.Exception.FieldRequired", field.getFieldInStream()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "ReplaceString.Exception.FieldRequired", field.getFieldInStream()));
         }
 
         // check field type
-        if (getInputRowMeta().getValueMeta(data.inStreamNrs[i]).getType()
-            != IValueMeta.TYPE_STRING) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "ReplaceString.Exception.FieldTypeNotString", field.getFieldInStream()));
+        if (getInputRowMeta().getValueMeta(data.inStreamNrs[i]).getType() != IValueMeta.TYPE_STRING) {
+          throw new HopTransformException(BaseMessages.getString(PKG, "ReplaceString.Exception.FieldTypeNotString", field.getFieldInStream()));
         }
 
         data.outStreamNrs[i] = resolve(field.getFieldOutStream());
 
-        data.patterns[i] =
-            buildPattern(
-                !field.isUsingRegEx(),
-                field.isCaseSensitive(),
-                field.isReplacingWholeWord(),
-                resolve(field.getReplaceString()),
-                field.isUnicode());
+        data.patterns[i] = buildPattern(!field.isUsingRegEx(), field.isCaseSensitive(), field.isReplacingWholeWord(), resolve(field.getReplaceString()), field.isUnicode());
 
         String replaceField = field.getReplaceFieldByString();
         if (StringUtils.isNotEmpty(replaceField)) {
           data.replaceFieldIndex[i] = getInputRowMeta().indexOfValue(replaceField);
           if (data.replaceFieldIndex[i] < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "ReplaceString.Exception.FieldRequired", field.getFieldInStream()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "ReplaceString.Exception.FieldRequired", field.getFieldInStream()));
           }
         } else {
           data.replaceFieldIndex[i] = -1;
-          // Escape the regex pattern backslash  
-          data.replaceByString[i] = Const.NVL(resolve(field.getReplaceByString()), "").replace("\\","\\\\");
+          // Escape the regex pattern backslash
+          data.replaceByString[i] = Const.NVL(resolve(field.getReplaceByString()), "").replace("\\", "\\\\");
         }
         data.setEmptyString[i] = field.isSettingEmptyString();
       }

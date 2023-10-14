@@ -56,12 +56,7 @@ public class BeamPublishTransform extends PTransform<PCollection<HopRow>, PDone>
 
   public BeamPublishTransform() {}
 
-  public BeamPublishTransform(
-      String transformName,
-      String topic,
-      String messageType,
-      String messageField,
-      String rowMetaJson) {
+  public BeamPublishTransform(String transformName, String topic, String messageType, String messageField, String rowMetaJson) {
     this.transformName = transformName;
     this.topic = topic;
     this.messageType = messageType;
@@ -92,11 +87,7 @@ public class BeamPublishTransform extends PTransform<PCollection<HopRow>, PDone>
 
         fieldIndex = rowMeta.indexOfValue(messageField);
         if (fieldIndex < 0) {
-          throw new RuntimeException(
-              "Field '"
-                  + messageField
-                  + "' couldn't be found in the input row: "
-                  + rowMeta.toString());
+          throw new RuntimeException("Field '" + messageField + "' couldn't be found in the input row: " + rowMeta.toString());
         }
 
         initCounter.inc();
@@ -106,9 +97,7 @@ public class BeamPublishTransform extends PTransform<PCollection<HopRow>, PDone>
       //
       if (BeamDefaults.PUBSUB_MESSAGE_TYPE_STRING.equalsIgnoreCase(messageType)) {
 
-        PublishStringsFn stringsFn =
-            new PublishStringsFn(
-                transformName, fieldIndex, rowMetaJson);
+        PublishStringsFn stringsFn = new PublishStringsFn(transformName, fieldIndex, rowMetaJson);
         PCollection<String> stringPCollection = input.apply(transformName, ParDo.of(stringsFn));
         PDone done = PubsubIO.writeStrings().to(topic).expand(stringPCollection);
         return done;
@@ -117,9 +106,7 @@ public class BeamPublishTransform extends PTransform<PCollection<HopRow>, PDone>
       // PubsubMessages
       //
       if (BeamDefaults.PUBSUB_MESSAGE_TYPE_MESSAGE.equalsIgnoreCase(messageType)) {
-        PublishMessagesFn messagesFn =
-            new PublishMessagesFn(
-                transformName, fieldIndex, rowMetaJson);
+        PublishMessagesFn messagesFn = new PublishMessagesFn(transformName, fieldIndex, rowMetaJson);
         PCollection<PubsubMessage> messagesPCollection = input.apply(ParDo.of(messagesFn));
         PDone done = PubsubIO.writeMessages().to(topic).expand(messagesPCollection);
         return done;

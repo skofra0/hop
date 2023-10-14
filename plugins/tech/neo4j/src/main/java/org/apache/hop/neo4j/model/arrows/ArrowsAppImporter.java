@@ -136,8 +136,7 @@ public class ArrowsAppImporter {
         String propertyTypeString = (String) jNodeProperties.get(jPropertyKey);
 
         GraphPropertyType propertyType = GraphPropertyType.parseCode(propertyTypeString);
-        GraphProperty nodeProperty =
-            new GraphProperty(propertyName, propertyName, propertyType, false, false, false, false);
+        GraphProperty nodeProperty = new GraphProperty(propertyName, propertyName, propertyType, false, false, false, false);
         properties.add(nodeProperty);
       }
     }

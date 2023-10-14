@@ -57,19 +57,8 @@ public class XmlField implements Cloneable {
   @Injection(name = "OUTPUT_NULL_STRING", group = "OUTPUT_FIELDS")
   private String nullString;
 
-  public XmlField(
-      String fieldName,
-      String elementName,
-      int type,
-      String format,
-      int length,
-      int precision,
-      String currencySymbol,
-      String decimalSymbol,
-      String groupSymbol,
-      String nullString,
-      boolean attribute,
-      String attributeParentName) {
+  public XmlField(String fieldName, String elementName, int type, String format, int length, int precision, String currencySymbol, String decimalSymbol, String groupSymbol,
+      String nullString, boolean attribute, String attributeParentName) {
     this.fieldName = fieldName;
     this.elementName = elementName;
     this.type = type;
@@ -210,7 +199,7 @@ public class XmlField implements Cloneable {
 
   /**
    * @param attribute set to true if the field should be encoded as attribute instead of a child
-   *     node
+   *        node
    */
   public void setAttribute(boolean attribute) {
     this.attribute = attribute;

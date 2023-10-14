@@ -25,8 +25,7 @@ import java.lang.reflect.Method;
 
 public class HadoopSnappyCompressionInputStream extends CompressionInputStream {
 
-  public HadoopSnappyCompressionInputStream(InputStream in, ICompressionProvider provider)
-      throws IOException {
+  public HadoopSnappyCompressionInputStream(InputStream in, ICompressionProvider provider) throws IOException {
     super(getDelegate(in), provider);
   }
 
@@ -52,8 +51,7 @@ public class HadoopSnappyCompressionInputStream extends CompressionInputStream {
    * @throws Exception if snappy is not available or an error occurs during reflection
    */
   public static InputStream getSnappyInputStream(InputStream in) throws Exception {
-    return getSnappyInputStream(
-        HadoopSnappyCompressionProvider.IO_COMPRESSION_CODEC_SNAPPY_DEFAULT_BUFFERSIZE, in);
+    return getSnappyInputStream(HadoopSnappyCompressionProvider.IO_COMPRESSION_CODEC_SNAPPY_DEFAULT_BUFFERSIZE, in);
   }
 
   /**
@@ -70,8 +68,7 @@ public class HadoopSnappyCompressionInputStream extends CompressionInputStream {
     }
 
     Object snappyShim = HadoopSnappyCompressionProvider.getActiveSnappyShim();
-    Method getSnappyInputStream =
-        snappyShim.getClass().getMethod("getSnappyInputStream", int.class, InputStream.class);
+    Method getSnappyInputStream = snappyShim.getClass().getMethod("getSnappyInputStream", int.class, InputStream.class);
     return (InputStream) getSnappyInputStream.invoke(snappyShim, bufferSize, in);
   }
 }

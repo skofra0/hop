@@ -25,9 +25,7 @@ public class StreamLookupPipelineTest extends PipelineTestBase {
   @Test
   public void testStreamLookupPipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateStreamLookupPipelineMeta(
-            "io-stream-lookup-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateStreamLookupPipelineMeta("io-stream-lookup-output", "INPUT", "OUTPUT", metadataProvider);
 
     try {
       createRunPipeline(variables, pipelineMeta);

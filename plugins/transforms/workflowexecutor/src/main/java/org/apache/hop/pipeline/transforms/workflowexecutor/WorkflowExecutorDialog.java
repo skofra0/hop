@@ -130,11 +130,9 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
   private final int middle = props.getMiddlePct();
   private final int margin = props.getMargin();
 
-  private HopWorkflowFileType<WorkflowMeta> fileType =
-      HopGui.getDataOrchestrationPerspective().getWorkflowFileType();
+  private HopWorkflowFileType<WorkflowMeta> fileType = HopGui.getDataOrchestrationPerspective().getWorkflowFileType();
 
-  public WorkflowExecutorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public WorkflowExecutorDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     workflowExecutorMeta = (WorkflowExecutorMeta) in;
     jobModified = false;
@@ -174,8 +172,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -225,8 +222,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wPath.setLayoutData(fdPath);
 
     wlRunConfiguration = new Label(shell, SWT.RIGHT);
-    wlRunConfiguration.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.RunConfiguration.Label"));
+    wlRunConfiguration.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.RunConfiguration.Label"));
     PropsUi.setLook(wlRunConfiguration);
     FormData fdlRunConfiguration = new FormData();
     fdlRunConfiguration.left = new FormAttachment(0, 0);
@@ -283,12 +279,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
   }
 
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "ui/images/workflowexecutor.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "ui/images/workflowexecutor.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 
   private void selectWorkflowFile() {
@@ -296,30 +287,18 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     String parentFolder = null;
     try {
-      parentFolder =
-          HopVfs.getFileObject(variables.resolve(pipelineMeta.getFilename()))
-              .getParent()
-              .toString();
+      parentFolder = HopVfs.getFileObject(variables.resolve(pipelineMeta.getFilename())).getParent().toString();
     } catch (Exception e) {
       // Take no action
     }
 
     try {
-      String filename =
-          BaseDialog.presentFileDialog(
-              shell,
-              wPath,
-              variables,
-              fileType.getFilterExtensions(),
-              fileType.getFilterNames(),
-              true);
+      String filename = BaseDialog.presentFileDialog(shell, wPath, variables, fileType.getFilterExtensions(), fileType.getFilterNames(), true);
       if (filename != null) {
 
         loadWorkflowFile(filename);
         if (parentFolder != null && filename.startsWith(parentFolder)) {
-          filename =
-              filename.replace(
-                  parentFolder, "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}");
+          filename = filename.replace(parentFolder, "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}");
         }
         wPath.setText(filename);
       }
@@ -357,15 +336,11 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wPath.setText(Const.NVL(workflowExecutorMeta.getFilename(), ""));
 
     try {
-      List<String> runConfigurations =
-          metadataProvider.getSerializer(WorkflowRunConfiguration.class).listObjectNames();
+      List<String> runConfigurations = metadataProvider.getSerializer(WorkflowRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, WorkflowMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, WorkflowMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }
@@ -391,8 +366,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
       wResultFilesTarget.setItems(prevTransforms);
       wResultRowsTarget.setItems(prevTransforms);
 
-      String[] inputFields =
-          pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames();
+      String[] inputFields = pipelineMeta.getPrevTransformFields(variables, transformMeta).getFieldNames();
       parameterColumns[1].setComboValues(inputFields);
       wGroupField.setItems(inputFields);
     } catch (Exception e) {
@@ -403,58 +377,35 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wGroupTime.setText(Const.NVL(workflowExecutorMeta.getGroupTime(), ""));
     wGroupField.setText(Const.NVL(workflowExecutorMeta.getGroupField(), ""));
 
-    wExecutionResultTarget.setText(
-        workflowExecutorMeta.getExecutionResultTargetTransformMeta() == null
-            ? ""
-            : workflowExecutorMeta.getExecutionResultTargetTransformMeta().getName());
-    tiExecutionTimeField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionTimeField(), ""));
-    tiExecutionResultField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionResultField(), ""));
-    tiExecutionNrErrorsField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionNrErrorsField(), ""));
-    tiExecutionLinesReadField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesReadField(), ""));
-    tiExecutionLinesWrittenField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesWrittenField(), ""));
-    tiExecutionLinesInputField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesInputField(), ""));
-    tiExecutionLinesOutputField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesOutputField(), ""));
-    tiExecutionLinesRejectedField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesRejectedField(), ""));
-    tiExecutionLinesUpdatedField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesUpdatedField(), ""));
-    tiExecutionLinesDeletedField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesDeletedField(), ""));
-    tiExecutionFilesRetrievedField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionFilesRetrievedField(), ""));
-    tiExecutionExitStatusField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionExitStatusField(), ""));
-    tiExecutionLogTextField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLogTextField(), ""));
-    tiExecutionLogChannelIdField.setText(
-        FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLogChannelIdField(), ""));
+    wExecutionResultTarget
+        .setText(workflowExecutorMeta.getExecutionResultTargetTransformMeta() == null ? "" : workflowExecutorMeta.getExecutionResultTargetTransformMeta().getName());
+    tiExecutionTimeField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionTimeField(), ""));
+    tiExecutionResultField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionResultField(), ""));
+    tiExecutionNrErrorsField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionNrErrorsField(), ""));
+    tiExecutionLinesReadField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesReadField(), ""));
+    tiExecutionLinesWrittenField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesWrittenField(), ""));
+    tiExecutionLinesInputField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesInputField(), ""));
+    tiExecutionLinesOutputField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesOutputField(), ""));
+    tiExecutionLinesRejectedField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesRejectedField(), ""));
+    tiExecutionLinesUpdatedField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesUpdatedField(), ""));
+    tiExecutionLinesDeletedField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLinesDeletedField(), ""));
+    tiExecutionFilesRetrievedField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionFilesRetrievedField(), ""));
+    tiExecutionExitStatusField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionExitStatusField(), ""));
+    tiExecutionLogTextField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLogTextField(), ""));
+    tiExecutionLogChannelIdField.setText(FIELD_NAME, Const.NVL(workflowExecutorMeta.getExecutionLogChannelIdField(), ""));
 
     // result files
     //
-    wResultFilesTarget.setText(
-        workflowExecutorMeta.getResultFilesTargetTransformMeta() == null
-            ? ""
-            : workflowExecutorMeta.getResultFilesTargetTransformMeta().getName());
+    wResultFilesTarget.setText(workflowExecutorMeta.getResultFilesTargetTransformMeta() == null ? "" : workflowExecutorMeta.getResultFilesTargetTransformMeta().getName());
     wResultFileNameField.setText(Const.NVL(workflowExecutorMeta.getResultFilesFileNameField(), ""));
 
     // Result rows
     //
-    wResultRowsTarget.setText(
-        workflowExecutorMeta.getResultRowsTargetTransformMeta() == null
-            ? ""
-            : workflowExecutorMeta.getResultRowsTargetTransformMeta().getName());
+    wResultRowsTarget.setText(workflowExecutorMeta.getResultRowsTargetTransformMeta() == null ? "" : workflowExecutorMeta.getResultRowsTargetTransformMeta().getName());
     for (int i = 0; i < workflowExecutorMeta.getResultRowsField().length; i++) {
       TableItem item = new TableItem(wResultRowsFields.table, SWT.NONE);
       item.setText(1, Const.NVL(workflowExecutorMeta.getResultRowsField()[i], ""));
-      item.setText(
-          2, ValueMetaFactory.getValueMetaName(workflowExecutorMeta.getResultRowsType()[i]));
+      item.setText(2, ValueMetaFactory.getValueMetaName(workflowExecutorMeta.getResultRowsType()[i]));
       int length = workflowExecutorMeta.getResultRowsLength()[i];
       item.setText(3, length < 0 ? "" : Integer.toString(length));
       int precision = workflowExecutorMeta.getResultRowsPrecision()[i];
@@ -482,8 +433,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     CTabItem wParametersTab = new CTabItem(wTabFolder, SWT.NONE);
     wParametersTab.setFont(GuiResource.getInstance().getFontDefault());
     wParametersTab.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.Title"));
-    wParametersTab.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.Tooltip"));
+    wParametersTab.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.Tooltip"));
 
     Composite wParametersComposite = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wParametersComposite);
@@ -496,22 +446,19 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     // Add a button: get parameters
     //
     Button wGetParameters = new Button(wParametersComposite, SWT.PUSH);
-    wGetParameters.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.GetParameters"));
+    wGetParameters.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.GetParameters"));
     PropsUi.setLook(wGetParameters);
     FormData fdGetParameters = new FormData();
     fdGetParameters.bottom = new FormAttachment(100, 0);
     fdGetParameters.right = new FormAttachment(100, 0);
     wGetParameters.setLayoutData(fdGetParameters);
     wGetParameters.setSelection(workflowExecutorMeta.getParameters().isInheritingAllVariables());
-    wGetParameters.addListener(
-        SWT.Selection, e -> getParametersFromWorkflow()); // null : reload file
+    wGetParameters.addListener(SWT.Selection, e -> getParametersFromWorkflow()); // null : reload file
 
     // Add a button: map parameters
     //
     Button wMapParameters = new Button(wParametersComposite, SWT.PUSH);
-    wMapParameters.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.MapParameters"));
+    wMapParameters.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.MapParameters"));
     PropsUi.setLook(wMapParameters);
     FormData fdMapParameters = new FormData();
     fdMapParameters.bottom = new FormAttachment(100, 0);
@@ -525,34 +472,14 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     //
     parameterColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Variable"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Field"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Input"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Variable"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Field"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.column.Input"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     parameterColumns[1].setUsingVariables(true);
 
     WorkflowExecutorParameters parameters = workflowExecutorMeta.getParameters();
     wWorkflowExecutorParameters =
-        new TableView(
-            variables,
-            wParametersComposite,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            parameterColumns,
-            parameters.getVariable().length,
-            null,
-            props);
+        new TableView(variables, wParametersComposite, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, parameterColumns, parameters.getVariable().length, null, props);
     PropsUi.setLook(wWorkflowExecutorParameters);
     FormData fdJobExecutors = new FormData();
     fdJobExecutors.left = new FormAttachment(0, 0);
@@ -573,8 +500,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     // Add a checkbox: inherit all variables...
     //
     wInheritAll = new Button(wParametersComposite, SWT.CHECK);
-    wInheritAll.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.InheritAll"));
+    wInheritAll.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.Parameters.InheritAll"));
     PropsUi.setLook(wInheritAll);
     FormData fdInheritAll = new FormData();
     fdInheritAll.left = new FormAttachment(0, 0);
@@ -638,8 +564,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
       // Now we can ask for the mapping...
       //
-      EnterMappingDialog enterMappingDialog =
-          new EnterMappingDialog(shell, inputFieldNames, parameters, mappings);
+      EnterMappingDialog enterMappingDialog = new EnterMappingDialog(shell, inputFieldNames, parameters, mappings);
       mappings = enterMappingDialog.open();
       if (mappings != null) {
         wWorkflowExecutorParameters.removeAll();
@@ -752,11 +677,9 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     final CTabItem wTab = new CTabItem(wTabFolder, SWT.NONE);
     wTab.setFont(GuiResource.getInstance().getFontDefault());
     wTab.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResults.Title"));
-    wTab.setToolTipText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResults.Tooltip"));
+    wTab.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResults.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -769,8 +692,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlExecutionResultTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlExecutionResultTarget);
-    wlExecutionResultTarget.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResultTarget.Label"));
+    wlExecutionResultTarget.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResultTarget.Label"));
     FormData fdlExecutionResultTarget = new FormData();
     fdlExecutionResultTarget.top = new FormAttachment(0, 0);
     fdlExecutionResultTarget.left = new FormAttachment(0, 0);
@@ -787,31 +709,11 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     ColumnInfo[] executionResultColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "WorkflowExecutorMeta.ExecutionResults.FieldDescription.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorMeta.ExecutionResults.FieldName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorMeta.ExecutionResults.FieldDescription.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorMeta.ExecutionResults.FieldName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false)};
     executionResultColumns[1].setUsingVariables(true);
 
-    TableView wExecutionResults =
-        new TableView(
-            variables,
-            wInputComposite,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            executionResultColumns,
-            14,
-            true,
-            null,
-            props,
-            false);
+    TableView wExecutionResults = new TableView(variables, wInputComposite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, executionResultColumns, 14, true, null, props, false);
     PropsUi.setLook(wExecutionResults);
     FormData fdExecutionResults = new FormData();
     fdExecutionResults.left = new FormAttachment(0);
@@ -837,48 +739,20 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     tiExecutionLogTextField = wExecutionResults.table.getItem(index++);
     tiExecutionLogChannelIdField = wExecutionResults.table.getItem(index++);
 
-    tiExecutionTimeField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionTimeField.Label"));
-    tiExecutionResultField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResultField.Label"));
-    tiExecutionNrErrorsField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionNrErrorsField.Label"));
-    tiExecutionLinesReadField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesReadField.Label"));
-    tiExecutionLinesWrittenField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesWrittenField.Label"));
-    tiExecutionLinesInputField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesInputField.Label"));
-    tiExecutionLinesOutputField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesOutputField.Label"));
-    tiExecutionLinesRejectedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesRejectedField.Label"));
-    tiExecutionLinesUpdatedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesUpdatedField.Label"));
-    tiExecutionLinesDeletedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesDeletedField.Label"));
-    tiExecutionFilesRetrievedField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionFilesRetrievedField.Label"));
-    tiExecutionExitStatusField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionExitStatusField.Label"));
-    tiExecutionLogTextField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLogTextField.Label"));
-    tiExecutionLogChannelIdField.setText(
-        FIELD_DESCRIPTION,
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLogChannelIdField.Label"));
+    tiExecutionTimeField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionTimeField.Label"));
+    tiExecutionResultField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionResultField.Label"));
+    tiExecutionNrErrorsField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionNrErrorsField.Label"));
+    tiExecutionLinesReadField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesReadField.Label"));
+    tiExecutionLinesWrittenField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesWrittenField.Label"));
+    tiExecutionLinesInputField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesInputField.Label"));
+    tiExecutionLinesOutputField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesOutputField.Label"));
+    tiExecutionLinesRejectedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesRejectedField.Label"));
+    tiExecutionLinesUpdatedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesUpdatedField.Label"));
+    tiExecutionLinesDeletedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLinesDeletedField.Label"));
+    tiExecutionFilesRetrievedField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionFilesRetrievedField.Label"));
+    tiExecutionExitStatusField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionExitStatusField.Label"));
+    tiExecutionLogTextField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLogTextField.Label"));
+    tiExecutionLogChannelIdField.setText(FIELD_DESCRIPTION, BaseMessages.getString(PKG, "WorkflowExecutorDialog.ExecutionLogChannelIdField.Label"));
 
     wWorkflowExecutorParameters.setRowNums();
     wWorkflowExecutorParameters.optWidth(true);
@@ -902,8 +776,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wTab.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFiles.Title"));
     wTab.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFiles.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -916,8 +789,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlResultFilesTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultFilesTarget);
-    wlResultFilesTarget.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFilesTarget.Label"));
+    wlResultFilesTarget.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFilesTarget.Label"));
     FormData fdlResultFilesTarget = new FormData();
     fdlResultFilesTarget.top = new FormAttachment(0, 0);
     fdlResultFilesTarget.left = new FormAttachment(0, 0);
@@ -937,16 +809,14 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     //
     Label wlResultFileNameField = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultFileNameField);
-    wlResultFileNameField.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFileNameField.Label"));
+    wlResultFileNameField.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFileNameField.Label"));
     FormData fdlResultFileNameField = new FormData();
     fdlResultFileNameField.top = new FormAttachment(wResultFilesTarget, 10);
     fdlResultFileNameField.left = new FormAttachment(0, 0); // First one in the left
     fdlResultFileNameField.right = new FormAttachment(middle, -margin);
     wlResultFileNameField.setLayoutData(fdlResultFileNameField);
 
-    wResultFileNameField =
-        new TextVar(variables, wInputComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wResultFileNameField = new TextVar(variables, wInputComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wResultFileNameField);
     FormData fdResultFileNameField = new FormData();
     fdResultFileNameField.width = 250;
@@ -975,8 +845,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wTab.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultRows.Title"));
     wTab.setToolTipText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultRows.Tooltip"));
 
-    ScrolledComposite scrolledComposite =
-        new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite scrolledComposite = new ScrolledComposite(wTabFolder, SWT.V_SCROLL | SWT.H_SCROLL);
     scrolledComposite.setLayout(new FillLayout());
 
     Composite wInputComposite = new Composite(scrolledComposite, SWT.NONE);
@@ -989,8 +858,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
 
     Label wlResultRowsTarget = new Label(wInputComposite, SWT.RIGHT);
     PropsUi.setLook(wlResultRowsTarget);
-    wlResultRowsTarget.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultRowsTarget.Label"));
+    wlResultRowsTarget.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultRowsTarget.Label"));
     FormData fdlResultRowsTarget = new FormData();
     fdlResultRowsTarget.top = new FormAttachment(0, 0);
     fdlResultRowsTarget.left = new FormAttachment(0, 0);
@@ -1007,51 +875,24 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     wResultRowsTarget.setLayoutData(fdResultRowsTarget);
 
     Label wlResultFields = new Label(wInputComposite, SWT.NONE);
-    wlResultFields.setText(
-        BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFields.Label"));
+    wlResultFields.setText(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ResultFields.Label"));
     PropsUi.setLook(wlResultFields);
     FormData fdlResultFields = new FormData();
     fdlResultFields.left = new FormAttachment(0, 0);
     fdlResultFields.top = new FormAttachment(wResultRowsTarget, 10);
     wlResultFields.setLayoutData(fdlResultFields);
 
-    int nrRows =
-        (workflowExecutorMeta.getResultRowsField() != null
-            ? workflowExecutorMeta.getResultRowsField().length
-            : 1);
+    int nrRows = (workflowExecutorMeta.getResultRowsField() != null ? workflowExecutorMeta.getResultRowsField().length : 1);
 
     ColumnInfo[] ciResultFields =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Field"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "WorkflowExecutorDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     wResultRowsFields =
-        new TableView(
-            variables,
-            wInputComposite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciResultFields,
-            nrRows,
-            false,
-            null,
-            props,
-            false);
+        new TableView(variables, wInputComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciResultFields, nrRows, false, null, props, false);
 
     FormData fdResultFields = new FormData();
     fdResultFields.left = new FormAttachment(0, 0);
@@ -1077,11 +918,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
   private void setFlags() {
     // Enable/disable fields...
     //
-    if (wlGroupSize == null
-        || wlGroupField == null
-        || wGroupField == null
-        || wlGroupTime == null
-        || wGroupTime == null) {
+    if (wlGroupSize == null || wlGroupField == null || wGroupField == null || wlGroupTime == null || wGroupTime == null) {
       return;
     }
     boolean enableSize = Const.toInt(variables.resolve(wGroupSize.getText()), -1) >= 0;
@@ -1161,43 +998,31 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     workflowExecutorMeta.setGroupTime(wGroupTime.getText());
 
     workflowExecutorMeta.setExecutionResultTargetTransform(wExecutionResultTarget.getText());
-    workflowExecutorMeta.setExecutionResultTargetTransformMeta(
-        pipelineMeta.findTransform(wExecutionResultTarget.getText()));
+    workflowExecutorMeta.setExecutionResultTargetTransformMeta(pipelineMeta.findTransform(wExecutionResultTarget.getText()));
     workflowExecutorMeta.setExecutionTimeField(tiExecutionTimeField.getText(FIELD_NAME));
     workflowExecutorMeta.setExecutionResultField(tiExecutionResultField.getText(FIELD_NAME));
     workflowExecutorMeta.setExecutionNrErrorsField(tiExecutionNrErrorsField.getText(FIELD_NAME));
     workflowExecutorMeta.setExecutionLinesReadField(tiExecutionLinesReadField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesWrittenField(
-        tiExecutionLinesWrittenField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesInputField(
-        tiExecutionLinesInputField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesOutputField(
-        tiExecutionLinesOutputField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesRejectedField(
-        tiExecutionLinesRejectedField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesUpdatedField(
-        tiExecutionLinesUpdatedField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLinesDeletedField(
-        tiExecutionLinesDeletedField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionFilesRetrievedField(
-        tiExecutionFilesRetrievedField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionExitStatusField(
-        tiExecutionExitStatusField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesWrittenField(tiExecutionLinesWrittenField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesInputField(tiExecutionLinesInputField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesOutputField(tiExecutionLinesOutputField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesRejectedField(tiExecutionLinesRejectedField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesUpdatedField(tiExecutionLinesUpdatedField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLinesDeletedField(tiExecutionLinesDeletedField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionFilesRetrievedField(tiExecutionFilesRetrievedField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionExitStatusField(tiExecutionExitStatusField.getText(FIELD_NAME));
     workflowExecutorMeta.setExecutionLogTextField(tiExecutionLogTextField.getText(FIELD_NAME));
-    workflowExecutorMeta.setExecutionLogChannelIdField(
-        tiExecutionLogChannelIdField.getText(FIELD_NAME));
+    workflowExecutorMeta.setExecutionLogChannelIdField(tiExecutionLogChannelIdField.getText(FIELD_NAME));
 
     workflowExecutorMeta.setResultFilesTargetTransform(wResultFilesTarget.getText());
-    workflowExecutorMeta.setResultFilesTargetTransformMeta(
-        pipelineMeta.findTransform(wResultFilesTarget.getText()));
+    workflowExecutorMeta.setResultFilesTargetTransformMeta(pipelineMeta.findTransform(wResultFilesTarget.getText()));
 
     workflowExecutorMeta.setResultFilesFileNameField(wResultFileNameField.getText());
 
     // Result row info
     //
     workflowExecutorMeta.setResultRowsTargetTransform(wResultRowsTarget.getText());
-    workflowExecutorMeta.setResultRowsTargetTransformMeta(
-        pipelineMeta.findTransform(wResultRowsTarget.getText()));
+    workflowExecutorMeta.setResultRowsTargetTransformMeta(pipelineMeta.findTransform(wResultRowsTarget.getText()));
     int nrFields = wResultRowsFields.nrNonEmpty();
     workflowExecutorMeta.setResultRowsField(new String[nrFields]);
     workflowExecutorMeta.setResultRowsType(new int[nrFields]);
@@ -1208,8 +1033,7 @@ public class WorkflowExecutorDialog extends BaseTransformDialog implements ITran
     for (int i = 0; i < nrFields; i++) {
       TableItem item = wResultRowsFields.getNonEmpty(i);
       workflowExecutorMeta.getResultRowsField()[i] = item.getText(1);
-      workflowExecutorMeta.getResultRowsType()[i] =
-          ValueMetaFactory.getIdForValueMeta(item.getText(2));
+      workflowExecutorMeta.getResultRowsType()[i] = ValueMetaFactory.getIdForValueMeta(item.getText(2));
       workflowExecutorMeta.getResultRowsLength()[i] = Const.toInt(item.getText(3), -1);
       workflowExecutorMeta.getResultRowsPrecision()[i] = Const.toInt(item.getText(4), -1);
     }

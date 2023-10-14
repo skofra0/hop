@@ -39,7 +39,8 @@ public class HopConfig extends ConfigFile implements IConfigFile {
 
   private String configFilename;
 
-  @JsonIgnore private static HopConfig instance;
+  @JsonIgnore
+  private static HopConfig instance;
 
   private HopConfig() {
     try {
@@ -165,14 +166,14 @@ public class HopConfig extends ConfigFile implements IConfigFile {
   public static String readStringVariable(String key, String defaultValue) {
     String value = null;
 
-    ArrayList<DescribedVariable> variables =
-        (ArrayList<DescribedVariable>) getInstance().configMap.get(HOP_VARIABLES_KEY);
+    ArrayList<DescribedVariable> variables = (ArrayList<DescribedVariable>) getInstance().configMap.get(HOP_VARIABLES_KEY);
     if (variables != null) {
       Iterator<DescribedVariable> i = variables.iterator();
 
       while (i.hasNext() && value == null) {
         DescribedVariable v = i.next();
-        if (v.getName().equals(key)) value = v.getValue();
+        if (v.getName().equals(key))
+          value = v.getValue();
       }
     }
 

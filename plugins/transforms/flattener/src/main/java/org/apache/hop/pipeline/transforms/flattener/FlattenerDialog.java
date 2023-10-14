@@ -54,12 +54,7 @@ public class FlattenerDialog extends BaseTransformDialog implements ITransformDi
 
   private final FlattenerMeta input;
 
-  public FlattenerDialog(
-      Shell parent,
-      IVariables variables,
-      Object flattenerMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public FlattenerDialog(Shell parent, IVariables variables, Object flattenerMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (FlattenerMeta) flattenerMeta, pipelineMeta, transformName);
     this.input = (FlattenerMeta) flattenerMeta;
   }
@@ -130,15 +125,13 @@ public class FlattenerDialog extends BaseTransformDialog implements ITransformDi
     fdField.top = new FormAttachment(wTransformName, margin);
     fdField.right = new FormAttachment(100, 0);
     wField.setLayoutData(fdField);
-    wField.addListener(
-        SWT.FocusIn,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          getFields();
-          shell.setCursor(null);
-          busy.dispose();
-        });
+    wField.addListener(SWT.FocusIn, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      getFields();
+      shell.setCursor(null);
+      busy.dispose();
+    });
 
     Label wlFields = new Label(shell, SWT.NONE);
     wlFields.setText(BaseMessages.getString(PKG, "FlattenerDialog.TargetField.Label"));
@@ -152,21 +145,9 @@ public class FlattenerDialog extends BaseTransformDialog implements ITransformDi
     int nrKeyRows = input.getTargetFields().size();
 
     ColumnInfo[] ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "FlattenerDialog.ColumnInfo.TargetField"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "FlattenerDialog.ColumnInfo.TargetField"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
     fdFields.top = new FormAttachment(wlFields, margin);

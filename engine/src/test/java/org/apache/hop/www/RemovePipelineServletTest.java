@@ -56,8 +56,7 @@ public class RemovePipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testRemovePipelineServletEscapesHtmlWhenPipelineNotFound()
-      throws ServletException, IOException {
+  public void testRemovePipelineServletEscapesHtmlWhenPipelineNotFound() throws ServletException, IOException {
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
 
@@ -66,8 +65,7 @@ public class RemovePipelineServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(RemovePipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
 
     removePipelineServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
@@ -79,8 +77,7 @@ public class RemovePipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testRemovePipelineServletEscapesHtmlWhenPipelineFound()
-      throws ServletException, IOException {
+  public void testRemovePipelineServletEscapesHtmlWhenPipelineFound() throws ServletException, IOException {
     HopLogStore.init();
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
@@ -92,8 +89,7 @@ public class RemovePipelineServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(RemovePipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
     when(mockPipelineMap.getPipeline(any(HopServerObjectEntry.class))).thenReturn(mockPipeline);
     when(mockPipeline.getLogChannel()).thenReturn(mockChannelInterface);

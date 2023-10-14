@@ -25,9 +25,7 @@ public class BasePipelineTest extends PipelineTestBase {
   @Test
   public void testBasicPipeline() throws Exception {
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta(
-            "io-dummy-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta("io-dummy-output", "INPUT", "OUTPUT", metadataProvider);
 
     createRunPipeline(variables, pipelineMeta);
   }

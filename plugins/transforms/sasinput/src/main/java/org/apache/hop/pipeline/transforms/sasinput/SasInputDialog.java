@@ -66,8 +66,7 @@ public class SasInputDialog extends BaseTransformDialog implements ITransformDia
   private boolean backupChanged;
   private TableView wFields;
 
-  public SasInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SasInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (SasInputMeta) in;
   }
@@ -139,8 +138,7 @@ public class SasInputDialog extends BaseTransformDialog implements ITransformDia
       IRowMeta fields = pipelineMeta.getPrevTransformFields(variables, transformMeta);
       wAccField.setItems(fields.getFieldNames());
     } catch (Exception e) {
-      LogChannel.GENERAL.logError(
-          "Couldn't get input fields for transform '" + transformMeta + "'", e);
+      LogChannel.GENERAL.logError("Couldn't get input fields for transform '" + transformMeta + "'", e);
     }
 
     // Some buttons
@@ -169,48 +167,17 @@ public class SasInputDialog extends BaseTransformDialog implements ITransformDia
     // Fields
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Rename"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Mask"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.TrimType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaString.trimTypeDesc),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Rename"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), true),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Mask"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "SASInputDialog.OutputFieldColumn.TrimType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaString.trimTypeDesc),};
 
-    wFields =
-        new TableView(
-            variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, 1, lsMod, props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, 1, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.top = new FormAttachment(lastControl, margin * 2);
@@ -241,8 +208,7 @@ public class SasInputDialog extends BaseTransformDialog implements ITransformDia
       item.setText(colnr++, ValueMetaFactory.getValueMetaName(field.getType()));
       item.setText(colnr++, Const.NVL(field.getConversionMask(), ""));
       item.setText(colnr++, field.getLength() >= 0 ? Integer.toString(field.getLength()) : "");
-      item.setText(
-          colnr++, field.getPrecision() >= 0 ? Integer.toString(field.getPrecision()) : "");
+      item.setText(colnr++, field.getPrecision() >= 0 ? Integer.toString(field.getPrecision()) : "");
       item.setText(colnr++, Const.NVL(field.getDecimalSymbol(), ""));
       item.setText(colnr++, Const.NVL(field.getGroupingSymbol(), ""));
       item.setText(colnr++, Const.NVL(field.getTrimTypeDesc(), ""));
@@ -317,16 +283,12 @@ public class SasInputDialog extends BaseTransformDialog implements ITransformDia
       //
       String filename =
           BaseDialog.presentFileDialog(
-              shell,
-              new String[] {"*.sas7bdat;*.SAS7BDAT", "*.*"},
+              shell, new String[] {"*.sas7bdat;*.SAS7BDAT", "*.*"},
               new String[] {
-                BaseMessages.getString(PKG, "SASInputDialog.FileType.SAS7BAT")
-                    + ", "
-                    + BaseMessages.getString(PKG, "System.FileType.TextFiles"),
-                BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
-                BaseMessages.getString(PKG, "System.FileType.TextFiles"),
-                BaseMessages.getString(PKG, "System.FileType.AllFiles")
-              },
+                  BaseMessages.getString(PKG, "SASInputDialog.FileType.SAS7BAT") + ", " + BaseMessages.getString(PKG, "System.FileType.TextFiles"),
+                  BaseMessages.getString(PKG, "System.FileType.CSVFiles"),
+                  BaseMessages.getString(PKG, "System.FileType.TextFiles"),
+                  BaseMessages.getString(PKG, "System.FileType.AllFiles")},
               true);
       if (filename != null) {
         String realFilename = variables.resolve(filename);

@@ -31,8 +31,7 @@ public class KerberosHelper {
    * @return The authentication mode to use when creating JAAS {@link LoginContext}s.
    * @param props properties for this connection
    */
-  private static JaasAuthenticationMode lookupLoginAuthMode(MongoProperties props)
-      throws MongoDbException {
+  private static JaasAuthenticationMode lookupLoginAuthMode(MongoProperties props) throws MongoDbException {
     return JaasAuthenticationMode.byName(props.get(MongoProp.HOP_JAAS_AUTH_MODE));
   }
 
@@ -56,8 +55,7 @@ public class KerberosHelper {
    * @return The context for the logged in principal.
    * @throws MongoDbException if an error occurs while logging in.
    */
-  public static LoginContext login(String principal, MongoProperties props)
-      throws MongoDbException {
+  public static LoginContext login(String principal, MongoProperties props) throws MongoDbException {
     try {
       JaasAuthenticationMode authMode = lookupLoginAuthMode(props);
       String keytabFile = lookupKeytabFile(props);

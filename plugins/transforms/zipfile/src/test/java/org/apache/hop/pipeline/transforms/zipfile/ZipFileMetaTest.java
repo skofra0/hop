@@ -54,7 +54,8 @@ public class ZipFileMetaTest {
   private static final boolean KEEP_SOURCE_FOLDER = true;
   private static final String MOVE_TO_FOLDER_FIELD = "movetothisfolder";
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testGettersSetters() {
@@ -72,8 +73,7 @@ public class ZipFileMetaTest {
     assertEquals(SOURCE_FILENAME, zipFileMeta.getSourceFilenameField());
     assertEquals(TARGET_FILENAME, zipFileMeta.getTargetFilenameField());
     assertEquals(BASE_FOLDER, zipFileMeta.getBaseFolderField());
-    assertEquals(
-        ZipFileMeta.getOperationTypeByDesc(OPERATION_TYPE), zipFileMeta.getOperationType());
+    assertEquals(ZipFileMeta.getOperationTypeByDesc(OPERATION_TYPE), zipFileMeta.getOperationType());
     assertEquals(MOVE_TO_FOLDER_FIELD, zipFileMeta.getMoveToFolderField());
     assertTrue(zipFileMeta.isAddResultFilenames());
     assertTrue(zipFileMeta.isOverwriteZipEntry());
@@ -109,16 +109,7 @@ public class ZipFileMetaTest {
     IRowMeta info = mock(IRowMeta.class);
     ArrayList<ICheckResult> remarks = new ArrayList<>();
 
-    zipFileMeta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        new String[] {"input"},
-        new String[] {"output"},
-        info,
-        new Variables(),
-        metadataProvider);
+    zipFileMeta.check(remarks, pipelineMeta, transformMeta, prev, new String[] {"input"}, new String[] {"output"}, info, new Variables(), metadataProvider);
     assertEquals(2, remarks.size());
     assertEquals("Source Filename field is missing!", remarks.get(0).getText());
     assertEquals("Transform is receiving info from other transforms.", remarks.get(1).getText());
@@ -126,16 +117,7 @@ public class ZipFileMetaTest {
     remarks = new ArrayList<>();
     zipFileMeta = new ZipFileMeta();
     zipFileMeta.setSourceFilenameField("sourceFileField");
-    zipFileMeta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        new String[0],
-        new String[] {"output"},
-        info,
-        new Variables(),
-        metadataProvider);
+    zipFileMeta.check(remarks, pipelineMeta, transformMeta, prev, new String[0], new String[] {"output"}, info, new Variables(), metadataProvider);
     assertEquals(2, remarks.size());
     assertEquals("Target Filename field was specified", remarks.get(0).getText());
     assertEquals("No input received from other transforms!", remarks.get(1).getText());
@@ -151,8 +133,7 @@ public class ZipFileMetaTest {
     Pipeline pipeline = spy(new LocalPipelineEngine());
 
     ZipFileMeta zipFileMeta = new ZipFileMeta();
-    ZipFile zipFile =
-        new ZipFile(transformMeta, zipFileMeta, transformData, 0, pipelineMeta, pipeline);
+    ZipFile zipFile = new ZipFile(transformMeta, zipFileMeta, transformData, 0, pipelineMeta, pipeline);
     assertEquals(transformMeta, zipFile.getTransformMeta());
     assertEquals(transformData, zipFile.getData());
     assertEquals(pipelineMeta, zipFile.getPipelineMeta());

@@ -40,10 +40,7 @@ public class GeIndexTest extends IndexTestBase<LtIndex> {
   @Override
   void doAssertMatches(BitSet candidates, long lookupValue, long actualValue) {
     if (!(actualValue >= lookupValue)) {
-      fail(
-          String.format(
-              "All found values are expected to be greater than [%d] or equal to it, but got [%d] among %s",
-              lookupValue, actualValue, candidates));
+      fail(String.format("All found values are expected to be greater than [%d] or equal to it, but got [%d] among %s", lookupValue, actualValue, candidates));
     }
   }
 

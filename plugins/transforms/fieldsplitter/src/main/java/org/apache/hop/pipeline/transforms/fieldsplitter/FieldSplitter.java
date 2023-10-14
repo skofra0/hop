@@ -34,13 +34,7 @@ import static org.apache.hop.pipeline.transforms.fieldsplitter.FieldSplitterMeta
 public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitterData> {
   private static final Class<?> PKG = FieldSplitterMeta.class; // For Translator
 
-  public FieldSplitter(
-      TransformMeta transformMeta,
-      FieldSplitterMeta meta,
-      FieldSplitterData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FieldSplitter(TransformMeta transformMeta, FieldSplitterMeta meta, FieldSplitterData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -53,21 +47,16 @@ public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitte
       // search field
       data.fieldnr = data.previousMeta.indexOfValue(meta.getSplitField());
       if (data.fieldnr < 0) {
-        throw new HopValueException(
-            BaseMessages.getString(
-                PKG, "FieldSplitter.Log.CouldNotFindFieldToSplit", meta.getSplitField()));
+        throw new HopValueException(BaseMessages.getString(PKG, "FieldSplitter.Log.CouldNotFindFieldToSplit", meta.getSplitField()));
       }
 
       // only String type allowed
       if (!data.previousMeta.getValueMeta(data.fieldnr).isString()) {
-        throw new HopValueException(
-            (BaseMessages.getString(
-                PKG, "FieldSplitter.Log.SplitFieldNotValid", meta.getSplitField())));
+        throw new HopValueException((BaseMessages.getString(PKG, "FieldSplitter.Log.SplitFieldNotValid", meta.getSplitField())));
       }
 
       if (meta.getFields().isEmpty()) {
-        throw new HopValueException(
-            (BaseMessages.getString(PKG, "FieldSplitter.Log.SplitMetaNameNotValid")));
+        throw new HopValueException((BaseMessages.getString(PKG, "FieldSplitter.Log.SplitMetaNameNotValid")));
       }
       // prepare the outputMeta
       //
@@ -89,12 +78,7 @@ public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitte
     int nrExtraFields = meta.getFields().size() - 1;
 
     System.arraycopy(r, 0, outputRow, 0, data.fieldnr);
-    System.arraycopy(
-        r,
-        data.fieldnr + 1,
-        outputRow,
-        data.fieldnr + 1 + nrExtraFields,
-        data.previousMeta.size() - (data.fieldnr + 1));
+    System.arraycopy(r, data.fieldnr + 1, outputRow, data.fieldnr + 1 + nrExtraFields, data.previousMeta.size() - (data.fieldnr + 1));
 
     // OK, now we have room in the middle to place the fields...
     //
@@ -113,9 +97,7 @@ public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitte
 
     String valueToSplit = data.previousMeta.getString(r, data.fieldnr);
     boolean removeEnclosure = getVariableBoolean(Const.HOP_SPLIT_FIELDS_REMOVE_ENCLOSURE, false);
-    String[] valueParts =
-        Const.splitString(
-            valueToSplit, data.delimiter, data.enclosure, removeEnclosure, data.escapeString);
+    String[] valueParts = Const.splitString(valueToSplit, data.delimiter, data.enclosure, removeEnclosure, data.escapeString);
     int prev = 0;
     for (int i = 0; i < meta.getFields().size(); i++) {
       FSField field = meta.getFields().get(i);
@@ -147,9 +129,7 @@ public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitte
         prev += (rawValue == null ? 0 : rawValue.length()) + data.delimiter.length();
 
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG, "FieldSplitter.Log.SplitFieldsInfo", rawValue, String.valueOf(prev)));
+          logDebug(BaseMessages.getString(PKG, "FieldSplitter.Log.SplitFieldsInfo", rawValue, String.valueOf(prev)));
         }
       }
 
@@ -161,21 +141,9 @@ public class FieldSplitter extends BaseTransform<FieldSplitterMeta, FieldSplitte
         if (rawValue != null && valueMeta.isNull(rawValue)) {
           rawValue = null;
         }
-        value =
-            valueMeta.convertDataFromString(
-                rawValue,
-                conversionValueMeta,
-                field.getNullIf(),
-                field.getIfNull(),
-                field.getTrimType().getType());
+        value = valueMeta.convertDataFromString(rawValue, conversionValueMeta, field.getNullIf(), field.getIfNull(), field.getTrimType().getType());
       } catch (Exception e) {
-        throw new HopValueException(
-            BaseMessages.getString(
-                PKG,
-                "FieldSplitter.Log.ErrorConvertingSplitValue",
-                rawValue,
-                meta.getSplitField() + "]!"),
-            e);
+        throw new HopValueException(BaseMessages.getString(PKG, "FieldSplitter.Log.ErrorConvertingSplitValue", rawValue, meta.getSplitField() + "]!"), e);
       }
       outputRow[data.fieldnr + i] = value;
     }

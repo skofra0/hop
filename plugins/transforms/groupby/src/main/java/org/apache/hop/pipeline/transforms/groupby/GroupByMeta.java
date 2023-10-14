@@ -43,8 +43,7 @@ import java.util.List;
     image = "groupby.svg",
     name = "i18n::GroupBy.Name",
     description = "i18n::GroupBy.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
     documentationUrl = "/pipeline/transforms/groupby.html",
     keywords = "i18n::GroupByMeta.keyword")
 public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
@@ -52,7 +51,7 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
   private static final Class<?> PKG = GroupByMeta.class; // For Translator
 
   /** All rows need to pass, adding an extra row at the end of each group/block. */
-  @HopMetadataProperty(key="all_rows", injectionKey = "PASS_ALL_ROWS", injectionKeyDescription = "GroupByMeta.Injection.PASS_ALL_ROWS")
+  @HopMetadataProperty(key = "all_rows", injectionKey = "PASS_ALL_ROWS", injectionKeyDescription = "GroupByMeta.Injection.PASS_ALL_ROWS")
   private boolean passAllRows;
 
   /** Directory to store the temp files */
@@ -64,14 +63,14 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
   private String prefix;
 
   /** Indicate that some rows don't need to be considered : TODO: make work in GUI & worker */
-  @HopMetadataProperty(key="ignore_aggregate")
+  @HopMetadataProperty(key = "ignore_aggregate")
   private boolean aggregateIgnored;
 
   /**
    * name of the boolean field that indicates we need to ignore the row : TODO: make work in GUI &
    * worker
    */
-  @HopMetadataProperty(key="field_ignore")
+  @HopMetadataProperty(key = "field_ignore")
   private String aggregateIgnoredField;
 
   /** Fields to group over */
@@ -82,15 +81,15 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
   private List<Aggregation> aggregations;
 
   /** Add a linenr in the group, resetting to 0 in a new group. */
-  @HopMetadataProperty(key="add_linenr", injectionKey = "ADD_GROUP_LINENR", injectionKeyDescription = "GroupByMeta.Injection.ADD_GROUP_LINENR")
+  @HopMetadataProperty(key = "add_linenr", injectionKey = "ADD_GROUP_LINENR", injectionKeyDescription = "GroupByMeta.Injection.ADD_GROUP_LINENR")
   private boolean addingLineNrInGroup;
 
   /** The fieldname that will contain the added integer field */
-  @HopMetadataProperty(key="linenr_fieldname", injectionKey = "ADD_GROUP_LINENR_FIELD", injectionKeyDescription = "GroupByMeta.Injection.ADD_GROUP_LINENR_FIELD")
+  @HopMetadataProperty(key = "linenr_fieldname", injectionKey = "ADD_GROUP_LINENR_FIELD", injectionKeyDescription = "GroupByMeta.Injection.ADD_GROUP_LINENR_FIELD")
   private String lineNrInGroupField;
 
   /** Flag to indicate that we always give back one row. Defaults to true for existing pipelines. */
-  @HopMetadataProperty(key="give_back_row", injectionKey = "ALWAYS_GIVE_ROW", injectionKeyDescription = "GroupByMeta.Injection.ALWAYS_GIVE_ROW")
+  @HopMetadataProperty(key = "give_back_row", injectionKey = "ALWAYS_GIVE_ROW", injectionKeyDescription = "GroupByMeta.Injection.ALWAYS_GIVE_ROW")
   private boolean alwaysGivingBackOneRow;
 
   public GroupByMeta() {
@@ -187,13 +186,7 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     // re-assemble a new row of metadata
     //
     IRowMeta fields = new RowMeta();
@@ -263,19 +256,15 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
 
         // Change type from integer to number in case off averages for cumulative average
         //
-        if (aggregationType == Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE
-            && valueType == IValueMeta.TYPE_INTEGER) {
+        if (aggregationType == Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE && valueType == IValueMeta.TYPE_INTEGER) {
           valueType = IValueMeta.TYPE_NUMBER;
           precision = -1;
           length = -1;
-        } else if (aggregationType == Aggregation.TYPE_GROUP_COUNT_ALL
-            || aggregationType == Aggregation.TYPE_GROUP_COUNT_DISTINCT
+        } else if (aggregationType == Aggregation.TYPE_GROUP_COUNT_ALL || aggregationType == Aggregation.TYPE_GROUP_COUNT_DISTINCT
             || aggregationType == Aggregation.TYPE_GROUP_COUNT_ANY) {
           length = IValueMeta.DEFAULT_INTEGER_LENGTH;
           precision = 0;
-        } else if (aggregationType == Aggregation.TYPE_GROUP_SUM
-            && valueType != IValueMeta.TYPE_INTEGER
-            && valueType != IValueMeta.TYPE_NUMBER
+        } else if (aggregationType == Aggregation.TYPE_GROUP_SUM && valueType != IValueMeta.TYPE_INTEGER && valueType != IValueMeta.TYPE_NUMBER
             && valueType != IValueMeta.TYPE_BIGNUMBER) {
           // If it ain't numeric, we change it to Number
           //
@@ -284,34 +273,35 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
           length = -1;
         }
 
-        // DEEM-MOD 
-        switch(aggregationType) {
-          case Aggregation.TYPE_GROUP_AVERAGE            : 
-              if (valueType!=IValueMeta.TYPE_INTEGER) {
-                  length = subj.getLength();
-                  precision=subj.getPrecision();
-              }
-              break;
-          case Aggregation.TYPE_GROUP_SUM                : 
-          case Aggregation.TYPE_GROUP_CUMULATIVE_SUM     : 
-          case Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE : 
-          case Aggregation.TYPE_GROUP_FIRST              : 
-          case Aggregation.TYPE_GROUP_LAST               : 
-          case Aggregation.TYPE_GROUP_FIRST_INCL_NULL    : 
-          case Aggregation.TYPE_GROUP_LAST_INCL_NULL     : 
-          case Aggregation.TYPE_GROUP_MIN                : 
-          case Aggregation.TYPE_GROUP_MAX                : 
+        // DEEM-MOD
+        switch (aggregationType) {
+          case Aggregation.TYPE_GROUP_AVERAGE:
+            if (valueType != IValueMeta.TYPE_INTEGER) {
               length = subj.getLength();
-              precision=subj.getPrecision();
-              break;
-          case Aggregation.TYPE_GROUP_COUNT_DISTINCT     :
-          case Aggregation.TYPE_GROUP_COUNT_ALL          :
-          case Aggregation.TYPE_GROUP_CONCAT_COMMA       : 
-          case Aggregation.TYPE_GROUP_STANDARD_DEVIATION :
-          case Aggregation.TYPE_GROUP_CONCAT_STRING      :
-          default: break;
+              precision = subj.getPrecision();
+            }
+            break;
+          case Aggregation.TYPE_GROUP_SUM:
+          case Aggregation.TYPE_GROUP_CUMULATIVE_SUM:
+          case Aggregation.TYPE_GROUP_CUMULATIVE_AVERAGE:
+          case Aggregation.TYPE_GROUP_FIRST:
+          case Aggregation.TYPE_GROUP_LAST:
+          case Aggregation.TYPE_GROUP_FIRST_INCL_NULL:
+          case Aggregation.TYPE_GROUP_LAST_INCL_NULL:
+          case Aggregation.TYPE_GROUP_MIN:
+          case Aggregation.TYPE_GROUP_MAX:
+            length = subj.getLength();
+            precision = subj.getPrecision();
+            break;
+          case Aggregation.TYPE_GROUP_COUNT_DISTINCT:
+          case Aggregation.TYPE_GROUP_COUNT_ALL:
+          case Aggregation.TYPE_GROUP_CONCAT_COMMA:
+          case Aggregation.TYPE_GROUP_STANDARD_DEVIATION:
+          case Aggregation.TYPE_GROUP_CONCAT_STRING:
+          default:
+            break;
         }
-        // DEEM-MOD END 
+        // DEEM-MOD END
 
         if (valueType != IValueMeta.TYPE_NONE) {
           IValueMeta v;
@@ -349,7 +339,6 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
     rowMeta.addRowMeta(fields);
   }
 
-
   @Override
   public void check(
       List<ICheckResult> remarks,
@@ -364,18 +353,10 @@ public class GroupByMeta extends BaseTransformMeta<GroupBy, GroupByData> {
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "GroupByMeta.CheckResult.ReceivingInfoOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GroupByMeta.CheckResult.ReceivingInfoOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "GroupByMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GroupByMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }

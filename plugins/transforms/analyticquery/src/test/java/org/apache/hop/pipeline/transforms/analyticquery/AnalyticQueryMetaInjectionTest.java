@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class AnalyticQueryMetaInjectionTest extends BaseMetadataInjectionTest<AnalyticQueryMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -35,10 +36,7 @@ public class AnalyticQueryMetaInjectionTest extends BaseMetadataInjectionTest<An
     check("GROUP_FIELDS", () -> meta.getGroupFields().get(0).getFieldName());
     check("OUTPUT.AGGREGATE_FIELD", () -> meta.getQueryFields().get(0).getAggregateField());
     check("OUTPUT.SUBJECT_FIELD", () -> meta.getQueryFields().get(0).getSubjectField());
-    check(
-        "OUTPUT.AGGREGATE_TYPE",
-        () -> meta.getQueryFields().get(0).getAggregateType(),
-        QueryField.AggregateType.class);
+    check("OUTPUT.AGGREGATE_TYPE", () -> meta.getQueryFields().get(0).getAggregateType(), QueryField.AggregateType.class);
     check("OUTPUT.VALUE_FIELD", () -> meta.getQueryFields().get(0).getValueField());
   }
 }

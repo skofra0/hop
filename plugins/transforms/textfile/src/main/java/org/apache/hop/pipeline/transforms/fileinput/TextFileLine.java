@@ -19,7 +19,7 @@ package org.apache.hop.pipeline.transforms.fileinput;
 import org.apache.commons.vfs2.FileObject;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 public class TextFileLine {
   public String line;
 

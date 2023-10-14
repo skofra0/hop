@@ -35,13 +35,7 @@ public class ConcatFields extends BaseTransform<ConcatFieldsMeta, ConcatFieldsDa
 
   private static final Class<?> PKG = ConcatFields.class; // For Translator
 
-  public ConcatFields(
-      TransformMeta transformMeta,
-      ConcatFieldsMeta meta,
-      ConcatFieldsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ConcatFields(TransformMeta transformMeta, ConcatFieldsMeta meta, ConcatFieldsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline); // allocate TextFileOutput
   }
 
@@ -60,14 +54,9 @@ public class ConcatFields extends BaseTransform<ConcatFieldsMeta, ConcatFieldsDa
       data.outputRowMeta = getInputRowMeta().clone();
       meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
-      data.posTargetField =
-          data.outputRowMeta.indexOfValue(meta.getExtraFields().getTargetFieldName());
+      data.posTargetField = data.outputRowMeta.indexOfValue(meta.getExtraFields().getTargetFieldName());
       if (data.posTargetField < 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG,
-                "ConcatFields.Error.TargetFieldNotFoundOutputStream",
-                "" + meta.getExtraFields().getTargetFieldName()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "ConcatFields.Error.TargetFieldNotFoundOutputStream", "" + meta.getExtraFields().getTargetFieldName()));
       }
 
       // Assume we want to keep all input fields in the output
@@ -90,9 +79,7 @@ public class ConcatFields extends BaseTransform<ConcatFieldsMeta, ConcatFieldsDa
           ConcatField field = meta.getOutputFields().get(i);
           int fieldIndex = getInputRowMeta().indexOfValue(field.getName());
           if (fieldIndex < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "ConcatFields.Error.FieldNotFoundInputStream", "" + field.getName()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "ConcatFields.Error.FieldNotFoundInputStream", "" + field.getName()));
           }
           data.inputFieldIndexes.add(fieldIndex);
           if (meta.getExtraFields().isRemoveSelectedFields()) {
@@ -118,11 +105,7 @@ public class ConcatFields extends BaseTransform<ConcatFieldsMeta, ConcatFieldsDa
     putRow(data.outputRowMeta, outputRowData);
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "ConcatFields.Log.WriteRow")
-              + getLinesWritten()
-              + " : "
-              + data.outputRowMeta.getString(row));
+      logRowlevel(BaseMessages.getString(PKG, "ConcatFields.Log.WriteRow") + getLinesWritten() + " : " + data.outputRowMeta.getString(row));
     }
     if (checkFeedback(getLinesRead())) {
       if (log.isBasic()) {
@@ -165,9 +148,7 @@ public class ConcatFields extends BaseTransform<ConcatFieldsMeta, ConcatFieldsDa
     return outputRowData;
   }
 
-  private void concatField(
-      StringBuilder targetField, IValueMeta valueMeta, Object valueData, String nullString)
-      throws HopValueException {
+  private void concatField(StringBuilder targetField, IValueMeta valueMeta, Object valueData, String nullString) throws HopValueException {
 
     if (valueMeta.isNull(valueData)) {
       targetField.append(nullString);

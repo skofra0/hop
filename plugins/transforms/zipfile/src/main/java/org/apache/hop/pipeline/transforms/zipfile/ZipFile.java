@@ -44,18 +44,11 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /** Zip file * */
-public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
-{
+public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData> {
   private static final Class<?> PKG = ZipFileMeta.class; // For Translator
   private static final String ZIP_COULD_NOT_FIND_FIELD = "ZipFile.Exception.CouldnotFindField";
 
-  public ZipFile(
-      TransformMeta transformMeta,
-      ZipFileMeta meta,
-      ZipFileData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ZipFile(TransformMeta transformMeta, ZipFileMeta meta, ZipFileData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -73,23 +66,15 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
       first = false;
 
       data.outputRowMeta = getInputRowMeta().clone();
-      meta.getFields(
-          data.outputRowMeta,
-          getTransformName(),
-          null,
-          null,
-          this,
-          getPipeline().getMetadataProvider());
+      meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, getPipeline().getMetadataProvider());
 
       // Check is source filename field is provided
       if (Utils.isEmpty(meta.getSourceFilenameField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ZipFile.Error.SourceFilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.SourceFilenameFieldMissing"));
       }
       // Check is target filename field is provided
       if (Utils.isEmpty(meta.getTargetFilenameField())) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ZipFile.Error.TargetFilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.TargetFilenameFieldMissing"));
       }
 
       // cache the position of the source filename field
@@ -97,16 +82,14 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
         data.indexOfSourceFilename = getInputRowMeta().indexOfValue(meta.getSourceFilenameField());
         if (data.indexOfSourceFilename < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getSourceFilenameField()));
+          throw new HopException(BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getSourceFilenameField()));
         }
       }
 
       data.indexOfZipFilename = getInputRowMeta().indexOfValue(meta.getTargetFilenameField());
       if (data.indexOfZipFilename < 0) {
         // The field is unreachable !
-        throw new HopException(
-            BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getTargetFilenameField()));
+        throw new HopException(BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getTargetFilenameField()));
       }
 
       if (meta.isKeepSourceFolder() && !Utils.isEmpty(meta.getBaseFolderField())) {
@@ -114,22 +97,19 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
         data.indexOfBaseFolder = getInputRowMeta().indexOfValue(meta.getBaseFolderField());
         if (data.indexOfBaseFolder < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getBaseFolderField()));
+          throw new HopException(BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getBaseFolderField()));
         }
       }
 
       // Move to folder
       if (meta.getOperationType() == ZipFileMeta.OPERATION_TYPE_MOVE) {
         if (Utils.isEmpty(meta.getMoveToFolderField())) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "ZipFile.Exception.EmptyMovetoFolder"));
+          throw new HopException(BaseMessages.getString(PKG, "ZipFile.Exception.EmptyMovetoFolder"));
         }
         data.indexOfMoveToFolder = getInputRowMeta().indexOfValue(meta.getMoveToFolderField());
         if (data.indexOfMoveToFolder < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getMoveToFolderField()));
+          throw new HopException(BaseMessages.getString(PKG, ZIP_COULD_NOT_FIND_FIELD, meta.getMoveToFolderField()));
         }
       }
     } // End If first
@@ -150,18 +130,12 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
       // Check sourcefile
       boolean skip = false;
       if (!data.sourceFile.exists()) {
-        log.logError(
-            toString(),
-            BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotExist", sourceFilename));
-        throw new HopException(
-            BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotExist", sourceFilename));
+        log.logError(toString(), BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotExist", sourceFilename));
+        throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotExist", sourceFilename));
       } else {
         if (data.sourceFile.getType() != FileType.FILE) {
-          log.logError(
-              toString(),
-              BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotFile", sourceFilename));
-          throw new HopException(
-              BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotFile", sourceFilename));
+          log.logError(toString(), BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotFile", sourceFilename));
+          throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.SourceFileNotFile", sourceFilename));
         }
       }
 
@@ -190,9 +164,7 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
         data.zipFile = HopVfs.getFileObject(targetFilename);
         if (data.zipFile.exists()) {
           if (log.isDetailed()) {
-            log.logDetailed(
-                toString(),
-                BaseMessages.getString(PKG, "ZipFile.Log.TargetFileExists", targetFilename));
+            log.logDetailed(toString(), BaseMessages.getString(PKG, "ZipFile.Log.TargetFileExists", targetFilename));
           }
         } else {
           // let's check parent folder
@@ -201,9 +173,7 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
             if (!meta.isCreateParentFolder()) {
               // Parent folder not exist
               // So we will fail
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG, "ZipFile.Error.TargetParentFolderNotExists", parentFolder.toString()));
+              throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.TargetParentFolderNotExists", parentFolder.toString()));
             } else {
               // Create parent folder
               parentFolder.createFolder();
@@ -273,18 +243,14 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
 
           if (moveToFolder.exists()) {
             if (moveToFolder.getType() != FileType.FOLDER) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "ZipFile.Error.NotAFolder", folder));
+              throw new HopException(BaseMessages.getString(PKG, "ZipFile.Error.NotAFolder", folder));
             }
           } else {
             moveToFolder.createFolder();
           }
 
           // get target filename
-          String targetfilename =
-              HopVfs.getFilename(moveToFolder)
-                  + Const.FILE_SEPARATOR
-                  + data.sourceFile.getName().getBaseName();
+          String targetfilename = HopVfs.getFilename(moveToFolder) + Const.FILE_SEPARATOR + data.sourceFile.getName().getBaseName();
           file = HopVfs.getFileObject(targetfilename);
 
           // Move file
@@ -318,20 +284,12 @@ public class ZipFile extends BaseTransform<ZipFileMeta, ZipFileData>
   private void addFilenameToResult() throws FileSystemException {
     if (meta.isAddResultFilenames()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              data.zipFile,
-              getPipelineMeta().getName(),
-              getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.zipFile, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "ZipFile.Log.FileAddedResult"));
       addResultFile(resultFile);
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            toString(),
-            BaseMessages.getString(
-                PKG, "ZipFile.Log.FilenameAddResult", data.sourceFile.toString()));
+        log.logDetailed(toString(), BaseMessages.getString(PKG, "ZipFile.Log.FilenameAddResult", data.sourceFile.toString()));
       }
     }
   }

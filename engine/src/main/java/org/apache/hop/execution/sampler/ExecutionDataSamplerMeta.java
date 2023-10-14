@@ -36,12 +36,7 @@ public class ExecutionDataSamplerMeta {
     this.lastTransform = meta.lastTransform;
   }
 
-  public ExecutionDataSamplerMeta(
-      String transformName,
-      String copyNr,
-      String logChannelId,
-      boolean firstTransform,
-      boolean lastTransform) {
+  public ExecutionDataSamplerMeta(String transformName, String copyNr, String logChannelId, boolean firstTransform, boolean lastTransform) {
     this.transformName = transformName;
     this.copyNr = copyNr;
     this.logChannelId = logChannelId;
@@ -54,7 +49,7 @@ public class ExecutionDataSamplerMeta {
     if (StringUtils.isEmpty(copyNr)) {
       return transformName;
     } else {
-      return transformName+"."+copyNr;
+      return transformName + "." + copyNr;
     }
   }
 

@@ -33,7 +33,7 @@ public class EnvUtil {
    * @param key The key, the name of the environment variable to return
    * @param def The default value to return in case the key can't be found
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and the default value is returned.
+   *         not present, the variable is not defined and the default value is returned.
    */
   public static final String getSystemProperty(String key, String def) {
     return System.getProperty(key, def);
@@ -42,7 +42,7 @@ public class EnvUtil {
   /**
    * @param key The key, the name of the environment variable to return
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and null returned.
+   *         not present, the variable is not defined and null returned.
    */
   public static final String getSystemProperty(String key) {
     return getSystemProperty(key, null);
@@ -51,7 +51,7 @@ public class EnvUtil {
   /**
    * @param key The key, the name of the environment variable to clear
    * @return The value of a System environment variable in the java virtual machine. If the key is
-   *     not present, the variable is not defined and null returned.
+   *         not present, the variable is not defined and null returned.
    */
   public static final String clearSystemProperty(String key) {
     return System.clearProperty(key);
@@ -60,7 +60,8 @@ public class EnvUtil {
   /**
    * Returns an available java.util.Locale object for the given localeCode.
    *
-   * <p>The localeCode code can be case insensitive, if it is available the method will find it and
+   * <p>
+   * The localeCode code can be case insensitive, if it is available the method will find it and
    * return it.
    *
    * @param localeCode

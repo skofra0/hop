@@ -83,15 +83,12 @@ public class DialogBoxWithButtons {
       button.setText(Const.NVL(buttonLabel, ""));
       buttons.add(button);
       final int index = i;
-      button.addListener(
-          SWT.Selection,
-          e -> {
-            choice.set(index);
-            dispose();
-          });
+      button.addListener(SWT.Selection, e -> {
+        choice.set(index);
+        dispose();
+      });
     }
-    BaseTransformDialog.positionBottomButtons(
-        shell, buttons.toArray(new Button[0]), formMargin, wLabel);
+    BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[0]), formMargin, wLabel);
 
     BaseTransformDialog.setSize(shell);
     shell.addListener(SWT.Close, e -> dispose());

@@ -67,7 +67,8 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
   @Injection(name = "OUTPUT_JSON")
   private boolean outputJson = true;
 
-  @InjectionDeep private List<MongoField> fields;
+  @InjectionDeep
+  private List<MongoField> fields;
 
   @Injection(name = "EXECUTE_FOR_EACH_ROW")
   private boolean executeForEachIncomingRow = false;
@@ -133,8 +134,7 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
         }
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "MongoDbInputMeta.Exception.UnableToLoadTransformInfo"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "MongoDbInputMeta.Exception.UnableToLoadTransformInfo"), e);
     }
   }
 
@@ -150,19 +150,12 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     try {
       if (outputJson || fields == null || fields.size() == 0) {
-        IValueMeta jsonValueMeta =
-            ValueMetaFactory.createValueMeta(jsonFieldName, IValueMeta.TYPE_STRING);
+        IValueMeta jsonValueMeta = ValueMetaFactory.createValueMeta(jsonFieldName, IValueMeta.TYPE_STRING);
         jsonValueMeta.setOrigin(origin);
         rowMeta.addValueMeta(jsonValueMeta);
       } else {
@@ -192,8 +185,7 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
     xml.append("    ").append(XmlHandler.addTagValue("json_query", jsonQuery));
     xml.append("    ").append(XmlHandler.addTagValue("output_json", outputJson));
     xml.append("    ").append(XmlHandler.addTagValue("query_is_pipeline", aggPipeline));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("execute_for_each_row", executeForEachIncomingRow));
+    xml.append("    ").append(XmlHandler.addTagValue("execute_for_each_row", executeForEachIncomingRow));
 
     if (fields != null && fields.size() > 0) {
       xml.append("\n    ").append(XmlHandler.openTag("mongo_fields"));
@@ -205,10 +197,7 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
         xml.append("\n        ").append(XmlHandler.addTagValue("field_path", f.fieldPath));
         xml.append("\n        ").append(XmlHandler.addTagValue("field_type", f.hopType));
         if (f.indexedValues != null && f.indexedValues.size() > 0) {
-          xml.append("\n        ")
-              .append(
-                  XmlHandler.addTagValue(
-                      "indexed_vals", MongoDbInputData.indexedValsList(f.indexedValues)));
+          xml.append("\n        ").append(XmlHandler.addTagValue("indexed_vals", MongoDbInputData.indexedValsList(f.indexedValues)));
         }
         xml.append("\n      ").append(XmlHandler.closeTag("mongo_field"));
       }
@@ -229,16 +218,7 @@ public class MongoDbInputMeta extends MongoDbMeta<MongoDbInput, MongoDbInputData
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    super.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        input,
-        output,
-        info,
-        variables,
-        metadataProvider);
+    super.check(remarks, pipelineMeta, transformMeta, prev, input, output, info, variables, metadataProvider);
   }
 
   /** @return the fields */

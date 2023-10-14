@@ -53,18 +53,11 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
   private List<AvroOutputField> avroOutputFields;
   private int outputFieldIndex;
 
-  public AvroOutput(
-      TransformMeta transformMeta,
-      AvroOutputMeta meta,
-      AvroOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AvroOutput(TransformMeta transformMeta, AvroOutputMeta meta, AvroOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  private GenericRecord getRecord(Object[] r, String parentPath, Schema inputSchema)
-      throws HopException {
+  private GenericRecord getRecord(Object[] r, String parentPath, Schema inputSchema) throws HopException {
     String parentName = "";
     if (parentPath != null) {
       parentName = parentPath;
@@ -110,12 +103,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
           result.put(currentAvroPath, fieldRecord);
         } else {
           Field avroField = recordSchema.getField(avroName);
-          Object value =
-              getValue(
-                  r,
-                  meta.getOutputFields().get(outputFieldIndex),
-                  data.fieldNrs[outputFieldIndex],
-                  avroField);
+          Object value = getValue(r, meta.getOutputFields().get(outputFieldIndex), data.fieldNrs[outputFieldIndex], avroField);
           if (value != null) {
             result.put(avroName, value);
           }
@@ -128,8 +116,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
     return result;
   }
 
-  public Schema createAvroSchema(List<AvroOutputField> avroFields, String parentPath)
-      throws HopException {
+  public Schema createAvroSchema(List<AvroOutputField> avroFields, String parentPath) throws HopException {
     // Get standard schema stuff
     String doc = meta.getDoc();
     String recordName = meta.getRecordName();
@@ -167,7 +154,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
           avroName = avroName.substring(2);
         }
 
-        // The avroName includes the parent path.  We do not want the parent path for our
+        // The avroName includes the parent path. We do not want the parent path for our
         // evaluation.
         String finalName = avroName;
         if (!parentPath.isEmpty()) {
@@ -217,9 +204,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
             Schema unionSchema = Schema.createUnion(unionList);
             outSchema = unionSchema;
           }
-          Schema.Field schemaField =
-              new Schema.Field(
-                  finalName.substring(0, finalName.indexOf(".")), outSchema, null, null);
+          Schema.Field schemaField = new Schema.Field(finalName.substring(0, finalName.indexOf(".")), outSchema, null, null);
           resultFields.add(schemaField);
         } else { // Is not a sub field create the field.
           Schema fieldSchema = Schema.create(field.getAvroSchemaType());
@@ -308,10 +293,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
           if (avroOutputFields.get(i).validate()) {
             data.fieldNrs[i] = data.outputRowMeta.indexOfValue(avroOutputFields.get(i).getName());
             if (data.fieldNrs[i] < 0) {
-              throw new HopException(
-                  "Field ["
-                      + avroOutputFields.get(i).getName()
-                      + "] couldn't be found in the input stream!");
+              throw new HopException("Field [" + avroOutputFields.get(i).getName() + "] couldn't be found in the input stream!");
             }
           }
         }
@@ -330,25 +312,20 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
     GenericRecord row = getRecord(r, null, data.avroSchema);
 
     try {
-      if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
+      if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
         data.dataFileWriter.append(row);
-      } else if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
+      } else if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
         data.datumWriter.write(row, data.binaryEncoder);
         data.binaryEncoder.flush();
         data.byteArrayOutputStream.flush();
-        RowDataUtil.addValueData(
-            r, data.outputRowMeta.size() - 1, data.byteArrayOutputStream.toByteArray());
+        RowDataUtil.addValueData(r, data.outputRowMeta.size() - 1, data.byteArrayOutputStream.toByteArray());
         data.byteArrayOutputStream.close();
         data.byteArrayOutputStream.reset();
-      } else if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD])) {
+      } else if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD])) {
         data.datumWriter.write(row, data.jsonEncoder);
         data.jsonEncoder.flush();
         data.byteArrayOutputStream.flush();
-        RowDataUtil.addValueData(
-            r, data.outputRowMeta.size() - 1, data.byteArrayOutputStream.toString());
+        RowDataUtil.addValueData(r, data.outputRowMeta.size() - 1, data.byteArrayOutputStream.toString());
         data.byteArrayOutputStream.close();
         data.byteArrayOutputStream.reset();
       }
@@ -383,27 +360,22 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
       }
       data.datumWriter = new GenericDatumWriter<>(data.avroSchema);
 
-      if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
+      if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
         data.encoderFactory = new EncoderFactory();
         data.byteArrayOutputStream = new ByteArrayOutputStream();
         data.binaryEncoder = data.encoderFactory.binaryEncoder(data.byteArrayOutputStream, null);
-      } else if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
+      } else if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
         data.dataFileWriter = new DataFileWriter<>(data.datumWriter);
-        if (!Utils.isEmpty(meta.getCompressionType())
-            && !meta.getCompressionType().equalsIgnoreCase("none")) {
+        if (!Utils.isEmpty(meta.getCompressionType()) && !meta.getCompressionType().equalsIgnoreCase("none")) {
           data.dataFileWriter.setCodec(CodecFactory.fromString(meta.getCompressionType()));
         }
 
         openNewFile(meta.getFileName());
         data.dataFileWriter.create(data.avroSchema, data.writer);
-      } else if (meta.getOutputType()
-          .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD])) {
+      } else if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_JSON_FIELD])) {
         data.encoderFactory = new EncoderFactory();
         data.byteArrayOutputStream = new ByteArrayOutputStream();
-        data.jsonEncoder =
-            data.encoderFactory.jsonEncoder(data.avroSchema, data.byteArrayOutputStream);
+        data.jsonEncoder = data.encoderFactory.jsonEncoder(data.avroSchema, data.byteArrayOutputStream);
       } else {
         throw new HopException("Invalid output type " + meta.getOutputType());
       }
@@ -413,8 +385,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
   }
 
   private void closeOutput() throws HopException {
-    if (meta.getOutputType()
-        .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
+    if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_FIELD])) {
       try {
         data.binaryEncoder = null;
         data.jsonEncoder = null;
@@ -425,17 +396,14 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
       } catch (Exception ex) {
         throw new HopException("Error cleaning up transform", ex);
       }
-    } else if (meta.getOutputType()
-        .equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
+    } else if (meta.getOutputType().equals(AvroOutputMeta.OUTPUT_TYPES[AvroOutputMeta.OUTPUT_TYPE_BINARY_FILE])) {
       closeFile();
     }
     data.datumWriter = null;
     data.avroSchema = null;
   }
 
-  public Object getValue(
-      Object[] r, AvroOutputField outputField, int inputFieldIndex, Field fieldSchema)
-      throws HopException {
+  public Object getValue(Object[] r, AvroOutputField outputField, int inputFieldIndex, Field fieldSchema) throws HopException {
     Object value;
 
     switch (outputField.getAvroType()) {
@@ -463,12 +431,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
         value = new GenericData.EnumSymbol(schema, fieldValue);
         break;
       default:
-        throw new HopException(
-            "Avro type "
-                + outputField.getAvroTypeDesc()
-                + " is not supported for field "
-                + outputField.getAvroName()
-                + ".");
+        throw new HopException("Avro type " + outputField.getAvroTypeDesc() + " is not supported for field " + outputField.getAvroName() + ".");
     }
 
     return value;
@@ -492,14 +455,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
   }
 
   public String buildFilename(String filename) {
-    return meta.buildFilename(
-        filename,
-        this,
-        getCopy(),
-        getPartitionId(),
-        data.isBeamContext(),
-        log.getLogChannelId(),
-        data.getBeamBundleNr());
+    return meta.buildFilename(filename, this, getCopy(), getPartitionId(), data.isBeamContext(), log.getLogChannelId(), data.getBeamBundleNr());
   }
 
   public void openNewFile(String baseFilename) throws HopException {
@@ -534,12 +490,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
 
     if (meta.isAddToResultFilenames()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              getFileObject(filename),
-              getPipelineMeta().getName(),
-              getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, getFileObject(filename), getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "AvroOutput.AddResultFile"));
       addResultFile(resultFile);
     }
@@ -559,7 +510,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
           data.dataFileWriter.close();
         }
 
-        // Causes exception trying to close file in Java 8.  I believe the flush closes the file
+        // Causes exception trying to close file in Java 8. I believe the flush closes the file
         // also.
         data.writer = null;
         data.dataFileWriter = null;
@@ -638,30 +589,19 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
       parentfolder = getFileObject(filename).getParent();
       if (parentfolder.exists()) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "AvroOutput.Log.ParentFolderExist", parentfolder.getName()));
+          logDetailed(BaseMessages.getString(PKG, "AvroOutput.Log.ParentFolderExist", parentfolder.getName()));
         }
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "AvroOutput.Log.ParentFolderNotExist", parentfolder.getName()));
+          logDetailed(BaseMessages.getString(PKG, "AvroOutput.Log.ParentFolderNotExist", parentfolder.getName()));
         }
         if (meta.isCreateParentFolder()) {
           parentfolder.createFolder();
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "AvroOutput.Log.ParentFolderCreated", parentfolder.getName()));
+            logDetailed(BaseMessages.getString(PKG, "AvroOutput.Log.ParentFolderCreated", parentfolder.getName()));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "AvroOutput.Log.ParentFolderNotExistCreateIt",
-                  parentfolder.getName(),
-                  filename));
+          throw new HopException(BaseMessages.getString(PKG, "AvroOutput.Log.ParentFolderNotExistCreateIt", parentfolder.getName(), filename));
         }
       }
 
@@ -680,8 +620,7 @@ public class AvroOutput extends BaseTransform<AvroOutputMeta, AvroOutputData> {
     return HopVfs.getFileObject(vfsFilename);
   }
 
-  protected OutputStream getOutputStream(String vfsFilename, boolean append)
-      throws HopFileException {
+  protected OutputStream getOutputStream(String vfsFilename, boolean append) throws HopFileException {
     return HopVfs.getOutputStream(vfsFilename, append);
   }
 }

@@ -60,10 +60,7 @@ public class ConfigPluginOptionsTab {
     // calls the addGeneralOptionsTab() method.
   }
 
-  @GuiTab(
-      id = "10200-config-perspective-plugins-options-tab",
-      parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS,
-      description = "Plugins options tab")
+  @GuiTab(id = "10200-config-perspective-plugins-options-tab", parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS, description = "Plugins options tab")
   public void addPluginOptionsTab(CTabFolder wTabFolder) {
     Shell shell = wTabFolder.getShell();
     int margin = PropsUi.getMargin();
@@ -121,25 +118,17 @@ public class ConfigPluginOptionsTab {
           // This config plugin is also a GUI plugin
           // Add a tab
           //
-          String name =
-              Const.NVL(
-                  TranslateUtil.translate(annotation.description(), emptySourceData.getClass()),
-                  "");
+          String name = Const.NVL(TranslateUtil.translate(annotation.description(), emptySourceData.getClass()), "");
           wPluginsList.add(name);
           wPluginsList.setData(name, sourceData);
           wPluginsList.addListener(SWT.Selection, e -> showConfigPluginSettings());
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            "Error",
-            "Error handling configuration options for config / GUI plugin "
-                + configPlugin.getIds()[0],
-            e);
+        new ErrorDialog(shell, "Error", "Error handling configuration options for config / GUI plugin " + configPlugin.getIds()[0], e);
       }
     }
 
-    wPluginsList.select(new int[]{});
+    wPluginsList.select(new int[] {});
 
     FormData fdPluginsTabComp = new FormData();
     fdPluginsTabComp.left = new FormAttachment(0, 0);
@@ -166,8 +155,7 @@ public class ConfigPluginOptionsTab {
     }
 
     // Rebuild
-    ScrolledComposite sPluginsComp =
-        new ScrolledComposite(wPluginComposite, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite sPluginsComp = new ScrolledComposite(wPluginComposite, SWT.V_SCROLL | SWT.H_SCROLL);
     sPluginsComp.setLayout(new FormLayout());
     FormData fdsPluginsComp = new FormData();
     fdsPluginsComp.left = new FormAttachment(0, 0);
@@ -182,10 +170,8 @@ public class ConfigPluginOptionsTab {
 
     wPluginComposite.layout();
 
-    GuiCompositeWidgets compositeWidgets =
-        new GuiCompositeWidgets(HopGui.getInstance().getVariables());
-    compositeWidgets.createCompositeWidgets(
-        pluginSourceData, null, wPluginsComp, GUI_WIDGETS_PARENT_ID, null);
+    GuiCompositeWidgets compositeWidgets = new GuiCompositeWidgets(HopGui.getInstance().getVariables());
+    compositeWidgets.createCompositeWidgets(pluginSourceData, null, wPluginsComp, GUI_WIDGETS_PARENT_ID, null);
     compositeWidgets.setWidgetsContents(pluginSourceData, wPluginsComp, GUI_WIDGETS_PARENT_ID);
     if (pluginSourceData instanceof IGuiPluginCompositeWidgetsListener) {
       // This listener saves the changed values immediately, so we don't have to worry about that.

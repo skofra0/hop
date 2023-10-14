@@ -49,25 +49,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ExtensionPoint(
-    extensionPointId = "PipelineStartThreads",
-    id = "InjectDataSetIntoTransformExtensionPoint",
-    description = "Inject a bunch of rows into a transform during preview")
-public class InjectDataSetIntoTransformExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+@ExtensionPoint(extensionPointId = "PipelineStartThreads", id = "InjectDataSetIntoTransformExtensionPoint", description = "Inject a bunch of rows into a transform during preview")
+public class InjectDataSetIntoTransformExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, final IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, final IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     if (!(pipeline instanceof LocalPipelineEngine)) {
       throw new HopPluginException("Unit tests can only run using a local pipeline engine type");
     }
 
     final PipelineMeta pipelineMeta = pipeline.getPipelineMeta();
-    boolean dataSetEnabled =
-        "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
+    boolean dataSetEnabled = "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
     if (log.isDetailed()) {
       log.logDetailed("Data Set enabled? " + dataSetEnabled);
     }
@@ -88,8 +81,7 @@ public class InjectDataSetIntoTransformExtensionPoint
       if (StringUtil.isEmpty(unitTestName)) {
         return;
       }
-      PipelineUnitTest unitTest =
-          metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
+      PipelineUnitTest unitTest = metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
       if (unitTest == null) {
         if (log.isDetailed()) {
           log.logDetailed("Unit test '" + unitTestName + "' could not be found");
@@ -106,20 +98,11 @@ public class InjectDataSetIntoTransformExtensionPoint
         PipelineUnitTestSetLocation inputLocation = unitTest.findInputLocation(transformName);
         if (inputLocation != null && StringUtils.isNotEmpty(inputLocation.getDataSetName())) {
           String inputDataSetName = inputLocation.getDataSetName();
-          log.logDetailed(
-              "Data Set location found for transform '"
-                  + transformName
-                  + "' and data set  "
-                  + inputDataSetName);
+          log.logDetailed("Data Set location found for transform '" + transformName + "' and data set  " + inputDataSetName);
 
           // We need to inject data from the data set with the specified name into the transform
           //
-          injectDataSetIntoTransform(
-              (LocalPipelineEngine) pipeline,
-              inputDataSetName,
-              metadataProvider,
-              transformMeta,
-              inputLocation);
+          injectDataSetIntoTransform((LocalPipelineEngine) pipeline, inputDataSetName, metadataProvider, transformMeta, inputLocation);
         }
 
         // How about capturing rows for golden data review?
@@ -129,20 +112,14 @@ public class InjectDataSetIntoTransformExtensionPoint
           String goldenDataSetName = goldenLocation.getDataSetName();
           if (!StringUtil.isEmpty(goldenDataSetName)) {
 
-            log.logDetailed(
-                "Capturing rows for validation at pipeline end, transform='"
-                    + transformMeta.getName()
-                    + "', golden set '"
-                    + goldenDataSetName);
+            log.logDetailed("Capturing rows for validation at pipeline end, transform='" + transformMeta.getName() + "', golden set '" + goldenDataSetName);
 
             final RowCollection rowCollection = new RowCollection();
 
             // Create a row collection map if it's missing...
             //
             @SuppressWarnings("unchecked")
-            Map<String, RowCollection> collectionMap =
-                (Map<String, RowCollection>)
-                    pipeline.getExtensionDataMap().get(DataSetConst.ROW_COLLECTION_MAP);
+            Map<String, RowCollection> collectionMap = (Map<String, RowCollection>) pipeline.getExtensionDataMap().get(DataSetConst.ROW_COLLECTION_MAP);
             if (collectionMap == null) {
               collectionMap = new HashMap<>();
               pipeline.getExtensionDataMap().put(DataSetConst.ROW_COLLECTION_MAP, collectionMap);
@@ -155,17 +132,15 @@ public class InjectDataSetIntoTransformExtensionPoint
             // We'll capture the rows from this one and then evaluate them after execution...
             //
             IEngineComponent component = pipeline.findComponent(transformMeta.getName(), 0);
-            component.addRowListener(
-                new RowAdapter() {
-                  @Override
-                  public void rowReadEvent(IRowMeta rowMeta, Object[] row)
-                      throws HopTransformException {
-                    if (rowCollection.getRowMeta() == null) {
-                      rowCollection.setRowMeta(rowMeta);
-                    }
-                    rowCollection.getRows().add(row);
-                  }
-                });
+            component.addRowListener(new RowAdapter() {
+              @Override
+              public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+                if (rowCollection.getRowMeta() == null) {
+                  rowCollection.setRowMeta(rowMeta);
+                }
+                rowCollection.getRows().add(row);
+              }
+            });
           }
         }
       }
@@ -220,12 +195,7 @@ public class InjectDataSetIntoTransformExtensionPoint
         PipelineUnitTestFieldMapping fieldMapping = inputLocation.getFieldMappings().get(i);
         fieldIndexes[i] = dataSetRowMeta.indexOfValue(fieldMapping.getDataSetFieldName());
         if (fieldIndexes[i] < 0) {
-          throw new HopException(
-              "Unable to find mapped field '"
-                  + fieldMapping.getDataSetFieldName()
-                  + "' in data set '"
-                  + dataSet.getName()
-                  + "'");
+          throw new HopException("Unable to find mapped field '" + fieldMapping.getDataSetFieldName() + "' in data set '" + dataSet.getName() + "'");
         }
         IValueMeta injectValueMeta = dataSetRowMeta.getValueMeta(fieldIndexes[i]).clone();
         // Rename to the transform output names though...
@@ -234,42 +204,29 @@ public class InjectDataSetIntoTransformExtensionPoint
         injectRowMeta.addValueMeta(injectValueMeta);
       }
 
-      log.logDetailed(
-          "Injecting data set '"
-              + dataSetName
-              + "' into transform '"
-              + transformMeta.getName()
-              + "', fields: "
-              + Arrays.toString(injectRowMeta.getFieldNames()));
+      log.logDetailed("Injecting data set '" + dataSetName + "' into transform '" + transformMeta.getName() + "', fields: " + Arrays.toString(injectRowMeta.getFieldNames()));
 
       // Pass rows
       //
-      Runnable runnable =
-          () -> {
-            try {
+      Runnable runnable = () -> {
+        try {
 
-              for (Object[] dataSetRow : dataSetRows) {
-                // pass the row with the external names, in the right order and with the selected
-                // columns from the data set
-                //
-                Object[] row = RowDataUtil.allocateRowData(injectRowMeta.size());
-                for (int i = 0; i < fieldIndexes.length; i++) {
-                  row[i] = dataSetRow[fieldIndexes[i]];
-                }
-                rowProducer.putRow(injectRowMeta, row);
-              }
-              rowProducer.finished();
-
-            } catch (Exception e) {
-              throw new RuntimeException(
-                  "Problem injecting data set '"
-                      + dataSetName
-                      + "' row into transform '"
-                      + transformMeta.getName()
-                      + "'",
-                  e);
+          for (Object[] dataSetRow : dataSetRows) {
+            // pass the row with the external names, in the right order and with the selected
+            // columns from the data set
+            //
+            Object[] row = RowDataUtil.allocateRowData(injectRowMeta.size());
+            for (int i = 0; i < fieldIndexes.length; i++) {
+              row[i] = dataSetRow[fieldIndexes[i]];
             }
-          };
+            rowProducer.putRow(injectRowMeta, row);
+          }
+          rowProducer.finished();
+
+        } catch (Exception e) {
+          throw new RuntimeException("Problem injecting data set '" + dataSetName + "' row into transform '" + transformMeta.getName() + "'", e);
+        }
+      };
       Thread thread = new Thread(runnable);
       thread.start();
     }

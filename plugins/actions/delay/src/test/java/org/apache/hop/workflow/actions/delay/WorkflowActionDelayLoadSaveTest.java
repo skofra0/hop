@@ -23,9 +23,9 @@ import org.junit.ClassRule;
 import java.util.Arrays;
 import java.util.List;
 
-public class WorkflowActionDelayLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionDelay> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionDelayLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionDelay> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionDelay> getActionClass() {

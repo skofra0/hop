@@ -21,8 +21,7 @@ import java.util.Comparator;
 
 /** A carte object entry in the pipeline or workflow maps */
 @XmlRootElement
-public class HopServerObjectEntry
-    implements Comparator<HopServerObjectEntry>, Comparable<HopServerObjectEntry> {
+public class HopServerObjectEntry implements Comparator<HopServerObjectEntry>, Comparable<HopServerObjectEntry> {
   private String name;
   private String id;
 

@@ -26,7 +26,8 @@ import java.lang.annotation.Target;
  * An alternative when defining workflows entries. Classes annotated with "Action" are automatically
  * recognized and registered as a action.
  *
- * <p>Important: The XML definitions alienate annotated transforms and the two methods of definition
+ * <p>
+ * Important: The XML definitions alienate annotated transforms and the two methods of definition
  * are therefore mutually exclusive.
  */
 @Documented

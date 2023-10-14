@@ -26,7 +26,8 @@ import java.util.List;
 
 public class MetaBeanParent<T extends MetaBeanParentItem, A> extends BaseTransformMeta<ITransform, ITransformData> {
 
-  @InjectionDeep public List<T> items;
+  @InjectionDeep
+  public List<T> items;
 
   @Injection(name = "A")
   A obj;

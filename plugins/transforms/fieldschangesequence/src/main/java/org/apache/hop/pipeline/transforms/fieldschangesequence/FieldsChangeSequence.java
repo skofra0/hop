@@ -27,18 +27,11 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Add sequence to each input row. */
-public class FieldsChangeSequence
-    extends BaseTransform<FieldsChangeSequenceMeta, FieldsChangeSequenceData> {
+public class FieldsChangeSequence extends BaseTransform<FieldsChangeSequenceMeta, FieldsChangeSequenceData> {
 
   private static final Class<?> PKG = FieldsChangeSequenceMeta.class; // For Translator
 
-  public FieldsChangeSequence(
-      TransformMeta transformMeta,
-      FieldsChangeSequenceMeta meta,
-      FieldsChangeSequenceData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FieldsChangeSequence(TransformMeta transformMeta, FieldsChangeSequenceMeta meta, FieldsChangeSequenceData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -67,12 +60,8 @@ public class FieldsChangeSequence
         for (int i = 0; i < data.fieldnr; i++) {
           data.fieldnrs[i] = data.previousMeta.indexOfValue(meta.getFields().get(i).getName());
           if (data.fieldnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "FieldsChangeSequence.Log.CanNotFindField", meta.getFields().get(i)));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "FieldsChangeSequence.Log.CanNotFindField", meta.getFields().get(i)));
+            logError(BaseMessages.getString(PKG, "FieldsChangeSequence.Log.CanNotFindField", meta.getFields().get(i)));
+            throw new HopException(BaseMessages.getString(PKG, "FieldsChangeSequence.Log.CanNotFindField", meta.getFields().get(i)));
           }
           data.fieldnrsMeta[i] = data.previousMeta.getValueMeta(data.fieldnrs[i]);
         }
@@ -113,11 +102,7 @@ public class FieldsChangeSequence
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "FieldsChangeSequence.Log.ReadRow")
-                + getLinesRead()
-                + " : "
-                + getInputRowMeta().getString(r));
+        logRowlevel(BaseMessages.getString(PKG, "FieldsChangeSequence.Log.ReadRow") + getLinesRead() + " : " + getInputRowMeta().getString(r));
       }
 
       // reserve room and add value!
@@ -128,16 +113,11 @@ public class FieldsChangeSequence
       data.seq += data.incrementBy;
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "FieldsChangeSequence.Log.WriteRow")
-                + getLinesWritten()
-                + " : "
-                + getInputRowMeta().getString(r));
+        logRowlevel(BaseMessages.getString(PKG, "FieldsChangeSequence.Log.WriteRow") + getLinesWritten() + " : " + getInputRowMeta().getString(r));
       }
 
       if (checkFeedback(getLinesRead()) && log.isBasic()) {
-        logBasic(
-            BaseMessages.getString(PKG, "FieldsChangeSequence.Log.LineNumber") + getLinesRead());
+        logBasic(BaseMessages.getString(PKG, "FieldsChangeSequence.Log.LineNumber") + getLinesRead());
       }
 
     } catch (Exception e) {
@@ -147,9 +127,7 @@ public class FieldsChangeSequence
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "FieldsChangeSequence.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "FieldsChangeSequence.ErrorInTransformRunning") + e.getMessage());
         logError(Const.getStackTracker(e));
         setErrors(1);
         stopAll();
@@ -158,13 +136,7 @@ public class FieldsChangeSequence
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(),
-            r,
-            1,
-            errorMessage,
-            meta.getResultFieldName(),
-            "FieldsChangeSequence001");
+        putError(getInputRowMeta(), r, 1, errorMessage, meta.getResultFieldName(), "FieldsChangeSequence001");
       }
     }
     return true;

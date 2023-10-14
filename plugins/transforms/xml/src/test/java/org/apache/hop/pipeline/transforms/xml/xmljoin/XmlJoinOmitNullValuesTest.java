@@ -49,8 +49,7 @@ public class XmlJoinOmitNullValuesTest {
   @Before
   public void init() throws Exception {
     tmh = new TransformMockHelper<>("XmlJoin", XmlJoinMeta.class, XmlJoinData.class);
-    when(tmh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(tmh.iLogChannel);
+    when(tmh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(tmh.iLogChannel);
     when(tmh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -62,26 +61,17 @@ public class XmlJoinOmitNullValuesTest {
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root xmlns:xsi=\"http://www.myns2.com\" xsi:schemalocation=\"http://www.mysl1.com\"><child><subChild a=\"\"/><subChild><subSubChild a=\"\"/></subChild></child></root>");
   }
 
-  private void doTest(final String sourceXml, final String targetXml, final String expectedXml)
-      throws HopException {
-    XmlJoin spy =
-        spy(
-            new XmlJoin(
-                tmh.transformMeta,
-                tmh.iTransformMeta,
-                tmh.iTransformData,
-                0,
-                tmh.pipelineMeta,
-                tmh.pipeline));
+  private void doTest(final String sourceXml, final String targetXml, final String expectedXml) throws HopException {
+    XmlJoin spy = spy(new XmlJoin(tmh.transformMeta, tmh.iTransformMeta, tmh.iTransformData, 0, tmh.pipelineMeta, tmh.pipeline));
 
     /*
-    // Find the row sets to read from
-      //
-      List<IStream> infoStreams = meta.getTransformIOMeta().getInfoStreams();
-
-      // Get the two input row sets
-      data.TargetRowSet = findInputRowSet( infoStreams.get( 0 ).getTransformName() );
-      data.SourceRowSet = findInputRowSet( infoStreams.get( 1 ).getTransformName() );
+     * // Find the row sets to read from
+     * //
+     * List<IStream> infoStreams = meta.getTransformIOMeta().getInfoStreams();
+     * 
+     * // Get the two input row sets
+     * data.TargetRowSet = findInputRowSet( infoStreams.get( 0 ).getTransformName() );
+     * data.SourceRowSet = findInputRowSet( infoStreams.get( 1 ).getTransformName() );
      */
     ITransformIOMeta transformIOMeta = mock(ITransformIOMeta.class);
     when(tmh.iTransformMeta.getTransformIOMeta()).thenReturn(transformIOMeta);
@@ -117,13 +107,12 @@ public class XmlJoinOmitNullValuesTest {
 
     spy.init();
 
-    spy.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            Assert.assertEquals(expectedXml, row[0]);
-          }
-        });
+    spy.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        Assert.assertEquals(expectedXml, row[0]);
+      }
+    });
 
     Assert.assertTrue(spy.processRow());
     Assert.assertFalse(spy.processRow());

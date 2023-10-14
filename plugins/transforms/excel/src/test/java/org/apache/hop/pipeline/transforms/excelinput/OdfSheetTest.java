@@ -32,16 +32,8 @@ public class OdfSheetTest {
 
   @Before
   public void init() throws HopException {
-    ods341 =
-        WorkbookFactory.getWorkbook(
-            SpreadSheetType.ODS,
-            this.getClass().getResource("files/sample-3.4.1.ods").getPath(),
-            null);
-    ods24 =
-        WorkbookFactory.getWorkbook(
-            SpreadSheetType.ODS,
-            this.getClass().getResource("files/sample-2.4.ods").getPath(),
-            null);
+    ods341 = WorkbookFactory.getWorkbook(SpreadSheetType.ODS, this.getClass().getResource("files/sample-3.4.1.ods").getPath(), null);
+    ods24 = WorkbookFactory.getWorkbook(SpreadSheetType.ODS, this.getClass().getResource("files/sample-2.4.ods").getPath(), null);
   }
 
   @Test
@@ -50,27 +42,15 @@ public class OdfSheetTest {
     String sameRowWidthSheet = "SameRowWidth";
     String diffRowWidthSheet = "DifferentRowWidth";
 
-    checkRowCount(
-        (OdfSheet) ods341.getSheet(sameRowWidthSheet), 3, "Row count mismatch for ODF v3.4.1");
-    checkRowCount(
-        (OdfSheet) ods24.getSheet(sameRowWidthSheet), 2, "Row count mismatch for ODF v2.4");
-    checkRowCount(
-        (OdfSheet) ods341.getSheet(diffRowWidthSheet), 3, "Row count mismatch for ODF v3.4.1");
-    checkRowCount(
-        (OdfSheet) ods24.getSheet(diffRowWidthSheet), 2, "Row count mismatch for ODF v2.4");
+    checkRowCount((OdfSheet) ods341.getSheet(sameRowWidthSheet), 3, "Row count mismatch for ODF v3.4.1");
+    checkRowCount((OdfSheet) ods24.getSheet(sameRowWidthSheet), 2, "Row count mismatch for ODF v2.4");
+    checkRowCount((OdfSheet) ods341.getSheet(diffRowWidthSheet), 3, "Row count mismatch for ODF v3.4.1");
+    checkRowCount((OdfSheet) ods24.getSheet(diffRowWidthSheet), 2, "Row count mismatch for ODF v2.4");
 
-    checkCellCount(
-        (OdfSheet) ods341.getSheet(sameRowWidthSheet), 15, "Cell count mismatch for ODF v3.4.1");
-    checkCellCount(
-        (OdfSheet) ods24.getSheet(sameRowWidthSheet), 1, "Cell count mismatch for ODF v2.4");
-    checkCellCount(
-        (OdfSheet) ods341.getSheet(diffRowWidthSheet),
-        new int[] {15, 15, 12},
-        "Cell count mismatch for ODF v3.4.1");
-    checkCellCount(
-        (OdfSheet) ods24.getSheet(diffRowWidthSheet),
-        new int[] {3, 2},
-        "Cell count mismatch for ODF v2.4");
+    checkCellCount((OdfSheet) ods341.getSheet(sameRowWidthSheet), 15, "Cell count mismatch for ODF v3.4.1");
+    checkCellCount((OdfSheet) ods24.getSheet(sameRowWidthSheet), 1, "Cell count mismatch for ODF v2.4");
+    checkCellCount((OdfSheet) ods341.getSheet(diffRowWidthSheet), new int[] {15, 15, 12}, "Cell count mismatch for ODF v3.4.1");
+    checkCellCount((OdfSheet) ods24.getSheet(diffRowWidthSheet), new int[] {3, 2}, "Cell count mismatch for ODF v2.4");
   }
 
   private void checkRowCount(OdfSheet sheet, int expected, String failMsg) {

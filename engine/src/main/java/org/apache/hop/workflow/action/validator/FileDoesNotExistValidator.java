@@ -29,19 +29,14 @@ import java.util.List;
 /** Fails if a field's value is a filename and the file does not exist. */
 public class FileDoesNotExistValidator extends AbstractFileValidator {
 
-  private static final String KEY_FAIL_IF_EXISTS =
-      "org.apache.hop.workflow.actions.createfile.failIfExists";
+  private static final String KEY_FAIL_IF_EXISTS = "org.apache.hop.workflow.actions.createfile.failIfExists";
 
   public static final FileDoesNotExistValidator INSTANCE = new FileDoesNotExistValidator();
 
   static final String VALIDATOR_NAME = "fileDoesNotExist";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
 
     String filename = ValidatorUtils.getValueAsString(source, propertyName);
     IVariables variables = getVariableSpace(source, propertyName, remarks, context);
@@ -57,12 +52,7 @@ public class FileDoesNotExistValidator extends AbstractFileValidator {
       fileObject = HopVfs.getFileObject(realFileName);
 
       if (fileObject.exists() && failIfExists) {
-        ActionValidatorUtils.addFailureRemark(
-            source,
-            propertyName,
-            VALIDATOR_NAME,
-            remarks,
-            ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
+        ActionValidatorUtils.addFailureRemark(source, propertyName, VALIDATOR_NAME, remarks, ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
         return false;
       }
       try {
@@ -88,11 +78,7 @@ public class FileDoesNotExistValidator extends AbstractFileValidator {
     return context;
   }
 
-  protected boolean getFailIfExists(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  protected boolean getFailIfExists(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
     Object obj = context.get(KEY_FAIL_IF_EXISTS);
     if (obj instanceof Boolean) {
       return (Boolean) obj;

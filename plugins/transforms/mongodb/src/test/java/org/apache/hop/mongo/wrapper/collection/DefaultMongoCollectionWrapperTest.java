@@ -45,9 +45,12 @@ import static org.mockito.Mockito.when;
 public class DefaultMongoCollectionWrapperTest {
 
   private DefaultMongoCollectionWrapper defaultMongoCollectionWrapper;
-  @Mock private DBCollection mockDBCollection;
-  @Mock private BasicDBObject dbObject;
-  @Mock private List<DBObject> dbObjList;
+  @Mock
+  private DBCollection mockDBCollection;
+  @Mock
+  private BasicDBObject dbObject;
+  @Mock
+  private List<DBObject> dbObjList;
 
   private DBObject[] dbObjectArray = new DBObject[0];
 
@@ -100,24 +103,18 @@ public class DefaultMongoCollectionWrapperTest {
   @Test
   public void testAggregate() throws MongoDbException {
     Cursor mockCursor = mock(Cursor.class);
-    when(mockDBCollection.aggregate(anyList(), any(AggregationOptions.class)))
-        .thenReturn(mockCursor);
+    when(mockDBCollection.aggregate(anyList(), any(AggregationOptions.class))).thenReturn(mockCursor);
     Cursor ret = defaultMongoCollectionWrapper.aggregate(dbObject, dbObjectArray);
     assertEquals(mockCursor, ret);
   }
 
   @Test
   public void testFindWrapsCursor() throws MongoDbException {
-    assertThat(
-        defaultMongoCollectionWrapper.find(), CoreMatchers.instanceOf(MongoCursorWrapper.class));
+    assertThat(defaultMongoCollectionWrapper.find(), CoreMatchers.instanceOf(MongoCursorWrapper.class));
     verify(mockDBCollection).find();
-    assertThat(
-        defaultMongoCollectionWrapper.find(dbObject, dbObject),
-        CoreMatchers.instanceOf(MongoCursorWrapper.class));
+    assertThat(defaultMongoCollectionWrapper.find(dbObject, dbObject), CoreMatchers.instanceOf(MongoCursorWrapper.class));
     verify(mockDBCollection).find(dbObject, dbObject);
-    assertThat(
-        defaultMongoCollectionWrapper.find(dbObject),
-        CoreMatchers.instanceOf(MongoCursorWrapper.class));
+    assertThat(defaultMongoCollectionWrapper.find(dbObject), CoreMatchers.instanceOf(MongoCursorWrapper.class));
     verify(mockDBCollection).find(dbObject);
   }
 }

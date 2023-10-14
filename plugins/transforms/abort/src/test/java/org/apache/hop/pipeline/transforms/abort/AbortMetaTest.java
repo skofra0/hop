@@ -39,8 +39,7 @@ public class AbortMetaTest {
 
   @Test
   public void testRoundTrip() throws HopException {
-    List<String> attributes =
-        Arrays.asList("row_threshold", "message", "always_log_rows", "abort_option");
+    List<String> attributes = Arrays.asList("row_threshold", "message", "always_log_rows", "abort_option");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("row_threshold", "getRowThreshold");
@@ -57,13 +56,9 @@ public class AbortMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> attributeValidators = Collections.emptyMap();
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidators = new HashMap<>();
-    typeValidators.put(
-        AbortMeta.AbortOption.class.getCanonicalName(),
-        new EnumLoadSaveValidator<>(AbortMeta.AbortOption.ABORT));
+    typeValidators.put(AbortMeta.AbortOption.class.getCanonicalName(), new EnumLoadSaveValidator<>(AbortMeta.AbortOption.ABORT));
 
-    LoadSaveTester<AbortMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            AbortMeta.class, attributes, getterMap, setterMap, attributeValidators, typeValidators);
+    LoadSaveTester<AbortMeta> loadSaveTester = new LoadSaveTester<>(AbortMeta.class, attributes, getterMap, setterMap, attributeValidators, typeValidators);
     loadSaveTester.testSerialization();
   }
 
@@ -73,11 +68,7 @@ public class AbortMetaTest {
     AbortMeta meta = new AbortMeta();
 
     // No abort option specified: leave the default: Abort
-    String inputXml =
-        "  <transform>\n"
-            + "    <name>Abort</name>\n"
-            + "    <type>Abort</type>\n"
-            + "  </transform>";
+    String inputXml = "  <transform>\n" + "    <name>Abort</name>\n" + "    <type>Abort</type>\n" + "  </transform>";
     Node node = XmlHandler.loadXmlString(inputXml).getFirstChild();
     meta.loadXml(node, metadataProvider);
     assertTrue(meta.isAbort());

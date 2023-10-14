@@ -24,9 +24,7 @@ public class PropertyInputMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    PropertyInputMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/properties-input-transform.xml", PropertyInputMeta.class);
+    PropertyInputMeta meta = TransformSerializationTestUtil.testSerialization("/properties-input-transform.xml", PropertyInputMeta.class);
     Assert.assertEquals(1, meta.getFiles().size());
     Assert.assertEquals(2, meta.getInputFields().size());
   }

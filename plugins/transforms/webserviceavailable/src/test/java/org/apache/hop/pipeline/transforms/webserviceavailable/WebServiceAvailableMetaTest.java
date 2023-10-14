@@ -26,12 +26,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WebServiceAvailableMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testLoadSave() throws HopException {
-    List<String> attributes =
-        Arrays.asList("UrlField", "ConnectTimeOut", "ReadTimeOut", "ResultFieldName");
+    List<String> attributes = Arrays.asList("UrlField", "ConnectTimeOut", "ReadTimeOut", "ResultFieldName");
 
     LoadSaveTester loadSaveTester = new LoadSaveTester(WebServiceAvailableMeta.class, attributes);
 

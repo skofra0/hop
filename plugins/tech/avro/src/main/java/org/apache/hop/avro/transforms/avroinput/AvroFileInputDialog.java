@@ -49,12 +49,7 @@ public class AvroFileInputDialog extends BaseTransformDialog implements ITransfo
   private Text wOutputField;
   private TextVar wRowsLimit;
 
-  public AvroFileInputDialog(
-      Shell parent,
-      IVariables variables,
-      Object baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public AvroFileInputDialog(Shell parent, IVariables variables, Object baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) baseTransformMeta, pipelineMeta, transformName);
 
     input = (AvroFileInputMeta) baseTransformMeta;

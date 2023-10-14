@@ -34,10 +34,7 @@ public class NeoPipelineExecutionViewerErrorTab extends NeoExecutionViewerErrorT
     super(viewer);
   }
 
-  @GuiTab(
-      id = "90020-pipeline-execution-viewer-neo4j-error-tab",
-      parentId = PipelineExecutionViewer.PIPELINE_EXECUTION_VIEWER_TABS,
-      description = "Pipeline to error path")
+  @GuiTab(id = "90020-pipeline-execution-viewer-neo4j-error-tab", parentId = PipelineExecutionViewer.PIPELINE_EXECUTION_VIEWER_TABS, description = "Pipeline to error path")
   public void addNeo4jCypherTab(CTabFolder tabFolder) {
     super.addNeoErrorPathTab(tabFolder);
   }

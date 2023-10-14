@@ -51,9 +51,7 @@ public class LogChannelFileWriter {
    * @param pollingInterval The polling interval in milliseconds.
    * @throws HopException in case the specified log file can't be created.
    */
-  public LogChannelFileWriter(
-      String logChannelId, FileObject logFile, boolean appending, int pollingInterval)
-      throws HopException {
+  public LogChannelFileWriter(String logChannelId, FileObject logFile, boolean appending, int pollingInterval) throws HopException {
     this.logChannelId = logChannelId;
     this.logFile = logFile;
     this.appending = appending;
@@ -65,8 +63,7 @@ public class LogChannelFileWriter {
     try {
       logFileOutputStream = HopVfs.getOutputStream(logFile, appending);
     } catch (IOException e) {
-      throw new HopException(
-          "There was an error while trying to open file '" + logFile + "' for writing", e);
+      throw new HopException("There was an error while trying to open file '" + logFile + "' for writing", e);
     }
 
     this.buffer = new LogChannelFileWriterBuffer(this.logChannelId);
@@ -81,8 +78,7 @@ public class LogChannelFileWriter {
    * @param appending set to true if you want to append to an existing file
    * @throws HopException in case the specified log file can't be created.
    */
-  public LogChannelFileWriter(String logChannelId, FileObject logFile, boolean appending)
-      throws HopException {
+  public LogChannelFileWriter(String logChannelId, FileObject logFile, boolean appending) throws HopException {
     this(logChannelId, logFile, appending, 1000);
   }
 
@@ -95,41 +91,35 @@ public class LogChannelFileWriter {
     exception = null;
     active.set(true);
 
-    Thread thread =
-        new Thread(
-            () -> {
-              try {
+    Thread thread = new Thread(() -> {
+      try {
 
-                while (active.get() && exception == null) {
-                  flush();
-                  Thread.sleep(pollingInterval);
-                }
-                // When done, save the last bit as well...
-                flush();
+        while (active.get() && exception == null) {
+          flush();
+          Thread.sleep(pollingInterval);
+        }
+        // When done, save the last bit as well...
+        flush();
 
-              } catch (Exception e) {
-                exception =
-                    new HopException("There was an error logging to file '" + logFile + "'", e);
-              } finally {
-                try {
-                  if (logFileOutputStream != null) {
-                    logFileOutputStream.close();
-                    logFileOutputStream = null;
-                  }
+      } catch (Exception e) {
+        exception = new HopException("There was an error logging to file '" + logFile + "'", e);
+      } finally {
+        try {
+          if (logFileOutputStream != null) {
+            logFileOutputStream.close();
+            logFileOutputStream = null;
+          }
 
-                  if (buffer != null) {
-                    LoggingRegistry.getInstance()
-                        .removeLogChannelFileWriterBuffer(buffer.getLogChannelId());
-                  }
-                } catch (Exception e) {
-                  exception =
-                      new HopException(
-                          "There was an error closing log file file '" + logFile + "'", e);
-                } finally {
-                  finished.set(true);
-                }
-              }
-            });
+          if (buffer != null) {
+            LoggingRegistry.getInstance().removeLogChannelFileWriterBuffer(buffer.getLogChannelId());
+          }
+        } catch (Exception e) {
+          exception = new HopException("There was an error closing log file file '" + logFile + "'", e);
+        } finally {
+          finished.set(true);
+        }
+      }
+    });
     thread.start();
   }
 

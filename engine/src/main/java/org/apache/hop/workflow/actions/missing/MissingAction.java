@@ -47,9 +47,7 @@ public class MissingAction extends ActionBase implements IAction {
   public Result execute(Result previousResult, int nr) throws HopWorkflowException {
     previousResult.setResult(false);
     previousResult.setNrErrors(previousResult.getNrErrors() + 1);
-    getLogChannel()
-        .logError(
-            BaseMessages.getString(MissingAction.class, "MissingAction.Log.CannotRunWorkflow"));
+    getLogChannel().logError(BaseMessages.getString(MissingAction.class, "MissingAction.Log.CannotRunWorkflow"));
     return previousResult;
   }
 
@@ -58,6 +56,5 @@ public class MissingAction extends ActionBase implements IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {}
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {}
 }

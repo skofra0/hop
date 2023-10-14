@@ -42,13 +42,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
 
   private static final Class<?> PKG = TableInputMeta.class; // For Translator
 
-  public TableInput(
-      TransformMeta transformMeta,
-      TableInputMeta meta,
-      TableInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TableInput(TransformMeta transformMeta, TableInputMeta meta, TableInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -71,16 +65,11 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
       }
 
       if (parametersMeta.size() == 0) {
-        throw new HopException(
-            "Expected to read parameters from transform ["
-                + data.infoStream.getTransformName()
-                + "] but none were found.");
+        throw new HopException("Expected to read parameters from transform [" + data.infoStream.getTransformName() + "] but none were found.");
       }
     } else {
       throw new HopException(
-          "Unable to find rowset to read from, perhaps transform ["
-              + data.infoStream.getTransformName()
-              + "] doesn't exist. (or perhaps you are trying a preview?)");
+          "Unable to find rowset to read from, perhaps transform [" + data.infoStream.getTransformName() + "] doesn't exist. (or perhaps you are trying a preview?)");
     }
 
     RowMetaAndData parameters = new RowMetaAndData(parametersMeta, parametersData);
@@ -100,24 +89,18 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
       if (data.infoStream.getTransformMeta() != null) {
         if (meta.isExecuteEachInputRow()) {
           if (log.isDetailed()) {
-            logDetailed(
-                "Reading single row from stream [" + data.infoStream.getTransformName() + "]");
+            logDetailed("Reading single row from stream [" + data.infoStream.getTransformName() + "]");
           }
           data.rowSet = findInputRowSet(data.infoStream.getTransformName());
           if (data.rowSet == null) {
             throw new HopException(
-                "Unable to find rowset to read from, perhaps transform ["
-                    + data.infoStream.getTransformName()
-                    + "] doesn't exist. (or perhaps you are trying a preview?)");
+                "Unable to find rowset to read from, perhaps transform [" + data.infoStream.getTransformName() + "] doesn't exist. (or perhaps you are trying a preview?)");
           }
           parameters = getRowFrom(data.rowSet);
           parametersMeta = data.rowSet.getRowMeta();
         } else {
           if (log.isDetailed()) {
-            logDetailed(
-                "Reading query parameters from stream ["
-                    + data.infoStream.getTransformName()
-                    + "]");
+            logDetailed("Reading query parameters from stream [" + data.infoStream.getTransformName() + "]");
           }
           RowMetaAndData rmad = readStartDate(); // Read values in lookup table (look)
           parameters = rmad.getData();
@@ -220,8 +203,7 @@ public class TableInput extends BaseTransform<TableInputMeta, TableInputData> {
     }
   }
 
-  private boolean doQuery(IRowMeta parametersMeta, Object[] parameters)
-      throws HopDatabaseException {
+  private boolean doQuery(IRowMeta parametersMeta, Object[] parameters) throws HopDatabaseException {
     boolean success = true;
 
     // Open the query with the optional parameters received from the source transforms.

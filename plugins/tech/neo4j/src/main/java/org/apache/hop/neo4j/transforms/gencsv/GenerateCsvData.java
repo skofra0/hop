@@ -41,8 +41,7 @@ public class GenerateCsvData extends BaseTransformData implements ITransformData
     super();
   }
 
-  public static String getPropertySetKey(
-      String sourcePipeline, String sourceTransform, String propertySetId) {
+  public static String getPropertySetKey(String sourcePipeline, String sourceTransform, String propertySetId) {
     StringBuilder key = new StringBuilder();
     if (StringUtils.isNotEmpty(sourcePipeline)) {
       key.append(sourcePipeline);

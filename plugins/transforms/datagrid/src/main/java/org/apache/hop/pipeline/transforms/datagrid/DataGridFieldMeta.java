@@ -20,73 +20,37 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class DataGridFieldMeta implements Cloneable {
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "currency",
-      injectionKeyDescription = "DataGridDialog.Currency.Column")
+  @HopMetadataProperty(groupKey = "field", key = "currency", injectionKeyDescription = "DataGridDialog.Currency.Column")
   private String currency;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "decimal",
-      injectionKeyDescription = "DataGridDialog.Decimal.Column")
+  @HopMetadataProperty(groupKey = "field", key = "decimal", injectionKeyDescription = "DataGridDialog.Decimal.Column")
   private String decimal;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "group",
-      injectionKeyDescription = "DataGridDialog.Group.Column")
+  @HopMetadataProperty(groupKey = "field", key = "group", injectionKeyDescription = "DataGridDialog.Group.Column")
   private String group;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "name",
-      injectionKeyDescription = "DataGridDialog.Name.Column")
+  @HopMetadataProperty(groupKey = "field", key = "name", injectionKeyDescription = "DataGridDialog.Name.Column")
   private String name;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "type",
-      injectionKeyDescription = "DataGridDialog.Type.Column")
+  @HopMetadataProperty(groupKey = "field", key = "type", injectionKeyDescription = "DataGridDialog.Type.Column")
   private String type;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "format",
-      injectionKeyDescription = "DataGridDialog.Format.Column")
+  @HopMetadataProperty(groupKey = "field", key = "format", injectionKeyDescription = "DataGridDialog.Format.Column")
   private String format;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "length",
-      injectionKeyDescription = "DataGridDialog.Length.Column")
+  @HopMetadataProperty(groupKey = "field", key = "length", injectionKeyDescription = "DataGridDialog.Length.Column")
   private int lenght;
 
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "precision",
-      injectionKeyDescription = "DataGridDialog.Precision.Column")
+  @HopMetadataProperty(groupKey = "field", key = "precision", injectionKeyDescription = "DataGridDialog.Precision.Column")
   private int precision;
 
   /** Flag : set empty string */
-  @HopMetadataProperty(
-      groupKey = "field",
-      key = "set_empty_string",
-      injectionKeyDescription = "DataGridDialog.Value.SetEmptyString")
+  @HopMetadataProperty(groupKey = "field", key = "set_empty_string", injectionKeyDescription = "DataGridDialog.Value.SetEmptyString")
   private boolean emptyString;
 
   public DataGridFieldMeta() {}
 
-  public DataGridFieldMeta(
-      String currency,
-      String decimal,
-      String group,
-      String name,
-      String type,
-      String format,
-      int lenght,
-      int precision,
-      Boolean isEmptyString) {
+  public DataGridFieldMeta(String currency, String decimal, String group, String name, String type, String format, int lenght, int precision, Boolean isEmptyString) {
     this.currency = currency;
     this.decimal = decimal;
     this.group = group;

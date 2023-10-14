@@ -49,21 +49,13 @@ import org.apache.hop.pipeline.transforms.vertica.bulkloader.nativebinary.Column
 import org.apache.hop.pipeline.transforms.vertica.bulkloader.nativebinary.StreamEncoder;
 
 public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, VerticaBulkLoaderData> {
-  private static final Class<?> PKG =
-      VerticaBulkLoader.class; // For Translator
+  private static final Class<?> PKG = VerticaBulkLoader.class; // For Translator
 
-  private static final SimpleDateFormat SIMPLE_DATE_FORMAT =
-      new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+  private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
   private FileOutputStream exceptionLog;
   private FileOutputStream rejectedLog;
 
-  public VerticaBulkLoader(
-      TransformMeta transformMeta,
-      VerticaBulkLoaderMeta meta,
-      VerticaBulkLoaderData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public VerticaBulkLoader(TransformMeta transformMeta, VerticaBulkLoaderMeta meta, VerticaBulkLoaderData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -129,22 +121,14 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
           String inputFieldName = vbf.getFieldStream();
           int inputFieldIdx = getInputRowMeta().indexOfValue(inputFieldName);
           if (inputFieldIdx < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoader.Exception.FieldRequired",
-                    inputFieldName)); //$NON-NLS-1$
+            throw new HopTransformException(BaseMessages.getString(PKG, "VerticaBulkLoader.Exception.FieldRequired", inputFieldName)); // $NON-NLS-1$
           }
           data.selectedRowFieldIndices[insertFieldIdx] = inputFieldIdx;
 
           String insertFieldName = vbf.getFieldDatabase();
           IValueMeta inputValueMeta = getInputRowMeta().getValueMeta(inputFieldIdx);
           if (inputValueMeta == null) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoader.Exception.FailedToFindField",
-                    vbf.getFieldStream())); // $NON-NLS-1$
+            throw new HopTransformException(BaseMessages.getString(PKG, "VerticaBulkLoader.Exception.FailedToFindField", vbf.getFieldStream())); // $NON-NLS-1$
           }
           IValueMeta insertValueMeta = inputValueMeta.clone();
           insertValueMeta.setName(insertFieldName);
@@ -182,7 +166,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
       if (checkFeedback(getLinesRead())) {
         if (log.isBasic()) {
           logBasic("linenr " + getLinesRead());
-        } //$NON-NLS-1$
+        } // $NON-NLS-1$
       }
     } catch (HopException e) {
       logError("Because of an error, this transform can't continue: ", e);
@@ -212,56 +196,28 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
   }
 
   @VisibleForTesting
-  void writeExceptionRejectionLogs(HopValueException valueException, Object[] outputRowData)
-      throws IOException {
-    String dateTimeString =
-        (SIMPLE_DATE_FORMAT.format(new Date(System.currentTimeMillis()))) + " - ";
-    logError(
-        BaseMessages.getString(
-            PKG,
-            "VerticaBulkLoader.Exception.RowRejected",
-            Arrays.stream(outputRowData).map(Object::toString).collect(Collectors.joining(" | "))));
+  void writeExceptionRejectionLogs(HopValueException valueException, Object[] outputRowData) throws IOException {
+    String dateTimeString = (SIMPLE_DATE_FORMAT.format(new Date(System.currentTimeMillis()))) + " - ";
+    logError(BaseMessages.getString(PKG, "VerticaBulkLoader.Exception.RowRejected", Arrays.stream(outputRowData).map(Object::toString).collect(Collectors.joining(" | "))));
 
     if (exceptionLog != null) {
       // Replace used to ensure timestamps are being added appropriately (some messages are
       // multi-line)
-      exceptionLog.write(
-          (dateTimeString
-                  + valueException
-                      .getMessage()
-                      .replace(System.lineSeparator(), System.lineSeparator() + dateTimeString))
-              .getBytes());
+      exceptionLog.write((dateTimeString + valueException.getMessage().replace(System.lineSeparator(), System.lineSeparator() + dateTimeString)).getBytes());
       exceptionLog.write(System.lineSeparator().getBytes());
       for (StackTraceElement element : valueException.getStackTrace()) {
-        exceptionLog.write(
-            (dateTimeString + "at " + element.toString() + System.lineSeparator()).getBytes());
+        exceptionLog.write((dateTimeString + "at " + element.toString() + System.lineSeparator()).getBytes());
       }
-      exceptionLog.write(
-          (dateTimeString
-                  + "Caused by: "
-                  + valueException.getClass().toString()
-                  + System.lineSeparator())
-              .getBytes());
+      exceptionLog.write((dateTimeString + "Caused by: " + valueException.getClass().toString() + System.lineSeparator()).getBytes());
       // Replace used to ensure timestamps are being added appropriately (some messages are
       // multi-line)
-      exceptionLog.write(
-          ((dateTimeString
-                  + valueException
-                      .getCause()
-                      .getMessage()
-                      .replace(System.lineSeparator(), System.lineSeparator() + dateTimeString))
-              .getBytes()));
+      exceptionLog.write(((dateTimeString + valueException.getCause().getMessage().replace(System.lineSeparator(), System.lineSeparator() + dateTimeString)).getBytes()));
       exceptionLog.write(System.lineSeparator().getBytes());
     }
     if (rejectedLog != null) {
       rejectedLog.write(
           (dateTimeString
-                  + BaseMessages.getString(
-                      PKG,
-                      "VerticaBulkLoader.Exception.RowRejected",
-                      Arrays.stream(outputRowData)
-                          .map(Object::toString)
-                          .collect(Collectors.joining(" | "))))
+              + BaseMessages.getString(PKG, "VerticaBulkLoader.Exception.RowRejected", Arrays.stream(outputRowData).map(Object::toString).collect(Collectors.joining(" | "))))
               .getBytes());
       for (Object outputRowDatum : outputRowData) {
         rejectedLog.write((outputRowDatum.toString() + " | ").getBytes());
@@ -284,8 +240,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
     }
   }
 
-  private ColumnSpec getColumnSpecFromField(
-      IValueMeta inputValueMeta, IValueMeta insertValueMeta, IValueMeta targetValueMeta) {
+  private ColumnSpec getColumnSpecFromField(IValueMeta inputValueMeta, IValueMeta insertValueMeta, IValueMeta targetValueMeta) {
     logBasic(
         "Mapping input field "
             + inputValueMeta.getName()
@@ -304,72 +259,45 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
       return new ColumnSpec(ColumnSpec.ConstantWidthType.INTEGER_64);
     } else if (targetColumnTypeName.equals("BOOLEAN")) {
       return new ColumnSpec(ColumnSpec.ConstantWidthType.BOOLEAN);
-    } else if (targetColumnTypeName.equals("FLOAT")
-        || targetColumnTypeName.equals("DOUBLE PRECISION")) {
+    } else if (targetColumnTypeName.equals("FLOAT") || targetColumnTypeName.equals("DOUBLE PRECISION")) {
       return new ColumnSpec(ColumnSpec.ConstantWidthType.FLOAT);
     } else if (targetColumnTypeName.equals("CHAR")) {
       return new ColumnSpec(ColumnSpec.UserDefinedWidthType.CHAR, targetValueMeta.getLength());
-    } else if (targetColumnTypeName.equals("VARCHAR")
-        || targetColumnTypeName.equals("CHARACTER VARYING")) {
+    } else if (targetColumnTypeName.equals("VARCHAR") || targetColumnTypeName.equals("CHARACTER VARYING")) {
       return new ColumnSpec(ColumnSpec.VariableWidthType.VARCHAR, targetValueMeta.getLength());
     } else if (targetColumnTypeName.equals("DATE")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.DATE);
       }
     } else if (targetColumnTypeName.equals("TIME")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.TIME);
       }
     } else if (targetColumnTypeName.equals("TIMETZ")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.TIMETZ);
       }
     } else if (targetColumnTypeName.equals("TIMESTAMP")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.TIMESTAMP);
       }
     } else if (targetColumnTypeName.equals("TIMESTAMPTZ")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.TIMESTAMPTZ);
       }
-    } else if (targetColumnTypeName.equals("INTERVAL")
-        || targetColumnTypeName.equals("INTERVAL DAY TO SECOND")) {
+    } else if (targetColumnTypeName.equals("INTERVAL") || targetColumnTypeName.equals("INTERVAL DAY TO SECOND")) {
       if (inputValueMeta.isDate() == false) {
-        throw new IllegalArgumentException(
-            "Field "
-                + inputValueMeta.getName()
-                + " must be a Date compatible type to match target column "
-                + insertValueMeta.getName());
+        throw new IllegalArgumentException("Field " + inputValueMeta.getName() + " must be a Date compatible type to match target column " + insertValueMeta.getName());
       } else {
         return new ColumnSpec(ColumnSpec.ConstantWidthType.INTERVAL);
       }
@@ -378,53 +306,40 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
     } else if (targetColumnTypeName.equals("VARBINARY")) {
       return new ColumnSpec(ColumnSpec.VariableWidthType.VARBINARY, targetValueMeta.getLength());
     } else if (targetColumnTypeName.equals("NUMERIC")) {
-      return new ColumnSpec(
-          ColumnSpec.PrecisionScaleWidthType.NUMERIC,
-          targetValueMeta.getLength(),
-          targetValueMeta.getPrecision());
+      return new ColumnSpec(ColumnSpec.PrecisionScaleWidthType.NUMERIC, targetValueMeta.getLength(), targetValueMeta.getPrecision());
     }
-    throw new IllegalArgumentException(
-        "Column type " + targetColumnTypeName + " not supported."); // $NON-NLS-1$
+    throw new IllegalArgumentException("Column type " + targetColumnTypeName + " not supported."); // $NON-NLS-1$
   }
 
   private void initializeWorker() {
     final String dml = buildCopyStatementSqlString();
 
-    data.workerThread =
-        Executors.defaultThreadFactory()
-            .newThread(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    try {
-                      VerticaCopyStream stream = createVerticaCopyStream(dml);
-                      stream.start();
-                      stream.addStream(data.pipedInputStream);
-                      setLinesRejected(stream.getRejects().size());
-                      stream.execute();
-                      long rowsLoaded = stream.finish();
-                      if (getLinesOutput() != rowsLoaded) {
-                        logMinimal(
-                            String.format(
-                                "%d records loaded out of %d records sent.",
-                                rowsLoaded, getLinesOutput()));
-                      }
-                      data.db.disconnect();
-                    } catch (SQLException
-                        | IllegalStateException
-                        | ClassNotFoundException
-                        | HopException e) {
-                      if (e.getCause() instanceof InterruptedIOException) {
-                        logBasic("SQL statement interrupted by halt of pipeline");
-                      } else {
-                        logError("SQL Error during statement execution.", e);
-                        setErrors(1);
-                        stopAll();
-                        setOutputDone(); // signal end to receiver(s)
-                      }
-                    }
-                  }
-                });
+    data.workerThread = Executors.defaultThreadFactory().newThread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          VerticaCopyStream stream = createVerticaCopyStream(dml);
+          stream.start();
+          stream.addStream(data.pipedInputStream);
+          setLinesRejected(stream.getRejects().size());
+          stream.execute();
+          long rowsLoaded = stream.finish();
+          if (getLinesOutput() != rowsLoaded) {
+            logMinimal(String.format("%d records loaded out of %d records sent.", rowsLoaded, getLinesOutput()));
+          }
+          data.db.disconnect();
+        } catch (SQLException | IllegalStateException | ClassNotFoundException | HopException e) {
+          if (e.getCause() instanceof InterruptedIOException) {
+            logBasic("SQL statement interrupted by halt of pipeline");
+          } else {
+            logError("SQL Error during statement execution.", e);
+            setErrors(1);
+            stopAll();
+            setOutputDone(); // signal end to receiver(s)
+          }
+        }
+      }
+    });
 
     data.workerThread.start();
   }
@@ -435,11 +350,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
     StringBuilder sb = new StringBuilder(150);
     sb.append("COPY ");
 
-    sb.append(
-        databaseMeta.getQuotedSchemaTableCombination(
-            variables,
-            data.db.resolve(meta.getSchemaName()),
-            data.db.resolve(meta.getTableName())));
+    sb.append(databaseMeta.getQuotedSchemaTableCombination(variables, data.db.resolve(meta.getSchemaName()), data.db.resolve(meta.getTableName())));
 
     sb.append(" (");
     final IRowMeta fields = data.insertRowMeta;
@@ -453,15 +364,13 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
         case NUMERIC:
           sb.append("TMPFILLERCOL").append(i).append(" FILLER VARCHAR(1000), ");
           // Force columns to be quoted:
-          sb.append(
-              databaseMeta.getStartQuote() + valueMeta.getName() + databaseMeta.getEndQuote());
+          sb.append(databaseMeta.getStartQuote() + valueMeta.getName() + databaseMeta.getEndQuote());
           sb.append(" AS CAST(").append("TMPFILLERCOL").append(i).append(" AS NUMERIC");
           sb.append(")");
           break;
         default:
           // Force columns to be quoted:
-          sb.append(
-              databaseMeta.getStartQuote() + valueMeta.getName() + databaseMeta.getEndQuote());
+          sb.append(databaseMeta.getStartQuote() + valueMeta.getName() + databaseMeta.getEndQuote());
           break;
       }
     }
@@ -470,15 +379,11 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
     sb.append(" FROM STDIN NATIVE ");
 
     if (!StringUtil.isEmpty(meta.getExceptionsFileName())) {
-      sb.append("EXCEPTIONS E'")
-          .append(meta.getExceptionsFileName().replace("'", "\\'"))
-          .append("' ");
+      sb.append("EXCEPTIONS E'").append(meta.getExceptionsFileName().replace("'", "\\'")).append("' ");
     }
 
     if (!StringUtil.isEmpty(meta.getRejectedDataFileName())) {
-      sb.append("REJECTED DATA E'")
-          .append(meta.getRejectedDataFileName().replace("'", "\\'"))
-          .append("' ");
+      sb.append("REJECTED DATA E'").append(meta.getRejectedDataFileName().replace("'", "\\'")).append("' ");
     }
 
     // TODO: Should eventually get a preference for this, but for now, be backward compatible.
@@ -493,9 +398,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
     }
 
     if (!StringUtil.isEmpty(meta.getStreamName())) {
-      sb.append("STREAM NAME E'")
-          .append(data.db.resolve(meta.getStreamName()).replace("'", "\\'"))
-          .append("' ");
+      sb.append("STREAM NAME E'").append(data.db.resolve(meta.getStreamName()).replace("'", "\\'")).append("' ");
     }
 
     // XXX: I believe the right thing to do here is always use NO COMMIT since we want Hop's
@@ -526,10 +429,13 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
       data.encoder.writeRow(data.insertRowMeta, insertRowData);
     } catch (HopValueException valueException) {
       /*
-       *  If we are to abort, we should continue throwing the exception. If we are not aborting, we need to set the
-       *  outputRowData to null, so the next transform knows not to add it and continue. We also need to write to the
-       *  rejected log what data failed (print out the outputRowData before null'ing it) and write to the error log the
-       *  issue.
+       * If we are to abort, we should continue throwing the exception. If we are not aborting, we need to
+       * set the
+       * outputRowData to null, so the next transform knows not to add it and continue. We also need to
+       * write to the
+       * rejected log what data failed (print out the outputRowData before null'ing it) and write to the
+       * error log the
+       * issue.
        */
       // write outputRowData -> Rejected Row
       // write Error Log as to why it was rejected
@@ -550,8 +456,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
   protected void verifyDatabaseConnection() throws HopException {
     // Confirming Database Connection is defined.
     if (meta.getConnection() == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Error.NoConnection"));
+      throw new HopException(BaseMessages.getString(PKG, "VerticaBulkLoaderMeta.Error.NoConnection"));
     }
   }
 
@@ -652,20 +557,17 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
   }
 
   @VisibleForTesting
-  StreamEncoder createStreamEncoder(List<ColumnSpec> colSpecs, PipedInputStream pipedInputStream)
-      throws IOException {
+  StreamEncoder createStreamEncoder(List<ColumnSpec> colSpecs, PipedInputStream pipedInputStream) throws IOException {
     return new StreamEncoder(colSpecs, pipedInputStream);
   }
 
   @VisibleForTesting
-  VerticaCopyStream createVerticaCopyStream(String dml)
-      throws SQLException, ClassNotFoundException, HopDatabaseException {
+  VerticaCopyStream createVerticaCopyStream(String dml) throws SQLException, ClassNotFoundException, HopDatabaseException {
     return new VerticaCopyStream(getVerticaConnection(), dml);
   }
 
   @VisibleForTesting
-  VerticaConnection getVerticaConnection()
-      throws SQLException, ClassNotFoundException, HopDatabaseException {
+  VerticaConnection getVerticaConnection() throws SQLException, ClassNotFoundException, HopDatabaseException {
 
     Connection conn = data.db.getConnection();
     if (conn != null) {
@@ -695,8 +597,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
           return (VerticaConnection) underlyingConn;
         }
       }
-      throw new IllegalStateException(
-          "Could not retrieve a VerticaConnection from " + conn.getClass().getName());
+      throw new IllegalStateException("Could not retrieve a VerticaConnection from " + conn.getClass().getName());
     } else {
       throw new IllegalStateException("Could not retrieve a VerticaConnection from null");
     }

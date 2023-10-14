@@ -57,13 +57,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
   private Charset clientEncoding = Charset.defaultCharset();
   private PGCopyOutputStream pgCopyOut;
 
-  public PGBulkLoader(
-      TransformMeta transformMeta,
-      PGBulkLoaderMeta meta,
-      PGBulkLoaderData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public PGBulkLoader(TransformMeta transformMeta, PGBulkLoaderMeta meta, PGBulkLoaderData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,8 +71,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
 
     StringBuilder contents = new StringBuilder(500);
 
-    String tableName =
-        dm.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
+    String tableName = dm.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
 
     // Create a Postgres / Greenplum COPY string for use with a psql client
     contents.append("COPY ");
@@ -109,12 +102,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
     contents.append(" FROM STDIN"); // FIFO file
 
     // The "FORMAT" clause
-    contents
-        .append(" WITH CSV DELIMITER AS '")
-        .append(resolve(meta.getDelimiter()))
-        .append("' QUOTE AS '")
-        .append(resolve(meta.getEnclosure()))
-        .append("'");
+    contents.append(" WITH CSV DELIMITER AS '").append(resolve(meta.getDelimiter())).append("' QUOTE AS '").append(resolve(meta.getEnclosure())).append("'");
     contents.append(";").append(Const.CR);
 
     return contents.toString();
@@ -185,8 +173,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
 
     if (loadAction.equalsIgnoreCase("truncate")) {
       DatabaseMeta dm = meta.getDatabaseMeta();
-      String tableName =
-          dm.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
+      String tableName = dm.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
       logBasic("Launching command: " + "TRUNCATE " + tableName);
 
       Statement statement = connection.createStatement();
@@ -230,8 +217,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
         //
         data.keynrs = new int[meta.getMappings().size()];
         for (int i = 0; i < data.keynrs.length; i++) {
-          data.keynrs[i] =
-              getInputRowMeta().indexOfValue(meta.getMappings().get(i).getFieldStream());
+          data.keynrs[i] = getInputRowMeta().indexOfValue(meta.getMappings().get(i).getFieldStream());
         }
 
         // execute the copy statement... pgCopyOut is setup there
@@ -285,8 +271,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
               // No longer dump the bytes for a Lazy Conversion
               // We need to escape the quote characters in every string
               String quoteStr = new String(data.quote);
-              String escapedString =
-                  valueMeta.getString(valueData).replace(quoteStr, quoteStr + quoteStr);
+              String escapedString = valueMeta.getString(valueData).replace(quoteStr, quoteStr + quoteStr);
               pgCopyOut.write(escapedString.getBytes(clientEncoding));
 
               pgCopyOut.write(data.quote);
@@ -295,16 +280,15 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
               if (valueMeta.isStorageBinaryString()) {
                 pgCopyOut.write((byte[]) valueData);
               } else {
-                pgCopyOut.write(
-                    Long.toString(valueMeta.getInteger(valueData)).getBytes(clientEncoding));
+                pgCopyOut.write(Long.toString(valueMeta.getInteger(valueData)).getBytes(clientEncoding));
               }
               break;
             case IValueMeta.TYPE_DATE:
               // Format the date in the right format.
               //
               switch (data.dateFormatChoices[i]) {
-                  // Pass the data along in the format chosen by the user OR in binary format...
-                  //
+                // Pass the data along in the format chosen by the user OR in binary format...
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_PASS_THROUGH:
                   if (valueMeta.isStorageBinaryString()) {
                     pgCopyOut.write((byte[]) valueData);
@@ -316,8 +300,8 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   }
                   break;
 
-                  // Convert to a "YYYY-MM-DD" format
-                  //
+                // Convert to a "YYYY-MM-DD" format
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_DATE:
                   String dateString = data.dateMeta.getString(valueMeta.getDate(valueData));
                   if (dateString != null) {
@@ -325,8 +309,8 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   }
                   break;
 
-                  // Convert to a "YYYY-MM-DD HH:MM:SS.mmm" format
-                  //
+                // Convert to a "YYYY-MM-DD HH:MM:SS.mmm" format
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_DATETIME:
                   String dateTimeString = data.dateTimeMeta.getString(valueMeta.getDate(valueData));
                   if (dateTimeString != null) {
@@ -335,17 +319,15 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   break;
 
                 default:
-                  throw new HopException(
-                      "PGBulkLoader doesn't know how to handle date (neither passthrough, nor date or datetime for field "
-                          + valueMeta.getName());
+                  throw new HopException("PGBulkLoader doesn't know how to handle date (neither passthrough, nor date or datetime for field " + valueMeta.getName());
               }
               break;
             case IValueMeta.TYPE_TIMESTAMP:
               // Format the date in the right format.
               //
               switch (data.dateFormatChoices[i]) {
-                  // Pass the data along in the format chosen by the user OR in binary format...
-                  //
+                // Pass the data along in the format chosen by the user OR in binary format...
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_PASS_THROUGH:
                   if (valueMeta.isStorageBinaryString()) {
                     pgCopyOut.write((byte[]) valueData);
@@ -357,8 +339,8 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   }
                   break;
 
-                  // Convert to a "YYYY-MM-DD" format
-                  //
+                // Convert to a "YYYY-MM-DD" format
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_DATE:
                   String dateString = data.dateMeta.getString(valueMeta.getDate(valueData));
                   if (dateString != null) {
@@ -366,8 +348,8 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   }
                   break;
 
-                  // Convert to a "YYYY-MM-DD HH:MM:SS.mmm" format
-                  //
+                // Convert to a "YYYY-MM-DD HH:MM:SS.mmm" format
+                //
                 case PGBulkLoaderMeta.NR_DATE_MASK_DATETIME:
                   String dateTimeString = data.dateTimeMeta.getString(valueMeta.getDate(valueData));
                   if (dateTimeString != null) {
@@ -376,25 +358,21 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
                   break;
 
                 default:
-                  throw new HopException(
-                      "PGBulkLoader doesn't know how to handle timestamp (neither passthrough, nor date or datetime for field "
-                          + valueMeta.getName());
+                  throw new HopException("PGBulkLoader doesn't know how to handle timestamp (neither passthrough, nor date or datetime for field " + valueMeta.getName());
               }
               break;
             case IValueMeta.TYPE_BOOLEAN:
               if (valueMeta.isStorageBinaryString()) {
                 pgCopyOut.write((byte[]) valueData);
               } else {
-                pgCopyOut.write(
-                    Double.toString(valueMeta.getNumber(valueData)).getBytes(clientEncoding));
+                pgCopyOut.write(Double.toString(valueMeta.getNumber(valueData)).getBytes(clientEncoding));
               }
               break;
             case IValueMeta.TYPE_NUMBER:
               if (valueMeta.isStorageBinaryString()) {
                 pgCopyOut.write((byte[]) valueData);
               } else {
-                pgCopyOut.write(
-                    Double.toString(valueMeta.getNumber(valueData)).getBytes(clientEncoding));
+                pgCopyOut.write(Double.toString(valueMeta.getNumber(valueData)).getBytes(clientEncoding));
               }
               break;
             case IValueMeta.TYPE_BIGNUMBER:
@@ -408,8 +386,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
               }
               break;
             default:
-              throw new HopException(
-                  "PGBulkLoader doesn't handle the type " + valueMeta.getTypeDesc());
+              throw new HopException("PGBulkLoader doesn't handle the type " + valueMeta.getTypeDesc());
           }
         }
       }
@@ -425,8 +402,7 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
   protected void verifyDatabaseConnection() throws HopException {
     // Confirming Database Connection is defined.
     if (meta.getDatabaseMeta() == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "PGBulkLoaderMeta.GetSQL.NoConnectionDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "PGBulkLoaderMeta.GetSQL.NoConnectionDefined"));
     }
   }
 
@@ -462,15 +438,9 @@ public class PGBulkLoader extends BaseTransform<PGBulkLoaderMeta, PGBulkLoaderDa
       for (int i = 0; i < data.dateFormatChoices.length; i++) {
         if (Utils.isEmpty(meta.getMappings().get(i).getDateMask())) {
           data.dateFormatChoices[i] = PGBulkLoaderMeta.NR_DATE_MASK_PASS_THROUGH;
-        } else if (meta.getMappings()
-            .get(i)
-            .getDateMask()
-            .equalsIgnoreCase(PGBulkLoaderMeta.DATE_MASK_DATE)) {
+        } else if (meta.getMappings().get(i).getDateMask().equalsIgnoreCase(PGBulkLoaderMeta.DATE_MASK_DATE)) {
           data.dateFormatChoices[i] = PGBulkLoaderMeta.NR_DATE_MASK_DATE;
-        } else if (meta.getMappings()
-            .get(i)
-            .getDateMask()
-            .equalsIgnoreCase(PGBulkLoaderMeta.DATE_MASK_DATETIME)) {
+        } else if (meta.getMappings().get(i).getDateMask().equalsIgnoreCase(PGBulkLoaderMeta.DATE_MASK_DATETIME)) {
           data.dateFormatChoices[i] = PGBulkLoaderMeta.NR_DATE_MASK_DATETIME;
         } else { // The default : just pass it along...
           data.dateFormatChoices[i] = PGBulkLoaderMeta.NR_DATE_MASK_PASS_THROUGH;

@@ -37,13 +37,13 @@ import org.apache.hop.ui.hopgui.file.pipeline.HopGuiPipelineGraph;
  * Sets the __UnitTest_Run__ and __UnitTest_Name__ variables in the variables of the Hop GUI
  * pipeline graph.
  *
- * <p>These can then be picked up later by the other XP plugins.
+ * <p>
+ * These can then be picked up later by the other XP plugins.
  */
 public class HopGuiFlagUnitTestExtensionPoint implements IExtensionPoint<PipelineMeta> {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelineMeta pipelineMeta)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelineMeta pipelineMeta) throws HopException {
 
     PipelineUnitTest unitTest = TestingGuiPlugin.getCurrentUnitTest(pipelineMeta);
     if (unitTest == null) {

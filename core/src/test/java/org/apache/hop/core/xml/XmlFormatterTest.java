@@ -66,8 +66,7 @@ public class XmlFormatterTest {
     try (InputStream in = XmlFormatterTest.class.getResourceAsStream("XMLFormatterIn3cdata.xml")) {
       inXml = IOUtils.toString(in);
     }
-    try (InputStream in =
-        XmlFormatterTest.class.getResourceAsStream("XMLFormatterExpected3cdata.xml")) {
+    try (InputStream in = XmlFormatterTest.class.getResourceAsStream("XMLFormatterExpected3cdata.xml")) {
       expectedXml = IOUtils.toString(in);
     }
 
@@ -78,12 +77,10 @@ public class XmlFormatterTest {
   @Test
   public void test4() throws Exception {
     String inXml, expectedXml;
-    try (InputStream in =
-        XmlFormatterTest.class.getResourceAsStream("XMLFormatterIn4multilinecdata.xml")) {
+    try (InputStream in = XmlFormatterTest.class.getResourceAsStream("XMLFormatterIn4multilinecdata.xml")) {
       inXml = IOUtils.toString(in);
     }
-    try (InputStream in =
-        XmlFormatterTest.class.getResourceAsStream("XMLFormatterExpected4multilinecdata.xml")) {
+    try (InputStream in = XmlFormatterTest.class.getResourceAsStream("XMLFormatterExpected4multilinecdata.xml")) {
       expectedXml = IOUtils.toString(in);
     }
 

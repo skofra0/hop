@@ -30,16 +30,14 @@ public class HopGuiDescribedVariableSearchable implements ISearchable<DescribedV
   private DescribedVariable describedVariable;
   private String configFilename;
 
-  public HopGuiDescribedVariableSearchable(
-      DescribedVariable describedVariable, String configFilename) {
+  public HopGuiDescribedVariableSearchable(DescribedVariable describedVariable, String configFilename) {
     this.describedVariable = describedVariable;
     this.configFilename = configFilename;
   }
 
   @Override
   public String getLocation() {
-    return "A variable in : "
-        + (configFilename == null ? HopConfig.getInstance().getConfigFilename() : configFilename);
+    return "A variable in : " + (configFilename == null ? HopConfig.getInstance().getConfigFilename() : configFilename);
   }
 
   @Override
@@ -73,14 +71,9 @@ public class HopGuiDescribedVariableSearchable implements ISearchable<DescribedV
         perspective.showSystemVariablesTab();
       } else {
         if (new File(realConfigFilename).exists()) {
-          DescribedVariablesConfigFile configFile =
-              new DescribedVariablesConfigFile(realConfigFilename);
+          DescribedVariablesConfigFile configFile = new DescribedVariablesConfigFile(realConfigFilename);
           configFile.readFromFile();
-          HopGui.editConfigFile(
-              HopGui.getInstance().getShell(),
-              realConfigFilename,
-              configFile,
-              searchResult.getComponent());
+          HopGui.editConfigFile(HopGui.getInstance().getShell(), realConfigFilename, configFile, searchResult.getComponent());
 
           // Note: if you change the file you want to refresh the project & environment
         }

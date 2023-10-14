@@ -59,8 +59,7 @@ public class StringCutDialog extends BaseTransformDialog implements ITransformDi
 
   private ColumnInfo[] ciKey;
 
-  public StringCutDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public StringCutDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (StringCutMeta) in;
   }
@@ -126,46 +125,19 @@ public class StringCutDialog extends BaseTransformDialog implements ITransformDi
     wlKey.setLayoutData(fdlKey);
 
     int nrFieldCols = 4;
-    int nrFieldRows =
-        (input.getFields() != null && !input.getFields().isEmpty() ? input.getFields().size() : 1);
+    int nrFieldRows = (input.getFields() != null && !input.getFields().isEmpty() ? input.getFields().size() : 1);
 
     ciKey = new ColumnInfo[nrFieldCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.InStreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.OutStreamField"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciKey[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.CutFrom"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.CutTo"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.InStreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.OutStreamField"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciKey[2] = new ColumnInfo(BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.CutFrom"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.CutTo"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
     ciKey[2].setUsingVariables(true);
-    ciKey[1].setToolTip(
-        BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.OutStreamField.Tooltip"));
+    ciKey[1].setToolTip(BaseMessages.getString(PKG, "StringCutDialog.ColumnInfo.OutStreamField.Tooltip"));
     ciKey[3].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrFieldRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrFieldRows, lsMod, props);
 
     FormData fdKey = new FormData();
     fdKey.left = new FormAttachment(0, 0);
@@ -177,24 +149,23 @@ public class StringCutDialog extends BaseTransformDialog implements ITransformDi
     //
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError("It was not possible to get the fields from the previous transform(s).");
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError("It was not possible to get the fields from the previous transform(s).");
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -253,15 +224,13 @@ public class StringCutDialog extends BaseTransformDialog implements ITransformDi
     inf.getFields().clear();
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "StringCutDialog.Log.FoundFields", String.valueOf(nrkeys)));
+      logDebug(BaseMessages.getString(PKG, "StringCutDialog.Log.FoundFields", String.valueOf(nrkeys)));
     }
 
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrkeys; i++) {
       TableItem item = wFields.getNonEmpty(i);
-      StringCutField scf =
-          new StringCutField(item.getText(1), item.getText(2), item.getText(3), item.getText(4));
+      StringCutField scf = new StringCutField(item.getText(1), item.getText(2), item.getText(3), item.getText(4));
       inf.getFields().add(scf);
     }
 
@@ -283,18 +252,16 @@ public class StringCutDialog extends BaseTransformDialog implements ITransformDi
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.getType() == IValueMeta.TYPE_STRING) {
-                // Only process strings
-                return true;
-              } else {
-                return false;
-              }
-            };
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.getType() == IValueMeta.TYPE_STRING) {
+            // Only process strings
+            return true;
+          } else {
+            return false;
+          }
+        };
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, listener);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(

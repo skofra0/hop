@@ -40,10 +40,10 @@ import java.util.Map;
 /**
  * The interface that any pipeline transform or plugin needs to implement.
  *
- * <p>Created on 12-AUG-2004
+ * <p>
+ * Created on 12-AUG-2004
  */
-public interface ITransform
-    extends IVariables, IHasLogChannel, IEngineComponent, IExtensionData {
+public interface ITransform extends IVariables, IHasLogChannel, IEngineComponent, IExtensionData {
 
   /** @return the pipeline that is executing this transform */
   IPipelineEngine<PipelineMeta> getPipeline();
@@ -60,7 +60,8 @@ public interface ITransform
   /**
    * This method checks if the transform is capable of processing at least one row.
    *
-   * <p>For example, if a transform has no input records but needs at least one to function, it will
+   * <p>
+   * For example, if a transform has no input records but needs at least one to function, it will
    * return false.
    *
    * @return true if the transform can process a row.
@@ -270,7 +271,7 @@ public interface ITransform
 
   /**
    * @return The number of "processed" lines of a transform. Well, a representable metric for that
-   *     anyway.
+   *         anyway.
    */
   long getProcessed();
 
@@ -298,7 +299,8 @@ public interface ITransform
   void setRepartitioning(int partitioningMethod);
 
   /**
-   * When using the Single threaded engine this signals to the transform that a batch of records has been processed
+   * When using the Single threaded engine this signals to the transform that a batch of records has
+   * been processed
    * and that no more are expected in this batch.
    *
    * @throws HopException In case an error occurs during the processing of the batch of rows.

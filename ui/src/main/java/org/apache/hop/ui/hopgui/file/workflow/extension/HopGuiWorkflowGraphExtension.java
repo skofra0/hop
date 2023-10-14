@@ -29,8 +29,7 @@ public class HopGuiWorkflowGraphExtension {
   private AreaOwner areaOwner;
   private boolean preventingDefault;
 
-  public HopGuiWorkflowGraphExtension(
-      HopGuiWorkflowGraph workflowGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
+  public HopGuiWorkflowGraphExtension(HopGuiWorkflowGraph workflowGraph, MouseEvent event, Point point, AreaOwner areaOwner) {
     this.workflowGraph = workflowGraph;
     this.event = event;
     this.point = point;

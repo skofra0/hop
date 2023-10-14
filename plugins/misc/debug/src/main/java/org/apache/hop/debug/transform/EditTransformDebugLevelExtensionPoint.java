@@ -30,15 +30,10 @@ import org.apache.hop.ui.core.dialog.ErrorDialog;
 import org.apache.hop.ui.hopgui.HopGui;
 import org.apache.hop.ui.hopgui.file.pipeline.extension.HopGuiPipelineGraphExtension;
 
-@ExtensionPoint(
-    id = "EditTransformDebugLevelExtensionPoint",
-    extensionPointId = "PipelineGraphMouseUp",
-    description = "Edit the custom transform debug level with a single click")
-public class EditTransformDebugLevelExtensionPoint
-    implements IExtensionPoint<HopGuiPipelineGraphExtension> {
+@ExtensionPoint(id = "EditTransformDebugLevelExtensionPoint", extensionPointId = "PipelineGraphMouseUp", description = "Edit the custom transform debug level with a single click")
+public class EditTransformDebugLevelExtensionPoint implements IExtensionPoint<HopGuiPipelineGraphExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiPipelineGraphExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiPipelineGraphExtension ext) throws HopException {
     try {
       if (ext.getAreaOwner() == null || ext.getAreaOwner().getOwner() == null) {
         return;
@@ -51,19 +46,14 @@ public class EditTransformDebugLevelExtensionPoint
       TransformMeta transformMeta = (TransformMeta) ext.getAreaOwner().getParent();
       IRowMeta inputRowMeta = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-      TransformDebugLevelDialog dialog =
-          new TransformDebugLevelDialog(HopGui.getInstance().getShell(), debugLevel, inputRowMeta);
+      TransformDebugLevelDialog dialog = new TransformDebugLevelDialog(HopGui.getInstance().getShell(), debugLevel, inputRowMeta);
       if (dialog.open()) {
-        DebugLevelUtil.storeTransformDebugLevel(
-            pipelineMeta.getAttributesMap().get(Defaults.DEBUG_GROUP),
-            transformMeta.getName(),
-            debugLevel);
+        DebugLevelUtil.storeTransformDebugLevel(pipelineMeta.getAttributesMap().get(Defaults.DEBUG_GROUP), transformMeta.getName(), debugLevel);
 
         ext.getPipelineGraph().redraw();
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(), "Error", "Error editing transform debugging level", e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error editing transform debugging level", e);
     }
   }
 }

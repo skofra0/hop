@@ -41,11 +41,7 @@ public class ParquetWriteSupport extends WriteSupport<RowMetaAndData> {
   private Map<Integer, Schema> fieldSchemas;
   private Map<Integer, LogicalType> fieldTypes;
 
-  public ParquetWriteSupport(
-      MessageType messageType,
-      Schema avroSchema,
-      List<Integer> sourceFieldIndexes,
-      List<ParquetField> fields) {
+  public ParquetWriteSupport(MessageType messageType, Schema avroSchema, List<Integer> sourceFieldIndexes, List<ParquetField> fields) {
     this.messageType = messageType;
     this.avroSchema = avroSchema;
     this.sourceFieldIndexes = sourceFieldIndexes;

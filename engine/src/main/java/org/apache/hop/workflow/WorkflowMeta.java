@@ -76,8 +76,7 @@ import java.util.Map;
  * definition are then queried using listParameters() and assigned values using calls to
  * setParameterValue(..). WorkflowMeta provides methods to load, save, verify, etc.
  */
-public class WorkflowMeta extends AbstractMeta
-    implements Cloneable, Comparable<WorkflowMeta>, IXml, IResourceExport, IHasFilename {
+public class WorkflowMeta extends AbstractMeta implements Cloneable, Comparable<WorkflowMeta>, IXml, IResourceExport, IHasFilename {
   private static final Class<?> PKG = WorkflowMeta.class; // For Translator
 
   public static final String WORKFLOW_EXTENSION = ".hwf";
@@ -171,19 +170,19 @@ public class WorkflowMeta extends AbstractMeta
    * Compares two workflow on name, filename, etc. The comparison algorithm is as follows:<br>
    *
    * <ol>
-   *   <li>The first workflow's filename is checked first; if it has none, the workflow is created.
-   *       If the second workflow does not come from a repository, -1 is returned.
-   *   <li>If the workflows are both created, the workflows' names are compared. If the first
-   *       workflow has no name and the second one does, a -1 is returned. If the opposite is true,
-   *       a 1 is returned.
-   *   <li>If they both have names they are compared as strings. If the result is non-zero it is
-   *       returned.
+   * <li>The first workflow's filename is checked first; if it has none, the workflow is created.
+   * If the second workflow does not come from a repository, -1 is returned.
+   * <li>If the workflows are both created, the workflows' names are compared. If the first
+   * workflow has no name and the second one does, a -1 is returned. If the opposite is true,
+   * a 1 is returned.
+   * <li>If they both have names they are compared as strings. If the result is non-zero it is
+   * returned.
    * </ol>
    *
    * @param j1 the first workflow to compare
    * @param j2 the second workflow to compare
    * @return 0 if the two workflows are equal, 1 or -1 depending on the values (see description
-   *     above)
+   *         above)
    */
   public int compare(WorkflowMeta j1, WorkflowMeta j2) {
     return super.compare(j1, j2);
@@ -264,8 +263,7 @@ public class WorkflowMeta extends AbstractMeta
       }
 
       for (String key : listParameters()) {
-        workflowMeta.addParameterDefinition(
-            key, getParameterDefault(key), getParameterDescription(key));
+        workflowMeta.addParameterDefinition(key, getParameterDefault(key), getParameterDescription(key));
       }
       return workflowMeta;
     } catch (Exception e) {
@@ -329,12 +327,12 @@ public class WorkflowMeta extends AbstractMeta
 
     /*
      * TODO: HOP-4287 : Cleanup XML of WorkflowMeta
-
-      return XmlFormatter.format(
-          XmlHandler.openTag(XML_TAG)
-              + XmlMetadataUtil.serializeObjectToXml(this)
-              + XmlHandler.closeTag(XML_TAG));
-    */
+     * 
+     * return XmlFormatter.format(
+     * XmlHandler.openTag(XML_TAG)
+     * + XmlMetadataUtil.serializeObjectToXml(this)
+     * + XmlHandler.closeTag(XML_TAG));
+     */
 
     StringBuilder xml = new StringBuilder(500);
 
@@ -342,11 +340,8 @@ public class WorkflowMeta extends AbstractMeta
 
     xml.append(XmlHandler.openTag(XML_TAG)).append(Const.CR);
 
-    xml.append("  ")
-        .append(
-            XmlHandler.addTagValue("name", getName())); // lossy if name is sync'ed with filename
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("name_sync_with_filename", info.isNameSynchronizedWithFilename()));
+    xml.append("  ").append(XmlHandler.addTagValue("name", getName())); // lossy if name is sync'ed with filename
+    xml.append("  ").append(XmlHandler.addTagValue("name_sync_with_filename", info.isNameSynchronizedWithFilename()));
 
     xml.append("  ").append(XmlHandler.addTagValue("description", info.getDescription()));
     xml.append("  ").append(XmlHandler.addTagValue("extended_description", info.getExtendedDescription()));
@@ -356,11 +351,9 @@ public class WorkflowMeta extends AbstractMeta
     }
 
     xml.append("  ").append(XmlHandler.addTagValue("created_user", info.getCreatedUser()));
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("created_date", XmlHandler.date2string(info.getCreatedDate())));
+    xml.append("  ").append(XmlHandler.addTagValue("created_date", XmlHandler.date2string(info.getCreatedDate())));
     xml.append("  ").append(XmlHandler.addTagValue("modified_user", info.getModifiedUser()));
-    xml.append("  ")
-        .append(XmlHandler.addTagValue("modified_date", XmlHandler.date2string(info.getModifiedDate())));
+    xml.append("  ").append(XmlHandler.addTagValue("modified_date", XmlHandler.date2string(info.getModifiedDate())));
 
     xml.append("    ").append(XmlHandler.openTag(XML_TAG_PARAMETERS)).append(Const.CR);
     String[] parameters = listParameters();
@@ -368,11 +361,8 @@ public class WorkflowMeta extends AbstractMeta
       xml.append("      ").append(XmlHandler.openTag("parameter")).append(Const.CR);
       xml.append("        ").append(XmlHandler.addTagValue("name", parameters[idx]));
       try {
-        xml.append("        ")
-            .append(XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
-        xml.append("        ")
-            .append(
-                XmlHandler.addTagValue("description", getParameterDescription(parameters[idx])));
+        xml.append("        ").append(XmlHandler.addTagValue("default_value", getParameterDefault(parameters[idx])));
+        xml.append("        ").append(XmlHandler.addTagValue("description", getParameterDescription(parameters[idx])));
       } catch (UnknownParamException e) {
         // skip the default value and/or description. This exception should never happen because we
         // use listParameters()
@@ -430,14 +420,12 @@ public class WorkflowMeta extends AbstractMeta
    * @param metadataProvider
    * @throws HopXmlException
    */
-  public WorkflowMeta(IVariables variables, String fname, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public WorkflowMeta(IVariables variables, String fname, IHopMetadataProvider metadataProvider) throws HopXmlException {
     this.metadataProvider = metadataProvider;
     loadXml(variables, fname, metadataProvider);
   }
 
-  public void loadXml(IVariables variables, String fname, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(IVariables variables, String fname, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       // OK, try to load using the VFS stuff...
       Document doc = XmlHandler.loadXmlFile(HopVfs.getFileObject(fname));
@@ -447,15 +435,10 @@ public class WorkflowMeta extends AbstractMeta
 
         loadXml(workflowNode, fname, metadataProvider, variables);
       } else {
-        throw new HopXmlException(
-            BaseMessages.getString(PKG, "WorkflowMeta.Exception.ErrorReadingFromXMLFile") + fname);
+        throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowMeta.Exception.ErrorReadingFromXMLFile") + fname);
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowMeta.Exception.UnableToLoadWorkflowFromXMLFile")
-              + fname
-              + "]",
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowMeta.Exception.UnableToLoadWorkflowFromXMLFile") + fname + "]", e);
     }
   }
 
@@ -466,9 +449,7 @@ public class WorkflowMeta extends AbstractMeta
    * @param variables
    * @throws HopXmlException the hop xml exception
    */
-  public WorkflowMeta(
-      InputStream inputStream, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public WorkflowMeta(InputStream inputStream, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     this();
     this.metadataProvider = metadataProvider;
     Document doc = XmlHandler.loadXmlFile(inputStream, null, false, false);
@@ -483,9 +464,7 @@ public class WorkflowMeta extends AbstractMeta
    * @param variables
    * @throws HopXmlException
    */
-  public WorkflowMeta(
-      Node workflowNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public WorkflowMeta(Node workflowNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     this();
     this.metadataProvider = metadataProvider;
     loadXml(workflowNode, null, metadataProvider, variables);
@@ -500,12 +479,7 @@ public class WorkflowMeta extends AbstractMeta
    * @param variables
    * @throws HopXmlException
    */
-  public void loadXml(
-      Node workflowNode,
-      String filename,
-      IHopMetadataProvider metadataProvider,
-      IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node workflowNode, String filename, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       // clear the workflows
       clear();
@@ -513,24 +487,23 @@ public class WorkflowMeta extends AbstractMeta
       setFilename(filename);
 
       /*
-        TODO: HOP-4287 : Cleanup XML of WorkflowMeta
-
-        XmlMetadataUtil.deSerializeFromXml(workflowNode, WorkflowMeta.class, this, metadataProvider);
-
-      */
+       * TODO: HOP-4287 : Cleanup XML of WorkflowMeta
+       * 
+       * XmlMetadataUtil.deSerializeFromXml(workflowNode, WorkflowMeta.class, this, metadataProvider);
+       * 
+       */
 
       // get workflow info:
       //
       info.setName(XmlHandler.getTagValue(workflowNode, "name"));
 
-      info.setNameSynchronizedWithFilename(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(workflowNode, "name_sync_with_filename")));
+      info.setNameSynchronizedWithFilename("Y".equalsIgnoreCase(XmlHandler.getTagValue(workflowNode, "name_sync_with_filename")));
 
       // description
-      info.setDescription( XmlHandler.getTagValue(workflowNode, "description"));
+      info.setDescription(XmlHandler.getTagValue(workflowNode, "description"));
 
       // extended description
-      info.setExtendedDescription( XmlHandler.getTagValue(workflowNode, "extended_description"));
+      info.setExtendedDescription(XmlHandler.getTagValue(workflowNode, "extended_description"));
 
       // workflow version
       workflowVersion = XmlHandler.getTagValue(workflowNode, "workflow_version");
@@ -539,7 +512,7 @@ public class WorkflowMeta extends AbstractMeta
       workflowStatus = Const.toInt(XmlHandler.getTagValue(workflowNode, "workflow_status"), -1);
 
       // Created user/date
-      info.setCreatedUser( XmlHandler.getTagValue(workflowNode, "created_user"));
+      info.setCreatedUser(XmlHandler.getTagValue(workflowNode, "created_user"));
       String createDate = XmlHandler.getTagValue(workflowNode, "created_date");
 
       if (createDate != null) {
@@ -605,18 +578,14 @@ public class WorkflowMeta extends AbstractMeta
 
       // Load the attribute groups map
       //
-      attributesMap =
-          AttributesUtil.loadAttributes(
-              XmlHandler.getSubNode(workflowNode, AttributesUtil.XML_TAG));
+      attributesMap = AttributesUtil.loadAttributes(XmlHandler.getSubNode(workflowNode, AttributesUtil.XML_TAG));
 
       clearChanged();
 
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowMetaLoaded.id, this);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, variables, HopExtensionPoint.WorkflowMetaLoaded.id, this);
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowMeta.Exception.UnableToLoadWorkflowFromXMLNode"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowMeta.Exception.UnableToLoadWorkflowFromXMLNode"), e);
     }
   }
 
@@ -873,11 +842,7 @@ public class WorkflowMeta extends AbstractMeta
   public WorkflowHopMeta findWorkflowHop(ActionMeta from, ActionMeta to, boolean includeDisabled) {
     for (WorkflowHopMeta hop : workflowHops) {
       if (hop.isEnabled() || includeDisabled) {
-        if (hop != null
-            && hop.getFromAction() != null
-            && hop.getToAction() != null
-            && hop.getFromAction().equals(from)
-            && hop.getToAction().equals(to)) {
+        if (hop != null && hop.getFromAction() != null && hop.getToAction() != null && hop.getFromAction().equals(from) && hop.getToAction().equals(to)) {
           return hop;
         }
       }
@@ -1036,8 +1001,7 @@ public class WorkflowMeta extends AbstractMeta
    * @param lookup the lookup
    * @return true, if successful
    */
-  private boolean hasLoop(
-      ActionMeta action, ActionMeta lookup, HashSet<ActionMeta> checkedActions) {
+  private boolean hasLoop(ActionMeta action, ActionMeta lookup, HashSet<ActionMeta> checkedActions) {
     String cacheKey = action.getName() + " - " + (lookup != null ? lookup.getName() : "");
 
     Boolean hasLoop = loopCache.get(cacheKey);
@@ -1054,10 +1018,7 @@ public class WorkflowMeta extends AbstractMeta
     for (int i = 0; i < nr; i++) {
       ActionMeta prevWorkflowMeta = findPrevAction(action, i);
       if (prevWorkflowMeta != null
-          && (prevWorkflowMeta.equals(lookup)
-              || (!checkedActions.contains(prevWorkflowMeta)
-                  && hasLoop(
-                      prevWorkflowMeta, lookup == null ? action : lookup, checkedActions)))) {
+          && (prevWorkflowMeta.equals(lookup) || (!checkedActions.contains(prevWorkflowMeta) && hasLoop(prevWorkflowMeta, lookup == null ? action : lookup, checkedActions)))) {
         hasLoop = true;
         break;
       }
@@ -1166,8 +1127,7 @@ public class WorkflowMeta extends AbstractMeta
       // Look at all the hops
 
       if (hop.getFromAction() != null && hop.getToAction() != null) {
-        if (hop.getFromAction().getName().equalsIgnoreCase(name)
-            || hop.getToAction().getName().equalsIgnoreCase(name)) {
+        if (hop.getFromAction().getName().equalsIgnoreCase(name) || hop.getToAction().getName().equalsIgnoreCase(name)) {
           hops.add(hop);
         }
       }
@@ -1394,8 +1354,7 @@ public class WorkflowMeta extends AbstractMeta
     }
   }
 
-  public List<SqlStatement> getSqlStatements(IProgressMonitor monitor, IVariables variables)
-      throws HopException {
+  public List<SqlStatement> getSqlStatements(IProgressMonitor monitor, IVariables variables) throws HopException {
     return getSqlStatements(null, monitor, variables);
   }
 
@@ -1404,23 +1363,16 @@ public class WorkflowMeta extends AbstractMeta
    *
    * @return An ArrayList of SqlStatement objects.
    */
-  public List<SqlStatement> getSqlStatements(
-      IHopMetadataProvider metadataProvider, IProgressMonitor monitor, IVariables variables)
-      throws HopException {
+  public List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IProgressMonitor monitor, IVariables variables) throws HopException {
     if (monitor != null) {
-      monitor.beginTask(
-          BaseMessages.getString(PKG, "WorkflowMeta.Monitor.GettingSQLNeededForThisWorkflow"),
-          nrActions() + 1);
+      monitor.beginTask(BaseMessages.getString(PKG, "WorkflowMeta.Monitor.GettingSQLNeededForThisWorkflow"), nrActions() + 1);
     }
     List<SqlStatement> stats = new ArrayList<>();
 
     for (int i = 0; i < nrActions(); i++) {
       ActionMeta copy = getAction(i);
       if (monitor != null) {
-        monitor.subTask(
-            BaseMessages.getString(PKG, "WorkflowMeta.Monitor.GettingSQLForActionCopy")
-                + copy
-                + "]");
+        monitor.subTask(BaseMessages.getString(PKG, "WorkflowMeta.Monitor.GettingSQLForActionCopy") + copy + "]");
       }
       stats.addAll(copy.getAction().getSqlStatements(metadataProvider, variables));
       if (monitor != null) {
@@ -1443,8 +1395,7 @@ public class WorkflowMeta extends AbstractMeta
    *
    * @return A list of StringSearchResult with strings used in the workflow
    */
-  public List<StringSearchResult> getStringList(
-      boolean searchTransforms, boolean searchDatabases, boolean searchNotes) {
+  public List<StringSearchResult> getStringList(boolean searchTransforms, boolean searchDatabases, boolean searchNotes) {
     List<StringSearchResult> stringList = new ArrayList<>();
 
     if (searchTransforms) {
@@ -1452,19 +1403,9 @@ public class WorkflowMeta extends AbstractMeta
       // vars are...
       for (int i = 0; i < nrActions(); i++) {
         ActionMeta actionMeta = getAction(i);
-        stringList.add(
-            new StringSearchResult(
-                actionMeta.getName(),
-                actionMeta,
-                this,
-                BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.ActionName")));
+        stringList.add(new StringSearchResult(actionMeta.getName(), actionMeta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.ActionName")));
         if (actionMeta.getDescription() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  actionMeta.getDescription(),
-                  actionMeta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.ActionDescription")));
+          stringList.add(new StringSearchResult(actionMeta.getDescription(), actionMeta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.ActionDescription")));
         }
         IAction action = actionMeta.getAction();
         StringSearcher.findMetaData(action, 1, stringList, actionMeta, this);
@@ -1475,68 +1416,27 @@ public class WorkflowMeta extends AbstractMeta
     // are...
     if (searchDatabases) {
       for (DatabaseMeta meta : getDatabases()) {
-        stringList.add(
-            new StringSearchResult(
-                meta.getName(),
-                meta,
-                this,
-                BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseConnectionName")));
+        stringList.add(new StringSearchResult(meta.getName(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseConnectionName")));
         if (meta.getHostname() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getHostname(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseHostName")));
+          stringList.add(new StringSearchResult(meta.getHostname(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseHostName")));
         }
         if (meta.getDatabaseName() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getDatabaseName(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseName")));
+          stringList.add(new StringSearchResult(meta.getDatabaseName(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseName")));
         }
         if (meta.getUsername() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getUsername(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseUsername")));
+          stringList.add(new StringSearchResult(meta.getUsername(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseUsername")));
         }
         if (meta.getPluginId() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getPluginId(),
-                  meta,
-                  this,
-                  BaseMessages.getString(
-                      PKG, "WorkflowMeta.SearchMetadata.DatabaseTypeDescription")));
+          stringList.add(new StringSearchResult(meta.getPluginId(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseTypeDescription")));
         }
         if (meta.getPort() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getPort(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabasePort")));
+          stringList.add(new StringSearchResult(meta.getPort(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabasePort")));
         }
         if (meta.getServername() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getServername(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseServer")));
+          stringList.add(new StringSearchResult(meta.getServername(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabaseServer")));
         }
         if (meta.getPassword() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getPassword(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabasePassword")));
+          stringList.add(new StringSearchResult(meta.getPassword(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.DatabasePassword")));
         }
       }
     }
@@ -1547,12 +1447,7 @@ public class WorkflowMeta extends AbstractMeta
       for (int i = 0; i < nrNotes(); i++) {
         NotePadMeta meta = getNote(i);
         if (meta.getNote() != null) {
-          stringList.add(
-              new StringSearchResult(
-                  meta.getNote(),
-                  meta,
-                  this,
-                  BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.NotepadText")));
+          stringList.add(new StringSearchResult(meta.getNote(), meta, this, BaseMessages.getString(PKG, "WorkflowMeta.SearchMetadata.NotepadText")));
         }
       }
     }
@@ -1667,11 +1562,7 @@ public class WorkflowMeta extends AbstractMeta
   //
   protected void updateCurrentDir(IVariables variables) {
     String prevCurrentDir = variables.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER);
-    String currentDir =
-        variables.getVariable(
-            filename != null
-                ? Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER
-                : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER);
+    String currentDir = variables.getVariable(filename != null ? Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER);
     variables.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, currentDir);
     fireCurrentDirectoryChanged(prevCurrentDir, currentDir);
   }
@@ -1701,8 +1592,7 @@ public class WorkflowMeta extends AbstractMeta
         FileName fileName = fileObject.getName();
 
         // The filename of the workflow
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
+        variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
 
         // The directory of the workflow
         FileName fileDir = fileName.getParent();
@@ -1722,10 +1612,7 @@ public class WorkflowMeta extends AbstractMeta
   protected void setInternalEntryCurrentDirectory(IVariables variables) {
     variables.setVariable(
         Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-        variables.getVariable(
-            filename != null
-                ? Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER
-                : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+        variables.getVariable(filename != null ? Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER : Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   /**
@@ -1736,17 +1623,10 @@ public class WorkflowMeta extends AbstractMeta
    * @param onlySelected true if you only want to check the selected workflows
    * @param monitor Progress monitor (not presently in use)
    */
-  public void checkActions(
-      List<ICheckResult> remarks,
-      boolean onlySelected,
-      IProgressMonitor monitor,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void checkActions(List<ICheckResult> remarks, boolean onlySelected, IProgressMonitor monitor, IVariables variables, IHopMetadataProvider metadataProvider) {
     remarks.clear(); // Empty remarks
     if (monitor != null) {
-      monitor.beginTask(
-          BaseMessages.getString(PKG, "WorkflowMeta.Monitor.VerifyingThisActionTask.Title"),
-          workflowActions.size() + 2);
+      monitor.beginTask(BaseMessages.getString(PKG, "WorkflowMeta.Monitor.VerifyingThisActionTask.Title"), workflowActions.size() + 2);
     }
     boolean stopChecking = false;
     for (int i = 0; i < workflowActions.size() && !stopChecking; i++) {
@@ -1755,9 +1635,7 @@ public class WorkflowMeta extends AbstractMeta
         IAction action = copy.getAction();
         if (action != null) {
           if (monitor != null) {
-            monitor.subTask(
-                BaseMessages.getString(
-                    PKG, "WorkflowMeta.Monitor.VerifyingAction.Title", action.getName()));
+            monitor.subTask(BaseMessages.getString(PKG, "WorkflowMeta.Monitor.VerifyingAction.Title", action.getName()));
           }
           action.check(remarks, this, variables, metadataProvider);
           if (monitor != null) {
@@ -1796,11 +1674,7 @@ public class WorkflowMeta extends AbstractMeta
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     String resourceName = null;
     try {
@@ -1816,9 +1690,7 @@ public class WorkflowMeta extends AbstractMeta
         baseName = fileObject.getName().getBaseName();
         fullname = fileObject.getName().getPath();
 
-        resourceName =
-            namingInterface.nameResource(
-                baseName, originalPath, extension, IResourceNaming.FileNamingType.WORKFLOW);
+        resourceName = namingInterface.nameResource(baseName, originalPath, extension, IResourceNaming.FileNamingType.WORKFLOW);
         ResourceDefinition definition = definitions.get(resourceName);
         if (definition == null) {
           // If we do this once, it will be plenty :-)
@@ -1839,9 +1711,7 @@ public class WorkflowMeta extends AbstractMeta
           // loop over transforms, databases will be exported to XML anyway.
           //
           for (ActionMeta actionMeta : workflowMeta.workflowActions) {
-            actionMeta
-                .getAction()
-                .exportResources(variables, definitions, namingInterface, metadataProvider);
+            actionMeta.getAction().exportResources(variables, definitions, namingInterface, metadataProvider);
           }
 
           // At the end, add ourselves to the map...
@@ -1860,15 +1730,9 @@ public class WorkflowMeta extends AbstractMeta
         }
       }
     } catch (FileSystemException e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "WorkflowMeta.Exception.AnErrorOccuredReadingWorkflow", getFilename()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "WorkflowMeta.Exception.AnErrorOccuredReadingWorkflow", getFilename()), e);
     } catch (HopFileException e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "WorkflowMeta.Exception.AnErrorOccuredReadingWorkflow", getFilename()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "WorkflowMeta.Exception.AnErrorOccuredReadingWorkflow", getFilename()), e);
     }
 
     return resourceName;
@@ -2033,9 +1897,9 @@ public class WorkflowMeta extends AbstractMeta
    */
   @Override
   public String getName() {
-    return extractNameFromFilename(
-        isNameSynchronizedWithFilename(), info.getName(), filename, getExtension());
+    return extractNameFromFilename(isNameSynchronizedWithFilename(), info.getName(), filename, getExtension());
   }
+
   /**
    * Set the name.
    *

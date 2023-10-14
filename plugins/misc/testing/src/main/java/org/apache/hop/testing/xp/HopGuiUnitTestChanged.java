@@ -27,8 +27,7 @@ import org.apache.hop.testing.gui.TestingGuiPlugin;
 public class HopGuiUnitTestChanged implements IExtensionPoint {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object object) throws HopException {
     // We only respond to pipeline unit test changes
     //
     if (!(object instanceof PipelineUnitTest)) {

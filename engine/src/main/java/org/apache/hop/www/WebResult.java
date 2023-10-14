@@ -99,8 +99,7 @@ public class WebResult {
 
       return new WebResult(node);
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WebResult.Error.UnableCreateResult"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WebResult.Error.UnableCreateResult"), e);
     }
   }
 

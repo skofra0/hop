@@ -20,8 +20,8 @@ public enum UniquenessStrategy {
   None, // Don't calculate unique nore or relationship values
   First, // Take the first version of the node or relationship
   Last, // Take the last version of the node or relationship
-// UpdateProperties, // Not supported yet.  Update all the available properties
-;
+  // UpdateProperties, // Not supported yet. Update all the available properties
+  ;
 
   public static final UniquenessStrategy getStrategyFromName(String name) {
     for (UniquenessStrategy strategy : values()) {

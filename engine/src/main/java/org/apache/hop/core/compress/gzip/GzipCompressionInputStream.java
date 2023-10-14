@@ -25,8 +25,7 @@ import java.util.zip.GZIPInputStream;
 
 public class GzipCompressionInputStream extends CompressionInputStream {
 
-  public GzipCompressionInputStream(InputStream in, ICompressionProvider provider)
-      throws IOException {
+  public GzipCompressionInputStream(InputStream in, ICompressionProvider provider) throws IOException {
     super(getDelegate(in), provider);
   }
 

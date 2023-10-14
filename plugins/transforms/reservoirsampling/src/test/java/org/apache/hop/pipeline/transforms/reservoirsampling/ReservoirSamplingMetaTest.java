@@ -24,9 +24,7 @@ public class ReservoirSamplingMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    ReservoirSamplingMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/reservoir-sampling-transform.xml", ReservoirSamplingMeta.class);
+    ReservoirSamplingMeta meta = TransformSerializationTestUtil.testSerialization("/reservoir-sampling-transform.xml", ReservoirSamplingMeta.class);
 
     Assert.assertEquals("5", meta.getSampleSize());
     Assert.assertEquals("123456", meta.getSeed());

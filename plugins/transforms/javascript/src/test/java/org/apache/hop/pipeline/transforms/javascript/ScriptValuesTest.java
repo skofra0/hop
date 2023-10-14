@@ -34,7 +34,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
 public class ScriptValuesTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {
@@ -44,9 +45,7 @@ public class ScriptValuesTest {
   @Test
   @Ignore
   public void bigNumberAreNotTrimmedToInt() throws Exception {
-    ScriptValues transform =
-        TransformMockUtil.getTransform(
-            ScriptValues.class, ScriptValuesMeta.class, ScriptValuesData.class, "test");
+    ScriptValues transform = TransformMockUtil.getTransform(ScriptValues.class, ScriptValuesMeta.class, ScriptValuesData.class, "test");
 
     RowMeta input = new RowMeta();
     input.addValueMeta(new ValueMetaBigNumber("value_int"));
@@ -62,28 +61,20 @@ public class ScriptValuesTest {
     meta.setType(new int[] {IValueMeta.TYPE_BIGNUMBER, IValueMeta.TYPE_BIGNUMBER});
     meta.setReplace(new boolean[] {true, true});
 
-    meta.setJSScripts(
-        new ScriptValuesScript[] {
-          new ScriptValuesScript(
-              ScriptValuesScript.TRANSFORM_SCRIPT,
-              "script",
-              "value_int = 10.00;\nvalue_double = 10.50")
-        });
+    meta.setJSScripts(new ScriptValuesScript[] {new ScriptValuesScript(ScriptValuesScript.TRANSFORM_SCRIPT, "script", "value_int = 10.00;\nvalue_double = 10.50")});
 
     ScriptValuesData data = new ScriptValuesData();
     transform.init();
 
     Object[] expectedRow = {BigDecimal.TEN, new BigDecimal("10.5")};
-    Object[] row = PipelineTestingUtil.execute(transform, /*meta, data,*/ 1, false).get(0);
+    Object[] row = PipelineTestingUtil.execute(transform, /* meta, data, */ 1, false).get(0);
     PipelineTestingUtil.assertResult(expectedRow, row);
   }
 
   @Test
   @Ignore
   public void variableIsSetInScopeOfTransform() throws Exception {
-    ScriptValues transform =
-        TransformMockUtil.getTransform(
-            ScriptValues.class, ScriptValuesMeta.class, ScriptValuesData.class, "test");
+    ScriptValues transform = TransformMockUtil.getTransform(ScriptValues.class, ScriptValuesMeta.class, ScriptValuesData.class, "test");
 
     RowMeta input = new RowMeta();
     input.addValueMeta(new ValueMetaString("str"));
@@ -99,18 +90,13 @@ public class ScriptValuesTest {
     meta.setReplace(new boolean[] {true});
 
     meta.setJSScripts(
-        new ScriptValuesScript[] {
-          new ScriptValuesScript(
-              ScriptValuesScript.TRANSFORM_SCRIPT,
-              "script",
-              "setVariable('temp', 'pass', 'r');\nstr = getVariable('temp', 'fail');")
-        });
+        new ScriptValuesScript[] {new ScriptValuesScript(ScriptValuesScript.TRANSFORM_SCRIPT, "script", "setVariable('temp', 'pass', 'r');\nstr = getVariable('temp', 'fail');")});
 
     ScriptValuesData data = new ScriptValuesData();
     transform.init();
 
     Object[] expectedRow = {"pass"};
-    Object[] row = PipelineTestingUtil.execute(transform, /*meta, data,*/ 1, false).get(0);
+    Object[] row = PipelineTestingUtil.execute(transform, /* meta, data, */ 1, false).get(0);
     PipelineTestingUtil.assertResult(expectedRow, row);
   }
 }

@@ -49,11 +49,7 @@ import static org.apache.hop.core.ICheckResult.TYPE_RESULT_OK;
 public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceStringData> {
   private static final Class<?> PKG = ReplaceStringMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupKey = "FIELDS",
-      injectionGroupDescription = "ReplaceString.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "ReplaceString.Injection.FIELDS")
   private List<RSField> fields;
 
   public ReplaceStringMeta() {
@@ -72,13 +68,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     for (RSField field : fields) {
       String fieldName = variables.resolve(field.getFieldOutStream());
       IValueMeta valueMeta;
@@ -120,9 +110,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
     boolean errorFound = false;
 
     if (prev == null) {
-      errorMessage
-          .append(BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.NoInputReceived"))
-          .append(Const.CR);
+      errorMessage.append(BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.NoInputReceived")).append(Const.CR);
       cr = new CheckResult(TYPE_RESULT_ERROR, errorMessage.toString(), transforminfo);
       remarks.add(cr);
     } else {
@@ -134,11 +122,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
         if (v == null) {
           if (first) {
             first = false;
-            errorMessage
-                .append(
-                    BaseMessages.getString(
-                        PKG, "ReplaceStringMeta.CheckResult.MissingInStreamFields"))
-                .append(Const.CR);
+            errorMessage.append(BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.MissingInStreamFields")).append(Const.CR);
           }
           errorFound = true;
           errorMessage.append("\t\t").append(fieldIn).append(Const.CR);
@@ -147,11 +131,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
       if (errorFound) {
         cr = new CheckResult(TYPE_RESULT_ERROR, errorMessage.toString(), transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.FoundInStreamFields"),
-                transforminfo);
+        cr = new CheckResult(TYPE_RESULT_OK, BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.FoundInStreamFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -165,11 +145,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
         if (v != null && v.getType() != IValueMeta.TYPE_STRING) {
           if (first) {
             first = false;
-            errorMessage
-                .append(
-                    BaseMessages.getString(
-                        PKG, "ReplaceStringMeta.CheckResult.OperationOnNonStringFields"))
-                .append(Const.CR);
+            errorMessage.append(BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.OperationOnNonStringFields")).append(Const.CR);
           }
           errorFound = true;
           errorMessage.append("\t\t").append(fieldIn).append(Const.CR);
@@ -178,12 +154,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
       if (errorFound) {
         cr = new CheckResult(TYPE_RESULT_ERROR, errorMessage.toString(), transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "ReplaceStringMeta.CheckResult.AllOperationsOnStringFields"),
-                transforminfo);
+        cr = new CheckResult(TYPE_RESULT_OK, BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.AllOperationsOnStringFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -191,14 +162,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
       for (RSField field : fields) {
         x++;
         if (Utils.isEmpty(field.getFieldInStream())) {
-          cr =
-              new CheckResult(
-                  TYPE_RESULT_ERROR,
-                  BaseMessages.getString(
-                      PKG,
-                      "ReplaceStringMeta.CheckResult.InStreamFieldMissing",
-                      Integer.toString(x)),
-                  transforminfo);
+          cr = new CheckResult(TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.InStreamFieldMissing", Integer.toString(x)), transforminfo);
           remarks.add(cr);
         }
       }
@@ -209,11 +173,7 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
           RSField field1 = fields.get(idx);
           RSField field2 = fields.get(jdx);
           if (field1.getFieldInStream().equals(field2.getFieldInStream()) && idx < jdx) {
-            String errMessage =
-                BaseMessages.getString(
-                    PKG,
-                    "ReplaceStringMeta.CheckResult.FieldInputError",
-                    field1.getFieldInStream());
+            String errMessage = BaseMessages.getString(PKG, "ReplaceStringMeta.CheckResult.FieldInputError", field1.getFieldInStream());
             cr = new CheckResult(TYPE_RESULT_ERROR, errMessage, transforminfo);
             remarks.add(cr);
           }
@@ -228,64 +188,34 @@ public class ReplaceStringMeta extends BaseTransformMeta<ReplaceString, ReplaceS
   }
 
   public static final class RSField {
-    @HopMetadataProperty(
-        key = "in_stream_name",
-        injectionKey = "FIELD_IN_STREAM",
-        injectionKeyDescription = "ReplaceString.Injection.FIELD_IN_STREAM")
+    @HopMetadataProperty(key = "in_stream_name", injectionKey = "FIELD_IN_STREAM", injectionKeyDescription = "ReplaceString.Injection.FIELD_IN_STREAM")
     private String fieldInStream;
 
-    @HopMetadataProperty(
-        key = "out_stream_name",
-        injectionKey = "FIELD_OUT_STREAM",
-        injectionKeyDescription = "ReplaceString.Injection.FIELD_OUT_STREAM")
+    @HopMetadataProperty(key = "out_stream_name", injectionKey = "FIELD_OUT_STREAM", injectionKeyDescription = "ReplaceString.Injection.FIELD_OUT_STREAM")
     private String fieldOutStream;
 
-    @HopMetadataProperty(
-        key = "use_regex",
-        injectionKey = "USE_REGEX",
-        injectionKeyDescription = "ReplaceString.Injection.USE_REGEX")
+    @HopMetadataProperty(key = "use_regex", injectionKey = "USE_REGEX", injectionKeyDescription = "ReplaceString.Injection.USE_REGEX")
     private boolean usingRegEx;
 
-    @HopMetadataProperty(
-        key = "replace_string",
-        injectionKey = "REPLACE_STRING",
-        injectionKeyDescription = "ReplaceString.Injection.REPLACE_STRING")
+    @HopMetadataProperty(key = "replace_string", injectionKey = "REPLACE_STRING", injectionKeyDescription = "ReplaceString.Injection.REPLACE_STRING")
     private String replaceString;
 
-    @HopMetadataProperty(
-        key = "replace_by_string",
-        injectionKey = "REPLACE_BY",
-        injectionKeyDescription = "ReplaceString.Injection.REPLACE_BY")
+    @HopMetadataProperty(key = "replace_by_string", injectionKey = "REPLACE_BY", injectionKeyDescription = "ReplaceString.Injection.REPLACE_BY")
     private String replaceByString;
 
-    @HopMetadataProperty(
-        key = "set_empty_string",
-        injectionKey = "EMPTY_STRING",
-        injectionKeyDescription = "ReplaceString.Injection.EMPTY_STRING")
+    @HopMetadataProperty(key = "set_empty_string", injectionKey = "EMPTY_STRING", injectionKeyDescription = "ReplaceString.Injection.EMPTY_STRING")
     private boolean settingEmptyString;
 
-    @HopMetadataProperty(
-        key = "replace_field_by_string",
-        injectionKey = "REPLACE_WITH_FIELD",
-        injectionKeyDescription = "ReplaceString.Injection.REPLACE_WITH_FIELD")
+    @HopMetadataProperty(key = "replace_field_by_string", injectionKey = "REPLACE_WITH_FIELD", injectionKeyDescription = "ReplaceString.Injection.REPLACE_WITH_FIELD")
     private String replaceFieldByString;
 
-    @HopMetadataProperty(
-        key = "whole_word",
-        injectionKey = "REPLACE_WHOLE_WORD",
-        injectionKeyDescription = "ReplaceString.Injection.REPLACE_WHOLE_WORD")
+    @HopMetadataProperty(key = "whole_word", injectionKey = "REPLACE_WHOLE_WORD", injectionKeyDescription = "ReplaceString.Injection.REPLACE_WHOLE_WORD")
     private boolean replacingWholeWord;
 
-    @HopMetadataProperty(
-        key = "case_sensitive",
-        injectionKey = "CASE_SENSITIVE",
-        injectionKeyDescription = "ReplaceString.Injection.CASE_SENSITIVE")
+    @HopMetadataProperty(key = "case_sensitive", injectionKey = "CASE_SENSITIVE", injectionKeyDescription = "ReplaceString.Injection.CASE_SENSITIVE")
     private boolean caseSensitive;
 
-    @HopMetadataProperty(
-        key = "is_unicode",
-        injectionKey = "IS_UNICODE",
-        injectionKeyDescription = "ReplaceString.Injection.IS_UNICODE")
+    @HopMetadataProperty(key = "is_unicode", injectionKey = "IS_UNICODE", injectionKeyDescription = "ReplaceString.Injection.IS_UNICODE")
     private boolean unicode;
 
     public RSField() {}

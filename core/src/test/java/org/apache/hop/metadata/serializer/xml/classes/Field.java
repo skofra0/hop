@@ -24,15 +24,20 @@ import java.util.Objects;
 
 public class Field {
 
-  @HopMetadataProperty String name;
+  @HopMetadataProperty
+  String name;
 
-  @HopMetadataProperty String type;
+  @HopMetadataProperty
+  String type;
 
-  @HopMetadataProperty int length;
+  @HopMetadataProperty
+  int length;
 
-  @HopMetadataProperty int precision;
+  @HopMetadataProperty
+  int precision;
 
-  @HopMetadataProperty String format;
+  @HopMetadataProperty
+  String format;
 
   @HopMetadataProperty(key = "ott")
   private TestEnum oneTwoThree;
@@ -42,8 +47,7 @@ public class Field {
 
   public Field() {}
 
-  public Field(
-      String name, String type, int length, int precision, String format, TestEnum oneTwoThree) {
+  public Field(String name, String type, int length, int precision, String format, TestEnum oneTwoThree) {
     this.name = name;
     this.type = type;
     this.length = length;
@@ -61,12 +65,8 @@ public class Field {
       return false;
     }
     Field field = (Field) o;
-    return length == field.length
-        && precision == field.precision
-        && StringUtils.equals(name, field.name)
-        && StringUtils.equals(type, field.type)
-        && StringUtils.equals(format, field.format)
-        && oneTwoThree == field.oneTwoThree;
+    return length == field.length && precision == field.precision && StringUtils.equals(name, field.name) && StringUtils.equals(type, field.type)
+        && StringUtils.equals(format, field.format) && oneTwoThree == field.oneTwoThree;
   }
 
   @Override

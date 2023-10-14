@@ -23,9 +23,7 @@ import org.junit.Test;
 public class CypherScriptTest {
   @Test
   public void testSerialization() throws Exception {
-    CypherScript action =
-        ActionSerializationTestUtil.testSerialization(
-            "/cypher-script-action.xml", CypherScript.class);
+    CypherScript action = ActionSerializationTestUtil.testSerialization("/cypher-script-action.xml", CypherScript.class);
 
     Assert.assertEquals("Test", action.getConnectionName());
     Assert.assertEquals("A Cypher statement", action.getScript());

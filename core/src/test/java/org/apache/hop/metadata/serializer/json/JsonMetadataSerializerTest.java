@@ -41,13 +41,8 @@ public class JsonMetadataSerializerTest extends TestCase {
 
   @Override
   protected void setUp() throws Exception {
-    String baseFolder =
-        System.getProperty("java.io.tmpdir")
-            + Const.FILE_SEPARATOR
-            + "metadata"; // UUID.randomUUID();
-    metadataProvider =
-        new JsonMetadataProvider(
-            new HopTwoWayPasswordEncoder(), baseFolder, Variables.getADefaultVariableSpace());
+    String baseFolder = System.getProperty("java.io.tmpdir") + Const.FILE_SEPARATOR + "metadata"; // UUID.randomUUID();
+    metadataProvider = new JsonMetadataProvider(new HopTwoWayPasswordEncoder(), baseFolder, Variables.getADefaultVariableSpace());
   }
 
   @Override
@@ -72,16 +67,13 @@ public class JsonMetadataSerializerTest extends TestCase {
             "51",
             new Address("Street", "123", new City("12345", "McCity")),
             new Music("Music", "Love Music"),
-            Arrays.asList(
-                new Cooking("Cooking", "Cooking is great"),
-                new Running("Running", "Keep on running")),
+            Arrays.asList(new Cooking("Cooking", "Cooking is great"), new Running("Running", "Keep on running")),
             attributes,
             occupation1);
 
     assertNull(person.getSideInterest());
 
-    IHopMetadataSerializer<Occupation> occupationSerializer =
-        metadataProvider.getSerializer(Occupation.class);
+    IHopMetadataSerializer<Occupation> occupationSerializer = metadataProvider.getSerializer(Occupation.class);
     IHopMetadataSerializer<Person> personSerializer = metadataProvider.getSerializer(Person.class);
 
     occupationSerializer.save(occupation1);

@@ -33,7 +33,8 @@ public class AuthContext {
    * Create a context for the given login. If the login is null all operations will be done as the
    * current user.
    *
-   * <p>TODO Prevent null login contexts and create login contexts for the current OS user instead.
+   * <p>
+   * TODO Prevent null login contexts and create login contexts for the current OS user instead.
    * This will keep the implementation cleaner.
    *
    * @param login
@@ -65,7 +66,7 @@ public class AuthContext {
    * @param action The action to execute
    * @return The return value of the action
    * @throws PrivilegedActionException If an exception occurs while executing the action. The cause
-   *     of the exception will be provided in {@link PrivilegedActionException#getCause()}.
+   *         of the exception will be provided in {@link PrivilegedActionException#getCause()}.
    */
   public <T> T doAs(PrivilegedExceptionAction<T> action) throws PrivilegedActionException {
     if (login == null) {

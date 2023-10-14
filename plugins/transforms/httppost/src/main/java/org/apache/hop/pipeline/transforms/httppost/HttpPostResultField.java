@@ -28,14 +28,10 @@ public class HttpPostResultField {
   @HopMetadataProperty(injectionKeyDescription = "HTTPPOST.Injection.ResultFieldName")
   private String name;
 
-  @HopMetadataProperty(
-      key = "response_time",
-      injectionKeyDescription = "HTTPPOST.Injection.ResultFieldResponseTime")
+  @HopMetadataProperty(key = "response_time", injectionKeyDescription = "HTTPPOST.Injection.ResultFieldResponseTime")
   private String responseTimeFieldName;
 
-  @HopMetadataProperty(
-      key = "response_header",
-      injectionKeyDescription = "HTTPPOST.Injection.ResultFieldResponseHeader")
+  @HopMetadataProperty(key = "response_header", injectionKeyDescription = "HTTPPOST.Injection.ResultFieldResponseHeader")
   private String responseHeaderFieldName;
 
   public String getCode() {
@@ -70,8 +66,7 @@ public class HttpPostResultField {
     this.responseHeaderFieldName = responseHeaderFieldName;
   }
 
-  public HttpPostResultField(
-      String code, String name, String responseTimeFieldName, String responseHeaderFieldName) {
+  public HttpPostResultField(String code, String name, String responseTimeFieldName, String responseHeaderFieldName) {
     this.code = code;
     this.name = name;
     this.responseTimeFieldName = responseTimeFieldName;
@@ -91,10 +86,13 @@ public class HttpPostResultField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     HttpPostResultField that = (HttpPostResultField) o;
-    return Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(responseTimeFieldName, that.responseTimeFieldName) && Objects.equals(responseHeaderFieldName, that.responseHeaderFieldName);
+    return Objects.equals(code, that.code) && Objects.equals(name, that.name) && Objects.equals(responseTimeFieldName, that.responseTimeFieldName)
+        && Objects.equals(responseHeaderFieldName, that.responseHeaderFieldName);
   }
 
   @Override

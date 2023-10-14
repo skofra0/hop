@@ -22,30 +22,30 @@ import java.util.Objects;
 
 public class GraphProperty {
 
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
-  @HopMetadataProperty protected String description;
+  @HopMetadataProperty
+  protected String description;
 
-  @HopMetadataProperty protected GraphPropertyType type;
+  @HopMetadataProperty
+  protected GraphPropertyType type;
 
-  @HopMetadataProperty protected boolean primary;
+  @HopMetadataProperty
+  protected boolean primary;
 
-  @HopMetadataProperty protected boolean mandatory;
+  @HopMetadataProperty
+  protected boolean mandatory;
 
-  @HopMetadataProperty protected boolean unique;
+  @HopMetadataProperty
+  protected boolean unique;
 
-  @HopMetadataProperty protected boolean indexed;
+  @HopMetadataProperty
+  protected boolean indexed;
 
   public GraphProperty() {}
 
-  public GraphProperty(
-      String name,
-      String description,
-      GraphPropertyType type,
-      boolean primary,
-      boolean mandatory,
-      boolean unique,
-      boolean indexed) {
+  public GraphProperty(String name, String description, GraphPropertyType type, boolean primary, boolean mandatory, boolean unique, boolean indexed) {
     this.name = name;
     this.description = description;
     this.type = type;
@@ -56,14 +56,7 @@ public class GraphProperty {
   }
 
   public GraphProperty(GraphProperty property) {
-    this(
-        property.name,
-        property.description,
-        property.type,
-        property.primary,
-        property.mandatory,
-        property.unique,
-        property.indexed);
+    this(property.name, property.description, property.type, property.primary, property.mandatory, property.unique, property.indexed);
   }
 
   @Override

@@ -32,13 +32,7 @@ public class PipelineDataProbe extends BaseTransform<PipelineDataProbeMeta, Pipe
   private String sourceTransformName;
   private long sourceTransformCopy;
 
-  public PipelineDataProbe(
-      TransformMeta transformMeta,
-      PipelineDataProbeMeta meta,
-      PipelineDataProbeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public PipelineDataProbe(TransformMeta transformMeta, PipelineDataProbeMeta meta, PipelineDataProbeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

@@ -43,9 +43,7 @@ public class KVLongStringToHopRowFn extends DoFn<KV<Long, String>, HopRow> {
   private transient Counter inputCounter;
   private transient Counter writtenCounter;
 
-  public KVLongStringToHopRowFn(
-      String transformName,
-      String rowMetaJson) {
+  public KVLongStringToHopRowFn(String transformName, String rowMetaJson) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
   }
@@ -65,8 +63,7 @@ public class KVLongStringToHopRowFn extends DoFn<KV<Long, String>, HopRow> {
     } catch (Exception e) {
       numErrors.inc();
       LOG.error("Error in setup of KV<Long,String> to Hop Row conversion function", e);
-      throw new RuntimeException(
-          "Error in setup of KV<Long,String> to Hop Row conversion function", e);
+      throw new RuntimeException("Error in setup of KV<Long,String> to Hop Row conversion function", e);
     }
   }
 

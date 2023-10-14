@@ -55,8 +55,7 @@ public class DataSetConst {
   public static final String VAR_RUN_UNIT_TEST = "__UnitTest_Run__";
   public static final String VAR_UNIT_TEST_NAME = "__UnitTest_Name__";
   public static final String VAR_WRITE_TO_DATASET = "__UnitTest_WriteDataSet__";
-  public static final String VAR_DO_NOT_SHOW_UNIT_TEST_ERRORS =
-      "__UnitTest_DontShowUnitTestErrors__";
+  public static final String VAR_DO_NOT_SHOW_UNIT_TEST_ERRORS = "__UnitTest_DontShowUnitTestErrors__";
 
   public static final String AREA_DRAWN_UNIT_TEST_ICON = "Drawn_UnitTestIcon";
   public static final String AREA_DRAWN_UNIT_TEST_NAME = "Drawn_UnitTestName";
@@ -74,16 +73,12 @@ public class DataSetConst {
 
   private static final String[] tweakDesc =
       new String[] {
-        BaseMessages.getString(PKG, "DataSetConst.Tweak.NONE.Desc"),
-        BaseMessages.getString(PKG, "DataSetConst.Tweak.BYPASS_TRANSFORM.Desc"),
-        BaseMessages.getString(PKG, "DataSetConst.Tweak.REMOVE_TRANSFORM.Desc"),
-      };
+          BaseMessages.getString(PKG, "DataSetConst.Tweak.NONE.Desc"),
+          BaseMessages.getString(PKG, "DataSetConst.Tweak.BYPASS_TRANSFORM.Desc"),
+          BaseMessages.getString(PKG, "DataSetConst.Tweak.REMOVE_TRANSFORM.Desc"),};
 
   private static final String[] testTypeDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "DataSetConst.TestType.DEVELOPMENT.Desc"),
-        BaseMessages.getString(PKG, "DataSetConst.TestType.UNIT_TEST.Desc"),
-      };
+      new String[] {BaseMessages.getString(PKG, "DataSetConst.TestType.DEVELOPMENT.Desc"), BaseMessages.getString(PKG, "DataSetConst.TestType.UNIT_TEST.Desc"),};
 
   /**
    * Validate the execution results of a pipeline against the golden data sets of a unit test.
@@ -106,20 +101,11 @@ public class DataSetConst {
     ILogChannel log = pipeline.getLogChannel();
 
     @SuppressWarnings("unchecked")
-    Map<String, RowCollection> collectionMap =
-        (Map<String, RowCollection>)
-            pipeline.getExtensionDataMap().get(DataSetConst.ROW_COLLECTION_MAP);
+    Map<String, RowCollection> collectionMap = (Map<String, RowCollection>) pipeline.getExtensionDataMap().get(DataSetConst.ROW_COLLECTION_MAP);
     if (collectionMap == null) {
 
       String comment = "No transform output result data found to validate against";
-      results.add(
-          new UnitTestResult(
-              pipeline.getPipelineMeta().getName(),
-              unitTest.getName(),
-              null,
-              null,
-              false,
-              comment));
+      results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), null, null, false, comment));
       return nrErrors;
     }
 
@@ -134,9 +120,7 @@ public class DataSetConst {
 
       int nrLocationErrors = 0;
       RowCollection resultCollection = collectionMap.get(location.getTransformName());
-      if (resultCollection == null
-          || resultCollection.getRows() == null
-          || resultCollection.getRowMeta() == null) {
+      if (resultCollection == null || resultCollection.getRows() == null || resultCollection.getRowMeta() == null) {
         // error occurred somewhere, we don't have results, provide dummy values to avoid
         // exceptions, flag error
         //
@@ -144,40 +128,19 @@ public class DataSetConst {
         resultCollection.setRowMeta(new RowMeta());
         resultCollection.setRows(new ArrayList<>());
 
-        String comment =
-            "WARNING: no test results found for transform '"
-                + location.getTransformName()
-                + "' : check disabled hops, input and so on.";
-        results.add(
-            new UnitTestResult(
-                pipeline.getPipelineMeta().getName(),
-                unitTest.getName(),
-                location.getDataSetName(),
-                location.getTransformName(),
-                false,
-                comment));
+        String comment = "WARNING: no test results found for transform '" + location.getTransformName() + "' : check disabled hops, input and so on.";
+        results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), location.getDataSetName(), location.getTransformName(), false, comment));
       }
       final IRowMeta resultRowMeta = resultCollection.getRowMeta();
 
       log.logDetailed(
-          "Found "
-              + resultCollection.getRows().size()
-              + " results for data comparing in transform '"
-              + location.getTransformName()
-              + "', fields: "
-              + resultRowMeta.toString());
+          "Found " + resultCollection.getRows().size() + " results for data comparing in transform '" + location.getTransformName() + "', fields: " + resultRowMeta.toString());
 
       DataSet goldenDataSet = unitTest.getGoldenDataSet(log, metadataProvider, location);
       List<Object[]> goldenRows = goldenDataSet.getAllRows(pipeline, log, location);
       IRowMeta goldenRowMeta = goldenDataSet.getMappedDataSetFieldsRowMeta(location);
 
-      log.logDetailed(
-          "Found "
-              + goldenRows.size()
-              + " golden rows '"
-              + location.getTransformName()
-              + "', fields: "
-              + goldenRowMeta);
+      log.logDetailed("Found " + goldenRows.size() + " golden rows '" + location.getTransformName() + "', fields: " + goldenRowMeta);
 
       List<Object[]> resultRows = resultCollection.getRows();
 
@@ -189,14 +152,7 @@ public class DataSetConst {
                 + goldenRows.size()
                 + " rows in it and we received "
                 + resultRows.size();
-        results.add(
-            new UnitTestResult(
-                pipeline.getPipelineMeta().getName(),
-                unitTest.getName(),
-                location.getDataSetName(),
-                location.getTransformName(),
-                true,
-                comment));
+        results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), location.getDataSetName(), location.getTransformName(), true, comment));
         nrLocationErrors++;
       } else {
 
@@ -211,47 +167,31 @@ public class DataSetConst {
           String dataSetOrderField = location.getFieldOrder().get(i);
           String transformOrderField = location.findTransformField(dataSetOrderField);
           if (transformOrderField == null) {
-            throw new HopException(
-                "There is no transform field provided in the mappings so I don't know which field to use to sort '"
-                    + dataSetOrderField
-                    + "'");
+            throw new HopException("There is no transform field provided in the mappings so I don't know which field to use to sort '" + dataSetOrderField + "'");
           }
           resultFieldIndexes[i] = resultRowMeta.indexOfValue(transformOrderField);
           if (resultFieldIndexes[i] < 0) {
-            throw new HopException(
-                "Unable to find sort field '"
-                    + transformOrderField
-                    + "' in transform results : "
-                    + Arrays.toString(resultRowMeta.getFieldNames()));
+            throw new HopException("Unable to find sort field '" + transformOrderField + "' in transform results : " + Arrays.toString(resultRowMeta.getFieldNames()));
           }
         }
         try {
           log.logDetailed("Sorting result rows collection on fields: " + location.getFieldOrder());
-          resultCollection
-              .getRows()
-              .sort(
-                  (row1, row2) -> {
-                    try {
-                      return resultRowMeta.compare(row1, row2, resultFieldIndexes);
-                    } catch (HopValueException e) {
-                      throw new RuntimeException("Error comparing golden data result rows", e);
-                    }
-                  });
+          resultCollection.getRows().sort((row1, row2) -> {
+            try {
+              return resultRowMeta.compare(row1, row2, resultFieldIndexes);
+            } catch (HopValueException e) {
+              throw new RuntimeException("Error comparing golden data result rows", e);
+            }
+          });
         } catch (RuntimeException e) {
-          throw new HopException(
-              "Error sorting result rows for golden data set '" + location.getDataSetName() + "'",
-              e);
+          throw new HopException("Error sorting result rows for golden data set '" + location.getDataSetName() + "'", e);
         }
 
         // Print the first 10 result rows
         //
         if (log.isDebug()) {
           for (int i = 0; i < 10 && i < resultCollection.getRows().size(); i++) {
-            log.logDetailed(
-                "Result row #"
-                    + (i + 1)
-                    + " : "
-                    + resultRowMeta.getString(resultCollection.getRows().get(i)));
+            log.logDetailed("Result row #" + (i + 1) + " : " + resultRowMeta.getString(resultCollection.getRows().get(i)));
           }
         }
 
@@ -261,38 +201,28 @@ public class DataSetConst {
         for (int i = 0; i < goldenFieldIndexes.length; i++) {
           goldenFieldIndexes[i] = goldenRowMeta.indexOfValue(location.getFieldOrder().get(i));
           if (goldenFieldIndexes[i] < 0) {
-            throw new HopException(
-                "Unable to find sort field '"
-                    + location.getFieldOrder().get(i)
-                    + "' in golden rows : "
-                    + Arrays.toString(goldenRowMeta.getFieldNames()));
+            throw new HopException("Unable to find sort field '" + location.getFieldOrder().get(i) + "' in golden rows : " + Arrays.toString(goldenRowMeta.getFieldNames()));
           }
         }
         try {
           log.logDetailed("Sorting golden rows collection on fields: " + location.getFieldOrder());
 
-          goldenRows.sort(
-              (row1, row2) -> {
-                try {
-                  return goldenRowMeta.compare(row1, row2, goldenFieldIndexes);
-                } catch (HopValueException e) {
-                  throw new RuntimeException("Error comparing golden data set rows", e);
-                }
-              });
+          goldenRows.sort((row1, row2) -> {
+            try {
+              return goldenRowMeta.compare(row1, row2, goldenFieldIndexes);
+            } catch (HopValueException e) {
+              throw new RuntimeException("Error comparing golden data set rows", e);
+            }
+          });
         } catch (RuntimeException e) {
-          throw new HopException(
-              "Error sorting golden data rows for golden data set '"
-                  + location.getDataSetName()
-                  + "'",
-              e);
+          throw new HopException("Error sorting golden data rows for golden data set '" + location.getDataSetName() + "'", e);
         }
 
         // Print the first 10 golden rows
         //
         if (log.isDebug()) {
           for (int i = 0; i < 10 && i < goldenRows.size(); i++) {
-            log.logDetailed(
-                "Golden row #" + (i + 1) + " : " + goldenRowMeta.getString(goldenRows.get(i)));
+            log.logDetailed("Golden row #" + (i + 1) + " : " + goldenRowMeta.getString(goldenRows.get(i)));
           }
         }
 
@@ -302,32 +232,17 @@ public class DataSetConst {
           for (int i = 0; i < location.getFieldMappings().size(); i++) {
             PipelineUnitTestFieldMapping fieldMapping = location.getFieldMappings().get(i);
 
-            transformFieldIndices[i] =
-                resultRowMeta.indexOfValue(fieldMapping.getTransformFieldName());
+            transformFieldIndices[i] = resultRowMeta.indexOfValue(fieldMapping.getTransformFieldName());
             if (transformFieldIndices[i] < 0) {
               throw new HopException(
-                  "Unable to find output field '"
-                      + fieldMapping.getTransformFieldName()
-                      + "' while testing output of transform '"
-                      + location.getTransformName()
-                      + "'");
+                  "Unable to find output field '" + fieldMapping.getTransformFieldName() + "' while testing output of transform '" + location.getTransformName() + "'");
             }
             goldenIndices[i] = goldenRowMeta.indexOfValue(fieldMapping.getDataSetFieldName());
             if (goldenIndices[i] < 0) {
               throw new HopException(
-                  "Unable to find golden data set field '"
-                      + fieldMapping.getDataSetFieldName()
-                      + "' while testing output of transform '"
-                      + location.getTransformName()
-                      + "'");
+                  "Unable to find golden data set field '" + fieldMapping.getDataSetFieldName() + "' while testing output of transform '" + location.getTransformName() + "'");
             }
-            log.logDetailed(
-                "Field to compare #"
-                    + i
-                    + " found on transform index : "
-                    + transformFieldIndices[i]
-                    + ", golden index : "
-                    + goldenIndices[i]);
+            log.logDetailed("Field to compare #" + i + " found on transform index : " + transformFieldIndices[i] + ", golden index : " + goldenIndices[i]);
           }
 
           for (int rowNumber = 0; rowNumber < resultRows.size(); rowNumber++) {
@@ -337,20 +252,14 @@ public class DataSetConst {
             // Now compare the input to the golden row
             //
             for (int i = 0; i < location.getFieldMappings().size(); i++) {
-              IValueMeta transformValueMeta =
-                  resultCollection.getRowMeta().getValueMeta(transformFieldIndices[i]);
+              IValueMeta transformValueMeta = resultCollection.getRowMeta().getValueMeta(transformFieldIndices[i]);
               Object transformValue = resultRow[transformFieldIndices[i]];
 
               IValueMeta goldenValueMeta = goldenRowMeta.getValueMeta(goldenIndices[i]);
               Object goldenValue = goldenRow[goldenIndices[i]];
 
               if (log.isDetailed()) {
-                log.logDebug(
-                    "Comparing Meta '"
-                        + transformValueMeta.toString()
-                        + "' with '"
-                        + goldenValueMeta.toString()
-                        + "'");
+                log.logDebug("Comparing Meta '" + transformValueMeta.toString() + "' with '" + goldenValueMeta.toString() + "'");
                 log.logDebug("Comparing Value '" + transformValue + "' with '" + goldenValue + "'");
               }
 
@@ -365,16 +274,13 @@ public class DataSetConst {
               }
 
               try {
-                int cmp =
-                    transformValueMeta.compare(
-                        transformValue, goldenValueMeta, goldenValueConverted);
+                int cmp = transformValueMeta.compare(transformValue, goldenValueMeta, goldenValueConverted);
                 if (cmp != 0) {
 
                   // See if it's a floating point issue...
                   //
                   if (transformValueMeta.isNumber()) {
-                    if (!transformValueMeta.isNull(transformValue)
-                        && !transformValueMeta.isNull(goldenValueConverted)) {
+                    if (!transformValueMeta.isNull(transformValue) && !transformValueMeta.isNull(goldenValueConverted)) {
                       // Convert to an epsilon of 1 millionth.
                       //
                       Double d1 = transformValueMeta.getNumber(transformValue);
@@ -388,8 +294,7 @@ public class DataSetConst {
                 }
                 if (cmp != 0) {
                   if (log.isDebug()) {
-                    log.logDebug(
-                        "Unit test failure: '" + transformValue + "' <> '" + goldenValue + "'");
+                    log.logDebug("Unit test failure: '" + transformValue + "' <> '" + goldenValue + "'");
                   }
                   String comment =
                       "Validation against golden data failed for row number "
@@ -401,22 +306,11 @@ public class DataSetConst {
                           + "] does not correspond to data set value ["
                           + goldenValueMeta.getString(goldenValue)
                           + "]";
-                  results.add(
-                      new UnitTestResult(
-                          pipeline.getPipelineMeta().getName(),
-                          unitTest.getName(),
-                          location.getDataSetName(),
-                          location.getTransformName(),
-                          true,
-                          comment));
+                  results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), location.getDataSetName(), location.getTransformName(), true, comment));
                   nrLocationErrors++;
                 }
               } catch (HopValueException e) {
-                throw new HopException(
-                    "Unable to compare transform data against golden data set '"
-                        + location.getDataSetName()
-                        + "'",
-                    e);
+                throw new HopException("Unable to compare transform data against golden data set '" + location.getDataSetName() + "'", e);
               }
             }
           }
@@ -425,14 +319,7 @@ public class DataSetConst {
 
       if (nrLocationErrors == 0) {
         String comment = "Test passed successfully against golden data set";
-        results.add(
-            new UnitTestResult(
-                pipeline.getPipelineMeta().getName(),
-                unitTest.getName(),
-                location.getDataSetName(),
-                location.getTransformName(),
-                false,
-                comment));
+        results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), location.getDataSetName(), location.getTransformName(), false, comment));
       } else {
         nrErrors += nrLocationErrors;
       }
@@ -440,14 +327,7 @@ public class DataSetConst {
 
     if (nrErrors == 0) {
       String comment = "Unit test was successfully executed.";
-      results.add(
-          new UnitTestResult(
-              pipeline.getPipelineMeta().getName(),
-              unitTest.getName(),
-              null,
-              null,
-              false,
-              comment));
+      results.add(new UnitTestResult(pipeline.getPipelineMeta().getName(), unitTest.getName(), null, null, false, comment));
     }
     return nrErrors;
   }
@@ -470,22 +350,15 @@ public class DataSetConst {
     }
   }
 
-  public static IRowMeta getTransformOutputFields(
-      DataSet dataSet, PipelineUnitTestSetLocation inputLocation) throws HopException {
+  public static IRowMeta getTransformOutputFields(DataSet dataSet, PipelineUnitTestSetLocation inputLocation) throws HopException {
     IRowMeta dataSetRowMeta = dataSet.getSetRowMeta();
     IRowMeta outputRowMeta = new RowMeta();
 
     for (int i = 0; i < inputLocation.getFieldMappings().size(); i++) {
       PipelineUnitTestFieldMapping fieldMapping = inputLocation.getFieldMappings().get(i);
-      IValueMeta injectValueMeta =
-          dataSetRowMeta.searchValueMeta(fieldMapping.getDataSetFieldName());
+      IValueMeta injectValueMeta = dataSetRowMeta.searchValueMeta(fieldMapping.getDataSetFieldName());
       if (injectValueMeta == null) {
-        throw new HopException(
-            "Unable to find mapped field '"
-                + fieldMapping.getDataSetFieldName()
-                + "' in data set '"
-                + dataSet.getName()
-                + "'");
+        throw new HopException("Unable to find mapped field '" + fieldMapping.getDataSetFieldName() + "' in data set '" + dataSet.getName() + "'");
       }
       // Rename to the transform output names though...
       //

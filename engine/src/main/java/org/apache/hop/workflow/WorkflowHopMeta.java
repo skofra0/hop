@@ -32,7 +32,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
 
   public static final String XML_EVALUATION_TAG = "evaluation";
   public static final String XML_UNCONDITIONAL_TAG = "unconditional";
-  
+
   private boolean evaluation;
   private boolean unconditional;
 
@@ -41,13 +41,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
   }
 
   public WorkflowHopMeta(WorkflowHopMeta hop) {
-    super(
-        hop.isSplit(),
-        hop.getFromAction(),
-        hop.getToAction(),
-        hop.isEnabled(),
-        hop.hasChanged(),
-        hop.isErrorHop());
+    super(hop.isSplit(), hop.getFromAction(), hop.getToAction(), hop.isEnabled(), hop.hasChanged(), hop.isErrorHop());
     evaluation = hop.evaluation;
     unconditional = hop.unconditional;
   }
@@ -73,8 +67,7 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
       this.evaluation = getTagValueAsBoolean(hopNode, XML_EVALUATION_TAG, true);
       this.unconditional = getTagValueAsBoolean(hopNode, XML_UNCONDITIONAL_TAG, false);
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfo"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfo"), e);
     }
   }
 
@@ -105,15 +98,14 @@ public class WorkflowHopMeta extends BaseHopMeta<ActionMeta> implements Cloneabl
     try {
       String fromName = XmlHandler.getTagValue(hopNode, XML_FROM_TAG);
       String toName = XmlHandler.getTagValue(hopNode, XML_TO_TAG);
-      
+
       this.from = workflow.findAction(fromName);
       this.to = workflow.findAction(toName);
       this.enabled = getTagValueAsBoolean(hopNode, XML_ENABLED_TAG, true);
       this.evaluation = getTagValueAsBoolean(hopNode, XML_EVALUATION_TAG, true);
-      this.unconditional = getTagValueAsBoolean(hopNode, XML_UNCONDITIONAL_TAG, false); 
+      this.unconditional = getTagValueAsBoolean(hopNode, XML_UNCONDITIONAL_TAG, false);
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfoXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "WorkflowHopMeta.Exception.UnableToLoadHopInfoXML"), e);
     }
   }
 

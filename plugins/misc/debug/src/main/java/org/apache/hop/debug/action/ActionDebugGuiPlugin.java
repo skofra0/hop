@@ -76,16 +76,14 @@ public class ActionDebugGuiPlugin {
         attributesMap.put(Defaults.DEBUG_GROUP, debugGroupAttributesMap);
       }
 
-      ActionDebugLevel debugLevel =
-          DebugLevelUtil.getActionDebugLevel(debugGroupAttributesMap, action.toString());
+      ActionDebugLevel debugLevel = DebugLevelUtil.getActionDebugLevel(debugGroupAttributesMap, action.toString());
       if (debugLevel == null) {
         debugLevel = new ActionDebugLevel();
       }
 
       ActionDebugLevelDialog dialog = new ActionDebugLevelDialog(hopGui.getShell(), debugLevel);
       if (dialog.open()) {
-        DebugLevelUtil.storeActionDebugLevel(
-            debugGroupAttributesMap, action.toString(), debugLevel);
+        DebugLevelUtil.storeActionDebugLevel(debugGroupAttributesMap, action.toString(), debugLevel);
       }
 
       workflowMeta.setChanged();

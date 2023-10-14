@@ -52,10 +52,9 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
 
   private static final String[] FILETYPES =
       new String[] {
-        BaseMessages.getString(PKG, "ActionSQL.Filetype.Sql"),
-        BaseMessages.getString(PKG, "ActionSQL.Filetype.Text"),
-        BaseMessages.getString(PKG, "ActionSQL.Filetype.All")
-      };
+          BaseMessages.getString(PKG, "ActionSQL.Filetype.Sql"),
+          BaseMessages.getString(PKG, "ActionSQL.Filetype.Text"),
+          BaseMessages.getString(PKG, "ActionSQL.Filetype.All")};
 
   private Text wName;
 
@@ -80,8 +79,7 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
   private Button wbFilename;
   private TextVar wFilename;
 
-  public ActionSqlDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSqlDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSql) action;
     if (this.action.getName() == null) {
@@ -188,19 +186,9 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.sql", "*.txt", "*"},
-                FILETYPES,
-                true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*.sql", "*.txt", "*"}, FILETYPES, true));
 
     // Send one SQL Statement?
     Label wlUseOneStatement = new Label(shell, SWT.RIGHT);
@@ -213,8 +201,7 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
     wlUseOneStatement.setLayoutData(fdlUseOneStatement);
     wSendOneStatement = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wSendOneStatement);
-    wSendOneStatement.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSQL.SendOneStatement.Tooltip"));
+    wSendOneStatement.setToolTipText(BaseMessages.getString(PKG, "ActionSQL.SendOneStatement.Tooltip"));
     FormData fdUseOneStatement = new FormData();
     fdUseOneStatement.left = new FormAttachment(middle, 0);
     fdUseOneStatement.top = new FormAttachment(wlUseOneStatement, 0, SWT.CENTER);
@@ -262,9 +249,7 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
     fdlSql.top = new FormAttachment(wUseSubs, margin);
     wlSql.setLayoutData(fdlSql);
 
-    wSql =
-        new StyledTextComp(
-            action, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wSql = new StyledTextComp(action, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
     FormData fdSql = new FormData();
     fdSql.left = new FormAttachment(0, 0);
@@ -292,9 +277,7 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
   public void setPosition() {
     int lineNumber = wSql.getLineNumber();
     int columnNumber = wSql.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "ActionSQL.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "ActionSQL.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   /** Copy information from the meta-data input to the dialog fields. */
@@ -339,7 +322,7 @@ public class ActionSqlDialog extends ActionDialog implements IActionDialog {
     action.setUseVariableSubstitution(wUseSubs.getSelection());
     action.setSqlFromFile(wSqlFromFile.getSelection());
     action.setSqlFilename(wFilename.getText());
-    action.setSendOneStatement(wSendOneStatement.getSelection());    
+    action.setSendOneStatement(wSendOneStatement.getSelection());
     action.setChanged();
 
     dispose();

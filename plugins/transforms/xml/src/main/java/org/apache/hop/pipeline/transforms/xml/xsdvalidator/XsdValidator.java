@@ -49,18 +49,11 @@ import java.io.StringReader;
 public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorData> {
   private static final Class<?> PKG = XsdValidatorMeta.class; // For Translator
 
-  static final String JAXP_SCHEMA_LANGUAGE =
-      "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+  static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
 
   static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-  public XsdValidator(
-      TransformMeta transformMeta,
-      XsdValidatorMeta meta,
-      XsdValidatorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public XsdValidator(TransformMeta transformMeta, XsdValidatorMeta meta, XsdValidatorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
   }
 
@@ -88,8 +81,7 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
         if (meta.getResultfieldname() == null) {
           // Result field is missing !
           logError(BaseMessages.getString(PKG, "XsdValidator.Log.ErrorResultFieldMissing"));
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "XsdValidator.Exception.ErrorResultFieldMissing"));
+          throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.ErrorResultFieldMissing"));
         }
 
         // Is XSD file is provided?
@@ -105,8 +97,7 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
       } else {
         // XML stream field is missing !
         logError(BaseMessages.getString(PKG, "XsdValidator.Log.Error.XmlStreamFieldMissing"));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "XsdValidator.Exception.XmlStreamFieldMissing"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.XmlStreamFieldMissing"));
       }
     }
 
@@ -127,22 +118,17 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
       }
 
       // Get XSD file
-      FileObject xsdfile =
-          StringUtils.isNotEmpty(xsdfilename) ? HopVfs.getFileObject(xsdfilename) : null;
+      FileObject xsdfile = StringUtils.isNotEmpty(xsdfilename) ? HopVfs.getFileObject(xsdfilename) : null;
 
       try {
 
-        SchemaFactory factoryXSDValidator =
-            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory factoryXSDValidator = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
         // Get XML stream
         Source sourceXML = getSourceXML(getInputRowMeta().getString(row, data.xmlindex));
 
         // create the schema
-        Schema schematXSD =
-            xsdfile != null
-                ? getXsdSchemaFromFile(xsdfile, factoryXSDValidator)
-                : getXsdSchema(xsdfilename, factoryXSDValidator);
+        Schema schematXSD = xsdfile != null ? getXsdSchemaFromFile(xsdfile, factoryXSDValidator) : getXsdSchema(xsdfilename, factoryXSDValidator);
 
         // Create XSDValidator
         Validator xsdValidator = schematXSD.newValidator();
@@ -153,14 +139,10 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
           xsdValidator.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
           xsdValidator.setFeature("http://xml.org/sax/features/external-general-entities", false);
           xsdValidator.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-          xsdValidator.setProperty(
-              "http://apache.org/xml/properties/internal/entity-resolver",
-              (XMLEntityResolver)
-                  xmlResourceIdentifier -> {
-                    String message =
-                        BaseMessages.getString(PKG, "XsdValidator.Exception.DisallowedDocType");
-                    throw new IOException(message);
-                  });
+          xsdValidator.setProperty("http://apache.org/xml/properties/internal/entity-resolver", (XMLEntityResolver) xmlResourceIdentifier -> {
+            String message = BaseMessages.getString(PKG, "XsdValidator.Exception.DisallowedDocType");
+            throw new IOException(message);
+          });
         }
 
         // Validate XML / XSD
@@ -188,30 +170,22 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
       if (meta.getOutputStringField()) {
         // Output type=String
         if (isvalid) {
-          outputRowData =
-              RowDataUtil.addValueData(
-                  row, getInputRowMeta().size(), resolve(meta.getIfXmlValid()));
+          outputRowData = RowDataUtil.addValueData(row, getInputRowMeta().size(), resolve(meta.getIfXmlValid()));
         } else {
-          outputRowData =
-              RowDataUtil.addValueData(
-                  row, getInputRowMeta().size(), resolve(meta.getIfXmlInvalid()));
+          outputRowData = RowDataUtil.addValueData(row, getInputRowMeta().size(), resolve(meta.getIfXmlInvalid()));
         }
       } else {
         outputRowData = RowDataUtil.addValueData(row, getInputRowMeta().size(), isvalid);
       }
 
       if (meta.useAddValidationMessage()) {
-        outputRowData2 =
-            RowDataUtil.addValueData(outputRowData, getInputRowMeta().size() + 1, validationmsg);
+        outputRowData2 = RowDataUtil.addValueData(outputRowData, getInputRowMeta().size() + 1, validationmsg);
       } else {
         outputRowData2 = outputRowData;
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "XsdValidator.Log.ReadRow")
-                + " "
-                + getInputRowMeta().getString(row));
+        logRowlevel(BaseMessages.getString(PKG, "XsdValidator.Log.ReadRow") + " " + getInputRowMeta().getString(row));
       }
 
       // add new values to the row.
@@ -229,18 +203,15 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
         // Simply add this row to the error row
         putError(getInputRowMeta(), row, 1, errorMessage, null, "XSD001");
       } else {
-        logError(
-            BaseMessages.getString(PKG, "XsdValidator.ErrorProcesing" + " : " + e.getMessage()));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "XsdValidator.ErrorProcesing"), e);
+        logError(BaseMessages.getString(PKG, "XsdValidator.ErrorProcesing" + " : " + e.getMessage()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.ErrorProcesing"), e);
       }
     }
 
     return true;
   }
 
-  private Schema getXsdSchema(String xsdfilename, SchemaFactory factoryXSDValidator)
-      throws SAXException, HopTransformException {
+  private Schema getXsdSchema(String xsdfilename, SchemaFactory factoryXSDValidator) throws SAXException, HopTransformException {
     Schema schematXSD;
     if (meta.getXSDSource().equals(meta.NO_NEED)) {
       // ---Some documents specify the schema they expect to be validated against,
@@ -249,18 +220,15 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
     } else {
       // we should not get here as anything entered in that does not look like
       // a url should be made a FileObject.
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "XsdValidator.Exception.CannotCreateSchema", xsdfilename));
+      throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.CannotCreateSchema", xsdfilename));
     }
     return schematXSD;
   }
 
-  private Schema getXsdSchemaFromFile(FileObject xsdfile, SchemaFactory factoryXSDValidator)
-      throws SAXException, FileSystemException {
+  private Schema getXsdSchemaFromFile(FileObject xsdfile, SchemaFactory factoryXSDValidator) throws SAXException, FileSystemException {
     Schema schematXSD;
     if (xsdfile.getName().getURI().contains("ram:///")) {
-      schematXSD =
-          factoryXSDValidator.newSchema(new StreamSource(xsdfile.getContent().getInputStream()));
+      schematXSD = factoryXSDValidator.newSchema(new StreamSource(xsdfile.getContent().getInputStream()));
     } else {
       schematXSD = factoryXSDValidator.newSchema(new File(HopVfs.getFilename(xsdfile)));
     }
@@ -273,22 +241,15 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
     // Let's check the Field
     if (data.xmlindex < 0) {
       // The field is unreachable !
-      logError(
-          BaseMessages.getString(PKG, "XsdValidator.Log.ErrorFindingField")
-              + "["
-              + meta.getXMLStream()
-              + "]");
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "XsdValidator.Exception.CouldnotFindField", meta.getXMLStream()));
+      logError(BaseMessages.getString(PKG, "XsdValidator.Log.ErrorFindingField") + "[" + meta.getXMLStream() + "]");
+      throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.CouldnotFindField", meta.getXMLStream()));
     }
   }
 
   private void validXsdField() throws HopTransformException {
     if (meta.getXSDDefinedField() == null) {
       logError(BaseMessages.getString(PKG, "XsdValidator.Log.Error.XSDFieldMissing"));
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "XsdValidator.Exception.XSDFieldMissing"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.XSDFieldMissing"));
     } else {
       // Let's check if the XSD field exist
       // Try to get XML Field index
@@ -296,12 +257,8 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
 
       if (data.xsdindex < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(
-                PKG, "XsdValidator.Log.ErrorFindingXSDField", meta.getXSDDefinedField()));
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "XsdValidator.Exception.ErrorFindingXSDField", meta.getXSDDefinedField()));
+        logError(BaseMessages.getString(PKG, "XsdValidator.Log.ErrorFindingXSDField", meta.getXSDDefinedField()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.ErrorFindingXSDField", meta.getXSDDefinedField()));
       }
     }
   }
@@ -309,8 +266,7 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
   private void validXsdFileName() throws HopTransformException {
     if (meta.getXSDFilename() == null) {
       logError(BaseMessages.getString(PKG, "XsdValidator.Log.ErrorXSDFileMissing"));
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "XsdValidator.Exception.ErrorXSDFileMissing"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.ErrorXSDFileMissing"));
     } else {
       // Is XSD file exists ?
       FileObject xsdfile = null;
@@ -318,14 +274,12 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
         xsdfile = HopVfs.getFileObject(resolve(meta.getXSDFilename()));
         if (!xsdfile.exists()) {
           logError(BaseMessages.getString(PKG, "XsdValidator.Log.Error.XSDFileNotExists"));
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "XsdValidator.Exception.XSDFileNotExists"));
+          throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.XSDFileNotExists"));
         }
 
       } catch (Exception e) {
         logError(BaseMessages.getString(PKG, "XsdValidator.Log.Error.GettingXSDFile"));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "XsdValidator.Exception.GettingXSDFile"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.GettingXSDFile"));
       } finally {
         try {
           if (xsdfile != null) {
@@ -338,8 +292,7 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
     }
   }
 
-  private Source getSourceXML(String xmlFieldvalue)
-      throws HopFileException, FileSystemException, HopTransformException {
+  private Source getSourceXML(String xmlFieldvalue) throws HopFileException, FileSystemException, HopTransformException {
     Source sourceXML = new StreamSource(new StringReader(xmlFieldvalue));
 
     if (meta.getXMLSourceFile()) {
@@ -348,10 +301,8 @@ public class XsdValidator extends BaseTransform<XsdValidatorMeta, XsdValidatorDa
       // Get XML File
       FileObject xmlfileValidator = HopVfs.getFileObject(xmlFieldvalue);
       if (xmlfileValidator == null || !xmlfileValidator.exists()) {
-        logError(
-            BaseMessages.getString(PKG, "XsdValidator.Log.Error.XMLfileMissing", xmlFieldvalue));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "XsdValidator.Exception.XMLfileMissing", xmlFieldvalue));
+        logError(BaseMessages.getString(PKG, "XsdValidator.Log.Error.XMLfileMissing", xmlFieldvalue));
+        throw new HopTransformException(BaseMessages.getString(PKG, "XsdValidator.Exception.XMLfileMissing", xmlFieldvalue));
       }
       sourceXML = new StreamSource(xmlfileValidator.getContent().getInputStream());
     }

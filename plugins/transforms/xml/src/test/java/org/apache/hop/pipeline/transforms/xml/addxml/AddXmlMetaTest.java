@@ -31,24 +31,20 @@ public class AddXmlMetaTest {
 
   @Test
   public void loadSaveTest() throws HopException {
-    List<String> attributes =
-        Arrays.asList(
-            "omitXMLheader", "omitNullValues", "encoding", "valueName", "rootNode", "outputFields");
+    List<String> attributes = Arrays.asList("omitXMLheader", "omitNullValues", "encoding", "valueName", "rootNode", "outputFields");
 
     XmlField xmlField = new XmlField();
     xmlField.setFieldName("TEST_FIELD");
     xmlField.setType(0);
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap = new HashMap<>();
-    fieldLoadSaveValidatorTypeMap.put(
-        XmlField[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new XMLFieldLoadSaveValidator(xmlField), 1));
+    fieldLoadSaveValidatorTypeMap.put(XmlField[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new XMLFieldLoadSaveValidator(xmlField), 1));
 
-    //    TransformLoadSaveTester tester = new TransformLoadSaveTester( AddXmlMeta.class,
+    // TransformLoadSaveTester tester = new TransformLoadSaveTester( AddXmlMeta.class,
     // attributes, new HashMap<String, String>(), new HashMap<String, String>(),
-    //        new HashMap<String, IFieldLoadSaveValidator<?>>(), fieldLoadSaveValidatorTypeMap );
+    // new HashMap<String, IFieldLoadSaveValidator<?>>(), fieldLoadSaveValidatorTypeMap );
 
-    //    tester.testXmlRoundTrip();
+    // tester.testXmlRoundTrip();
   }
 
   public static class XMLFieldLoadSaveValidator implements IFieldLoadSaveValidator<XmlField> {

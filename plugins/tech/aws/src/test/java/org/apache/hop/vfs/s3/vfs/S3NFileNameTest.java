@@ -49,8 +49,7 @@ public class S3NFileNameTest {
 
   @Test
   public void testCreateName() {
-    assertEquals(
-        "s3n:///path/to/my/file", fileName.createName("/path/to/my/file", FileType.FILE).getURI());
+    assertEquals("s3n:///path/to/my/file", fileName.createName("/path/to/my/file", FileType.FILE).getURI());
   }
 
   @Test

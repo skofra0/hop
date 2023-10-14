@@ -34,17 +34,12 @@ import org.apache.hop.ui.hopgui.perspective.configuration.tabs.ConfigPluginOptio
 import org.eclipse.swt.widgets.Control;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "GoogleCloudStorageConfigPlugin",
-    description = "Configuration options for Google Cloud",
-    category = ConfigPlugin.CATEGORY_CONFIG)
-@GuiPlugin(
-    description = "Google Cloud" // Tab label in options dialog
-    )
+@ConfigPlugin(id = "GoogleCloudStorageConfigPlugin", description = "Configuration options for Google Cloud", category = ConfigPlugin.CATEGORY_CONFIG)
+@GuiPlugin(description = "Google Cloud" // Tab label in options dialog
+)
 public class GoogleCloudConfigPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
-  private static final String WIDGET_ID_GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY_FILE =
-      "10000-google-cloud-service-account-key-file";
+  private static final String WIDGET_ID_GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY_FILE = "10000-google-cloud-service-account-key-file";
 
   @GuiWidgetElement(
       id = WIDGET_ID_GOOGLE_CLOUD_SERVICE_ACCOUNT_KEY_FILE,
@@ -52,11 +47,8 @@ public class GoogleCloudConfigPlugin implements IConfigOptions, IGuiPluginCompos
       type = GuiElementType.FILENAME,
       variables = true,
       label = "Path to a Google Cloud service account JSON key file",
-      toolTip =
-          "Go to the Google Cloud console to create a key file for the service account you want to use")
-  @CommandLine.Option(
-      names = {"-gck", "--google-cloud-service-account-key-file"},
-      description = "Configure the path to a Google Cloud service account JSON key file")
+      toolTip = "Go to the Google Cloud console to create a key file for the service account you want to use")
+  @CommandLine.Option(names = {"-gck", "--google-cloud-service-account-key-file"}, description = "Configure the path to a Google Cloud service account JSON key file")
   private String serviceAccountKeyFile;
 
   /**
@@ -74,19 +66,14 @@ public class GoogleCloudConfigPlugin implements IConfigOptions, IGuiPluginCompos
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     GoogleCloudConfig config = GoogleCloudConfigSingleton.getConfig();
     try {
       boolean changed = false;
 
       if (serviceAccountKeyFile != null) {
         config.setServiceAccountKeyFile(serviceAccountKeyFile);
-        log.logBasic(
-            "The Google Cloud service account JSON jey file is set to '"
-                + serviceAccountKeyFile
-                + "'");
+        log.logBasic("The Google Cloud service account JSON jey file is set to '" + serviceAccountKeyFile + "'");
         changed = true;
       }
 
@@ -108,8 +95,7 @@ public class GoogleCloudConfigPlugin implements IConfigOptions, IGuiPluginCompos
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {}
 
   @Override
   public void persistContents(GuiCompositeWidgets compositeWidgets) {

@@ -43,12 +43,7 @@ public class PipelineDataProbeDialog extends BaseTransformDialog implements ITra
 
   private final PipelineDataProbeMeta input;
 
-  public PipelineDataProbeDialog(
-      Shell parent,
-      IVariables variables,
-      Object input,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public PipelineDataProbeDialog(Shell parent, IVariables variables, Object input, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) input, pipelineMeta, transformName);
     this.input = (PipelineDataProbeMeta) input;
   }
@@ -76,8 +71,7 @@ public class PipelineDataProbeDialog extends BaseTransformDialog implements ITra
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "PipelineDataProbeDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "PipelineDataProbeDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -105,8 +99,7 @@ public class PipelineDataProbeDialog extends BaseTransformDialog implements ITra
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 

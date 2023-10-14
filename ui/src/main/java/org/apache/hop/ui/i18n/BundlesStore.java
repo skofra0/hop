@@ -37,8 +37,8 @@ public class BundlesStore {
   private List<String> bundleRootFolders;
 
   /*
-   This map contains the content of message bundles per package, per language and per file
-  */
+   * This map contains the content of message bundles per package, per language and per file
+   */
   private Map<String, Map<String, BundleFile>> packageLanguageBundleMap;
   private final Map<String, List<String>> collisionPackages;
 
@@ -62,12 +62,7 @@ public class BundlesStore {
   public BundlesStore(String rootFolder) throws HopException {
     this();
     try {
-      Files.walk(Paths.get(rootFolder))
-          .filter(
-              path ->
-                  Files.isDirectory(path)
-                      && path.endsWith("src/main/resources")
-                      && !path.toString().contains("/impl/"))
+      Files.walk(Paths.get(rootFolder)).filter(path -> Files.isDirectory(path) && path.endsWith("src/main/resources") && !path.toString().contains("/impl/"))
           .forEach(path -> bundleRootFolders.add(path.toAbsolutePath().toFile().getPath()));
     } catch (IOException e) {
       throw new HopException("Error reading root folder: " + rootFolder, e);
@@ -78,18 +73,11 @@ public class BundlesStore {
     try {
       for (String bundleRootFolder : bundleRootFolders) {
         Files.walk(Paths.get(bundleRootFolder))
-            .filter(
-                path ->
-                    Files.isRegularFile(path)
-                        && path.getFileName().toString().startsWith("messages_")
-                        && path.getFileName().toString().endsWith(".properties"))
+            .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().startsWith("messages_") && path.getFileName().toString().endsWith(".properties"))
             .forEach(path -> addMessagesFile(bundleRootFolder, path));
       }
       if (!collisionPackages.isEmpty()) {
-        String collisionFiles =
-            collisionPackages.values().stream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.joining("\n\t"));
+        String collisionFiles = collisionPackages.values().stream().flatMap(Collection::stream).collect(Collectors.joining("\n\t"));
         collisionPackages.clear();
         throw new HopFileException(
             "Bundle file collision! "
@@ -109,9 +97,8 @@ public class BundlesStore {
    * @param bundleRootFolder
    * @param messagesFilePath
    */
-  private void addMessagesFile(String bundleRootFolder, Path messagesFilePath)
-      throws RuntimeException {
-    // Root folder :    /home/matt/git/project-hop/hop/ui/src/main/resources
+  private void addMessagesFile(String bundleRootFolder, Path messagesFilePath) throws RuntimeException {
+    // Root folder : /home/matt/git/project-hop/hop/ui/src/main/resources
     // Messages folder:
     // /home/matt/git/project-hop/hop/ui/src/main/resources/org/apache/hop/ui/hopgui/messages/
     //
@@ -121,22 +108,12 @@ public class BundlesStore {
       // We can determine the package...
       //
       String packageName =
-          messagesFileFolder
-              .substring(bundleRootFolder.length())
-              .replace(File.separator, "/")
-              .replaceAll("\\/messages$", "")
-              .replaceAll("^\\/", "")
-              .replaceAll("\\/", ".");
+          messagesFileFolder.substring(bundleRootFolder.length()).replace(File.separator, "/").replaceAll("\\/messages$", "").replaceAll("^\\/", "").replaceAll("\\/", ".");
 
       // What is the language?
       // Decompose messages_en_US.properties to en_US using some regex
       //
-      String locale =
-          messagesFilePath
-              .getFileName()
-              .toString()
-              .replaceAll("^messages_", "")
-              .replaceAll("\\.properties$", "");
+      String locale = messagesFilePath.getFileName().toString().replaceAll("^messages_", "").replaceAll("\\.properties$", "");
 
       // Now store this bundle in the store...
       //
@@ -215,8 +192,7 @@ public class BundlesStore {
     }
   }
 
-  public void addTranslation(
-      String sourceFolder, String packageName, String locale, String key, String value) {
+  public void addTranslation(String sourceFolder, String packageName, String locale, String key, String value) {
     Map<String, BundleFile> languageBundleFileMap = packageLanguageBundleMap.get(packageName);
     if (languageBundleFileMap == null) {
       languageBundleFileMap = new HashMap<>();
@@ -238,13 +214,7 @@ public class BundlesStore {
               // append package folders
               .concat(packageName.replace(".", File.separator))
               // append messages folder and localized file
-              .concat(
-                  File.separator
-                      + "messages"
-                      + File.separator
-                      + "messages_"
-                      + locale
-                      + ".properties");
+              .concat(File.separator + "messages" + File.separator + "messages_" + locale + ".properties");
 
       // TODO finish/test calculating filename
       bundleFile = new BundleFile(bundleFileName, packageName, locale, new HashMap<>());
@@ -325,8 +295,7 @@ public class BundlesStore {
   }
 
   /** @param packageLanguageBundleMap The packageLanguageBundleMap to set */
-  public void setPackageLanguageBundleMap(
-      Map<String, Map<String, BundleFile>> packageLanguageBundleMap) {
+  public void setPackageLanguageBundleMap(Map<String, Map<String, BundleFile>> packageLanguageBundleMap) {
     this.packageLanguageBundleMap = packageLanguageBundleMap;
   }
 }

@@ -39,7 +39,8 @@ import static org.mockito.Mockito.verify;
 
 public class CompressionInputStreamTest {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static final String PROVIDER_NAME = "None";
 

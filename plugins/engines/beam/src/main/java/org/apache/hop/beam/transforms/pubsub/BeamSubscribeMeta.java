@@ -52,8 +52,10 @@ import java.util.Map;
     documentationUrl = "/pipeline/transforms/beamgcpsubscriber.html")
 public class BeamSubscribeMeta extends BaseTransformMeta<BeamSubscribe, BeamSubscribeData> implements IBeamPipelineTransformHandler {
 
-  @HopMetadataProperty private String topic;
-  @HopMetadataProperty private String subscription;
+  @HopMetadataProperty
+  private String topic;
+  @HopMetadataProperty
+  private String subscription;
 
   @HopMetadataProperty(key = "message_type")
   private String messageType;
@@ -74,13 +76,7 @@ public class BeamSubscribeMeta extends BaseTransformMeta<BeamSubscribe, BeamSubs
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (StringUtils.isEmpty(messageType)) {
@@ -137,20 +133,11 @@ public class BeamSubscribeMeta extends BaseTransformMeta<BeamSubscribe, BeamSubs
     // Verify some things:
     //
     if (StringUtils.isEmpty(topic)) {
-      throw new HopException(
-          "Please specify a topic to read from in Beam Pub/Sub Subscribe transform '"
-              + transformMeta.getName()
-              + "'");
+      throw new HopException("Please specify a topic to read from in Beam Pub/Sub Subscribe transform '" + transformMeta.getName() + "'");
     }
 
     BeamSubscribeTransform subscribeTransform =
-        new BeamSubscribeTransform(
-            transformMeta.getName(),
-            transformMeta.getName(),
-            variables.resolve(subscription),
-            variables.resolve(topic),
-            messageType,
-            rowMetaJson);
+        new BeamSubscribeTransform(transformMeta.getName(), transformMeta.getName(), variables.resolve(subscription), variables.resolve(topic), messageType, rowMetaJson);
 
     PCollection<HopRow> afterInput = pipeline.apply(subscribeTransform);
     transformCollectionMap.put(transformMeta.getName(), afterInput);

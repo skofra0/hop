@@ -23,10 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReleaseSavePointTest {
 
-  IDatabase[] support =
-      new IDatabase[] {
-        new RedshiftDatabaseMeta(),
-      };
+  IDatabase[] support = new IDatabase[] {new RedshiftDatabaseMeta(),};
 
   @Test
   public void testReleaseSavePointBooleans() {

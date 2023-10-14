@@ -24,28 +24,16 @@ import java.util.List;
 
 public class MongoDbDeleteField implements Cloneable {
 
-  @HopMetadataProperty(
-      key = "incoming_field_1",
-      injectionKey = "INCOMING_FIELD_1",
-      injectionGroupKey = "MONGODB_FIELDS")
+  @HopMetadataProperty(key = "incoming_field_1", injectionKey = "INCOMING_FIELD_1", injectionGroupKey = "MONGODB_FIELDS")
   public String incomingField1 = "";
 
-  @HopMetadataProperty(
-      key = "incoming_field_2",
-      injectionKey = "INCOMING_FIELD_2",
-      injectionGroupKey = "MONGODB_FIELDS")
+  @HopMetadataProperty(key = "incoming_field_2", injectionKey = "INCOMING_FIELD_2", injectionGroupKey = "MONGODB_FIELDS")
   public String incomingField2 = "";
 
-  @HopMetadataProperty(
-      key = "doc_path",
-      injectionKey = "DOC_PATH",
-      injectionGroupKey = "MONGODB_FIELDS")
+  @HopMetadataProperty(key = "doc_path", injectionKey = "DOC_PATH", injectionGroupKey = "MONGODB_FIELDS")
   public String mongoDocPath = "";
 
-  @HopMetadataProperty(
-      key = "comparator",
-      injectionKey = "COMPARATOR",
-      injectionGroupKey = "MONGODB_FIELDS")
+  @HopMetadataProperty(key = "comparator", injectionKey = "COMPARATOR", injectionGroupKey = "MONGODB_FIELDS")
   public String comparator = "";
 
   protected List<String> pathList;

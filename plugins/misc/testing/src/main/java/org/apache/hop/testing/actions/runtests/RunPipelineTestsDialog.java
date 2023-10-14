@@ -59,8 +59,7 @@ public class RunPipelineTestsDialog extends ActionDialog implements IActionDialo
 
   private TableView wTestNames;
 
-  public RunPipelineTestsDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public RunPipelineTestsDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (RunPipelineTests) action;
 
@@ -131,22 +130,11 @@ public class RunPipelineTestsDialog extends ActionDialog implements IActionDialo
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wGet, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wGet, wCancel,}, margin, null);
 
-    ColumnInfo[] columnInfos =
-        new ColumnInfo[] {
-          new ColumnInfo("Name", ColumnInfo.COLUMN_TYPE_TEXT, false, false),
-        };
+    ColumnInfo[] columnInfos = new ColumnInfo[] {new ColumnInfo("Name", ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
 
-    wTestNames =
-        new TableView(
-            variables, shell, SWT.BORDER, columnInfos, action.getTestNames().size(), null, props);
+    wTestNames = new TableView(variables, shell, SWT.BORDER, columnInfos, action.getTestNames().size(), null, props);
     PropsUi.setLook(wTestNames);
     FormData fdTestNames = new FormData();
     fdTestNames.left = new FormAttachment(0, 0);
@@ -164,8 +152,7 @@ public class RunPipelineTestsDialog extends ActionDialog implements IActionDialo
 
   private void getTestNames() {
     try {
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          metadataProvider.getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
       List<String> testNames = testSerializer.listObjectNames();
 
       // Simply add them all to the list...

@@ -26,7 +26,8 @@ public class PropBeanChild {
   @HopMetadataProperty(key = "child2")
   private String childField2;
 
-  @HopMetadataProperty private PropBeanGrandChild grandChild;
+  @HopMetadataProperty
+  private PropBeanGrandChild grandChild;
 
   public PropBeanChild() {
     grandChild = new PropBeanGrandChild();

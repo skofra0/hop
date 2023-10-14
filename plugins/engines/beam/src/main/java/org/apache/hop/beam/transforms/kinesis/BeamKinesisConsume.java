@@ -25,13 +25,7 @@ import org.apache.hop.pipeline.transforms.dummy.DummyData;
 
 public class BeamKinesisConsume extends BaseTransform<BeamKinesisConsumeMeta, DummyData> {
 
-  public BeamKinesisConsume(
-      TransformMeta transformMeta,
-      BeamKinesisConsumeMeta meta,
-      DummyData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public BeamKinesisConsume(TransformMeta transformMeta, BeamKinesisConsumeMeta meta, DummyData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

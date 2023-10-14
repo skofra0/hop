@@ -36,7 +36,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class NormaliserTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void before() throws HopException {
@@ -156,30 +157,30 @@ public class NormaliserTest {
     //
     // Data input looks like this:
     //
-    // DATE     PR1_NR  PR_SL PR2_NR  PR2_SL  PR3_NR  PR3_SL
-    // 2003010  5       100   10      250     4       150
+    // DATE PR1_NR PR_SL PR2_NR PR2_SL PR3_NR PR3_SL
+    // 2003010 5 100 10 250 4 150
     //
     // Data output looks like this:
     //
-    // DATE     Type      Product Sales Product Number
-    // 2003010  Product1  100           5
-    // 2003010  Product2  250           10
-    // 2003010  Product3  150           4
+    // DATE Type Product Sales Product Number
+    // 2003010 Product1 100 5
+    // 2003010 Product2 250 10
+    // 2003010 Product3 150 4
     //
 
-    //    final String transformName = "Row Normaliser";
-    //    NormaliserMeta transformMeta = new NormaliserMeta();
-    //    transformMeta.setDefault();
-    //    transformMeta.setNormaliserFields( getTestNormaliserFieldsWiki() );
-    //    transformMeta.setTypeField( "Type" );
+    // final String transformName = "Row Normaliser";
+    // NormaliserMeta transformMeta = new NormaliserMeta();
+    // transformMeta.setDefault();
+    // transformMeta.setNormaliserFields( getTestNormaliserFieldsWiki() );
+    // transformMeta.setTypeField( "Type" );
 
-    //    PipelineMeta pipelineMeta = PipelineTestFactory.generateTestTransformation( null,
+    // PipelineMeta pipelineMeta = PipelineTestFactory.generateTestTransformation( null,
     // transformMeta, transformName );
-    //    List<RowMetaAndData> inputList = getWikiInputRowMetaAndData();
-    //    List<RowMetaAndData> outputList = PipelineTestFactory.executeTestTransformation(
+    // List<RowMetaAndData> inputList = getWikiInputRowMetaAndData();
+    // List<RowMetaAndData> outputList = PipelineTestFactory.executeTestTransformation(
     // pipelineMeta, PipelineTestFactory.INJECTOR_TRANSFORMNAME, transformName,
     // PipelineTestFactory.DUMMY_TRANSFORMNAME, inputList );
-    //    List<RowMetaAndData> expectedOutput = this.getExpectedWikiOutputRowMetaAndData();
-    //    checkResults( expectedOutput, outputList );
+    // List<RowMetaAndData> expectedOutput = this.getExpectedWikiOutputRowMetaAndData();
+    // checkResults( expectedOutput, outputList );
   }
 }

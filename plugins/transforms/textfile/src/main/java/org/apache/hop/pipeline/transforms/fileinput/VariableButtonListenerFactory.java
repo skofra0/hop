@@ -29,13 +29,12 @@ import org.eclipse.swt.widgets.Text;
 import java.util.Arrays;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 public class VariableButtonListenerFactory {
   private static final Class<?> PKG = TextFileInputMeta.class; // For Translator
 
   // Listen to the Variable... button
-  public static final SelectionAdapter getSelectionAdapter(
-      final Composite composite, final Text destination, IVariables variables) {
+  public static final SelectionAdapter getSelectionAdapter(final Composite composite, final Text destination, IVariables variables) {
     return getSelectionAdapter(composite, destination, null, null, variables);
   }
 

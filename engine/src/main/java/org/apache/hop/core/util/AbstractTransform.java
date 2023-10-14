@@ -23,8 +23,7 @@ import org.apache.hop.pipeline.transform.ITransformData;
 import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
-public abstract class AbstractTransform<Meta extends ITransformMeta, Data extends ITransformData>
-    extends BaseTransform<Meta, Data> {
+public abstract class AbstractTransform<Meta extends ITransformMeta, Data extends ITransformData> extends BaseTransform<Meta, Data> {
 
   /** Constant for unexpected error. */
   public static final String UNEXPECTED_ERROR = "Unexpected error";
@@ -41,13 +40,7 @@ public abstract class AbstractTransform<Meta extends ITransformMeta, Data extend
    * @param pipelineMeta the pipelineMeta.
    * @param pipeline the transaction.
    */
-  public AbstractTransform(
-      final TransformMeta transformMeta,
-      final Meta meta,
-      final Data data,
-      final int copyNr,
-      final PipelineMeta pipelineMeta,
-      final Pipeline pipeline) {
+  public AbstractTransform(final TransformMeta transformMeta, final Meta meta, final Data data, final int copyNr, final PipelineMeta pipelineMeta, final Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

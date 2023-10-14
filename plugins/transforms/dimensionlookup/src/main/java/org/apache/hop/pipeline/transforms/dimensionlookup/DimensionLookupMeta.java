@@ -58,58 +58,37 @@ import java.util.List;
     image = "dimensionlookup.svg",
     name = "i18n::DimensionUpdate.Name",
     description = "i18n::DimensionUpdate.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.DataWarehouse",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.DataWarehouse",
     keywords = "i18n::DimensionLookupMeta.keyword",
     documentationUrl = "/pipeline/transforms/dimensionlookup.html")
-public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, DimensionLookupData>
-    implements IProvidesModelerMeta {
+public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, DimensionLookupData> implements IProvidesModelerMeta {
   private static final Class<?> PKG = DimensionLookupMeta.class; // For Translator
 
   /** The lookup schema name */
-  @HopMetadataProperty(
-      key = "schema",
-      injectionKey = "TARGET_SCHEMA",
-      injectionKeyDescription = "DimensionLookup.Injection.TARGET_SCHEMA")
+  @HopMetadataProperty(key = "schema", injectionKey = "TARGET_SCHEMA", injectionKeyDescription = "DimensionLookup.Injection.TARGET_SCHEMA")
   private String schemaName;
 
   /** The lookup table */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKey = "TARGET_TABLE",
-      injectionKeyDescription = "DimensionLookup.Injection.TARGET_TABLE")
+  @HopMetadataProperty(key = "table", injectionKey = "TARGET_TABLE", injectionKeyDescription = "DimensionLookup.Injection.TARGET_TABLE")
   private String tableName;
 
   /** The database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      storeWithName = true,
-      injectionKey = "CONNECTION_NAME",
-      injectionKeyDescription = "DimensionLookup.Injection.CONNECTION_NAME")
+  @HopMetadataProperty(key = "connection", storeWithName = true, injectionKey = "CONNECTION_NAME", injectionKeyDescription = "DimensionLookup.Injection.CONNECTION_NAME")
   private DatabaseMeta databaseMeta;
 
   /** Update the dimension or just lookup? */
-  @HopMetadataProperty(
-      key = "update",
-      injectionKey = "UPDATE_DIMENSION",
-      injectionKeyDescription = "DimensionLookup.Injection.UPDATE_DIMENSION")
+  @HopMetadataProperty(key = "update", injectionKey = "UPDATE_DIMENSION", injectionKeyDescription = "DimensionLookup.Injection.UPDATE_DIMENSION")
   private boolean update;
 
   @HopMetadataProperty(key = "fields", injectionGroupKey = "FIELDS")
   private DLFields fields;
 
   /** Sequence name to get the sequence from */
-  @HopMetadataProperty(
-      key = "sequence",
-      injectionKey = "TECHNICAL_KEY_SEQUENCE",
-      injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_SEQUENCE")
+  @HopMetadataProperty(key = "sequence", injectionKey = "TECHNICAL_KEY_SEQUENCE", injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_SEQUENCE")
   private String sequenceName;
 
   /** The number of rows between commits */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKey = "COMMIT_SIZE",
-      injectionKeyDescription = "DimensionLookup.Injection.COMMIT_SIZE")
+  @HopMetadataProperty(key = "commit", injectionKey = "COMMIT_SIZE", injectionKeyDescription = "DimensionLookup.Injection.COMMIT_SIZE")
   private int commitSize;
 
   /** Flag to indicate the use of batch updates, default disabled for backward compatibility */
@@ -117,24 +96,15 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
   private boolean useBatchUpdate;
 
   /** The year to use as minus infinity in the dimensions date range */
-  @HopMetadataProperty(
-      key = "min_year",
-      injectionKey = "MIN_YEAR",
-      injectionKeyDescription = "DimensionLookup.Injection.MIN_YEAR")
+  @HopMetadataProperty(key = "min_year", injectionKey = "MIN_YEAR", injectionKeyDescription = "DimensionLookup.Injection.MIN_YEAR")
   private int minYear;
 
   /** The year to use as plus infinity in the dimensions date range */
-  @HopMetadataProperty(
-      key = "max_year",
-      injectionKey = "MAX_YEAR",
-      injectionKeyDescription = "DimensionLookup.Injection.MAX_YEAR")
+  @HopMetadataProperty(key = "max_year", injectionKey = "MAX_YEAR", injectionKeyDescription = "DimensionLookup.Injection.MAX_YEAR")
   private int maxYear;
 
   /** The size of the cache in ROWS : -1 means: not set, 0 means: cache all */
-  @HopMetadataProperty(
-      key = "cache_size",
-      injectionKey = "CACHE_SIZE",
-      injectionKeyDescription = "DimensionLookup.Injection.CACHE_SIZE")
+  @HopMetadataProperty(key = "cache_size", injectionKey = "CACHE_SIZE", injectionKeyDescription = "DimensionLookup.Injection.CACHE_SIZE")
   private int cacheSize;
 
   /** Flag to indicate we're going to use an alternative start date */
@@ -153,16 +123,10 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
   private StartDateAlternative startDateAlternative;
 
   /** The field name in case we select the column value option as an alternative start date */
-  @HopMetadataProperty(
-      key = "start_date_field_name",
-      injectionKey = "ALTERNATIVE_START_COLUMN",
-      injectionKeyDescription = "DimensionLookup.Injection.ALTERNATIVE_START_COLUMN")
+  @HopMetadataProperty(key = "start_date_field_name", injectionKey = "ALTERNATIVE_START_COLUMN", injectionKeyDescription = "DimensionLookup.Injection.ALTERNATIVE_START_COLUMN")
   private String startDateFieldName;
 
-  @HopMetadataProperty(
-      key = "preload_cache",
-      injectionKey = "PRELOAD_CACHE",
-      injectionKeyDescription = "DimensionLookup.Injection.PRELOAD_CACHE")
+  @HopMetadataProperty(key = "preload_cache", injectionKey = "PRELOAD_CACHE", injectionKeyDescription = "DimensionLookup.Injection.PRELOAD_CACHE")
   private boolean preloadingCache;
 
   public DimensionLookupMeta() {
@@ -220,21 +184,13 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // We need a database connection
     //
     if (databaseMeta == null) {
-      String message =
-          BaseMessages.getString(
-              PKG, "DimensionLookupMeta.Exception.UnableToRetrieveDataTypeOfReturnField");
+      String message = BaseMessages.getString(PKG, "DimensionLookupMeta.Exception.UnableToRetrieveDataTypeOfReturnField");
       logError(message);
       throw new HopTransformException(message);
     }
@@ -254,8 +210,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     // technical key can't be null
     //
     if (StringUtils.isEmpty(fields.returns.keyField)) {
-      String message =
-          BaseMessages.getString(PKG, "DimensionLookupMeta.Error.NoTechnicalKeySpecified");
+      String message = BaseMessages.getString(PKG, "DimensionLookupMeta.Error.NoTechnicalKeySpecified");
 
       logError(message);
       throw new HopTransformException(message);
@@ -284,9 +239,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       for (DLField field : fields.fields) {
         v = extraFields.searchValueMeta(field.getLookup());
         if (v == null) {
-          String message =
-              BaseMessages.getString(
-                  PKG, "DimensionLookupMeta.Exception.UnableToFindReturnField", field.getLookup());
+          String message = BaseMessages.getString(PKG, "DimensionLookupMeta.Exception.UnableToFindReturnField", field.getLookup());
           logError(message);
           throw new HopTransformException(message);
         }
@@ -299,9 +252,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         row.addValueMeta(v);
       }
     } catch (Exception e) {
-      String message =
-          BaseMessages.getString(
-              PKG, "DimensionLookupMeta.Exception.UnableToRetrieveDataTypeOfReturnField2");
+      String message = BaseMessages.getString(PKG, "DimensionLookupMeta.Exception.UnableToRetrieveDataTypeOfReturnField2");
       logError(message);
       throw new HopTransformException(message, e);
     }
@@ -364,139 +315,82 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     try (Database db = new Database(loggingObject, variables, databaseMeta)) {
       db.connect();
 
-      IRowMeta tableRowMeta =
-          checkTableFields(transformMeta, db, realSchema, realTable, remarks);
+      IRowMeta tableRowMeta = checkTableFields(transformMeta, db, realSchema, realTable, remarks);
       if (tableRowMeta != null) {
-        checkKeys(
-            transformMeta,
-            variables,
-            realSchema,
-            realTable,
-            tableRowMeta,
-            previousRowMeta,
-            remarks);
+        checkKeys(transformMeta, variables, realSchema, realTable, tableRowMeta, previousRowMeta, remarks);
         checkReturns(transformMeta, tableRowMeta, remarks);
         checkDateFields(transformMeta, tableRowMeta, remarks);
       }
       checkPreviousFields(transformMeta, previousRowMeta, remarks);
       checkSequence(transformMeta, db, variables, remarks);
     } catch (HopException e) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotConectToDB")
-                  + e.getMessage(),
-              transformMeta));
+      remarks
+          .add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotConectToDB") + e.getMessage(), transformMeta));
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TransformReceiveInfoOK"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TransformReceiveInfoOK"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "DimensionLookupMeta.CheckResult.NoInputReceiveFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.NoInputReceiveFromOtherTransforms"), transformMeta));
     }
   }
 
-  private void checkSequence(
-      TransformMeta transformMeta, Database db, IVariables variables, List<ICheckResult> remarks)
-      throws HopDatabaseException {
+  private void checkSequence(TransformMeta transformMeta, Database db, IVariables variables, List<ICheckResult> remarks) throws HopDatabaseException {
     String sequence = variables.resolve(sequenceName);
 
     // Check sequence
-    if (databaseMeta.supportsSequences()
-        && fields.returns.creationMethod == TechnicalKeyCreationMethod.SEQUENCE
-        && StringUtils.isNotEmpty(variables.resolve(sequence))) {
+    if (databaseMeta.supportsSequences() && fields.returns.creationMethod == TechnicalKeyCreationMethod.SEQUENCE && StringUtils.isNotEmpty(variables.resolve(sequence))) {
       if (db.checkSequenceExists(sequence)) {
-        remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "DimensionLookupMeta.CheckResult.SequenceExists", sequence),
-                transformMeta));
+        remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.SequenceExists", sequence), transformMeta));
       } else {
-        remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "DimensionLookupMeta.CheckResult.SequenceCouldNotFound", sequence),
-                transformMeta));
+        remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.SequenceCouldNotFound", sequence), transformMeta));
       }
     }
   }
 
-  private void checkPreviousFields(
-      TransformMeta transformMeta, IRowMeta previousFields, List<ICheckResult> remarks) {
+  private void checkPreviousFields(TransformMeta transformMeta, IRowMeta previousFields, List<ICheckResult> remarks) {
     // Look up fields in the input stream <prev>
     if (previousFields == null) {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "DimensionLookupMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"), transformMeta));
       return;
     }
 
     boolean allOk = true;
     for (DLField field : fields.fields) {
-      DimensionUpdateType updateType = field.getUpdateType();      
-      if ( updateType!=null && updateType.isWithArgument() ) {
+      DimensionUpdateType updateType = field.getUpdateType();
+      if (updateType != null && updateType.isWithArgument()) {
         IValueMeta valueMeta = previousFields.searchValueMeta(field.getName());
         if (valueMeta == null) {
           allOk = false;
-          remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.MissingFields") + " "
-                  + field.getName(),
-              transformMeta));
+          remarks.add(
+              new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.MissingFields") + " " + field.getName(), transformMeta));
         }
       }
     }
     if (allOk) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllFieldsFound"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllFieldsFound"), transformMeta));
     }
   }
 
-  private void checkDateFields(
-      TransformMeta transformMeta, IRowMeta tableRowMeta, List<ICheckResult> remarks) {
+  private void checkDateFields(TransformMeta transformMeta, IRowMeta tableRowMeta, List<ICheckResult> remarks) {
     if (StringUtils.isNotEmpty(fields.date.from)) {
       if (tableRowMeta.indexOfValue(fields.date.from) < 0) {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.StartPointOfDaterangeNotFound",
-                    fields.date.from),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.StartPointOfDaterangeNotFound", fields.date.from),
                 transformMeta));
       } else {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.StartPointOfDaterangeFound",
-                    fields.date.from),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.StartPointOfDaterangeFound", fields.date.from),
                 transformMeta));
       }
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.StartKeyRequired"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.StartKeyRequired"), transformMeta));
     }
 
     if (StringUtils.isNotEmpty(fields.date.to)) {
@@ -504,59 +398,32 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.EndPointOfDaterangeNotFound",
-                    fields.date.to),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.EndPointOfDaterangeNotFound", fields.date.to),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.EndPointOfDaterangeFound",
-                    fields.date.to),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.EndPointOfDaterangeFound", fields.date.to), transformMeta));
       }
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.EndKeyRequired"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.EndKeyRequired"), transformMeta));
     }
   }
 
-  private void checkReturns(
-      TransformMeta transformMeta, IRowMeta tableRowMeta, List<ICheckResult> remarks) {
+  private void checkReturns(TransformMeta transformMeta, IRowMeta tableRowMeta, List<ICheckResult> remarks) {
     /* Also, check the fields: tk, version, from-to, ... */
     if (StringUtils.isNotEmpty(fields.returns.keyField)) {
       if (tableRowMeta.indexOfValue(fields.returns.keyField) < 0) {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.TechnicalKeyNotFound",
-                    fields.returns.keyField),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TechnicalKeyNotFound", fields.returns.keyField),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.TechnicalKeyFound",
-                    fields.returns.keyField),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TechnicalKeyFound", fields.returns.keyField), transformMeta));
       }
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TechnicalKeyRequired"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.TechnicalKeyRequired"), transformMeta));
     }
 
     if (StringUtils.isNotEmpty(fields.returns.versionField)) {
@@ -564,27 +431,17 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.VersionFieldNotFound",
-                    fields.returns.versionField),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.VersionFieldNotFound", fields.returns.versionField),
                 transformMeta));
       } else {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "DimensionLookupMeta.CheckResult.VersionFieldFound",
-                    fields.returns.versionField),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.VersionFieldFound", fields.returns.versionField),
                 transformMeta));
       }
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.VersionKeyRequired"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.VersionKeyRequired"), transformMeta));
     }
 
     TechnicalKeyCreationMethod method = fields.returns.creationMethod;
@@ -592,29 +449,17 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       remarks.add(
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.ErrorTechKeyCreation")
-                  + ": "
-                  + "Not specified!",
+              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.ErrorTechKeyCreation") + ": " + "Not specified!",
               transformMeta));
     }
   }
 
-  private IRowMeta checkTableFields(
-      TransformMeta transformMeta,
-      Database db,
-      String schemaName,
-      String tableName,
-      List<ICheckResult> remarks)
-      throws HopDatabaseException {
+  private IRowMeta checkTableFields(TransformMeta transformMeta, Database db, String schemaName, String tableName, List<ICheckResult> remarks) throws HopDatabaseException {
     IRowMeta rowMeta = db.getTableFieldsMeta(schemaName, tableName);
     if (rowMeta == null) {
       // If the table is not found there is no point in continuing below.
       //
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotReadTableInfo"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotReadTableInfo"), transformMeta));
       return null;
     }
 
@@ -625,11 +470,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                        PKG, "DimensionLookupMeta.CheckResult.MissingCompareFieldsInTargetTable")
-                    + field.getName()
-                    + " --> "
-                    + field.getLookup(),
+                BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.MissingCompareFieldsInTargetTable") + field.getName() + " --> " + field.getLookup(),
                 transformMeta));
         allOk = false;
       }
@@ -640,11 +481,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
           remarks.add(
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  "The update type specified is not valid for field '"
-                      + Const.NVL(field.getName(), field.getLookup())
-                      + "' : '"
-                      + field.getUpdate()
-                      + "'",
+                  "The update type specified is not valid for field '" + Const.NVL(field.getName(), field.getLookup()) + "' : '" + field.getUpdate() + "'",
                   transformMeta));
           allOk = false;
         }
@@ -656,45 +493,28 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
           remarks.add(
               new CheckResult(
                   ICheckResult.TYPE_RESULT_ERROR,
-                  "The return type specified is not valid for field '"
-                      + Const.NVL(field.getName(), field.getLookup())
-                      + "' : '"
-                      + field.getReturnType()
-                      + "'",
+                  "The return type specified is not valid for field '" + Const.NVL(field.getName(), field.getLookup()) + "' : '" + field.getReturnType() + "'",
                   transformMeta));
           allOk = false;
         }
       }
     }
     if (allOk) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllLookupFieldFound"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllLookupFieldFound"), transformMeta));
     }
 
     return rowMeta;
   }
 
-  private void checkTable(
-      TransformMeta transformMeta, IVariables variables, List<ICheckResult> remarks) {
+  private void checkTable(TransformMeta transformMeta, IVariables variables, List<ICheckResult> remarks) {
     if (StringUtils.isEmpty(variables.resolve(tableName))) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotReadTableInfo"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.CouldNotReadTableInfo"), transformMeta));
     }
   }
 
   private void checkDatabase(TransformMeta transformMeta, List<ICheckResult> remarks) {
     if (databaseMeta == null) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.InvalidConnectionName"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.InvalidConnectionName"), transformMeta));
     }
   }
 
@@ -718,8 +538,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
                 BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.KeyHasProblem")
                     + " "
                     + key.getName()
-                    + BaseMessages.getString(
-                        PKG, "DimensionLookupMeta.CheckResult.KeyNotPresentInStream"),
+                    + BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.KeyNotPresentInStream"),
                 transformMeta));
         allOk = false;
       }
@@ -732,18 +551,14 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
                 ICheckResult.TYPE_RESULT_ERROR,
                 BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.KeyHasProblem")
                     + " "
-                    + BaseMessages.getString(
-                        PKG, "DimensionLookupMeta.CheckResult.KeyNotPresentInDimensionTable")
-                    + databaseMeta.getQuotedSchemaTableCombination(
-                        variables, schemaName, tableName),
+                    + BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.KeyNotPresentInDimensionTable")
+                    + databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName),
                 transformMeta));
         allOk = false;
       }
       // Different data types can indicate a data conversion issue down the line.
       //
-      if (prevValueMeta != null
-          && tableValueMeta != null
-          && prevValueMeta.getType() != tableValueMeta.getType()) {
+      if (prevValueMeta != null && tableValueMeta != null && prevValueMeta.getType() != tableValueMeta.getType()) {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
@@ -752,8 +567,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
                     + prevValueMeta.getName()
                     + " ("
                     + prevValueMeta.getOrigin()
-                    + BaseMessages.getString(
-                        PKG, "DimensionLookupMeta.CheckResult.KeyNotTheSameTypeAs")
+                    + BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.KeyNotTheSameTypeAs")
                     + tableValueMeta.getName()
                     + " ("
                     + databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName)
@@ -763,11 +577,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       }
     }
     if (allOk) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllKeysFieldsFound"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DimensionLookupMeta.CheckResult.AllKeysFieldsFound"), transformMeta));
     }
   }
 
@@ -779,9 +589,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         db.connect();
         tableRowMeta = db.getTableFieldsMeta(schemaName, tableName);
       } catch (HopDatabaseException dbe) {
-        logError(
-            BaseMessages.getString(PKG, "DimensionLookupMeta.Log.DatabaseErrorOccurred")
-                + dbe.getMessage());
+        logError(BaseMessages.getString(PKG, "DimensionLookupMeta.Log.DatabaseErrorOccurred") + dbe.getMessage());
       }
     }
     return tableRowMeta;
@@ -795,8 +603,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       IRowMeta previousRowMeta,
       IHopMetadataProvider metadataProvider)
       throws HopTransformException {
-    SqlStatement statement =
-        new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
+    SqlStatement statement = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
     // Verify the absolute basic settings like having a database, table, input fields, technical
     // key, ...
@@ -813,25 +620,18 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     String realTable = variables.resolve(tableName);
 
     if (StringUtils.isEmpty(realTable)) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "DimensionLookupMeta.ReturnValue.NoTableDefinedOnConnection"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NoTableDefinedOnConnection"));
     }
 
-    String schemaTable =
-        databaseMeta.getQuotedSchemaTableCombination(variables, realSchema, realTable);
+    String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchema, realTable);
     try (Database db = new Database(loggingObject, variables, databaseMeta)) {
       db.connect();
 
       IRowMeta tableRowMeta = buildTableFields(previousRowMeta, statement);
       String sql =
           db.getDDL(
-              schemaTable,
-              tableRowMeta,
-              StringUtils.isNotEmpty(sequenceName) ? null : fields.returns.keyField,
-              fields.returns.creationMethod == TechnicalKeyCreationMethod.AUTO_INCREMENT,
-              null,
-              true);
+              schemaTable, tableRowMeta, StringUtils.isNotEmpty(sequenceName) ? null : fields.returns.keyField,
+              fields.returns.creationMethod == TechnicalKeyCreationMethod.AUTO_INCREMENT, null, true);
 
       // Key lookup dimensions...
       //
@@ -842,30 +642,18 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
 
       if (!db.checkIndexExists(schemaTable, idxFields)) {
         String indexname = "idx_" + tableName + "_lookup";
-        sql +=
-            db.getCreateIndexStatement(
-                schemaTable, indexname, idxFields, false, false, false, true);
+        sql += db.getCreateIndexStatement(schemaTable, indexname, idxFields, false, false, false, true);
       }
 
       // (Bitmap) index on technical key
 
       if (!db.checkIndexExists(schemaTable, idxFields)) {
         String indexName = "idx_" + tableName + "_tk";
-        sql +=
-            db.getCreateIndexStatement(
-                schemaTable,
-                indexName,
-                new String[] {fields.returns.keyField},
-                true,
-                false,
-                true,
-                true);
+        sql += db.getCreateIndexStatement(schemaTable, indexName, new String[] {fields.returns.keyField}, true, false, true, true);
       }
 
       // The optional Oracle sequence
-      if (fields.returns.creationMethod == TechnicalKeyCreationMethod.SEQUENCE
-          && StringUtils.isNotEmpty(sequenceName)
-          && !db.checkSequenceExists(schemaName, sequenceName)) {
+      if (fields.returns.creationMethod == TechnicalKeyCreationMethod.SEQUENCE && StringUtils.isNotEmpty(sequenceName) && !db.checkSequenceExists(schemaName, sequenceName)) {
         sql += db.getCreateSequenceStatement(schemaName, sequenceName, 1L, 1L, -1L, true);
       }
 
@@ -875,41 +663,31 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         statement.setSql(variables.resolve(sql));
       }
     } catch (HopDatabaseException dbe) {
-      statement.setError(
-          BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.ErrorOccurred")
-              + dbe.getMessage());
+      statement.setError(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.ErrorOccurred") + dbe.getMessage());
     }
 
     return statement;
   }
 
-  private void validateBasicSettings(IVariables variables, IRowMeta previousRowMeta)
-      throws HopTransformException {
+  private void validateBasicSettings(IVariables variables, IRowMeta previousRowMeta) throws HopTransformException {
     if (databaseMeta == null) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "DimensionLookupMeta.ReturnValue.NoConnectionDefinedInTransform"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NoConnectionDefinedInTransform"));
     }
 
     if (fields.keys.isEmpty()) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NoKeyFieldsSpecified"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NoKeyFieldsSpecified"));
     }
 
     if (StringUtils.isEmpty(fields.returns.keyField)) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.TechnicalKeyFieldRequired"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.TechnicalKeyFieldRequired"));
     }
 
     if (previousRowMeta == null || previousRowMeta.isEmpty()) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NotReceivingAnyFields"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NotReceivingAnyFields"));
     }
 
     if (StringUtils.isEmpty(variables.resolve(tableName))) {
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "DimensionLookupMeta.ReturnValue.NoTableDefinedOnConnection"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.NoTableDefinedOnConnection"));
     }
   }
 
@@ -919,12 +697,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     // Technical key, version, from and to dates.
     //
     IRowMeta tableRowMeta =
-        new RowMetaBuilder()
-            .addInteger(fields.returns.keyField, 10)
-            .addInteger(fields.returns.versionField, 5)
-            .addDate(fields.date.from)
-            .addDate(fields.date.to)
-            .build();
+        new RowMetaBuilder().addInteger(fields.returns.keyField, 10).addInteger(fields.returns.versionField, 5).addDate(fields.date.from).addDate(fields.date.to).build();
 
     List<String> errorFields = new ArrayList<>();
 
@@ -948,8 +721,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       IValueMeta valueMeta = null;
       DimensionUpdateType updateType = field.getUpdateType();
       if (updateType == null) {
-        errorFields.add(
-            "Unknown update type for field: " + field.getName() + " : '" + field.getUpdate());
+        errorFields.add("Unknown update type for field: " + field.getName() + " : '" + field.getUpdate());
         break;
       }
       switch (updateType) {
@@ -979,9 +751,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     }
 
     if (!errorFields.isEmpty()) {
-      statement.setError(
-          BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.UnableToFindFields")
-              + StringUtils.join(errorFields, ", "));
+      statement.setError(BaseMessages.getString(PKG, "DimensionLookupMeta.ReturnValue.UnableToFindFields") + StringUtils.join(errorFields, ", "));
     }
 
     return tableRowMeta;
@@ -1009,11 +779,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     }
   }
 
-  private void analyzeImpactUpdate(
-      List<DatabaseImpact> impact,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev) {
+  private void analyzeImpactUpdate(List<DatabaseImpact> impact, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev) {
     // Update: insert/update on all specified fields...
     // Lookup: we do a lookup on the natural keys + the return fields!
     for (DLKey key : fields.keys) {
@@ -1054,11 +820,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     }
   }
 
-  private void analyzeImpactLookup(
-      List<DatabaseImpact> impact,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev) {
+  private void analyzeImpactLookup(List<DatabaseImpact> impact, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev) {
     // Lookup: we do a lookup on the natural keys + the return fields!
     for (DLKey key : fields.keys) {
       IValueMeta v = prev.searchValueMeta(key.getName());
@@ -1157,17 +919,12 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
   public enum DimensionUpdateType implements IEnumHasCodeAndDescription {
     INSERT("Insert", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.Insert"), true),
     UPDATE("Update", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.Update"), true),
-    PUNCH_THROUGH(
-        "Punch through", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.PunchThrough"), true),
-    DATE_INSERTED_UPDATED(
-        "DateInsertedOrUpdated",
-        BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateInsertedOrUpdated"), false),
-    DATE_INSERTED(
-        "DateInserted", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateInserted"), false),
-    DATE_UPDATED(
-        "DateUpdated", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateUpdated"), false),
-    LAST_VERSION(
-        "LastVersion", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.LastVersion"), false);
+    PUNCH_THROUGH("Punch through", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.PunchThrough"), true),
+    DATE_INSERTED_UPDATED("DateInsertedOrUpdated", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateInsertedOrUpdated"), false),
+    DATE_INSERTED("DateInserted", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateInserted"), false),
+    DATE_UPDATED("DateUpdated", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.DateUpdated"), false),
+    LAST_VERSION("LastVersion", BaseMessages.getString(PKG, "DimensionLookupMeta.TypeDesc.LastVersion"), false);
+
     private final String code;
     private final String description;
     private final boolean isWithArgument;
@@ -1209,27 +966,19 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
     public boolean isWithArgument() {
       return isWithArgument;
     }
-    
+
     public static DimensionUpdateType lookupDescription(String description) {
       return IEnumHasCodeAndDescription.lookupDescription(DimensionUpdateType.class, description, null);
     }
   }
 
   public enum StartDateAlternative implements IEnumHasCodeAndDescription {
-    NONE(
-        "none", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.None.Label")),
-    SYSTEM_DATE(
-        "sysdate",
-        BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.Sysdate.Label")),
-    PIPELINE_START(
-        "pipeline_start",
-        BaseMessages.getString(
-            PKG, "DimensionLookupMeta.StartDateAlternative.PipelineStart.Label")),
-    NULL(
-        "null", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.Null.Label")),
-    COLUMN_VALUE(
-        "column_value",
-        BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.ColumnValue.Label"));
+    NONE("none", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.None.Label")),
+    SYSTEM_DATE("sysdate", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.Sysdate.Label")),
+    PIPELINE_START("pipeline_start", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.PipelineStart.Label")),
+    NULL("null", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.Null.Label")),
+    COLUMN_VALUE("column_value", BaseMessages.getString(PKG, "DimensionLookupMeta.StartDateAlternative.ColumnValue.Label"));
+
     private final String code;
     private final String description;
 
@@ -1380,16 +1129,10 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
   }
 
   public static class DLReturn {
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "TECHNICAL_KEY_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_FIELD")
+    @HopMetadataProperty(key = "name", injectionKey = "TECHNICAL_KEY_FIELD", injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_FIELD")
     private String keyField;
 
-    @HopMetadataProperty(
-        key = "rename",
-        injectionKey = "TECHNICAL_KEY_NEW_NAME",
-        injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_NEW_NAME")
+    @HopMetadataProperty(key = "rename", injectionKey = "TECHNICAL_KEY_NEW_NAME", injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_NEW_NAME")
     private String keyRename;
 
     @HopMetadataProperty(
@@ -1399,10 +1142,7 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
         injectionKeyDescription = "DimensionLookup.Injection.TECHNICAL_KEY_CREATION")
     private TechnicalKeyCreationMethod creationMethod;
 
-    @HopMetadataProperty(
-        key = "version",
-        injectionKey = "VERSION_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.VERSION_FIELD")
+    @HopMetadataProperty(key = "version", injectionKey = "VERSION_FIELD", injectionKeyDescription = "DimensionLookup.Injection.VERSION_FIELD")
     private String versionField;
 
     public DLReturn() {}
@@ -1489,32 +1229,20 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
 
   public static class DLField {
     /** Fields containing the values in the input stream to update the dimension with */
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "STREAM_FIELDNAME",
-        injectionKeyDescription = "DimensionLookup.Injection.STREAM_FIELDNAME")
+    @HopMetadataProperty(key = "name", injectionKey = "STREAM_FIELDNAME", injectionKeyDescription = "DimensionLookup.Injection.STREAM_FIELDNAME")
     private String name;
 
     /** Fields in the dimension to update or retrieve */
-    @HopMetadataProperty(
-        key = "lookup",
-        injectionKey = "DATABASE_FIELDNAME",
-        injectionKeyDescription = "DimensionLookup.Injection.DATABASE_FIELDNAME")
+    @HopMetadataProperty(key = "lookup", injectionKey = "DATABASE_FIELDNAME", injectionKeyDescription = "DimensionLookup.Injection.DATABASE_FIELDNAME")
     private String lookup;
 
     /** The type of update to perform on the fields: insert, update, punch-through */
-    @HopMetadataProperty(
-        key = "update",
-        injectionKey = "UPDATE_TYPE",
-        injectionKeyDescription = "DimensionLookup.Injection.UPDATE_TYPE")
+    @HopMetadataProperty(key = "update", injectionKey = "UPDATE_TYPE", injectionKeyDescription = "DimensionLookup.Injection.UPDATE_TYPE")
     private String update;
 
-    @HopMetadataProperty(        
-        key = "type",
-        injectionKey = "TYPE_OF_RETURN_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.TYPE_OF_RETURN_FIELD")
+    @HopMetadataProperty(key = "type", injectionKey = "TYPE_OF_RETURN_FIELD", injectionKeyDescription = "DimensionLookup.Injection.TYPE_OF_RETURN_FIELD")
     private String returnType;
-    
+
     /** Not serialized. This is used to cache the lookup of the dimension type */
     private DimensionUpdateType updateType;
 
@@ -1598,16 +1326,16 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
       this.update = update;
       this.updateType = null;
     }
-    
+
     /**
      * Gets return type for read only lookup
      *
-     * @return type of 
+     * @return type of
      */
     public String getReturnType() {
       return returnType;
     }
-    
+
     /**
      * Sets return type for read only lookup
      *
@@ -1620,14 +1348,10 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
 
   public static class DLKey {
     /** Fields used to look up a value in the dimension */
-    @HopMetadataProperty(
-        injectionKey = "KEY_STREAM_FIELDNAME",
-        injectionKeyDescription = "DimensionLookup.Injection.KEY_STREAM_FIELDNAME")
+    @HopMetadataProperty(injectionKey = "KEY_STREAM_FIELDNAME", injectionKeyDescription = "DimensionLookup.Injection.KEY_STREAM_FIELDNAME")
     private String name;
     /** Fields in the dimension to use for lookup */
-    @HopMetadataProperty(
-        injectionKey = "KEY_DATABASE_FIELDNAME",
-        injectionKeyDescription = "DimensionLookup.Injection.KEY_DATABASE_FIELDNAME")
+    @HopMetadataProperty(injectionKey = "KEY_DATABASE_FIELDNAME", injectionKeyDescription = "DimensionLookup.Injection.KEY_DATABASE_FIELDNAME")
     private String lookup;
 
     public DLKey() {}
@@ -1676,21 +1400,15 @@ public class DimensionLookupMeta extends BaseTransformMeta<DimensionLookup, Dime
 
   public static class DLDate {
     /** The field to use for date range lookup in the dimension */
-    @HopMetadataProperty(
-        injectionKey = "STREAM_DATE_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.STREAM_DATE_FIELD")
+    @HopMetadataProperty(injectionKey = "STREAM_DATE_FIELD", injectionKeyDescription = "DimensionLookup.Injection.STREAM_DATE_FIELD")
     private String name;
 
     /** The 'from' field of the date range in the dimension */
-    @HopMetadataProperty(
-        injectionKey = "DATE_RANGE_START_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.DATE_RANGE_START_FIELD")
+    @HopMetadataProperty(injectionKey = "DATE_RANGE_START_FIELD", injectionKeyDescription = "DimensionLookup.Injection.DATE_RANGE_START_FIELD")
     private String from;
 
     /** The 'to' field of the date range in the dimension */
-    @HopMetadataProperty(
-        injectionKey = "DATE_RANGE_END_FIELD",
-        injectionKeyDescription = "DimensionLookup.Injection.DATE_RANGE_END_FIELD")
+    @HopMetadataProperty(injectionKey = "DATE_RANGE_END_FIELD", injectionKeyDescription = "DimensionLookup.Injection.DATE_RANGE_END_FIELD")
     private String to;
 
     public DLDate() {}

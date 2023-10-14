@@ -48,16 +48,10 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = XsdValidator.class; // For Translator
 
   private static final String[] FILETYPES_XML =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.Xml"),
-        BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.Xml"), BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.All")};
 
   private static final String[] FILETYPES_XSD =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.Xsd"),
-        BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.Xsd"), BaseMessages.getString(PKG, "ActionXSDValidator.Filetype.All")};
 
   private Text wName;
 
@@ -77,8 +71,7 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public XsdValidatorDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public XsdValidatorDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (XsdValidator) action;
     if (this.action.getName() == null) {
@@ -127,8 +120,7 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
 
     // Enable/Disable external entity for XSD validation.
     Label wlAllowExternalEntities = new Label(shell, SWT.RIGHT);
-    wlAllowExternalEntities.setText(
-        BaseMessages.getString(PKG, "ActionXSDValidator.AllowExternalEntities.Label"));
+    wlAllowExternalEntities.setText(BaseMessages.getString(PKG, "ActionXSDValidator.AllowExternalEntities.Label"));
     PropsUi.setLook(wlAllowExternalEntities);
     FormData fdlAllowExternalEntities = new FormData();
     fdlAllowExternalEntities.left = new FormAttachment(0, 0);
@@ -142,13 +134,12 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
     fdAllowExternalEntities.top = new FormAttachment(wlAllowExternalEntities, 0, SWT.CENTER);
     fdAllowExternalEntities.right = new FormAttachment(100, 0);
     wAllowExternalEntities.setLayoutData(fdAllowExternalEntities);
-    wAllowExternalEntities.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAllowExternalEntities.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // XSD Source?
     Label wlXSDSource = new Label(shell, SWT.RIGHT);
@@ -170,13 +161,12 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
     wXSDSource.setLayoutData(fdXSDSource);
     wXSDSource.add(BaseMessages.getString(PKG, "ActionXSDValidator.XSDSource.IS_A_FILE"));
     wXSDSource.add(BaseMessages.getString(PKG, "ActionXSDValidator.XSDSource.NO_NEED"));
-    wXSDSource.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setXSDSource();
-          }
-        });
+    wXSDSource.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setXSDSource();
+      }
+    });
 
     // Filename 1 line
     Label wlxmlFilename = new Label(shell, SWT.RIGHT);
@@ -204,18 +194,8 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
     wxmlFilename.setLayoutData(fdxmlFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wxmlFilename.addModifyListener(
-        e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
-    wbxmlFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wxmlFilename,
-                variables,
-                new String[] {"*.xml;*.XML", "*"},
-                FILETYPES_XML,
-                true));
+    wxmlFilename.addModifyListener(e -> wxmlFilename.setToolTipText(variables.resolve(wxmlFilename.getText())));
+    wbxmlFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wxmlFilename, variables, new String[] {"*.xml;*.XML", "*"}, FILETYPES_XML, true));
 
     // Filename 2 line
     wlxsdFilename = new Label(shell, SWT.RIGHT);
@@ -243,18 +223,8 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
     wxsdFilename.setLayoutData(fdxsdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wxsdFilename.addModifyListener(
-        e -> wxsdFilename.setToolTipText(variables.resolve(wxsdFilename.getText())));
-    wbxsdFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wxsdFilename,
-                variables,
-                new String[] {"*.xsd;*.XSD", "*"},
-                FILETYPES_XSD,
-                true));
+    wxsdFilename.addModifyListener(e -> wxsdFilename.setToolTipText(variables.resolve(wxsdFilename.getText())));
+    wbxsdFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wxsdFilename, variables, new String[] {"*.xsd;*.XSD", "*"}, FILETYPES_XSD, true));
 
     // Buttons go at the very bottom
     //
@@ -264,8 +234,7 @@ public class XsdValidatorDialog extends ActionDialog implements IActionDialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, wxsdFilename);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, wxsdFilename);
 
     getData();
     setXSDSource();

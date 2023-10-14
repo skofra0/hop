@@ -34,18 +34,16 @@ public class PluginTest {
   /** test that a plugin's fragment is added to the plugin */
   @Test
   public void testFragmentMerge() {
-    Map<Class<?>, String> classMap =
-        new HashMap<Class<?>, String>() {
-          {
-            put(IPluginType.class, String.class.getName());
-          }
-        };
-    List<String> libraries =
-        new ArrayList<String>() {
-          {
-            add(String.class.getName());
-          }
-        };
+    Map<Class<?>, String> classMap = new HashMap<Class<?>, String>() {
+      {
+        put(IPluginType.class, String.class.getName());
+      }
+    };
+    List<String> libraries = new ArrayList<String>() {
+      {
+        add(String.class.getName());
+      }
+    };
 
     IPlugin plugin =
         new Plugin(

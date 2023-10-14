@@ -47,8 +47,7 @@ import java.net.URL;
 public class ShowHelpDialog extends Dialog {
   private static final Class<?> PKG = HopGui.class;
 
-  private static final String DOC_URL =
-      Const.getDocUrl(BasePropertyHandler.getProperty("documentationUrl"));
+  private static final String DOC_URL = Const.getDocUrl(BasePropertyHandler.getProperty("documentationUrl"));
   private static final String PREFIX = "https://help";
   private static final String PRINT_PREFIX = "https://f1.help";
   private static final String PRINT_SCRIPT = "javascript:window.print();";
@@ -124,8 +123,7 @@ public class ShowHelpDialog extends Dialog {
 
       tltmForward = new ToolItem(navigateToolBar, SWT.NONE);
       tltmForward.setImage(GuiResource.getInstance().getImageNavigateForward());
-      tltmForward.setToolTipText(
-          BaseMessages.getString(PKG, "HopGui.Documentation.Tooltip.Forward"));
+      tltmForward.setToolTipText(BaseMessages.getString(PKG, "HopGui.Documentation.Tooltip.Forward"));
       tltmForward.setEnabled(false);
       tltmForward.addListener(SWT.Selection, e -> forward());
     }
@@ -176,46 +174,44 @@ public class ShowHelpDialog extends Dialog {
   }
 
   private void addProgressAndLocationListener() {
-    ProgressListener progressListener =
-        new ProgressListener() {
-          @Override
-          public void changed(ProgressEvent event) {
-            // Disable changed event
-          }
+    ProgressListener progressListener = new ProgressListener() {
+      @Override
+      public void changed(ProgressEvent event) {
+        // Disable changed event
+      }
 
-          @Override
-          public void completed(ProgressEvent event) {
-            if (fromPrint) {
-              wBrowser.execute(PRINT_SCRIPT);
-              fromPrint = false;
-            }
-            if (!EnvironmentUtils.getInstance().isWeb()) {
-              // Browser in RAP does not implement back() and forward()
-              setBackEnable(wBrowser.isBackEnabled());
-              setForwardEnable(wBrowser.isForwardEnabled());
-            }
-          }
-        };
+      @Override
+      public void completed(ProgressEvent event) {
+        if (fromPrint) {
+          wBrowser.execute(PRINT_SCRIPT);
+          fromPrint = false;
+        }
+        if (!EnvironmentUtils.getInstance().isWeb()) {
+          // Browser in RAP does not implement back() and forward()
+          setBackEnable(wBrowser.isBackEnabled());
+          setForwardEnable(wBrowser.isForwardEnabled());
+        }
+      }
+    };
 
-    LocationListener listener =
-        new LocationListener() {
-          @Override
-          public void changing(LocationEvent event) {
-            if (event.location.endsWith(".pdf")) {
-              try {
-                EnvironmentUtils.getInstance().openUrl(event.location);
-              } catch(Exception e) {
-                new ErrorDialog(shell, "Error", "Error opening URL", e);
-              }
-              event.doit = false;
-            }
+    LocationListener listener = new LocationListener() {
+      @Override
+      public void changing(LocationEvent event) {
+        if (event.location.endsWith(".pdf")) {
+          try {
+            EnvironmentUtils.getInstance().openUrl(event.location);
+          } catch (Exception e) {
+            new ErrorDialog(shell, "Error", "Error opening URL", e);
           }
+          event.doit = false;
+        }
+      }
 
-          @Override
-          public void changed(LocationEvent event) {
-            textURL.setText(event.location);
-          }
-        };
+      @Override
+      public void changed(LocationEvent event) {
+        textURL.setText(event.location);
+      }
+    };
     wBrowser.addProgressListener(progressListener);
     wBrowser.addLocationListener(listener);
   }

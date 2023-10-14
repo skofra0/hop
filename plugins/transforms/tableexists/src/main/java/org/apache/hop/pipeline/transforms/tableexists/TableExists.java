@@ -32,13 +32,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class TableExists extends BaseTransform<TableExistsMeta, TableExistsData> {
   private static final Class<?> PKG = TableExistsMeta.class; // For Translator
 
-  public TableExists(
-      TransformMeta transformMeta,
-      TableExistsMeta meta,
-      TableExistsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TableExists(TransformMeta transformMeta, TableExistsMeta meta, TableExistsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -65,8 +59,7 @@ public class TableExists extends BaseTransform<TableExistsMeta, TableExistsData>
         // Check is tablename field is provided
         if (Utils.isEmpty(meta.getTableNameField())) {
           logError(BaseMessages.getString(PKG, "TableExists.Error.TablenameFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "TableExists.Error.TablenameFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "TableExists.Error.TablenameFieldMissing"));
         }
 
         // cache the position of the field
@@ -74,14 +67,8 @@ public class TableExists extends BaseTransform<TableExistsMeta, TableExistsData>
           data.indexOfTablename = getInputRowMeta().indexOfValue(meta.getTableNameField());
           if (data.indexOfTablename < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "TableExists.Exception.CouldnotFindField")
-                    + "["
-                    + meta.getTableNameField()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "TableExists.Exception.CouldnotFindField", meta.getTableNameField()));
+            logError(BaseMessages.getString(PKG, "TableExists.Exception.CouldnotFindField") + "[" + meta.getTableNameField() + "]");
+            throw new HopException(BaseMessages.getString(PKG, "TableExists.Exception.CouldnotFindField", meta.getTableNameField()));
           }
         }
       } // End If first
@@ -98,27 +85,19 @@ public class TableExists extends BaseTransform<TableExistsMeta, TableExistsData>
       putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "TableExists.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "TableExists.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (HopException e) {
       if (getTransformMeta().isDoingErrorHandling()) {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG, "TableExists.ErrorInTransformRunning" + " : " + e.getMessage()));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "TableExists.Log.ErrorInTransform"), e);
+        logError(BaseMessages.getString(PKG, "TableExists.ErrorInTransformRunning" + " : " + e.getMessage()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "TableExists.Log.ErrorInTransform"), e);
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(), r, 1, errorMessage, meta.getResultFieldName(), "TableExistsO01");
+        putError(getInputRowMeta(), r, 1, errorMessage, meta.getResultFieldName(), "TableExistsO01");
       }
     }
 
@@ -137,8 +116,7 @@ public class TableExists extends BaseTransform<TableExistsMeta, TableExistsData>
       DatabaseMeta databaseMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
 
       if (databaseMeta == null) {
-        logError(
-            BaseMessages.getString(PKG, "TableExists.Init.ConnectionMissing", getTransformName()));
+        logError(BaseMessages.getString(PKG, "TableExists.Init.ConnectionMissing", getTransformName()));
         return false;
       }
       data.db = new Database(this, this, databaseMeta);

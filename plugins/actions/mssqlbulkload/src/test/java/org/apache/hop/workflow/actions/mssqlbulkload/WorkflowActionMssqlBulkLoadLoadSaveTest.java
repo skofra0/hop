@@ -23,9 +23,9 @@ import org.junit.ClassRule;
 import java.util.Arrays;
 import java.util.List;
 
-public class WorkflowActionMssqlBulkLoadLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionMssqlBulkLoad> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionMssqlBulkLoadLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionMssqlBulkLoad> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionMssqlBulkLoad> getActionClass() {
@@ -35,31 +35,8 @@ public class WorkflowActionMssqlBulkLoadLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "schemaname",
-            "tablename",
-            "filename",
-            "dataFileType",
-            "fieldTerminator",
-            "lineterminated",
-            "codePage",
-            "specificCodePage",
-            "formatFilename",
-            "fireTriggers",
-            "checkConstraints",
-            "keepNulls",
-            "keepIdentity",
-            "tablock",
-            "startFile",
-            "endFile",
-            "orderBy",
-            "orderDirection",
-            "maxErrors",
-            "batchSize",
-            "rowsPerBatch",
-            "errorFilename",
-            "addDatetime",
-            "addFileToResult",
-            "truncate",
-            "database");
+        "schemaname", "tablename", "filename", "dataFileType", "fieldTerminator", "lineterminated", "codePage", "specificCodePage", "formatFilename", "fireTriggers",
+        "checkConstraints", "keepNulls", "keepIdentity", "tablock", "startFile", "endFile", "orderBy", "orderDirection", "maxErrors", "batchSize", "rowsPerBatch", "errorFilename",
+        "addDatetime", "addFileToResult", "truncate", "database");
   }
 }

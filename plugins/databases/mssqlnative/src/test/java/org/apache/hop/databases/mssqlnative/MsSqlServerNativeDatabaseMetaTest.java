@@ -26,7 +26,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class MsSqlServerNativeDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   public void testMsSqlOverrides() throws Exception {
@@ -34,29 +35,19 @@ public class MsSqlServerNativeDatabaseMetaTest {
     localNativeMeta.setAccessType(DatabaseMeta.TYPE_ACCESS_NATIVE);
 
     assertEquals("com.microsoft.sqlserver.jdbc.SQLServerDriver", localNativeMeta.getDriverClass());
-    assertEquals(
-        "jdbc:sqlserver://FOO:1234;databaseName=WIBBLE",
-        localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
+    assertEquals("jdbc:sqlserver://FOO:1234;databaseName=WIBBLE", localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
 
     localNativeMeta.setUsingIntegratedSecurity(false);
-    assertEquals(
-        "jdbc:sqlserver://FOO:1234;databaseName=WIBBLE",
-        localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
+    assertEquals("jdbc:sqlserver://FOO:1234;databaseName=WIBBLE", localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
 
     localNativeMeta.setUsingIntegratedSecurity(true);
-    assertEquals(
-        "jdbc:sqlserver://FOO:1234;databaseName=WIBBLE;integratedSecurity=true",
-        localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
+    assertEquals("jdbc:sqlserver://FOO:1234;databaseName=WIBBLE;integratedSecurity=true", localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
 
     localNativeMeta.setInstanceName("TEST");
-    assertEquals(
-        "jdbc:sqlserver://FOO:1234;databaseName=WIBBLE;integratedSecurity=true",
-        localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
+    assertEquals("jdbc:sqlserver://FOO:1234;databaseName=WIBBLE;integratedSecurity=true", localNativeMeta.getURL("FOO", "1234", "WIBBLE"));
 
     localNativeMeta.setPort("");
-    assertEquals(
-        "jdbc:sqlserver://FOO\\TEST;databaseName=WIBBLE;integratedSecurity=true",
-        localNativeMeta.getURL("FOO", "", "WIBBLE"));
+    assertEquals("jdbc:sqlserver://FOO\\TEST;databaseName=WIBBLE;integratedSecurity=true", localNativeMeta.getURL("FOO", "", "WIBBLE"));
   }
 
   @Test
@@ -78,16 +69,20 @@ public class MsSqlServerNativeDatabaseMetaTest {
     assertEquals("instance1", dbmeta.getSqlServerInstance());
   }
 
-  /*  @Ignore
-  @Test
-  public void databases_WithDifferentDbConnTypes_AreTheSame_IfOneConnTypeIsSubsetOfAnother_2LevelHierarchy() {
-    IDatabase mssqlServerDatabaseMeta = new MSSQLServerDatabaseMeta();
-    mssqlServerDatabaseMeta.setPluginId( "MSSQL" );
-    IDatabase mssqlServerNativeDatabaseMeta = new MSSQLServerNativeDatabaseMeta();
-    mssqlServerNativeDatabaseMeta.setPluginId( "MSSQLNATIVE" );
-
-    assertTrue( databaseMeta.databaseForBothDbInterfacesIsTheSame( mssqlServerDatabaseMeta,
-      mssqlServerNativeDatabaseMeta ) );
-  }*/
+  /*
+   * @Ignore
+   * 
+   * @Test
+   * public void
+   * databases_WithDifferentDbConnTypes_AreTheSame_IfOneConnTypeIsSubsetOfAnother_2LevelHierarchy() {
+   * IDatabase mssqlServerDatabaseMeta = new MSSQLServerDatabaseMeta();
+   * mssqlServerDatabaseMeta.setPluginId( "MSSQL" );
+   * IDatabase mssqlServerNativeDatabaseMeta = new MSSQLServerNativeDatabaseMeta();
+   * mssqlServerNativeDatabaseMeta.setPluginId( "MSSQLNATIVE" );
+   * 
+   * assertTrue( databaseMeta.databaseForBothDbInterfacesIsTheSame( mssqlServerDatabaseMeta,
+   * mssqlServerNativeDatabaseMeta ) );
+   * }
+   */
 
 }

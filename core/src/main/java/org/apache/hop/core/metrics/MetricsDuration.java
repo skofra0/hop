@@ -37,8 +37,7 @@ public class MetricsDuration {
    * @param logChannelId
    * @param duration
    */
-  public MetricsDuration(
-      Date date, String description, String subject, String logChannelId, Long duration) {
+  public MetricsDuration(Date date, String description, String subject, String logChannelId, Long duration) {
     this(date, description, subject, logChannelId, duration, 1L);
   }
 
@@ -49,13 +48,7 @@ public class MetricsDuration {
    * @param logChannelId
    * @param duration
    */
-  public MetricsDuration(
-      Date date,
-      String description,
-      String subject,
-      String logChannelId,
-      Long duration,
-      Long count) {
+  public MetricsDuration(Date date, String description, String subject, String logChannelId, Long duration, Long count) {
     this.date = date;
     this.description = description;
     this.subject = subject;

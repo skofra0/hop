@@ -33,16 +33,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class CsvInputMultiCharDelimiterTest extends CsvInputUnitTestBase {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private CsvInput csvInput;
   private TransformMockHelper<CsvInputMeta, CsvInputData> transformMockHelper;
 
   @Before
   public void setUp() throws Exception {
-    transformMockHelper =
-        TransformMockUtil.getTransformMockHelper(
-            CsvInputMeta.class, CsvInputData.class, "CsvInputMultiCharDelimiterTest");
+    transformMockHelper = TransformMockUtil.getTransformMockHelper(CsvInputMeta.class, CsvInputData.class, "CsvInputMultiCharDelimiterTest");
   }
 
   @After
@@ -87,14 +86,7 @@ public class CsvInputMultiCharDelimiterTest extends CsvInputUnitTestBase {
     try {
       CsvInputMeta meta = createMeta(tmp, createInputFileFields("f1", "f2", "f3"));
       CsvInputData data = new CsvInputData();
-      csvInput =
-          new CsvInput(
-              transformMockHelper.transformMeta,
-              meta,
-              data,
-              0,
-              transformMockHelper.pipelineMeta,
-              transformMockHelper.pipeline);
+      csvInput = new CsvInput(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
       csvInput.init();
 
       csvInput.addRowSetToOutputRowSets(output);

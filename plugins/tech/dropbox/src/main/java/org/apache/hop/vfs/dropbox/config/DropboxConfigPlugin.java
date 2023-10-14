@@ -34,13 +34,9 @@ import org.apache.hop.ui.hopgui.perspective.configuration.tabs.ConfigPluginOptio
 import org.eclipse.swt.widgets.Control;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "DropboxConfigPlugin",
-    description = "Configuration options for Dropbox",
-    category = ConfigPlugin.CATEGORY_CONFIG)
-@GuiPlugin(
-    description = "Dropbox" // Tab label in options dialog
-    )
+@ConfigPlugin(id = "DropboxConfigPlugin", description = "Configuration options for Dropbox", category = ConfigPlugin.CATEGORY_CONFIG)
+@GuiPlugin(description = "Dropbox" // Tab label in options dialog
+)
 public class DropboxConfigPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
   private static final String WIDGET_ID_DROPBOX_ACCESS_TOKEN = "10000-dropbox-access-token";
@@ -51,12 +47,11 @@ public class DropboxConfigPlugin implements IConfigOptions, IGuiPluginCompositeW
       type = GuiElementType.TEXT,
       variables = true,
       label = "Access token")
-  @CommandLine.Option(
-      names = {"-dbxt", "--dropbox-access-token"},
-      description = "The Dropbox access token to use for VFS")
+  @CommandLine.Option(names = {"-dbxt", "--dropbox-access-token"}, description = "The Dropbox access token to use for VFS")
   private String accessToken;
 
-  /* Gets instance
+  /*
+   * Gets instance
    *
    * @return value of instance
    */
@@ -70,9 +65,7 @@ public class DropboxConfigPlugin implements IConfigOptions, IGuiPluginCompositeW
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     DropboxConfig config = DropboxConfigSingleton.getConfig();
     try {
       boolean changed = false;
@@ -101,8 +94,7 @@ public class DropboxConfigPlugin implements IConfigOptions, IGuiPluginCompositeW
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     persistContents(compositeWidgets);
   }
 

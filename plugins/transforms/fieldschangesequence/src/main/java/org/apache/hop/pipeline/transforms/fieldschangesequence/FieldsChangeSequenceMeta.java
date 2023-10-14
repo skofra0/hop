@@ -55,19 +55,13 @@ public class FieldsChangeSequenceMeta extends BaseTransformMeta<FieldsChangeSequ
       injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Field")
   private List<FieldsChangeSequenceField> fields;
 
-  @HopMetadataProperty(
-      key = "resultfieldName",
-      injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.ResultFieldName")
+  @HopMetadataProperty(key = "resultfieldName", injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.ResultFieldName")
   private String resultFieldName;
 
-  @HopMetadataProperty(
-      key = "start",
-      injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Start")
+  @HopMetadataProperty(key = "start", injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Start")
   private String start;
 
-  @HopMetadataProperty(
-      key = "increment",
-      injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Increment")
+  @HopMetadataProperty(key = "increment", injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Increment")
   private String increment;
 
   public FieldsChangeSequenceMeta() {
@@ -137,13 +131,7 @@ public class FieldsChangeSequenceMeta extends BaseTransformMeta<FieldsChangeSequ
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     if (!Utils.isEmpty(resultFieldName)) {
       IValueMeta v = new ValueMetaInteger(resultFieldName);
       v.setLength(IValueMeta.DEFAULT_INTEGER_LENGTH, 0);
@@ -167,33 +155,19 @@ public class FieldsChangeSequenceMeta extends BaseTransformMeta<FieldsChangeSequ
     String errorMessage = "";
 
     if (Utils.isEmpty(resultFieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.ResultFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.ResultFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.ResultFieldOK");
+      errorMessage = BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.ResultFieldOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
     }
     remarks.add(cr);
 
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "FieldsChangeSequenceMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "FieldsChangeSequenceMeta.CheckResult.TransformRecevingData",
-                  prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       boolean errorFound = false;
@@ -208,28 +182,16 @@ public class FieldsChangeSequenceMeta extends BaseTransformMeta<FieldsChangeSequ
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "FieldsChangeSequenceMeta.CheckResult.FieldsFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.FieldsFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fields.isEmpty()) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_WARNING,
-                  BaseMessages.getString(
-                      PKG, "FieldsChangeSequenceMeta.CheckResult.NoFieldsEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.NoFieldsEntered"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "FieldsChangeSequenceMeta.CheckResult.AllFieldsFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.AllFieldsFound"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -237,20 +199,10 @@ public class FieldsChangeSequenceMeta extends BaseTransformMeta<FieldsChangeSequ
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FieldsChangeSequenceMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FieldsChangeSequenceMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FieldsChangeSequenceMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

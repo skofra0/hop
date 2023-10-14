@@ -110,12 +110,7 @@ public abstract class BodyHttpServlet extends BaseHttpServlet implements IHopSer
     out.print(XmlHandler.getXmlHeader(Const.XML_ENCODING));
   }
 
-  abstract WebResult generateBody(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      boolean useXML,
-      IVariables variables)
-      throws Exception;
+  abstract WebResult generateBody(HttpServletRequest request, HttpServletResponse response, boolean useXML, IVariables variables) throws Exception;
 
   @Override
   public String getService() {

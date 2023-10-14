@@ -31,18 +31,9 @@ public class MongoPropertiesTest {
   @Test
   public void testBuildsMongoClientOptions() throws Exception {
     MongoProperties props =
-        new MongoProperties.Builder()
-            .set(MongoProp.connectionsPerHost, "127")
-            .set(MongoProp.connectTimeout, "333")
-            .set(MongoProp.maxWaitTime, "12345")
-            .set(MongoProp.cursorFinalizerEnabled, "false")
-            .set(MongoProp.socketKeepAlive, "true")
-            .set(MongoProp.socketTimeout, "4")
-            .set(MongoProp.useSSL, "true")
-            .set(MongoProp.readPreference, "primary")
-            .set(MongoProp.USE_KERBEROS, "false")
-            .set(MongoProp.USE_ALL_REPLICA_SET_MEMBERS, "false")
-            .build();
+        new MongoProperties.Builder().set(MongoProp.connectionsPerHost, "127").set(MongoProp.connectTimeout, "333").set(MongoProp.maxWaitTime, "12345")
+            .set(MongoProp.cursorFinalizerEnabled, "false").set(MongoProp.socketKeepAlive, "true").set(MongoProp.socketTimeout, "4").set(MongoProp.useSSL, "true")
+            .set(MongoProp.readPreference, "primary").set(MongoProp.USE_KERBEROS, "false").set(MongoProp.USE_ALL_REPLICA_SET_MEMBERS, "false").build();
     MongoUtilLogger log = Mockito.mock(MongoUtilLogger.class);
     MongoClientOptions options = props.buildMongoClientOptions(log);
     assertEquals(127, options.getConnectionsPerHost());

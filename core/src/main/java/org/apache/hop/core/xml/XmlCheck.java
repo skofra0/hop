@@ -26,7 +26,8 @@ import java.io.InputStream;
 
 public class XmlCheck {
 
-  public static class XMLTreeHandler extends DefaultHandler {}
+  public static class XMLTreeHandler extends DefaultHandler {
+  }
 
   /**
    * Checks an xml file is well formed.

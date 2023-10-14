@@ -30,8 +30,7 @@ public class VariableButtonListenerFactory {
   private static final Class<?> PKG = VariableButtonListenerFactory.class; // For Translator
 
   // Listen to the Variable... button
-  public static final SelectionAdapter getSelectionAdapter(
-      final Composite composite, final TextVar destination, final IVariables variables) {
+  public static final SelectionAdapter getSelectionAdapter(final Composite composite, final TextVar destination, final IVariables variables) {
     return getSelectionAdapter(composite, destination, null, null, variables);
   }
 

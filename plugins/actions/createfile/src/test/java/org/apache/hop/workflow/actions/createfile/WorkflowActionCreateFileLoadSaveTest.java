@@ -25,9 +25,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionCreateFileLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionCreateFile> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionCreateFileLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionCreateFile> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionCreateFile> getActionClass() {

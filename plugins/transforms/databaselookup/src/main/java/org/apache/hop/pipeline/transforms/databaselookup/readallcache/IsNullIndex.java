@@ -37,8 +37,7 @@ class IsNullIndex extends Index implements Comparator<Index.IndexedValue> {
   }
 
   @Override
-  void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue)
-      throws HopException {
+  void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue) throws HopException {
     int artificialRow = isMatchingNull ? Integer.MAX_VALUE : -1;
 
     int afterLastValue = findInsertionPointOf(new IndexedValue(null, artificialRow));
@@ -75,8 +74,8 @@ class IsNullIndex extends Index implements Comparator<Index.IndexedValue> {
   @Override
   public int compare(IndexedValue o1, IndexedValue o2) {
     // to unify doApply() routing for both cases, the order depends on isMatchingNull:
-    //   isMatchingNull == true  --> nulls are first
-    //   isMatchingNull == false --> nulls are last
+    // isMatchingNull == true --> nulls are first
+    // isMatchingNull == false --> nulls are last
     // regardless the flag's value, rows' order is kept
     try {
       boolean null1 = valueMeta.isNull(o1.key);

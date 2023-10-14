@@ -21,9 +21,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class FieldsChangeSequenceField {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Field.Name")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "FieldsChangeSequenceMeta.Injection.Field.Name")
   private String name;
 
   public FieldsChangeSequenceField() {}
@@ -42,8 +40,10 @@ public class FieldsChangeSequenceField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     FieldsChangeSequenceField that = (FieldsChangeSequenceField) o;
     return name.equals(that.name);
   }

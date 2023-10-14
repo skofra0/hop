@@ -94,17 +94,13 @@ public class JsonOutputTest extends TestCase {
     // create the RowGenerator and Transform Meta
     RowGeneratorMeta rowGeneratorMeta = new RowGeneratorMeta();
     String rowGeneratorPid = registry.getPluginId(TransformPluginType.class, rowGeneratorMeta);
-    TransformMeta generateRowsTransform =
-        new TransformMeta(rowGeneratorPid, testFileOutputName, rowGeneratorMeta);
+    TransformMeta generateRowsTransform = new TransformMeta(rowGeneratorPid, testFileOutputName, rowGeneratorMeta);
 
     // Set the field names, types and values
-    rowGeneratorMeta
-        .getFields()
-        .addAll(
-            Arrays.asList(
-                new GeneratorField("Id", "Integer", "", -1, -1, "", "", "", "1", false),
-                new GeneratorField("State", "String", "", -1, -1, "", "", "", "Florida", false),
-                new GeneratorField("City", "String", "", -1, -1, "", "", "", "Orlando", false)));
+    rowGeneratorMeta.getFields().addAll(
+        Arrays.asList(
+            new GeneratorField("Id", "Integer", "", -1, -1, "", "", "", "1", false), new GeneratorField("State", "String", "", -1, -1, "", "", "", "Florida", false),
+            new GeneratorField("City", "String", "", -1, -1, "", "", "", "Orlando", false)));
     rowGeneratorMeta.setRowLimit("10");
 
     // return the transform meta
@@ -171,9 +167,7 @@ public class JsonOutputTest extends TestCase {
   public IRowMeta createIRowMeta() {
     IRowMeta rowMetaInterface = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaString("filename"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaString("filename"),};
     for (int i = 0; i < valuesMeta.length; i++) {
       rowMetaInterface.addValueMeta(valuesMeta[i]);
     }
@@ -203,9 +197,7 @@ public class JsonOutputTest extends TestCase {
   public IRowMeta createResultRowMeta() {
     IRowMeta rowMetaInterface = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaInteger("Id"), new ValueMetaString("State"), new ValueMetaString("City")
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaInteger("Id"), new ValueMetaString("State"), new ValueMetaString("City")};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rowMetaInterface.addValueMeta(valuesMeta[i]);
@@ -214,21 +206,19 @@ public class JsonOutputTest extends TestCase {
     return rowMetaInterface;
   }
 
-  private TransformMeta createJsonOutputTransform(
-      String name, String jsonFileName, PluginRegistry registry) {
+  private TransformMeta createJsonOutputTransform(String name, String jsonFileName, PluginRegistry registry) {
 
     // Create a Text File Output transform
     String testFileOutputName = name;
     JsonOutputMeta jsonOutputMeta = new JsonOutputMeta();
     String textFileInputPid = registry.getPluginId(TransformPluginType.class, jsonOutputMeta);
-    TransformMeta jsonOutputTransform =
-        new TransformMeta(textFileInputPid, testFileOutputName, jsonOutputMeta);
+    TransformMeta jsonOutputTransform = new TransformMeta(textFileInputPid, testFileOutputName, jsonOutputMeta);
 
     // initialize the fields
     List<JsonOutputField> fields = new ArrayList<>();
-    //    for (int idx = 0; idx < fields.length; idx++) {
-    //      fields[idx] = new JsonOutputField();
-    //    }
+    // for (int idx = 0; idx < fields.length; idx++) {
+    // fields[idx] = new JsonOutputField();
+    // }
 
     // populate the fields
     // it is important that the setPosition(int)
@@ -279,31 +269,26 @@ public class JsonOutputTest extends TestCase {
 
     // create an injector transform
     String injectorTransformName = "injector transform";
-    TransformMeta injectorTransform =
-        TestUtilities.createInjectorTransform(injectorTransformName, registry);
+    TransformMeta injectorTransform = TestUtilities.createInjectorTransform(injectorTransformName, registry);
     pipelineMeta.addTransform(injectorTransform);
 
     // create a row generator transform
-    TransformMeta rowGeneratorTransform =
-        createRowGeneratorTransform("Create rows for testJsonOutput1", registry);
+    TransformMeta rowGeneratorTransform = createRowGeneratorTransform("Create rows for testJsonOutput1", registry);
     pipelineMeta.addTransform(rowGeneratorTransform);
 
     // create a PipelineHopMeta for injector and add it to the pipelineMeta
-    PipelineHopMeta hop_injectoryRowGenerator =
-        new PipelineHopMeta(injectorTransform, rowGeneratorTransform);
+    PipelineHopMeta hop_injectoryRowGenerator = new PipelineHopMeta(injectorTransform, rowGeneratorTransform);
     pipelineMeta.addPipelineHop(hop_injectoryRowGenerator);
 
     // create the json output transform
     // but first lets get a filename
     String jsonFileName = TestUtilities.createEmptyTempFile("testJsonOutput1_");
-    TransformMeta jsonOutputTransform =
-        createJsonOutputTransform("json output transform", jsonFileName, registry);
+    TransformMeta jsonOutputTransform = createJsonOutputTransform("json output transform", jsonFileName, registry);
     ((JsonOutputMeta) jsonOutputTransform.getTransform()).setCompatibilityMode(compatibilityMode);
     pipelineMeta.addTransform(jsonOutputTransform);
 
     // create a PipelineHopMeta for jsonOutputTransform and add it to the pipelineMeta
-    PipelineHopMeta hop_RowGeneratorOutputTextFile =
-        new PipelineHopMeta(rowGeneratorTransform, jsonOutputTransform);
+    PipelineHopMeta hop_RowGeneratorOutputTextFile = new PipelineHopMeta(rowGeneratorTransform, jsonOutputTransform);
     pipelineMeta.addPipelineHop(hop_RowGeneratorOutputTextFile);
 
     // Create a dummy transform and add it to the tranMeta
@@ -312,8 +297,7 @@ public class JsonOutputTest extends TestCase {
     pipelineMeta.addTransform(dummyTransform);
 
     // create a PipelineHopMeta for the
-    PipelineHopMeta hopOutputJson_dummyTransform =
-        new PipelineHopMeta(jsonOutputTransform, dummyTransform);
+    PipelineHopMeta hopOutputJson_dummyTransform = new PipelineHopMeta(jsonOutputTransform, dummyTransform);
     pipelineMeta.addPipelineHop(hopOutputJson_dummyTransform);
 
     // Now execute the transformation...
@@ -349,21 +333,12 @@ public class JsonOutputTest extends TestCase {
   }
 
   public void testNpeIsNotThrownOnNullInput() throws Exception {
-    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper =
-        new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper = new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
     when(mockHelper.transformMeta.getTransform()).thenReturn(new JsonOutputMeta());
 
-    JsonOutput transform =
-        new JsonOutput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            mockHelper.iTransformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    JsonOutput transform = new JsonOutput(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     transform = spy(transform);
 
     doReturn(null).when(transform).getRow();
@@ -372,23 +347,14 @@ public class JsonOutputTest extends TestCase {
   }
 
   public void testEmptyDoesntWriteToFile() throws Exception {
-    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper =
-        new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper = new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
     when(mockHelper.transformMeta.getTransform()).thenReturn(new JsonOutputMeta());
 
     JsonOutputData transformData = new JsonOutputData();
     transformData.writeToFile = true;
-    JsonOutput transform =
-        new JsonOutput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            transformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    JsonOutput transform = new JsonOutput(mockHelper.transformMeta, mockHelper.iTransformMeta, transformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     transform = spy(transform);
 
     doReturn(null).when(transform).getRow();
@@ -402,10 +368,8 @@ public class JsonOutputTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testWriteToFile() throws Exception {
-    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper =
-        new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    TransformMockHelper<JsonOutputMeta, JsonOutputData> mockHelper = new TransformMockHelper<>("jsonOutput", JsonOutputMeta.class, JsonOutputData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
     when(mockHelper.transformMeta.getTransform()).thenReturn(new JsonOutputMeta());
 
@@ -416,14 +380,7 @@ public class JsonOutputTest extends TestCase {
     transformData.ja.add(jsonObject);
     transformData.writer = mock(Writer.class);
 
-    JsonOutput transform =
-        new JsonOutput(
-            mockHelper.transformMeta,
-            mockHelper.iTransformMeta,
-            transformData,
-            0,
-            mockHelper.pipelineMeta,
-            mockHelper.pipeline);
+    JsonOutput transform = new JsonOutput(mockHelper.transformMeta, mockHelper.iTransformMeta, transformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
     transform = spy(transform);
 
     doReturn(null).when(transform).getRow();

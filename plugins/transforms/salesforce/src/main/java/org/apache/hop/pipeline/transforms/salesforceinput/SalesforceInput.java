@@ -43,13 +43,7 @@ import java.util.GregorianCalendar;
 public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, SalesforceInputData> {
   private static final Class<?> PKG = SalesforceInputMeta.class; // For Translator
 
-  public SalesforceInput(
-      TransformMeta transformMeta,
-      SalesforceInputMeta meta,
-      SalesforceInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceInput(TransformMeta transformMeta, SalesforceInputMeta meta, SalesforceInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,10 +71,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
         data.nrRecords = data.connection.getRecordsCount();
       }
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "SalesforceInput.Log.RecordCount")
-                + " : "
-                + data.recordcount);
+        logDetailed(BaseMessages.getString(PKG, "SalesforceInput.Log.RecordCount") + " : " + data.recordcount);
       }
     }
 
@@ -98,8 +89,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
       putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s)
 
       if (checkFeedback(getLinesInput()) && log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "SalesforceInput.log.LineRow", "" + getLinesInput()));
+        logDetailed(BaseMessages.getString(PKG, "SalesforceInput.log.LineRow", "" + getLinesInput()));
       }
 
       data.rownr++;
@@ -150,9 +140,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
             // We retrieved all records available here
             // maybe we need to query more again ...
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG, "SalesforceInput.Log.NeedQueryMore", "" + data.rownr));
+              logDetailed(BaseMessages.getString(PKG, "SalesforceInput.Log.NeedQueryMore", "" + data.rownr));
             }
 
             if (data.connection.queryMore()) {
@@ -160,8 +148,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
               int nr = data.connection.getRecordsCount();
               data.nrRecords += nr;
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(PKG, "SalesforceInput.Log.QueryMoreRetrieved", "" + nr));
+                logDetailed(BaseMessages.getString(PKG, "SalesforceInput.Log.QueryMoreRetrieved", "" + nr));
               }
 
               // We need here to initialize recordIndex
@@ -191,9 +178,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
         }
       }
       for (int i = 0; i < data.nrFields; i++) {
-        String value =
-            data.connection.getRecordValue(
-                srvalue.getRecordValue(), meta.getInputFields()[i].getField());
+        String value = data.connection.getRecordValue(srvalue.getRecordValue(), meta.getInputFields()[i].getField());
 
         // DO Trimming!
         switch (meta.getInputFields()[i].getTrimType()) {
@@ -253,11 +238,9 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
 
       IRowMeta irow = getInputRowMeta();
 
-      data.previousRow =
-          irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
+      data.previousRow = irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "SalesforceInput.Exception.CanNotReadFromSalesforce"), e);
+      throw new HopException(BaseMessages.getString(PKG, "SalesforceInput.Exception.CanNotReadFromSalesforce"), e);
     }
 
     return outputRowData;
@@ -346,8 +329,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
 
       // Check if field list is filled
       if (data.nrFields == 0) {
-        log.logError(
-            BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsMissing.DialogMessage"));
+        log.logError(BaseMessages.getString(PKG, "SalesforceInputDialog.FieldsMissing.DialogMessage"));
         return false;
       }
 
@@ -357,8 +339,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
         if (meta.isSpecifyQuery()) {
           // Check if user specified a query
           if (Utils.isEmpty(soSQL)) {
-            log.logError(
-                BaseMessages.getString(PKG, "SalesforceInputDialog.QueryMissing.DialogMessage"));
+            log.logError(BaseMessages.getString(PKG, "SalesforceInputDialog.QueryMissing.DialogMessage"));
             return false;
           }
         } else {
@@ -366,20 +347,16 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
           if (meta.getRecordsFilter() != SalesforceConnectionUtils.RECORDS_FILTER_ALL) {
             String realFromDateString = resolve(meta.getReadFrom());
             if (Utils.isEmpty(realFromDateString)) {
-              log.logError(
-                  BaseMessages.getString(
-                      PKG, "SalesforceInputDialog.FromDateMissing.DialogMessage"));
+              log.logError(BaseMessages.getString(PKG, "SalesforceInputDialog.FromDateMissing.DialogMessage"));
               return false;
             }
             String realToDateString = resolve(meta.getReadTo());
             if (Utils.isEmpty(realToDateString)) {
-              log.logError(
-                  BaseMessages.getString(PKG, "SalesforceInputDialog.ToDateMissing.DialogMessage"));
+              log.logError(BaseMessages.getString(PKG, "SalesforceInputDialog.ToDateMissing.DialogMessage"));
               return false;
             }
             try {
-              SimpleDateFormat dateFormat =
-                  new SimpleDateFormat(SalesforceInputMeta.DATE_TIME_FORMAT);
+              SimpleDateFormat dateFormat = new SimpleDateFormat(SalesforceInputMeta.DATE_TIME_FORMAT);
               data.startCal = new GregorianCalendar();
               data.startCal.setTime(dateFormat.parse(realFromDateString));
               data.endCal = new GregorianCalendar();
@@ -421,10 +398,7 @@ public class SalesforceInput extends SalesforceTransform<SalesforceInputMeta, Sa
 
         return true;
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SalesforceInput.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SalesforceInput.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
         return false;
       }
     }

@@ -88,21 +88,12 @@ public class BeamRowHandler implements IRowHandler {
   }
 
   @Override
-  public void putError(
-      IRowMeta rowMeta,
-      Object[] row,
-      long nrErrors,
-      String errorDescriptions,
-      String fieldNames,
-      String errorCodes)
-      throws HopTransformException {
-    transform.handlePutError(
-        transform, rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
+  public void putError(IRowMeta rowMeta, Object[] row, long nrErrors, String errorDescriptions, String fieldNames, String errorCodes) throws HopTransformException {
+    transform.handlePutError(transform, rowMeta, row, nrErrors, errorDescriptions, fieldNames, errorCodes);
   }
 
   @Override
-  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet)
-      throws HopTransformException {
+  public void putRowTo(IRowMeta rowMeta, Object[] row, IRowSet rowSet) throws HopTransformException {
     List<IRowListener> rowListeners = transform.getRowListeners();
     for (IRowListener listener : rowListeners) {
       listener.rowWrittenEvent(rowMeta, row);

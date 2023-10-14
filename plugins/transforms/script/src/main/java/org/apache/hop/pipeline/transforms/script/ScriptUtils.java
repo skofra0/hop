@@ -49,8 +49,7 @@ public class ScriptUtils {
     return scriptEngine;
   }
 
-  public static ScriptEngine createNewScriptEngineByLanguage(String languageName)
-      throws HopException {
+  public static ScriptEngine createNewScriptEngineByLanguage(String languageName) throws HopException {
     ScriptEngine scriptEngine = null;
 
     if (engineFactories == null) {
@@ -66,13 +65,7 @@ public class ScriptUtils {
             break;
           }
         } catch (Exception e) {
-          throw new HopException(
-              "Error getting scripting engine '"
-                  + factory.getEngineName()
-                  + "' for language '"
-                  + languageName
-                  + "'",
-              e);
+          throw new HopException("Error getting scripting engine '" + factory.getEngineName() + "' for language '" + languageName + "'", e);
         }
       }
     }
@@ -84,9 +77,7 @@ public class ScriptUtils {
 
   public static ScriptEngineManager getScriptEngineManager() {
     if (scriptEngineManager == null) {
-      System.setProperty(
-          "org.jruby.embed.localvariable.behavior",
-          "persistent"); // required for JRuby, transparent
+      System.setProperty("org.jruby.embed.localvariable.behavior", "persistent"); // required for JRuby, transparent
       // for others
       scriptEngineManager = new ScriptEngineManager(ScriptUtils.class.getClassLoader());
       populateEngineFactoryMap();
@@ -111,8 +102,7 @@ public class ScriptUtils {
     if (engineFactories != null) {
       for (ScriptEngineFactory factory : engineFactories) {
         final String languageName = factory.getLanguageName();
-        List<ScriptEngineFactory> languageFactories =
-            languageFactoryMap.computeIfAbsent(languageName, k -> new ArrayList<>());
+        List<ScriptEngineFactory> languageFactories = languageFactoryMap.computeIfAbsent(languageName, k -> new ArrayList<>());
         languageFactories.add(factory);
       }
     }

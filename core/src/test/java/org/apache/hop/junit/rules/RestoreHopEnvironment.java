@@ -90,7 +90,7 @@ public class RestoreHopEnvironment extends ExternalResource {
     XmlHandlerCache.getInstance().clear();
     ValueMetaFactory.pluginRegistry = PluginRegistry.getInstance();
     // under no circumstance reset the LoggingRegistry
-    //    LoggingRegistry.getInstance().reset();
+    // LoggingRegistry.getInstance().reset();
   }
 
   @Override

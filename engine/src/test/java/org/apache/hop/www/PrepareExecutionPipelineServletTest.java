@@ -58,8 +58,7 @@ public class PrepareExecutionPipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testPausePipelineServletEscapesHtmlWhenPipelineNotFound()
-      throws ServletException, IOException {
+  public void testPausePipelineServletEscapesHtmlWhenPipelineNotFound() throws ServletException, IOException {
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
 
@@ -67,10 +66,8 @@ public class PrepareExecutionPipelineServletTest {
     PrintWriter printWriter = new PrintWriter(out);
 
     PowerMockito.spy(Encode.class);
-    when(mockHttpServletRequest.getContextPath())
-        .thenReturn(PrepareExecutionPipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getContextPath()).thenReturn(PrepareExecutionPipelineServlet.CONTEXT_PATH);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
 
     prepareExecutionPipelineServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
@@ -82,32 +79,26 @@ public class PrepareExecutionPipelineServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testPausePipelineServletEscapesHtmlWhenPipelineFound()
-      throws ServletException, IOException {
+  public void testPausePipelineServletEscapesHtmlWhenPipelineFound() throws ServletException, IOException {
     HopLogStore.init();
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
     Pipeline mockPipeline = mock(Pipeline.class);
     PipelineConfiguration mockPipelineConf = mock(PipelineConfiguration.class);
     PipelineMeta mockPipelineMeta = mock(PipelineMeta.class);
-    PipelineExecutionConfiguration mockPipelineExecutionConf =
-        mock(PipelineExecutionConfiguration.class);
+    PipelineExecutionConfiguration mockPipelineExecutionConf = mock(PipelineExecutionConfiguration.class);
 
     ILogChannel mockChannelInterface = mock(ILogChannel.class);
     StringWriter out = new StringWriter();
     PrintWriter printWriter = new PrintWriter(out);
 
     PowerMockito.spy(Encode.class);
-    when(mockHttpServletRequest.getContextPath())
-        .thenReturn(PrepareExecutionPipelineServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getContextPath()).thenReturn(PrepareExecutionPipelineServlet.CONTEXT_PATH);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
     when(mockPipelineMap.getPipeline(any(HopServerObjectEntry.class))).thenReturn(mockPipeline);
-    when(mockPipelineMap.getConfiguration(any(HopServerObjectEntry.class)))
-        .thenReturn(mockPipelineConf);
-    when(mockPipelineConf.getPipelineExecutionConfiguration())
-        .thenReturn(mockPipelineExecutionConf);
+    when(mockPipelineMap.getConfiguration(any(HopServerObjectEntry.class))).thenReturn(mockPipelineConf);
+    when(mockPipelineConf.getPipelineExecutionConfiguration()).thenReturn(mockPipelineExecutionConf);
     when(mockPipeline.getLogChannel()).thenReturn(mockChannelInterface);
     when(mockPipeline.getPipelineMeta()).thenReturn(mockPipelineMeta);
     when(mockPipelineMeta.getMaximum()).thenReturn(new Point(10, 10));

@@ -37,26 +37,19 @@ public class MongoClientWrapperFactory {
    * @return MongoClientWrapper
    * @throws MongoDbException
    */
-  public static org.apache.hop.mongo.wrapper.MongoClientWrapper createMongoClientWrapper(
-      MongoProperties props, MongoUtilLogger log) throws MongoDbException {
+  public static org.apache.hop.mongo.wrapper.MongoClientWrapper createMongoClientWrapper(MongoProperties props, MongoUtilLogger log) throws MongoDbException {
     if (props.useKerberos()) {
       return initKerberosProxy(new KerberosMongoClientWrapper(props, log));
-    } else if (!Util.isEmpty(props.get(MongoProp.USERNAME))
-        || !Util.isEmpty(props.get(MongoProp.PASSWORD))
-        || !Util.isEmpty(props.get(MongoProp.AUTH_DATABASE))) {
+    } else if (!Util.isEmpty(props.get(MongoProp.USERNAME)) || !Util.isEmpty(props.get(MongoProp.PASSWORD)) || !Util.isEmpty(props.get(MongoProp.AUTH_DATABASE))) {
       return new org.apache.hop.mongo.wrapper.UsernamePasswordMongoClientWrapper(props, log);
     }
     // default
     return new org.apache.hop.mongo.wrapper.NoAuthMongoClientWrapper(props, log);
   }
 
-  private static org.apache.hop.mongo.wrapper.MongoClientWrapper initKerberosProxy(
-      KerberosMongoClientWrapper wrapper) {
-    return (org.apache.hop.mongo.wrapper.MongoClientWrapper)
-        Proxy.newProxyInstance(
-            wrapper.getClass().getClassLoader(),
-            new Class<?>[] {org.apache.hop.mongo.wrapper.MongoClientWrapper.class},
-            new org.apache.hop.mongo.wrapper.KerberosInvocationHandler(
-                wrapper.getAuthContext(), wrapper));
+  private static org.apache.hop.mongo.wrapper.MongoClientWrapper initKerberosProxy(KerberosMongoClientWrapper wrapper) {
+    return (org.apache.hop.mongo.wrapper.MongoClientWrapper) Proxy.newProxyInstance(
+        wrapper.getClass().getClassLoader(), new Class<?>[] {org.apache.hop.mongo.wrapper.MongoClientWrapper.class},
+        new org.apache.hop.mongo.wrapper.KerberosInvocationHandler(wrapper.getAuthContext(), wrapper));
   }
 }

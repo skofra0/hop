@@ -52,13 +52,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
 
   private Transformer transformer;
 
-  public XmlJoin(
-      TransformMeta transformMeta,
-      XmlJoinMeta meta,
-      XmlJoinData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public XmlJoin(TransformMeta transformMeta, XmlJoinMeta meta, XmlJoinData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
   }
 
@@ -76,29 +70,21 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
       //
       String targetStreamTransformName = meta.getTargetXmlTransform();
       if (StringUtils.isEmpty(targetStreamTransformName)) {
-        throw new HopException(
-            "Please specify which transform to read the XML target stream rows from");
+        throw new HopException("Please specify which transform to read the XML target stream rows from");
       }
       String sourceStreamTransformName = meta.getSourceXmlTransform();
       if (StringUtils.isEmpty(sourceStreamTransformName)) {
-        throw new HopException(
-            "Please specify which transform to read the XML source stream rows from");
+        throw new HopException("Please specify which transform to read the XML source stream rows from");
       }
 
       // Get the two input row sets
       data.targetRowSet = findInputRowSet(targetStreamTransformName);
       if (data.targetRowSet == null) {
-        throw new HopException(
-            "Unable to find the XML target stream transform '"
-                + targetStreamTransformName
-                + "' to read from");
+        throw new HopException("Unable to find the XML target stream transform '" + targetStreamTransformName + "' to read from");
       }
       data.sourceRowSet = findInputRowSet(sourceStreamTransformName);
       if (data.sourceRowSet == null) {
-        throw new HopException(
-            "Unable to find the XML join source stream '"
-                + sourceStreamTransformName
-                + "' to read from");
+        throw new HopException("Unable to find the XML join source stream '" + sourceStreamTransformName + "' to read from");
       }
 
       // get the first line from the target row set
@@ -119,22 +105,13 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
       }
       // Throw exception if target field has not been found
       if (targetFieldId == -1) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "XmlJoin.Exception.FieldNotFound", meta.getTargetXmlField()));
+        throw new HopException(BaseMessages.getString(PKG, "XmlJoin.Exception.FieldNotFound", meta.getTargetXmlField()));
       }
 
-      IRowMeta sourceStreamRowMeta =
-          getPipelineMeta().getTransformFields(this, sourceStreamTransformName);
+      IRowMeta sourceStreamRowMeta = getPipelineMeta().getTransformFields(this, sourceStreamTransformName);
 
       data.outputRowMeta = data.targetRowSet.getRowMeta().clone();
-      meta.getFields(
-          data.outputRowMeta,
-          getTransformName(),
-          new IRowMeta[] {targetStreamRowMeta, sourceStreamRowMeta},
-          null,
-          variables,
-          metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), new IRowMeta[] {targetStreamRowMeta, sourceStreamRowMeta}, null, variables, metadataProvider);
       data.outputRowData = rTarget.clone();
 
       // get the target xml structure and create a DOM
@@ -145,15 +122,12 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
 
       data.xPathStatement = meta.getTargetXPath();
       try {
-        DocumentBuilder builder =
-            XmlParserFactoryProducer.createSecureDocBuilderFactory().newDocumentBuilder();
+        DocumentBuilder builder = XmlParserFactoryProducer.createSecureDocBuilderFactory().newDocumentBuilder();
         data.targetDom = builder.parse(inputSource);
         if (!meta.isComplexJoin()) {
-          data.targetNode =
-              (Node) xpath.evaluate(data.xPathStatement, data.targetDom, XPathConstants.NODE);
+          data.targetNode = (Node) xpath.evaluate(data.xPathStatement, data.targetDom, XPathConstants.NODE);
           if (data.targetNode == null) {
-            throw new HopXmlException(
-                "XPath statement returned no result [" + data.xPathStatement + "]");
+            throw new HopXmlException("XPath statement returned no result [" + data.xPathStatement + "]");
           }
         }
       } catch (Exception e) {
@@ -161,8 +135,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
       }
     }
 
-    Object[] rJoinSource =
-        getRowFrom(data.sourceRowSet); // This also waits for a row to be finished.
+    Object[] rJoinSource = getRowFrom(data.sourceRowSet); // This also waits for a row to be finished.
     if (rJoinSource == null) {
       // no more input to be expected... create the output row
       try {
@@ -178,9 +151,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
         int outputIndex = data.outputRowMeta.size() - 1;
 
         // send the row to the next transforms...
-        putRow(
-            data.outputRowMeta,
-            RowDataUtil.addValueData(data.outputRowData, outputIndex, sw.toString()));
+        putRow(data.outputRowMeta, RowDataUtil.addValueData(data.outputRowData, outputIndex, sw.toString()));
         // finishing up
         setOutputDone();
 
@@ -201,9 +172,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
         }
         // Throw exception if source xml field has not been found
         if (data.iSourceXMLField == -1) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "XmlJoin.Exception.FieldNotFound", meta.getSourceXmlField()));
+          throw new HopException(BaseMessages.getString(PKG, "XmlJoin.Exception.FieldNotFound", meta.getSourceXmlField()));
         }
       }
 
@@ -217,9 +186,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
         }
         // Throw exception if source xml field has not been found
         if (data.iCompareFieldID == -1) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "XmlJoin.Exception.FieldNotFound", meta.getJoinCompareField()));
+          throw new HopException(BaseMessages.getString(PKG, "XmlJoin.Exception.FieldNotFound", meta.getJoinCompareField()));
         }
       }
 
@@ -227,8 +194,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
       String strJoinXML = (String) rJoinSource[data.iSourceXMLField];
 
       try {
-        DocumentBuilder builder =
-            XmlParserFactoryProducer.createSecureDocBuilderFactory().newDocumentBuilder();
+        DocumentBuilder builder = XmlParserFactoryProducer.createSecureDocBuilderFactory().newDocumentBuilder();
         Document joinDocument = builder.parse(new InputSource(new StringReader(strJoinXML)));
 
         Node node = data.targetDom.importNode(joinDocument.getDocumentElement(), true);
@@ -237,11 +203,9 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
           String strCompareValue = rJoinSource[data.iCompareFieldID].toString();
           String strXPathStatement = data.xPathStatement.replace("?", strCompareValue);
 
-          data.targetNode =
-              (Node) xpath.evaluate(strXPathStatement, data.targetDom, XPathConstants.NODE);
+          data.targetNode = (Node) xpath.evaluate(strXPathStatement, data.targetDom, XPathConstants.NODE);
           if (data.targetNode == null) {
-            throw new HopXmlException(
-                "XPath statement returned no result [" + strXPathStatement + "]");
+            throw new HopXmlException("XPath statement returned no result [" + strXPathStatement + "]");
           }
         }
         data.targetNode.appendChild(node);
@@ -309,11 +273,7 @@ public class XmlJoin extends BaseTransform<XmlJoinMeta, XmlJoinData> {
         removeEmptyNodes(node.getChildNodes());
       }
 
-      boolean nodeIsEmpty =
-          node.getNodeType() == Node.ELEMENT_NODE
-              && !node.hasAttributes()
-              && !node.hasChildNodes()
-              && node.getTextContent().length() == 0;
+      boolean nodeIsEmpty = node.getNodeType() == Node.ELEMENT_NODE && !node.hasAttributes() && !node.hasChildNodes() && node.getTextContent().length() == 0;
 
       if (nodeIsEmpty) {
         // We shifted elements left, do not increment counter

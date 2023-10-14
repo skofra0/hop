@@ -72,8 +72,7 @@ import org.eclipse.swt.widgets.Text;
 
 /** Dialog class for the Oracle bulk loader transformation. */
 public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransformDialog {
-  private static final Class<?> PKG =
-      OraBulkLoaderDialog.class; // For Translator
+  private static final Class<?> PKG = OraBulkLoaderDialog.class; // For Translator
 
   private MetaSelectionLine<DatabaseMeta> wConnection;
   private TextVar wSchema;
@@ -111,19 +110,13 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
   // These should not be translated, they are required to exist on all
   // platforms according to the documentation of "Charset".
-  private static String[] encodings = {
-    "", "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"
-  };
+  private static String[] encodings = {"", "US-ASCII", "ISO-8859-1", "UTF-8", "UTF-16BE", "UTF-16LE", "UTF-16"};
 
-  private static String[] characterSetNames = {
-    "", "US7ASCII", "WE8ISO8859P1", "UTF8",
-  };
+  private static String[] characterSetNames = {"", "US7ASCII", "WE8ISO8859P1", "UTF8",};
 
-  private static final String[] ALL_FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "OraBulkLoaderDialog.Filetype.All")};
+  private static final String[] ALL_FILETYPES = new String[] {BaseMessages.getString(PKG, "OraBulkLoaderDialog.Filetype.All")};
 
-  public OraBulkLoaderDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public OraBulkLoaderDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (OraBulkLoaderMeta) in;
   }
@@ -138,11 +131,10 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
 
     changed = input.hasChanged();
 
@@ -216,8 +208,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     wBulkLoaderComposite.setLayoutData(fdComp);
 
     // Connection line
-    wConnection =
-        addConnectionLine(wBulkLoaderComposite, wTransformName, input.getDatabaseMeta(), lsMod);
+    wConnection = addConnectionLine(wBulkLoaderComposite, wTransformName, input.getDatabaseMeta(), lsMod);
 
     // Schema line...
     Label wlSchema = new Label(wBulkLoaderComposite, SWT.RIGHT);
@@ -577,8 +568,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
     // Oracle character set name line
     Label wlCharacterSetName = new Label(wBulkLoaderComposite, SWT.RIGHT);
-    wlCharacterSetName.setText(
-        BaseMessages.getString(PKG, "OraBulkLoaderDialog.CharacterSetName.Label"));
+    wlCharacterSetName.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.CharacterSetName.Label"));
     PropsUi.setLook(wlCharacterSetName);
     FormData fdlCharacterSetName = new FormData();
     fdlCharacterSetName.left = new FormAttachment(0, 0);
@@ -586,8 +576,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     fdlCharacterSetName.right = new FormAttachment(middle, -margin);
     wlCharacterSetName.setLayoutData(fdlCharacterSetName);
     wCharacterSetName = new Combo(wBulkLoaderComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wCharacterSetName.setToolTipText(
-        BaseMessages.getString(PKG, "OraBulkLoaderDialog.CharacterSetName.Tooltip"));
+    wCharacterSetName.setToolTipText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.CharacterSetName.Tooltip"));
     wCharacterSetName.setItems(characterSetNames);
     PropsUi.setLook(wCharacterSetName);
     FormData fdCharacterSetName = new FormData();
@@ -606,8 +595,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     fdlAltRecordTerm.top = new FormAttachment(wCharacterSetName, margin);
     fdlAltRecordTerm.right = new FormAttachment(middle, -margin);
     wlAltRecordTerm.setLayoutData(fdlAltRecordTerm);
-    wAltRecordTerm =
-        new TextVar(variables, wBulkLoaderComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wAltRecordTerm = new TextVar(variables, wBulkLoaderComposite, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wAltRecordTerm);
     FormData fdAltRecordTerm = new FormData();
     fdAltRecordTerm.left = new FormAttachment(middle, 0);
@@ -632,17 +620,15 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     fdDirectPath.top = new FormAttachment(wAltRecordTerm, margin);
     fdDirectPath.right = new FormAttachment(100, 0);
     wDirectPath.setLayoutData(fdDirectPath);
-    wDirectPath.addListener(
-        SWT.Selection,
-        e -> {
-          input.setChanged();
-          // Parallel loading is only possible with a direct path option...
-          //
-          if (!wDirectPath.getSelection()) {
-            wParallel.setSelection(false);
-          }
-          wParallel.setEnabled(wDirectPath.getSelection());
-        });
+    wDirectPath.addListener(SWT.Selection, e -> {
+      input.setChanged();
+      // Parallel loading is only possible with a direct path option...
+      //
+      if (!wDirectPath.getSelection()) {
+        wParallel.setSelection(false);
+      }
+      wParallel.setEnabled(wDirectPath.getSelection());
+    });
 
     // Erase files line
     Label wlEraseFiles = new Label(wBulkLoaderComposite, SWT.RIGHT);
@@ -714,18 +700,17 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     fdParallel.top = new FormAttachment(wFailOnError, margin);
     fdParallel.right = new FormAttachment(100, 0);
     wParallel.setLayoutData(fdParallel);
-    wParallel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            // Parallel loading is only possible with a direct path option...
-            //
-            if (wParallel.getSelection()) {
-              wDirectPath.setSelection(true);
-            }
-          }
-        });
+    wParallel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        // Parallel loading is only possible with a direct path option...
+        //
+        if (wParallel.getSelection()) {
+          wDirectPath.setSelection(true);
+        }
+      }
+    });
 
     CTabItem wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wFieldsTab.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.Fields.Label"));
@@ -749,38 +734,16 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     int upInsRows = (input.getMappings() != null ? input.getMappings().size() : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "OraBulkLoaderDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "OraBulkLoaderDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "OraBulkLoaderDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "OraBulkLoaderDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     ciReturn[2] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "OraBulkLoaderDialog.ColumnInfo.DateMask"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "",
-              BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label"),
-              BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateTimeMask.Label")
-            },
+            new String[] {"", BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label"), BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateTimeMask.Label")},
             true);
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wFieldsComposite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, wFieldsComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     Button wGetLU = new Button(wFieldsComposite, SWT.PUSH);
     wGetLU.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.GetFields.Label"));
@@ -812,126 +775,114 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     //
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    wbSqlldr.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wSqlldr.getText() != null) {
-              dialog.setFileName(wSqlldr.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wSqlldr.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbSqlldr.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wSqlldr.getText() != null) {
+          dialog.setFileName(wSqlldr.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wSqlldr.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
-    wbControlFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wControlFile.getText() != null) {
-              dialog.setFileName(wControlFile.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wControlFile.setText(
-                  dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbControlFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wControlFile.getText() != null) {
+          dialog.setFileName(wControlFile.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wControlFile.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
-    wbDataFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wDataFile.getText() != null) {
-              dialog.setFileName(wDataFile.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wDataFile.setText(
-                  dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbDataFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wDataFile.getText() != null) {
+          dialog.setFileName(wDataFile.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wDataFile.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
-    wbLogFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wLogFile.getText() != null) {
-              dialog.setFileName(wLogFile.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wLogFile.setText(
-                  dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbLogFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wLogFile.getText() != null) {
+          dialog.setFileName(wLogFile.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wLogFile.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
-    wbBadFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wBadFile.getText() != null) {
-              dialog.setFileName(wBadFile.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wBadFile.setText(
-                  dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbBadFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wBadFile.getText() != null) {
+          dialog.setFileName(wBadFile.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wBadFile.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
-    wbDiscardFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-            dialog.setFilterExtensions(new String[] {"*"});
-            if (wDiscardFile.getText() != null) {
-              dialog.setFileName(wDiscardFile.getText());
-            }
-            dialog.setFilterNames(ALL_FILETYPES);
-            if (dialog.open() != null) {
-              wDiscardFile.setText(
-                  dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
-            }
-          }
-        });
+    wbDiscardFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+        dialog.setFilterExtensions(new String[] {"*"});
+        if (wDiscardFile.getText() != null) {
+          dialog.setFileName(wDiscardFile.getText());
+        }
+        dialog.setFilterNames(ALL_FILETYPES);
+        if (dialog.open() != null) {
+          wDiscardFile.setText(dialog.getFilterPath() + Const.FILE_SEPARATOR + dialog.getFileName());
+        }
+      }
+    });
 
     getData();
     wTabFolder.setSelection(0);
@@ -951,57 +902,52 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText(),
-                connectionName = wConnection.getText(),
-                schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText(), connectionName = wConnection.getText(), schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
-              if (databaseMeta != null) {
-                Database db = new Database(loggingObject, variables, databaseMeta);
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            Database db = new Database(loggingObject, variables, databaseMeta);
 
-                try {
-                  db.connect();
+            try {
+              db.connect();
 
-                  String schemaTable =
-                      databaseMeta.getQuotedSchemaTableCombination(
-                          variables, schemaName, tableName);
-                  IRowMeta rowMeta = db.getTableFields(schemaTable);
-                  if (null != rowMeta) {
-                    String[] fieldNames = rowMeta.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+              IRowMeta rowMeta = db.getTableFields(schemaTable);
+              if (null != rowMeta) {
+                String[] fieldNames = rowMeta.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
-                  }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user
-                } finally {
-                  try {
-                    if (db != null) {
-                      db.disconnect();
-                    }
-                  } catch (Exception ignored) {
-                    // ignore any errors here.
-                    db = null;
+                    colInfo.setComboValues(fieldNames);
                   }
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
+            } finally {
+              try {
+                if (db != null) {
+                  db.disconnect();
+                }
+              } catch (Exception ignored) {
+                // ignore any errors here.
+                db = null;
+              }
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -1144,11 +1090,9 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
       mapping.setFieldTable(item.getText(1));
       mapping.setFieldStream(item.getText(2));
 
-      if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label")
-          .equals(item.getText(3))) {
+      if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label").equals(item.getText(3))) {
         mapping.setDateMask(OraBulkLoaderMeta.DATE_MASK_DATE);
-      } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateTimeMask.Label")
-          .equals(item.getText(3))) {
+      } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateTimeMask.Label").equals(item.getText(3))) {
         mapping.setDateMask(OraBulkLoaderMeta.DATE_MASK_DATETIME);
       }
 
@@ -1178,21 +1122,15 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
      * Set the load method
      */
     String method = wLoadMethod.getText();
-    if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.AutoConcLoadMethod.Label")
-        .equals(method)) {
+    if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.AutoConcLoadMethod.Label").equals(method)) {
       meta.setLoadMethod(OraBulkLoaderMeta.METHOD_AUTO_CONCURRENT);
-    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.AutoEndLoadMethod.Label")
-        .equals(method)) {
+    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.AutoEndLoadMethod.Label").equals(method)) {
       meta.setLoadMethod(OraBulkLoaderMeta.METHOD_AUTO_END);
-    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.ManualLoadMethod.Label")
-        .equals(method)) {
+    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.ManualLoadMethod.Label").equals(method)) {
       meta.setLoadMethod(OraBulkLoaderMeta.METHOD_MANUAL);
     } else {
       if (log.isDebug()) {
-        logDebug(
-            "Internal error: load_method set to default 'auto concurrent', value found '"
-                + method
-                + "'.");
+        logDebug("Internal error: load_method set to default 'auto concurrent', value found '" + method + "'.");
       }
       meta.setLoadMethod(OraBulkLoaderMeta.METHOD_AUTO_END);
     }
@@ -1203,19 +1141,15 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     String action = wLoadAction.getText();
     if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.AppendLoadAction.Label").equals(action)) {
       meta.setLoadAction(OraBulkLoaderMeta.ACTION_APPEND);
-    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.InsertLoadAction.Label")
-        .equals(action)) {
+    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.InsertLoadAction.Label").equals(action)) {
       meta.setLoadAction(OraBulkLoaderMeta.ACTION_INSERT);
-    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.ReplaceLoadAction.Label")
-        .equals(action)) {
+    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.ReplaceLoadAction.Label").equals(action)) {
       meta.setLoadAction(OraBulkLoaderMeta.ACTION_REPLACE);
-    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.TruncateLoadAction.Label")
-        .equals(action)) {
+    } else if (BaseMessages.getString(PKG, "OraBulkLoaderDialog.TruncateLoadAction.Label").equals(action)) {
       meta.setLoadAction(OraBulkLoaderMeta.ACTION_TRUNCATE);
     } else {
       if (log.isDebug()) {
-        logDebug(
-            "Internal error: load_action set to default 'append', value found '" + action + "'.");
+        logDebug("Internal error: load_action set to default 'append', value found '" + action + "'.");
       }
       meta.setLoadAction(OraBulkLoaderMeta.ACTION_APPEND);
     }
@@ -1233,8 +1167,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
     if (input.getDatabaseMeta() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -1256,10 +1189,8 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "OraBulkLoaderDialog.AvailableSchemas.Title", wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG, "OraBulkLoaderDialog.AvailableSchemas.Message", wConnection.getText()));
+                  BaseMessages.getString(PKG, "OraBulkLoaderDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "OraBulkLoaderDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -1273,11 +1204,7 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "OraBulkLoaderDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "OraBulkLoaderDialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }
@@ -1294,24 +1221,18 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
     if (databaseMeta != null) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "OraBulkLoaderDialog.Log.LookingAtConnection")
-                + databaseMeta.toString());
+        logDebug(BaseMessages.getString(PKG, "OraBulkLoaderDialog.Log.LookingAtConnection") + databaseMeta.toString());
       }
 
-      DatabaseExplorerDialog dialog =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
-      dialog.setSelectedSchemaAndTable(
-          variables.resolve(wSchema.getText()), variables.resolve(wTable.getText()));
+      DatabaseExplorerDialog dialog = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      dialog.setSelectedSchemaAndTable(variables.resolve(wSchema.getText()), variables.resolve(wTable.getText()));
       if (dialog.open()) {
         wSchema.setText(Const.NVL(dialog.getSchemaName(), ""));
         wTable.setText(Const.NVL(dialog.getTableName(), ""));
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -1321,20 +1242,17 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevInfoFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              if (v.getType() == IValueMeta.TYPE_DATE) {
-                // The default is date mask.
-                tableItem.setText(
-                    3, BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label"));
-              } else {
-                tableItem.setText(3, "");
-              }
-              return true;
-            };
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          if (v.getType() == IValueMeta.TYPE_DATE) {
+            // The default is date mask.
+            tableItem.setText(3, BaseMessages.getString(PKG, "OraBulkLoaderDialog.DateMask.Label"));
+          } else {
+            tableItem.setText(3, "");
+          }
+          return true;
+        };
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1353,28 +1271,17 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
       getInfo(info);
 
       String name = transformName; // new name might not yet be linked to other transforms!
-      TransformMeta transformMeta =
-          new TransformMeta(
-              BaseMessages.getString(PKG, "OraBulkLoaderDialog.TransformMeta.Title"), name, info);
+      TransformMeta transformMeta = new TransformMeta(BaseMessages.getString(PKG, "OraBulkLoaderDialog.TransformMeta.Title"), name, info);
       IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "OraBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "OraBulkLoaderDialog.NoSQLNeeds.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "OraBulkLoaderDialog.NoSQLNeeds.DialogTitle"));
           mb.open();
         }
@@ -1410,10 +1317,8 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -1426,10 +1331,8 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -1454,21 +1357,11 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
       int sourceIndex = sourceFields.indexOfValue(source);
       if (sourceIndex < 0) {
-        missingSourceFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingSourceFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       int targetIndex = targetFields.indexOfValue(target);
       if (targetIndex < 0) {
-        missingTargetFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingTargetFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       if (sourceIndex < 0 || targetIndex < 0) {
         continue;
@@ -1484,44 +1377,23 @@ public class OraBulkLoaderDialog extends BaseTransformDialog implements ITransfo
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "OraBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "OraBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
 
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+          BaseDialog.openMessageBox(shell, BaseMessages.getString(PKG, "OraBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
       boolean goOn = (answer & SWT.OK) != 0;
 
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            OraBulkLoaderDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(OraBulkLoaderDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel

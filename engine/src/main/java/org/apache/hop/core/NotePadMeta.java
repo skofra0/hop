@@ -41,7 +41,8 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
   public static final int COLOR_RGB_DEFAULT_BORDER_GREEN = 58;
   public static final int COLOR_RGB_DEFAULT_BORDER_BLUE = 90;
 
-  @HopMetadataProperty private String note;
+  @HopMetadataProperty
+  private String note;
 
   @HopMetadataProperty(key = "fontname")
   private String fontName;
@@ -85,8 +86,10 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
   @HopMetadataProperty(inline = true)
   private Point location;
 
-  @HopMetadataProperty public int width;
-  @HopMetadataProperty public int height;
+  @HopMetadataProperty
+  public int width;
+  @HopMetadataProperty
+  public int height;
 
   private boolean selected;
   private boolean changed;
@@ -113,25 +116,8 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
     this.height = height;
   }
 
-  public NotePadMeta(
-      String n,
-      int xl,
-      int yl,
-      int w,
-      int h,
-      String fontName,
-      int fontSize,
-      boolean fontBold,
-      boolean fontItalic,
-      int fontColorRed,
-      int fontColorGreen,
-      int fontColorBlue,
-      int backGrounColorRed,
-      int backGrounColorGreen,
-      int backGrounColorBlue,
-      int borderColorRed,
-      int borderColorGreen,
-      int borderColorBlue) {
+  public NotePadMeta(String n, int xl, int yl, int w, int h, String fontName, int fontSize, boolean fontBold, boolean fontItalic, int fontColorRed, int fontColorGreen,
+      int fontColorBlue, int backGrounColorRed, int backGrounColorGreen, int backGrounColorBlue, int borderColorRed, int borderColorGreen, int borderColorBlue) {
     this.note = n;
     this.location = new Point(xl, yl);
     this.width = w;
@@ -156,25 +142,8 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
   }
 
   public NotePadMeta(NotePadMeta n) {
-    this(
-        n.note,
-        n.location.x,
-        n.location.y,
-        n.width,
-        n.height,
-        n.fontName,
-        n.fontSize,
-        n.fontBold,
-        n.fontItalic,
-        n.fontColorRed,
-        n.fontColorGreen,
-        n.fontColorBlue,
-        n.backGroundColorRed,
-        n.backGroundColorGreen,
-        n.backGroundColorBlue,
-        n.borderColorRed,
-        n.borderColorGreen,
-        n.borderColorBlue);
+    this(n.note, n.location.x, n.location.y, n.width, n.height, n.fontName, n.fontSize, n.fontBold, n.fontItalic, n.fontColorRed, n.fontColorGreen, n.fontColorBlue,
+        n.backGroundColorRed, n.backGroundColorGreen, n.backGroundColorBlue, n.borderColorRed, n.borderColorGreen, n.borderColorBlue);
   }
 
   public NotePadMeta(Node nodePadNode) throws HopXmlException {
@@ -190,9 +159,7 @@ public class NotePadMeta implements Cloneable, IGuiPosition, IGuiSize {
 
   public String getXml() {
     try {
-      return XmlHandler.openTag(XML_TAG)
-          + XmlMetadataUtil.serializeObjectToXml(this)
-          + XmlHandler.closeTag(XML_TAG);
+      return XmlHandler.openTag(XML_TAG) + XmlMetadataUtil.serializeObjectToXml(this) + XmlHandler.closeTag(XML_TAG);
     } catch (Exception e) {
       throw new RuntimeException("Error serializing notepad metadata to XML", e);
     }

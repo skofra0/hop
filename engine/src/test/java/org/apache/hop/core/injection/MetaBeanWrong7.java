@@ -16,9 +16,7 @@
  */
 package org.apache.hop.core.injection;
 
-@InjectionSupported(
-    localizationPrefix = "",
-    groups = {"ONE"})
+@InjectionSupported(localizationPrefix = "", groups = {"ONE"})
 public class MetaBeanWrong7 {
   @InjectionDeep(prefix = "PREFIX")
   MetaBeanWrong7Inc base;

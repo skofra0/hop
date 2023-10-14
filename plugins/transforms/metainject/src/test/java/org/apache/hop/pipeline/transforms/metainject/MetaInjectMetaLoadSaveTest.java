@@ -35,7 +35,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class MetaInjectMetaLoadSaveTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
   Class<MetaInjectMeta> testMetaClass = MetaInjectMeta.class;
@@ -43,39 +44,21 @@ public class MetaInjectMetaLoadSaveTest {
   @Before
   public void setUpLoadSave() throws Exception {
     List<String> attributes =
-        Arrays.asList(
-            "fileName",
-            "sourceTransformName",
-            "targetFile",
-            "noExecution",
-            "streamSourceTransformName",
-            "streamTargetTransformName",
-            "sourceOutputFields");
+        Arrays.asList("fileName", "sourceTransformName", "targetFile", "noExecution", "streamSourceTransformName", "streamTargetTransformName", "sourceOutputFields");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "sourceOutputFields",
-        new ListLoadSaveValidator<>(new MetaInjectOutputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("sourceOutputFields", new ListLoadSaveValidator<>(new MetaInjectOutputFieldLoadSaveValidator(), 5));
     //
     // Note - these seem to be runtime-built and not persisted.
-    attrValidatorMap.put(
-        "metaInjectMapping",
-        new ListLoadSaveValidator<>(new MetaInjectMappingLoadSaveValidator(), 5));
-    attrValidatorMap.put(
-        "targetSourceMapping",
-        new MapLoadSaveValidator<>(
-            new TargetTransformAttributeLoadSaveValidator(),
-            new SourceTransformFieldLoadSaveValidator(),
-            5));
+    attrValidatorMap.put("metaInjectMapping", new ListLoadSaveValidator<>(new MetaInjectMappingLoadSaveValidator(), 5));
+    attrValidatorMap.put("targetSourceMapping", new MapLoadSaveValidator<>(new TargetTransformAttributeLoadSaveValidator(), new SourceTransformFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test
@@ -83,8 +66,7 @@ public class MetaInjectMetaLoadSaveTest {
     loadSaveTester.testSerialization();
   }
 
-  public class MetaInjectOutputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<MetaInjectOutputField> {
+  public class MetaInjectOutputFieldLoadSaveValidator implements IFieldLoadSaveValidator<MetaInjectOutputField> {
     final Random rand = new Random();
 
     @Override
@@ -103,18 +85,13 @@ public class MetaInjectMetaLoadSaveTest {
         return false;
       }
       MetaInjectOutputField another = (MetaInjectOutputField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getLength(), another.getLength())
-          .append(testObject.getPrecision(), another.getPrecision())
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getType(), another.getType())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getLength(), another.getLength()).append(testObject.getPrecision(), another.getPrecision())
+          .append(testObject.getName(), another.getName()).append(testObject.getType(), another.getType()).isEquals();
     }
   }
 
   // MetaInjectMappingLoadSaveValidator
-  public class MetaInjectMappingLoadSaveValidator
-      implements IFieldLoadSaveValidator<MetaInjectMapping> {
+  public class MetaInjectMappingLoadSaveValidator implements IFieldLoadSaveValidator<MetaInjectMapping> {
     final Random rand = new Random();
 
     @Override
@@ -133,23 +110,17 @@ public class MetaInjectMetaLoadSaveTest {
         return false;
       }
       MetaInjectMapping another = (MetaInjectMapping) actual;
-      return new EqualsBuilder()
-          .append(testObject.getSourceField(), another.getSourceField())
-          .append(testObject.getSourceTransform(), another.getSourceTransform())
-          .append(testObject.getTargetField(), another.getTargetField())
-          .append(testObject.getTargetTransform(), another.getTargetTransform())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getSourceField(), another.getSourceField()).append(testObject.getSourceTransform(), another.getSourceTransform())
+          .append(testObject.getTargetField(), another.getTargetField()).append(testObject.getTargetTransform(), another.getTargetTransform()).isEquals();
     }
   }
   // TargetTransformAttributeLoadSaveValidator
-  public class TargetTransformAttributeLoadSaveValidator
-      implements IFieldLoadSaveValidator<TargetTransformAttribute> {
+  public class TargetTransformAttributeLoadSaveValidator implements IFieldLoadSaveValidator<TargetTransformAttribute> {
     final Random rand = new Random();
 
     @Override
     public TargetTransformAttribute getTestObject() {
-      return new TargetTransformAttribute(
-          UUID.randomUUID().toString(), UUID.randomUUID().toString(), rand.nextBoolean());
+      return new TargetTransformAttribute(UUID.randomUUID().toString(), UUID.randomUUID().toString(), rand.nextBoolean());
     }
 
     @Override
@@ -158,17 +129,13 @@ public class MetaInjectMetaLoadSaveTest {
         return false;
       }
       TargetTransformAttribute another = (TargetTransformAttribute) actual;
-      return new EqualsBuilder()
-          .append(testObject.getTransformName(), another.getTransformName())
-          .append(testObject.getAttributeKey(), another.getAttributeKey())
-          .append(testObject.isDetail(), another.isDetail())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getTransformName(), another.getTransformName()).append(testObject.getAttributeKey(), another.getAttributeKey())
+          .append(testObject.isDetail(), another.isDetail()).isEquals();
     }
   }
 
   // SourceTransformFieldLoadSaveValidator
-  public class SourceTransformFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<SourceTransformField> {
+  public class SourceTransformFieldLoadSaveValidator implements IFieldLoadSaveValidator<SourceTransformField> {
     final Random rand = new Random();
 
     @Override
@@ -182,10 +149,7 @@ public class MetaInjectMetaLoadSaveTest {
         return false;
       }
       SourceTransformField another = (SourceTransformField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getTransformName(), another.getTransformName())
-          .append(testObject.getField(), another.getField())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getTransformName(), another.getTransformName()).append(testObject.getField(), another.getField()).isEquals();
     }
   }
 }

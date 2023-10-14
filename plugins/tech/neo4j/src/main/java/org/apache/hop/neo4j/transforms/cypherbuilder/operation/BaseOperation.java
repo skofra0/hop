@@ -28,22 +28,28 @@ import java.util.Objects;
 public class BaseOperation implements IOperation {
 
   /** The name of the operation makes it uniquely identifiable. */
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
   /** What do we want to do? */
-  @HopMetadataProperty protected OperationType operationType;
+  @HopMetadataProperty
+  protected OperationType operationType;
 
   /** The list of labels to match or apply */
-  @HopMetadataProperty protected List<String> labels;
+  @HopMetadataProperty
+  protected List<String> labels;
 
   /** This is the node or edge alias */
-  @HopMetadataProperty protected String alias;
+  @HopMetadataProperty
+  protected String alias;
 
   /** What are the key properties that are needed. */
-  @HopMetadataProperty protected List<Property> keys;
+  @HopMetadataProperty
+  protected List<Property> keys;
 
   /** Are there any properties to set or return? */
-  @HopMetadataProperty protected List<Property> properties;
+  @HopMetadataProperty
+  protected List<Property> properties;
 
   public BaseOperation() {
     this.labels = new ArrayList<>();
@@ -71,22 +77,21 @@ public class BaseOperation implements IOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
-    throw new HopException(
-        "Cypher clause generation is not implemented for this operation type: " + operationType);
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
+    throw new HopException("Cypher clause generation is not implemented for this operation type: " + operationType);
   }
 
   @Override
   public boolean needsWriteTransaction() {
-    throw new RuntimeException(
-        "Write transaction information is not provided for operation type " + operationType);
+    throw new RuntimeException("Write transaction information is not provided for operation type " + operationType);
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     BaseOperation that = (BaseOperation) o;
     if (operationType != that.operationType) {
       return false;
@@ -137,12 +142,7 @@ public class BaseOperation implements IOperation {
       }
       // n.prop1={param1}
       //
-      cypher
-          .append(alias)
-          .append(".")
-          .append(property.getName())
-          .append("=")
-          .append(property.formatParameter(unwindAlias));
+      cypher.append(alias).append(".").append(property.getName()).append("=").append(property.formatParameter(unwindAlias));
     }
     cypher.append(" ");
     return cypher.toString();

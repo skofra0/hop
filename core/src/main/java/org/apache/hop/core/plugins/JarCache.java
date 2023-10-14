@@ -72,10 +72,7 @@ public class JarCache {
   public List<String> getPluginFolders() {
     List<String> pluginFolders = new ArrayList<>();
 
-    String folderPaths =
-        Const.NVL(
-            Variables.getADefaultVariableSpace().getVariable(Const.HOP_PLUGIN_BASE_FOLDERS),
-            EnvUtil.getSystemProperty(Const.HOP_PLUGIN_BASE_FOLDERS));
+    String folderPaths = Const.NVL(Variables.getADefaultVariableSpace().getVariable(Const.HOP_PLUGIN_BASE_FOLDERS), EnvUtil.getSystemProperty(Const.HOP_PLUGIN_BASE_FOLDERS));
     if (folderPaths == null) {
       folderPaths = Const.DEFAULT_PLUGIN_BASE_FOLDERS;
     }
@@ -95,8 +92,7 @@ public class JarCache {
     //
     if (nativeFiles.isEmpty()) {
       try {
-        Enumeration<URL> indexFiles =
-            getClass().getClassLoader().getResources(JarCache.ANNOTATION_INDEX_LOCATION);
+        Enumeration<URL> indexFiles = getClass().getClassLoader().getResources(JarCache.ANNOTATION_INDEX_LOCATION);
         while (indexFiles.hasMoreElements()) {
           URL url = indexFiles.nextElement();
 
@@ -114,8 +110,7 @@ public class JarCache {
             Index index = reader.read();
             indexCache.put(file, index);
           } catch (IOException e) {
-            throw new HopFileException(
-                MessageFormat.format("Error reading annotation index from url ''{0}''", url), e);
+            throw new HopFileException(MessageFormat.format("Error reading annotation index from url ''{0}''", url), e);
           }
         }
       } catch (Exception e) {
@@ -168,8 +163,7 @@ public class JarCache {
           }
         }
       } catch (IOException e) {
-        throw new HopFileException(
-            MessageFormat.format("Error reading annotation index from file ''{0}''", jarFile), e);
+        throw new HopFileException(MessageFormat.format("Error reading annotation index from file ''{0}''", jarFile), e);
       }
 
       // Cache annotation index of jars

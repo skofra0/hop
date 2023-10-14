@@ -32,7 +32,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class WorkflowTrackerTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   // Number of workflow trackers should be limited by HOP_MAX_JOB_TRACKER_SIZE
@@ -50,9 +51,7 @@ public class WorkflowTrackerTest {
         workflowTracker.addWorkflowTracker(mock(WorkflowTracker.class));
       }
 
-      assertTrue(
-          "More JobTrackers than allowed were added",
-          workflowTracker.getTotalNumberOfItems() <= maxTestSize);
+      assertTrue("More JobTrackers than allowed were added", workflowTracker.getTotalNumberOfItems() <= maxTestSize);
     } finally {
       if (old == null) {
         System.clearProperty(Const.HOP_MAX_WORKFLOW_TRACKER_SIZE);
@@ -87,8 +86,7 @@ public class WorkflowTrackerTest {
   @Test
   public void findJobTracker_EntryNameFound() {
     WorkflowTracker workflowTracker = createTracker();
-    WorkflowTracker[] children =
-        new WorkflowTracker[] {createTracker("0"), createTracker("1"), createTracker("2")};
+    WorkflowTracker[] children = new WorkflowTracker[] {createTracker("0"), createTracker("1"), createTracker("2")};
     for (WorkflowTracker child : children) {
       workflowTracker.addWorkflowTracker(child);
     }

@@ -38,8 +38,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
-    extends HopFileTypeBase implements IExplorerFileType<T> {
+public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler> extends HopFileTypeBase implements IExplorerFileType<T> {
 
   private String name;
   private String defaultFileExtension;
@@ -49,12 +48,7 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
 
   public BaseExplorerFileType() {}
 
-  public BaseExplorerFileType(
-      String name,
-      String defaultFileExtension,
-      String[] filterExtensions,
-      String[] filterNames,
-      Properties capabilities) {
+  public BaseExplorerFileType(String name, String defaultFileExtension, String[] filterExtensions, String[] filterNames, Properties capabilities) {
     this.name = name;
     this.defaultFileExtension = defaultFileExtension;
     this.filterExtensions = filterExtensions;
@@ -163,8 +157,7 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
   }
 
   @Override
-  public T openFile(HopGui hopGui, String filename, IVariables parentVariables)
-      throws HopException {
+  public T openFile(HopGui hopGui, String filename, IVariables parentVariables) throws HopException {
 
     try {
       FileObject fileObject = HopVfs.getFileObject(parentVariables.resolve(filename));
@@ -220,12 +213,10 @@ public abstract class BaseExplorerFileType<T extends IExplorerFileTypeHandler>
 
       return fileTypeHandler;
     } catch (Exception e) {
-      throw new HopException(
-          "Error opening file '" + filename + "' in a new tab in the Explorer perspective", e);
+      throw new HopException("Error opening file '" + filename + "' in a new tab in the Explorer perspective", e);
     }
   }
 
   @Override
-  public abstract T createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
+  public abstract T createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
 }

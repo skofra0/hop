@@ -39,14 +39,22 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/metadata-input.html")
 public class MetadataInputMeta extends BaseTransformMeta<MetadataInput, MetadataInputData> {
 
-  @HopMetadataProperty private String providerFieldName;
-  @HopMetadataProperty private String typeKeyFieldName;
-  @HopMetadataProperty private String typeNameFieldName;
-  @HopMetadataProperty private String typeDescriptionFieldName;
-  @HopMetadataProperty private String typeClassFieldName;
-  @HopMetadataProperty private String nameFieldName;
-  @HopMetadataProperty private String jsonFieldName;
-  @HopMetadataProperty private List<String> typeKeyFilters;
+  @HopMetadataProperty
+  private String providerFieldName;
+  @HopMetadataProperty
+  private String typeKeyFieldName;
+  @HopMetadataProperty
+  private String typeNameFieldName;
+  @HopMetadataProperty
+  private String typeDescriptionFieldName;
+  @HopMetadataProperty
+  private String typeClassFieldName;
+  @HopMetadataProperty
+  private String nameFieldName;
+  @HopMetadataProperty
+  private String jsonFieldName;
+  @HopMetadataProperty
+  private List<String> typeKeyFilters;
 
   public MetadataInputMeta() {
     this.providerFieldName = "provider";
@@ -76,25 +84,11 @@ public class MetadataInputMeta extends BaseTransformMeta<MetadataInput, Metadata
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // The output fields (all type String) to consider...
     //
-    List<String> fieldNames =
-        Arrays.asList(
-            providerFieldName,
-            typeKeyFieldName,
-            typeNameFieldName,
-            typeDescriptionFieldName,
-            typeClassFieldName,
-            nameFieldName,
-            jsonFieldName);
+    List<String> fieldNames = Arrays.asList(providerFieldName, typeKeyFieldName, typeNameFieldName, typeDescriptionFieldName, typeClassFieldName, nameFieldName, jsonFieldName);
     RowMetaBuilder builder = new RowMetaBuilder();
     for (String fieldName : fieldNames) {
       if (StringUtils.isNotEmpty(fieldName)) {

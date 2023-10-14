@@ -30,19 +30,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
 /** Do nothing. Pass all input data to the next transforms. */
 public class SortedMerge extends BaseTransform<SortedMergeMeta, SortedMergeData> {
   private static final Class<?> PKG = SortedMergeMeta.class; // For Translator
 
-  public SortedMerge(
-      TransformMeta transformMeta,
-      SortedMergeMeta meta,
-      SortedMergeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SortedMerge(TransformMeta transformMeta, SortedMergeMeta meta, SortedMergeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -50,7 +42,8 @@ public class SortedMerge extends BaseTransform<SortedMergeMeta, SortedMergeData>
    * We read from all streams in the partition merge mode For that we need at least one row on all
    * input rowsets... If we don't have a row, we wait for one.
    *
-   * <p>TODO: keep the inputRowSets() list sorted and go from there. That should dramatically
+   * <p>
+   * TODO: keep the inputRowSets() list sorted and go from there. That should dramatically
    * improve speed as you only need half as many comparisons.
    *
    * @return the next row
@@ -95,29 +88,22 @@ public class SortedMerge extends BaseTransform<SortedMergeMeta, SortedMergeData>
             for (int f = 0; f < data.fieldIndices.length; f++) {
               data.fieldIndices[f] = data.rowMeta.indexOfValue(meta.getFieldName()[f]);
               if (data.fieldIndices[f] < 0) {
-                throw new HopTransformException(
-                    "Unable to find fieldname ["
-                        + meta.getFieldName()[f]
-                        + "] in row : "
-                        + data.rowMeta);
+                throw new HopTransformException("Unable to find fieldname [" + meta.getFieldName()[f] + "] in row : " + data.rowMeta);
               }
 
-              data.rowMeta
-                  .getValueMeta(data.fieldIndices[f])
-                  .setSortedDescending(!meta.getAscending()[f]);
+              data.rowMeta.getValueMeta(data.fieldIndices[f]).setSortedDescending(!meta.getAscending()[f]);
             }
           }
         }
 
-        data.comparator =
-            (o1, o2) -> {
-              try {
-                return o1.getRowMeta().compare(o1.getRowData(), o2.getRowData(), data.fieldIndices);
-              } catch (HopValueException e) {
-                return 0; // TODO see if we should fire off alarms over here... Perhaps throw a
-                // RuntimeException.
-              }
-            };
+        data.comparator = (o1, o2) -> {
+          try {
+            return o1.getRowMeta().compare(o1.getRowData(), o2.getRowData(), data.fieldIndices);
+          } catch (HopValueException e) {
+            return 0; // TODO see if we should fire off alarms over here... Perhaps throw a
+            // RuntimeException.
+          }
+        };
 
         // Now sort the sortedBuffer for the first time.
         //
@@ -148,8 +134,7 @@ public class SortedMerge extends BaseTransform<SortedMergeMeta, SortedMergeData>
     if (extraRow != null) {
       // Add this one to the sortedBuffer
       //
-      RowSetRow add =
-          new RowSetRow(smallestRow.getRowSet(), smallestRow.getRowSet().getRowMeta(), extraRow);
+      RowSetRow add = new RowSetRow(smallestRow.getRowSet(), smallestRow.getRowSet().getRowMeta(), extraRow);
       int index = Collections.binarySearch(data.sortedBuffer, add, data.comparator);
       if (index < 0) {
         data.sortedBuffer.add(-index - 1, add);

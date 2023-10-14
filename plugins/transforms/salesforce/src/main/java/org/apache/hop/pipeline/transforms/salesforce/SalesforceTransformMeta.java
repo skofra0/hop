@@ -34,8 +34,7 @@ import org.w3c.dom.Node;
 
 import java.util.List;
 
-public abstract class SalesforceTransformMeta<Main extends SalesforceTransform, Data extends SalesforceTransformData>
-    extends BaseTransformMeta<Main, Data > {
+public abstract class SalesforceTransformMeta<Main extends SalesforceTransform, Data extends SalesforceTransformData> extends BaseTransformMeta<Main, Data> {
 
   private static final Class<?> PKG = SalesforceTransformMeta.class; // For Translator
 
@@ -68,11 +67,7 @@ public abstract class SalesforceTransformMeta<Main extends SalesforceTransform, 
     StringBuilder retval = new StringBuilder();
     retval.append("    ").append(XmlHandler.addTagValue("targeturl", getTargetUrl()));
     retval.append("    ").append(XmlHandler.addTagValue("username", getUsername()));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
+    retval.append("    ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(getPassword())));
     retval.append("    ").append(XmlHandler.addTagValue("timeout", getTimeout()));
     retval.append("    ").append(XmlHandler.addTagValue("useCompression", isCompression()));
     retval.append("    ").append(XmlHandler.addTagValue("module", getModule()));
@@ -80,12 +75,10 @@ public abstract class SalesforceTransformMeta<Main extends SalesforceTransform, 
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     setTargetUrl(XmlHandler.getTagValue(transformNode, "targeturl"));
     setUsername(XmlHandler.getTagValue(transformNode, "username"));
-    setPassword(
-        Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password")));
+    setPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password")));
     setTimeout(XmlHandler.getTagValue(transformNode, "timeout"));
     setCompression("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useCompression")));
     setModule(XmlHandler.getTagValue(transformNode, "module"));
@@ -122,49 +115,25 @@ public abstract class SalesforceTransformMeta<Main extends SalesforceTransform, 
 
     // check URL
     if (Utils.isEmpty(getTargetUrl())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoURL"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoURL"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.URLOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.URLOk"), transformMeta);
     }
     remarks.add(cr);
 
     // check user name
     if (Utils.isEmpty(getUsername())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoUsername"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoUsername"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.UsernameOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.UsernameOk"), transformMeta);
     }
     remarks.add(cr);
 
     // check module
     if (Utils.isEmpty(getModule())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoModule"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.NoModule"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.ModuleOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceTransformMeta.CheckResult.ModuleOk"), transformMeta);
     }
     remarks.add(cr);
   }

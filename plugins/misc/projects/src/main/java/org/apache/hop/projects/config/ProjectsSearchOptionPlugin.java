@@ -28,16 +28,11 @@ import org.apache.hop.projects.search.ProjectsSearchablesLocation;
 import org.apache.hop.search.HopSearch;
 import org.apache.hop.ui.core.gui.HopNamespace;
 
-@ConfigPlugin(
-    id = "ProjectsSearchOptionPlugin",
-    description = "Project and Environment configuration options for hop-search",
-    category = ConfigPlugin.CATEGORY_SEARCH)
+@ConfigPlugin(id = "ProjectsSearchOptionPlugin", description = "Project and Environment configuration options for hop-search", category = ConfigPlugin.CATEGORY_SEARCH)
 public class ProjectsSearchOptionPlugin extends ProjectsOptionPlugin implements IConfigOptions {
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
 
     // If a project or environment was set, pass it to HopSearch...
     //
@@ -49,13 +44,9 @@ public class ProjectsSearchOptionPlugin extends ProjectsOptionPlugin implements 
 
         // Re-load the project config
         //
-        ProjectConfig projectConfig =
-            ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
-        ProjectsSearchablesLocation projectsSearchablesLocation =
-            new ProjectsSearchablesLocation(projectConfig);
-        ((HopSearch) hasHopMetadataProvider)
-            .getSearchablesLocations()
-            .add(projectsSearchablesLocation);
+        ProjectConfig projectConfig = ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
+        ProjectsSearchablesLocation projectsSearchablesLocation = new ProjectsSearchablesLocation(projectConfig);
+        ((HopSearch) hasHopMetadataProvider).getSearchablesLocations().add(projectsSearchablesLocation);
 
         return true;
       }

@@ -44,24 +44,30 @@ import static org.mockito.Mockito.when;
 public class JsonInputMetaTest {
   public static final String DATA = "data";
   public static final String NAME = "name";
-  private static final Pattern CLEAN_NODES =
-      Pattern.compile("(<transform>)[\\r|\\n]+|</transform>");
+  private static final Pattern CLEAN_NODES = Pattern.compile("(<transform>)[\\r|\\n]+|</transform>");
 
   JsonInputMeta jsonInputMeta;
 
-  @Mock IRowMeta rowMeta;
+  @Mock
+  IRowMeta rowMeta;
 
-  @Mock IRowMeta rowMetaInterfaceItem;
+  @Mock
+  IRowMeta rowMetaInterfaceItem;
 
-  @Mock TransformMeta nextTransform;
+  @Mock
+  TransformMeta nextTransform;
 
-  @Mock IVariables variables;
+  @Mock
+  IVariables variables;
 
-  @Mock IHopMetadataProvider metadataProvider;
+  @Mock
+  IHopMetadataProvider metadataProvider;
 
-  @Mock JsonInputMeta.InputFiles inputFiles;
+  @Mock
+  JsonInputMeta.InputFiles inputFiles;
 
-  @Mock JsonInputField inputField;
+  @Mock
+  JsonInputField inputField;
 
   @Before
   public void setup() {
@@ -107,10 +113,8 @@ public class JsonInputMetaTest {
   @Test
   public void testMetaLoad_DefaultPathLeafToNull_Is_N() throws HopXmlException {
     jsonInputMeta = new JsonInputMeta();
-    jsonInputMeta.loadXml(
-        loadTransformFile("/transform_defaultPathLeafToNull_N.xml"), metadataProvider);
-    assertEquals(
-        "Option.DEFAULT_PATH_LEAF_TO_NULL ", false, jsonInputMeta.isDefaultPathLeafToNull());
+    jsonInputMeta.loadXml(loadTransformFile("/transform_defaultPathLeafToNull_N.xml"), metadataProvider);
+    assertEquals("Option.DEFAULT_PATH_LEAF_TO_NULL ", false, jsonInputMeta.isDefaultPathLeafToNull());
   }
 
   // Loading transform meta from default transform xml. In this case DefaultPathLeafToNull=Y in xml.
@@ -118,8 +122,7 @@ public class JsonInputMetaTest {
   public void testDefaultMetaLoad_DefaultPathLeafToNull_Is_Y() throws HopXmlException {
     jsonInputMeta = new JsonInputMeta();
     jsonInputMeta.loadXml(loadTransformFile("/transform_default.xml"), metadataProvider);
-    assertEquals(
-        "Option.DEFAULT_PATH_LEAF_TO_NULL ", true, jsonInputMeta.isDefaultPathLeafToNull());
+    assertEquals("Option.DEFAULT_PATH_LEAF_TO_NULL ", true, jsonInputMeta.isDefaultPathLeafToNull());
   }
 
   // Loading transform meta from the transform xml that was created before. In this case xml
@@ -129,22 +132,18 @@ public class JsonInputMetaTest {
   @Test
   public void testMetaLoadAsDefault_NoDefaultPathLeafToNull_In_Xml() throws HopXmlException {
     jsonInputMeta = new JsonInputMeta();
-    jsonInputMeta.loadXml(
-        loadTransformFile("/transform_no_defaultPathLeafToNull_node.xml"), metadataProvider);
-    assertEquals(
-        "Option.DEFAULT_PATH_LEAF_TO_NULL ", true, jsonInputMeta.isDefaultPathLeafToNull());
+    jsonInputMeta.loadXml(loadTransformFile("/transform_no_defaultPathLeafToNull_node.xml"), metadataProvider);
+    assertEquals("Option.DEFAULT_PATH_LEAF_TO_NULL ", true, jsonInputMeta.isDefaultPathLeafToNull());
   }
 
   private Node loadTransformFile(String transformFilename) throws HopXmlException {
-    Document document =
-        XmlHandler.loadXmlFile(this.getClass().getResourceAsStream(transformFilename));
+    Document document = XmlHandler.loadXmlFile(this.getClass().getResourceAsStream(transformFilename));
     Node transformNode = document.getDocumentElement();
     return transformNode;
   }
 
   private String expectedMeta(String transform) throws Exception {
-    try (BufferedReader reader =
-        new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(transform)))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(transform)))) {
       String xml = reader.lines().collect(Collectors.joining(Const.CR));
       xml = CLEAN_NODES.matcher(xml).replaceAll("");
       return xml;

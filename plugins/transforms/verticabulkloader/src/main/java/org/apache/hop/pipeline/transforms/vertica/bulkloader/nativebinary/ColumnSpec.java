@@ -157,8 +157,7 @@ public class ColumnSpec {
     this.mainBuffer = buffer;
   }
 
-  public void encode(IValueMeta valueMeta, Object value)
-      throws CharacterCodingException, UnsupportedEncodingException, HopValueException {
+  public void encode(IValueMeta valueMeta, Object value) throws CharacterCodingException, UnsupportedEncodingException, HopValueException {
     if (value == null || valueMeta == null || valueMeta.getNativeDataType(value) == null) {
       return;
     }
@@ -230,32 +229,30 @@ public class ColumnSpec {
         // results.
         calendarLocalTZ.setTime(valueMeta.getDate(value));
         milliSeconds =
-            TimeUnit.HOURS.toMillis(calendarLocalTZ.get(Calendar.HOUR_OF_DAY))
-                + TimeUnit.MINUTES.toMillis(calendarLocalTZ.get(Calendar.MINUTE))
-                + TimeUnit.SECONDS.toMillis(calendarLocalTZ.get(Calendar.SECOND))
-                + calendarLocalTZ.get(Calendar.MILLISECOND);
+            TimeUnit.HOURS.toMillis(calendarLocalTZ.get(Calendar.HOUR_OF_DAY)) + TimeUnit.MINUTES.toMillis(calendarLocalTZ.get(Calendar.MINUTE))
+                + TimeUnit.SECONDS.toMillis(calendarLocalTZ.get(Calendar.SECOND)) + calendarLocalTZ.get(Calendar.MILLISECOND);
         this.mainBuffer.putLong(TimeUnit.MILLISECONDS.toMicros(milliSeconds));
         break;
       case TIMETZ:
         // HP Vertica Documentation. Software Version: 7.1.x (Document Release Date: 3/31/2015)
         // 64-bit value where
-        //  - Upper 40 bits contain the number of microseconds since midnight
-        //  - Lower 24 bits contain time zone as the UTC offset in microseconds calculated as
+        // - Upper 40 bits contain the number of microseconds since midnight
+        // - Lower 24 bits contain time zone as the UTC offset in microseconds calculated as
         // follows: Time zone is
-        //    logically from -24hrs to +24hrs from UTC. Instead it is represented here as a number
+        // logically from -24hrs to +24hrs from UTC. Instead it is represented here as a number
         // between 0hrs to
-        //    48hrs. Therefore, 24hrs should be added to the actual time zone to calculate it.
+        // 48hrs. Therefore, 24hrs should be added to the actual time zone to calculate it.
 
         // AK: there is an obvious mistake in the description above
-        //        48 hours is 48*3600000=172800000 microseconds
-        //        24 bits can store 2^24= 16777216 values
+        // 48 hours is 48*3600000=172800000 microseconds
+        // 24 bits can store 2^24= 16777216 values
         // Here is what another doc says
         // (https://my.vertica.com/docs/5.0/SDK/html/_timestamp_u_dx_shared_8h.htm#a143e616e0854a9dcded5dd314162e5dd):
         // typedef int64 TimeTzADT
-        //    Represents time within a day in a timezone
-        //    The value in TimeADT consists of 2 parts:
+        // Represents time within a day in a timezone
+        // The value in TimeADT consists of 2 parts:
         //
-        //    1. The lower 24 bits (defined as ZoneFieldWidth) contains the timezone plus 24 hours,
+        // 1. The lower 24 bits (defined as ZoneFieldWidth) contains the timezone plus 24 hours,
         // specified in
         // seconds SQL-2008 limits the timezone itself to range between +/-14 hours
 
@@ -265,13 +262,10 @@ public class ColumnSpec {
 
         calendarUTC.setTime(valueMeta.getDate(value));
         milliSeconds =
-            TimeUnit.HOURS.toMillis(calendarUTC.get(Calendar.HOUR_OF_DAY))
-                + TimeUnit.MINUTES.toMillis(calendarUTC.get(Calendar.MINUTE))
-                + TimeUnit.SECONDS.toMillis(calendarUTC.get(Calendar.SECOND))
-                + calendarUTC.get(Calendar.MILLISECOND);
+            TimeUnit.HOURS.toMillis(calendarUTC.get(Calendar.HOUR_OF_DAY)) + TimeUnit.MINUTES.toMillis(calendarUTC.get(Calendar.MINUTE))
+                + TimeUnit.SECONDS.toMillis(calendarUTC.get(Calendar.SECOND)) + calendarUTC.get(Calendar.MILLISECOND);
         final long utcOffsetInSeconds = 24 * 3600;
-        this.mainBuffer.putLong(
-            ((TimeUnit.MILLISECONDS.toMicros(milliSeconds)) << 24) + utcOffsetInSeconds);
+        this.mainBuffer.putLong(((TimeUnit.MILLISECONDS.toMicros(milliSeconds)) << 24) + utcOffsetInSeconds);
         break;
       case TIMESTAMP:
         // 64-bit integer in little-endian format containing the number of microseconds since Julian
@@ -317,7 +311,7 @@ public class ColumnSpec {
 
       default:
         throw new IllegalArgumentException("Invalid ColumnType");
-        // break;
+      // break;
     }
   }
 
@@ -329,10 +323,7 @@ public class ColumnSpec {
    */
   private static int computeJdn(GregorianCalendar calendar) {
     // Note: Calendar.JANUARY == 0, whereas it is expected to be 1
-    return computeJdn(
-        calendar.get(Calendar.YEAR),
-        calendar.get(Calendar.MONTH) + 1,
-        calendar.get(Calendar.DAY_OF_MONTH));
+    return computeJdn(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
   }
 
   /**
@@ -369,11 +360,7 @@ public class ColumnSpec {
     int minutes = calendar.get(Calendar.MINUTE);
     int seconds = calendar.get(Calendar.SECOND);
     long millis = calendar.get(Calendar.MILLISECOND);
-    return TimeUnit.DAYS.toMillis(days)
-        + TimeUnit.HOURS.toMillis(hours)
-        + TimeUnit.MINUTES.toMillis(minutes)
-        + TimeUnit.SECONDS.toMillis(seconds)
-        + millis;
+    return TimeUnit.DAYS.toMillis(days) + TimeUnit.HOURS.toMillis(hours) + TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toMillis(seconds) + millis;
   }
 
   /**

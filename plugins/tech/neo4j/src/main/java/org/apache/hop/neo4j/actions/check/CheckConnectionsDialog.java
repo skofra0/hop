@@ -59,8 +59,7 @@ public class CheckConnectionsDialog extends ActionDialog implements IActionDialo
   private Text wName;
   private TableView wConnections;
 
-  public CheckConnectionsDialog(
-      Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
+  public CheckConnectionsDialog(Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (CheckConnections) iAction;
 
@@ -99,13 +98,7 @@ public class CheckConnectionsDialog extends ActionDialog implements IActionDialo
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, margin, null);
 
     Label wlName = new Label(shell, SWT.RIGHT);
     wlName.setText("Action name");
@@ -135,8 +128,7 @@ public class CheckConnectionsDialog extends ActionDialog implements IActionDialo
 
     String[] availableConnectionNames;
     try {
-      IHopMetadataSerializer<NeoConnection> connectionSerializer =
-          getMetadataProvider().getSerializer(NeoConnection.class);
+      IHopMetadataSerializer<NeoConnection> connectionSerializer = getMetadataProvider().getSerializer(NeoConnection.class);
       List<String> names = connectionSerializer.listObjectNames();
       Collections.sort(names);
       availableConnectionNames = names.toArray(new String[0]);
@@ -146,23 +138,9 @@ public class CheckConnectionsDialog extends ActionDialog implements IActionDialo
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CheckConnectionsDialog.ConnectionName.Column.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              availableConnectionNames,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CheckConnectionsDialog.ConnectionName.Column.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, availableConnectionNames, false),};
     columns[0].setUsingVariables(true);
-    wConnections =
-        new TableView(
-            action,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            action.getConnectionNames().size(),
-            false,
-            lsMod,
-            props);
+    wConnections = new TableView(action, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, action.getConnectionNames().size(), false, lsMod, props);
     FormData fdConnections = new FormData();
     fdConnections.left = new FormAttachment(0, 0);
     fdConnections.top = new FormAttachment(wlConnections, margin);
@@ -198,8 +176,7 @@ public class CheckConnectionsDialog extends ActionDialog implements IActionDialo
     if (Utils.isEmpty(wName.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
       mb.setText(BaseMessages.getString(PKG, "CheckConnectionsDialog.MissingName.Warning.Title"));
-      mb.setMessage(
-          BaseMessages.getString(PKG, "CheckConnectionsDialog.MissingName.Warning.Message"));
+      mb.setMessage(BaseMessages.getString(PKG, "CheckConnectionsDialog.MissingName.Warning.Message"));
       mb.open();
       return;
     }

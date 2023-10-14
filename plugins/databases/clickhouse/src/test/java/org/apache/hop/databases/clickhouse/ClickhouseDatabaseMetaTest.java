@@ -30,7 +30,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class ClickhouseDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   ClickhouseDatabaseMeta nativeMeta;
 
@@ -52,12 +53,9 @@ public class ClickhouseDatabaseMetaTest {
   public void testUrl() throws Exception {
     assertEquals("com.clickhouse.jdbc.ClickHouseDriver", nativeMeta.getDriverClass());
 
-    assertEquals(
-        "jdbc:clickhouse://localhost:8123/sampledb",
-        nativeMeta.getURL("localhost", "8123", "sampledb"));
+    assertEquals("jdbc:clickhouse://localhost:8123/sampledb", nativeMeta.getURL("localhost", "8123", "sampledb"));
     try {
-      assertEquals(
-          "jdbc:clickhouse://localhost:8123/sampledb", nativeMeta.getURL("", "8123", "sampledb"));
+      assertEquals("jdbc:clickhouse://localhost:8123/sampledb", nativeMeta.getURL("", "8123", "sampledb"));
       fail("Should have thrown IllegalArgumentException");
     } catch (IllegalArgumentException dummy) {
       // expected if host is null or empty

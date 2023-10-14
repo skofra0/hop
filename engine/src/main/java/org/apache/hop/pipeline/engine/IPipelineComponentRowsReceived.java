@@ -30,6 +30,5 @@ public interface IPipelineComponentRowsReceived {
    * @param rowBuffer
    * @throws HopException
    */
-  void rowsReceived(IPipelineEngine<PipelineMeta> pipelineEngine, RowBuffer rowBuffer)
-      throws HopException;
+  void rowsReceived(IPipelineEngine<PipelineMeta> pipelineEngine, RowBuffer rowBuffer) throws HopException;
 }

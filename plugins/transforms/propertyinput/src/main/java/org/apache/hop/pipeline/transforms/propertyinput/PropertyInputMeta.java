@@ -60,11 +60,7 @@ import org.apache.hop.resource.ResourceDefinition;
 public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, PropertyInputData> {
   private static final Class<?> PKG = PropertyInputMeta.class; // For Translator
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
 
@@ -226,13 +222,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     for (PIField field : inputFields) {
@@ -357,13 +347,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
 
   public FileInputList getFiles(IVariables variables) {
     boolean[] subDirectories = new boolean[files.size()]; // boolean arrays are defaulted to false.
-    return FileInputList.createFileList(
-        variables,
-        getFilesNames(),
-        getFilesMasks(),
-        getFilesExcludeMasks(),
-        getFilesRequired(),
-        subDirectories);
+    return FileInputList.createFileList(variables, getFilesNames(), getFilesMasks(), getFilesExcludeMasks(), getFilesRequired(), subDirectories);
   }
 
   @Override
@@ -382,39 +366,20 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
 
     // See if we get input...
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoInputExpected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoInput"), transformMeta);
       remarks.add(cr);
     }
 
     FileInputList fileInputList = getFiles(variables);
 
     if (fileInputList == null || fileInputList.getFiles().size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoFiles"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.NoFiles"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "PropertyInputMeta.CheckResult.FilesOk",
-                  "" + fileInputList.getFiles().size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "PropertyInputMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()), transformMeta);
       remarks.add(cr);
     }
   }
@@ -437,11 +402,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -451,8 +412,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
       if (!fileField) {
         for (PIFile file : files) {
           FileObject fileObject = HopVfs.getFileObject(variables.resolve(file.getName()));
-          file.setName(
-              iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(file.getMask())));
+          file.setName(iResourceNaming.nameResource(fileObject, variables, Utils.isEmpty(file.getMask())));
         }
       }
       return null;
@@ -464,6 +424,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
   public enum FileType implements IEnumHasCodeAndDescription {
     PROPERTY("property", BaseMessages.getString(PKG, "PropertyInputMeta.FileType.Property")),
     INI("ini", BaseMessages.getString(PKG, "PropertyInputMeta.FileType.Ini"));
+
     private final String code;
     private final String description;
 
@@ -622,6 +583,7 @@ public class PropertyInputMeta extends BaseTransformMeta<PropertyInput, Property
   public enum KeyValue implements IEnumHasCode {
     KEY("key"),
     VALUE("value");
+
     private final String code;
 
     KeyValue(String code) {

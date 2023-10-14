@@ -71,9 +71,7 @@ public class WorkflowActionCopyFilesTest {
 
     entry.execute(new Result(), 0);
 
-    verify(entry, never())
-        .processFileFolder(
-            anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
+    verify(entry, never()).processFileFolder(anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
   }
 
   @Test
@@ -87,9 +85,7 @@ public class WorkflowActionCopyFilesTest {
 
     Result result = entry.execute(new Result(), 0);
 
-    verify(entry)
-        .processFileFolder(
-            anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
+    verify(entry).processFileFolder(anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
     verify(entry, atLeast(1)).preprocessfilefilder(any(String[].class));
     assertFalse(result.getResult());
     assertEquals(1, result.getNrErrors());
@@ -106,9 +102,7 @@ public class WorkflowActionCopyFilesTest {
 
     Result result = entry.execute(new Result(), 0);
 
-    verify(entry, times(srcPath.length))
-        .processFileFolder(
-            anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
+    verify(entry, times(srcPath.length)).processFileFolder(anyString(), anyString(), anyString(), any(Workflow.class), any(Result.class));
     assertFalse(result.getResult());
     assertEquals(3, result.getNrErrors());
   }
@@ -127,10 +121,7 @@ public class WorkflowActionCopyFilesTest {
     assertTrue(xml.contains(destPath[0]));
     ActionCopyFiles loadedentry = new ActionCopyFiles();
     InputStream is = new ByteArrayInputStream(xml.getBytes());
-    loadedentry.loadXml(
-        XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "entry"),
-        null,
-        new Variables());
+    loadedentry.loadXml(XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "entry"), null, new Variables());
     assertTrue(loadedentry.destinationFileFolder[0].equals(destPath[0]));
     assertTrue(loadedentry.sourceFileFolder[0].equals(srcPath[0]));
   }

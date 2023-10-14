@@ -45,14 +45,10 @@ import picocli.CommandLine;
 import java.util.ArrayList;
 import java.util.List;
 
-@ConfigPlugin(
-    id = "ProjectsConfigOptionPlugin",
-    description = "Configuration options for the global projects plugin")
-@GuiPlugin(
-    description = "i18n::ProjectConfig.Tab.Name" // label in options dialog
-    )
-public class ProjectsConfigOptionPlugin
-    implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
+@ConfigPlugin(id = "ProjectsConfigOptionPlugin", description = "Configuration options for the global projects plugin")
+@GuiPlugin(description = "i18n::ProjectConfig.Tab.Name" // label in options dialog
+)
+public class ProjectsConfigOptionPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
   protected static Class<?> PKG = ProjectsConfigOptionPlugin.class; // For Translator
 
@@ -63,18 +59,15 @@ public class ProjectsConfigOptionPlugin
   private static final String WIDGET_ID_DEFAULT_ENVIRONMENT = "10040-default-environment";
   private static final String WIDGET_ID_STANDARD_PARENT_PROJECT = "10050-standard-parent-project";
   private static final String WIDGET_ID_STANDARD_PROJECTS_FOLDER = "10060-standard-projects-folder";
-  private static final String WIDGET_ID_RESTRICT_ENVIRONMENTS_TO_ACTIVE_PROJECT="10070-restrict-environments-to-active-project";
-  private static final String WIDGET_ID_DEFAULT_PROJECT_CONFIG_FILENAME =
-      "10070-default-project-config-filename";
+  private static final String WIDGET_ID_RESTRICT_ENVIRONMENTS_TO_ACTIVE_PROJECT = "10070-restrict-environments-to-active-project";
+  private static final String WIDGET_ID_DEFAULT_PROJECT_CONFIG_FILENAME = "10070-default-project-config-filename";
 
   @GuiWidgetElement(
       id = WIDGET_ID_ENABLE_PROJECTS,
       parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID,
       type = GuiElementType.CHECKBOX,
       label = "i18n::ProjectConfig.EnableProjectPlugin.Message")
-  @CommandLine.Option(
-      names = {"-pn", "--projects-enabled"},
-      description = "Enable or disable the projects plugin")
+  @CommandLine.Option(names = {"-pn", "--projects-enabled"}, description = "Enable or disable the projects plugin")
   private Boolean projectsEnabled;
 
   @GuiWidgetElement(
@@ -82,9 +75,7 @@ public class ProjectsConfigOptionPlugin
       parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID,
       type = GuiElementType.CHECKBOX,
       label = "i18n::ProjectConfig.ProjectMandatory.Message")
-  @CommandLine.Option(
-      names = {"-py", "--project-mandatory"},
-      description = "Make it mandatory to reference a project")
+  @CommandLine.Option(names = {"-py", "--project-mandatory"}, description = "Make it mandatory to reference a project")
   private Boolean projectMandatory;
 
   @GuiWidgetElement(
@@ -92,9 +83,7 @@ public class ProjectsConfigOptionPlugin
       parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID,
       type = GuiElementType.CHECKBOX,
       label = "i18n::ProjectConfig.EnvironmentMandatory.Message")
-  @CommandLine.Option(
-      names = {"-ey", "--environment-mandatory"},
-      description = "Make it mandatory to reference an environment")
+  @CommandLine.Option(names = {"-ey", "--environment-mandatory"}, description = "Make it mandatory to reference an environment")
   private Boolean environmentMandatory;
 
   @GuiWidgetElement(
@@ -104,9 +93,7 @@ public class ProjectsConfigOptionPlugin
       comboValuesMethod = "getProjectsList",
       variables = true,
       label = "i18n::ProjectConfig.DefaultProject.Message")
-  @CommandLine.Option(
-      names = {"-dp", "--default-project"},
-      description = "i18n::ProjectConfig.DefaultProject.Description")
+  @CommandLine.Option(names = {"-dp", "--default-project"}, description = "i18n::ProjectConfig.DefaultProject.Description")
   private String defaultProject;
 
   @GuiWidgetElement(
@@ -115,9 +102,7 @@ public class ProjectsConfigOptionPlugin
       type = GuiElementType.TEXT,
       variables = true,
       label = "i18n::ProjectConfig.DefaultEnvironment.Message")
-  @CommandLine.Option(
-      names = {"-de", "--default-environment"},
-      description = "i18n::ProjectConfig.DefaultEnvironment.Description")
+  @CommandLine.Option(names = {"-de", "--default-environment"}, description = "i18n::ProjectConfig.DefaultEnvironment.Description")
   private String defaultEnvironment;
 
   @GuiWidgetElement(
@@ -127,10 +112,7 @@ public class ProjectsConfigOptionPlugin
       comboValuesMethod = "getProjectsList",
       variables = true,
       label = "i18n::ProjectConfig.ParentProject.Message")
-  @CommandLine.Option(
-      names = {"-sp", "--standard-parent-project"},
-      description =
-          "The name of the standard project to use as a parent when creating new projects")
+  @CommandLine.Option(names = {"-sp", "--standard-parent-project"}, description = "The name of the standard project to use as a parent when creating new projects")
   private String standardParentProject;
 
   @GuiWidgetElement(
@@ -139,9 +121,7 @@ public class ProjectsConfigOptionPlugin
       type = GuiElementType.FOLDER,
       variables = true,
       label = "i18n::ProjectConfig.StdProjectFolder.Message")
-  @CommandLine.Option(
-      names = {"-sj", "--standard-projects-folder"},
-      description = "i18n::ProjectConfig.StdProjectFolder.Description")
+  @CommandLine.Option(names = {"-sj", "--standard-projects-folder"}, description = "i18n::ProjectConfig.StdProjectFolder.Description")
   private String standardProjectsFolder;
 
   @GuiWidgetElement(
@@ -150,9 +130,7 @@ public class ProjectsConfigOptionPlugin
       type = GuiElementType.TEXT,
       variables = true,
       label = "i18n::ProjectConfig.StdProjectFilename.Message")
-  @CommandLine.Option(
-      names = {"-dc", "--default-projects-folder"},
-      description = "i18n::ProjectConfig.StdProjectFilename.Message")
+  @CommandLine.Option(names = {"-dc", "--default-projects-folder"}, description = "i18n::ProjectConfig.StdProjectFilename.Message")
   private String defaultProjectConfigFile;
 
   @GuiWidgetElement(
@@ -160,12 +138,8 @@ public class ProjectsConfigOptionPlugin
       parentId = ConfigPluginOptionsTab.GUI_WIDGETS_PARENT_ID,
       type = GuiElementType.CHECKBOX,
       variables = false,
-      label = "i18n::ProjectConfig.RestrictEnvsToActiveProject.Message"
-  )
-  @CommandLine.Option(
-          names = {"-eap", "--environments-for-active-project"},
-          description = "i18n::ProjectConfig.RestrictEnvsToActiveProject.Message"
-  )
+      label = "i18n::ProjectConfig.RestrictEnvsToActiveProject.Message")
+  @CommandLine.Option(names = {"-eap", "--environments-for-active-project"}, description = "i18n::ProjectConfig.RestrictEnvsToActiveProject.Message")
   private Boolean environmentsForActiveProject;
 
   /**
@@ -190,9 +164,7 @@ public class ProjectsConfigOptionPlugin
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     ProjectsConfig config = ProjectsConfigSingleton.getConfig();
     try {
       boolean changed = false;
@@ -235,26 +207,17 @@ public class ProjectsConfigOptionPlugin
       }
       if (standardParentProject != null) {
         config.setStandardParentProject(standardParentProject);
-        log.logBasic(
-            "The standard project to inherit from when creating a project is set to '"
-                + standardParentProject
-                + "'");
+        log.logBasic("The standard project to inherit from when creating a project is set to '" + standardParentProject + "'");
         changed = true;
       }
       if (standardProjectsFolder != null) {
         config.setStandardProjectsFolder(standardProjectsFolder);
-        log.logBasic(
-            "The standard projects folder to browse to in the GUI is set to '"
-                + standardProjectsFolder
-                + "'");
+        log.logBasic("The standard projects folder to browse to in the GUI is set to '" + standardProjectsFolder + "'");
         changed = true;
       }
       if (defaultProjectConfigFile != null) {
         config.setDefaultProjectConfigFile(defaultProjectConfigFile);
-        log.logBasic(
-            "The default project configuration filename is set to '"
-                + defaultProjectConfigFile
-                + "'");
+        log.logBasic("The default project configuration filename is set to '" + defaultProjectConfigFile + "'");
         changed = true;
       }
       if (environmentsForActiveProject != null) {
@@ -284,8 +247,7 @@ public class ProjectsConfigOptionPlugin
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     persistContents(compositeWidgets);
   }
 
@@ -311,15 +273,9 @@ public class ProjectsConfigOptionPlugin
           if (!StringUtils.isEmpty(defProject)) {
             boolean defParentPrjExists = ProjectsUtil.projectExists(defProject);
             if (!defParentPrjExists) {
-              MessageBox box =
-                  new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_ERROR);
-              box.setText(
-                  BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.Error.Header"));
-              box.setMessage(
-                  BaseMessages.getString(
-                      PKG,
-                      "ProjectConfig.ProjectNotExists.DefaultProject.Error.Message",
-                      defProject));
+              MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_ERROR);
+              box.setText(BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.Error.Header"));
+              box.setMessage(BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.DefaultProject.Error.Message", defProject));
               box.open();
             } else {
               defaultProject = defProject;
@@ -336,15 +292,9 @@ public class ProjectsConfigOptionPlugin
           if (!StringUtils.isEmpty(stdParentProject)) {
             boolean stdParentPrjExists = ProjectsUtil.projectExists(stdParentProject);
             if (!stdParentPrjExists) {
-              MessageBox box =
-                  new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_ERROR);
-              box.setText(
-                  BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.Error.Header"));
-              box.setMessage(
-                  BaseMessages.getString(
-                      PKG,
-                      "ProjectConfig.ProjectNotExists.StandardProject.Error.Message",
-                      stdParentProject));
+              MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_ERROR);
+              box.setText(BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.Error.Header"));
+              box.setMessage(BaseMessages.getString(PKG, "ProjectConfig.ProjectNotExists.StandardProject.Error.Message", stdParentProject));
               box.open();
             } else {
               standardParentProject = stdParentProject;

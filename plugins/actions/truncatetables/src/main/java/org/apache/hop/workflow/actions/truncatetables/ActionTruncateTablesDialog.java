@@ -76,8 +76,7 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
   private Button wbdTablename;
   private Button wPrevious;
 
-  public ActionTruncateTablesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionTruncateTablesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionTruncateTables) action;
     if (this.action.getName() == null) {
@@ -154,15 +153,14 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            setPrevious();
-            action.setChanged();
-          }
-        });
+        setPrevious();
+        action.setChanged();
+      }
+    });
 
     wbTable = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbTable);
@@ -172,13 +170,12 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
     fdbTable.right = new FormAttachment(100, -margin);
     fdbTable.top = new FormAttachment(wlPrevious, 2 * margin);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wlFields = new Label(shell, SWT.NONE);
     wlFields.setText(BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Label"));
@@ -193,51 +190,32 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
     wbdTablename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdTablename);
     wbdTablename.setText(BaseMessages.getString(PKG, "ActionTruncateTables.TableDelete.Button"));
-    wbdTablename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionTruncateTables.TableDelete.Tooltip"));
+    wbdTablename.setToolTipText(BaseMessages.getString(PKG, "ActionTruncateTables.TableDelete.Tooltip"));
     FormData fdbdTablename = new FormData();
     fdbdTablename.right = new FormAttachment(100, 0);
     fdbdTablename.top = new FormAttachment(wlFields, margin);
     wbdTablename.setLayoutData(fdbdTablename);
-    wbdTablename.addListener(
-        SWT.Selection,
-        e -> {
-          int[] idx = wFields.getSelectionIndices();
-          wFields.remove(idx);
-          wFields.removeEmptyRows();
-          wFields.setRowNums();
-        });
+    wbdTablename.addListener(SWT.Selection, e -> {
+      int[] idx = wFields.getSelectionIndices();
+      wFields.remove(idx);
+      wFields.removeEmptyRows();
+      wFields.setRowNums();
+    });
 
     int nrRows = action.getItems() == null ? 1 : action.getItems().size();
     final int nrFieldsRows = nrRows;
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Table.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Schema.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Table.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Schema.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     columns[0].setUsingVariables(true);
     columns[0].setToolTip(BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Table.Tooltip"));
     columns[1].setUsingVariables(true);
-    columns[1].setToolTip(
-        BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Schema.Tooltip"));
+    columns[1].setToolTip(BaseMessages.getString(PKG, "ActionTruncateTables.Fields.Schema.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrFieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrFieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -247,16 +225,15 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
     wFields.setLayoutData(fdFields);
 
     // Delete files from the list of files...
-    wbdTablename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdTablename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     getData();
     setPrevious();
@@ -369,11 +346,7 @@ public class ActionTruncateTablesDialog extends ActionDialog implements IActionD
           }
         }
       } catch (HopDatabaseException e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "ActionTruncateTables.ConnectionError.DialogMessage"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "ActionTruncateTables.ConnectionError.DialogMessage"), e);
       }
       wFields.removeEmptyRows();
       wFields.setRowNums();

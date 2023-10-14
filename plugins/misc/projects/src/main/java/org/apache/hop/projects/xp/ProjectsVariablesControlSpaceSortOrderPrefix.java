@@ -30,11 +30,9 @@ import java.util.Map;
     id = "ProjectsVariablesControlSpaceSortOrderPrefix",
     extensionPointId = "HopGuiGetControlSpaceSortOrderPrefix",
     description = "Set a prefix sort order for the projects variables, push to front of the list")
-public class ProjectsVariablesControlSpaceSortOrderPrefix
-    implements IExtensionPoint<Map<String, String>> {
+public class ProjectsVariablesControlSpaceSortOrderPrefix implements IExtensionPoint<Map<String, String>> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, Map<String, String> prefixMap) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Map<String, String> prefixMap) throws HopException {
 
     prefixMap.put(ProjectsUtil.VARIABLE_PROJECT_HOME, "310_");
     prefixMap.put(Defaults.VARIABLE_HOP_PROJECT_NAME, "450_");

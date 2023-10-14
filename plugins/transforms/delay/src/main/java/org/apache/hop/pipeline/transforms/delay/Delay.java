@@ -29,13 +29,7 @@ public class Delay extends BaseTransform<DelayMeta, DelayData> {
 
   private static final Class<?> PKG = DelayMeta.class; // For Translator
 
-  public Delay(
-      TransformMeta transformMeta,
-      DelayMeta meta,
-      DelayData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Delay(TransformMeta transformMeta, DelayMeta meta, DelayData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

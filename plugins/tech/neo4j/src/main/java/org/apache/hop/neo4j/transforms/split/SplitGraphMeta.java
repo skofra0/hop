@@ -59,13 +59,7 @@ public class SplitGraphMeta extends BaseTransformMeta<SplitGraph, SplitGraphData
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (StringUtils.isNotEmpty(typeField)) {
       ValueMetaString typeValueMeta = new ValueMetaString(space.resolve(typeField));
@@ -95,8 +89,7 @@ public class SplitGraphMeta extends BaseTransformMeta<SplitGraph, SplitGraphData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     graphField = XmlHandler.getTagValue(transformNode, GRAPH_FIELD);
     typeField = XmlHandler.getTagValue(transformNode, TYPE_FIELD);
     idField = XmlHandler.getTagValue(transformNode, ID_FIELD);

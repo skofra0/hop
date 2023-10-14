@@ -32,17 +32,23 @@ import java.util.Objects;
 @HopMetadata(key = "person", name = "A Person", description = "Description of the Person object")
 public class Person extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String age;
+  @HopMetadataProperty
+  private String age;
 
-  @HopMetadataProperty private Address address;
+  @HopMetadataProperty
+  private Address address;
 
-  @HopMetadataProperty private IInterest mainInterest;
+  @HopMetadataProperty
+  private IInterest mainInterest;
 
-  @HopMetadataProperty private IInterest sideInterest;
+  @HopMetadataProperty
+  private IInterest sideInterest;
 
-  @HopMetadataProperty private List<IInterest> interests;
+  @HopMetadataProperty
+  private List<IInterest> interests;
 
-  @HopMetadataProperty private Map<String, String> attributes;
+  @HopMetadataProperty
+  private Map<String, String> attributes;
 
   @HopMetadataProperty(storeWithName = true)
   private Occupation occupation;
@@ -52,14 +58,7 @@ public class Person extends HopMetadataBase implements IHopMetadata {
     attributes = new HashMap<>();
   }
 
-  public Person(
-      String name,
-      String age,
-      Address address,
-      IInterest mainInterest,
-      List<IInterest> interests,
-      Map<String, String> attributes,
-      Occupation occupation) {
+  public Person(String name, String age, Address address, IInterest mainInterest, List<IInterest> interests, Map<String, String> attributes, Occupation occupation) {
     this.name = name;
     this.age = age;
     this.address = address;
@@ -78,20 +77,14 @@ public class Person extends HopMetadataBase implements IHopMetadata {
       return false;
     }
     Person person = (Person) o;
-    return Objects.equals(name, person.name)
-        && Objects.equals(age, person.age)
-        && Objects.equals(address, person.address)
-        && Objects.equals(mainInterest, person.mainInterest)
-        && Objects.equals(sideInterest, person.sideInterest)
-        && Objects.equals(interests, person.interests)
-        && Objects.equals(attributes, person.attributes)
+    return Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(address, person.address) && Objects.equals(mainInterest, person.mainInterest)
+        && Objects.equals(sideInterest, person.sideInterest) && Objects.equals(interests, person.interests) && Objects.equals(attributes, person.attributes)
         && Objects.equals(occupation, person.occupation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        name, age, address, mainInterest, sideInterest, interests, attributes, occupation);
+    return Objects.hash(name, age, address, mainInterest, sideInterest, interests, attributes, occupation);
   }
 
   /**

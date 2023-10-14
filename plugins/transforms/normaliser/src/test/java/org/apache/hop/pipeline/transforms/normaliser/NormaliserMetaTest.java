@@ -25,8 +25,9 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class NormaliserMetaTest {
-  
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -36,12 +37,10 @@ public class NormaliserMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    NormaliserMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/normaliser-transform.xml", NormaliserMeta.class);
-    
-    //assertEquals(2, meta.getFields().size());
-    //assertEquals("fieldName", meta.getFields().get(0).getName());
-    //assertEquals("two", meta.getFields().get(0).getValue());    
+    NormaliserMeta meta = TransformSerializationTestUtil.testSerialization("/normaliser-transform.xml", NormaliserMeta.class);
+
+    // assertEquals(2, meta.getFields().size());
+    // assertEquals("fieldName", meta.getFields().get(0).getName());
+    // assertEquals("two", meta.getFields().get(0).getValue());
   }
 }

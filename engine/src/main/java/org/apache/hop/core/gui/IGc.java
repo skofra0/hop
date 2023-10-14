@@ -122,15 +122,7 @@ public interface IGc {
 
   void drawImage(EImage image, int x, int y, float magnification, double angle) throws HopException;
 
-  void drawImage(
-      SvgFile svgFile,
-      int x,
-      int y,
-      int desiredWidth,
-      int desiredHeight,
-      float magnification,
-      double angle)
-      throws HopException;
+  void drawImage(SvgFile svgFile, int x, int y, int desiredWidth, int desiredHeight, float magnification, double angle) throws HopException;
 
   void drawLine(int x, int y, int x2, int y2);
 
@@ -172,8 +164,7 @@ public interface IGc {
 
   Point getArea();
 
-  void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification)
-      throws HopException;
+  void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification) throws HopException;
 
   void drawActionIcon(int x, int y, ActionMeta actionMeta, float magnification) throws HopException;
 }

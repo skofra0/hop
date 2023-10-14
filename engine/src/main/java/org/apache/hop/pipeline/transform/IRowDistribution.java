@@ -36,8 +36,7 @@ public interface IRowDistribution {
    * @param iTransform The transform to distribute the rows in
    * @throws HopTransformException
    */
-  void distributeRow(IRowMeta rowMeta, Object[] row, ITransform iTransform)
-      throws HopTransformException;
+  void distributeRow(IRowMeta rowMeta, Object[] row, ITransform iTransform) throws HopTransformException;
 
   /**
    * Which mini-icon needs to be shown on the hop?

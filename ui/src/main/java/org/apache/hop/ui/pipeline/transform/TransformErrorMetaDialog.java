@@ -72,12 +72,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
   private PipelineMeta pipelineMeta;
 
-  public TransformErrorMetaDialog(
-      Shell par,
-      IVariables variables,
-      TransformErrorMeta transformErrorMeta,
-      PipelineMeta pipelineMeta,
-      List<TransformMeta> targetTransforms) {
+  public TransformErrorMetaDialog(Shell par, IVariables variables, TransformErrorMeta transformErrorMeta, PipelineMeta pipelineMeta, List<TransformMeta> targetTransforms) {
     super(par, SWT.NONE);
     this.variables = variables;
     this.transformErrorMeta = transformErrorMeta.clone();
@@ -127,8 +122,7 @@ public class TransformErrorMetaDialog extends Dialog {
     // What's the source transform
     Label wlSourceTransform = new Label(composite, SWT.RIGHT);
     PropsUi.setLook(wlSourceTransform);
-    wlSourceTransform.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.TransformName.Label"));
+    wlSourceTransform.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.TransformName.Label"));
     FormData fdlSourceTransform = new FormData();
     fdlSourceTransform.top = new FormAttachment(0, 0);
     fdlSourceTransform.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -148,8 +142,7 @@ public class TransformErrorMetaDialog extends Dialog {
     // What's the target transform
     Label wlTargetTransform = new Label(composite, SWT.RIGHT);
     PropsUi.setLook(wlTargetTransform);
-    wlTargetTransform.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.TargetTransform.Label"));
+    wlTargetTransform.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.TargetTransform.Label"));
     FormData fdlTargetTransform = new FormData();
     fdlTargetTransform.top = new FormAttachment(wSourceTransform, margin);
     fdlTargetTransform.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -171,8 +164,7 @@ public class TransformErrorMetaDialog extends Dialog {
     // is the error handling enabled?
     Label wlEnabled = new Label(composite, SWT.RIGHT);
     PropsUi.setLook(wlEnabled);
-    wlEnabled.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.Enable.Label"));
+    wlEnabled.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.Enable.Label"));
     FormData fdlEnabled = new FormData();
     fdlEnabled.top = new FormAttachment(wTargetTransform, margin);
     fdlEnabled.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -189,8 +181,7 @@ public class TransformErrorMetaDialog extends Dialog {
     // What's the field for the nr of errors
     Label wlNrErrors = new Label(composite, SWT.RIGHT);
     PropsUi.setLook(wlNrErrors);
-    wlNrErrors.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.NrErrField.Label"));
+    wlNrErrors.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.NrErrField.Label"));
     FormData fdlNrErrors = new FormData();
     fdlNrErrors.top = new FormAttachment(wEnabled, margin * 2);
     fdlNrErrors.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -209,8 +200,7 @@ public class TransformErrorMetaDialog extends Dialog {
     // What's the field for the error descriptions
     Label wlErrDesc = new Label(composite, SWT.RIGHT);
     PropsUi.setLook(wlErrDesc);
-    wlErrDesc.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrDescField.Label"));
+    wlErrDesc.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrDescField.Label"));
     FormData fdlErrDesc = new FormData();
     fdlErrDesc.top = new FormAttachment(wNrErrors, margin);
     fdlErrDesc.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -228,8 +218,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
     // What's the field for the error fields
     Label wlErrFields = new Label(composite, SWT.RIGHT);
-    wlErrFields.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrFieldName.Label"));
+    wlErrFields.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrFieldName.Label"));
     PropsUi.setLook(wlErrFields);
     FormData fdlErrFields = new FormData();
     fdlErrFields.top = new FormAttachment(wErrDesc, margin);
@@ -248,8 +237,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
     // What's the fieldname for the error codes field
     Label wlErrCodes = new Label(composite, SWT.RIGHT);
-    wlErrCodes.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrCodeFieldName.Label"));
+    wlErrCodes.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.ErrCodeFieldName.Label"));
     PropsUi.setLook(wlErrCodes);
     FormData fdlErrCodes = new FormData();
     fdlErrCodes.top = new FormAttachment(wErrFields, margin);
@@ -268,8 +256,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
     // What's the maximum number of errors allowed before we stop?
     Label wlMaxErrors = new Label(composite, SWT.RIGHT);
-    wlMaxErrors.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MaxErr.Label"));
+    wlMaxErrors.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MaxErr.Label"));
     PropsUi.setLook(wlMaxErrors);
     FormData fdlMaxErrors = new FormData();
     fdlMaxErrors.top = new FormAttachment(wErrCodes, margin);
@@ -288,8 +275,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
     // What's the maximum % of errors allowed?
     Label wlMaxPct = new Label(composite, SWT.RIGHT);
-    wlMaxPct.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MaxPctErr.Label"));
+    wlMaxPct.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MaxPctErr.Label"));
     PropsUi.setLook(wlMaxPct);
     FormData fdlMaxPct = new FormData();
     fdlMaxPct.top = new FormAttachment(wMaxErrors, margin);
@@ -308,8 +294,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
     // What's the min nr of rows to read before doing % evaluation
     Label wlMinPctRows = new Label(composite, SWT.RIGHT);
-    wlMinPctRows.setText(
-        BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MinErr.Label"));
+    wlMinPctRows.setText(BaseMessages.getString(PKG, "BaseTransformDialog.ErrorHandling.MinErr.Label"));
     PropsUi.setLook(wlMinPctRows);
     FormData fdlMinPctRows = new FormData();
     fdlMinPctRows.top = new FormAttachment(wMaxPct, margin);
@@ -350,29 +335,16 @@ public class TransformErrorMetaDialog extends Dialog {
   }
 
   public void getData() {
-    wSourceTransform.setText(
-        transformErrorMeta.getSourceTransform() != null
-            ? transformErrorMeta.getSourceTransform().getName()
-            : "");
-    wTargetTransform.setText(
-        transformErrorMeta.getTargetTransform() != null
-            ? transformErrorMeta.getTargetTransform().getName()
-            : "");
+    wSourceTransform.setText(transformErrorMeta.getSourceTransform() != null ? transformErrorMeta.getSourceTransform().getName() : "");
+    wTargetTransform.setText(transformErrorMeta.getTargetTransform() != null ? transformErrorMeta.getTargetTransform().getName() : "");
     wEnabled.setSelection(transformErrorMeta.isEnabled());
     wNrErrors.setText(Const.NVL(transformErrorMeta.getNrErrorsValuename(), ""));
     wErrDesc.setText(Const.NVL(transformErrorMeta.getErrorDescriptionsValuename(), ""));
     wErrFields.setText(Const.NVL(transformErrorMeta.getErrorFieldsValuename(), ""));
     wErrCodes.setText(Const.NVL(transformErrorMeta.getErrorCodesValuename(), ""));
-    wMaxErrors.setText(
-        transformErrorMeta.getMaxErrors() != null ? transformErrorMeta.getMaxErrors() : "");
-    wMaxPct.setText(
-        transformErrorMeta.getMaxPercentErrors() != null
-            ? transformErrorMeta.getMaxPercentErrors()
-            : "");
-    wMinPctRows.setText(
-        transformErrorMeta.getMinPercentRows() != null
-            ? transformErrorMeta.getMinPercentRows()
-            : "");
+    wMaxErrors.setText(transformErrorMeta.getMaxErrors() != null ? transformErrorMeta.getMaxErrors() : "");
+    wMaxPct.setText(transformErrorMeta.getMaxPercentErrors() != null ? transformErrorMeta.getMaxPercentErrors() : "");
+    wMinPctRows.setText(transformErrorMeta.getMinPercentRows() != null ? transformErrorMeta.getMinPercentRows() : "");
 
     wSourceTransform.setFocus();
   }
@@ -387,10 +359,8 @@ public class TransformErrorMetaDialog extends Dialog {
     originalTransformErrorMeta.setTargetTransform(transformErrorMeta.getTargetTransform());
     originalTransformErrorMeta.setEnabled(transformErrorMeta.isEnabled());
     originalTransformErrorMeta.setNrErrorsValuename(transformErrorMeta.getNrErrorsValuename());
-    originalTransformErrorMeta.setErrorDescriptionsValuename(
-        transformErrorMeta.getErrorDescriptionsValuename());
-    originalTransformErrorMeta.setErrorFieldsValuename(
-        transformErrorMeta.getErrorFieldsValuename());
+    originalTransformErrorMeta.setErrorDescriptionsValuename(transformErrorMeta.getErrorDescriptionsValuename());
+    originalTransformErrorMeta.setErrorFieldsValuename(transformErrorMeta.getErrorFieldsValuename());
     originalTransformErrorMeta.setErrorCodesValuename(transformErrorMeta.getErrorCodesValuename());
     originalTransformErrorMeta.setMaxErrors(transformErrorMeta.getMaxErrors());
     originalTransformErrorMeta.setMaxPercentErrors(transformErrorMeta.getMaxPercentErrors());
@@ -405,8 +375,7 @@ public class TransformErrorMetaDialog extends Dialog {
 
   // Get dialog info in securityService
   private void getInfo() {
-    transformErrorMeta.setTargetTransform(
-        TransformMeta.findTransform(targetTransforms, wTargetTransform.getText()));
+    transformErrorMeta.setTargetTransform(TransformMeta.findTransform(targetTransforms, wTargetTransform.getText()));
     transformErrorMeta.setEnabled(wEnabled.getSelection());
     transformErrorMeta.setNrErrorsValuename(wNrErrors.getText());
     transformErrorMeta.setErrorDescriptionsValuename(wErrDesc.getText());

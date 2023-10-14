@@ -55,15 +55,11 @@ import java.util.Set;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Lookup",
     keywords = "i18n::DatabaseLookupMeta.keyword",
     documentationUrl = "/pipeline/transforms/databaselookup.html")
-public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, DatabaseLookupData>
-    implements IProvidesModelerMeta {
+public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, DatabaseLookupData> implements IProvidesModelerMeta {
 
   private static final Class<?> PKG = DatabaseLookupMeta.class; // For Translator
 
-  public static final String[] conditionStrings =
-      new String[] {
-        "=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL",
-      };
+  public static final String[] conditionStrings = new String[] {"=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL",};
 
   public static final int CONDITION_EQ = 0;
   public static final int CONDITION_NE = 1;
@@ -81,21 +77,15 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
   private String connection;
 
   /** ICache values we look up --> faster */
-  @HopMetadataProperty(
-      key = "cache",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.Cache")
+  @HopMetadataProperty(key = "cache", injectionKeyDescription = "DatabaseLookupMeta.Injection.Cache")
   private boolean cached;
 
   /** Limit the cache size to this! */
-  @HopMetadataProperty(
-      key = "cache_size",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.CacheSize")
+  @HopMetadataProperty(key = "cache_size", injectionKeyDescription = "DatabaseLookupMeta.Injection.CacheSize")
   private int cacheSize;
 
   /** Flag to make it load all data into the cache at startup */
-  @HopMetadataProperty(
-      key = "cache_load_all",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.CacheLoadAll")
+  @HopMetadataProperty(key = "cache_load_all", injectionKeyDescription = "DatabaseLookupMeta.Injection.CacheLoadAll")
   private boolean loadingAllDataInCache;
 
   @HopMetadataProperty(key = "lookup")
@@ -118,13 +108,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (Utils.isEmpty(info) || info[0] == null) { // null or length 0 : no info from database
 
@@ -132,9 +116,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
         try {
           IValueMeta v =
               ValueMetaFactory.createValueMeta(
-                  !Utils.isEmpty(returnValue.getNewName())
-                      ? returnValue.getNewName()
-                      : returnValue.getTableField(),
+                  !Utils.isEmpty(returnValue.getNewName()) ? returnValue.getNewName() : returnValue.getTableField(),
                   ValueMetaFactory.getIdForValueMeta(returnValue.getDefaultType()));
           v.setOrigin(name);
           row.addValueMeta(v);
@@ -148,10 +130,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
         IValueMeta v = info[0].searchValueMeta(returnValue.getTableField());
         if (v != null) {
           IValueMeta copy = v.clone(); // avoid renaming other value meta
-          copy.setName(
-              !Utils.isEmpty(returnValue.getNewName())
-                  ? returnValue.getNewName()
-                  : returnValue.getTableField());
+          copy.setName(!Utils.isEmpty(returnValue.getNewName()) ? returnValue.getNewName() : returnValue.getTableField());
           copy.setOrigin(name);
           row.addValueMeta(copy);
         }
@@ -175,8 +154,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
     Database db = null;
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (databaseMeta != null) {
         db = new Database(loggingObject, variables, databaseMeta);
@@ -190,26 +168,20 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
           boolean errorFound = false;
           errorMessage = "";
 
-          String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(
-                  variables, lookup.getSchemaName(), lookup.getTableName());
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, lookup.getSchemaName(), lookup.getTableName());
           IRowMeta r = db.getTableFields(schemaTable);
 
           if (r != null) {
             // Check the keys used to do the lookup...
             for (int i = 0; i < keyFields.size(); i++) {
               KeyField keyField = keyFields.get(i);
-              String luField = keyField.getTableField();
-              ;
+              String luField = keyField.getTableField();;
 
               IValueMeta v = r.searchValueMeta(luField);
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "DatabaseLookupMeta.Check.MissingCompareFieldsInLookupTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.MissingCompareFieldsInLookupTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + luField + Const.CR;
@@ -218,12 +190,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "DatabaseLookupMeta.Check.AllLookupFieldsFoundInTable"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.AllLookupFieldsFoundInTable"), transformMeta);
             }
             remarks.add(cr);
 
@@ -237,10 +204,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
               if (v == null) {
                 if (first) {
                   first = false;
-                  errorMessage +=
-                      BaseMessages.getString(
-                              PKG, "DatabaseLookupMeta.Check.MissingReturnFieldsInLookupTable")
-                          + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.MissingReturnFieldsInLookupTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + luField + Const.CR;
@@ -249,18 +213,12 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
             if (errorFound) {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_OK,
-                      BaseMessages.getString(
-                          PKG, "DatabaseLookupMeta.Check.AllReturnFieldsFoundInTable"),
-                      transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.AllReturnFieldsFoundInTable"), transformMeta);
             }
             remarks.add(cr);
 
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.CouldNotReadTableInfo");
+            errorMessage = BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.CouldNotReadTableInfo");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
@@ -279,10 +237,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(
-                            PKG, "DatabaseLookupMeta.Check.MissingFieldsNotFoundInInput")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.MissingFieldsNotFoundInInput") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + keyField.getStreamField1() + Const.CR;
@@ -291,31 +246,21 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.AllFieldsFoundInInput"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.AllFieldsFoundInInput"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(
-                      PKG, "DatabaseLookupMeta.Check.CouldNotReadFromPreviousTransforms")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.CouldNotReadFromPreviousTransforms") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
       } else {
-        errorMessage =
-            BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.MissingConnectionError");
+        errorMessage = BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.MissingConnectionError");
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       }
     } catch (HopException dbe) {
-      errorMessage =
-          BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.DatabaseErrorWhileChecking")
-              + dbe.getMessage();
+      errorMessage = BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.DatabaseErrorWhileChecking") + dbe.getMessage();
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } finally {
@@ -324,20 +269,10 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DatabaseLookupMeta.Check.TransformIsReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.TransformIsReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "DatabaseLookupMeta.Check.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DatabaseLookupMeta.Check.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -345,23 +280,18 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
   @Override
   public IRowMeta getTableFields(IVariables variables) {
     IRowMeta fields = null;
-    DatabaseMeta databaseMeta =
-        getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
+    DatabaseMeta databaseMeta = getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
     if (databaseMeta != null) {
       Database db = new Database(loggingObject, variables, databaseMeta);
       databases = new Database[] {db}; // Keep track of this one for cancelQuery
 
       try {
         db.connect();
-        String schemaTable =
-            databaseMeta.getQuotedSchemaTableCombination(
-                variables, lookup.getSchemaName(), lookup.getTableName());
+        String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, lookup.getSchemaName(), lookup.getTableName());
         fields = db.getTableFields(schemaTable);
 
       } catch (HopDatabaseException dbe) {
-        logError(
-            BaseMessages.getString(PKG, "DatabaseLookupMeta.ERROR0004.ErrorGettingTableFields")
-                + dbe.getMessage());
+        logError(BaseMessages.getString(PKG, "DatabaseLookupMeta.ERROR0004.ErrorGettingTableFields") + dbe.getMessage());
       } finally {
         db.disconnect();
       }
@@ -384,8 +314,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
 
     DatabaseMeta databaseMeta = null;
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
       // The keys are read-only...
       List<KeyField> keyFields = lookup.getKeyFields();
       for (int i = 0; i < keyFields.size(); i++) {
@@ -426,8 +355,7 @@ public class DatabaseLookupMeta extends BaseTransformMeta<DatabaseLookup, Databa
         impact.add(ii);
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection));
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection));
     }
   }
 

@@ -37,8 +37,7 @@ public class GraphOutputMetaTest {
     String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
     String transformXml = XmlHandler.openTag(tag) + xml + XmlHandler.closeTag(tag);
     GraphOutputMeta meta = new GraphOutputMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml, tag), GraphOutputMeta.class, meta, null);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml, tag), GraphOutputMeta.class, meta, null);
     assertEquals(6, meta.getFieldModelMappings().size());
     assertEquals(0, meta.getRelationshipMappings().size());
 
@@ -55,11 +54,7 @@ public class GraphOutputMetaTest {
     GraphOutputMeta meta2 = new GraphOutputMeta();
     String transformXml2 = XmlHandler.openTag(tag) + xml2 + XmlHandler.closeTag(tag);
 
-    XmlMetadataUtil.deSerializeFromXml(
-        XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG),
-        GraphOutputMeta.class,
-        meta2,
-        null);
+    XmlMetadataUtil.deSerializeFromXml(XmlHandler.loadXmlString(transformXml2, TransformMeta.XML_TAG), GraphOutputMeta.class, meta2, null);
 
     // Compare meta1 and meta2 to see if all serialization survived correctly...
     //

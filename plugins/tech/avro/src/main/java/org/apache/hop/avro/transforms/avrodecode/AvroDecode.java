@@ -34,13 +34,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import java.util.Map;
 
 public class AvroDecode extends BaseTransform<AvroDecodeMeta, AvroDecodeData> {
-  public AvroDecode(
-      TransformMeta transformMeta,
-      AvroDecodeMeta meta,
-      AvroDecodeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AvroDecode(TransformMeta transformMeta, AvroDecodeMeta meta, AvroDecodeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -66,11 +60,7 @@ public class AvroDecode extends BaseTransform<AvroDecodeMeta, AvroDecodeData> {
       }
       IValueMeta valueMeta = getInputRowMeta().getValueMeta(data.inputIndex);
       if (!(valueMeta instanceof ValueMetaAvroRecord)) {
-        throw new HopException(
-            "We can only decode Avro data types and field "
-                + sourceFieldName
-                + " is of type "
-                + valueMeta.getTypeDesc());
+        throw new HopException("We can only decode Avro data types and field " + sourceFieldName + " is of type " + valueMeta.getTypeDesc());
       }
       data.avroValueMeta = (ValueMetaAvroRecord) valueMeta;
     }
@@ -89,8 +79,7 @@ public class AvroDecode extends BaseTransform<AvroDecodeMeta, AvroDecodeData> {
 
         // Did the user ask for a different data type?
         //
-        IValueMeta standardValueMeta =
-            ValueMetaFactory.createValueMeta("standard", getStandardHopType(field));
+        IValueMeta standardValueMeta = ValueMetaFactory.createValueMeta("standard", getStandardHopType(field));
         IValueMeta targetValueMeta = targetField.createTargetValueMeta(this);
         standardValueMeta.setConversionMask(targetValueMeta.getConversionMask());
 
@@ -151,8 +140,7 @@ public class AvroDecode extends BaseTransform<AvroDecodeMeta, AvroDecodeData> {
     }
   }
 
-  public static final Object getStandardHopObject(Schema.Field field, Object avroValue)
-      throws HopException {
+  public static final Object getStandardHopObject(Schema.Field field, Object avroValue) throws HopException {
     Object hopValue;
     if (avroValue == null) {
       hopValue = null;
@@ -197,11 +185,7 @@ public class AvroDecode extends BaseTransform<AvroDecodeMeta, AvroDecodeData> {
         case UNION:
           // This value can be a set of possible values...
           //
-          if (avroValue instanceof Long
-              || avroValue instanceof Double
-              || avroValue instanceof String
-              || avroValue instanceof Boolean
-              || avroValue instanceof byte[]) {
+          if (avroValue instanceof Long || avroValue instanceof Double || avroValue instanceof String || avroValue instanceof Boolean || avroValue instanceof byte[]) {
             hopValue = avroValue;
           } else if (avroValue instanceof Float) {
             hopValue = Double.valueOf((float) avroValue).doubleValue();

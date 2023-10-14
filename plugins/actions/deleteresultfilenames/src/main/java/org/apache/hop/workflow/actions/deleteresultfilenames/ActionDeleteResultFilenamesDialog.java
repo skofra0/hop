@@ -59,8 +59,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
 
   private boolean changed;
 
-  public ActionDeleteResultFilenamesDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionDeleteResultFilenamesDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionDeleteResultFilenames) action;
 
@@ -112,8 +111,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
 
     // Specify wildcard?
     Label wlSpecifyWildcard = new Label(shell, SWT.RIGHT);
-    wlSpecifyWildcard.setText(
-        BaseMessages.getString(PKG, "ActionDeleteResultFilenames.SpecifyWildcard.Label"));
+    wlSpecifyWildcard.setText(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.SpecifyWildcard.Label"));
     PropsUi.setLook(wlSpecifyWildcard);
     FormData fdlSpecifyWildcard = new FormData();
     fdlSpecifyWildcard.left = new FormAttachment(0, 0);
@@ -122,21 +120,19 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     wlSpecifyWildcard.setLayoutData(fdlSpecifyWildcard);
     wSpecifyWildcard = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wSpecifyWildcard);
-    wSpecifyWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDeleteResultFilenames.SpecifyWildcard.Tooltip"));
+    wSpecifyWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.SpecifyWildcard.Tooltip"));
     FormData fdSpecifyWildcard = new FormData();
     fdSpecifyWildcard.left = new FormAttachment(middle, 0);
     fdSpecifyWildcard.top = new FormAttachment(wlSpecifyWildcard, 0, SWT.CENTER);
     fdSpecifyWildcard.right = new FormAttachment(100, 0);
     wSpecifyWildcard.setLayoutData(fdSpecifyWildcard);
-    wSpecifyWildcard.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            CheckLimit();
-          }
-        });
+    wSpecifyWildcard.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        CheckLimit();
+      }
+    });
 
     // Wildcard line
     wlWildcard = new Label(shell, SWT.RIGHT);
@@ -148,8 +144,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     fdlWildcard.right = new FormAttachment(middle, -margin);
     wlWildcard.setLayoutData(fdlWildcard);
     wWildcard = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDeleteResultFilenames.Wildcard.Tooltip"));
+    wWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.Wildcard.Tooltip"));
     PropsUi.setLook(wWildcard);
     wWildcard.addModifyListener(lsMod);
     FormData fdWildcard = new FormData();
@@ -159,13 +154,11 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     wWildcard.setLayoutData(fdWildcard);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wWildcard.addModifyListener(
-        e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
+    wWildcard.addModifyListener(e -> wWildcard.setToolTipText(variables.resolve(wWildcard.getText())));
 
     // wWildcardExclude
     wlWildcardExclude = new Label(shell, SWT.RIGHT);
-    wlWildcardExclude.setText(
-        BaseMessages.getString(PKG, "ActionDeleteResultFilenames.WildcardExclude.Label"));
+    wlWildcardExclude.setText(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.WildcardExclude.Label"));
     PropsUi.setLook(wlWildcardExclude);
     FormData fdlWildcardExclude = new FormData();
     fdlWildcardExclude.left = new FormAttachment(0, 0);
@@ -173,8 +166,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     fdlWildcardExclude.right = new FormAttachment(middle, -margin);
     wlWildcardExclude.setLayoutData(fdlWildcardExclude);
     wWildcardExclude = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wWildcardExclude.setToolTipText(
-        BaseMessages.getString(PKG, "ActionDeleteResultFilenames.WildcardExclude.Tooltip"));
+    wWildcardExclude.setToolTipText(BaseMessages.getString(PKG, "ActionDeleteResultFilenames.WildcardExclude.Tooltip"));
     PropsUi.setLook(wWildcardExclude);
     wWildcardExclude.addModifyListener(lsMod);
     FormData fdWildcardExclude = new FormData();
@@ -183,8 +175,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     fdWildcardExclude.right = new FormAttachment(100, -margin);
     wWildcardExclude.setLayoutData(fdWildcardExclude);
     // Whenever something changes, set the tooltip to the expanded version:
-    wWildcardExclude.addModifyListener(
-        e -> wWildcardExclude.setToolTipText(variables.resolve(wWildcardExclude.getText())));
+    wWildcardExclude.addModifyListener(e -> wWildcardExclude.setToolTipText(variables.resolve(wWildcardExclude.getText())));
 
     // Buttons go at the very bottom
     //
@@ -194,8 +185,7 @@ public class ActionDeleteResultFilenamesDialog extends ActionDialog implements I
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
     CheckLimit();

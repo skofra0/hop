@@ -40,12 +40,10 @@ import static org.apache.hop.git.HopDiff.getPipelineHopName;
     id = "DrawDiffOnPipelineHopExtensionPoint",
     description = "Draws a marker on top of a pipeline Hop if it has added or removed",
     extensionPointId = "PipelinePainterArrow")
-public class DrawDiffOnPipelineHopExtensionPoint
-    implements IExtensionPoint<PipelinePainterExtension> {
+public class DrawDiffOnPipelineHopExtensionPoint implements IExtensionPoint<PipelinePainterExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
 
     IGc gc = ext.gc;
     ClassLoader classLoader = this.getClass().getClassLoader();
@@ -89,14 +87,7 @@ public class DrawDiffOnPipelineHopExtensionPoint
                 // Exception when accessed from Hop Server
               }
 
-              gc.drawImage(
-                  svgFile,
-                  middle.x,
-                  middle.y,
-                  iconSize / 2,
-                  iconSize / 2,
-                  gc.getMagnification(),
-                  0);
+              gc.drawImage(svgFile, middle.x, middle.y, iconSize / 2, iconSize / 2, gc.getMagnification(), 0);
             }
           }
         }

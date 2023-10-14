@@ -48,17 +48,13 @@ public abstract class VCS {
    * @return true on success
    */
   protected boolean promptUsernamePassword() {
-    EnterStringDialog userDialog =
-        new EnterStringDialog(
-            HopGui.getInstance().getShell(), "", "Username?", "Enter the git username to use");
+    EnterStringDialog userDialog = new EnterStringDialog(HopGui.getInstance().getShell(), "", "Username?", "Enter the git username to use");
     String username = userDialog.open();
     if (username == null) {
       return false;
     }
 
-    EnterStringDialog passDialog =
-        new EnterStringDialog(
-            HopGui.getInstance().getShell(), "", "Password?", "Enter the git password to use");
+    EnterStringDialog passDialog = new EnterStringDialog(HopGui.getInstance().getShell(), "", "Password?", "Enter the git password to use");
     passDialog.setEchoChar('*');
     String password = passDialog.open();
     if (password == null) {

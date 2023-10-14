@@ -123,8 +123,7 @@ public class GPG {
       this.gpgexe = HopVfs.getFilename(file);
 
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "GPG.ErrorCheckingGPGFile", getGpgExeFile()), e);
+      throw new HopException(BaseMessages.getString(PKG, "GPG.ErrorCheckingGPGFile", getGpgExeFile()), e);
     } finally {
       try {
         if (file != null) {
@@ -154,8 +153,7 @@ public class GPG {
    * @return result
    * @throws HopException
    */
-  private String execGnuPG(String commandArgs, String inputStr, boolean fileMode)
-      throws HopException {
+  private String execGnuPG(String commandArgs, String inputStr, boolean fileMode) throws HopException {
     Process p;
     String command = getGpgExeFile() + " " + (fileMode ? "" : gnuPGCommand + " ") + commandArgs;
 
@@ -207,12 +205,10 @@ public class GPG {
 
     try {
       if (p.exitValue() != 0) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "GPG.Exception.ExistStatus", psrStdErr.getString()));
+        throw new HopException(BaseMessages.getString(PKG, "GPG.Exception.ExistStatus", psrStdErr.getString()));
       }
     } catch (IllegalThreadStateException itse) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "GPG.ExceptionillegalThreadStateException"), itse);
+      throw new HopException(BaseMessages.getString(PKG, "GPG.ExceptionillegalThreadStateException"), itse);
     } finally {
       p.destroy();
     }
@@ -230,12 +226,9 @@ public class GPG {
    * @param decryptedFilename decrypted filename
    * @throws HopException
    */
-  public void decryptFile(
-      FileObject cryptedFilename, String passPhrase, FileObject decryptedFilename)
-      throws HopException {
+  public void decryptFile(FileObject cryptedFilename, String passPhrase, FileObject decryptedFilename) throws HopException {
 
-    decryptFile(
-        HopVfs.getFilename(cryptedFilename), passPhrase, HopVfs.getFilename(decryptedFilename));
+    decryptFile(HopVfs.getFilename(cryptedFilename), passPhrase, HopVfs.getFilename(decryptedFilename));
   }
 
   /**
@@ -246,8 +239,7 @@ public class GPG {
    * @param decryptedFilename decrypted filename
    * @throws HopException
    */
-  public void decryptFile(String cryptedFilename, String passPhrase, String decryptedFilename)
-      throws HopException {
+  public void decryptFile(String cryptedFilename, String passPhrase, String decryptedFilename) throws HopException {
 
     try {
       execGnuPG(
@@ -261,8 +253,7 @@ public class GPG {
               + "\""
               + cryptedFilename
               + "\"",
-          null,
-          true);
+          null, true);
 
     } catch (Exception e) {
       throw new HopException(e);
@@ -278,11 +269,8 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void encryptFile(
-      FileObject filename, String userID, FileObject cryptedFilename, boolean asciiMode)
-      throws HopException {
-    encryptFile(
-        HopVfs.getFilename(filename), userID, HopVfs.getFilename(cryptedFilename), asciiMode);
+  public void encryptFile(FileObject filename, String userID, FileObject cryptedFilename, boolean asciiMode) throws HopException {
+    encryptFile(HopVfs.getFilename(filename), userID, HopVfs.getFilename(cryptedFilename), asciiMode);
   }
 
   /**
@@ -294,8 +282,7 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void encryptFile(String filename, String userID, String cryptedFilename, boolean asciiMode)
-      throws HopException {
+  public void encryptFile(String filename, String userID, String cryptedFilename, boolean asciiMode) throws HopException {
     try {
       execGnuPG(
           "--batch --yes"
@@ -312,8 +299,7 @@ public class GPG {
               + "\""
               + filename
               + "\"",
-          null,
-          true);
+          null, true);
 
     } catch (Exception e) {
       throw new HopException(e);
@@ -329,11 +315,8 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void signAndEncryptFile(
-      FileObject file, String userID, FileObject cryptedFile, boolean asciiMode)
-      throws HopException {
-    signAndEncryptFile(
-        HopVfs.getFilename(file), userID, HopVfs.getFilename(cryptedFile), asciiMode);
+  public void signAndEncryptFile(FileObject file, String userID, FileObject cryptedFile, boolean asciiMode) throws HopException {
+    signAndEncryptFile(HopVfs.getFilename(file), userID, HopVfs.getFilename(cryptedFile), asciiMode);
   }
 
   /**
@@ -345,9 +328,7 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void signAndEncryptFile(
-      String filename, String userID, String cryptedFilename, boolean asciiMode)
-      throws HopException {
+  public void signAndEncryptFile(String filename, String userID, String cryptedFilename, boolean asciiMode) throws HopException {
 
     try {
 
@@ -364,8 +345,7 @@ public class GPG {
               + "\""
               + filename
               + "\"",
-          null,
-          true);
+          null, true);
     } catch (Exception e) {
       throw new HopException(e);
     }
@@ -380,8 +360,7 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void signFile(String filename, String userID, String signedFilename, boolean asciiMode)
-      throws HopException {
+  public void signFile(String filename, String userID, String signedFilename, boolean asciiMode) throws HopException {
     try {
       execGnuPG(
           "--batch --yes"
@@ -396,8 +375,7 @@ public class GPG {
               + "\""
               + filename
               + "\"",
-          null,
-          true);
+          null, true);
 
     } catch (Exception e) {
       throw new HopException(e);
@@ -413,8 +391,7 @@ public class GPG {
    * @param asciiMode output ASCII file
    * @throws HopException
    */
-  public void signFile(FileObject file, String userID, FileObject signedFile, boolean asciiMode)
-      throws HopException {
+  public void signFile(FileObject file, String userID, FileObject signedFile, boolean asciiMode) throws HopException {
     try {
       signFile(HopVfs.getFilename(file), userID, HopVfs.getFilename(signedFile), asciiMode);
 
@@ -452,12 +429,8 @@ public class GPG {
    * @param originalFilenamefill this value in case of detached signature
    * @throws HopException
    */
-  public void verifyDetachedSignature(String signatureFilename, String originalFilename)
-      throws HopException {
-    execGnuPG(
-        "--batch --verify " + "\"" + signatureFilename + "\" " + "\"" + originalFilename + "\"",
-        null,
-        true);
+  public void verifyDetachedSignature(String signatureFilename, String originalFilename) throws HopException {
+    execGnuPG("--batch --verify " + "\"" + signatureFilename + "\" " + "\"" + originalFilename + "\"", null, true);
   }
 
   /**
@@ -467,8 +440,7 @@ public class GPG {
    * @param originalFile fill this value in case of detached signature
    * @throws HopException
    */
-  public void verifyDetachedSignature(FileObject signatureFile, FileObject originalFile)
-      throws HopException {
+  public void verifyDetachedSignature(FileObject signatureFile, FileObject originalFile) throws HopException {
     verifyDetachedSignature(HopVfs.getFilename(signatureFile), HopVfs.getFilename(originalFile));
   }
 
@@ -493,15 +465,11 @@ public class GPG {
    * @return encrypted string
    * @throws HopException
    */
-  public String signAndEncrypt(String plainText, String userID, String passPhrase)
-      throws HopException {
+  public String signAndEncrypt(String plainText, String userID, String passPhrase) throws HopException {
     try {
       createTempFile(plainText);
 
-      return execGnuPG(
-          "-r \"" + userID + "\" --passphrase-fd 0 -se \"" + getTempFileName() + "\"",
-          passPhrase,
-          false);
+      return execGnuPG("-r \"" + userID + "\" --passphrase-fd 0 -se \"" + getTempFileName() + "\"", passPhrase, false);
     } finally {
 
       deleteTempFile();
@@ -521,8 +489,7 @@ public class GPG {
 
       createTempFile(stringToSign);
 
-      retval =
-          execGnuPG("--passphrase-fd 0 --sign \"" + getTempFileName() + "\"", passPhrase, false);
+      retval = execGnuPG("--passphrase-fd 0 --sign \"" + getTempFileName() + "\"", passPhrase, false);
 
     } finally {
       deleteTempFile();
@@ -542,8 +509,7 @@ public class GPG {
     try {
       createTempFile(cryptedText);
 
-      return execGnuPG(
-          "--passphrase-fd 0 --decrypt \"" + getTempFileName() + "\"", passPhrase, false);
+      return execGnuPG("--passphrase-fd 0 --decrypt \"" + getTempFileName() + "\"", passPhrase, false);
 
     } finally {
       deleteTempFile();

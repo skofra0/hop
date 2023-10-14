@@ -82,42 +82,18 @@ public class KafkaConsumerField {
   }
 
   public enum Type {
-    String(
-        "String",
-        IValueMeta.TYPE_STRING,
-        StringSerializer.class.getName(),
-        StringDeserializer.class.getName()),
-    Integer(
-        "Integer",
-        IValueMeta.TYPE_INTEGER,
-        LongSerializer.class.getName(),
-        LongDeserializer.class.getName()),
-    Binary(
-        "Binary",
-        IValueMeta.TYPE_BINARY,
-        ByteArraySerializer.class.getName(),
-        ByteArrayDeserializer.class.getName()),
-    Number(
-        "Number",
-        IValueMeta.TYPE_NUMBER,
-        DoubleSerializer.class.getName(),
-        DoubleDeserializer.class.getName()),
-    Avro(
-        "Avro",
-        IValueMeta.TYPE_AVRO,
-        "io.confluent.kafka.serializers.KafkaAvroSerializer",
-        "io.confluent.kafka.serializers.KafkaAvroDeserializer");
+    String("String", IValueMeta.TYPE_STRING, StringSerializer.class.getName(), StringDeserializer.class.getName()),
+    Integer("Integer", IValueMeta.TYPE_INTEGER, LongSerializer.class.getName(), LongDeserializer.class.getName()),
+    Binary("Binary", IValueMeta.TYPE_BINARY, ByteArraySerializer.class.getName(), ByteArrayDeserializer.class.getName()),
+    Number("Number", IValueMeta.TYPE_NUMBER, DoubleSerializer.class.getName(), DoubleDeserializer.class.getName()),
+    Avro("Avro", IValueMeta.TYPE_AVRO, "io.confluent.kafka.serializers.KafkaAvroSerializer", "io.confluent.kafka.serializers.KafkaAvroDeserializer");
 
     private final String value;
     private final int valueMetaInterfaceType;
     private String kafkaSerializerClass;
     private String kafkaDeserializerClass;
 
-    Type(
-        String value,
-        int valueMetaInterfaceType,
-        String kafkaSerializerClass,
-        String kafkaDeserializerClass) {
+    Type(String value, int valueMetaInterfaceType, String kafkaSerializerClass, String kafkaDeserializerClass) {
       this.value = value;
       this.valueMetaInterfaceType = valueMetaInterfaceType;
       this.kafkaSerializerClass = kafkaSerializerClass;
@@ -152,12 +128,7 @@ public class KafkaConsumerField {
             return t;
           }
         }
-        throw new IllegalArgumentException(
-            BaseMessages.getString(
-                PKG,
-                "KafkaConsumerField.Type.ERROR.NoIValueMetaMapping",
-                vmi.getName(),
-                vmi.getType()));
+        throw new IllegalArgumentException(BaseMessages.getString(PKG, "KafkaConsumerField.Type.ERROR.NoIValueMetaMapping", vmi.getName(), vmi.getType()));
       }
       // if it's null, just default to string
       return String;

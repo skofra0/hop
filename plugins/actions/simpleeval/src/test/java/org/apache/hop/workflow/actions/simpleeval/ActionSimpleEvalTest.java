@@ -41,9 +41,7 @@ public class ActionSimpleEvalTest {
     MemoryMetadataProvider provider = new MemoryMetadataProvider();
     provider.getSerializer(DatabaseMeta.class).save(databaseMeta);
 
-    ActionSimpleEval action =
-        ActionSerializationTestUtil.testSerialization(
-            "/simple-eval-action.xml", ActionSimpleEval.class, provider);
+    ActionSimpleEval action = ActionSerializationTestUtil.testSerialization("/simple-eval-action.xml", ActionSimpleEval.class, provider);
 
     assertEquals("2020", action.getCompareValue());
     assertEquals("YEAR", action.getVariableName());
@@ -53,10 +51,10 @@ public class ActionSimpleEvalTest {
     assertEquals(SuccessStringCondition.EQUAL, action.getSuccessStringCondition());
     assertEquals(SuccessNumberCondition.BETWEEN, action.getSuccessNumberCondition());
     assertEquals(SuccessBooleanCondition.FALSE, action.getSuccessBooleanCondition());
-    
+
     assertEquals("100", action.getMinValue());
     assertEquals("200", action.getMaxValue());
-    
+
     assertFalse(action.isSuccessWhenVarSet());
   }
 }

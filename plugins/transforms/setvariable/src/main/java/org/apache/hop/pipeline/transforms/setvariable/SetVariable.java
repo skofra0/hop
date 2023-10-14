@@ -37,13 +37,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
 
   private static final Class<?> PKG = SetVariableMeta.class; // For Translator
 
-  public SetVariable(
-      TransformMeta transformMeta,
-      SetVariableMeta meta,
-      SetVariableData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SetVariable(TransformMeta transformMeta, SetVariableMeta meta, SetVariableData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -84,9 +78,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
       return true;
     }
 
-    throw new HopTransformException(
-        BaseMessages.getString(
-            PKG, "SetVariable.RuntimeError.MoreThanOneRowReceived.SETVARIABLE0007"));
+    throw new HopTransformException(BaseMessages.getString(PKG, "SetVariable.RuntimeError.MoreThanOneRowReceived.SETVARIABLE0007"));
   }
 
   private void setValue(Object[] rowData, int i, boolean usedefault) throws HopException {
@@ -100,8 +92,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
     } else {
       int index = data.outputMeta.indexOfValue(vars.get(i).getFieldName());
       if (index < 0) {
-        throw new HopException(
-            "Unable to find field [" + vars.get(i).getFieldName() + "] in input row");
+        throw new HopException("Unable to find field [" + vars.get(i).getFieldName() + "] in input row");
       }
       IValueMeta valueMeta = data.outputMeta.getValueMeta(index);
       Object valueData = rowData[index];
@@ -178,10 +169,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
         if (parentWorkflow != null) {
           parentWorkflow.setVariable(varname, value);
         } else {
-          log.logBasic(
-              "WARNING: Can't set variable ["
-                  + varname
-                  + "] on parent workflow: the parent workflow is not available");
+          log.logBasic("WARNING: Can't set variable [" + varname + "] on parent workflow: the parent workflow is not available");
         }
 
         // Set the variable on the grand-parent workflow
@@ -190,10 +178,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
         if (gpJob != null) {
           gpJob.setVariable(varname, value);
         } else {
-          log.logBasic(
-              "WARNING: Can't set variable ["
-                  + varname
-                  + "] on grand parent workflow: the grand parent workflow is not available");
+          log.logBasic("WARNING: Can't set variable [" + varname + "] on grand parent workflow: the grand parent workflow is not available");
         }
         break;
 
@@ -204,10 +189,7 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
         if (parentWorkflow != null) {
           parentWorkflow.setVariable(varname, value);
         } else {
-          log.logBasic(
-              "WARNING: Can't set variable ["
-                  + varname
-                  + "] on parent workflow: the parent workflow is not available");
+          log.logBasic("WARNING: Can't set variable [" + varname + "] on parent workflow: the parent workflow is not available");
         }
         break;
 
@@ -215,8 +197,6 @@ public class SetVariable extends BaseTransform<SetVariableMeta, SetVariableData>
         break;
     }
 
-    logBasic(
-        BaseMessages.getString(
-            PKG, "SetVariable.Log.SetVariableToValue", vars.get(i).getVariableName(), value));
+    logBasic(BaseMessages.getString(PKG, "SetVariable.Log.SetVariableToValue", vars.get(i).getVariableName(), value));
   }
 }

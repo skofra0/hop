@@ -28,7 +28,7 @@ import org.junit.Test;
 
 /** Unit tests for wait for sql action. */
 public class ActionWaitForSqlTest {
- 
+
   @Test
   public void testSerialization() throws Exception {
     HopClientEnvironment.init();
@@ -38,9 +38,7 @@ public class ActionWaitForSqlTest {
     MemoryMetadataProvider provider = new MemoryMetadataProvider();
     provider.getSerializer(DatabaseMeta.class).save(databaseMeta);
 
-    ActionWaitForSql action =
-        ActionSerializationTestUtil.testSerialization(
-            "/wait-for-sql-action.xml", ActionWaitForSql.class, provider);
+    ActionWaitForSql action = ActionSerializationTestUtil.testSerialization("/wait-for-sql-action.xml", ActionWaitForSql.class, provider);
 
     assertEquals("unit-test-db", action.getConnection());
     assertEquals("SCHEMATEST", action.getSchemaName());

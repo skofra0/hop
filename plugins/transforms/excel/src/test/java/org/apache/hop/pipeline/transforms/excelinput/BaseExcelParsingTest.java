@@ -27,8 +27,7 @@ import java.util.Arrays;
 
 /** Base class for all Fixed input transform tests. */
 @Ignore("No tests in abstract base class")
-public class BaseExcelParsingTest
-    extends BaseParsingTest<ExcelInputMeta, ExcelInputData, ExcelInput> {
+public class BaseExcelParsingTest extends BaseParsingTest<ExcelInputMeta, ExcelInputData, ExcelInput> {
   /** Initialize transform info. */
   @Before
   public void before() {
@@ -59,8 +58,7 @@ public class BaseExcelParsingTest
     file.setIncludeSubFolders("N");
     meta.getFiles().add(file);
 
-    transform =
-        new ExcelInput(transformMeta, meta, new ExcelInputData(), 1, pipelineMeta, pipeline);
+    transform = new ExcelInput(transformMeta, meta, new ExcelInputData(), 1, pipelineMeta, pipeline);
     transform.init();
     transform.addRowListener(rowListener);
   }

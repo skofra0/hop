@@ -29,16 +29,15 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
-public abstract class BaseHopServerPlugin extends BaseHttpServlet
-    implements IHopServerPlugin, IHopServerRequestHandler {
+public abstract class BaseHopServerPlugin extends BaseHttpServlet implements IHopServerPlugin, IHopServerRequestHandler {
   /**
    * @param req http servlet request
    * @param resp http servlet response
    * @throws IOException
    * @deprecated Should not be called directly. Use {@link #service(HttpServletRequest,
-   *     HttpServletResponse)} instead
+   *             HttpServletResponse)} instead
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   @Override
   public void doGet(HttpServletRequest req, final HttpServletResponse resp) throws IOException {
     service(req, resp);

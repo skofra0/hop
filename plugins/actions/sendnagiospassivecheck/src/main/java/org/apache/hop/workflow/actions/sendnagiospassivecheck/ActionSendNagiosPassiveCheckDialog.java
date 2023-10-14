@@ -80,8 +80,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
 
   private CCombo wLevelMode;
 
-  public ActionSendNagiosPassiveCheckDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSendNagiosPassiveCheckDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSendNagiosPassiveCheck) action;
     if (this.action.getName() == null) {
@@ -121,11 +120,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     // Action name line
-    wName =
-        new LabelText(
-            shell,
-            BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Name.Label"),
-            BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Name.Tooltip"));
+    wName = new LabelText(shell, BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Name.Label"), BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Name.Tooltip"));
     wName.addModifyListener(lsMod);
     FormData fdName = new FormData();
     fdName.top = new FormAttachment(0, 0);
@@ -142,8 +137,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
 
     CTabItem wGeneralTab = new CTabItem(wTabFolder, SWT.NONE);
     wGeneralTab.setFont(GuiResource.getInstance().getFontDefault());
-    wGeneralTab.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ServerSettings.General"));
+    wGeneralTab.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ServerSettings.General"));
 
     Composite wGeneralComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wGeneralComp);
@@ -158,8 +152,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     // /
     Group wServerSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wServerSettings);
-    wServerSettings.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ServerSettings.Group.Label"));
+    wServerSettings.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.ServerSettings.Group.Label"));
 
     FormLayout serverSettingsgroupLayout = new FormLayout();
     serverSettingsgroupLayout.marginWidth = 10;
@@ -248,8 +241,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     wTest.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.TestConnection.Label"));
     PropsUi.setLook(wTest);
     FormData fdTest = new FormData();
-    wTest.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.TestConnection.Tooltip"));
+    wTest.setToolTipText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.TestConnection.Tooltip"));
     fdTest.top = new FormAttachment(wResponseTimeOut, margin);
     fdTest.right = new FormAttachment(100, 0);
     wTest.setLayoutData(fdTest);
@@ -269,8 +261,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     // /
     Group wSenderSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wSenderSettings);
-    wSenderSettings.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.SenderSettings.Group.Label"));
+    wSenderSettings.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.SenderSettings.Group.Label"));
     FormLayout senderSettingsgroupLayout = new FormLayout();
     senderSettingsgroupLayout.marginWidth = 10;
     senderSettingsgroupLayout.marginHeight = 10;
@@ -308,8 +299,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
 
     // Encryption mode
     Label wlEncryptionMode = new Label(wSenderSettings, SWT.RIGHT);
-    wlEncryptionMode.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Label"));
+    wlEncryptionMode.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.EncryptionMode.Label"));
     PropsUi.setLook(wlEncryptionMode);
     FormData fdlEncryptionMode = new FormData();
     fdlEncryptionMode.left = new FormAttachment(0, margin);
@@ -325,16 +315,14 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     fdEncryptionMode.top = new FormAttachment(wSenderServiceName, margin);
     fdEncryptionMode.right = new FormAttachment(100, 0);
     wEncryptionMode.setLayoutData(fdEncryptionMode);
-    wEncryptionMode.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wEncryptionMode.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     // Level mode
     Label wlLevelMode = new Label(wSenderSettings, SWT.RIGHT);
-    wlLevelMode.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.LevelMode.Label"));
+    wlLevelMode.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.LevelMode.Label"));
     PropsUi.setLook(wlLevelMode);
     FormData fdlLevelMode = new FormData();
     fdlLevelMode.left = new FormAttachment(0, margin);
@@ -350,11 +338,10 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     fdLevelMode.top = new FormAttachment(wEncryptionMode, margin);
     fdLevelMode.right = new FormAttachment(100, 0);
     wLevelMode.setLayoutData(fdLevelMode);
-    wLevelMode.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wLevelMode.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     FormData fdSenderSettings = new FormData();
     fdSenderSettings.left = new FormAttachment(0, margin);
@@ -370,8 +357,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     // /
     Group wMessageGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wMessageGroup);
-    wMessageGroup.setText(
-        BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.MessageGroup.Group.Label"));
+    wMessageGroup.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.MessageGroup.Group.Label"));
     FormLayout messageGroupgroupLayout = new FormLayout();
     messageGroupgroupLayout.marginWidth = 10;
     messageGroupgroupLayout.marginHeight = 10;
@@ -387,11 +373,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     fdlMessage.right = new FormAttachment(middle, -margin);
     wlMessage.setLayoutData(fdlMessage);
 
-    wMessage =
-        new StyledTextComp(
-            variables,
-            wMessageGroup,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wMessage = new StyledTextComp(variables, wMessageGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wMessage);
     wMessage.addModifyListener(lsMod);
     FormData fdMessage = new FormData();
@@ -446,9 +428,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     boolean testOK = false;
     String errMsg = null;
     String hostname = variables.resolve(wServerName.getText());
-    int nrPort =
-        Const.toInt(
-            variables.resolve("" + wPort.getText()), ActionSendNagiosPassiveCheck.DEFAULT_PORT);
+    int nrPort = Const.toInt(variables.resolve("" + wPort.getText()), ActionSendNagiosPassiveCheck.DEFAULT_PORT);
     int realConnectionTimeOut = Const.toInt(variables.resolve(wConnectionTimeOut.getText()), -1);
 
     try {
@@ -459,19 +439,12 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     }
     if (testOK) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Connected.OK", hostname)
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Connected.OK", hostname) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Connected.Title.Ok"));
       mb.open();
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-                  PKG, "ActionSendNagiosPassiveCheck.Connected.NOK.ConnectionBad", hostname)
-              + Const.CR
-              + errMsg
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Connected.NOK.ConnectionBad", hostname) + Const.CR + errMsg + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSendNagiosPassiveCheck.Connected.Title.Bad"));
       mb.open();
     }
@@ -489,8 +462,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     wSenderServerName.setText(Const.NVL(action.getSenderServerName(), ""));
     wSenderServiceName.setText(Const.NVL(action.getSenderServiceName(), ""));
     wMessage.setText(Const.NVL(action.getMessage(), ""));
-    wEncryptionMode.setText(
-        ActionSendNagiosPassiveCheck.getEncryptionModeDesc(action.getEncryptionMode()));
+    wEncryptionMode.setText(ActionSendNagiosPassiveCheck.getEncryptionModeDesc(action.getEncryptionMode()));
     wLevelMode.setText(ActionSendNagiosPassiveCheck.getLevelDesc(action.getLevel()));
 
     wName.selectAll();
@@ -519,8 +491,7 @@ public class ActionSendNagiosPassiveCheckDialog extends ActionDialog implements 
     action.setSenderServerName(wSenderServerName.getText());
     action.setSenderServiceName(wSenderServiceName.getText());
     action.setMessage(wMessage.getText());
-    action.setEncryptionMode(
-        ActionSendNagiosPassiveCheck.getEncryptionModeByDesc(wEncryptionMode.getText()));
+    action.setEncryptionMode(ActionSendNagiosPassiveCheck.getEncryptionModeByDesc(wEncryptionMode.getText()));
     action.setLevel(ActionSendNagiosPassiveCheck.getLevelByDesc(wLevelMode.getText()));
     action.setPassword(wPassword.getText());
 

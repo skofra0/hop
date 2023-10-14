@@ -65,20 +65,18 @@ public interface Keyspace {
    * @param log log to write to (may be null)
    * @throws Exception if a problem occurs
    */
-  void executeCQL(String cql, String compression, String consistencyLevel, ILogChannel log)
-      throws Exception;
+  void executeCQL(String cql, String compression, String consistencyLevel, ILogChannel log) throws Exception;
 
   /**
    * Create a keyspace.
    *
    * @param keyspaceName the name of the keyspace
    * @param options additional options (see http://www.datastax.com/docs/1.0/configuration
-   *     /storage_configuration)
+   *        /storage_configuration)
    * @param log log to write to (may be null)
    * @throws Exception if a problem occurs
    */
-  void createKeyspace(String keyspaceName, Map<String, Object> options, ILogChannel log)
-      throws Exception;
+  void createKeyspace(String keyspaceName, Map<String, Object> options, ILogChannel log) throws Exception;
 
   /**
    * Get a list of the names of the tables in this keyspace
@@ -117,13 +115,7 @@ public interface Keyspace {
    * @return true if the table was created successfully
    * @throws Exception if a problem occurs
    */
-  boolean createTable(
-      String tableName,
-      IRowMeta rowMeta,
-      List<Integer> keyIndexes,
-      String createTableWithClause,
-      ILogChannel log)
-      throws Exception;
+  boolean createTable(String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, String createTableWithClause, ILogChannel log) throws Exception;
 
   /**
    * Update the named table with any incoming fields that are not present in its schema already
@@ -133,12 +125,10 @@ public interface Keyspace {
    * @param keyIndexes the index(es) of the incoming field(s) that make up the key
    * @param log the log to write to (may be null)
    * @throws UnsupportedOperationException if the underlying driver does not support updating table
-   *     schema information
+   *         schema information
    * @throws Exception if a problem occurs
    */
-  void updateTableCQL3(
-      String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, ILogChannel log)
-      throws Exception;
+  void updateTableCQL3(String tableName, IRowMeta rowMeta, List<Integer> keyIndexes, ILogChannel log) throws Exception;
 
   /**
    * Truncate the named table.
@@ -146,7 +136,7 @@ public interface Keyspace {
    * @param tableName the name of the table to truncate
    * @param log log to write to (may be null)
    * @throws UnsupportedOperationException if the underlying driver does not support truncating a
-   *     table
+   *         table
    * @throws Exception if a problem occurs
    */
   void truncateTable(String tableName, ILogChannel log) throws Exception;

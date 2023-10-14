@@ -38,15 +38,12 @@ public class AesTwoWayPasswordEncoderTest {
 
   private ITwoWayPasswordEncoder encoder;
 
-  private static final String[] TEST_PASSWORDS = {
-    "MySillyButGoodPassword!", "", null, "abcd", "${DB_PASSWORD}"
-  };
+  private static final String[] TEST_PASSWORDS = {"MySillyButGoodPassword!", "", null, "abcd", "${DB_PASSWORD}"};
 
   @Before
   public void setup() throws Exception {
     System.setProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN, "AES");
-    System.setProperty(
-        AesTwoWayPasswordEncoder.VARIABLE_HOP_AES_ENCODER_KEY, "<TheKeyForTheseTestsHere!!>");
+    System.setProperty(AesTwoWayPasswordEncoder.VARIABLE_HOP_AES_ENCODER_KEY, "<TheKeyForTheseTestsHere!!>");
     HopEnvironment.init();
     encoder = Encr.getEncoder();
   }
@@ -107,8 +104,7 @@ public class AesTwoWayPasswordEncoderTest {
     databaseMeta.setUsername("user");
     databaseMeta.setPassword("password");
 
-    IHopMetadataSerializer<DatabaseMeta> serializer =
-        metadataProvider.getSerializer(DatabaseMeta.class);
+    IHopMetadataSerializer<DatabaseMeta> serializer = metadataProvider.getSerializer(DatabaseMeta.class);
     serializer.save(databaseMeta);
 
     String json = new SerializableMetadataProvider(metadataProvider).toJson();
@@ -133,8 +129,7 @@ public class AesTwoWayPasswordEncoderTest {
 
     // Change the Key
     System.setProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN, "AES");
-    System.setProperty(
-        AesTwoWayPasswordEncoder.VARIABLE_HOP_AES_ENCODER_KEY, "A completely different key");
+    System.setProperty(AesTwoWayPasswordEncoder.VARIABLE_HOP_AES_ENCODER_KEY, "A completely different key");
     Encr.init("AES");
 
     String encoded2 = Encr.encryptPasswordIfNotUsingVariables(password);

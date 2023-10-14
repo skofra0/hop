@@ -67,22 +67,11 @@ public class ComboVar extends Composite {
     this(variables, composite, flags, toolTipText, null, null);
   }
 
-  public ComboVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public ComboVar(IVariables variables, Composite composite, int flags, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     this(variables, composite, flags, null, getCaretPositionInterface, insertTextInterface);
   }
 
-  public ComboVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String toolTipText,
-      IGetCaretPosition getCaretPositionInterface,
-      IInsertText insertTextInterface) {
+  public ComboVar(IVariables variables, Composite composite, int flags, String toolTipText, IGetCaretPosition getCaretPositionInterface, IInsertText insertTextInterface) {
     super(composite, SWT.NONE);
     this.toolTipText = toolTipText;
     this.getCaretPositionInterface = getCaretPositionInterface;
@@ -118,9 +107,7 @@ public class ComboVar extends Composite {
     fdCombo.right = new FormAttachment(wlImage, 0);
     wCombo.setLayoutData(fdCombo);
 
-    controlSpaceKeyAdapter =
-        new ControlSpaceKeyAdapter(
-            variables, wCombo, getCaretPositionInterface, insertTextInterface);
+    controlSpaceKeyAdapter = new ControlSpaceKeyAdapter(variables, wCombo, getCaretPositionInterface, insertTextInterface);
     wCombo.addKeyListener(controlSpaceKeyAdapter);
   }
 
@@ -210,10 +197,7 @@ public class ComboVar extends Composite {
   public synchronized boolean setFocus() {
     if (wCombo != null && !wCombo.isDisposed()) {
       synchronized (wCombo) {
-        if (!wCombo.isEnabled()
-            || !wCombo.getVisible()
-            || !wCombo.isVisible()
-            || !wCombo.isFocusControl()) {
+        if (!wCombo.isEnabled() || !wCombo.getVisible() || !wCombo.isVisible() || !wCombo.isFocusControl()) {
           return false;
         }
         return wCombo.setFocus();

@@ -56,11 +56,7 @@ public class TimestampFn extends DoFn<HopRow, HopRow> {
   private transient IRowMeta inputRowMeta;
   private transient IValueMeta fieldValueMeta;
 
-  public TimestampFn(
-      String transformName,
-      String rowMetaJson,
-      String fieldName,
-      boolean getTimestamp) {
+  public TimestampFn(String transformName, String rowMetaJson, String fieldName, boolean getTimestamp) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
     this.fieldName = fieldName;
@@ -84,8 +80,7 @@ public class TimestampFn extends DoFn<HopRow, HopRow> {
       if (!getTimestamp && StringUtils.isNotEmpty(fieldName)) {
         fieldIndex = inputRowMeta.indexOfValue(fieldName);
         if (fieldIndex < 0) {
-          throw new RuntimeException(
-              "Field '" + fieldName + "' couldn't be found in put : " + inputRowMeta.toString());
+          throw new RuntimeException("Field '" + fieldName + "' couldn't be found in put : " + inputRowMeta.toString());
         }
         fieldValueMeta = inputRowMeta.getValueMeta(fieldIndex);
       }
@@ -115,8 +110,7 @@ public class TimestampFn extends DoFn<HopRow, HopRow> {
 
         // Add one row to the stream.
         //
-        Object[] outputRow =
-            RowDataUtil.createResizedCopy(hopRow.getRow(), inputRowMeta.size() + 1);
+        Object[] outputRow = RowDataUtil.createResizedCopy(hopRow.getRow(), inputRowMeta.size() + 1);
 
         // Hop "Date" type field output: java.util.Date.
         // Use the last field in the output
@@ -129,14 +123,12 @@ public class TimestampFn extends DoFn<HopRow, HopRow> {
         } else {
           Object fieldData = hopRow.getRow()[fieldIndex];
           if (IValueMeta.TYPE_TIMESTAMP == fieldValueMeta.getType()) {
-            java.sql.Timestamp timestamp =
-                ((ValueMetaTimestamp) fieldValueMeta).getTimestamp(fieldData);
+            java.sql.Timestamp timestamp = ((ValueMetaTimestamp) fieldValueMeta).getTimestamp(fieldData);
             instant = new Instant(timestamp.toInstant());
           } else {
             Date date = fieldValueMeta.getDate(fieldData);
             if (date == null) {
-              throw new HopException(
-                  "Timestamp field contains a null value, this can't be used to set a timestamp on a bounded/unbounded collection of data");
+              throw new HopException("Timestamp field contains a null value, this can't be used to set a timestamp on a bounded/unbounded collection of data");
             }
             instant = new Instant(date.getTime());
           }
@@ -150,8 +142,7 @@ public class TimestampFn extends DoFn<HopRow, HopRow> {
 
     } catch (Exception e) {
       errorCounter.inc();
-      LOG.error(
-          "Error adding timestamp to rows : " + processContext.element() + ", " + e.getMessage());
+      LOG.error("Error adding timestamp to rows : " + processContext.element() + ", " + e.getMessage());
       throw new RuntimeException("Error adding timestamp to rows", e);
     }
   }

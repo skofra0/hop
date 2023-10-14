@@ -94,8 +94,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
   private Label wlFieldName;
   private TextVar wFieldName;
 
-  public ActionSimpleEvalDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSimpleEvalDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSimpleEval) action;
   }
@@ -209,12 +208,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlFieldName.right = new FormAttachment(middle, -margin);
     wlFieldName.setLayoutData(fdlFieldName);
 
-    wFieldName =
-        new TextVar(
-            variables,
-            wSource,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSimpleEval.FieldName.Tooltip"));
+    wFieldName = new TextVar(variables, wSource, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSimpleEval.FieldName.Tooltip"));
     PropsUi.setLook(wFieldName);
     FormData fdFieldName = new FormData();
     fdFieldName.left = new FormAttachment(middle, 0);
@@ -233,12 +227,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlVariableName.right = new FormAttachment(middle, -margin);
     wlVariableName.setLayoutData(fdlVariableName);
 
-    wVariableName =
-        new TextVar(
-            variables,
-            wSource,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSimpleEval.Variable.Tooltip"));
+    wVariableName = new TextVar(variables, wSource, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSimpleEval.Variable.Tooltip"));
     PropsUi.setLook(wVariableName);
     FormData fdVariableName = new FormData();
     fdVariableName.left = new FormAttachment(middle, 0);
@@ -265,7 +254,10 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdFieldType.top = new FormAttachment(wVariableName, margin);
     fdFieldType.right = new FormAttachment(100, 0);
     wFieldType.setLayoutData(fdFieldType);
-    wFieldType.addListener(SWT.Selection, e -> {refresh(); action.setChanged();});
+    wFieldType.addListener(SWT.Selection, e -> {
+      refresh();
+      action.setChanged();
+    });
 
     // Mask
     wlMask = new Label(wSource, SWT.RIGHT);
@@ -321,20 +313,21 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlSuccessWhenSet.right = new FormAttachment(middle, -margin);
     wlSuccessWhenSet.setLayoutData(fdlSuccessWhenSet);
     wSuccessWhenSet = new Button(wSuccessOn, SWT.CHECK);
-    wSuccessWhenSet.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenSet.Tooltip"));
+    wSuccessWhenSet.setToolTipText(BaseMessages.getString(PKG, "ActionSimpleEval.SuccessWhenSet.Tooltip"));
     PropsUi.setLook(wSuccessWhenSet);
     FormData fdSuccessWhenSet = new FormData();
     fdSuccessWhenSet.left = new FormAttachment(middle, 0);
     fdSuccessWhenSet.top = new FormAttachment(wlSuccessWhenSet, 0, SWT.CENTER);
     fdSuccessWhenSet.right = new FormAttachment(100, 0);
     wSuccessWhenSet.setLayoutData(fdSuccessWhenSet);
-    wSuccessWhenSet.addListener(SWT.Selection, e -> {refresh(); action.setChanged();});
+    wSuccessWhenSet.addListener(SWT.Selection, e -> {
+      refresh();
+      action.setChanged();
+    });
 
     // Success String Condition
     wlSuccessStringCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessStringCondition.setText(
-        BaseMessages.getString(PKG, "ActionSimpleEval.SuccessCondition.Label"));
+    wlSuccessStringCondition.setText(BaseMessages.getString(PKG, "ActionSimpleEval.SuccessCondition.Label"));
     PropsUi.setLook(wlSuccessStringCondition);
     FormData fdlSuccessStringCondition = new FormData();
     fdlSuccessStringCondition.left = new FormAttachment(0, 0);
@@ -351,12 +344,14 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdSuccessStringCondition.top = new FormAttachment(wSuccessWhenSet, margin);
     fdSuccessStringCondition.right = new FormAttachment(100, 0);
     wSuccessStringCondition.setLayoutData(fdSuccessStringCondition);
-    wSuccessStringCondition.addListener(SWT.Selection, e -> {refresh(); action.setChanged();});
+    wSuccessStringCondition.addListener(SWT.Selection, e -> {
+      refresh();
+      action.setChanged();
+    });
 
     // Success Number or Date Condition
     wlSuccessNumberCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessNumberCondition.setText(
-        BaseMessages.getString(PKG, "ActionSimpleEval.SuccessNumberCondition.Label"));
+    wlSuccessNumberCondition.setText(BaseMessages.getString(PKG, "ActionSimpleEval.SuccessNumberCondition.Label"));
     PropsUi.setLook(wlSuccessNumberCondition);
     FormData fdlSuccessNumberCondition = new FormData();
     fdlSuccessNumberCondition.left = new FormAttachment(0, 0);
@@ -374,12 +369,14 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdSuccessNumberCondition.top = new FormAttachment(wSuccessWhenSet, margin);
     fdSuccessNumberCondition.right = new FormAttachment(100, 0);
     wSuccessNumberCondition.setLayoutData(fdSuccessNumberCondition);
-    wSuccessNumberCondition.addListener(SWT.Selection, e -> {refresh(); action.setChanged();});
+    wSuccessNumberCondition.addListener(SWT.Selection, e -> {
+      refresh();
+      action.setChanged();
+    });
 
     // Success Boolean Condition
     wlSuccessBooleanCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessBooleanCondition.setText(
-        BaseMessages.getString(PKG, "ActionSimpleEval.SuccessBooleanCondition.Label"));
+    wlSuccessBooleanCondition.setText(BaseMessages.getString(PKG, "ActionSimpleEval.SuccessBooleanCondition.Label"));
     PropsUi.setLook(wlSuccessBooleanCondition);
     FormData fdlSuccessBooleanCondition = new FormData();
     fdlSuccessBooleanCondition.left = new FormAttachment(0, 0);
@@ -397,7 +394,10 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdSuccessBooleanCondition.top = new FormAttachment(wSuccessWhenSet, margin);
     fdSuccessBooleanCondition.right = new FormAttachment(100, 0);
     wSuccessBooleanCondition.setLayoutData(fdSuccessBooleanCondition);
-    wSuccessBooleanCondition.addListener(SWT.Selection, e -> {refresh(); action.setChanged();});
+    wSuccessBooleanCondition.addListener(SWT.Selection, e -> {
+      refresh();
+      action.setChanged();
+    });
 
     // Compare with value
     wlCompareValue = new Label(wSuccessOn, SWT.RIGHT);
@@ -409,12 +409,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlCompareValue.right = new FormAttachment(middle, -margin);
     wlCompareValue.setLayoutData(fdlCompareValue);
 
-    wCompareValue =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSimpleEval.CompareValue.Tooltip"));
+    wCompareValue = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSimpleEval.CompareValue.Tooltip"));
     PropsUi.setLook(wCompareValue);
     FormData fdCompareValue = new FormData();
     fdCompareValue.left = new FormAttachment(middle, 0);
@@ -422,7 +417,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdCompareValue.right = new FormAttachment(100, -margin);
     wCompareValue.setLayoutData(fdCompareValue);
     wCompareValue.addListener(SWT.Modify, e -> action.setChanged());
-    
+
     // Min value
     wlMinValue = new Label(wSuccessOn, SWT.RIGHT);
     wlMinValue.setText(BaseMessages.getString(PKG, "ActionSimpleEval.MinValue.Label"));
@@ -433,12 +428,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlMinValue.right = new FormAttachment(middle, -margin);
     wlMinValue.setLayoutData(fdlMinValue);
 
-    wMinValue =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSimpleEval.MinValue.Tooltip"));
+    wMinValue = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSimpleEval.MinValue.Tooltip"));
     PropsUi.setLook(wMinValue);
     FormData fdMinValue = new FormData();
     fdMinValue.left = new FormAttachment(middle, 0);
@@ -446,7 +436,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdMinValue.right = new FormAttachment(100, -margin);
     wMinValue.setLayoutData(fdMinValue);
     wMinValue.addListener(SWT.Modify, e -> action.setChanged());
-    
+
     // Maximum value
     wlMaxValue = new Label(wSuccessOn, SWT.RIGHT);
     wlMaxValue.setText(BaseMessages.getString(PKG, "ActionSimpleEval.MaxValue.Label"));
@@ -457,12 +447,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdlMaxValue.right = new FormAttachment(middle, -margin);
     wlMaxValue.setLayoutData(fdlMaxValue);
 
-    wMaxValue =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSimpleEval.MaxValue.Tooltip"));
+    wMaxValue = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSimpleEval.MaxValue.Tooltip"));
     PropsUi.setLook(wMaxValue);
     FormData fdMaxValue = new FormData();
     fdMaxValue.left = new FormAttachment(middle, 0);
@@ -470,7 +455,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     fdMaxValue.right = new FormAttachment(100, -margin);
     wMaxValue.setLayoutData(fdMaxValue);
     wMaxValue.addListener(SWT.Modify, e -> action.setChanged());
-    
+
     FormData fdSuccessOn = new FormData();
     fdSuccessOn.left = new FormAttachment(0, margin);
     fdSuccessOn.top = new FormAttachment(wSource, margin);
@@ -555,8 +540,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     wlSuccessStringCondition.setVisible(!successWhenSet && valueTypeString);
     wSuccessStringCondition.setVisible(!successWhenSet && valueTypeString);
 
-    boolean valueTypeNumber = FieldType.lookupDescription(wFieldType.getText()) == FieldType.NUMBER
-            || FieldType.lookupDescription(wFieldType.getText()) == FieldType.DATE_TIME;
+    boolean valueTypeNumber = FieldType.lookupDescription(wFieldType.getText()) == FieldType.NUMBER || FieldType.lookupDescription(wFieldType.getText()) == FieldType.DATE_TIME;
     wlSuccessNumberCondition.setVisible(!successWhenSet && valueTypeNumber);
     wSuccessNumberCondition.setVisible(!successWhenSet && valueTypeNumber);
 
@@ -564,10 +548,7 @@ public class ActionSimpleEvalDialog extends ActionDialog implements IActionDialo
     wlSuccessBooleanCondition.setVisible(!successWhenSet && valueTypeBoolean);
     wSuccessBooleanCondition.setVisible(!successWhenSet && valueTypeBoolean);
 
-    boolean compareValue =
-        valueTypeString
-            || (!valueTypeString
-                && SuccessNumberCondition.lookupDescription(wSuccessNumberCondition.getText()) != SuccessNumberCondition.BETWEEN);
+    boolean compareValue = valueTypeString || (!valueTypeString && SuccessNumberCondition.lookupDescription(wSuccessNumberCondition.getText()) != SuccessNumberCondition.BETWEEN);
     wlCompareValue.setVisible(!successWhenSet && compareValue && !valueTypeBoolean);
     wCompareValue.setVisible(!successWhenSet && compareValue && !valueTypeBoolean);
     wlMinValue.setVisible(!successWhenSet && !compareValue && !valueTypeBoolean);

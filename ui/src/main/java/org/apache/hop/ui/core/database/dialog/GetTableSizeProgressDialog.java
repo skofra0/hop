@@ -47,17 +47,11 @@ public class GetTableSizeProgressDialog {
   private Database db;
 
   /** Creates a new dialog that will handle the wait while we're doing the hard work. */
-  public GetTableSizeProgressDialog(
-      Shell shell, IVariables variables, DatabaseMeta databaseMeta, String tableName) {
+  public GetTableSizeProgressDialog(Shell shell, IVariables variables, DatabaseMeta databaseMeta, String tableName) {
     this(shell, variables, databaseMeta, tableName, null);
   }
 
-  public GetTableSizeProgressDialog(
-      Shell shell,
-      IVariables variables,
-      DatabaseMeta databaseMeta,
-      String tableName,
-      String schemaName) {
+  public GetTableSizeProgressDialog(Shell shell, IVariables variables, DatabaseMeta databaseMeta, String tableName, String schemaName) {
     this.shell = shell;
     this.variables = variables;
     this.databaseMeta = databaseMeta;
@@ -65,53 +59,49 @@ public class GetTableSizeProgressDialog {
   }
 
   public Long open() {
-    IRunnableWithProgress op =
-        monitor -> {
-          db = new Database(HopGui.getInstance().getLoggingObject(), variables, databaseMeta);
-          try {
-            db.connect();
+    IRunnableWithProgress op = monitor -> {
+      db = new Database(HopGui.getInstance().getLoggingObject(), variables, databaseMeta);
+      try {
+        db.connect();
 
-            String sql = databaseMeta.getIDatabase().getSelectCountStatement(tableName);
-            RowMetaAndData row = db.getOneRow(sql);
-            size = row.getRowMeta().getInteger(row.getData(), 0);
+        String sql = databaseMeta.getIDatabase().getSelectCountStatement(tableName);
+        RowMetaAndData row = db.getOneRow(sql);
+        size = row.getRowMeta().getInteger(row.getData(), 0);
 
-            if (monitor.isCanceled()) {
-              throw new InvocationTargetException(new Exception("This operation was cancelled!"));
-            }
+        if (monitor.isCanceled()) {
+          throw new InvocationTargetException(new Exception("This operation was cancelled!"));
+        }
 
-          } catch (HopException e) {
-            throw new InvocationTargetException(
-                e, "Couldn't get a result because of an error :" + e.toString());
-          } finally {
-            db.disconnect();
-            monitor.done();
-          }
-        };
+      } catch (HopException e) {
+        throw new InvocationTargetException(e, "Couldn't get a result because of an error :" + e.toString());
+      } finally {
+        db.disconnect();
+        monitor.done();
+      }
+    };
 
     try {
       final ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
       // Run something in the background to cancel active database queries, forcibly if needed!
-      Runnable run =
-          () -> {
-            IProgressMonitor monitor = pmd.getProgressMonitor();
-            while (pmd.getShell() == null
-                || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
-              try {
-                Thread.sleep(100);
-              } catch (InterruptedException e) {
-                // Ignore
-              }
-            }
+      Runnable run = () -> {
+        IProgressMonitor monitor = pmd.getProgressMonitor();
+        while (pmd.getShell() == null || (!pmd.getShell().isDisposed() && !monitor.isCanceled())) {
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            // Ignore
+          }
+        }
 
-            if (monitor.isCanceled()) { // Disconnect and see what happens!
+        if (monitor.isCanceled()) { // Disconnect and see what happens!
 
-              try {
-                db.cancelQuery();
-              } catch (Exception e) {
-                // Ignore
-              }
-            }
-          };
+          try {
+            db.cancelQuery();
+          } catch (Exception e) {
+            // Ignore
+          }
+        }
+      };
       // Start the cancel tracker in the background!
       new Thread(run).start();
 
@@ -133,10 +123,6 @@ public class GetTableSizeProgressDialog {
    * @param e
    */
   private void showErrorDialog(Exception e) {
-    new ErrorDialog(
-        shell,
-        BaseMessages.getString(PKG, "GetTableSizeProgressDialog.Error.Title"),
-        BaseMessages.getString(PKG, "GetTableSizeProgressDialog.Error.Message"),
-        e);
+    new ErrorDialog(shell, BaseMessages.getString(PKG, "GetTableSizeProgressDialog.Error.Title"), BaseMessages.getString(PKG, "GetTableSizeProgressDialog.Error.Message"), e);
   }
 }

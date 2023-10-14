@@ -90,8 +90,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
 
   private final MongoDbInputMeta input;
 
-  public MongoDbInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MongoDbInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MongoDbInputMeta) in;
   }
@@ -155,8 +154,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     // Input options tab -----
     CTabItem wInputOptionsTab = new CTabItem(wTabFolder, SWT.NONE);
     wInputOptionsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wInputOptionsTab.setText(
-        BaseMessages.getString(PKG, "MongoDbInputDialog.InputOptionsTab.TabTitle"));
+    wInputOptionsTab.setText(BaseMessages.getString(PKG, "MongoDbInputDialog.InputOptionsTab.TabTitle"));
     Composite wInputOptionsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wInputOptionsComp);
     FormLayout inputLayout = new FormLayout();
@@ -201,8 +199,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
 
     Button wbGetCollections = new Button(wInputOptionsComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetCollections);
-    wbGetCollections.setText(
-        BaseMessages.getString(PKG, "MongoDbInputDialog.GetCollections.Button"));
+    wbGetCollections.setText(BaseMessages.getString(PKG, "MongoDbInputDialog.GetCollections.Button"));
     FormData fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(lastControl, 0);
@@ -263,8 +260,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     lastControl = wFieldsName;
 
     Label executeForEachRLab = new Label(wQueryComp, SWT.RIGHT);
-    executeForEachRLab.setText(
-        BaseMessages.getString(PKG, "MongoDbInputDialog.ExecuteForEachRow.Label"));
+    executeForEachRLab.setText(BaseMessages.getString(PKG, "MongoDbInputDialog.ExecuteForEachRow.Label"));
     PropsUi.setLook(executeForEachRLab);
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
@@ -309,9 +305,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     fdlJsonQuery.top = new FormAttachment(0, margin);
     wlJsonQuery.setLayoutData(fdlJsonQuery);
 
-    wJsonQuery =
-        new StyledTextComp(
-            variables, wQueryComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wJsonQuery = new StyledTextComp(variables, wQueryComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wJsonQuery, PropsUi.WIDGET_STYLE_FIXED);
     wJsonQuery.addModifyListener(lsMod);
 
@@ -360,13 +354,11 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     fd.left = new FormAttachment(middle, 0);
     fd.right = new FormAttachment(100, 0);
     wbOutputAsJson.setLayoutData(fd);
-    wbOutputAsJson.addListener(
-        SWT.Selection,
-        e -> {
-          input.setChanged();
-          wGet.setEnabled(!wbOutputAsJson.getSelection());
-          wJsonField.setEnabled(wbOutputAsJson.getSelection());
-        });
+    wbOutputAsJson.addListener(SWT.Selection, e -> {
+      input.setChanged();
+      wGet.setEnabled(!wbOutputAsJson.getSelection());
+      wJsonField.setEnabled(wbOutputAsJson.getSelection());
+    });
     lastControl = wbOutputAsJson;
 
     // JsonField input ...
@@ -397,55 +389,29 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     fd.right = new FormAttachment(100, 0);
     fd.bottom = new FormAttachment(100, 0);
     wGet.setLayoutData(fd);
-    wGet.addListener(
-        SWT.Selection,
-        e -> {
-          // populate table from schema
-          MongoDbInputMeta newMeta = (MongoDbInputMeta) input.clone();
-          getFields(newMeta);
-        });
+    wGet.addListener(SWT.Selection, e -> {
+      // populate table from schema
+      MongoDbInputMeta newMeta = (MongoDbInputMeta) input.clone();
+      getFields(newMeta);
+    });
 
     // fields stuff
     final ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_NAME"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_PATH"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_TYPE"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_INDEXED"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_ARRAYINFO"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_PERCENTAGE"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_DISPARATE_TYPES"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_NAME"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_PATH"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_TYPE"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.FIELD_INDEXED"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_ARRAYINFO"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_PERCENTAGE"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbInputDialog.Fields.SAMPLE_DISPARATE_TYPES"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[2].setComboValues(ValueMetaFactory.getAllValueMetaNames());
     colinf[4].setReadOnly(true);
     colinf[5].setReadOnly(true);
     colinf[6].setReadOnly(true);
 
-    wFields =
-        new TableView(
-            variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colinf, 1, lsMod, props);
+    wFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colinf, 1, lsMod, props);
 
     fd = new FormData();
     fd.top = new FormAttachment(lastControl, margin * 2);
@@ -507,11 +473,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
 
   private void updateQueryTitleInfo() {
     if (wbQueryIsPipeline.getSelection()) {
-      wlJsonQuery.setText(
-          BaseMessages.getString(PKG, "MongoDbInputDialog.JsonQuery.Label2")
-              + ": db."
-              + Const.NVL(wCollection.getText(), "n/a")
-              + ".aggregate(...");
+      wlJsonQuery.setText(BaseMessages.getString(PKG, "MongoDbInputDialog.JsonQuery.Label2") + ": db." + Const.NVL(wCollection.getText(), "n/a") + ".aggregate(...");
       wFieldsName.setEnabled(false);
     } else {
       wlJsonQuery.setText(BaseMessages.getString(PKG, "MongoDbInputDialog.JsonQuery.Label"));
@@ -672,9 +634,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
               shell,
               SWT.ICON_WARNING | SWT.OK,
               title,
-              BaseMessages.getString(
-                  PKG,
-                  "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs"));
+              BaseMessages.getString(PKG, "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs"));
       smd.open();
     }
 
@@ -683,16 +643,11 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
 
   // Used to catch exceptions from discoverFields calls that come through the callback
   public void handleNotificationException(Exception exception) {
-    new ErrorDialog(
-        shell,
-        transformName,
-        BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.ErrorDuringSampling"),
-        exception);
+    new ErrorDialog(shell, transformName, BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.ErrorDuringSampling"), exception);
   }
 
   private void getFields(MongoDbInputMeta meta) {
-    if (!StringUtils.isEmpty(wConnection.getText())
-        && !StringUtils.isEmpty(wCollection.getText())) {
+    if (!StringUtils.isEmpty(wConnection.getText()) && !StringUtils.isEmpty(wCollection.getText())) {
       EnterNumberDialog end =
           new EnterNumberDialog(
               shell,
@@ -710,11 +665,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
         boolean current = meta.getExecuteForEachIncomingRow();
         meta.setExecuteForEachIncomingRow(false);
 
-        if (!checkForUnresolved(
-            meta,
-            BaseMessages.getString(
-                PKG,
-                "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs.SamplingTitle"))) {
+        if (!checkForUnresolved(meta, BaseMessages.getString(PKG, "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs.SamplingTitle"))) {
 
           return;
         }
@@ -724,11 +675,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
           meta.setExecuteForEachIncomingRow(current);
           refreshFields(meta.getMongoFields());
         } catch (HopException e) {
-          new ErrorDialog(
-              shell,
-              transformName,
-              BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.ErrorDuringSampling"),
-              e);
+          new ErrorDialog(shell, transformName, BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.ErrorDuringSampling"), e);
         }
       }
     } else {
@@ -746,12 +693,8 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
           new ShowMessageDialog(
               shell,
               SWT.ICON_WARNING | SWT.OK,
-              BaseMessages.getString(
-                  PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
-              BaseMessages.getString(
-                  PKG,
-                  "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails",
-                  missingConDetails));
+              BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
+              BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails", missingConDetails));
       smd.open();
     }
   }
@@ -767,17 +710,11 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     // the query string
     oneMeta.setExecuteForEachIncomingRow(false);
 
-    if (!checkForUnresolved(
-        oneMeta,
-        BaseMessages.getString(
-            PKG,
-            "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs.PreviewTitle"))) {
+    if (!checkForUnresolved(oneMeta, BaseMessages.getString(PKG, "MongoDbInputDialog.Warning.Message.MongoQueryContainsUnresolvedVarsFieldSubs.PreviewTitle"))) {
       return;
     }
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            metadataProvider, oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -788,12 +725,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       Pipeline pipeline = progressDialog.getPipeline();
@@ -834,8 +766,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
       String current = wCollection.getText();
       wCollection.removeAll();
 
-      MongoDbConnection connection =
-          metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+      MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
       String databaseName = variables.resolve(connection.getDbName());
 
       if (!StringUtils.isEmpty(connectionName)) {
@@ -855,8 +786,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
             wCollection.add(c);
           }
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"), e);
+          logError(BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"), e);
           new ErrorDialog(
               shell,
               BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"),
@@ -874,12 +804,8 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
             new ShowMessageDialog(
                 shell,
                 SWT.ICON_WARNING | SWT.OK,
-                BaseMessages.getString(
-                    PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
-                BaseMessages.getString(
-                    PKG,
-                    "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails",
-                    missingConnDetails));
+                BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
+                BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails", missingConnDetails));
         smd.open();
       }
 
@@ -891,18 +817,12 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
     }
   }
 
-  public static boolean discoverFields(
-      final MongoDbInputMeta meta,
-      final IVariables variables,
-      final int docsToSample,
-      IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public static boolean discoverFields(final MongoDbInputMeta meta, final IVariables variables, final int docsToSample, IHopMetadataProvider metadataProvider) throws HopException {
 
     String connectionName = variables.resolve(meta.getConnectionName());
 
     try {
-      MongoDbConnection connection =
-          metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+      MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
       if (connection == null) {
         throw new HopException("Unable to find connection " + connectionName);
       }
@@ -916,16 +836,7 @@ public class MongoDbInputDialog extends BaseTransformDialog implements ITransfor
 
       MongodbInputDiscoverFieldsImpl discoverFields = new MongodbInputDiscoverFieldsImpl();
 
-      List<MongoField> discoveredFields =
-          discoverFields.discoverFields(
-              variables,
-              connection,
-              collection,
-              query,
-              fields,
-              meta.isQueryIsPipeline(),
-              numDocsToSample,
-              meta);
+      List<MongoField> discoveredFields = discoverFields.discoverFields(variables, connection, collection, query, fields, meta.isQueryIsPipeline(), numDocsToSample, meta);
 
       // return true if query resulted in documents being returned and fields
       // getting extracted

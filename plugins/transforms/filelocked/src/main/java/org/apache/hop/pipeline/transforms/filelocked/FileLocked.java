@@ -33,13 +33,7 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
 
   private static final Class<?> PKG = FileLockedMeta.class; // For Translator
 
-  public FileLocked(
-      TransformMeta transformMeta,
-      FileLockedMeta meta,
-      FileLockedData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FileLocked(TransformMeta transformMeta, FileLockedMeta meta, FileLockedData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -66,8 +60,7 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
       // Check is filename field is provided
       if (Utils.isEmpty(meta.getFilenamefield())) {
         logError(BaseMessages.getString(PKG, "FileLocked.Error.FilenameFieldMissing"));
-        throw new HopException(
-            BaseMessages.getString(PKG, "FileLocked.Error.FilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "FileLocked.Error.FilenameFieldMissing"));
       }
 
       // cache the position of the field
@@ -75,14 +68,8 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
         data.indexOfFileename = data.previousRowMeta.indexOfValue(meta.getFilenamefield());
         if (data.indexOfFileename < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(PKG, "FileLocked.Exception.CouldnotFindField")
-                  + "["
-                  + meta.getFilenamefield()
-                  + "]");
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "FileLocked.Exception.CouldnotFindField", meta.getFilenamefield()));
+          logError(BaseMessages.getString(PKG, "FileLocked.Exception.CouldnotFindField") + "[" + meta.getFilenamefield() + "]");
+          throw new HopException(BaseMessages.getString(PKG, "FileLocked.Exception.CouldnotFindField", meta.getFilenamefield()));
         }
       }
     } // End If first
@@ -98,12 +85,7 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
         // add filename to result filenames?
         if (meta.isAddresultfilenames()) {
           // Add this to the result file names...
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  HopVfs.getFileObject(filename),
-                  getPipelineMeta().getName(),
-                  getTransformName());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
           resultFile.setComment(BaseMessages.getString(PKG, "FileLocked.Log.FileAddedResult"));
           addResultFile(resultFile);
 
@@ -114,16 +96,10 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
       }
 
       // add file locked
-      putRow(
-          data.outputRowMeta,
-          RowDataUtil.addValueData(r, data.NrPrevFields, fileLocked)); // copy row to output
+      putRow(data.outputRowMeta, RowDataUtil.addValueData(r, data.NrPrevFields, fileLocked)); // copy row to output
 
       if (isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "FileLocked.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "FileLocked.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (Exception e) {
       boolean sendToErrorRow = false;
@@ -133,8 +109,7 @@ public class FileLocked extends BaseTransform<FileLockedMeta, FileLockedData> {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "FileLocked.ErrorInTransformRunning") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "FileLocked.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)

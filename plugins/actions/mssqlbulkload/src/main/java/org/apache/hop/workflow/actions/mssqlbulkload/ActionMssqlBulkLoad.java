@@ -166,17 +166,13 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
     retval.append("      ").append(XmlHandler.addTagValue("addfiletoresult", addfiletoresult));
     retval.append("      ").append(XmlHandler.addTagValue("truncate", truncate));
 
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
+    retval.append("      ").append(XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
 
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       schemaname = XmlHandler.getTagValue(entrynode, "schemaname");
@@ -191,8 +187,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
       formatfilename = XmlHandler.getTagValue(entrynode, "formatfilename");
 
       firetriggers = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "firetriggers"));
-      checkconstraints =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "checkconstraints"));
+      checkconstraints = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "checkconstraints"));
       keepnulls = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "keepnulls"));
       keepidentity = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "keepidentity"));
 
@@ -305,9 +300,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
         if (!(fileObject instanceof LocalFile)) {
           // MSSQL BUKL INSERT can only use local files, so that's what we limit ourselves to.
           //
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ActionMssqlBulkLoad.Error.OnlyLocalFileSupported", vfsFilename));
+          throw new HopException(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.OnlyLocalFileSupported", vfsFilename));
         }
 
         // Convert it to a regular platform specific file name
@@ -320,8 +313,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
         if (file.exists() && file.canRead()) {
           // User has specified an existing file, We can continue ...
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ActionMssqlBulkLoad.FileExists.Label", realFilename));
+            logDetailed(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.FileExists.Label", realFilename));
           }
 
           if (connection != null) {
@@ -329,9 +321,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
             // User has specified a connection, We can continue ...
             if (!"MSSQL".equals(connection.getPluginId())) {
 
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionMssqlBulkLoad.Error.DbNotMSSQL", connection.getDatabaseName()));
+              logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.DbNotMSSQL", connection.getDatabaseName()));
               return result;
             }
             try (Database db = new Database(this, this, connection)) {
@@ -344,18 +334,13 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
               if (db.checkTableExists(realSchemaname, realTablename)) {
                 // The table existe, We can continue ...
                 if (log.isDetailed()) {
-                  logDetailed(
-                      BaseMessages.getString(
-                          PKG, "ActionMssqlBulkLoad.TableExists.Label", realTablename));
+                  logDetailed(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.TableExists.Label", realTablename));
                 }
 
                 // FIELDTERMINATOR
                 String fieldTerminator = getRealFieldTerminator();
-                if (Utils.isEmpty(fieldTerminator)
-                    && (datafiletype.equals("char") || datafiletype.equals("widechar"))) {
-                  logError(
-                      BaseMessages.getString(
-                          PKG, "ActionMssqlBulkLoad.Error.FieldTerminatorMissing"));
+                if (Utils.isEmpty(fieldTerminator) && (datafiletype.equals("char") || datafiletype.equals("widechar"))) {
+                  logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.FieldTerminatorMissing"));
                   return result;
                 } else {
                   if (datafiletype.equals("char") || datafiletype.equals("widechar")) {
@@ -367,9 +352,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
                 if (codepage.equals("Specific")) {
                   String realCodePage = resolve(codepage);
                   if (specificcodepage.length() < 0) {
-                    logError(
-                        BaseMessages.getString(
-                            PKG, "ActionMssqlBulkLoad.Error.SpecificCodePageMissing"));
+                    logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.SpecificCodePageMissing"));
                     return result;
 
                   } else {
@@ -387,8 +370,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
                     // The error file is created when the command is executed. An error occurs if
                     // the file already
                     // exists.
-                    logError(
-                        BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.ErrorFileExists"));
+                    logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.ErrorFileExists"));
                     return result;
                   }
                   if (adddatetime) {
@@ -427,14 +409,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
                 }
 
                 // Build BULK Command
-                sqlBulkLoad =
-                    sqlBulkLoad
-                        + "BULK INSERT "
-                        + realTablename
-                        + " FROM "
-                        + "'"
-                        + realFilename.replace('\\', '/')
-                        + "'";
+                sqlBulkLoad = sqlBulkLoad + "BULK INSERT " + realTablename + " FROM " + "'" + realFilename.replace('\\', '/') + "'";
                 sqlBulkLoad = sqlBulkLoad + " WITH (";
                 if (useFieldSeparator) {
                   sqlBulkLoad = sqlBulkLoad + fieldTerminatedby;
@@ -497,12 +472,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
 
                   if (isAddFileToResult()) {
                     // Add filename to output files
-                    ResultFile resultFile =
-                        new ResultFile(
-                            ResultFile.FILE_TYPE_GENERAL,
-                            HopVfs.getFileObject(realFilename),
-                            parentWorkflow.getWorkflowName(),
-                            toString());
+                    ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(realFilename), parentWorkflow.getWorkflowName(), toString());
                     result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
                   }
 
@@ -512,15 +482,13 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
                   logError("An error occurred executing this action : " + je.getMessage(), je);
                 } catch (HopFileException e) {
                   logError("An error occurred executing this action : " + e.getMessage(), e);
-                  result.setNrErrors(1);                
+                  result.setNrErrors(1);
                 }
               } else {
                 // Of course, the table should have been created already before the bulk load
                 // operation
                 result.setNrErrors(1);
-                logError(
-                    BaseMessages.getString(
-                        PKG, "ActionMssqlBulkLoad.Error.TableNotExists", realTablename));
+                logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.TableNotExists", realTablename));
               }
             } catch (HopDatabaseException dbe) {
               result.setNrErrors(1);
@@ -534,8 +502,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
         } else {
           // the file doesn't exist
           result.setNrErrors(1);
-          logError(
-              BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.FileNotExists", realFilename));
+          logError(BaseMessages.getString(PKG, "ActionMssqlBulkLoad.Error.FileNotExists", realFilename));
         }
       } catch (Exception e) {
         // An unexpected error occurred
@@ -560,9 +527,7 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
 
   @Override
   public DatabaseMeta[] getUsedDatabaseConnections() {
-    return new DatabaseMeta[] {
-      connection,
-    };
+    return new DatabaseMeta[] {connection,};
   }
 
   public void setFilename(String filename) {
@@ -739,17 +704,14 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     ResourceReference reference = null;
     if (connection != null) {
       reference = new ResourceReference(this);
       references.add(reference);
       reference.getEntries().add(new ResourceEntry(connection.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
     }
     if (filename != null) {
       String realFilename = getRealFilename();
@@ -763,22 +725,12 @@ public class ActionMssqlBulkLoad extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
 
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

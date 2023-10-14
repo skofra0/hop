@@ -27,10 +27,10 @@ public interface IExtensionPoint<T> {
    *
    * @param log the logging channel to log debugging information to
    * @param variables The variables of the current context. This is usually the variables of the
-   *     parent or the executing entity.
+   *        parent or the executing entity.
    * @param t The subject object that is passed to the plugin code
    * @throws HopException In case the plugin decides that an error has occurred and the parent
-   *     process should stop.
+   *         process should stop.
    */
   void callExtensionPoint(ILogChannel log, IVariables variables, T t) throws HopException;
 }

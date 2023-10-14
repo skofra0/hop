@@ -59,17 +59,11 @@ import java.util.List;
 public class Rest extends BaseTransform<RestMeta, RestData> {
   private static final Class<?> PKG = RestMeta.class; // For Translator
 
-  public Rest(
-      TransformMeta transformMeta,
-      RestMeta meta,
-      RestData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Rest(TransformMeta transformMeta, RestMeta meta, RestData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  /* for unit test*/
+  /* for unit test */
   MultivaluedHashMap createMultivalueMap(String paramName, String paramValue) {
     MultivaluedHashMap queryParams = new MultivaluedHashMap();
     queryParams.add(paramName, UriComponent.encode(paramValue, UriComponent.Type.QUERY_PARAM));
@@ -99,9 +93,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         logDetailed(BaseMessages.getString(PKG, "Rest.Log.ConnectingToURL", data.realUrl));
       }
       ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-      clientBuilder
-          .withConfig(data.config)
-          .property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
+      clientBuilder.withConfig(data.config).property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
       if (meta.isIgnoreSsl() || !Utils.isEmpty(data.trustStoreFile)) {
         clientBuilder.sslContext(data.sslContext);
         clientBuilder.hostnameVerifier((s1, s2) -> true);
@@ -122,14 +114,9 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         for (int i = 0; i < data.nrMatrixParams; i++) {
           String value = data.inputRowMeta.getString(rowData, data.indexOfMatrixParamFields[i]);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "Rest.Log.matrixParameterValue", data.matrixParamNames[i], value));
+            logDebug(BaseMessages.getString(PKG, "Rest.Log.matrixParameterValue", data.matrixParamNames[i], value));
           }
-          builder =
-              builder.matrixParam(
-                  data.matrixParamNames[i],
-                  UriComponent.encode(value, UriComponent.Type.QUERY_PARAM));
+          builder = builder.matrixParam(data.matrixParamNames[i], UriComponent.encode(value, UriComponent.Type.QUERY_PARAM));
         }
         webResource = client.target(builder.build());
       }
@@ -139,9 +126,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         for (int i = 0; i < data.nrParams; i++) {
           String value = data.inputRowMeta.getString(rowData, data.indexOfParamFields[i]);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "Rest.Log.queryParameterValue", data.paramNames[i], value));
+            logDebug(BaseMessages.getString(PKG, "Rest.Log.queryParameterValue", data.paramNames[i], value));
           }
           webResource = webResource.queryParam(data.paramNames[i], value);
         }
@@ -162,8 +147,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
             contentType = value;
           }
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(PKG, "Rest.Log.HeaderValue", data.headerNames[i], value));
+            logDebug(BaseMessages.getString(PKG, "Rest.Log.HeaderValue", data.headerNames[i], value));
           }
         }
       }
@@ -200,17 +184,12 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
           response = invocationBuilder.options();
         } else if (data.method.equals(RestMeta.HTTP_METHOD_PATCH)) {
           if (null != contentType) {
-            response =
-                invocationBuilder.method(
-                    RestMeta.HTTP_METHOD_PATCH, Entity.entity(entityString, contentType));
+            response = invocationBuilder.method(RestMeta.HTTP_METHOD_PATCH, Entity.entity(entityString, contentType));
           } else {
-            response =
-                invocationBuilder.method(
-                    RestMeta.HTTP_METHOD_PATCH, Entity.entity(entityString, data.mediaType));
+            response = invocationBuilder.method(RestMeta.HTTP_METHOD_PATCH, Entity.entity(entityString, data.mediaType));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(PKG, "Rest.Error.UnknownMethod", data.method));
+          throw new HopException(BaseMessages.getString(PKG, "Rest.Error.UnknownMethod", data.method));
         }
       } catch (Exception e) {
         throw new HopException("Request could not be processed", e);
@@ -218,9 +197,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
       // Get response time
       long responseTime = System.currentTimeMillis() - startTime;
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "Rest.Log.ResponseTime", String.valueOf(responseTime), data.realUrl));
+        logDetailed(BaseMessages.getString(PKG, "Rest.Log.ResponseTime", String.valueOf(responseTime), data.realUrl));
       }
 
       // Get status
@@ -275,8 +252,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         newRow = RowDataUtil.addValueData(newRow, returnFieldsOffset, headerString);
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "Rest.Error.CanNotReadURL", data.realUrl), e);
+      throw new HopException(BaseMessages.getString(PKG, "Rest.Error.CanNotReadURL", data.realUrl), e);
     } finally {
       if (webResource != null) {
         webResource = null;
@@ -296,7 +272,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
       data.config.property(ClientProperties.REQUEST_ENTITY_PROCESSING, RequestEntityProcessing.BUFFERED);
       if (!Utils.isEmpty(data.realProxyHost)) {
         // PROXY CONFIGURATION
-        data.config.property(ClientProperties.PROXY_URI,"http://"+ data.realProxyHost + ":" + data.realProxyPort);
+        data.config.property(ClientProperties.PROXY_URI, "http://" + data.realProxyHost + ":" + data.realProxyPort);
         if (!Utils.isEmpty(data.realHttpLogin) && !Utils.isEmpty(data.realHttpPassword)) {
           data.config.property(ClientProperties.PROXY_USERNAME, data.realHttpLogin);
           data.config.property(ClientProperties.PROXY_PASSWORD, data.realHttpPassword);
@@ -304,10 +280,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
       } else {
         if (!Utils.isEmpty(data.realHttpLogin)) {
           // Basic authentication
-          data.basicAuthentication =
-              HttpAuthenticationFeature.basicBuilder()
-                  .credentials(data.realHttpLogin, data.realHttpPassword)
-                  .build();
+          data.basicAuthentication = HttpAuthenticationFeature.basicBuilder().credentials(data.realHttpLogin, data.realHttpPassword).build();
         }
       }
       // SSL TRUST STORE CONFIGURATION
@@ -335,9 +308,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
   private void setTrustStoreFile() throws HopException {
     try (FileInputStream trustFileStream = new FileInputStream(data.trustStoreFile)) {
 
-      SSLContext ctx =
-          HttpClientManager.getSslContextWithTrustStoreFile(
-              trustFileStream, data.trustStorePassword);
+      SSLContext ctx = HttpClientManager.getSslContextWithTrustStoreFile(trustFileStream, data.trustStorePassword);
 
       data.sslContext = ctx;
     } catch (NoSuchAlgorithmException e) {
@@ -347,8 +318,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
     } catch (CertificateException e) {
       throw new HopException(BaseMessages.getString(PKG, "Rest.Error.CertificateException"), e);
     } catch (FileNotFoundException e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "Rest.Error.FileNotFound", data.trustStoreFile), e);
+      throw new HopException(BaseMessages.getString(PKG, "Rest.Error.FileNotFound", data.trustStoreFile), e);
     } catch (IOException e) {
       throw new HopException(BaseMessages.getString(PKG, "Rest.Error.IOException"), e);
     } catch (KeyManagementException e) {
@@ -388,8 +358,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
           data.indexOfUrlField = data.inputRowMeta.indexOfValue(realUrlfieldName);
           if (data.indexOfUrlField < 0) {
             // The field is unreachable !
-            throw new HopException(
-                BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", realUrlfieldName));
+            throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", realUrlfieldName));
           }
         }
       } else {
@@ -405,8 +374,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         data.indexOfMethod = data.inputRowMeta.indexOfValue(field);
         if (data.indexOfMethod < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
+          throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
         }
       }
       // set Headers
@@ -424,8 +392,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
           }
           data.indexOfHeaderFields[i] = data.inputRowMeta.indexOfValue(field);
           if (data.indexOfHeaderFields[i] < 0) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
+            throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
           }
         }
         data.useHeaders = true;
@@ -445,14 +412,12 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
             }
             data.indexOfParamFields[i] = data.inputRowMeta.indexOfValue(field);
             if (data.indexOfParamFields[i] < 0) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
+              throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
             }
           }
           data.useParams = true;
         }
-        int nrmatrixparams =
-            meta.getMatrixParameterField() == null ? 0 : meta.getMatrixParameterField().length;
+        int nrmatrixparams = meta.getMatrixParameterField() == null ? 0 : meta.getMatrixParameterField().length;
         if (nrmatrixparams > 0) {
           data.nrMatrixParams = nrmatrixparams;
           data.matrixParamNames = new String[nrmatrixparams];
@@ -461,13 +426,11 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
             data.matrixParamNames[i] = resolve(meta.getMatrixParameterName()[i]);
             String field = resolve(meta.getMatrixParameterField()[i]);
             if (Utils.isEmpty(field)) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "Rest.Exception.MatrixParamFieldEmpty"));
+              throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.MatrixParamFieldEmpty"));
             }
             data.indexOfMatrixParamFields[i] = data.inputRowMeta.indexOfValue(field);
             if (data.indexOfMatrixParamFields[i] < 0) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
+              throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
             }
           }
           data.useMatrixParams = true;
@@ -480,8 +443,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
         if (!Utils.isEmpty(field)) {
           data.indexOfBodyField = data.inputRowMeta.indexOfValue(field);
           if (data.indexOfBodyField < 0) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
+            throw new HopException(BaseMessages.getString(PKG, "Rest.Exception.ErrorFindingField", field));
           }
           data.useBody = true;
         }
@@ -528,8 +490,7 @@ public class Rest extends BaseTransform<RestMeta, RestData> {
       data.realProxyHost = resolve(meta.getProxyHost());
       data.realProxyPort = Const.toInt(resolve(meta.getProxyPort()), 8080);
       data.realHttpLogin = resolve(meta.getHttpLogin());
-      data.realHttpPassword =
-          Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword()));
+      data.realHttpPassword = Encr.decryptPasswordOptionallyEncrypted(resolve(meta.getHttpPassword()));
 
       if (!meta.isDynamicMethod()) {
         data.method = resolve(meta.getMethod());

@@ -60,11 +60,7 @@ public class BigtableRowToHopRowFn extends DoFn<Row, HopRow> {
   // Log and count parse errors.
   private static final Logger LOG = LoggerFactory.getLogger(HopToBigtableFn.class);
 
-  public BigtableRowToHopRowFn(
-      String counterName,
-      String rowMetaJson,
-      String keyField,
-      String columnsJson) {
+  public BigtableRowToHopRowFn(String counterName, String rowMetaJson, String keyField, String columnsJson) {
     this.counterName = counterName;
     this.rowMetaJson = rowMetaJson;
     this.keyField = keyField;
@@ -101,8 +97,7 @@ public class BigtableRowToHopRowFn extends DoFn<Row, HopRow> {
         String qualifier = (String) jc.get("qualifier");
         String targetType = (String) jc.get("target_type");
         String targetField = (String) jc.get("target_field_name");
-        BigtableSourceColumn sourceColumn =
-            new BigtableSourceColumn(qualifier, targetType, targetField);
+        BigtableSourceColumn sourceColumn = new BigtableSourceColumn(qualifier, targetType, targetField);
         sourceColumns.add(sourceColumn);
         qualifierTargetIndexes.put(qualifier, i + indexIncrement);
         qualifierSourceColumns.put(qualifier, sourceColumn);
@@ -155,8 +150,7 @@ public class BigtableRowToHopRowFn extends DoFn<Row, HopRow> {
 
             IValueMeta targetValueMeta = sourceColumn.getValueMeta();
 
-            IValueMeta hopValueMeta =
-                ValueMetaFactory.createValueMeta("source", IValueMeta.TYPE_STRING);
+            IValueMeta hopValueMeta = ValueMetaFactory.createValueMeta("source", IValueMeta.TYPE_STRING);
             row[targetIndex] = targetValueMeta.convertData(hopValueMeta, values.toString());
           }
         }

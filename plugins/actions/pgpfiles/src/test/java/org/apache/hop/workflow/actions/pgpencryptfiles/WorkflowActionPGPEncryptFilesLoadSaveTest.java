@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WorkflowActionPGPEncryptFilesLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionPGPEncryptFiles> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionPGPEncryptFilesLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionPGPEncryptFiles> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionPGPEncryptFiles> getActionClass() {
@@ -43,35 +43,10 @@ public class WorkflowActionPGPEncryptFilesLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "gpgLocation",
-            "argFromPrevious",
-            "includeSubFolders",
-            "addResultFileNames",
-            "destinationIsAFile",
-            "createDestinationFolder",
-            "addDate",
-            "addTime",
-            "specifyFormat",
-            "dateTimeFormat",
-            "nrErrorsLessThan",
-            "successCondition",
-            "addDateBeforeExtension",
-            "doNotKeepFolderStructure",
-            "ifFileExists",
-            "destinationFolder",
-            "ifMovedFileExists",
-            "movedDateTimeFormat",
-            "createMoveToFolder",
-            "addMovedDate",
-            "addMovedTime",
-            "specifyMoveFormat",
-            "addMovedDateBeforeExtension",
-            "asciiMode",
-            "actionType",
-            "sourceFileFolder",
-            "userId",
-            "destinationFileFolder",
-            "wildcard");
+        "gpgLocation", "argFromPrevious", "includeSubFolders", "addResultFileNames", "destinationIsAFile", "createDestinationFolder", "addDate", "addTime", "specifyFormat",
+        "dateTimeFormat", "nrErrorsLessThan", "successCondition", "addDateBeforeExtension", "doNotKeepFolderStructure", "ifFileExists", "destinationFolder", "ifMovedFileExists",
+        "movedDateTimeFormat", "createMoveToFolder", "addMovedDate", "addMovedTime", "specifyMoveFormat", "addMovedDateBeforeExtension", "asciiMode", "actionType",
+        "sourceFileFolder", "userId", "destinationFileFolder", "wildcard");
   }
 
   @Override
@@ -79,16 +54,10 @@ public class WorkflowActionPGPEncryptFilesLoadSaveTest
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
     int count = new Random().nextInt(50) + 1;
 
-    validators.put(
-        "actionType",
-        new PrimitiveIntArrayLoadSaveValidator(
-            new IntLoadSaveValidator(ActionPGPEncryptFiles.actionTypeCodes.length), count));
-    validators.put(
-        "sourceFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
+    validators.put("actionType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(ActionPGPEncryptFiles.actionTypeCodes.length), count));
+    validators.put("sourceFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
     validators.put("userId", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
-    validators.put(
-        "destinationFileFolder",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
+    validators.put("destinationFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
     validators.put("wildcard", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), count));
 
     return validators;

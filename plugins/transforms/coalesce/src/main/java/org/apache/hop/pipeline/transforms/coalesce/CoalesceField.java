@@ -30,28 +30,16 @@ import java.util.List;
 public class CoalesceField implements Cloneable {
 
   /** The target field name */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "NAME",
-      injectionKeyDescription = "CoalesceMeta.Injection.Field.Name")
+  @HopMetadataProperty(key = "name", injectionKey = "NAME", injectionKeyDescription = "CoalesceMeta.Injection.Field.Name")
   private String name;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "TYPE",
-      injectionKeyDescription = "CoalesceMeta.Injection.Field.Type")
+  @HopMetadataProperty(key = "type", injectionKey = "TYPE", injectionKeyDescription = "CoalesceMeta.Injection.Field.Type")
   private String type = ValueMetaFactory.getValueMetaName(IValueMeta.TRIM_TYPE_NONE);
 
-  @HopMetadataProperty(
-      key = "remove",
-      injectionKey = "REMOVE_INPUT_FIELDS",
-      injectionKeyDescription = "CoalesceMeta.Injection.Field.Remove")
+  @HopMetadataProperty(key = "remove", injectionKey = "REMOVE_INPUT_FIELDS", injectionKeyDescription = "CoalesceMeta.Injection.Field.Remove")
   private boolean removeFields;
 
-  @HopMetadataProperty(
-      key = "input",
-      injectionKey = "INPUT_FIELDS",
-      injectionKeyDescription = "CoalesceMeta.Injection.Field.InputFields")
+  @HopMetadataProperty(key = "input", injectionKey = "INPUT_FIELDS", injectionKeyDescription = "CoalesceMeta.Injection.Field.InputFields")
   private String inputFields;
 
   private List<String> cache = new ArrayList<>();

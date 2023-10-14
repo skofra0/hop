@@ -91,12 +91,7 @@ public class DelayDialog extends BaseTransformDialog implements ITransformDialog
     wTransformName.setLayoutData(fdTransformName);
 
     // Timeout line
-    wTimeout =
-        new LabelTextVar(
-            variables,
-            shell,
-            BaseMessages.getString(PKG, "DelayDialog.Timeout.Label"),
-            BaseMessages.getString(PKG, "DelayDialog.Timeout.Tooltip"));
+    wTimeout = new LabelTextVar(variables, shell, BaseMessages.getString(PKG, "DelayDialog.Timeout.Label"), BaseMessages.getString(PKG, "DelayDialog.Timeout.Tooltip"));
     PropsUi.setLook(wTimeout);
     wTimeout.addModifyListener(lsMod);
     FormData fdTimeout = new FormData();

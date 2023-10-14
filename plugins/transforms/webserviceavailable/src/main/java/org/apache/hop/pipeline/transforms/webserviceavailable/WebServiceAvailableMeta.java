@@ -46,25 +46,17 @@ public class WebServiceAvailableMeta extends BaseTransformMeta<WebServiceAvailab
   private static final Class<?> PKG = WebServiceAvailableMeta.class; // For Translator
 
   /** dynamic filename */
-  @HopMetadataProperty(
-      key = "urlField",
-      injectionKeyDescription = "WebServiceAvailable.Injection.UrlField")
+  @HopMetadataProperty(key = "urlField", injectionKeyDescription = "WebServiceAvailable.Injection.UrlField")
   private String urlField;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "resultfieldname",
-      injectionKeyDescription = "WebServiceAvailable.Injection.ResultFieldName")
+  @HopMetadataProperty(key = "resultfieldname", injectionKeyDescription = "WebServiceAvailable.Injection.ResultFieldName")
   private String resultFieldName;
 
-  @HopMetadataProperty(
-      key = "connectTimeOut",
-      injectionKeyDescription = "WebServiceAvailable.Injection.ConnectionTimeOut")
+  @HopMetadataProperty(key = "connectTimeOut", injectionKeyDescription = "WebServiceAvailable.Injection.ConnectionTimeOut")
   private String connectTimeOut;
 
-  @HopMetadataProperty(
-      key = "readTimeOut",
-      injectionKeyDescription = "WebServiceAvailable.Injection.ReadTimeOut")
+  @HopMetadataProperty(key = "readTimeOut", injectionKeyDescription = "WebServiceAvailable.Injection.ReadTimeOut")
   private String readTimeOut;
 
   public WebServiceAvailableMeta() {
@@ -115,13 +107,7 @@ public class WebServiceAvailableMeta extends BaseTransformMeta<WebServiceAvailab
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (!Utils.isEmpty(resultFieldName)) {
@@ -146,19 +132,16 @@ public class WebServiceAvailableMeta extends BaseTransformMeta<WebServiceAvailab
     String errorMessage = "";
 
     if (Utils.isEmpty(resultFieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.ResultFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.ResultFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
-      errorMessage =
-          BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.ResultFieldOK");
+      errorMessage = BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.ResultFieldOK");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
       remarks.add(cr);
     }
     if (Utils.isEmpty(urlField)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.URLFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.URLFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -168,19 +151,10 @@ public class WebServiceAvailableMeta extends BaseTransformMeta<WebServiceAvailab
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "WebServiceAvailableMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "WebServiceAvailableMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

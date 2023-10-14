@@ -27,7 +27,8 @@ import java.util.logging.Logger;
  * This delegating driver allows the plugin system to be used in a separate class loader while
  * making DriverManager believe that the parent class loader is used.
  *
- * <p>It's an unfortunate hack but it works fine.
+ * <p>
+ * It's an unfortunate hack but it works fine.
  */
 public class DelegatingDriver implements Driver {
   private final Driver driver;

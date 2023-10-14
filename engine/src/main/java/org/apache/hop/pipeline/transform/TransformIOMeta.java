@@ -38,13 +38,7 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
    * @param inputAcceptor
    * @param outputProducer
    */
-  public TransformIOMeta(
-      boolean inputAcceptor,
-      boolean outputProducer,
-      boolean inputOptional,
-      boolean sortedDataRequired,
-      boolean inputDynamic,
-      boolean outputDynamic) {
+  public TransformIOMeta(boolean inputAcceptor, boolean outputProducer, boolean inputOptional, boolean sortedDataRequired, boolean inputDynamic, boolean outputDynamic) {
     this.inputAcceptor = inputAcceptor;
     this.outputProducer = outputProducer;
     this.inputOptional = inputOptional;
@@ -98,7 +92,7 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
 
   /**
    * @return the info streams of this transform. Important: Modifying this list does not have any
-   *     effect on the Transforms IO metadata.
+   *         effect on the Transforms IO metadata.
    */
   @Override
   public List<IStream> getInfoStreams() {
@@ -115,7 +109,7 @@ public class TransformIOMeta implements ITransformIOMeta, Cloneable {
 
   /**
    * @return the target streams of this transform. Important: Modifying this list does not have any
-   *     effect on the Transforms IO metadata.
+   *         effect on the Transforms IO metadata.
    */
   @Override
   public List<IStream> getTargetStreams() {

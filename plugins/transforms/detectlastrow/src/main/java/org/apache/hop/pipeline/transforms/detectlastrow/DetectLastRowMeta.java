@@ -73,13 +73,7 @@ public class DetectLastRowMeta extends BaseTransformMeta<DetectLastRow, DetectLa
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (!Utils.isEmpty(resultFieldName)) {
@@ -104,8 +98,7 @@ public class DetectLastRowMeta extends BaseTransformMeta<DetectLastRow, DetectLa
     String errorMessage = "";
 
     if (Utils.isEmpty(resultFieldName)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "DetectLastRowMeta.CheckResult.ResultFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "DetectLastRowMeta.CheckResult.ResultFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } else {
@@ -116,27 +109,16 @@ public class DetectLastRowMeta extends BaseTransformMeta<DetectLastRow, DetectLa
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DetectLastRowMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DetectLastRowMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DetectLastRowMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DetectLastRowMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 }

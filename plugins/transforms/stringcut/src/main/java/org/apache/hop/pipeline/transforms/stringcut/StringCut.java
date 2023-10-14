@@ -33,13 +33,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class StringCut extends BaseTransform<StringCutMeta, StringCutData> {
   private static final Class<?> PKG = StringCutMeta.class; // For Translator
 
-  public StringCut(
-      TransformMeta transformMeta,
-      StringCutMeta meta,
-      StringCutData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public StringCut(TransformMeta transformMeta, StringCutMeta meta, StringCutData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -125,17 +119,12 @@ public class StringCut extends BaseTransform<StringCutMeta, StringCutData> {
         StringCutField scf = meta.getFields().get(i);
         data.inStreamNrs[i] = getInputRowMeta().indexOfValue(scf.getFieldInStream());
         if (data.inStreamNrs[i] < 0) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "StringCut.Exception.FieldRequired", scf.getFieldInStream()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "StringCut.Exception.FieldRequired", scf.getFieldInStream()));
         }
 
         // check field type
-        if (getInputRowMeta().getValueMeta(data.inStreamNrs[i]).getType()
-            != IValueMeta.TYPE_STRING) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "StringCut.Exception.FieldTypeNotString", scf.getFieldInStream()));
+        if (getInputRowMeta().getValueMeta(data.inStreamNrs[i]).getType() != IValueMeta.TYPE_STRING) {
+          throw new HopTransformException(BaseMessages.getString(PKG, "StringCut.Exception.FieldTypeNotString", scf.getFieldInStream()));
         }
       }
 

@@ -60,10 +60,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
   private static final Class<?> PKG = ActionMysqlBulkFile.class; // For Translator
 
   private static final String[] FILETYPES =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.Filetype.Text"),
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionMysqlBulkFile.Filetype.Text"), BaseMessages.getString(PKG, "ActionMysqlBulkFile.Filetype.All")};
 
   private Text wName;
 
@@ -101,8 +98,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
 
   private Button wAddFileToResult;
 
-  public ActionMysqlBulkFileDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionMysqlBulkFileDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionMysqlBulkFile) action;
     if (this.action.getName() == null) {
@@ -171,8 +167,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
 
     wSchemaName = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSchemaName);
-    wSchemaName.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.SchemaName.Tooltip"));
+    wSchemaName.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.SchemaName.Tooltip"));
     FormData fdSchemaName = new FormData();
     fdSchemaName.left = new FormAttachment(middle, 0);
     fdSchemaName.top = new FormAttachment(wlSchemaName, 0, SWT.CENTER);
@@ -196,13 +191,12 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     fdbTable.right = new FormAttachment(100, 0);
     fdbTable.top = new FormAttachment(wlTableName, 0, SWT.CENTER);
     wbTable.setLayoutData(fdbTable);
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wTableName = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTableName);
@@ -241,19 +235,9 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.txt", "*.csv", "*"},
-                FILETYPES,
-                true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*.txt", "*.csv", "*"}, FILETYPES, true));
 
     // High Priority ?
     //
@@ -267,8 +251,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     wlHighPriority.setLayoutData(fdlHighPriority);
     wHighPriority = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wHighPriority);
-    wHighPriority.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.HighPriority.Tooltip"));
+    wHighPriority.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.HighPriority.Tooltip"));
     FormData fdHighPriority = new FormData();
     fdHighPriority.left = new FormAttachment(middle, 0);
     fdHighPriority.top = new FormAttachment(wlHighPriority, 0, SWT.CENTER);
@@ -336,8 +319,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     // Optionally enclosed ?
     //
     Label wlOptionEnclosed = new Label(shell, SWT.RIGHT);
-    wlOptionEnclosed.setText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.OptionEnclosed.Label"));
+    wlOptionEnclosed.setText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.OptionEnclosed.Label"));
     PropsUi.setLook(wlOptionEnclosed);
     FormData fdlOptionEnclosed = new FormData();
     fdlOptionEnclosed.left = new FormAttachment(0, 0);
@@ -346,8 +328,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     wlOptionEnclosed.setLayoutData(fdlOptionEnclosed);
     wOptionEnclosed = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wOptionEnclosed);
-    wOptionEnclosed.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.OptionEnclosed.Tooltip"));
+    wOptionEnclosed.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.OptionEnclosed.Tooltip"));
     FormData fdOptionEnclosed = new FormData();
     fdOptionEnclosed.left = new FormAttachment(middle, 0);
     fdOptionEnclosed.top = new FormAttachment(wlOptionEnclosed, 0, SWT.CENTER);
@@ -357,8 +338,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     // Line terminated
     //
     Label wlLineTerminated = new Label(shell, SWT.RIGHT);
-    wlLineTerminated.setText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.LineTerminated.Label"));
+    wlLineTerminated.setText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.LineTerminated.Label"));
     PropsUi.setLook(wlLineTerminated);
     FormData fdlLineTerminated = new FormData();
     fdlLineTerminated.left = new FormAttachment(0, 0);
@@ -393,8 +373,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     wbListColumns.addListener(SWT.Selection, e -> getListColumns());
     wListColumn = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wListColumn);
-    wListColumn.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.ListColumn.Tooltip"));
+    wListColumn.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.ListColumn.Tooltip"));
     FormData fdListColumn = new FormData();
     fdListColumn.left = new FormAttachment(middle, 0);
     fdListColumn.top = new FormAttachment(wlListColumn, 0, SWT.CENTER);
@@ -414,8 +393,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
 
     wLimitLines = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wLimitLines);
-    wLimitLines.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.LimitLines.Tooltip"));
+    wLimitLines.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.LimitLines.Tooltip"));
     FormData fdLimitlines = new FormData();
     fdLimitlines.left = new FormAttachment(middle, 0);
     fdLimitlines.top = new FormAttachment(wListColumn, margin);
@@ -433,10 +411,8 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     fdlIfFileExists.top = new FormAttachment(wLimitLines, margin);
     wlIfFileExists.setLayoutData(fdlIfFileExists);
     wIfFileExists = new CCombo(shell, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wIfFileExists.add(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.Create_NewFile_IfFileExists.Label"));
-    wIfFileExists.add(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.Do_Nothing_IfFileExists.Label"));
+    wIfFileExists.add(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Create_NewFile_IfFileExists.Label"));
+    wIfFileExists.add(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Do_Nothing_IfFileExists.Label"));
     wIfFileExists.add(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Fail_IfFileExists.Label"));
     wIfFileExists.select(2); // +1: starts at -1
 
@@ -469,8 +445,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
 
     // Add file to result
     Label wlAddFileToResult = new Label(wFileResult, SWT.RIGHT);
-    wlAddFileToResult.setText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.AddFileToResult.Label"));
+    wlAddFileToResult.setText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.AddFileToResult.Label"));
     PropsUi.setLook(wlAddFileToResult);
     FormData fdlAddFileToResult = new FormData();
     fdlAddFileToResult.left = new FormAttachment(0, 0);
@@ -479,8 +454,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     wlAddFileToResult.setLayoutData(fdlAddFileToResult);
     wAddFileToResult = new Button(wFileResult, SWT.CHECK);
     PropsUi.setLook(wAddFileToResult);
-    wAddFileToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionMysqlBulkFile.AddFileToResult.Tooltip"));
+    wAddFileToResult.setToolTipText(BaseMessages.getString(PKG, "ActionMysqlBulkFile.AddFileToResult.Tooltip"));
     FormData fdAddFileToResult = new FormData();
     fdAddFileToResult.left = new FormAttachment(middle, 0);
     fdAddFileToResult.top = new FormAttachment(wlAddFileToResult, 0, SWT.CENTER);
@@ -621,17 +595,14 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     if (StringUtils.isNotEmpty(databaseName)) {
       DatabaseMeta databaseMeta = getWorkflowMeta().findDatabase(databaseName, variables);
       if (databaseMeta != null) {
-        DatabaseExplorerDialog std =
-            new DatabaseExplorerDialog(
-                shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
+        DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, getWorkflowMeta().getDatabases());
         std.setSelectedSchemaAndTable(wSchemaName.getText(), wTableName.getText());
         if (std.open()) {
           wTableName.setText(Const.NVL(std.getTableName(), ""));
         }
       } else {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "ActionMysqlBulkFile.ConnectionError2.DialogMessage"));
+        mb.setMessage(BaseMessages.getString(PKG, "ActionMysqlBulkFile.ConnectionError2.DialogMessage"));
         mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
         mb.open();
       }
@@ -643,7 +614,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
     if (!Utils.isEmpty(wTableName.getText())) {
       DatabaseMeta databaseMeta = getWorkflowMeta().findDatabase(wConnection.getText(), variables);
       if (databaseMeta != null) {
-        
+
         try (Database database = new Database(loggingObject, variables, databaseMeta)) {
           database.connect();
           IRowMeta row = database.getTableFieldsMeta(wSchemaName.getText(), wTableName.getText());
@@ -675,11 +646,7 @@ public class ActionMysqlBulkFileDialog extends ActionDialog implements IActionDi
             wListColumn.setText(columns.toString());
           }
         } catch (HopDatabaseException e) {
-          new ErrorDialog(
-              shell,
-              BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-              BaseMessages.getString(PKG, "ActionMysqlBulkFile.ConnectionError2.DialogMessage"),
-              e);
+          new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "ActionMysqlBulkFile.ConnectionError2.DialogMessage"), e);
         }
       }
     }

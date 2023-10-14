@@ -31,10 +31,7 @@ import java.util.Map;
 public class StringSearcher {
   private static final String LOCAL_PACKAGE = "org.apache.hop";
 
-  private static final String[] JAVA_PACKAGES =
-      new String[] {
-        "java.util",
-      };
+  private static final String[] JAVA_PACKAGES = new String[] {"java.util",};
 
   private static List<String> transformPluginPackages;
   private static List<String> jobEntryPluginPackages;
@@ -45,12 +42,7 @@ public class StringSearcher {
     jobEntryPluginPackages = registry.getPluginPackages(ActionPluginType.class);
   }
 
-  public static final void findMetaData(
-      Object object,
-      int level,
-      List<StringSearchResult> stringList,
-      Object parentObject,
-      Object grandParentObject) {
+  public static final void findMetaData(Object object, int level, List<StringSearchResult> stringList, Object parentObject, Object grandParentObject) {
     if ((object == null) || level > 5) {
       return;
     }
@@ -126,8 +118,7 @@ public class StringSearcher {
 
               Object string = method.invoke(object, (Object[]) null);
               if (string != null) {
-                stringSearchInObject(
-                    string, level, stringList, parentObject, grandParentObject, field);
+                stringSearchInObject(string, level, stringList, parentObject, grandParentObject, field);
               }
             }
           } catch (Throwable ex) {
@@ -139,50 +130,30 @@ public class StringSearcher {
     }
   }
 
-  private static void stringSearchInObject(
-      Object obj,
-      int level,
-      List<StringSearchResult> stringList,
-      Object parentObject,
-      Object grandParentObject,
-      Field field) {
+  private static void stringSearchInObject(Object obj, int level, List<StringSearchResult> stringList, Object parentObject, Object grandParentObject, Field field) {
     String fieldName = field.getName();
     if (obj instanceof String) {
       // OK, let's add the String
-      stringList.add(
-          new StringSearchResult((String) obj, parentObject, grandParentObject, fieldName));
+      stringList.add(new StringSearchResult((String) obj, parentObject, grandParentObject, fieldName));
     } else if (obj instanceof String[]) {
       String[] array = (String[]) obj;
       for (int x = 0; x < array.length; x++) {
         if (array[x] != null) {
-          stringList.add(
-              new StringSearchResult(
-                  array[x], parentObject, grandParentObject, fieldName + " #" + (x + 1)));
+          stringList.add(new StringSearchResult(array[x], parentObject, grandParentObject, fieldName + " #" + (x + 1)));
         }
       }
     } else if (obj instanceof Boolean) {
       // OK, let's add the String
-      stringList.add(
-          new StringSearchResult(
-              ((Boolean) obj).toString(),
-              parentObject,
-              grandParentObject,
-              fieldName + " (Boolean)"));
+      stringList.add(new StringSearchResult(((Boolean) obj).toString(), parentObject, grandParentObject, fieldName + " (Boolean)"));
     } else if (obj instanceof Condition) {
-      stringList.add(
-          new StringSearchResult(
-              ((Condition) obj).toString(),
-              parentObject,
-              grandParentObject,
-              fieldName + " (Condition)"));
+      stringList.add(new StringSearchResult(((Condition) obj).toString(), parentObject, grandParentObject, fieldName + " (Condition)"));
     } else if (obj instanceof IDatabase) {
       // Make sure we read the attributes. This is not picked up by default. (getDeclaredFields
       // doesn't pick up
       // inherited fields)
       //
       IDatabase iDatabase = (IDatabase) obj;
-      findMapMetaData(
-          iDatabase.getAttributes(), level + 1, stringList, parentObject, grandParentObject, field);
+      findMapMetaData(iDatabase.getAttributes(), level + 1, stringList, parentObject, grandParentObject, field);
       findMetaData(obj, level + 1, stringList, parentObject, grandParentObject);
     } else if (obj instanceof Map) {
       findMapMetaData((Map<?, ?>) obj, level, stringList, parentObject, grandParentObject, field);
@@ -195,26 +166,16 @@ public class StringSearcher {
     }
   }
 
-  private static void findMapMetaData(
-      Map<?, ?> map,
-      int level,
-      List<StringSearchResult> stringList,
-      Object parentObject,
-      Object grandParentObject,
-      Field field) {
+  private static void findMapMetaData(Map<?, ?> map, int level, List<StringSearchResult> stringList, Object parentObject, Object grandParentObject, Field field) {
 
     String fieldName = field.getName();
     for (Object key : map.keySet()) {
       Object value = map.get(key);
       if (key != null) {
-        stringList.add(
-            new StringSearchResult(
-                key.toString(), parentObject, grandParentObject, fieldName + " (Map key)"));
+        stringList.add(new StringSearchResult(key.toString(), parentObject, grandParentObject, fieldName + " (Map key)"));
       }
       if (value != null) {
-        stringList.add(
-            new StringSearchResult(
-                value.toString(), parentObject, grandParentObject, fieldName + " (Map value)"));
+        stringList.add(new StringSearchResult(value.toString(), parentObject, grandParentObject, fieldName + " (Map value)"));
       }
     }
   }

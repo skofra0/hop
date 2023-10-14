@@ -93,21 +93,10 @@ public class MergeRowsMetaCheckTest {
 
   @Test
   public void testCheckInputRowsBothEmpty() throws HopTransformException {
-    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(REFERENCE_TRANSFORM_NAME)))
-        .thenReturn(generateRowMetaEmpty());
-    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(COMPARISON_TRANSFORM_NAME)))
-        .thenReturn(generateRowMetaEmpty());
+    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(REFERENCE_TRANSFORM_NAME))).thenReturn(generateRowMetaEmpty());
+    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(COMPARISON_TRANSFORM_NAME))).thenReturn(generateRowMetaEmpty());
 
-    meta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        null,
-        new String[0],
-        new String[0],
-        (RowMeta) null,
-        new Variables(),
-        null);
+    meta.check(remarks, pipelineMeta, transformMeta, null, new String[0], new String[0], (RowMeta) null, new Variables(), null);
 
     assertNotNull(remarks);
     assertTrue(remarks.size() >= 2);
@@ -116,21 +105,10 @@ public class MergeRowsMetaCheckTest {
 
   @Test
   public void testCheckInputRowsBothNonEmpty() throws HopTransformException {
-    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(REFERENCE_TRANSFORM_NAME)))
-        .thenReturn(generateRowMeta10Strings());
-    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(COMPARISON_TRANSFORM_NAME)))
-        .thenReturn(generateRowMeta10Strings());
+    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(REFERENCE_TRANSFORM_NAME))).thenReturn(generateRowMeta10Strings());
+    when(pipelineMeta.getPrevTransformFields(any(IVariables.class), eq(COMPARISON_TRANSFORM_NAME))).thenReturn(generateRowMeta10Strings());
 
-    meta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        (RowMeta) null,
-        new String[0],
-        new String[0],
-        (RowMeta) null,
-        new Variables(),
-        null);
+    meta.check(remarks, pipelineMeta, transformMeta, (RowMeta) null, new String[0], new String[0], (RowMeta) null, new Variables(), null);
 
     assertNotNull(remarks);
     assertTrue(remarks.size() >= 2);
@@ -139,21 +117,10 @@ public class MergeRowsMetaCheckTest {
 
   @Test
   public void testCheckInputRowsEmptyAndNonEmpty() throws HopTransformException {
-    when(pipelineMeta.getPrevTransformFields(any(), eq(REFERENCE_TRANSFORM_NAME)))
-        .thenReturn(generateRowMetaEmpty());
-    when(pipelineMeta.getPrevTransformFields(any(), eq(COMPARISON_TRANSFORM_NAME)))
-        .thenReturn(generateRowMeta10Strings());
+    when(pipelineMeta.getPrevTransformFields(any(), eq(REFERENCE_TRANSFORM_NAME))).thenReturn(generateRowMetaEmpty());
+    when(pipelineMeta.getPrevTransformFields(any(), eq(COMPARISON_TRANSFORM_NAME))).thenReturn(generateRowMeta10Strings());
 
-    meta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        (RowMeta) null,
-        new String[0],
-        new String[0],
-        (RowMeta) null,
-        new Variables(),
-        null);
+    meta.check(remarks, pipelineMeta, transformMeta, (RowMeta) null, new String[0], new String[0], (RowMeta) null, new Variables(), null);
 
     assertNotNull(remarks);
     assertTrue(remarks.size() >= 2);
@@ -162,21 +129,10 @@ public class MergeRowsMetaCheckTest {
 
   @Test
   public void testCheckInputRowsDifferentRowMetaTypes() throws HopTransformException {
-    when(pipelineMeta.getPrevTransformFields(any(), eq(REFERENCE_TRANSFORM_NAME)))
-        .thenReturn(generateRowMeta10MixedTypes());
-    when(pipelineMeta.getPrevTransformFields(any(), eq(COMPARISON_TRANSFORM_NAME)))
-        .thenReturn(generateRowMeta10Strings());
+    when(pipelineMeta.getPrevTransformFields(any(), eq(REFERENCE_TRANSFORM_NAME))).thenReturn(generateRowMeta10MixedTypes());
+    when(pipelineMeta.getPrevTransformFields(any(), eq(COMPARISON_TRANSFORM_NAME))).thenReturn(generateRowMeta10Strings());
 
-    meta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        null,
-        new String[0],
-        new String[0],
-        (RowMeta) null,
-        new Variables(),
-        null);
+    meta.check(remarks, pipelineMeta, transformMeta, null, new String[0], new String[0], (RowMeta) null, new Variables(), null);
 
     assertNotNull(remarks);
     assertTrue(remarks.size() >= 2);

@@ -50,8 +50,7 @@ public class RandomValueDialog extends BaseTransformDialog implements ITransform
 
   private final RandomValueMeta input;
 
-  public RandomValueDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public RandomValueDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (RandomValueMeta) in, pipelineMeta, sname);
     input = (RandomValueMeta) in;
   }
@@ -133,32 +132,16 @@ public class RandomValueDialog extends BaseTransformDialog implements ITransform
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RandomValueDialog.NameColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RandomValueDialog.TypeColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false)
-        };
-    columns[1].setSelectionAdapter(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            enterTypeSelection(e);
-          }
-        });
+            new ColumnInfo(BaseMessages.getString(PKG, "RandomValueDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RandomValueDialog.TypeColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false)};
+    columns[1].setSelectionAdapter(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        enterTypeSelection(e);
+      }
+    });
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrRows,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);

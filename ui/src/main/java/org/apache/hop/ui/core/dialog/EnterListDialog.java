@@ -174,15 +174,14 @@ public class EnterListDialog extends Dialog {
     wListSource.setLayoutData(fdListSource);
     // Double click adds to destination.
     wListSource.addListener(SWT.DefaultSelection, e -> addToSelection(wListSource.getSelection()));
-    wListSource.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.character == SWT.CR) {
-              addToSelection(wListSource.getSelection());
-            }
-          }
-        });
+    wListSource.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.character == SWT.CR) {
+          addToSelection(wListSource.getSelection());
+        }
+      }
+    });
 
     // /////////////////////////
     // MIDDLE
@@ -272,15 +271,14 @@ public class EnterListDialog extends Dialog {
     wListDest.setLayoutData(fdListDest);
     // Double click adds to source
     wListDest.addListener(SWT.DefaultSelection, e -> delFromSelection(wListDest.getSelection()));
-    wListDest.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.character == SWT.CR) {
-              delFromSelection(wListDest.getSelection());
-            }
-          }
-        });
+    wListDest.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.character == SWT.CR) {
+          delFromSelection(wListDest.getSelection());
+        }
+      }
+    });
 
     sashform.setWeights(40, 16, 40);
 
@@ -291,56 +289,54 @@ public class EnterListDialog extends Dialog {
 
     DragSource ddSource = new DragSource(wListSource, DND.DROP_MOVE | DND.DROP_COPY);
     ddSource.setTransfer(transfers);
-    ddSource.addDragListener(
-        new DragSourceListener() {
-          @Override
-          public void dragStart(DragSourceEvent event) {}
+    ddSource.addDragListener(new DragSourceListener() {
+      @Override
+      public void dragStart(DragSourceEvent event) {}
 
-          @Override
-          public void dragSetData(DragSourceEvent event) {
-            String[] ti = wListSource.getSelection();
-            StringBuilder data = new StringBuilder();
-            for (String s : ti) {
-              data.append(s).append(Const.CR);
-            }
-            event.data = data.toString();
-          }
+      @Override
+      public void dragSetData(DragSourceEvent event) {
+        String[] ti = wListSource.getSelection();
+        StringBuilder data = new StringBuilder();
+        for (String s : ti) {
+          data.append(s).append(Const.CR);
+        }
+        event.data = data.toString();
+      }
 
-          @Override
-          public void dragFinished(DragSourceEvent event) {}
-        });
+      @Override
+      public void dragFinished(DragSourceEvent event) {}
+    });
     DropTarget ddTarget = new DropTarget(wListDest, DND.DROP_MOVE | DND.DROP_COPY);
     ddTarget.setTransfer(transfers);
-    ddTarget.addDropListener(
-        new DropTargetListener() {
-          @Override
-          public void dragEnter(DropTargetEvent event) {}
+    ddTarget.addDropListener(new DropTargetListener() {
+      @Override
+      public void dragEnter(DropTargetEvent event) {}
 
-          @Override
-          public void dragLeave(DropTargetEvent event) {}
+      @Override
+      public void dragLeave(DropTargetEvent event) {}
 
-          @Override
-          public void dragOperationChanged(DropTargetEvent event) {}
+      @Override
+      public void dragOperationChanged(DropTargetEvent event) {}
 
-          @Override
-          public void dragOver(DropTargetEvent event) {}
+      @Override
+      public void dragOver(DropTargetEvent event) {}
 
-          @Override
-          public void drop(DropTargetEvent event) {
-            if (event.data == null) { // no data to copy, indicate failure in event.detail
-              event.detail = DND.DROP_NONE;
-              return;
-            }
-            StringTokenizer strtok = new StringTokenizer((String) event.data, Const.CR);
-            while (strtok.hasMoreTokens()) {
-              String source = strtok.nextToken();
-              addToDestination(source);
-            }
-          }
+      @Override
+      public void drop(DropTargetEvent event) {
+        if (event.data == null) { // no data to copy, indicate failure in event.detail
+          event.detail = DND.DROP_NONE;
+          return;
+        }
+        StringTokenizer strtok = new StringTokenizer((String) event.data, Const.CR);
+        while (strtok.hasMoreTokens()) {
+          String source = strtok.nextToken();
+          addToDestination(source);
+        }
+      }
 
-          @Override
-          public void dropAccept(DropTargetEvent event) {}
-        });
+      @Override
+      public void dropAccept(DropTargetEvent event) {}
+    });
 
     // Catch close of dialog
     //

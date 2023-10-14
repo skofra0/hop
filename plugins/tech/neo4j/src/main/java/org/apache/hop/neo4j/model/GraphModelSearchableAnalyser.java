@@ -26,11 +26,8 @@ import org.apache.hop.core.search.SearchableAnalyserPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-@SearchableAnalyserPlugin(
-    id = "GraphModelSearchableAnalyser",
-    name = "Search in Neo4j Graph Model metadata")
-public class GraphModelSearchableAnalyser extends BaseMetadataSearchableAnalyser<GraphModel>
-    implements ISearchableAnalyser<GraphModel> {
+@SearchableAnalyserPlugin(id = "GraphModelSearchableAnalyser", name = "Search in Neo4j Graph Model metadata")
+public class GraphModelSearchableAnalyser extends BaseMetadataSearchableAnalyser<GraphModel> implements ISearchableAnalyser<GraphModel> {
 
   @Override
   public Class<GraphModel> getSearchableClass() {
@@ -44,20 +41,13 @@ public class GraphModelSearchableAnalyser extends BaseMetadataSearchableAnalyser
     List<ISearchResult> results = new ArrayList<>();
 
     matchProperty(searchable, results, searchQuery, "Name", graphModel.getName(), component);
-    matchProperty(
-        searchable, results, searchQuery, "Description", graphModel.getDescription(), component);
+    matchProperty(searchable, results, searchQuery, "Description", graphModel.getDescription(), component);
 
     // Look in nodes
     //
     for (GraphNode graphNode : graphModel.getNodes()) {
       matchProperty(searchable, results, searchQuery, "Node name", graphNode.getName(), component);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "Node description",
-          graphNode.getDescription(),
-          component);
+      matchProperty(searchable, results, searchQuery, "Node description", graphNode.getDescription(), component);
 
       // Match labels...
       for (String nodeLabel : graphNode.getLabels()) {
@@ -66,51 +56,19 @@ public class GraphModelSearchableAnalyser extends BaseMetadataSearchableAnalyser
 
       // Match properties...
       for (GraphProperty property : graphNode.getProperties()) {
-        matchProperty(
-            searchable, results, searchQuery, "Node property name", property.getName(), component);
-        matchProperty(
-            searchable,
-            results,
-            searchQuery,
-            "Node property type",
-            property.getType().name(),
-            component);
-        matchProperty(
-            searchable,
-            results,
-            searchQuery,
-            "Node property description",
-            property.getDescription(),
-            component);
+        matchProperty(searchable, results, searchQuery, "Node property name", property.getName(), component);
+        matchProperty(searchable, results, searchQuery, "Node property type", property.getType().name(), component);
+        matchProperty(searchable, results, searchQuery, "Node property description", property.getDescription(), component);
       }
     }
 
     // Look in relationships...
     //
     for (GraphRelationship relationship : graphModel.getRelationships()) {
-      matchProperty(
-          searchable, results, searchQuery, "Relationship name", relationship.getName(), component);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "Relationship description",
-          relationship.getDescription(),
-          component);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "Relationship source node",
-          relationship.getNodeSource(),
-          component);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "Relationship target node",
-          relationship.getNodeTarget(),
-          component);
+      matchProperty(searchable, results, searchQuery, "Relationship name", relationship.getName(), component);
+      matchProperty(searchable, results, searchQuery, "Relationship description", relationship.getDescription(), component);
+      matchProperty(searchable, results, searchQuery, "Relationship source node", relationship.getNodeSource(), component);
+      matchProperty(searchable, results, searchQuery, "Relationship target node", relationship.getNodeTarget(), component);
     }
 
     return results;

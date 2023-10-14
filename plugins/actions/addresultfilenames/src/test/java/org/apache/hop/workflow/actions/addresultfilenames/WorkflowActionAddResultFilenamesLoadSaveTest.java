@@ -25,9 +25,9 @@ import org.junit.ClassRule;
 
 import java.util.UUID;
 
-public class WorkflowActionAddResultFilenamesLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionAddResultFilenames> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionAddResultFilenamesLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionAddResultFilenames> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionAddResultFilenames> getActionClass() {
@@ -36,11 +36,8 @@ public class WorkflowActionAddResultFilenamesLoadSaveTest
 
   @Before
   public void setup() throws Exception {
-    tester
-        .getFieldLoadSaveValidatorFactory()
-        .registerValidator(
-            getActionClass().getDeclaredField("arguments").getGenericType().toString(),
-            new ListLoadSaveValidator<>(new ArgumentLoadSaveValidator()));
+    tester.getFieldLoadSaveValidatorFactory()
+        .registerValidator(getActionClass().getDeclaredField("arguments").getGenericType().toString(), new ListLoadSaveValidator<>(new ArgumentLoadSaveValidator()));
   }
 
   private static class ArgumentLoadSaveValidator implements IFieldLoadSaveValidator<Argument> {
@@ -55,8 +52,7 @@ public class WorkflowActionAddResultFilenamesLoadSaveTest
         return false;
       }
       Argument actualObject = (Argument) actual;
-      return testObject.getArgument().equalsIgnoreCase(actualObject.getArgument())
-          && testObject.getMask().equalsIgnoreCase(actualObject.getMask());
+      return testObject.getArgument().equalsIgnoreCase(actualObject.getArgument()) && testObject.getMask().equalsIgnoreCase(actualObject.getMask());
     }
   }
 }

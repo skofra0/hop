@@ -48,8 +48,7 @@ public class LoggingRegistrySingltonTest {
    * @throws ExecutionException
    */
   @Test(timeout = 30000)
-  public void testLoggingRegistryConcurrentInitialization()
-      throws InterruptedException, ExecutionException {
+  public void testLoggingRegistryConcurrentInitialization() throws InterruptedException, ExecutionException {
     CountDownLatch start = new CountDownLatch(1);
 
     int count = 10;
@@ -71,8 +70,7 @@ public class LoggingRegistrySingltonTest {
 
   CompletionService<LoggingRegistry> registerHounds(int count, CountDownLatch start) {
     ExecutorService executor = Executors.newFixedThreadPool(count);
-    CompletionService<LoggingRegistry> completionService =
-        new ExecutorCompletionService<>(executor);
+    CompletionService<LoggingRegistry> completionService = new ExecutorCompletionService<>(executor);
     for (int i = 0; i < count; i++) {
       LogRegistryKicker hound = new LogRegistryKicker(start);
       completionService.submit(hound);

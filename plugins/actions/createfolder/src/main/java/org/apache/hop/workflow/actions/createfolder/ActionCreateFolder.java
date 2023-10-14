@@ -137,17 +137,10 @@ public class ActionCreateFolder extends ActionBase implements Cloneable, IAction
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx,
-        ActionValidatorUtils.notNullValidator(),
-        ActionValidatorUtils.fileDoesNotExistValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileDoesNotExistValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
   }
 

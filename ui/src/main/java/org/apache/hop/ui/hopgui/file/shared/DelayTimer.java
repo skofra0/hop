@@ -44,8 +44,7 @@ public class DelayTimer implements Runnable {
     addDelayListener(delayListener);
   }
 
-  public DelayTimer(
-      int delayInMilliseconds, IDelayListener delayListener, Callable<Boolean> prolonger) {
+  public DelayTimer(int delayInMilliseconds, IDelayListener delayListener, Callable<Boolean> prolonger) {
     this(delayInMilliseconds, delayListener);
     this.prolonger = prolonger;
   }

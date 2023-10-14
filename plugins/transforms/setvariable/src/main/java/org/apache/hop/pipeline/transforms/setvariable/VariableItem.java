@@ -31,16 +31,10 @@ public class VariableItem {
   public static final String VARIABLE_TYPE_PARENT_WORKFLOW = "PARENT_WORKFLOW";
   public static final String VARIABLE_TYPE_JVM = "JVM";
 
-  private static final String[] variableTypeCodes = {
-          VARIABLE_TYPE_JVM, VARIABLE_TYPE_PARENT_WORKFLOW, VARIABLE_TYPE_GRAND_PARENT_WORKFLOW, VARIABLE_TYPE_ROOT_WORKFLOW,
-  };
+  private static final String[] variableTypeCodes = {VARIABLE_TYPE_JVM, VARIABLE_TYPE_PARENT_WORKFLOW, VARIABLE_TYPE_GRAND_PARENT_WORKFLOW, VARIABLE_TYPE_ROOT_WORKFLOW,};
 
-  private static final String[] variableTypeDescriptions = {
-    "SetVariable.Validity.Jvm",
-    "SetVariable.Validity.Parent",
-    "SetVariable.Validity.GParent",
-    "SetVariable.Validity.RootWf",
-  };
+  private static final String[] variableTypeDescriptions =
+      {"SetVariable.Validity.Jvm", "SetVariable.Validity.Parent", "SetVariable.Validity.GParent", "SetVariable.Validity.RootWf",};
 
   @HopMetadataProperty(key = "field_name")
   private String fieldName;
@@ -56,8 +50,7 @@ public class VariableItem {
 
   public VariableItem() {}
 
-  public VariableItem(
-      String fieldName, String variableName, String variableType, String defaultValue) {
+  public VariableItem(String fieldName, String variableName, String variableType, String defaultValue) {
     this.fieldName = fieldName;
     this.variableName = variableName;
     this.variableType = variableType;
@@ -95,8 +88,7 @@ public class VariableItem {
 
     String vt = variableTypeCodes[0];
     for (int i = 0; i < variableTypeDescriptions.length; i++) {
-      if (BaseMessages.getString(PKG, variableTypeDescriptions[i])
-          .equalsIgnoreCase(variableTypeDesc)) {
+      if (BaseMessages.getString(PKG, variableTypeDescriptions[i]).equalsIgnoreCase(variableTypeDesc)) {
         vt = variableTypeCodes[i];
       }
     }
@@ -137,13 +129,12 @@ public class VariableItem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     VariableItem that = (VariableItem) o;
-    return variableType == that.variableType
-        && fieldName.equals(that.fieldName)
-        && variableName.equals(that.variableName)
-        && defaultValue.equals(that.defaultValue);
+    return variableType == that.variableType && fieldName.equals(that.fieldName) && variableName.equals(that.variableName) && defaultValue.equals(that.defaultValue);
   }
 
   @Override

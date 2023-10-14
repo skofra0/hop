@@ -49,8 +49,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Output",
     keywords = "i18n::ExcelWriterTransformMeta.keyword",
     documentationUrl = "/pipeline/transforms/excelwriter.html")
-public class ExcelWriterTransformMeta
-    extends BaseTransformMeta<ExcelWriterTransform, ExcelWriterTransformData> {
+public class ExcelWriterTransformMeta extends BaseTransformMeta<ExcelWriterTransform, ExcelWriterTransformData> {
   private static final Class<?> PKG = ExcelWriterTransformMeta.class; // For Translator
 
   public static final String IF_FILE_EXISTS_REUSE = "reuse";
@@ -65,12 +64,10 @@ public class ExcelWriterTransformMeta
   @HopMetadataProperty(injectionKeyDescription = "ExcelWriterMeta.Injection.MakeSheetActive.Field")
   private boolean makeSheetActive;
 
-  @HopMetadataProperty(
-      injectionKeyDescription = "ExcelWriterMeta.Injection.ForceFormulaRecalculation.Field")
+  @HopMetadataProperty(injectionKeyDescription = "ExcelWriterMeta.Injection.ForceFormulaRecalculation.Field")
   private boolean forceFormulaRecalculation = false;
 
-  @HopMetadataProperty(
-      injectionKeyDescription = "ExcelWriterMeta.Injection.LeaveExistingStylesUnchanged.Field")
+  @HopMetadataProperty(injectionKeyDescription = "ExcelWriterMeta.Injection.LeaveExistingStylesUnchanged.Field")
   private boolean leaveExistingStylesUnchanged = false;
 
   /** advanced line append options */
@@ -92,21 +89,15 @@ public class ExcelWriterTransformMeta
   private String startingCell;
 
   /** Add a header at the top of the file? */
-  @HopMetadataProperty(
-      key = "header",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.HeaderEnabled.Field")
+  @HopMetadataProperty(key = "header", injectionKeyDescription = "ExcelWriterMeta.Injection.HeaderEnabled.Field")
   private boolean headerEnabled;
 
   /** Add a footer at the bottom of the file? */
-  @HopMetadataProperty(
-      key = "footer",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.FooterEnabled.Field")
+  @HopMetadataProperty(key = "footer", injectionKeyDescription = "ExcelWriterMeta.Injection.FooterEnabled.Field")
   private boolean footerEnabled;
 
   /** Flag: add the filenames to result filenames */
-  @HopMetadataProperty(
-      key = "add_to_result_filenames",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.AddToResultFilenames.Field")
+  @HopMetadataProperty(key = "add_to_result_filenames", injectionKeyDescription = "ExcelWriterMeta.Injection.AddToResultFilenames.Field")
   private boolean addToResultFilenames;
 
   /* THE FIELD SPECIFICATIONS ... */
@@ -125,9 +116,11 @@ public class ExcelWriterTransformMeta
   @HopMetadataProperty(injectionKeyDescription = "ExcelWriterMeta.Injection.AppendLines.Field")
   private boolean appendLines;
 
-  @HopMetadataProperty private ExcelWriterFileField file;
+  @HopMetadataProperty
+  private ExcelWriterFileField file;
 
-  @HopMetadataProperty private ExcelWriterTemplateField template;
+  @HopMetadataProperty
+  private ExcelWriterTemplateField template;
 
   public ExcelWriterTransformMeta() {
     super();
@@ -375,7 +368,7 @@ public class ExcelWriterTransformMeta
       retval += "_" + splitNr;
     }
     if (beamContext) {
-      retval+= "_"+transformId+"_"+bundleNr;
+      retval += "_" + transformId + "_" + bundleNr;
     }
 
     if (realextension != null && realextension.length() != 0) {
@@ -398,13 +391,7 @@ public class ExcelWriterTransformMeta
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // No values are added to the row in this type of transform
   }
@@ -424,12 +411,7 @@ public class ExcelWriterTransformMeta
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ExcelWriterTransformMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -439,9 +421,7 @@ public class ExcelWriterTransformMeta
       if (getFile().isFileNameInField()) {
         int idx = prev.indexOfValue(getFile().getFileNameField());
         if (idx < 0) {
-          errorMessage =
-              BaseMessages.getString(
-                  PKG, "ExcelWriterTransformMeta.CheckResult.FilenameFieldNotFound", errorMessage);
+          errorMessage = BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.FilenameFieldNotFound", errorMessage);
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
@@ -457,44 +437,25 @@ public class ExcelWriterTransformMeta
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "ExcelWriterTransformMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "ExcelWriterTransformMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "ExcelWriterTransformMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 
@@ -506,11 +467,7 @@ public class ExcelWriterTransformMeta
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -521,8 +478,7 @@ public class ExcelWriterTransformMeta
         file.setFileName(iResourceNaming.nameResource(fileObject, variables, true));
       }
       if (!Utils.isEmpty(template.getTemplateFileName())) {
-        FileObject fileObject =
-            HopVfs.getFileObject(variables.resolve(template.getTemplateFileName()));
+        FileObject fileObject = HopVfs.getFileObject(variables.resolve(template.getTemplateFileName()));
         template.setTemplateFileName(iResourceNaming.nameResource(fileObject, variables, true));
       }
 

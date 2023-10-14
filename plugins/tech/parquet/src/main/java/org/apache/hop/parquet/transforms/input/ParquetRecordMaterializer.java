@@ -43,15 +43,13 @@ public class ParquetRecordMaterializer extends RecordMaterializer<RowMetaAndData
     for (ParquetField field : fields) {
       int fieldIndex = messageType.getFieldIndex(field.getSourceField());
       if (fieldIndex < 0) {
-        throw new RuntimeException(
-            "Error finding source field '" + field.getSourceField() + "' in the input file");
+        throw new RuntimeException("Error finding source field '" + field.getSourceField() + "' in the input file");
       }
       requestedFieldIndexes.add(fieldIndex);
       try {
         schemaRowMeta.addValueMeta(field.createValueMeta());
       } catch (HopException e) {
-        throw new RuntimeException(
-            "Error creating value of type " + field.getTargetType() + "'", e);
+        throw new RuntimeException("Error creating value of type " + field.getTargetType() + "'", e);
       }
     }
 
@@ -59,8 +57,8 @@ public class ParquetRecordMaterializer extends RecordMaterializer<RowMetaAndData
   }
 
   /*
-   Convert to a record...
-  */
+   * Convert to a record...
+   */
   @Override
   public RowMetaAndData getCurrentRecord() {
     return root.getGroup();

@@ -30,7 +30,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class ActionHttpLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionHttp> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionHttp> getActionClass() {
@@ -40,34 +41,16 @@ public class ActionHttpLoadSaveTest extends WorkflowActionLoadSaveTestSupport<Ac
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "url",
-            "targetFilename",
-            "fileAppended",
-            "dateTimeAdded",
-            "targetFilenameExtension",
-            "uploadFilename",
-            "runForEveryRow",
-            "urlFieldname",
-            "uploadFieldname",
-            "destinationFieldname",
-            "username",
-            "password",
-            "proxyHostname",
-            "proxyPort",
-            "nonProxyHosts",
-            "addFilenameToResult",
-            "headerName",
-            "headerValue");
+        "url", "targetFilename", "fileAppended", "dateTimeAdded", "targetFilenameExtension", "uploadFilename", "runForEveryRow", "urlFieldname", "uploadFieldname",
+        "destinationFieldname", "username", "password", "proxyHostname", "proxyPort", "nonProxyHosts", "addFilenameToResult", "headerName", "headerValue");
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
     int entries = new Random().nextInt(20) + 1;
-    validators.put(
-        "headerName", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
-    validators.put(
-        "headerValue", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
+    validators.put("headerName", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
+    validators.put("headerValue", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
     return validators;
   }
 }

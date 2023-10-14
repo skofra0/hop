@@ -30,9 +30,7 @@ public class SourceField {
 
   public SourceField() {}
 
-  public SourceField(
-      String sourceFieldName,
-      String targetFieldName) {
+  public SourceField(String sourceFieldName, String targetFieldName) {
     this.sourceFieldName = sourceFieldName;
     this.targetFieldName = targetFieldName;
   }

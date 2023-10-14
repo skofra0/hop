@@ -23,13 +23,15 @@ import java.util.Objects;
 public class HopMetadataBase implements IHopMetadata {
 
   /** All metadata objects have a name to uniquely identify it. */
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
   /**
    * The metadata provider name is optionally used at runtime to figure out where the metadata came
    * from. Optionally used by plugins. It's volatile because it's never persisted.
    */
-  @JsonIgnore protected volatile String metadataProviderName;
+  @JsonIgnore
+  protected volatile String metadataProviderName;
 
   public HopMetadataBase() {}
 

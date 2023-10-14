@@ -29,10 +29,7 @@ public class MetaInjectOutputField {
   @Injection(name = "SOURCE_OUTPUT_NAME", group = "SOURCE_OUTPUT_FIELDS")
   private String name;
 
-  @Injection(
-      name = "SOURCE_OUTPUT_TYPE",
-      group = "SOURCE_OUTPUT_FIELDS",
-      converter = DataTypeConverter.class)
+  @Injection(name = "SOURCE_OUTPUT_TYPE", group = "SOURCE_OUTPUT_FIELDS", converter = DataTypeConverter.class)
   private int type;
 
   @Injection(name = "SOURCE_OUTPUT_LENGTH", group = "SOURCE_OUTPUT_FIELDS")

@@ -54,7 +54,7 @@ public final class WsdlOpParameter extends WsdlOpReturnType implements java.io.S
    * @param name QName of the parameter.
    * @param xmlType XML type of the parameter.
    * @param schemaTypeElement The type element from the schema for this parameter, will be null if
-   *     xmlType is a built-in schema type.
+   *        xmlType is a built-in schema type.
    * @param wsdlTypes Wsdl types abstraction.
    */
   WsdlOpParameter(String name, QName xmlType, Element schemaTypeElement, WsdlTypes wsdlTypes) {
@@ -112,8 +112,7 @@ public final class WsdlOpParameter extends WsdlOpReturnType implements java.io.S
       itemXmlType = getArrayItemType(t, wsdlTypes);
       isArray = itemXmlType != null;
       if (itemXmlType != null) {
-        itemComplexType =
-            wsdlTypes.getNamedComplexTypes().getComplexType(itemXmlType.getLocalPart());
+        itemComplexType = wsdlTypes.getNamedComplexTypes().getComplexType(itemXmlType.getLocalPart());
       }
     }
   }
@@ -187,8 +186,7 @@ public final class WsdlOpParameter extends WsdlOpReturnType implements java.io.S
    */
   private boolean isArray(Element e) {
 
-    if (e.hasAttribute(WsdlUtils.MAXOCCURS_ATTR)
-        && !"1".equals(e.getAttribute(WsdlUtils.MAXOCCURS_ATTR))) {
+    if (e.hasAttribute(WsdlUtils.MAXOCCURS_ATTR) && !"1".equals(e.getAttribute(WsdlUtils.MAXOCCURS_ATTR))) {
       return true;
     }
 
@@ -216,14 +214,16 @@ public final class WsdlOpParameter extends WsdlOpReturnType implements java.io.S
   private QName getElementType(Element element, WsdlTypes wsdlTypes) {
 
     /*
-     * Get the type of an element when the element is in the form of: <element name="foo"> <complexType> <sequence>
+     * Get the type of an element when the element is in the form of: <element name="foo"> <complexType>
+     * <sequence>
      * <element name="bar" ref="s:schema"/> </sequence> </complexType> </element>
      *
      * or
      *
      * <element name="foo"> <complexType> <sequence> <any/> </sequence> </complexType> </element>
      *
-     * This code is extremely brittle, this is a construct used by dot net when DataTypes are employed. The code will
+     * This code is extremely brittle, this is a construct used by dot net when DataTypes are employed.
+     * The code will
      * need to be enhanced if other samples of this construct arise.
      */
     Element child;
@@ -236,8 +236,7 @@ public final class WsdlOpParameter extends WsdlOpReturnType implements java.io.S
           } else if (child.hasAttribute(WsdlUtils.ELEMENT_TYPE_ATTR)) {
             return wsdlTypes.getTypeQName(child.getAttribute(WsdlUtils.ELEMENT_TYPE_ATTR));
           }
-        } else if ((childElement = DomUtils.getChildElementByName(child, WsdlUtils.ANY_TAG_NAME))
-            != null) {
+        } else if ((childElement = DomUtils.getChildElementByName(child, WsdlUtils.ANY_TAG_NAME)) != null) {
           return new QName(childElement.getNamespaceURI(), childElement.getLocalName());
         }
       }

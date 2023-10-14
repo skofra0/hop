@@ -43,13 +43,10 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
   /**
    * @param twoWayPasswordEncoder The password encoder to use
    * @param providers The list of providers to use. If no source is specified when serializing the
-   *     first is addressed.
+   *        first is addressed.
    * @param variables The variables to resolve variable expressions with.
    */
-  public MultiMetadataProvider(
-      ITwoWayPasswordEncoder twoWayPasswordEncoder,
-      List<IHopMetadataProvider> providers,
-      IVariables variables) {
+  public MultiMetadataProvider(ITwoWayPasswordEncoder twoWayPasswordEncoder, List<IHopMetadataProvider> providers, IVariables variables) {
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
     this.providers = providers;
     this.variables = variables;
@@ -70,7 +67,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
   }
 
   private String calculateDescription() {
-    String descr = "Multi Metadata Provider with "+providers.size()+" providers";
+    String descr = "Multi Metadata Provider with " + providers.size() + " providers";
     for (int i = 0; i < providers.size(); i++) {
       IHopMetadataProvider provider = providers.get(i);
       if (i == 0) {
@@ -84,8 +81,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
   }
 
   @Override
-  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException {
+  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException {
     if (managedClass == null) {
       throw new HopException("You need to specify the class to serialize");
     }
@@ -94,11 +90,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
     //
     HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
     if (hopMetadata == null) {
-      throw new HopException(
-          "To serialize class "
-              + managedClass.getClass().getName()
-              + " it needs to have annotation "
-              + HopMetadata.class.getName());
+      throw new HopException("To serialize class " + managedClass.getClass().getName() + " it needs to have annotation " + HopMetadata.class.getName());
     }
 
     // Return the serializer for all providers
@@ -160,9 +152,7 @@ public class MultiMetadataProvider implements IHopMetadataProvider {
    * @param description The description to set
    */
   public void setDescription(String description) {
-    throw new RuntimeException(
-        "The description of the multi metadata provider can't be changed. "
-            + "It's derived from the list of providers it contains.");
+    throw new RuntimeException("The description of the multi metadata provider can't be changed. " + "It's derived from the list of providers it contains.");
   }
 
   @Override

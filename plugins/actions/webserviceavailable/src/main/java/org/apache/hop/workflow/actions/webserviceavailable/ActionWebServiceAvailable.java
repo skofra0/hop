@@ -78,18 +78,14 @@ public class ActionWebServiceAvailable extends ActionBase implements Cloneable, 
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       url = XmlHandler.getTagValue(entrynode, "url");
       connectTimeOut = XmlHandler.getTagValue(entrynode, "connectTimeOut");
       readTimeOut = XmlHandler.getTagValue(entrynode, "readTimeOut");
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "ActionWebServiceAvailable.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node"),
-          xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionWebServiceAvailable.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node"), xe);
     }
   }
 
@@ -138,9 +134,7 @@ public class ActionWebServiceAvailable extends ActionBase implements Cloneable, 
         result.setResult(true);
       } catch (Exception e) {
         result.setNrErrors(1);
-        String message =
-            BaseMessages.getString(
-                PKG, "ActionWebServiceAvailable.ERROR_0004_Exception", realURL, e.toString());
+        String message = BaseMessages.getString(PKG, "ActionWebServiceAvailable.ERROR_0004_Exception", realURL, e.toString());
         logError(message);
         result.setLogText(message);
       } finally {
@@ -154,8 +148,7 @@ public class ActionWebServiceAvailable extends ActionBase implements Cloneable, 
       }
     } else {
       result.setNrErrors(1);
-      String message =
-          BaseMessages.getString(PKG, "ActionWebServiceAvailable.ERROR_0005_No_URL_Defined");
+      String message = BaseMessages.getString(PKG, "ActionWebServiceAvailable.ERROR_0005_No_URL_Defined");
       logError(message);
       result.setLogText(message);
     }

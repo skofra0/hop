@@ -59,15 +59,12 @@ public class IfNullTest {
   public void setUp() {
     env = new RestoreHopEngineEnvironment();
     smh = new TransformMockHelper<>("Field IfNull processor", IfNullMeta.class, IfNullData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
   @After
-  public void clean()
-      throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-          IllegalAccessException {
+  public void clean() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
     smh.cleanUp();
   }
 
@@ -77,19 +74,10 @@ public class IfNullTest {
 
   private IfNullMeta mockProcessRowMeta() throws HopTransformException {
     IfNullMeta processRowMeta = smh.iTransformMeta;
-    doReturn(createFields("null-field", "empty-field", "space-field"))
-        .when(processRowMeta)
-        .getFields();
+    doReturn(createFields("null-field", "empty-field", "space-field")).when(processRowMeta).getFields();
     doReturn("replace-value").when(processRowMeta).getReplaceAllByValue();
-    doCallRealMethod()
-        .when(processRowMeta)
-        .getFields(
-            any(IRowMeta.class),
-            anyString(),
-            any(IRowMeta[].class),
-            any(TransformMeta.class),
-            any(IVariables.class),
-            any(IHopMetadataProvider.class));
+    doCallRealMethod().when(processRowMeta)
+        .getFields(any(IRowMeta.class), anyString(), any(IRowMeta[].class), any(TransformMeta.class), any(IVariables.class), any(IHopMetadataProvider.class));
     return processRowMeta;
   }
 
@@ -114,14 +102,7 @@ public class IfNullTest {
   @Test
   public void testStringEmptyIsNull() throws HopException {
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "N");
-    IfNull transform =
-        new IfNull(
-            smh.transformMeta,
-            mockProcessRowMeta(),
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    IfNull transform = new IfNull(smh.transformMeta, mockProcessRowMeta(), smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.init();
     final RowMeta inputRowMeta =
         buildInputRowMeta( //
@@ -130,12 +111,11 @@ public class IfNullTest {
             new ValueMetaString("empty-field"), //
             new ValueMetaString("space-field"), //
             new ValueMetaString("another-field") //
-            );
+        );
     transform.setInputRowMeta(inputRowMeta);
 
     final Object[] inputRow = new Object[] {"value1", null, "", "    ", "value5"};
-    final Object[] expectedRow =
-        new Object[] {"value1", "replace-value", "replace-value", "    ", "value5"};
+    final Object[] expectedRow = new Object[] {"value1", "replace-value", "replace-value", "    ", "value5"};
 
     transform.addRowSetToInputRowSets(buildInputRowSet(inputRow));
     transform.addRowSetToOutputRowSets(new QueueRowSet());
@@ -153,14 +133,7 @@ public class IfNullTest {
   @Test
   public void testStringEmptyIsNotNull() throws HopException {
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y");
-    IfNull transform =
-        new IfNull(
-            smh.transformMeta,
-            mockProcessRowMeta(),
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    IfNull transform = new IfNull(smh.transformMeta, mockProcessRowMeta(), smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.init();
     final RowMeta inputRowMeta =
         buildInputRowMeta( //
@@ -169,7 +142,7 @@ public class IfNullTest {
             new ValueMetaString("empty-field"), //
             new ValueMetaString("space-field"), //
             new ValueMetaString("another-field") //
-            );
+        );
     transform.setInputRowMeta(inputRowMeta);
 
     final Object[] inputRow = new Object[] {"value1", null, "", "    ", "value5"};
@@ -190,14 +163,10 @@ public class IfNullTest {
 
   private void assertRowSetMatches(String msg, Object[] expectedRow, IRowSet outputRowSet) {
     Object[] actualRow = outputRowSet.getRow();
-    Assert.assertEquals(
-        msg + ". Output row is of an unexpected length",
-        expectedRow.length,
-        outputRowSet.getRowMeta().size());
+    Assert.assertEquals(msg + ". Output row is of an unexpected length", expectedRow.length, outputRowSet.getRowMeta().size());
 
     for (int i = 0; i < expectedRow.length; i++) {
-      Assert.assertEquals(
-          msg + ". Unexpected output value at index " + i, expectedRow[i], actualRow[i]);
+      Assert.assertEquals(msg + ". Unexpected output value at index " + i, expectedRow[i], actualRow[i]);
     }
   }
 }

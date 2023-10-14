@@ -150,8 +150,7 @@ public class MessageBox extends Dialog {
       buttons.add(0, wOk);
     }
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, buttons.toArray(new Button[0]), margin, wMessage);
+    BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[0]), margin, wMessage);
 
     shell.addListener(SWT.Close, e -> cancel());
 

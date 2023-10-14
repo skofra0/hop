@@ -44,17 +44,10 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
 
   private static final Class<?> PKG = XsltMeta.class; // For Translator
 
-  static final String JAXP_SCHEMA_LANGUAGE =
-      "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+  static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
   static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-  public Xslt(
-      TransformMeta transformMeta,
-      XsltMeta meta,
-      XsltData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public Xslt(TransformMeta transformMeta, XsltMeta meta, XsltData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
   }
 
@@ -76,16 +69,14 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
       if (Utils.isEmpty(meta.getResultfieldname())) {
         // Result Field is missing !
         logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorResultFieldMissing"));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "Xslt.Exception.ErrorResultFieldMissing"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorResultFieldMissing"));
       }
 
       // Check if The XML field is given
       if (Utils.isEmpty(meta.getFieldname())) {
         // Result Field is missing !
         logError(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXMLFieldMissing"));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "Xslt.Exception.ErrorXMLFieldMissing"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXMLFieldMissing"));
       }
 
       // Try to get XML Field index
@@ -93,13 +84,8 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
       // Let's check the Field
       if (data.fieldposition < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, "Xslt.Log.ErrorFindingField")
-                + "["
-                + meta.getFieldname()
-                + "]");
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "Xslt.Exception.CouldnotFindField", meta.getFieldname()));
+        logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorFindingField") + "[" + meta.getFieldname() + "]");
+        throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.CouldnotFindField", meta.getFieldname()));
       }
 
       // Check if the XSL Filename is contained in a column
@@ -108,8 +94,7 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
           // The field is missing
           // Result field is missing !
           logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFileFieldMissing"));
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFileFieldMissing"));
+          throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFileFieldMissing"));
         }
 
         // Try to get Field index
@@ -118,21 +103,14 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
         // Let's check the Field
         if (data.fielxslfiledposition < 0) {
           // The field is unreachable !
-          logError(
-              BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFileFieldFinding")
-                  + "["
-                  + meta.getXSLFileField()
-                  + "]");
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "Xslt.Exception.ErrorXSLFileFieldFinding", meta.getXSLFileField()));
+          logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFileFieldFinding") + "[" + meta.getXSLFileField() + "]");
+          throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFileFieldFinding", meta.getXSLFileField()));
         }
 
       } else {
         if (Utils.isEmpty(meta.getXslFilename())) {
           logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFile"));
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFile"));
+          throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFile"));
         }
 
         // Check if XSL File exists!
@@ -141,16 +119,12 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
         try {
           file = HopVfs.getFileObject(data.xslfilename);
           if (!file.exists()) {
-            logError(
-                BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFileNotExists", data.xslfilename));
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "Xslt.Exception.ErrorXSLFileNotExists", data.xslfilename));
+            logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLFileNotExists", data.xslfilename));
+            throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLFileNotExists", data.xslfilename));
           }
           if (file.getType() != FileType.FILE) {
             logError(BaseMessages.getString(PKG, "Xslt.Log.ErrorXSLNotAFile", data.xslfilename));
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLNotAFile", data.xslfilename));
+            throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ErrorXSLNotAFile", data.xslfilename));
           }
         } catch (Exception e) {
           throw new HopTransformException(e);
@@ -166,13 +140,11 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
       }
 
       // Check output parameters
-      int nrOutputProps =
-          meta.getOutputPropertyName() == null ? 0 : meta.getOutputPropertyName().length;
+      int nrOutputProps = meta.getOutputPropertyName() == null ? 0 : meta.getOutputPropertyName().length;
       if (nrOutputProps > 0) {
         data.outputProperties = new Properties();
         for (int i = 0; i < nrOutputProps; i++) {
-          data.outputProperties.put(
-              meta.getOutputPropertyName()[i], resolve(meta.getOutputPropertyValue()[i]));
+          data.outputProperties.put(meta.getOutputPropertyName()[i], resolve(meta.getOutputPropertyValue()[i]));
         }
         data.setOutputProperties = true;
       }
@@ -186,13 +158,11 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
           String name = resolve(meta.getParameterName()[i]);
           String field = resolve(meta.getParameterField()[i]);
           if (Utils.isEmpty(field)) {
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldMissing", name, i));
+            throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldMissing", name, i));
           }
           data.indexOfParams[i] = getInputRowMeta().indexOfValue(field);
           if (data.indexOfParams[i] < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldNotFound", name));
+            throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldNotFound", name));
           }
           data.nameOfParams[i] = name;
         }
@@ -214,9 +184,7 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
       // Get the value
       data.xslfilename = getInputRowMeta().getString(row, data.fielxslfiledposition);
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "Xslt.Log.XslfileNameFromFied", data.xslfilename, meta.getXSLFileField()));
+        logDetailed(BaseMessages.getString(PKG, "Xslt.Log.XslfileNameFromFied", data.xslfilename, meta.getXSLFileField()));
       }
     }
 
@@ -259,10 +227,7 @@ public class Xslt extends BaseTransform<XsltMeta, XsltData> {
       Object[] outputRowData = RowDataUtil.addValueData(row, getInputRowMeta().size(), xmlString);
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "Xslt.Log.ReadRow")
-                + " "
-                + getInputRowMeta().getString(row));
+        logRowlevel(BaseMessages.getString(PKG, "Xslt.Log.ReadRow") + " " + getInputRowMeta().getString(row));
       }
 
       // add new values to the row.

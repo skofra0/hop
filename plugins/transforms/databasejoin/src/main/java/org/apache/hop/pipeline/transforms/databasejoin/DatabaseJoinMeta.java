@@ -55,9 +55,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
 
   private static final Class<?> PKG = DatabaseJoinMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.Connection")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "DatabaseJoinMeta.Injection.Connection")
   private String connection;
 
   /** SQL Statement */
@@ -65,18 +63,14 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
   private String sql;
 
   /** Number of rows to return (0=ALL) */
-  @HopMetadataProperty(
-      key = "rowlimit",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.RowLimit")
+  @HopMetadataProperty(key = "rowlimit", injectionKeyDescription = "DatabaseJoinMeta.Injection.RowLimit")
   private int rowLimit;
 
   /**
    * false: don't return rows where nothing is found true: at least return one source row, the rest
    * is NULL
    */
-  @HopMetadataProperty(
-      key = "outer_join",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.OuterJoin")
+  @HopMetadataProperty(key = "outer_join", injectionKeyDescription = "DatabaseJoinMeta.Injection.OuterJoin")
   private boolean outerJoin;
 
   /** Fields to use as parameters (fill in the ? markers) */
@@ -88,9 +82,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
   private List<ParameterField> parameters = new ArrayList<>();
 
   /** false: don't replace variable in script true: replace variable in script */
-  @HopMetadataProperty(
-      key = "replace_vars",
-      injectionKeyDescription = "DatabaseJoinMeta.Injection.ReplaceVariables")
+  @HopMetadataProperty(key = "replace_vars", injectionKeyDescription = "DatabaseJoinMeta.Injection.ReplaceVariables")
   private boolean replaceVariables;
 
   public DatabaseJoinMeta() {
@@ -188,13 +180,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (connection == null) {
@@ -204,12 +190,9 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
 
     Database db = new Database(loggingObject, variables, databaseMeta);
@@ -227,11 +210,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
     try {
       add = db.getQueryFields(variables.resolve(sql), true, param, new Object[param.size()]);
     } catch (HopDatabaseException dbe) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DatabaseJoinMeta.Exception.UnableToDetermineQueryFields")
-              + Const.CR
-              + sql,
-          dbe);
+      throw new HopTransformException(BaseMessages.getString(PKG, "DatabaseJoinMeta.Exception.UnableToDetermineQueryFields") + Const.CR + sql, dbe);
     }
 
     if (add != null) { // Cache hit, just return it this...
@@ -253,8 +232,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
         row.addRowMeta(add);
         db.disconnect();
       } catch (HopDatabaseException dbe) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "DatabaseJoinMeta.Exception.ErrorObtainingFields"), dbe);
+        throw new HopTransformException(BaseMessages.getString(PKG, "DatabaseJoinMeta.Exception.ErrorObtainingFields"), dbe);
       }
     }
   }
@@ -276,16 +254,12 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "DatabaseJoinMeta.CheckResult.DatabaseMetaError",
-                  variables.resolve(connection)),
+              BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)),
               transformMeta);
       remarks.add(cr);
     }
@@ -301,48 +275,26 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
 
           errorMessage = "";
 
-          IRowMeta r =
-              db.getQueryFields(variables.resolve(sql), true, param, new Object[param.size()]);
+          IRowMeta r = db.getQueryFields(variables.resolve(sql), true, param, new Object[param.size()]);
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.QueryOK"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.QueryOK"), transformMeta);
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.InvalidDBQuery");
+            errorMessage = BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.InvalidDBQuery");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
 
           int q = db.countParameters(variables.resolve(sql));
           if (q != parameters.size()) {
-            errorMessage =
-                BaseMessages.getString(
-                        PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion")
-                    + Const.CR;
-            errorMessage +=
-                BaseMessages.getString(
-                        PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion2")
-                    + q
-                    + Const.CR;
-            errorMessage +=
-                BaseMessages.getString(
-                        PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion3")
-                    + parameters.size();
+            errorMessage = BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion") + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion2") + q + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.DismatchBetweenParametersAndQuestion3") + parameters.size();
 
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.NumberOfParamCorrect")
-                        + q
-                        + ")",
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.NumberOfParamCorrect") + q + ")", transformMeta);
             remarks.add(cr);
           }
         }
@@ -358,9 +310,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.MissingFields")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.MissingFields") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + field.getName() + Const.CR;
@@ -369,24 +319,16 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.AllFieldsFound"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.AllFieldsFound"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.CounldNotReadFields")
-                  + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.CounldNotReadFields") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.ErrorOccurred")
-                + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.ErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
@@ -400,18 +342,10 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.ReceivingInfo"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.ReceivingInfo"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DatabaseJoinMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -421,8 +355,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
     // Build a dummy parameter row...
     //
 
-    DatabaseMeta databaseMeta =
-        getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
+    DatabaseMeta databaseMeta = getParentTransformMeta().getParentPipelineMeta().findDatabase(connection, variables);
 
     IRowMeta param = new RowMeta();
     for (ParameterField field : this.parameters) {
@@ -445,9 +378,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
         db.connect();
         fields = db.getQueryFields(variables.resolve(sql), true, param, new Object[param.size()]);
       } catch (HopDatabaseException dbe) {
-        logError(
-            BaseMessages.getString(PKG, "DatabaseJoinMeta.Log.DatabaseErrorOccurred")
-                + dbe.getMessage());
+        logError(BaseMessages.getString(PKG, "DatabaseJoinMeta.Log.DatabaseErrorOccurred") + dbe.getMessage());
       } finally {
         db.disconnect();
       }
@@ -471,19 +402,10 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
     // Find the lookupfields...
     //
     IRowMeta out = prev.clone();
-    getFields(
-        out,
-        transformMeta.getName(),
-        new IRowMeta[] {
-          info,
-        },
-        null,
-        variables,
-        metadataProvider);
+    getFields(out, transformMeta.getName(), new IRowMeta[] {info,}, null, variables, metadataProvider);
 
     try {
-      DatabaseMeta databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      DatabaseMeta databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
 
       if (out != null) {
         for (int i = 0; i < out.size(); i++) {
@@ -504,9 +426,7 @@ public class DatabaseJoinMeta extends BaseTransformMeta<DatabaseJoin, DatabaseJo
         }
       }
     } catch (HopException e) {
-      throw new HopTransformException(
-          "Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection),
-          e);
+      throw new HopTransformException("Unable to get databaseMeta for connection: " + Const.CR + variables.resolve(connection), e);
     }
   }
 

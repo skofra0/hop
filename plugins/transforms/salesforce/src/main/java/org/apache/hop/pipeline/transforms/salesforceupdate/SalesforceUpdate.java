@@ -37,17 +37,10 @@ import java.util.ArrayList;
  * Read data from Salesforce module, convert them to rows and writes these to one or more output
  * streams.
  */
-public class SalesforceUpdate
-    extends SalesforceTransform<SalesforceUpdateMeta, SalesforceUpdateData> {
+public class SalesforceUpdate extends SalesforceTransform<SalesforceUpdateMeta, SalesforceUpdateData> {
   private static final Class<?> PKG = SalesforceUpdateMeta.class; // For Translator
 
-  public SalesforceUpdate(
-      TransformMeta transformMeta,
-      SalesforceUpdateMeta meta,
-      SalesforceUpdateData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SalesforceUpdate(TransformMeta transformMeta, SalesforceUpdateMeta meta, SalesforceUpdateData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -78,8 +71,7 @@ public class SalesforceUpdate
 
       // Check if field list is filled
       if (data.nrFields == 0) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SalesforceUpdateDialog.FieldsMissing.DialogMessage"));
+        throw new HopException(BaseMessages.getString(PKG, "SalesforceUpdateDialog.FieldsMissing.DialogMessage"));
       }
 
       // Create the output row meta-data
@@ -92,8 +84,7 @@ public class SalesforceUpdate
       for (int i = 0; i < meta.getUpdateStream().length; i++) {
         data.fieldnrs[i] = getInputRowMeta().indexOfValue(meta.getUpdateStream()[i]);
         if (data.fieldnrs[i] < 0) {
-          throw new HopException(
-              "Field [" + meta.getUpdateStream()[i] + "] couldn't be found in the input stream!");
+          throw new HopException("Field [" + meta.getUpdateStream()[i] + "] couldn't be found in the input stream!");
         }
       }
     }
@@ -102,8 +93,7 @@ public class SalesforceUpdate
       writeToSalesForce(outputRowData);
 
     } catch (Exception e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "SalesforceUpdate.log.Exception"), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "SalesforceUpdate.log.Exception"), e);
     }
     return true;
   }
@@ -113,11 +103,7 @@ public class SalesforceUpdate
     try {
 
       if (log.isDetailed()) {
-        logDetailed(
-            "Called writeToSalesForce with "
-                + data.iBufferPos
-                + " out of "
-                + meta.getBatchSizeInt());
+        logDetailed("Called writeToSalesForce with " + data.iBufferPos + " out of " + meta.getBatchSizeInt());
       }
 
       // if there is room in the buffer
@@ -132,16 +118,12 @@ public class SalesforceUpdate
           if (valueIsNull) {
             // The value is null
             // We need to keep track of this field
-            fieldsToNull.add(
-                SalesforceUtils.getFieldToNullName(
-                    log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
+            fieldsToNull.add(SalesforceUtils.getFieldToNullName(log, meta.getUpdateLookup()[i], meta.getUseExternalId()[i]));
           } else {
             IValueMeta valueMeta = data.inputRowMeta.getValueMeta(data.fieldnrs[i]);
             Object value = rowData[data.fieldnrs[i]];
             Object normalObject = normalizeValue(valueMeta, value);
-            updatefields.add(
-                SalesforceConnection.createMessageElement(
-                    meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
+            updatefields.add(SalesforceConnection.createMessageElement(meta.getUpdateLookup()[i], normalObject, meta.getUseExternalId()[i]));
           }
         }
 
@@ -195,8 +177,7 @@ public class SalesforceUpdate
           }
 
           // write out the row with the SalesForce ID
-          Object[] newRow =
-              RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
+          Object[] newRow = RowDataUtil.resizeArray(data.outputBuffer[j], data.outputRowMeta.size());
 
           if (log.isDetailed()) {
             logDetailed("The new row has an id value of : " + newRow[0]);
@@ -206,8 +187,7 @@ public class SalesforceUpdate
           incrementLinesUpdated();
 
           if (checkFeedback(getLinesInput()) && log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "SalesforceUpdate.log.LineRow", "" + getLinesInput()));
+            logDetailed(BaseMessages.getString(PKG, "SalesforceUpdate.log.LineRow", "" + getLinesInput()));
           }
 
         } else {
@@ -223,26 +203,14 @@ public class SalesforceUpdate
             // Only send the first error
             //
             com.sforce.soap.partner.Error err = data.saveResult[j].getErrors()[0];
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpdate.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage()));
+            throw new HopException(BaseMessages.getString(PKG, "SalesforceUpdate.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage()));
           }
 
           String errorMessage = "";
           for (int i = 0; i < data.saveResult[j].getErrors().length; i++) {
             // get the next error
             com.sforce.soap.partner.Error err = data.saveResult[j].getErrors()[i];
-            errorMessage +=
-                BaseMessages.getString(
-                    PKG,
-                    "SalesforceUpdate.Error.FlushBuffer",
-                    j,
-                    err.getStatusCode(),
-                    err.getMessage());
+            errorMessage += BaseMessages.getString(PKG, "SalesforceUpdate.Error.FlushBuffer", j, err.getStatusCode(), err.getMessage());
           }
 
           // Simply add this row to the error row
@@ -250,13 +218,7 @@ public class SalesforceUpdate
             logDebug("Passing row to error transform");
           }
 
-          putError(
-              getInputRowMeta(),
-              data.outputBuffer[j],
-              1,
-              errorMessage,
-              null,
-              "SalesforceUpdate001");
+          putError(getInputRowMeta(), data.outputBuffer[j], 1, errorMessage, null, "SalesforceUpdate001");
         }
       }
 
@@ -276,13 +238,7 @@ public class SalesforceUpdate
       }
 
       for (int i = 0; i < data.iBufferPos; i++) {
-        putError(
-            data.inputRowMeta,
-            data.outputBuffer[i],
-            1,
-            e.getMessage(),
-            null,
-            "SalesforceUpdate002");
+        putError(data.inputRowMeta, data.outputBuffer[i], 1, e.getMessage(), null, "SalesforceUpdate002");
       }
 
     } finally {
@@ -304,10 +260,7 @@ public class SalesforceUpdate
 
         return true;
       } catch (HopException ke) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "SalesforceUpdate.Log.ErrorOccurredDuringTransformInitialize")
-                + ke.getMessage());
+        logError(BaseMessages.getString(PKG, "SalesforceUpdate.Log.ErrorOccurredDuringTransformInitialize") + ke.getMessage());
         return false;
       }
     }

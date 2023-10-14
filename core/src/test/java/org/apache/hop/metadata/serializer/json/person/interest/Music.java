@@ -22,11 +22,14 @@ import java.util.Objects;
 
 public class Music implements IInterest {
 
-  @HopMetadataProperty private InterestType type;
+  @HopMetadataProperty
+  private InterestType type;
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public Music() {}
 
@@ -45,9 +48,7 @@ public class Music implements IInterest {
       return false;
     }
     Music music = (Music) o;
-    return type == music.type
-        && Objects.equals(name, music.name)
-        && Objects.equals(description, music.description);
+    return type == music.type && Objects.equals(name, music.name) && Objects.equals(description, music.description);
   }
 
   @Override

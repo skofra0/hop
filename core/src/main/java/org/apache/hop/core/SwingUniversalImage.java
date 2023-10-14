@@ -38,8 +38,7 @@ public abstract class SwingUniversalImage {
   protected abstract void renderSimple(BufferedImage area);
 
   /** Render with scale, at specified position, with possible rotation. */
-  protected abstract void render(
-      Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians);
+  protected abstract void render(Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians);
 
   /** Get scaled image. */
   public synchronized BufferedImage getAsBitmapForSize(int width, int height) {
@@ -76,13 +75,11 @@ public abstract class SwingUniversalImage {
     return result;
   }
 
-  public synchronized void drawToGraphics(
-      Graphics2D gc, int locationX, int locationY, int width, int height) {
+  public synchronized void drawToGraphics(Graphics2D gc, int locationX, int locationY, int width, int height) {
     render(gc, locationX + width / 2, locationY + height / 2, width, height, 0);
   }
 
-  public synchronized void drawToGraphics(
-      Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
+  public synchronized void drawToGraphics(Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
     render(gc, centerX, centerY, width, height, angleRadians);
   }
 
@@ -103,11 +100,9 @@ public abstract class SwingUniversalImage {
     gc.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
     gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     gc.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-    gc.setRenderingHint(
-        RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+    gc.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
     gc.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
-    gc.setRenderingHint(
-        RenderingHintsKeyExt.KEY_TRANSCODING, RenderingHintsKeyExt.VALUE_TRANSCODING_PRINTING);
+    gc.setRenderingHint(RenderingHintsKeyExt.KEY_TRANSCODING, RenderingHintsKeyExt.VALUE_TRANSCODING_PRINTING);
     return gc;
   }
 }

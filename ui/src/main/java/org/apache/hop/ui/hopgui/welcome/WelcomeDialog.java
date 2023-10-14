@@ -81,10 +81,8 @@ public class WelcomeDialog {
       // Logo at the top left
       //
       Label logoLabel = new Label(shell, SWT.NONE);
-      SvgCacheEntry cacheEntry =
-          SvgCache.loadSvg(new SvgFile("ui/images/logo_hop.svg", getClass().getClassLoader()));
-      SwtUniversalImageSvg imageSvg =
-          new SwtUniversalImageSvg(new SvgImage(cacheEntry.getSvgDocument()));
+      SvgCacheEntry cacheEntry = SvgCache.loadSvg(new SvgFile("ui/images/logo_hop.svg", getClass().getClassLoader()));
+      SwtUniversalImageSvg imageSvg = new SwtUniversalImageSvg(new SvgImage(cacheEntry.getSvgDocument()));
       int logoSize = (int) (75 * props.getZoomFactor());
       this.logoImage = imageSvg.getAsBitmapForSize(shell.getDisplay(), logoSize, logoSize);
       logoLabel.setImage(this.logoImage);
@@ -98,8 +96,7 @@ public class WelcomeDialog {
       Label welcome = new Label(shell, SWT.CENTER);
       PropsUi.setLook(welcome);
       welcome.setText("Apache Hop");
-      titleFont =
-          new Font(shell.getDisplay(), "Open Sans", (int) (18 * props.getZoomFactor()), SWT.NONE);
+      titleFont = new Font(shell.getDisplay(), "Open Sans", (int) (18 * props.getZoomFactor()), SWT.NONE);
       welcome.setFont(titleFont);
       FormData fdWelcome = new FormData();
       fdWelcome.left = new FormAttachment(logoLabel, PropsUi.getMargin(), SWT.RIGHT);
@@ -142,11 +139,10 @@ public class WelcomeDialog {
       fdPluginsComp.bottom = new FormAttachment(doNotShow, -2 * margin);
       wPluginsComp.setLayoutData(fdPluginsComp);
 
-      // What is the list?  Look in the GUI plugin registry and look for widgets with the parent.
+      // What is the list? Look in the GUI plugin registry and look for widgets with the parent.
       //
       GuiRegistry guiRegistry = GuiRegistry.getInstance();
-      java.util.List<GuiElements> elementsList =
-          guiRegistry.getCompositeGuiElements().get(PARENT_ID_WELCOME_WIDGETS);
+      java.util.List<GuiElements> elementsList = guiRegistry.getCompositeGuiElements().get(PARENT_ID_WELCOME_WIDGETS);
       elementsList.sort(Comparator.comparing(GuiElements::getId));
 
       for (GuiElements elements : elementsList) {
@@ -192,8 +188,7 @@ public class WelcomeDialog {
 
       wPluginsComp.layout(true, true);
     } catch (Exception ex) {
-      throw new RuntimeException(
-          "Unable to invoke welcome method with the parent Composite as the argument", ex);
+      throw new RuntimeException("Unable to invoke welcome method with the parent Composite as the argument", ex);
     }
   }
 
@@ -203,8 +198,7 @@ public class WelcomeDialog {
   }
 
   public void close() {
-    HopConfig.saveOptions(
-        Map.of(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, doNotShow.getSelection()));
+    HopConfig.saveOptions(Map.of(WelcomeDialog.HOP_CONFIG_NO_SHOW_OPTION, doNotShow.getSelection()));
     shell.dispose();
   }
 

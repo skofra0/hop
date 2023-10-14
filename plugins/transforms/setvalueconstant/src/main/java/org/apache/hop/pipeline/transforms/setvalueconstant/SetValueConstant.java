@@ -33,13 +33,7 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
 
   private static final Class<?> PKG = SetValueConstantMeta.class; // For Translator
 
-  public SetValueConstant(
-      TransformMeta transformMeta,
-      SetValueConstantMeta meta,
-      SetValueConstantData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SetValueConstant(TransformMeta transformMeta, SetValueConstantMeta meta, SetValueConstantData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -59,8 +53,7 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
 
       // What's the format of the output row?
       data.setOutputRowMeta(getInputRowMeta().clone());
-      meta.getFields(
-          data.getOutputRowMeta(), getTransformName(), null, null, this, metadataProvider);
+      meta.getFields(data.getOutputRowMeta(), getTransformName(), null, null, this, metadataProvider);
 
       // For String to <type> conversions, we allocate a conversion meta data row as well...
       //
@@ -76,25 +69,16 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
           // Check if this field was specified only one time
           final SetValueConstantMeta.Field check = fields.get(i);
           for (SetValueConstantMeta.Field field : fields) {
-            if (field.getFieldName() != null
-                && field != check
-                && field.getFieldName().equalsIgnoreCase(check.getFieldName())) {
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG, "SetValueConstant.Log.FieldSpecifiedMoreThatOne", check.getFieldName()));
+            if (field.getFieldName() != null && field != check && field.getFieldName().equalsIgnoreCase(check.getFieldName())) {
+              throw new HopException(BaseMessages.getString(PKG, "SetValueConstant.Log.FieldSpecifiedMoreThatOne", check.getFieldName()));
             }
           }
 
-          data.getFieldnrs()[i] =
-              data.getOutputRowMeta().indexOfValue(meta.getField(i).getFieldName());
+          data.getFieldnrs()[i] = data.getOutputRowMeta().indexOfValue(meta.getField(i).getFieldName());
 
           if (data.getFieldnrs()[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "SetValueConstant.Log.CanNotFindField", meta.getField(i).getFieldName()));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "SetValueConstant.Log.CanNotFindField", meta.getField(i).getFieldName()));
+            logError(BaseMessages.getString(PKG, "SetValueConstant.Log.CanNotFindField", meta.getField(i).getFieldName()));
+            throw new HopException(BaseMessages.getString(PKG, "SetValueConstant.Log.CanNotFindField", meta.getField(i).getFieldName()));
           }
 
           if (meta.getField(i).isEmptyString()) {
@@ -110,8 +94,7 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
           }
         }
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "SetValueConstant.Log.SelectFieldsEmpty"));
+        throw new HopException(BaseMessages.getString(PKG, "SetValueConstant.Log.SelectFieldsEmpty"));
       }
 
       data.setFieldnr(data.getFieldnrs().length);
@@ -125,8 +108,7 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
         // Simply add this row to the error row
         putError(data.getOutputRowMeta(), r, 1, e.toString(), null, "SVC001");
       } else {
-        logError(
-            BaseMessages.getString(PKG, "SetValueConstant.Log.ErrorInTransform", e.getMessage()));
+        logError(BaseMessages.getString(PKG, "SetValueConstant.Log.ErrorInTransform", e.getMessage()));
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -149,8 +131,7 @@ public class SetValueConstant extends BaseTransform<SetValueConstantMeta, SetVal
       }
 
       sourceValueMeta.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
-      r[data.getFieldnrs()[i]] =
-          targetValueMeta.convertData(sourceValueMeta, data.getRealReplaceByValues()[i]);
+      r[data.getFieldnrs()[i]] = targetValueMeta.convertData(sourceValueMeta, data.getRealReplaceByValues()[i]);
       targetValueMeta.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
     }
   }

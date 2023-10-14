@@ -68,8 +68,7 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
   private final ExecProcessMeta input;
   private boolean gotPreviousFields = false;
 
-  public ExecProcessDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ExecProcessDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (ExecProcessMeta) in, pipelineMeta, sname);
     input = (ExecProcessMeta) in;
   }
@@ -157,20 +156,17 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
     fdProcess.top = new FormAttachment(wTransformName, margin);
     fdProcess.right = new FormAttachment(100, -margin);
     wProcess.setLayoutData(fdProcess);
-    wProcess.addListener(
-        SWT.FocusIn,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          get();
-          shell.setCursor(null);
-          busy.dispose();
-        });
+    wProcess.addListener(SWT.FocusIn, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      get();
+      shell.setCursor(null);
+      busy.dispose();
+    });
 
     // Command Arguments are in separate fields
     Label wlArgumentsInFields = new Label(wGeneralComp, SWT.RIGHT);
-    wlArgumentsInFields.setText(
-        BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentInFields.Label"));
+    wlArgumentsInFields.setText(BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentInFields.Label"));
     PropsUi.setLook(wlArgumentsInFields);
     FormData fdlArgumentsInFields = new FormData();
     fdlArgumentsInFields.left = new FormAttachment(0, 0);
@@ -178,8 +174,7 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
     fdlArgumentsInFields.right = new FormAttachment(middle, -margin);
     wlArgumentsInFields.setLayoutData(fdlArgumentsInFields);
     wArgumentsInFields = new Button(wGeneralComp, SWT.CHECK);
-    wArgumentsInFields.setToolTipText(
-        BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentInFields.Tooltip"));
+    wArgumentsInFields.setToolTipText(BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentInFields.Tooltip"));
     PropsUi.setLook(wArgumentsInFields);
     FormData fdArgumentsInFields = new FormData();
     fdArgumentsInFields.left = new FormAttachment(middle, 0);
@@ -190,8 +185,7 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
 
     // Fail when status is different than 0
     Label wlFailWhenNotSuccess = new Label(wGeneralComp, SWT.RIGHT);
-    wlFailWhenNotSuccess.setText(
-        BaseMessages.getString(PKG, "ExecProcessDialog.FailWhenNotSuccess.Label"));
+    wlFailWhenNotSuccess.setText(BaseMessages.getString(PKG, "ExecProcessDialog.FailWhenNotSuccess.Label"));
     PropsUi.setLook(wlFailWhenNotSuccess);
     FormData fdlFailWhenNotSuccess = new FormData();
     fdlFailWhenNotSuccess.left = new FormAttachment(0, 0);
@@ -199,8 +193,7 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
     fdlFailWhenNotSuccess.right = new FormAttachment(middle, -margin);
     wlFailWhenNotSuccess.setLayoutData(fdlFailWhenNotSuccess);
     wFailWhenNotSuccess = new Button(wGeneralComp, SWT.CHECK);
-    wFailWhenNotSuccess.setToolTipText(
-        BaseMessages.getString(PKG, "ExecProcessDialog.FailWhenNotSuccess.Tooltip"));
+    wFailWhenNotSuccess.setToolTipText(BaseMessages.getString(PKG, "ExecProcessDialog.FailWhenNotSuccess.Tooltip"));
     PropsUi.setLook(wFailWhenNotSuccess);
     FormData fdFailWhenNotSuccess = new FormData();
     fdFailWhenNotSuccess.left = new FormAttachment(middle, 0);
@@ -218,22 +211,9 @@ public class ExecProcessDialog extends BaseTransformDialog implements ITransform
     fdlArgumentFields.right = new FormAttachment(middle, -margin);
     wlArgumentFields.setLayoutData(fdlArgumentFields);
     ColumnInfo[] columns = new ColumnInfo[1];
-    columns[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentField.Label"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    columns[0] = new ColumnInfo(BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentField.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     columns[0].setToolTip(BaseMessages.getString(PKG, "ExecProcessDialog.ArgumentField.Tooltip"));
-    wArgumentFields =
-        new TableView(
-            null,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            input.getArgumentFields().size(),
-            null,
-            props);
+    wArgumentFields = new TableView(null, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, input.getArgumentFields().size(), null, props);
     FormData fdArgumentFields = new FormData();
     fdArgumentFields.left = new FormAttachment(0, 0);
     fdArgumentFields.top = new FormAttachment(wlArgumentFields, margin);

@@ -24,8 +24,7 @@ public class GuiToolbarItemFilter {
 
   public GuiToolbarItemFilter() {}
 
-  public GuiToolbarItemFilter(
-      String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
+  public GuiToolbarItemFilter(String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
     this.id = id;
     this.guiPluginClassName = guiPluginClassName;
     this.guiPluginMethodName = guiPluginMethodName;

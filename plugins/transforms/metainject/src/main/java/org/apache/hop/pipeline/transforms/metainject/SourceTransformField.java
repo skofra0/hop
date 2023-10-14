@@ -42,8 +42,7 @@ public class SourceTransformField {
     }
 
     SourceTransformField source = (SourceTransformField) obj;
-    return transformName.equalsIgnoreCase(source.getTransformName())
-        && field.equals(source.getField());
+    return transformName.equalsIgnoreCase(source.getTransformName()) && field.equals(source.getField());
   }
 
   @Override

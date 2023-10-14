@@ -34,13 +34,7 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
   private int rowCounter = 0;
   private boolean rowCounterLimitHit = false;
 
-  public WriteToLog(
-      TransformMeta transformMeta,
-      WriteToLogMeta meta,
-      WriteToLogData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public WriteToLog(TransformMeta transformMeta, WriteToLogMeta meta, WriteToLogData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -69,12 +63,8 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
         for (int i = 0; i < data.fieldnrs.length; i++) {
           data.fieldnrs[i] = getInputRowMeta().indexOfValue(meta.getFieldName()[i]);
           if (data.fieldnrs[i] < 0) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "WriteToLog.Log.CanNotFindField", meta.getFieldName()[i]));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "WriteToLog.Log.CanNotFindField", meta.getFieldName()[i]));
+            logError(BaseMessages.getString(PKG, "WriteToLog.Log.CanNotFindField", meta.getFieldName()[i]));
+            throw new HopException(BaseMessages.getString(PKG, "WriteToLog.Log.CanNotFindField", meta.getFieldName()[i]));
           }
         }
       } else {
@@ -92,12 +82,7 @@ public class WriteToLog extends BaseTransform<WriteToLogMeta, WriteToLogData> {
     } // end if first
 
     StringBuilder out = new StringBuilder();
-    out.append(
-        Const.CR
-            + "------------> "
-            + BaseMessages.getString(PKG, "WriteToLog.Log.NLigne", "" + getLinesRead())
-            + "------------------------------"
-            + Const.CR);
+    out.append(Const.CR + "------------> " + BaseMessages.getString(PKG, "WriteToLog.Log.NLigne", "" + getLinesRead()) + "------------------------------" + Const.CR);
 
     out.append(getRealLogMessage());
 

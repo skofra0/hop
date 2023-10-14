@@ -61,8 +61,7 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
 
   private TableView wFields;
 
-  public ActionCheckDbConnectionsDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCheckDbConnectionsDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCheckDbConnections) action;
     if (this.action.getName() == null) {
@@ -130,10 +129,8 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
     // Buttons to the right of the screen...
     Button wbGetConnections = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetConnections);
-    wbGetConnections.setText(
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.GetConnections"));
-    wbGetConnections.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.GetConnections.Tooltip"));
+    wbGetConnections.setText(BaseMessages.getString(PKG, "ActionCheckDbConnections.GetConnections"));
+    wbGetConnections.setToolTipText(BaseMessages.getString(PKG, "ActionCheckDbConnections.GetConnections.Tooltip"));
     FormData fdbGetConnections = new FormData();
     fdbGetConnections.right = new FormAttachment(100, -margin);
     fdbGetConnections.top = new FormAttachment(wlFields, margin);
@@ -142,10 +139,8 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
     // Buttons to the right of the screen...
     Button wbdSourceFileFolder = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdSourceFileFolder);
-    wbdSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.DeleteEntry"));
-    wbdSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckDbConnections.DeleteSourceFileButton.Label"));
+    wbdSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionCheckDbConnections.DeleteEntry"));
+    wbdSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionCheckDbConnections.DeleteSourceFileButton.Label"));
     FormData fdbdSourceFileFolder = new FormData();
     fdbdSourceFileFolder.right = new FormAttachment(100, -margin);
     fdbdSourceFileFolder.top = new FormAttachment(wbGetConnections, margin);
@@ -155,35 +150,23 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.Argument.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              this.getWorkflowMeta().getDatabaseNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.WaitFor.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.WaitForTime.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ActionCheckDbConnections.WaitTimeUnit.getDescriptions(),
-              false),
-        };
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.Argument.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                this.getWorkflowMeta().getDatabaseNames(),
+                false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.WaitFor.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.WaitForTime.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                ActionCheckDbConnections.WaitTimeUnit.getDescriptions(),
+                false),};
 
     columns[0].setToolTip(BaseMessages.getString(PKG, "ActionCheckDbConnections.Fields.Column"));
     columns[1].setUsingVariables(true);
     columns[1].setToolTip(BaseMessages.getString(PKG, "ActionCheckDbConnections.WaitFor.ToolTip"));
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, fieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -193,14 +176,12 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
     wFields.setLayoutData(fdFields);
 
     // Delete files from the list of files...
-    wbdSourceFileFolder.addListener(
-        SWT.Selection,
-        e -> {
-          int[] idx = wFields.getSelectionIndices();
-          wFields.remove(idx);
-          wFields.removeEmptyRows();
-          wFields.setRowNums();
-        });
+    wbdSourceFileFolder.addListener(SWT.Selection, e -> {
+      int[] idx = wFields.getSelectionIndices();
+      wFields.remove(idx);
+      wFields.removeEmptyRows();
+      wFields.setRowNums();
+    });
 
     // get connections...
     wbGetConnections.addListener(SWT.Selection, e -> getDatabases());
@@ -217,8 +198,7 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
     List<DatabaseMeta> databases = this.getWorkflowMeta().getDatabases();
     for (DatabaseMeta ci : databases) {
       if (ci != null) {
-        wFields.add(
-            ci.getName(), "0", ActionCheckDbConnections.WaitTimeUnit.MILLISECOND.getDescription());
+        wFields.add(ci.getName(), "0", ActionCheckDbConnections.WaitTimeUnit.MILLISECOND.getDescription());
       }
     }
     wFields.removeEmptyRows();
@@ -261,8 +241,7 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
     }
 
     try {
-      IHopMetadataSerializer<DatabaseMeta> serializer =
-          metadataProvider.getSerializer(DatabaseMeta.class);
+      IHopMetadataSerializer<DatabaseMeta> serializer = metadataProvider.getSerializer(DatabaseMeta.class);
 
       action.setName(wName.getText());
 
@@ -270,11 +249,9 @@ public class ActionCheckDbConnectionsDialog extends ActionDialog implements IAct
       for (TableItem item : wFields.getNonEmptyItems()) {
         DatabaseMeta databaseMeta = serializer.load(item.getText(1));
         String waitTime = item.getText(2);
-        ActionCheckDbConnections.WaitTimeUnit unit =
-            ActionCheckDbConnections.WaitTimeUnit.lookupDescription(item.getText(3));
+        ActionCheckDbConnections.WaitTimeUnit unit = ActionCheckDbConnections.WaitTimeUnit.lookupDescription(item.getText(3));
 
-        ActionCheckDbConnections.CDConnection connection =
-            new ActionCheckDbConnections.CDConnection();
+        ActionCheckDbConnections.CDConnection connection = new ActionCheckDbConnections.CDConnection();
         connection.setDatabaseMeta(databaseMeta);
         connection.setWaitTime(waitTime);
         connection.setWaitTimeUnit(unit);

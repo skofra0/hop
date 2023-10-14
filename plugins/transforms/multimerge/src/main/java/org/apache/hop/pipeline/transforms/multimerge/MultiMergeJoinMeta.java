@@ -109,8 +109,7 @@ public class MultiMergeJoinMeta extends BaseTransformMeta<MultiMergeJoin, MultiM
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -134,18 +133,13 @@ public class MultiMergeJoinMeta extends BaseTransformMeta<MultiMergeJoin, MultiM
   public String getXml() {
     StringBuilder retval = new StringBuilder();
 
-    String[] inputTransformsNames =
-        inputTransforms != null ? inputTransforms : ArrayUtils.EMPTY_STRING_ARRAY;
+    String[] inputTransformsNames = inputTransforms != null ? inputTransforms : ArrayUtils.EMPTY_STRING_ARRAY;
     retval.append("    ").append(XmlHandler.addTagValue("join_type", getJoinType()));
     for (int i = 0; i < inputTransformsNames.length; i++) {
-      retval
-          .append("    ")
-          .append(XmlHandler.addTagValue("transform" + i, inputTransformsNames[i]));
+      retval.append("    ").append(XmlHandler.addTagValue("transform" + i, inputTransformsNames[i]));
     }
 
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("number_input", inputTransformsNames.length));
+    retval.append("    ").append(XmlHandler.addTagValue("number_input", inputTransformsNames.length));
     retval.append("    ").append(XmlHandler.openTag("keys")).append(Const.CR);
     for (int i = 0; i < keyFields.length; i++) {
       retval.append("      ").append(XmlHandler.addTagValue("key", keyFields[i]));
@@ -179,8 +173,7 @@ public class MultiMergeJoinMeta extends BaseTransformMeta<MultiMergeJoin, MultiM
 
       joinType = XmlHandler.getTagValue(transformNode, "join_type");
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "MultiMergeJoinMeta.Exception.UnableToLoadTransformMeta"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "MultiMergeJoinMeta.Exception.UnableToLoadTransformMeta"), e);
     }
   }
 
@@ -221,25 +214,17 @@ public class MultiMergeJoinMeta extends BaseTransformMeta<MultiMergeJoin, MultiM
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
     /*
-     * @todo Need to check for the following: 1) Join type must be one of INNER / LEFT OUTER / RIGHT OUTER / FULL OUTER
-     * 2) Number of input streams must be two (for now at least) 3) The field names of input streams must be unique
+     * @todo Need to check for the following: 1) Join type must be one of INNER / LEFT OUTER / RIGHT
+     * OUTER / FULL OUTER
+     * 2) Number of input streams must be two (for now at least) 3) The field names of input streams
+     * must be unique
      */
-    CheckResult cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_WARNING,
-            BaseMessages.getString(PKG, "MultiMergeJoinMeta.CheckResult.TransformNotVerified"),
-            transformMeta);
+    CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MultiMergeJoinMeta.CheckResult.TransformNotVerified"), transformMeta);
     remarks.add(cr);
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // We don't have any input fields here in "r" as they are all info fields.
     // So we just merge in the info fields.

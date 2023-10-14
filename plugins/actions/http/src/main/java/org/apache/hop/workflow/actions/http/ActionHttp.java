@@ -153,9 +153,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("targetfilename", targetFilename));
     retval.append("      ").append(XmlHandler.addTagValue("file_appended", fileAppended));
     retval.append("      ").append(XmlHandler.addTagValue("date_time_added", dateTimeAdded));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("targetfilename_extension", targetFilenameExtension));
+    retval.append("      ").append(XmlHandler.addTagValue("targetfilename_extension", targetFilenameExtension));
     retval.append("      ").append(XmlHandler.addTagValue("uploadfilename", uploadFilename));
 
     retval.append("      ").append(XmlHandler.addTagValue("run_every_row", runForEveryRow));
@@ -165,10 +163,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("dest_fieldname", destinationFieldname));
 
     retval.append("      ").append(XmlHandler.addTagValue("username", username));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    retval.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
 
     retval.append("      ").append(XmlHandler.addTagValue("proxy_host", proxyHostname));
     retval.append("      ").append(XmlHandler.addTagValue("proxy_port", proxyPort));
@@ -189,18 +184,14 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       url = XmlHandler.getTagValue(entrynode, "url");
       targetFilename = XmlHandler.getTagValue(entrynode, "targetfilename");
       fileAppended = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "file_appended"));
       dateTimeAdded = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "date_time_added"));
-      targetFilenameExtension =
-          Const.NVL(
-              XmlHandler.getTagValue(entrynode, "targetfilename_extension"),
-              XmlHandler.getTagValue(entrynode, "targetfilename_extention"));
+      targetFilenameExtension = Const.NVL(XmlHandler.getTagValue(entrynode, "targetfilename_extension"), XmlHandler.getTagValue(entrynode, "targetfilename_extention"));
 
       uploadFilename = XmlHandler.getTagValue(entrynode, "uploadfilename");
 
@@ -211,16 +202,12 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
       ignoreSsl = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "ignore_ssl"));
 
       username = XmlHandler.getTagValue(entrynode, "username");
-      password =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
+      password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
 
       proxyHostname = XmlHandler.getTagValue(entrynode, "proxy_host");
       proxyPort = XmlHandler.getTagValue(entrynode, "proxy_port");
       nonProxyHosts = XmlHandler.getTagValue(entrynode, "non_proxy_hosts");
-      addfilenameresult =
-          "Y"
-              .equalsIgnoreCase(
-                  Const.NVL(XmlHandler.getTagValue(entrynode, "addfilenameresult"), "Y"));
+      addfilenameresult = "Y".equalsIgnoreCase(Const.NVL(XmlHandler.getTagValue(entrynode, "addfilenameresult"), "Y"));
       Node headers = XmlHandler.getSubNode(entrynode, "headers");
 
       // How many field headerName?
@@ -402,16 +389,13 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
         }
 
         if (!Utils.isEmpty(username)) {
-          Authenticator.setDefault(
-              new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                  String realPassword = Encr.decryptPasswordOptionallyEncrypted(resolve(password));
-                  return new PasswordAuthentication(
-                      resolve(username),
-                      realPassword != null ? realPassword.toCharArray() : new char[] {});
-                }
-              });
+          Authenticator.setDefault(new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+              String realPassword = Encr.decryptPasswordOptionallyEncrypted(resolve(password));
+              return new PasswordAuthentication(resolve(username), realPassword != null ? realPassword.toCharArray() : new char[] {});
+            }
+          });
         }
 
         if (dateTimeAdded) {
@@ -450,12 +434,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
             if (!Utils.isEmpty(headerValue[j])) {
               connection.setRequestProperty(resolve(headerName[j]), resolve(headerValue[j]));
               if (log.isDebug()) {
-                log.logDebug(
-                    BaseMessages.getString(
-                        PKG,
-                        "ActionHTTP.Log.HeaderSet",
-                        resolve(headerName[j]),
-                        resolve(headerValue[j])));
+                log.logDebug(BaseMessages.getString(PKG, "ActionHTTP.Log.HeaderSet", resolve(headerName[j]), resolve(headerValue[j])));
               }
             }
           }
@@ -500,9 +479,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
         // Read the result from the server...
         input = connection.getInputStream();
         Date date = new Date(connection.getLastModified());
-        logBasic(
-            BaseMessages.getString(
-                PKG, "ActionHTTP.Log.ReplayInfo", connection.getContentType(), date));
+        logBasic(BaseMessages.getString(PKG, "ActionHTTP.Log.ReplayInfo", connection.getContentType(), date));
 
         int oneChar;
         long bytesRead = 0L;
@@ -511,18 +488,11 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
           bytesRead++;
         }
 
-        logBasic(
-            BaseMessages.getString(
-                PKG, "ActionHTTP.Log.FinisedWritingReply", bytesRead, realTargetFile));
+        logBasic(BaseMessages.getString(PKG, "ActionHTTP.Log.FinisedWritingReply", bytesRead, realTargetFile));
 
         if (addfilenameresult) {
           // Add to the result files...
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  HopVfs.getFileObject(realTargetFile),
-                  parentWorkflow.getWorkflowName(),
-                  toString());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(realTargetFile), parentWorkflow.getWorkflowName(), toString());
           result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
         }
 
@@ -533,13 +503,11 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
         logError(Const.getStackTracker(e));
       } catch (IOException e) {
         result.setNrErrors(1);
-        logError(
-            BaseMessages.getString(PKG, "ActionHTTP.Error.CanNotSaveHTTPResult", e.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionHTTP.Error.CanNotSaveHTTPResult", e.getMessage()));
         logError(Const.getStackTracker(e));
       } catch (Exception e) {
         result.setNrErrors(1);
-        logError(
-            BaseMessages.getString(PKG, "ActionHTTP.Error.ErrorGettingFromHTTP", e.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionHTTP.Error.ErrorGettingFromHTTP", e.getMessage()));
         logError(Const.getStackTracker(e));
       } finally {
         // Close it all
@@ -558,8 +526,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
             outputFile.close();
           }
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(PKG, "ActionHTTP.Error.CanNotCloseStream", e.getMessage()));
+          logError(BaseMessages.getString(PKG, "ActionHTTP.Error.CanNotCloseStream", e.getMessage()));
           result.setNrErrors(1);
         }
 
@@ -605,7 +572,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
 
   /*
    * @param uploadFieldName
-   *         The Result Upload Fieldname to use
+   * The Result Upload Fieldname to use
    */
   public void setUploadFieldname(String uploadFieldname) {
     this.uploadFieldname = uploadFieldname;
@@ -620,7 +587,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
 
   /*
    * @param destinationFieldname
-   *           The Result Destination Fieldname to set.
+   * The Result Destination Fieldname to set.
    */
   public void setDestinationFieldname(String destinationFieldname) {
     this.destinationFieldname = destinationFieldname;
@@ -675,8 +642,7 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     String realUrl = resolve(url);
     ResourceReference reference = new ResourceReference(this);
@@ -686,34 +652,10 @@ public class ActionHttp extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "targetFilename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "targetFilenameExtention",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "uploadFilename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "proxyPort",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "targetFilename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "targetFilenameExtention", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "uploadFilename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "proxyPort", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
   }
 }

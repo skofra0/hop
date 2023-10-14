@@ -63,8 +63,7 @@ import java.util.List;
 public class SqlEditor {
   private static final Class<?> PKG = SqlEditor.class; // For Translator
 
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("SQL Editor", LoggingObjectType.HOP_GUI, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("SQL Editor", LoggingObjectType.HOP_GUI, null);
 
   private final PropsUi props;
 
@@ -83,8 +82,7 @@ public class SqlEditor {
 
   private final IVariables variables;
 
-  public SqlEditor(
-      Shell parent, int style, IVariables variables, DatabaseMeta ci, DbCache dbc, String sql) {
+  public SqlEditor(Shell parent, int style, IVariables variables, DatabaseMeta ci, DbCache dbc, String sql) {
     props = PropsUi.getInstance();
     log = new LogChannel(ci);
     input = sql;
@@ -111,15 +109,13 @@ public class SqlEditor {
 
     Button wExec = new Button(shell, SWT.PUSH);
     wExec.setText(BaseMessages.getString(PKG, "SQLEditor.Button.Execute"));
-    wExec.addListener(
-        SWT.Selection,
-        e -> {
-          try {
-            exec();
-          } catch (Exception ge) {
-            // Ignore errors
-          }
-        });
+    wExec.addListener(SWT.Selection, e -> {
+      try {
+        exec();
+      } catch (Exception ge) {
+        // Ignore errors
+      }
+    });
     Button wClear = new Button(shell, SWT.PUSH);
     wClear.setText(BaseMessages.getString(PKG, "SQLEditor.Button.ClearCache"));
     wClear.setToolTipText(BaseMessages.getString(PKG, "SQLEditor.Button.ClearCache.Tooltip"));
@@ -127,8 +123,7 @@ public class SqlEditor {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wExec, wClear, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wExec, wClear, wCancel}, margin, null);
 
     // Script line
     Label wlScript = new Label(shell, SWT.NONE);
@@ -139,9 +134,7 @@ public class SqlEditor {
     fdlScript.left = new FormAttachment(0, 0);
     fdlScript.top = new FormAttachment(0, 0);
     wlScript.setLayoutData(fdlScript);
-    wScript =
-        new StyledTextComp(
-            this.variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wScript = new StyledTextComp(this.variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wScript.setText("");
     PropsUi.setLook(wScript, Props.WIDGET_STYLE_FIXED);
     FormData fdScript = new FormData();
@@ -153,47 +146,44 @@ public class SqlEditor {
 
     wScript.addModifyListener(arg0 -> setPosition());
 
-    wScript.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wScript.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wScript.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wScript.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wScript.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wScript.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     wlPosition = new Label(shell, SWT.NONE);
     wlPosition.setText(BaseMessages.getString(PKG, "SQLEditor.LineNr.Label", "0"));
@@ -212,15 +202,12 @@ public class SqlEditor {
   public void setPosition() {
     int lineNumber = wScript.getLineNumber();
     int columnNumber = wScript.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "SQLEditor.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "SQLEditor.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   private void clearCache() {
     MessageBox mb = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES | SWT.CANCEL);
-    mb.setMessage(
-        BaseMessages.getString(PKG, "SQLEditor.ClearWholeCache.Message", connection.getName()));
+    mb.setMessage(BaseMessages.getString(PKG, "SQLEditor.ClearWholeCache.Message", connection.getName()));
     mb.setText(BaseMessages.getString(PKG, "SQLEditor.ClearWholeCache.Title"));
     int answer = mb.open();
 
@@ -229,9 +216,7 @@ public class SqlEditor {
         DbCache.getInstance().clear(connection.getName());
 
         mb = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
-        mb.setMessage(
-            BaseMessages.getString(
-                PKG, "SQLEditor.ConnectionCacheCleared.Message", connection.getName()));
+        mb.setMessage(BaseMessages.getString(PKG, "SQLEditor.ConnectionCacheCleared.Message", connection.getName()));
         mb.setText(BaseMessages.getString(PKG, "SQLEditor.ConnectionCacheCleared.Title"));
         mb.open();
 
@@ -280,15 +265,11 @@ public class SqlEditor {
 
     try {
       db.connect();
-      String sqlScript =
-          Utils.isEmpty(wScript.getSelectionText())
-              ? wScript.getText()
-              : wScript.getSelectionText();
+      String sqlScript = Utils.isEmpty(wScript.getSelectionText()) ? wScript.getText() : wScript.getSelectionText();
 
       // Multiple statements in the script need to be split into individual
       // executable statements
-      List<SqlScriptStatement> statements =
-          databaseMeta.getIDatabase().getSqlScriptStatements(sqlScript + Const.CR);
+      List<SqlScriptStatement> statements = databaseMeta.getIDatabase().getSqlScriptStatements(sqlScript + Const.CR);
 
       int nrstats = 0;
       for (SqlScriptStatement sql : statements) {
@@ -302,14 +283,7 @@ public class SqlEditor {
             IRowMeta rowMeta = db.getReturnRowMeta();
             if (rows.size() > 0) {
               PreviewRowsDialog prd =
-                  new PreviewRowsDialog(
-                      shell,
-                      variables,
-                      SWT.NONE,
-                      BaseMessages.getString(
-                          PKG, "SQLEditor.ResultRows.Title", Integer.toString(nrstats)),
-                      rowMeta,
-                      rows);
+                  new PreviewRowsDialog(shell, variables, SWT.NONE, BaseMessages.getString(PKG, "SQLEditor.ResultRows.Title", Integer.toString(nrstats)), rowMeta, rows);
               prd.open();
             } else {
               MessageBox mb = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
@@ -318,11 +292,7 @@ public class SqlEditor {
               mb.open();
             }
           } catch (HopDatabaseException dbe) {
-            new ErrorDialog(
-                shell,
-                BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Title"),
-                BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Message", sql),
-                dbe);
+            new ErrorDialog(shell, BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Title"), BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Message", sql), dbe);
           }
         } else {
           log.logDetailed("launch DDL statement: " + Const.CR + sql);
@@ -348,42 +318,26 @@ public class SqlEditor {
             sql.setOk(true);
           } catch (Exception dbe) {
             sql.setOk(false);
-            String error =
-                BaseMessages.getString(PKG, "SQLEditor.Log.SQLExecError", sql, dbe.toString());
+            String error = BaseMessages.getString(PKG, "SQLEditor.Log.SQLExecError", sql, dbe.toString());
             message.append(error).append(Const.CR);
-            ErrorDialog dialog =
-                new ErrorDialog(
-                    shell,
-                    BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Title"),
-                    error,
-                    dbe,
-                    true);
+            ErrorDialog dialog = new ErrorDialog(shell, BaseMessages.getString(PKG, "SQLEditor.ErrorExecSQL.Title"), error, dbe, true);
             if (dialog.isCancelled()) {
               break;
             }
           } finally {
             int endLogLine = HopLogStore.getLastBufferLineNr();
-            sql.setLoggingText(
-                HopLogStore.getAppender()
-                    .getLogBufferFromTo(db.getLogChannelId(), true, startLogLine, endLogLine)
-                    .toString());
+            sql.setLoggingText(HopLogStore.getAppender().getLogBufferFromTo(db.getLogChannelId(), true, startLogLine, endLogLine).toString());
             sql.setComplete(true);
             refreshExecutionResults();
           }
         }
       }
-      message.append(
-          BaseMessages.getString(PKG, "SQLEditor.Log.StatsExecuted", Integer.toString(nrstats)));
+      message.append(BaseMessages.getString(PKG, "SQLEditor.Log.StatsExecuted", Integer.toString(nrstats)));
 
       message.append(Const.CR);
     } catch (HopDatabaseException dbe) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      String error =
-          BaseMessages.getString(
-              PKG,
-              "SQLEditor.Error.CouldNotConnect.Message",
-              (connection == null ? "" : connection.getName()),
-              dbe.getMessage());
+      String error = BaseMessages.getString(PKG, "SQLEditor.Error.CouldNotConnect.Message", (connection == null ? "" : connection.getName()), dbe.getMessage());
       message.append(error).append(Const.CR);
       mb.setMessage(error);
       mb.setText(BaseMessages.getString(PKG, "SQLEditor.Error.CouldNotConnect.Title"));
@@ -394,12 +348,7 @@ public class SqlEditor {
     }
 
     EnterTextDialog dialog =
-        new EnterTextDialog(
-            shell,
-            BaseMessages.getString(PKG, "SQLEditor.Result.Title"),
-            BaseMessages.getString(PKG, "SQLEditor.Result.Message"),
-            message.toString(),
-            true);
+        new EnterTextDialog(shell, BaseMessages.getString(PKG, "SQLEditor.Result.Title"), BaseMessages.getString(PKG, "SQLEditor.Result.Message"), message.toString(), true);
     dialog.open();
   }
 

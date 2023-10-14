@@ -87,8 +87,7 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
 
   private final Map<String, Integer> inputFields;
 
-  public AddXmlDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public AddXmlDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (AddXmlMeta) in;
     inputFields = new HashMap<>();
@@ -177,20 +176,19 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     fdEncoding.top = new FormAttachment(null, margin);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     Label wlOutputValue = new Label(wContentComp, SWT.RIGHT);
     wlOutputValue.setText(BaseMessages.getString(PKG, "AddXMLDialog.OutputValue.Label"));
@@ -243,13 +241,12 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     fdOmitXMLHeader.top = new FormAttachment(wlOmitXMLHeader, 0, SWT.CENTER);
     fdOmitXMLHeader.right = new FormAttachment(100, 0);
     wOmitXMLHeader.setLayoutData(fdOmitXMLHeader);
-    wOmitXMLHeader.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wOmitXMLHeader.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     Label wlOmitNullValues = new Label(wContentComp, SWT.RIGHT);
     wlOmitNullValues.setText(BaseMessages.getString(PKG, "AddXMLDialog.OmitNullValues.Label"));
@@ -266,13 +263,12 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     fdOmitNullValues.top = new FormAttachment(wlOmitNullValues, 0, SWT.CENTER);
     fdOmitNullValues.right = new FormAttachment(100, 0);
     wOmitNullValues.setLayoutData(fdOmitNullValues);
-    wOmitNullValues.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wOmitNullValues.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     FormData fdContentComp = new FormData();
     fdContentComp.left = new FormAttachment(0, 0);
@@ -316,69 +312,23 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Fieldname.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.ElementName.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaBase.getTypes()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Format.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Currency.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Decimal.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Group.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Null.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.Attribute.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              },
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "AddXMLDialog.AttributeParentName.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false)
-        };
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.ElementName.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.getTypes()),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.Null.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "AddXMLDialog.Attribute.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")},
+                true),
+            new ColumnInfo(BaseMessages.getString(PKG, "AddXMLDialog.AttributeParentName.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false)};
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -390,23 +340,22 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFieldsComp = new FormData();
@@ -430,13 +379,12 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     wGet.addListener(SWT.Selection, e -> get());
     wMinWidth.addListener(SWT.Selection, e -> setMinimalWidth());
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -537,11 +485,7 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
       if (field.getNullString() != null) {
         item.setText(10, field.getNullString());
       }
-      item.setText(
-          11,
-          field.isAttribute()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      item.setText(11, field.isAttribute() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
       if (field.getAttributeParentName() != null) {
         item.setText(12, field.getAttributeParentName());
       }
@@ -616,46 +560,34 @@ public class AddXmlDialog extends BaseTransformDialog implements ITransformDialo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r,
-            wFields,
-            1,
-            new int[] {1, 2},
-            new int[] {3},
-            5,
-            6,
-            (tableItem, v) -> {
-              if (v.isNumber()) {
-                if (v.getLength() > 0) {
-                  int le = v.getLength();
-                  int pr = v.getPrecision();
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {3}, 5, 6, (tableItem, v) -> {
+          if (v.isNumber()) {
+            if (v.getLength() > 0) {
+              int le = v.getLength();
+              int pr = v.getPrecision();
 
-                  if (v.getPrecision() <= 0) {
-                    pr = 0;
-                  }
-
-                  String mask = " ";
-                  for (int m = 0; m < le - pr; m++) {
-                    mask += "0";
-                  }
-                  if (pr > 0) {
-                    mask += ".";
-                  }
-                  for (int m = 0; m < pr; m++) {
-                    mask += "0";
-                  }
-                  tableItem.setText(4, mask);
-                }
+              if (v.getPrecision() <= 0) {
+                pr = 0;
               }
-              return true;
-            });
+
+              String mask = " ";
+              for (int m = 0; m < le - pr; m++) {
+                mask += "0";
+              }
+              if (pr > 0) {
+                mask += ".";
+              }
+              for (int m = 0; m < pr; m++) {
+                mask += "0";
+              }
+              tableItem.setText(4, mask);
+            }
+          }
+          return true;
+        });
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 

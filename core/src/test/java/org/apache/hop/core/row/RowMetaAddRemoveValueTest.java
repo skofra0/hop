@@ -26,7 +26,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class RowMetaAddRemoveValueTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpClass() throws Exception {

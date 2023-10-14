@@ -108,27 +108,20 @@ public class S3FileObject extends S3CommonFileObject {
   @Override
   public OutputStream doGetOutputStream(boolean bAppend) throws Exception {
     SimpleEntry<String, String> newPath = fixFilePath(key, bucketName);
-    return new S3CommonPipedOutputStream(
-        this.fileSystem,
-        newPath.getValue(),
-        newPath.getKey(),
-        ((S3FileSystem) this.fileSystem).getPartSize());
+    return new S3CommonPipedOutputStream(this.fileSystem, newPath.getValue(), newPath.getKey(), ((S3FileSystem) this.fileSystem).getPartSize());
   }
 
   @Override
-  protected PutObjectRequest createPutObjectRequest(
-      String bucketName, String key, InputStream inputStream, ObjectMetadata objectMetadata) {
+  protected PutObjectRequest createPutObjectRequest(String bucketName, String key, InputStream inputStream, ObjectMetadata objectMetadata) {
     SimpleEntry<String, String> newPath = fixFilePath(key, bucketName);
     return new PutObjectRequest(newPath.getValue(), newPath.getKey(), inputStream, objectMetadata);
   }
 
   @Override
-  protected CopyObjectRequest createCopyObjectRequest(
-      String sourceBucket, String sourceKey, String destBucket, String destKey) {
+  protected CopyObjectRequest createCopyObjectRequest(String sourceBucket, String sourceKey, String destBucket, String destKey) {
     SimpleEntry<String, String> sourcePath = fixFilePath(sourceKey, sourceBucket);
     SimpleEntry<String, String> destPath = fixFilePath(destKey, destBucket);
-    return new CopyObjectRequest(
-        sourcePath.getValue(), sourcePath.getKey(), destPath.getValue(), destPath.getKey());
+    return new CopyObjectRequest(sourcePath.getValue(), sourcePath.getKey(), destPath.getValue(), destPath.getKey());
   }
 
   @Override
@@ -140,11 +133,7 @@ public class S3FileObject extends S3CommonFileObject {
       s3ObjectMetadata = s3Object.getObjectMetadata();
       injectType(FileType.FOLDER);
     } catch (AmazonS3Exception e2) {
-      ListObjectsRequest listObjectsRequest =
-          new ListObjectsRequest()
-              .withBucketName(newPath.getValue())
-              .withPrefix(keyWithDelimiter)
-              .withDelimiter(DELIMITER);
+      ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(newPath.getValue()).withPrefix(keyWithDelimiter).withDelimiter(DELIMITER);
       ObjectListing ol = fileSystem.getS3Client().listObjects(listObjectsRequest);
 
       if (!(ol.getCommonPrefixes().isEmpty() && ol.getObjectSummaries().isEmpty())) {
@@ -155,16 +144,14 @@ public class S3FileObject extends S3CommonFileObject {
         // confirms key doesn't exist but connection okay
         if (!errorCode.equals("NoSuchKey")) {
           // bubbling up other connection errors
-          LogChannel.GENERAL.logError(
-              "Could not get information on " + getQualifiedName(),
-              e2); // make sure this gets printed for the user
+          LogChannel.GENERAL.logError("Could not get information on " + getQualifiedName(), e2); // make sure this gets printed for the user
           throw new FileSystemException("vfs.provider/get-type.error", getQualifiedName(), e2);
         }
       }
     }
   }
 
-  // See if the first name on the path is actually a bucket.  If not, it's probably an old-style
+  // See if the first name on the path is actually a bucket. If not, it's probably an old-style
   // path.
   public SimpleEntry<String, String> fixFilePath(String key, String bucket) {
     String newBucket = bucket;
@@ -173,9 +160,7 @@ public class S3FileObject extends S3CommonFileObject {
     // see if the folder exists; if not, it might be from an old path and the real bucket is in the
     // key
     if (!bucketExists(bucket)) {
-      LogChannel.GENERAL.logDebug(
-          "Bucket {} from original path not found, might be an old path from the old driver",
-          bucket);
+      LogChannel.GENERAL.logDebug("Bucket {} from original path not found, might be an old path from the old driver", bucket);
       if (key.split(DELIMITER).length > 1) {
         newBucket = key.split(DELIMITER)[0];
         newKey = key.replaceFirst(newBucket + DELIMITER, "");

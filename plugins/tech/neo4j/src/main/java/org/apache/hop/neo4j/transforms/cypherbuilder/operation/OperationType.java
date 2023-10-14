@@ -26,8 +26,7 @@ public enum OperationType {
   ORDER_BY("ORDER BY", "Order by"),
   EDGE_MATCH("MATCH", "Match relationship"),
   EDGE_MERGE("MERGE", "Merge relationship"),
-  EDGE_CREATE("CREATE", "Create relationship"),
-  ;
+  EDGE_CREATE("CREATE", "Create relationship"),;
 
   private final String keyWord;
   private final String description;

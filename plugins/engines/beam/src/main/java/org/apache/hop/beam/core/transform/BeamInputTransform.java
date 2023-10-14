@@ -48,12 +48,7 @@ public class BeamInputTransform extends PTransform<PBegin, PCollection<HopRow>> 
 
   public BeamInputTransform() {}
 
-  public BeamInputTransform(
-      @Nullable String name,
-      String transformName,
-      String inputLocation,
-      String separator,
-      String rowMetaJson) {
+  public BeamInputTransform(@Nullable String name, String transformName, String inputLocation, String separator, String rowMetaJson) {
     super(name);
     this.transformName = transformName;
     this.inputLocation = inputLocation;
@@ -69,23 +64,19 @@ public class BeamInputTransform extends PTransform<PBegin, PCollection<HopRow>> 
       //
       BeamHop.init();
 
-      TextIO.Read ioRead =
-          TextIO.read().from(inputLocation).withCompression(Compression.UNCOMPRESSED);
+      TextIO.Read ioRead = TextIO.read().from(inputLocation).withCompression(Compression.UNCOMPRESSED);
 
-      StringToHopFn stringToHopFn =
-          new StringToHopFn(
-              transformName, rowMetaJson, separator);
+      StringToHopFn stringToHopFn = new StringToHopFn(transformName, rowMetaJson, separator);
 
-      return
-          input
+      return input
 
-              // We read a bunch of Strings, one per line basically
-              //
-              .apply(transformName + " READ FILE", ioRead)
+          // We read a bunch of Strings, one per line basically
+          //
+          .apply(transformName + " READ FILE", ioRead)
 
-              // We need to transform these lines into Hop fields
-              //
-              .apply(transformName, ParDo.of(stringToHopFn));
+          // We need to transform these lines into Hop fields
+          //
+          .apply(transformName, ParDo.of(stringToHopFn));
     } catch (Exception e) {
       numErrors.inc();
       LOG.error("Error in beam input transform", e);

@@ -48,8 +48,7 @@ public class BeamHop {
     return HopEnvironment.isInitialized();
   }
 
-  public static final void init()
-      throws HopException {
+  public static final void init() throws HopException {
     synchronized (PluginRegistry.getInstance()) {
       // Don't create hop config files everywhere...
       //
@@ -63,10 +62,7 @@ public class BeamHop {
     }
   }
 
-  private static IPlugin findPlugin(
-      PluginRegistry registry,
-      Class<? extends IPluginType<?>> pluginTypeClass,
-      String pluginClassName) {
+  private static IPlugin findPlugin(PluginRegistry registry, Class<? extends IPluginType<?>> pluginTypeClass, String pluginClassName) {
     PluginMainClassType classType = pluginTypeClass.getAnnotation(PluginMainClassType.class);
     List<IPlugin> plugins = registry.getPlugins(pluginTypeClass);
     for (IPlugin plugin : plugins) {
@@ -101,17 +97,11 @@ public class BeamHop {
 
   public static Node getTransformXmlNode(TransformMeta transformMeta) throws HopException {
     String xml = transformMeta.getXml();
-    Node transformNode =
-            XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), TransformMeta.XML_TAG);
+    Node transformNode = XmlHandler.getSubNode(XmlHandler.loadXmlString(xml), TransformMeta.XML_TAG);
     return transformNode;
   }
 
-  public static void loadTransformMetadata(
-          ITransformMeta meta,
-          TransformMeta transformMeta,
-          IHopMetadataProvider metadataProvider,
-          PipelineMeta pipelineMeta)
-          throws HopException {
+  public static void loadTransformMetadata(ITransformMeta meta, TransformMeta transformMeta, IHopMetadataProvider metadataProvider, PipelineMeta pipelineMeta) throws HopException {
     meta.loadXml(getTransformXmlNode(transformMeta), metadataProvider);
     meta.searchInfoAndTargetTransforms(pipelineMeta.getTransforms());
   }

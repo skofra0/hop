@@ -54,8 +54,7 @@ public class LogMessage implements ILogMessage {
     this(message, logChannelId, arguments, level, false);
   }
 
-  public LogMessage(
-      String message, String logChannelId, Object[] arguments, LogLevel level, boolean simplified) {
+  public LogMessage(String message, String logChannelId, Object[] arguments, LogLevel level, boolean simplified) {
     this.message = message;
     this.logChannelId = logChannelId;
     this.arguments = arguments;
@@ -69,8 +68,7 @@ public class LogMessage implements ILogMessage {
     //
     ILoggingObject loggingObject = LoggingRegistry.getInstance().getLoggingObject(logChannelId);
 
-    boolean detailedLogTurnOn =
-        "Y".equals(HopConfig.readStringVariable(Const.HOP_LOG_MARK_MAPPINGS, "N")) ? true : false;
+    boolean detailedLogTurnOn = "Y".equals(HopConfig.readStringVariable(Const.HOP_LOG_MARK_MAPPINGS, "N")) ? true : false;
     if (loggingObject != null) {
       if (!detailedLogTurnOn) {
         subject = loggingObject.getObjectName();

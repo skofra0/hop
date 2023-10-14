@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionEvalTableContentLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionEvalTableContent> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionEvalTableContentLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionEvalTableContent> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionEvalTableContent> getActionClass() {
@@ -38,27 +38,14 @@ public class WorkflowActionEvalTableContentLoadSaveTest
 
   @Override
   protected List<String> listAttributes() {
-    return Arrays.asList(
-        new String[] {
-          "connection",
-          "schemaname",
-          "tablename",
-          "successCondition",
-          "limit",
-          "useCustomSql",
-          "useVars",
-          "customSql",
-          "addRowsResult",
-          "clearResultList"
-        });
+    return Arrays
+        .asList(new String[] {"connection", "schemaname", "tablename", "successCondition", "limit", "useCustomSql", "useVars", "customSql", "addRowsResult", "clearResultList"});
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
-    validators.put(
-        "successCondition",
-        new IntLoadSaveValidator(ActionEvalTableContent.successConditionsCode.length));
+    validators.put("successCondition", new IntLoadSaveValidator(ActionEvalTableContent.successConditionsCode.length));
     return validators;
   }
 }

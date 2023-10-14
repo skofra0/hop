@@ -69,8 +69,7 @@ import java.util.Set;
 
 public class SplunkInputDialog extends BaseTransformDialog implements ITransformDialog {
 
-  private static final Class<?> PKG =
-      SplunkInputMeta.class; // For Translator
+  private static final Class<?> PKG = SplunkInputMeta.class; // For Translator
 
   private Text wTransformName;
 
@@ -82,12 +81,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
 
   private final SplunkInputMeta input;
 
-  public SplunkInputDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public SplunkInputDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, pipelineMeta, transformName);
     input = (SplunkInputMeta) inputMetadata;
   }
@@ -107,8 +101,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
     ModifyListener lsMod = e -> input.setChanged();
     changed = input.hasChanged();
 
-    ScrolledComposite wScrolledComposite =
-        new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
+    ScrolledComposite wScrolledComposite = new ScrolledComposite(shell, SWT.V_SCROLL | SWT.H_SCROLL);
     FormLayout scFormLayout = new FormLayout();
     wScrolledComposite.setLayout(scFormLayout);
     FormData fdSComposite = new FormData();
@@ -209,16 +202,11 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
     //
     ColumnInfo[] returnColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Field name", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Splunk name", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo(
-              "Return type",
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames(),
-              false),
-          new ColumnInfo("Length", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Format", ColumnInfo.COLUMN_TYPE_TEXT, false),
-        };
+            new ColumnInfo("Field name", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Splunk name", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Return type", ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames(), false),
+            new ColumnInfo("Length", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Format", ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     Label wlReturns = new Label(wComposite, SWT.LEFT);
     wlReturns.setText("Returns");
@@ -238,15 +226,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
     wbGetReturnFields.addListener(SWT.Selection, e -> getReturnValues());
     lastControl = wbGetReturnFields;
 
-    wReturns =
-        new TableView(
-            variables,
-            wComposite,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            returnColumns,
-            input.getReturnValues().size(),
-            lsMod,
-            props);
+    wReturns = new TableView(variables, wComposite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, returnColumns, input.getReturnValues().size(), lsMod, props);
     PropsUi.setLook(wReturns);
     wReturns.addModifyListener(lsMod);
     FormData fdReturns = new FormData();
@@ -288,8 +268,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
     // List of connections...
     //
     try {
-      List<String> elementNames =
-          metadataProvider.getSerializer(SplunkConnection.class).listObjectNames();
+      List<String> elementNames = metadataProvider.getSerializer(SplunkConnection.class).listObjectNames();
       Collections.sort(elementNames);
       wConnection.setItems(elementNames.toArray(new String[0]));
     } catch (Exception e) {
@@ -341,9 +320,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
   private synchronized void preview() {
     SplunkInputMeta oneMeta = new SplunkInputMeta();
     this.getInfo(oneMeta);
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            metadataProvider, oneMeta, this.wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, this.wTransformName.getText());
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
             this.shell,
@@ -353,18 +330,11 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              this.shell,
-              variables,
-              previewMeta,
-              new String[] {this.wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(this.shell, variables, previewMeta, new String[] {this.wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
       Pipeline pipeline = progressDialog.getPipeline();
       String loggingText = progressDialog.getLoggingText();
-      if (!progressDialog.isCancelled()
-          && pipeline.getResult() != null
-          && pipeline.getResult().getNrErrors() > 0L) {
+      if (!progressDialog.isCancelled() && pipeline.getResult() != null && pipeline.getResult().getNrErrors() > 0L) {
         EnterTextDialog etd =
             new EnterTextDialog(
                 this.shell,
@@ -392,8 +362,7 @@ public class SplunkInputDialog extends BaseTransformDialog implements ITransform
   private void getReturnValues() {
 
     try {
-      IHopMetadataSerializer<SplunkConnection> serializer =
-          metadataProvider.getSerializer(SplunkConnection.class);
+      IHopMetadataSerializer<SplunkConnection> serializer = metadataProvider.getSerializer(SplunkConnection.class);
       SplunkConnection splunkConnection = serializer.load(variables.resolve(wConnection.getText()));
       Service service = Service.connect(splunkConnection.getServiceArgs(variables));
       Args args = new Args();

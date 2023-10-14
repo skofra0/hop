@@ -32,7 +32,8 @@ import java.util.Map;
 
 public class AddSequenceMetaTest {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -42,17 +43,7 @@ public class AddSequenceMetaTest {
   @Test
   public void testRoundTrip() throws HopException {
     List<String> attributes =
-        Arrays.asList(
-            "valueName",
-            "databaseUsed",
-            "connection",
-            "schemaName",
-            "sequenceName",
-            "counterUsed",
-            "counterName",
-            "startAt",
-            "incrementBy",
-            "maxValue");
+        Arrays.asList("valueName", "databaseUsed", "connection", "schemaName", "sequenceName", "counterUsed", "counterName", "startAt", "incrementBy", "maxValue");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
@@ -60,14 +51,7 @@ public class AddSequenceMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> typeValidators = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> fieldValidators = new HashMap<>();
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            AddSequenceMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            fieldValidators,
-            typeValidators);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(AddSequenceMeta.class, attributes, getterMap, setterMap, fieldValidators, typeValidators);
     loadSaveTester.testSerialization();
   }
 }

@@ -65,8 +65,7 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
 
   private final MergeJoinMeta input;
 
-  public MergeJoinDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MergeJoinDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MergeJoinMeta) in;
   }
@@ -223,23 +222,9 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
 
     int nrKeyRows1 = input.getKeyFields1().size();
 
-    ColumnInfo[] ciKeys1 =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MergeJoinDialog.ColumnInfo.KeyField1"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] ciKeys1 = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "MergeJoinDialog.ColumnInfo.KeyField1"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wKeys1 =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKeys1,
-            nrKeyRows1,
-            lsMod,
-            props);
+    wKeys1 = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKeys1, nrKeyRows1, lsMod, props);
     FormData fdKeys1 = new FormData();
     fdKeys1.top = new FormAttachment(wlKeys1, margin);
     fdKeys1.left = new FormAttachment(0, 0);
@@ -258,23 +243,9 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
 
     int nrKeyRows2 = input.getKeyFields2().size();
 
-    ColumnInfo[] ciKeys2 =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MergeJoinDialog.ColumnInfo.KeyField2"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+    ColumnInfo[] ciKeys2 = new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "MergeJoinDialog.ColumnInfo.KeyField2"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wKeys2 =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKeys2,
-            nrKeyRows2,
-            lsMod,
-            props);
+    wKeys2 = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKeys2, nrKeyRows2, lsMod, props);
     FormData fdKeys2 = new FormData();
     fdKeys2.top = new FormAttachment(wlKeys2, margin);
     fdKeys2.left = new FormAttachment(50, 0);
@@ -352,8 +323,7 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "MergeJoinDialog.InputNeedSort.DialogTitle"),
-              BaseMessages.getString(PKG, "MergeJoinDialog.InputNeedSort.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "MergeJoinDialog.InputNeedSort.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
               new String[] {BaseMessages.getString(PKG, "MergeJoinDialog.InputNeedSort.Option1")},
               BaseMessages.getString(PKG, "MergeJoinDialog.InputNeedSort.Option2"),
@@ -376,8 +346,7 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
       if (transformMeta != null) {
         IRowMeta prev = pipelineMeta.getTransformFields(variables, transformMeta);
         if (prev != null) {
-          BaseTransformDialog.getFieldsFromPrevious(
-              prev, wKeys1, 1, new int[] {1}, new int[] {}, -1, -1, null);
+          BaseTransformDialog.getFieldsFromPrevious(prev, wKeys1, 1, new int[] {1}, new int[] {}, -1, -1, null);
         }
       }
     } catch (HopException e) {
@@ -398,8 +367,7 @@ public class MergeJoinDialog extends BaseTransformDialog implements ITransformDi
       if (transformMeta != null) {
         IRowMeta prev = pipelineMeta.getTransformFields(variables, transformMeta);
         if (prev != null) {
-          BaseTransformDialog.getFieldsFromPrevious(
-              prev, wKeys2, 1, new int[] {1}, new int[] {}, -1, -1, null);
+          BaseTransformDialog.getFieldsFromPrevious(prev, wKeys2, 1, new int[] {1}, new int[] {}, -1, -1, null);
         }
       }
     } catch (HopException e) {

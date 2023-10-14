@@ -83,18 +83,10 @@ public class FilesToResultMeta extends BaseTransformMeta<FilesToResult, FilesToR
       IHopMetadataProvider metadataProvider) {
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FilesToResultMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta));
+      remarks
+          .add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilesToResultMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "FilesToResultMeta.CheckResult.NoInputReceivedError"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FilesToResultMeta.CheckResult.NoInputReceivedError"), transformMeta));
     }
   }
 

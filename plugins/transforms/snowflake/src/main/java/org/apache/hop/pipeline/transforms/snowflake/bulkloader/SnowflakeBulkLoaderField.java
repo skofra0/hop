@@ -62,8 +62,7 @@ public class SnowflakeBulkLoaderField implements Cloneable {
    */
   public boolean validate() throws HopException {
     if (streamField == null || tableField == null) {
-      throw new HopException(
-          "Validation error: Both stream field and database field must be populated.");
+      throw new HopException("Validation error: Both stream field and database field must be populated.");
     }
 
     return true;

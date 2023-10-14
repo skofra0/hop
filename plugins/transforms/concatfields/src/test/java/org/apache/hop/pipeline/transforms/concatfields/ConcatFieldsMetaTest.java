@@ -25,9 +25,7 @@ public class ConcatFieldsMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    ConcatFieldsMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/concat-fields-transform.xml", ConcatFieldsMeta.class);
+    ConcatFieldsMeta meta = TransformSerializationTestUtil.testSerialization("/concat-fields-transform.xml", ConcatFieldsMeta.class);
 
     assertEquals(meta.getOutputFields().size(), 9);
   }

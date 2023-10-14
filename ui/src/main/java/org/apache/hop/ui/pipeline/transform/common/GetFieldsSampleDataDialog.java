@@ -38,17 +38,9 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
   private final IGetFieldsCapableTransformDialog parentDialog;
   private final boolean reloadAllFields;
 
-  public GetFieldsSampleDataDialog(
-          final Shell parentShell,
-          final IGetFieldsCapableTransformDialog parentDialog,
-          final boolean reloadAllFields) {
-    super(
-            parentShell,
-            SAMPLE_SIZE,
-            BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Title"),
-            BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Message"),
-        BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.ShowSample.Message"),
-        SHELL_WIDTH);
+  public GetFieldsSampleDataDialog(final Shell parentShell, final IGetFieldsCapableTransformDialog parentDialog, final boolean reloadAllFields) {
+    super(parentShell, SAMPLE_SIZE, BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Title"), BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.Message"),
+        BaseMessages.getString(PKG, "GetFieldsSampleSizeDialog.ShowSample.Message"), SHELL_WIDTH);
     this.parentDialog = parentDialog;
     this.reloadAllFields = reloadAllFields;
   }
@@ -70,16 +62,14 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
 
   protected void handleOk(final int samples) {
     if (samples >= 0) {
-      String message =
-          parentDialog.loadFields(parentDialog.getPopulatedMeta(), samples, reloadAllFields);
+      String message = parentDialog.loadFields(parentDialog.getPopulatedMeta(), samples, reloadAllFields);
       if (wCheckbox != null && wCheckbox.getSelection()) {
         if (StringUtils.isNotBlank(message)) {
           final EnterTextDialog etd =
               new EnterTextDialog(
                   parentDialog.getShell(),
                   BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.DialogTitle"),
-                  BaseMessages.getString(
-                      PKG, "GetFieldsSampleDataDialog.ScanResults.DialogMessage"),
+                  BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.DialogMessage"),
                   message,
                   true);
           etd.setReadOnly();
@@ -89,8 +79,7 @@ public class GetFieldsSampleDataDialog extends EnterNumberDialog {
 
           MessageBox box = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
           box.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-          box.setMessage(
-              BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.Error.Message"));
+          box.setMessage(BaseMessages.getString(PKG, "GetFieldsSampleDataDialog.ScanResults.Error.Message"));
           box.open();
         }
       }

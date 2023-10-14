@@ -44,12 +44,7 @@ public class WorkflowLoggingDialog extends BaseTransformDialog implements ITrans
   private final WorkflowLoggingMeta input;
   private Button wLoggingActionResults;
 
-  public WorkflowLoggingDialog(
-      Shell parent,
-      IVariables variables,
-      Object input,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public WorkflowLoggingDialog(Shell parent, IVariables variables, Object input, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) input, pipelineMeta, transformName);
     this.input = (WorkflowLoggingMeta) input;
   }
@@ -77,8 +72,7 @@ public class WorkflowLoggingDialog extends BaseTransformDialog implements ITrans
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "WorkflowLoggingDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "WorkflowLoggingDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -97,8 +91,7 @@ public class WorkflowLoggingDialog extends BaseTransformDialog implements ITrans
 
     // Logging action results line
     Label wlLoggingActionResults = new Label(shell, SWT.RIGHT);
-    wlLoggingActionResults.setText(
-        BaseMessages.getString(PKG, "WorkflowLoggingDialog.LoggingActions.Label"));
+    wlLoggingActionResults.setText(BaseMessages.getString(PKG, "WorkflowLoggingDialog.LoggingActions.Label"));
     PropsUi.setLook(wlLoggingActionResults);
     FormData fdlLoggingActionResults = new FormData();
     fdlLoggingActionResults.left = new FormAttachment(0, 0);

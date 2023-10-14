@@ -34,13 +34,7 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-  DefaultLogLevel.class,
-  LoggingRegistry.class,
-  LogLevel.class,
-  HopLogStore.class,
-  Utils.class
-})
+@PrepareForTest({DefaultLogLevel.class, LoggingRegistry.class, LogLevel.class, HopLogStore.class, Utils.class})
 public class LogChannelTest {
 
   private LogChannel logChannel;
@@ -64,8 +58,7 @@ public class LogChannelTest {
 
     LoggingRegistry regInstance = mock(LoggingRegistry.class);
     Mockito.when(regInstance.registerLoggingSource(logChannelSubject)).thenReturn(channelId);
-    Mockito.when(regInstance.getLogChannelFileWriterBuffer(channelId))
-        .thenReturn(logChFileWriterBuffer);
+    Mockito.when(regInstance.getLogChannelFileWriterBuffer(channelId)).thenReturn(logChFileWriterBuffer);
 
     PowerMockito.mockStatic(LoggingRegistry.class);
     when(LoggingRegistry.getInstance()).thenReturn(regInstance);

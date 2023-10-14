@@ -51,7 +51,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class GreenplumValueMetaBaseTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME = "TEST_NAME";
   private static final String LOG_FIELD = "LOG_FIELD";
@@ -76,7 +77,8 @@ public class GreenplumValueMetaBaseTest {
 
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;
@@ -110,8 +112,7 @@ public class GreenplumValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlNumericWithUndefinedSizeUsingGreenplum()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlNumericWithUndefinedSizeUsingGreenplum() throws SQLException, HopDatabaseException {
     doReturn(Types.NUMERIC).when(resultSet).getInt("DATA_TYPE");
     doReturn(0).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -138,8 +139,7 @@ public class GreenplumValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlVarBinaryToHopBinary()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlVarBinaryToHopBinary() throws SQLException, HopDatabaseException {
     doReturn(Types.VARBINARY).when(resultSet).getInt("DATA_TYPE");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
     assertTrue(valueMeta.isBinary());

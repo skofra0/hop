@@ -71,8 +71,7 @@ public class TikaOutput {
 
   private boolean prettyPrint = false;
 
-  public TikaOutput(ClassLoader classLoader, ILogChannel log, IVariables variables)
-      throws IOException, MimeTypeException {
+  public TikaOutput(ClassLoader classLoader, ILogChannel log, IVariables variables) throws IOException, MimeTypeException {
     tikaConfig = new TikaConfig(classLoader);
     this.log = log;
     this.variables = variables;
@@ -96,8 +95,7 @@ public class TikaOutput {
    * @return output writer
    * @throws UnsupportedEncodingException if the given encoding is not supported
    */
-  private static Writer getOutputWriter(OutputStream output, String encoding)
-      throws UnsupportedEncodingException {
+  private static Writer getOutputWriter(OutputStream output, String encoding) throws UnsupportedEncodingException {
     if (encoding != null) {
       return new OutputStreamWriter(output, encoding);
     } else if (System.getProperty("os.name").toLowerCase().startsWith("mac os x")) {
@@ -119,9 +117,7 @@ public class TikaOutput {
    * @return {@link System#out} transformer handler
    * @throws TransformerConfigurationException if the transformer can not be created
    */
-  private static TransformerHandler getTransformerHandler(
-      OutputStream output, String method, String encoding, boolean prettyPrint)
-      throws TransformerConfigurationException {
+  private static TransformerHandler getTransformerHandler(OutputStream output, String method, String encoding, boolean prettyPrint) throws TransformerConfigurationException {
     SAXTransformerFactory factory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
     factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
@@ -139,8 +135,7 @@ public class TikaOutput {
   public final OutputType getXml() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
         return getTransformerHandler(output, "xml", encoding, prettyPrint);
       }
     };
@@ -149,10 +144,8 @@ public class TikaOutput {
   public final OutputType getHTML() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
-        return new ExpandedTitleContentHandler(
-            getTransformerHandler(output, "html", encoding, prettyPrint));
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
+        return new ExpandedTitleContentHandler(getTransformerHandler(output, "html", encoding, prettyPrint));
       }
     };
   }
@@ -160,8 +153,7 @@ public class TikaOutput {
   public final OutputType getTEXT() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
         return new BodyContentHandler(getOutputWriter(output, encoding));
       }
     };
@@ -179,8 +171,7 @@ public class TikaOutput {
   public final OutputType getTEXT_MAIN() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
         return new BodyContentHandler(getOutputWriter(output, encoding));
       }
     };
@@ -189,8 +180,7 @@ public class TikaOutput {
   public final OutputType getMETADATA() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
         final PrintWriter writer = new PrintWriter(getOutputWriter(output, encoding));
         return new NoDocumentMetHandler(metadata, writer);
       }
@@ -200,8 +190,7 @@ public class TikaOutput {
   public final OutputType getJSON() {
     return new OutputType() {
       @Override
-      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-          throws Exception {
+      protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
         final PrintWriter writer = new PrintWriter(getOutputWriter(output, encoding));
         return new NoDocumentJSONMetHandler(metadata, writer);
       }
@@ -252,8 +241,7 @@ public class TikaOutput {
 
   private class OutputType {
 
-    public void process(InputStream input, OutputStream output, Metadata metadata)
-        throws Exception {
+    public void process(InputStream input, OutputStream output, Metadata metadata) throws Exception {
       ContentHandler handler = getContentHandler(output, metadata);
       parser.parse(input, handler, metadata, context);
 
@@ -268,8 +256,7 @@ public class TikaOutput {
       }
     }
 
-    protected ContentHandler getContentHandler(OutputStream output, Metadata metadata)
-        throws Exception {
+    protected ContentHandler getContentHandler(OutputStream output, Metadata metadata) throws Exception {
       throw new UnsupportedOperationException();
     }
   }

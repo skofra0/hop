@@ -41,11 +41,7 @@ public class PipelineUnitTestSetLocation {
     fieldOrder = new ArrayList<>();
   }
 
-  public PipelineUnitTestSetLocation(
-      String transformName,
-      String dataSetName,
-      List<PipelineUnitTestFieldMapping> fieldMappings,
-      List<String> fieldOrder) {
+  public PipelineUnitTestSetLocation(String transformName, String dataSetName, List<PipelineUnitTestFieldMapping> fieldMappings, List<String> fieldOrder) {
     this();
     this.transformName = transformName;
     this.dataSetName = dataSetName;

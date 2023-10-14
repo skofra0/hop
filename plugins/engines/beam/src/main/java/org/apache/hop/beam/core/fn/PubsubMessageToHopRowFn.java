@@ -42,9 +42,7 @@ public class PubsubMessageToHopRowFn extends DoFn<PubsubMessage, HopRow> {
   private transient Counter inputCounter;
   private transient Counter writtenCounter;
 
-  public PubsubMessageToHopRowFn(
-      String transformName,
-      String rowMetaJson) {
+  public PubsubMessageToHopRowFn(String transformName, String rowMetaJson) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
   }

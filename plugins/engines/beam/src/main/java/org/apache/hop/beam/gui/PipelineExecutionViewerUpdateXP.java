@@ -26,15 +26,10 @@ import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.execution.ExecutionState;
 import org.apache.hop.ui.hopgui.perspective.execution.PipelineExecutionViewer;
 
-@ExtensionPoint(
-    id = "PipelineExecutionViewerUpdateXP",
-    extensionPointId = "PipelineExecutionViewerUpdate",
-    description = "Update the toolbar icons we add in the Beam GUI plugin")
-public final class PipelineExecutionViewerUpdateXP
-    implements IExtensionPoint<PipelineExecutionViewer> {
+@ExtensionPoint(id = "PipelineExecutionViewerUpdateXP", extensionPointId = "PipelineExecutionViewerUpdate", description = "Update the toolbar icons we add in the Beam GUI plugin")
+public final class PipelineExecutionViewerUpdateXP implements IExtensionPoint<PipelineExecutionViewer> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, PipelineExecutionViewer viewer) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelineExecutionViewer viewer) throws HopException {
 
     String jobId = null;
     ExecutionState executionState = viewer.getExecutionState();
@@ -43,10 +38,6 @@ public final class PipelineExecutionViewerUpdateXP
     }
     // Enable/Disable the toolbar icon in the pipeline execution viewer.
     //
-    viewer
-        .getToolBarWidgets()
-        .enableToolbarItem(
-            HopBeamGuiPlugin.TOOLBAR_ID_PIPELINE_EXECUTION_VIEWER_VISIT_GCP_DATAFLOW,
-            StringUtils.isNotEmpty(jobId));
+    viewer.getToolBarWidgets().enableToolbarItem(HopBeamGuiPlugin.TOOLBAR_ID_PIPELINE_EXECUTION_VIEWER_VISIT_GCP_DATAFLOW, StringUtils.isNotEmpty(jobId));
   }
 }

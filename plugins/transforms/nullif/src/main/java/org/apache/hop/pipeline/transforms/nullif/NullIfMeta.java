@@ -43,22 +43,21 @@ public class NullIfMeta extends BaseTransformMeta<NullIf, NullIfData> {
 
   private static final Class<?> PKG = NullIfMeta.class; // For Translator
 
-  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS",
-      injectionGroupDescription = "NullIf.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "NullIf.Injection.FIELDS")
   private List<NullIfField> fields;
 
   public NullIfMeta() {
     super();
     this.fields = new ArrayList<>();
   }
-  
-  public NullIfMeta(NullIfMeta meta) {    
+
+  public NullIfMeta(NullIfMeta meta) {
     this();
     for (NullIfField field : meta.fields) {
       fields.add(new NullIfField(field.getName(), field.getValue()));
     }
   }
-  
+
   public List<NullIfField> getFields() {
     return fields;
   }
@@ -69,17 +68,11 @@ public class NullIfMeta extends BaseTransformMeta<NullIf, NullIfData> {
 
   @Override
   public Object clone() {
-    return new NullIfMeta(this);  
+    return new NullIfMeta(this);
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     if (r == null) {
       r = new RowMeta(); // give back values
       // Meta-data doesn't change here, only the value possibly turns to NULL
@@ -101,37 +94,19 @@ public class NullIfMeta extends BaseTransformMeta<NullIf, NullIfData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "NullIfMeta.CheckResult.NoReceivingFieldsError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "NullIfMeta.CheckResult.NoReceivingFieldsError"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "NullIfMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NullIfMeta.CheckResult.TransformReceivingFieldsOK", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "NullIfMeta.CheckResult.TransformRecevingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "NullIfMeta.CheckResult.TransformRecevingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "NullIfMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "NullIfMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

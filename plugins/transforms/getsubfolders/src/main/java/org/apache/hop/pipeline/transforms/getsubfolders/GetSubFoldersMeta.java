@@ -108,13 +108,7 @@ public class GetSubFoldersMeta extends BaseTransformMeta<GetSubFolders, GetSubFo
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // the folderName
     IValueMeta folderNameValueMeta = new ValueMetaString("folderName");
@@ -201,8 +195,7 @@ public class GetSubFoldersMeta extends BaseTransformMeta<GetSubFolders, GetSubFo
     return FileInputList.createFolderList(variables, getFilesNames(), getFilesRequired());
   }
 
-  public FileInputList getDynamicFolderList(
-      IVariables variables, String[] folderName, String[] folderRequired) {
+  public FileInputList getDynamicFolderList(IVariables variables, String[] folderName, String[] folderRequired) {
     return FileInputList.createFolderList(variables, folderName, folderRequired);
   }
 
@@ -222,68 +215,33 @@ public class GetSubFoldersMeta extends BaseTransformMeta<GetSubFolders, GetSubFo
     // See if we get input...
     if (folderNameDynamic) {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.InputOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.InputOk"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.InputErrorKo"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.InputErrorKo"), transformMeta);
       }
       remarks.add(cr);
 
       if (Utils.isEmpty(dynamicFolderNameField)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.FolderFieldnameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.FolderFieldnameMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.FolderFieldnameOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.FolderFieldnameOk"), transformMeta);
       }
 
       remarks.add(cr);
     } else {
       if (input.length > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.NoInputError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.NoInputError"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.NoInputOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.NoInputOk"), transformMeta);
       }
       remarks.add(cr);
       // check specified folder names
       FileInputList fileList = getFolderList(variables);
       if (fileList.nrOfFiles() == 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.ExpectedFoldersError"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.ExpectedFoldersError"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "GetSubFoldersMeta.CheckResult.ExpectedFilesOk",
-                    "" + fileList.nrOfFiles()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetSubFoldersMeta.CheckResult.ExpectedFilesOk", "" + fileList.nrOfFiles()), transformMeta);
         remarks.add(cr);
       }
     }
@@ -302,11 +260,7 @@ public class GetSubFoldersMeta extends BaseTransformMeta<GetSubFolders, GetSubFo
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

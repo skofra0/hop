@@ -79,39 +79,30 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
    * @param manager
    * @param location The execution info location to edit
    */
-  public ExecutionInfoLocationEditor(
-      HopGui hopGui,
-      MetadataManager<ExecutionInfoLocation> manager,
-      ExecutionInfoLocation location) {
+  public ExecutionInfoLocationEditor(HopGui hopGui, MetadataManager<ExecutionInfoLocation> manager, ExecutionInfoLocation location) {
     super(hopGui, manager, location);
 
     this.executionInfoLocation = location;
     this.workingLocation = new ExecutionInfoLocation(location);
     metaMap = populateMetaMap();
     if (workingLocation.getExecutionInfoLocation() != null) {
-      metaMap.put(
-          workingLocation.getExecutionInfoLocation().getPluginName(),
-          workingLocation.getExecutionInfoLocation());
+      metaMap.put(workingLocation.getExecutionInfoLocation().getPluginName(), workingLocation.getExecutionInfoLocation());
     }
   }
 
   private Map<String, IExecutionInfoLocation> populateMetaMap() {
     metaMap = new HashMap<>();
-    List<IPlugin> plugins =
-        PluginRegistry.getInstance().getPlugins(ExecutionInfoLocationPluginType.class);
+    List<IPlugin> plugins = PluginRegistry.getInstance().getPlugins(ExecutionInfoLocationPluginType.class);
     for (IPlugin plugin : plugins) {
       try {
-        IExecutionInfoLocation location =
-            PluginRegistry.getInstance().loadClass(plugin, IExecutionInfoLocation.class);
+        IExecutionInfoLocation location = PluginRegistry.getInstance().loadClass(plugin, IExecutionInfoLocation.class);
 
         location.setPluginId(plugin.getIds()[0]);
         location.setPluginName(plugin.getName());
 
         metaMap.put(plugin.getName(), location);
       } catch (Exception e) {
-        HopGui.getInstance()
-            .getLog()
-            .logError("Error instantiating execution information location plugin", e);
+        HopGui.getInstance().getLog().logError("Error instantiating execution information location plugin", e);
       }
     }
 
@@ -162,8 +153,7 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     Label wlDescription = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlDescription);
-    wlDescription.setText(
-        BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.description"));
+    wlDescription.setText(BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.description"));
     FormData fdlDescription = new FormData();
     fdlDescription.top = new FormAttachment(lastControl, margin * 2);
     fdlDescription.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -180,8 +170,7 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     Label wlDataLoggingDelay = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlDataLoggingDelay);
-    wlDataLoggingDelay.setText(
-        BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.DataLoggingDelay"));
+    wlDataLoggingDelay.setText(BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.DataLoggingDelay"));
     FormData fdlDataLoggingDelay = new FormData();
     fdlDataLoggingDelay.top = new FormAttachment(lastControl, margin * 2);
     fdlDataLoggingDelay.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -198,8 +187,7 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     Label wlDataLoggingInterval = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlDataLoggingInterval);
-    wlDataLoggingInterval.setText(
-        BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.DataLoggingInterval"));
+    wlDataLoggingInterval.setText(BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.DataLoggingInterval"));
     FormData fdlDataLoggingInterval = new FormData();
     fdlDataLoggingInterval.top = new FormAttachment(lastControl, margin * 2);
     fdlDataLoggingInterval.left = new FormAttachment(0, 0); // First one in the left top corner
@@ -218,15 +206,13 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
     //
     Label wlPluginType = new Label(wMainComp, SWT.RIGHT);
     PropsUi.setLook(wlPluginType);
-    wlPluginType.setText(
-        BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.locationType"));
+    wlPluginType.setText(BaseMessages.getString(PKG, "ExecutionInfoLocationEditor.label.locationType"));
     FormData fdlPluginType = new FormData();
     fdlPluginType.top = new FormAttachment(lastControl, margin * 2);
     fdlPluginType.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlPluginType.right = new FormAttachment(middle, 0);
     wlPluginType.setLayoutData(fdlPluginType);
-    wPluginType =
-        new ComboVar(manager.getVariables(), wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPluginType = new ComboVar(manager.getVariables(), wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wPluginType);
     wPluginType.setItems(getPluginTypes());
     FormData fdPluginType = new FormData();
@@ -253,8 +239,8 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
     addGuiCompositeWidgets();
 
     FormData fdMainSComp = new FormData();
-    fdMainSComp.top = new FormAttachment(0,0);
-    fdMainSComp.left = new FormAttachment(0,0);
+    fdMainSComp.top = new FormAttachment(0, 0);
+    fdMainSComp.left = new FormAttachment(0, 0);
     fdMainSComp.right = new FormAttachment(95, 0);
     fdMainSComp.bottom = new FormAttachment(95, 0);
     wMainSComp.setLayoutData(fdMainSComp);
@@ -301,20 +287,14 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     if (workingLocation.getExecutionInfoLocation() != null) {
       guiCompositeWidgets = new GuiCompositeWidgets(manager.getVariables());
-      guiCompositeWidgets.createCompositeWidgets(
-          workingLocation.getExecutionInfoLocation(),
-          null,
-          wPluginSpecificComp,
-          ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID,
-          wDescription);
-      guiCompositeWidgets.setWidgetsListener(
-          new GuiCompositeWidgetsAdapter() {
-            @Override
-            public void widgetModified(
-                GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-              setChanged();
-            }
-          });
+      guiCompositeWidgets
+          .createCompositeWidgets(workingLocation.getExecutionInfoLocation(), null, wPluginSpecificComp, ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID, wDescription);
+      guiCompositeWidgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+        @Override
+        public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+          setChanged();
+        }
+      });
     }
 
     wPluginSpecificComp.layout(true, true);
@@ -335,9 +315,7 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     // Save the state of this type, so we can switch back and forth
     if (workingLocation.getExecutionInfoLocation() != null) {
-      metaMap.put(
-          workingLocation.getExecutionInfoLocation().getPluginName(),
-          workingLocation.getExecutionInfoLocation());
+      metaMap.put(workingLocation.getExecutionInfoLocation().getPluginName(), workingLocation.getExecutionInfoLocation());
     }
 
     changeWorkingLocation(workingLocation);
@@ -369,12 +347,8 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
     wDataLoggingInterval.setText(Const.NVL(workingLocation.getDataLoggingInterval(), ""));
 
     if (workingLocation.getExecutionInfoLocation() != null) {
-      wPluginType.setText(
-          Const.NVL(workingLocation.getExecutionInfoLocation().getPluginName(), ""));
-      guiCompositeWidgets.setWidgetsContents(
-          workingLocation.getExecutionInfoLocation(),
-          wPluginSpecificComp,
-          ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID);
+      wPluginType.setText(Const.NVL(workingLocation.getExecutionInfoLocation().getPluginName(), ""));
+      guiCompositeWidgets.setWidgetsContents(workingLocation.getExecutionInfoLocation(), wPluginSpecificComp, ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID);
     } else {
       wPluginType.setText("");
     }
@@ -390,11 +364,8 @@ public class ExecutionInfoLocationEditor extends MetadataEditor<ExecutionInfoLoc
 
     // Get the plugin specific information from the widgets on the screen
     //
-    if (location.getExecutionInfoLocation() != null
-        && guiCompositeWidgets != null
-        && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
-      guiCompositeWidgets.getWidgetsContents(
-          location.getExecutionInfoLocation(), ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID);
+    if (location.getExecutionInfoLocation() != null && guiCompositeWidgets != null && !guiCompositeWidgets.getWidgetsMap().isEmpty()) {
+      guiCompositeWidgets.getWidgetsContents(location.getExecutionInfoLocation(), ExecutionInfoLocation.GUI_PLUGIN_ELEMENT_PARENT_ID);
     }
   }
 

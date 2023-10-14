@@ -73,8 +73,7 @@ public class CypherScript extends ActionBase implements IAction {
 
   @Override
   public Result execute(Result result, int nr) throws HopException {
-    IHopMetadataSerializer<NeoConnection> serializer =
-        getMetadataProvider().getSerializer(NeoConnection.class);
+    IHopMetadataSerializer<NeoConnection> serializer = getMetadataProvider().getSerializer(NeoConnection.class);
 
     // Replace variables & parameters
     //
@@ -92,8 +91,7 @@ public class CypherScript extends ActionBase implements IAction {
     } catch (Exception e) {
       result.setResult(false);
       result.increaseErrors(1L);
-      throw new HopException(
-          "Unable to gencsv or find connection with name '" + realConnectionName + "'", e);
+      throw new HopException("Unable to gencsv or find connection with name '" + realConnectionName + "'", e);
     }
 
     String realScript;
@@ -111,39 +109,38 @@ public class CypherScript extends ActionBase implements IAction {
       //
       try (Session session = connection.getSession(log, driver, this)) {
 
-        TransactionWork<Integer> transactionWork =
-            transaction -> {
-              int executed = 0;
+        TransactionWork<Integer> transactionWork = transaction -> {
+          int executed = 0;
 
-              try {
-                // Split the script into parts : semi-colon at the start of a separate line
-                //
-                String[] commands = realScript.split("\\r?\\n;");
-                for (String command : commands) {
-                  // Cleanup command: replace leading and trailing whitespaces and newlines
-                  //
-                  String cypher = command.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
+          try {
+            // Split the script into parts : semi-colon at the start of a separate line
+            //
+            String[] commands = realScript.split("\\r?\\n;");
+            for (String command : commands) {
+              // Cleanup command: replace leading and trailing whitespaces and newlines
+              //
+              String cypher = command.replaceFirst("^\\s+", "").replaceFirst("\\s+$", "");
 
-                  // Only execute if the statement is not empty
-                  //
-                  if (StringUtils.isNotEmpty(cypher)) {
-                    transaction.run(cypher);
-                    executed++;
-                    log.logDetailed("Executed cypher statement: " + cypher);
-                  }
-                }
-                // All statements executed successfully so commit
-                //
-                transaction.commit();
-              } catch (Exception e) {
-                log.logError("Error executing cypher statements...", e);
-                result.increaseErrors(1L);
-                transaction.rollback();
-                result.setResult(false);
+              // Only execute if the statement is not empty
+              //
+              if (StringUtils.isNotEmpty(cypher)) {
+                transaction.run(cypher);
+                executed++;
+                log.logDetailed("Executed cypher statement: " + cypher);
               }
+            }
+            // All statements executed successfully so commit
+            //
+            transaction.commit();
+          } catch (Exception e) {
+            log.logError("Error executing cypher statements...", e);
+            result.increaseErrors(1L);
+            transaction.rollback();
+            result.setResult(false);
+          }
 
-              return executed;
-            };
+          return executed;
+        };
         nrExecuted = session.writeTransaction(transactionWork);
       }
     }

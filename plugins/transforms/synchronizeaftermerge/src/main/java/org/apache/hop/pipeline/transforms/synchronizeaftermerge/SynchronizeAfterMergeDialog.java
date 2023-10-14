@@ -123,8 +123,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
   /** List of ColumnInfo that should have the field names of the selected database table */
   private final List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
-  public SynchronizeAfterMergeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SynchronizeAfterMergeDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SynchronizeAfterMergeMeta) in;
   }
@@ -138,26 +137,23 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTableFieldCombo();
-          }
-        };
-    SelectionListener lsSimpleSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTableFieldCombo();
+      }
+    };
+    SelectionListener lsSimpleSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -184,8 +180,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -211,8 +206,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     CTabItem wGeneralTab = new CTabItem(wTabFolder, SWT.NONE);
     wGeneralTab.setFont(GuiResource.getInstance().getFontDefault());
-    wGeneralTab.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.GeneralTab.TabTitle"));
+    wGeneralTab.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.GeneralTab.TabTitle"));
 
     Composite wGeneralComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wGeneralComp);
@@ -320,8 +314,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     // TablenameInField line
     Label wlTablenameInField = new Label(wGeneralComp, SWT.RIGHT);
-    wlTablenameInField.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TablenameInField.Label"));
+    wlTablenameInField.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TablenameInField.Label"));
     PropsUi.setLook(wlTablenameInField);
     FormData fdlTablenameInField = new FormData();
     fdlTablenameInField.left = new FormAttachment(0, 0);
@@ -329,26 +322,23 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     fdlTablenameInField.right = new FormAttachment(middle, -margin);
     wlTablenameInField.setLayoutData(fdlTablenameInField);
     wTablenameInField = new Button(wGeneralComp, SWT.CHECK);
-    wTablenameInField.setToolTipText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TablenameInField.Tooltip"));
+    wTablenameInField.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TablenameInField.Tooltip"));
     PropsUi.setLook(wTablenameInField);
     FormData fdTablenameInField = new FormData();
     fdTablenameInField.left = new FormAttachment(middle, 0);
     fdTablenameInField.top = new FormAttachment(wlTablenameInField, 0, SWT.CENTER);
     fdTablenameInField.right = new FormAttachment(100, 0);
     wTablenameInField.setLayoutData(fdTablenameInField);
-    wTablenameInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeTablenameField();
-            input.setChanged();
-          }
-        });
+    wTablenameInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeTablenameField();
+        input.setChanged();
+      }
+    });
 
     wlTableField = new Label(wGeneralComp, SWT.RIGHT);
-    wlTableField.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TableField.Label"));
+    wlTableField.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TableField.Label"));
     PropsUi.setLook(wlTableField);
     FormData fdlTableField = new FormData();
     fdlTableField.left = new FormAttachment(0, 0);
@@ -364,20 +354,19 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     fdTableField.top = new FormAttachment(wTablenameInField, margin);
     fdTableField.right = new FormAttachment(100, 0);
     wTableField.setLayoutData(fdTableField);
-    wTableField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wTableField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     Label wlKey = new Label(wGeneralComp, SWT.NONE);
     wlKey.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Keys.Label"));
@@ -391,41 +380,16 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     int nrKeyRows = (input.getKeyStream() != null ? input.getKeyStream().length : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     ciKey[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.Comparator"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              "=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL"
-            });
-    ciKey[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField1"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField2"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+            new String[] {"=", "<>", "<", "<=", ">", ">=", "LIKE", "BETWEEN", "IS NULL", "IS NOT NULL"});
+    ciKey[2] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField1"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[3] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField2"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciKey[0]);
-    wKey =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     wGet = new Button(wGeneralComp, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.GetFields.Button"));
@@ -454,37 +418,14 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     int upInsRows = (input.getUpdateLookup() != null ? input.getUpdateLookup().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.Update"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {"Y", "N"});
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ColumnInfo.Update"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"});
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     Button wGetLU = new Button(wGeneralComp, SWT.PUSH);
-    wGetLU.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.GetAndUpdateFields.Label"));
+    wGetLU.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.GetAndUpdateFields.Label"));
     FormData fdGetLU = new FormData();
     fdGetLU.top = new FormAttachment(wlReturn, margin);
     fdGetLU.right = new FormAttachment(100, 0);
@@ -498,8 +439,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wReturn.setLayoutData(fdReturn);
 
     Button wDoMapping = new Button(wGeneralComp, SWT.PUSH);
-    wDoMapping.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.EditMapping.Label"));
+    wDoMapping.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.EditMapping.Label"));
     FormData fdDoMapping = new FormData();
     fdDoMapping.top = new FormAttachment(wGetLU, margin);
     fdDoMapping.right = new FormAttachment(100, 0);
@@ -511,25 +451,24 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          // This is running in a new process: copy some HopVariables info
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      // This is running in a new process: copy some HopVariables info
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -555,8 +494,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     CTabItem wAdvancedTab = new CTabItem(wTabFolder, SWT.NONE);
     wAdvancedTab.setFont(GuiResource.getInstance().getFontDefault());
-    wAdvancedTab.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.AdvancedTab.TabTitle"));
+    wAdvancedTab.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.AdvancedTab.TabTitle"));
 
     Composite wAdvancedComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wAdvancedComp);
@@ -572,8 +510,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     Group wOperationOrder = new Group(wAdvancedComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wOperationOrder);
-    wOperationOrder.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OperationOrder.Label"));
+    wOperationOrder.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OperationOrder.Label"));
 
     FormLayout originFilesgroupLayout = new FormLayout();
     originFilesgroupLayout.marginWidth = 10;
@@ -581,8 +518,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wOperationOrder.setLayout(originFilesgroupLayout);
 
     Label wlOperationField = new Label(wOperationOrder, SWT.RIGHT);
-    wlOperationField.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OperationField.Label"));
+    wlOperationField.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OperationField.Label"));
     PropsUi.setLook(wlOperationField);
     FormData fdlOperationField = new FormData();
     fdlOperationField.left = new FormAttachment(0, 0);
@@ -598,25 +534,23 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     fdOperationField.top = new FormAttachment(wTableField, margin);
     fdOperationField.right = new FormAttachment(100, 0);
     wOperationField.setLayoutData(fdOperationField);
-    wOperationField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wOperationField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // OrderInsert line...
     Label wlOrderInsert = new Label(wOperationOrder, SWT.RIGHT);
-    wlOrderInsert.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderInsert.Label"));
+    wlOrderInsert.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderInsert.Label"));
     PropsUi.setLook(wlOrderInsert);
     FormData fdlOrderInsert = new FormData();
     fdlOrderInsert.left = new FormAttachment(0, 0);
@@ -625,8 +559,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wlOrderInsert.setLayoutData(fdlOrderInsert);
 
     wOrderInsert = new TextVar(variables, wOperationOrder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wOrderInsert.setToolTipText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderInsert.ToolTip"));
+    wOrderInsert.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderInsert.ToolTip"));
     PropsUi.setLook(wOrderInsert);
     wOrderInsert.addModifyListener(lsMod);
     FormData fdOrderInsert = new FormData();
@@ -637,8 +570,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     // OrderUpdate line...
     Label wlOrderUpdate = new Label(wOperationOrder, SWT.RIGHT);
-    wlOrderUpdate.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderUpdate.Label"));
+    wlOrderUpdate.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderUpdate.Label"));
     PropsUi.setLook(wlOrderUpdate);
     FormData fdlOrderUpdate = new FormData();
     fdlOrderUpdate.left = new FormAttachment(0, 0);
@@ -647,8 +579,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wlOrderUpdate.setLayoutData(fdlOrderUpdate);
 
     wOrderUpdate = new TextVar(variables, wOperationOrder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wOrderUpdate.setToolTipText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderUpdate.ToolTip"));
+    wOrderUpdate.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderUpdate.ToolTip"));
     PropsUi.setLook(wOrderUpdate);
     wOrderUpdate.addModifyListener(lsMod);
     FormData fdOrderUpdate = new FormData();
@@ -659,8 +590,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     // OrderDelete line...
     Label wlOrderDelete = new Label(wOperationOrder, SWT.RIGHT);
-    wlOrderDelete.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderDelete.Label"));
+    wlOrderDelete.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderDelete.Label"));
     PropsUi.setLook(wlOrderDelete);
     FormData fdlOrderDelete = new FormData();
     fdlOrderDelete.left = new FormAttachment(0, 0);
@@ -669,8 +599,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wlOrderDelete.setLayoutData(fdlOrderDelete);
 
     wOrderDelete = new TextVar(variables, wOperationOrder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wOrderDelete.setToolTipText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderDelete.ToolTip"));
+    wOrderDelete.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.OrderDelete.ToolTip"));
     PropsUi.setLook(wOrderDelete);
     wOrderDelete.addModifyListener(lsMod);
     FormData fdOrderDelete = new FormData();
@@ -681,8 +610,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     // Perform a lookup?
     Label wlPerformLookup = new Label(wOperationOrder, SWT.RIGHT);
-    wlPerformLookup.setText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.PerformLookup.Label"));
+    wlPerformLookup.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.PerformLookup.Label"));
     PropsUi.setLook(wlPerformLookup);
     FormData fdlPerformLookup = new FormData();
     fdlPerformLookup.left = new FormAttachment(0, 0);
@@ -690,8 +618,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     fdlPerformLookup.right = new FormAttachment(middle, -margin);
     wlPerformLookup.setLayoutData(fdlPerformLookup);
     wPerformLookup = new Button(wOperationOrder, SWT.CHECK);
-    wPerformLookup.setToolTipText(
-        BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.PerformLookup.Tooltip"));
+    wPerformLookup.setToolTipText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.PerformLookup.Tooltip"));
     wPerformLookup.addSelectionListener(lsSimpleSelection);
     PropsUi.setLook(wPerformLookup);
     FormData fdPerformLookup = new FormData();
@@ -735,20 +662,18 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     wGet.addListener(SWT.Selection, e -> get());
     wGetLU.addListener(SWT.Selection, e -> getUpdate());
 
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     wTabFolder.setSelection(0);
 
@@ -779,10 +704,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -796,10 +719,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -824,21 +745,11 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
       int sourceIndex = sourceFields.indexOfValue(source);
       if (sourceIndex < 0) {
-        missingSourceFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingSourceFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       int targetIndex = targetFields.indexOfValue(target);
       if (targetIndex < 0) {
-        missingTargetFields
-            .append(Const.CR)
-            .append("   ")
-            .append(source)
-            .append(" --> ")
-            .append(target);
+        missingTargetFields.append(Const.CR).append("   ").append(source).append(" --> ").append(target);
       }
       if (sourceIndex < 0 || targetIndex < 0) {
         continue;
@@ -854,46 +765,24 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SynchronizeAfterMergeDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SynchronizeAfterMergeDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(
-                  PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
 
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(
-                  PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+          BaseDialog
+              .openMessageBox(shell, BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
       boolean goOn = (answer & SWT.YES) != 0;
 
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            SynchronizeAfterMergeDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(SynchronizeAfterMergeDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -915,45 +804,42 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
-            final String tableName = wTable.getText();
-            final String connectionName = wConnection.getText();
-            final String schemaName = wSchema.getText();
+    Runnable fieldLoader = () -> {
+      if (!wTable.isDisposed() && !wConnection.isDisposed() && !wSchema.isDisposed()) {
+        final String tableName = wTable.getText();
+        final String connectionName = wConnection.getText();
+        final String schemaName = wSchema.getText();
 
-            // clear
-            for (ColumnInfo colInfo : tableFieldColumns) {
-              colInfo.setComboValues(new String[] {});
-            }
-            if (!Utils.isEmpty(tableName)) {
-              DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
-              if (databaseMeta != null) {
-                try (Database db = new Database(loggingObject, variables, databaseMeta)) {
-                  db.connect();
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (!Utils.isEmpty(tableName)) {
+          DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
+          if (databaseMeta != null) {
+            try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+              db.connect();
 
-                  IRowMeta r =
-                      db.getTableFieldsMeta(
-                          variables.resolve(schemaName), variables.resolve(tableName));
-                  if (null != r) {
-                    String[] fieldNames = r.getFieldNames();
-                    if (null != fieldNames) {
-                      for (ColumnInfo colInfo : tableFieldColumns) {
-                        colInfo.setComboValues(fieldNames);
-                      }
-                    }
-                  }
-                } catch (Exception e) {
+              IRowMeta r = db.getTableFieldsMeta(variables.resolve(schemaName), variables.resolve(tableName));
+              if (null != r) {
+                String[] fieldNames = r.getFieldNames();
+                if (null != fieldNames) {
                   for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(new String[] {});
+                    colInfo.setComboValues(fieldNames);
                   }
-                  // ignore any errors here. drop downs will not be
-                  // filled, but no problem for the user 
                 }
               }
+            } catch (Exception e) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(new String[] {});
+              }
+              // ignore any errors here. drop downs will not be
+              // filled, but no problem for the user
             }
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -994,10 +880,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
       } catch (HopException ke) {
         new ErrorDialog(
             shell,
-            BaseMessages.getString(
-                PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
+            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogTitle"),
+            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
             ke);
       }
       gotPreviousFields = true;
@@ -1108,8 +992,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     inf.setOrderDelete(wOrderDelete.getText());
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Log.FoundKeys", nrkeys + ""));
+      logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Log.FoundKeys", nrkeys + ""));
     }
     // CHECKSTYLE:Indentation:OFF
     for (int i = 0; i < nrkeys; i++) {
@@ -1121,9 +1004,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     }
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.Log.FoundFields", nrFields + ""));
+      logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Log.FoundFields", nrFields + ""));
     }
     for (int i = 0; i < nrFields; i++) {
       TableItem item = wReturn.getNonEmpty(i);
@@ -1149,11 +1030,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
 
     if (input.getDatabaseMeta() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
 
@@ -1168,14 +1046,10 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
     if (databaseMeta != null) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Log.LookingAtConnection")
-                + databaseMeta.toString());
+        logDebug(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.Log.LookingAtConnection") + databaseMeta.toString());
       }
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -1185,11 +1059,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
   }
@@ -1198,20 +1069,17 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(2, "=");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(2, "=");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 3}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
           ke);
     }
   }
@@ -1220,20 +1088,17 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(3, "Y");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(3, "Y");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
+          BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.FailedToGetFields.DialogMessage"),
           ke);
     }
   }
@@ -1246,32 +1111,18 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
       getInfo(info);
 
       String name = transformName; // new name might not yet be linked to other transforms!
-      TransformMeta transformMeta =
-          new TransformMeta(
-              BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TransformMeta.Title"),
-              name,
-              info);
+      TransformMeta transformMeta = new TransformMeta(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.TransformMeta.Title"), name, info);
       IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.NoSQLNeeds.DialogMessage"));
-          mb.setText(
-              BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.NoSQLNeeds.DialogTitle"));
+          mb.setMessage(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.NoSQLNeeds.DialogMessage"));
+          mb.setText(BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.NoSQLNeeds.DialogTitle"));
           mb.open();
         }
       } else {
@@ -1303,14 +1154,8 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG,
-                      "SynchronizeAfterMergeDialog.AvailableSchemas.Title",
-                      wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG,
-                      "SynchronizeAfterMergeDialog.AvailableSchemas.Message",
-                      wConnection.getText()));
+                  BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -1324,11 +1169,7 @@ public class SynchronizeAfterMergeDialog extends BaseTransformDialog implements 
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "SynchronizeAfterMergeDialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }

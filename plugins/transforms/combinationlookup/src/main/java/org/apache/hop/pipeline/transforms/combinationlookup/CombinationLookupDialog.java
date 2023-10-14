@@ -111,12 +111,11 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
   private DatabaseMeta databaseMeta;
 
   private final List<String> inputFields = new ArrayList<>();
-  
+
   /** List of ColumnInfo that should have the field names of the selected database table */
   private final List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
-  public CombinationLookupDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public CombinationLookupDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (CombinationLookupMeta) in;
   }
@@ -140,26 +139,23 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     int margin = PropsUi.getMargin();
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setTableFieldCombo();
-        };
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTableFieldCombo();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setTableFieldCombo();
+    };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTableFieldCombo();
+      }
+    };
     backupChanged = input.hasChanged();
     databaseMeta = input.getDatabaseMeta();
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
 
     fdlTransformName = new FormData();
@@ -180,14 +176,13 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     // Connection line
     wConnection = addConnectionLine(shell, wTransformName, input.getDatabaseMeta(), lsMod);
     wConnection.addSelectionListener(lsSelection);
-    wConnection.addModifyListener(
-        e -> {
-          // We have new content: change connection:
-          databaseMeta = findDatabase(wConnection.getText());
-          setAutoincUse();
-          setSequence();
-          input.setChanged();
-        });
+    wConnection.addModifyListener(e -> {
+      // We have new content: change connection:
+      databaseMeta = findDatabase(wConnection.getText());
+      setAutoincUse();
+      setSequence();
+      input.setChanged();
+    });
 
     // Schema line...
     Label wlSchema = new Label(shell, SWT.RIGHT);
@@ -278,13 +273,11 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     fdCachesize.left = new FormAttachment(wlCachesize, margin);
     fdCachesize.right = new FormAttachment(100, 0);
     wCachesize.setLayoutData(fdCachesize);
-    wCachesize.setToolTipText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.Cachesize.ToolTip"));
+    wCachesize.setToolTipText(BaseMessages.getString(PKG, "CombinationLookupDialog.Cachesize.ToolTip"));
 
     // Preload Cache
     wPreloadCache = new Button(shell, SWT.CHECK);
-    wPreloadCache.setText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.PreloadCache.Label"));
+    wPreloadCache.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.PreloadCache.Label"));
     PropsUi.setLook(wPreloadCache);
     FormData fdPreloadCache = new FormData();
     fdPreloadCache.top = new FormAttachment(wCachesize, margin);
@@ -308,28 +301,10 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     int nrKeyRows = input.getFields().getKeyFields().size();
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CombinationLookupDialog.ColumnInfo.DimensionField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "CombinationLookupDialog.ColumnInfo.FieldInStream"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "CombinationLookupDialog.ColumnInfo.DimensionField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "CombinationLookupDialog.ColumnInfo.FieldInStream"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     tableFieldColumns.add(ciKey[0]);
-    wKey =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wKey = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
@@ -344,8 +319,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
 
     // Last update field:
     Label wlLastUpdateField = new Label(shell, SWT.RIGHT);
-    wlLastUpdateField.setText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.LastUpdateField.Label"));
+    wlLastUpdateField.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.LastUpdateField.Label"));
     PropsUi.setLook(wlLastUpdateField);
     FormData fdlLastUpdateField = new FormData();
     fdlLastUpdateField.left = new FormAttachment(0, 0);
@@ -395,13 +369,12 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     fdHashcode.right = new FormAttachment(100, 0);
     fdHashcode.bottom = new FormAttachment(wlHashcode, 0, SWT.CENTER);
     wHashcode.setLayoutData(fdHashcode);
-    wHashcode.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            enableFields();
-          }
-        });
+    wHashcode.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        enableFields();
+      }
+    });
 
     // Replace lookup fields in the output stream?
     Label wlReplace = new Label(shell, SWT.RIGHT);
@@ -419,13 +392,12 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     fdReplace.bottom = new FormAttachment(wlReplace, 0, SWT.CENTER);
     fdReplace.right = new FormAttachment(100, 0);
     wReplace.setLayoutData(fdReplace);
-    wReplace.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            enableFields();
-          }
-        });
+    wReplace.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        enableFields();
+      }
+    });
 
     Label wlTechGroup = new Label(shell, SWT.RIGHT);
     wlTechGroup.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.TechGroup.Label"));
@@ -451,8 +423,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     wTableMax.setSelection(false);
     GridData gdTableMax = new GridData();
     wTableMax.setLayoutData(gdTableMax);
-    wTableMax.setToolTipText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.TableMaximum.Tooltip", Const.CR));
+    wTableMax.setToolTipText(BaseMessages.getString(PKG, "CombinationLookupDialog.TableMaximum.Tooltip", Const.CR));
     wlTableMax = new Label(gTechGroup, SWT.LEFT);
     wlTableMax.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.TableMaximum.Label"));
     PropsUi.setLook(wlTableMax);
@@ -467,8 +438,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     wSeqButton.setSelection(false);
     GridData gdSeqButton = new GridData();
     wSeqButton.setLayoutData(gdSeqButton);
-    wSeqButton.setToolTipText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.Sequence.Tooltip", Const.CR));
+    wSeqButton.setToolTipText(BaseMessages.getString(PKG, "CombinationLookupDialog.Sequence.Tooltip", Const.CR));
     wlSeqButton = new Label(gTechGroup, SWT.LEFT);
     wlSeqButton.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.Sequence.Label"));
     PropsUi.setLook(wlSeqButton);
@@ -480,24 +450,20 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     wSeq.addModifyListener(lsMod);
     GridData gdSeq = new GridData(GridData.FILL_HORIZONTAL);
     wSeq.setLayoutData(gdSeq);
-    wSeq.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusGained(FocusEvent arg0) {
-            input
-                .getFields()
-                .getReturnFields()
-                .setTechKeyCreation(CombinationLookupMeta.CREATION_METHOD_SEQUENCE);
-            wSeqButton.setSelection(true);
-            wAutoinc.setSelection(false);
-            wTableMax.setSelection(false);
-          }
+    wSeq.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent arg0) {
+        input.getFields().getReturnFields().setTechKeyCreation(CombinationLookupMeta.CREATION_METHOD_SEQUENCE);
+        wSeqButton.setSelection(true);
+        wAutoinc.setSelection(false);
+        wTableMax.setSelection(false);
+      }
 
-          @Override
-          public void focusLost(FocusEvent arg0) {
-            // No action
-          }
-        });
+      @Override
+      public void focusLost(FocusEvent arg0) {
+        // No action
+      }
+    });
 
     // Use an autoincrement field?
     wAutoinc = new Button(gTechGroup, SWT.RADIO);
@@ -505,8 +471,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     wAutoinc.setSelection(false);
     GridData gdAutoinc = new GridData();
     wAutoinc.setLayoutData(gdAutoinc);
-    wAutoinc.setToolTipText(
-        BaseMessages.getString(PKG, "CombinationLookupDialog.AutoincButton.Tooltip", Const.CR));
+    wAutoinc.setToolTipText(BaseMessages.getString(PKG, "CombinationLookupDialog.AutoincButton.Tooltip", Const.CR));
     wlAutoinc = new Label(gTechGroup, SWT.LEFT);
     wlAutoinc.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.Autoincrement.Label"));
     PropsUi.setLook(wlAutoinc);
@@ -545,23 +510,22 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -570,20 +534,18 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     wCreate.addListener(SWT.Selection, e -> create());
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
-    wbTable.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getTableName();
-          }
-        });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
+    wbTable.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getTableName();
+      }
+    });
 
     getData();
     setTableFieldCombo();
@@ -633,8 +595,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     try (Database database = new Database(loggingObject, variables, databaseMeta)) {
       database.connect();
 
-      String schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+      String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
       IRowMeta rowMeta = database.getTableFields(schemaTable);
       if (rowMeta != null) {
         String[] fieldNames = rowMeta.getFieldNames();
@@ -651,9 +612,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
   }
 
   public void setAutoincUse() {
-    boolean enable =
-        (databaseMeta == null)
-            || (databaseMeta.supportsAutoinc() && databaseMeta.supportsAutoGeneratedKeys());
+    boolean enable = (databaseMeta == null) || (databaseMeta.supportsAutoinc() && databaseMeta.supportsAutoGeneratedKeys());
 
     wlAutoinc.setEnabled(enable);
     wAutoinc.setEnabled(enable);
@@ -718,9 +677,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
         wTableMax.setSelection(true);
       }
 
-      if (dbMeta != null
-          && dbMeta.supportsSequences()
-          && StringUtils.isNotEmpty(fields.getSequenceFrom())) {
+      if (dbMeta != null && dbMeta.supportsSequences() && StringUtils.isNotEmpty(fields.getSequenceFrom())) {
         wSeq.setText(fields.getSequenceFrom());
         returnFields.setUseAutoIncrement(false);
         wTableMax.setSelection(false);
@@ -780,10 +737,8 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
 
     if (findDatabase(wConnection.getText()) == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "CombinationLookupDialog.NoValidConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "CombinationLookupDialog.NoValidConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "CombinationLookupDialog.NoValidConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.NoValidConnection.DialogTitle"));
       mb.open();
     }
     if (!input.equals(oldMetaState)) {
@@ -844,12 +799,8 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "CombinationLookupDialog.AvailableSchemas.Title", wConnection.getText()),
-                  BaseMessages.getString(
-                      PKG,
-                      "CombinationLookupDialog.AvailableSchemas.Message",
-                      wConnection.getText()));
+                  BaseMessages.getString(PKG, "CombinationLookupDialog.AvailableSchemas.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "CombinationLookupDialog.AvailableSchemas.Message", wConnection.getText()));
           String d = dialog.open();
           if (d != null) {
             wSchema.setText(Const.NVL(d, ""));
@@ -863,11 +814,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "CombinationLookupDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "CombinationLookupDialog.ErrorGettingSchemas"), e);
       } finally {
         database.disconnect();
       }
@@ -881,12 +828,9 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     }
     DatabaseMeta dbMeta = findDatabase(connectionName);
     if (dbMeta != null) {
-      logDebug(
-          BaseMessages.getString(
-              PKG, "CombinationLookupDialog.Log.LookingAtConnection", dbMeta.toString()));
+      logDebug(BaseMessages.getString(PKG, "CombinationLookupDialog.Log.LookingAtConnection", dbMeta.toString()));
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(shell, SWT.NONE, variables, dbMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, dbMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -895,8 +839,7 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "CombinationLookupDialog.ConnectionError2.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "CombinationLookupDialog.ConnectionError2.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
     }
@@ -906,25 +849,16 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r,
-            wKey,
-            1,
-            new int[] {1, 2},
-            new int[] {},
-            -1,
-            -1,
-            (tableItem, v) -> {
-              tableItem.setText(3, "N");
-              return true;
-            });
+        BaseTransformDialog.getFieldsFromPrevious(r, wKey, 1, new int[] {1, 2}, new int[] {}, -1, -1, (tableItem, v) -> {
+          tableItem.setText(3, "N");
+          return true;
+        });
       }
     } catch (HopException ke) {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "CombinationLookupDialog.UnableToGetFieldsError.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "CombinationLookupDialog.UnableToGetFieldsError.DialogMessage"),
+          BaseMessages.getString(PKG, "CombinationLookupDialog.UnableToGetFieldsError.DialogMessage"),
           ke);
     }
   }
@@ -936,30 +870,17 @@ public class CombinationLookupDialog extends BaseTransformDialog implements ITra
       CombinationLookupMeta info = new CombinationLookupMeta();
       getInfo(info);
       String name = transformName; // new name might not yet be linked to other transforms!
-      TransformMeta transformMeta =
-          new TransformMeta(
-              BaseMessages.getString(PKG, "CombinationLookupDialog.TransformMeta.Title"),
-              name,
-              info);
+      TransformMeta transformMeta = new TransformMeta(BaseMessages.getString(PKG, "CombinationLookupDialog.TransformMeta.Title"), name, info);
       IRowMeta prev = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell,
-                  SWT.NONE,
-                  variables,
-                  info.getDatabaseMeta(),
-                  DbCache.getInstance(),
-                  sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, info.getDatabaseMeta(), DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "CombinationLookupDialog.NoSQLNeeds.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "CombinationLookupDialog.NoSQLNeeds.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "CombinationLookupDialog.NoSQLNeeds.DialogTitle"));
           mb.open();
         }

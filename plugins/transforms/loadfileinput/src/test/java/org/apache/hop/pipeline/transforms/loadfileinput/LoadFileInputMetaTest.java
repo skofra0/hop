@@ -47,7 +47,8 @@ import static org.junit.Assert.assertEquals;
 
 /** User: Dzmitry Stsiapanau Date: 12/17/13 Time: 3:11 PM */
 public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
 
   String xmlOrig =
@@ -97,9 +98,7 @@ public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
   public void testGetXml() throws Exception {
     LoadFileInputMeta testMeta = createMeta();
     String xml = testMeta.getXml();
-    assertEquals(
-        xmlOrig.replaceAll("\n", "").replaceAll("\r", ""),
-        xml.replaceAll("\n", "").replaceAll("\r", ""));
+    assertEquals(xmlOrig.replaceAll("\n", "").replaceAll("\r", ""), xml.replaceAll("\n", "").replaceAll("\r", ""));
   }
 
   @Test
@@ -108,8 +107,7 @@ public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
     LoadFileInputMeta testMeta = new LoadFileInputMeta();
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db = dbf.newDocumentBuilder();
-    Document doc =
-        db.parse(new InputSource(new StringReader("<transform>" + xmlOrig + "</transform>")));
+    Document doc = db.parse(new InputSource(new StringReader("<transform>" + xmlOrig + "</transform>")));
     IHopMetadataProvider metadataProvider = null;
     testMeta.loadXml(doc.getFirstChild(), metadataProvider);
     assertEquals(origMeta, testMeta);
@@ -119,98 +117,72 @@ public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
   public void setUp() throws Exception {
     List<String> attributes =
         Arrays.asList(
-            "includeFilename",
-            "filenameField",
-            "includeRowNumber",
-            "rowNumberField",
-            "rowLimit",
-            "encoding",
-            "DynamicFilenameField",
-            "fileinfield",
-            "addresultfile",
-            "IsIgnoreEmptyFile",
-            "IsIgnoreMissingPath",
-            "shortFileFieldName",
-            "pathFieldName",
-            "hiddenFieldName",
-            "lastModificationTimeFieldName",
-            "uriNameFieldName",
-            "rootUriNameFieldName",
-            "extensionFieldName",
-            "includeSubFolders",
-            "fileName",
-            "fileMask",
-            "excludeFileMask",
-            "fileRequired",
-            "inputFields");
+            "includeFilename", "filenameField", "includeRowNumber", "rowNumberField", "rowLimit", "encoding", "DynamicFilenameField", "fileinfield", "addresultfile",
+            "IsIgnoreEmptyFile", "IsIgnoreMissingPath", "shortFileFieldName", "pathFieldName", "hiddenFieldName", "lastModificationTimeFieldName", "uriNameFieldName",
+            "rootUriNameFieldName", "extensionFieldName", "includeSubFolders", "fileName", "fileMask", "excludeFileMask", "fileRequired", "inputFields");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("includeFilename", "getIncludeFilename");
-            put("filenameField", "getFilenameField");
-            put("includeRowNumber", "getIncludeRowNumber");
-            put("rowNumberField", "getRowNumberField");
-            put("rowLimit", "getRowLimit");
-            put("encoding", "getEncoding");
-            put("DynamicFilenameField", "getDynamicFilenameField");
-            put("fileinfield", "getFileInFields");
-            put("addresultfile", "getAddResultFile");
-            put("IsIgnoreEmptyFile", "isIgnoreEmptyFile");
-            put("IsIgnoreMissingPath", "isIgnoreMissingPath");
-            put("shortFileFieldName", "getShortFileNameField");
-            put("pathFieldName", "getPathField");
-            put("hiddenFieldName", "isHiddenField");
-            put("lastModificationTimeFieldName", "getLastModificationDateField");
-            put("uriNameFieldName", "getUriField");
-            put("rootUriNameFieldName", "getRootUriField");
-            put("extensionFieldName", "getExtensionField");
-            put("includeSubFolders", "getIncludeSubFolders");
-            put("fileName", "getFileName");
-            put("fileMask", "getFileMask");
-            put("excludeFileMask", "getExcludeFileMask");
-            put("fileRequired", "getFileRequired");
-            put("inputFields", "getInputFields");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("includeFilename", "getIncludeFilename");
+        put("filenameField", "getFilenameField");
+        put("includeRowNumber", "getIncludeRowNumber");
+        put("rowNumberField", "getRowNumberField");
+        put("rowLimit", "getRowLimit");
+        put("encoding", "getEncoding");
+        put("DynamicFilenameField", "getDynamicFilenameField");
+        put("fileinfield", "getFileInFields");
+        put("addresultfile", "getAddResultFile");
+        put("IsIgnoreEmptyFile", "isIgnoreEmptyFile");
+        put("IsIgnoreMissingPath", "isIgnoreMissingPath");
+        put("shortFileFieldName", "getShortFileNameField");
+        put("pathFieldName", "getPathField");
+        put("hiddenFieldName", "isHiddenField");
+        put("lastModificationTimeFieldName", "getLastModificationDateField");
+        put("uriNameFieldName", "getUriField");
+        put("rootUriNameFieldName", "getRootUriField");
+        put("extensionFieldName", "getExtensionField");
+        put("includeSubFolders", "getIncludeSubFolders");
+        put("fileName", "getFileName");
+        put("fileMask", "getFileMask");
+        put("excludeFileMask", "getExcludeFileMask");
+        put("fileRequired", "getFileRequired");
+        put("inputFields", "getInputFields");
+      }
+    };
 
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("includeFilename", "setIncludeFilename");
-            put("filenameField", "setFilenameField");
-            put("includeRowNumber", "setIncludeRowNumber");
-            put("rowNumberField", "setRowNumberField");
-            put("rowLimit", "setRowLimit");
-            put("encoding", "setEncoding");
-            put("DynamicFilenameField", "setDynamicFilenameField");
-            put("fileinfield", "setFileInFields");
-            put("addresultfile", "setAddResultFile");
-            put("IsIgnoreEmptyFile", "setIgnoreEmptyFile");
-            put("IsIgnoreMissingPath", "setIgnoreMissingPath");
-            put("shortFileFieldName", "setShortFileNameField");
-            put("pathFieldName", "setPathField");
-            put("hiddenFieldName", "setIsHiddenField");
-            put("lastModificationTimeFieldName", "setLastModificationDateField");
-            put("uriNameFieldName", "setUriField");
-            put("rootUriNameFieldName", "setRootUriField");
-            put("extensionFieldName", "setExtensionField");
-            put("includeSubFolders", "setIncludeSubFolders");
-            put("fileName", "setFileName");
-            put("fileMask", "setFileMask");
-            put("excludeFileMask", "setExcludeFileMask");
-            put("fileRequired", "setFileRequired");
-            put("inputFields", "setInputFields");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("includeFilename", "setIncludeFilename");
+        put("filenameField", "setFilenameField");
+        put("includeRowNumber", "setIncludeRowNumber");
+        put("rowNumberField", "setRowNumberField");
+        put("rowLimit", "setRowLimit");
+        put("encoding", "setEncoding");
+        put("DynamicFilenameField", "setDynamicFilenameField");
+        put("fileinfield", "setFileInFields");
+        put("addresultfile", "setAddResultFile");
+        put("IsIgnoreEmptyFile", "setIgnoreEmptyFile");
+        put("IsIgnoreMissingPath", "setIgnoreMissingPath");
+        put("shortFileFieldName", "setShortFileNameField");
+        put("pathFieldName", "setPathField");
+        put("hiddenFieldName", "setIsHiddenField");
+        put("lastModificationTimeFieldName", "setLastModificationDateField");
+        put("uriNameFieldName", "setUriField");
+        put("rootUriNameFieldName", "setRootUriField");
+        put("extensionFieldName", "setExtensionField");
+        put("includeSubFolders", "setIncludeSubFolders");
+        put("fileName", "setFileName");
+        put("fileMask", "setFileMask");
+        put("excludeFileMask", "setExcludeFileMask");
+        put("fileRequired", "setFileRequired");
+        put("inputFields", "setInputFields");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
-    IFieldLoadSaveValidator<LoadFileInputField[]> lfifArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new LoadFileInputFieldLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<LoadFileInputField[]> lfifArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new LoadFileInputFieldLoadSaveValidator(), 5);
 
-    IFieldLoadSaveValidator<String[]> YNArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new YNLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<String[]> YNArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new YNLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("includeSubFolders", stringArrayLoadSaveValidator);
@@ -223,15 +195,7 @@ public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            LoadFileInputMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(LoadFileInputMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -247,8 +211,7 @@ public class LoadFileInputMetaTest implements IInitializer<ITransformMeta> {
     loadSaveTester.testSerialization();
   }
 
-  public class LoadFileInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<LoadFileInputField> {
+  public class LoadFileInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<LoadFileInputField> {
     final Random rand = new Random();
 
     @Override

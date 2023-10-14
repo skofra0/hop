@@ -32,14 +32,14 @@ import java.util.List;
 import java.util.Map;
 
 public class WorkflowActionSNMPTrapTest extends WorkflowActionLoadSaveTestSupport<ActionSNMPTrap> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -50,49 +50,20 @@ public class WorkflowActionSNMPTrapTest extends WorkflowActionLoadSaveTestSuppor
 
   @Override
   protected List<String> listAttributes() {
-    return Arrays.asList(
-        "serverName",
-        "port",
-        "timeout",
-        "nrretry",
-        "comString",
-        "message",
-        "oid",
-        "targettype",
-        "user",
-        "passphrase",
-        "engineid");
+    return Arrays.asList("serverName", "port", "timeout", "nrretry", "comString", "message", "oid", "targettype", "user", "passphrase", "engineid");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "serverName", "getServerName",
-        "port", "getPort",
-        "timeout", "getTimeout",
-        "nrretry", "getRetry",
-        "comString", "getComString",
-        "message", "getMessage",
-        "oid", "getOID",
-        "targettype", "getTargetType",
-        "user", "getUser",
-        "passphrase", "getPassPhrase",
-        "engineid", "getEngineID");
+        "serverName", "getServerName", "port", "getPort", "timeout", "getTimeout", "nrretry", "getRetry", "comString", "getComString", "message", "getMessage", "oid", "getOID",
+        "targettype", "getTargetType", "user", "getUser", "passphrase", "getPassPhrase", "engineid", "getEngineID");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "serverName", "setServerName",
-        "port", "setPort",
-        "timeout", "setTimeout",
-        "nrretry", "setRetry",
-        "comString", "setComString",
-        "message", "setMessage",
-        "oid", "setOID",
-        "targettype", "setTargetType",
-        "user", "setUser",
-        "passphrase", "setPassPhrase",
-        "engineid", "setEngineID");
+        "serverName", "setServerName", "port", "setPort", "timeout", "setTimeout", "nrretry", "setRetry", "comString", "setComString", "message", "setMessage", "oid", "setOID",
+        "targettype", "setTargetType", "user", "setUser", "passphrase", "setPassPhrase", "engineid", "setEngineID");
   }
 }

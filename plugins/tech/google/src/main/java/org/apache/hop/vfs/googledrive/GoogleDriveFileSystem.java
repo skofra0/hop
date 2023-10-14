@@ -53,12 +53,9 @@ public class GoogleDriveFileSystem extends AbstractFileSystem implements FileSys
     return this.processFile(name, true);
   }
 
-  private synchronized FileObject processFile(FileName name, boolean useCache)
-      throws FileSystemException {
+  private synchronized FileObject processFile(FileName name, boolean useCache) throws FileSystemException {
     if (!super.getRootName().getRootURI().equals(name.getRootURI())) {
-      throw new FileSystemException(
-          "vfs.provider/mismatched-fs-for-name.error",
-          new Object[] {name, super.getRootName(), name.getRootURI()});
+      throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error", new Object[] {name, super.getRootName(), name.getRootURI()});
     } else {
       FileObject file;
       if (useCache) {
@@ -71,8 +68,7 @@ public class GoogleDriveFileSystem extends AbstractFileSystem implements FileSys
         try {
           file = this.createFile((AbstractFileName) name);
         } catch (Exception e) {
-          throw new FileSystemException(
-              "Unable to get Google Drive file object for '" + name + "'", e);
+          throw new FileSystemException("Unable to get Google Drive file object for '" + name + "'", e);
         }
 
         file = super.decorateFileObject(file);

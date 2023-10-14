@@ -59,41 +59,40 @@ public class H2DatabaseMetaTest {
 
     assertArrayEquals(
         new String[] {
-          "CURRENT_TIMESTAMP",
-          "CURRENT_TIME",
-          "CURRENT_DATE",
-          "CROSS",
-          "DISTINCT",
-          "EXCEPT",
-          "EXISTS",
-          "FROM",
-          "FOR",
-          "FALSE",
-          "FULL",
-          "GROUP",
-          "HAVING",
-          "INNER",
-          "INTERSECT",
-          "IS",
-          "JOIN",
-          "LIKE",
-          "MINUS",
-          "NATURAL",
-          "NOT",
-          "NULL",
-          "ON",
-          "ORDER",
-          "PRIMARY",
-          "ROWNUM",
-          "SELECT",
-          "SYSDATE",
-          "SYSTIME",
-          "SYSTIMESTAMP",
-          "TODAY",
-          "TRUE",
-          "UNION",
-          "WHERE"
-        },
+            "CURRENT_TIMESTAMP",
+            "CURRENT_TIME",
+            "CURRENT_DATE",
+            "CROSS",
+            "DISTINCT",
+            "EXCEPT",
+            "EXISTS",
+            "FROM",
+            "FOR",
+            "FALSE",
+            "FULL",
+            "GROUP",
+            "HAVING",
+            "INNER",
+            "INTERSECT",
+            "IS",
+            "JOIN",
+            "LIKE",
+            "MINUS",
+            "NATURAL",
+            "NOT",
+            "NULL",
+            "ON",
+            "ORDER",
+            "PRIMARY",
+            "ROWNUM",
+            "SELECT",
+            "SYSDATE",
+            "SYSTIME",
+            "SYSTIMESTAMP",
+            "TODAY",
+            "TRUE",
+            "UNION",
+            "WHERE"},
         nativeMeta.getReservedWords());
 
     assertTrue(nativeMeta.isFetchSizeSupported());
@@ -111,172 +110,67 @@ public class H2DatabaseMetaTest {
     assertEquals("SELECT * FROM FOO", nativeMeta.getSqlQueryFields("FOO"));
     assertEquals("SELECT 1 FROM FOO", nativeMeta.getSqlTableExists("FOO"));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR CHAR(1)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR INTEGER", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(10, 3)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(10, 3)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(21, 4)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
 
     assertEquals(
-        "ALTER TABLE FOO ADD BAR CHAR(1)",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+        "ALTER TABLE FOO ADD BAR TEXT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR VARCHAR(15)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, -7), "", false, "", false)); // Bug here - invalid SQL
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(22, 7)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(5, 7)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR UNKNOWN", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR IDENTITY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR INTEGER",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR IDENTITY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(10, 3)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(10, 3)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(21, 4)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TEXT",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0),
-            "",
-            false,
-            "",
-            false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR VARCHAR(15)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaNumber("BAR", 10, -7),
-            "",
-            false,
-            "",
-            false)); // Bug here - invalid SQL
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(22, 7)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(5, 7)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR UNKNOWN",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR IDENTITY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR IDENTITY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR IDENTITY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 26, 8), "", true, "BAR", false));
+    assertEquals("ALTER TABLE FOO ADD BAR IDENTITY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 26, 8), "", true, "BAR", false));
 
     String lineSep = System.getProperty("line.separator");
-    assertEquals(
-        "ALTER TABLE FOO DROP BAR" + lineSep,
-        nativeMeta.getDropColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO DROP BAR" + lineSep, nativeMeta.getDropColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ALTER BAR VARCHAR(15)",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO ALTER BAR VARCHAR(15)", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ALTER BAR VARCHAR(2147483647)",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR"), "", false, "", true));
+    assertEquals("ALTER TABLE FOO ALTER BAR VARCHAR(2147483647)", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR SMALLINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR SMALLINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TINYINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 2, 0), "", true, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TINYINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 2, 0), "", true, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR IDENTITY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR IDENTITY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(22, 0)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(22, 0)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR VARCHAR(1)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR VARCHAR(1)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TEXT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BLOB",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TEXT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BLOB", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
 
-    assertEquals(
-        "insert into FOO(FOOKEY, FOOVERSION) values (0, 1)",
-        nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
+    assertEquals("insert into FOO(FOOKEY, FOOVERSION) values (0, 1)", nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
   }
 }

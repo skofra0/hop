@@ -21,10 +21,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import java.util.Objects;
 
 public class RightKey {
-  @HopMetadataProperty(
-      key = "key",
-      injectionKey = "KEY_FIELD2",
-      injectionKeyDescription = "MergeJoin.Injection.KEY_FIELD2")
+  @HopMetadataProperty(key = "key", injectionKey = "KEY_FIELD2", injectionKeyDescription = "MergeJoin.Injection.KEY_FIELD2")
   private String key;
 
   public RightKey() {}

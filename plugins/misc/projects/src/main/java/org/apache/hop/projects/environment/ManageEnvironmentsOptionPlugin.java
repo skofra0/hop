@@ -37,57 +37,37 @@ import picocli.CommandLine;
 import java.util.Arrays;
 import java.util.List;
 
-@ConfigPlugin(
-    id = "ManageEnvironmentsOptionPlugin",
-    description = "Allows command line editing of the lifecycle environments")
+@ConfigPlugin(id = "ManageEnvironmentsOptionPlugin", description = "Allows command line editing of the lifecycle environments")
 public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
 
   @CommandLine.Option(
       names = {"-ec", "--environment-create"},
-      description =
-          "Create a new project lifecycle environment. Also specify its name, purpose, the project name and the configuration files.")
+      description = "Create a new project lifecycle environment. Also specify its name, purpose, the project name and the configuration files.")
   private boolean createEnvironment;
 
-  @CommandLine.Option(
-      names = {"-e", "--environment"},
-      description = "The name of the lifecycle environment to manage")
+  @CommandLine.Option(names = {"-e", "--environment"}, description = "The name of the lifecycle environment to manage")
   private String environmentName;
 
-  @CommandLine.Option(
-      names = {"-eu", "--environment-purpose"},
-      description = "The purpose of the environment: Development, Testing, Production, CI, ...")
+  @CommandLine.Option(names = {"-eu", "--environment-purpose"}, description = "The purpose of the environment: Development, Testing, Production, CI, ...")
   private String environmentPurpose;
 
-  @CommandLine.Option(
-      names = {"-ep", "--environment-project"},
-      description = "The project for the environment")
+  @CommandLine.Option(names = {"-ep", "--environment-project"}, description = "The project for the environment")
   private String environmentProject;
 
-  @CommandLine.Option(
-      names = {"-eg", "--environment-config-files"},
-      description = "A list of configuration files for this lifecycle environment, comma separated",
-      split = ",")
+  @CommandLine.Option(names = {"-eg", "--environment-config-files"}, description = "A list of configuration files for this lifecycle environment, comma separated", split = ",")
   private String[] environmentConfigFiles;
 
-  @CommandLine.Option(
-      names = {"-em", "--environment-modify"},
-      description = "Modify a lifecycle environment")
+  @CommandLine.Option(names = {"-em", "--environment-modify"}, description = "Modify a lifecycle environment")
   private boolean modifyEnvironment;
 
-  @CommandLine.Option(
-      names = {"-ed", "--environment-delete"},
-      description = "Delete a lifecycle environment")
+  @CommandLine.Option(names = {"-ed", "--environment-delete"}, description = "Delete a lifecycle environment")
   private boolean deleteEnvironment;
 
-  @CommandLine.Option(
-      names = {"-el", "--environments-list"},
-      description = "List the defined lifecycle environments")
+  @CommandLine.Option(names = {"-el", "--environments-list"}, description = "List the defined lifecycle environments")
   private boolean listEnvironments;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     ProjectsConfig config = ProjectsConfigSingleton.getConfig();
 
     try {
@@ -107,13 +87,11 @@ public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
       }
       return changed;
     } catch (Exception e) {
-      throw new HopException(
-          "Error handling project lifecycle environments configuration options", e);
+      throw new HopException("Error handling project lifecycle environments configuration options", e);
     }
   }
 
-  private void listEnvironments(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws HopException {
+  private void listEnvironments(ILogChannel log, ProjectsConfig config, IVariables variables) throws HopException {
 
     log.logBasic("Lifecycle environments:");
     List<String> names = config.listEnvironmentNames();
@@ -132,43 +110,27 @@ public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
     }
   }
 
-  private void deleteEnvironment(ILogChannel log, ProjectsConfig config, IVariables variables)
-      throws Exception {
+  private void deleteEnvironment(ILogChannel log, ProjectsConfig config, IVariables variables) throws Exception {
     validateEnvironmentNameSpecified();
     LifecycleEnvironment environment = config.findEnvironment(environmentName);
     if (environment == null) {
-      throw new HopException(
-          "Lifecycle environment '" + environmentName + "' doesn't exist, it can't be deleted");
+      throw new HopException("Lifecycle environment '" + environmentName + "' doesn't exist, it can't be deleted");
     }
     config.removeEnvironment(environmentName);
     ProjectsConfigSingleton.saveConfig();
-    log.logBasic(
-        "Lifecycle environment '"
-            + environmentName
-            + "' was deleted from Hop configuration file "
-            + HopConfig.getInstance().getConfigFilename());
+    log.logBasic("Lifecycle environment '" + environmentName + "' was deleted from Hop configuration file " + HopConfig.getInstance().getConfigFilename());
   }
 
-  private void modifyEnvironment(
-      ILogChannel log,
-      ProjectsConfig config,
-      IVariables variables,
-      IHasHopMetadataProvider hasHopMetadataProvider)
-      throws Exception {
+  private void modifyEnvironment(ILogChannel log, ProjectsConfig config, IVariables variables, IHasHopMetadataProvider hasHopMetadataProvider) throws Exception {
     validateEnvironmentNameSpecified();
     LifecycleEnvironment environment = config.findEnvironment(environmentName);
     if (environment == null) {
-      throw new HopException(
-          "Environment '" + environmentName + "' doesn't exist, it can't be modified");
+      throw new HopException("Environment '" + environmentName + "' doesn't exist, it can't be modified");
     }
 
     if (updateEnvironmentDetails(environment)) {
       config.addEnvironment(environment);
-      log.logBasic(
-          "Lifecycle environment '"
-              + environmentName
-              + "' was modified in Hop configuration file "
-              + HopConfig.getInstance().getConfigFilename());
+      log.logBasic("Lifecycle environment '" + environmentName + "' was modified in Hop configuration file " + HopConfig.getInstance().getConfigFilename());
       logEnvironmentDetails(log, environment);
       ProjectsConfigSingleton.saveConfig();
     } else {
@@ -179,12 +141,7 @@ public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
     validateConfigFiles(log, variables, environment);
   }
 
-  private void createEnvironment(
-      ILogChannel log,
-      ProjectsConfig config,
-      IVariables variables,
-      IHasHopMetadataProvider hasHopMetadataProvider)
-      throws Exception {
+  private void createEnvironment(ILogChannel log, ProjectsConfig config, IVariables variables, IHasHopMetadataProvider hasHopMetadataProvider) throws Exception {
     validateEnvironmentNameSpecified();
 
     LifecycleEnvironment environment = config.findEnvironment(environmentName);
@@ -200,11 +157,7 @@ public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
     config.addEnvironment(environment);
     ProjectsConfigSingleton.saveConfig();
 
-    log.logBasic(
-        "Environment '"
-            + environmentName
-            + "' was created in Hop configuration file "
-            + HopConfig.getInstance().getConfigFilename());
+    log.logBasic("Environment '" + environmentName + "' was created in Hop configuration file " + HopConfig.getInstance().getConfigFilename());
 
     enableProject(log, environment, variables, hasHopMetadataProvider, config);
 
@@ -212,42 +165,27 @@ public class ManageEnvironmentsOptionPlugin implements IConfigOptions {
     logEnvironmentDetails(log, environment);
   }
 
-  private void enableProject(
-      ILogChannel log,
-      LifecycleEnvironment environment,
-      IVariables variables,
-      IHasHopMetadataProvider hasHopMetadataProvider,
-      ProjectsConfig config)
+  private void enableProject(ILogChannel log, LifecycleEnvironment environment, IVariables variables, IHasHopMetadataProvider hasHopMetadataProvider, ProjectsConfig config)
       throws HopException {
     ProjectConfig projectConfig = config.findProjectConfig(environment.getProjectName());
     if (projectConfig == null) {
-      log.logBasic(
-          "Warning: referenced project '" + environment.getProjectName() + "' doesn't exist");
+      log.logBasic("Warning: referenced project '" + environment.getProjectName() + "' doesn't exist");
     } else {
       Project project = projectConfig.loadProject(variables);
 
       // Change variables, metadata, ... for the project
       //
-      ProjectsUtil.enableProject(
-          log,
-          environment.getProjectName(),
-          project,
-          variables,
-          environment.getConfigurationFiles(),
-          environmentName,
-          hasHopMetadataProvider);
+      ProjectsUtil.enableProject(log, environment.getProjectName(), project, variables, environment.getConfigurationFiles(), environmentName, hasHopMetadataProvider);
     }
   }
 
-  private void validateConfigFiles(
-      ILogChannel log, IVariables variables, LifecycleEnvironment environment) throws Exception {
+  private void validateConfigFiles(ILogChannel log, IVariables variables, LifecycleEnvironment environment) throws Exception {
     if (environment == null || environmentConfigFiles == null) {
       return;
     }
     for (String environmentConfigFilename : environment.getConfigurationFiles()) {
       String realEnvConfFilename = variables.resolve(environmentConfigFilename);
-      DescribedVariablesConfigFile variablesConfigFile =
-          new DescribedVariablesConfigFile(realEnvConfFilename);
+      DescribedVariablesConfigFile variablesConfigFile = new DescribedVariablesConfigFile(realEnvConfFilename);
       // Create the config file if it doesn't exist
       if (!HopVfs.getFileObject(realEnvConfFilename).exists()) {
         variablesConfigFile.saveToFile();

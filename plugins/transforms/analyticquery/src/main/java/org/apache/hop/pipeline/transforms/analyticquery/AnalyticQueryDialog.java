@@ -62,8 +62,7 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public AnalyticQueryDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public AnalyticQueryDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (AnalyticQueryMeta) in;
   }
@@ -119,22 +118,9 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
     int nrGroupColumns = 1;
 
     ciKey = new ColumnInfo[nrGroupColumns];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.GroupField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.GroupField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
 
-    wGroup =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            0,
-            lsMod,
-            props);
+    wGroup = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, 0, lsMod, props);
 
     Button wGet = new Button(shell, SWT.PUSH);
     wGet.setText(BaseMessages.getString(PKG, "AnalyticQueryDialog.GetFields.Button"));
@@ -162,39 +148,13 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
     int nrQueryCols = 4;
 
     ciReturn = new ColumnInfo[nrQueryCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Name"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Subject"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Type"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            QueryField.AggregateType.getDescriptions());
-    ciReturn[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Value"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    ciReturn[3].setToolTip(
-        BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Value.Tooltip"));
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Subject"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, QueryField.AggregateType.getDescriptions());
+    ciReturn[3] = new ColumnInfo(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    ciReturn[3].setToolTip(BaseMessages.getString(PKG, "AnalyticQueryDialog.ColumnInfo.Value.Tooltip"));
 
-    wAgg =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            0,
-            lsMod,
-            props);
+    wAgg = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, 0, lsMod, props);
 
     Button wGetAgg = new Button(shell, SWT.PUSH);
     wGetAgg.setText(BaseMessages.getString(PKG, "AnalyticQueryDialog.GetLookupFields.Button"));
@@ -206,23 +166,22 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // THE BUTTONS
@@ -304,8 +263,7 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
       String field = tableItem.getText(column++);
       String subject = tableItem.getText(column++);
       String aggType = tableItem.getText(column++);
-      QueryField.AggregateType aggregateType =
-          QueryField.AggregateType.findTypeWithDescription(aggType);
+      QueryField.AggregateType aggregateType = QueryField.AggregateType.findTypeWithDescription(aggType);
       int value = Const.toInt(tableItem.getText(column++), 0);
 
       input.getQueryFields().add(new QueryField(field, subject, aggregateType, value));
@@ -318,13 +276,9 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "AnalyticQueryDialog.GroupByWarningDialog.DialogTitle"),
-              BaseMessages.getString(
-                      PKG, "AnalyticQueryDialog.GroupByWarningDialog.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "AnalyticQueryDialog.GroupByWarningDialog.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
-              new String[] {
-                BaseMessages.getString(PKG, "AnalyticQueryDialog.GroupByWarningDialog.Option1")
-              },
+              new String[] {BaseMessages.getString(PKG, "AnalyticQueryDialog.GroupByWarningDialog.Option1")},
               BaseMessages.getString(PKG, "AnalyticQueryDialog.GroupByWarningDialog.Option2"),
               "N".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y")));
       md.open();
@@ -338,8 +292,7 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wGroup, 1, new int[] {1}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -354,8 +307,7 @@ public class AnalyticQueryDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wAgg, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wAgg, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

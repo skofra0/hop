@@ -52,9 +52,7 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
   private List<ISearchable> searchables;
   private Iterator<ISearchable> iterator;
 
-  public ProjectSearchablesIterator(
-      IHopMetadataProvider metadataProvider, IVariables variables, ProjectConfig projectConfig)
-      throws HopException {
+  public ProjectSearchablesIterator(IHopMetadataProvider metadataProvider, IVariables variables, ProjectConfig projectConfig) throws HopException {
     this.projectConfig = projectConfig;
     this.searchables = new ArrayList<>();
 
@@ -62,8 +60,7 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
 
     try {
       List<String> configurationFiles = new ArrayList<>();
-      List<LifecycleEnvironment> environments =
-          config.findEnvironmentsOfProject(projectConfig.getProjectName());
+      List<LifecycleEnvironment> environments = config.findEnvironmentsOfProject(projectConfig.getProjectName());
       if (!environments.isEmpty()) {
         configurationFiles.addAll(environments.get(0).getConfigurationFiles());
       }
@@ -75,8 +72,7 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
       for (FileObject pipelineFile : pipelineFiles) {
         String pipelineFilePath = pipelineFile.getName().getURI();
         try {
-          PipelineMeta pipelineMeta =
-              new PipelineMeta(pipelineFilePath, metadataProvider, variables);
+          PipelineMeta pipelineMeta = new PipelineMeta(pipelineFilePath, metadataProvider, variables);
           searchables.add(new HopGuiPipelineSearchable("Project pipeline file", pipelineMeta));
         } catch (Exception e) {
           // There was an error loading the XML file...
@@ -88,8 +84,7 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
       for (FileObject workflowFile : workflowFiles) {
         String workflowFilePath = workflowFile.getName().getURI();
         try {
-          WorkflowMeta workflowMeta =
-              new WorkflowMeta(variables, workflowFilePath, metadataProvider);
+          WorkflowMeta workflowMeta = new WorkflowMeta(variables, workflowFilePath, metadataProvider);
           searchables.add(new HopGuiWorkflowSearchable("Project workflow file", workflowMeta));
         } catch (Exception e) {
           // There was an error loading the XML file...
@@ -100,13 +95,10 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
       // Add the available metadata objects
       //
       for (Class<IHopMetadata> metadataClass : metadataProvider.getMetadataClasses()) {
-        IHopMetadataSerializer<IHopMetadata> serializer =
-            metadataProvider.getSerializer(metadataClass);
+        IHopMetadataSerializer<IHopMetadata> serializer = metadataProvider.getSerializer(metadataClass);
         for (final String metadataName : serializer.listObjectNames()) {
           IHopMetadata hopMetadata = serializer.load(metadataName);
-          HopGuiMetadataSearchable searchable =
-              new HopGuiMetadataSearchable(
-                  metadataProvider, serializer, hopMetadata, serializer.getManagedClass());
+          HopGuiMetadataSearchable searchable = new HopGuiMetadataSearchable(metadataProvider, serializer, hopMetadata, serializer.getManagedClass());
           searchables.add(searchable);
         }
       }
@@ -124,20 +116,17 @@ public class ProjectSearchablesIterator implements Iterator<ISearchable> {
         String realConfigurationFile = variables.resolve(configurationFile);
 
         if (HopVfs.fileExists(realConfigurationFile)) {
-          DescribedVariablesConfigFile configFile =
-              new DescribedVariablesConfigFile(realConfigurationFile);
+          DescribedVariablesConfigFile configFile = new DescribedVariablesConfigFile(realConfigurationFile);
           configFile.readFromFile();
           for (DescribedVariable describedVariable : configFile.getDescribedVariables()) {
-            searchables.add(
-                new HopGuiDescribedVariableSearchable(describedVariable, configurationFile));
+            searchables.add(new HopGuiDescribedVariableSearchable(describedVariable, configurationFile));
           }
         }
       }
 
       iterator = searchables.iterator();
     } catch (Exception e) {
-      throw new HopException(
-          "Error loading list of project '" + projectConfig.getProjectName() + "' searchables", e);
+      throw new HopException("Error loading list of project '" + projectConfig.getProjectName() + "' searchables", e);
     }
   }
 

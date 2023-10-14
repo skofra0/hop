@@ -19,35 +19,20 @@ package org.apache.hop.pipeline.transforms.databaselookup;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class ReturnValue {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "return_table_field",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnTableField")
+  @HopMetadataProperty(key = "name", injectionKey = "return_table_field", injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnTableField")
   private String tableField;
 
-  @HopMetadataProperty(
-      key = "rename",
-      injectionKey = "return_rename",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnRename")
+  @HopMetadataProperty(key = "rename", injectionKey = "return_rename", injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnRename")
   private String newName;
 
-  @HopMetadataProperty(
-      key = "default",
-      injectionKey = "return_default_value",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnDefaultValue")
+  @HopMetadataProperty(key = "default", injectionKey = "return_default_value", injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnDefaultValue")
   private String defaultValue;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "return_default_type",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnDefaultType")
+  @HopMetadataProperty(key = "type", injectionKey = "return_default_type", injectionKeyDescription = "DatabaseLookupMeta.Injection.ReturnDefaultType")
   private String defaultType;
 
   /** Have the lookup eat the incoming row when nothing gets found */
-  @HopMetadataProperty(
-      key = "trim_type",
-      injectionKey = "return_trim_type",
-      injectionKeyDescription = "DatabaseLookupMeta.Injection.TrimType")
+  @HopMetadataProperty(key = "trim_type", injectionKey = "return_trim_type", injectionKeyDescription = "DatabaseLookupMeta.Injection.TrimType")
   private String trimType;
 
   public ReturnValue() {}
@@ -60,8 +45,7 @@ public class ReturnValue {
     this.trimType = r.trimType;
   }
 
-  public ReturnValue(
-      String tableField, String newName, String defaultValue, String defaultType, String trimType) {
+  public ReturnValue(String tableField, String newName, String defaultValue, String defaultType, String trimType) {
     this.tableField = tableField;
     this.newName = newName;
     this.defaultValue = defaultValue;

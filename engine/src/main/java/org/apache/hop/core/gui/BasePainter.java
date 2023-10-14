@@ -79,21 +79,8 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
   protected Rectangle graphPort;
   protected Rectangle viewPort;
 
-  public BasePainter(
-      IGc gc,
-      IVariables variables,
-      Object subject,
-      Point area,
-      DPoint offset,
-      Rectangle selectionRectangle,
-      List<AreaOwner> areaOwners,
-      int iconSize,
-      int lineWidth,
-      int gridSize,
-      String noteFontName,
-      int noteFontHeight,
-      double zoomFactor,
-      boolean drawingEditIcons) {
+  public BasePainter(IGc gc, IVariables variables, Object subject, Point area, DPoint offset, Rectangle selectionRectangle, List<AreaOwner> areaOwners, int iconSize, int lineWidth,
+      int gridSize, String noteFontName, int noteFontHeight, double zoomFactor, boolean drawingEditIcons) {
     this.gc = gc;
     this.variables = variables;
     this.subject = subject;
@@ -161,11 +148,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
       } else {
         fontHeight = noteFontHeight;
       }
-      gc.setFont(
-          Const.NVL(notePadMeta.getFontName(), noteFontName),
-          (int) ((double) fontHeight / zoomFactor),
-          notePadMeta.isFontBold(),
-          notePadMeta.isFontItalic());
+      gc.setFont(Const.NVL(notePadMeta.getFontName(), noteFontName), (int) ((double) fontHeight / zoomFactor), notePadMeta.isFontBold(), notePadMeta.isFontItalic());
 
       ext = gc.textExtent(notePadMeta.getNote());
     }
@@ -186,29 +169,18 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
 
     Rectangle noteShape = new Rectangle(note.x, note.y, width, height);
 
-    gc.setBackground(
-        notePadMeta.getBackGroundColorRed(),
-        notePadMeta.getBackGroundColorGreen(),
-        notePadMeta.getBackGroundColorBlue());
-    gc.setForeground(
-        notePadMeta.getBorderColorRed(),
-        notePadMeta.getBorderColorGreen(),
-        notePadMeta.getBorderColorBlue());
+    gc.setBackground(notePadMeta.getBackGroundColorRed(), notePadMeta.getBackGroundColorGreen(), notePadMeta.getBackGroundColorBlue());
+    gc.setForeground(notePadMeta.getBorderColorRed(), notePadMeta.getBorderColorGreen(), notePadMeta.getBorderColorBlue());
 
     // Radius is half the font height
     //
     int radius = (int) Math.round(zoomFactor * notePadMeta.getFontSize() / 2);
 
-    gc.fillRoundRectangle(
-        noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
-    gc.drawRoundRectangle(
-        noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
+    gc.fillRoundRectangle(noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
+    gc.drawRoundRectangle(noteShape.x, noteShape.y, noteShape.width, noteShape.height, radius, radius);
 
     if (!Utils.isEmpty(notePadMeta.getNote())) {
-      gc.setForeground(
-          notePadMeta.getFontColorRed(),
-          notePadMeta.getFontColorGreen(),
-          notePadMeta.getFontColorBlue());
+      gc.setForeground(notePadMeta.getFontColorRed(), notePadMeta.getFontColorGreen(), notePadMeta.getFontColorBlue());
       gc.drawText(notePadMeta.getNote(), note.x + margin, note.y + margin, true);
     }
 
@@ -223,16 +195,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
 
     // Add to the list of areas...
     //
-    areaOwners.add(
-        new AreaOwner(
-            AreaType.NOTE,
-            noteShape.x,
-            noteShape.y,
-            noteShape.width,
-            noteShape.height,
-            offset,
-            subject,
-            notePadMeta));
+    areaOwners.add(new AreaOwner(AreaType.NOTE, noteShape.x, noteShape.y, noteShape.width, noteShape.height, offset, subject, notePadMeta));
   }
 
   protected Point real2screen(int x, int y) {
@@ -412,37 +375,14 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
     return new int[] {x1, y1, x2, y2};
   }
 
-  protected void drawArrow(EImage arrow, int[] line, Hop hop, Object startObject, Object endObject)
-      throws HopException {
+  protected void drawArrow(EImage arrow, int[] line, Hop hop, Object startObject, Object endObject) throws HopException {
     Point screenFrom = real2screen(line[0], line[1]);
     Point screenTo = real2screen(line[2], line[3]);
 
-    drawArrow(
-        arrow,
-        screenFrom.x,
-        screenFrom.y,
-        screenTo.x,
-        screenTo.y,
-        theta,
-        calcArrowLength(),
-        -1,
-        hop,
-        startObject,
-        endObject);
+    drawArrow(arrow, screenFrom.x, screenFrom.y, screenTo.x, screenTo.y, theta, calcArrowLength(), -1, hop, startObject, endObject);
   }
 
-  protected abstract void drawArrow(
-      EImage arrow,
-      int x1,
-      int y1,
-      int x2,
-      int y2,
-      double theta,
-      int size,
-      double factor,
-      Hop jobHop,
-      Object startObject,
-      Object endObject)
+  protected abstract void drawArrow(EImage arrow, int x1, int y1, int x2, int y2, double theta, int size, double factor, Hop jobHop, Object startObject, Object endObject)
       throws HopException;
 
   /**
@@ -487,7 +427,7 @@ public abstract class BasePainter<Hop extends BaseHopMeta<?>, Part extends IBase
     double viewWidth = (graphWidth * (double) areaWidth) / Math.max(areaWidth, maximum.x);
     double viewHeight = (graphHeight * areaHeight) / Math.max(areaHeight, maximum.y);
 
-    // The offset is a part of the screen size.  The maximum offset is the graph size minus the area
+    // The offset is a part of the screen size. The maximum offset is the graph size minus the area
     // size.
     // The offset horizontally is [0, -maximum.x+areaWidth]
     // The idea is that if the right side of the pipeline or workflow is shown you don't need to

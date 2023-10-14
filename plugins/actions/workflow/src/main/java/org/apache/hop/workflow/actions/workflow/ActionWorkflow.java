@@ -102,8 +102,10 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
   }
 
   public static final class Parameter {
-    @HopMetadataProperty public String name;
-    @HopMetadataProperty public String value;
+    @HopMetadataProperty
+    public String name;
+    @HopMetadataProperty
+    public String value;
 
     @HopMetadataProperty(key = "stream_name")
     public String field;
@@ -264,13 +266,10 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
         return result;
       }
       try {
-        logChannelFileWriter =
-            new LogChannelFileWriter(
-                this.getLogChannelId(), HopVfs.getFileObject(realLogFilename), setAppendLogfile);
+        logChannelFileWriter = new LogChannelFileWriter(this.getLogChannelId(), HopVfs.getFileObject(realLogFilename), setAppendLogfile);
         logChannelFileWriter.startLogging();
       } catch (HopException e) {
-        logError(
-            "Unable to open file appender for file [" + getLogFilename() + "] : " + e.toString());
+        logError("Unable to open file appender for file [" + getLogFilename() + "] : " + e.toString());
         logError(Const.getStackTracker(e));
         result.setNrErrors(1);
         result.setResult(false);
@@ -312,8 +311,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
       boolean first = true;
       List<RowMetaAndData> rows = new ArrayList<>(result.getRows());
 
-      while ((first && !execPerRow)
-          || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0)) {
+      while ((first && !execPerRow) || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0)) {
         first = false;
 
         // Clear the result rows of the result
@@ -365,8 +363,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
             }
 
             if (Utils.isEmpty(Const.trim(parameter.getField()))) {
-              namedParam.setParameterValue(
-                  parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
+              namedParam.setParameterValue(parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
             } else {
               // something filled in, in the field column...
               //
@@ -397,8 +394,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
               if (!Utils.isEmpty(parameter.getName())) {
                 // We have a parameter
                 if (Utils.isEmpty(Const.trim(parameter.getField()))) {
-                  namedParam.setParameterValue(
-                      parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
+                  namedParam.setParameterValue(parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
                 } else {
                   String fieldValue = "";
 
@@ -422,8 +418,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
               if (!Utils.isEmpty(parameter.getName())) {
                 // We have a parameter
                 if (Utils.isEmpty(Const.trim(parameter.getField()))) {
-                  namedParam.setParameterValue(
-                      parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
+                  namedParam.setParameterValue(parameter.getName(), Const.NVL(resolve(parameter.getValue()), ""));
                 } else {
                   String fieldValue = "";
 
@@ -440,9 +435,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
 
         // Create a new workflow
         //
-        workflow =
-            WorkflowEngineFactory.createWorkflowEngine(
-                this, resolve(runConfiguration), getMetadataProvider(), workflowMeta, this);
+        workflow = WorkflowEngineFactory.createWorkflowEngine(this, resolve(runConfiguration), getMetadataProvider(), workflowMeta, this);
         workflow.setParentWorkflow(parentWorkflow);
         workflow.setLogLevel(workflowLogLevel);
         workflow.shareWith(this);
@@ -497,11 +490,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
         // executed in parallel in a
         // parent workflow
         // if that happens, contained pipelines start closing each other's connections
-        workflowRunnerThread.setName(
-            Const.NVL(
-                    workflow.getWorkflowMeta().getName(), workflow.getWorkflowMeta().getFilename())
-                + " UUID: "
-                + UUID.randomUUID().toString());
+        workflowRunnerThread.setName(Const.NVL(workflow.getWorkflowMeta().getName(), workflow.getWorkflowMeta().getFilename()) + " UUID: " + UUID.randomUUID().toString());
         workflowRunnerThread.start();
 
         if (isWaitingToFinish()) {
@@ -551,12 +540,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
       if (logChannelFileWriter != null) {
         logChannelFileWriter.stopLogging();
 
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_LOG,
-                logChannelFileWriter.getLogFile(),
-                parentWorkflow.getWorkflowName(),
-                getName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_LOG, logChannelFileWriter.getLogFile(), parentWorkflow.getWorkflowName(), getName());
         result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
 
         // See if anything went wrong during file writing...
@@ -590,46 +574,26 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
       if (!parentfolder.exists()) {
         if (createParentFolder) {
           if (log.isDebug()) {
-            log.logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionWorkflow.Log.ParentLogFolderNotExist",
-                    parentfolder.getName().toString()));
+            log.logDebug(BaseMessages.getString(PKG, "ActionWorkflow.Log.ParentLogFolderNotExist", parentfolder.getName().toString()));
           }
           parentfolder.createFolder();
           if (log.isDebug()) {
-            log.logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionWorkflow.Log.ParentLogFolderCreated",
-                    parentfolder.getName().toString()));
+            log.logDebug(BaseMessages.getString(PKG, "ActionWorkflow.Log.ParentLogFolderCreated", parentfolder.getName().toString()));
           }
         } else {
-          log.logError(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionWorkflow.Log.ParentLogFolderNotExist",
-                  parentfolder.getName().toString()));
+          log.logError(BaseMessages.getString(PKG, "ActionWorkflow.Log.ParentLogFolderNotExist", parentfolder.getName().toString()));
           resultat = false;
         }
       } else {
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionWorkflow.Log.ParentLogFolderExists",
-                  parentfolder.getName().toString()));
+          log.logDebug(BaseMessages.getString(PKG, "ActionWorkflow.Log.ParentLogFolderExists", parentfolder.getName().toString()));
         }
       }
     } catch (Exception e) {
       resultat = false;
       log.logError(
           BaseMessages.getString(PKG, "ActionWorkflow.Error.ChekingParentLogFolderTitle"),
-          BaseMessages.getString(
-              PKG,
-              "ActionWorkflow.Error.ChekingParentLogFolder",
-              parentfolder.getName().toString()),
-          e);
+          BaseMessages.getString(PKG, "ActionWorkflow.Error.ChekingParentLogFolder", parentfolder.getName().toString()), e);
     } finally {
       if (parentfolder != null) {
         try {
@@ -651,8 +615,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
    * @param workflowMeta the workflow metadata
    * @throws HopException in case both workflows are loaded from the same source
    */
-  private void verifyRecursiveExecution(
-      IWorkflowEngine<WorkflowMeta> parentWorkflow, WorkflowMeta workflowMeta) throws HopException {
+  private void verifyRecursiveExecution(IWorkflowEngine<WorkflowMeta> parentWorkflow, WorkflowMeta workflowMeta) throws HopException {
 
     if (parentWorkflow == null) {
       return; // OK!
@@ -669,10 +632,8 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
 
     // Verify the filename for recursive execution
     //
-    if (workflowMeta.getFilename() != null
-        && workflowMeta.getFilename().equals(parentWorkflowMeta.getFilename())) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ActionWorkflowError.Recursive", workflowMeta.getFilename()));
+    if (workflowMeta.getFilename() != null && workflowMeta.getFilename().equals(parentWorkflowMeta.getFilename())) {
+      throw new HopException(BaseMessages.getString(PKG, "ActionWorkflowError.Recursive", workflowMeta.getFilename()));
     }
 
     // Also compare with the grand-parent (if there is any)
@@ -704,15 +665,13 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<SqlStatement> getSqlStatements(
-      IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public List<SqlStatement> getSqlStatements(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     this.copyFrom(variables);
     WorkflowMeta workflowMeta = getWorkflowMeta(metadataProvider, variables);
     return workflowMeta.getSqlStatements(metadataProvider, null, variables);
   }
 
-  public WorkflowMeta getWorkflowMeta(IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public WorkflowMeta getWorkflowMeta(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     WorkflowMeta workflowMeta = null;
     try {
       CurrentDirectoryResolver r = new CurrentDirectoryResolver();
@@ -744,8 +703,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       String realFileName = resolve(filename);
@@ -764,17 +722,13 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     // Try to load the pipeline from file.
     // Modify this recursively too...
@@ -790,14 +744,12 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
     // Also go down into the workflow and export the files there. (going down
     // recursively)
     //
-    String proposedNewFilename =
-        workflowMeta.exportResources(this, definitions, namingInterface, metadataProvider);
+    String proposedNewFilename = workflowMeta.exportResources(this, definitions, namingInterface, metadataProvider);
 
     // To get a relative path to it, we inject
     // ${Internal.Entry.Current.Directory}
     //
-    String newFilename =
-        "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
+    String newFilename = "${" + Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER + "}/" + proposedNewFilename;
 
     // Set the filename in the workflow
     //
@@ -811,18 +763,9 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     if (setLogfile) {
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "logfile",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "logfile", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     }
   }
 
@@ -854,20 +797,16 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isWorkflowDefined(),
-    };
+    return new boolean[] {isWorkflowDefined(),};
   }
 
   /**
    * @return The objects referenced in the transform, like a a pipeline, a workflow, a mapper, a
-   *     reducer, a combiner, ...
+   *         reducer, a combiner, ...
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      BaseMessages.getString(PKG, "ActionWorkflow.ReferencedObject.Description"),
-    };
+    return new String[] {BaseMessages.getString(PKG, "ActionWorkflow.ReferencedObject.Description"),};
   }
 
   /**
@@ -880,8 +819,7 @@ public class ActionWorkflow extends ActionBase implements Cloneable, IAction {
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return getWorkflowMeta(metadataProvider, variables);
   }
 

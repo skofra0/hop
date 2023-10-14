@@ -28,7 +28,8 @@ public class DeleteOperation extends BaseOperation {
   }
 
   /** Use "Detach delete? */
-  @HopMetadataProperty private boolean detach;
+  @HopMetadataProperty
+  private boolean detach;
 
   @Override
   public String getCypherClause(String unwindList, List<Parameter> parameters) throws HopException {

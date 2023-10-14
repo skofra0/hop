@@ -127,13 +127,7 @@ public class GetServerStatusMeta extends BaseTransformMeta<GetServerStatus, GetS
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (StringUtils.isNotEmpty(errorMessageField)) {
       inputRowMeta.addValueMeta(new ValueMetaString(errorMessageField));

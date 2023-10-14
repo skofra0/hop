@@ -54,8 +54,7 @@ public class BeamOutputDialog extends BaseTransformDialog implements ITransformD
   private TextVar wFileSuffix;
   private Button wWindowed;
 
-  public BeamOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamOutputMeta) in;
   }
@@ -198,8 +197,7 @@ public class BeamOutputDialog extends BaseTransformDialog implements ITransformD
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 

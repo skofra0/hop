@@ -29,27 +29,20 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.base.BaseExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "GitInfoExplorerFileType",
-    name = "Git Info",
-    description = "Git info file handling in the explorer perspective",
-    image = "git_icon.svg")
-public class GitInfoExplorerFileType extends BaseExplorerFileType<GitInfoExplorerFileTypeHandler>
-    implements IExplorerFileType<GitInfoExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "GitInfoExplorerFileType", name = "Git Info", description = "Git info file handling in the explorer perspective", image = "git_icon.svg")
+public class GitInfoExplorerFileType extends BaseExplorerFileType<GitInfoExplorerFileTypeHandler> implements IExplorerFileType<GitInfoExplorerFileTypeHandler> {
 
   public GitInfoExplorerFileType() {
     super("Git info", "", new String[] {}, new String[] {}, FileTypeCapabilities.getCapabilities(IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY));
   }
 
   @Override
-  public GitInfoExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public GitInfoExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new GitInfoExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

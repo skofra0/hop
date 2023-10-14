@@ -48,31 +48,44 @@ public class SshMeta extends BaseTransformMeta<Ssh, SshData> {
   static Class<?> PKG = SshMeta.class; // For Translator
   private static int DEFAULT_PORT = 22;
 
-  @HopMetadataProperty private String command;
-  @HopMetadataProperty private boolean dynamicCommandField;
+  @HopMetadataProperty
+  private String command;
+  @HopMetadataProperty
+  private boolean dynamicCommandField;
 
   @HopMetadataProperty(key = "commandfieldname")
   private String commandFieldName;
 
-  @HopMetadataProperty private String serverName;
-  @HopMetadataProperty private String port;
-  @HopMetadataProperty private String userName;
+  @HopMetadataProperty
+  private String serverName;
+  @HopMetadataProperty
+  private String port;
+  @HopMetadataProperty
+  private String userName;
 
   @HopMetadataProperty(password = true)
   private String password;
 
-  @HopMetadataProperty private boolean usePrivateKey;
-  @HopMetadataProperty private String keyFileName;
+  @HopMetadataProperty
+  private boolean usePrivateKey;
+  @HopMetadataProperty
+  private String keyFileName;
 
   @HopMetadataProperty(password = true)
   private String passPhrase;
 
-  @HopMetadataProperty private String stdOutFieldName;
-  @HopMetadataProperty private String stdErrFieldName;
-  @HopMetadataProperty private String timeOut;
-  @HopMetadataProperty private String proxyHost;
-  @HopMetadataProperty private String proxyPort;
-  @HopMetadataProperty private String proxyUsername;
+  @HopMetadataProperty
+  private String stdOutFieldName;
+  @HopMetadataProperty
+  private String stdErrFieldName;
+  @HopMetadataProperty
+  private String timeOut;
+  @HopMetadataProperty
+  private String proxyHost;
+  @HopMetadataProperty
+  private String proxyPort;
+  @HopMetadataProperty
+  private String proxyUsername;
 
   @HopMetadataProperty(password = true)
   private String proxyPassword;
@@ -138,14 +151,11 @@ public class SshMeta extends BaseTransformMeta<Ssh, SshData> {
           /* Ignore */
         }
         if (!keyFileExists) {
-          errorMessage =
-              BaseMessages.getString(
-                  PKG, "SSHMeta.CheckResult.PrivateKeyFileNotExist", keyfilename);
+          errorMessage = BaseMessages.getString(PKG, "SSHMeta.CheckResult.PrivateKeyFileNotExist", keyfilename);
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "SSHMeta.CheckResult.PrivateKeyFileExists", keyfilename);
+          errorMessage = BaseMessages.getString(PKG, "SSHMeta.CheckResult.PrivateKeyFileExists", keyfilename);
           cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
           remarks.add(cr);
         }
@@ -154,30 +164,16 @@ public class SshMeta extends BaseTransformMeta<Ssh, SshData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SSHMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SSHMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SSHMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SSHMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (!isDynamicCommandField()) {

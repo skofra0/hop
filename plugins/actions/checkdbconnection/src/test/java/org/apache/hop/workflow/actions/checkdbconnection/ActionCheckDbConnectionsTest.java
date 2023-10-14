@@ -36,16 +36,12 @@ public class ActionCheckDbConnectionsTest {
     MemoryMetadataProvider provider = new MemoryMetadataProvider();
     provider.getSerializer(DatabaseMeta.class).save(databaseMeta);
 
-    ActionCheckDbConnections action =
-        ActionSerializationTestUtil.testSerialization(
-            "/check-db-connections-action.xml", ActionCheckDbConnections.class, provider);
+    ActionCheckDbConnections action = ActionSerializationTestUtil.testSerialization("/check-db-connections-action.xml", ActionCheckDbConnections.class, provider);
 
     assertEquals(1, action.getConnections().size());
     assertNotNull(action.getConnections().get(0).getDatabaseMeta());
     assertEquals("unit-test-db", action.getConnections().get(0).getDatabaseMeta().getName());
     assertEquals("500", action.getConnections().get(0).getWaitTime());
-    assertEquals(
-        ActionCheckDbConnections.WaitTimeUnit.MILLISECOND,
-        action.getConnections().get(0).getWaitTimeUnit());
+    assertEquals(ActionCheckDbConnections.WaitTimeUnit.MILLISECOND, action.getConnections().get(0).getWaitTimeUnit());
   }
 }

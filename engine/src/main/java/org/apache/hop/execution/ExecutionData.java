@@ -73,7 +73,8 @@ public class ExecutionData {
    * This is a map with sets of rows ({@link RowBuffer}) per type of data that is collected from a
    * transform. The keys are described in the next map containing the description per key.
    */
-  @JsonIgnore private Map<String, RowBuffer> dataSets;
+  @JsonIgnore
+  private Map<String, RowBuffer> dataSets;
 
   /** Each set key has a description which is contained in this map. */
   @JsonDeserialize(using = ExecutionDataSetMetaDeserializer.class)
@@ -85,12 +86,7 @@ public class ExecutionData {
     this.setMetaData = Collections.synchronizedMap(new HashMap<>());
   }
 
-  public ExecutionData(
-      Date collectionDate,
-      String parentId,
-      String ownerId,
-      Map<String, RowBuffer> dataSets,
-      Map<String, ExecutionDataSetMeta> setDescriptions) {
+  public ExecutionData(Date collectionDate, String parentId, String ownerId, Map<String, RowBuffer> dataSets, Map<String, ExecutionDataSetMeta> setDescriptions) {
     this.collectionDate = collectionDate;
     this.parentId = parentId;
     this.ownerId = ownerId;
@@ -100,12 +96,12 @@ public class ExecutionData {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ExecutionData that = (ExecutionData) o;
-    if (!Objects.equals(collectionDate, that.collectionDate)
-        || !Objects.equals(parentId, that.parentId)
-        || !Objects.equals(ownerId, that.ownerId)) {
+    if (!Objects.equals(collectionDate, that.collectionDate) || !Objects.equals(parentId, that.parentId) || !Objects.equals(ownerId, that.ownerId)) {
       return false;
     }
 
@@ -164,7 +160,7 @@ public class ExecutionData {
 
           if (rowMeta == null) {
             // no information received yet, an empty buffer
-            rowMeta=new RowMeta();
+            rowMeta = new RowMeta();
           }
 
           // Write the metadata
@@ -173,7 +169,7 @@ public class ExecutionData {
 
           synchronized (buffer.getBuffer()) {
             List<Object[]> rows = buffer.getBuffer();
-            if (rows==null) {
+            if (rows == null) {
               // Empty buffer
               rows = Collections.emptyList();
             }
@@ -210,8 +206,7 @@ public class ExecutionData {
    * @throws IOException
    * @throws HopFileException
    */
-  public void setRowsBinaryGzipBase64Encoded(String encodedString)
-      throws IOException, HopFileException {
+  public void setRowsBinaryGzipBase64Encoded(String encodedString) throws IOException, HopFileException {
     dataSets = new HashMap<>();
 
     byte[] decodedCompressedBytes = Base64.getDecoder().decode(encodedString);

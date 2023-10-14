@@ -72,19 +72,12 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
   private static final String PKG_HEADER_VALUE = "HTTPPOST.Log.HeaderValue";
   private static final String PKG_ERROR_FINDING_FIELD = "HTTPPOST.Log.ErrorFindingField";
 
-  public HttpPost(
-      TransformMeta transformMeta,
-      HttpPostMeta meta,
-      HttpPostData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public HttpPost(TransformMeta transformMeta, HttpPostMeta meta, HttpPostData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   private Object[] callHttpPOST(Object[] rowData) throws HopException {
-    HttpClientManager.HttpClientBuilderFacade clientBuilder =
-        HttpClientManager.getInstance().createBuilder();
+    HttpClientManager.HttpClientBuilderFacade clientBuilder = HttpClientManager.getInstance().createBuilder();
 
     if (data.realConnectionTimeout > -1) {
       clientBuilder.setConnectionTimeout(data.realConnectionTimeout);
@@ -114,8 +107,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         logDetailed(BaseMessages.getString(PKG, "HTTPPOST.Log.ConnectingToURL", data.realUrl));
       }
       URIBuilder uriBuilder = new URIBuilder(data.realUrl);
-      org.apache.http.client.methods.HttpPost post =
-          new org.apache.http.client.methods.HttpPost(uriBuilder.build());
+      org.apache.http.client.methods.HttpPost post = new org.apache.http.client.methods.HttpPost(uriBuilder.build());
       String bodyParams = null;
 
       // Specify content type and encoding
@@ -126,18 +118,12 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         if (Utils.isEmpty(data.realEncoding)) {
           post.setHeader(CONTENT_TYPE, CONTENT_TYPE_TEXT_XML);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(PKG, PKG_HEADER_VALUE, CONTENT_TYPE, CONTENT_TYPE_TEXT_XML));
+            logDebug(BaseMessages.getString(PKG, PKG_HEADER_VALUE, CONTENT_TYPE, CONTENT_TYPE_TEXT_XML));
           }
         } else {
           post.setHeader(CONTENT_TYPE, CONTENT_TYPE_TEXT_XML + "; " + data.realEncoding);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    PKG_HEADER_VALUE,
-                    CONTENT_TYPE,
-                    CONTENT_TYPE_TEXT_XML + "; " + data.realEncoding));
+            logDebug(BaseMessages.getString(PKG, PKG_HEADER_VALUE, CONTENT_TYPE, CONTENT_TYPE_TEXT_XML + "; " + data.realEncoding));
           }
         }
       }
@@ -146,16 +132,9 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
       if (data.useHeaderParameters) {
         // set header parameters that we want to send
         for (int i = 0; i < data.header_parameters_nrs.length; i++) {
-          post.addHeader(
-              data.headerParameters[i].getName(),
-              data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i]));
+          post.addHeader(data.headerParameters[i].getName(), data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i]));
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    PKG_HEADER_VALUE,
-                    data.headerParameters[i].getName(),
-                    data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i])));
+            logDebug(BaseMessages.getString(PKG, PKG_HEADER_VALUE, data.headerParameters[i].getName(), data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i])));
           }
         }
       }
@@ -165,31 +144,24 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         // set body parameters that we want to send
         for (int i = 0; i < data.body_parameters_nrs.length; i++) {
           String bodyParameterName = data.bodyParameters[i].getName();
-          String bodyParameterValue =
-              data.inputRowMeta.getString(rowData, data.body_parameters_nrs[i]);
+          String bodyParameterValue = data.inputRowMeta.getString(rowData, data.body_parameters_nrs[i]);
           data.bodyParameters[i] = new BasicNameValuePair(bodyParameterName, bodyParameterValue);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "HTTPPOST.Log.BodyValue", bodyParameterName, bodyParameterValue));
+            logDebug(BaseMessages.getString(PKG, "HTTPPOST.Log.BodyValue", bodyParameterName, bodyParameterValue));
           }
         }
         bodyParams = getRequestBodyParamsAsStr(data.bodyParameters, data.realEncoding);
-        post.setEntity(
-            (new StringEntity(bodyParams, ContentType.TEXT_XML.withCharset("US-ASCII"))));
+        post.setEntity((new StringEntity(bodyParams, ContentType.TEXT_XML.withCharset("US-ASCII"))));
       }
 
       // QUERY PARAMETERS
       if (data.useQueryParameters) {
         for (int i = 0; i < data.query_parameters_nrs.length; i++) {
           String queryParameterName = data.queryParameters[i].getName();
-          String queryParameterValue =
-              data.inputRowMeta.getString(rowData, data.query_parameters_nrs[i]);
+          String queryParameterValue = data.inputRowMeta.getString(rowData, data.query_parameters_nrs[i]);
           data.queryParameters[i] = new BasicNameValuePair(queryParameterName, queryParameterValue);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "HTTPPOST.Log.QueryValue", queryParameterName, queryParameterValue));
+            logDebug(BaseMessages.getString(PKG, "HTTPPOST.Log.QueryValue", queryParameterName, queryParameterValue));
           }
         }
         post.setEntity(new UrlEncodedFormEntity(Arrays.asList(data.queryParameters)));
@@ -209,8 +181,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
 
         if (meta.isPostAFile()) {
           if (!tmp.isEmpty()) {
-            multipartEntityBuilder.addBinaryBody(
-                "file", HopVfs.getFileObject(resolve(tmp)).getPath().toFile());
+            multipartEntityBuilder.addBinaryBody("file", HopVfs.getFileObject(resolve(tmp)).getPath().toFile());
           }
         } else {
           byte[] bytes;
@@ -257,25 +228,21 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         long responseTime = System.currentTimeMillis() - startTime;
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "HTTPPOST.Log.ResponseTime", responseTime, data.realUrl));
+          logDetailed(BaseMessages.getString(PKG, "HTTPPOST.Log.ResponseTime", responseTime, data.realUrl));
         }
 
         // Display status code
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(PKG, "HTTPPOST.Log.ResponseCode", String.valueOf(statusCode)));
+          logDebug(BaseMessages.getString(PKG, "HTTPPOST.Log.ResponseCode", String.valueOf(statusCode)));
         }
 
         String body;
         String headerString = "";
         switch (statusCode) {
           case HttpURLConnection.HTTP_UNAUTHORIZED:
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "HTTPPOST.Exception.Authentication", data.realUrl));
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTPPOST.Exception.Authentication", data.realUrl));
           case -1:
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "HTTPPOST.Exception.IllegalStatusCode", data.realUrl));
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTPPOST.Exception.IllegalStatusCode", data.realUrl));
           case HttpURLConnection.HTTP_NO_CONTENT:
             body = "";
             break;
@@ -337,11 +304,9 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
       }
       return newRow;
     } catch (UnknownHostException uhe) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "HTTPPOST.Error.UnknownHostException", uhe.getMessage()));
+      throw new HopException(BaseMessages.getString(PKG, "HTTPPOST.Error.UnknownHostException", uhe.getMessage()));
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "HTTPPOST.Error.CanNotReadURL", data.realUrl), e);
+      throw new HopException(BaseMessages.getString(PKG, "HTTPPOST.Error.CanNotReadURL", data.realUrl), e);
     }
   }
 
@@ -349,8 +314,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
     return httpResponse.getStatusLine().getStatusCode();
   }
 
-  protected InputStreamReader openStream(String encoding, HttpResponse httpResponse)
-      throws Exception {
+  protected InputStreamReader openStream(String encoding, HttpResponse httpResponse) throws Exception {
     if (!Utils.isEmpty(encoding)) {
       return new InputStreamReader(httpResponse.getEntity().getContent(), encoding);
     } else {
@@ -389,9 +353,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
           if (data.indexOfUrlField < 0) {
             // The field is unreachable !
             logError(BaseMessages.getString(PKG, PKG_ERROR_FINDING_FIELD, realUrlfieldName));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "HTTPPOST.Exception.ErrorFindingField", realUrlfieldName));
+            throw new HopException(BaseMessages.getString(PKG, "HTTPPOST.Exception.ErrorFindingField", realUrlfieldName));
           }
         }
       } else {
@@ -421,19 +383,10 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         int posHeader = 0;
         int posBody = 0;
         for (int i = 0; i < nrargs; i++) {
-          int fieldIndex =
-              data.inputRowMeta.indexOfValue(
-                  meta.getLookupFields().get(0).getArgumentField().get(i).getName());
+          int fieldIndex = data.inputRowMeta.indexOfValue(meta.getLookupFields().get(0).getArgumentField().get(i).getName());
           if (fieldIndex < 0) {
-            logError(
-                BaseMessages.getString(PKG, PKG_ERROR_FINDING_FIELD)
-                    + meta.getLookupFields().get(0).getArgumentField().get(i).getName()
-                    + "]");
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "HTTPPOST.Exception.CouldnotFindField",
-                    meta.getLookupFields().get(0).getArgumentField().get(i).getName()));
+            logError(BaseMessages.getString(PKG, PKG_ERROR_FINDING_FIELD) + meta.getLookupFields().get(0).getArgumentField().get(i).getName() + "]");
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTPPOST.Exception.CouldnotFindField", meta.getLookupFields().get(0).getArgumentField().get(i).getName()));
           }
           if (meta.getLookupFields().get(0).getArgumentField().get(i).isHeader()) {
             data.header_parameters_nrs[posHeader] = fieldIndex;
@@ -442,8 +395,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
                     resolve(meta.getLookupFields().get(0).getArgumentField().get(i).getParameter()),
                     data.outputRowMeta.getString(r, data.header_parameters_nrs[posHeader]));
             posHeader++;
-            if (CONTENT_TYPE.equalsIgnoreCase(
-                meta.getLookupFields().get(0).getArgumentField().get(i).getParameter())) {
+            if (CONTENT_TYPE.equalsIgnoreCase(meta.getLookupFields().get(0).getArgumentField().get(i).getParameter())) {
               data.contentTypeHeaderOverwrite = true; // Content-type will be overwritten
             }
           } else {
@@ -463,36 +415,20 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
         data.query_parameters_nrs = new int[nrQuery];
         data.queryParameters = new NameValuePair[nrQuery];
         for (int i = 0; i < nrQuery; i++) {
-          data.query_parameters_nrs[i] =
-              data.inputRowMeta.indexOfValue(
-                  meta.getLookupFields().get(0).getQueryField().get(i).getName());
+          data.query_parameters_nrs[i] = data.inputRowMeta.indexOfValue(meta.getLookupFields().get(0).getQueryField().get(i).getName());
           if (data.query_parameters_nrs[i] < 0) {
-            logError(
-                BaseMessages.getString(PKG, PKG_ERROR_FINDING_FIELD)
-                    + meta.getLookupFields().get(0).getQueryField().get(i).getName()
-                    + "]");
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "HTTPPOST.Exception.CouldnotFindField",
-                    meta.getLookupFields().get(0).getQueryField().get(i).getName()));
+            logError(BaseMessages.getString(PKG, PKG_ERROR_FINDING_FIELD) + meta.getLookupFields().get(0).getQueryField().get(i).getName() + "]");
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTPPOST.Exception.CouldnotFindField", meta.getLookupFields().get(0).getQueryField().get(i).getName()));
           }
           data.queryParameters[i] =
-              new BasicNameValuePair(
-                  resolve(meta.getLookupFields().get(0).getQueryField().get(i).getParameter()),
-                  data.outputRowMeta.getString(r, data.query_parameters_nrs[i]));
+              new BasicNameValuePair(resolve(meta.getLookupFields().get(0).getQueryField().get(i).getParameter()), data.outputRowMeta.getString(r, data.query_parameters_nrs[i]));
         }
       }
       // set request entity?
       if (!Utils.isEmpty(meta.getRequestEntity())) {
-        data.indexOfRequestEntity =
-            data.inputRowMeta.indexOfValue(resolve(meta.getRequestEntity()));
+        data.indexOfRequestEntity = data.inputRowMeta.indexOfValue(resolve(meta.getRequestEntity()));
         if (data.indexOfRequestEntity < 0) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG,
-                  "HTTPPOST.Exception.CouldnotFindRequestEntityField",
-                  meta.getRequestEntity()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "HTTPPOST.Exception.CouldnotFindRequestEntityField", meta.getRequestEntity()));
         }
       }
       data.realEncoding = resolve(meta.getEncoding());
@@ -541,14 +477,10 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
             buf.append("&");
           }
 
-          buf.append(
-              URLEncoder.encode(
-                  pair.getName(), !StringUtil.isEmpty(charset) ? charset : DEFAULT_ENCODING));
+          buf.append(URLEncoder.encode(pair.getName(), !StringUtil.isEmpty(charset) ? charset : DEFAULT_ENCODING));
           buf.append("=");
           if (pair.getValue() != null) {
-            buf.append(
-                URLEncoder.encode(
-                    pair.getValue(), !StringUtil.isEmpty(charset) ? charset : DEFAULT_ENCODING));
+            buf.append(URLEncoder.encode(pair.getValue(), !StringUtil.isEmpty(charset) ? charset : DEFAULT_ENCODING));
           }
         }
       }
@@ -570,8 +502,7 @@ public class HttpPost extends BaseTransform<HttpPostMeta, HttpPostData> {
 
       data.realSocketTimeout = Const.toInt(resolve(meta.getSocketTimeout()), -1);
       data.realConnectionTimeout = Const.toInt(resolve(meta.getSocketTimeout()), -1);
-      data.realcloseIdleConnectionsTime =
-          Const.toInt(resolve(meta.getCloseIdleConnectionsTime()), -1);
+      data.realcloseIdleConnectionsTime = Const.toInt(resolve(meta.getCloseIdleConnectionsTime()), -1);
 
       return true;
     }

@@ -26,20 +26,14 @@ import org.apache.parquet.schema.MessageType;
 
 import java.util.List;
 
-public class ParquetWriterBuilder
-    extends ParquetWriter.Builder<RowMetaAndData, ParquetWriterBuilder> {
+public class ParquetWriterBuilder extends ParquetWriter.Builder<RowMetaAndData, ParquetWriterBuilder> {
 
   private final MessageType messageType;
   private final Schema avroSchema;
   private final List<Integer> sourceFieldIndexes;
   private final List<ParquetField> fields;
 
-  protected ParquetWriterBuilder(
-      MessageType messageType,
-      Schema avroSchema,
-      OutputFile path,
-      List<Integer> sourceFieldIndexes,
-      List<ParquetField> fields) {
+  protected ParquetWriterBuilder(MessageType messageType, Schema avroSchema, OutputFile path, List<Integer> sourceFieldIndexes, List<ParquetField> fields) {
     super(path);
     this.messageType = messageType;
     this.avroSchema = avroSchema;

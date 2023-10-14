@@ -56,12 +56,10 @@ import java.util.List;
 public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionDeleteFile.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "filename")
+  @HopMetadataProperty(key = "filename")
   private String filename;
 
-  @HopMetadataProperty(
-      key = "fail_if_file_not_exists")
+  @HopMetadataProperty(key = "fail_if_file_not_exists")
   private boolean failIfFileNotExists;
 
   public ActionDeleteFile(String n) {
@@ -115,24 +113,18 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
           if (isFailIfFileNotExists()) {
             // File doesn't exist and fail flag is on.
             result.setResult(false);
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionDeleteFile.ERROR_0004_File_Does_Not_Exist", realFilename));
+            logError(BaseMessages.getString(PKG, "ActionDeleteFile.ERROR_0004_File_Does_Not_Exist", realFilename));
           } else {
             // File already deleted, no reason to try to delete it
             result.setResult(true);
             if (log.isBasic()) {
-              logBasic(
-                  BaseMessages
-                      .getString(PKG, "ActionDeleteFile.File_Already_Deleted", realFilename));
+              logBasic(BaseMessages.getString(PKG, "ActionDeleteFile.File_Already_Deleted", realFilename));
             }
           }
         } else {
           boolean deleted = fileObject.delete();
           if (!deleted) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionDeleteFile.ERROR_0005_Could_Not_Delete_File", realFilename));
+            logError(BaseMessages.getString(PKG, "ActionDeleteFile.ERROR_0005_Could_Not_Delete_File", realFilename));
             result.setResult(false);
             result.setNrErrors(1);
           }
@@ -142,11 +134,7 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
           result.setResult(true);
         }
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionDeleteFile.ERROR_0006_Exception_Deleting_File", realFilename,
-                e.getMessage()),
-            e);
+        logError(BaseMessages.getString(PKG, "ActionDeleteFile.ERROR_0006_Exception_Deleting_File", realFilename, e.getMessage()), e);
         result.setResult(false);
         result.setNrErrors(1);
       } finally {
@@ -179,9 +167,7 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables,
-      WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       String realFileName = resolve(filename);
@@ -193,15 +179,10 @@ public class ActionDeleteFile extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
     if (isFailIfFileNotExists()) {
       FileExistsValidator.putFailIfDoesNotExist(ctx, true);
     }

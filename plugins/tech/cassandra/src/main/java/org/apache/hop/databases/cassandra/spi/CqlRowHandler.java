@@ -35,29 +35,23 @@ public interface CqlRowHandler {
    * Commit a batch CQL statement via the underlying driver
    *
    * @param requestingTransform the transform that is requesting the commit - clients can use this
-   *     primarily to check whether the running pipeline has been paused or stopped (via isPaused()
-   *     and isStopped())
+   *        primarily to check whether the running pipeline has been paused or stopped (via isPaused()
+   *        and isStopped())
    * @param batch the CQL batch insert statement
    * @param compress name of the compression to use (may be null for no compression)
    * @param consistencyLevel the consistency level to use
    * @param log the log to use
    * @throws Exception if a problem occurs
    */
-  void commitCQLBatch(
-      ITransform requestingTransform,
-      StringBuilder batch,
-      String compress,
-      String consistencyLevel,
-      ILogChannel log)
-      throws Exception;
+  void commitCQLBatch(ITransform requestingTransform, StringBuilder batch, String compress, String consistencyLevel, ILogChannel log) throws Exception;
 
   /**
    * Executes a new CQL query and initializes ready for iteration over the results. Closes/discards
    * any previous query.
    *
    * @param requestingTransform the transform that is requesting rows - clients can use this
-   *     primarily to check whether the running pipeline has been paused or stopped (via isPaused()
-   *     and isStopped())
+   *        primarily to check whether the running pipeline has been paused or stopped (via isPaused()
+   *        and isStopped())
    * @param tableName the name of the table to execute the query against
    * @param cqlQuery the CQL query to execute
    * @param compress the name of the compression to use (may be null for no compression)
@@ -65,14 +59,7 @@ public interface CqlRowHandler {
    * @param log the log to use
    * @throws Exception if a problem occurs
    */
-  void newRowQuery(
-      ITransform requestingTransform,
-      String tableName,
-      String cqlQuery,
-      String compress,
-      String consistencyLevel,
-      ILogChannel log)
-      throws Exception;
+  void newRowQuery(ITransform requestingTransform, String tableName, String cqlQuery, String compress, String consistencyLevel, ILogChannel log) throws Exception;
 
   /**
    * Get the next output row(s) from the query. This might be a tuple row (i.e. a tuple representing
@@ -85,6 +72,5 @@ public interface CqlRowHandler {
    * @return the next output row(s) from the query
    * @throws Exception if a query hasn't been executed or another problem occurs.
    */
-  Object[][] getNextOutputRow(IRowMeta outputRowMeta, Map<String, Integer> outputFormatMap)
-      throws Exception;
+  Object[][] getNextOutputRow(IRowMeta outputRowMeta, Map<String, Integer> outputFormatMap) throws Exception;
 }

@@ -37,8 +37,7 @@ public class MergeOperation extends BaseOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
     // MERGE
     StringBuilder cypher = new StringBuilder(operationType.keyWord());
     // (n:Movie

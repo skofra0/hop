@@ -35,7 +35,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 public class CheckSumMetaTest implements IInitializer<CheckSumMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   // Call the allocate method on the LoadSaveTester meta class
   @Override
@@ -56,35 +57,21 @@ public class CheckSumMetaTest implements IInitializer<CheckSumMeta> {
 
   @Test
   public void testSerialization() throws HopException {
-    List<String> attributes =
-        Arrays.asList("fields", "resultFieldName", "checkSumType", "resultType");
+    List<String> attributes = Arrays.asList("fields", "resultFieldName", "checkSumType", "resultType");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
-    ListLoadSaveValidator<Field> listLoadSaveValidator =
-        new ListLoadSaveValidator<>(new CheckSumFieldLoadSaveValidator());
+    ListLoadSaveValidator<Field> listLoadSaveValidator = new ListLoadSaveValidator<>(new CheckSumFieldLoadSaveValidator());
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fields", listLoadSaveValidator);
-    attrValidatorMap.put(
-        "checkSumType",
-        new EnumLoadSaveValidator<CheckSumMeta.CheckSumType>(CheckSumMeta.CheckSumType.class));
-    attrValidatorMap.put(
-        "resultType",
-        new EnumLoadSaveValidator<CheckSumMeta.ResultType>(CheckSumMeta.ResultType.class));
+    attrValidatorMap.put("checkSumType", new EnumLoadSaveValidator<CheckSumMeta.CheckSumType>(CheckSumMeta.CheckSumType.class));
+    attrValidatorMap.put("resultType", new EnumLoadSaveValidator<CheckSumMeta.ResultType>(CheckSumMeta.ResultType.class));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    LoadSaveTester<CheckSumMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            CheckSumMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    LoadSaveTester<CheckSumMeta> loadSaveTester = new LoadSaveTester<>(CheckSumMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
 
     loadSaveTester.testSerialization();
   }

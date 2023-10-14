@@ -26,9 +26,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TextFileInputMetaNewInjectionTest
-    extends BaseMetadataInjectionTest<TextFileInputMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class TextFileInputMetaNewInjectionTest extends BaseMetadataInjectionTest<TextFileInputMeta> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -187,9 +187,7 @@ public class TextFileInputMetaNewInjectionTest
     check("FILE_PATH_FIELDNAME", () -> meta.additionalOutputFields.pathField);
     check("FILE_SIZE_FIELDNAME", () -> meta.additionalOutputFields.sizeField);
     check("FILE_HIDDEN_FIELDNAME", () -> meta.additionalOutputFields.hiddenField);
-    check(
-        "FILE_LAST_MODIFICATION_FIELDNAME",
-        () -> meta.additionalOutputFields.lastModificationField);
+    check("FILE_LAST_MODIFICATION_FIELDNAME", () -> meta.additionalOutputFields.lastModificationField);
     check("FILE_URI_FIELDNAME", () -> meta.additionalOutputFields.uriField);
     check("FILE_ROOT_URI_FIELDNAME", () -> meta.additionalOutputFields.rootUriField);
 

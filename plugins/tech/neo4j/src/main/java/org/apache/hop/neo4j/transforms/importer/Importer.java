@@ -33,13 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
 
-  public Importer(
-      TransformMeta transformMeta,
-      ImporterMeta meta,
-      ImporterData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Importer(TransformMeta transformMeta, ImporterMeta meta, ImporterData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -48,8 +42,7 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
 
     Object[] row = getRow();
     if (row == null) {
-      if ((data.nodesFiles != null && !data.nodesFiles.isEmpty())
-          || (data.relsFiles != null && !data.relsFiles.isEmpty())) {
+      if ((data.nodesFiles != null && !data.nodesFiles.isEmpty()) || (data.relsFiles != null && !data.relsFiles.isEmpty())) {
         runImport();
       }
       setOutputDone();
@@ -64,17 +57,11 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
 
       data.filenameFieldIndex = getInputRowMeta().indexOfValue(meta.getFilenameField());
       if (data.filenameFieldIndex < 0) {
-        throw new HopException(
-            "Unable to find filename field "
-                + meta.getFilenameField()
-                + "' in the transform input");
+        throw new HopException("Unable to find filename field " + meta.getFilenameField() + "' in the transform input");
       }
       data.fileTypeFieldIndex = getInputRowMeta().indexOfValue(meta.getFileTypeField());
       if (data.fileTypeFieldIndex < 0) {
-        throw new HopException(
-            "Unable to find file type field "
-                + meta.getFileTypeField()
-                + "' in the transform input");
+        throw new HopException("Unable to find file type field " + meta.getFileTypeField() + "' in the transform input");
       }
 
       if (StringUtils.isEmpty(meta.getAdminCommand())) {
@@ -104,19 +91,11 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
 
     if (StringUtils.isNotEmpty(filename) && StringUtils.isNotEmpty(fileType)) {
 
-      if ("Node".equalsIgnoreCase(fileType)
-          || "Nodes".equalsIgnoreCase(fileType)
-          || "N".equalsIgnoreCase(fileType)) {
+      if ("Node".equalsIgnoreCase(fileType) || "Nodes".equalsIgnoreCase(fileType) || "N".equalsIgnoreCase(fileType)) {
         data.nodesFiles.add(filename);
       }
-      if ("Relationship".equalsIgnoreCase(fileType)
-          || "Relationships".equalsIgnoreCase(fileType)
-          || "Rel".equalsIgnoreCase(fileType)
-          || "Rels".equalsIgnoreCase(fileType)
-          || "R".equalsIgnoreCase(fileType)
-          || "Edge".equalsIgnoreCase(fileType)
-          || "Edges".equalsIgnoreCase(fileType)
-          || "E".equalsIgnoreCase(fileType)) {
+      if ("Relationship".equalsIgnoreCase(fileType) || "Relationships".equalsIgnoreCase(fileType) || "Rel".equalsIgnoreCase(fileType) || "Rels".equalsIgnoreCase(fileType)
+          || "R".equalsIgnoreCase(fileType) || "Edge".equalsIgnoreCase(fileType) || "Edges".equalsIgnoreCase(fileType) || "E".equalsIgnoreCase(fileType)) {
         data.relsFiles.add(filename);
       }
     }
@@ -139,8 +118,7 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
         FileUtils.deleteDirectory(new File(targetDbFolder));
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to remove old database files from '" + targetDbFolder + "'", e);
+      throw new HopException("Unable to remove old database files from '" + targetDbFolder + "'", e);
     }
 
     List<String> arguments = new ArrayList<>();
@@ -159,8 +137,7 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
     arguments.add("--multiline-fields=" + (meta.isMultiLine() ? "true" : "false"));
     arguments.add("--normalize-types=" + (meta.isNormalizingTypes() ? "true" : "false"));
     arguments.add("--skip-duplicate-nodes=" + (meta.isSkippingDuplicateNodes() ? "true" : "false"));
-    arguments.add(
-        "--skip-bad-relationships=" + (meta.isSkippingBadRelationships() ? "true" : "false"));
+    arguments.add("--skip-bad-relationships=" + (meta.isSkippingBadRelationships() ? "true" : "false"));
     arguments.add("--trim-strings=" + (meta.isTrimmingStrings() ? "true" : "false"));
 
     if (StringUtils.isNotEmpty(data.badTolerance)) {
@@ -194,11 +171,9 @@ public class Importer extends BaseTransform<ImporterMeta, ImporterData> {
     try {
       Process process = pb.start();
 
-      StreamConsumer errorConsumer =
-          new StreamConsumer(getLogChannel(), process.getErrorStream(), LogLevel.ERROR);
+      StreamConsumer errorConsumer = new StreamConsumer(getLogChannel(), process.getErrorStream(), LogLevel.ERROR);
       errorConsumer.start();
-      StreamConsumer outputConsumer =
-          new StreamConsumer(getLogChannel(), process.getInputStream(), LogLevel.BASIC);
+      StreamConsumer outputConsumer = new StreamConsumer(getLogChannel(), process.getInputStream(), LogLevel.BASIC);
       outputConsumer.start();
 
       boolean exited = process.waitFor(10, TimeUnit.MILLISECONDS);

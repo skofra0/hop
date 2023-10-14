@@ -41,8 +41,7 @@ public class UpdateSqlTest extends TestCase {
     prev.addValueMeta(new ValueMetaString(updateStream[2]));
 
     try {
-      IRowMeta result =
-          RowMetaUtils.getRowMetaForUpdate(prev, keyLookup, keyStream, updateLookup, updateStream);
+      IRowMeta result = RowMetaUtils.getRowMetaForUpdate(prev, keyLookup, keyStream, updateLookup, updateStream);
 
       IValueMeta vmi = result.getValueMeta(0);
       assertEquals(vmi.getName(), keyLookup[0]);

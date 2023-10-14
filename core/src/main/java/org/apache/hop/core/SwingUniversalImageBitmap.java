@@ -40,8 +40,7 @@ public class SwingUniversalImageBitmap extends SwingUniversalImage {
   }
 
   @Override
-  protected void render(
-      Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
+  protected void render(Graphics2D gc, int centerX, int centerY, int width, int height, double angleRadians) {
     AffineTransform oldTransform = gc.getTransform();
     try {
       double scaleX = width * 1.0 / bitmap.getWidth();

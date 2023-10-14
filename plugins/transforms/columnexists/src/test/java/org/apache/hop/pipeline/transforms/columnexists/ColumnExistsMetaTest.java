@@ -29,7 +29,8 @@ import java.util.List;
 
 public class ColumnExistsMetaTest {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -38,17 +39,9 @@ public class ColumnExistsMetaTest {
 
   @Test
   public void testLoadSave() throws HopException {
-    List<String> attributes =
-        Arrays.asList(
-            "tableName",
-            "schemaname",
-            "tablenamefield",
-            "tableName",
-            "columnnamefield",
-            "resultfieldname");
+    List<String> attributes = Arrays.asList("tableName", "schemaname", "tablenamefield", "tableName", "columnnamefield", "resultfieldname");
 
-    LoadSaveTester<ColumnExistsMeta> loadSaveTester =
-        new LoadSaveTester<>(ColumnExistsMeta.class, attributes);
+    LoadSaveTester<ColumnExistsMeta> loadSaveTester = new LoadSaveTester<>(ColumnExistsMeta.class, attributes);
 
     loadSaveTester.testSerialization();
   }

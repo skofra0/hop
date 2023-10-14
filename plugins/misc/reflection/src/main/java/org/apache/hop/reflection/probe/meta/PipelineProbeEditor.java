@@ -62,8 +62,7 @@ public class PipelineProbeEditor extends MetadataEditor<PipelineProbe> {
   private TextVar wFilename;
   private TableView wSources;
 
-  public PipelineProbeEditor(
-      HopGui hopGui, MetadataManager<PipelineProbe> manager, PipelineProbe metadata) {
+  public PipelineProbeEditor(HopGui hopGui, MetadataManager<PipelineProbe> manager, PipelineProbe metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -183,27 +182,11 @@ public class PipelineProbeEditor extends MetadataEditor<PipelineProbe> {
     fdlSources.top = new FormAttachment(lastControl, 2 * margin);
     wlSources.setLayoutData(fdlSources);
     lastControl = wlSources;
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PipelineProbeEditor.SourcesTable.Column.Pipeline"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PipelineProbeEditor.SourcesTable.Column.Transform"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-    };
-    wSources =
-        new TableView(
-            manager.getVariables(),
-            parent,
-            SWT.BORDER,
-            columns,
-            metadata.getDataProbeLocations().size(),
-            e -> setChanged(),
-            props);
+    ColumnInfo[] columns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineProbeEditor.SourcesTable.Column.Pipeline"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "PipelineProbeEditor.SourcesTable.Column.Transform"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wSources = new TableView(manager.getVariables(), parent, SWT.BORDER, columns, metadata.getDataProbeLocations().size(), e -> setChanged(), props);
     FormData fdSources = new FormData();
     fdSources.left = new FormAttachment(0, 0);
     fdSources.top = new FormAttachment(lastControl, margin);
@@ -236,8 +219,7 @@ public class PipelineProbeEditor extends MetadataEditor<PipelineProbe> {
       //
       PipelineDataProbeMeta pipelineDataProbeMeta = new PipelineDataProbeMeta();
       pipelineDataProbeMeta.setLoggingTransforms(true);
-      TransformMeta pipelineLogging =
-          new TransformMeta("Pipeline Data Probe", pipelineDataProbeMeta);
+      TransformMeta pipelineLogging = new TransformMeta("Pipeline Data Probe", pipelineDataProbeMeta);
       pipelineLogging.setLocation(200, 150);
       pipelineMeta.addTransform(pipelineLogging);
 
@@ -258,12 +240,7 @@ public class PipelineProbeEditor extends MetadataEditor<PipelineProbe> {
       String filename =
           BaseDialog.presentFileDialog(
               true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+              parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -307,13 +284,7 @@ public class PipelineProbeEditor extends MetadataEditor<PipelineProbe> {
 
   private void selectPipelineFilename(Composite parent) {
     HopPipelineFileType<?> type = new HopPipelineFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   @Override

@@ -22,31 +22,19 @@ import java.util.Objects;
 
 public class UpdateKeyField {
   /** which field in input stream to compare with? */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "UpdateMeta.Injection.KeyStream",
-      injectionKey = "KEY_STREAM")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "UpdateMeta.Injection.KeyStream", injectionKey = "KEY_STREAM")
   private String keyStream;
 
   /** field in table */
-  @HopMetadataProperty(
-      key = "field",
-      injectionKeyDescription = "UpdateMeta.Injection.KeyLookup",
-      injectionKey = "KEY_LOOKUP")
+  @HopMetadataProperty(key = "field", injectionKeyDescription = "UpdateMeta.Injection.KeyLookup", injectionKey = "KEY_LOOKUP")
   private String keyLookup;
 
   /** Comparator: =, <>, BETWEEN, ... */
-  @HopMetadataProperty(
-      key = "condition",
-      injectionKeyDescription = "UpdateMeta.Injection.KeyCondition",
-      injectionKey = "KEY_CONDITION")
+  @HopMetadataProperty(key = "condition", injectionKeyDescription = "UpdateMeta.Injection.KeyCondition", injectionKey = "KEY_CONDITION")
   private String keyCondition;
 
   /** Extra field for between... */
-  @HopMetadataProperty(
-      key = "name2",
-      injectionKeyDescription = "UpdateMeta.Injection.KeyStream2",
-      injectionKey = "KEY_STREAM2")
+  @HopMetadataProperty(key = "name2", injectionKeyDescription = "UpdateMeta.Injection.KeyStream2", injectionKey = "KEY_STREAM2")
   private String keyStream2;
 
   public UpdateKeyField() {}
@@ -57,8 +45,7 @@ public class UpdateKeyField {
     this.keyCondition = keyCondition;
   }
 
-  public UpdateKeyField(
-      String keyStream, String keyLookup, String keyCondition, String keyStream2) {
+  public UpdateKeyField(String keyStream, String keyLookup, String keyCondition, String keyStream2) {
     this.keyStream = keyStream;
     this.keyLookup = keyLookup;
     this.keyCondition = keyCondition;
@@ -99,13 +86,12 @@ public class UpdateKeyField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     UpdateKeyField that = (UpdateKeyField) o;
-    return keyStream.equals(that.keyStream)
-        && keyLookup.equals(that.keyLookup)
-        && keyCondition.equals(that.keyCondition)
-        && Objects.equals(keyStream2, that.keyStream2);
+    return keyStream.equals(that.keyStream) && keyLookup.equals(that.keyLookup) && keyCondition.equals(that.keyCondition) && Objects.equals(keyStream2, that.keyStream2);
   }
 
   @Override

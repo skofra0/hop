@@ -43,7 +43,8 @@ public class ConstantTest {
   private RowMetaAndData rowMetaAndData = mock(RowMetaAndData.class);
   private Constant constantSpy;
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopPluginException {
@@ -54,20 +55,11 @@ public class ConstantTest {
   public void setUp() throws Exception {
 
     mockHelper = new TransformMockHelper<>("Add Constants", ConstantMeta.class, ConstantData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
 
     doReturn(rowMetaAndData).when(mockHelper.iTransformData).getConstants();
-    constantSpy =
-        Mockito.spy(
-            new Constant(
-                mockHelper.transformMeta,
-                mockHelper.iTransformMeta,
-                mockHelper.iTransformData,
-                0,
-                mockHelper.pipelineMeta,
-                mockHelper.pipeline));
+    constantSpy = Mockito.spy(new Constant(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline));
   }
 
   @After

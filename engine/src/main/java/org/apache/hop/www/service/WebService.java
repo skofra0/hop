@@ -29,26 +29,26 @@ import org.apache.hop.metadata.api.IHopMetadata;
     documentationUrl = "/metadata-types/web-service.html")
 public class WebService extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private String filename;
-  @HopMetadataProperty private String transformName;
-  @HopMetadataProperty private String fieldName;
-  @HopMetadataProperty private String contentType;
-  @HopMetadataProperty private boolean listingStatus;
-  @HopMetadataProperty private String bodyContentVariable;
-  @HopMetadataProperty private String runConfigurationName;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private String filename;
+  @HopMetadataProperty
+  private String transformName;
+  @HopMetadataProperty
+  private String fieldName;
+  @HopMetadataProperty
+  private String contentType;
+  @HopMetadataProperty
+  private boolean listingStatus;
+  @HopMetadataProperty
+  private String bodyContentVariable;
+  @HopMetadataProperty
+  private String runConfigurationName;
 
   public WebService() {}
 
-  public WebService(
-      String name,
-      boolean enabled,
-      String filename,
-      String transformName,
-      String fieldName,
-      String contentType,
-      boolean listingStatus,
-      String bodyContentVariable,
+  public WebService(String name, boolean enabled, String filename, String transformName, String fieldName, String contentType, boolean listingStatus, String bodyContentVariable,
       String runConfigurationName) {
     super(name);
     this.enabled = enabled;

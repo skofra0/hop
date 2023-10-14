@@ -24,16 +24,11 @@ import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.debug.util.BeePainter;
 import org.apache.hop.ui.hopgui.file.shared.HopGuiTooltipExtension;
 
-@ExtensionPoint(
-    id = "TransformDebugLevelToolTipExtensionPoint",
-    description = "Show a tooltip when hovering over the bee",
-    extensionPointId = "HopGuiPipelineGraphAreaHover")
-public class TransformDebugLevelToolTipExtensionPoint extends BeePainter
-    implements IExtensionPoint<HopGuiTooltipExtension> {
+@ExtensionPoint(id = "TransformDebugLevelToolTipExtensionPoint", description = "Show a tooltip when hovering over the bee", extensionPointId = "HopGuiPipelineGraphAreaHover")
+public class TransformDebugLevelToolTipExtensionPoint extends BeePainter implements IExtensionPoint<HopGuiTooltipExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiTooltipExtension ext) {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiTooltipExtension ext) {
 
     AreaOwner areaOwner = ext.areaOwner;
     try {

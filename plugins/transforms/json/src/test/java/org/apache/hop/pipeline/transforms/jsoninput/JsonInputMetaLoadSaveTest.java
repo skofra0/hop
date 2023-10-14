@@ -41,35 +41,9 @@ public class JsonInputMetaLoadSaveTest implements IInitializer<ITransformMeta> {
   public void testLoadSave() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "includeFilename",
-            "filenameField",
-            "includeRowNumber",
-            "addResultFile",
-            "ReadUrl",
-            "removeSourceField",
-            "IgnoreEmptyFile",
-            "doNotFailIfNoFile",
-            "ignoreMissingPath",
-            "defaultPathLeafToNull",
-            "rowNumberField",
-            "FileName",
-            "FileMask",
-            "ExcludeFileMask",
-            "FileRequired",
-            "IncludeSubFolders",
-            "InputFields",
-            "rowLimit",
-            "inFields",
-            "isAFile",
-            "FieldValue",
-            "ShortFileNameField",
-            "PathField",
-            "HiddenField",
-            "LastModificationDateField",
-            "UriField",
-            "UriField",
-            "ExtensionField",
-            "SizeField");
+            "includeFilename", "filenameField", "includeRowNumber", "addResultFile", "ReadUrl", "removeSourceField", "IgnoreEmptyFile", "doNotFailIfNoFile", "ignoreMissingPath",
+            "defaultPathLeafToNull", "rowNumberField", "FileName", "FileMask", "ExcludeFileMask", "FileRequired", "IncludeSubFolders", "InputFields", "rowLimit", "inFields",
+            "isAFile", "FieldValue", "ShortFileNameField", "PathField", "HiddenField", "LastModificationDateField", "UriField", "UriField", "ExtensionField", "SizeField");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
@@ -80,8 +54,7 @@ public class JsonInputMetaLoadSaveTest implements IInitializer<ITransformMeta> {
     setterMap.put("HiddenField", "setIsHiddenField");
 
     Map<String, IFieldLoadSaveValidator<?>> attributesMap = new HashMap<>();
-    IFieldLoadSaveValidator<?> fileStringArrayValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), FILE_COUNT);
+    IFieldLoadSaveValidator<?> fileStringArrayValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), FILE_COUNT);
 
     attributesMap.put("FileName", fileStringArrayValidator);
     attributesMap.put("FileMask", fileStringArrayValidator);
@@ -90,22 +63,10 @@ public class JsonInputMetaLoadSaveTest implements IInitializer<ITransformMeta> {
     attributesMap.put("IncludeSubFolders", fileStringArrayValidator);
 
     Map<String, IFieldLoadSaveValidator<?>> typeMap = new HashMap<>();
-    typeMap.put(
-        JsonInputField.class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new JsonInputFieldValidator()));
-    typeMap.put(
-        JsonInputField[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new JsonInputFieldValidator()));
+    typeMap.put(JsonInputField.class.getCanonicalName(), new ArrayLoadSaveValidator<>(new JsonInputFieldValidator()));
+    typeMap.put(JsonInputField[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new JsonInputFieldValidator()));
 
-    LoadSaveTester tester =
-        new LoadSaveTester(
-            JsonInputMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attributesMap,
-            typeMap,
-            this);
+    LoadSaveTester tester = new LoadSaveTester(JsonInputMeta.class, attributes, getterMap, setterMap, attributesMap, typeMap, this);
 
     tester.testSerialization();
   }

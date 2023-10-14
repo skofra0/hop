@@ -30,17 +30,8 @@ public class XsdValidatorMetaTest {
   public void testRoundTrip() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "xdsfilename",
-            "xmlstream",
-            "resultfieldname",
-            "addvalidationmsg",
-            "validationmsgfield",
-            "ifxmlunvalid",
-            "ifxmlvalid",
-            "outputstringfield",
-            "xmlsourcefile",
-            "xsddefinedfield",
-            "xsdsource");
+            "xdsfilename", "xmlstream", "resultfieldname", "addvalidationmsg", "validationmsgfield", "ifxmlunvalid", "ifxmlvalid", "outputstringfield", "xmlsourcefile",
+            "xsddefinedfield", "xsdsource");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("xdsfilename", "getXSDFilename");
@@ -68,11 +59,11 @@ public class XsdValidatorMetaTest {
     setterMap.put("xsddefinedfield", "setXSDDefinedField");
     setterMap.put("xsdsource", "setXSDSource");
 
-    //    TransformLoadSaveTester loadSaveTester =
-    //        new TransformLoadSaveTester( XsdValidatorMeta.class, attributes, getterMap, setterMap,
-    //            new HashMap<String, IFieldLoadSaveValidator<?>>(), new HashMap<String,
+    // TransformLoadSaveTester loadSaveTester =
+    // new TransformLoadSaveTester( XsdValidatorMeta.class, attributes, getterMap, setterMap,
+    // new HashMap<String, IFieldLoadSaveValidator<?>>(), new HashMap<String,
     // IFieldLoadSaveValidator<?>>() );
     //
-    //    loadSaveTester.testXmlRoundTrip();
+    // loadSaveTester.testXmlRoundTrip();
   }
 }

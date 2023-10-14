@@ -195,10 +195,8 @@ public class MetaPropInjectionTest {
     injector.setProperty(parent, "boolean", Arrays.asList(parentMetadata), "booleanValue");
     injector.setProperty(parent, "child1", Arrays.asList(parentMetadata), "childValue1");
     injector.setProperty(parent, "child2", Arrays.asList(parentMetadata), "childValue2");
-    injector.setProperty(
-        parent, "grand_child_name", Arrays.asList(parentMetadata), "grandChildName");
-    injector.setProperty(
-        parent, "grand_child_description", Arrays.asList(parentMetadata), "grandChildDescription");
+    injector.setProperty(parent, "grand_child_name", Arrays.asList(parentMetadata), "grandChildName");
+    injector.setProperty(parent, "grand_child_description", Arrays.asList(parentMetadata), "grandChildDescription");
 
     assertEquals(parent.getStringField(), "someString");
     assertEquals(parent.getIntField(), 123);
@@ -211,10 +209,7 @@ public class MetaPropInjectionTest {
 
     IRowMeta stringRowMeta = new RowMetaBuilder().addString("stringField").build();
     List<RowMetaAndData> stringsRows =
-        Arrays.asList(
-            new RowMetaAndData(stringRowMeta, "string1"),
-            new RowMetaAndData(stringRowMeta, "string2"),
-            new RowMetaAndData(stringRowMeta, "string3"));
+        Arrays.asList(new RowMetaAndData(stringRowMeta, "string1"), new RowMetaAndData(stringRowMeta, "string2"), new RowMetaAndData(stringRowMeta, "string3"));
     injector.setProperty(parent, "string", stringsRows, "stringField");
 
     assertEquals(3, parent.getStrings().size());
@@ -224,13 +219,9 @@ public class MetaPropInjectionTest {
 
     // Inject a number of children into a list
     //
-    IRowMeta entriesRowMeta =
-        new RowMetaBuilder().addString("fieldF1").addString("fieldF2").build();
+    IRowMeta entriesRowMeta = new RowMetaBuilder().addString("fieldF1").addString("fieldF2").build();
     List<RowMetaAndData> entriesRows =
-        Arrays.asList(
-            new RowMetaAndData(entriesRowMeta, "f1_1", "f2_1"),
-            new RowMetaAndData(entriesRowMeta, "f1_2", "f2_2"),
-            new RowMetaAndData(entriesRowMeta, "f1_3", "f2_3"));
+        Arrays.asList(new RowMetaAndData(entriesRowMeta, "f1_1", "f2_1"), new RowMetaAndData(entriesRowMeta, "f1_2", "f2_2"), new RowMetaAndData(entriesRowMeta, "f1_3", "f2_3"));
     injector.setProperty(parent, "f1", entriesRows, "fieldF1");
     injector.setProperty(parent, "f2", entriesRows, "fieldF2");
 

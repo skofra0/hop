@@ -31,51 +31,30 @@ public class RelationshipMapping {
   private RelationshipMappingType type;
 
   /** The name (in the model) of the relationship to merge */
-  @HopMetadataProperty(
-      key = "relationship_name",
-      injectionKey = "relationship_name",
-      injectionGroupDescription = "GraphOutput.Injection.TARGET_RELATIONSHIP_NAME")
+  @HopMetadataProperty(key = "relationship_name", injectionKey = "relationship_name", injectionGroupDescription = "GraphOutput.Injection.TARGET_RELATIONSHIP_NAME")
   private String targetRelationship;
 
   /** The Hop input field where the data is coming from */
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKey = "field_name",
-      injectionGroupDescription = "GraphOutput.Injection.FIELD_NAME")
+  @HopMetadataProperty(key = "field_name", injectionKey = "field_name", injectionGroupDescription = "GraphOutput.Injection.FIELD_NAME")
   private String fieldName;
 
   /** The Hop input field where the data is coming from */
-  @HopMetadataProperty(
-      key = "field_value",
-      injectionKey = "field_value",
-      injectionGroupDescription = "GraphOutput.Injection.FIELD_VALUE")
+  @HopMetadataProperty(key = "field_value", injectionKey = "field_value", injectionGroupDescription = "GraphOutput.Injection.FIELD_VALUE")
   private String fieldValue;
 
   /** The source node when for types None, All first */
-  @HopMetadataProperty(
-      key = "source_node",
-      injectionKey = "source_node",
-      injectionGroupDescription = "GraphOutput.Injection.RELATIONSHIP_MAPPING_SOURCE_NODE")
+  @HopMetadataProperty(key = "source_node", injectionKey = "source_node", injectionGroupDescription = "GraphOutput.Injection.RELATIONSHIP_MAPPING_SOURCE_NODE")
   private String sourceNode;
 
   /** The target node when for types None, All first */
-  @HopMetadataProperty(
-      key = "target_node",
-      injectionKey = "target_node",
-      injectionGroupDescription = "GraphOutput.Injection.RELATIONSHIP_MAPPING_TARGET_NODE")
+  @HopMetadataProperty(key = "target_node", injectionKey = "target_node", injectionGroupDescription = "GraphOutput.Injection.RELATIONSHIP_MAPPING_TARGET_NODE")
   private String targetNode;
 
   public RelationshipMapping() {
     type = RelationshipMappingType.NoRelationship;
   }
 
-  public RelationshipMapping(
-      RelationshipMappingType type,
-      String fieldName,
-      String fieldValue,
-      String targetRelationship,
-      String sourceNode,
-      String targetNode) {
+  public RelationshipMapping(RelationshipMappingType type, String fieldName, String fieldValue, String targetRelationship, String sourceNode, String targetNode) {
     this.type = type;
     this.fieldName = fieldName;
     this.fieldValue = fieldValue;
@@ -93,12 +72,8 @@ public class RelationshipMapping {
       return false;
     }
     RelationshipMapping that = (RelationshipMapping) o;
-    return type == that.type
-        && Objects.equals(targetRelationship, that.targetRelationship)
-        && Objects.equals(fieldName, that.fieldName)
-        && Objects.equals(fieldValue, that.fieldValue)
-        && Objects.equals(sourceNode, that.sourceNode)
-        && Objects.equals(targetNode, that.targetNode);
+    return type == that.type && Objects.equals(targetRelationship, that.targetRelationship) && Objects.equals(fieldName, that.fieldName)
+        && Objects.equals(fieldValue, that.fieldValue) && Objects.equals(sourceNode, that.sourceNode) && Objects.equals(targetNode, that.targetNode);
   }
 
   @Override

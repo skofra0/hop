@@ -90,10 +90,7 @@ public class ConfigGuiOptionsTab {
     // calls the addGeneralOptionsTab() method.
   }
 
-  @GuiTab(
-      id = "10100-config-perspective-gui-options-tab",
-      parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS,
-      description = "GUI options tab")
+  @GuiTab(id = "10100-config-perspective-gui-options-tab", parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS, description = "GUI options tab")
   public void addGuiOptionsTab(CTabFolder wTabFolder) {
     Shell shell = wTabFolder.getShell();
     PropsUi props = PropsUi.getInstance();
@@ -336,8 +333,7 @@ public class ConfigGuiOptionsTab {
 
     // MiddlePct line
     Label wlMiddlePct = new Label(wLookComp, SWT.RIGHT);
-    wlMiddlePct.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.DialogMiddlePercentage.Label"));
+    wlMiddlePct.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.DialogMiddlePercentage.Label"));
     PropsUi.setLook(wlMiddlePct);
     FormData fdlMiddlePct = new FormData();
     fdlMiddlePct.left = new FormAttachment(0, 0);
@@ -399,10 +395,8 @@ public class ConfigGuiOptionsTab {
 
     // Show Canvas Grid
     Label wlShowCanvasGrid = new Label(wLookComp, SWT.RIGHT);
-    wlShowCanvasGrid.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.Label"));
-    wlShowCanvasGrid.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.ToolTip"));
+    wlShowCanvasGrid.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.Label"));
+    wlShowCanvasGrid.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowCanvasGrid.ToolTip"));
     PropsUi.setLook(wlShowCanvasGrid);
     FormData fdlShowCanvasGrid = new FormData();
     fdlShowCanvasGrid.left = new FormAttachment(0, 0);
@@ -422,8 +416,7 @@ public class ConfigGuiOptionsTab {
     // Hide Viewport
     Label wlHideViewport = new Label(wLookComp, SWT.RIGHT);
     wlHideViewport.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowViewport.Label"));
-    wlHideViewport.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowViewport.ToolTip"));
+    wlHideViewport.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowViewport.ToolTip"));
     PropsUi.setLook(wlHideViewport);
     FormData fdlHideViewport = new FormData();
     fdlHideViewport.left = new FormAttachment(0, 0);
@@ -443,8 +436,7 @@ public class ConfigGuiOptionsTab {
     // Hide menu bar?
     Label wlHideMenuBar = new Label(wLookComp, SWT.RIGHT);
     wlHideMenuBar.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.HideMenuBar.Label"));
-    wlHideMenuBar.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.HideMenuBar.ToolTip"));
+    wlHideMenuBar.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.HideMenuBar.ToolTip"));
     PropsUi.setLook(wlHideMenuBar);
     FormData fdlHideMenuBar = new FormData();
     fdlHideMenuBar.left = new FormAttachment(0, 0);
@@ -463,10 +455,8 @@ public class ConfigGuiOptionsTab {
 
     // Show tableview tool bar ?
     Label wlShowTableViewToolbar = new Label(wLookComp, SWT.RIGHT);
-    wlShowTableViewToolbar.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowTableViewToolbar.Label"));
-    wlShowTableViewToolbar.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ShowTableViewToolbar.ToolTip"));
+    wlShowTableViewToolbar.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowTableViewToolbar.Label"));
+    wlShowTableViewToolbar.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ShowTableViewToolbar.ToolTip"));
     PropsUi.setLook(wlShowTableViewToolbar);
     FormData fdlShowTableViewToolbar = new FormData();
     fdlShowTableViewToolbar.left = new FormAttachment(0, 0);
@@ -524,9 +514,7 @@ public class ConfigGuiOptionsTab {
     wDefaultLocale.addListener(SWT.Modify, e -> saveValues());
 
     // language selections...
-    int idxDefault =
-        Const.indexOfString(
-            LanguageChoice.getInstance().getDefaultLocale().toString(), GlobalMessages.localeCodes);
+    int idxDefault = Const.indexOfString(LanguageChoice.getInstance().getDefaultLocale().toString(), GlobalMessages.localeCodes);
     if (idxDefault >= 0) {
       wDefaultLocale.select(idxDefault);
     }
@@ -612,11 +600,7 @@ public class ConfigGuiOptionsTab {
   }
 
   private void resetFixedFont(Shell shell) {
-    fixedFontData =
-        new FontData(
-            PropsUi.getInstance().getFixedFont().getName(),
-            PropsUi.getInstance().getFixedFont().getHeight(),
-            PropsUi.getInstance().getFixedFont().getStyle());
+    fixedFontData = new FontData(PropsUi.getInstance().getFixedFont().getName(), PropsUi.getInstance().getFixedFont().getHeight(), PropsUi.getInstance().getFixedFont().getStyle());
     fixedFont.dispose();
     fixedFont = new Font(shell.getDisplay(), fixedFontData);
     wFixedCanvas.redraw();
@@ -647,10 +631,7 @@ public class ConfigGuiOptionsTab {
 
   private void resetDefaultFont(Shell shell) {
     defaultFontData =
-        new FontData(
-            PropsUi.getInstance().getFixedFont().getName(),
-            PropsUi.getInstance().getFixedFont().getHeight(),
-            PropsUi.getInstance().getFixedFont().getStyle());
+        new FontData(PropsUi.getInstance().getFixedFont().getName(), PropsUi.getInstance().getFixedFont().getHeight(), PropsUi.getInstance().getFixedFont().getStyle());
     defaultFont.dispose();
     defaultFont = new Font(shell.getDisplay(), defaultFontData);
     wDefaultCanvas.redraw();
@@ -753,8 +734,7 @@ public class ConfigGuiOptionsTab {
     try {
       HopConfig.getInstance().saveToFile();
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
     }
   }
 }

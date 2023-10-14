@@ -23,11 +23,9 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileTypeHandl
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileTypeHandler;
 
 /** How do we handle an SVG file in file explorer perspective? */
-public class TextExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class TextExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public TextExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public TextExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 }

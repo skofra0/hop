@@ -43,42 +43,52 @@ public class DorisBulkLoaderMeta extends BaseTransformMeta<DorisBulkLoader, Dori
   private static final Class<?> PKG = DorisBulkLoaderMeta.class; // For Translator
 
   /** doris fe host */
-  @HopMetadataProperty private String feHost;
+  @HopMetadataProperty
+  private String feHost;
 
   /** doris http port */
-  @HopMetadataProperty private String feHttpPort;
+  @HopMetadataProperty
+  private String feHttpPort;
 
   /** doris database name */
-  @HopMetadataProperty private String databaseName;
+  @HopMetadataProperty
+  private String databaseName;
 
   /** doris table name */
-  @HopMetadataProperty private String tableName;
+  @HopMetadataProperty
+  private String tableName;
 
   /** doris login user */
-  @HopMetadataProperty private String loginUser;
+  @HopMetadataProperty
+  private String loginUser;
 
   /** doris login password */
   @HopMetadataProperty(password = true)
   private String loginPassword;
 
   /** doris stream load data format */
-  @HopMetadataProperty private String format;
+  @HopMetadataProperty
+  private String format;
 
   /** doris stream load line delimiter */
-  @HopMetadataProperty private String lineDelimiter;
+  @HopMetadataProperty
+  private String lineDelimiter;
 
   /** doris stream load column delimiter */
-  @HopMetadataProperty private String columnDelimiter;
+  @HopMetadataProperty
+  private String columnDelimiter;
 
   /** stream load http request headers */
   @HopMetadataProperty(groupKey = "headers", key = "header")
   List<DorisHeader> headers;
 
   /** A buffer's capacity, in bytes. */
-  @HopMetadataProperty private int bufferSize;
+  @HopMetadataProperty
+  private int bufferSize;
 
   /** BufferSize * BufferCount is the max capacity to buffer data before doing real stream load */
-  @HopMetadataProperty private int bufferCount;
+  @HopMetadataProperty
+  private int bufferCount;
 
   /** doris stream load data fieldname */
   private String dataField;
@@ -103,18 +113,9 @@ public class DorisBulkLoaderMeta extends BaseTransformMeta<DorisBulkLoader, Dori
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DorisBulkLoaderMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DorisBulkLoaderMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DorisBulkLoaderMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DorisBulkLoaderMeta.CheckResult.NoInpuReceived"), transformMeta);
     }
     remarks.add(cr);
   }

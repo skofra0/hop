@@ -25,9 +25,7 @@ public class CubeInputMetaTest {
 
   @Test
   public void testRoundTrip() throws Exception {
-    CubeInputMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/de-serialize-transform.xml", CubeInputMeta.class);
+    CubeInputMeta meta = TransformSerializationTestUtil.testSerialization("/de-serialize-transform.xml", CubeInputMeta.class);
     assertNotNull(meta.getFile());
     assertNotNull(meta.getFile().getName());
   }

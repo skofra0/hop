@@ -138,18 +138,12 @@ public class ActionWriteToFile extends ActionBase implements Cloneable, IAction 
 
         if (Utils.isEmpty(encoding)) {
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(PKG, "ActionWriteToFile.Log.WritingToFile", realFilename));
+            logDebug(BaseMessages.getString(PKG, "ActionWriteToFile.Log.WritingToFile", realFilename));
           }
           osw = new OutputStreamWriter(os);
         } else {
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionWriteToFile.Log.WritingToFileWithEncoding",
-                    realFilename,
-                    encoding));
+            logDebug(BaseMessages.getString(PKG, "ActionWriteToFile.Log.WritingToFileWithEncoding", realFilename, encoding));
           }
           osw = new OutputStreamWriter(os, encoding);
         }
@@ -159,9 +153,7 @@ public class ActionWriteToFile extends ActionBase implements Cloneable, IAction 
         result.setNrErrors(0);
 
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionWriteToFile.Error.WritingFile", realFilename, e.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionWriteToFile.Error.WritingFile", realFilename, e.getMessage()));
       } finally {
         if (osw != null) {
           try {
@@ -194,28 +186,18 @@ public class ActionWriteToFile extends ActionBase implements Cloneable, IAction 
       if (!parent.exists()) {
         if (isCreateParentFolder()) {
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionWriteToFile.Log.ParentFoldetNotExist",
-                    parent.getName().toString()));
+            logDetailed(BaseMessages.getString(PKG, "ActionWriteToFile.Log.ParentFoldetNotExist", parent.getName().toString()));
           }
           parent.createFolder();
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionWriteToFile.Log.ParentFolderCreated", parent.getName().toString()));
+            logDetailed(BaseMessages.getString(PKG, "ActionWriteToFile.Log.ParentFolderCreated", parent.getName().toString()));
           }
         } else {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ActionWriteToFile.Log.ParentFoldetNotExist", parent.getName().toString()));
+          throw new HopException(BaseMessages.getString(PKG, "ActionWriteToFile.Log.ParentFoldetNotExist", parent.getName().toString()));
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ActionWriteToFile.Error.CheckingParentFolder", realFilename),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "ActionWriteToFile.Error.CheckingParentFolder", realFilename), e);
     } finally {
       if (parent != null) {
         try {
@@ -249,8 +231,7 @@ public class ActionWriteToFile extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(getFilename())) {
       ResourceReference reference = new ResourceReference(this);
@@ -261,16 +242,7 @@ public class ActionWriteToFile extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

@@ -27,15 +27,11 @@ import org.apache.hop.testing.util.DataSetConst;
 
 import java.util.Map;
 
-@ExtensionPoint(
-    extensionPointId = "HopGuiPipelineAfterClose",
-    id = "HopGuiPipelineAfterClose",
-    description = "Cleanup the active unit test for the closed pipeline")
+@ExtensionPoint(extensionPointId = "HopGuiPipelineAfterClose", id = "HopGuiPipelineAfterClose", description = "Cleanup the active unit test for the closed pipeline")
 public class HopGuiPipelineAfterClose implements IExtensionPoint<PipelineMeta> {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelineMeta pipelineMeta)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelineMeta pipelineMeta) throws HopException {
     Map<String, Object> stateMap = TestingGuiPlugin.getStateMap(pipelineMeta);
     if (stateMap != null) {
       stateMap.remove(DataSetConst.STATE_KEY_ACTIVE_UNIT_TEST);

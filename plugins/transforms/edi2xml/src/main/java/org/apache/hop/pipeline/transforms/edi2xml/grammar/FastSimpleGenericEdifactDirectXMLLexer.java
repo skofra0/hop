@@ -17,13 +17,13 @@
 // CHECKSTYLE:Indentation:OFF
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,8 +78,7 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
   }
 
   public String getGrammarFileName() {
-    return "C:\\workspace-sts\\Hop trunk - "
-        + "restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\FastSimpleGenericEdifactDirectXML.g";
+    return "C:\\workspace-sts\\Hop trunk - " + "restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\FastSimpleGenericEdifactDirectXML.g";
   }
 
   // $ANTLR start "T__9"
@@ -301,15 +300,11 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
     // RELEASE_CHARACTER
     // COMPLEX_ELEMENT_ITEM_SEPARATOR ) | ( RELEASE_CHARACTER SEGMENT_TERMINATOR ) )+
     int cnt1 = 0;
-    loop1:
-    do {
+    loop1: do {
       int alt1 = 6;
       int LA1_0 = input.LA(1);
 
-      if (((LA1_0 >= '\u0000' && LA1_0 <= '&')
-          || (LA1_0 >= '(' && LA1_0 <= '*')
-          || (LA1_0 >= ',' && LA1_0 <= '9')
-          || (LA1_0 >= ';' && LA1_0 <= '>')
+      if (((LA1_0 >= '\u0000' && LA1_0 <= '&') || (LA1_0 >= '(' && LA1_0 <= '*') || (LA1_0 >= ',' && LA1_0 <= '9') || (LA1_0 >= ';' && LA1_0 <= '>')
           || (LA1_0 >= '@' && LA1_0 <= '\uFFFF'))) {
         alt1 = 1;
       } else if ((LA1_0 == '?')) {
@@ -337,11 +332,8 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
           // ~ ( RELEASE_CHARACTER | SEGMENT_TERMINATOR | COMPLEX_ELEMENT_ITEM_SEPARATOR |
           // ELEMENT_SEPARATOR )
 
-          if ((input.LA(1) >= '\u0000' && input.LA(1) <= '&')
-              || (input.LA(1) >= '(' && input.LA(1) <= '*')
-              || (input.LA(1) >= ',' && input.LA(1) <= '9')
-              || (input.LA(1) >= ';' && input.LA(1) <= '>')
-              || (input.LA(1) >= '@' && input.LA(1) <= '\uFFFF')) {
+          if ((input.LA(1) >= '\u0000' && input.LA(1) <= '&') || (input.LA(1) >= '(' && input.LA(1) <= '*') || (input.LA(1) >= ',' && input.LA(1) <= '9')
+              || (input.LA(1) >= ';' && input.LA(1) <= '>') || (input.LA(1) >= '@' && input.LA(1) <= '\uFFFF')) {
             input.consume();
           } else {
             MismatchedSetException mse = new MismatchedSetException(null, input);
@@ -440,10 +432,7 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
     if ((LA2_0 == ' ')) {
       int LA2_1 = input.LA(2);
 
-      if (((LA2_1 >= '\u0000' && LA2_1 <= '&')
-          || (LA2_1 >= '(' && LA2_1 <= '*')
-          || (LA2_1 >= ',' && LA2_1 <= '9')
-          || (LA2_1 >= ';' && LA2_1 <= '\uFFFF'))) {
+      if (((LA2_1 >= '\u0000' && LA2_1 <= '&') || (LA2_1 >= '(' && LA2_1 <= '*') || (LA2_1 >= ',' && LA2_1 <= '9') || (LA2_1 >= ';' && LA2_1 <= '\uFFFF'))) {
         alt2 = 11;
       } else {
         alt2 = 1;
@@ -489,10 +478,7 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
     } else if ((LA2_0 == '\n')) {
       int LA2_3 = input.LA(2);
 
-      if (((LA2_3 >= '\u0000' && LA2_3 <= '&')
-          || (LA2_3 >= '(' && LA2_3 <= '*')
-          || (LA2_3 >= ',' && LA2_3 <= '9')
-          || (LA2_3 >= ';' && LA2_3 <= '\uFFFF'))) {
+      if (((LA2_3 >= '\u0000' && LA2_3 <= '&') || (LA2_3 >= '(' && LA2_3 <= '*') || (LA2_3 >= ',' && LA2_3 <= '9') || (LA2_3 >= ';' && LA2_3 <= '\uFFFF'))) {
         alt2 = 11;
       } else {
         alt2 = 4;
@@ -500,10 +486,7 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
     } else if ((LA2_0 == '\r')) {
       int LA2_4 = input.LA(2);
 
-      if (((LA2_4 >= '\u0000' && LA2_4 <= '&')
-          || (LA2_4 >= '(' && LA2_4 <= '*')
-          || (LA2_4 >= ',' && LA2_4 <= '9')
-          || (LA2_4 >= ';' && LA2_4 <= '\uFFFF'))) {
+      if (((LA2_4 >= '\u0000' && LA2_4 <= '&') || (LA2_4 >= '(' && LA2_4 <= '*') || (LA2_4 >= ',' && LA2_4 <= '9') || (LA2_4 >= ';' && LA2_4 <= '\uFFFF'))) {
         alt2 = 11;
       } else {
         alt2 = 5;
@@ -511,10 +494,7 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
     } else if ((LA2_0 == '\t')) {
       int LA2_5 = input.LA(2);
 
-      if (((LA2_5 >= '\u0000' && LA2_5 <= '&')
-          || (LA2_5 >= '(' && LA2_5 <= '*')
-          || (LA2_5 >= ',' && LA2_5 <= '9')
-          || (LA2_5 >= ';' && LA2_5 <= '\uFFFF'))) {
+      if (((LA2_5 >= '\u0000' && LA2_5 <= '&') || (LA2_5 >= '(' && LA2_5 <= '*') || (LA2_5 >= ',' && LA2_5 <= '9') || (LA2_5 >= ';' && LA2_5 <= '\uFFFF'))) {
         alt2 = 11;
       } else {
         alt2 = 6;
@@ -533,14 +513,8 @@ public class FastSimpleGenericEdifactDirectXMLLexer extends Lexer {
       alt2 = 9;
     } else if ((LA2_0 == ':')) {
       alt2 = 10;
-    } else if (((LA2_0 >= '\u0000' && LA2_0 <= '\b')
-        || (LA2_0 >= '\u000B' && LA2_0 <= '\f')
-        || (LA2_0 >= '\u000E' && LA2_0 <= '\u001F')
-        || (LA2_0 >= '!' && LA2_0 <= '&')
-        || (LA2_0 >= '(' && LA2_0 <= '*')
-        || (LA2_0 >= ',' && LA2_0 <= '9')
-        || (LA2_0 >= ';' && LA2_0 <= '>')
-        || (LA2_0 >= '@' && LA2_0 <= 'T')
+    } else if (((LA2_0 >= '\u0000' && LA2_0 <= '\b') || (LA2_0 >= '\u000B' && LA2_0 <= '\f') || (LA2_0 >= '\u000E' && LA2_0 <= '\u001F') || (LA2_0 >= '!' && LA2_0 <= '&')
+        || (LA2_0 >= '(' && LA2_0 <= '*') || (LA2_0 >= ',' && LA2_0 <= '9') || (LA2_0 >= ';' && LA2_0 <= '>') || (LA2_0 >= '@' && LA2_0 <= 'T')
         || (LA2_0 >= 'V' && LA2_0 <= '\uFFFF'))) {
       alt2 = 11;
     } else {

@@ -53,8 +53,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamKinesisConsumeMeta.keyword",
     documentationUrl = "/pipeline/transforms/beamkinesisconsume.html")
-public class BeamKinesisConsumeMeta extends BaseTransformMeta<BeamKinesisConsume, DummyData>
-    implements IBeamPipelineTransformHandler {
+public class BeamKinesisConsumeMeta extends BaseTransformMeta<BeamKinesisConsume, DummyData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "access_key")
   private String accessKey;
@@ -140,13 +139,7 @@ public class BeamKinesisConsumeMeta extends BaseTransformMeta<BeamKinesisConsume
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       // The unique ID field as a String
@@ -162,8 +155,7 @@ public class BeamKinesisConsumeMeta extends BaseTransformMeta<BeamKinesisConsume
       //
       String typeString = Const.NVL(variables.resolve(dataType), "String");
       int type = ValueMetaFactory.getIdForValueMeta(typeString);
-      IValueMeta messageValueMeta =
-          ValueMetaFactory.createValueMeta(variables.resolve(dataField), type);
+      IValueMeta messageValueMeta = ValueMetaFactory.createValueMeta(variables.resolve(dataField), type);
       messageValueMeta.setOrigin(origin);
       inputRowMeta.addValueMeta(messageValueMeta);
 

@@ -163,7 +163,8 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
     String proxyServer = "";
     if (!Utils.isEmpty(host)) {
       proxyServer = resolve(port);
-      if (!Utils.isEmpty(port)) proxyServer = proxyServer + ":" + resolve(port);
+      if (!Utils.isEmpty(port))
+        proxyServer = proxyServer + ":" + resolve(port);
     }
 
     return proxyServer;
@@ -229,9 +230,7 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
 
       // Create an AS400 object
       if (isBasic()) {
-        logBasic(
-            BaseMessages.getString(
-                PKG, "ActionAs400Command.Log.Connecting", serverString, userString));
+        logBasic(BaseMessages.getString(PKG, "ActionAs400Command.Log.Connecting", serverString, userString));
       }
       system = new AS400(serverString, userString, passwordString, proxyServer);
 
@@ -249,17 +248,13 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
 
       if (command.run(commandString)) {
         if (isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG, "ActionAs400Command.Log.CommandSuccess", serverString, commandString));
+          logBasic(BaseMessages.getString(PKG, "ActionAs400Command.Log.CommandSuccess", serverString, commandString));
         }
 
         result.setNrErrors(0);
         result.setResult(true);
       } else {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionAs400Command.Log.CommandFailed", serverString, commandString));
+        logError(BaseMessages.getString(PKG, "ActionAs400Command.Log.CommandFailed", serverString, commandString));
 
         // Get the command results
         for (AS400Message message : command.getMessageList()) {
@@ -270,10 +265,7 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
         result.setResult(false);
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionAs400Command.Log.CommandFailed", serverString, commandString),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionAs400Command.Log.CommandFailed", serverString, commandString), e);
       result.setNrErrors(1);
       result.setResult(false);
     } finally {
@@ -289,8 +281,7 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(server)) {
       String realServername = variables.resolve(server);
@@ -301,61 +292,24 @@ public class ActionAs400Command extends ActionBase implements Cloneable, IAction
     return references;
   }
 
-  public boolean test(
-      IVariables variables,
-      final String server,
-      final String user,
-      final String password,
-      final String proxyHost,
-      final String proxyPort)
-      throws Exception {
+  public boolean test(IVariables variables, final String server, final String user, final String password, final String proxyHost, final String proxyPort) throws Exception {
 
     // Create proxy server
-    String proxyServer =
-        this.getProxyServer(variables.resolve(proxyHost), variables.resolve(proxyPort));
+    String proxyServer = this.getProxyServer(variables.resolve(proxyHost), variables.resolve(proxyPort));
 
     // Create an AS400 object
-    AS400 system =
-        new AS400(
-            variables.resolve(server),
-            variables.resolve(user),
-            Utils.resolvePassword(this, password),
-            proxyServer);
+    AS400 system = new AS400(variables.resolve(server), variables.resolve(user), Utils.resolvePassword(this, password), proxyServer);
     system.connectService(AS400.COMMAND);
 
     return true;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
 
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            TAG_SERVER,
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            TAG_USER,
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            TAG_PASSWORD,
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            TAG_COMMAND,
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, TAG_SERVER, remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, TAG_USER, remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, TAG_PASSWORD, remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, TAG_COMMAND, remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

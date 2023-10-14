@@ -22,6 +22,5 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NoneMethodProcessor extends AbstractMethodProcessor {
   @Override
-  public void schemaSelection(
-      PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection) {}
+  public void schemaSelection(PartitionSettings settings, Shell shell, IPartitionSchemaSelection schemaSelection) {}
 }

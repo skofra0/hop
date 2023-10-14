@@ -25,8 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
-public class StringListPluginProperty extends KeyValue<List<String>>
-    implements IPluginProperty, Iterable<String> {
+public class StringListPluginProperty extends KeyValue<List<String>> implements IPluginProperty, Iterable<String> {
 
   /** Serial version UID. */
   private static final long serialVersionUID = 2003662016166396542L;

@@ -109,21 +109,9 @@ public class TransformFn extends TransformBaseFn {
   // I created a private class because instances of this one need access to infoCollectionViews
   //
 
-  public TransformFn(
-      List<VariableValue> variableValues,
-      String metastoreJson,
-      String transformName,
-      String transformPluginId,
-      String transformMetaInterfaceXml,
-      String inputRowMetaJson,
-      boolean inputTransform,
-      List<String> targetTransforms,
-      List<String> infoTransforms,
-      List<String> infoRowMetaJsons,
-      String dataSamplersJson,
-      String runConfigName,
-      String parentLogChannelId,
-      List<PCollectionView<List<HopRow>>> infoCollectionViews) {
+  public TransformFn(List<VariableValue> variableValues, String metastoreJson, String transformName, String transformPluginId, String transformMetaInterfaceXml,
+      String inputRowMetaJson, boolean inputTransform, List<String> targetTransforms, List<String> infoTransforms, List<String> infoRowMetaJsons, String dataSamplersJson,
+      String runConfigName, String parentLogChannelId, List<PCollectionView<List<HopRow>>> infoCollectionViews) {
     super(parentLogChannelId, runConfigName, dataSamplersJson);
     this.variableValues = variableValues;
     this.metastoreJson = metastoreJson;
@@ -153,10 +141,10 @@ public class TransformFn extends TransformBaseFn {
     try {
       // TODO: create a test to see if this is still needed
       //
-      //      if ("ScriptValueMod".equals(transformPluginId) && pipeline != null) {
-      //        // Force re-initialization for this specific transform plugin
-      //        initialize = true;
-      //      }
+      // if ("ScriptValueMod".equals(transformPluginId) && pipeline != null) {
+      // // Force re-initialization for this specific transform plugin
+      // initialize = true;
+      // }
       //
 
       // Call start of the bundle on the transform
@@ -165,10 +153,7 @@ public class TransformFn extends TransformBaseFn {
         // Increment the bundle number before calling the next startBundle() method in the Hop
         // transforms.
         //
-        executor
-            .getPipeline()
-            .getTransforms()
-            .forEach(combi -> combi.data.setBeamBundleNr(combi.data.getBeamBundleNr() + 1));
+        executor.getPipeline().getTransforms().forEach(combi -> combi.data.setBeamBundleNr(combi.data.getBeamBundleNr() + 1));
 
         executor.startBundle();
       }
@@ -198,8 +183,7 @@ public class TransformFn extends TransformBaseFn {
     }
   }
 
-  private void initializeTransformPipeline(DoFn<HopRow, HopRow>.ProcessContext context)
-      throws HopException, ParseException, JsonProcessingException {
+  private void initializeTransformPipeline(DoFn<HopRow, HopRow>.ProcessContext context) throws HopException, ParseException, JsonProcessingException {
     initialize = false;
     // Initialize Hop and load extra plugins as well
     //
@@ -237,8 +221,7 @@ public class TransformFn extends TransformBaseFn {
     //
     TransformMeta mainInjectorTransformMeta = null;
     if (!inputTransform) {
-      mainInjectorTransformMeta =
-          createInjectorTransform(pipelineMeta, INJECTOR_TRANSFORM_NAME, inputRowMeta, 200, 200);
+      mainInjectorTransformMeta = createInjectorTransform(pipelineMeta, INJECTOR_TRANSFORM_NAME, inputRowMeta, 200, 200);
     }
 
     // Our main transform writes to a bunch of targets
@@ -275,8 +258,7 @@ public class TransformFn extends TransformBaseFn {
 
       // Add an Injector transform for every info transform so the transform can read from it
       //
-      TransformMeta infoTransformMeta =
-          createInjectorTransform(pipelineMeta, infoTransform, infoRowMeta, 200, 350 + 150 * i);
+      TransformMeta infoTransformMeta = createInjectorTransform(pipelineMeta, infoTransform, infoRowMeta, 200, 350 + 150 * i);
       infoTransformMetas.add(infoTransformMeta);
     }
 
@@ -285,20 +267,12 @@ public class TransformFn extends TransformBaseFn {
     // The main transform inflated from XML metadata...
     //
     PluginRegistry registry = PluginRegistry.getInstance();
-    ITransformMeta iTransformMeta =
-        registry.loadClass(TransformPluginType.class, transformPluginId, ITransformMeta.class);
+    ITransformMeta iTransformMeta = registry.loadClass(TransformPluginType.class, transformPluginId, ITransformMeta.class);
     if (iTransformMeta == null) {
-      throw new HopException(
-          "Unable to load transform plugin with ID "
-              + transformPluginId
-              + ", this plugin isn't in the plugin registry or classpath");
+      throw new HopException("Unable to load transform plugin with ID " + transformPluginId + ", this plugin isn't in the plugin registry or classpath");
     }
 
-    HopBeamUtil.loadTransformMetadataFromXml(
-        transformName,
-        iTransformMeta,
-        transformMetaInterfaceXml,
-        pipelineMeta.getMetadataProvider());
+    HopBeamUtil.loadTransformMetadataFromXml(transformName, iTransformMeta, transformMetaInterfaceXml, pipelineMeta.getMetadataProvider());
 
     transformMeta = new TransformMeta(transformName, iTransformMeta);
     transformMeta.setTransformPluginId(transformPluginId);
@@ -330,11 +304,8 @@ public class TransformFn extends TransformBaseFn {
 
     // Create the transformation...
     //
-    pipeline =
-        new LocalPipelineEngine(
-            pipelineMeta, variables, new LoggingObject("apache-beam-transform"));
-    pipeline.setLogLevel(
-        context.getPipelineOptions().as(HopPipelineExecutionOptions.class).getLogLevel());
+    pipeline = new LocalPipelineEngine(pipelineMeta, variables, new LoggingObject("apache-beam-transform"));
+    pipeline.setLogLevel(context.getPipelineOptions().as(HopPipelineExecutionOptions.class).getLogLevel());
     pipeline.setMetadataProvider(pipelineMeta.getMetadataProvider());
 
     // Change the name to make the logging less confusing.
@@ -346,13 +317,10 @@ public class TransformFn extends TransformBaseFn {
     // Indicate that we're dealing with a Beam pipeline during execution
     // Start counting bundle numbers from 1
     //
-    pipeline
-        .getTransforms()
-        .forEach(
-            c -> {
-              c.data.setBeamContext(true);
-              c.data.setBeamBundleNr(1);
-            });
+    pipeline.getTransforms().forEach(c -> {
+      c.data.setBeamContext(true);
+      c.data.setBeamBundleNr(1);
+    });
 
     // Create producers so we can efficiently pass data
     //
@@ -377,14 +345,12 @@ public class TransformFn extends TransformBaseFn {
     transformCombis.add(transformCombi);
 
     if (targetTransforms.isEmpty()) {
-      IRowListener rowListener =
-          new RowAdapter() {
-            @Override
-            public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                throws HopTransformException {
-              resultRows.add(new HopRow(row, rowMeta.size()));
-            }
-          };
+      IRowListener rowListener = new RowAdapter() {
+        @Override
+        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          resultRows.add(new HopRow(row, rowMeta.size()));
+        }
+      };
       transformCombi.transform.addRowListener(rowListener);
     }
 
@@ -408,31 +374,25 @@ public class TransformFn extends TransformBaseFn {
       final List<Object[]> targetResultRows = new ArrayList<>();
       targetResultRowsList.add(targetResultRows);
 
-      targetCombi.transform.addRowListener(
-          new RowAdapter() {
-            @Override
-            public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-              // We send the target row to a specific list...
-              //
-              targetResultRows.add(row);
-            }
-          });
+      targetCombi.transform.addRowListener(new RowAdapter() {
+        @Override
+        public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+          // We send the target row to a specific list...
+          //
+          targetResultRows.add(row);
+        }
+      });
     }
 
     attachExecutionSamplersToOutput(
-        variables,
-        transformName,
-        pipeline.getLogChannelId(),
-        inputRowMeta,
-        pipelineMeta.getTransformFields(variables, transformName),
-        pipeline.getTransform(transformName, 0));
+        variables, transformName, pipeline.getLogChannelId(), inputRowMeta, pipelineMeta.getTransformFields(variables, transformName), pipeline.getTransform(transformName, 0));
 
     registerExecutingTransform(pipeline);
 
     // Change the row handler
     //
     for (TransformMetaDataCombi c : pipeline.getTransforms()) {
-      ((BaseTransform)c.transform).setRowHandler(new BeamRowHandler((BaseTransform) c.transform));
+      ((BaseTransform) c.transform).setRowHandler(new BeamRowHandler((BaseTransform) c.transform));
     }
 
     executor = new SingleThreadedPipelineExecutor(pipeline);
@@ -492,8 +452,7 @@ public class TransformFn extends TransformBaseFn {
    * @param inputRow
    * @throws HopException
    */
-  private synchronized void emptyRowBuffer(TupleOutputContext<HopRow> context, HopRow inputRow)
-      throws HopException {
+  private synchronized void emptyRowBuffer(TupleOutputContext<HopRow> context, HopRow inputRow) throws HopException {
 
     // Empty all the row buffers for another iteration
     //
@@ -537,23 +496,12 @@ public class TransformFn extends TransformBaseFn {
     }
   }
 
-  private TransformMeta createInjectorTransform(
-      PipelineMeta pipelineMeta,
-      String injectorTransformName,
-      IRowMeta injectorRowMeta,
-      int x,
-      int y) {
+  private TransformMeta createInjectorTransform(PipelineMeta pipelineMeta, String injectorTransformName, IRowMeta injectorRowMeta, int x, int y) {
     InjectorMeta injectorMeta = new InjectorMeta();
 
     for (IValueMeta valueMeta : injectorRowMeta.getValueMetaList()) {
-      injectorMeta
-          .getInjectorFields()
-          .add(
-              new InjectorField(
-                  valueMeta.getName(),
-                  valueMeta.getTypeDesc(),
-                  Integer.toString(valueMeta.getLength()),
-                  Integer.toString(valueMeta.getPrecision())));
+      injectorMeta.getInjectorFields()
+          .add(new InjectorField(valueMeta.getName(), valueMeta.getTypeDesc(), Integer.toString(valueMeta.getLength()), Integer.toString(valueMeta.getPrecision())));
     }
 
     TransformMeta injectorTransformMeta = new TransformMeta(injectorTransformName, injectorMeta);
@@ -569,8 +517,7 @@ public class TransformFn extends TransformBaseFn {
         return combi;
       }
     }
-    throw new RuntimeException(
-        "Configuration error, transform '" + transformName + "' not found in transformation");
+    throw new RuntimeException("Configuration error, transform '" + transformName + "' not found in transformation");
   }
 
   private class TransformProcessContext implements TupleOutputContext<HopRow> {
@@ -596,8 +543,7 @@ public class TransformFn extends TransformBaseFn {
     private DoFn.FinishBundleContext context;
     private BoundedWindow batchWindow;
 
-    public TransformFinishBundleContext(
-        DoFn.FinishBundleContext context, BoundedWindow batchWindow) {
+    public TransformFinishBundleContext(DoFn.FinishBundleContext context, BoundedWindow batchWindow) {
       this.context = context;
       this.batchWindow = batchWindow;
     }
@@ -643,8 +589,7 @@ public class TransformFn extends TransformBaseFn {
         executionInfoLocation.getExecutionInfoLocation().close();
       }
     } catch (Exception e) {
-      LOG.error(
-          "Error sending row samples to execution info location for transform " + transformName+" (non-fatal)", e);
+      LOG.error("Error sending row samples to execution info location for transform " + transformName + " (non-fatal)", e);
     }
   }
 }

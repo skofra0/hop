@@ -43,8 +43,7 @@ public class DropboxFileObject extends AbstractFileObject<DropboxFileSystem> {
   private final DbxClientV2 client;
   private Metadata metadata;
 
-  protected DropboxFileObject(final AbstractFileName name, final DropboxFileSystem fileSystem)
-      throws FileSystemException {
+  protected DropboxFileObject(final AbstractFileName name, final DropboxFileSystem fileSystem) throws FileSystemException {
     super(name, fileSystem);
 
     this.client = fileSystem.getClient();
@@ -120,8 +119,7 @@ public class DropboxFileObject extends AbstractFileObject<DropboxFileSystem> {
     int i = 0;
     final DropboxFileSystem fileSystem = this.getAbstractFileSystem();
     for (Metadata metadata : childrens) {
-      DropboxFileObject file =
-          (DropboxFileObject) fileSystem.resolveFile(metadata.getPathDisplay());
+      DropboxFileObject file = (DropboxFileObject) fileSystem.resolveFile(metadata.getPathDisplay());
       if (file != null) {
         // Sets the metadata for this file object.
         file.metadata = metadata;

@@ -40,26 +40,14 @@ public class DefaultFieldLoadSaveValidatorFactory implements IFieldLoadSaveValid
     this.typeMap.put(Boolean.class.getCanonicalName(), new BooleanLoadSaveValidator());
     this.typeMap.put(int.class.getCanonicalName(), new IntLoadSaveValidator());
     this.typeMap.put(long.class.getCanonicalName(), new LongLoadSaveValidator());
-    registerValidator(
-        getName(List.class, String.class),
-        new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
-    registerValidator(
-        String[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator()));
-    registerValidator(
-        boolean[].class.getCanonicalName(),
-        new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator()));
-    registerValidator(
-        Boolean[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator()));
-    registerValidator(
-        int[].class.getCanonicalName(),
-        new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator()));
+    registerValidator(getName(List.class, String.class), new ListLoadSaveValidator<String>(new StringLoadSaveValidator()) {});
+    registerValidator(String[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new StringLoadSaveValidator()));
+    registerValidator(boolean[].class.getCanonicalName(), new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator()));
+    registerValidator(Boolean[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new BooleanLoadSaveValidator()));
+    registerValidator(int[].class.getCanonicalName(), new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator()));
     registerValidator(Locale.class.getCanonicalName(), new LocaleLoadSaveValidator());
     registerValidator(DatabaseMeta.class.getCanonicalName(), new DatabaseMetaLoadSaveValidator());
-    registerValidator(
-        DatabaseMeta[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new DatabaseMetaLoadSaveValidator()));
+    registerValidator(DatabaseMeta[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new DatabaseMetaLoadSaveValidator()));
     registerValidator(Date.class.getCanonicalName(), new DateLoadSaveValidator());
   }
 
@@ -68,9 +56,7 @@ public class DefaultFieldLoadSaveValidatorFactory implements IFieldLoadSaveValid
     this.typeMap.put(typeString, validator);
   }
 
-  public DefaultFieldLoadSaveValidatorFactory(
-      Map<IGetter<?>, IFieldLoadSaveValidator<?>> map,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) {
+  public DefaultFieldLoadSaveValidatorFactory(Map<IGetter<?>, IFieldLoadSaveValidator<?>> map, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) {
     this();
     getterMap.putAll(map);
     typeMap.putAll(fieldLoadSaveValidatorTypeMap);
@@ -86,8 +72,7 @@ public class DefaultFieldLoadSaveValidatorFactory implements IFieldLoadSaveValid
         validatorClass = typeMap.get(getName(type));
       }
       if (validatorClass == null) {
-        throw new RuntimeException(
-            "Unable to find validator for " + getter.getGenericType() + " or " + getter);
+        throw new RuntimeException("Unable to find validator for " + getter.getGenericType() + " or " + getter);
       }
       return (IFieldLoadSaveValidator<T>) validatorClass;
     } catch (Exception e) {

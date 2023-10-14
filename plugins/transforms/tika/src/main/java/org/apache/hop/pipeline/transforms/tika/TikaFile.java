@@ -28,9 +28,7 @@ public class TikaFile {
   private String mask;
 
   /** Wildcard or file mask to exclude (regular expression) */
-  @HopMetadataProperty(
-      key = "exclude-mask",
-      injectionKeyDescription = "TikaFile.Injection.ExcludeMask")
+  @HopMetadataProperty(key = "exclude-mask", injectionKeyDescription = "TikaFile.Injection.ExcludeMask")
   private String excludeMask;
 
   /** boolean value indicating if a file is required to be present. */
@@ -38,15 +36,12 @@ public class TikaFile {
   private boolean required;
 
   /** boolean value indicating if we need to fetch/search sub folders. */
-  @HopMetadataProperty(
-      key = "include-sub-folders",
-      injectionKeyDescription = "TikaFile.Injection.IncludeSubFolders")
+  @HopMetadataProperty(key = "include-sub-folders", injectionKeyDescription = "TikaFile.Injection.IncludeSubFolders")
   private boolean includingSubFolders;
 
   public TikaFile() {}
 
-  public TikaFile(
-      String name, String mask, String excludeMask, boolean required, boolean includingSubFolders) {
+  public TikaFile(String name, String mask, String excludeMask, boolean required, boolean includingSubFolders) {
     this.name = name;
     this.mask = mask;
     this.excludeMask = excludeMask;

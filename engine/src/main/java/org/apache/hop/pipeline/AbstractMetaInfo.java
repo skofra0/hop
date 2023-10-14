@@ -22,7 +22,8 @@ import java.util.Date;
 
 public abstract class AbstractMetaInfo {
 
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
   @HopMetadataProperty(key = "name_sync_with_filename")
   protected boolean nameSynchronizedWithFilename;

@@ -49,8 +49,7 @@ import static org.junit.Assert.assertNotNull;
 
 /** Base class for all tests for BaseFileInput transforms. */
 @Ignore("No tests in abstract base class")
-public abstract class BaseParsingTest<
-    Meta extends ITransformMeta, Data extends ITransformData, Transform extends ITransform> {
+public abstract class BaseParsingTest<Meta extends ITransformMeta, Data extends ITransformData, Transform extends ITransform> {
 
   protected ILogChannel log = new LogChannel("junit");
   protected FileSystemManager fs;
@@ -78,13 +77,12 @@ public abstract class BaseParsingTest<
     pipeline = new LocalPipelineEngine();
     pipeline.setLogChannel(log);
     pipeline.setRunning(true);
-    pipelineMeta =
-        new PipelineMeta() {
-          @Override
-          public TransformMeta findTransform(String name) {
-            return transformMeta;
-          }
-        };
+    pipelineMeta = new PipelineMeta() {
+      @Override
+      public TransformMeta findTransform(String name) {
+        return transformMeta;
+      }
+    };
 
     fs = VFS.getManager();
     inPrefix = '/' + this.getClass().getPackage().getName().replace('.', '/') + "/files/";
@@ -114,7 +112,7 @@ public abstract class BaseParsingTest<
    * Check result of parsing.
    *
    * @param expected array of rows of fields, i.e. { {"field 1 value in row 1","field 2 value in row
-   *     1"}, { "field 1 value in row 2","field 2 value in row 2"} }
+   *        1"}, { "field 1 value in row 2","field 2 value in row 2"} }
    */
   protected void check(Object[][] expected) throws Exception {
     checkErrors();
@@ -131,7 +129,7 @@ public abstract class BaseParsingTest<
    * Check result of parsing.
    *
    * @param expected array of rows of fields, i.e. { {"field 1 value in row 1","field 2 value in row
-   *     1"}, { "field 1 value in row 2","field 2 value in row 2"} }
+   *        1"}, { "field 1 value in row 2","field 2 value in row 2"} }
    */
   protected void checkRowCount(Object[][] expected) throws Exception {
     assertEquals("Wrong rows count", expected.length, rows.size());
@@ -142,7 +140,7 @@ public abstract class BaseParsingTest<
    * Check content of parsing.
    *
    * @param expected array of rows of fields, i.e. { {"field 1 value in row 1","field 2 value in row
-   *     1"}, { "field 1 value in row 2","field 2 value in row 2"} }
+   *        1"}, { "field 1 value in row 2","field 2 value in row 2"} }
    */
   protected void checkContent(Object[][] expected) throws Exception {
     for (int i = 0; i < expected.length; i++) {
@@ -151,22 +149,20 @@ public abstract class BaseParsingTest<
   }
 
   /** Listener for parsing result. */
-  protected IRowListener rowListener =
-      new IRowListener() {
-        @Override
-        public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-          rows.add(Arrays.copyOf(row, rowMeta.size()));
-        }
+  protected IRowListener rowListener = new IRowListener() {
+    @Override
+    public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+      rows.add(Arrays.copyOf(row, rowMeta.size()));
+    }
 
-        @Override
-        public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-          System.out.println();
-        }
+    @Override
+    public void rowReadEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+      System.out.println();
+    }
 
-        @Override
-        public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row)
-            throws HopTransformException {
-          errorsCount++;
-        }
-      };
+    @Override
+    public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+      errorsCount++;
+    }
+  };
 }

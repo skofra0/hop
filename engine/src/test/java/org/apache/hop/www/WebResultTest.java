@@ -59,11 +59,7 @@ public class WebResultTest {
 
   @Test
   public void testSerialization() throws HopXmlException {
-    WebResult original =
-        new WebResult(
-            UUID.randomUUID().toString(),
-            UUID.randomUUID().toString(),
-            UUID.randomUUID().toString());
+    WebResult original = new WebResult(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
 
     String xml = original.getXml();
     WebResult copy = WebResult.fromXmlString(xml);

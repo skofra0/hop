@@ -104,8 +104,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -130,8 +129,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
   private void readData(Node transformNode) {
     servername = XmlHandler.getTagValue(transformNode, "servername");
     username = XmlHandler.getTagValue(transformNode, "username");
-    password =
-        Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password"));
+    password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password"));
     usessl = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usessl"));
     usexoauth2 = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usexoauth2"));
     sslport = XmlHandler.getTagValue(transformNode, "sslport");
@@ -139,36 +137,23 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
     firstmails = XmlHandler.getTagValue(transformNode, "firstmails");
     delete = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "delete"));
 
-    protocol =
-        Const.NVL(
-            XmlHandler.getTagValue(transformNode, "protocol"),
-            MailConnectionMeta.PROTOCOL_STRING_POP3);
-    valueimaplist =
-        MailConnectionMeta.getValueImapListByCode(
-            Const.NVL(XmlHandler.getTagValue(transformNode, "valueimaplist"), ""));
+    protocol = Const.NVL(XmlHandler.getTagValue(transformNode, "protocol"), MailConnectionMeta.PROTOCOL_STRING_POP3);
+    valueimaplist = MailConnectionMeta.getValueImapListByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "valueimaplist"), ""));
     imapfirstmails = XmlHandler.getTagValue(transformNode, "imapfirstmails");
     imapfolder = XmlHandler.getTagValue(transformNode, "imapfolder");
     // search term
     senderSearch = XmlHandler.getTagValue(transformNode, "sendersearch");
-    notTermSenderSearch =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermsendersearch"));
+    notTermSenderSearch = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermsendersearch"));
     recipientSearch = XmlHandler.getTagValue(transformNode, "recipientsearch");
-    notTermRecipientSearch =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "notTermRecipientSearch"));
+    notTermRecipientSearch = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "notTermRecipientSearch"));
     subjectSearch = XmlHandler.getTagValue(transformNode, "subjectsearch");
-    notTermSubjectSearch =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermsubjectsearch"));
-    conditionReceivedDate =
-        MailConnectionMeta.getConditionByCode(
-            Const.NVL(XmlHandler.getTagValue(transformNode, "conditionreceiveddate"), ""));
-    notTermReceivedDateSearch =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermreceiveddatesearch"));
+    notTermSubjectSearch = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermsubjectsearch"));
+    conditionReceivedDate = MailConnectionMeta.getConditionByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "conditionreceiveddate"), ""));
+    notTermReceivedDateSearch = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "nottermreceiveddatesearch"));
     receivedDate1 = XmlHandler.getTagValue(transformNode, "receivedDate1");
     receivedDate2 = XmlHandler.getTagValue(transformNode, "receivedDate2");
-    includesubfolders =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includesubfolders"));
-    usedynamicfolder =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usedynamicfolder"));
+    includesubfolders = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includesubfolders"));
+    usedynamicfolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usedynamicfolder"));
     folderfield = XmlHandler.getTagValue(transformNode, "folderfield");
     proxyusername = XmlHandler.getTagValue(transformNode, "proxyusername");
     useproxy = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useproxy"));
@@ -191,8 +176,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
       Node fnode = XmlHandler.getSubNodeByNr(fields, "field", i);
       inputFields[i] = new MailInputField();
       inputFields[i].setName(XmlHandler.getTagValue(fnode, "name"));
-      inputFields[i].setColumn(
-          MailInputField.getColumnByCode(XmlHandler.getTagValue(fnode, "column")));
+      inputFields[i].setColumn(MailInputField.getColumnByCode(XmlHandler.getTagValue(fnode, "column")));
     }
   }
 
@@ -256,10 +240,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
     String tab = "      ";
     retval.append("      ").append(XmlHandler.addTagValue("servername", servername));
     retval.append("      ").append(XmlHandler.addTagValue("username", username));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    retval.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
     retval.append("      ").append(XmlHandler.addTagValue("usessl", usessl));
     retval.append("      ").append(XmlHandler.addTagValue("usexoauth2", usexoauth2));
     retval.append("      ").append(XmlHandler.addTagValue("sslport", sslport));
@@ -267,36 +248,19 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
     retval.append("      ").append(XmlHandler.addTagValue("firstmails", firstmails));
     retval.append("      ").append(XmlHandler.addTagValue("delete", delete));
     retval.append("      ").append(XmlHandler.addTagValue("protocol", protocol));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "valueimaplist", MailConnectionMeta.getValueImapListCode(valueimaplist)));
+    retval.append("      ").append(XmlHandler.addTagValue("valueimaplist", MailConnectionMeta.getValueImapListCode(valueimaplist)));
     retval.append("      ").append(XmlHandler.addTagValue("imapfirstmails", imapfirstmails));
     retval.append("      ").append(XmlHandler.addTagValue("imapfolder", imapfolder));
     // search term
     retval.append("      ").append(XmlHandler.addTagValue("sendersearch", senderSearch));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("nottermsendersearch", notTermSenderSearch));
+    retval.append("      ").append(XmlHandler.addTagValue("nottermsendersearch", notTermSenderSearch));
 
     retval.append("      ").append(XmlHandler.addTagValue("recipientsearch", recipientSearch));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("notTermRecipientSearch", notTermRecipientSearch));
+    retval.append("      ").append(XmlHandler.addTagValue("notTermRecipientSearch", notTermRecipientSearch));
     retval.append("      ").append(XmlHandler.addTagValue("subjectsearch", subjectSearch));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("nottermsubjectsearch", notTermSubjectSearch));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "conditionreceiveddate",
-                MailConnectionMeta.getConditionDateCode(conditionReceivedDate)));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("nottermreceiveddatesearch", notTermReceivedDateSearch));
+    retval.append("      ").append(XmlHandler.addTagValue("nottermsubjectsearch", notTermSubjectSearch));
+    retval.append("      ").append(XmlHandler.addTagValue("conditionreceiveddate", MailConnectionMeta.getConditionDateCode(conditionReceivedDate)));
+    retval.append("      ").append(XmlHandler.addTagValue("nottermreceiveddatesearch", notTermReceivedDateSearch));
     retval.append("      ").append(XmlHandler.addTagValue("receiveddate1", receivedDate1));
     retval.append("      ").append(XmlHandler.addTagValue("receiveddate2", receivedDate2));
     retval.append("      ").append(XmlHandler.addTagValue("includesubfolders", includesubfolders));
@@ -318,9 +282,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
     for (int i = 0; i < inputFields.length; i++) {
       retval.append("      <field>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("name", inputFields[i].getName()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("column", inputFields[i].getColumnCode()));
+      retval.append("        ").append(XmlHandler.addTagValue("column", inputFields[i].getColumnCode()));
       retval.append("      </field>").append(Const.CR);
     }
     retval.append("    </fields>").append(Const.CR);
@@ -341,18 +303,10 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
     CheckResult cr;
     // See if we get input...
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MailInputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MailInputMeta.CheckResult.NoInputExpected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MailInputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MailInputMeta.CheckResult.NoInput"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -604,9 +558,9 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
 
   /**
    * @param usexoauth2
-   *          The usexoauth2 to set.
+   *        The usexoauth2 to set.
    */
-  public void setUseXOAUTH2( boolean usexoauth2 ) {
+  public void setUseXOAUTH2(boolean usexoauth2) {
     this.usexoauth2 = usexoauth2;
   }
 
@@ -623,13 +577,7 @@ public class MailInputMeta extends BaseTransformMeta<MailInput, MailInputData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     int i;
     for (i = 0; i < inputFields.length; i++) {

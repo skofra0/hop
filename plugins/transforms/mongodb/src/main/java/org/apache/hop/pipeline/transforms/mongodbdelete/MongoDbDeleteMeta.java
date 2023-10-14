@@ -57,19 +57,14 @@ public class MongoDbDeleteMeta extends MongoDbMeta<MongoDbDelete, MongoDbDeleteD
   @HopMetadataProperty(key = "execute_for_each_row", injectionKey = "EXECUTE_FOR_EACH_ROW")
   private boolean executeForEachIncomingRow = false; // only apply when use json query
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionKey = "MONGODB_FIELDS",
-      injectionGroupKey = "MONGODB_FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionKey = "MONGODB_FIELDS", injectionGroupKey = "MONGODB_FIELDS")
   protected List<MongoDbDeleteField> mongoFields;
 
   @HopMetadataProperty(key = "collection", injectionKey = "COLLECTION")
   private String collection;
 
   @Override
-  public void setDefault() {
-  }
+  public void setDefault() {}
 
   @Override
   public void setConnectionName(String connectionName) {

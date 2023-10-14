@@ -107,8 +107,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
     }
 
     if (Util.isEmpty(hostsPorts)) {
-      throw new MongoDbException(
-          BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Error.EmptyHostsString"));
+      throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Error.EmptyHostsString"));
     }
 
     List<ServerAddress> serverList = new ArrayList<>();
@@ -119,8 +118,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
       int port = singlePortI != -1 ? singlePortI : MONGO_DEFAULT_PORT;
       String[] hp = part.split(":");
       if (hp.length > 2) {
-        throw new MongoDbException(
-            BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Error.MalformedHost", part));
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Error.MalformedHost", part));
       }
 
       String host = hp[0];
@@ -129,9 +127,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
         try {
           port = Integer.parseInt(hp[1].trim());
         } catch (NumberFormatException n) {
-          throw new MongoDbException(
-              BaseMessages.getString(
-                  PKG, "MongoNoAuthWrapper.Message.Error.UnableToParsePortNumber", hp[1]));
+          throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Error.UnableToParsePortNumber", hp[1]));
         }
       }
 
@@ -150,14 +146,11 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
     List<ServerAddress> serverAddressList = getServerAddressList();
 
     if (serverAddressList.size() == 0) {
-      // There should be minimally one server defined.  Default is localhost, so
+      // There should be minimally one server defined. Default is localhost, so
       // this can only happen if it's been explicitly set to NULL.
-      throw new MongoDbException(
-          BaseMessages.getString(
-              MongoClientWrapper.class, "MongoNoAuthWrapper.Message.Error.NoHostSet"));
+      throw new MongoDbException(BaseMessages.getString(MongoClientWrapper.class, "MongoNoAuthWrapper.Message.Error.NoHostSet"));
     }
-    return getClientFactory(props)
-        .getMongoClient(serverAddressList, credList, opts, props.useAllReplicaSetMembers());
+    return getClientFactory(props).getMongoClient(serverAddressList, credList, opts, props.useAllReplicaSetMembers());
   }
 
   /**
@@ -253,13 +246,11 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
       DB db = getDb(dbName);
 
       if (db == null) {
-        throw new MongoDbException(
-            BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.NonExistentDB", dbName));
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.NonExistentDB", dbName));
       }
 
       if (Util.isEmpty(collection)) {
-        throw new MongoDbException(
-            BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.NoCollectionSpecified"));
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.NoCollectionSpecified"));
       }
 
       if (!db.collectionExists(collection)) {
@@ -268,17 +259,13 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
 
       DBCollection coll = db.getCollection(collection);
       if (coll == null) {
-        throw new MongoDbException(
-            BaseMessages.getString(
-                PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetInfoForCollection", collection));
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetInfoForCollection", collection));
       }
 
       List<DBObject> collInfo = coll.getIndexInfo();
       List<String> result = new ArrayList<>();
       if (collInfo == null || collInfo.size() == 0) {
-        throw new MongoDbException(
-            BaseMessages.getString(
-                PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetInfoForCollection", collection));
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetInfoForCollection", collection));
       }
 
       for (DBObject index : collInfo) {
@@ -287,11 +274,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
 
       return result;
     } catch (Exception e) {
-      log.error(
-          BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.GeneralError.Message")
-              + ":\n\n"
-              + e.getMessage(),
-          e);
+      log.error(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.GeneralError.Message") + ":\n\n" + e.getMessage(), e);
       if (e instanceof MongoDbException) {
         throw (MongoDbException) e;
       } else {
@@ -321,35 +304,26 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
             if (members instanceof BasicDBList) {
               if (((BasicDBList) members).size() == 0) {
                 // log that there are no replica set members defined
-                logInfo(
-                    BaseMessages.getString(
-                        PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
+                logInfo(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
               } else {
                 setMembers = (BasicDBList) members;
               }
 
             } else {
               // log that there are no replica set members defined
-              logInfo(
-                  BaseMessages.getString(
-                      PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
+              logInfo(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
             }
           } else {
             // log that there are no replica set members defined
-            logInfo(
-                BaseMessages.getString(
-                    PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
+            logInfo(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.NoReplicaSetMembersDefined"));
           }
         } else {
           // log that the replica set collection is not available
-          logInfo(
-              BaseMessages.getString(
-                  PKG, "MongoNoAuthWrapper.Message.Warning.ReplicaSetCollectionUnavailable"));
+          logInfo(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.ReplicaSetCollectionUnavailable"));
         }
       } else {
         // log that the local database is not available!!
-        logInfo(
-            BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.LocalDBNotAvailable"));
+        logInfo(BaseMessages.getString(PKG, "MongoNoAuthWrapper.Message.Warning.LocalDBNotAvailable"));
       }
     } catch (Exception ex) {
       throw new MongoDbException(ex);
@@ -414,12 +388,10 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
    * @throws MongoDbException if a problem occurs
    */
   @Override
-  public List<String> getReplicaSetMembersThatSatisfyTagSets(List<DBObject> tagSets)
-      throws MongoDbException {
+  public List<String> getReplicaSetMembersThatSatisfyTagSets(List<DBObject> tagSets) throws MongoDbException {
     try {
       List<String> result = new ArrayList<>();
-      for (DBObject object :
-          checkForReplicaSetMembersThatSatisfyTagSets(tagSets, getRepSetMemberRecords())) {
+      for (DBObject object : checkForReplicaSetMembersThatSatisfyTagSets(tagSets, getRepSetMemberRecords())) {
         result.add(object.toString());
       }
       return result;
@@ -427,16 +399,12 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
       if (ex instanceof MongoDbException) {
         throw (MongoDbException) ex;
       } else {
-        throw new MongoDbException(
-            BaseMessages.getString(
-                PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetReplicaSetMembers"),
-            ex);
+        throw new MongoDbException(BaseMessages.getString(PKG, "MongoNoAuthWrapper.ErrorMessage.UnableToGetReplicaSetMembers"), ex);
       }
     }
   }
 
-  protected List<DBObject> checkForReplicaSetMembersThatSatisfyTagSets(
-      List<DBObject> tagSets, BasicDBList members) {
+  protected List<DBObject> checkForReplicaSetMembersThatSatisfyTagSets(List<DBObject> tagSets, BasicDBList members) {
     List<DBObject> satisfy = new ArrayList<>();
     if (members != null && members.size() > 0) {
       for (Object m : members) {
@@ -517,8 +485,7 @@ class NoAuthMongoClientWrapper implements MongoClientWrapper {
   }
 
   @Override
-  public <ReturnType> ReturnType perform(String db, MongoDBAction<ReturnType> action)
-      throws MongoDbException {
+  public <ReturnType> ReturnType perform(String db, MongoDBAction<ReturnType> action) throws MongoDbException {
     return action.perform(getDb(db));
   }
 

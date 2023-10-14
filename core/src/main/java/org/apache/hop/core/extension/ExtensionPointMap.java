@@ -45,26 +45,24 @@ public class ExtensionPointMap {
   private ExtensionPointMap(PluginRegistry pluginRegistry) {
     this.registry = pluginRegistry;
     extensionPointPluginMap = HashBasedTable.create();
-    registry.addPluginListener(
-        ExtensionPointPluginType.class,
-        new IPluginTypeListener() {
+    registry.addPluginListener(ExtensionPointPluginType.class, new IPluginTypeListener() {
 
-          @Override
-          public void pluginAdded(Object serviceObject) {
-            addExtensionPoint((IPlugin) serviceObject);
-          }
+      @Override
+      public void pluginAdded(Object serviceObject) {
+        addExtensionPoint((IPlugin) serviceObject);
+      }
 
-          @Override
-          public void pluginRemoved(Object serviceObject) {
-            removeExtensionPoint((IPlugin) serviceObject);
-          }
+      @Override
+      public void pluginRemoved(Object serviceObject) {
+        removeExtensionPoint((IPlugin) serviceObject);
+      }
 
-          @Override
-          public void pluginChanged(Object serviceObject) {
-            removeExtensionPoint((IPlugin) serviceObject);
-            addExtensionPoint((IPlugin) serviceObject);
-          }
-        });
+      @Override
+      public void pluginChanged(Object serviceObject) {
+        removeExtensionPoint((IPlugin) serviceObject);
+        addExtensionPoint((IPlugin) serviceObject);
+      }
+    });
 
     List<IPlugin> extensionPointPlugins = registry.getPlugins(ExtensionPointPluginType.class);
     for (IPlugin extensionPointPlugin : extensionPointPlugins) {
@@ -85,8 +83,7 @@ public class ExtensionPointMap {
     lock.writeLock().lock();
     try {
       for (String id : extensionPointPlugin.getIds()) {
-        extensionPointPluginMap.put(
-            extensionPointPlugin.getName(), id, createLazyLoader(extensionPointPlugin));
+        extensionPointPluginMap.put(extensionPointPlugin.getName(), id, createLazyLoader(extensionPointPlugin));
       }
     } finally {
       lock.writeLock().unlock();
@@ -131,7 +128,8 @@ public class ExtensionPointMap {
   /**
    * Call the extension point(s) corresponding to the given id
    *
-   * <p>This iteration was isolated here to protect against ConcurrentModificationException using
+   * <p>
+   * This iteration was isolated here to protect against ConcurrentModificationException using
    * PluginRegistry's lock
    *
    * @param log log channel to pass to extension point call
@@ -139,12 +137,10 @@ public class ExtensionPointMap {
    * @param id the id of the extension point interface
    * @param object object to pass to extension point call
    */
-  public void callExtensionPoint(ILogChannel log, IVariables variables, String id, Object object)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, String id, Object object) throws HopException {
     lock.readLock().lock();
     try {
-      if (extensionPointPluginMap.containsRow(id)
-          && !extensionPointPluginMap.rowMap().get(id).values().isEmpty()) {
+      if (extensionPointPluginMap.containsRow(id) && !extensionPointPluginMap.rowMap().get(id).values().isEmpty()) {
         for (Supplier<IExtensionPoint> extensionPoint : extensionPointPluginMap.row(id).values()) {
           extensionPoint.get().callExtensionPoint(log, variables, object);
         }
@@ -157,7 +153,8 @@ public class ExtensionPointMap {
   /**
    * Returns the element in the position (rowId,columnId) of the table
    *
-   * <p>Useful for Unit Testing
+   * <p>
+   * Useful for Unit Testing
    *
    * @param rowId the key of the row to be accessed
    * @param columnId the key of the column to be accessed
@@ -165,9 +162,7 @@ public class ExtensionPointMap {
   IExtensionPoint getTableValue(String rowId, String columnId) {
     lock.readLock().lock();
     try {
-      return extensionPointPluginMap.contains(rowId, columnId)
-          ? extensionPointPluginMap.get(rowId, columnId).get()
-          : null;
+      return extensionPointPluginMap.contains(rowId, columnId) ? extensionPointPluginMap.get(rowId, columnId).get() : null;
     } finally {
       lock.readLock().unlock();
     }
@@ -176,7 +171,8 @@ public class ExtensionPointMap {
   /**
    * Returns the number of rows of the table
    *
-   * <p>Useful for Unit Testing
+   * <p>
+   * Useful for Unit Testing
    */
   int getNumberOfRows() {
     lock.readLock().lock();
@@ -199,12 +195,7 @@ public class ExtensionPointMap {
       try {
         return registry.loadClass(extensionPointPlugin, IExtensionPoint.class);
       } catch (Exception e) {
-        getLog()
-            .logError(
-                "Unable to load extension point for name = ["
-                    + (extensionPointPlugin != null ? extensionPointPlugin.getName() : "null")
-                    + "]",
-                e);
+        getLog().logError("Unable to load extension point for name = [" + (extensionPointPlugin != null ? extensionPointPlugin.getName() : "null") + "]", e);
         return null;
       }
     }
@@ -221,26 +212,24 @@ public class ExtensionPointMap {
     lock.writeLock().lock();
     try {
       extensionPointPluginMap.clear();
-      registry.addPluginListener(
-          ExtensionPointPluginType.class,
-          new IPluginTypeListener() {
+      registry.addPluginListener(ExtensionPointPluginType.class, new IPluginTypeListener() {
 
-            @Override
-            public void pluginAdded(Object serviceObject) {
-              addExtensionPoint((IPlugin) serviceObject);
-            }
+        @Override
+        public void pluginAdded(Object serviceObject) {
+          addExtensionPoint((IPlugin) serviceObject);
+        }
 
-            @Override
-            public void pluginRemoved(Object serviceObject) {
-              removeExtensionPoint((IPlugin) serviceObject);
-            }
+        @Override
+        public void pluginRemoved(Object serviceObject) {
+          removeExtensionPoint((IPlugin) serviceObject);
+        }
 
-            @Override
-            public void pluginChanged(Object serviceObject) {
-              removeExtensionPoint((IPlugin) serviceObject);
-              addExtensionPoint((IPlugin) serviceObject);
-            }
-          });
+        @Override
+        public void pluginChanged(Object serviceObject) {
+          removeExtensionPoint((IPlugin) serviceObject);
+          addExtensionPoint((IPlugin) serviceObject);
+        }
+      });
     } finally {
       lock.writeLock().unlock();
     }

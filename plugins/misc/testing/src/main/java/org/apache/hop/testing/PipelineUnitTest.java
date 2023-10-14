@@ -42,13 +42,13 @@ import java.util.List;
 @HopMetadata(
     key = "unit-test",
     name = "Pipeline Unit Test",
-    description =
-        "This describes a test for a pipeline with alternative data sets as input from certain transform and testing output against golden data",
+    description = "This describes a test for a pipeline with alternative data sets as input from certain transform and testing output against golden data",
     image = "Test_tube_icon.svg",
     documentationUrl = "/metadata-types/pipeline-unit-test.html")
 public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   @HopMetadataProperty(key = "pipeline_filename")
   protected String pipelineFilename; // file (3rd priority)
@@ -68,14 +68,17 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
   @HopMetadataProperty(key = "persist_filename")
   protected String filename;
 
-  @HopMetadataProperty protected String basePath;
+  @HopMetadataProperty
+  protected String basePath;
 
   @HopMetadataProperty(key = "database_replacements")
   protected List<PipelineUnitTestDatabaseReplacement> databaseReplacements;
 
-  @HopMetadataProperty protected List<VariableValue> variableValues;
+  @HopMetadataProperty
+  protected List<VariableValue> variableValues;
 
-  @HopMetadataProperty protected boolean autoOpening;
+  @HopMetadataProperty
+  protected boolean autoOpening;
 
   public PipelineUnitTest() {
     inputDataSets = new ArrayList<>();
@@ -88,17 +91,9 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
     autoOpening = true;
   }
 
-  public PipelineUnitTest(
-      String name,
-      String description,
-      String pipelineFilename,
-      List<PipelineUnitTestSetLocation> inputDataSets,
-      List<PipelineUnitTestSetLocation> goldenDataSets,
-      List<PipelineUnitTestTweak> tweaks,
-      TestType type,
-      String filename,
-      List<PipelineUnitTestDatabaseReplacement> databaseReplacements,
-      boolean autoOpening) {
+  public PipelineUnitTest(String name, String description, String pipelineFilename, List<PipelineUnitTestSetLocation> inputDataSets,
+      List<PipelineUnitTestSetLocation> goldenDataSets, List<PipelineUnitTestTweak> tweaks, TestType type, String filename,
+      List<PipelineUnitTestDatabaseReplacement> databaseReplacements, boolean autoOpening) {
     this();
     this.name = name;
     this.description = description;
@@ -139,9 +134,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
    * @return The golden data set
    * @throws HopException
    */
-  public DataSet getGoldenDataSet(
-      ILogChannel log, IHopMetadataProvider metadataProvider, PipelineUnitTestSetLocation location)
-      throws HopException {
+  public DataSet getGoldenDataSet(ILogChannel log, IHopMetadataProvider metadataProvider, PipelineUnitTestSetLocation location) throws HopException {
 
     String transformName = location.getTransformName();
     String goldenDataSetName = location.getDataSetName();
@@ -150,25 +143,18 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
       // Look in the golden data sets list for the mentioned transform name
       //
       if (goldenDataSetName == null) {
-        throw new HopException(
-            "Unable to find golden data set for transform '" + transformName + "'");
+        throw new HopException("Unable to find golden data set for transform '" + transformName + "'");
       }
 
       DataSet goldenDataSet = metadataProvider.getSerializer(DataSet.class).load(goldenDataSetName);
       if (goldenDataSet == null) {
-        throw new HopException(
-            "Unable to find golden data set '"
-                + goldenDataSetName
-                + "' for transform '"
-                + transformName
-                + "'");
+        throw new HopException("Unable to find golden data set '" + goldenDataSetName + "' for transform '" + transformName + "'");
       }
 
       return goldenDataSet;
 
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to retrieve sorted golden row data set '" + transformName + "'", e);
+      throw new HopException("Unable to retrieve sorted golden row data set '" + transformName + "'", e);
     }
   }
 
@@ -180,8 +166,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
    */
   public PipelineUnitTestTweak findTweak(String transformName) {
     for (PipelineUnitTestTweak tweak : tweaks) {
-      if (tweak.getTransformName() != null
-          && tweak.getTransformName().equalsIgnoreCase(transformName)) {
+      if (tweak.getTransformName() != null && tweak.getTransformName().equalsIgnoreCase(transformName)) {
         return tweak;
       }
     }
@@ -192,20 +177,18 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
    * Remove all input and golden data sets on the transform with the provided name
    *
    * @param transformName the name of the transform for which we need to clear out all input and
-   *     golden data sets
+   *        golden data sets
    */
   public void removeInputAndGoldenDataSets(String transformName) {
 
-    for (Iterator<PipelineUnitTestSetLocation> iterator = inputDataSets.iterator();
-        iterator.hasNext(); ) {
+    for (Iterator<PipelineUnitTestSetLocation> iterator = inputDataSets.iterator(); iterator.hasNext();) {
       PipelineUnitTestSetLocation inputLocation = iterator.next();
       if (inputLocation.getTransformName().equalsIgnoreCase(transformName)) {
         iterator.remove();
       }
     }
 
-    for (Iterator<PipelineUnitTestSetLocation> iterator = goldenDataSets.iterator();
-        iterator.hasNext(); ) {
+    for (Iterator<PipelineUnitTestSetLocation> iterator = goldenDataSets.iterator(); iterator.hasNext();) {
       PipelineUnitTestSetLocation goldenLocation = iterator.next();
       if (goldenLocation.getTransformName().equalsIgnoreCase(transformName)) {
         iterator.remove();
@@ -213,8 +196,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
     }
   }
 
-  public boolean matchesPipelineFilename(IVariables variables, String referencePipelineFilename)
-      throws HopFileException, FileSystemException {
+  public boolean matchesPipelineFilename(IVariables variables, String referencePipelineFilename) throws HopFileException, FileSystemException {
     if (Utils.isEmpty(referencePipelineFilename)) {
       return false;
     }
@@ -386,8 +368,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
   }
 
   /** @param databaseReplacements The databaseReplacements to set */
-  public void setDatabaseReplacements(
-      List<PipelineUnitTestDatabaseReplacement> databaseReplacements) {
+  public void setDatabaseReplacements(List<PipelineUnitTestDatabaseReplacement> databaseReplacements) {
     this.databaseReplacements = databaseReplacements;
   }
 
@@ -419,8 +400,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
     this.autoOpening = autoOpening;
   }
 
-  public void setRelativeFilename(IVariables variables, String referencePipelineFilename)
-      throws HopException {
+  public void setRelativeFilename(IVariables variables, String referencePipelineFilename) throws HopException {
     // Build relative path whenever a pipeline is saved
     //
     if (StringUtils.isEmpty(referencePipelineFilename)) {
@@ -465,11 +445,7 @@ public class PipelineUnitTest extends HopMetadataBase implements Cloneable, IHop
               //
               setPipelineFilename(relativeFilename);
 
-              LogChannel.GENERAL.logDetailed(
-                  "Unit test '"
-                      + getName()
-                      + "' : saved relative path to pipeline: "
-                      + relativeFilename);
+              LogChannel.GENERAL.logDetailed("Unit test '" + getName() + "' : saved relative path to pipeline: " + relativeFilename);
             }
           }
           parent = parent.getParent();

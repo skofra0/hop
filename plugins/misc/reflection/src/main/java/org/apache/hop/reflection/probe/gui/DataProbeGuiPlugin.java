@@ -69,22 +69,15 @@ public class DataProbeGuiPlugin {
       // Present the user with a list of pipeline probes...
       //
       IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-      IHopMetadataSerializer<PipelineProbe> serializer =
-          metadataProvider.getSerializer(PipelineProbe.class);
-      MetadataManager<PipelineProbe> manager =
-          new MetadataManager<>(
-              hopGui.getVariables(),
-              metadataProvider,
-              PipelineProbe.class,
-              context.getPipelineGraph().getShell());
+      IHopMetadataSerializer<PipelineProbe> serializer = metadataProvider.getSerializer(PipelineProbe.class);
+      MetadataManager<PipelineProbe> manager = new MetadataManager<>(hopGui.getVariables(), metadataProvider, PipelineProbe.class, context.getPipelineGraph().getShell());
 
       PipelineProbe pipelineProbe = null;
       List<String> pipelineProbeNames = serializer.listObjectNames();
       if (pipelineProbeNames.isEmpty()) {
         MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
         box.setText(BaseMessages.getString(PKG, "PipelineProbeGuiAction.NoProbeMessagebox.Label"));
-        box.setMessage(
-            BaseMessages.getString(PKG, "PipelineProbeGuiAction.NoProbeMessagebox.Description"));
+        box.setMessage(BaseMessages.getString(PKG, "PipelineProbeGuiAction.NoProbeMessagebox.Description"));
         int answer = box.open();
         if ((answer & SWT.YES) != 0) {
           // Create a new pipeline probe...
@@ -114,12 +107,9 @@ public class DataProbeGuiPlugin {
 
         // See if it's open in the metadata perspective...
         //
-        MetadataPerspective perspective =
-            (MetadataPerspective)
-                hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
+        MetadataPerspective perspective = (MetadataPerspective) hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
         String key = PipelineProbe.class.getAnnotation(HopMetadata.class).key();
-        PipelineProbeEditor editor =
-            (PipelineProbeEditor) perspective.findEditor(key, pipelineProbe.getName());
+        PipelineProbeEditor editor = (PipelineProbeEditor) perspective.findEditor(key, pipelineProbe.getName());
         if (editor != null) {
           // We're going to change the current metadata and flag it as changed...
           //
@@ -161,31 +151,20 @@ public class DataProbeGuiPlugin {
       new ErrorDialog(
           hopGui.getShell(),
           BaseMessages.getString(PKG, "PipelineProbeGuiAction.ErrorDialog.Label"),
-          BaseMessages.getString(PKG, "PipelineProbeGuiAction.ErrorDialog.Description")
-              + " '"
-              + transformMeta.getName()
-              + "'",
+          BaseMessages.getString(PKG, "PipelineProbeGuiAction.ErrorDialog.Description") + " '" + transformMeta.getName() + "'",
           e);
     }
   }
 
-  private void addLocation(
-      IVariables variables,
-      PipelineProbe pipelineProbe,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta)
-      throws HopException {
+  private void addLocation(IVariables variables, PipelineProbe pipelineProbe, PipelineMeta pipelineMeta, TransformMeta transformMeta) throws HopException {
 
     // Allow our plugins (projects etc) to turn the filename into a relative path...
     //
     String probeFilename = pipelineMeta.getFilename();
     HopGuiFileOpenedExtension ext = new HopGuiFileOpenedExtension(null, variables, probeFilename);
 
-    ExtensionPointHandler.callExtensionPoint(
-        LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
+    ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
 
-    pipelineProbe
-        .getDataProbeLocations()
-        .add(new DataProbeLocation(ext.filename, transformMeta.getName()));
+    pipelineProbe.getDataProbeLocations().add(new DataProbeLocation(ext.filename, transformMeta.getName()));
   }
 }

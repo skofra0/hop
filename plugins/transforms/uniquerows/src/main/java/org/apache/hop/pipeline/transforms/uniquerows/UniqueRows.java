@@ -32,13 +32,7 @@ import java.util.List;
 public class UniqueRows extends BaseTransform<UniqueRowsMeta, UniqueRowsData> {
   private static final Class<?> PKG = UniqueRowsMeta.class; // For Translator
 
-  public UniqueRows(
-      TransformMeta transformMeta,
-      UniqueRowsMeta meta,
-      UniqueRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public UniqueRows(TransformMeta transformMeta, UniqueRowsMeta meta, UniqueRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -77,24 +71,17 @@ public class UniqueRows extends BaseTransform<UniqueRowsMeta, UniqueRowsData> {
 
         data.fieldnrs[i] = getInputRowMeta().indexOfValue(field.getName());
         if (data.fieldnrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "UniqueRows.Log.CouldNotFindFieldInRow", field.getName()));
+          logError(BaseMessages.getString(PKG, "UniqueRows.Log.CouldNotFindFieldInRow", field.getName()));
           setErrors(1);
           stopAll();
           return false;
         }
         // Change the case insensitive flag...
         //
-        data.compareRowMeta
-            .getValueMeta(data.fieldnrs[i])
-            .setCaseInsensitive(field.isCaseInsensitive());
+        data.compareRowMeta.getValueMeta(data.fieldnrs[i]).setCaseInsensitive(field.isCaseInsensitive());
 
         if (data.sendDuplicateRows) {
-          data.compareFields =
-              data.compareFields == null
-                  ? field.getName()
-                  : data.compareFields + "," + field.getName();
+          data.compareFields = data.compareFields == null ? field.getName() : data.compareFields + "," + field.getName();
         }
       }
       if (data.sendDuplicateRows && !Utils.isEmpty(meta.getErrorDescription())) {
@@ -125,13 +112,7 @@ public class UniqueRows extends BaseTransform<UniqueRowsMeta, UniqueRowsData> {
     } else {
       data.counter++;
       if (data.sendDuplicateRows && !first) {
-        putError(
-            getInputRowMeta(),
-            r,
-            1,
-            data.realErrorDescription,
-            Utils.isEmpty(data.compareFields) ? null : data.compareFields,
-            "UNR001");
+        putError(getInputRowMeta(), r, 1, data.realErrorDescription, Utils.isEmpty(data.compareFields) ? null : data.compareFields, "UNR001");
       }
     }
 
@@ -155,8 +136,7 @@ public class UniqueRows extends BaseTransform<UniqueRowsMeta, UniqueRowsData> {
 
     if (super.init()) {
       // Add init code here.
-      data.sendDuplicateRows =
-          getTransformMeta().getTransformErrorMeta() != null && meta.supportsErrorHandling();
+      data.sendDuplicateRows = getTransformMeta().getTransformErrorMeta() != null && meta.supportsErrorHandling();
       return true;
     }
     return false;

@@ -87,8 +87,7 @@ public class WorkflowEntryDeleteFilesTest {
     action.setArgFromPrevious(false);
 
     action.execute(new Result(), 0);
-    verify(action, times(args.length))
-        .processFile(nullable(String.class), nullable(String.class), any(Workflow.class));
+    verify(action, times(args.length)).processFile(nullable(String.class), nullable(String.class), any(Workflow.class));
   }
 
   @Test
@@ -118,8 +117,7 @@ public class WorkflowEntryDeleteFilesTest {
     prevMetaResult.setRows(metaAndDataList);
 
     action.execute(prevMetaResult, 0);
-    verify(action, times(metaAndDataList.size()))
-        .processFile(anyString(), nullable(String.class), any(Workflow.class));
+    verify(action, times(metaAndDataList.size())).processFile(anyString(), nullable(String.class), any(Workflow.class));
   }
 
   @Test
@@ -130,8 +128,7 @@ public class WorkflowEntryDeleteFilesTest {
     action.setVariable(pathToFileBlankValue, Const.EMPTY_STRING);
     action.setVariable(pathToFileValidValue, PATH_TO_FILE);
 
-    action.setArguments(
-        new String[] {asVariable(pathToFileBlankValue), asVariable(pathToFileValidValue)});
+    action.setArguments(new String[] {asVariable(pathToFileBlankValue), asVariable(pathToFileValidValue)});
     action.setFilemasks(new String[] {null, null});
     action.setArgFromPrevious(false);
 

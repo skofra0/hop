@@ -33,13 +33,7 @@ import java.util.regex.Pattern;
 public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
   private static final Class<?> PKG = RegexEvalMeta.class; // For Translator
 
-  public RegexEval(
-      TransformMeta transformMeta,
-      RegexEvalMeta meta,
-      RegexEvalData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public RegexEval(TransformMeta transformMeta, RegexEvalMeta meta, RegexEvalData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,8 +62,7 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
         if (!meta.isAllowCaptureGroupsFlagSet()) {
           // Result field is missing !
           logError(BaseMessages.getString(PKG, "RegexEval.Log.ErrorResultFieldMissing"));
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "RegexEval.Exception.ErrorResultFieldMissing"));
+          throw new HopTransformException(BaseMessages.getString(PKG, "RegexEval.Exception.ErrorResultFieldMissing"));
         }
         data.indexOfResultField = -1;
       } else {
@@ -86,22 +79,15 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
       if (meta.getMatcher() == null) {
         // Matcher is missing !
         logError(BaseMessages.getString(PKG, "RegexEval.Log.ErrorMatcherMissing"));
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "RegexEval.Exception.ErrorMatcherMissing"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "RegexEval.Exception.ErrorMatcherMissing"));
       }
 
       // ICache the position of the Field
       data.indexOfFieldToEvaluate = getInputRowMeta().indexOfValue(meta.getMatcher());
       if (data.indexOfFieldToEvaluate < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, "RegexEval.Log.ErrorFindingField")
-                + "["
-                + meta.getMatcher()
-                + "]");
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "RegexEval.Exception.CouldnotFindField", meta.getMatcher()));
+        logError(BaseMessages.getString(PKG, "RegexEval.Log.ErrorFindingField") + "[" + meta.getMatcher() + "]");
+        throw new HopTransformException(BaseMessages.getString(PKG, "RegexEval.Exception.CouldnotFindField", meta.getMatcher()));
       }
 
       // ICache the position of the CaptureGroups
@@ -150,18 +136,9 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
         if (meta.isAllowCaptureGroupsFlagSet() && data.positions.length != m.groupCount()) {
           // Runtime exception case. The number of capture groups in the
           // regex doesn't match the number of fields.
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "RegexEval.Log.ErrorCaptureGroupFieldsMismatch",
-                  String.valueOf(m.groupCount()),
-                  String.valueOf(data.positions.length)));
+          logError(BaseMessages.getString(PKG, "RegexEval.Log.ErrorCaptureGroupFieldsMismatch", String.valueOf(m.groupCount()), String.valueOf(data.positions.length)));
           throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG,
-                  "RegexEval.Exception.ErrorCaptureGroupFieldsMismatch",
-                  String.valueOf(m.groupCount()),
-                  String.valueOf(data.positions.length)));
+              BaseMessages.getString(PKG, "RegexEval.Exception.ErrorCaptureGroupFieldsMismatch", String.valueOf(m.groupCount()), String.valueOf(data.positions.length)));
         }
 
         for (int i = 0; i < data.positions.length; i++) {
@@ -185,13 +162,7 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
 
           IValueMeta valueMeta = data.outputRowMeta.getValueMeta(index);
           IValueMeta conversionValueMeta = data.conversionRowMeta.getValueMeta(index);
-          Object convertedValue =
-              valueMeta.convertDataFromString(
-                  value,
-                  conversionValueMeta,
-                  meta.getFieldNullIf()[i],
-                  meta.getFieldIfNull()[i],
-                  meta.getFieldTrimType()[i]);
+          Object convertedValue = valueMeta.convertDataFromString(value, conversionValueMeta, meta.getFieldNullIf()[i], meta.getFieldIfNull()[i], meta.getFieldTrimType()[i]);
 
           outputRow[index] = convertedValue;
         }
@@ -202,10 +173,7 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "RegexEval.Log.ReadRow")
-                + " "
-                + getInputRowMeta().getString(row));
+        logRowlevel(BaseMessages.getString(PKG, "RegexEval.Log.ReadRow") + " " + getInputRowMeta().getString(row));
       }
 
       // copy row to output rowset(s)
@@ -219,8 +187,7 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "RegexEval.Log.ErrorInTransform"), e);
+        throw new HopTransformException(BaseMessages.getString(PKG, "RegexEval.Log.ErrorInTransform"), e);
       }
 
       if (sendToErrorRow) {
@@ -244,11 +211,7 @@ public class RegexEval extends BaseTransform<RegexEvalMeta, RegexEvalData> {
         regularexpression = resolve(meta.getScript());
       }
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "RegexEval.Log.Regexp")
-                + " "
-                + options
-                + regularexpression);
+        logDetailed(BaseMessages.getString(PKG, "RegexEval.Log.Regexp") + " " + options + regularexpression);
       }
 
       if (meta.isCanonicalEqualityFlagSet()) {

@@ -32,12 +32,7 @@ import java.util.Date;
 
 public class NeoHopData {
 
-  public static Object convertNeoToHopValue(
-      String recordValueName,
-      Value recordValue,
-      GraphPropertyDataType neoType,
-      IValueMeta targetValueMeta)
-      throws HopException {
+  public static Object convertNeoToHopValue(String recordValueName, Value recordValue, GraphPropertyDataType neoType, IValueMeta targetValueMeta) throws HopException {
     if (recordValue == null || recordValue.isNull()) {
       return null;
     }
@@ -60,26 +55,20 @@ public class NeoHopData {
           if (neoType != null) {
             // Standard...
             switch (neoType) {
-              case LocalDateTime:
-                {
-                  LocalDateTime localDateTime = recordValue.asLocalDateTime();
-                  return java.sql.Date.valueOf(localDateTime.toLocalDate());
-                }
-              case Date:
-                {
-                  LocalDate localDate = recordValue.asLocalDate();
-                  return java.sql.Date.valueOf(localDate);
-                }
-              case DateTime:
-                {
-                  ZonedDateTime zonedDateTime = recordValue.asZonedDateTime();
-                  return Date.from(zonedDateTime.toInstant());
-                }
+              case LocalDateTime: {
+                LocalDateTime localDateTime = recordValue.asLocalDateTime();
+                return java.sql.Date.valueOf(localDateTime.toLocalDate());
+              }
+              case Date: {
+                LocalDate localDate = recordValue.asLocalDate();
+                return java.sql.Date.valueOf(localDate);
+              }
+              case DateTime: {
+                ZonedDateTime zonedDateTime = recordValue.asZonedDateTime();
+                return Date.from(zonedDateTime.toInstant());
+              }
               default:
-                throw new HopException(
-                    "Conversion from Neo4j daa type "
-                        + neoType.name()
-                        + " to a Hop Date isn't supported yet");
+                throw new HopException("Conversion from Neo4j daa type " + neoType.name() + " to a Hop Date isn't supported yet");
             }
           } else {
             LocalDate localDate = recordValue.asLocalDate();
@@ -89,16 +78,10 @@ public class NeoHopData {
           LocalDateTime localDateTime = recordValue.asLocalDateTime();
           return java.sql.Timestamp.valueOf(localDateTime);
         default:
-          throw new HopException(
-              "Unable to convert Neo4j data to type " + targetValueMeta.toStringMeta());
+          throw new HopException("Unable to convert Neo4j data to type " + targetValueMeta.toStringMeta());
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to convert Neo4j record value '"
-              + recordValueName
-              + "' to type : "
-              + targetValueMeta.getTypeDesc(),
-          e);
+      throw new HopException("Unable to convert Neo4j record value '" + recordValueName + "' to type : " + targetValueMeta.getTypeDesc(), e);
     }
   }
 
@@ -123,18 +106,16 @@ public class NeoHopData {
         return JSONValue.toJSONString(recordValue.asList());
       case Map:
         return JSONValue.toJSONString(recordValue.asMap());
-      case Node:
-        {
-          GraphData graphData = new GraphData();
-          graphData.update(recordValue.asNode());
-          return graphData.toJson().toJSONString();
-        }
-      case Path:
-        {
-          GraphData graphData = new GraphData();
-          graphData.update(recordValue.asPath());
-          return graphData.toJson().toJSONString();
-        }
+      case Node: {
+        GraphData graphData = new GraphData();
+        graphData.update(recordValue.asNode());
+        return graphData.toJson().toJSONString();
+      }
+      case Path: {
+        GraphData graphData = new GraphData();
+        graphData.update(recordValue.asPath());
+        return graphData.toJson().toJSONString();
+      }
       default:
         return JSONValue.toJSONString(recordValue.asObject());
     }
@@ -147,14 +128,12 @@ public class NeoHopData {
    * @param sourceType The Neo4j source type
    * @return The String value of the record value
    */
-  public static GraphData convertToGraphData(Value recordValue, GraphPropertyDataType sourceType)
-      throws HopException {
+  public static GraphData convertToGraphData(Value recordValue, GraphPropertyDataType sourceType) throws HopException {
     if (recordValue == null) {
       return null;
     }
     if (sourceType == null) {
-      throw new HopException(
-          "Please specify a Neo4j source data type to convert to Graph.  NODE, RELATIONSHIP and PATH are supported.");
+      throw new HopException("Please specify a Neo4j source data type to convert to Graph.  NODE, RELATIONSHIP and PATH are supported.");
     }
     GraphData graphData;
     switch (sourceType) {
@@ -169,9 +148,7 @@ public class NeoHopData {
         break;
 
       default:
-        throw new HopException(
-            "We can only convert NODE, PATH and RELATIONSHIP source values to a Graph data type, not "
-                + sourceType.name());
+        throw new HopException("We can only convert NODE, PATH and RELATIONSHIP source values to a Graph data type, not " + sourceType.name());
     }
     return graphData;
   }

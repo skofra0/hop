@@ -128,12 +128,10 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
-      argFromPrevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
+      argFromPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
       successCondition = XmlHandler.getTagValue(entrynode, "success_condition");
       limitFolders = XmlHandler.getTagValue(entrynode, "limit_folders");
 
@@ -150,8 +148,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
         arguments[i] = XmlHandler.getTagValue(fnode, "name");
       }
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionDeleteFolders.UnableToLoadFromXml"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionDeleteFolders.UnableToLoadFromXml"), xe);
     }
   }
 
@@ -169,19 +166,13 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
     nrLimitFolders = Const.toInt(resolve(getLimitFolders()), 10);
 
     if (argFromPrevious && log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(
-              PKG,
-              "ActionDeleteFolders.FoundPreviousRows",
-              String.valueOf((rows != null ? rows.size() : 0))));
+      logDetailed(BaseMessages.getString(PKG, "ActionDeleteFolders.FoundPreviousRows", String.valueOf((rows != null ? rows.size() : 0))));
     }
 
     if (argFromPrevious && rows != null) {
       for (int iteration = 0; iteration < rows.size() && !parentWorkflow.isStopped(); iteration++) {
         if (successConditionBroken) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionDeleteFolders.Error.SuccessConditionbroken", "" + nrErrors));
+          logError(BaseMessages.getString(PKG, "ActionDeleteFolders.Error.SuccessConditionbroken", "" + nrErrors));
           result.setNrErrors(nrErrors);
           result.setNrLinesDeleted(nrSuccess);
           return result;
@@ -202,9 +193,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
     } else if (arguments != null) {
       for (int i = 0; i < arguments.length && !parentWorkflow.isStopped(); i++) {
         if (successConditionBroken) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "ActionDeleteFolders.Error.SuccessConditionbroken", "" + nrErrors));
+          logError(BaseMessages.getString(PKG, "ActionDeleteFolders.Error.SuccessConditionbroken", "" + nrErrors));
           result.setNrErrors(nrErrors);
           result.setNrLinesDeleted(nrSuccess);
           return result;
@@ -225,11 +214,8 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
 
     if (log.isDetailed()) {
       logDetailed("=======================================");
-      logDetailed(
-          BaseMessages.getString(PKG, "ActionDeleteFolders.Log.Info.NrError", "" + nrErrors));
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionDeleteFolders.Log.Info.NrDeletedFolders", "" + nrSuccess));
+      logDetailed(BaseMessages.getString(PKG, "ActionDeleteFolders.Log.Info.NrError", "" + nrErrors));
+      logDetailed(BaseMessages.getString(PKG, "ActionDeleteFolders.Log.Info.NrDeletedFolders", "" + nrSuccess));
       logDetailed("=======================================");
     }
 
@@ -252,8 +238,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
 
   private boolean checkIfSuccessConditionBroken() {
     boolean retval = false;
-    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrErrors >= nrLimitFolders && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
+    if ((nrErrors > 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS)) || (nrErrors >= nrLimitFolders && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
     return retval;
@@ -267,8 +252,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
     boolean retval = false;
 
     if ((nrErrors == 0 && getSuccessCondition().equals(SUCCESS_IF_NO_ERRORS))
-        || (nrSuccess >= nrLimitFolders
-            && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FOLDERS_DELETED))
+        || (nrSuccess >= nrLimitFolders && getSuccessCondition().equals(SUCCESS_IF_AT_LEAST_X_FOLDERS_DELETED))
         || (nrErrors <= nrLimitFolders && getSuccessCondition().equals(SUCCESS_IF_ERRORS_LESS))) {
       retval = true;
     }
@@ -288,16 +272,13 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
         if (filefolder.getType() == FileType.FOLDER) {
           // It's a folder
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "ActionDeleteFolders.ProcessingFolder", folderName));
+            logDetailed(BaseMessages.getString(PKG, "ActionDeleteFolders.ProcessingFolder", folderName));
           }
           // Delete Files
           int count = filefolder.delete(new TextFileSelector());
 
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionDeleteFolders.TotalDeleted", folderName, String.valueOf(count)));
+            logDetailed(BaseMessages.getString(PKG, "ActionDeleteFolders.TotalDeleted", folderName, String.valueOf(count)));
           }
           rcode = true;
         } else {
@@ -307,16 +288,12 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
       } else {
         // File already deleted, no reason to try to delete it
         if (log.isBasic()) {
-          logBasic(
-              BaseMessages.getString(PKG, "ActionDeleteFolders.FolderAlreadyDeleted", folderName));
+          logBasic(BaseMessages.getString(PKG, "ActionDeleteFolders.FolderAlreadyDeleted", folderName));
         }
         rcode = true;
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionDeleteFolders.CouldNotDelete", folderName, e.getMessage()),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionDeleteFolders.CouldNotDelete", folderName, e.getMessage()), e);
     } finally {
       if (filefolder != null) {
         try {
@@ -352,18 +329,8 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean res =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "arguments",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean res = ActionValidatorUtils.andValidator().validate(this, "arguments", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (!res) {
       return;
@@ -371,8 +338,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
 
     for (int i = 0; i < arguments.length; i++) {
       ActionValidatorUtils.andValidator().validate(this, "arguments[" + i + "]", remarks, ctx);
@@ -380,8 +346,7 @@ public class ActionDeleteFolders extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (arguments != null) {
       ResourceReference reference = null;

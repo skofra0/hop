@@ -82,8 +82,7 @@ public class HopServerTest {
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -111,9 +110,7 @@ public class HopServerTest {
 
     doReturn(closeableHttpResponseMock).when(httpClient).execute(any(HttpGet.class));
     doReturn(closeableHttpResponseMock).when(httpClient).execute(any(HttpPost.class));
-    doReturn(closeableHttpResponseMock)
-        .when(httpClient)
-        .execute(any(HttpPost.class), nullable(HttpClientContext.class));
+    doReturn(closeableHttpResponseMock).when(httpClient).execute(any(HttpPost.class), nullable(HttpClientContext.class));
 
     hopServer = spy(new HopServer());
     variables = new Variables();
@@ -127,8 +124,7 @@ public class HopServerTest {
     when(status.getStatusCode()).thenReturn(statusCode);
     when(resp.getStatusLine()).thenReturn(status);
     HttpEntity entity = mock(HttpEntity.class);
-    when(entity.getContent())
-        .thenReturn(new ByteArrayInputStream(entityText.getBytes(StandardCharsets.UTF_8)));
+    when(entity.getContent()).thenReturn(new ByteArrayInputStream(entityText.getBytes(StandardCharsets.UTF_8)));
     when(resp.getEntity()).thenReturn(entity);
     return resp;
   }
@@ -142,20 +138,16 @@ public class HopServerTest {
     doReturn(uriMock).when(httpGetMock).getURI();
 
     HttpClient clientMock = mock(HttpClient.class);
-    when(clientMock.execute(any(HttpUriRequest.class), any(HttpContext.class)))
-        .then(
-            invocation -> {
-              HttpUriRequest request = invocation.getArgument(0);
-              if (request.getURI().equals(uriMock)) {
-                return mockResponse(404, "");
-              }
-              return mockResponse(200, "");
-            });
+    when(clientMock.execute(any(HttpUriRequest.class), any(HttpContext.class))).then(invocation -> {
+      HttpUriRequest request = invocation.getArgument(0);
+      if (request.getURI().equals(uriMock)) {
+        return mockResponse(404, "");
+      }
+      return mockResponse(200, "");
+    });
     when(hopServer.getHttpClient()).thenReturn(clientMock);
 
-    doReturn(httpGetMock)
-        .when(hopServer)
-        .buildExecuteServiceMethod(any(IVariables.class), anyString(), anyMap());
+    doReturn(httpGetMock).when(hopServer).buildExecuteServiceMethod(any(IVariables.class), anyString(), anyMap());
     hopServer.setHostname("hostNameStub");
     hopServer.setUsername("userNAmeStub");
     hopServer.execService(Variables.getADefaultVariableSpace(), nonExistingAppName);
@@ -169,9 +161,7 @@ public class HopServerTest {
     HttpPost httpPostMock = mock(HttpPost.class);
     URI uriMock = new URI("fake");
     doReturn(uriMock).when(httpPostMock).getURI();
-    doReturn(httpPostMock)
-        .when(hopServer)
-        .buildSendXmlMethod(any(Variables.class), any(byte[].class), anyString());
+    doReturn(httpPostMock).when(hopServer).buildSendXmlMethod(any(Variables.class), any(byte[].class), anyString());
     hopServer.sendXml(variables, "", "");
     fail("Incorrect connection details had been used, but no exception was thrown");
   }
@@ -183,10 +173,7 @@ public class HopServerTest {
     HttpPost httpPostMock = mock(HttpPost.class);
     URI uriMock = new URI("fake");
     doReturn(uriMock).when(httpPostMock).getURI();
-    doReturn(httpPostMock)
-        .when(hopServer)
-        .buildSendExportMethod(
-            any(Variables.class), anyString(), anyString(), any(InputStream.class));
+    doReturn(httpPostMock).when(hopServer).buildSendExportMethod(any(Variables.class), anyString(), anyString(), any(InputStream.class));
     File tempFile;
     tempFile = File.createTempFile("ApacheHop-", "tmp");
     tempFile.deleteOnExit();
@@ -207,24 +194,17 @@ public class HopServerTest {
     doReturn(uriMock).when(httpPostMock).getURI();
 
     HttpClient client = mock(HttpClient.class);
-    when(client.execute(any(), any(HttpContext.class)))
-        .then(
-            (Answer<HttpResponse>)
-                invocation -> {
-                  HttpClientContext context = (HttpClientContext) invocation.getArguments()[1];
-                  Credentials cred =
-                      context.getCredentialsProvider().getCredentials(new AuthScope("hname", 1111));
-                  assertEquals("uname", cred.getUserPrincipal().getName());
-                  return mockResponse(200, responseContent);
-                });
+    when(client.execute(any(), any(HttpContext.class))).then((Answer<HttpResponse>) invocation -> {
+      HttpClientContext context = (HttpClientContext) invocation.getArguments()[1];
+      Credentials cred = context.getCredentialsProvider().getCredentials(new AuthScope("hname", 1111));
+      assertEquals("uname", cred.getUserPrincipal().getName());
+      return mockResponse(200, responseContent);
+    });
     // override init
     when(hopServer.getHttpClient()).thenReturn(client);
     when(hopServer.getResponseBodyAsString(any())).thenCallRealMethod();
 
-    doReturn(httpPostMock)
-        .when(hopServer)
-        .buildSendExportMethod(
-            any(Variables.class), anyString(), anyString(), any(InputStream.class));
+    doReturn(httpPostMock).when(hopServer).buildSendExportMethod(any(Variables.class), anyString(), anyString(), any(InputStream.class));
     File tempFile;
     tempFile = File.createTempFile("ApacheHop-", "tmp");
     tempFile.deleteOnExit();

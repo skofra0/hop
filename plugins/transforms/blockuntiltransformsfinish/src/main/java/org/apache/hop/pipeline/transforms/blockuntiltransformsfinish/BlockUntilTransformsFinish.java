@@ -29,17 +29,11 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Block all incoming rows until defined transforms finish processing rows. */
-public class BlockUntilTransformsFinish
-    extends BaseTransform<BlockUntilTransformsFinishMeta, BlockUntilTransformsFinishData> {
+public class BlockUntilTransformsFinish extends BaseTransform<BlockUntilTransformsFinishMeta, BlockUntilTransformsFinishData> {
 
   private static final Class<?> PKG = BlockUntilTransformsFinishMeta.class; // For Translator
 
-  public BlockUntilTransformsFinish(
-      TransformMeta transformMeta,
-      BlockUntilTransformsFinishMeta meta,
-      BlockUntilTransformsFinishData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
+  public BlockUntilTransformsFinish(TransformMeta transformMeta, BlockUntilTransformsFinishMeta meta, BlockUntilTransformsFinishData data, int copyNr, PipelineMeta pipelineMeta,
       Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -50,8 +44,7 @@ public class BlockUntilTransformsFinish
     if (first) {
       first = false;
       if (meta.getBlockingTransforms().isEmpty()) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "BlockUntilTransformsFinish.Error.NotTransforms"));
+        throw new HopException(BaseMessages.getString(PKG, "BlockUntilTransformsFinish.Error.NotTransforms"));
       }
 
       // Get target transformnames
@@ -63,31 +56,21 @@ public class BlockUntilTransformsFinish
         BlockingTransform blockingTransform = meta.getBlockingTransforms().get(i);
         // We can not get metrics from current transform
         if (blockingTransform.getName().equals(getTransformName())) {
-          throw new HopException(
-              "You can not wait for transform [" + blockingTransform.getName() + "] to finish!");
+          throw new HopException("You can not wait for transform [" + blockingTransform.getName() + "] to finish!");
         }
         if (targetTransforms != null) {
           // We can not get metrics from the target transforms
           for (int j = 0; j < targetTransforms.length; j++) {
             if (blockingTransform.getName().equals(targetTransforms[j])) {
-              throw new HopException(
-                  "You can not get metrics for the target transform ["
-                      + targetTransforms[j]
-                      + "]!");
+              throw new HopException("You can not get metrics for the target transform [" + targetTransforms[j] + "]!");
             }
           }
         }
 
         int copyNr = Const.toInt(blockingTransform.getCopyNr(), 0);
-        IEngineComponent component =
-            getDispatcher().findComponent(blockingTransform.getName(), copyNr);
+        IEngineComponent component = getDispatcher().findComponent(blockingTransform.getName(), copyNr);
         if (component == null) {
-          throw new HopException(
-              "Error finding transform ["
-                  + blockingTransform.getName()
-                  + "] nr copy="
-                  + copyNr
-                  + "!");
+          throw new HopException("Error finding transform [" + blockingTransform.getName() + "] nr copy=" + copyNr + "!");
         }
 
         data.componentMap.put(i, component);
@@ -101,25 +84,17 @@ public class BlockUntilTransformsFinish
       while (it.hasNext()) {
         Entry<Integer, IEngineComponent> e = it.next();
         IEngineComponent transform = e.getValue();
-        if (transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_RUNNING
-            || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_IDLE
-            || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_INIT
-            || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_PAUSED) {
+        if (transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_RUNNING || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_IDLE
+            || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_INIT || transform.getStatus() == EngineComponent.ComponentExecutionStatus.STATUS_PAUSED) {
           // This transform is still running...
           data.continueLoop = true;
         } else {
-          log.logBasic(
-              "Transform " + transform.getName() + " status: " + transform.getStatusDescription());
+          log.logBasic("Transform " + transform.getName() + " status: " + transform.getStatusDescription());
           // We have done with this transform.
           // remove it from the map
           data.componentMap.remove(e.getKey());
           if (log.isDetailed()) {
-            logDetailed(
-                "Finished running transform ["
-                    + transform.getName()
-                    + "("
-                    + transform.getCopyNr()
-                    + ")].");
+            logDetailed("Finished running transform [" + transform.getName() + "(" + transform.getCopyNr() + ")].");
           }
         }
       }

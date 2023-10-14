@@ -71,82 +71,70 @@ public class Aggregation implements Cloneable {
 
   public static final int TYPE_GROUP_CONCAT_DISTINCT = 22;
 
-  public static final String[]
-      typeGroupLabel = /* WARNING: DO NOT TRANSLATE THIS. WE ARE SERIOUS, DON'T TRANSLATE! */ {
-    "-",
-    "SUM",
-    "AVERAGE",
-    "MEDIAN",
-    "PERCENTILE",
-    "MIN",
-    "MAX",
-    "COUNT_ALL",
-    "CONCAT_COMMA",
-    "FIRST",
-    "LAST",
-    "FIRST_INCL_NULL",
-    "LAST_INCL_NULL",
-    "CUM_SUM",
-    "CUM_AVG",
-    "STD_DEV",
-    "CONCAT_STRING",
-    "COUNT_DISTINCT",
-    "COUNT_ANY",
-    "STD_DEV_SAMPLE",
-    "PERCENTILE_NEAREST_RANK",
-    "CONCAT_STRING_CRLF",
-    "CONCAT_DISTINCT",
-  };
+  public static final String[] typeGroupLabel =
+      /* WARNING: DO NOT TRANSLATE THIS. WE ARE SERIOUS, DON'T TRANSLATE! */ {
+          "-",
+          "SUM",
+          "AVERAGE",
+          "MEDIAN",
+          "PERCENTILE",
+          "MIN",
+          "MAX",
+          "COUNT_ALL",
+          "CONCAT_COMMA",
+          "FIRST",
+          "LAST",
+          "FIRST_INCL_NULL",
+          "LAST_INCL_NULL",
+          "CUM_SUM",
+          "CUM_AVG",
+          "STD_DEV",
+          "CONCAT_STRING",
+          "COUNT_DISTINCT",
+          "COUNT_ANY",
+          "STD_DEV_SAMPLE",
+          "PERCENTILE_NEAREST_RANK",
+          "CONCAT_STRING_CRLF",
+          "CONCAT_DISTINCT",};
 
-  public static final String[] typeGroupLongDesc = {
-    "-",
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.SUM"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.AVERAGE"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MEDIAN"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.PERCENTILE"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MIN"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MAX"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_ALL"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_COMMA"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.FIRST"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.LAST"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.FIRST_INCL_NULL"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.LAST_INCL_NULL"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CUMULATIVE_SUM"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CUMULATIVE_AVERAGE"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_STRING"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.COUNT_DISTINCT"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.COUNT_ANY"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION_SAMPLE"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.PERCENTILE_NEAREST_RANK"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_STRING_CRLF"),
-    BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_DISTINCT")
-  };
+  public static final String[] typeGroupLongDesc =
+      {
+          "-",
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.SUM"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.AVERAGE"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MEDIAN"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.PERCENTILE"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MIN"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.MAX"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_ALL"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_COMMA"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.FIRST"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.LAST"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.FIRST_INCL_NULL"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.LAST_INCL_NULL"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CUMULATIVE_SUM"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CUMULATIVE_AVERAGE"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_STRING"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.COUNT_DISTINCT"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.COUNT_ANY"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION_SAMPLE"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.PERCENTILE_NEAREST_RANK"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_STRING_CRLF"),
+          BaseMessages.getString(PKG, "GroupByMeta.TypeGroupLongDesc.CONCAT_DISTINCT")};
 
-  @HopMetadataProperty(
-      key = "aggregate",
-      injectionKey = "AGG_FIELD",
-      injectionKeyDescription = "GroupByMeta.Injection.AGG_FIELD")
+  @HopMetadataProperty(key = "aggregate", injectionKey = "AGG_FIELD", injectionKeyDescription = "GroupByMeta.Injection.AGG_FIELD")
   private String field;
 
-  @HopMetadataProperty(
-      injectionKey = "AGG_SUBJECT",
-      injectionKeyDescription = "GroupByMeta.Injection.AGG_SUBJECT")
+  @HopMetadataProperty(injectionKey = "AGG_SUBJECT", injectionKeyDescription = "GroupByMeta.Injection.AGG_SUBJECT")
   private String subject;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "AGG_TYPE",
-      injectionKeyDescription = "GroupByMeta.Injection.AGG_TYPE")
+  @HopMetadataProperty(key = "type", injectionKey = "AGG_TYPE", injectionKeyDescription = "GroupByMeta.Injection.AGG_TYPE")
   private String typeLabel;
 
   private int type;
 
-  @HopMetadataProperty(
-      key = "valuefield",
-      injectionKey = "AGG_VALUE",
-      injectionKeyDescription = "GroupByMeta.Injection.AGG_VALUE")
+  @HopMetadataProperty(key = "valuefield", injectionKey = "AGG_VALUE", injectionKeyDescription = "GroupByMeta.Injection.AGG_VALUE")
   private String value;
 
   public Aggregation() {}
@@ -161,19 +149,17 @@ public class Aggregation implements Cloneable {
 
   @Override
   public Aggregation clone() {
-    return new Aggregation(
-        field, subject, getTypeDescLongFromCode(getTypeCodeFromLabel(typeLabel)), value);
+    return new Aggregation(field, subject, getTypeDescLongFromCode(getTypeCodeFromLabel(typeLabel)), value);
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     Aggregation that = (Aggregation) o;
-    return type == that.type
-        && Objects.equals(field, that.field)
-        && Objects.equals(subject, that.subject)
-        && Objects.equals(typeLabel, that.typeLabel)
+    return type == that.type && Objects.equals(field, that.field) && Objects.equals(subject, that.subject) && Objects.equals(typeLabel, that.typeLabel)
         && Objects.equals(value, that.value);
   }
 

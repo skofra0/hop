@@ -53,8 +53,7 @@ public class LocationResource extends BaseResource {
   @Path("/executions/{locationName}/")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response registerExecution(
-      @PathParam("locationName") String locationName, Execution execution) {
+  public Response registerExecution(@PathParam("locationName") String locationName, Execution execution) {
     try {
       IExecutionInfoLocation location = getInitLocation(locationName);
 
@@ -80,8 +79,7 @@ public class LocationResource extends BaseResource {
   @Path("/executions/{locationName}/")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getExecutionIds(
-      @PathParam("locationName") String locationName, ListExecutionsRequest request) {
+  public Response getExecutionIds(@PathParam("locationName") String locationName, ListExecutionsRequest request) {
     try {
       IExecutionInfoLocation location = getInitLocation(locationName);
       List<String> ids = new ArrayList<>();
@@ -108,9 +106,7 @@ public class LocationResource extends BaseResource {
   @GET
   @Path("/executions/{locationName}/{executionId}/")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getExecution(
-      @PathParam("locationName") String locationName,
-      @PathParam("executionId") String executionId) {
+  public Response getExecution(@PathParam("locationName") String locationName, @PathParam("executionId") String executionId) {
     try {
       IExecutionInfoLocation location = getInitLocation(locationName);
       List<String> ids = new ArrayList<>();
@@ -120,18 +116,14 @@ public class LocationResource extends BaseResource {
         //
         execution = location.getExecution(executionId);
         if (execution == null) {
-          throw new HopException(
-              "Unable to find execution for ID " + executionId + " in location " + locationName);
+          throw new HopException("Unable to find execution for ID " + executionId + " in location " + locationName);
         }
       } finally {
         location.close();
       }
       return Response.ok(execution).build();
     } catch (Exception e) {
-      return getServerError(
-          "Error getting execution for location " + locationName + " and ID " + executionId,
-          e,
-          true);
+      return getServerError("Error getting execution for location " + locationName + " and ID " + executionId, e, true);
     }
   }
 
@@ -144,9 +136,7 @@ public class LocationResource extends BaseResource {
   @GET
   @Path("/state/{locationName}/{executionId}/")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getExecutionState(
-      @PathParam("locationName") String locationName,
-      @PathParam("executionId") String executionId) {
+  public Response getExecutionState(@PathParam("locationName") String locationName, @PathParam("executionId") String executionId) {
     try {
       IExecutionInfoLocation location = getInitLocation(locationName);
       List<String> ids = new ArrayList<>();
@@ -156,21 +146,14 @@ public class LocationResource extends BaseResource {
         //
         executionState = location.getExecutionState(executionId);
         if (executionState == null) {
-          throw new HopException(
-              "Unable to find execution state for ID "
-                  + executionId
-                  + " in location "
-                  + locationName);
+          throw new HopException("Unable to find execution state for ID " + executionId + " in location " + locationName);
         }
       } finally {
         location.close();
       }
       return Response.ok(executionState).build();
     } catch (Exception e) {
-      return getServerError(
-          "Error getting execution state for location " + locationName + " and ID " + executionId,
-          e,
-          true);
+      return getServerError("Error getting execution state for location " + locationName + " and ID " + executionId, e, true);
     }
   }
 
@@ -180,8 +163,7 @@ public class LocationResource extends BaseResource {
     }
     IVariables variables = hop.getVariables();
     MultiMetadataProvider metadataProvider = hop.getMetadataProvider();
-    IHopMetadataSerializer<ExecutionInfoLocation> serializer =
-        metadataProvider.getSerializer(ExecutionInfoLocation.class);
+    IHopMetadataSerializer<ExecutionInfoLocation> serializer = metadataProvider.getSerializer(ExecutionInfoLocation.class);
     ExecutionInfoLocation location = serializer.load(locationName);
     if (location == null) {
       throw new HopException("Unable to find location " + locationName);

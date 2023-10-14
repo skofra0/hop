@@ -33,13 +33,7 @@ import java.util.regex.PatternSyntaxException;
 public class SplitFieldToRows extends BaseTransform<SplitFieldToRowsMeta, SplitFieldToRowsData> {
   private static final Class<?> PKG = SplitFieldToRowsMeta.class; // For Translator
 
-  public SplitFieldToRows(
-      TransformMeta transformMeta,
-      SplitFieldToRowsMeta meta,
-      SplitFieldToRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SplitFieldToRows(TransformMeta transformMeta, SplitFieldToRowsMeta meta, SplitFieldToRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -60,16 +54,12 @@ public class SplitFieldToRows extends BaseTransform<SplitFieldToRowsMeta, SplitF
       }
 
       if (data.fieldnr < 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "SplitFieldToRows.Log.CouldNotFindFieldToSplit", realSplitFieldName));
+        logError(BaseMessages.getString(PKG, "SplitFieldToRows.Log.CouldNotFindFieldToSplit", realSplitFieldName));
         numErrors++;
       }
 
       if (!rowMeta.getValueMeta(data.fieldnr).isString()) {
-        logError(
-            BaseMessages.getString(
-                PKG, "SplitFieldToRows.Log.SplitFieldNotValid", realSplitFieldName));
+        logError(BaseMessages.getString(PKG, "SplitFieldToRows.Log.SplitFieldNotValid", realSplitFieldName));
         numErrors++;
       }
 

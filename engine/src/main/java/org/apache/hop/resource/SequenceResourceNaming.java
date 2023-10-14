@@ -23,9 +23,11 @@ import java.util.Map;
  * With this resource naming scheme we try to keep the original filename. However, if there are
  * multiple files with the same name, we add a sequence nr starting at 2.
  *
- * <p>For example :
+ * <p>
+ * For example :
  *
- * <p>Load orders.hpl Load orders 2.hpl Load orders 3.hpl etc.
+ * <p>
+ * Load orders.hpl Load orders 2.hpl Load orders 3.hpl etc.
  */
 public class SequenceResourceNaming extends SimpleResourceNaming {
 

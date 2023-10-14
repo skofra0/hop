@@ -33,8 +33,7 @@ public class LafFactory {
   static Class<? extends IHandler> _defPropertyHandler = OverlayPropertyHandler.class;
 
   // Registry of Delegates that know how to load the appropriate handlers
-  private static HashMap<Class<? extends IHandler>, LafDelegate<? extends IHandler>>
-      delegateRegistry = new HashMap<>();
+  private static HashMap<Class<? extends IHandler>, LafDelegate<? extends IHandler>> delegateRegistry = new HashMap<>();
 
   // Map an abstract ClassName (by String) to an implementing Class
   private static HashMap<String, Class<? extends IHandler>> handlerRef = new HashMap<>();
@@ -42,7 +41,7 @@ public class LafFactory {
   static {
     handlerRef.put(IMessageHandler.class.getName(), _defMessageHandler);
     handlerRef.put(IPropertyHandler.class.getName(), _defPropertyHandler);
-    if (Const.isOSX()){
+    if (Const.isOSX()) {
       handlerRef.put(IMessageHandler.class.getName(), RemoveAltKeyMessageHandler.class);
     }
   }

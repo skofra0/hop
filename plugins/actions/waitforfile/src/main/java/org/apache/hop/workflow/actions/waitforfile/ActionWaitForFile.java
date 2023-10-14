@@ -55,17 +55,17 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
   private String filename;
   /** Maximum timeout in seconds */
   @HopMetadataProperty(key = "maximum_timeout")
-  private String maximumTimeout;  
+  private String maximumTimeout;
   /** cycle time in seconds */
   @HopMetadataProperty(key = "check_cycle_time")
-  private String checkCycleTime; 
+  private String checkCycleTime;
   @HopMetadataProperty(key = "success_on_timeout")
   private boolean successOnTimeout;
   @HopMetadataProperty(key = "file_size_check")
   private boolean fileSizeCheck;
   @HopMetadataProperty(key = "add_filename_result")
   private boolean addFilenameToResult;
-  
+
   // infinite timeout
   private static String DEFAULT_MAXIMUM_TIMEOUT = "0";
 
@@ -121,10 +121,8 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
       try {
         fileObject = HopVfs.getFileObject(realFilename);
 
-        long iMaximumTimeout =
-            Const.toInt(getRealMaximumTimeout(), Const.toInt(DEFAULT_MAXIMUM_TIMEOUT, 0));
-        long iCycleTime =
-            Const.toInt(getRealCheckCycleTime(), Const.toInt(DEFAULT_CHECK_CYCLE_TIME, 0));
+        long iMaximumTimeout = Const.toInt(getRealMaximumTimeout(), Const.toInt(DEFAULT_MAXIMUM_TIMEOUT, 0));
+        long iCycleTime = Const.toInt(getRealCheckCycleTime(), Const.toInt(DEFAULT_CHECK_CYCLE_TIME, 0));
 
         //
         // Sanity check on some values, and complain on insanity
@@ -168,12 +166,7 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
 
             // add filename to result filenames
             if (addFilenameToResult && fileObject.getType() == FileType.FILE) {
-              ResultFile resultFile =
-                  new ResultFile(
-                      ResultFile.FILE_TYPE_GENERAL,
-                      fileObject,
-                      parentWorkflow.getWorkflowName(),
-                      toString());
+              ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, fileObject, parentWorkflow.getWorkflowName(), toString());
               resultFile.setComment(BaseMessages.getString(PKG, "ActionWaitForFile.FilenameAdded"));
               result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
             }
@@ -213,12 +206,7 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
             try {
               if (sleepTime > 0) {
                 if (log.isDetailed()) {
-                  logDetailed(
-                      "Sleeping "
-                          + sleepTime
-                          + " seconds before next check for file ["
-                          + realFilename
-                          + "]");
+                  logDetailed("Sleeping " + sleepTime + " seconds before next check for file [" + realFilename + "]");
                 }
                 Thread.sleep(sleepTime * 1000);
               }
@@ -238,22 +226,12 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
             logDetailed("File [" + realFilename + "] is " + newSize + " bytes long");
           }
           if (log.isBasic()) {
-            logBasic(
-                "Waiting until file ["
-                    + realFilename
-                    + "] stops growing for "
-                    + iCycleTime
-                    + " seconds");
+            logBasic("Waiting until file [" + realFilename + "] stops growing for " + iCycleTime + " seconds");
           }
           while (oldSize != newSize && !parentWorkflow.isStopped()) {
             try {
               if (log.isDetailed()) {
-                logDetailed(
-                    "Sleeping "
-                        + iCycleTime
-                        + " seconds, waiting for file ["
-                        + realFilename
-                        + "] to stop growing");
+                logDetailed("Sleeping " + iCycleTime + " seconds, waiting for file [" + realFilename + "] to stop growing");
               }
               Thread.sleep(iCycleTime * 1000);
             } catch (InterruptedException e) {
@@ -347,8 +325,7 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       ResourceReference reference = new ResourceReference(this);
@@ -359,28 +336,9 @@ public class ActionWaitForFile extends ActionBase implements Cloneable, IAction 
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "maximumTimeout",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "checkCycleTime",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "maximumTimeout", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "checkCycleTime", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
   }
 }

@@ -29,6 +29,5 @@ public interface RelationshipCollisionListener {
    * @param added
    * @throws HopException
    */
-  void handleCollission(GraphRelationshipData existing, GraphRelationshipData added)
-      throws HopException;
+  void handleCollission(GraphRelationshipData existing, GraphRelationshipData added) throws HopException;
 }

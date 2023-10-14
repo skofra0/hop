@@ -19,22 +19,13 @@ package org.apache.hop.neo4j.transforms.cypher;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class ReturnValue {
-  @HopMetadataProperty(
-      key = "name",
-      injectionKey = "RETURN_NAME",
-      injectionKeyDescription = "Cypher.Inject.RETURN_NAME")
+  @HopMetadataProperty(key = "name", injectionKey = "RETURN_NAME", injectionKeyDescription = "Cypher.Inject.RETURN_NAME")
   private String name;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "RETURN_TYPE",
-      injectionKeyDescription = "Cypher.Inject.RETURN_TYPE")
+  @HopMetadataProperty(key = "type", injectionKey = "RETURN_TYPE", injectionKeyDescription = "Cypher.Inject.RETURN_TYPE")
   private String type;
 
-  @HopMetadataProperty(
-      key = "source_type",
-      injectionKey = "RETURN_SOURCE_TYPE",
-      injectionKeyDescription = "Cypher.Inject.RETURN_SOURCE_TYPE")
+  @HopMetadataProperty(key = "source_type", injectionKey = "RETURN_SOURCE_TYPE", injectionKeyDescription = "Cypher.Inject.RETURN_SOURCE_TYPE")
   private String sourceType;
 
   public ReturnValue() {}

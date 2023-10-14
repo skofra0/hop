@@ -22,11 +22,14 @@ import java.util.Objects;
 
 public class DescribedVariable {
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   public DescribedVariable() {}
 

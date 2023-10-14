@@ -83,10 +83,10 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
   private Button wbGetFields;
   private Button wbPreviewDocStruct;
   private CCombo wCollection;
-//  private CCombo wcbWriteConcern;
+  // private CCombo wcbWriteConcern;
   private TextVar wtvTimeout;
-//  private Button wcbJournalWritesCheck;
-//  private CCombo wcbReadPreference;
+  // private Button wcbJournalWritesCheck;
+  // private CCombo wcbReadPreference;
   private TextVar wtvWriteRetries;
   private TextVar wtvWriteRetryDelay;
   private TableView wtvMongoFieldsView;
@@ -97,8 +97,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
   private ColumnInfo[] colInf;
   private final List<String> inputFields = new ArrayList<>();
 
-  public MongoDbDeleteDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String name) {
+  public MongoDbDeleteDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String name) {
 
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, name);
     currentMeta = (MongoDbDeleteMeta) in;
@@ -161,8 +160,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     // --- start of the options tab
     CTabItem wDeleteOptionsTab = new CTabItem(wTabFolder, SWT.NONE);
     wDeleteOptionsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wDeleteOptionsTab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.DeleteTab.TabTitle"));
+    wDeleteOptionsTab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.DeleteTab.TabTitle"));
     Composite wOutputComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wOutputComp);
     FormLayout outputLayout = new FormLayout();
@@ -196,10 +194,8 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     // collection line
     Label wlCollection = new Label(wOutputComp, SWT.RIGHT);
-    wlCollection.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.Label")); // $NON-NLS-1$
-    wlCollection.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.TipText")); // $NON-NLS-1$
+    wlCollection.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.Label")); // $NON-NLS-1$
+    wlCollection.setToolTipText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Collection.TipText")); // $NON-NLS-1$
     PropsUi.setLook(wlCollection);
     fd = new FormData();
     fd.left = new FormAttachment(0, 0);
@@ -209,8 +205,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     Button wbGetCollections = new Button(wOutputComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbGetCollections);
-    wbGetCollections.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.GetCollections.Button")); // $NON-NLS-1$
+    wbGetCollections.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.GetCollections.Button")); // $NON-NLS-1$
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(lastControl, 0);
@@ -219,12 +214,10 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     wCollection = new CCombo(wOutputComp, SWT.BORDER);
     PropsUi.setLook(wCollection);
-    wCollection.addListener(
-        SWT.Modify,
-        e -> {
-          currentMeta.setChanged();
-          wCollection.setToolTipText(variables.resolve(wCollection.getText()));
-        });
+    wCollection.addListener(SWT.Modify, e -> {
+      currentMeta.setChanged();
+      wCollection.setToolTipText(variables.resolve(wCollection.getText()));
+    });
     fd = new FormData();
     fd.left = new FormAttachment(middle, 0);
     fd.top = new FormAttachment(lastControl, margin);
@@ -234,10 +227,8 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     // retries stuff
     Label retriesLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesLab);
-    retriesLab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.Label")); // $NON-NLS-1$
-    retriesLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.TipText")); // $NON-NLS-1$
+    retriesLab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.Label")); // $NON-NLS-1$
+    retriesLab.setToolTipText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetries.TipText")); // $NON-NLS-1$
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(wCollection, margin);
@@ -251,13 +242,11 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     fd.top = new FormAttachment(wCollection, margin);
     fd.right = new FormAttachment(100, 0);
     wtvWriteRetries.setLayoutData(fd);
-    wtvWriteRetries.addModifyListener(
-        e -> wtvWriteRetries.setToolTipText(variables.resolve(wtvWriteRetries.getText())));
+    wtvWriteRetries.addModifyListener(e -> wtvWriteRetries.setToolTipText(variables.resolve(wtvWriteRetries.getText())));
 
     Label retriesDelayLab = new Label(wOutputComp, SWT.RIGHT);
     PropsUi.setLook(retriesDelayLab);
-    retriesDelayLab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetriesDelay.Label")); // $NON-NLS-1$
+    retriesDelayLab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.WriteRetriesDelay.Label")); // $NON-NLS-1$
     fd = new FormData();
     fd.left = new FormAttachment(0, -margin);
     fd.top = new FormAttachment(wtvWriteRetries, margin);
@@ -285,8 +274,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     // --- start of the fields tab
     CTabItem mWQueryTab = new CTabItem(wTabFolder, SWT.NONE);
     mWQueryTab.setFont(GuiResource.getInstance().getFontDefault());
-    mWQueryTab.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.QueryTab.TabTitle")); // $NON-NLS-1$
+    mWQueryTab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.QueryTab.TabTitle")); // $NON-NLS-1$
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
     FormLayout filterLayout = new FormLayout();
@@ -297,8 +285,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     // use query
     Label useDefinedQueryLab = new Label(wFieldsComp, SWT.RIGHT);
     useDefinedQueryLab.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.useQuery.Label"));
-    useDefinedQueryLab.setToolTipText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.useQuery.TipText"));
+    useDefinedQueryLab.setToolTipText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.useQuery.TipText"));
     PropsUi.setLook(useDefinedQueryLab);
     fd = new FormData();
     fd.left = new FormAttachment(0, 0);
@@ -308,24 +295,23 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     wbUseJsonQuery = new Button(wFieldsComp, SWT.CHECK);
     PropsUi.setLook(wbUseJsonQuery);
-    wbUseJsonQuery.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            currentMeta.setChanged();
-            if (wbUseJsonQuery.getSelection()) {
-              // show query
-              setQueryJsonVisibility(true);
-              // hide m_mongoFields
-              setQueryFieldVisiblity(false);
-            } else {
-              // show m_mongoFieldsView
-              setQueryFieldVisiblity(true);
-              // hide query
-              setQueryJsonVisibility(false);
-            }
-          }
-        });
+    wbUseJsonQuery.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        currentMeta.setChanged();
+        if (wbUseJsonQuery.getSelection()) {
+          // show query
+          setQueryJsonVisibility(true);
+          // hide m_mongoFields
+          setQueryFieldVisiblity(false);
+        } else {
+          // show m_mongoFieldsView
+          setQueryFieldVisiblity(true);
+          // hide query
+          setQueryJsonVisibility(false);
+        }
+      }
+    });
     fd = new FormData();
     fd.right = new FormAttachment(100, -margin);
     fd.top = new FormAttachment(0, margin * 3);
@@ -334,50 +320,34 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     colInf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Path"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Comparator"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Incoming1"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Incoming2"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Path"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Comparator"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Incoming1"), ColumnInfo.COLUMN_TYPE_CCOMBO, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MongoDbDeleteDialog.Fields.Incoming2"), ColumnInfo.COLUMN_TYPE_CCOMBO, false)};
 
     colInf[1].setComboValues(Comparator.asLabel());
     colInf[1].setReadOnly(true);
 
     // Search the fields in the background
-    final Runnable runnable =
-        new Runnable() {
-          public void run() {
-            TransformMeta stepMeta = pipelineMeta.findTransform(transformName);
-            if (stepMeta != null) {
-              try {
-                IRowMeta row = pipelineMeta.getPrevTransformFields(variables, stepMeta);
+    final Runnable runnable = new Runnable() {
+      public void run() {
+        TransformMeta stepMeta = pipelineMeta.findTransform(transformName);
+        if (stepMeta != null) {
+          try {
+            IRowMeta row = pipelineMeta.getPrevTransformFields(variables, stepMeta);
 
-                // Remember these fields...
-                for (int i = 0; i < row.size(); i++) {
-                  inputFields.add(row.getValueMeta(i).getName());
-                }
-
-                setComboBoxes();
-              } catch (HopTransformException e) {
-                log.logError(
-                    toString(),
-                    BaseMessages.getString(PKG, "MongoDbDeleteDialog.Log.UnableToFindInput"));
-              }
+            // Remember these fields...
+            for (int i = 0; i < row.size(); i++) {
+              inputFields.add(row.getValueMeta(i).getName());
             }
+
+            setComboBoxes();
+          } catch (HopTransformException e) {
+            log.logError(toString(), BaseMessages.getString(PKG, "MongoDbDeleteDialog.Log.UnableToFindInput"));
           }
-        };
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // get fields but
@@ -389,33 +359,28 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     fd.left = new FormAttachment(0, margin);
     wbGetFields.setLayoutData(fd);
 
-    wbGetFields.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getFields();
-          }
-        });
+    wbGetFields.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getFields();
+      }
+    });
 
     wbPreviewDocStruct = new Button(wFieldsComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbPreviewDocStruct);
-    wbPreviewDocStruct.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewDocStructBut"));
+    wbPreviewDocStruct.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewDocStructBut"));
     fd = new FormData();
     fd.bottom = new FormAttachment(100, -margin * 2);
     fd.left = new FormAttachment(wbGetFields, margin);
     wbPreviewDocStruct.setLayoutData(fd);
-    wbPreviewDocStruct.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            previewDocStruct();
-          }
-        });
+    wbPreviewDocStruct.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        previewDocStruct();
+      }
+    });
 
-    wtvMongoFieldsView =
-        new TableView(
-            variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colInf, 1, lsMod, props);
+    wtvMongoFieldsView = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colInf, 1, lsMod, props);
     fd = new FormData();
     fd.top = new FormAttachment(wbUseJsonQuery, margin * 2);
     fd.bottom = new FormAttachment(wbGetFields, -margin * 2);
@@ -425,8 +390,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     // JSON Query
     wlExecuteForEachRow = new Label(wFieldsComp, SWT.RIGHT);
-    wlExecuteForEachRow.setText(
-        BaseMessages.getString(PKG, "MongoDbDeleteDialog.execEachRow.Label"));
+    wlExecuteForEachRow.setText(BaseMessages.getString(PKG, "MongoDbDeleteDialog.execEachRow.Label"));
     PropsUi.setLook(wlExecuteForEachRow);
     fd = new FormData();
     fd.bottom = new FormAttachment(100, -margin * 2);
@@ -435,23 +399,18 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     wcbEcuteForEachRow = new Button(wFieldsComp, SWT.CHECK);
     PropsUi.setLook(wcbEcuteForEachRow);
-    wcbEcuteForEachRow.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            currentMeta.setChanged();
-          }
-        });
+    wcbEcuteForEachRow.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        currentMeta.setChanged();
+      }
+    });
     fd = new FormData();
     fd.bottom = new FormAttachment(100, -margin * 2);
     fd.left = new FormAttachment(wlExecuteForEachRow, margin);
     wcbEcuteForEachRow.setLayoutData(fd);
 
-    wstJsonQueryView =
-        new StyledTextComp(
-            variables,
-            wFieldsComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wstJsonQueryView = new StyledTextComp(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wstJsonQueryView, Props.WIDGET_STYLE_FIXED);
     wstJsonQueryView.addModifyListener(lsMod);
 
@@ -495,13 +454,12 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     wTransformName.addListener(SWT.Selection, e -> ok());
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            cancel();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        cancel();
+      }
+    });
 
     wTabFolder.setSelection(0);
     setSize();
@@ -535,8 +493,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     getInfo(currentMeta);
 
-    if ((!currentMeta.isUseJsonQuery())
-        && (currentMeta.getMongoFields() == null || currentMeta.getMongoFields().isEmpty())) {
+    if ((!currentMeta.isUseJsonQuery()) && (currentMeta.getMongoFields() == null || currentMeta.getMongoFields().isEmpty())) {
       // popup dialog warning that no paths have been defined
       showNoFieldMessageDialog();
     } else if (currentMeta.isUseJsonQuery() && StringUtil.isEmpty(currentMeta.getJsonQuery())) {
@@ -554,8 +511,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
   private void setupCustomWriteConcernNames() {
     try {
       String connectionName = variables.resolve(wConnection.getText());
-      MongoDbConnection connection =
-          metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+      MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
 
       if (!StringUtil.isEmpty(connectionName)) {
         MongoDbDeleteMeta meta = new MongoDbDeleteMeta();
@@ -569,8 +525,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
             wrapper.dispose();
           }
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.UnableToConnect"), e);
+          logError(BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.UnableToConnect"), e);
           new ErrorDialog(
               shell,
               BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage." + "UnableToConnect"),
@@ -582,12 +537,8 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
             new ShowMessageDialog(
                 shell,
                 SWT.ICON_WARNING | SWT.OK,
-                BaseMessages.getString(
-                    PKG, "MongoDbDeleteDialog.ErrorMessage.MissingConnectionDetails.Title"),
-                BaseMessages.getString(
-                    PKG,
-                    "MongoDbDeleteDialog.ErrorMessage.MissingConnectionDetails",
-                    "host name(s)"));
+                BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.MissingConnectionDetails.Title"),
+                BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.MissingConnectionDetails", "host name(s)"));
         smd.open();
       }
     } catch (Exception e) {
@@ -599,16 +550,11 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wtvMongoFieldsView, 1, new int[] {1, 3}, null, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wtvMongoFieldsView, 1, new int[] {1, 3}, null, -1, -1, null);
       }
     } catch (HopTransformException e) {
       logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), e);
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          e);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), e);
     }
   }
 
@@ -658,13 +604,11 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
 
     wtvWriteRetries.setText(
         Const.NVL(
-            currentMeta.getWriteRetries(),
-            "" //$NON-NLS-1$
+            currentMeta.getWriteRetries(), "" //$NON-NLS-1$
                 + currentMeta.nbRetries));
     wtvWriteRetryDelay.setText(
         Const.NVL(
-            currentMeta.getWriteRetryDelay(),
-            "" //$NON-NLS-1$
+            currentMeta.getWriteRetryDelay(), "" //$NON-NLS-1$
                 + currentMeta.nbRetries));
 
     wbUseJsonQuery.setSelection(currentMeta.isUseJsonQuery());
@@ -705,8 +649,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
       String current = wCollection.getText();
       wCollection.removeAll();
 
-      MongoDbConnection connection =
-          metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+      MongoDbConnection connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
       String databaseName = variables.resolve(connection.getDbName());
 
       if (!StringUtils.isEmpty(connectionName)) {
@@ -726,8 +669,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
             wCollection.add(c);
           }
         } catch (Exception e) {
-          logError(
-              BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"), e);
+          logError(BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"), e);
           new ErrorDialog(
               shell,
               BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.UnableToConnect"),
@@ -745,12 +687,8 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
             new ShowMessageDialog(
                 shell,
                 SWT.ICON_WARNING | SWT.OK,
-                BaseMessages.getString(
-                    PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
-                BaseMessages.getString(
-                    PKG,
-                    "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails",
-                    missingConnDetails));
+                BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails.Title"),
+                BaseMessages.getString(PKG, "MongoDbInputDialog.ErrorMessage.MissingConnectionDetails", missingConnDetails));
         smd.open();
       }
 
@@ -783,16 +721,12 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
     }
     r = new RowMeta();
 
-    Object[] dummyRow =
-        new Object
-            [mongoFields.size()
-                * 2]; // multiply by 2, because possiblity use between that required 2 value
+    Object[] dummyRow = new Object[mongoFields.size() * 2]; // multiply by 2, because possiblity use between that required 2 value
     int i = 0;
     try {
       for (MongoDbDeleteField field : mongoFields) {
         // set up dummy row meta
-        if (!StringUtil.isEmpty(field.incomingField1)
-            && !StringUtil.isEmpty(field.incomingField2)) {
+        if (!StringUtil.isEmpty(field.incomingField1) && !StringUtil.isEmpty(field.incomingField2)) {
           IValueMeta vm1 = ValueMetaFactory.createValueMeta(IValueMeta.TYPE_STRING);
           vm1.setName(field.incomingField1);
           r.addValueMeta(vm1);
@@ -822,32 +756,18 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
       }
 
       String toDisplay = "";
-      String windowTitle =
-          BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewDocStructure.Title");
+      String windowTitle = BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewDocStructure.Title");
       DBObject query = MongoDbDeleteData.getQueryObject(mongoFields, r, dummyRow, vs);
-      toDisplay =
-          BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewModifierUpdate.Heading1")
-              + ": \n\n"
-              + prettyPrintDocStructure(query.toString());
+      toDisplay = BaseMessages.getString(PKG, "MongoDbDeleteDialog.PreviewModifierUpdate.Heading1") + ": \n\n" + prettyPrintDocStructure(query.toString());
 
-      ShowMessageDialog smd =
-          new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, windowTitle, toDisplay, true);
+      ShowMessageDialog smd = new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, windowTitle, toDisplay, true);
       smd.open();
     } catch (Exception ex) {
-      logError(
-          BaseMessages.getString(
-                  PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
-              + ":\n\n"
-              + ex.getMessage(),
-          ex);
+      logError(BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Message") + ":\n\n" + ex.getMessage(), ex);
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Title"),
-          BaseMessages.getString(
-                  PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Message")
-              + ":\n\n"
-              + ex.getMessage(),
+          BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Title"),
+          BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.ProblemPreviewingDocStructure.Message") + ":\n\n" + ex.getMessage(),
           ex);
       return;
     }
@@ -974,8 +894,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
         new ShowMessageDialog(
             shell,
             SWT.ICON_WARNING | SWT.OK | SWT.CENTER,
-            BaseMessages.getString(
-                PKG, "MongoDbDeleteDialog.ErrorMessage.NoFieldPathsDefined.Title"),
+            BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoFieldPathsDefined.Title"),
             BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoFieldPathsDefined"));
     smd.open();
   }
@@ -985,8 +904,7 @@ public class MongoDbDeleteDialog extends BaseTransformDialog implements ITransfo
         new ShowMessageDialog(
             shell,
             SWT.ICON_WARNING | SWT.OK | SWT.CENTER,
-            BaseMessages.getString(
-                PKG, "MongoDbDeleteDialog.ErrorMessage.NoJsonQueryDefined.Title"),
+            BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoJsonQueryDefined.Title"),
             BaseMessages.getString(PKG, "MongoDbDeleteDialog.ErrorMessage.NoJsonQueryDefined"));
     smd.open();
   }

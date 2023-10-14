@@ -44,32 +44,14 @@ public class ReplaceStringTest {
 
   private Object[] row = new Object[] {"some data", "another data"};
 
-  private Object[] expectedRow =
-      new Object[] {
-        "some data",
-        "1nother d1t1",
-        "1no2her d121",
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      };
+  private Object[] expectedRow = new Object[] {"some data", "1nother d1t1", "1no2her d121", null, null, null, null, null, null, null, null, null, null};
 
   private TransformMockHelper<ReplaceStringMeta, ReplaceStringData> transformMockHelper;
 
   @Before
   public void setUp() throws Exception {
-    transformMockHelper =
-        new TransformMockHelper<>(
-            "REPLACE STRING TEST", ReplaceStringMeta.class, ReplaceStringData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("REPLACE STRING TEST", ReplaceStringMeta.class, ReplaceStringData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     verify(transformMockHelper.iLogChannel, never()).logError(anyString());
     verify(transformMockHelper.iLogChannel, never()).logError(anyString(), any(Object[].class));
     verify(transformMockHelper.iLogChannel, never()).logError(anyString(), (Throwable) anyObject());
@@ -86,14 +68,7 @@ public class ReplaceStringTest {
     ReplaceStringData data = new ReplaceStringData();
     ReplaceStringMeta meta = new ReplaceStringMeta();
 
-    ReplaceString replaceString =
-        new ReplaceString(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    ReplaceString replaceString = new ReplaceString(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
     IRowMeta inputRowMeta = new RowMeta();
     inputRowMeta.addValueMeta(0, new ValueMetaString("SomeDataMeta"));
     inputRowMeta.addValueMeta(1, new ValueMetaString("AnotherDataMeta"));

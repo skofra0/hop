@@ -109,27 +109,10 @@ public class EnterStringsDialog extends Dialog {
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "EnterStringsDialog.StringName.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              readOnly),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "EnterStringsDialog.StringValue.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              readOnly)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "EnterStringsDialog.StringName.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, readOnly),
+            new ColumnInfo(BaseMessages.getString(PKG, "EnterStringsDialog.StringValue.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, readOnly)};
 
-    wFields =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrRows,
-            null,
-            props);
+    wFields = new TableView(Variables.getADefaultVariableSpace(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrRows, null, props);
     wFields.setReadonly(readOnly);
 
     FormData fdFields = new FormData();

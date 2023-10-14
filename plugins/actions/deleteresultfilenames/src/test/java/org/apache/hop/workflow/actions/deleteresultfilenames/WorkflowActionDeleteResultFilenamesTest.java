@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionDeleteResultFilenamesTest
-    extends WorkflowActionLoadSaveTestSupport<ActionDeleteResultFilenames> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionDeleteResultFilenamesTest extends WorkflowActionLoadSaveTestSupport<ActionDeleteResultFilenames> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionDeleteResultFilenames> getActionClass() {
@@ -40,19 +40,11 @@ public class WorkflowActionDeleteResultFilenamesTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "foldername", "getFoldername",
-        "specifywildcard", "isSpecifyWildcard",
-        "wildcard", "getWildcard",
-        "wildcardexclude", "getWildcardExclude");
+    return toMap("foldername", "getFoldername", "specifywildcard", "isSpecifyWildcard", "wildcard", "getWildcard", "wildcardexclude", "getWildcardExclude");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "foldername", "setFoldername",
-        "specifywildcard", "setSpecifyWildcard",
-        "wildcard", "setWildcard",
-        "wildcardexclude", "setWildcardExclude");
+    return toMap("foldername", "setFoldername", "specifywildcard", "setSpecifyWildcard", "wildcard", "setWildcard", "wildcardexclude", "setWildcardExclude");
   }
 }

@@ -100,7 +100,7 @@ public class RulesAccumulatorData extends BaseTransformData implements ITransfor
       throw new RuleValidationException(results1.getMessages());
     }
 
-   // reset classloader back to original
+    // reset classloader back to original
     Thread.currentThread().setContextClassLoader(orig);
   }
 
@@ -142,18 +142,15 @@ public class RulesAccumulatorData extends BaseTransformData implements ITransfor
 
       int fh = session.fireAllRules();
 
-      Collection<Object> oList =
-          (Collection<Object>)
-              session.getObjects(
-                  new ObjectFilter() {
-                    @Override
-                    public boolean accept(Object o) {
-                      if (o instanceof Rules.Row && !((Rules.Row) o).isExternalSource()) {
-                        return true;
-                      }
-                      return false;
-                    }
-                  });
+      Collection<Object> oList = (Collection<Object>) session.getObjects(new ObjectFilter() {
+        @Override
+        public boolean accept(Object o) {
+          if (o instanceof Rules.Row && !((Rules.Row) o).isExternalSource()) {
+            return true;
+          }
+          return false;
+        }
+      });
 
       for (Object o : oList) {
         resultList.add((Rules.Row) o);

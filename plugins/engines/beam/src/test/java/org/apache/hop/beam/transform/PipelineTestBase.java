@@ -76,10 +76,8 @@ import java.util.List;
 
 public class PipelineTestBase {
 
-  public static final String INPUT_CUSTOMERS_FILE =
-      System.getProperty("java.io.tmpdir") + "/customers/io/customers-100.txt";
-  public static final String INPUT_STATES_FILE =
-      System.getProperty("java.io.tmpdir") + "/customers/io/state-data.txt";
+  public static final String INPUT_CUSTOMERS_FILE = System.getProperty("java.io.tmpdir") + "/customers/io/customers-100.txt";
+  public static final String INPUT_STATES_FILE = System.getProperty("java.io.tmpdir") + "/customers/io/state-data.txt";
   public static final String NAME_LOCATION = "location";
   public static final String NAME_DATA_PROFILE = "first-last-20";
   public static final String NAME_RUN_CONFIG = "direct";
@@ -94,59 +92,21 @@ public class PipelineTestBase {
 
     List<String> beamTransforms =
         Arrays.asList(
-            BeamBQInputMeta.class.getName(),
-            BeamBQOutputMeta.class.getName(),
-            BeamInputMeta.class.getName(),
-            BeamOutputMeta.class.getName(),
-            BeamConsumeMeta.class.getName(),
-            BeamProduceMeta.class.getName(),
-            BeamSubscribeMeta.class.getName(),
-            BeamPublishMeta.class.getName(),
-            BeamTimestampMeta.class.getName(),
-            BeamWindowMeta.class.getName(),
-            ConstantMeta.class.getName(),
-            FilterRowsMeta.class.getName(),
-            MemoryGroupByMeta.class.getName(),
-            MergeJoinMeta.class.getName(),
-            StreamLookupMeta.class.getName(),
+            BeamBQInputMeta.class.getName(), BeamBQOutputMeta.class.getName(), BeamInputMeta.class.getName(), BeamOutputMeta.class.getName(), BeamConsumeMeta.class.getName(),
+            BeamProduceMeta.class.getName(), BeamSubscribeMeta.class.getName(), BeamPublishMeta.class.getName(), BeamTimestampMeta.class.getName(), BeamWindowMeta.class.getName(),
+            ConstantMeta.class.getName(), FilterRowsMeta.class.getName(), MemoryGroupByMeta.class.getName(), MergeJoinMeta.class.getName(), StreamLookupMeta.class.getName(),
             SwitchCaseMeta.class.getName());
 
     BeamHop.init();
 
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            BeamDirectPipelineEngine.class.getName(),
-            PipelineEnginePluginType.class,
-            PipelineEnginePlugin.class);
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            BeamFlinkPipelineEngine.class.getName(),
-            PipelineEnginePluginType.class,
-            PipelineEnginePlugin.class);
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            BeamSparkPipelineEngine.class.getName(),
-            PipelineEnginePluginType.class,
-            PipelineEnginePlugin.class);
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            FirstRowsExecutionDataSampler.class.getName(),
-            ExecutionDataSamplerPluginType.class,
-            ExecutionDataSamplerPlugin.class);
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            LastRowsExecutionDataSampler.class.getName(),
-            ExecutionDataSamplerPluginType.class,
-            ExecutionDataSamplerPlugin.class);
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            FileExecutionInfoLocation.class.getName(),
-            ExecutionInfoLocationPluginType.class,
-            ExecutionInfoLocationPlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(BeamDirectPipelineEngine.class.getName(), PipelineEnginePluginType.class, PipelineEnginePlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(BeamFlinkPipelineEngine.class.getName(), PipelineEnginePluginType.class, PipelineEnginePlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(BeamSparkPipelineEngine.class.getName(), PipelineEnginePluginType.class, PipelineEnginePlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(FirstRowsExecutionDataSampler.class.getName(), ExecutionDataSamplerPluginType.class, ExecutionDataSamplerPlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(LastRowsExecutionDataSampler.class.getName(), ExecutionDataSamplerPluginType.class, ExecutionDataSamplerPlugin.class);
+    PluginRegistry.getInstance().registerPluginClass(FileExecutionInfoLocation.class.getName(), ExecutionInfoLocationPluginType.class, ExecutionInfoLocationPlugin.class);
 
-    PluginRegistry.getInstance()
-        .registerPluginClass(
-            FileDefinition.class.getName(), MetadataPluginType.class, HopMetadata.class);
+    PluginRegistry.getInstance().registerPluginClass(FileDefinition.class.getName(), MetadataPluginType.class, HopMetadata.class);
 
     // Create a few items in the metadata...
     //
@@ -155,36 +115,22 @@ public class PipelineTestBase {
     // Data profile
     //
     ExecutionDataProfile dataProfile =
-        new ExecutionDataProfile(
-            NAME_DATA_PROFILE,
-            null,
-            Arrays.asList(
-                new FirstRowsExecutionDataSampler("20"), new LastRowsExecutionDataSampler("20")));
+        new ExecutionDataProfile(NAME_DATA_PROFILE, null, Arrays.asList(new FirstRowsExecutionDataSampler("20"), new LastRowsExecutionDataSampler("20")));
     metadataProvider.getSerializer(ExecutionDataProfile.class).save(dataProfile);
 
     // Execution information location
     //
     FileExecutionInfoLocation fileLocation = new FileExecutionInfoLocation("/tmp/exec-info/");
-    ExecutionInfoLocation location =
-        new ExecutionInfoLocation(
-            NAME_LOCATION, null, "5000", "10000", "100", dataProfile, fileLocation);
+    ExecutionInfoLocation location = new ExecutionInfoLocation(NAME_LOCATION, null, "5000", "10000", "100", dataProfile, fileLocation);
     metadataProvider.getSerializer(ExecutionInfoLocation.class).save(location);
 
     // Run config
     //
-    BeamDirectPipelineRunConfiguration directRunConfiguration =
-        new BeamDirectPipelineRunConfiguration("1");
+    BeamDirectPipelineRunConfiguration directRunConfiguration = new BeamDirectPipelineRunConfiguration("1");
     directRunConfiguration.setTempLocation(System.getProperty("java.io.tmpdir"));
 
     PipelineRunConfiguration runConfiguration =
-        new PipelineRunConfiguration(
-            NAME_RUN_CONFIG,
-            "",
-            NAME_LOCATION,
-            Collections.emptyList(),
-            directRunConfiguration,
-            NAME_DATA_PROFILE,
-            true);
+        new PipelineRunConfiguration(NAME_RUN_CONFIG, "", NAME_LOCATION, Collections.emptyList(), directRunConfiguration, NAME_DATA_PROFILE, true);
     metadataProvider.getSerializer(PipelineRunConfiguration.class).save(runConfiguration);
 
     File inputFolder = new File("/tmp/customers/io");
@@ -194,18 +140,14 @@ public class PipelineTestBase {
     File tmpFolder = new File("/tmp/customers/tmp");
     tmpFolder.mkdirs();
 
-    FileUtils.copyFile(
-        new File("src/test/resources/customers/customers-100.txt"), new File(INPUT_CUSTOMERS_FILE));
-    FileUtils.copyFile(
-        new File("src/test/resources/customers/state-data.txt"), new File(INPUT_STATES_FILE));
+    FileUtils.copyFile(new File("src/test/resources/customers/customers-100.txt"), new File(INPUT_CUSTOMERS_FILE));
+    FileUtils.copyFile(new File("src/test/resources/customers/state-data.txt"), new File(INPUT_STATES_FILE));
   }
 
   @Ignore
   public void createRunPipeline(IVariables variables, PipelineMeta pipelineMeta) throws Exception {
 
-    IPipelineEngine<PipelineMeta> hopPipeline =
-        PipelineEngineFactory.createPipelineEngine(
-            variables, NAME_RUN_CONFIG, metadataProvider, pipelineMeta);
+    IPipelineEngine<PipelineMeta> hopPipeline = PipelineEngineFactory.createPipelineEngine(variables, NAME_RUN_CONFIG, metadataProvider, pipelineMeta);
     hopPipeline.execute();
     hopPipeline.waitUntilFinished();
 
@@ -220,8 +162,7 @@ public class PipelineTestBase {
     }
   }
 
-  private void writeMetric(
-      EngineMetrics engineMetrics, IEngineComponent component, String label, IEngineMetric metric) {
+  private void writeMetric(EngineMetrics engineMetrics, IEngineComponent component, String label, IEngineMetric metric) {
     Long value = engineMetrics.getComponentMetric(component, metric);
     if (value != null) {
       System.out.println("  - " + Const.rightPad(label, 8) + " : " + value);

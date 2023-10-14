@@ -32,13 +32,7 @@ public class DetectLastRow extends BaseTransform<DetectLastRowMeta, DetectLastRo
 
   private Object[] previousRow;
 
-  public DetectLastRow(
-      TransformMeta transformMeta,
-      DetectLastRowMeta meta,
-      DetectLastRowData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DetectLastRow(TransformMeta transformMeta, DetectLastRowMeta meta, DetectLastRowData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -69,8 +63,7 @@ public class DetectLastRow extends BaseTransform<DetectLastRowMeta, DetectLastRo
         // Output the last row with last row indicator set to true.
         //
         if (!Utils.isEmpty(meta.getResultFieldName())) {
-          outputRow =
-              RowDataUtil.addRowData(previousRow, getInputRowMeta().size(), data.getTrueArray());
+          outputRow = RowDataUtil.addRowData(previousRow, getInputRowMeta().size(), data.getTrueArray());
         } else {
           outputRow = previousRow;
         }
@@ -79,9 +72,7 @@ public class DetectLastRow extends BaseTransform<DetectLastRowMeta, DetectLastRo
         putRow(data.outputRowMeta, outputRow);
 
         if (log.isRowLevel()) {
-          logRowlevel(
-              BaseMessages.getString(PKG, "DetectLastRow.Log.WroteRowToNextTransform")
-                  + data.outputRowMeta.getString(outputRow));
+          logRowlevel(BaseMessages.getString(PKG, "DetectLastRow.Log.WroteRowToNextTransform") + data.outputRowMeta.getString(outputRow));
         }
 
         if (checkFeedback(getLinesRead())) {
@@ -94,15 +85,12 @@ public class DetectLastRow extends BaseTransform<DetectLastRowMeta, DetectLastRo
     }
 
     if (!first) {
-      outputRow =
-          RowDataUtil.addRowData(previousRow, getInputRowMeta().size(), data.getFalseArray());
+      outputRow = RowDataUtil.addRowData(previousRow, getInputRowMeta().size(), data.getFalseArray());
       // copy row to output rowset(s)
       putRow(data.outputRowMeta, outputRow);
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "DetectLastRow.Log.WroteRowToNextTransform")
-                + data.outputRowMeta.getString(outputRow));
+        logRowlevel(BaseMessages.getString(PKG, "DetectLastRow.Log.WroteRowToNextTransform") + data.outputRowMeta.getString(outputRow));
       }
 
       if (checkFeedback(getLinesRead())) {

@@ -80,8 +80,7 @@ public class PipelineMetaInfo extends AbstractMetaInfo {
    *
    * @param capturingTransformPerformanceSnapShots value of capturingTransformPerformanceSnapShots
    */
-  public void setCapturingTransformPerformanceSnapShots(
-      boolean capturingTransformPerformanceSnapShots) {
+  public void setCapturingTransformPerformanceSnapShots(boolean capturingTransformPerformanceSnapShots) {
     this.capturingTransformPerformanceSnapShots = capturingTransformPerformanceSnapShots;
   }
 
@@ -117,8 +116,7 @@ public class PipelineMetaInfo extends AbstractMetaInfo {
    *
    * @param transformPerformanceCapturingSizeLimit value of transformPerformanceCapturingSizeLimit
    */
-  public void setTransformPerformanceCapturingSizeLimit(
-      String transformPerformanceCapturingSizeLimit) {
+  public void setTransformPerformanceCapturingSizeLimit(String transformPerformanceCapturingSizeLimit) {
     this.transformPerformanceCapturingSizeLimit = transformPerformanceCapturingSizeLimit;
   }
 

@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionMsgBoxInfoTest
-    extends WorkflowActionLoadSaveTestSupport<ActionMsgBoxInfo> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionMsgBoxInfoTest extends WorkflowActionLoadSaveTestSupport<ActionMsgBoxInfo> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionMsgBoxInfo> getActionClass() {
@@ -40,15 +40,11 @@ public class WorkflowActionMsgBoxInfoTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "bodymessage", "getBodyMessage",
-        "titremessage", "getTitleMessage");
+    return toMap("bodymessage", "getBodyMessage", "titremessage", "getTitleMessage");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "bodymessage", "setBodyMessage",
-        "titremessage", "setTitleMessage");
+    return toMap("bodymessage", "setBodyMessage", "titremessage", "setTitleMessage");
   }
 }

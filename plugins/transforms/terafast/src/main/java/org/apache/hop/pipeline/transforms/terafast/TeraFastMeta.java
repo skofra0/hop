@@ -153,76 +153,44 @@ public class TeraFastMeta extends AbstractTransformMeta<ITransform, ITransformDa
     CheckResult checkResult;
     try {
       IRowMeta tableFields = getRequiredFields(variables);
-      checkResult =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              MESSAGES.getString("TeraFastMeta.Message.ConnectionEstablished"),
-              transformMeta);
+      checkResult = new CheckResult(ICheckResult.TYPE_RESULT_OK, MESSAGES.getString("TeraFastMeta.Message.ConnectionEstablished"), transformMeta);
       remarks.add(checkResult);
 
-      checkResult =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              MESSAGES.getString("TeraFastMeta.Message.TableExists"),
-              transformMeta);
+      checkResult = new CheckResult(ICheckResult.TYPE_RESULT_OK, MESSAGES.getString("TeraFastMeta.Message.TableExists"), transformMeta);
       remarks.add(checkResult);
 
       boolean error = false;
       for (String field : this.tableFieldList.getValue()) {
         if (tableFields.searchValueMeta(field) == null) {
           error = true;
-          checkResult =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  MESSAGES.getString("TeraFastMeta.Exception.TableFieldNotFound"),
-                  transformMeta);
+          checkResult = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, MESSAGES.getString("TeraFastMeta.Exception.TableFieldNotFound"), transformMeta);
           remarks.add(checkResult);
         }
       }
       if (!error) {
-        checkResult =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                MESSAGES.getString("TeraFastMeta.Message.AllTableFieldsFound"),
-                transformMeta);
+        checkResult = new CheckResult(ICheckResult.TYPE_RESULT_OK, MESSAGES.getString("TeraFastMeta.Message.AllTableFieldsFound"), transformMeta);
         remarks.add(checkResult);
       }
       if (prev != null && prev.size() > 0) {
         // transform mode. transform receiving input
-        checkResult =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                MESSAGES.getString("TeraFastMeta.Message.TransformInputDataFound"),
-                transformMeta);
+        checkResult = new CheckResult(ICheckResult.TYPE_RESULT_OK, MESSAGES.getString("TeraFastMeta.Message.TransformInputDataFound"), transformMeta);
         remarks.add(checkResult);
 
         error = false;
         for (String field : this.streamFieldList.getValue()) {
           if (prev.searchValueMeta(field) == null) {
             error = true;
-            checkResult =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_ERROR,
-                    MESSAGES.getString("TeraFastMeta.Exception.StreamFieldNotFound"),
-                    transformMeta);
+            checkResult = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, MESSAGES.getString("TeraFastMeta.Exception.StreamFieldNotFound"), transformMeta);
             remarks.add(checkResult);
           }
         }
         if (!error) {
-          checkResult =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  MESSAGES.getString("TeraFastMeta.Message.AllStreamFieldsFound"),
-                  transformMeta);
+          checkResult = new CheckResult(ICheckResult.TYPE_RESULT_OK, MESSAGES.getString("TeraFastMeta.Message.AllStreamFieldsFound"), transformMeta);
           remarks.add(checkResult);
         }
       }
     } catch (HopDatabaseException e) {
-      checkResult =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              MESSAGES.getString("TeraFastMeta.Exception.ConnectionFailed"),
-              transformMeta);
+      checkResult = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, MESSAGES.getString("TeraFastMeta.Exception.ConnectionFailed"), transformMeta);
       remarks.add(checkResult);
     } catch (HopException e) {
       checkResult = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, e.getMessage(), transformMeta);
@@ -281,9 +249,7 @@ public class TeraFastMeta extends AbstractTransformMeta<ITransform, ITransformDa
   public IRowMeta getRequiredFields(final IVariables variables) throws HopException {
     if (!this.useControlFile.getValue()) {
       final Database database = connectToDatabase(variables);
-      IRowMeta fields =
-          database.getTableFieldsMeta(
-              StringUtils.EMPTY, variables.resolve(this.targetTable.getValue()));
+      IRowMeta fields = database.getTableFieldsMeta(StringUtils.EMPTY, variables.resolve(this.targetTable.getValue()));
       database.disconnect();
       if (fields == null) {
         throw new HopException(MESSAGES.getString("TeraFastMeta.Exception.TableNotFound"));

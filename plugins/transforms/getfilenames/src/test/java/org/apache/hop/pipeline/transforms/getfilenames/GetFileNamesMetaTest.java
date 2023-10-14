@@ -41,7 +41,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
 
@@ -52,19 +53,8 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
 
     List<String> attributes =
         Arrays.asList(
-            "file",
-            "filter",
-            "rownum",
-            "rownum_field",
-            "filename_Field",
-            "wildcard_Field",
-            "exclude_wildcard_Field",
-            "filefield",
-            "dynamic_include_subfolders",
-            "doNotFailIfNoFile",
-            "raiseAnExceptionIfNoFile",
-            "isaddresult",
-            "limit");
+            "file", "filter", "rownum", "rownum_field", "filename_Field", "wildcard_Field", "exclude_wildcard_Field", "filefield", "dynamic_include_subfolders",
+            "doNotFailIfNoFile", "raiseAnExceptionIfNoFile", "isaddresult", "limit");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("file", "getFilesList");
@@ -101,25 +91,16 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester<>(
-            GetFileNamesMeta.class,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap);
+    loadSaveTester = new LoadSaveTester<>(GetFileNamesMeta.class, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
 
-    IFieldLoadSaveValidatorFactory validatorFactory =
-        loadSaveTester.getFieldLoadSaveValidatorFactory();
+    IFieldLoadSaveValidatorFactory validatorFactory = loadSaveTester.getFieldLoadSaveValidatorFactory();
 
     validatorFactory.registerValidator(
         validatorFactory.getName(FileItem.class),
         new ObjectValidator<FileItem>(
             validatorFactory,
             FileItem.class,
-            Arrays.asList(
-                "name", "filemask", "exclude_filemask", "file_required", "include_subfolders"),
+            Arrays.asList("name", "filemask", "exclude_filemask", "file_required", "include_subfolders"),
             new HashMap<String, String>() {
               {
                 put("name", "getFileName");
@@ -139,30 +120,21 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
               }
             }));
 
-    validatorFactory.registerValidator(
-        validatorFactory.getName(List.class, FileItem.class),
-        new ListLoadSaveValidator<FileItem>(new FileItemLoadSaveValidator()));
+    validatorFactory.registerValidator(validatorFactory.getName(List.class, FileItem.class), new ListLoadSaveValidator<FileItem>(new FileItemLoadSaveValidator()));
 
     validatorFactory.registerValidator(
         validatorFactory.getName(FilterItem.class),
-        new ObjectValidator<FilterItem>(
-            validatorFactory,
-            FilterItem.class,
-            Arrays.asList("filterfiletype"),
-            new HashMap<String, String>() {
-              {
-                put("filterfiletype", "getFileTypeFilterSelection");
-              }
-            },
-            new HashMap<String, String>() {
-              {
-                put("filterfiletype", "setFileTypeFilterSelection");
-              }
-            }));
+        new ObjectValidator<FilterItem>(validatorFactory, FilterItem.class, Arrays.asList("filterfiletype"), new HashMap<String, String>() {
+          {
+            put("filterfiletype", "getFileTypeFilterSelection");
+          }
+        }, new HashMap<String, String>() {
+          {
+            put("filterfiletype", "setFileTypeFilterSelection");
+          }
+        }));
 
-    validatorFactory.registerValidator(
-        validatorFactory.getName(List.class, FilterItem.class),
-        new ListLoadSaveValidator<FilterItem>(new FilterItemLoadSaveValidator()));
+    validatorFactory.registerValidator(validatorFactory.getName(List.class, FilterItem.class), new ListLoadSaveValidator<FilterItem>(new FilterItemLoadSaveValidator()));
   }
 
   @Test
@@ -175,25 +147,14 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
 
     if (someMeta instanceof GetFileNamesMeta) {
       ((GetFileNamesMeta) someMeta).getFilesList().clear();
-      ((GetFileNamesMeta) someMeta)
-          .getFilesList()
-          .addAll(
-              Arrays.asList(
-                  new FileItem("Filename1", "w1", "ew1", "Y", "N"),
-                  new FileItem("Filename2", "w2", "ew2", "Y", "N"),
-                  new FileItem("Filename3", "w3", "ew3", "Y", "N"),
-                  new FileItem("Filename4", "w4", "ew4", "Y", "N"),
-                  new FileItem("Filename5", "w5", "ew5", "Y", "N")));
+      ((GetFileNamesMeta) someMeta).getFilesList().addAll(
+          Arrays.asList(
+              new FileItem("Filename1", "w1", "ew1", "Y", "N"), new FileItem("Filename2", "w2", "ew2", "Y", "N"), new FileItem("Filename3", "w3", "ew3", "Y", "N"),
+              new FileItem("Filename4", "w4", "ew4", "Y", "N"), new FileItem("Filename5", "w5", "ew5", "Y", "N")));
       ((GetFileNamesMeta) someMeta).getFilterItemList().clear();
-      ((GetFileNamesMeta) someMeta)
-          .getFilterItemList()
-          .addAll(
-              Arrays.asList(
-                  new FilterItem("StreamField1"),
-                  new FilterItem("StreamField1"),
-                  new FilterItem("StreamField1"),
-                  new FilterItem("StreamField1"),
-                  new FilterItem("StreamField1")));
+      ((GetFileNamesMeta) someMeta).getFilterItemList().addAll(
+          Arrays.asList(
+              new FilterItem("StreamField1"), new FilterItem("StreamField1"), new FilterItem("StreamField1"), new FilterItem("StreamField1"), new FilterItem("StreamField1")));
     }
   }
 
@@ -203,9 +164,7 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
     @Override
     public FilterItem getTestObject() {
 
-      FilterItem field =
-          new FilterItem(
-              FileInputList.FileTypeFilter.getByOrdinal(new Random().nextInt(3)).toString());
+      FilterItem field = new FilterItem(FileInputList.FileTypeFilter.getByOrdinal(new Random().nextInt(3)).toString());
 
       return field;
     }
@@ -216,9 +175,7 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       FilterItem another = (FilterItem) actual;
-      return new EqualsBuilder()
-          .append(testObject.getFileTypeFilterSelection(), another.getFileTypeFilterSelection())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getFileTypeFilterSelection(), another.getFileTypeFilterSelection()).isEquals();
     }
   }
 
@@ -233,10 +190,8 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
               UUID.randomUUID().toString(),
               UUID.randomUUID().toString(),
               UUID.randomUUID().toString(),
-              GetFileNamesMeta.RequiredFilesCode[
-                  new Random().nextInt(GetFileNamesMeta.RequiredFilesCode.length)],
-              GetFileNamesMeta.RequiredFilesCode[
-                  new Random().nextInt(GetFileNamesMeta.RequiredFilesCode.length)]);
+              GetFileNamesMeta.RequiredFilesCode[new Random().nextInt(GetFileNamesMeta.RequiredFilesCode.length)],
+              GetFileNamesMeta.RequiredFilesCode[new Random().nextInt(GetFileNamesMeta.RequiredFilesCode.length)]);
 
       return field;
     }
@@ -247,13 +202,9 @@ public class GetFileNamesMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       FileItem another = (FileItem) actual;
-      return new EqualsBuilder()
-          .append(testObject.getFileName(), another.getFileName())
-          .append(testObject.getFileMask(), another.getFileMask())
-          .append(testObject.getExcludeFileMask(), another.getExcludeFileMask())
-          .append(testObject.getFileRequired(), another.getFileRequired())
-          .append(testObject.getIncludeSubFolders(), another.getIncludeSubFolders())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getFileName(), another.getFileName()).append(testObject.getFileMask(), another.getFileMask())
+          .append(testObject.getExcludeFileMask(), another.getExcludeFileMask()).append(testObject.getFileRequired(), another.getFileRequired())
+          .append(testObject.getIncludeSubFolders(), another.getIncludeSubFolders()).isEquals();
     }
   }
 }

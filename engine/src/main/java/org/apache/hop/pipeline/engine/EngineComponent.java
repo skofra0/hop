@@ -216,14 +216,12 @@ public class EngineComponent implements IEngineComponent {
 
   @Override
   public void addRowListener(IRowListener rowListener) {
-    throw new RuntimeException(
-        "Adding a row listener to this transform is not possible as it's not part of a running engine");
+    throw new RuntimeException("Adding a row listener to this transform is not possible as it's not part of a running engine");
   }
 
   @Override
   public void removeRowListener(IRowListener rowListener) {
-    throw new RuntimeException(
-        "Removing a row listener to this transform is not possible as it's not part of a running engine");
+    throw new RuntimeException("Removing a row listener to this transform is not possible as it's not part of a running engine");
   }
 
   /** @param errors The errors to set */

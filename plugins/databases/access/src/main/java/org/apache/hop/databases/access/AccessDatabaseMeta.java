@@ -25,10 +25,7 @@ import org.apache.hop.core.gui.plugin.GuiPlugin;
 import org.apache.hop.core.row.IValueMeta;
 
 /** Microsoft Access connection */
-@DatabaseMetaPlugin(
-    type = "MSACCESS",
-    typeDescription = "Microsoft Access database",
-    documentationUrl = "/database/databases/access.html")
+@DatabaseMetaPlugin(type = "MSACCESS", typeDescription = "Microsoft Access database", documentationUrl = "/database/databases/access.html")
 @GuiPlugin(id = "GUI-MSAccessDatabaseMeta")
 public class AccessDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
@@ -76,44 +73,22 @@ public class AccessDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   }
 
   @Override
-  public String getDropColumnStatement(
-      String tableName,
-      IValueMeta v,
-      String tk,
-      boolean useAutoIncrement,
-      String pk,
-      boolean semicolon) {
+  public String getDropColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoIncrement, String pk, boolean semicolon) {
     return "-- Drop not supported\n-- ALTER TABLE " + tableName + " DROP " + v.getName();
   }
 
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ALTER COLUMN "
-        + v.getName()
-        + " SET "
-        + getFieldDefinition(v, tk, pk, useAutoinc, false, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ALTER COLUMN " + v.getName() + " SET " + getFieldDefinition(v, tk, pk, useAutoinc, false, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta valueMeta,
-      String tk,
-      String pk,
-      boolean useAutoinc,
-      boolean addFieldName,
-      boolean addCr) {
+  public String getFieldDefinition(IValueMeta valueMeta, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String retval = "";
 
     if (addFieldName) {
@@ -131,7 +106,8 @@ public class AccessDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_INTEGER:
         if (tk.equals(valueMeta.getName())) {
           retval += "AUTOINCREMENT";
-        } else retval += "LONG";
+        } else
+          retval += "LONG";
         break;
       case IValueMeta.TYPE_NUMBER:
         retval += "DOUBLE";
@@ -160,83 +136,82 @@ public class AccessDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "AND",
-      "ANY",
-      "AS",
-      "ALL",
-      "AT",
-      "AVG",
-      "BETWEEN",
-      "BOTH",
-      "BY",
-      "CALL",
-      "CASE",
-      "CAST",
-      "COALESCE",
-      "CONSTRAINT",
-      "CORRESPONDING",
-      "CONVERT",
-      "COUNT",
-      "CREATE",
-      "CROSS",
-      "DEFAULT",
-      "DISTINCT",
-      "DO",
-      "DROP",
-      "ELSE",
-      "EVERY",
-      "EXISTS",
-      "EXCEPT",
-      "FOR",
-      "FROM",
-      "FULL",
-      "GRANT",
-      "GROUP",
-      "HAVING",
-      "IN",
-      "INNER",
-      "INTERSECT",
-      "INTO",
-      "IS",
-      "JOIN",
-      "LEFT",
-      "LEADING",
-      "LIKE",
-      "MAX",
-      "MIN",
-      "NATURAL",
-      "NOT",
-      "NULLIF",
-      "ON",
-      "ORDER",
-      "OR",
-      "OUTER",
-      "PRIMARY",
-      "REFERENCES",
-      "RIGHT",
-      "SELECT",
-      "SET",
-      "SOME",
-      "STDDEV_POP",
-      "STDDEV_SAMP",
-      "SUM",
-      "TABLE",
-      "THEN",
-      "TO",
-      "TRAILING",
-      "TRIGGER",
-      "UNION",
-      "UNIQUE",
-      "USING",
-      "USER",
-      "VALUES",
-      "VAR_POP",
-      "VAR_SAMP",
-      "WHEN",
-      "WHERE",
-      "WITH",
-      "END"
-    };
+        "AND",
+        "ANY",
+        "AS",
+        "ALL",
+        "AT",
+        "AVG",
+        "BETWEEN",
+        "BOTH",
+        "BY",
+        "CALL",
+        "CASE",
+        "CAST",
+        "COALESCE",
+        "CONSTRAINT",
+        "CORRESPONDING",
+        "CONVERT",
+        "COUNT",
+        "CREATE",
+        "CROSS",
+        "DEFAULT",
+        "DISTINCT",
+        "DO",
+        "DROP",
+        "ELSE",
+        "EVERY",
+        "EXISTS",
+        "EXCEPT",
+        "FOR",
+        "FROM",
+        "FULL",
+        "GRANT",
+        "GROUP",
+        "HAVING",
+        "IN",
+        "INNER",
+        "INTERSECT",
+        "INTO",
+        "IS",
+        "JOIN",
+        "LEFT",
+        "LEADING",
+        "LIKE",
+        "MAX",
+        "MIN",
+        "NATURAL",
+        "NOT",
+        "NULLIF",
+        "ON",
+        "ORDER",
+        "OR",
+        "OUTER",
+        "PRIMARY",
+        "REFERENCES",
+        "RIGHT",
+        "SELECT",
+        "SET",
+        "SOME",
+        "STDDEV_POP",
+        "STDDEV_SAMP",
+        "SUM",
+        "TABLE",
+        "THEN",
+        "TO",
+        "TRAILING",
+        "TRIGGER",
+        "UNION",
+        "UNIQUE",
+        "USING",
+        "USER",
+        "VALUES",
+        "VAR_POP",
+        "VAR_SAMP",
+        "WHEN",
+        "WHERE",
+        "WITH",
+        "END"};
   }
 
   /**

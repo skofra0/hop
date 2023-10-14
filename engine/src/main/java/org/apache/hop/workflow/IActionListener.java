@@ -24,6 +24,5 @@ import org.apache.hop.workflow.engine.IWorkflowEngine;
 public interface IActionListener<T extends WorkflowMeta> {
   void beforeExecution(IWorkflowEngine<T> workflow, ActionMeta actionMeta, IAction action);
 
-  void afterExecution(
-      IWorkflowEngine<T> workflow, ActionMeta actionMeta, IAction action, Result result);
+  void afterExecution(IWorkflowEngine<T> workflow, ActionMeta actionMeta, IAction action, Result result);
 }

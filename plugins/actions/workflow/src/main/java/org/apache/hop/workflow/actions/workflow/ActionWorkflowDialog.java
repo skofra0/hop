@@ -63,13 +63,11 @@ public class ActionWorkflowDialog extends ActionBaseDialog implements IActionDia
 
   private static final String[] FILE_FILTERLOGNAMES =
       new String[] {
-        BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.TXT"),
-        BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.LOG"),
-        BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.All")
-      };
+          BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.TXT"),
+          BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.LOG"),
+          BaseMessages.getString(PKG, "ActionWorkflow.Fileformat.All")};
 
-  public ActionWorkflowDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionWorkflowDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, action, workflowMeta, variables);
     this.action = (ActionWorkflow) action;
   }
@@ -126,12 +124,7 @@ public class ActionWorkflowDialog extends ActionBaseDialog implements IActionDia
 
   @Override
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "ui/images/workflow.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "ui/images/workflow.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 
   @Override
@@ -163,38 +156,21 @@ public class ActionWorkflowDialog extends ActionBaseDialog implements IActionDia
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "ActionWorkflowDialog.Exception.UnableToLoadWorkflow.Title"),
-          BaseMessages.getString(
-              PKG, "ActionWorkflowDialog.Exception.UnableToLoadWorkflow.Message"),
+          BaseMessages.getString(PKG, "ActionWorkflowDialog.Exception.UnableToLoadWorkflow.Message"),
           e);
     }
   }
 
   @Override
   protected Control createRunConfigurationControl() {
-    wRunConfiguration =
-        new MetaSelectionLine<>(
-            variables,
-            metadataProvider,
-            WorkflowRunConfiguration.class,
-            shell,
-            SWT.BORDER,
-            null,
-            null,
-            true);
+    wRunConfiguration = new MetaSelectionLine<>(variables, metadataProvider, WorkflowRunConfiguration.class, shell, SWT.BORDER, null, null, true);
 
     return wRunConfiguration;
   }
 
   protected void pickFileVFS() {
     HopWorkflowFileType<WorkflowMeta> workflowFileType = new HopWorkflowFileType<>();
-    String filename =
-        BaseDialog.presentFileDialog(
-            shell,
-            wPath,
-            variables,
-            workflowFileType.getFilterExtensions(),
-            workflowFileType.getFilterNames(),
-            true);
+    String filename = BaseDialog.presentFileDialog(shell, wPath, variables, workflowFileType.getFilterExtensions(), workflowFileType.getFilterNames(), true);
     if (filename != null) {
       replaceNameWithBaseFilename(filename);
     }
@@ -250,17 +226,11 @@ public class ActionWorkflowDialog extends ActionBaseDialog implements IActionDia
     wWaitingToFinish.setSelection(action.isWaitingToFinish());
 
     try {
-      List<String> runConfigurations =
-          this.getMetadataProvider()
-              .getSerializer(WorkflowRunConfiguration.class)
-              .listObjectNames();
+      List<String> runConfigurations = this.getMetadataProvider().getSerializer(WorkflowRunConfiguration.class).listObjectNames();
 
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            HopGui.getInstance().getLog(),
-            variables,
-            HopExtensionPoint.HopGuiRunConfiguration.id,
-            new Object[] {runConfigurations, WorkflowMeta.XML_TAG});
+        ExtensionPointHandler
+            .callExtensionPoint(HopGui.getInstance().getLog(), variables, HopExtensionPoint.HopGuiRunConfiguration.id, new Object[] {runConfigurations, WorkflowMeta.XML_TAG});
       } catch (HopException e) {
         // Ignore errors
       }

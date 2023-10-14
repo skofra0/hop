@@ -52,13 +52,7 @@ import static org.apache.hop.pipeline.transforms.fuzzymatch.FuzzyMatchMeta.FMLoo
 public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
   private static final Class<?> PKG = FuzzyMatchMeta.class; // For Translator
 
-  public FuzzyMatch(
-      TransformMeta transformMeta,
-      FuzzyMatchMeta meta,
-      FuzzyMatchData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FuzzyMatch(TransformMeta transformMeta, FuzzyMatchMeta meta, FuzzyMatchData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -70,10 +64,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
     }
 
     if (isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadingFromStream")
-              + data.infoStream.getTransformName()
-              + "]");
+      logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadingFromStream") + data.infoStream.getTransformName() + "]");
     }
 
     boolean firstRun = true;
@@ -89,9 +80,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
         int indexOfLookupField = data.infoMeta.indexOfValue(resolve(meta.getLookupField()));
         if (indexOfLookupField < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "FuzzyMatch.Exception.CouldnotFindLookField", meta.getLookupField()));
+          throw new HopException(BaseMessages.getString(PKG, "FuzzyMatch.Exception.CouldnotFindLookField", meta.getLookupField()));
         }
         data.infoCache = new RowMeta();
         IValueMeta keyValueMeta = data.infoMeta.getValueMeta(indexOfLookupField);
@@ -109,9 +98,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
             data.indexOfCachedFields[fi] = data.infoMeta.indexOfValue(lookupValue.getName());
             if (data.indexOfCachedFields[fi] < 0) {
               // The field is unreachable !
-              throw new HopException(
-                  BaseMessages.getString(
-                      PKG, "FuzzyMatch.Exception.CouldnotFindLookField", lookupValue.getName()));
+              throw new HopException(BaseMessages.getString(PKG, "FuzzyMatch.Exception.CouldnotFindLookField", lookupValue.getName()));
             }
             additionalFieldValueMeta = data.infoMeta.getValueMeta(data.indexOfCachedFields[fi]);
             additionalFieldValueMeta.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
@@ -121,9 +108,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
         }
       }
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadLookupRow")
-                + rowSet.getRowMeta().getString(rowData));
+        logRowlevel(BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadLookupRow") + rowSet.getRowMeta().getString(rowData));
       }
 
       // Look up the keys in the source rows
@@ -134,11 +119,9 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
       if (rowData[data.indexOfCachedFields[0]] == null) {
         storeData[0] = "";
       } else {
-        IValueMeta fromStreamRowMeta =
-            rowSet.getRowMeta().getValueMeta(data.indexOfCachedFields[0]);
+        IValueMeta fromStreamRowMeta = rowSet.getRowMeta().getValueMeta(data.indexOfCachedFields[0]);
         if (fromStreamRowMeta.isStorageBinaryString()) {
-          storeData[0] =
-              fromStreamRowMeta.convertToNormalStorageType(rowData[data.indexOfCachedFields[0]]);
+          storeData[0] = fromStreamRowMeta.convertToNormalStorageType(rowData[data.indexOfCachedFields[0]]);
         } else {
           storeData[0] = rowData[data.indexOfCachedFields[0]];
         }
@@ -146,19 +129,15 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
 
       // Add additional fields?
       for (int i = 1; i < data.nrCachedFields; i++) {
-        IValueMeta fromStreamRowMeta =
-            rowSet.getRowMeta().getValueMeta(data.indexOfCachedFields[i]);
+        IValueMeta fromStreamRowMeta = rowSet.getRowMeta().getValueMeta(data.indexOfCachedFields[i]);
         if (fromStreamRowMeta.isStorageBinaryString()) {
-          storeData[i] =
-              fromStreamRowMeta.convertToNormalStorageType(rowData[data.indexOfCachedFields[i]]);
+          storeData[i] = fromStreamRowMeta.convertToNormalStorageType(rowData[data.indexOfCachedFields[i]]);
         } else {
           storeData[i] = rowData[data.indexOfCachedFields[i]];
         }
       }
       if (isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "FuzzyMatch.Log.AddingValueToCache", data.infoCache.getString(storeData)));
+        logDebug(BaseMessages.getString(PKG, "FuzzyMatch.Log.AddingValueToCache", data.infoCache.getString(storeData)));
       }
 
       addToCache(storeData);
@@ -178,21 +157,13 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
       first = false;
 
       data.outputRowMeta = getInputRowMeta().clone();
-      meta.getFields(
-          data.outputRowMeta,
-          getTransformName(),
-          new IRowMeta[] {data.infoMeta},
-          null,
-          this,
-          metadataProvider);
+      meta.getFields(data.outputRowMeta, getTransformName(), new IRowMeta[] {data.infoMeta}, null, this, metadataProvider);
 
       // Check lookup field
       data.indexOfMainField = getInputRowMeta().indexOfValue(resolve(meta.getMainStreamField()));
       if (data.indexOfMainField < 0) {
         // The field is unreachable !
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "FuzzyMatch.Exception.CouldnotFindMainField", meta.getMainStreamField()));
+        throw new HopException(BaseMessages.getString(PKG, "FuzzyMatch.Exception.CouldnotFindMainField", meta.getMainStreamField()));
       }
     }
     Object[] add;
@@ -213,16 +184,13 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
       data.look.add(value);
     } catch (OutOfMemoryError o) {
       // exception out of memory
-      throw new HopException(
-          BaseMessages.getString(PKG, "FuzzyMatch.Error.JavaHeap", o.toString()));
+      throw new HopException(BaseMessages.getString(PKG, "FuzzyMatch.Error.JavaHeap", o.toString()));
     }
   }
 
   private Object[] getFromCache(Object[] keyRow) throws HopValueException {
     if (isDebug()) {
-      logDebug(
-          BaseMessages.getString(
-              PKG, "FuzzyMatch.Log.ReadingMainStreamRow", getInputRowMeta().getString(keyRow)));
+      logDebug(BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadingMainStreamRow", getInputRowMeta().getString(keyRow)));
     }
     Object[] retval = null;
     switch (meta.getAlgorithm()) {
@@ -419,8 +387,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
 
       if (data.minimalSimilarity <= cSimilarity && cSimilarity <= data.maximalSimilarity) {
         if (meta.isCloserValue()) {
-          if (cSimilarity > similarity
-              || (cSimilarity == 0 && cacheValue.equals(lookupValueString))) {
+          if (cSimilarity > similarity || (cSimilarity == 0 && cacheValue.equals(lookupValueString))) {
             similarity = cSimilarity;
             // Update match value
             int index = 0;
@@ -466,8 +433,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
         return false;
       }
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadValuesInMemory", data.look.size()));
+        logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.ReadValuesInMemory", data.look.size()));
       }
     }
 
@@ -475,9 +441,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
     if (r == null) {
       // no more input to be expected...
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "FuzzyMatch.Log.StoppedProcessingWithEmpty", getLinesRead()));
+        logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.StoppedProcessingWithEmpty", getLinesRead()));
       }
       setOutputDone();
       return false;
@@ -501,8 +465,7 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
         // Send this row to the error handling transform
         putError(getInputRowMeta(), r, 1, e.toString(), meta.getMainStreamField(), "FuzzyMatch001");
       } else {
-        logError(
-            BaseMessages.getString(PKG, "FuzzyMatch.Log.ErrorInTransformRunning") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "FuzzyMatch.Log.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -540,20 +503,15 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
     // only when the field name is provided
     // and user want to return the closer value.
     //
-    data.addValueFieldName =
-        (StringUtils.isNotEmpty(resolve(meta.getOutputValueField())) && meta.isCloserValue());
+    data.addValueFieldName = (StringUtils.isNotEmpty(resolve(meta.getOutputValueField())) && meta.isCloserValue());
 
     // Set the number of fields to cache
     // default value is one
     //
     int nrFields = 1;
 
-    if (!meta.getLookupValues().isEmpty()
-        && (meta.isCloserValue()
-            || meta.getAlgorithm() == Algorithm.DOUBLE_METAPHONE
-            || meta.getAlgorithm() == Algorithm.SOUNDEX
-            || meta.getAlgorithm() == Algorithm.REFINED_SOUNDEX
-            || meta.getAlgorithm() == Algorithm.METAPHONE)) {
+    if (!meta.getLookupValues().isEmpty() && (meta.isCloserValue() || meta.getAlgorithm() == Algorithm.DOUBLE_METAPHONE || meta.getAlgorithm() == Algorithm.SOUNDEX
+        || meta.getAlgorithm() == Algorithm.REFINED_SOUNDEX || meta.getAlgorithm() == Algorithm.METAPHONE)) {
       // cache also additional fields
       data.addAdditionalFields = true;
       nrFields += meta.getLookupValues().size();
@@ -566,19 +524,16 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
       case NEEDLEMAN_WUNSH:
         data.minimalDistance = Const.toInt(resolve(meta.getMinimalValue()), 0);
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "FuzzyMatch.Log.MinimalDistance", data.minimalDistance));
+          logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.MinimalDistance", data.minimalDistance));
         }
         data.maximalDistance = Const.toInt(resolve(meta.getMaximalValue()), 5);
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "FuzzyMatch.Log.MaximalDistance", data.maximalDistance));
+          logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.MaximalDistance", data.maximalDistance));
         }
         if (!meta.isCloserValue()) {
           data.valueSeparator = resolve(meta.getSeparator());
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "FuzzyMatch.Log.Separator", data.valueSeparator));
+            logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.Separator", data.valueSeparator));
           }
         }
         break;
@@ -587,21 +542,16 @@ public class FuzzyMatch extends BaseTransform<FuzzyMatchMeta, FuzzyMatchData> {
       case PAIR_SIMILARITY:
         data.minimalSimilarity = Const.toDouble(resolve(meta.getMinimalValue()), 0);
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "FuzzyMatch.Log.MinimalSimilarity", data.minimalSimilarity));
+          logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.MinimalSimilarity", data.minimalSimilarity));
         }
         data.maximalSimilarity = Const.toDouble(resolve(meta.getMaximalValue()), 1);
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "FuzzyMatch.Log.MaximalSimilarity", data.maximalSimilarity));
+          logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.MaximalSimilarity", data.maximalSimilarity));
         }
         if (!meta.isCloserValue()) {
           data.valueSeparator = resolve(meta.getSeparator());
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(PKG, "FuzzyMatch.Log.Separator", data.valueSeparator));
+            logDetailed(BaseMessages.getString(PKG, "FuzzyMatch.Log.Separator", data.valueSeparator));
           }
         }
         break;

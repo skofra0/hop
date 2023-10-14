@@ -62,8 +62,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          providerClasses.add(
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class));
+          providerClasses.add(PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class));
         } catch (Exception e) {
           // Do nothing here, if we can't load the provider, don't add it to the list
         }
@@ -80,8 +79,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          ICompressionProvider provider =
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
+          ICompressionProvider provider = PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
           if (provider != null) {
             providerNames.add(provider.getName());
           }
@@ -103,8 +101,7 @@ public class CompressionProviderFactory implements ICompressionProviderFactory {
     if (providers != null) {
       for (IPlugin plugin : providers) {
         try {
-          ICompressionProvider provider =
-              PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
+          ICompressionProvider provider = PluginRegistry.getInstance().loadClass(plugin, ICompressionProvider.class);
           if (provider != null && name.equals(provider.getName())) {
             foundProvider = provider;
           }

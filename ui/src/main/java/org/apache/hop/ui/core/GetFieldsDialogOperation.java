@@ -28,8 +28,7 @@ public class GetFieldsDialogOperation {
   private String title;
   private List<String> paths;
 
-  public GetFieldsDialogOperation(
-      Shell shell, int width, int height, String filename, String title, List<String> paths) {
+  public GetFieldsDialogOperation(Shell shell, int width, int height, String filename, String title, List<String> paths) {
     this.shell = shell;
     this.width = width;
     this.height = height;

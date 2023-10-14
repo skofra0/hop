@@ -69,8 +69,7 @@ public class HttpClientUtil {
    * @return HttpEntity in String representation using provided charset
    * @throws IOException
    */
-  public static String responseToString(HttpResponse response, Charset charset, boolean decode)
-      throws IOException {
+  public static String responseToString(HttpResponse response, Charset charset, boolean decode) throws IOException {
     HttpEntity entity = response.getEntity();
     String result = EntityUtils.toString(entity, charset);
     EntityUtils.consume(entity);
@@ -98,15 +97,12 @@ public class HttpClientUtil {
    * @param schema
    * @return {@link org.apache.http.client.protocol.HttpClientContext HttpClientContext}
    */
-  public static HttpClientContext createPreemptiveBasicAuthentication(
-      String host, int port, String user, String password, String schema) {
+  public static HttpClientContext createPreemptiveBasicAuthentication(String host, int port, String user, String password, String schema) {
     HttpClientContext localContext = null;
     try {
       HttpHost target = new HttpHost(host, port, schema);
       CredentialsProvider credsProvider = new BasicCredentialsProvider();
-      credsProvider.setCredentials(
-          new AuthScope(target.getHostName(), target.getPort()),
-          new UsernamePasswordCredentials(user, password));
+      credsProvider.setCredentials(new AuthScope(target.getHostName(), target.getPort()), new UsernamePasswordCredentials(user, password));
 
       // Create AuthCache instance
       AuthCache authCache = new BasicAuthCache();
@@ -133,8 +129,7 @@ public class HttpClientUtil {
    * @param password
    * @return {@link org.apache.http.client.protocol.HttpClientContext HttpClientContext}
    */
-  public static HttpClientContext createPreemptiveBasicAuthentication(
-      String host, int port, String user, String password) {
+  public static HttpClientContext createPreemptiveBasicAuthentication(String host, int port, String user, String password) {
     return createPreemptiveBasicAuthentication(host, port, user, password, "http");
   }
 }

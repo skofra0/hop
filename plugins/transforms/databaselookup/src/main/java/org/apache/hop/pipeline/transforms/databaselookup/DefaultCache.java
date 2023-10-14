@@ -109,11 +109,10 @@ public class DefaultCache implements DatabaseLookupData.ICache {
                 }
                 lookupIndex++;
                 break;
-                // TODO: add LIKE operator (think of changing the hasDBCondition logic then)
+              // TODO: add LIKE operator (think of changing the hasDBCondition logic then)
               default:
                 match = false;
-                data.hasDBCondition =
-                    true; // avoid looping in here the next time, also safety when a new condition
+                data.hasDBCondition = true; // avoid looping in here the next time, also safety when a new condition
                 // will be introduced
                 break;
             }
@@ -132,10 +131,9 @@ public class DefaultCache implements DatabaseLookupData.ICache {
   }
 
   @Override
-  public void storeRowInCache(
-      DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add) {
+  public void storeRowInCache(DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add) {
     RowMetaAndData rowMetaAndData = new RowMetaAndData(lookupMeta, lookupRow);
-    //  2009-02-01 XXX: I want to write a test case to prove this point before checking
+    // 2009-02-01 XXX: I want to write a test case to prove this point before checking
     // in.
     // /* Don't insert a row with a duplicate key into the cache. It doesn't seem
     // * to serve a useful purpose and can potentially cause the transform to return
@@ -154,9 +152,7 @@ public class DefaultCache implements DatabaseLookupData.ICache {
     // 2009-02-01: If you had previously set a cache size and then turned on load all,
     // this
     // method would throw out entries if the previous cache size wasn't big enough.
-    if (!meta.isLoadingAllDataInCache()
-        && meta.getCacheSize() > 0
-        && map.size() > meta.getCacheSize()) {
+    if (!meta.isLoadingAllDataInCache() && meta.getCacheSize() > 0 && map.size() > meta.getCacheSize()) {
       List<RowMetaAndData> keys = new ArrayList<>(map.keySet());
       List<Date> samples = new ArrayList<>();
       int incr = keys.size() / 10;

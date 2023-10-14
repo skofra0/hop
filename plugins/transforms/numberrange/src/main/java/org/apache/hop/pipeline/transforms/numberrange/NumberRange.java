@@ -30,13 +30,7 @@ public class NumberRange extends BaseTransform<NumberRangeMeta, NumberRangeData>
 
   private NumberRangeSet numberRange;
 
-  public NumberRange(
-      TransformMeta transformMeta,
-      NumberRangeMeta meta,
-      NumberRangeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public NumberRange(TransformMeta transformMeta, NumberRangeMeta meta, NumberRangeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -52,11 +46,11 @@ public class NumberRange extends BaseTransform<NumberRangeMeta, NumberRangeData>
     if (first) {
       first = false;
 
-      // Prepare lower and upper bound 
+      // Prepare lower and upper bound
       for (NumberRangeRule rule : meta.getRules()) {
         rule.init();
       }
-      
+
       numberRange = new NumberRangeSet(meta.getRules(), meta.getFallBackValue());
       data.outputRowMeta = getInputRowMeta().clone();
       // Prepare output fields
@@ -93,9 +87,7 @@ public class NumberRange extends BaseTransform<NumberRangeMeta, NumberRangeData>
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "NumberRange.Log.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "NumberRange.Log.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)

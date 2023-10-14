@@ -26,8 +26,7 @@ public class ConfigOption {
     Int,
     Long,
     Double,
-    Boolean,
-    ;
+    Boolean,;
 
     public static final Type getTypeFromName(String name) {
       for (Type type : values()) {

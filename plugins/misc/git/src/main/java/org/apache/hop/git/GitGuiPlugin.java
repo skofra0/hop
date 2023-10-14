@@ -56,11 +56,7 @@ import java.util.Map;
 import java.util.Set;
 
 @GuiPlugin
-public class GitGuiPlugin
-    implements IExplorerRootChangedListener,
-        IExplorerFilePaintListener,
-        IExplorerRefreshListener,
-        IExplorerSelectionListener {
+public class GitGuiPlugin implements IExplorerRootChangedListener, IExplorerFilePaintListener, IExplorerRefreshListener, IExplorerSelectionListener {
 
   public static final Class<?> PKG = GitGuiPlugin.class;
 
@@ -139,8 +135,7 @@ public class GitGuiPlugin
       }
       List<String> changedFiles = git.getRevertPathFiles(relativePath);
       if (changedFiles.isEmpty()) {
-        MessageBox box =
-            new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
+        MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
         box.setText(BaseMessages.getString(PKG, "GitGuiPlugin.Dialog.NoFilesToCommit.Header"));
         box.setMessage(BaseMessages.getString(PKG, "GitGuiPlugin.Dialog.NoFilesToCommit.Message"));
         box.open();
@@ -215,11 +210,7 @@ public class GitGuiPlugin
     return HopVfs.getFileObject(filename).exists();
   }
 
-  @GuiToolbarElement(
-      root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_PUSH,
-      toolTip = "i18n::GitGuiPlugin.Toolbar.Push.Tooltip",
-      image = "push.svg")
+  @GuiToolbarElement(root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_PUSH, toolTip = "i18n::GitGuiPlugin.Toolbar.Push.Tooltip", image = "push.svg")
   public void gitPush() {
     try {
       git.push();
@@ -232,11 +223,7 @@ public class GitGuiPlugin
     }
   }
 
-  @GuiToolbarElement(
-      root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_PULL,
-      toolTip = "i18n::GitGuiPlugin.Toolbar.Pull.Tooltip",
-      image = "pull.svg")
+  @GuiToolbarElement(root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_PULL, toolTip = "i18n::GitGuiPlugin.Toolbar.Pull.Tooltip", image = "pull.svg")
   public void gitPull() {
     try {
       git.pull();
@@ -249,11 +236,7 @@ public class GitGuiPlugin
     }
   }
 
-  @GuiToolbarElement(
-      root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID,
-      id = TOOLBAR_ITEM_ADD,
-      toolTip = "i18n::GitGuiPlugin.Toolbar.Add.Tooltip",
-      image = "git-add.svg")
+  @GuiToolbarElement(root = ExplorerPerspective.GUI_PLUGIN_TOOLBAR_PARENT_ID, id = TOOLBAR_ITEM_ADD, toolTip = "i18n::GitGuiPlugin.Toolbar.Add.Tooltip", image = "git-add.svg")
   public void gitAdd() {
     try {
       ExplorerFile explorerFile = getSelectedFile();
@@ -295,8 +278,7 @@ public class GitGuiPlugin
       }
       List<String> revertPathFiles = git.getRevertPathFiles(relativePath);
       if (revertPathFiles.isEmpty()) {
-        MessageBox box =
-            new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
+        MessageBox box = new MessageBox(HopGui.getInstance().getShell(), SWT.OK | SWT.ICON_INFORMATION);
         box.setText(BaseMessages.getString(PKG, "GitGuiPlugin.Dialog.NoFilesToRevert.Header"));
         box.setMessage(BaseMessages.getString(PKG, "GitGuiPlugin.Dialog.NoFilesToRevert.Message"));
         box.open();
@@ -346,13 +328,7 @@ public class GitGuiPlugin
       FileObject root = HopVfs.getFileObject(directory);
       return root.getName().getRelativeName(file.getName());
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error calculating relative path for filename '"
-              + explorerFile.getFilename()
-              + "' against '"
-              + directory
-              + "'",
-          e);
+      LogChannel.UI.logError("Error calculating relative path for filename '" + explorerFile.getFilename() + "' against '" + directory + "'", e);
       return null;
     }
   }
@@ -508,12 +484,10 @@ public class GitGuiPlugin
       activeFile.setName(BaseMessages.getString(PKG, "GitGuiPlugin.Project.Label"));
       activeFile.setFilename(git.getDirectory());
     }
-    activeFile.setName(
-        BaseMessages.getString(PKG, "GitGuiPlugin.Info.Label", activeFile.getName()));
+    activeFile.setName(BaseMessages.getString(PKG, "GitGuiPlugin.Info.Label", activeFile.getName()));
     GitInfoExplorerFileType fileType = new GitInfoExplorerFileType();
     activeFile.setFileType(fileType);
-    GitInfoExplorerFileTypeHandler fileTypeHandler =
-        fileType.createFileTypeHandler(HopGui.getInstance(), explorerPerspective, activeFile);
+    GitInfoExplorerFileTypeHandler fileTypeHandler = fileType.createFileTypeHandler(HopGui.getInstance(), explorerPerspective, activeFile);
     activeFile.setFileTypeHandler(fileTypeHandler);
 
     explorerPerspective.addFile(activeFile);

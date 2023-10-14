@@ -23,17 +23,11 @@ import java.util.List;
 
 public class CFields {
   /** which fields do we use to look up a value? */
-  @HopMetadataProperty(
-      key = "key",
-      injectionGroupKey = "KEY_FIELDS",
-      injectionGroupDescription = "CombinationLookup.Injection.KEY_FIELDS")
+  @HopMetadataProperty(key = "key", injectionGroupKey = "KEY_FIELDS", injectionGroupDescription = "CombinationLookup.Injection.KEY_FIELDS")
   private List<KeyField> keyFields;
 
   /** Where to get the sequence from... */
-  @HopMetadataProperty(
-      key = "sequence",
-      injectionKey = "SEQUENCE_FROM",
-      injectionKeyDescription = "CombinationLookup.Injection.SEQUENCE_FROM")
+  @HopMetadataProperty(key = "sequence", injectionKey = "SEQUENCE_FROM", injectionKeyDescription = "CombinationLookup.Injection.SEQUENCE_FROM")
   private String sequenceFrom;
 
   @HopMetadataProperty(key = "return")

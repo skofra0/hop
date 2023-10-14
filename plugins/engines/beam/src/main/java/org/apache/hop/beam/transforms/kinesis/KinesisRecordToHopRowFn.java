@@ -52,15 +52,8 @@ public class KinesisRecordToHopRowFn extends DoFn<KinesisRecord, HopRow> {
   private transient Counter inputCounter;
   private transient Counter writtenCounter;
 
-  public KinesisRecordToHopRowFn(
-      String transformName,
-      String rowMetaJson,
-      String uniqueIdField,
-      String partitionKeyField,
-      String sequenceNumberField,
-      String subSequenceNumberField,
-      String shardIdField,
-      String streamNameField) {
+  public KinesisRecordToHopRowFn(String transformName, String rowMetaJson, String uniqueIdField, String partitionKeyField, String sequenceNumberField,
+      String subSequenceNumberField, String shardIdField, String streamNameField) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
     this.uniqueIdField = uniqueIdField;
@@ -86,8 +79,7 @@ public class KinesisRecordToHopRowFn extends DoFn<KinesisRecord, HopRow> {
     } catch (Exception e) {
       numErrors.inc();
       LOG.error("Error in setup of KinesisRecord to HopRow conversion function", e);
-      throw new RuntimeException(
-          "Error in setup of KinesisRecord to HopRow conversion function", e);
+      throw new RuntimeException("Error in setup of KinesisRecord to HopRow conversion function", e);
     }
   }
 

@@ -27,9 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionSftpPutLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionSftpPut> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionSftpPutLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionSftpPut> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionSftpPut> getActionClass() {
@@ -39,30 +39,9 @@ public class WorkflowActionSftpPutLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "serverName",
-            "serverPort",
-            "userName",
-            "password",
-            "scpDirectory",
-            "localDirectory",
-            "wildcard",
-            "copyPrevious",
-            "copyPreviousFiles",
-            "addFilenameResut",
-            "useKeyFile",
-            "keyFilename",
-            "keyPassPhrase",
-            "compression",
-            "proxyType",
-            "proxyHost",
-            "proxyPort",
-            "proxyUsername",
-            "proxyPassword",
-            "createRemoteFolder",
-            "afterFtps",
-            "destinationFolder",
-            "createDestinationFolder",
-            "successWhenNoFile");
+        "serverName", "serverPort", "userName", "password", "scpDirectory", "localDirectory", "wildcard", "copyPrevious", "copyPreviousFiles", "addFilenameResut", "useKeyFile",
+        "keyFilename", "keyPassPhrase", "compression", "proxyType", "proxyHost", "proxyPort", "proxyUsername", "proxyPassword", "createRemoteFolder", "afterFtps",
+        "destinationFolder", "createDestinationFolder", "successWhenNoFile");
   }
 
   @Override

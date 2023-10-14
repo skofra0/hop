@@ -64,16 +64,12 @@ public class WorkflowTrackerConcurrencyTest {
   public static void setUp() {
     // a guarding check for tests' parameters
     int jobsToBeAdded = updatersAmount * updatersCycles;
-    assertTrue(
-        "The limit of stored workflows must be less than the amount of children to be added",
-        jobsLimit < jobsToBeAdded);
+    assertTrue("The limit of stored workflows must be less than the amount of children to be added", jobsLimit < jobsToBeAdded);
   }
 
   @Parameterized.Parameters
   public static List<Object[]> getData() {
-    return Arrays.asList(
-        new Object[] {new WorkflowTracker(mockWorkflowMeta("parent"))},
-        new Object[] {new WorkflowTracker(mockWorkflowMeta("parent"), jobsLimit)});
+    return Arrays.asList(new Object[] {new WorkflowTracker(mockWorkflowMeta("parent"))}, new Object[] {new WorkflowTracker(mockWorkflowMeta("parent"), jobsLimit)});
   }
 
   private static WorkflowMeta mockWorkflowMeta(String name) {
@@ -100,10 +96,8 @@ public class WorkflowTrackerConcurrencyTest {
     List<Searcher> searchers = new ArrayList<>(searchersAmount);
     for (int i = 0; i < searchersAmount; i++) {
       int lookingFor = updatersAmount * updatersCycles / 2 + i;
-      assertTrue(
-          "We are looking for reachable index", lookingFor < updatersAmount * updatersCycles);
-      searchers.add(
-          new Searcher(condition, tracker, mockActionMeta("workflow-action-" + lookingFor)));
+      assertTrue("We are looking for reachable index", lookingFor < updatersAmount * updatersCycles);
+      searchers.add(new Searcher(condition, tracker, mockActionMeta("workflow-action-" + lookingFor)));
     }
 
     final AtomicInteger generator = new AtomicInteger(0);
@@ -112,9 +106,8 @@ public class WorkflowTrackerConcurrencyTest {
       updaters.add(new Updater(tracker, updatersCycles, generator, "workflow-action-%d"));
     }
 
-    //noinspection unchecked
-    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(
-        updaters, ListUtils.union(getters, searchers), condition);
+    // noinspection unchecked
+    ConcurrencyTestRunner.runAndCheckNoExceptionRaised(updaters, ListUtils.union(getters, searchers), condition);
     assertEquals(updatersAmount * updatersCycles, generator.get());
   }
 
@@ -144,10 +137,7 @@ public class WorkflowTrackerConcurrencyTest {
         int i = random.nextInt(amount);
         WorkflowTracker t = tracker.getWorkflowTracker(i);
         if (t == null) {
-          throw new IllegalStateException(
-              String.format(
-                  "Returned tracker must not be null. Index = %d, trackers' amount = %d",
-                  i, amount));
+          throw new IllegalStateException(String.format("Returned tracker must not be null. Index = %d, trackers' amount = %d", i, amount));
         }
       }
       return null;
@@ -180,8 +170,7 @@ public class WorkflowTrackerConcurrencyTest {
     private final AtomicInteger idGenerator;
     private final String resultNameTemplate;
 
-    public Updater(
-        WorkflowTracker tracker, int cycles, AtomicInteger idGenerator, String resultNameTemplate) {
+    public Updater(WorkflowTracker tracker, int cycles, AtomicInteger idGenerator, String resultNameTemplate) {
       this.tracker = tracker;
       this.cycles = cycles;
       this.idGenerator = idGenerator;

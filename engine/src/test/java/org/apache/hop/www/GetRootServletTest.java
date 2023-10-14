@@ -37,8 +37,7 @@ public class GetRootServletTest {
   public void testDoGetReturn404StatusCode() throws ServletException, IOException {
     GetRootServlet servlet = new GetRootServlet();
     servlet.setJettyMode(true);
-    HttpServletRequest request =
-        when(mock(HttpServletRequest.class).getRequestURI()).thenReturn("/wrong_path").getMock();
+    HttpServletRequest request = when(mock(HttpServletRequest.class).getRequestURI()).thenReturn("/wrong_path").getMock();
     HttpServletResponse response = mock(HttpServletResponse.class);
     servlet.doGet(request, response);
     verify(response).sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -54,9 +54,7 @@ public class AvroOutputField implements Cloneable, Comparable<AvroOutputField> {
   public static final int AVRO_TYPE_STRING = 6;
   public static final int AVRO_TYPE_ENUM = 7;
 
-  private static String[] avroDescriptions = {
-    "", "Boolean", "Double", "Float", "Int", "Long", "String", "Enum"
-  };
+  private static String[] avroDescriptions = {"", "Boolean", "Double", "Float", "Int", "Long", "String", "Enum"};
 
   public AvroOutputField(String name, String avroName, int avroType, boolean nullable) {
     this.name = name;
@@ -329,10 +327,6 @@ public class AvroOutputField implements Cloneable, Comparable<AvroOutputField> {
 
   public int compareTo(AvroOutputField compareField) {
 
-    return this.getAvroName() != null
-        ? (compareField.getAvroName() != null
-            ? this.getAvroName().compareTo(compareField.getAvroName())
-            : -1)
-        : -1;
+    return this.getAvroName() != null ? (compareField.getAvroName() != null ? this.getAvroName().compareTo(compareField.getAvroName()) : -1) : -1;
   }
 }

@@ -38,8 +38,7 @@ public class AbortTest {
   @Before
   public void setup() {
     transformMockHelper = new TransformMockHelper("ABORT TEST", AbortMeta.class, AbortData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 

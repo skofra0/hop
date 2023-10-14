@@ -67,7 +67,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class MemoryGroupByAggregationTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private Variables variables;
   private Map<String, MemoryGroupByMeta.GroupType> aggregates;
@@ -77,15 +78,9 @@ public class MemoryGroupByAggregationTest {
 
   static {
     default_aggregates =
-        ImmutableMap.<String, MemoryGroupByMeta.GroupType>builder()
-            .put("min", MemoryGroupByMeta.GroupType.Minimum)
-            .put("max", MemoryGroupByMeta.GroupType.Maximum)
-            .put("sum", MemoryGroupByMeta.GroupType.Sum)
-            .put("ave", MemoryGroupByMeta.GroupType.Average)
-            .put("count", MemoryGroupByMeta.GroupType.CountAll)
-            .put("count_any", MemoryGroupByMeta.GroupType.CountAny)
-            .put("count_distinct", MemoryGroupByMeta.GroupType.CountDistinct)
-            .build();
+        ImmutableMap.<String, MemoryGroupByMeta.GroupType>builder().put("min", MemoryGroupByMeta.GroupType.Minimum).put("max", MemoryGroupByMeta.GroupType.Maximum)
+            .put("sum", MemoryGroupByMeta.GroupType.Sum).put("ave", MemoryGroupByMeta.GroupType.Average).put("count", MemoryGroupByMeta.GroupType.CountAll)
+            .put("count_any", MemoryGroupByMeta.GroupType.CountAny).put("count_distinct", MemoryGroupByMeta.GroupType.CountDistinct).build();
   }
 
   private RowMeta rowMeta;
@@ -288,8 +283,7 @@ public class MemoryGroupByAggregationTest {
     when(pipelineMeta.findTransform(TRANSFORM_NAME)).thenReturn(transformMeta);
 
     // Spy on transform, regrettable but we need to easily inject rows
-    MemoryGroupBy transform =
-        spy(new MemoryGroupBy(transformMeta, meta, data, 0, pipelineMeta, mock(Pipeline.class)));
+    MemoryGroupBy transform = spy(new MemoryGroupBy(transformMeta, meta, data, 0, pipelineMeta, mock(Pipeline.class)));
     transform.copyFrom(variables);
     doNothing().when(transform).putRow((IRowMeta) any(), (Object[]) any());
     doNothing().when(transform).setOutputDone();
@@ -298,16 +292,17 @@ public class MemoryGroupByAggregationTest {
     doReturn(rowMeta).when(transform).getInputRowMeta();
     for (Object[] row : getRows()) {
       doReturn(row).when(transform).getRow();
-      //      assertThat(transform.processRow(), is(true));
-      while (transform.processRow()) {}
+      // assertThat(transform.processRow(), is(true));
+      while (transform.processRow()) {
+      }
     }
     verify(transform, never()).putRow((IRowMeta) any(), (Object[]) any());
 
     // Mark stop
     doReturn(null).when(transform).getRow();
-    //    assertThat(transform.processRow(), is(true)) ;
-    while (transform.processRow()) {}
-    ;
+    // assertThat(transform.processRow(), is(true)) ;
+    while (transform.processRow()) {
+    } ;
     verify(transform).setOutputDone();
 
     // Collect output
@@ -334,15 +329,13 @@ public class MemoryGroupByAggregationTest {
 
     Range<Integer> rows = Range.closed(0, data.rowMap().lastKey());
 
-    return FluentIterable.from(ContiguousSet.create(rows, DiscreteDomain.integers()))
-        .transform(Functions.forMap(data.rowMap(), ImmutableMap.<Integer, Optional<Object>>of()))
-        .transform(
-            input -> {
-              Object[] row = new Object[rowMeta.size()];
-              for (Map.Entry<Integer, Optional<Object>> entry : input.entrySet()) {
-                row[entry.getKey()] = entry.getValue().orNull();
-              }
-              return row;
-            });
+    return FluentIterable.from(ContiguousSet.create(rows, DiscreteDomain.integers())).transform(Functions.forMap(data.rowMap(), ImmutableMap.<Integer, Optional<Object>>of()))
+        .transform(input -> {
+          Object[] row = new Object[rowMeta.size()];
+          for (Map.Entry<Integer, Optional<Object>> entry : input.entrySet()) {
+            row[entry.getKey()] = entry.getValue().orNull();
+          }
+          return row;
+        });
   }
 }

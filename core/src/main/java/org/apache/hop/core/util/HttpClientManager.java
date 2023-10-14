@@ -104,8 +104,7 @@ public class HttpClientManager {
       return this;
     }
 
-    public HttpClientBuilderFacade setCredentials(
-        String user, String password, AuthScope authScope) {
+    public HttpClientBuilderFacade setCredentials(String user, String password, AuthScope authScope) {
       CredentialsProvider provider = new BasicCredentialsProvider();
       UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(user, password);
       provider.setCredentials(authScope, credentials);
@@ -136,7 +135,7 @@ public class HttpClientManager {
       this.ignoreSsl = ignoreSsl;
     }
 
-    public void ignoreSsl(HttpClientBuilder httpClientBuilder){
+    public void ignoreSsl(HttpClientBuilder httpClientBuilder) {
       TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
       SSLContext sslContext;
       try {
@@ -145,17 +144,12 @@ public class HttpClientManager {
         throw new RuntimeException(e);
       }
 
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-          NoopHostnameVerifier.INSTANCE);
+      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
 
       Registry<ConnectionSocketFactory> socketFactoryRegistry =
-          RegistryBuilder.<ConnectionSocketFactory>create()
-              .register("https", sslsf)
-              .register("http", new PlainConnectionSocketFactory())
-              .build();
+          RegistryBuilder.<ConnectionSocketFactory>create().register("https", sslsf).register("http", new PlainConnectionSocketFactory()).build();
 
-      BasicHttpClientConnectionManager connectionManager =
-          new BasicHttpClientConnectionManager(socketFactoryRegistry);
+      BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(socketFactoryRegistry);
 
       httpClientBuilder.setSSLSocketFactory(sslsf).setConnectionManager(connectionManager);
     }
@@ -190,7 +184,8 @@ public class HttpClientManager {
     }
   }
 
-  public static SSLContext getSslContextWithTrustStoreFile(FileInputStream trustFileStream, String trustStorePassword) throws NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, KeyManagementException {
+  public static SSLContext getSslContextWithTrustStoreFile(FileInputStream trustFileStream, String trustStorePassword)
+      throws NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, KeyManagementException {
     TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
     // Using null here initialises the TMF with the default trust store.
     tmf.init((KeyStore) null);
@@ -246,31 +241,29 @@ public class HttpClientManager {
     };
 
     SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-    sslContext.init(null, new TrustManager[] { customTm }, null);
+    sslContext.init(null, new TrustManager[] {customTm}, null);
 
     return sslContext;
   }
 
   public static SSLContext getTrustAllSslContext() throws NoSuchAlgorithmException, KeyManagementException {
-    TrustManager[] trustAllCerts = new TrustManager[] {
-        new X509TrustManager() {
-          public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-            return null;
-          }
+    TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+        return null;
+      }
 
-          public void checkClientTrusted(X509Certificate[] certs, String authType) {  }
+      public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
-          public void checkServerTrusted(X509Certificate[] certs, String authType) {  }
+      public void checkServerTrusted(X509Certificate[] certs, String authType) {}
 
-        }
-    };
+    }};
 
     SSLContext sc = SSLContext.getInstance("SSL");
     sc.init(null, trustAllCerts, new java.security.SecureRandom());
     return sc;
   }
 
-  public static HostnameVerifier getHostnameVerifier(boolean isDebug, ILogChannel log){
+  public static HostnameVerifier getHostnameVerifier(boolean isDebug, ILogChannel log) {
     return (hostname, session) -> {
       if (isDebug) {
         log.logDebug("Warning: URL Host: " + hostname + " vs. " + session.getPeerHost());

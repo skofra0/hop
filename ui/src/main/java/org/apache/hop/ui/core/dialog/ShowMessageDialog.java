@@ -91,7 +91,7 @@ public class ShowMessageDialog extends Dialog {
    *
    * @param parent The parent shell to use
    * @param flags the icon to show using SWT flags: SWT.ICON_WARNING, SWT.ICON_ERROR, ... Also
-   *     SWT.OK, SWT.CANCEL is allowed.
+   *        SWT.OK, SWT.CANCEL is allowed.
    * @param title The dialog title
    * @param message The message to display
    */
@@ -104,7 +104,7 @@ public class ShowMessageDialog extends Dialog {
    *
    * @param parent The parent shell to use
    * @param flags the icon to show using SWT flags: SWT.ICON_WARNING, SWT.ICON_ERROR, ... Also
-   *     SWT.OK, SWT.CANCEL is allowed.
+   *        SWT.OK, SWT.CANCEL is allowed.
    * @param title The dialog title
    * @param message The message to display
    * @param scroll Set the dialog to a default size and enable scrolling
@@ -118,20 +118,14 @@ public class ShowMessageDialog extends Dialog {
    *
    * @param parent The parent shell to use
    * @param flags the icon to show using SWT flags: SWT.ICON_WARNING, SWT.ICON_ERROR, ... Also
-   *     SWT.OK, SWT.CANCEL is allowed.
+   *        SWT.OK, SWT.CANCEL is allowed.
    * @param buttonTextByFlag Custom text to display for each button by flag i.e. key: SWT.OK, value:
-   *     "Custom OK" Note - controls button order, use an ordered map to maintain button order.
+   *        "Custom OK" Note - controls button order, use an ordered map to maintain button order.
    * @param title The dialog title
    * @param message The message to display
    * @param scroll Set the dialog to a default size and enable scrolling
    */
-  public ShowMessageDialog(
-      Shell parent,
-      int flags,
-      Map<Integer, String> buttonTextByFlag,
-      String title,
-      String message,
-      boolean scroll) {
+  public ShowMessageDialog(Shell parent, int flags, Map<Integer, String> buttonTextByFlag, String title, String message, boolean scroll) {
     super(parent, SWT.NONE);
     this.buttonTextByFlag = buttonTextByFlag;
     this.parent = parent;
@@ -157,10 +151,7 @@ public class ShowMessageDialog extends Dialog {
     shell.setText(title);
 
     hasIcon =
-        (flags & SWT.ICON_WARNING) != 0
-            || (flags & SWT.ICON_INFORMATION) != 0
-            || (flags & SWT.ICON_QUESTION) != 0
-            || (flags & SWT.ICON_ERROR) != 0
+        (flags & SWT.ICON_WARNING) != 0 || (flags & SWT.ICON_INFORMATION) != 0 || (flags & SWT.ICON_QUESTION) != 0 || (flags & SWT.ICON_ERROR) != 0
             || (flags & SWT.ICON_WORKING) != 0;
 
     Image image = null;
@@ -221,13 +212,12 @@ public class ShowMessageDialog extends Dialog {
       if ((flags & buttonFlag) != 0) {
         Button button = new Button(shell, SWT.PUSH);
         button.setText(entry.getValue());
-        SelectionAdapter selectionAdapter =
-            new SelectionAdapter() {
-              @Override
-              public void widgetSelected(SelectionEvent event) {
-                quit(buttonFlag);
-              }
-            };
+        SelectionAdapter selectionAdapter = new SelectionAdapter() {
+          @Override
+          public void widgetSelected(SelectionEvent event) {
+            quit(buttonFlag);
+          }
+        };
         button.addSelectionListener(selectionAdapter);
         adapters.add(selectionAdapter);
         buttons.add(button);
@@ -237,13 +227,12 @@ public class ShowMessageDialog extends Dialog {
     setLayoutAccordingToType();
 
     // Detect [X] or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            cancel();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        cancel();
+      }
+    });
 
     if (!scroll) {
       BaseTransformDialog.setSize(shell);
@@ -299,25 +288,18 @@ public class ShowMessageDialog extends Dialog {
         formLayout.marginWidth = 15;
         formLayout.marginHeight = 15;
         setFdlDesc(margin * 3, 0, 0, margin);
-        BaseTransformDialog.positionBottomButtons(
-            shell,
-            buttons.toArray(new Button[buttons.size()]),
-            0,
-            BaseTransformDialog.BUTTON_ALIGNMENT_RIGHT,
-            wlDesc);
+        BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[buttons.size()]), 0, BaseTransformDialog.BUTTON_ALIGNMENT_RIGHT, wlDesc);
         break;
       default:
         formLayout.marginWidth = PropsUi.getFormMargin();
         formLayout.marginHeight = PropsUi.getFormMargin();
         setFdlDesc(margin * 2, margin, 0, margin);
-        BaseTransformDialog.positionBottomButtons(
-            shell, buttons.toArray(new Button[buttons.size()]), margin, wlDesc);
+        BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[buttons.size()]), margin, wlDesc);
         break;
     }
   }
 
-  private void setFdlDesc(
-      int leftOffsetHasIcon, int topOffsetHasIcon, int leftOffsetNoIcon, int topOffsetNoIcon) {
+  private void setFdlDesc(int leftOffsetHasIcon, int topOffsetHasIcon, int leftOffsetNoIcon, int topOffsetNoIcon) {
     if (hasIcon) {
       fdlDesc.left = new FormAttachment(wIcon, leftOffsetHasIcon);
       fdlDesc.top = new FormAttachment(0, topOffsetHasIcon);

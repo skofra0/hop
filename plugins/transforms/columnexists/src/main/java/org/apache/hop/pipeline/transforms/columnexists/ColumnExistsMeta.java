@@ -47,42 +47,28 @@ public class ColumnExistsMeta extends BaseTransformMeta<ColumnExists, ColumnExis
   private static final Class<?> PKG = ColumnExistsMeta.class; // For Translator
 
   /** database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "ColumnExists.Injection.ConnectionName")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "ColumnExists.Injection.ConnectionName")
   private String databaseName;
 
-  @HopMetadataProperty(
-      key = "schemaname",
-      injectionKeyDescription = "ColumnExists.Injection.SchemaName")
+  @HopMetadataProperty(key = "schemaname", injectionKeyDescription = "ColumnExists.Injection.SchemaName")
   private String schemaname;
 
-  @HopMetadataProperty(
-      key = "tablename",
-      injectionKeyDescription = "ColumnExists.Injection.TableName")
+  @HopMetadataProperty(key = "tablename", injectionKeyDescription = "ColumnExists.Injection.TableName")
   private String tableName;
 
   /** dynamic tablename */
-  @HopMetadataProperty(
-      key = "tablenamefield",
-      injectionKeyDescription = "ColumnExists.Injection.TableNameField")
+  @HopMetadataProperty(key = "tablenamefield", injectionKeyDescription = "ColumnExists.Injection.TableNameField")
   private String tablenamefield;
 
   /** dynamic columnname */
-  @HopMetadataProperty(
-      key = "columnnamefield",
-      injectionKeyDescription = "ColumnExists.Injection.ColumnNameField")
+  @HopMetadataProperty(key = "columnnamefield", injectionKeyDescription = "ColumnExists.Injection.ColumnNameField")
   private String columnnamefield;
 
   /** function result: new value name */
-  @HopMetadataProperty(
-      key = "resultfieldname",
-      injectionKeyDescription = "ColumnExists.Injection.ResultFieldName")
+  @HopMetadataProperty(key = "resultfieldname", injectionKeyDescription = "ColumnExists.Injection.ResultFieldName")
   private String resultfieldname;
 
-  @HopMetadataProperty(
-      key = "istablenameInfield",
-      injectionKeyDescription = "ColumnExists.Injection.TableNameInField")
+  @HopMetadataProperty(key = "istablenameInfield", injectionKeyDescription = "ColumnExists.Injection.TableNameInField")
   private boolean tablenameInfield;
 
   public ColumnExistsMeta() {
@@ -173,13 +159,7 @@ public class ColumnExistsMeta extends BaseTransformMeta<ColumnExists, ColumnExis
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output field (String)
     if (!Utils.isEmpty(resultfieldname)) {
@@ -218,8 +198,7 @@ public class ColumnExistsMeta extends BaseTransformMeta<ColumnExists, ColumnExis
     remarks.add(cr);
     if (tablenameInfield) {
       if (Utils.isEmpty(tablenamefield)) {
-        errorMessage =
-            BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.TableFieldMissing");
+        errorMessage = BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.TableFieldMissing");
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       } else {
         errorMessage = BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.TableFieldOK");
@@ -238,8 +217,7 @@ public class ColumnExistsMeta extends BaseTransformMeta<ColumnExists, ColumnExis
     }
 
     if (Utils.isEmpty(columnnamefield)) {
-      errorMessage =
-          BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.ColumnNameFieldMissing");
+      errorMessage = BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.ColumnNameFieldMissing");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
     } else {
       errorMessage = BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.ColumnNameFieldOK");
@@ -249,18 +227,9 @@ public class ColumnExistsMeta extends BaseTransformMeta<ColumnExists, ColumnExis
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ColumnExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ColumnExistsMeta.CheckResult.NoInpuReceived"), transformMeta);
     }
     remarks.add(cr);
   }

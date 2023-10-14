@@ -17,13 +17,13 @@
 // CHECKSTYLE:Indentation:OFF
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,22 +63,21 @@ import java.util.List;
 public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
   public static final String[] tokenNames =
       new String[] {
-        "<invalid>",
-        "<EOR>",
-        "<DOWN>",
-        "<UP>",
-        "COMPLEX_ELEMENT_ITEM_SEPARATOR",
-        "ELEMENT_SEPARATOR",
-        "RELEASE_CHARACTER",
-        "SEGMENT_TERMINATOR",
-        "TEXT_DATA",
-        "' '",
-        "'UNA:+,? \\''",
-        "'UNA:+.? \\''",
-        "'\\n'",
-        "'\\r'",
-        "'\\t'"
-      };
+          "<invalid>",
+          "<EOR>",
+          "<DOWN>",
+          "<UP>",
+          "COMPLEX_ELEMENT_ITEM_SEPARATOR",
+          "ELEMENT_SEPARATOR",
+          "RELEASE_CHARACTER",
+          "SEGMENT_TERMINATOR",
+          "TEXT_DATA",
+          "' '",
+          "'UNA:+,? \\''",
+          "'UNA:+.? \\''",
+          "'\\n'",
+          "'\\r'",
+          "'\\t'"};
 
   public static final int EOF = -1;
   public static final int T__9 = 9;
@@ -108,9 +107,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     super(input, state);
   }
 
-  protected StringTemplateGroup templateLib =
-      new StringTemplateGroup(
-          "FastSimpleGenericEdifactDirectXMLParserTemplates", AngleBracketTemplateLexer.class);
+  protected StringTemplateGroup templateLib = new StringTemplateGroup("FastSimpleGenericEdifactDirectXMLParserTemplates", AngleBracketTemplateLexer.class);
 
   public void setTemplateLib(StringTemplateGroup templateLib) {
     this.templateLib = templateLib;
@@ -138,9 +135,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
   }
 
   public String getGrammarFileName() {
-    return "C:\\workspace-sts\\Hop trunk - "
-        + "restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\"
-        + "FastSimpleGenericEdifactDirectXML.g";
+    return "C:\\workspace-sts\\Hop trunk - " + "restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\" + "FastSimpleGenericEdifactDirectXML.g";
   }
 
   public static final String XML_HEAD = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -189,8 +184,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     throw new MismatchedTokenException(ttype, input);
   }
 
-  public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow)
-      throws RecognitionException {
+  public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow) throws RecognitionException {
     throw e;
   }
 
@@ -204,8 +198,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "edifact"
   // C:\\workspace-sts\\Hop trunk -
@@ -253,8 +246,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\
       // FastSimpleGenericEdifactDirectXML.g:83:4:
       // ( segment )*
-      loop2:
-      do {
+      loop2: do {
         int alt2 = 2;
         int LA2_0 = input.LA(1);
 
@@ -299,8 +291,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "una"
   // C:\\workspace-sts\\Hop trunk -
@@ -347,8 +338,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "segment"
   // C:\\workspace-sts\\Hop trunk -
@@ -379,8 +369,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\
       // FastSimpleGenericEdifactDirectXML.g:92:4:
       // ( data_element )*
-      loop3:
-      do {
+      loop3: do {
         int alt3 = 2;
         int LA3_0 = input.LA(1);
 
@@ -409,8 +398,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\
       // FastSimpleGenericEdifactDirectXML.g:92:37:
       // ( ' ' | '\\n' | '\\r' | '\\t' )*
-      loop4:
-      do {
+      loop4: do {
         int alt4 = 2;
         int LA4_0 = input.LA(1);
 
@@ -460,8 +448,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "data_element"
   // C:\\workspace-sts\\Hop trunk -
@@ -508,8 +495,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "data_element_payload"
   // C:\\workspace-sts\\Hop trunk -
@@ -534,8 +520,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\
       // FastSimpleGenericEdifactDirectXML.g:99:4:
       // ( composite_data_item ds )*
-      loop5:
-      do {
+      loop5: do {
         int alt5 = 2;
         int LA5_0 = input.LA(1);
 
@@ -594,8 +579,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "composite_data_item"
   // C:\\workspace-sts\\Hop trunk -
@@ -621,11 +605,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       composite_data_item_val2 = composite_data_item_val();
       state._fsp--;
       buf.append(TAG_VALUE);
-      buf.append(
-          sanitizeText(
-              (composite_data_item_val2 != null
-                  ? input.toString(composite_data_item_val2.start, composite_data_item_val2.stop)
-                  : null)));
+      buf.append(sanitizeText((composite_data_item_val2 != null ? input.toString(composite_data_item_val2.start, composite_data_item_val2.stop) : null)));
       buf.append(TAG_VALUE_END);
       retval.stop = input.LT(-1);
 
@@ -648,15 +628,13 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "composite_data_item_val"
   // C:\\workspace-sts\\Hop trunk -
   // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\FastSimpleGenericEdifactDirectXML.g:105:1:
   // composite_data_item_val : ( txt |);
-  public final composite_data_item_val_return composite_data_item_val()
-      throws RecognitionException {
+  public final composite_data_item_val_return composite_data_item_val() throws RecognitionException {
     composite_data_item_val_return retval = new composite_data_item_val_return();
     retval.start = input.LT(1);
 
@@ -670,8 +648,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
 
       if ((LA6_0 == TEXT_DATA)) {
         alt6 = 1;
-      } else if (((LA6_0 >= COMPLEX_ELEMENT_ITEM_SEPARATOR && LA6_0 <= ELEMENT_SEPARATOR)
-          || LA6_0 == SEGMENT_TERMINATOR)) {
+      } else if (((LA6_0 >= COMPLEX_ELEMENT_ITEM_SEPARATOR && LA6_0 <= ELEMENT_SEPARATOR) || LA6_0 == SEGMENT_TERMINATOR)) {
         alt6 = 2;
       } else {
         NoViableAltException nvae = new NoViableAltException("", 6, 0, input);
@@ -718,8 +695,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "tag"
   // C:\\workspace-sts\\Hop trunk -
@@ -751,8 +727,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       // restruct\\engine\\src\\org\\project-hop\\di\\pipeline\\transforms\\edi2xml\\grammar\\
       // FastSimpleGenericEdifactDirectXML.g:108:74:
       // ( ds i+= tag_index_id )*
-      loop7:
-      do {
+      loop7: do {
         int alt7 = 2;
         int LA7_0 = input.LA(1);
 
@@ -783,8 +758,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
             break loop7;
         }
       } while (true);
-      retval.name =
-          (tagName3 != null ? input.toString(tagName3.start, tagName3.stop) : null).trim();
+      retval.name = (tagName3 != null ? input.toString(tagName3.start, tagName3.stop) : null).trim();
       retval.stop = input.LT(-1);
 
     } catch (RecognitionException e) {
@@ -806,8 +780,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "tag_name"
   // C:\\workspace-sts\\Hop trunk -
@@ -851,8 +824,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "tag_index_id"
   // C:\\workspace-sts\\Hop trunk -
@@ -877,10 +849,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
       pushFollow(FOLLOW_tagIndex_id_val_in_tagIndex_id249);
       tagIndex_id_val4 = tagIndex_id_val();
       state._fsp--;
-      tagIndexes.add(
-          (tagIndex_id_val4 != null
-              ? input.toString(tagIndex_id_val4.start, tagIndex_id_val4.stop)
-              : null));
+      tagIndexes.add((tagIndex_id_val4 != null ? input.toString(tagIndex_id_val4.start, tagIndex_id_val4.stop) : null));
       retval.stop = input.LT(-1);
 
     } catch (RecognitionException e) {
@@ -902,8 +871,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "tag_index_id_val"
   // C:\\workspace-sts\\Hop trunk -
@@ -923,8 +891,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
 
       if ((LA8_0 == TEXT_DATA)) {
         alt8 = 1;
-      } else if (((LA8_0 >= COMPLEX_ELEMENT_ITEM_SEPARATOR && LA8_0 <= ELEMENT_SEPARATOR)
-          || LA8_0 == SEGMENT_TERMINATOR)) {
+      } else if (((LA8_0 >= COMPLEX_ELEMENT_ITEM_SEPARATOR && LA8_0 <= ELEMENT_SEPARATOR) || LA8_0 == SEGMENT_TERMINATOR)) {
         alt8 = 2;
       } else {
         NoViableAltException nvae = new NoViableAltException("", 8, 0, input);
@@ -969,8 +936,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "ds"
   // C:\\workspace-sts\\Hop trunk -
@@ -1012,8 +978,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "ss"
   // C:\\workspace-sts\\Hop trunk -
@@ -1055,8 +1020,7 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
     public String toString() {
       return st == null ? null : st.toString();
     }
-  }
-  ;
+  };
 
   // $ANTLR start "txt"
   // C:\\workspace-sts\\Hop trunk -
@@ -1091,43 +1055,24 @@ public class FastSimpleGenericEdifactDirectXMLParser extends Parser {
   // Delegated rules
 
   public static final BitSet FOLLOW_una_in_edifact64 = new BitSet(new long[] {0x0000000000000102L});
-  public static final BitSet FOLLOW_segment_in_edifact76 =
-      new BitSet(new long[] {0x0000000000000102L});
-  public static final BitSet FOLLOW_tag_in_segment107 =
-      new BitSet(new long[] {0x00000000000000A0L});
-  public static final BitSet FOLLOW_data_element_in_segment114 =
-      new BitSet(new long[] {0x00000000000000A0L});
-  public static final BitSet FOLLOW_SEGMENT_TERMINATOR_in_segment117 =
-      new BitSet(new long[] {0x0000000000007202L});
-  public static final BitSet FOLLOW_ss_in_data_element143 =
-      new BitSet(new long[] {0x0000000000000100L});
-  public static final BitSet FOLLOW_data_element_payload_in_data_element145 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOWComposite_data_item_in_data_element_payload160 =
-      new BitSet(new long[] {0x0000000000000010L});
-  public static final BitSet FOLLOW_ds_in_data_element_payload162 =
-      new BitSet(new long[] {0x0000000000000100L});
-  public static final BitSet FOLLOWComposite_data_item_in_data_element_payload166 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOWComposite_data_item_val_inComposite_data_item180 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_txt_inComposite_data_item_val193 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_tagName_in_tag208 =
-      new BitSet(new long[] {0x0000000000000012L});
+  public static final BitSet FOLLOW_segment_in_edifact76 = new BitSet(new long[] {0x0000000000000102L});
+  public static final BitSet FOLLOW_tag_in_segment107 = new BitSet(new long[] {0x00000000000000A0L});
+  public static final BitSet FOLLOW_data_element_in_segment114 = new BitSet(new long[] {0x00000000000000A0L});
+  public static final BitSet FOLLOW_SEGMENT_TERMINATOR_in_segment117 = new BitSet(new long[] {0x0000000000007202L});
+  public static final BitSet FOLLOW_ss_in_data_element143 = new BitSet(new long[] {0x0000000000000100L});
+  public static final BitSet FOLLOW_data_element_payload_in_data_element145 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOWComposite_data_item_in_data_element_payload160 = new BitSet(new long[] {0x0000000000000010L});
+  public static final BitSet FOLLOW_ds_in_data_element_payload162 = new BitSet(new long[] {0x0000000000000100L});
+  public static final BitSet FOLLOWComposite_data_item_in_data_element_payload166 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOWComposite_data_item_val_inComposite_data_item180 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_txt_inComposite_data_item_val193 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_tagName_in_tag208 = new BitSet(new long[] {0x0000000000000012L});
   public static final BitSet FOLLOW_ds_in_tag213 = new BitSet(new long[] {0x0000000000000100L});
-  public static final BitSet FOLLOW_tagIndex_id_in_tag217 =
-      new BitSet(new long[] {0x0000000000000012L});
-  public static final BitSet FOLLOW_txt_in_tagName239 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_tagIndex_id_val_in_tagIndex_id249 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_txt_in_tagIndex_id_val258 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_COMPLEX_ELEMENT_ITEM_SEPARATOR_in_ds271 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_ELEMENT_SEPARATOR_in_ss280 =
-      new BitSet(new long[] {0x0000000000000002L});
-  public static final BitSet FOLLOW_TEXT_DATA_in_txt289 =
-      new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_tagIndex_id_in_tag217 = new BitSet(new long[] {0x0000000000000012L});
+  public static final BitSet FOLLOW_txt_in_tagName239 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_tagIndex_id_val_in_tagIndex_id249 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_txt_in_tagIndex_id_val258 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_COMPLEX_ELEMENT_ITEM_SEPARATOR_in_ds271 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_ELEMENT_SEPARATOR_in_ss280 = new BitSet(new long[] {0x0000000000000002L});
+  public static final BitSet FOLLOW_TEXT_DATA_in_txt289 = new BitSet(new long[] {0x0000000000000002L});
 }

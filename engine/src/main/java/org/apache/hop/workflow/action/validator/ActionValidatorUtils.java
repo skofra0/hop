@@ -30,7 +30,8 @@ import java.util.Map;
  * Methods in this class are referenced in validator definitions within the validator resources file
  * (e.g. <tt>validator.xml</tt>).
  *
- * <p>Modeled after <code>org.apache.struts.validator.FieldChecks</code> and <code>
+ * <p>
+ * Modeled after <code>org.apache.struts.validator.FieldChecks</code> and <code>
  * org.apache.commons.collections.PredicateUtils</code>.
  */
 public class ActionValidatorUtils {
@@ -93,8 +94,7 @@ public class ActionValidatorUtils {
     }
   }
 
-  public static void putLevelOnFail(
-      Map<String, Object> map, String validatorName, int levelOnFail) {
+  public static void putLevelOnFail(Map<String, Object> map, String validatorName, int levelOnFail) {
     final String key = getKeyLevelOnFail(validatorName);
     map.put(key, levelOnFail);
   }
@@ -108,22 +108,12 @@ public class ActionValidatorUtils {
   }
 
   /** Fails if a field's value does not match the given mask. */
-  public static boolean validateMask(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      String mask,
-      int levelOnFail) {
+  public static boolean validateMask(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, String mask, int levelOnFail) {
     throw new UnsupportedOperationException();
   }
 
   /** Fails if a field's value does not match the given mask. */
-  public static boolean validateMask(
-      ICheckResultSource source,
-      String propertyName,
-      int levelOnFail,
-      List<ICheckResult> remarks,
-      String mask) {
+  public static boolean validateMask(ICheckResultSource source, String propertyName, int levelOnFail, List<ICheckResult> remarks, String mask) {
     final String VALIDATOR_NAME = "matches";
     String value = null;
 
@@ -131,13 +121,7 @@ public class ActionValidatorUtils {
 
     try {
       if (null == mask) {
-        addGeneralRemark(
-            source,
-            propertyName,
-            VALIDATOR_NAME,
-            remarks,
-            "errors.missingVar",
-            ICheckResult.TYPE_RESULT_ERROR);
+        addGeneralRemark(source, propertyName, VALIDATOR_NAME, remarks, "errors.missingVar", ICheckResult.TYPE_RESULT_ERROR);
         return false;
       }
 
@@ -153,44 +137,22 @@ public class ActionValidatorUtils {
     }
   }
 
-  public static void addFailureRemark(
-      ICheckResultSource source,
-      String propertyName,
-      String validatorName,
-      List<ICheckResult> remarks,
-      int level) {
+  public static void addFailureRemark(ICheckResultSource source, String propertyName, String validatorName, List<ICheckResult> remarks, int level) {
     String key = "messages.failed." + validatorName;
     remarks.add(new CheckResult(level, ValidatorMessages.getString(key, propertyName), source));
   }
 
-  public static void addExceptionRemark(
-      ICheckResultSource source,
-      String propertyName,
-      String validatorName,
-      List<ICheckResult> remarks,
-      Exception e) {
+  public static void addExceptionRemark(ICheckResultSource source, String propertyName, String validatorName, List<ICheckResult> remarks, Exception e) {
     String key = "messages.failed.unableToValidate";
     remarks.add(
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_ERROR,
-            ValidatorMessages.getString(
-                key, propertyName, e.getClass().getSimpleName() + ": " + e.getLocalizedMessage()),
-            source));
+        new CheckResult(ICheckResult.TYPE_RESULT_ERROR, ValidatorMessages.getString(key, propertyName, e.getClass().getSimpleName() + ": " + e.getLocalizedMessage()), source));
   }
 
-  public static void addGeneralRemark(
-      ICheckResultSource source,
-      String propertyName,
-      String validatorName,
-      List<ICheckResult> remarks,
-      String key,
-      int level) {
-    remarks.add(
-        new CheckResult(ICheckResult.TYPE_RESULT_ERROR, ValidatorMessages.getString(key), source));
+  public static void addGeneralRemark(ICheckResultSource source, String propertyName, String validatorName, List<ICheckResult> remarks, String key, int level) {
+    remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, ValidatorMessages.getString(key), source));
   }
 
-  public static void addOkRemark(
-      ICheckResultSource source, String propertyName, List<ICheckResult> remarks) {
+  public static void addOkRemark(ICheckResultSource source, String propertyName, List<ICheckResult> remarks) {
     final int SUBSTRING_LENGTH = 20;
     String value = ValidatorUtils.getValueAsString(source, propertyName);
     String substr = null;
@@ -200,10 +162,6 @@ public class ActionValidatorUtils {
         substr += "...";
       }
     }
-    remarks.add(
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_OK,
-            ValidatorMessages.getString("messages.passed", propertyName, substr),
-            source));
+    remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, ValidatorMessages.getString("messages.passed", propertyName, substr), source));
   }
 }

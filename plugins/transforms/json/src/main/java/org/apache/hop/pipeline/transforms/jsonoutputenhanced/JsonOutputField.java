@@ -59,19 +59,8 @@ public class JsonOutputField implements Cloneable {
     isWithoutEnclosing = withoutEnclosing;
   }
 
-  public JsonOutputField(
-      String fieldName,
-      String elementName,
-      int type,
-      String format,
-      int length,
-      int precision,
-      String currencySymbol,
-      String decimalSymbol,
-      String groupSymbol,
-      String nullString,
-      boolean attribute,
-      String attributeParentName) {
+  public JsonOutputField(String fieldName, String elementName, int type, String format, int length, int precision, String currencySymbol, String decimalSymbol, String groupSymbol,
+      String nullString, boolean attribute, String attributeParentName) {
     this.fieldName = fieldName;
     this.elementName = elementName;
   }

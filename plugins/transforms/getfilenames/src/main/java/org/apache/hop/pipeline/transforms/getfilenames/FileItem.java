@@ -26,45 +26,30 @@ public class FileItem {
   private static final String NO = "N";
 
   /** Array of filenames */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "GetFileNames.Injection.Filename.Label")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "GetFileNames.Injection.Filename.Label")
   private String fileName;
 
   /** Wildcard or filemask (regular expression) */
-  @HopMetadataProperty(
-      key = "filemask",
-      injectionKeyDescription = "GetFileNames.Injection.Filemask.Label")
+  @HopMetadataProperty(key = "filemask", injectionKeyDescription = "GetFileNames.Injection.Filemask.Label")
   private String fileMask;
 
   /** Wildcard or filemask to exclude (regular expression) */
-  @HopMetadataProperty(
-      key = "exclude_filemask",
-      injectionKeyDescription = "GetFileNames.Injection.ExcludeFilemask.Label")
+  @HopMetadataProperty(key = "exclude_filemask", injectionKeyDescription = "GetFileNames.Injection.ExcludeFilemask.Label")
   private String excludeFileMask;
 
   /** Array of boolean values as string, indicating if a file is required. */
-  @HopMetadataProperty(
-      key = "file_required",
-      injectionKeyDescription = "GetFileNames.Injection.FileRequired.Label")
+  @HopMetadataProperty(key = "file_required", injectionKeyDescription = "GetFileNames.Injection.FileRequired.Label")
   private String fileRequired;
 
   /** Array of boolean values as string, indicating if we need to fetch sub folders. */
-  @HopMetadataProperty(
-      key = "include_subfolders",
-      injectionKeyDescription = "GetFileNames.Injection.IncludeSubDirs.Label")
+  @HopMetadataProperty(key = "include_subfolders", injectionKeyDescription = "GetFileNames.Injection.IncludeSubDirs.Label")
   private String includeSubFolders;
 
   public FileItem() {
     setDefault();
   }
 
-  public FileItem(
-      String fileName,
-      String fileMask,
-      String excludeFileMask,
-      String fileRequired,
-      String includeSubFolders) {
+  public FileItem(String fileName, String fileMask, String excludeFileMask, String fileRequired, String includeSubFolders) {
     this.fileName = fileName;
     this.fileMask = fileMask;
     this.excludeFileMask = excludeFileMask;
@@ -119,12 +104,12 @@ public class FileItem {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     FileItem fileItems = (FileItem) o;
-    return fileName.equals(fileItems.fileName)
-        && Objects.equals(fileMask, fileItems.fileMask)
-        && Objects.equals(excludeFileMask, fileItems.excludeFileMask);
+    return fileName.equals(fileItems.fileName) && Objects.equals(fileMask, fileItems.fileMask) && Objects.equals(excludeFileMask, fileItems.excludeFileMask);
   }
 
   @Override

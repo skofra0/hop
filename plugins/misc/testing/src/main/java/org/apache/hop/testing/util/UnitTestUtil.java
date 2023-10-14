@@ -34,9 +34,7 @@ import java.util.List;
 
 public class UnitTestUtil {
 
-  public static final PipelineMeta loadTestPipeline(
-      PipelineUnitTest test, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public static final PipelineMeta loadTestPipeline(PipelineUnitTest test, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     if (test == null) {
       throw new HopException("Unable to find a valid unit test");
     }
@@ -49,8 +47,7 @@ public class UnitTestUtil {
       unitTestPipelineMeta = new PipelineMeta(filename, metadataProvider, variables);
     }
     if (unitTestPipelineMeta == null) {
-      throw new HopException(
-          "Unable to find a valid pipeline filename in unit test '" + test.getName() + "'");
+      throw new HopException("Unable to find a valid pipeline filename in unit test '" + test.getName() + "'");
     }
 
     // Pass some data from the parent...
@@ -80,8 +77,7 @@ public class UnitTestUtil {
 
       // 2. Create the pipeline executor...
       //
-      IPipelineEngine<PipelineMeta> testPipeline =
-          new LocalPipelineEngine(testPipelineMeta, variables, parentObject);
+      IPipelineEngine<PipelineMeta> testPipeline = new LocalPipelineEngine(testPipelineMeta, variables, parentObject);
 
       // 3. Pass execution details...
       //
@@ -119,8 +115,7 @@ public class UnitTestUtil {
       pipelineResultEvaluator.evaluatePipelineResults(testPipeline, pipelineResult);
 
       List<UnitTestResult> testResults = new ArrayList<>();
-      DataSetConst.validateTransformResultAgainstUnitTest(
-          testPipeline, test, metadataProvider, testResults);
+      DataSetConst.validateTransformResultAgainstUnitTest(testPipeline, test, metadataProvider, testResults);
       testResultsEvaluator.evaluateTestResults(testPipeline, testResults);
     } catch (HopException e) {
       exceptionEvaluator.evaluateTestException(test, testPipelineMeta, e);

@@ -38,8 +38,7 @@ public class ConfigurableStreamLogger implements Runnable {
    * @param logLevel the logLevel. Refer to org.apache.hop.core.logging.LogWriter for constants
    * @param type the label for logger entries.
    */
-  public ConfigurableStreamLogger(
-      ILogChannel logChannel, final InputStream in, final LogLevel logLevel, final String type) {
+  public ConfigurableStreamLogger(ILogChannel logChannel, final InputStream in, final LogLevel logLevel, final String type) {
     this.log = logChannel;
     this.is = in;
     this.type = type;

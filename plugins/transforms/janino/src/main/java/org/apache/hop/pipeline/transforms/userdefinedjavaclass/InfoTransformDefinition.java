@@ -35,8 +35,7 @@ public class InfoTransformDefinition extends TransformDefinition {
     super();
   }
 
-  public InfoTransformDefinition(
-      String tag, String transformName, TransformMeta transformMeta, String description) {
+  public InfoTransformDefinition(String tag, String transformName, TransformMeta transformMeta, String description) {
     super(tag, transformName, transformMeta, description);
   }
 

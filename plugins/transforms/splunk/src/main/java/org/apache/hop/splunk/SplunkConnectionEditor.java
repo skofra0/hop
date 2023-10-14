@@ -42,8 +42,7 @@ import org.eclipse.swt.widgets.Text;
  * @see SplunkConnection
  */
 public class SplunkConnectionEditor extends MetadataEditor<SplunkConnection> {
-  private static final Class<?> PKG =
-      SplunkConnectionEditor.class; // For Translator
+  private static final Class<?> PKG = SplunkConnectionEditor.class; // For Translator
 
   // Connection properties
   //
@@ -53,8 +52,7 @@ public class SplunkConnectionEditor extends MetadataEditor<SplunkConnection> {
   private TextVar wUsername;
   private TextVar wPassword;
 
-  public SplunkConnectionEditor(
-      HopGui hopGui, MetadataManager<SplunkConnection> manager, SplunkConnection connection) {
+  public SplunkConnectionEditor(HopGui hopGui, MetadataManager<SplunkConnection> manager, SplunkConnection connection) {
     super(hopGui, manager, connection);
   }
 
@@ -145,8 +143,7 @@ public class SplunkConnectionEditor extends MetadataEditor<SplunkConnection> {
     fdlPassword.left = new FormAttachment(0, 0);
     fdlPassword.right = new FormAttachment(middle, -margin);
     wlPassword.setLayoutData(fdlPassword);
-    wPassword =
-        new PasswordTextVar(manager.getVariables(), parent, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPassword = new PasswordTextVar(manager.getVariables(), parent, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wPassword);
     FormData fdPassword = new FormData();
     fdPassword.top = new FormAttachment(wlPassword, 0, SWT.CENTER);
@@ -174,9 +171,7 @@ public class SplunkConnectionEditor extends MetadataEditor<SplunkConnection> {
     wTest.setText(BaseMessages.getString(PKG, "System.Button.Test"));
     wTest.addListener(SWT.Selection, e -> test());
 
-    return new Button[] {
-      wTest,
-    };
+    return new Button[] {wTest,};
   }
 
   @Override
@@ -211,13 +206,7 @@ public class SplunkConnectionEditor extends MetadataEditor<SplunkConnection> {
       box.setText("OK");
       String message = "Connection successful!" + Const.CR;
       message += Const.CR;
-      message +=
-          "Hostname : "
-              + splunk.getRealHostname(variables)
-              + ", port : "
-              + splunk.getRealPort(variables)
-              + ", user : "
-              + splunk.getRealUsername(variables);
+      message += "Hostname : " + splunk.getRealHostname(variables) + ", port : " + splunk.getRealPort(variables) + ", user : " + splunk.getRealUsername(variables);
       box.setMessage(message);
       box.open();
     } catch (Exception e) {

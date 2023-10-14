@@ -34,10 +34,8 @@ public class LdapInputField implements Cloneable {
 
   public static final String[] FetchAttributeAsCode = {"string", "binary"};
 
-  public static final String[] FetchAttributeAsDesc = {
-    BaseMessages.getString(PKG, "LdapInputField.FetchAttributeAs.String"),
-    BaseMessages.getString(PKG, "LdapInputField.FetchAttributeAs.Binary")
-  };
+  public static final String[] FetchAttributeAsDesc =
+      {BaseMessages.getString(PKG, "LdapInputField.FetchAttributeAs.String"), BaseMessages.getString(PKG, "LdapInputField.FetchAttributeAs.Binary")};
 
   public static final int TYPE_TRIM_NONE = 0;
   public static final int TYPE_TRIM_LEFT = 1;
@@ -46,12 +44,12 @@ public class LdapInputField implements Cloneable {
 
   public static final String[] trimTypeCode = {"none", "left", "right", "both"};
 
-  public static final String[] trimTypeDesc = {
-    BaseMessages.getString(PKG, "LdapInputField.TrimType.None"),
-    BaseMessages.getString(PKG, "LdapInputField.TrimType.Left"),
-    BaseMessages.getString(PKG, "LdapInputField.TrimType.Right"),
-    BaseMessages.getString(PKG, "LdapInputField.TrimType.Both")
-  };
+  public static final String[] trimTypeDesc =
+      {
+          BaseMessages.getString(PKG, "LdapInputField.TrimType.None"),
+          BaseMessages.getString(PKG, "LdapInputField.TrimType.Left"),
+          BaseMessages.getString(PKG, "LdapInputField.TrimType.Right"),
+          BaseMessages.getString(PKG, "LdapInputField.TrimType.Both")};
 
   private String name;
   private String attribute;

@@ -37,8 +37,7 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
   private List<ISearchable> searchables;
   private Iterator<ISearchable> searchableIterator;
 
-  public HopGuiSearchLocationIterator(HopGui hopGui, HopGuiSearchLocation location)
-      throws HopException {
+  public HopGuiSearchLocationIterator(HopGui hopGui, HopGuiSearchLocation location) throws HopException {
     this.hopGui = hopGui;
     this.location = location;
 
@@ -53,16 +52,10 @@ public class HopGuiSearchLocationIterator implements Iterator<ISearchable> {
     // Add the available metadata objects
     //
     for (Class<IHopMetadata> metadataClass : hopGui.getMetadataProvider().getMetadataClasses()) {
-      IHopMetadataSerializer<IHopMetadata> serializer =
-          hopGui.getMetadataProvider().getSerializer(metadataClass);
+      IHopMetadataSerializer<IHopMetadata> serializer = hopGui.getMetadataProvider().getSerializer(metadataClass);
       for (final String metadataName : serializer.listObjectNames()) {
         IHopMetadata hopMetadata = serializer.load(metadataName);
-        HopGuiMetadataSearchable searchable =
-            new HopGuiMetadataSearchable(
-                hopGui.getMetadataProvider(),
-                serializer,
-                hopMetadata,
-                serializer.getManagedClass());
+        HopGuiMetadataSearchable searchable = new HopGuiMetadataSearchable(hopGui.getMetadataProvider(), serializer, hopMetadata, serializer.getManagedClass());
         searchables.add(searchable);
       }
     }

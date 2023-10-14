@@ -33,13 +33,7 @@ public class Append extends BaseTransform<AppendMeta, AppendData> {
 
   private static final Class<?> PKG = Append.class; // For Translator
 
-  public Append(
-      TransformMeta transformMeta,
-      AppendMeta meta,
-      AppendData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Append(TransformMeta transformMeta, AppendMeta meta, AppendData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -79,8 +73,7 @@ public class Append extends BaseTransform<AppendMeta, AppendData> {
         try {
           checkInputLayoutValid(data.headRowSet.getRowMeta(), data.tailRowSet.getRowMeta());
         } catch (HopRowException e) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "Append.Exception.InvalidLayoutDetected"), e);
+          throw new HopException(BaseMessages.getString(PKG, "Append.Exception.InvalidLayoutDetected"), e);
         }
       }
     }
@@ -139,8 +132,7 @@ public class Append extends BaseTransform<AppendMeta, AppendData> {
    * @return true when templates are compatible.
    * @throws HopRowException in case there is a compatibility error.
    */
-  protected void checkInputLayoutValid(IRowMeta referenceRowMeta, IRowMeta compareRowMeta)
-      throws HopRowException {
+  protected void checkInputLayoutValid(IRowMeta referenceRowMeta, IRowMeta compareRowMeta) throws HopRowException {
     if (referenceRowMeta != null && compareRowMeta != null) {
       BaseTransform.safeModeChecking(referenceRowMeta, compareRowMeta);
     }

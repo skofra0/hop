@@ -38,7 +38,8 @@ import static org.junit.Assert.assertTrue;
 
 public class ResultFileTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Before
   public void before() throws Exception {
@@ -50,8 +51,7 @@ public class ResultFileTest {
     File tempDir = new File(new TemporaryFolder().toString());
     FileObject tempFile = HopVfs.createTempFile("prefix", "suffix", tempDir.toString());
     Date timeBeforeFile = Calendar.getInstance().getTime();
-    ResultFile resultFile =
-        new ResultFile(ResultFile.FILE_TYPE_GENERAL, tempFile, "myOriginParent", "myOrigin");
+    ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, tempFile, "myOriginParent", "myOrigin");
     Date timeAfterFile = Calendar.getInstance().getTime();
 
     assertNotNull(resultFile);
@@ -70,8 +70,7 @@ public class ResultFileTest {
     assertEquals("myOriginParent", resultFile.getOriginParent());
     assertTrue(
         "ResultFile timestamp is created in the expected window",
-        timeBeforeFile.compareTo(resultFile.getTimestamp()) <= 0
-            && timeAfterFile.compareTo(resultFile.getTimestamp()) >= 0);
+        timeBeforeFile.compareTo(resultFile.getTimestamp()) <= 0 && timeAfterFile.compareTo(resultFile.getTimestamp()) >= 0);
 
     tempFile.delete();
     tempDir.delete();

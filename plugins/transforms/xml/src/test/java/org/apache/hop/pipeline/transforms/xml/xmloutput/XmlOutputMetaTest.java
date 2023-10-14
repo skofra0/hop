@@ -53,7 +53,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class XmlOutputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUp() throws Exception {
@@ -376,17 +377,16 @@ public class XmlOutputMetaTest {
     assertEquals(10, files.length);
     assertArrayEquals(
         new String[] {
-          "file99_0_00001.xml",
-          "file99_0_00002.xml",
-          "file99_0_00003.xml",
-          "file99_1_00001.xml",
-          "file99_1_00002.xml",
-          "file99_1_00003.xml",
-          "file99_2_00001.xml",
-          "file99_2_00002.xml",
-          "file99_2_00003.xml",
-          "..."
-        },
+            "file99_0_00001.xml",
+            "file99_0_00002.xml",
+            "file99_0_00003.xml",
+            "file99_1_00001.xml",
+            "file99_1_00002.xml",
+            "file99_1_00003.xml",
+            "file99_2_00001.xml",
+            "file99_2_00002.xml",
+            "file99_2_00003.xml",
+            "..."},
         files);
   }
 
@@ -405,8 +405,7 @@ public class XmlOutputMetaTest {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
     IValueMeta vmi = mock(IValueMeta.class);
     when(row.searchValueMeta("aField")).thenReturn(vmi);
-    xmlOutputMeta.getFields(
-        row, "", new IRowMeta[] {rmi}, nextTransform, new Variables(), metadataProvider);
+    xmlOutputMeta.getFields(row, "", new IRowMeta[] {rmi}, nextTransform, new Variables(), metadataProvider);
     verify(vmi).setLength(10, 3);
   }
 
@@ -460,8 +459,7 @@ public class XmlOutputMetaTest {
     xmlOutputMeta.setDefault();
     IResourceNaming resourceNamingInterface = mock(IResourceNaming.class);
     Variables variables = new Variables();
-    when(resourceNamingInterface.nameResource(any(FileObject.class), eq(variables), eq(true)))
-        .thenReturn("exportFile");
+    when(resourceNamingInterface.nameResource(any(FileObject.class), eq(variables), eq(true))).thenReturn("exportFile");
     xmlOutputMeta.exportResources(variables, null, resourceNamingInterface, null);
     assertEquals("exportFile", xmlOutputMeta.getFileName());
   }
@@ -476,16 +474,7 @@ public class XmlOutputMetaTest {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
     IRowMeta info = mock(IRowMeta.class);
     ArrayList<ICheckResult> remarks = new ArrayList<>();
-    xmlOutputMeta.check(
-        remarks,
-        pipelineMeta,
-        transformInfo,
-        prev,
-        new String[] {"input"},
-        new String[] {"output"},
-        info,
-        new Variables(),
-        metadataProvider);
+    xmlOutputMeta.check(remarks, pipelineMeta, transformInfo, prev, new String[] {"input"}, new String[] {"output"}, info, new Variables(), metadataProvider);
     assertEquals(2, remarks.size());
     assertEquals("Transform is receiving info from other transforms.", remarks.get(0).getText());
     assertEquals("File specifications are not checked.", remarks.get(1).getText());
@@ -498,19 +487,9 @@ public class XmlOutputMetaTest {
     xmlOutputMeta.setOutputFields(new XmlField[] {xmlField});
     when(prev.size()).thenReturn(1);
     remarks.clear();
-    xmlOutputMeta.check(
-        remarks,
-        pipelineMeta,
-        transformInfo,
-        prev,
-        new String[] {"input"},
-        new String[] {"output"},
-        info,
-        new Variables(),
-        metadataProvider);
+    xmlOutputMeta.check(remarks, pipelineMeta, transformInfo, prev, new String[] {"input"}, new String[] {"output"}, info, new Variables(), metadataProvider);
     assertEquals(4, remarks.size());
-    assertEquals(
-        "Transform is connected to previous one, receiving 1 fields", remarks.get(0).getText());
+    assertEquals("Transform is connected to previous one, receiving 1 fields", remarks.get(0).getText());
     assertEquals("All output fields are found in the input stream.", remarks.get(1).getText());
     assertEquals("Transform is receiving info from other transforms.", remarks.get(2).getText());
     assertEquals("File specifications are not checked.", remarks.get(3).getText());

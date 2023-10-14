@@ -48,8 +48,7 @@ public class LoggingBufferConcurrencyTest {
       readers.add(new Reader(condition));
     }
 
-    ConcurrencyTestRunner<?, ?> runner =
-        new ConcurrencyTestRunner<>(modifiers, readers, condition, 5000);
+    ConcurrencyTestRunner<?, ?> runner = new ConcurrencyTestRunner<>(modifiers, readers, condition, 5000);
     runner.runConcurrentTest();
     runner.checkNoExceptionRaised();
   }
@@ -62,11 +61,7 @@ public class LoggingBufferConcurrencyTest {
     @Override
     Void doCall() {
       for (int i = 0; i < 5000; i++) {
-        buffer.addLogggingEvent(
-            new HopLoggingEvent(
-                new LogMessage("subject", LogLevel.DEBUG),
-                System.currentTimeMillis(),
-                LogLevel.DEBUG));
+        buffer.addLogggingEvent(new HopLoggingEvent(new LogMessage("subject", LogLevel.DEBUG), System.currentTimeMillis(), LogLevel.DEBUG));
       }
       return null;
     }

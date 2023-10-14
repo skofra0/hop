@@ -21,8 +21,7 @@ import org.apache.hop.workflow.config.IWorkflowEngineRunConfiguration;
 
 import java.util.Objects;
 
-public class EmptyWorkflowRunConfiguration extends Variables
-    implements IWorkflowEngineRunConfiguration, Cloneable {
+public class EmptyWorkflowRunConfiguration extends Variables implements IWorkflowEngineRunConfiguration, Cloneable {
 
   private String pluginId;
   private String pluginName;

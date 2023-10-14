@@ -53,13 +53,7 @@ public class GuiAction {
    * @param image
    * @param actionLambda
    */
-  public GuiAction(
-      String id,
-      GuiActionType type,
-      String name,
-      String tooltip,
-      String image,
-      IGuiActionLambda actionLambda) {
+  public GuiAction(String id, GuiActionType type, String name, String tooltip, String image, IGuiActionLambda actionLambda) {
     this();
     this.id = id;
     this.type = type;
@@ -81,14 +75,7 @@ public class GuiAction {
    * @param image
    * @param guiPluginMethodName
    */
-  public GuiAction(
-      String id,
-      GuiActionType type,
-      String name,
-      String tooltip,
-      String image,
-      String guiPluginClassName,
-      String guiPluginMethodName) {
+  public GuiAction(String id, GuiActionType type, String name, String tooltip, String image, String guiPluginClassName, String guiPluginMethodName) {
     this();
     this.id = id;
     this.type = type;
@@ -172,19 +159,7 @@ public class GuiAction {
 
   @Override
   public String toString() {
-    return "GuiAction{"
-        + "id='"
-        + id
-        + '\''
-        + ", type="
-        + type
-        + ", name='"
-        + name
-        + '\''
-        + ", tooltip='"
-        + tooltip
-        + '\''
-        + '}';
+    return "GuiAction{" + "id='" + id + '\'' + ", type=" + type + ", name='" + name + '\'' + ", tooltip='" + tooltip + '\'' + '}';
   }
 
   /**

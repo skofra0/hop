@@ -54,15 +54,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SalesforceInputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
     PluginRegistry.addPluginType(ValueMetaPluginType.getInstance());
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -78,27 +78,8 @@ public class SalesforceInputMetaTest {
     attributes.addAll(SalesforceMetaTest.getDefaultAttributes());
     attributes.addAll(
         Arrays.asList(
-            "inputFields",
-            "condition",
-            "query",
-            "specifyQuery",
-            "includeTargetURL",
-            "targetURLField",
-            "includeModule",
-            "moduleField",
-            "includeRowNumber",
-            "includeDeletionDate",
-            "deletionDateField",
-            "rowNumberField",
-            "includeSQL",
-            "sqlField",
-            "includeTimestamp",
-            "timestampField",
-            "readFrom",
-            "readTo",
-            "recordsFilter",
-            "queryAll",
-            "rowLimit"));
+            "inputFields", "condition", "query", "specifyQuery", "includeTargetURL", "targetURLField", "includeModule", "moduleField", "includeRowNumber", "includeDeletionDate",
+            "deletionDateField", "rowNumberField", "includeSQL", "sqlField", "includeTimestamp", "timestampField", "readFrom", "readTo", "recordsFilter", "queryAll", "rowLimit"));
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
@@ -112,19 +93,11 @@ public class SalesforceInputMetaTest {
     getterMap.put("includeTimestamp", "includeTimestamp");
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidators = new HashMap<>();
-    fieldLoadSaveValidators.put(
-        "inputFields",
-        new ArrayLoadSaveValidator<>(new SalesforceInputFieldLoadSaveValidator(), 50));
+    fieldLoadSaveValidators.put("inputFields", new ArrayLoadSaveValidator<>(new SalesforceInputFieldLoadSaveValidator(), 50));
     fieldLoadSaveValidators.put("recordsFilter", new RecordsFilterLoadSaveValidator());
 
     TransformLoadSaveTester<SalesforceInputMeta> transformLoadSaveTester =
-        new TransformLoadSaveTester(
-            SalesforceInputMeta.class,
-                attributes,
-            getterMap,
-            setterMap,
-            fieldLoadSaveValidators,
-            new HashMap<>());
+        new TransformLoadSaveTester(SalesforceInputMeta.class, attributes, getterMap, setterMap, fieldLoadSaveValidators, new HashMap<>());
 
     transformLoadSaveTester.testXmlRoundTrip();
   }
@@ -253,8 +226,7 @@ public class SalesforceInputMetaTest {
     }
   }
 
-  public static class SalesforceInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<SalesforceInputField> {
+  public static class SalesforceInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<SalesforceInputField> {
     static final Random rnd = new Random();
 
     @Override
@@ -281,18 +253,11 @@ public class SalesforceInputMetaTest {
         return false;
       }
       SalesforceInputField sfActual = (SalesforceInputField) actual;
-      if (!sfActual.getName().equals(testObject.getName())
-          || !sfActual.getField().equals(testObject.getField())
-          || sfActual.isIdLookup() != testObject.isIdLookup()
-          || sfActual.getType() != testObject.getType()
-          || !sfActual.getFormat().equals(testObject.getFormat())
-          || !sfActual.getCurrencySymbol().equals(testObject.getCurrencySymbol())
-          || !sfActual.getDecimalSymbol().equals(testObject.getDecimalSymbol())
-          || !sfActual.getGroupSymbol().equals(testObject.getGroupSymbol())
-          || sfActual.getLength() != testObject.getLength()
-          || sfActual.getPrecision() != testObject.getPrecision()
-          || sfActual.getTrimType() != testObject.getTrimType()
-          || sfActual.isRepeated() != testObject.isRepeated()) {
+      if (!sfActual.getName().equals(testObject.getName()) || !sfActual.getField().equals(testObject.getField()) || sfActual.isIdLookup() != testObject.isIdLookup()
+          || sfActual.getType() != testObject.getType() || !sfActual.getFormat().equals(testObject.getFormat())
+          || !sfActual.getCurrencySymbol().equals(testObject.getCurrencySymbol()) || !sfActual.getDecimalSymbol().equals(testObject.getDecimalSymbol())
+          || !sfActual.getGroupSymbol().equals(testObject.getGroupSymbol()) || sfActual.getLength() != testObject.getLength()
+          || sfActual.getPrecision() != testObject.getPrecision() || sfActual.getTrimType() != testObject.getTrimType() || sfActual.isRepeated() != testObject.isRepeated()) {
         return false;
       }
       return true;

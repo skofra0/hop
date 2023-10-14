@@ -37,8 +37,7 @@ public class S3NFileNameParser extends AbstractFileNameParser {
   }
 
   @Override
-  public FileName parseUri(VfsComponentContext context, FileName base, String uri)
-      throws FileSystemException {
+  public FileName parseUri(VfsComponentContext context, FileName base, String uri) throws FileSystemException {
     StringBuilder name = new StringBuilder();
 
     String scheme = UriParser.extractScheme(uri, name);

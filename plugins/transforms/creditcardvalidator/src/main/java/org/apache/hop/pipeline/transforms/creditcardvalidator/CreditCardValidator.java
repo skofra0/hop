@@ -27,18 +27,11 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Check if a Credit Card is valid * */
-public class CreditCardValidator
-    extends BaseTransform<CreditCardValidatorMeta, CreditCardValidatorData> {
+public class CreditCardValidator extends BaseTransform<CreditCardValidatorMeta, CreditCardValidatorData> {
 
   private static final Class<?> PKG = CreditCardValidatorMeta.class; // For Translator
 
-  public CreditCardValidator(
-      TransformMeta transformMeta,
-      CreditCardValidatorMeta meta,
-      CreditCardValidatorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CreditCardValidator(TransformMeta transformMeta, CreditCardValidatorMeta meta, CreditCardValidatorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -69,8 +62,7 @@ public class CreditCardValidator
       // Check if field is provided
       if (Utils.isEmpty(meta.getFieldName())) {
         logError(BaseMessages.getString(PKG, "CreditCardValidator.Error.CardFieldMissing"));
-        throw new HopException(
-            BaseMessages.getString(PKG, "CreditCardValidator.Error.CardFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "CreditCardValidator.Error.CardFieldMissing"));
       }
 
       // cache the position of the field
@@ -78,15 +70,12 @@ public class CreditCardValidator
         data.indexOfField = getInputRowMeta().indexOfValue(meta.getFieldName());
         if (data.indexOfField < 0) {
           // The field is unreachable !
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "CreditCardValidator.Exception.CouldnotFindField", meta.getFieldName()));
+          throw new HopException(BaseMessages.getString(PKG, "CreditCardValidator.Exception.CouldnotFindField", meta.getFieldName()));
         }
       }
       data.realResultFieldname = resolve(meta.getResultFieldName());
       if (Utils.isEmpty(data.realResultFieldname)) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "CreditCardValidator.Exception.ResultFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "CreditCardValidator.Exception.ResultFieldMissing"));
       }
       data.realCardTypeFieldname = resolve(meta.getCardType());
       data.realNotValidMsgFieldname = resolve(meta.getNotValidMessage());
@@ -131,11 +120,7 @@ public class CreditCardValidator
       putRow(data.outputRowMeta, outputRow); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "CreditCardValidator.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(row)));
+        logRowlevel(BaseMessages.getString(PKG, "CreditCardValidator.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(row)));
       }
 
     } catch (Exception e) {
@@ -143,9 +128,7 @@ public class CreditCardValidator
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "CreditCardValidator.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "CreditCardValidator.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -153,13 +136,7 @@ public class CreditCardValidator
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(),
-            row,
-            1,
-            errorMessage,
-            meta.getResultFieldName(),
-            "CreditCardValidator001");
+        putError(getInputRowMeta(), row, 1, errorMessage, meta.getResultFieldName(), "CreditCardValidator001");
       }
     }
 

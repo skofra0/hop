@@ -55,15 +55,13 @@ public class HopMetadataUtil {
     //
     List<IHopMetadataProvider> providers = new ArrayList<>();
     for (String folder : folders) {
-      IHopMetadataProvider provider =
-          new JsonMetadataProvider(Encr.getEncoder(), folder, variables);
+      IHopMetadataProvider provider = new JsonMetadataProvider(Encr.getEncoder(), folder, variables);
       providers.add(provider);
     }
     return new MultiMetadataProvider(Encr.getEncoder(), providers, variables);
   }
 
-  public static <T extends IHopMetadata> HopMetadata getHopMetadataAnnotation(
-      Class<T> managedClass) {
+  public static <T extends IHopMetadata> HopMetadata getHopMetadataAnnotation(Class<T> managedClass) {
     HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
     return hopMetadata;
   }

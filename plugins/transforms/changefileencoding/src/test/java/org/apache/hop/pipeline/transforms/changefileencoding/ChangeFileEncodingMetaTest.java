@@ -28,19 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeFileEncodingMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrip() throws HopException {
     List<String> attributes =
-        Arrays.asList(
-            "filenamefield",
-            "targetfilenamefield",
-            "sourceencoding",
-            "targetencoding",
-            "addsourceresultfilenames",
-            "addtargetresultfilenames",
-            "createparentfolder");
+        Arrays.asList("filenamefield", "targetfilenamefield", "sourceencoding", "targetencoding", "addsourceresultfilenames", "addtargetresultfilenames", "createparentfolder");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("filenamefield", "getFilenameField");
@@ -60,8 +54,7 @@ public class ChangeFileEncodingMetaTest {
     setterMap.put("addtargetresultfilenames", "setAddTargetResultFilenames");
     setterMap.put("createparentfolder", "setCreateParentFolder");
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(ChangeFileEncodingMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(ChangeFileEncodingMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionFileCompareTest
-    extends WorkflowActionLoadSaveTestSupport<ActionFileCompare> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionFileCompareTest extends WorkflowActionLoadSaveTestSupport<ActionFileCompare> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionFileCompare> getActionClass() {
@@ -40,17 +40,11 @@ public class WorkflowActionFileCompareTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "filename1", "getFilename1",
-        "filename2", "getFilename2",
-        "addFilenameToResult", "isAddFilenameToResult");
+    return toMap("filename1", "getFilename1", "filename2", "getFilename2", "addFilenameToResult", "isAddFilenameToResult");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "filename1", "setFilename1",
-        "filename2", "setFilename2",
-        "addFilenameToResult", "setAddFilenameToResult");
+    return toMap("filename1", "setFilename1", "filename2", "setFilename2", "addFilenameToResult", "setAddFilenameToResult");
   }
 }

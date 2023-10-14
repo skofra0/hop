@@ -138,8 +138,7 @@ public class EnterSearchDialog {
 
     // Filter line
     Label wlFilter = new Label(shell, SWT.RIGHT);
-    wlFilter.setText(
-        BaseMessages.getString(PKG, "EnterSearchDialog.FilterSelection.Label")); // Select filter
+    wlFilter.setText(BaseMessages.getString(PKG, "EnterSearchDialog.FilterSelection.Label")); // Select filter
     PropsUi.setLook(wlFilter);
     FormData fdlFilter = new FormData();
     fdlFilter.left = new FormAttachment(0, 0);
@@ -156,26 +155,23 @@ public class EnterSearchDialog {
 
     Button wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-    wOk.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok();
-          }
-        });
+    wOk.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok();
+      }
+    });
 
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
-    wCancel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            cancel();
-          }
-        });
+    wCancel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        cancel();
+      }
+    });
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, props.getMargin(), wFilter);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, props.getMargin(), wFilter);
 
     getData();
 

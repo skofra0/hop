@@ -31,7 +31,8 @@ import java.util.Objects;
 /** This class contains a list of data rows as well as the IRowMeta to describe it. */
 public class RowBuffer {
 
-  @JsonIgnore public static final String XML_TAG = "row-buffer";
+  @JsonIgnore
+  public static final String XML_TAG = "row-buffer";
 
   private IRowMeta rowMeta;
   private List<Object[]> buffer;
@@ -59,8 +60,10 @@ public class RowBuffer {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     RowBuffer that = (RowBuffer) o;
     if (!this.rowMeta.equals(that.rowMeta)) {
       return false;
@@ -79,8 +82,7 @@ public class RowBuffer {
             return false;
           }
         } catch (HopValueException e) {
-          throw new RuntimeException(
-              "Error comparing 2 values in a row buffer row: " + valueMeta.getName(), e);
+          throw new RuntimeException("Error comparing 2 values in a row buffer row: " + valueMeta.getName(), e);
         }
       }
     }
@@ -122,7 +124,7 @@ public class RowBuffer {
     return buffer.isEmpty();
   }
 
-  public void addRow(Object...row) {
+  public void addRow(Object... row) {
     buffer.add(row);
   }
 

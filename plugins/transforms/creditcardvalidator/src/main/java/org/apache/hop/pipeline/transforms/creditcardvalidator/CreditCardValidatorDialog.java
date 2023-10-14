@@ -62,8 +62,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
 
   private final CreditCardValidatorMeta input;
 
-  public CreditCardValidatorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public CreditCardValidatorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (CreditCardValidatorMeta) in;
   }
@@ -92,8 +91,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -128,22 +126,21 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
     fdFieldName.top = new FormAttachment(wTransformName, margin);
     fdFieldName.right = new FormAttachment(100, -margin);
     wFieldName.setLayoutData(fdFieldName);
-    wFieldName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost
-          }
+    wFieldName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            get();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        get();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // get only digits?
     Label wlgetOnlyDigits = new Label(shell, SWT.RIGHT);
@@ -156,8 +153,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
     wlgetOnlyDigits.setLayoutData(fdlgetOnlyDigits);
     wgetOnlyDigits = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wgetOnlyDigits);
-    wgetOnlyDigits.setToolTipText(
-        BaseMessages.getString(PKG, "CreditCardValidator.getOnlyDigits.Tooltip"));
+    wgetOnlyDigits.setToolTipText(BaseMessages.getString(PKG, "CreditCardValidator.getOnlyDigits.Tooltip"));
     FormData fdgetOnlyDigits = new FormData();
     fdgetOnlyDigits.left = new FormAttachment(middle, 0);
     fdgetOnlyDigits.top = new FormAttachment(wFieldName, margin);
@@ -170,8 +166,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
 
     Group wOutputFields = new Group(shell, SWT.SHADOW_NONE);
     PropsUi.setLook(wOutputFields);
-    wOutputFields.setText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.OutputFields.Label"));
+    wOutputFields.setText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.OutputFields.Label"));
 
     FormLayout outputFieldsgroupLayout = new FormLayout();
     outputFieldsgroupLayout.marginWidth = 10;
@@ -189,8 +184,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
     wlResult.setLayoutData(fdlResult);
 
     wResult = new TextVar(variables, wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wResult.setToolTipText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.ResultField.Tooltip"));
+    wResult.setToolTipText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.ResultField.Tooltip"));
     PropsUi.setLook(wResult);
     wResult.addModifyListener(lsMod);
     FormData fdResult = new FormData();
@@ -210,8 +204,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
     wlCardType.setLayoutData(fdlCardType);
 
     wFileType = new TextVar(variables, wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wFileType.setToolTipText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.CardType.Tooltip"));
+    wFileType.setToolTipText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.CardType.Tooltip"));
     PropsUi.setLook(wFileType);
     wFileType.addModifyListener(lsMod);
     FormData fdCardType = new FormData();
@@ -222,8 +215,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
 
     // UnvalidMsg fieldname ...
     Label wlNotValidMsg = new Label(wOutputFields, SWT.RIGHT);
-    wlNotValidMsg.setText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.NotValidMsg.Label"));
+    wlNotValidMsg.setText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.NotValidMsg.Label"));
     PropsUi.setLook(wlNotValidMsg);
     FormData fdlNotValidMsg = new FormData();
     fdlNotValidMsg.left = new FormAttachment(0, -margin);
@@ -232,8 +224,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
     wlNotValidMsg.setLayoutData(fdlNotValidMsg);
 
     wNotValidMsg = new TextVar(variables, wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wNotValidMsg.setToolTipText(
-        BaseMessages.getString(PKG, "CreditCardValidatorDialog.NotValidMsg.Tooltip"));
+    wNotValidMsg.setToolTipText(BaseMessages.getString(PKG, "CreditCardValidatorDialog.NotValidMsg.Tooltip"));
     PropsUi.setLook(wNotValidMsg);
     wNotValidMsg.addModifyListener(lsMod);
     FormData fdNotValidMsg = new FormData();
@@ -323,8 +314,7 @@ public class CreditCardValidatorDialog extends BaseTransformDialog implements IT
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "CreditCardValidatorDialog.FailedToGetFields.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "CreditCardValidatorDialog.FailedToGetFields.DialogMessage"),
+            BaseMessages.getString(PKG, "CreditCardValidatorDialog.FailedToGetFields.DialogMessage"),
             ke);
       }
     }

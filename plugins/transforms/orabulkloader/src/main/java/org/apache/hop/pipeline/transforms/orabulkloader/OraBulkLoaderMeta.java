@@ -49,8 +49,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Bulk",
     keywords = "i18n::OraBulkLoader.Keywords",
     documentationUrl = "/pipeline/transforms/orabulkloader.html")
-public class OraBulkLoaderMeta extends BaseTransformMeta<OraBulkLoader, OraBulkLoaderData> implements
-IProvidesDatabaseConnectionInformation {
+public class OraBulkLoaderMeta extends BaseTransformMeta<OraBulkLoader, OraBulkLoaderData> implements IProvidesDatabaseConnectionInformation {
   private static final Class<?> PKG = OraBulkLoaderMeta.class; // For Translator
 
   private static final int DEFAULT_COMMIT_SIZE = 100000; // The bigger the better for Oracle
@@ -59,173 +58,101 @@ IProvidesDatabaseConnectionInformation {
   private static final int DEFAULT_MAX_ERRORS = 50;
 
   /** Database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      storeWithName = true,
-      injectionKeyDescription = "OraBulkLoader.Injection.Connection")
+  @HopMetadataProperty(key = "connection", storeWithName = true, injectionKeyDescription = "OraBulkLoader.Injection.Connection")
   private DatabaseMeta databaseMeta;
 
   /** Schema for the target */
-  @HopMetadataProperty(
-      key = "shema",
-      injectionKey = "SCHEMA_NAME",
-      injectionKeyDescription = "OraBulkLoader.Injection.Schema")
+  @HopMetadataProperty(key = "shema", injectionKey = "SCHEMA_NAME", injectionKeyDescription = "OraBulkLoader.Injection.Schema")
   private String schemaName;
 
   /** Table for the target */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKey = "TABLE_NAME",
-      injectionKeyDescription = "OraBulkLoader.Injection.Table")
+  @HopMetadataProperty(key = "table", injectionKey = "TABLE_NAME", injectionKeyDescription = "OraBulkLoader.Injection.Table")
   private String tableName;
 
   /** Path to the sqlldr utility */
-  @HopMetadataProperty(
-      key = "sqlldr",
-      injectionKey = "SQLLDR_PATH",
-      injectionKeyDescription = "OraBulkLoader.Injection.Sqlldr")
+  @HopMetadataProperty(key = "sqlldr", injectionKey = "SQLLDR_PATH", injectionKeyDescription = "OraBulkLoader.Injection.Sqlldr")
   private String sqlldr;
 
   /** Path to the control file */
-  @HopMetadataProperty(
-      key = "control_file",
-      injectionKey = "CONTROL_FILE",
-      injectionKeyDescription = "OraBulkLoader.Injection.ControlFile")
+  @HopMetadataProperty(key = "control_file", injectionKey = "CONTROL_FILE", injectionKeyDescription = "OraBulkLoader.Injection.ControlFile")
   private String controlFile;
 
   /** Path to the data file */
-  @HopMetadataProperty(
-      key = "data_file",
-      injectionKey = "DATA_FILE",
-      injectionKeyDescription = "OraBulkLoader.Injection.DataFile")
+  @HopMetadataProperty(key = "data_file", injectionKey = "DATA_FILE", injectionKeyDescription = "OraBulkLoader.Injection.DataFile")
   private String dataFile;
 
   /** Path to the log file */
-  @HopMetadataProperty(
-      key = "log_file",
-      injectionKey = "LOG_FILE",
-      injectionKeyDescription = "OraBulkLoader.Injection.LogFile")
+  @HopMetadataProperty(key = "log_file", injectionKey = "LOG_FILE", injectionKeyDescription = "OraBulkLoader.Injection.LogFile")
   private String logFile;
 
   /** Path to the bad file */
-  @HopMetadataProperty(
-      key = "bad_file",
-      injectionKey = "BAD_FILE",
-      injectionKeyDescription = "OraBulkLoader.Injection.BadFile")
+  @HopMetadataProperty(key = "bad_file", injectionKey = "BAD_FILE", injectionKeyDescription = "OraBulkLoader.Injection.BadFile")
   private String badFile;
 
   /** Path to the discard file */
-  @HopMetadataProperty(
-      key = "discard_file",
-      injectionKey = "DISCARD_FILE",
-      injectionKeyDescription = "OraBulkLoader.Injection.DiscardFile")
+  @HopMetadataProperty(key = "discard_file", injectionKey = "DISCARD_FILE", injectionKeyDescription = "OraBulkLoader.Injection.DiscardFile")
   private String discardFile;
 
   /** Commit size (ROWS) */
-  @HopMetadataProperty(
-      key = "commit",
-      injectionKey = "COMMIT_SIZE",
-      injectionKeyDescription = "OraBulkLoader.Injection.CommitSize")
+  @HopMetadataProperty(key = "commit", injectionKey = "COMMIT_SIZE", injectionKeyDescription = "OraBulkLoader.Injection.CommitSize")
   private String commitSize;
 
   /** Bind size */
-  @HopMetadataProperty(
-      key = "bind_size",
-      injectionKey = "BIND_SIZE",
-      injectionKeyDescription = "OraBulkLoader.Injection.BindSize")
+  @HopMetadataProperty(key = "bind_size", injectionKey = "BIND_SIZE", injectionKeyDescription = "OraBulkLoader.Injection.BindSize")
   private String bindSize;
 
   /** Read size */
-  @HopMetadataProperty(
-      key = "read_size",
-      injectionKey = "READ_SIZE",
-      injectionKeyDescription = "OraBulkLoader.Injection.ReadSize")
+  @HopMetadataProperty(key = "read_size", injectionKey = "READ_SIZE", injectionKeyDescription = "OraBulkLoader.Injection.ReadSize")
   private String readSize;
 
   /** Maximum errors */
-  @HopMetadataProperty(
-      key = "errors",
-      injectionKey = "MAX_ERRORS",
-      injectionKeyDescription = "OraBulkLoader.Injection.MaxErros")
+  @HopMetadataProperty(key = "errors", injectionKey = "MAX_ERRORS", injectionKeyDescription = "OraBulkLoader.Injection.MaxErros")
   private String maxErrors;
 
   /** Load method */
-  @HopMetadataProperty(
-      key = "load_method",
-      injectionKey = "LOAD_METHOD",
-      injectionKeyDescription = "OraBulkLoader.Injection.LoadMethod")
+  @HopMetadataProperty(key = "load_method", injectionKey = "LOAD_METHOD", injectionKeyDescription = "OraBulkLoader.Injection.LoadMethod")
   private String loadMethod;
 
   /** Load action */
-  @HopMetadataProperty(
-      key = "load_action",
-      injectionKey = "LOAD_ACTION",
-      injectionKeyDescription = "OraBulkLoader.Injection.LoadAction")
+  @HopMetadataProperty(key = "load_action", injectionKey = "LOAD_ACTION", injectionKeyDescription = "OraBulkLoader.Injection.LoadAction")
   private String loadAction;
 
   /** Encoding to use */
-  @HopMetadataProperty(
-      key = "encoding",
-      injectionKey = "ENCODING",
-      injectionKeyDescription = "OraBulkLoader.Injection.Encoding")
+  @HopMetadataProperty(key = "encoding", injectionKey = "ENCODING", injectionKeyDescription = "OraBulkLoader.Injection.Encoding")
   private String encoding;
 
-  /** Character set name used for Oracle */  
-  @HopMetadataProperty(
-      key = "character_set",
-      injectionKey = "ORACLE_CHARSET_NAME",
-      injectionKeyDescription = "OraBulkLoader.Injection.CharacterSet")
+  /** Character set name used for Oracle */
+  @HopMetadataProperty(key = "character_set", injectionKey = "ORACLE_CHARSET_NAME", injectionKeyDescription = "OraBulkLoader.Injection.CharacterSet")
   private String characterSetName;
 
   /** Direct Path? */
-  @HopMetadataProperty(
-      key = "direct_path",
-      injectionKey = "DIRECT_PATH",
-      injectionKeyDescription = "OraBulkLoader.Injection.DirectPath")
+  @HopMetadataProperty(key = "direct_path", injectionKey = "DIRECT_PATH", injectionKeyDescription = "OraBulkLoader.Injection.DirectPath")
   private boolean directPath;
 
   /** Erase files after use */
-  @HopMetadataProperty(
-      key = "erase_files",
-      injectionKey = "ERASE_FILES",
-      injectionKeyDescription = "OraBulkLoader.Injection.EraseFiles")
+  @HopMetadataProperty(key = "erase_files", injectionKey = "ERASE_FILES", injectionKeyDescription = "OraBulkLoader.Injection.EraseFiles")
   private boolean eraseFiles;
 
   /** Fails when sqlldr returns a warning **/
-  @HopMetadataProperty(
-      key = "fail_on_warning",
-      injectionKey = "FAIL_ON_WARNING",
-      injectionKeyDescription = "OraBulkLoader.Injection.FailOnWarning")
+  @HopMetadataProperty(key = "fail_on_warning", injectionKey = "FAIL_ON_WARNING", injectionKeyDescription = "OraBulkLoader.Injection.FailOnWarning")
   private boolean failOnWarning;
 
   /** Fails when sqlldr returns anything else than a warning or OK **/
-  @HopMetadataProperty(
-      key = "fail_on_error",
-      injectionKey = "FAIL_ON_ERROR",
-      injectionKeyDescription = "OraBulkLoader.Injection.FailOnError")
+  @HopMetadataProperty(key = "fail_on_error", injectionKey = "FAIL_ON_ERROR", injectionKeyDescription = "OraBulkLoader.Injection.FailOnError")
   private boolean failOnError;
 
   /** Allow Oracle to load data in parallel **/
-  @HopMetadataProperty(
-      key = "parallel",
-      injectionKey = "PARALLEL",
-      injectionKeyDescription = "OraBulkLoader.Injection.Parallel")
+  @HopMetadataProperty(key = "parallel", injectionKey = "PARALLEL", injectionKeyDescription = "OraBulkLoader.Injection.Parallel")
   private boolean parallel;
 
   /** If not empty, use this record terminator instead of default one **/
-  @HopMetadataProperty(
-      key = "alt_rec_term",
-      injectionKey = "RECORD_TERMINATOR",
-      injectionKeyDescription = "OraBulkLoader.Injection.RecordTerminator")
+  @HopMetadataProperty(key = "alt_rec_term", injectionKey = "RECORD_TERMINATOR", injectionKeyDescription = "OraBulkLoader.Injection.RecordTerminator")
   private String altRecordTerm;
-  
+
   /** Field value to dateMask after lookup */
-  @HopMetadataProperty(
-      key = "mapping",
-      injectionGroupKey = "DATABASE_FIELDS",
-      injectionGroupDescription = "OraBulkLoader.Injection.Mapping")
+  @HopMetadataProperty(key = "mapping", injectionGroupKey = "DATABASE_FIELDS", injectionGroupDescription = "OraBulkLoader.Injection.Mapping")
   private List<OraBulkLoaderMappingMeta> mappings;
-  
+
   /*
    * Do not translate following values!!! They are will end up in the job export.
    */
@@ -251,10 +178,10 @@ IProvidesDatabaseConnectionInformation {
     super();
   }
 
-  public int getCommitSizeAsInt( IVariables variables ) {
+  public int getCommitSizeAsInt(IVariables variables) {
     try {
-      return Integer.valueOf( variables.resolve( getCommitSize() ) );
-    } catch ( NumberFormatException ex ) {
+      return Integer.valueOf(variables.resolve(getCommitSize()));
+    } catch (NumberFormatException ex) {
       return DEFAULT_COMMIT_SIZE;
     }
   }
@@ -268,9 +195,9 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param commitSize
-   *          The commitSize to set.
+   *        The commitSize to set.
    */
-  public void setCommitSize( String commitSize ) {
+  public void setCommitSize(String commitSize) {
     this.commitSize = commitSize;
   }
 
@@ -283,9 +210,9 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param database
-   *          The database to set.
+   *        The database to set.
    */
-  public void setDatabaseMeta( DatabaseMeta database ) {
+  public void setDatabaseMeta(DatabaseMeta database) {
     this.databaseMeta = database;
   }
 
@@ -298,9 +225,9 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param tableName
-   *          The tableName to set.
+   *        The tableName to set.
    */
-  public void setTableName( String tableName ) {
+  public void setTableName(String tableName) {
     this.tableName = tableName;
   }
 
@@ -308,7 +235,7 @@ IProvidesDatabaseConnectionInformation {
     return sqlldr;
   }
 
-  public void setSqlldr( String sqlldr ) {
+  public void setSqlldr(String sqlldr) {
     this.sqlldr = sqlldr;
   }
 
@@ -324,7 +251,7 @@ IProvidesDatabaseConnectionInformation {
     return failOnWarning;
   }
 
-  public void setFailOnWarning( boolean failOnWarning ) {
+  public void setFailOnWarning(boolean failOnWarning) {
     this.failOnWarning = failOnWarning;
   }
 
@@ -332,7 +259,7 @@ IProvidesDatabaseConnectionInformation {
     return failOnError;
   }
 
-  public void setFailOnError( boolean failOnError ) {
+  public void setFailOnError(boolean failOnError) {
     this.failOnError = failOnError;
   }
 
@@ -340,7 +267,7 @@ IProvidesDatabaseConnectionInformation {
     return characterSetName;
   }
 
-  public void setCharacterSetName( String characterSetName ) {
+  public void setCharacterSetName(String characterSetName) {
     this.characterSetName = characterSetName;
   }
 
@@ -348,20 +275,19 @@ IProvidesDatabaseConnectionInformation {
     return altRecordTerm;
   }
 
-  public void setAltRecordTerm( String altRecordTerm ) {
+  public void setAltRecordTerm(String altRecordTerm) {
     this.altRecordTerm = altRecordTerm;
   }
-
 
   @Override
   public void setDefault() {
     databaseMeta = null;
-    commitSize = Integer.toString( DEFAULT_COMMIT_SIZE );
-    bindSize = Integer.toString( DEFAULT_BIND_SIZE ); // Use platform default
-    readSize = Integer.toString( DEFAULT_READ_SIZE ); // Use platform default
-    maxErrors = Integer.toString( DEFAULT_MAX_ERRORS );
+    commitSize = Integer.toString(DEFAULT_COMMIT_SIZE);
+    bindSize = Integer.toString(DEFAULT_BIND_SIZE); // Use platform default
+    readSize = Integer.toString(DEFAULT_READ_SIZE); // Use platform default
+    maxErrors = Integer.toString(DEFAULT_MAX_ERRORS);
     schemaName = "";
-    tableName = BaseMessages.getString( PKG, "OraBulkLoaderMeta.DefaultTableName" );
+    tableName = BaseMessages.getString(PKG, "OraBulkLoaderMeta.DefaultTableName");
     loadMethod = METHOD_AUTO_END;
     loadAction = ACTION_APPEND;
     sqlldr = "sqlldr";
@@ -381,7 +307,6 @@ IProvidesDatabaseConnectionInformation {
     mappings = new ArrayList<>();
   }
 
-
   @Override
   public void check(
       List<ICheckResult> remarks,
@@ -396,30 +321,25 @@ IProvidesDatabaseConnectionInformation {
     CheckResult cr;
     String errorMessage = "";
 
-    if ( databaseMeta != null ) {
-      Database db = new Database( loggingObject, variables, databaseMeta );      
+    if (databaseMeta != null) {
+      Database db = new Database(loggingObject, variables, databaseMeta);
       try {
         db.connect();
 
-        if ( !Utils.isEmpty( tableName ) ) {
-          cr =
-            new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-              PKG, "OraBulkLoaderMeta.CheckResult.TableNameOK" ), transformMeta );
-          remarks.add( cr );
+        if (!Utils.isEmpty(tableName)) {
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.TableNameOK"), transformMeta);
+          remarks.add(cr);
 
           boolean first = true;
           boolean errorFound = false;
           errorMessage = "";
 
           // Check fields in table
-          String schemaTable =
-            databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName );
-          IRowMeta rowMeta = db.getTableFields( schemaTable );
-          if ( rowMeta != null ) {
-            cr =
-              new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-                PKG, "OraBulkLoaderMeta.CheckResult.TableExists" ), transformMeta );
-            remarks.add( cr );
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+          IRowMeta rowMeta = db.getTableFields(schemaTable);
+          if (rowMeta != null) {
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.TableExists"), transformMeta);
+            remarks.add(cr);
 
             // How about the fields to insert/dateMask in the table?
             first = true;
@@ -429,40 +349,33 @@ IProvidesDatabaseConnectionInformation {
             for (int i = 0; i < mappings.size(); i++) {
               String field = mappings.get(i).getFieldTable();
 
-              IValueMeta v = rowMeta.searchValueMeta( field );
-              if ( v == null ) {
-                if ( first ) {
+              IValueMeta v = rowMeta.searchValueMeta(field);
+              if (v == null) {
+                if (first) {
                   first = false;
-                  errorMessage +=
-                    BaseMessages.getString(
-                      PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable" )
-                      + Const.CR;
+                  errorMessage += BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsToLoadInTargetTable") + Const.CR;
                 }
                 errorFound = true;
                 errorMessage += "\t\t" + field + Const.CR;
               }
             }
-            if ( errorFound ) {
-              cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
+            if (errorFound) {
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             } else {
-              cr =
-                new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-                  PKG, "OraBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable" ), transformMeta );
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.AllFieldsFoundInTargetTable"), transformMeta);
             }
-            remarks.add( cr );
+            remarks.add(cr);
           } else {
-            errorMessage = BaseMessages.getString( PKG, "OraBulkLoaderMeta.CheckResult.CouldNotReadTableInfo" );
-            cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
-            remarks.add( cr );
+            errorMessage = BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.CouldNotReadTableInfo");
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+            remarks.add(cr);
           }
         }
 
         // Look up fields in the input stream <prev>
-        if ( prev != null && prev.size() > 0 ) {
-          cr =
-            new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-              PKG, "OraBulkLoaderMeta.CheckResult.TransformReceivingDatas", prev.size() + "" ), transformMeta );
-          remarks.add( cr );
+        if (prev != null && prev.size() > 0) {
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.TransformReceivingDatas", prev.size() + ""), transformMeta);
+          remarks.add(cr);
 
           boolean first = true;
           errorMessage = "";
@@ -470,120 +383,111 @@ IProvidesDatabaseConnectionInformation {
 
           for (int i = 0; i < mappings.size(); i++) {
             IValueMeta valueMeta = prev.searchValueMeta(mappings.get(i).getFieldStream());
-            if ( valueMeta == null ) {
-              if ( first ) {
+            if (valueMeta == null) {
+              if (first) {
                 first = false;
-                errorMessage +=
-                  BaseMessages.getString( PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsInInput" ) + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsInInput") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + mappings.get(i).getFieldStream() + Const.CR;
             }
           }
-          if ( errorFound ) {
-            cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
+          if (errorFound) {
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-              new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-                PKG, "OraBulkLoaderMeta.CheckResult.AllFieldsFoundInInput" ), transformMeta );
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.AllFieldsFoundInInput"), transformMeta);
           }
-          remarks.add( cr );
+          remarks.add(cr);
         } else {
-          errorMessage =
-            BaseMessages.getString( PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsInInput3" ) + Const.CR;
-          cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
-          remarks.add( cr );
+          errorMessage = BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.MissingFieldsInInput3") + Const.CR;
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+          remarks.add(cr);
         }
-      } catch ( HopException e ) {
-        errorMessage =
-          BaseMessages.getString( PKG, "OraBulkLoaderMeta.CheckResult.DatabaseErrorOccurred" ) + e.getMessage();
-        cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
-        remarks.add( cr );
+      } catch (HopException e) {
+        errorMessage = BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.DatabaseErrorOccurred") + e.getMessage();
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+        remarks.add(cr);
       } finally {
         db.disconnect();
       }
     } else {
-      errorMessage = BaseMessages.getString( PKG, "OraBulkLoaderMeta.CheckResult.InvalidConnection" );
-      cr = new CheckResult( ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta );
-      remarks.add( cr );
+      errorMessage = BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.InvalidConnection");
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
+      remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
-    if ( input.length > 0 ) {
-      cr =
-        new CheckResult( ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(
-          PKG, "OraBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms" ), transformMeta );
-      remarks.add( cr );
+    if (input.length > 0) {
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
+      remarks.add(cr);
     } else {
-      cr =
-        new CheckResult( ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(
-          PKG, "OraBulkLoaderMeta.CheckResult.NoInputError" ), transformMeta );
-      remarks.add( cr );
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "OraBulkLoaderMeta.CheckResult.NoInputError"), transformMeta);
+      remarks.add(cr);
     }
   }
 
   @Override
-  public SqlStatement getSqlStatements(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      IHopMetadataProvider metadataProvider)
+  public SqlStatement getSqlStatements(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
-    SqlStatement retval = new SqlStatement( transformMeta.getName(), databaseMeta, null ); // default: nothing to do!
+    SqlStatement retval = new SqlStatement(transformMeta.getName(), databaseMeta, null); // default: nothing to do!
 
-    if ( databaseMeta != null ) {
-      if ( prev != null && prev.size() > 0 ) {
+    if (databaseMeta != null) {
+      if (prev != null && prev.size() > 0) {
         // Copy the row
         IRowMeta tableFields = new RowMeta();
 
         // Now change the field names
         for (int i = 0; i < mappings.size(); i++) {
           IValueMeta v = prev.searchValueMeta(mappings.get(i).getFieldStream());
-          if ( v != null ) {
+          if (v != null) {
             IValueMeta tableField = v.clone();
-            tableField.setName( mappings.get(i).getFieldTable() );
-            tableFields.addValueMeta( tableField );
+            tableField.setName(mappings.get(i).getFieldTable());
+            tableFields.addValueMeta(tableField);
           } else {
-            throw new HopTransformException( "Unable to find field [" + mappings.get(i).getFieldTable() + "] in the input rows" );
+            throw new HopTransformException("Unable to find field [" + mappings.get(i).getFieldTable() + "] in the input rows");
           }
         }
 
-        if ( !Utils.isEmpty( tableName ) ) {
-          Database db = new Database( loggingObject, variables, databaseMeta );          
+        if (!Utils.isEmpty(tableName)) {
+          Database db = new Database(loggingObject, variables, databaseMeta);
           try {
             db.connect();
 
-            String schemaTable =
-              databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
-            String sql = db.getDDL( schemaTable, tableFields, null, false, null, true );
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, schemaName, tableName);
+            String sql = db.getDDL(schemaTable, tableFields, null, false, null, true);
 
-            if ( sql.length() == 0 ) {
-              retval.setSql( null );
+            if (sql.length() == 0) {
+              retval.setSql(null);
             } else {
-              retval.setSql( sql );
+              retval.setSql(sql);
             }
-          } catch (HopException e ) {
-            retval.setError( BaseMessages.getString( PKG, "OraBulkLoaderMeta.GetSQL.ErrorOccurred" )
-              + e.getMessage() );
+          } catch (HopException e) {
+            retval.setError(BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.ErrorOccurred") + e.getMessage());
           }
         } else {
-          retval.setError( BaseMessages.getString( PKG, "OraBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection" ) );
+          retval.setError(BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.NoTableDefinedOnConnection"));
         }
       } else {
-        retval.setError( BaseMessages.getString( PKG, "OraBulkLoaderMeta.GetSQL.NotReceivingAnyFields" ) );
+        retval.setError(BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.NotReceivingAnyFields"));
       }
     } else {
-      retval.setError( BaseMessages.getString( PKG, "OraBulkLoaderMeta.GetSQL.NoConnectionDefined" ) );
+      retval.setError(BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.NoConnectionDefined"));
     }
 
     return retval;
   }
-  
+
   @Override
-  public void analyseImpact(IVariables variables, List<DatabaseImpact> impact,
-      PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input,
-      String[] output, IRowMeta info, IHopMetadataProvider metadataProvider)
+  public void analyseImpact(
+      IVariables variables,
+      List<DatabaseImpact> impact,
+      PipelineMeta pipelineMeta,
+      TransformMeta transformMeta,
+      IRowMeta prev,
+      String[] input,
+      String[] output,
+      IRowMeta info,
+      IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (prev != null) {
@@ -592,11 +496,18 @@ IProvidesDatabaseConnectionInformation {
       for (int i = 0; i < mappings.size(); i++) {
         IValueMeta valueMeta = prev.searchValueMeta(mappings.get(i).getFieldStream());
 
-        DatabaseImpact ii = new DatabaseImpact(DatabaseImpact.TYPE_IMPACT_READ_WRITE,
-            pipelineMeta.getName(), transformMeta.getName(), databaseMeta.getDatabaseName(),
-            variables.resolve(tableName), mappings.get(i).getFieldTable(),
-            mappings.get(i).getFieldStream(), valueMeta != null ? valueMeta.getOrigin() : "?", "",
-            "Type = " + valueMeta.toStringMeta());
+        DatabaseImpact ii =
+            new DatabaseImpact(
+                DatabaseImpact.TYPE_IMPACT_READ_WRITE,
+                pipelineMeta.getName(),
+                transformMeta.getName(),
+                databaseMeta.getDatabaseName(),
+                variables.resolve(tableName),
+                mappings.get(i).getFieldTable(),
+                mappings.get(i).getFieldStream(),
+                valueMeta != null ? valueMeta.getOrigin() : "?",
+                "",
+                "Type = " + valueMeta.toStringMeta());
         impact.add(ii);
       }
     }
@@ -611,43 +522,41 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param directPath
-   *          do we want direct path
+   *        do we want direct path
    */
-  public void setDirectPath( boolean directPath ) {
+  public void setDirectPath(boolean directPath) {
     this.directPath = directPath;
   }
 
   @Override
-  public IRowMeta getRequiredFields( IVariables variables ) throws HopException {
-    String realTableName = variables.resolve( tableName );
-    String realSchemaName = variables.resolve( schemaName );
+  public IRowMeta getRequiredFields(IVariables variables) throws HopException {
+    String realTableName = variables.resolve(tableName);
+    String realSchemaName = variables.resolve(schemaName);
 
-    if ( databaseMeta != null ) {
+    if (databaseMeta != null) {
       Database database = new Database(loggingObject, variables, databaseMeta);
       try {
         database.connect();
 
-        if ( !Utils.isEmpty( realTableName ) ) {
-          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(
-              variables, realSchemaName, realTableName);
+        if (!Utils.isEmpty(realTableName)) {
+          String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, realSchemaName, realTableName);
 
           // Check if this table exists...
-          if ( database.checkTableExists( realSchemaName, realTableName ) ) {
-            return database.getTableFields( schemaTable );
+          if (database.checkTableExists(realSchemaName, realTableName)) {
+            return database.getTableFields(schemaTable);
           } else {
-            throw new HopException( BaseMessages.getString( PKG, "OraBulkLoaderMeta.Exception.TableNotFound" ) );
+            throw new HopException(BaseMessages.getString(PKG, "OraBulkLoaderMeta.Exception.TableNotFound"));
           }
         } else {
-          throw new HopException( BaseMessages.getString( PKG, "OraBulkLoaderMeta.Exception.TableNotSpecified" ) );
+          throw new HopException(BaseMessages.getString(PKG, "OraBulkLoaderMeta.Exception.TableNotSpecified"));
         }
-      } catch ( Exception e ) {
-        throw new HopException(
-          BaseMessages.getString( PKG, "OraBulkLoaderMeta.Exception.ErrorGettingFields" ), e );
+      } catch (Exception e) {
+        throw new HopException(BaseMessages.getString(PKG, "OraBulkLoaderMeta.Exception.ErrorGettingFields"), e);
       } finally {
         database.disconnect();
       }
     } else {
-      throw new HopException( BaseMessages.getString( PKG, "OraBulkLoaderMeta.Exception.ConnectionNotDefined" ) );
+      throw new HopException(BaseMessages.getString(PKG, "OraBulkLoaderMeta.Exception.ConnectionNotDefined"));
     }
   }
 
@@ -660,9 +569,9 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param schemaName
-   *          the schemaName to set
+   *        the schemaName to set
    */
-  public void setSchemaName( String schemaName ) {
+  public void setSchemaName(String schemaName) {
     this.schemaName = schemaName;
   }
 
@@ -670,7 +579,7 @@ IProvidesDatabaseConnectionInformation {
     return badFile;
   }
 
-  public void setBadFile( String badFile ) {
+  public void setBadFile(String badFile) {
     this.badFile = badFile;
   }
 
@@ -678,7 +587,7 @@ IProvidesDatabaseConnectionInformation {
     return controlFile;
   }
 
-  public void setControlFile( String controlFile ) {
+  public void setControlFile(String controlFile) {
     this.controlFile = controlFile;
   }
 
@@ -686,7 +595,7 @@ IProvidesDatabaseConnectionInformation {
     return dataFile;
   }
 
-  public void setDataFile( String dataFile ) {
+  public void setDataFile(String dataFile) {
     this.dataFile = dataFile;
   }
 
@@ -694,7 +603,7 @@ IProvidesDatabaseConnectionInformation {
     return discardFile;
   }
 
-  public void setDiscardFile( String discardFile ) {
+  public void setDiscardFile(String discardFile) {
     this.discardFile = discardFile;
   }
 
@@ -702,11 +611,11 @@ IProvidesDatabaseConnectionInformation {
     return logFile;
   }
 
-  public void setLogFile( String logFile ) {
+  public void setLogFile(String logFile) {
     this.logFile = logFile;
   }
 
-  public void setLoadAction( String action ) {
+  public void setLoadAction(String action) {
     this.loadAction = action;
   }
 
@@ -714,7 +623,7 @@ IProvidesDatabaseConnectionInformation {
     return this.loadAction;
   }
 
-  public void setLoadMethod( String method ) {
+  public void setLoadMethod(String method) {
     this.loadMethod = method;
   }
 
@@ -726,7 +635,7 @@ IProvidesDatabaseConnectionInformation {
     return encoding;
   }
 
-  public void setEncoding( String encoding ) {
+  public void setEncoding(String encoding) {
     this.encoding = encoding;
   }
 
@@ -742,14 +651,14 @@ IProvidesDatabaseConnectionInformation {
     return eraseFiles;
   }
 
-  public void setEraseFiles( boolean eraseFiles ) {
+  public void setEraseFiles(boolean eraseFiles) {
     this.eraseFiles = eraseFiles;
   }
 
-  public int getBindSizeAsInt( IVariables variables ) {
+  public int getBindSizeAsInt(IVariables variables) {
     try {
-      return Integer.valueOf( variables.resolve( getBindSize() ) );
-    } catch ( NumberFormatException ex ) {
+      return Integer.valueOf(variables.resolve(getBindSize()));
+    } catch (NumberFormatException ex) {
       return DEFAULT_BIND_SIZE;
     }
   }
@@ -758,14 +667,14 @@ IProvidesDatabaseConnectionInformation {
     return bindSize;
   }
 
-  public void setBindSize( String bindSize ) {
+  public void setBindSize(String bindSize) {
     this.bindSize = bindSize;
   }
 
-  public int getMaxErrorsAsInt( IVariables variables ) {
+  public int getMaxErrorsAsInt(IVariables variables) {
     try {
-      return Integer.valueOf( variables.resolve( getMaxErrors() ) );
-    } catch ( NumberFormatException ex ) {
+      return Integer.valueOf(variables.resolve(getMaxErrors()));
+    } catch (NumberFormatException ex) {
       return DEFAULT_MAX_ERRORS;
     }
   }
@@ -774,14 +683,14 @@ IProvidesDatabaseConnectionInformation {
     return maxErrors;
   }
 
-  public void setMaxErrors( String maxErrors ) {
+  public void setMaxErrors(String maxErrors) {
     this.maxErrors = maxErrors;
   }
 
-  public int getReadSizeAsInt( IVariables variables ) {
+  public int getReadSizeAsInt(IVariables variables) {
     try {
-      return Integer.valueOf( variables.resolve( getReadSize() ) );
-    } catch ( NumberFormatException ex ) {
+      return Integer.valueOf(variables.resolve(getReadSize()));
+    } catch (NumberFormatException ex) {
       return DEFAULT_READ_SIZE;
     }
   }
@@ -790,7 +699,7 @@ IProvidesDatabaseConnectionInformation {
     return readSize;
   }
 
-  public void setReadSize( String readSize ) {
+  public void setReadSize(String readSize) {
     this.readSize = readSize;
   }
 
@@ -803,12 +712,12 @@ IProvidesDatabaseConnectionInformation {
 
   /**
    * @param parallel
-   *          the parallel to set
+   *        the parallel to set
    */
-  public void setParallel( boolean parallel ) {
+  public void setParallel(boolean parallel) {
     this.parallel = parallel;
   }
-  
+
   @Override
   public String getMissingDatabaseConnectionInformationMessage() {
     return null;

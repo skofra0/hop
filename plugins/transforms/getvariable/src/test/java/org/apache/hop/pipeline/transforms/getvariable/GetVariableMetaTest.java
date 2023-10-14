@@ -23,9 +23,7 @@ import org.junit.Test;
 public class GetVariableMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    GetVariableMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/get-variables-transform.xml", GetVariableMeta.class);
+    GetVariableMeta meta = TransformSerializationTestUtil.testSerialization("/get-variables-transform.xml", GetVariableMeta.class);
 
     Assert.assertEquals(4, meta.getFieldDefinitions().size());
   }

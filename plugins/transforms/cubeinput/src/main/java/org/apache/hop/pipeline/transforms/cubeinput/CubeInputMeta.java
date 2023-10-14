@@ -88,13 +88,7 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     GZIPInputStream fis = null;
     DataInputStream dis = null;
@@ -109,11 +103,9 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
       }
       r.mergeRowMeta(add);
     } catch (HopFileException kfe) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "CubeInputMeta.Exception.UnableToReadMetaData"), kfe);
+      throw new HopTransformException(BaseMessages.getString(PKG, "CubeInputMeta.Exception.UnableToReadMetaData"), kfe);
     } catch (IOException e) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "CubeInputMeta.Exception.ErrorOpeningOrReadingCubeFile"), e);
+      throw new HopTransformException(BaseMessages.getString(PKG, "CubeInputMeta.Exception.ErrorOpeningOrReadingCubeFile"), e);
     } finally {
       try {
         if (fis != null) {
@@ -123,8 +115,7 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
           dis.close();
         }
       } catch (IOException ioe) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "CubeInputMeta.Exception.UnableToCloseCubeFile"), ioe);
+        throw new HopTransformException(BaseMessages.getString(PKG, "CubeInputMeta.Exception.UnableToCloseCubeFile"), ioe);
       }
     }
   }
@@ -142,11 +133,7 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "CubeInputMeta.CheckResult.FileSpecificationsNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "CubeInputMeta.CheckResult.FileSpecificationsNotChecked"), transformMeta);
     remarks.add(cr);
   }
 
@@ -158,11 +145,7 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!
@@ -188,7 +171,8 @@ public class CubeInputMeta extends BaseTransformMeta<CubeInput, CubeInputData> {
   }
 
   public static class CubeFile {
-    @HopMetadataProperty private String name;
+    @HopMetadataProperty
+    private String name;
 
     public CubeFile() {}
 

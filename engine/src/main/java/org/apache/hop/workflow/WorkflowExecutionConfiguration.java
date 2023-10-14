@@ -147,8 +147,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
         String varname = vars.get(i);
         if (!varname.startsWith(Const.INTERNAL_VARIABLE_PREFIX)) {
           // add all new non-internal variables to newVariablesMap
-          newVariables.put(
-              varname, Const.NVL(variablesMap.get(varname), properties.getProperty(varname, "")));
+          newVariables.put(varname, Const.NVL(variablesMap.get(varname), properties.getProperty(varname, "")));
         }
       }
       variablesMap.putAll(newVariables);
@@ -226,8 +225,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
     xml.append("    ").append(XmlHandler.addTagValue("start_copy_name", startActionName));
 
     xml.append("    ").append(XmlHandler.addTagValue("gather_metrics", gatheringMetrics));
-    xml.append("    ")
-        .append(XmlHandler.addTagValue("expand_remote_workflow", expandingRemoteWorkflow));
+    xml.append("    ").append(XmlHandler.addTagValue("expand_remote_workflow", expandingRemoteWorkflow));
     xml.append("    ").append(XmlHandler.addTagValue("run_configuration", runConfiguration));
 
     // The source rows...
@@ -243,8 +241,7 @@ public class WorkflowExecutionConfiguration implements IExecutionConfiguration, 
   public WorkflowExecutionConfiguration(Node configNode) throws HopException {
     this();
 
-    expandingRemoteWorkflow =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(configNode, "expand_remote_workflow"));
+    expandingRemoteWorkflow = "Y".equalsIgnoreCase(XmlHandler.getTagValue(configNode, "expand_remote_workflow"));
 
     // Read the variables...
     //

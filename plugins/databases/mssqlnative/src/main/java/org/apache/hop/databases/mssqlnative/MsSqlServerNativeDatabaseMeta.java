@@ -36,8 +36,7 @@ import java.util.List;
 
 @DatabaseMetaPlugin(type = "MSSQLNATIVE", typeDescription = "MS SQL Server (Native)", documentationUrl = "/database/databases/mssqlnative.html")
 @GuiPlugin(id = "GUI-MSSQLServerNativeDatabaseMeta")
-public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
-    implements IGuiPluginCompositeWidgetsListener {
+public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta implements IGuiPluginCompositeWidgetsListener {
 
   public static final String ID_INTEGRATED_SECURITY_WIDGET = "usingIntegratedSecurity";
 
@@ -52,10 +51,10 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
 
   @Override
   public void addDefaultOptions() {
-    addExtraOption(getPluginId(), "encrypt", "false");  // DEEM-MOD
+    addExtraOption(getPluginId(), "encrypt", "false"); // DEEM-MOD
     addExtraOption(getPluginId(), "trustServerCertificate", "true"); // DEEM-MOD
   }
-  
+
   @Override
   public void widgetsCreated(GuiCompositeWidgets compositeWidgets) {}
 
@@ -65,8 +64,7 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
   }
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     enableField(compositeWidgets);
   }
 
@@ -75,13 +73,7 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
 
   private void enableField(GuiCompositeWidgets compositeWidgets) {
     List<Control> controls = new ArrayList<>();
-    String[] ids =
-        new String[] {
-          BaseDatabaseMeta.ID_USERNAME_LABEL,
-          BaseDatabaseMeta.ID_USERNAME_WIDGET,
-          BaseDatabaseMeta.ID_PASSWORD_LABEL,
-          BaseDatabaseMeta.ID_PASSWORD_WIDGET,
-        };
+    String[] ids = new String[] {BaseDatabaseMeta.ID_USERNAME_LABEL, BaseDatabaseMeta.ID_USERNAME_WIDGET, BaseDatabaseMeta.ID_PASSWORD_LABEL, BaseDatabaseMeta.ID_PASSWORD_WIDGET,};
     for (String id : ids) {
       // During creation and so on we get widgets which aren't there. TODO: fix this
       Control control = compositeWidgets.getWidgetsMap().get(id);
@@ -89,8 +81,7 @@ public class MsSqlServerNativeDatabaseMeta extends MsSqlServerDatabaseMeta
         controls.add(control);
       }
     }
-    Button wIntegratedSecurity =
-        (Button) compositeWidgets.getWidgetsMap().get(ID_INTEGRATED_SECURITY_WIDGET);
+    Button wIntegratedSecurity = (Button) compositeWidgets.getWidgetsMap().get(ID_INTEGRATED_SECURITY_WIDGET);
 
     boolean enable = !wIntegratedSecurity.getSelection();
     for (Control control : controls) {

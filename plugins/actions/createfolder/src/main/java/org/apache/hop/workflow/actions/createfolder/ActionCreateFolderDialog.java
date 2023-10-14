@@ -55,8 +55,7 @@ public class ActionCreateFolderDialog extends ActionDialog implements IActionDia
 
   private boolean changed;
 
-  public ActionCreateFolderDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCreateFolderDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCreateFolder) action;
     if (this.action.getName() == null) {
@@ -133,11 +132,9 @@ public class ActionCreateFolderDialog extends ActionDialog implements IActionDia
     wFoldername.setLayoutData(fdFoldername);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFoldername.addModifyListener(
-        e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
+    wFoldername.addModifyListener(e -> wFoldername.setToolTipText(variables.resolve(wFoldername.getText())));
 
-    wbFoldername.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
+    wbFoldername.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFoldername, variables));
 
     Label wlAbortExists = new Label(shell, SWT.RIGHT);
     wlAbortExists.setText(BaseMessages.getString(PKG, "ActionCreateFolder.FailIfExists.Label"));
@@ -149,20 +146,18 @@ public class ActionCreateFolderDialog extends ActionDialog implements IActionDia
     wlAbortExists.setLayoutData(fdlAbortExists);
     wAbortExists = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAbortExists);
-    wAbortExists.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCreateFolder.FailIfExists.Tooltip"));
+    wAbortExists.setToolTipText(BaseMessages.getString(PKG, "ActionCreateFolder.FailIfExists.Tooltip"));
     FormData fdAbortExists = new FormData();
     fdAbortExists.left = new FormAttachment(middle, 0);
     fdAbortExists.top = new FormAttachment(wlAbortExists, 0, SWT.CENTER);
     fdAbortExists.right = new FormAttachment(100, 0);
     wAbortExists.setLayoutData(fdAbortExists);
-    wAbortExists.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAbortExists.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     Button wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
@@ -170,8 +165,7 @@ public class ActionCreateFolderDialog extends ActionDialog implements IActionDia
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
 

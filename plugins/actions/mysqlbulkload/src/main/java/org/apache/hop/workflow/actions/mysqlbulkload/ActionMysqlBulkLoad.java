@@ -131,17 +131,13 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
 
     retval.append("      ").append(XmlHandler.addTagValue("addfiletoresult", addfiletoresult));
 
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
+    retval.append("      ").append(XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
 
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       schemaname = XmlHandler.getTagValue(entrynode, "schemaname");
@@ -229,10 +225,7 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
         if (!(fileObject instanceof LocalFile)) {
           // MySQL LOAD DATA can only use local files, so that's what we limit ourselves to.
           //
-          throw new HopException(
-              "Only local files are supported at this time, file ["
-                  + vfsFilename
-                  + "] is not a local file.");
+          throw new HopException("Only local files are supported at this time, file [" + vfsFilename + "] is not a local file.");
         }
 
         // Convert it to a regular platform specific file name
@@ -249,8 +242,8 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
           }
 
           if (connection != null) {
-            // User has specified a connection, We can continue ...           
-            try ( Database db = new Database(this, this, connection)) {
+            // User has specified a connection, We can continue ...
+            try (Database db = new Database(this, this, connection)) {
               db.connect();
               // Get schemaname
               String realSchemaname = resolve(schemaname);
@@ -300,32 +293,18 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
                 }
 
                 // Fields ....
-                if (getRealSeparator() != null
-                    || getRealEnclosed() != null
-                    || getRealEscaped() != null) {
+                if (getRealSeparator() != null || getRealEnclosed() != null || getRealEscaped() != null) {
                   fieldTerminatedby = "FIELDS ";
 
                   if (getRealSeparator() != null) {
-                    fieldTerminatedby =
-                        fieldTerminatedby
-                            + "TERMINATED BY '"
-                            + Const.replace(getRealSeparator(), "'", "''")
-                            + "'";
+                    fieldTerminatedby = fieldTerminatedby + "TERMINATED BY '" + Const.replace(getRealSeparator(), "'", "''") + "'";
                   }
                   if (getRealEnclosed() != null) {
-                    fieldTerminatedby =
-                        fieldTerminatedby
-                            + " ENCLOSED BY '"
-                            + Const.replace(getRealEnclosed(), "'", "''")
-                            + "'";
+                    fieldTerminatedby = fieldTerminatedby + " ENCLOSED BY '" + Const.replace(getRealEnclosed(), "'", "''") + "'";
                   }
                   if (getRealEscaped() != null) {
 
-                    fieldTerminatedby =
-                        fieldTerminatedby
-                            + " ESCAPED BY '"
-                            + Const.replace(getRealEscaped(), "'", "''")
-                            + "'";
+                    fieldTerminatedby = fieldTerminatedby + " ESCAPED BY '" + Const.replace(getRealEscaped(), "'", "''") + "'";
                   }
                 }
 
@@ -335,20 +314,12 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
 
                   // Line starting By
                   if (getRealLinestarted() != null) {
-                    lineTerminatedby =
-                        lineTerminatedby
-                            + "STARTING BY '"
-                            + Const.replace(getRealLinestarted(), "'", "''")
-                            + "'";
+                    lineTerminatedby = lineTerminatedby + "STARTING BY '" + Const.replace(getRealLinestarted(), "'", "''") + "'";
                   }
 
                   // Line terminating By
                   if (getRealLineterminated() != null) {
-                    lineTerminatedby =
-                        lineTerminatedby
-                            + " TERMINATED BY '"
-                            + Const.replace(getRealLineterminated(), "'", "''")
-                            + "'";
+                    lineTerminatedby = lineTerminatedby + " TERMINATED BY '" + Const.replace(getRealLineterminated(), "'", "''") + "'";
                   }
                 }
 
@@ -379,12 +350,7 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
 
                   if (isAddFileToResult()) {
                     // Add zip filename to output files
-                    ResultFile resultFile =
-                        new ResultFile(
-                            ResultFile.FILE_TYPE_GENERAL,
-                            HopVfs.getFileObject(realFilename),
-                            parentWorkflow.getWorkflowName(),
-                            toString());
+                    ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(realFilename), parentWorkflow.getWorkflowName(), toString());
                     result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
                   }
 
@@ -433,9 +399,7 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
 
   @Override
   public DatabaseMeta[] getUsedDatabaseConnections() {
-    return new DatabaseMeta[] {
-      connection,
-    };
+    return new DatabaseMeta[] {connection,};
   }
 
   public boolean isReplacedata() {
@@ -574,17 +538,14 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     ResourceReference reference = null;
     if (connection != null) {
       reference = new ResourceReference(this);
       references.add(reference);
       reference.getEntries().add(new ResourceEntry(connection.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
     }
     if (filename != null) {
       String realFilename = getRealFilename();
@@ -598,22 +559,12 @@ public class ActionMysqlBulkLoad extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
 
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

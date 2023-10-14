@@ -68,15 +68,8 @@ public class MergeJoinAssemblerFn extends DoFn<KV<HopRow, KV<HopRow, HopRow>>, H
 
   public MergeJoinAssemblerFn() {}
 
-  public MergeJoinAssemblerFn(
-      int joinType,
-      String leftRowMetaJson,
-      String rightRowMetaJson,
-      String leftKRowMetaJson,
-      String leftVRowMetaJson,
-      String rightKRowMetaJson,
-      String rightVRowMetaJson,
-      String counterName) {
+  public MergeJoinAssemblerFn(int joinType, String leftRowMetaJson, String rightRowMetaJson, String leftKRowMetaJson, String leftVRowMetaJson, String rightKRowMetaJson,
+      String rightVRowMetaJson, String counterName) {
     this.joinType = joinType;
     this.leftRowMetaJson = leftRowMetaJson;
     this.rightRowMetaJson = rightRowMetaJson;
@@ -176,11 +169,11 @@ public class MergeJoinAssemblerFn extends DoFn<KV<HopRow, KV<HopRow, HopRow>>, H
         if (rightValue.isNotEmpty()) {
           Integer keyIndex = rightKeyIndexes.get(i);
           if (keyIndex != null) {
-            outputRow[leftRowMeta.size()+i] = rightValue.getRow()[keyIndex];
+            outputRow[leftRowMeta.size() + i] = rightValue.getRow()[keyIndex];
           }
           Integer valueIndex = rightValueIndexes.get(i);
           if (valueIndex != null) {
-            outputRow[leftRowMeta.size()+i] = rightValue.getRow()[valueIndex];
+            outputRow[leftRowMeta.size() + i] = rightValue.getRow()[valueIndex];
           }
         }
       }

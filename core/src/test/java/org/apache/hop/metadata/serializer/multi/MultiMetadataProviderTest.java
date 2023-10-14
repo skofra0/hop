@@ -64,17 +64,13 @@ public class MultiMetadataProviderTest extends MetadataTestBase {
 
   public void testSetProviders() {
     List<IHopMetadataProvider> list = multiMetadataProvider.getProviders();
-    MemoryMetadataProvider provider4 =
-        new MemoryMetadataProvider(
-            new HopTwoWayPasswordEncoder(), Variables.getADefaultVariableSpace());
+    MemoryMetadataProvider provider4 = new MemoryMetadataProvider(new HopTwoWayPasswordEncoder(), Variables.getADefaultVariableSpace());
     provider4.setDescription("Provider4");
     list.add(provider4);
     multiMetadataProvider.setProviders(list);
     assertEquals(4, multiMetadataProvider.getProviders().size());
     // see if the description has changed...
     //
-    assertEquals(
-        "Multi Metadata Provider with 4 providers: Provider1, Provider2, Provider3, Provider4",
-        multiMetadataProvider.getDescription());
+    assertEquals("Multi Metadata Provider with 4 providers: Provider1, Provider2, Provider3, Provider4", multiMetadataProvider.getDescription());
   }
 }

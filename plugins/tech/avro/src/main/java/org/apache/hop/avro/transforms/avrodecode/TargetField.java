@@ -49,14 +49,7 @@ public class TargetField {
 
   public TargetField() {}
 
-  public TargetField(
-      String sourceField,
-      String sourceAvroType,
-      String targetFieldName,
-      String targetType,
-      String targetFormat,
-      String targetLength,
-      String targetPrecision) {
+  public TargetField(String sourceField, String sourceAvroType, String targetFieldName, String targetType, String targetFormat, String targetLength, String targetPrecision) {
     this.sourceField = sourceField;
     this.sourceAvroType = sourceAvroType;
     this.targetFieldName = targetFieldName;

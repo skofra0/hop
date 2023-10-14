@@ -35,13 +35,7 @@ import java.util.Set;
 public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
   private static final Class<?> PKG = SwitchCaseMeta.class; // For Translator
 
-  public SwitchCase(
-      TransformMeta transformMeta,
-      SwitchCaseMeta meta,
-      SwitchCaseData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SwitchCase(TransformMeta transformMeta, SwitchCaseMeta meta, SwitchCaseData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -74,8 +68,7 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
     lookupData = prepareObjectType(lookupData);
 
     // Determine the output set of rowset to use...
-    Set<IRowSet> rowSetSet =
-        (data.valueMeta.isNull(lookupData)) ? data.nullRowSetSet : data.outputMap.get(lookupData);
+    Set<IRowSet> rowSetSet = (data.valueMeta.isNull(lookupData)) ? data.nullRowSetSet : data.outputMap.get(lookupData);
 
     // If the rowset is still not found (unspecified key value, we drop down to the default option
     // For now: send it to the default transform...
@@ -115,8 +108,7 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
       data.valueMeta.setConversionMask(meta.getCaseValueFormat());
       data.valueMeta.setGroupingSymbol(meta.getCaseValueGroup());
       data.valueMeta.setDecimalSymbol(meta.getCaseValueDecimal());
-      data.stringValueMeta =
-          ValueMetaFactory.cloneValueMeta(data.valueMeta, IValueMeta.TYPE_STRING);
+      data.stringValueMeta = ValueMetaFactory.cloneValueMeta(data.valueMeta, IValueMeta.TYPE_STRING);
     } catch (Exception e) {
       logError(BaseMessages.getString(PKG, "SwitchCase.Log.UnexpectedError", e));
     }
@@ -128,14 +120,14 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
    * This will prepare transform for execution:
    *
    * <ol>
-   *   <li>will copy input row meta info, fields info, etc. transform related info
-   *   <li>will get transform IO meta info and discover target streams for target output transforms
-   *   <li>for every target output find output rowset and expected value.
-   *   <li>for every discovered output rowset put it as a key-value: 'expected value'-'output
-   *       rowSet'. If expected value is null - put output rowset to special 'null set' (avoid usage
-   *       of null as a map keys)
-   *   <li>Discover default row set. We expect only one default rowset, even if technically can have
-   *       many. *
+   * <li>will copy input row meta info, fields info, etc. transform related info
+   * <li>will get transform IO meta info and discover target streams for target output transforms
+   * <li>for every target output find output rowset and expected value.
+   * <li>for every discovered output rowset put it as a key-value: 'expected value'-'output
+   * rowSet'. If expected value is null - put output rowset to special 'null set' (avoid usage
+   * of null as a map keys)
+   * <li>Discover default row set. We expect only one default rowset, even if technically can have
+   * many. *
    * </ol>
    *
    * @throws HopException if something goes wrong during transform preparation.
@@ -146,9 +138,7 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
 
     data.fieldIndex = getInputRowMeta().indexOfValue(meta.getFieldName());
     if (data.fieldIndex < 0) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "SwitchCase.Exception.UnableToFindFieldName", meta.getFieldName()));
+      throw new HopException(BaseMessages.getString(PKG, "SwitchCase.Exception.UnableToFindFieldName", meta.getFieldName()));
     }
 
     data.inputValueMeta = getInputRowMeta().getValueMeta(data.fieldIndex);
@@ -156,28 +146,16 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
     try {
       for (SwitchCaseTarget target : meta.getCaseTargets()) {
         if (StringUtils.isEmpty(target.getCaseTargetTransformName())) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "SwitchCase.Log.NoTargetTransformSpecifiedForValue", target.getCaseValue()));
+          throw new HopException(BaseMessages.getString(PKG, "SwitchCase.Log.NoTargetTransformSpecifiedForValue", target.getCaseValue()));
         }
 
         IRowSet rowSet = findOutputRowSet(target.getCaseTargetTransformName());
         if (rowSet == null) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "SwitchCase.Log.UnableToFindTargetRowSetForTransform",
-                  target.getCaseTargetTransformName()));
+          throw new HopException(BaseMessages.getString(PKG, "SwitchCase.Log.UnableToFindTargetRowSetForTransform", target.getCaseTargetTransformName()));
         }
 
         try {
-          Object value =
-              data.valueMeta.convertDataFromString(
-                  target.getCaseValue(),
-                  data.stringValueMeta,
-                  null,
-                  null,
-                  IValueMeta.TRIM_TYPE_NONE);
+          Object value = data.valueMeta.convertDataFromString(target.getCaseValue(), data.stringValueMeta, null, null, IValueMeta.TRIM_TYPE_NONE);
 
           // If we have a value and a rowset, we can store the combination in the map
           //
@@ -191,10 +169,7 @@ public class SwitchCase extends BaseTransform<SwitchCaseMeta, SwitchCaseData> {
             data.outputMap.put(value, rowSet);
           }
         } catch (Exception e) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "SwitchCase.Log.UnableToConvertValue", target.getCaseValue()),
-              e);
+          throw new HopException(BaseMessages.getString(PKG, "SwitchCase.Log.UnableToConvertValue", target.getCaseValue()), e);
         }
       }
 

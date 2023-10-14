@@ -61,7 +61,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class PostgreSqlValueMetaBaseTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private static final String TEST_NAME = "TEST_NAME";
   private static final String LOG_FIELD = "LOG_FIELD";
@@ -71,7 +72,8 @@ public class PostgreSqlValueMetaBaseTest {
   private Class<?> PKG = ValueMetaBase.PKG;
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;
@@ -165,21 +167,17 @@ public class PostgreSqlValueMetaBaseTest {
 
     // check that truncated string was logged
     assertEquals(1, events.size());
-    assertEquals(
-        "ValueMetaBase - Truncating 1024 symbols of original message in 'LOG_FIELD' field",
-        events.get(0).getMessage().toString());
+    assertEquals("ValueMetaBase - Truncating 1024 symbols of original message in 'LOG_FIELD' field", events.get(0).getMessage().toString());
   }
 
-  private void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data)
-      throws HopDatabaseException {
+  private void initValueMeta(BaseDatabaseMeta dbMeta, int length, Object data) throws HopDatabaseException {
     ValueMetaBase valueMetaString = new ValueMetaBase(LOG_FIELD, IValueMeta.TYPE_STRING, length, 0);
     databaseMetaSpy.setIDatabase(dbMeta);
     valueMetaString.setPreparedStatementValue(databaseMetaSpy, preparedStatementMock, 0, data);
   }
 
   @Test
-  public void testMetdataPreviewSqlNumericWithUndefinedSizeUsingPostgesSql()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlNumericWithUndefinedSizeUsingPostgesSql() throws SQLException, HopDatabaseException {
     doReturn(Types.NUMERIC).when(resultSet).getInt("DATA_TYPE");
     doReturn(0).when(resultSet).getInt("COLUMN_SIZE");
     doReturn(mock(Object.class)).when(resultSet).getObject("DECIMAL_DIGITS");
@@ -209,8 +207,7 @@ public class PostgreSqlValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlVarBinaryToHopBinary()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlVarBinaryToHopBinary() throws SQLException, HopDatabaseException {
     doReturn(Types.VARBINARY).when(resultSet).getInt("DATA_TYPE");
     doReturn(mock(PostgreSqlDatabaseMeta.class)).when(dbMeta).getIDatabase();
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
@@ -218,8 +215,7 @@ public class PostgreSqlValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlLongVarBinaryToHopBinary()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlLongVarBinaryToHopBinary() throws SQLException, HopDatabaseException {
     doReturn(Types.LONGVARBINARY).when(resultSet).getInt("DATA_TYPE");
     doReturn(mock(PostgreSqlDatabaseMeta.class)).when(dbMeta).getIDatabase();
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);

@@ -48,7 +48,8 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
   @HopMetadataProperty(key = "arg_from_previous")
   private boolean argFromPrevious;
 
-  @HopMetadataProperty private String connection;
+  @HopMetadataProperty
+  private String connection;
 
   @HopMetadataProperty(key = "field", groupKey = "fields")
   private List<TruncateTableItem> items;
@@ -106,19 +107,15 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
         }
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionTruncateTables.Log.TableTruncated", tableName));
+          logDetailed(BaseMessages.getString(PKG, "ActionTruncateTables.Log.TableTruncated", tableName));
         }
 
         retval = true;
       } else {
-        logError(
-            BaseMessages.getString(PKG, "ActionTruncateTables.Error.CanNotFindTable", tableName));
+        logError(BaseMessages.getString(PKG, "ActionTruncateTables.Error.CanNotFindTable", tableName));
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionTruncateTables.Error.CanNotTruncateTables", tableName, e.toString()));
+      logError(BaseMessages.getString(PKG, "ActionTruncateTables.Error.CanNotTruncateTables", tableName, e.toString()));
     }
     return retval;
   }
@@ -136,11 +133,7 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
 
     if (argFromPrevious) {
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionTruncateTables.FoundPreviousRows",
-                String.valueOf((rows != null ? rows.size() : 0))));
+        logDetailed(BaseMessages.getString(PKG, "ActionTruncateTables.FoundPreviousRows", String.valueOf((rows != null ? rows.size() : 0))));
       }
       if (rows.isEmpty()) {
         return result;
@@ -148,15 +141,11 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
     }
     if (connection != null) {
 
-      try (Database db =
-          new Database(
-              this, this, getParentWorkflowMeta().findDatabase(connection, getVariables()))) {
+      try (Database db = new Database(this, this, getParentWorkflowMeta().findDatabase(connection, getVariables()))) {
         db.connect();
         if (argFromPrevious && rows != null) { // Copy the input row to the (command line) arguments
 
-          for (int iteration = 0;
-              iteration < rows.size() && !parentWorkflow.isStopped() && continueProcess;
-              iteration++) {
+          for (int iteration = 0; iteration < rows.size() && !parentWorkflow.isStopped() && continueProcess; iteration++) {
             resultRow = rows.get(iteration);
 
             // Get values from previous result
@@ -165,12 +154,7 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
 
             if (!Utils.isEmpty(tableNamePrevious)) {
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG,
-                        "ActionTruncateTables.ProcessingRow",
-                        tableNamePrevious,
-                        schemaNamePrevious));
+                logDetailed(BaseMessages.getString(PKG, "ActionTruncateTables.ProcessingRow", tableNamePrevious, schemaNamePrevious));
               }
 
               // let's truncate table
@@ -186,17 +170,13 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
 
         } else if (this.items != null && !this.items.isEmpty()) {
 
-          for (int i = 0;
-              i < this.items.size() && !parentWorkflow.isStopped() && continueProcess;
-              i++) {
+          for (int i = 0; i < this.items.size() && !parentWorkflow.isStopped() && continueProcess; i++) {
             TruncateTableItem tableItem = this.items.get(i);
             String realTableName = resolve(tableItem.getTableName());
             String realSchemaName = resolve(tableItem.getSchemaName());
             if (!Utils.isEmpty(realTableName)) {
               if (log.isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionTruncateTables.ProcessingArg", realTableName, realSchemaName));
+                logDetailed(BaseMessages.getString(PKG, "ActionTruncateTables.ProcessingArg", realTableName, realSchemaName));
               }
 
               // let's truncate table
@@ -206,17 +186,13 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
                 updateErrors();
               }
             } else {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionTruncateTables.ArgEmpty", realTableName, realSchemaName));
+              logError(BaseMessages.getString(PKG, "ActionTruncateTables.ArgEmpty", realTableName, realSchemaName));
             }
           }
         }
       } catch (Exception dbe) {
         result.setNrErrors(1);
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionTruncateTables.Error.RunningEntry", dbe.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionTruncateTables.Error.RunningEntry", dbe.getMessage()));
       }
     } else {
       result.setNrErrors(1);
@@ -239,8 +215,7 @@ public class ActionTruncateTables extends ActionBase implements Cloneable, IActi
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (items != null && !items.isEmpty()) {
       ResourceReference reference = null;

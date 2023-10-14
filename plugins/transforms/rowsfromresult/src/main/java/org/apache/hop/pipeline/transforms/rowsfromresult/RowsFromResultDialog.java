@@ -47,8 +47,7 @@ public class RowsFromResultDialog extends BaseTransformDialog implements ITransf
 
   private final RowsFromResultMeta input;
 
-  public RowsFromResultDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public RowsFromResultDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (RowsFromResultMeta) in;
   }
@@ -76,8 +75,7 @@ public class RowsFromResultDialog extends BaseTransformDialog implements ITransf
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "RowsFromResultDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "RowsFromResultDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -106,33 +104,12 @@ public class RowsFromResultDialog extends BaseTransformDialog implements ITransf
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RowsFromResultDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);

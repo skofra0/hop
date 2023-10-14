@@ -28,19 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 public class CloneRowMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrip() throws HopException {
-    List<String> attributes =
-        Arrays.asList(
-            "nrclones",
-            "addcloneflag",
-            "cloneflagfield",
-            "nrcloneinfield",
-            "nrclonefield",
-            "addclonenum",
-            "clonenumfield");
+    List<String> attributes = Arrays.asList("nrclones", "addcloneflag", "cloneflagfield", "nrcloneinfield", "nrclonefield", "addclonenum", "clonenumfield");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("nrclones", "getNrClones");
@@ -60,8 +53,7 @@ public class CloneRowMetaTest {
     setterMap.put("addclonenum", "setAddCloneNum");
     setterMap.put("clonenumfield", "setCloneNumField");
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(CloneRowMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(CloneRowMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

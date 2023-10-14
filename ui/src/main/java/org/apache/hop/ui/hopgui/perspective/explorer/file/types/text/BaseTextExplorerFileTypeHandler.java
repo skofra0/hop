@@ -37,13 +37,11 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /** This handles a text file in the file explorer perspective: open, save, ... */
-public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
   private Text wText;
 
-  public BaseTextExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public BaseTextExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 
@@ -71,11 +69,10 @@ public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
 
     // If the widget changes after this it's been changed by the user
     //
-    wText.addModifyListener(
-        e -> {
-          explorerFile.setChanged();
-          perspective.updateGui();
-        });
+    wText.addModifyListener(e -> {
+      explorerFile.setChanged();
+      perspective.updateGui();
+    });
   }
 
   @Override
@@ -107,23 +104,22 @@ public class BaseTextExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       String contents = readTextFileContent("UTF-8");
       wText.setText(Const.NVL(contents, ""));
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error reading contents of file '" + explorerFile.getFilename() + "'", e);
+      LogChannel.UI.logError("Error reading contents of file '" + explorerFile.getFilename() + "'", e);
     }
   }
-  
+
   @Override
   public void selectAll() {
     wText.selectAll();
   }
-  
+
   @Override
   public void unselectAll() {
     wText.setSelection(0, 0);
-  }  
+  }
 
   @Override
   public void copySelectedToClipboard() {
     wText.copy();
-  }  
+  }
 }

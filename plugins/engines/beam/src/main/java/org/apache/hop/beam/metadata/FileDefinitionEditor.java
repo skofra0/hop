@@ -49,8 +49,7 @@ public class FileDefinitionEditor extends MetadataEditor<FileDefinition> {
   private Text wEnclosure;
   private TableView wFields;
 
-  public FileDefinitionEditor(
-      HopGui hopGui, MetadataManager<FileDefinition> manager, FileDefinition metadata) {
+  public FileDefinitionEditor(HopGui hopGui, MetadataManager<FileDefinition> manager, FileDefinition metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -152,41 +151,13 @@ public class FileDefinitionEditor extends MetadataEditor<FileDefinition> {
 
     ColumnInfo[] columnInfos =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldFormat"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              2),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldLength"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldPrecision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldName"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldFormat"), ColumnInfo.COLUMN_TYPE_FORMAT, 2),
+            new ColumnInfo(BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldLength"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FileDefinitionDialog.Fields.Column.FieldPrecision"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
 
-    wFields =
-        new TableView(
-            new Variables(),
-            parent,
-            SWT.BORDER,
-            columnInfos,
-            this.getMetadata().getFieldDefinitions().size(),
-            null,
-            props);
+    wFields = new TableView(new Variables(), parent, SWT.BORDER, columnInfos, this.getMetadata().getFieldDefinitions().size(), null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.top = new FormAttachment(wlFields, margin);
@@ -239,9 +210,7 @@ public class FileDefinitionEditor extends MetadataEditor<FileDefinition> {
       String formatMask = item.getText(3);
       int length = Const.toInt(item.getText(4), -1);
       int precision = Const.toInt(item.getText(5), -1);
-      fileDefinition
-          .getFieldDefinitions()
-          .add(new FieldDefinition(name, hopType, length, precision, formatMask));
+      fileDefinition.getFieldDefinitions().add(new FieldDefinition(name, hopType, length, precision, formatMask));
     }
   }
 

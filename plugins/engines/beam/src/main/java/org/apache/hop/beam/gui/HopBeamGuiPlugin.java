@@ -60,12 +60,9 @@ public class HopBeamGuiPlugin {
   public static final Class<?> PKG = HopBeamGuiPlugin.class; // i18n
 
   public static final String ID_MAIN_MENU_TOOLS_FAT_JAR = "40200-menu-tools-fat-jar";
-  public static final String ID_MAIN_MENU_TOOLS_EXPORT_METADATA =
-      "40210-menu-tools-export-metadata";
-  public static final String TOOLBAR_ID_VISIT_GCP_DATAFLOW =
-      "HopGuiPipelineGraph-ToolBar-10450-VisitGcpDataflow";
-  public static final String TOOLBAR_ID_PIPELINE_EXECUTION_VIEWER_VISIT_GCP_DATAFLOW =
-      "PipelineExecutionViewer-Toolbar-20000-VisitGcpDataflow";
+  public static final String ID_MAIN_MENU_TOOLS_EXPORT_METADATA = "40210-menu-tools-export-metadata";
+  public static final String TOOLBAR_ID_VISIT_GCP_DATAFLOW = "HopGuiPipelineGraph-ToolBar-10450-VisitGcpDataflow";
+  public static final String TOOLBAR_ID_PIPELINE_EXECUTION_VIEWER_VISIT_GCP_DATAFLOW = "PipelineExecutionViewer-Toolbar-20000-VisitGcpDataflow";
 
   private static HopBeamGuiPlugin instance;
 
@@ -95,9 +92,7 @@ public class HopBeamGuiPlugin {
     MessageBox box = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_INFORMATION);
     box.setText(BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Dialog.Header"));
     box.setMessage(
-        BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Dialog.Message1")
-            + Const.CR
-            + BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Dialog.Message2"));
+        BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Dialog.Message1") + Const.CR + BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Dialog.Message2"));
     int answer = box.open();
     if ((answer & SWT.CANCEL) != 0) {
       return;
@@ -107,14 +102,8 @@ public class HopBeamGuiPlugin {
     //
     String filename =
         BaseDialog.presentFileDialog(
-            true,
-            shell,
-            new String[] {"*.jar", "*.*"},
-            new String[] {
-              BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.Jars.Label"),
-              BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.All.Label")
-            },
-            true);
+            true, shell, new String[] {"*.jar", "*.*"},
+            new String[] {BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.Jars.Label"), BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.All.Label")}, true);
     if (filename == null) {
       return;
     }
@@ -122,21 +111,18 @@ public class HopBeamGuiPlugin {
     try {
       List<String> jarFilenames = findInstalledJarFilenames();
 
-      IRunnableWithProgress op =
-          monitor -> {
-            try {
-              monitor.setTaskName(
-                  BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Progress.Message"));
-              FatJarBuilder fatJarBuilder =
-                  new FatJarBuilder(hopGui.getLog(), hopGui.getVariables(), filename, jarFilenames);
-              fatJarBuilder.setExtraTransformPluginClasses(null);
-              fatJarBuilder.setExtraXpPluginClasses(null);
-              fatJarBuilder.buildTargetJar();
-              monitor.done();
-            } catch (Exception e) {
-              throw new InvocationTargetException(e, "Error building fat jar: " + e.getMessage());
-            }
-          };
+      IRunnableWithProgress op = monitor -> {
+        try {
+          monitor.setTaskName(BaseMessages.getString(PKG, "BeamGuiPlugin.GenerateFatJar.Progress.Message"));
+          FatJarBuilder fatJarBuilder = new FatJarBuilder(hopGui.getLog(), hopGui.getVariables(), filename, jarFilenames);
+          fatJarBuilder.setExtraTransformPluginClasses(null);
+          fatJarBuilder.setExtraXpPluginClasses(null);
+          fatJarBuilder.buildTargetJar();
+          monitor.done();
+        } catch (Exception e) {
+          throw new InvocationTargetException(e, "Error building fat jar: " + e.getMessage());
+        }
+      };
 
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
       pmd.run(false, op);
@@ -146,8 +132,7 @@ public class HopBeamGuiPlugin {
       box = new MessageBox(shell, SWT.CLOSE | SWT.ICON_INFORMATION);
       box.setText(BaseMessages.getString(PKG, "BeamGuiPlugin.FatJarCreated.Dialog.Header"));
       box.setMessage(
-          BaseMessages.getString(PKG, "BeamGuiPlugin.FatJarCreated.Dialog.Message1", filename)
-              + Const.CR
+          BaseMessages.getString(PKG, "BeamGuiPlugin.FatJarCreated.Dialog.Message1", filename) + Const.CR
               + BaseMessages.getString(PKG, "BeamGuiPlugin.FatJarCreated.Dialog.Message2"));
       box.open();
     } catch (Exception e) {
@@ -178,14 +163,8 @@ public class HopBeamGuiPlugin {
     //
     String filename =
         BaseDialog.presentFileDialog(
-            true,
-            shell,
-            new String[] {"*.json", "*.*"},
-            new String[] {
-              BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.Json.Label"),
-              BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.All.Label")
-            },
-            true);
+            true, shell, new String[] {"*.json", "*.*"},
+            new String[] {BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.Json.Label"), BaseMessages.getString(PKG, "BeamGuiPlugin.FileTypes.All.Label")}, true);
     if (filename == null) {
       return;
     }
@@ -193,8 +172,7 @@ public class HopBeamGuiPlugin {
     try {
       // Save HopGui metadata to JSON...
       //
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(hopGui.getMetadataProvider());
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(hopGui.getMetadataProvider());
       String jsonString = metadataProvider.toJson();
       String realFilename = hopGui.getVariables().resolve(filename);
 
@@ -264,16 +242,11 @@ public class HopBeamGuiPlugin {
   public void executionViewerVisitGcpDataflow() {
     ExecutionState executionState = findExecutionState();
     if (executionState != null) {
-      String jobId =
-          executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_JOB_ID);
-      String projectId =
-          executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_PROJECT_ID);
-      String region =
-          executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_REGION);
+      String jobId = executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_JOB_ID);
+      String projectId = executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_PROJECT_ID);
+      String region = executionState.getDetails().get(BeamDataFlowPipelineEngine.DETAIL_DATAFLOW_REGION);
 
-      if (StringUtils.isEmpty(jobId)
-          || StringUtils.isEmpty(projectId)
-          || StringUtils.isEmpty(region)) {
+      if (StringUtils.isEmpty(jobId) || StringUtils.isEmpty(projectId) || StringUtils.isEmpty(region)) {
         return;
       }
       openDataflowJobInConsole(jobId, projectId, region);
@@ -305,13 +278,7 @@ public class HopBeamGuiPlugin {
     //
     // https://console.cloud.google.com/dataflow/jobs/us-east1/2022-10-12_02_14_02-12614547583538213213;graphView=0?project=apache-hop
     //
-    String url =
-        "https://console.cloud.google.com/dataflow/jobs/"
-            + region
-            + "/"
-            + jobId
-            + ";graphView=0?project="
-            + projectId;
+    String url = "https://console.cloud.google.com/dataflow/jobs/" + region + "/" + jobId + ";graphView=0?project=" + projectId;
 
     org.eclipse.swt.program.Program.launch(url);
   }

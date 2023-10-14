@@ -151,13 +151,7 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Add match field
     IValueMeta v = new ValueMetaString(variables.resolve(getOutputMatchField()));
@@ -190,11 +184,7 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
     }
 
     boolean activateAdditionalFields =
-        isCloserValue()
-            || (getAlgorithm() == DOUBLE_METAPHONE)
-            || (getAlgorithm() == SOUNDEX)
-            || (getAlgorithm() == REFINED_SOUNDEX)
-            || (getAlgorithm() == METAPHONE);
+        isCloserValue() || (getAlgorithm() == DOUBLE_METAPHONE) || (getAlgorithm() == SOUNDEX) || (getAlgorithm() == REFINED_SOUNDEX) || (getAlgorithm() == METAPHONE);
 
     if (activateAdditionalFields) {
       if (info != null && info.length == 1 && info[0] != null) {
@@ -204,15 +194,10 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
             // Configuration error/missing resources...
             v.setName(lookupValue.getName());
             v.setOrigin(name);
-            v.setStorageType(
-                IValueMeta.STORAGE_TYPE_NORMAL); // Only normal storage goes into the cache
+            v.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL); // Only normal storage goes into the cache
             inputRowMeta.addValueMeta(v);
           } else {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "FuzzyMatchMeta.Exception.ReturnValueCanNotBeFound",
-                    lookupValue.getName()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "FuzzyMatchMeta.Exception.ReturnValueCanNotBeFound", lookupValue.getName()));
           }
         }
       } else {
@@ -239,12 +224,7 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FuzzyMatchMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       // Starting from selected fields in ...
@@ -252,38 +232,20 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
       String mainField = variables.resolve(getMainStreamField());
       int idx = prev.indexOfValue(mainField);
       if (idx < 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "FuzzyMatchMeta.CheckResult.MainFieldNotFound", mainField),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.MainFieldNotFound", mainField), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.MainFieldFound", mainField),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.MainFieldFound", mainField), transformMeta);
       }
       remarks.add(cr);
 
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FuzzyMatchMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.CouldNotFindFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     }
 
     if (info != null && info.size() > 0) {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FuzzyMatchMeta.CheckResult.TransformReceivingLookupData", info.size() + ""),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.TransformReceivingLookupData", info.size() + ""), transformMeta));
 
       // Check the fields from the lookup stream!
       String realLookupField = variables.resolve(getLookupField());
@@ -291,18 +253,10 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
       int idx = info.indexOfValue(realLookupField);
       if (idx < 0) {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "FuzzyMatchMeta.CheckResult.FieldNotFoundInLookupStream", realLookupField),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.FieldNotFoundInLookupStream", realLookupField), transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "FuzzyMatchMeta.CheckResult.FieldFoundInTheLookupStream", realLookupField),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.FieldFoundInTheLookupStream", realLookupField), transformMeta));
       }
 
       StringBuilder errorMessage = new StringBuilder();
@@ -317,46 +271,22 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
         }
       }
       if (errorFound) {
-        errorMessage.insert(
-            0,
-            BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.FieldsNotFoundInLookupStream2")
-                + Const.CR
-                + Const.CR);
+        errorMessage.insert(0, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.FieldsNotFoundInLookupStream2") + Const.CR + Const.CR);
 
-        remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR, errorMessage.toString(), transformMeta));
+        remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage.toString(), transformMeta));
       } else {
-        remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "FuzzyMatchMeta.CheckResult.AllFieldsFoundInTheLookupStream2"),
-                transformMeta));
+        remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.AllFieldsFoundInTheLookupStream2"), transformMeta));
       }
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FuzzyMatchMeta.CheckResult.FieldsNotFoundFromInLookupSep"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.FieldsNotFoundFromInLookupSep"), transformMeta));
     }
 
     // See if the source transform is filled in!
     IStream infoStream = getTransformIOMeta().getInfoStreams().get(0);
     if (infoStream.getTransformMeta() == null) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformNotSelected"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformNotSelected"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformIsSelected"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformIsSelected"), transformMeta));
 
       // See if the transform exists!
       //
@@ -364,19 +294,13 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "FuzzyMatchMeta.CheckResult.SourceTransformExist",
-                    infoStream.getTransformName() + ""),
+                BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformExist", infoStream.getTransformName() + ""),
                 transformMeta));
       } else {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "FuzzyMatchMeta.CheckResult.SourceTransformDoesNotExist",
-                    infoStream.getTransformName() + ""),
+                BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.SourceTransformDoesNotExist", infoStream.getTransformName() + ""),
                 transformMeta));
       }
     }
@@ -386,18 +310,11 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
       remarks.add(
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "FuzzyMatchMeta.CheckResult.TransformReceivingInfoFromInputTransforms",
-                  input.length + ""),
+              BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.TransformReceivingInfoFromInputTransforms", input.length + ""),
               transformMeta));
     } else {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FuzzyMatchMeta.CheckResult.NeedAtLeast2InputStreams", Const.CR, Const.CR),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FuzzyMatchMeta.CheckResult.NeedAtLeast2InputStreams", Const.CR, Const.CR), transformMeta));
     }
   }
 
@@ -430,13 +347,7 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      IStream stream =
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "FuzzyMatchMeta.InfoStream.Description"),
-              StreamIcon.INFO,
-              lookupTransformName);
+      IStream stream = new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "FuzzyMatchMeta.InfoStream.Description"), StreamIcon.INFO, lookupTransformName);
       ioMeta.addStream(stream);
       setTransformIOMeta(ioMeta);
     }
@@ -663,23 +574,16 @@ public class FuzzyMatchMeta extends BaseTransformMeta<FuzzyMatch, FuzzyMatchData
   public enum Algorithm implements IEnumHasCodeAndDescription {
     NONE("", ""),
     LEVENSHTEIN("levenshtein", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.Levenshtein")),
-    DAMERAU_LEVENSHTEIN(
-        "dameraulevenshtein",
-        BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.DamerauLevenshtein")),
-    NEEDLEMAN_WUNSH(
-        "needlemanwunsch", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.NeedlemanWunsch")),
+    DAMERAU_LEVENSHTEIN("dameraulevenshtein", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.DamerauLevenshtein")),
+    NEEDLEMAN_WUNSH("needlemanwunsch", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.NeedlemanWunsch")),
     JARO("jaro", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.Jaro")),
-    JARO_WINKLER(
-        "jarowinkler", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.JaroWinkler")),
-    PAIR_SIMILARITY(
-        "pairsimilarity", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.PairSimilarity")),
+    JARO_WINKLER("jarowinkler", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.JaroWinkler")),
+    PAIR_SIMILARITY("pairsimilarity", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.PairSimilarity")),
     METAPHONE("metaphone", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.Metaphone")),
-    DOUBLE_METAPHONE(
-        "doublemataphone", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.DoubleMetaphone")),
+    DOUBLE_METAPHONE("doublemataphone", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.DoubleMetaphone")),
     SOUNDEX("soundex", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.SoundEx")),
-    REFINED_SOUNDEX(
-        "refinedsoundex", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.RefinedSoundEx")),
-    ;
+    REFINED_SOUNDEX("refinedsoundex", BaseMessages.getString(PKG, "FuzzyMatchMeta.algorithm.RefinedSoundEx")),;
+
     private final String code;
     private final String description;
 

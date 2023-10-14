@@ -56,22 +56,12 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
     String target;
 
     try {
-      target =
-          remoteHopServerName
-              + "."
-              + destinationTransformName
-              + "."
-              + destinationTransformCopy.intValue();
+      target = remoteHopServerName + "." + destinationTransformName + "." + destinationTransformCopy.intValue();
     } finally {
       lock.readLock().unlock();
     }
 
-    String comp =
-        rowSet.getRemoteHopServerName()
-            + "."
-            + rowSet.getDestinationTransformName()
-            + "."
-            + rowSet.getDestinationTransformCopy();
+    String comp = rowSet.getRemoteHopServerName() + "." + rowSet.getDestinationTransformName() + "." + rowSet.getDestinationTransformCopy();
 
     return target.compareTo(comp);
   }
@@ -83,7 +73,8 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta, java.lang.Object[])
+   * @see org.apache.hop.core.RowSetInterface#putRow(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[])
    */
   @Override
   public abstract boolean putRow(IRowMeta rowMeta, Object[] rowData);
@@ -91,7 +82,8 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta, java.lang.Object[],
+   * @see org.apache.hop.core.RowSetInterface#putRowWait(org.apache.hop.core.row.IRowMeta,
+   * java.lang.Object[],
    * long, java.util.concurrent.TimeUnit)
    */
   @Override
@@ -204,7 +196,8 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.RowSetInterface#setThreadNameFromToCopy(java.lang.String, int, java.lang.String, int)
+   * @see org.apache.hop.core.RowSetInterface#setThreadNameFromToCopy(java.lang.String, int,
+   * java.lang.String, int)
    */
   @Override
   public void setThreadNameFromToCopy(String from, int fromCopy, String to, int toCopy) {
@@ -228,12 +221,7 @@ abstract class BaseRowSet implements Comparable<IRowSet>, IRowSet {
     lock.readLock().lock();
     try {
       str =
-          new StringBuilder(Const.NVL(originTransformName, "?"))
-              .append(".")
-              .append(originTransformCopy)
-              .append(" - ")
-              .append(Const.NVL(destinationTransformName, "?"))
-              .append(".")
+          new StringBuilder(Const.NVL(originTransformName, "?")).append(".").append(originTransformCopy).append(" - ").append(Const.NVL(destinationTransformName, "?")).append(".")
               .append(destinationTransformCopy);
 
       if (!Utils.isEmpty(remoteHopServerName)) {

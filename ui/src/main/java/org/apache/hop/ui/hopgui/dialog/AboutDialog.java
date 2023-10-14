@@ -52,16 +52,7 @@ public class AboutDialog extends Dialog {
   private static final Class<?> PKG = AboutDialog.class; // For Translator
 
   private static final String[] JAVA_PROPERTIES =
-      new String[] {
-        "os.name",
-        "os.version",
-        "os.arch",
-        "java.version",
-        "java.vm.vendor",
-        "java.specification.version",
-        "java.class.path",
-        "file.encoding"
-      };
+      new String[] {"os.name", "os.version", "os.arch", "java.version", "java.vm.vendor", "java.specification.version", "java.class.path", "file.encoding"};
 
   private Shell shell;
 
@@ -99,9 +90,7 @@ public class AboutDialog extends Dialog {
 
     // Widget application logo
     Label wLogo = new Label(composite, SWT.CENTER);
-    wLogo.setImage(
-        SwtSvgImageUtil.getImageAsResource(display, "ui/images/logo_hop.svg")
-            .getAsBitmapForSize(display, 100, 100));
+    wLogo.setImage(SwtSvgImageUtil.getImageAsResource(display, "ui/images/logo_hop.svg").getAsBitmapForSize(display, 100, 100));
     wLogo.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 3));
 
     // Widget application name
@@ -122,7 +111,7 @@ public class AboutDialog extends Dialog {
     wLink.addListener(SWT.Selection, e -> {
       try {
         EnvironmentUtils.getInstance().openUrl("https://hop.apache.org");
-      } catch(Exception ex) {
+      } catch (Exception ex) {
         new ErrorDialog(shell, "Error", "Error opening URL", ex);
       }
     });
@@ -136,9 +125,7 @@ public class AboutDialog extends Dialog {
     BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk}, PropsUi.getMargin(), null);
 
     // Widget system properties
-    Text wText =
-        new Text(
-            shell, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    Text wText = new Text(shell, SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     wText.setText(getProperties());
     FormData fdText = new FormData();
     fdText.top = new FormAttachment(composite, PropsUi.getMargin());
@@ -149,13 +136,12 @@ public class AboutDialog extends Dialog {
     PropsUi.setLook(wText);
 
     // Detect [X] or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            ok();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        ok();
+      }
+    });
 
     shell.open();
     while (!shell.isDisposed()) {
@@ -166,16 +152,16 @@ public class AboutDialog extends Dialog {
   }
 
   protected String getVersion() {
-    HopVersionProvider versionProvider = new HopVersionProvider();    
+    HopVersionProvider versionProvider = new HopVersionProvider();
     return versionProvider.getVersion()[0];
   }
-  
+
   private String getProperties() {
     Set<String> names = VariableRegistry.getInstance().getVariableNames(VariableScope.SYSTEM);
     for (String name : JAVA_PROPERTIES) {
-      names.add(name);      
+      names.add(name);
     }
-         
+
     IVariables variables = HopGui.getInstance().getVariables();
     StringBuilder builder = new StringBuilder();
     for (String name : names) {

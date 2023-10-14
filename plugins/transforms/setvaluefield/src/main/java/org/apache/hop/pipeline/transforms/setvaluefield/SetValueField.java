@@ -32,13 +32,7 @@ import java.util.List;
 public class SetValueField extends BaseTransform<SetValueFieldMeta, SetValueFieldData> {
   private static final Class<?> PKG = SetValueFieldMeta.class; // For Translator
 
-  public SetValueField(
-      TransformMeta transformMeta,
-      SetValueFieldMeta meta,
-      SetValueFieldData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SetValueField(TransformMeta transformMeta, SetValueFieldMeta meta, SetValueFieldData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -69,43 +63,30 @@ public class SetValueField extends BaseTransform<SetValueFieldMeta, SetValueFiel
         // Check if this field was specified only one time
         for (int j = 0; j < fields.size(); j++) {
           if (j != i && field.equals(fields.get(j))) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "SetValueField.Log.FieldSpecifiedMoreThatOne",
-                    field.getFieldName(),
-                    "" + i,
-                    "" + j));
+            throw new HopException(BaseMessages.getString(PKG, "SetValueField.Log.FieldSpecifiedMoreThatOne", field.getFieldName(), "" + i, "" + j));
           }
         }
 
         data.indexOfField[i] = data.outputRowMeta.indexOfValue(resolve(field.getFieldName()));
         if (data.indexOfField[i] < 0) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "SetValueField.Log.CouldNotFindFieldInRow", field.getFieldName()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SetValueField.Log.CouldNotFindFieldInRow", field.getFieldName()));
         }
         String sourceField = resolve(field.getReplaceByField());
         if (Utils.isEmpty(sourceField)) {
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "SetValueField.Log.ReplaceByValueFieldMissing", "" + i));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SetValueField.Log.ReplaceByValueFieldMissing", "" + i));
         }
         data.indexOfReplaceByValue[i] = data.outputRowMeta.indexOfValue(sourceField);
         if (data.indexOfReplaceByValue[i] < 0) {
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "SetValueField.Log.CouldNotFindFieldInRow", sourceField));
+          throw new HopTransformException(BaseMessages.getString(PKG, "SetValueField.Log.CouldNotFindFieldInRow", sourceField));
         }
         // Compare fields type
         IValueMeta valueMeta = getInputRowMeta().getValueMeta(data.indexOfField[i]);
-        IValueMeta replaceByValueMeta =
-            getInputRowMeta().getValueMeta(data.indexOfReplaceByValue[i]);
+        IValueMeta replaceByValueMeta = getInputRowMeta().getValueMeta(data.indexOfReplaceByValue[i]);
 
         if (valueMeta.getType() != replaceByValueMeta.getType()) {
           String err =
               BaseMessages.getString(
-                  PKG,
-                  "SetValueField.Log.FieldsTypeDifferent",
-                  valueMeta.getName() + " (" + valueMeta.getTypeDesc() + ")",
+                  PKG, "SetValueField.Log.FieldsTypeDifferent", valueMeta.getName() + " (" + valueMeta.getTypeDesc() + ")",
                   replaceByValueMeta.getName() + " (" + replaceByValueMeta.getTypeDesc() + ")");
           throw new HopTransformException(err);
         }

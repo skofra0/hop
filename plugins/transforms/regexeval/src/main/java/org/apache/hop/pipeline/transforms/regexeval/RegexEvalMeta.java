@@ -335,19 +335,16 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
     this.fieldTrimType = fieldTrimType;
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       script = XmlHandler.getTagValue(transformNode, "script");
       matcher = XmlHandler.getTagValue(transformNode, "matcher");
       resultfieldname = XmlHandler.getTagValue(transformNode, "resultfieldname");
       usevar = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usevar"));
-      allowcapturegroups =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "allowcapturegroups"));
+      allowcapturegroups = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "allowcapturegroups"));
       replacefields = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "replacefields"));
       canoneq = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "canoneq"));
-      caseinsensitive =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "caseinsensitive"));
+      caseinsensitive = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "caseinsensitive"));
       comment = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "comment"));
       dotall = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "dotall"));
       multiline = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "multiline"));
@@ -379,9 +376,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
         fieldTrimType[i] = ValueMetaString.getTrimTypeByCode(trim);
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "RegexEvalMeta.Exception.UnableToLoadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "RegexEvalMeta.Exception.UnableToLoadTransformMetaFromXML"), e);
     }
   }
 
@@ -405,13 +400,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] infos,
-      TransformMeta nextTransforms,
-      IVariables variables,
-      IHopMetadataProvider metadataProviders)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] infos, TransformMeta nextTransforms, IVariables variables, IHopMetadataProvider metadataProviders)
       throws HopTransformException {
     try {
       if (!Utils.isEmpty(resultfieldname)) {
@@ -423,8 +412,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
             inputRowMeta.addValueMeta(v);
           } else {
             IValueMeta valueMeta = inputRowMeta.getValueMeta(replaceIndex);
-            IValueMeta replaceMeta =
-                ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_BOOLEAN);
+            IValueMeta replaceMeta = ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_BOOLEAN);
             replaceMeta.setOrigin(name);
             inputRowMeta.setValueMeta(replaceIndex, replaceMeta);
           }
@@ -460,8 +448,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
     }
   }
 
-  private IValueMeta constructValueMeta(
-      IValueMeta sourceValueMeta, String fieldName, int i, String name) throws HopPluginException {
+  private IValueMeta constructValueMeta(IValueMeta sourceValueMeta, String fieldName, int i, String name) throws HopPluginException {
     int type = fieldType[i];
     if (type == IValueMeta.TYPE_NONE) {
       type = IValueMeta.TYPE_STRING;
@@ -485,8 +472,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -513,10 +499,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
       if (fieldName[i] != null && fieldName[i].length() != 0) {
         retval.append("      <field>").append(Const.CR);
         retval.append("        ").append(XmlHandler.addTagValue("name", fieldName[i]));
-        retval
-            .append("        ")
-            .append(
-                XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(fieldType[i])));
+        retval.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(fieldType[i])));
         retval.append("        ").append(XmlHandler.addTagValue("format", fieldFormat[i]));
         retval.append("        ").append(XmlHandler.addTagValue("group", fieldGroup[i]));
         retval.append("        ").append(XmlHandler.addTagValue("decimal", fieldDecimal[i]));
@@ -524,11 +507,7 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
         retval.append("        ").append(XmlHandler.addTagValue("precision", fieldPrecision[i]));
         retval.append("        ").append(XmlHandler.addTagValue("nullif", fieldNullIf[i]));
         retval.append("        ").append(XmlHandler.addTagValue("ifnull", fieldIfNull[i]));
-        retval
-            .append("        ")
-            .append(
-                XmlHandler.addTagValue(
-                    "trimtype", ValueMetaString.getTrimTypeCode(fieldTrimType[i])));
+        retval.append("        ").append(XmlHandler.addTagValue("trimtype", ValueMetaString.getTrimTypeCode(fieldTrimType[i])));
         retval.append("        ").append(XmlHandler.addTagValue("currency", fieldCurrency[i]));
         retval.append("      </field>").append(Const.CR);
       }
@@ -553,55 +532,28 @@ public class RegexEvalMeta extends BaseTransformMeta<RegexEval, RegexEvalData> {
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "RegexEvalMeta.CheckResult.ConnectedTransformOK",
-                  String.valueOf(prev.size())),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.ConnectedTransformOK", String.valueOf(prev.size())), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
 
     // Check Field to evaluate
     if (!Utils.isEmpty(matcher)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.MatcherOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.MatcherOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoMatcher"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoMatcher"), transformMeta);
       remarks.add(cr);
     }
 
     // Check Result Field name
     if (!Utils.isEmpty(resultfieldname)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.ResultFieldnameOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.ResultFieldnameOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoResultFieldname"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RegexEvalMeta.CheckResult.NoResultFieldname"), transformMeta);
       remarks.add(cr);
     }
   }

@@ -26,9 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionFtpDeleteLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionFtpDelete> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionFtpDeleteLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionFtpDelete> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionFtpDelete> getActionClass() {
@@ -38,30 +38,9 @@ public class WorkflowActionFtpDeleteLoadSaveTest
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "protocol",
-            "serverName",
-            "serverPort",
-            "userName",
-            "password",
-            "remoteDirectory",
-            "wildcard",
-            "timeout",
-            "activeConnection",
-            "useProxy",
-            "proxyHost",
-            "proxyPort",
-            "proxyUsername",
-            "proxyPassword",
-            "usePublicKey",
-            "keyFilename",
-            "keyFilePass",
-            "limitSuccess",
-            "successCondition",
-            "copyPrevious",
-            "socksProxyHost",
-            "socksProxyPort",
-            "socksProxyUsername",
-            "socksProxyPassword");
+        "protocol", "serverName", "serverPort", "userName", "password", "remoteDirectory", "wildcard", "timeout", "activeConnection", "useProxy", "proxyHost", "proxyPort",
+        "proxyUsername", "proxyPassword", "usePublicKey", "keyFilename", "keyFilePass", "limitSuccess", "successCondition", "copyPrevious", "socksProxyHost", "socksProxyPort",
+        "socksProxyUsername", "socksProxyPassword");
   }
 
   @Override

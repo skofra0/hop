@@ -45,8 +45,7 @@ public class NamedFieldsMapping implements IFieldsMapping {
   public static NamedFieldsMapping mapping(String[] actualFieldNames, String[] metaFieldNames) {
     LinkedHashMap<String, List<Integer>> metaNameToIndex = new LinkedHashMap<>();
     List<Integer> unmatchedMetaFields = new ArrayList<>();
-    int[] actualToMetaFieldMapping =
-        new int[actualFieldNames == null ? 0 : actualFieldNames.length];
+    int[] actualToMetaFieldMapping = new int[actualFieldNames == null ? 0 : actualFieldNames.length];
 
     for (int i = 0; i < metaFieldNames.length; i++) {
       List<Integer> coll = metaNameToIndex.getOrDefault(metaFieldNames[i], new ArrayList<>());
@@ -66,8 +65,7 @@ public class NamedFieldsMapping implements IFieldsMapping {
       }
     }
 
-    Iterator<Integer> remainingMetaIndexes =
-        metaNameToIndex.values().stream().flatMap(List::stream).sorted().iterator();
+    Iterator<Integer> remainingMetaIndexes = metaNameToIndex.values().stream().flatMap(List::stream).sorted().iterator();
 
     for (int idx : unmatchedMetaFields) {
       if (!remainingMetaIndexes.hasNext()) {

@@ -37,17 +37,12 @@ public class SerializableMetadataProviderTest {
   public void testRoundTrip() throws Exception {
     MemoryMetadataProvider source = new MemoryMetadataProvider();
     IHopMetadataSerializer<HopServer> sourceSerializer = source.getSerializer(HopServer.class);
-    HopServer sourceServer1 =
-        new HopServer(
-            "server1", "hostname1", "8181", "8182", "username1", "password1", null, null, null, false);
+    HopServer sourceServer1 = new HopServer("server1", "hostname1", "8181", "8182", "username1", "password1", null, null, null, false);
     sourceSerializer.save(sourceServer1);
-    HopServer sourceServer2 =
-        new HopServer(
-            "server2", "hostname2", "8282", "8283", "username2", "password2", null, null, null, true);
+    HopServer sourceServer2 = new HopServer("server2", "hostname2", "8282", "8283", "username2", "password2", null, null, null, true);
     sourceSerializer.save(sourceServer2);
 
-    SerializableMetadataProvider serializableMetadataProvider =
-        new SerializableMetadataProvider(source);
+    SerializableMetadataProvider serializableMetadataProvider = new SerializableMetadataProvider(source);
     String json = serializableMetadataProvider.toJson();
     SerializableMetadataProvider target = new SerializableMetadataProvider(json);
     IHopMetadataSerializer<HopServer> targetSerializer = target.getSerializer(HopServer.class);

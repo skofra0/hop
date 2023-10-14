@@ -51,13 +51,6 @@ public class TruncateTableItem {
 
   @Override
   public String toString() {
-    return "TruncateTableItem{"
-        + "name='"
-        + tableName
-        + '\''
-        + ", schemaName='"
-        + schemaName
-        + '\''
-        + '}';
+    return "TruncateTableItem{" + "name='" + tableName + '\'' + ", schemaName='" + schemaName + '\'' + '}';
   }
 }

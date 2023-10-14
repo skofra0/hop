@@ -24,9 +24,7 @@ public class FilesToResultMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    FilesToResultMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/files-to-result-transform.xml", FilesToResultMeta.class);
+    FilesToResultMeta meta = TransformSerializationTestUtil.testSerialization("/files-to-result-transform.xml", FilesToResultMeta.class);
     Assert.assertNotNull(meta.getFilenameField());
     Assert.assertNotNull(meta.getFileType());
   }

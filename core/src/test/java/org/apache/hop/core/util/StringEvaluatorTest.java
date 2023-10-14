@@ -311,8 +311,7 @@ public class StringEvaluatorTest {
     evaluator.evaluateString("02/29/2000 00:00:00");
     assertFalse(evaluator.getStringEvaluationResults().isEmpty());
     assertTrue(evaluator.getAdvicedResult().getConversionMeta().isDate());
-    assertTrue(
-        sampleFormat.equals(evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
+    assertTrue(sampleFormat.equals(evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
   }
 
   @Test
@@ -326,12 +325,8 @@ public class StringEvaluatorTest {
     evaluator.evaluateString("02/29/20 00:00:00");
     assertFalse(evaluator.getStringEvaluationResults().isEmpty());
     assertTrue(evaluator.getAdvicedResult().getConversionMeta().isDate());
-    assertFalse(
-        sampleLongFormat.equals(
-            evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
+    assertFalse(sampleLongFormat.equals(evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
     // should advice short format
-    assertTrue(
-        sampleShortFormat.equals(
-            evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
+    assertTrue(sampleShortFormat.equals(evaluator.getAdvicedResult().getConversionMeta().getConversionMask()));
   }
 }

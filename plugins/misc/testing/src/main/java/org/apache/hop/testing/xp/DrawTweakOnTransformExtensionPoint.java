@@ -28,16 +28,11 @@ import org.apache.hop.testing.PipelineUnitTest;
 import org.apache.hop.testing.PipelineUnitTestTweak;
 import org.apache.hop.testing.gui.TestingGuiPlugin;
 
-@ExtensionPoint(
-    id = "DrawTweakOnTransformExtensionPoint",
-    description = "Draws a marker on top of a transform if is tweaked",
-    extensionPointId = "PipelinePainterTransform")
-public class DrawTweakOnTransformExtensionPoint
-    implements IExtensionPoint<PipelinePainterExtension> {
+@ExtensionPoint(id = "DrawTweakOnTransformExtensionPoint", description = "Draws a marker on top of a transform if is tweaked", extensionPointId = "PipelinePainterTransform")
+public class DrawTweakOnTransformExtensionPoint implements IExtensionPoint<PipelinePainterExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
     TransformMeta transformMeta = ext.transformMeta;
     PipelineUnitTest unitTest = TestingGuiPlugin.getCurrentUnitTest(ext.pipelineMeta);
     if (unitTest == null) {
@@ -97,30 +92,30 @@ public class DrawTweakOnTransformExtensionPoint
     gc.setForeground(IGc.EColor.CRYSTAL);
     gc.setBackground(IGc.EColor.CRYSTAL);
 
-    //                 C\
-    //                 | \
-    //    A------------B  \
-    //    |                D
-    //    G------------F  /
-    //                 | /
-    //                 E/
+    // C\
+    // | \
+    // A------------B \
+    // | D
+    // G------------F /
+    // | /
+    // E/
     //
     int[] arrow =
         new int[] {
-          x,
-          y + aH / 3, // A
-          x + 5 * aW / 8,
-          y + aH / 3, // B
-          x + 5 * aW / 8,
-          y, // C
-          x + aW,
-          y + aH / 2, // D
-          x + 5 * aW / 8,
-          y + aH, // E
-          x + 5 * aW / 8,
-          y + 2 * aH / 3, // F
-          x,
-          y + 2 * aH / 3, // G
+            x,
+            y + aH / 3, // A
+            x + 5 * aW / 8,
+            y + aH / 3, // B
+            x + 5 * aW / 8,
+            y, // C
+            x + aW,
+            y + aH / 2, // D
+            x + 5 * aW / 8,
+            y + aH, // E
+            x + 5 * aW / 8,
+            y + 2 * aH / 3, // F
+            x,
+            y + 2 * aH / 3, // G
         };
     gc.fillPolygon(arrow);
   }

@@ -51,9 +51,7 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
   private static final Class<?> PKG = DynamicSqlRowMeta.class; // For Translator
 
   /** database connection */
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKeyDescription = "DynamicSQLRow.Injection.Connection")
+  @HopMetadataProperty(key = "connection", injectionKeyDescription = "DynamicSQLRow.Injection.Connection")
   private String connection;
 
   private DatabaseMeta databaseMeta;
@@ -62,34 +60,24 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
   @HopMetadataProperty(key = "sql", injectionKeyDescription = "DynamicSQLRow.Injection.Sql")
   private String sql;
 
-  @HopMetadataProperty(
-      key = "sql_fieldname",
-      injectionKeyDescription = "DynamicSQLRow.Injection.SqlFieldName")
+  @HopMetadataProperty(key = "sql_fieldname", injectionKeyDescription = "DynamicSQLRow.Injection.SqlFieldName")
   private String sqlFieldName;
 
   /** Number of rows to return (0=ALL) */
-  @HopMetadataProperty(
-      key = "rowlimit",
-      injectionKeyDescription = "DynamicSQLRow.Injection.RowLimit")
+  @HopMetadataProperty(key = "rowlimit", injectionKeyDescription = "DynamicSQLRow.Injection.RowLimit")
   private int rowLimit;
 
   /**
    * false: don't return rows where nothing is found true: at least return one source row, the rest
    * is NULL
    */
-  @HopMetadataProperty(
-      key = "outer_join",
-      injectionKeyDescription = "DynamicSQLRow.Injection.OuterJoin")
+  @HopMetadataProperty(key = "outer_join", injectionKeyDescription = "DynamicSQLRow.Injection.OuterJoin")
   private boolean outerJoin;
 
-  @HopMetadataProperty(
-      key = "replace_vars",
-      injectionKeyDescription = "DynamicSQLRow.Injection.ReplaceVariables")
+  @HopMetadataProperty(key = "replace_vars", injectionKeyDescription = "DynamicSQLRow.Injection.ReplaceVariables")
   private boolean replaceVariables;
 
-  @HopMetadataProperty(
-      key = "query_only_on_change",
-      injectionKeyDescription = "DynamicSQLRow.Injection.QueryOnlyOnChange")
+  @HopMetadataProperty(key = "query_only_on_change", injectionKeyDescription = "DynamicSQLRow.Injection.QueryOnlyOnChange")
   private boolean queryOnlyOnChange;
 
   public DynamicSqlRowMeta() {
@@ -204,13 +192,7 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (databaseMeta == null) {
@@ -230,11 +212,7 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
     try {
       add = db.getQueryFields(realSql, false);
     } catch (HopDatabaseException dbe) {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DynamicSQLRowMeta.Exception.UnableToDetermineQueryFields")
-              + Const.CR
-              + sql,
-          dbe);
+      throw new HopTransformException(BaseMessages.getString(PKG, "DynamicSQLRowMeta.Exception.UnableToDetermineQueryFields") + Const.CR + sql, dbe);
     }
 
     if (add != null) { // Cache hit, just return it this...
@@ -255,8 +233,7 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
         row.addRowMeta(add);
         db.disconnect();
       } catch (HopDatabaseException dbe) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "DynamicSQLRowMeta.Exception.ErrorObtainingFields"), dbe);
+        throw new HopTransformException(BaseMessages.getString(PKG, "DynamicSQLRowMeta.Exception.ErrorObtainingFields"), dbe);
       }
     }
   }
@@ -277,47 +254,26 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.ReceivingInfo"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.ReceivingInfo"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
 
     // Check for SQL field
     if (Utils.isEmpty(sqlFieldName)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.SQLFieldNameMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.SQLFieldNameMissing"), transformMeta);
       remarks.add(cr);
     } else {
       IValueMeta vfield = prev.searchValueMeta(sqlFieldName);
       if (vfield == null) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "DynamicSQLRowMeta.CheckResult.SQLFieldNotFound", sqlFieldName),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.SQLFieldNotFound", sqlFieldName), transformMeta);
       } else {
         cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "DynamicSQLRowMeta.CheckResult.SQLFieldFound",
-                    sqlFieldName,
-                    vfield.getOrigin()),
+                BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.SQLFieldFound", sqlFieldName, vfield.getOrigin()),
                 transformMeta);
       }
       remarks.add(cr);
@@ -335,23 +291,16 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
 
           IRowMeta r = db.getQueryFields(sql, true);
           if (r != null) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.QueryOK"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.QueryOK"), transformMeta);
             remarks.add(cr);
           } else {
-            errorMessage =
-                BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.InvalidDBQuery");
+            errorMessage = BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.InvalidDBQuery");
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
             remarks.add(cr);
           }
         }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.ErrorOccurred")
-                + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "DynamicSQLRowMeta.CheckResult.ErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } finally {
@@ -378,15 +327,7 @@ public class DynamicSqlRowMeta extends BaseTransformMeta<DynamicSqlRow, DynamicS
       throws HopTransformException {
 
     IRowMeta out = prev.clone();
-    getFields(
-        out,
-        transformMeta.getName(),
-        new IRowMeta[] {
-          info,
-        },
-        null,
-        variables,
-        metadataProvider);
+    getFields(out, transformMeta.getName(), new IRowMeta[] {info,}, null, variables, metadataProvider);
     if (out != null) {
       for (int i = 0; i < out.size(); i++) {
         IValueMeta outvalue = out.getValueMeta(i);

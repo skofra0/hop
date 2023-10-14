@@ -29,13 +29,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import java.util.ArrayList;
 
 public class AvroEncode extends BaseTransform<AvroEncodeMeta, AvroEncodeData> {
-  public AvroEncode(
-      TransformMeta transformMeta,
-      AvroEncodeMeta meta,
-      AvroEncodeData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AvroEncode(TransformMeta transformMeta, AvroEncodeMeta meta, AvroEncodeData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -73,9 +67,7 @@ public class AvroEncode extends BaseTransform<AvroEncodeMeta, AvroEncodeData> {
       String namespace = resolve(meta.getNamespace());
       String documentation = resolve(meta.getDocumentation());
 
-      data.avroSchema =
-          AvroEncodeMeta.createAvroSchema(
-              schemaName, namespace, documentation, getInputRowMeta(), meta.getSourceFields());
+      data.avroSchema = AvroEncodeMeta.createAvroSchema(schemaName, namespace, documentation, getInputRowMeta(), meta.getSourceFields());
 
       if (log.isDetailed()) {
         log.logDetailed("Schema: " + data.avroSchema.toString(true));

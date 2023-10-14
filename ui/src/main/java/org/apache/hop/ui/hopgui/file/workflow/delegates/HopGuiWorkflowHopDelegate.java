@@ -56,10 +56,7 @@ public class HopGuiWorkflowHopDelegate {
         //
         workflowMeta.removeWorkflowHop(idx);
       } else {
-        hopGui.undoDelegate.addUndoNew(
-            workflowMeta,
-            new WorkflowHopMeta[] {hopMeta},
-            new int[] {workflowMeta.indexOfWorkflowHop(hopMeta)});
+        hopGui.undoDelegate.addUndoNew(workflowMeta, new WorkflowHopMeta[] {hopMeta}, new int[] {workflowMeta.indexOfWorkflowHop(hopMeta)});
       }
 
       workflowGraph.updateGui();
@@ -75,9 +72,7 @@ public class HopGuiWorkflowHopDelegate {
     boolean ok = true;
     if (workflowMeta.findWorkflowHop(newHop.getFromAction(), newHop.getToAction()) != null) {
       MessageBox mb = new MessageBox(hopGui.getShell(), SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
+      mb.setMessage(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Message")); // "This hop already exists!"
       mb.setText(BaseMessages.getString(PKG, "HopGui.Dialog.HopExists.Title")); // Error!
       mb.open();
       ok = false;
@@ -108,8 +103,7 @@ public class HopGuiWorkflowHopDelegate {
   public void delHop(WorkflowMeta workflowMeta, WorkflowHopMeta hopMeta) {
     int index = workflowMeta.indexOfWorkflowHop(hopMeta);
 
-    hopGui.undoDelegate.addUndoDelete(
-        workflowMeta, new Object[] {hopMeta.clone()}, new int[] {index});
+    hopGui.undoDelegate.addUndoDelete(workflowMeta, new Object[] {hopMeta.clone()}, new int[] {index});
     workflowMeta.removeWorkflowHop(index);
   }
 }

@@ -53,14 +53,7 @@ public class MessageDialogWithToggle {
   private final PropsUi props;
   private int returnCode = OK;
 
-  public MessageDialogWithToggle(
-      Shell parent,
-      String title,
-      String message,
-      int dialogImageType,
-      String[] buttonLabels,
-      String toggleLabel,
-      boolean toggleState) {
+  public MessageDialogWithToggle(Shell parent, String title, String message, int dialogImageType, String[] buttonLabels, String toggleLabel, boolean toggleState) {
     this.parent = parent;
     this.title = title;
     this.message = message;
@@ -134,12 +127,10 @@ public class MessageDialogWithToggle {
       buttons[i] = new Button(shell, SWT.PUSH);
       PropsUi.setLook(buttons[i]);
       buttons[i].setText(buttonLabels[i]);
-      buttons[i].addListener(
-          SWT.Selection,
-          e -> {
-            returnCode = index;
-            dispose();
-          });
+      buttons[i].addListener(SWT.Selection, e -> {
+        returnCode = index;
+        dispose();
+      });
     }
     BaseTransformDialog.positionBottomButtons(shell, buttons, margin, wToggle);
 

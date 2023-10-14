@@ -88,8 +88,7 @@ public class ActionTelnet extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       hostname = XmlHandler.getTagValue(entrynode, "hostname");
@@ -166,8 +165,7 @@ public class ActionTelnet extends ActionBase implements Cloneable, IAction {
       result.setResult(true);
 
     } catch (Exception ex) {
-      logError(
-          BaseMessages.getString(PKG, "ActionTelnet.NOK.Label", hostname, String.valueOf(port)));
+      logError(BaseMessages.getString(PKG, "ActionTelnet.NOK.Label", hostname, String.valueOf(port)));
       logError(BaseMessages.getString(PKG, "ActionTelnet.Error.Label") + ex.getMessage());
     }
 
@@ -180,8 +178,7 @@ public class ActionTelnet extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(hostname)) {
       String realServername = resolve(hostname);
@@ -193,16 +190,7 @@ public class ActionTelnet extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "hostname",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "hostname", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

@@ -24,17 +24,10 @@ import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
-public class UniqueRowsByHashSet
-    extends BaseTransform<UniqueRowsByHashSetMeta, UniqueRowsByHashSetData> {
+public class UniqueRowsByHashSet extends BaseTransform<UniqueRowsByHashSetMeta, UniqueRowsByHashSetData> {
   private static final Class<?> PKG = UniqueRowsByHashSetMeta.class; // For Translator
 
-  public UniqueRowsByHashSet(
-      TransformMeta transformMeta,
-      UniqueRowsByHashSetMeta meta,
-      UniqueRowsByHashSetData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public UniqueRowsByHashSet(TransformMeta transformMeta, UniqueRowsByHashSetMeta meta, UniqueRowsByHashSetData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,20 +61,13 @@ public class UniqueRowsByHashSet
       for (int i = 0; i < meta.getCompareFields().length; i++) {
         data.fieldnrs[i] = getInputRowMeta().indexOfValue(meta.getCompareFields()[i]);
         if (data.fieldnrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "UniqueRowsByHashSet.Log.CouldNotFindFieldInRow",
-                  meta.getCompareFields()[i]));
+          logError(BaseMessages.getString(PKG, "UniqueRowsByHashSet.Log.CouldNotFindFieldInRow", meta.getCompareFields()[i]));
           setErrors(1);
           stopAll();
           return false;
         }
         if (data.sendDuplicateRows) {
-          data.compareFields =
-              data.compareFields == null
-                  ? meta.getCompareFields()[i]
-                  : data.compareFields + "," + meta.getCompareFields()[i];
+          data.compareFields = data.compareFields == null ? meta.getCompareFields()[i] : data.compareFields + "," + meta.getCompareFields()[i];
         }
       }
       if (data.sendDuplicateRows && !Utils.isEmpty(meta.getErrorDescription())) {
@@ -95,20 +81,13 @@ public class UniqueRowsByHashSet
       incrementLinesRejected();
       if (data.sendDuplicateRows) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(),
-            r,
-            1,
-            data.realErrorDescription,
-            Utils.isEmpty(data.compareFields) ? null : data.compareFields,
-            "UNRH001");
+        putError(getInputRowMeta(), r, 1, data.realErrorDescription, Utils.isEmpty(data.compareFields) ? null : data.compareFields, "UNRH001");
       }
     }
 
     if (checkFeedback(getLinesRead())) {
       if (log.isBasic()) {
-        logBasic(
-            BaseMessages.getString(PKG, "UniqueRowsByHashSet.Log.LineNumber") + getLinesRead());
+        logBasic(BaseMessages.getString(PKG, "UniqueRowsByHashSet.Log.LineNumber") + getLinesRead());
       }
     }
 
@@ -120,8 +99,7 @@ public class UniqueRowsByHashSet
 
     if (super.init()) {
       // Add init code here.
-      data.sendDuplicateRows =
-          getTransformMeta().getTransformErrorMeta() != null && meta.supportsErrorHandling();
+      data.sendDuplicateRows = getTransformMeta().getTransformErrorMeta() != null && meta.supportsErrorHandling();
       return true;
     }
     return false;

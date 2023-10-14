@@ -21,10 +21,10 @@ package org.apache.hop.pipeline.transforms.orabulkloader;
 // ----------------------------------------------
 //
 // - "Enclosed" is used in the loader instead of "optionally enclosed" as optionally
-//   encloses kind of destroys the escaping.
+// encloses kind of destroys the escaping.
 // - A Boolean is output as Y and N (as in the text output transform e.g.). If people don't
-//   like this they can first convert the boolean value to something else before loading
-//   it.
+// like this they can first convert the boolean value to something else before loading
+// it.
 // - Filters (besides data and datetime) are not supported as it slows down.
 //
 //
@@ -58,8 +58,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Performs a bulk load to an oracle table. */
 public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoaderData> {
-  private static final Class<?> PKG =
-      OraBulkLoaderMeta.class; // For Translator
+  private static final Class<?> PKG = OraBulkLoaderMeta.class; // For Translator
 
   public static final int EX_SUCC = 0;
 
@@ -70,7 +69,8 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
   private OraBulkDataOutput output = null;
 
   /*
-   * Local copy of the transformation "preview" property. We only forward the rows upon previewing, we don't do any of
+   * Local copy of the transformation "preview" property. We only forward the rows upon previewing, we
+   * don't do any of
    * the real stuff.
    */
   private boolean preview = false;
@@ -106,13 +106,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
     }
   }
 
-  public OraBulkLoader(
-      TransformMeta transformMeta,
-      OraBulkLoaderMeta meta,
-      OraBulkLoaderData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public OraBulkLoader(TransformMeta transformMeta, OraBulkLoaderMeta meta, OraBulkLoaderData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -184,8 +178,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
    * @param meta the meta object to model the control file after
    * @return a string containing the control file contents
    */
-  public String getControlFileContents(OraBulkLoaderMeta meta, IRowMeta rowMeta, Object[] row)
-      throws HopException {
+  public String getControlFileContents(OraBulkLoaderMeta meta, IRowMeta rowMeta, Object[] row) throws HopException {
     DatabaseMeta dm = meta.getDatabaseMeta();
     String inputName = "'" + getFilename(getFileObject(meta.getDataFile(), variables)) + "'";
 
@@ -195,8 +188,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
     contents.append("OPTIONS(").append(Const.CR);
     contents.append("  ERRORS=\'").append(meta.getMaxErrors()).append("\'").append(Const.CR);
 
-    if (meta.getCommitSizeAsInt(this) != 0
-        && !(meta.isDirectPath() && getTransformMeta().getCopies(variables) > 1)) {
+    if (meta.getCommitSizeAsInt(this) != 0 && !(meta.isDirectPath() && getTransformMeta().getCopies(variables) > 1)) {
       // For the second part of the above expressions: ROWS is not supported
       // in parallel mode (by sqlldr).
       contents.append("  , ROWS=\'").append(meta.getCommitSize()).append("\'").append(Const.CR);
@@ -216,8 +208,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
     if (!Utils.isEmpty(meta.getCharacterSetName())) {
       contents.append("CHARACTERSET ").append(meta.getCharacterSetName()).append(Const.CR);
     }
-    if (!OraBulkLoaderMeta.METHOD_AUTO_CONCURRENT.equals(meta.getLoadMethod())
-        || !Utils.isEmpty(meta.getAltRecordTerm())) {
+    if (!OraBulkLoaderMeta.METHOD_AUTO_CONCURRENT.equals(meta.getLoadMethod()) || !Utils.isEmpty(meta.getAltRecordTerm())) {
       String infile = inputName;
 
       if (OraBulkLoaderMeta.METHOD_AUTO_CONCURRENT.equals(meta.getLoadMethod())) {
@@ -227,26 +218,12 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
       // For concurrent input, data command line argument must be specified
       contents.append("INFILE ").append(infile);
       if (!Utils.isEmpty(meta.getAltRecordTerm())) {
-        contents
-            .append(" \"STR x'")
-            .append(encodeRecordTerminator(meta.getAltRecordTerm(), meta.getEncoding()))
-            .append("'\"");
+        contents.append(" \"STR x'").append(encodeRecordTerminator(meta.getAltRecordTerm(), meta.getEncoding())).append("'\"");
       }
       contents.append(Const.CR);
     }
-    contents
-        .append("INTO TABLE ")
-        .append(
-            dm.getQuotedSchemaTableCombination(
-                variables, meta.getSchemaName(), meta.getTableName()))
-        .append(Const.CR)
-        .append(loadAction)
-        .append(Const.CR)
-        .append("FIELDS TERMINATED BY ',' ENCLOSED BY '\"'")
-        .append(Const.CR)
-        .append("TRAILING NULLCOLS")
-        .append(Const.CR)
-        .append('(');
+    contents.append("INTO TABLE ").append(dm.getQuotedSchemaTableCombination(variables, meta.getSchemaName(), meta.getTableName())).append(Const.CR).append(loadAction)
+        .append(Const.CR).append("FIELDS TERMINATED BY ',' ENCLOSED BY '\"'").append(Const.CR).append("TRAILING NULLCOLS").append(Const.CR).append('(');
 
     List<OraBulkLoaderMappingMeta> mappings = meta.getMappings();
     if (mappings == null || mappings.isEmpty()) {
@@ -309,8 +286,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
    * @param meta transform meta
    * @throws HopException
    */
-  public void createControlFile(String filename, Object[] row, OraBulkLoaderMeta meta)
-      throws HopException {
+  public void createControlFile(String filename, Object[] row, OraBulkLoaderMeta meta) throws HopException {
     FileWriter fw = null;
 
     try {
@@ -413,8 +389,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
     DatabaseMeta db = meta.getDatabaseMeta();
     if (db != null) {
       String user = Const.NVL(db.getUsername(), "");
-      String pass =
-          Const.NVL(Encr.decryptPasswordOptionallyEncrypted(resolve(db.getPassword())), "");
+      String pass = Const.NVL(Encr.decryptPasswordOptionallyEncrypted(resolve(db.getPassword())), "");
       if (!password) {
         pass = "******";
       }
@@ -490,8 +465,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
       }
     } catch (Exception ex) {
       // Don't throw the message upwards, the message contains the password.
-      throw new HopException(
-          "Error while executing sqlldr \'" + createCommandLine(meta, false) + "\'");
+      throw new HopException("Error while executing sqlldr \'" + createCommandLine(meta, false) + "\'");
     }
 
     return true;
@@ -531,8 +505,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
               if (sqlldrProcess != null) {
                 int exitVal = sqlldrProcess.waitFor();
                 sqlldrProcess = null;
-                logBasic(
-                    BaseMessages.getString(PKG, "OraBulkLoader.Log.ExitValueSqlldr", "" + exitVal));
+                logBasic(BaseMessages.getString(PKG, "OraBulkLoader.Log.ExitValueSqlldr", "" + exitVal));
                 checkExitVal(exitVal);
               } else if (!first) {
                 throw new HopException("Internal error: no sqlldr process running");
@@ -580,8 +553,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
 
   protected void verifyDatabaseConnection() throws HopException {
     if (meta.getDatabaseMeta() == null) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.NoConnectionDefined"));
+      throw new HopException(BaseMessages.getString(PKG, "OraBulkLoaderMeta.GetSQL.NoConnectionDefined"));
     }
   }
 
@@ -648,9 +620,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
           fileObject.delete();
           fileObject.close();
         } catch (Exception ex) {
-          logError(
-              "Error deleting control file \'" + getFilename(fileObject) + "\': " + ex.getMessage(),
-              ex);
+          logError("Error deleting control file \'" + getFilename(fileObject) + "\': " + ex.getMessage(), ex);
         }
       }
 
@@ -662,9 +632,7 @@ public class OraBulkLoader extends BaseTransform<OraBulkLoaderMeta, OraBulkLoade
           fileObject.delete();
           fileObject.close();
         } catch (Exception ex) {
-          logError(
-              "Error deleting data file \'" + getFilename(fileObject) + "\': " + ex.getMessage(),
-              ex);
+          logError("Error deleting data file \'" + getFilename(fileObject) + "\': " + ex.getMessage(), ex);
         }
       }
 

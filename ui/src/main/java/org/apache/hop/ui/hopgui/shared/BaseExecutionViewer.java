@@ -56,8 +56,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 
-public abstract class BaseExecutionViewer extends DragViewZoomBase
-    implements MouseListener, MouseMoveListener {
+public abstract class BaseExecutionViewer extends DragViewZoomBase implements MouseListener, MouseMoveListener {
 
   public static final String STRING_STATE_STALE = "Stale";
 
@@ -80,13 +79,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
 
   protected Point lastClick;
 
-  public BaseExecutionViewer(
-      Composite parent,
-      HopGui hopGui,
-      ExecutionPerspective perspective,
-      String locationName,
-      Execution execution,
-      ExecutionState executionState) {
+  public BaseExecutionViewer(Composite parent, HopGui hopGui, ExecutionPerspective perspective, String locationName, Execution execution, ExecutionState executionState) {
     super(parent, SWT.NO_BACKGROUND);
     this.perspective = perspective;
     this.locationName = locationName;
@@ -188,8 +181,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
       // Also inflate the metadata
       //
       String metadataJson = execution.getMetadataJson();
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metadataJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metadataJson);
 
       // The variables set
       //
@@ -200,8 +192,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
       List<Class<IHopMetadata>> metadataClasses = metadataProvider.getMetadataClasses();
       Map<String, IHopMetadataSerializer<IHopMetadata>> serializerMap = new HashMap<>();
       for (Class<IHopMetadata> metadataClass : metadataClasses) {
-        IHopMetadataSerializer<IHopMetadata> serializer =
-            metadataProvider.getSerializer(metadataClass);
+        IHopMetadataSerializer<IHopMetadata> serializer = metadataProvider.getSerializer(metadataClass);
         String description = serializer.getDescription();
         serializerMap.put(description, serializer);
       }
@@ -210,11 +201,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
       Collections.sort(metadataTypes);
 
       EnterSelectionDialog selectTypeDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              metadataTypes.toArray(new String[0]),
-              "View metadata",
-              "Select the type of metadata to view");
+          new EnterSelectionDialog(hopGui.getShell(), metadataTypes.toArray(new String[0]), "View metadata", "Select the type of metadata to view");
       String description = selectTypeDialog.open();
       if (description == null) {
         return;
@@ -223,19 +210,13 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
       List<String> objectNames = serializer.listObjectNames();
 
       EnterSelectionDialog selectElementDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              objectNames.toArray(new String[0]),
-              "Select element",
-              "Select the metadata element of type " + description);
+          new EnterSelectionDialog(hopGui.getShell(), objectNames.toArray(new String[0]), "Select element", "Select the metadata element of type " + description);
       String name = selectElementDialog.open();
       if (name == null) {
         return;
       }
 
-      MetadataManager<IHopMetadata> manager =
-          new MetadataManager<>(
-              variables, metadataProvider, serializer.getManagedClass(), hopGui.getShell());
+      MetadataManager<IHopMetadata> manager = new MetadataManager<>(variables, metadataProvider, serializer.getManagedClass(), hopGui.getShell());
       manager.editMetadata(name);
     } catch (Exception e) {
       new ErrorDialog(getShell(), "Error", "Error viewing the metadata", e);
@@ -245,7 +226,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
   protected void refreshLoggingText() {
     // If this gets called too early, bail out.
     //
-    if (execution==null || props==null) {
+    if (execution == null || props == null) {
       return;
     }
     Cursor busyCursor = new Cursor(getShell().getDisplay(), SWT.CURSOR_WAIT);
@@ -258,9 +239,7 @@ public abstract class BaseExecutionViewer extends DragViewZoomBase
       }
       IExecutionInfoLocation iLocation = location.getExecutionInfoLocation();
 
-      String shownLogText =
-          iLocation.getExecutionStateLoggingText(
-              execution.getId(), props.getMaxExecutionLoggingTextSize());
+      String shownLogText = iLocation.getExecutionStateLoggingText(execution.getId(), props.getMaxExecutionLoggingTextSize());
 
       loggingText.setText(Const.NVL(shownLogText, ""));
 

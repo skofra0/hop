@@ -38,7 +38,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class SelectValuesMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static final String FIRST_FIELD = "FIRST_FIELD";
 
@@ -63,18 +64,9 @@ public class SelectValuesMetaTest {
     selectField.setPrecision(2);
 
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap = new HashMap<>();
-    fieldLoadSaveValidatorTypeMap.put(
-        SelectField[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new SelectFieldLoadSaveValidator(selectField), 2));
+    fieldLoadSaveValidatorTypeMap.put(SelectField[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new SelectFieldLoadSaveValidator(selectField), 2));
 
-    LoadSaveTester tester =
-        new LoadSaveTester(
-            SelectValuesMeta.class,
-            attributes,
-            new HashMap<>(),
-            new HashMap<>(),
-            new HashMap<>(),
-            fieldLoadSaveValidatorTypeMap);
+    LoadSaveTester tester = new LoadSaveTester(SelectValuesMeta.class, attributes, new HashMap<>(), new HashMap<>(), new HashMap<>(), fieldLoadSaveValidatorTypeMap);
 
     tester.testSerialization();
   }
@@ -89,12 +81,8 @@ public class SelectValuesMetaTest {
   public void setSelectName_getOtherFields() {
     selectValuesMeta.setSelectName(new String[] {FIRST_FIELD, SECOND_FIELD});
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectRename());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectLength());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectPrecision());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectLength());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectPrecision());
   }
 
   @Test
@@ -119,12 +107,8 @@ public class SelectValuesMetaTest {
   public void setSelectRename_getOtherFields() {
     selectValuesMeta.setSelectRename(new String[] {FIRST_FIELD, SECOND_FIELD});
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectName());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectLength());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectPrecision());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectLength());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectPrecision());
   }
 
   @Test
@@ -150,17 +134,14 @@ public class SelectValuesMetaTest {
     selectValuesMeta.setSelectLength(new int[] {1, 2});
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectName());
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectRename());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectPrecision());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectPrecision());
   }
 
   @Test
   public void setSelectLength_smallerThanPrevious() {
     selectValuesMeta.setSelectLength(new int[] {1, 2});
     selectValuesMeta.setSelectLength(new int[] {1});
-    assertArrayEquals(
-        new int[] {1, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectLength());
+    assertArrayEquals(new int[] {1, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectLength());
   }
 
   @Test
@@ -179,17 +160,14 @@ public class SelectValuesMetaTest {
     selectValuesMeta.setSelectPrecision(new int[] {1, 2});
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectName());
     assertArrayEquals(new String[] {null, null}, selectValuesMeta.getSelectRename());
-    assertArrayEquals(
-        new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED},
-        selectValuesMeta.getSelectLength());
+    assertArrayEquals(new int[] {SelectValuesMeta.UNDEFINED, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectLength());
   }
 
   @Test
   public void setSelectPrecision_smallerThanPrevious() {
     selectValuesMeta.setSelectPrecision(new int[] {1, 2});
     selectValuesMeta.setSelectPrecision(new int[] {1});
-    assertArrayEquals(
-        new int[] {1, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectPrecision());
+    assertArrayEquals(new int[] {1, SelectValuesMeta.UNDEFINED}, selectValuesMeta.getSelectPrecision());
   }
 
   @Test

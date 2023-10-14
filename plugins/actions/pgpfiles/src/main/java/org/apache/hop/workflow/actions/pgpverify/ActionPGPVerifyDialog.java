@@ -49,8 +49,7 @@ public class ActionPGPVerifyDialog extends ActionDialog implements IActionDialog
 
   private static final String[] EXTENSIONS = new String[] {"*"};
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionPGPVerify.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionPGPVerify.Filetype.All")};
 
   private Text wName;
 
@@ -70,8 +69,7 @@ public class ActionPGPVerifyDialog extends ActionDialog implements IActionDialog
 
   private boolean changed;
 
-  public ActionPGPVerifyDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionPGPVerifyDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionPGPVerify) action;
     if (this.action.getName() == null) {
@@ -195,8 +193,7 @@ public class ActionPGPVerifyDialog extends ActionDialog implements IActionDialog
     wFilename.setLayoutData(fdFilename);
 
     Label wlUseDetachedSignature = new Label(wSettings, SWT.RIGHT);
-    wlUseDetachedSignature.setText(
-        BaseMessages.getString(PKG, "ActionPGPVerify.useDetachedSignature.Label"));
+    wlUseDetachedSignature.setText(BaseMessages.getString(PKG, "ActionPGPVerify.useDetachedSignature.Label"));
     PropsUi.setLook(wlUseDetachedSignature);
     FormData fdlUseDetachedSignature = new FormData();
     fdlUseDetachedSignature.left = new FormAttachment(0, 0);
@@ -205,26 +202,23 @@ public class ActionPGPVerifyDialog extends ActionDialog implements IActionDialog
     wlUseDetachedSignature.setLayoutData(fdlUseDetachedSignature);
     wUseDetachedSignature = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wUseDetachedSignature);
-    wUseDetachedSignature.setToolTipText(
-        BaseMessages.getString(PKG, "ActionPGPVerify.useDetachedSignature.Tooltip"));
+    wUseDetachedSignature.setToolTipText(BaseMessages.getString(PKG, "ActionPGPVerify.useDetachedSignature.Tooltip"));
     FormData fdUseDetachedSignature = new FormData();
     fdUseDetachedSignature.left = new FormAttachment(middle, 0);
     fdUseDetachedSignature.top = new FormAttachment(wlUseDetachedSignature, 0, SWT.CENTER);
     fdUseDetachedSignature.right = new FormAttachment(100, -margin);
     wUseDetachedSignature.setLayoutData(fdUseDetachedSignature);
-    wUseDetachedSignature.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wUseDetachedSignature.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            enableDetachedSignature();
-          }
-        });
+        enableDetachedSignature();
+      }
+    });
 
     // DetachedFilename line
     wlDetachedFilename = new Label(wSettings, SWT.RIGHT);
-    wlDetachedFilename.setText(
-        BaseMessages.getString(PKG, "ActionPGPVerify.DetachedFilename.Label"));
+    wlDetachedFilename.setText(BaseMessages.getString(PKG, "ActionPGPVerify.DetachedFilename.Label"));
     PropsUi.setLook(wlDetachedFilename);
     FormData fdlDetachedFilename = new FormData();
     fdlDetachedFilename.left = new FormAttachment(0, 0);
@@ -250,32 +244,17 @@ public class ActionPGPVerifyDialog extends ActionDialog implements IActionDialog
     wDetachedFilename.setLayoutData(fdDetachedFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wDetachedFilename.addModifyListener(
-        e -> wDetachedFilename.setToolTipText(variables.resolve(wDetachedFilename.getText())));
+    wDetachedFilename.addModifyListener(e -> wDetachedFilename.setToolTipText(variables.resolve(wDetachedFilename.getText())));
 
-    wbDetachedFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wDetachedFilename, variables, EXTENSIONS, FILETYPES, false));
+    wbDetachedFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wDetachedFilename, variables, EXTENSIONS, FILETYPES, false));
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, EXTENSIONS, FILETYPES, false));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, EXTENSIONS, FILETYPES, false));
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wGPGLocation.addModifyListener(
-        e -> wGPGLocation.setToolTipText(variables.resolve(wGPGLocation.getText())));
-    wbGPGLocation.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wGPGLocation, variables, EXTENSIONS, FILETYPES, false));
+    wGPGLocation.addModifyListener(e -> wGPGLocation.setToolTipText(variables.resolve(wGPGLocation.getText())));
+    wbGPGLocation.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wGPGLocation, variables, EXTENSIONS, FILETYPES, false));
 
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);

@@ -73,13 +73,7 @@ public class ScriptMeta extends BaseTransformMeta<Script, ScriptData> implements
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (SField field : fields) {
       // Skip field without a name
@@ -95,11 +89,8 @@ public class ScriptMeta extends BaseTransformMeta<Script, ScriptData> implements
       if (field.isReplace()) {
         // Look up the field to replace...
         //
-        if (rowMeta.searchValueMeta(field.getName()) == null
-            && StringUtils.isEmpty(field.getRename())) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "ScriptMeta.Exception.FieldToReplaceNotFound", field.getName()));
+        if (rowMeta.searchValueMeta(field.getName()) == null && StringUtils.isEmpty(field.getRename())) {
+          throw new HopTransformException(BaseMessages.getString(PKG, "ScriptMeta.Exception.FieldToReplaceNotFound", field.getName()));
         }
         replaceIndex = rowMeta.indexOfValue(field.getRename());
 
@@ -126,9 +117,7 @@ public class ScriptMeta extends BaseTransformMeta<Script, ScriptData> implements
           rowMeta.addValueMeta(v);
         }
       } catch (HopPluginException e) {
-        throw new HopTransformException(
-            "Error handling field " + field.getName() + " with Hop data type: " + field.getType(),
-            e);
+        throw new HopTransformException("Error handling field " + field.getName() + " with Hop data type: " + field.getType(), e);
       }
     }
   }
@@ -188,15 +177,22 @@ public class ScriptMeta extends BaseTransformMeta<Script, ScriptData> implements
   }
 
   public static final class SField {
-    @HopMetadataProperty private String name;
-    @HopMetadataProperty private String rename;
-    @HopMetadataProperty private String type;
-    @HopMetadataProperty private int length;
-    @HopMetadataProperty private int precision;
+    @HopMetadataProperty
+    private String name;
+    @HopMetadataProperty
+    private String rename;
+    @HopMetadataProperty
+    private String type;
+    @HopMetadataProperty
+    private int length;
+    @HopMetadataProperty
+    private int precision;
     /** Replace the specified field. */
-    @HopMetadataProperty private boolean replace;
+    @HopMetadataProperty
+    private boolean replace;
     /** Does this field contain the result of the compiledScript evaluation? */
-    @HopMetadataProperty private boolean scriptResult;
+    @HopMetadataProperty
+    private boolean scriptResult;
 
     public SField() {}
 
@@ -216,8 +212,7 @@ public class ScriptMeta extends BaseTransformMeta<Script, ScriptData> implements
     }
 
     public IValueMeta createHopValue() throws HopPluginException {
-      IValueMeta valueMeta =
-          ValueMetaFactory.createValueMeta(Const.NVL(name, rename), getHopType());
+      IValueMeta valueMeta = ValueMetaFactory.createValueMeta(Const.NVL(name, rename), getHopType());
       valueMeta.setLength(length);
       valueMeta.setPrecision(precision);
       return valueMeta;

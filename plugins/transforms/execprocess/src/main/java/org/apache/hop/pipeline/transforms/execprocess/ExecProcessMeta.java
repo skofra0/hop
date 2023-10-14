@@ -109,13 +109,7 @@ public class ExecProcessMeta extends BaseTransformMeta<ExecProcess, ExecProcessD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     // Output fields (String)
     String realOutputFieldName = variables.resolve(resultFieldName);
     if (!Utils.isEmpty(realOutputFieldName)) {
@@ -152,47 +146,22 @@ public class ExecProcessMeta extends BaseTransformMeta<ExecProcess, ExecProcessD
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
     if (Utils.isEmpty(resultFieldName)) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ResultFieldMissing"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ResultFieldMissing"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ResultFieldOK"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ResultFieldOK"), transformMeta));
     }
 
     if (Utils.isEmpty(processField)) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ProcessFieldMissing"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ProcessFieldMissing"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ProcessFieldOK"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ProcessFieldOK"), transformMeta));
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ExecProcessMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.NoInputReceived"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecProcessMeta.CheckResult.NoInputReceived"), transformMeta));
     }
   }
 

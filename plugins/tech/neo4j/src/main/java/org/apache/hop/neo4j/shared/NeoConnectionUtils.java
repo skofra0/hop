@@ -24,8 +24,7 @@ import java.util.List;
 public class NeoConnectionUtils {
   private static final Class<?> PKG = NeoConnectionUtils.class; // For Translator
 
-  public static final void createNodeIndex(
-      ILogChannel log, Session session, List<String> labels, List<String> keyProperties) {
+  public static final void createNodeIndex(ILogChannel log, Session session, List<String> labels, List<String> keyProperties) {
 
     // If we have no properties or labels, we have nothing to do here
     //
@@ -44,12 +43,7 @@ public class NeoConnectionUtils {
     //
     if (keyProperties.size() == 1) {
       String property = keyProperties.get(0);
-      String constraintCypher =
-          "CREATE CONSTRAINT IF NOT EXISTS FOR (n"
-              + labelsClause
-              + ") REQUIRE n."
-              + property
-              + " IS UNIQUE;";
+      String constraintCypher = "CREATE CONSTRAINT IF NOT EXISTS FOR (n" + labelsClause + ") REQUIRE n." + property + " IS UNIQUE;";
 
       log.logDetailed("Creating constraint : " + constraintCypher);
       session.run(constraintCypher);
@@ -74,7 +68,7 @@ public class NeoConnectionUtils {
       } else {
         indexCypher += ", ";
       }
-      indexCypher += "n."+property;
+      indexCypher += "n." + property;
     }
     indexCypher += ")";
 

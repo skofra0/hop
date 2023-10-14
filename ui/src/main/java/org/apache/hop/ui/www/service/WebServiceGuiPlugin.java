@@ -68,8 +68,7 @@ public class WebServiceGuiPlugin {
               hopGui.getShell(),
               fields.getFieldNames(),
               BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.SelectOutputField.Label"),
-              BaseMessages.getString(
-                  PKG, "WebserviceGuiPlugin.GuiAction.SelectOutputField.Description"));
+              BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.SelectOutputField.Description"));
       String fieldName = fieldSelectionDialog.open();
       if (fieldName == null) {
         return;
@@ -78,34 +77,20 @@ public class WebServiceGuiPlugin {
       // Present the user with a list of pipeline probes...
       //
       IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
-      IHopMetadataSerializer<WebService> serializer =
-          metadataProvider.getSerializer(WebService.class);
-      MetadataManager<WebService> manager =
-          new MetadataManager<>(
-              hopGui.getVariables(), metadataProvider, WebService.class, hopGui.getShell());
+      IHopMetadataSerializer<WebService> serializer = metadataProvider.getSerializer(WebService.class);
+      MetadataManager<WebService> manager = new MetadataManager<>(hopGui.getVariables(), metadataProvider, WebService.class, hopGui.getShell());
 
       WebService webService = null;
       List<String> serviceNames = serializer.listObjectNames();
       if (serviceNames.isEmpty()) {
         MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
         box.setText(BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.NoService.Label"));
-        box.setMessage(
-            BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.NoService.Description"));
+        box.setMessage(BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.NoService.Description"));
         int answer = box.open();
         if ((answer & SWT.YES) != 0) {
           // Create a new web service...
           //
-          webService =
-              new WebService(
-                  pipelineMeta.getName(),
-                  true,
-                  pipelineMeta.getFilename(),
-                  transformMeta.getName(),
-                  fieldName,
-                  "text/plain",
-                  false,
-                  null,
-                  null);
+          webService = new WebService(pipelineMeta.getName(), true, pipelineMeta.getFilename(), transformMeta.getName(), fieldName, "text/plain", false, null, null);
           manager.newMetadata(webService);
           return;
         } else {
@@ -117,8 +102,7 @@ public class WebServiceGuiPlugin {
                 hopGui.getShell(),
                 serviceNames.toArray(new String[0]),
                 BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.SelectService.Label"),
-                BaseMessages.getString(
-                    PKG, "WebserviceGuiPlugin.GuiAction.SelectService.Description"));
+                BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.SelectService.Description"));
         String pipelineProbeName = dialog.open();
         if (pipelineProbeName != null) {
           webService = serializer.load(pipelineProbeName);
@@ -129,12 +113,9 @@ public class WebServiceGuiPlugin {
 
         // See if it's open in the metadata perspective...
         //
-        MetadataPerspective perspective =
-            (MetadataPerspective)
-                hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
+        MetadataPerspective perspective = (MetadataPerspective) hopGui.getPerspectiveManager().findPerspective(MetadataPerspective.class);
         String key = WebService.class.getAnnotation(HopMetadata.class).key();
-        WebServiceEditor editor =
-            (WebServiceEditor) perspective.findEditor(key, webService.getName());
+        WebServiceEditor editor = (WebServiceEditor) perspective.findEditor(key, webService.getName());
         if (editor != null) {
           // We're going to change the current metadata and flag it as changed...
           //
@@ -178,10 +159,7 @@ public class WebServiceGuiPlugin {
       new ErrorDialog(
           hopGui.getShell(),
           BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.ErrorDialog.Label"),
-          BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.ErrorDialog.Description")
-              + " '"
-              + transformMeta.getName()
-              + "'",
+          BaseMessages.getString(PKG, "WebserviceGuiPlugin.GuiAction.ErrorDialog.Description") + " '" + transformMeta.getName() + "'",
           e);
     }
   }

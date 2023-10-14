@@ -66,9 +66,7 @@ import java.util.Properties;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Scripting",
     keywords = "i18n::ScriptValuesMeta.keyword",
     documentationUrl = "/pipeline/transforms/javascript.html")
-@InjectionSupported(
-    localizationPrefix = "ScriptValuesMod.Injection.",
-    groups = {"FIELDS", "SCRIPTS"})
+@InjectionSupported(localizationPrefix = "ScriptValuesMod.Injection.", groups = {"FIELDS", "SCRIPTS"})
 public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValuesData> {
   private static final Class<?> PKG = ScriptValuesMeta.class; // For Translator
 
@@ -80,7 +78,8 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
 
   private ScriptValuesAddClasses[] additionalClasses;
 
-  @InjectionDeep private ScriptValuesScript[] jsScripts;
+  @InjectionDeep
+  private ScriptValuesScript[] jsScripts;
 
   @Injection(name = "FIELD_NAME", group = "FIELDS")
   private String[] fieldname;
@@ -88,25 +87,13 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   @Injection(name = "FIELD_RENAME_TO", group = "FIELDS")
   private String[] rename;
 
-  @Injection(
-      name = "FIELD_TYPE",
-      group = "FIELDS",
-      convertEmpty = true,
-      converter = DataTypeConverter.class)
+  @Injection(name = "FIELD_TYPE", group = "FIELDS", convertEmpty = true, converter = DataTypeConverter.class)
   private int[] type;
 
-  @Injection(
-      name = "FIELD_LENGTH",
-      group = "FIELDS",
-      convertEmpty = true,
-      converter = NullNumberConverter.class)
+  @Injection(name = "FIELD_LENGTH", group = "FIELDS", convertEmpty = true, converter = NullNumberConverter.class)
   private int[] length;
 
-  @Injection(
-      name = "FIELD_PRECISION",
-      group = "FIELDS",
-      convertEmpty = true,
-      converter = NullNumberConverter.class)
+  @Injection(name = "FIELD_PRECISION", group = "FIELDS", convertEmpty = true, converter = NullNumberConverter.class)
   private int[] precision;
 
   @Injection(name = "FIELD_REPLACE", group = "FIELDS")
@@ -223,8 +210,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -320,8 +306,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       //
       if (!Utils.isEmpty(script)) {
         jsScripts = new ScriptValuesScript[1];
-        jsScripts[0] =
-            new ScriptValuesScript(ScriptValuesScript.TRANSFORM_SCRIPT, "ScriptValue", script);
+        jsScripts[0] = new ScriptValuesScript(ScriptValuesScript.TRANSFORM_SCRIPT, "ScriptValue", script);
       } else {
         Node scripts = XmlHandler.getSubNode(transformNode, "jsScripts");
         int nrscripts = XmlHandler.countNodes(scripts, "jsScript");
@@ -356,10 +341,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
         replace[i] = "Y".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "replace"));
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "ScriptValuesMetaMod.Exception.UnableToLoadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.UnableToLoadTransformMetaFromXML"), e);
     }
   }
 
@@ -388,13 +370,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String originTransformName,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String originTransformName, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       for (int i = 0; i < fieldname.length; i++) {
@@ -408,9 +384,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
               if (Utils.isEmpty(rename[i])) {
                 // There is no "rename" field to try; Therefore we cannot find the
                 // field to replace
-                throw new HopTransformException(
-                    BaseMessages.getString(
-                        PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", fieldname[i]));
+                throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", fieldname[i]));
               } else {
                 // Lookup the field to replace using the "rename" field
                 valueIndex = row.indexOfValue(rename[i]);
@@ -418,9 +392,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
                   // The field was not found using the "rename" field"; Therefore
                   // we cannot find the field to replace
                   //
-                  throw new HopTransformException(
-                      BaseMessages.getString(
-                          PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", rename[i]));
+                  throw new HopTransformException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.FieldToReplaceNotFound", rename[i]));
                 }
               }
             }
@@ -459,15 +431,9 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
     retval.append("    <jsScripts>");
     for (int i = 0; i < jsScripts.length; i++) {
       retval.append("      <jsScript>");
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(JSSCRIPT_TAG_TYPE, jsScripts[i].getScriptType()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(JSSCRIPT_TAG_NAME, jsScripts[i].getScriptName()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(JSSCRIPT_TAG_SCRIPT, jsScripts[i].getScript()));
+      retval.append("        ").append(XmlHandler.addTagValue(JSSCRIPT_TAG_TYPE, jsScripts[i].getScriptType()));
+      retval.append("        ").append(XmlHandler.addTagValue(JSSCRIPT_TAG_NAME, jsScripts[i].getScriptName()));
+      retval.append("        ").append(XmlHandler.addTagValue(JSSCRIPT_TAG_SCRIPT, jsScripts[i].getScript()));
       retval.append("      </jsScript>");
     }
     retval.append("    </jsScripts>");
@@ -477,9 +443,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       retval.append("      <field>");
       retval.append("        ").append(XmlHandler.addTagValue("name", fieldname[i]));
       retval.append("        ").append(XmlHandler.addTagValue("rename", rename[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type[i])));
       retval.append("        ").append(XmlHandler.addTagValue("length", length[i]));
       retval.append("        ").append(XmlHandler.addTagValue("precision", precision[i]));
       retval.append("        ").append(XmlHandler.addTagValue("replace", replace[i]));
@@ -514,10 +478,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
     try {
       jscx.setOptimizationLevel(Integer.valueOf(variables.resolve(optimizationLevel)));
     } catch (NumberFormatException nfe) {
-      errorMessage =
-          "Error with optimization level.  Could not convert the value of "
-              + variables.resolve(optimizationLevel)
-              + " to an integer.";
+      errorMessage = "Error with optimization level.  Could not convert the value of " + variables.resolve(optimizationLevel) + " to an integer.";
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     } catch (IllegalArgumentException iae) {
@@ -551,10 +512,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "ScriptValuesMetaMod.CheckResult.ConnectedTransformOK",
-                  String.valueOf(prev.size())),
+              BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ConnectedTransformOK", String.valueOf(prev.size())),
               transformMeta);
       remarks.add(cr);
 
@@ -581,11 +539,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       // Adding some default JavaScriptFunctions to the System
       try {
         Context.javaToJS(ScriptValuesAddedFunctions.class, jsscope);
-        ((ScriptableObject) jsscope)
-            .defineFunctionProperties(
-                ScriptValuesAddedFunctions.jsFunctionList,
-                ScriptValuesAddedFunctions.class,
-                ScriptableObject.DONTENUM);
+        ((ScriptableObject) jsscope).defineFunctionProperties(ScriptValuesAddedFunctions.jsFunctionList, ScriptValuesAddedFunctions.class, ScriptableObject.DONTENUM);
       } catch (Exception ex) {
         errorMessage = "Couldn't add Default Functions! Error:" + Const.CR + ex.toString();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
@@ -605,8 +559,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       }
 
       try {
-        ScriptValuesDummy dummyTransform =
-            new ScriptValuesDummy(prev, pipelineMeta.getTransformFields(variables, transformMeta));
+        ScriptValuesDummy dummyTransform = new ScriptValuesDummy(prev, pipelineMeta.getTransformFields(variables, transformMeta));
         Scriptable jsvalue = Context.toObject(dummyTransform, jsscope);
         jsscope.put("_transform_", jsscope, jsvalue);
 
@@ -623,9 +576,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
             valueData = new Date();
           }
           if (valueMeta.isString()) {
-            valueData =
-                "test value test value test value test value test value "
-                    + "test value test value test value test value test value";
+            valueData = "test value test value test value test value test value " + "test value test value test value test value test value";
           }
           if (valueMeta.isInteger()) {
             valueData = Long.valueOf(0L);
@@ -640,10 +591,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
             valueData = Boolean.TRUE;
           }
           if (valueMeta.isBinary()) {
-            valueData =
-                new byte[] {
-                  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                };
+            valueData = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,};
           }
 
           row[i] = valueData;
@@ -662,8 +610,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       try {
         // Checking for StartScript
         if (strActiveStartScript != null && strActiveStartScript.length() > 0) {
-          /* Object startScript = */ jscx.evaluateString(
-              jsscope, strActiveStartScript, "pipeline_Start", 1, null);
+          /* Object startScript = */ jscx.evaluateString(jsscope, strActiveStartScript, "pipeline_Start", 1, null);
           errorMessage = "Found Start Script. " + strActiveStartScriptName + " Processing OK";
           cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
           remarks.add(cr);
@@ -677,38 +624,22 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       try {
         jsscript = jscx.compileString(strActiveScript, "script", 1, null);
 
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ScriptCompiledOK"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ScriptCompiledOK"), transformMeta);
         remarks.add(cr);
 
         try {
 
           jsscript.exec(jscx, jsscope);
 
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ScriptCompiledOK2"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ScriptCompiledOK2"), transformMeta);
           remarks.add(cr);
 
           if (fieldname.length > 0) {
             StringBuilder message =
-                new StringBuilder(
-                    BaseMessages.getString(
-                            PKG,
-                            "ScriptValuesMetaMod.CheckResult.FailedToGetValues",
-                            String.valueOf(fieldname.length))
-                        + Const.CR
-                        + Const.CR);
+                new StringBuilder(BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.FailedToGetValues", String.valueOf(fieldname.length)) + Const.CR + Const.CR);
 
             if (errorFound) {
-              cr =
-                  new CheckResult(
-                      ICheckResult.TYPE_RESULT_ERROR, message.toString(), transformMeta);
+              cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message.toString(), transformMeta);
             } else {
               cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, message.toString(), transformMeta);
             }
@@ -716,18 +647,12 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
           }
         } catch (JavaScriptException jse) {
           Context.exit();
-          errorMessage =
-              BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotExecuteScript")
-                  + Const.CR
-                  + jse.toString();
+          errorMessage = BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotExecuteScript") + Const.CR + jse.toString();
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         } catch (Exception e) {
           Context.exit();
-          errorMessage =
-              BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotExecuteScript2")
-                  + Const.CR
-                  + e.toString();
+          errorMessage = BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotExecuteScript2") + Const.CR + e.toString();
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
         }
@@ -735,8 +660,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
         // Checking End Script
         try {
           if (strActiveEndScript != null && strActiveEndScript.length() > 0) {
-            /* Object endScript = */ jscx.evaluateString(
-                jsscope, strActiveEndScript, "pipeline_End", 1, null);
+            /* Object endScript = */ jscx.evaluateString(jsscope, strActiveEndScript, "pipeline_End", 1, null);
             errorMessage = "Found End Script. " + strActiveEndScriptName + " Processing OK";
             cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, errorMessage, transformMeta);
             remarks.add(cr);
@@ -748,36 +672,23 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
         }
       } catch (Exception e) {
         Context.exit();
-        errorMessage =
-            BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotCompileScript")
-                + Const.CR
-                + e.toString();
+        errorMessage = BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotCompileScript") + Const.CR + e.toString();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       }
     } else {
       Context.exit();
-      errorMessage =
-          BaseMessages.getString(
-              PKG, "ScriptValuesMetaMod.CheckResult.CouldNotGetFieldsFromPreviousTransform");
+      errorMessage = BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.CouldNotGetFieldsFromPreviousTransform");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ConnectedTransformOK2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.ConnectedTransformOK2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ScriptValuesMetaMod.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -805,8 +716,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
     try {
       Properties sysprops = System.getProperties();
       String strActPath = sysprops.getProperty("user.dir");
-      Document dom =
-          XmlHandler.loadXmlFile(strActPath + "/plugins/transforms/ScriptValues_mod/plugin.xml");
+      Document dom = XmlHandler.loadXmlFile(strActPath + "/plugins/transforms/ScriptValues_mod/plugin.xml");
       Node transformNode = dom.getDocumentElement();
       Node libraries = XmlHandler.getSubNode(transformNode, "js_libraries");
       int nbOfLibs = XmlHandler.countNodes(libraries, "js_lib");
@@ -817,22 +727,16 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
         String strClassName = XmlHandler.getTagAttribute(fnode, "classname");
         String strJSName = XmlHandler.getTagAttribute(fnode, "js_name");
 
-        Class<?> addClass =
-            LoadAdditionalClass(
-                strActPath + "/plugins/transforms/ScriptValues_mod/" + strJarName, strClassName);
+        Class<?> addClass = LoadAdditionalClass(strActPath + "/plugins/transforms/ScriptValues_mod/" + strJarName, strClassName);
         Object addObject = addClass.newInstance();
         additionalClasses[i] = new ScriptValuesAddClasses(addClass, addObject, strJSName);
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "ScriptValuesMetaMod.Exception.UnableToParseXMLforAdditionalClasses"),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.UnableToParseXMLforAdditionalClasses"), e);
     }
   }
 
-  private static Class<?> LoadAdditionalClass(String strJar, String strClassName)
-      throws HopException {
+  private static Class<?> LoadAdditionalClass(String strJar, String strClassName) throws HopException {
     try {
       Thread t = Thread.currentThread();
       ClassLoader cl = t.getContextClassLoader();
@@ -844,9 +748,7 @@ public class ScriptValuesMeta extends BaseTransformMeta<ScriptValues, ScriptValu
       Class<?> toRun = kl.loadClass(strClassName);
       return toRun;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.UnableToLoadAdditionalClass"),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "ScriptValuesMetaMod.Exception.UnableToLoadAdditionalClass"), e);
     }
   }
 

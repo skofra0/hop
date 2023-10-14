@@ -41,13 +41,14 @@ public class CurrentDirectoryResolver {
   /**
    * The logic of this method:
    *
-   * <p>We return the child var variables with directory extracted from filename if we do not have a
+   * <p>
+   * We return the child var variables with directory extracted from filename if we do not have a
    * filename we will return the child var variables without updates
    *
    * @param parentVariables - parent variable variables which can be inherited
    * @param filename - is file which we use at this moment
    * @return new var variables if inherit was set false or child var variables with updated system
-   *     variables
+   *         variables
    */
   public IVariables resolveCurrentDirectory(IVariables parentVariables, String filename) {
     Variables tmpSpace = new Variables();
@@ -66,8 +67,7 @@ public class CurrentDirectoryResolver {
         FileName fileName = fileObject.getName();
 
         // The filename of the pipeline
-        tmpSpace.setVariable(
-            Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
+        tmpSpace.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
 
         // The directory of the pipeline
         FileName fileDir = fileName.getParent();
@@ -81,20 +81,16 @@ public class CurrentDirectoryResolver {
     return tmpSpace;
   }
 
-  public IVariables resolveCurrentDirectory(
-      IVariables parentVariables, TransformMeta transformMeta, String filename) {
+  public IVariables resolveCurrentDirectory(IVariables parentVariables, TransformMeta transformMeta, String filename) {
     if (transformMeta != null && transformMeta.getParentPipelineMeta() != null) {
       filename = transformMeta.getParentPipelineMeta().getFilename();
-    } else if (transformMeta != null
-        && transformMeta.getParentPipelineMeta() != null
-        && filename == null) {
+    } else if (transformMeta != null && transformMeta.getParentPipelineMeta() != null && filename == null) {
       filename = transformMeta.getParentPipelineMeta().getFilename();
     }
     return resolveCurrentDirectory(parentVariables, filename);
   }
 
-  public IVariables resolveCurrentDirectory(
-      IVariables parentVariables, IWorkflowEngine<WorkflowMeta> workflow, String filename) {
+  public IVariables resolveCurrentDirectory(IVariables parentVariables, IWorkflowEngine<WorkflowMeta> workflow, String filename) {
     if (workflow != null && filename == null) {
       filename = workflow.getFilename();
     } else if (WorkflowMeta.class.isAssignableFrom(parentVariables.getClass())) {

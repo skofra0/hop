@@ -31,17 +31,10 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /** Check if a webservice is available * */
-public class WebServiceAvailable
-    extends BaseTransform<WebServiceAvailableMeta, WebServiceAvailableData> {
+public class WebServiceAvailable extends BaseTransform<WebServiceAvailableMeta, WebServiceAvailableData> {
   private static final Class<?> PKG = WebServiceAvailableMeta.class; // For Translator
 
-  public WebServiceAvailable(
-      TransformMeta transformMeta,
-      WebServiceAvailableMeta meta,
-      WebServiceAvailableData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public WebServiceAvailable(TransformMeta transformMeta, WebServiceAvailableMeta meta, WebServiceAvailableData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -66,22 +59,15 @@ public class WebServiceAvailable
       // Check is URL field is provided
       if (Utils.isEmpty(meta.getUrlField())) {
         logError(BaseMessages.getString(PKG, "WebServiceAvailable.Error.FilenameFieldMissing"));
-        throw new HopException(
-            BaseMessages.getString(PKG, "WebServiceAvailable.Error.FilenameFieldMissing"));
+        throw new HopException(BaseMessages.getString(PKG, "WebServiceAvailable.Error.FilenameFieldMissing"));
       }
 
       // cache the position of the field
       data.indexOfURL = data.previousRowMeta.indexOfValue(meta.getUrlField());
       if (data.indexOfURL < 0) {
         // The field is unreachable !
-        logError(
-            BaseMessages.getString(PKG, "WebServiceAvailable.Exception.CouldnotFindField")
-                + "["
-                + meta.getUrlField()
-                + "]");
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "WebServiceAvailable.Exception.CouldnotFindField", meta.getUrlField()));
+        logError(BaseMessages.getString(PKG, "WebServiceAvailable.Exception.CouldnotFindField") + "[" + meta.getUrlField() + "]");
+        throw new HopException(BaseMessages.getString(PKG, "WebServiceAvailable.Exception.CouldnotFindField", meta.getUrlField()));
       }
     } // End If first
 
@@ -111,9 +97,7 @@ public class WebServiceAvailable
         webServiceAvailable = true;
       } catch (Exception e) {
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG, "WebServiceAvailable.Error.ServiceNotReached", url, e.toString()));
+          logDebug(BaseMessages.getString(PKG, "WebServiceAvailable.Error.ServiceNotReached", url, e.toString()));
         }
 
       } finally {
@@ -127,17 +111,10 @@ public class WebServiceAvailable
       }
 
       // addwebservice available to the row
-      putRow(
-          data.outputRowMeta,
-          RowDataUtil.addValueData(
-              r, data.NrPrevFields, webServiceAvailable)); // copy row to output rowset(s)
+      putRow(data.outputRowMeta, RowDataUtil.addValueData(r, data.NrPrevFields, webServiceAvailable)); // copy row to output rowset(s)
 
       if (isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "FileExists.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "FileExists.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (Exception e) {
       boolean sendToErrorRow = false;
@@ -147,9 +124,7 @@ public class WebServiceAvailable
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "WebServiceAvailable.ErrorInTransformRunning")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "WebServiceAvailable.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -157,13 +132,7 @@ public class WebServiceAvailable
       }
       if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError(
-            getInputRowMeta(),
-            r,
-            1,
-            errorMessage,
-            meta.getResultFieldName(),
-            "WebServiceAvailable001");
+        putError(getInputRowMeta(), r, 1, errorMessage, meta.getResultFieldName(), "WebServiceAvailable001");
       }
     }
 

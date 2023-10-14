@@ -84,8 +84,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
   private LabelCombo wReferenceValue;
   private LabelCombo wCompareValue;
 
-  public TableCompareDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public TableCompareDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (TableCompareMeta) in;
   }
@@ -99,13 +98,12 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    SelectionAdapter lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -114,7 +112,6 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
 
     int middle = props.getMiddlePct();
     int margin = props.getMargin();
-
 
     wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
@@ -159,8 +156,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
 
     CTabItem wReferenceTab = new CTabItem(wTabFolder, SWT.NONE);
     wReferenceTab.setFont(GuiResource.getInstance().getFontDefault());
-    wReferenceTab.setText(
-        BaseMessages.getString(PKG, "TableComparisonDialog.ReferenceTab.TabTitle"));
+    wReferenceTab.setText(BaseMessages.getString(PKG, "TableComparisonDialog.ReferenceTab.TabTitle"));
 
     FormLayout referenceLayout = new FormLayout();
     referenceLayout.marginWidth = 3;
@@ -170,17 +166,11 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     PropsUi.setLook(wReferenceComp);
     wReferenceComp.setLayout(referenceLayout);
 
-
     // Reference DB + schema + table
-    DatabaseMeta refDatabaseMeta =
-        pipelineMeta.findDatabase(input.getReferenceConnection(), variables);
+    DatabaseMeta refDatabaseMeta = pipelineMeta.findDatabase(input.getReferenceConnection(), variables);
     wReferenceDB =
         addConnectionLine(
-            wReferenceComp,
-            null,
-            refDatabaseMeta,
-            lsMod,
-            BaseMessages.getString(PKG, "TableCompareDialog.ReferenceDB.Label"),
+            wReferenceComp, null, refDatabaseMeta, lsMod, BaseMessages.getString(PKG, "TableCompareDialog.ReferenceDB.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.ReferenceDB.Tooltip"));
     wReferenceDB.addSelectionListener(lsSelection);
 
@@ -231,8 +221,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
 
     CTabItem wComparisonTab = new CTabItem(wTabFolder, SWT.NONE);
     wComparisonTab.setFont(GuiResource.getInstance().getFontDefault());
-    wComparisonTab.setText(
-        BaseMessages.getString(PKG, "TableComparisonDialog.ComparisonTab.TabTitle"));
+    wComparisonTab.setText(BaseMessages.getString(PKG, "TableComparisonDialog.ComparisonTab.TabTitle"));
 
     FormLayout comparisonLayout = new FormLayout();
     comparisonLayout.marginWidth = 3;
@@ -243,15 +232,10 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     PropsUi.setLook(wComparisonComp);
 
     // Comparison DB + schema + table
-    DatabaseMeta compDatabaseMeta =
-        pipelineMeta.findDatabase(input.getCompareConnection(), variables);
+    DatabaseMeta compDatabaseMeta = pipelineMeta.findDatabase(input.getCompareConnection(), variables);
     wCompareDB =
         addConnectionLine(
-            wComparisonComp,
-            null,
-            compDatabaseMeta,
-            lsMod,
-            BaseMessages.getString(PKG, "TableCompareDialog.CompareDB.Label"),
+            wComparisonComp, null, compDatabaseMeta, lsMod, BaseMessages.getString(PKG, "TableCompareDialog.CompareDB.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.CompareDB.Tooltip"));
     wCompareDB.addSelectionListener(lsSelection);
     lastControl = wCompareDB;
@@ -301,8 +285,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
 
     CTabItem wOtherFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wOtherFieldsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wOtherFieldsTab.setText(
-        BaseMessages.getString(PKG, "TableComparisonDialog.OtherFieldsTab.TabTitle"));
+    wOtherFieldsTab.setText(BaseMessages.getString(PKG, "TableComparisonDialog.OtherFieldsTab.TabTitle"));
 
     FormLayout otherFieldsLayout = new FormLayout();
     otherFieldsLayout.marginWidth = 3;
@@ -396,8 +379,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
 
     CTabItem wAdditionalFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wAdditionalFieldsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wAdditionalFieldsTab.setText(
-        BaseMessages.getString(PKG, "TableComparisonDialog.AdditionalFieldsTab.TabTitle"));
+    wAdditionalFieldsTab.setText(BaseMessages.getString(PKG, "TableComparisonDialog.AdditionalFieldsTab.TabTitle"));
 
     FormLayout additionalFieldsLayout = new FormLayout();
     additionalFieldsLayout.marginWidth = 3;
@@ -411,7 +393,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrErrors =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsField.Tooltip"));
     PropsUi.setLook(wNrErrors);
@@ -426,7 +408,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrRecordsReference =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrRecordsReferenceField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrRecordsReferenceField.Tooltip"));
     PropsUi.setLook(wNrRecordsReference);
@@ -441,7 +423,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrRecordsCompare =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrRecordsCompareField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrRecordsCompareField.Tooltip"));
     PropsUi.setLook(wNrRecordsCompare);
@@ -456,7 +438,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrErrorsLeftJoin =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsLeftJoinField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsLeftJoinField.Tooltip"));
     PropsUi.setLook(wNrErrorsLeftJoin);
@@ -471,7 +453,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrErrorsInnerJoin =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsInnerJoinField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsInnerJoinField.Tooltip"));
     PropsUi.setLook(wNrErrorsInnerJoin);
@@ -486,7 +468,7 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     //
     wNrErrorsRightJoin =
         new LabelText(
-                wAdditionalFieldsComp,
+            wAdditionalFieldsComp,
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsRightJoinField.Label"),
             BaseMessages.getString(PKG, "TableCompareDialog.NrErrorsRightJoinField.Tooltip"));
     PropsUi.setLook(wNrErrorsRightJoin);
@@ -546,43 +528,40 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void setComboValues() {
-    Runnable fieldLoader =
-        new Runnable() {
-          @Override
-          public void run() {
+    Runnable fieldLoader = new Runnable() {
+      @Override
+      public void run() {
 
-            try {
-              prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
+        try {
+          prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-            } catch (HopException e) {
-              String msg =
-                  BaseMessages.getString(PKG, "TableCompareDialog.DoMapping.UnableToFindInput");
-              log.logError(toString(), msg);
-            }
-            String[] prevTransformFieldNames = prevFields.getFieldNames();
-            if (prevTransformFieldNames != null) {
-              Arrays.sort(prevTransformFieldNames);
+        } catch (HopException e) {
+          String msg = BaseMessages.getString(PKG, "TableCompareDialog.DoMapping.UnableToFindInput");
+          log.logError(toString(), msg);
+        }
+        String[] prevTransformFieldNames = prevFields.getFieldNames();
+        if (prevTransformFieldNames != null) {
+          Arrays.sort(prevTransformFieldNames);
 
-              wReferenceSchema.setItems(prevTransformFieldNames);
-              wReferenceTable.setItems(prevTransformFieldNames);
-              wCompareSchema.setItems(prevTransformFieldNames);
-              wCompareTable.setItems(prevTransformFieldNames);
-              wKeyFields.setItems(prevTransformFieldNames);
-              wExcludeFields.setItems(prevTransformFieldNames);
-              wKeyDesc.setItems(prevTransformFieldNames);
-              wReferenceValue.setItems(prevTransformFieldNames);
-              wCompareValue.setItems(prevTransformFieldNames);
-            }
-          }
-        };
+          wReferenceSchema.setItems(prevTransformFieldNames);
+          wReferenceTable.setItems(prevTransformFieldNames);
+          wCompareSchema.setItems(prevTransformFieldNames);
+          wCompareTable.setItems(prevTransformFieldNames);
+          wKeyFields.setItems(prevTransformFieldNames);
+          wExcludeFields.setItems(prevTransformFieldNames);
+          wKeyDesc.setItems(prevTransformFieldNames);
+          wReferenceValue.setItems(prevTransformFieldNames);
+          wCompareValue.setItems(prevTransformFieldNames);
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
   /** Copy information from the meta-data input to the dialog fields. */
   public void getData() {
 
-    wReferenceDB.setText(
-        input.getReferenceConnection() != null ? input.getReferenceConnection() : "");
+    wReferenceDB.setText(input.getReferenceConnection() != null ? input.getReferenceConnection() : "");
     wReferenceSchema.setText(Const.NVL(input.getReferenceSchemaField(), ""));
     wReferenceTable.setText(Const.NVL(input.getReferenceTableField(), ""));
     wCompareDB.setText(input.getCompareConnection() != null ? input.getCompareConnection() : "");
@@ -640,29 +619,19 @@ public class TableCompareDialog extends BaseTransformDialog implements ITransfor
     input.setValueReferenceField(wReferenceValue.getText());
     input.setValueCompareField(wCompareValue.getText());
 
-    DatabaseMeta refDatabaseMeta =
-        pipelineMeta.findDatabase(input.getReferenceConnection(), variables);
+    DatabaseMeta refDatabaseMeta = pipelineMeta.findDatabase(input.getReferenceConnection(), variables);
     if (refDatabaseMeta == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "TableCompareDialog.InvalidConnection.ReferenceConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(
-              PKG, "TableCompareDialog.InvalidConnection.ReferenceConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "TableCompareDialog.InvalidConnection.ReferenceConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "TableCompareDialog.InvalidConnection.ReferenceConnection.DialogTitle"));
       mb.open();
     }
 
-    DatabaseMeta compDatabaseMeta =
-        pipelineMeta.findDatabase(input.getCompareConnection(), variables);
+    DatabaseMeta compDatabaseMeta = pipelineMeta.findDatabase(input.getCompareConnection(), variables);
     if (compDatabaseMeta == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "TableCompareDialog.InvalidConnection.ComparisonConnection.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(
-              PKG, "TableCompareDialog.InvalidConnection.ComparisonConnection.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "TableCompareDialog.InvalidConnection.ComparisonConnection.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "TableCompareDialog.InvalidConnection.ComparisonConnection.DialogTitle"));
       mb.open();
     }
 

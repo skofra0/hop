@@ -107,24 +107,11 @@ public class PreviewRowsDialog {
 
   private Control bottomButton;
 
-  public PreviewRowsDialog(
-      Shell parent,
-      IVariables variables,
-      int style,
-      String transformName,
-      IRowMeta rowMeta,
-      List<Object[]> rowBuffer) {
+  public PreviewRowsDialog(Shell parent, IVariables variables, int style, String transformName, IRowMeta rowMeta, List<Object[]> rowBuffer) {
     this(parent, variables, style, transformName, rowMeta, rowBuffer, null);
   }
 
-  public PreviewRowsDialog(
-      Shell parent,
-      IVariables variables,
-      int style,
-      String transformName,
-      IRowMeta rowMeta,
-      List<Object[]> rowBuffer,
-      String loggingText) {
+  public PreviewRowsDialog(Shell parent, IVariables variables, int style, String transformName, IRowMeta rowMeta, List<Object[]> rowBuffer, String loggingText) {
     this.transformName = transformName;
     this.buffer = rowBuffer;
     this.loggingText = loggingText;
@@ -199,12 +186,10 @@ public class PreviewRowsDialog {
       Button wNext = new Button(shell, SWT.PUSH);
       wNext.setText(BaseMessages.getString(PKG, "PreviewRowsDialog.Button.Next.Label"));
       wNext.setToolTipText(BaseMessages.getString(PKG, "PreviewRowsDialog.Button.Next.ToolTip"));
-      wNext.addListener(
-          SWT.Selection,
-          e -> {
-            askingForMoreRows = true;
-            close();
-          });
+      wNext.addListener(SWT.Selection, e -> {
+        askingForMoreRows = true;
+        close();
+      });
       buttons.add(wNext);
     }
 
@@ -216,22 +201,20 @@ public class PreviewRowsDialog {
     // Position the buttons...
     //
     bottomButton = buttons.get(0);
-    BaseTransformDialog.positionBottomButtons(
-        shell, buttons.toArray(new Button[buttons.size()]), props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[buttons.size()]), props.getMargin(), null);
 
     if (addFields()) {
       return;
     }
 
-    KeyListener escapeListener =
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.keyCode == SWT.ESC) {
-              cancel();
-            }
-          }
-        };
+    KeyListener escapeListener = new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.keyCode == SWT.ESC) {
+          cancel();
+        }
+      }
+    };
 
     shell.addKeyListener(escapeListener);
     wFields.addKeyListener(escapeListener);
@@ -293,9 +276,7 @@ public class PreviewRowsDialog {
       columns[i].setValueMeta(v);
     }
 
-    wFields =
-        new TableView(
-            variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, 0, null, props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, 0, null, props);
     wFields.setShowingBlueNullValues(true);
 
     FormData fdFields = new FormData();
@@ -323,27 +304,24 @@ public class PreviewRowsDialog {
   /** Copy information from the meta-data input to the dialog fields. */
   private void getData() {
     synchronized (buffer) {
-      shell
-          .getDisplay()
-          .asyncExec(
-              () -> {
-                lineNr = 0;
-                for (int i = 0; i < buffer.size(); i++) {
-                  TableItem item;
-                  if (i == 0) {
-                    item = wFields.table.getItem(i);
-                  } else {
-                    item = new TableItem(wFields.table, SWT.NONE);
-                  }
+      shell.getDisplay().asyncExec(() -> {
+        lineNr = 0;
+        for (int i = 0; i < buffer.size(); i++) {
+          TableItem item;
+          if (i == 0) {
+            item = wFields.table.getItem(i);
+          } else {
+            item = new TableItem(wFields.table, SWT.NONE);
+          }
 
-                  Object[] row = buffer.get(i);
+          Object[] row = buffer.get(i);
 
-                  getDataForRow(item, row);
-                }
-                if (!wFields.isDisposed()) {
-                  wFields.optWidth(true, 200);
-                }
-              });
+          getDataForRow(item, row);
+        }
+        if (!wFields.isDisposed()) {
+          wFields.optWidth(true, 200);
+        }
+      });
     }
   }
 
@@ -476,7 +454,7 @@ public class PreviewRowsDialog {
 
   /**
    * @param proposingToGetMoreRows Set to true if you want to display a button asking for more
-   *     preview rows.
+   *        preview rows.
    */
   public void setProposingToGetMoreRows(boolean proposingToGetMoreRows) {
     this.proposingToGetMoreRows = proposingToGetMoreRows;
@@ -507,35 +485,33 @@ public class PreviewRowsDialog {
       return;
     }
 
-    HopGui.getInstance().getDisplay()
-        .syncExec(
-            () -> {
-              if (wFields.isDisposed()) {
-                return;
-              }
+    HopGui.getInstance().getDisplay().syncExec(() -> {
+      if (wFields.isDisposed()) {
+        return;
+      }
 
-              if (waitingForRows) {
-                PreviewRowsDialog.this.rowMeta = rowMeta;
-                addFields();
-              }
+      if (waitingForRows) {
+        PreviewRowsDialog.this.rowMeta = rowMeta;
+        addFields();
+      }
 
-              TableItem item = new TableItem(wFields.table, SWT.NONE);
-              getDataForRow(item, rowData);
-              if (waitingForRows) {
-                waitingForRows = false;
-                wFields.removeEmptyRows();
-                PreviewRowsDialog.this.rowMeta = rowMeta;
-                if (wFields.table.getItemCount() < 10) {
-                  wFields.optWidth(true);
-                }
-              }
+      TableItem item = new TableItem(wFields.table, SWT.NONE);
+      getDataForRow(item, rowData);
+      if (waitingForRows) {
+        waitingForRows = false;
+        wFields.removeEmptyRows();
+        PreviewRowsDialog.this.rowMeta = rowMeta;
+        if (wFields.table.getItemCount() < 10) {
+          wFields.optWidth(true);
+        }
+      }
 
-              if (wFields.table.getItemCount() > PropsUi.getInstance().getDefaultPreviewSize()) {
-                wFields.table.remove(0);
-              }
+      if (wFields.table.getItemCount() > PropsUi.getInstance().getDefaultPreviewSize()) {
+        wFields.table.remove(0);
+      }
 
-              wFields.table.setTopIndex(wFields.table.getItemCount() - 1);
-            });
+      wFields.table.setTopIndex(wFields.table.getItemCount() - 1);
+    });
   }
 
   public void addDialogClosedListener(IDialogClosedListener listener) {

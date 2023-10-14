@@ -31,26 +31,25 @@ public class SimpleMappingMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    TransformSerializationTestUtil.testSerialization(
-            "/simple-mapping-transform.xml",
-            SimpleMappingMeta.class
-    );
-    /*Document document =
-        XmlHandler.loadXmlFile(this.getClass().getResourceAsStream("/simple-mapping-transform.xml"));
-    Node transformNode = XmlHandler.getSubNode(document, TransformMeta.XML_TAG);
-    SimpleMappingMeta meta = new SimpleMappingMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        null, transformNode, SimpleMappingMeta.class, meta, new MemoryMetadataProvider());
-    String xml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + meta.getXml()
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
-
-    Document copyDocument = XmlHandler.loadXmlString(xml);
-    Node copyNode = XmlHandler.getSubNode(copyDocument, TransformMeta.XML_TAG);
-    SimpleMappingMeta copy = new SimpleMappingMeta();
-    XmlMetadataUtil.deSerializeFromXml(
-        null, copyNode, SimpleMappingMeta.class, copy, new MemoryMetadataProvider());
-    Assert.assertEquals(meta.getXml(), copy.getXml());*/
+    TransformSerializationTestUtil.testSerialization("/simple-mapping-transform.xml", SimpleMappingMeta.class);
+    /*
+     * Document document =
+     * XmlHandler.loadXmlFile(this.getClass().getResourceAsStream("/simple-mapping-transform.xml"));
+     * Node transformNode = XmlHandler.getSubNode(document, TransformMeta.XML_TAG);
+     * SimpleMappingMeta meta = new SimpleMappingMeta();
+     * XmlMetadataUtil.deSerializeFromXml(
+     * null, transformNode, SimpleMappingMeta.class, meta, new MemoryMetadataProvider());
+     * String xml =
+     * XmlHandler.openTag(TransformMeta.XML_TAG)
+     * + meta.getXml()
+     * + XmlHandler.closeTag(TransformMeta.XML_TAG);
+     * 
+     * Document copyDocument = XmlHandler.loadXmlString(xml);
+     * Node copyNode = XmlHandler.getSubNode(copyDocument, TransformMeta.XML_TAG);
+     * SimpleMappingMeta copy = new SimpleMappingMeta();
+     * XmlMetadataUtil.deSerializeFromXml(
+     * null, copyNode, SimpleMappingMeta.class, copy, new MemoryMetadataProvider());
+     * Assert.assertEquals(meta.getXml(), copy.getXml());
+     */
   }
 }

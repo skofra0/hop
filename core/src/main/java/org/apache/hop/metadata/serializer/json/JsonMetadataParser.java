@@ -62,8 +62,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
     }
   }
 
-  private void loadProperties(Object object, com.fasterxml.jackson.core.JsonParser jsonParser)
-      throws HopException {
+  private void loadProperties(Object object, com.fasterxml.jackson.core.JsonParser jsonParser) throws HopException {
     Class<?> objectClass = object.getClass();
     Map<String, Field> keyFieldMap = new HashMap<>();
     for (Field field : ReflectionUtil.findAllFields(objectClass)) {
@@ -82,8 +81,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
         //
         Class<?> fieldType = field.getType();
         if (Boolean.class.equals(fieldType) || boolean.class.equals(fieldType)) {
-          ReflectionUtil.setFieldValue(
-              object, field.getName(), fieldType, metadataProperty.defaultBoolean());
+          ReflectionUtil.setFieldValue(object, field.getName(), fieldType, metadataProperty.defaultBoolean());
         }
       }
     }
@@ -105,9 +103,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
     }
   }
 
-  private void loadProperty(
-      Object object, com.fasterxml.jackson.core.JsonParser jsonParser, String key, Field field)
-      throws HopException {
+  private void loadProperty(Object object, com.fasterxml.jackson.core.JsonParser jsonParser, String key, Field field) throws HopException {
     Class<?> objectClass = object.getClass();
     Class<?> fieldType = field.getType();
     HopMetadataProperty metadataProperty = field.getAnnotation(HopMetadataProperty.class);
@@ -168,12 +164,9 @@ public class JsonMetadataParser<T extends IHopMetadata> {
             IHopMetadataSerializer<?> serializer = null;
             if (metadataProperty.storeWithName()) {
               if (!IHopMetadata.class.isAssignableFrom(listClass)) {
-                throw new HopException(
-                    "Error: metadata objects that need to be stored with a name reference need to implement IHopMetadata: "
-                        + listClass.getName());
+                throw new HopException("Error: metadata objects that need to be stored with a name reference need to implement IHopMetadata: " + listClass.getName());
               }
-              serializer =
-                  metadataProvider.getSerializer((Class<? extends IHopMetadata>) listClass);
+              serializer = metadataProvider.getSerializer((Class<? extends IHopMetadata>) listClass);
             }
             List list = new ArrayList<>();
             while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
@@ -199,12 +192,9 @@ public class JsonMetadataParser<T extends IHopMetadata> {
             // Load using name reference
             //
             if (!IHopMetadata.class.isAssignableFrom(fieldType)) {
-              throw new HopException(
-                  "Error: metadata objects that need to be stored with a name reference need to implement IHopMetadata: "
-                      + fieldType.getName());
+              throw new HopException("Error: metadata objects that need to be stored with a name reference need to implement IHopMetadata: " + fieldType.getName());
             }
-            IHopMetadataSerializer<?> serializer =
-                metadataProvider.getSerializer((Class<? extends IHopMetadata>) fieldType);
+            IHopMetadataSerializer<?> serializer = metadataProvider.getSerializer((Class<? extends IHopMetadata>) fieldType);
             String name = jsonParser.getText();
             fieldValue = serializer.load(name);
           } else {
@@ -218,19 +208,11 @@ public class JsonMetadataParser<T extends IHopMetadata> {
       ReflectionUtil.setFieldValue(object, field.getName(), fieldType, fieldValue);
 
     } catch (Exception e) {
-      throw new HopException(
-          "Error loading field with key '"
-              + key
-              + "' for field '"
-              + field.getName()
-              + " in class "
-              + objectClass.getName(),
-          e);
+      throw new HopException("Error loading field with key '" + key + "' for field '" + field.getName() + " in class " + objectClass.getName(), e);
     }
   }
 
-  private Object loadPojoProperties(
-      Class<?> fieldType, com.fasterxml.jackson.core.JsonParser jsonParser) throws HopException {
+  private Object loadPojoProperties(Class<?> fieldType, com.fasterxml.jackson.core.JsonParser jsonParser) throws HopException {
     try {
       Object fieldValue;
       HopMetadataObject hopMetadataObject = fieldType.getAnnotation(HopMetadataObject.class);
@@ -240,8 +222,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
       } else {
         jsonParser.nextToken(); // skip {
         String fieldValueId = jsonParser.getText();
-        IHopMetadataObjectFactory objectFactory =
-            hopMetadataObject.objectFactory().getDeclaredConstructor().newInstance();
+        IHopMetadataObjectFactory objectFactory = hopMetadataObject.objectFactory().getDeclaredConstructor().newInstance();
         fieldValue = objectFactory.createObject(fieldValueId, null); // No parent object
         loadProperties(fieldValue, jsonParser);
         jsonParser.nextToken(); // skip }
@@ -265,8 +246,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
    * @param jObject
    * @param object
    */
-  private void saveProperties(JSONObject jObject, Object object, Class<?> objectClass)
-      throws HopException {
+  private void saveProperties(JSONObject jObject, Object object, Class<?> objectClass) throws HopException {
     if (object == null) {
       return;
     }
@@ -280,9 +260,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
     }
   }
 
-  private void saveProperty(
-      JSONObject jObject, Object object, HopMetadataProperty metadataProperty, Field objectField)
-      throws HopException {
+  private void saveProperty(JSONObject jObject, Object object, HopMetadataProperty metadataProperty, Field objectField) throws HopException {
     String key = objectField.getName();
     if (StringUtils.isNotEmpty(metadataProperty.key())) {
       key = metadataProperty.key();
@@ -313,8 +291,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
         } else if (isBoolean) {
           jObject.put(key, fieldValue);
         } else if (Date.class.equals(fieldType)) {
-          String dateString =
-              new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss").format((Date) fieldValue);
+          String dateString = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss").format((Date) fieldValue);
           jObject.put(key, dateString);
         } else if (Map.class.equals(fieldType)) {
           jObject.put(key, new JSONObject((Map) fieldValue));
@@ -348,18 +325,11 @@ public class JsonMetadataParser<T extends IHopMetadata> {
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error serializing field '"
-              + objectField.getName()
-              + "' with type '"
-              + fieldType.toString()
-              + "'",
-          e);
+      throw new HopException("Error serializing field '" + objectField.getName() + "' with type '" + fieldType.toString() + "'", e);
     }
   }
 
-  private JSONObject savePojoProperty(String key, Object fieldValue, Class<?> fieldType)
-      throws HopException {
+  private JSONObject savePojoProperty(String key, Object fieldValue, Class<?> fieldType) throws HopException {
     try {
 
       // Check if we can serialize this POJO
@@ -378,8 +348,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
       if (hopMetadataObject == null) {
         return jPojoObject;
       } else {
-        IHopMetadataObjectFactory objectFactory =
-            hopMetadataObject.objectFactory().getDeclaredConstructor().newInstance();
+        IHopMetadataObjectFactory objectFactory = hopMetadataObject.objectFactory().getDeclaredConstructor().newInstance();
         String fieldValueId = objectFactory.getObjectId(fieldValue);
 
         // We need to store the object ID (plugin ID, class name, ...)
@@ -396,9 +365,7 @@ public class JsonMetadataParser<T extends IHopMetadata> {
         return jPojoBlock;
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error saving POJO field with key " + key + ", field type '" + fieldType.getName() + "'",
-          e);
+      throw new HopException("Error saving POJO field with key " + key + ", field type '" + fieldType.getName() + "'", e);
     }
   }
 

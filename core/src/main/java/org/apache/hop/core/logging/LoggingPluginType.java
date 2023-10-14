@@ -74,8 +74,7 @@ public class LoggingPluginType extends BasePluginType<LoggingPlugin> {
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, LoggingPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, LoggingPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(LoggingPlugin annotation) {

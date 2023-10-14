@@ -67,10 +67,9 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
 
   public static final String[] afterFtpsDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.DoNothing.Label"),
-        BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.Delete.Label"),
-        BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.Move.Label"),
-      };
+          BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.DoNothing.Label"),
+          BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.Delete.Label"),
+          BaseMessages.getString(PKG, "ActionSftpPut.AfterSFTP.Move.Label"),};
   public static final String[] afterFtpsCode = new String[] {"nothing", "delete", "move"};
 
   public static final int AFTER_FTPSPUT_NOTHING = 0;
@@ -146,45 +145,26 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("servername", serverName));
     retval.append("      ").append(XmlHandler.addTagValue("serverport", serverPort));
     retval.append("      ").append(XmlHandler.addTagValue("username", userName));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    retval.append("      ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
     retval.append("      ").append(XmlHandler.addTagValue("sftpdirectory", remoteDirectory));
     retval.append("      ").append(XmlHandler.addTagValue("localdirectory", localDirectory));
     retval.append("      ").append(XmlHandler.addTagValue("wildcard", wildcard));
     retval.append("      ").append(XmlHandler.addTagValue("copyprevious", copyingPrevious));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("copypreviousfiles", copyingPreviousFiles));
+    retval.append("      ").append(XmlHandler.addTagValue("copypreviousfiles", copyingPreviousFiles));
     retval.append("      ").append(XmlHandler.addTagValue("addFilenameResut", addFilenameResut));
     retval.append("      ").append(XmlHandler.addTagValue("usekeyfilename", useKeyFilename));
     retval.append("      ").append(XmlHandler.addTagValue("keyfilename", keyFilename));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "keyfilepass", Encr.encryptPasswordIfNotUsingVariables(keyFilePassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("keyfilepass", Encr.encryptPasswordIfNotUsingVariables(keyFilePassword)));
     retval.append("      ").append(XmlHandler.addTagValue("compression", compression));
     retval.append("      ").append(XmlHandler.addTagValue("proxyType", proxyType));
     retval.append("      ").append(XmlHandler.addTagValue("proxyHost", proxyHost));
     retval.append("      ").append(XmlHandler.addTagValue("proxyPort", proxyPort));
     retval.append("      ").append(XmlHandler.addTagValue("proxyUsername", proxyUsername));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "proxyPassword", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("createRemoteFolder", createRemoteFolder));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("aftersftpput", getAfterSftpPutCode(getAfterFtps())));
+    retval.append("      ").append(XmlHandler.addTagValue("proxyPassword", Encr.encryptPasswordIfNotUsingVariables(proxyPassword)));
+    retval.append("      ").append(XmlHandler.addTagValue("createRemoteFolder", createRemoteFolder));
+    retval.append("      ").append(XmlHandler.addTagValue("aftersftpput", getAfterSftpPutCode(getAfterFtps())));
     retval.append("      ").append(XmlHandler.addTagValue("destinationfolder", destinationFolder));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("createdestinationfolder", createDestinationFolder));
+    retval.append("      ").append(XmlHandler.addTagValue("createdestinationfolder", createDestinationFolder));
 
     retval.append("      ").append(XmlHandler.addTagValue("successWhenNoFile", successWhenNoFile));
 
@@ -199,51 +179,40 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       serverName = XmlHandler.getTagValue(entrynode, "servername");
       serverPort = XmlHandler.getTagValue(entrynode, "serverport");
       userName = XmlHandler.getTagValue(entrynode, "username");
-      password =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
+      password = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "password"));
       remoteDirectory = XmlHandler.getTagValue(entrynode, "sftpdirectory");
       localDirectory = XmlHandler.getTagValue(entrynode, "localdirectory");
       wildcard = XmlHandler.getTagValue(entrynode, "wildcard");
       copyingPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "copyprevious"));
-      copyingPreviousFiles =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "copypreviousfiles"));
-      addFilenameResut =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "addFilenameResut"));
+      copyingPreviousFiles = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "copypreviousfiles"));
+      addFilenameResut = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "addFilenameResut"));
 
       useKeyFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "usekeyfilename"));
       keyFilename = XmlHandler.getTagValue(entrynode, "keyfilename");
-      keyFilePassword =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "keyfilepass"));
+      keyFilePassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "keyfilepass"));
       compression = XmlHandler.getTagValue(entrynode, "compression");
       proxyType = XmlHandler.getTagValue(entrynode, "proxyType");
       proxyHost = XmlHandler.getTagValue(entrynode, "proxyHost");
       proxyPort = XmlHandler.getTagValue(entrynode, "proxyPort");
       proxyUsername = XmlHandler.getTagValue(entrynode, "proxyUsername");
-      proxyPassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(entrynode, "proxyPassword"));
+      proxyPassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "proxyPassword"));
 
-      createRemoteFolder =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "createRemoteFolder"));
+      createRemoteFolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "createRemoteFolder"));
 
       boolean remove = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "remove"));
-      setAfterFtps(
-          getAfterSftpPutByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "aftersftpput"), "")));
+      setAfterFtps(getAfterSftpPutByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "aftersftpput"), "")));
       if (remove && getAfterFtps() == AFTER_FTPSPUT_NOTHING) {
         setAfterFtps(AFTER_FTPSPUT_DELETE);
       }
       destinationFolder = XmlHandler.getTagValue(entrynode, "destinationfolder");
-      createDestinationFolder =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "createdestinationfolder"));
-      successWhenNoFile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "successWhenNoFile"));
+      createDestinationFolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "createdestinationfolder"));
+      successWhenNoFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "successWhenNoFile"));
 
     } catch (HopXmlException xe) {
       throw new HopXmlException("Unable to load action of type 'SFTPPUT' from XML node", xe);
@@ -528,15 +497,11 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
           if (!Utils.isEmpty(filePrevious)) {
             FileObject file = HopVfs.getFileObject(filePrevious);
             if (!file.exists()) {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionSftpPut.Log.FilefromPreviousNotFound", filePrevious));
+              logError(BaseMessages.getString(PKG, "ActionSftpPut.Log.FilefromPreviousNotFound", filePrevious));
             } else {
               myFileList.add(file);
               if (log.isDebug()) {
-                logDebug(
-                    BaseMessages.getString(
-                        PKG, "ActionSftpPut.Log.FilenameFromResult", filePrevious));
+                logDebug(BaseMessages.getString(PKG, "ActionSftpPut.Log.FilenameFromResult", filePrevious));
               }
             }
           }
@@ -561,21 +526,16 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
       }
 
       try {
-        for (Iterator<ResultFile> it = resultFiles.iterator();
-            it.hasNext() && !parentWorkflow.isStopped(); ) {
+        for (Iterator<ResultFile> it = resultFiles.iterator(); it.hasNext() && !parentWorkflow.isStopped();) {
           ResultFile resultFile = it.next();
           FileObject file = resultFile.getFile();
           if (file != null) {
             if (!file.exists()) {
-              logError(
-                  BaseMessages.getString(
-                      PKG, "ActionSftpPut.Log.FilefromPreviousNotFound", file.toString()));
+              logError(BaseMessages.getString(PKG, "ActionSftpPut.Log.FilefromPreviousNotFound", file.toString()));
             } else {
               myFileList.add(file);
               if (log.isDebug()) {
-                logDebug(
-                    BaseMessages.getString(
-                        PKG, "ActionSftpPut.Log.FilenameFromResult", file.toString()));
+                logDebug(BaseMessages.getString(PKG, "ActionSftpPut.Log.FilenameFromResult", file.toString()));
               }
             }
           }
@@ -622,9 +582,7 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
               if (createDestinationFolder) {
                 folder.createFolder();
               } else {
-                logError(
-                    BaseMessages.getString(
-                        PKG, "ActionSSH2PUT.Log.DestinatFolderNotExist", realDestinationFolder));
+                logError(BaseMessages.getString(PKG, "ActionSSH2PUT.Log.DestinatFolderNotExist", realDestinationFolder));
                 result.setNrErrors(1);
                 return result;
               }
@@ -663,21 +621,9 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
       }
 
       // Create sftp client to host ...
-      sftpclient =
-          new SftpClient(
-              InetAddress.getByName(realServerName),
-              Const.toInt(realServerPort, 22),
-              realUsername,
-              realKeyFilename,
-              realPassPhrase);
+      sftpclient = new SftpClient(InetAddress.getByName(realServerName), Const.toInt(realServerPort, 22), realUsername, realKeyFilename, realPassPhrase);
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionSftpPut.Log.OpenedConnection",
-                realServerName,
-                "" + realServerPort,
-                realUsername));
+        logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.OpenedConnection", realServerName, "" + realServerPort, realUsername));
       }
 
       // Set compression
@@ -687,12 +633,7 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
       String realProxyHost = resolve(getProxyHost());
       if (!Utils.isEmpty(realProxyHost)) {
         // Set proxy
-        sftpclient.setProxy(
-            realProxyHost,
-            resolve(getProxyPort()),
-            resolve(getProxyUsername()),
-            resolve(getProxyPassword()),
-            getProxyType());
+        sftpclient.setProxy(realProxyHost, resolve(getProxyPort()), resolve(getProxyUsername()), resolve(getProxyPassword()), getProxyType());
       }
 
       // login to ftp host ...
@@ -706,28 +647,21 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
         boolean existfolder = sftpclient.folderExists(realSftpDirString);
         if (!existfolder) {
           if (!isCreateRemoteFolder()) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "ActionSftpPut.Error.CanNotFindRemoteFolder", realSftpDirString));
+            throw new HopException(BaseMessages.getString(PKG, "ActionSftpPut.Error.CanNotFindRemoteFolder", realSftpDirString));
           }
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionSftpPut.Error.CanNotFindRemoteFolder", realSftpDirString));
+            logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Error.CanNotFindRemoteFolder", realSftpDirString));
           }
 
           // Let's create folder
           sftpclient.createFolder(realSftpDirString);
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionSftpPut.Log.RemoteFolderCreated", realSftpDirString));
+            logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.RemoteFolderCreated", realSftpDirString));
           }
         }
         sftpclient.chdir(realSftpDirString);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionSftpPut.Log.ChangedDirectory", realSftpDirString));
+          logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.ChangedDirectory", realSftpDirString));
         }
       } // end if
 
@@ -748,9 +682,7 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
       }
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "ActionSftpPut.Log.RowsFromPreviousResult", myFileList.size()));
+        logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.RowsFromPreviousResult", myFileList.size()));
       }
 
       Pattern pattern = null;
@@ -782,17 +714,14 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
             nrFilesMatched++;
 
             if (log.isDebug()) {
-              logDebug(
-                  BaseMessages.getString(
-                      PKG, "ActionSftpPut.Log.PuttingFile", localFilename, realSftpDirString));
+              logDebug(BaseMessages.getString(PKG, "ActionSftpPut.Log.PuttingFile", localFilename, realSftpDirString));
             }
 
             sftpclient.put(myFile, destinationFilename);
             nrFilesSent++;
 
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(PKG, "ActionSftpPut.Log.TransferredFile", localFilename));
+              logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.TransferredFile", localFilename));
             }
 
             // We successfully uploaded the file
@@ -801,23 +730,16 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
               case AFTER_FTPSPUT_DELETE:
                 myFile.delete();
                 if (log.isDetailed()) {
-                  logDetailed(
-                      BaseMessages.getString(PKG, "ActionSftpPut.Log.DeletedFile", localFilename));
+                  logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.DeletedFile", localFilename));
                 }
                 break;
               case AFTER_FTPSPUT_MOVE:
                 FileObject destination = null;
                 try {
-                  destination =
-                      HopVfs.getFileObject(
-                          realDestinationFolder
-                              + Const.FILE_SEPARATOR
-                              + myFile.getName().getBaseName());
+                  destination = HopVfs.getFileObject(realDestinationFolder + Const.FILE_SEPARATOR + myFile.getName().getBaseName());
                   myFile.moveTo(destination);
                   if (log.isDetailed()) {
-                    logDetailed(
-                        BaseMessages.getString(
-                            PKG, "ActionSftpPut.Log.FileMoved", myFile, destination));
+                    logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.FileMoved", myFile, destination));
                   }
                 } finally {
                   if (destination != null) {
@@ -828,19 +750,10 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
               default:
                 if (addFilenameResut) {
                   // Add to the result files...
-                  ResultFile resultFile =
-                      new ResultFile(
-                          ResultFile.FILE_TYPE_GENERAL,
-                          myFile,
-                          parentWorkflow.getWorkflowName(),
-                          toString());
+                  ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, myFile, parentWorkflow.getWorkflowName(), toString());
                   result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
                   if (log.isDetailed()) {
-                    logDetailed(
-                        BaseMessages.getString(
-                            PKG,
-                            "ActionSftpPut.Log.FilenameAddedToResultFilenames",
-                            localFilename));
+                    logDetailed(BaseMessages.getString(PKG, "ActionSftpPut.Log.FilenameAddedToResultFilenames", localFilename));
                   }
                 }
                 break;
@@ -901,8 +814,7 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(serverName)) {
       String realServerName = resolve(serverName);
@@ -914,42 +826,12 @@ public class ActionSftpPut extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "serverName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "localDirectory",
-            remarks,
-            AndValidator.putValidators(
-                ActionValidatorUtils.notBlankValidator(),
-                ActionValidatorUtils.fileExistsValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "userName",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "password",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "serverPort",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+        .validate(this, "localDirectory", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "userName", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "password", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "serverPort", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
   }
 }

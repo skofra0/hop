@@ -56,7 +56,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 
 public class OracleDatabaseMetaTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   private final String sequenceName = "sequence_name";
 
@@ -94,8 +95,7 @@ public class OracleDatabaseMetaTest {
     assertEquals("jdbc:oracle:thin:@FOO", nativeMeta.getURL(null, "-1", "FOO"));
     assertEquals("jdbc:oracle:thin:@FOO", nativeMeta.getURL(null, null, "FOO"));
     assertEquals("jdbc:oracle:thin:@FOO:1234:BAR", nativeMeta.getURL("FOO", "1234", "BAR"));
-    assertEquals(
-        "jdbc:oracle:thin:@", nativeMeta.getURL("", "", "")); // Pretty sure this is a bug...
+    assertEquals("jdbc:oracle:thin:@", nativeMeta.getURL("", "", "")); // Pretty sure this is a bug...
     assertFalse(nativeMeta.isSupportsOptionsInURL());
     assertTrue(nativeMeta.isSupportsSequences());
     assertTrue(nativeMeta.isSupportsSequenceNoMaxValueOption());
@@ -103,129 +103,125 @@ public class OracleDatabaseMetaTest {
     assertTrue(nativeMeta.isSupportsSynonyms());
     String[] reservedWords =
         new String[] {
-          "ACCESS",
-          "ADD",
-          "ALL",
-          "ALTER",
-          "AND",
-          "ANY",
-          "ARRAYLEN",
-          "AS",
-          "ASC",
-          "AUDIT",
-          "BETWEEN",
-          "BY",
-          "CHAR",
-          "CHECK",
-          "CLUSTER",
-          "COLUMN",
-          "COMMENT",
-          "COMPRESS",
-          "CONNECT",
-          "CREATE",
-          "CURRENT",
-          "DATE",
-          "DECIMAL",
-          "DEFAULT",
-          "DELETE",
-          "DESC",
-          "DISTINCT",
-          "DROP",
-          "ELSE",
-          "EXCLUSIVE",
-          "EXISTS",
-          "FILE",
-          "FLOAT",
-          "FOR",
-          "FROM",
-          "GRANT",
-          "GROUP",
-          "HAVING",
-          "IDENTIFIED",
-          "IMMEDIATE",
-          "IN",
-          "INCREMENT",
-          "INDEX",
-          "INITIAL",
-          "INSERT",
-          "INTEGER",
-          "INTERSECT",
-          "INTO",
-          "IS",
-          "LEVEL",
-          "LIKE",
-          "LOCK",
-          "LONG",
-          "MAXEXTENTS",
-          "MINUS",
-          "MODE",
-          "MODIFY",
-          "NOAUDIT",
-          "NOCOMPRESS",
-          "NOT",
-          "NOTFOUND",
-          "NOWAIT",
-          "NULL",
-          "NUMBER",
-          "OF",
-          "OFFLINE",
-          "ON",
-          "ONLINE",
-          "OPTION",
-          "OR",
-          "ORDER",
-          "PCTFREE",
-          "PRIOR",
-          "PRIVILEGES",
-          "PUBLIC",
-          "RAW",
-          "RENAME",
-          "RESOURCE",
-          "REVOKE",
-          "ROW",
-          "ROWID",
-          "ROWLABEL",
-          "ROWNUM",
-          "ROWS",
-          "SELECT",
-          "SESSION",
-          "SET",
-          "SHARE",
-          "SIZE",
-          "SMALLINT",
-          "SQLBUF",
-          "START",
-          "SUCCESSFUL",
-          "SYNONYM",
-          "SYSDATE",
-          "TABLE",
-          "THEN",
-          "TO",
-          "TRIGGER",
-          "UID",
-          "UNION",
-          "UNIQUE",
-          "UPDATE",
-          "USER",
-          "VALIDATE",
-          "VALUES",
-          "VARCHAR",
-          "VARCHAR2",
-          "VIEW",
-          "WHENEVER",
-          "WHERE",
-          "WITH"
-        };
+            "ACCESS",
+            "ADD",
+            "ALL",
+            "ALTER",
+            "AND",
+            "ANY",
+            "ARRAYLEN",
+            "AS",
+            "ASC",
+            "AUDIT",
+            "BETWEEN",
+            "BY",
+            "CHAR",
+            "CHECK",
+            "CLUSTER",
+            "COLUMN",
+            "COMMENT",
+            "COMPRESS",
+            "CONNECT",
+            "CREATE",
+            "CURRENT",
+            "DATE",
+            "DECIMAL",
+            "DEFAULT",
+            "DELETE",
+            "DESC",
+            "DISTINCT",
+            "DROP",
+            "ELSE",
+            "EXCLUSIVE",
+            "EXISTS",
+            "FILE",
+            "FLOAT",
+            "FOR",
+            "FROM",
+            "GRANT",
+            "GROUP",
+            "HAVING",
+            "IDENTIFIED",
+            "IMMEDIATE",
+            "IN",
+            "INCREMENT",
+            "INDEX",
+            "INITIAL",
+            "INSERT",
+            "INTEGER",
+            "INTERSECT",
+            "INTO",
+            "IS",
+            "LEVEL",
+            "LIKE",
+            "LOCK",
+            "LONG",
+            "MAXEXTENTS",
+            "MINUS",
+            "MODE",
+            "MODIFY",
+            "NOAUDIT",
+            "NOCOMPRESS",
+            "NOT",
+            "NOTFOUND",
+            "NOWAIT",
+            "NULL",
+            "NUMBER",
+            "OF",
+            "OFFLINE",
+            "ON",
+            "ONLINE",
+            "OPTION",
+            "OR",
+            "ORDER",
+            "PCTFREE",
+            "PRIOR",
+            "PRIVILEGES",
+            "PUBLIC",
+            "RAW",
+            "RENAME",
+            "RESOURCE",
+            "REVOKE",
+            "ROW",
+            "ROWID",
+            "ROWLABEL",
+            "ROWNUM",
+            "ROWS",
+            "SELECT",
+            "SESSION",
+            "SET",
+            "SHARE",
+            "SIZE",
+            "SMALLINT",
+            "SQLBUF",
+            "START",
+            "SUCCESSFUL",
+            "SYNONYM",
+            "SYSDATE",
+            "TABLE",
+            "THEN",
+            "TO",
+            "TRIGGER",
+            "UID",
+            "UNION",
+            "UNIQUE",
+            "UPDATE",
+            "USER",
+            "VALIDATE",
+            "VALUES",
+            "VARCHAR",
+            "VARCHAR2",
+            "VIEW",
+            "WHENEVER",
+            "WHERE",
+            "WITH"};
     assertArrayEquals(reservedWords, nativeMeta.getReservedWords());
-    assertEquals(
-        "http://download.oracle.com/docs/cd/B19306_01/java.102/b14355/urls.htm#i1006362",
-        nativeMeta.getExtraOptionsHelpText());
+    assertEquals("http://download.oracle.com/docs/cd/B19306_01/java.102/b14355/urls.htm#i1006362", nativeMeta.getExtraOptionsHelpText());
     assertTrue(nativeMeta.isRequiresCreateTablePrimaryKeyAppend());
     assertFalse(nativeMeta.isSupportsPreparedStatementMetadataRetrieval());
     String quoteTest1 = "FOO 'BAR' \r TEST \n";
     String quoteTest2 = "FOO 'BAR' \\r TEST \\n";
-    assertEquals(
-        "'FOO ''BAR'' '||chr(10)||' TEST '||chr(13)||''", nativeMeta.quoteSqlString(quoteTest1));
+    assertEquals("'FOO ''BAR'' '||chr(10)||' TEST '||chr(13)||''", nativeMeta.quoteSqlString(quoteTest1));
     assertEquals("'FOO ''BAR'' \\r TEST \\n'", nativeMeta.quoteSqlString(quoteTest2));
     assertFalse(nativeMeta.isReleaseSavepoint());
     Variables v = new Variables();
@@ -250,61 +246,26 @@ public class OracleDatabaseMetaTest {
     String reusedColumnsQuery = "SELECT FOO FROM BAR WHERE 1=0";
     assertEquals(reusedColumnsQuery, nativeMeta.getSqlQueryColumnFields("FOO", "BAR"));
     assertEquals(reusedColumnsQuery, nativeMeta.getSqlColumnExists("FOO", "BAR"));
-    assertEquals(
-        "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'FOO'",
-        nativeMeta.getSqlSequenceExists("FOO"));
-    assertEquals(
-        "SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'FOO'",
-        nativeMeta.getSqlSequenceExists("foo"));
+    assertEquals("SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'FOO'", nativeMeta.getSqlSequenceExists("FOO"));
+    assertEquals("SELECT * FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'FOO'", nativeMeta.getSqlSequenceExists("foo"));
 
-    assertEquals(
-        "SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = 'BAR' AND SEQUENCE_OWNER = 'FOO'",
-        nativeMeta.getSqlSequenceExists("FOO.BAR"));
-    assertEquals(
-        "SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = 'BAR' AND SEQUENCE_OWNER = 'FOO'",
-        nativeMeta.getSqlSequenceExists("foo.bar"));
+    assertEquals("SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = 'BAR' AND SEQUENCE_OWNER = 'FOO'", nativeMeta.getSqlSequenceExists("FOO.BAR"));
+    assertEquals("SELECT * FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = 'BAR' AND SEQUENCE_OWNER = 'FOO'", nativeMeta.getSqlSequenceExists("foo.bar"));
 
     assertEquals("SELECT FOO.currval FROM DUAL", nativeMeta.getSqlCurrentSequenceValue("FOO"));
     assertEquals("SELECT FOO.nextval FROM DUAL", nativeMeta.getSqlNextSequenceValue("FOO"));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO DATE ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaTimestamp("FOO"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO DATE ) ",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("FOO"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO VARCHAR2(15) ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("FOO", 15, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO INTEGER ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("FOO", 15, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO NUMBER(15, 10) ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("FOO", 15, 10), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO NUMBER(15, 10) ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("FOO", 15, 10), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO BLOB ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBinary("FOO", 2048, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO CHAR(1) ) ",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("FOO"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO  UNKNOWN ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInternetAddress("FOO"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO DATE ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaTimestamp("FOO"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO DATE ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("FOO"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO VARCHAR2(15) ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("FOO", 15, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO INTEGER ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("FOO", 15, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO NUMBER(15, 10) ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("FOO", 15, 10), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO NUMBER(15, 10) ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("FOO", 15, 10), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO BLOB ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBinary("FOO", 2048, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO CHAR(1) ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("FOO"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO  UNKNOWN ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInternetAddress("FOO"), "", false, "", false));
 
     String lineSep = System.getProperty("line.separator");
-    assertEquals(
-        "ALTER TABLE FOO DROP ( BAR ) " + lineSep,
-        nativeMeta.getDropColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO DROP ( BAR ) " + lineSep, nativeMeta.getDropColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", false));
     String modColStmtExpected =
         "ALTER TABLE FOO ADD ( BAR_KTL VARCHAR2(2000) ) ;"
             + lineSep
@@ -320,10 +281,7 @@ public class OracleDatabaseMetaTest {
             + lineSep
             + "ALTER TABLE FOO DROP ( BAR_KTL ) "
             + lineSep;
-    assertEquals(
-        modColStmtExpected,
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR"), "", false, "", false));
+    assertEquals(modColStmtExpected, nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", false));
     modColStmtExpected =
         "ALTER TABLE \"FOO\" ADD ( BAR_KTL VARCHAR2(2000) ) ;"
             + lineSep
@@ -339,10 +297,7 @@ public class OracleDatabaseMetaTest {
             + lineSep
             + "ALTER TABLE \"FOO\" DROP ( BAR_KTL ) "
             + lineSep;
-    assertEquals(
-        modColStmtExpected,
-        nativeMeta.getModifyColumnStatement(
-            "\"FOO\"", new ValueMetaString("BAR"), "", false, "", false));
+    assertEquals(modColStmtExpected, nativeMeta.getModifyColumnStatement("\"FOO\"", new ValueMetaString("BAR"), "", false, "", false));
 
     modColStmtExpected =
         "ALTER TABLE FOO ADD ( A12345678901234567890123456789_KTL VARCHAR2(2000) ) ;"
@@ -359,112 +314,45 @@ public class OracleDatabaseMetaTest {
             + lineSep
             + "ALTER TABLE FOO DROP ( A12345678901234567890123456789_KTL ) "
             + lineSep;
-    assertEquals(
-        modColStmtExpected,
-        nativeMeta.getModifyColumnStatement(
-            "FOO",
-            new ValueMetaString("A1234567890123456789012345678901234567890"),
-            "",
-            false,
-            "",
-            false));
+    assertEquals(modColStmtExpected, nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("A1234567890123456789012345678901234567890"), "", false, "", false));
 
-    String expectedProcSql =
-        "SELECT DISTINCT DECODE(package_name, NULL, '', package_name||'.') || object_name "
-            + "FROM user_arguments "
-            + "ORDER BY 1";
+    String expectedProcSql = "SELECT DISTINCT DECODE(package_name, NULL, '', package_name||'.') || object_name " + "FROM user_arguments " + "ORDER BY 1";
 
     assertEquals(expectedProcSql, nativeMeta.getSqlListOfProcedures());
 
     String expectedLockOneItem = "LOCK TABLE FOO IN EXCLUSIVE MODE;" + lineSep;
     assertEquals(expectedLockOneItem, nativeMeta.getSqlLockTables(new String[] {"FOO"}));
-    String expectedLockMultiItem =
-        "LOCK TABLE FOO IN EXCLUSIVE MODE;"
-            + lineSep
-            + "LOCK TABLE BAR IN EXCLUSIVE MODE;"
-            + lineSep;
+    String expectedLockMultiItem = "LOCK TABLE FOO IN EXCLUSIVE MODE;" + lineSep + "LOCK TABLE BAR IN EXCLUSIVE MODE;" + lineSep;
     assertEquals(expectedLockMultiItem, nativeMeta.getSqlLockTables(new String[] {"FOO", "BAR"}));
     assertNull(nativeMeta.getSqlUnlockTables(null)); // Commit unlocks tables
     assertEquals("SELECT SEQUENCE_NAME FROM all_sequences", nativeMeta.getSqlListOfSequences());
     assertEquals(
-        "BEGIN EXECUTE IMMEDIATE 'DROP TABLE FOO'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; END;",
-        nativeMeta.getDropTableIfExistsStatement("FOO"));
+        "BEGIN EXECUTE IMMEDIATE 'DROP TABLE FOO'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -942 THEN RAISE; END IF; END;", nativeMeta.getDropTableIfExistsStatement("FOO"));
   }
 
   @Test
   public void testGetFieldDefinition() throws Exception {
-    assertEquals(
-        "FOO DATE",
-        nativeMeta.getFieldDefinition(new ValueMetaDate("FOO"), "", "", false, true, false));
-    assertEquals(
-        "DATE",
-        nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
+    assertEquals("FOO DATE", nativeMeta.getFieldDefinition(new ValueMetaDate("FOO"), "", "", false, true, false));
+    assertEquals("DATE", nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
 
-    assertEquals(
-        "CHAR(1)",
-        nativeMeta.getFieldDefinition(new ValueMetaBoolean("FOO"), "", "", false, false, false));
+    assertEquals("CHAR(1)", nativeMeta.getFieldDefinition(new ValueMetaBoolean("FOO"), "", "", false, false, false));
 
-    assertEquals(
-        "NUMBER(5, 3)",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaNumber("FOO", 5, 3), "", "", false, false, false));
-    assertEquals(
-        "NUMBER(5)",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaBigNumber("FOO", 5, 0), "", "", false, false, false));
-    assertEquals(
-        "INTEGER",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInteger("FOO", 17, 0), "", "", false, false, false));
+    assertEquals("NUMBER(5, 3)", nativeMeta.getFieldDefinition(new ValueMetaNumber("FOO", 5, 3), "", "", false, false, false));
+    assertEquals("NUMBER(5)", nativeMeta.getFieldDefinition(new ValueMetaBigNumber("FOO", 5, 0), "", "", false, false, false));
+    assertEquals("INTEGER", nativeMeta.getFieldDefinition(new ValueMetaInteger("FOO", 17, 0), "", "", false, false, false));
 
-    assertEquals(
-        "CLOB",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH, 0), "", "", false, false, false));
-    assertEquals(
-        "CHAR(1)",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", 1, 0), "", "", false, false, false));
-    assertEquals(
-        "VARCHAR2(15)",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", 15, 0), "", "", false, false, false));
-    assertEquals(
-        "VARCHAR2(2000)",
-        nativeMeta.getFieldDefinition(new ValueMetaString("FOO"), "", "", false, false, false));
-    assertEquals(
-        "VARCHAR2(2000)",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength(), 0),
-            "",
-            "",
-            false,
-            false,
-            false));
-    assertEquals(
-        "CLOB",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0),
-            "",
-            "",
-            false,
-            false,
-            false));
+    assertEquals("CLOB", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", DatabaseMeta.CLOB_LENGTH, 0), "", "", false, false, false));
+    assertEquals("CHAR(1)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", 1, 0), "", "", false, false, false));
+    assertEquals("VARCHAR2(15)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", 15, 0), "", "", false, false, false));
+    assertEquals("VARCHAR2(2000)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO"), "", "", false, false, false));
+    assertEquals("VARCHAR2(2000)", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength(), 0), "", "", false, false, false));
+    assertEquals("CLOB", nativeMeta.getFieldDefinition(new ValueMetaString("FOO", nativeMeta.getMaxVARCHARLength() + 1, 0), "", "", false, false, false));
 
-    assertEquals(
-        "BLOB",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaBinary("FOO", 45, 0), "", "", false, false, false));
+    assertEquals("BLOB", nativeMeta.getFieldDefinition(new ValueMetaBinary("FOO", 45, 0), "", "", false, false, false));
 
-    assertEquals(
-        " UNKNOWN",
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
+    assertEquals(" UNKNOWN", nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, false));
 
-    assertEquals(
-        " UNKNOWN" + System.getProperty("line.separator"),
-        nativeMeta.getFieldDefinition(
-            new ValueMetaInternetAddress("FOO"), "", "", false, false, true));
+    assertEquals(" UNKNOWN" + System.getProperty("line.separator"), nativeMeta.getFieldDefinition(new ValueMetaInternetAddress("FOO"), "", "", false, false, true));
   }
 
   private int rowCnt = 0;
@@ -478,26 +366,22 @@ public class OracleDatabaseMetaTest {
     IRowMeta rm = Mockito.mock(IRowMeta.class);
     ResultSet rs = Mockito.mock(ResultSet.class);
     DatabaseMeta dm = Mockito.mock(DatabaseMeta.class);
-    Mockito.when(dm.getQuotedSchemaTableCombination(any(IVariables.class), eq(""), eq("FOO")))
-        .thenReturn("FOO");
+    Mockito.when(dm.getQuotedSchemaTableCombination(any(IVariables.class), eq(""), eq("FOO"))).thenReturn("FOO");
     Mockito.when(rs.next()).thenReturn(rowCnt < 2);
     Mockito.when(db.openQuery(expectedSql)).thenReturn(rs);
     Mockito.when(db.getReturnRowMeta()).thenReturn(rm);
     Mockito.when(rm.getString(row1, "COLUMN_NAME", "")).thenReturn("ROW1COL2");
     Mockito.when(rm.getString(row2, "COLUMN_NAME", "")).thenReturn("ROW2COL2");
-    Mockito.when(db.getRow(rs))
-        .thenAnswer(
-            (Answer<Object[]>)
-                invocation -> {
-                  rowCnt++;
-                  if (rowCnt == 1) {
-                    return row1;
-                  } else if (rowCnt == 2) {
-                    return row2;
-                  } else {
-                    return null;
-                  }
-                });
+    Mockito.when(db.getRow(rs)).thenAnswer((Answer<Object[]>) invocation -> {
+      rowCnt++;
+      if (rowCnt == 1) {
+        return row1;
+      } else if (rowCnt == 2) {
+        return row2;
+      } else {
+        return null;
+      }
+    });
     Mockito.when(db.getDatabaseMeta()).thenReturn(dm);
     assertTrue(nativeMeta.hasIndex(db, "", "FOO", new String[] {"ROW1COL2", "ROW2COL2"}));
     assertFalse(nativeMeta.hasIndex(db, "", "FOO", new String[] {"ROW2COL2", "NOTTHERE"}));
@@ -514,30 +398,18 @@ public class OracleDatabaseMetaTest {
     String dbType = nativeMeta.getClass().getSimpleName();
     assertTrue(dbType, nativeMeta.isSupportsSequences());
     assertFalse(dbType + ": List of Sequences", Utils.isEmpty(nativeMeta.getSqlListOfSequences()));
-    assertFalse(
-        dbType + ": Sequence Exists", Utils.isEmpty(nativeMeta.getSqlSequenceExists("testSeq")));
-    assertFalse(
-        dbType + ": Current Value",
-        Utils.isEmpty(nativeMeta.getSqlCurrentSequenceValue("testSeq")));
-    assertFalse(
-        dbType + ": Next Value", Utils.isEmpty(nativeMeta.getSqlNextSequenceValue("testSeq")));
+    assertFalse(dbType + ": Sequence Exists", Utils.isEmpty(nativeMeta.getSqlSequenceExists("testSeq")));
+    assertFalse(dbType + ": Current Value", Utils.isEmpty(nativeMeta.getSqlCurrentSequenceValue("testSeq")));
+    assertFalse(dbType + ": Next Value", Utils.isEmpty(nativeMeta.getSqlNextSequenceValue("testSeq")));
 
-    assertEquals(
-        "SELECT sequence_name.nextval FROM DUAL", nativeMeta.getSqlNextSequenceValue(sequenceName));
-    assertEquals(
-        "SELECT sequence_name.currval FROM DUAL",
-        nativeMeta.getSqlCurrentSequenceValue(sequenceName));
+    assertEquals("SELECT sequence_name.nextval FROM DUAL", nativeMeta.getSqlNextSequenceValue(sequenceName));
+    assertEquals("SELECT sequence_name.currval FROM DUAL", nativeMeta.getSqlCurrentSequenceValue(sequenceName));
   }
 
   @Test
   public void testSupportsTimestampDataTypeIsTrue() throws Exception {
     nativeMeta.setSupportsTimestampDataType(true);
-    assertEquals(
-        "TIMESTAMP",
-        nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
-    assertEquals(
-        "ALTER TABLE FOO ADD ( FOO TIMESTAMP ) ",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaTimestamp("FOO"), "", false, "", false));
+    assertEquals("TIMESTAMP", nativeMeta.getFieldDefinition(new ValueMetaTimestamp("FOO"), "", "", false, false, false));
+    assertEquals("ALTER TABLE FOO ADD ( FOO TIMESTAMP ) ", nativeMeta.getAddColumnStatement("FOO", new ValueMetaTimestamp("FOO"), "", false, "", false));
   }
 }

@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 public class TextFileInputData extends BaseTransformData implements ITransformData {
 
   public List<TextFileLine> lineBuffer;

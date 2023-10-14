@@ -60,13 +60,7 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
 
   private static final Class<?> PKG = HttpMeta.class; // For Translator
 
-  public Http(
-      TransformMeta transformMeta,
-      HttpMeta meta,
-      HttpData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Http(TransformMeta transformMeta, HttpMeta meta, HttpData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -78,13 +72,8 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
       for (int i = 0; i < meta.getArgumentField().length; i++) {
         data.argnrs[i] = rowMeta.indexOfValue(meta.getArgumentField()[i]);
         if (data.argnrs[i] < 0) {
-          logError(
-              BaseMessages.getString(PKG, "HTTP.Log.ErrorFindingField")
-                  + meta.getArgumentField()[i]
-                  + "]");
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "HTTP.Exception.CouldnotFindField", meta.getArgumentField()[i]));
+          logError(BaseMessages.getString(PKG, "HTTP.Log.ErrorFindingField") + meta.getArgumentField()[i] + "]");
+          throw new HopTransformException(BaseMessages.getString(PKG, "HTTP.Exception.CouldnotFindField", meta.getArgumentField()[i]));
         }
       }
     }
@@ -94,8 +83,7 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
 
   @VisibleForTesting
   Object[] callHttpService(IRowMeta rowMeta, Object[] rowData) throws HopException {
-    HttpClientManager.HttpClientBuilderFacade clientBuilder =
-        HttpClientManager.getInstance().createBuilder();
+    HttpClientManager.HttpClientBuilderFacade clientBuilder = HttpClientManager.getInstance().createBuilder();
 
     if (data.realConnectionTimeout > -1) {
       clientBuilder.setConnectionTimeout(data.realConnectionTimeout);
@@ -126,16 +114,10 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
       // Add Custom Http headers
       if (data.useHeaderParameters) {
         for (int i = 0; i < data.header_parameters_nrs.length; i++) {
-          method.addHeader(
-              data.headerParameters[i].getName(),
-              data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i]));
+          method.addHeader(data.headerParameters[i].getName(), data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i]));
           if (isDebug()) {
             log.logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    "HTTPDialog.Log.HeaderValue",
-                    data.headerParameters[i].getName(),
-                    data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i])));
+                BaseMessages.getString(PKG, "HTTPDialog.Log.HeaderValue", data.headerParameters[i].getName(), data.inputRowMeta.getString(rowData, data.header_parameters_nrs[i])));
           }
         }
       }
@@ -180,21 +162,16 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
         String body;
         switch (statusCode) {
           case HttpURLConnection.HTTP_UNAUTHORIZED:
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "HTTP.Exception.Authentication", data.realUrl));
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTP.Exception.Authentication", data.realUrl));
           case -1:
-            throw new HopTransformException(
-                BaseMessages.getString(PKG, "HTTP.Exception.IllegalStatusCode", data.realUrl));
+            throw new HopTransformException(BaseMessages.getString(PKG, "HTTP.Exception.IllegalStatusCode", data.realUrl));
           case HttpURLConnection.HTTP_NO_CONTENT:
             body = "";
             break;
           default:
             HttpEntity entity = httpResponse.getEntity();
             if (entity != null) {
-              body =
-                  StringUtils.isEmpty(meta.getEncoding())
-                      ? EntityUtils.toString(entity)
-                      : EntityUtils.toString(entity, meta.getEncoding());
+              body = StringUtils.isEmpty(meta.getEncoding()) ? EntityUtils.toString(entity) : EntityUtils.toString(entity, meta.getEncoding());
             } else {
               body = "";
             }
@@ -247,15 +224,13 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
       }
       return newRow;
     } catch (UnknownHostException uhe) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "HTTP.Error.UnknownHostException", uhe.getMessage()));
+      throw new HopException(BaseMessages.getString(PKG, "HTTP.Error.UnknownHostException", uhe.getMessage()));
     } catch (Exception e) {
       throw new HopException(BaseMessages.getString(PKG, "HTTP.Log.UnableGetResult", uri), e);
     }
   }
 
-  private URIBuilder constructUrlBuilder(IRowMeta outputRowMeta, Object[] row)
-      throws HopValueException, HopException {
+  private URIBuilder constructUrlBuilder(IRowMeta outputRowMeta, Object[] row) throws HopValueException, HopException {
     URIBuilder uriBuilder;
     try {
       String baseUrl = data.realUrl;
@@ -320,8 +295,7 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
           if (data.indexOfUrlField < 0) {
             // The field is unreachable !
             logError(BaseMessages.getString(PKG, "HTTP.Log.ErrorFindingField", realUrlFieldName));
-            throw new HopException(
-                BaseMessages.getString(PKG, "HTTP.Exception.ErrorFindingField", realUrlFieldName));
+            throw new HopException(BaseMessages.getString(PKG, "HTTP.Exception.ErrorFindingField", realUrlFieldName));
           }
         }
       } else {
@@ -341,20 +315,12 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
       for (int i = 0; i < nrHeaders; i++) {
         int fieldIndex = data.inputRowMeta.indexOfValue(meta.getHeaderField()[i]);
         if (fieldIndex < 0) {
-          logError(
-              BaseMessages.getString(PKG, "HTTP.Exception.ErrorFindingField")
-                  + meta.getHeaderField()[i]
-                  + "]");
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "HTTP.Exception.ErrorFindingField", meta.getHeaderField()[i]));
+          logError(BaseMessages.getString(PKG, "HTTP.Exception.ErrorFindingField") + meta.getHeaderField()[i] + "]");
+          throw new HopTransformException(BaseMessages.getString(PKG, "HTTP.Exception.ErrorFindingField", meta.getHeaderField()[i]));
         }
 
         data.header_parameters_nrs[i] = fieldIndex;
-        data.headerParameters[i] =
-            new BasicNameValuePair(
-                resolve(meta.getHeaderParameter()[i]),
-                data.outputRowMeta.getString(r, data.header_parameters_nrs[i]));
+        data.headerParameters[i] = new BasicNameValuePair(resolve(meta.getHeaderParameter()[i]), data.outputRowMeta.getString(r, data.header_parameters_nrs[i]));
       }
     } // end if first
 
@@ -403,8 +369,7 @@ public class Http extends BaseTransform<HttpMeta, HttpData> {
       data.realSocketTimeout = Const.toInt(resolve(meta.getSocketTimeout()), -1);
       data.realConnectionTimeout = Const.toInt(resolve(meta.getSocketTimeout()), -1);
 
-      data.withoutPreviousTransforms =
-          getPipelineMeta().getPrevTransforms(getTransformMeta()).length == 0;
+      data.withoutPreviousTransforms = getPipelineMeta().getPrevTransforms(getTransformMeta()).length == 0;
 
       return true;
     }

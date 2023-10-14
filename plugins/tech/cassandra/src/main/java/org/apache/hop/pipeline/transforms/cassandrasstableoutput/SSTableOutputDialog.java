@@ -66,8 +66,7 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
 
   private Button wbGetFields;
 
-  public SSTableOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
+  public SSTableOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
 
     super(parent, variables, (BaseTransformMeta) in, tr, name);
 
@@ -134,16 +133,11 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
     fd.top = new FormAttachment(wTransformName, margin);
     wbYaml.setLayoutData(fd);
 
-    wbYaml.addListener(
-        SWT.Selection,
-        e -> {
-          String[] extensions = {"*.yaml", "*"};
-          String[] filterNames = {
-            BaseMessages.getString(PKG, "SSTableOutputDialog.FileType.YAML"),
-            BaseMessages.getString(PKG, "System.FileType.AllFiles")
-          };
-          BaseDialog.presentFileDialog(shell, wYaml, variables, extensions, filterNames, true);
-        });
+    wbYaml.addListener(SWT.Selection, e -> {
+      String[] extensions = {"*.yaml", "*"};
+      String[] filterNames = {BaseMessages.getString(PKG, "SSTableOutputDialog.FileType.YAML"), BaseMessages.getString(PKG, "System.FileType.AllFiles")};
+      BaseDialog.presentFileDialog(shell, wYaml, variables, extensions, filterNames, true);
+    });
 
     wYaml = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wYaml);
@@ -171,13 +165,11 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(wYaml, margin);
     wbDirectory.setLayoutData(fd);
-    wbDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wDirectory, variables));
+    wbDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wDirectory, variables));
 
     wDirectory = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wDirectory);
-    wDirectory.addModifyListener(
-        e -> wDirectory.setToolTipText(variables.resolve(wDirectory.getText())));
+    wDirectory.addModifyListener(e -> wDirectory.setToolTipText(variables.resolve(wDirectory.getText())));
     fd = new FormData();
     fd.right = new FormAttachment(wbDirectory, 0);
     fd.top = new FormAttachment(wYaml, margin);
@@ -196,8 +188,7 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
 
     wKeyspace = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wKeyspace);
-    wKeyspace.addModifyListener(
-        e -> wKeyspace.setToolTipText(variables.resolve(wKeyspace.getText())));
+    wKeyspace.addModifyListener(e -> wKeyspace.setToolTipText(variables.resolve(wKeyspace.getText())));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(wDirectory, margin);
@@ -242,17 +233,15 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
     fd.top = new FormAttachment(wTable, 0);
     wbGetFields.setLayoutData(fd);
 
-    wbGetFields.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            showEnterSelectionDialog();
-          }
-        });
+    wbGetFields.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        showEnterSelectionDialog();
+      }
+    });
 
     wKeyField = new CCombo(shell, SWT.BORDER);
-    wKeyField.addModifyListener(
-        e -> wKeyField.setToolTipText(variables.resolve(wKeyField.getText())));
+    wKeyField.addModifyListener(e -> wKeyField.setToolTipText(variables.resolve(wKeyField.getText())));
     fd = new FormData();
     fd.right = new FormAttachment(wbGetFields, -margin);
     fd.top = new FormAttachment(wTable, margin);
@@ -271,8 +260,7 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
 
     wBufferSize = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wBufferSize);
-    wBufferSize.addModifyListener(
-        e -> wBufferSize.setToolTipText(variables.resolve(wBufferSize.getText())));
+    wBufferSize.addModifyListener(e -> wBufferSize.setToolTipText(variables.resolve(wBufferSize.getText())));
     fd = new FormData();
     fd.right = new FormAttachment(100, 0);
     fd.top = new FormAttachment(wKeyField, margin);
@@ -306,9 +294,7 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
 
         if (row.size() == 0) {
           BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields.Title"),
-              BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields"),
+              shell, BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields.Title"), BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields"),
               SWT.ICON_ERROR | SWT.OK);
 
           return;
@@ -392,9 +378,7 @@ public class SSTableOutputDialog extends BaseTransformDialog implements ITransfo
 
         if (row.size() == 0) {
           BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields.Title"),
-              BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields"),
+              shell, BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields.Title"), BaseMessages.getString(PKG, "SSTableOutputData.Message.NoIncomingFields"),
               SWT.ICON_ERROR | SWT.OK);
 
           return;

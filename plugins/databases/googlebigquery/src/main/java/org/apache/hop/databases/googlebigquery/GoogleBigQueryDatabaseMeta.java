@@ -44,13 +44,7 @@ public class GoogleBigQueryDatabaseMeta extends BaseDatabaseMeta implements IDat
 
   @Override
   public String getURL(String hostname, String port, String databaseName) {
-    return "jdbc:bigquery://"
-        + hostname
-        + ":"
-        + (StringUtil.isEmpty(port) ? "443" : port)
-        + ";"
-        + (StringUtil.isEmpty(databaseName) ? "" : "ProjectId=" + databaseName)
-        + ";";
+    return "jdbc:bigquery://" + hostname + ":" + (StringUtil.isEmpty(port) ? "443" : port) + ";" + (StringUtil.isEmpty(databaseName) ? "" : "ProjectId=" + databaseName) + ";";
   }
 
   @Override
@@ -59,8 +53,7 @@ public class GoogleBigQueryDatabaseMeta extends BaseDatabaseMeta implements IDat
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String retval = "";
 
     String fieldname = v.getName();
@@ -118,16 +111,14 @@ public class GoogleBigQueryDatabaseMeta extends BaseDatabaseMeta implements IDat
   }
 
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     // BigQuery does not support DDL through JDBC.
     // https://cloud.google.com/bigquery/partners/simba-drivers/#do_the_drivers_provide_the_ability_to_manage_tables_create_table
     return null;
   }
 
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
     // BigQuery does not support DDL through JDBC.
     // https://cloud.google.com/bigquery/partners/simba-drivers/#do_the_drivers_provide_the_ability_to_manage_tables_create_table
     return null;
@@ -220,102 +211,101 @@ public class GoogleBigQueryDatabaseMeta extends BaseDatabaseMeta implements IDat
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ALL",
-      "AND",
-      "ANY",
-      "ARRAY",
-      "AS",
-      "ASC",
-      "ASSERT_ROWS_MODIFIED",
-      "AT",
-      "BETWEEN",
-      "COLLATE",
-      "CONTAINS",
-      "CREATE",
-      "CROSS",
-      "CUBE",
-      "CURRENT",
-      "DEFAULT",
-      "DEFINE",
-      "DESC",
-      "DISTINCT",
-      "ELSE",
-      "END",
-      "ENUM",
-      "ESCAPE",
-      "EXCEPT",
-      "EXCLUDE",
-      "EXISTS",
-      "EXTRACT",
-      "FALSE",
-      "FETCH",
-      "FOLLOWING",
-      "FOR",
-      "FROM",
-      "FULL",
-      "GROUP",
-      "GROUPING",
-      "GROUPS",
-      "HASH",
-      "HAVING",
-      "IF",
-      "IGNORE",
-      "IN",
-      "INNER",
-      "INTERSECT",
-      "INTERVAL",
-      "INTO",
-      "IS",
-      "JOIN",
-      "LATERAL",
-      "LEFT",
-      "LIKE",
-      "LIMIT",
-      "LOOKUP",
-      "MERGE",
-      "NATURAL",
-      "NEW",
-      "NO",
-      "NOT",
-      "NULL",
-      "NULLS",
-      "OF",
-      "ON",
-      "OR",
-      "ORDER",
-      "OUTER",
-      "OVER",
-      "PARTITION",
-      "PRECEDING",
-      "PROTO",
-      "RANGE",
-      "RECURSIVE",
-      "RESPECT",
-      "RIGHT",
-      "ROLLUP",
-      "ROWS",
-      "SELECT",
-      "SET",
-      "SOME",
-      "STRUCT",
-      "TABLESAMPLE",
-      "THEN",
-      "TO",
-      "TREAT",
-      "TRUE",
-      "UNBOUNDED",
-      "UNION",
-      "UNNEST",
-      "USING",
-      "WHEN",
-      "WHERE",
-      "WINDOW",
-      "WITH",
-      "WITHIN",
-      "BY",
-      "CASE",
-      "CAST"
-    };
+        "ALL",
+        "AND",
+        "ANY",
+        "ARRAY",
+        "AS",
+        "ASC",
+        "ASSERT_ROWS_MODIFIED",
+        "AT",
+        "BETWEEN",
+        "COLLATE",
+        "CONTAINS",
+        "CREATE",
+        "CROSS",
+        "CUBE",
+        "CURRENT",
+        "DEFAULT",
+        "DEFINE",
+        "DESC",
+        "DISTINCT",
+        "ELSE",
+        "END",
+        "ENUM",
+        "ESCAPE",
+        "EXCEPT",
+        "EXCLUDE",
+        "EXISTS",
+        "EXTRACT",
+        "FALSE",
+        "FETCH",
+        "FOLLOWING",
+        "FOR",
+        "FROM",
+        "FULL",
+        "GROUP",
+        "GROUPING",
+        "GROUPS",
+        "HASH",
+        "HAVING",
+        "IF",
+        "IGNORE",
+        "IN",
+        "INNER",
+        "INTERSECT",
+        "INTERVAL",
+        "INTO",
+        "IS",
+        "JOIN",
+        "LATERAL",
+        "LEFT",
+        "LIKE",
+        "LIMIT",
+        "LOOKUP",
+        "MERGE",
+        "NATURAL",
+        "NEW",
+        "NO",
+        "NOT",
+        "NULL",
+        "NULLS",
+        "OF",
+        "ON",
+        "OR",
+        "ORDER",
+        "OUTER",
+        "OVER",
+        "PARTITION",
+        "PRECEDING",
+        "PROTO",
+        "RANGE",
+        "RECURSIVE",
+        "RESPECT",
+        "RIGHT",
+        "ROLLUP",
+        "ROWS",
+        "SELECT",
+        "SET",
+        "SOME",
+        "STRUCT",
+        "TABLESAMPLE",
+        "THEN",
+        "TO",
+        "TREAT",
+        "TRUE",
+        "UNBOUNDED",
+        "UNION",
+        "UNNEST",
+        "USING",
+        "WHEN",
+        "WHERE",
+        "WINDOW",
+        "WITH",
+        "WITHIN",
+        "BY",
+        "CASE",
+        "CAST"};
   }
 
   @Override

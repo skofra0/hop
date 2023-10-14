@@ -21,31 +21,19 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 public class InsertUpdateKeyField {
 
   /** which field in input stream to compare with? */
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_STREAM",
-      injectionKey = "KEY_STREAM")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_STREAM", injectionKey = "KEY_STREAM")
   private String keyStream;
 
   /** field in table */
-  @HopMetadataProperty(
-      key = "field",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_LOOKUP",
-      injectionKey = "KEY_LOOKUP")
+  @HopMetadataProperty(key = "field", injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_LOOKUP", injectionKey = "KEY_LOOKUP")
   private String keyLookup;
 
   /** Comparator: =, <>, BETWEEN, ... */
-  @HopMetadataProperty(
-      key = "condition",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_CONDITION",
-      injectionKey = "KEY_CONDITION")
+  @HopMetadataProperty(key = "condition", injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_CONDITION", injectionKey = "KEY_CONDITION")
   private String keyCondition;
 
   /** Extra field for between... */
-  @HopMetadataProperty(
-      key = "name2",
-      injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_STREAM2",
-      injectionKey = "KEY_STREAM2")
+  @HopMetadataProperty(key = "name2", injectionKeyDescription = "InsertUpdateMeta.Injection.KEY_STREAM2", injectionKey = "KEY_STREAM2")
   private String keyStream2;
 
   public InsertUpdateKeyField() {}
@@ -56,8 +44,7 @@ public class InsertUpdateKeyField {
     this.keyCondition = keyCondition;
   }
 
-  public InsertUpdateKeyField(
-      String keyStream, String keyLookup, String keyCondition, String keyStream2) {
+  public InsertUpdateKeyField(String keyStream, String keyLookup, String keyCondition, String keyStream2) {
     this.keyStream = keyStream;
     this.keyLookup = keyLookup;
     this.keyCondition = keyCondition;

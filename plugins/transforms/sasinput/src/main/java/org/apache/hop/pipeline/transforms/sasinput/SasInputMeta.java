@@ -65,8 +65,7 @@ public class SasInputMeta extends BaseTransformMeta<SasInput, SasInputData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       acceptingField = XmlHandler.getTagValue(transformNode, "accept_field");
       int nrFields = XmlHandler.countNodes(transformNode, Xml_TAG_FIELD);
@@ -76,10 +75,7 @@ public class SasInputMeta extends BaseTransformMeta<SasInput, SasInputData> {
         outputFields.add(new SasInputField(fieldNode));
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "SASInputMeta.Exception.UnableToReadTransformInformationFromXml"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "SASInputMeta.Exception.UnableToReadTransformInformationFromXml"), e);
     }
   }
 
@@ -94,13 +90,7 @@ public class SasInputMeta extends BaseTransformMeta<SasInput, SasInputData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     for (SasInputField field : outputFields) {
@@ -149,11 +139,7 @@ public class SasInputMeta extends BaseTransformMeta<SasInput, SasInputData> {
     CheckResult cr;
 
     if (Utils.isEmpty(getAcceptingField())) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SASInput.Log.Error.InvalidAcceptingFieldName"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SASInput.Log.Error.InvalidAcceptingFieldName"), transformMeta);
       remarks.add(cr);
     }
   }

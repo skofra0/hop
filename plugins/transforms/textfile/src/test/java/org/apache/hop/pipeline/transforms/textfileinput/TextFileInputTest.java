@@ -57,15 +57,15 @@ import static org.junit.Assert.assertEquals;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
 public class TextFileInputTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {
     HopEnvironment.init();
   }
 
-  private static InputStreamReader getInputStreamReader(String data)
-      throws UnsupportedEncodingException {
+  private static InputStreamReader getInputStreamReader(String data) throws UnsupportedEncodingException {
     return new InputStreamReader(new ByteArrayInputStream(data.getBytes(("UTF-8"))));
   }
 
@@ -73,12 +73,7 @@ public class TextFileInputTest {
   public void testGetLineDOS() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\r\ndata1\tdata2\tdata3\r\n";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileInputMeta.FILE_FORMAT_DOS,
-            new StringBuilder(1000));
+    String output = TextFileInput.getLine(null, getInputStreamReader(input), TextFileInputMeta.FILE_FORMAT_DOS, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -86,12 +81,7 @@ public class TextFileInputTest {
   public void testGetLineUnix() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\ndata1\tdata2\tdata3\n";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileInputMeta.FILE_FORMAT_UNIX,
-            new StringBuilder(1000));
+    String output = TextFileInput.getLine(null, getInputStreamReader(input), TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -99,12 +89,7 @@ public class TextFileInputTest {
   public void testGetLineOSX() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\rdata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileInputMeta.FILE_FORMAT_UNIX,
-            new StringBuilder(1000));
+    String output = TextFileInput.getLine(null, getInputStreamReader(input), TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -112,12 +97,7 @@ public class TextFileInputTest {
   public void testGetLineMixed() throws HopFileException, UnsupportedEncodingException {
     String input = "col1\tcol2\tcol3\r\ndata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
-    String output =
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(input),
-            TextFileInputMeta.FILE_FORMAT_MIXED,
-            new StringBuilder(1000));
+    String output = TextFileInput.getLine(null, getInputStreamReader(input), TextFileInputMeta.FILE_FORMAT_MIXED, new StringBuilder(1000));
     assertEquals(expected, output);
   }
 
@@ -128,40 +108,14 @@ public class TextFileInputTest {
     String inputOSX = "col1\tcol2\tcol3\rdata1\tdata2\tdata3\r";
     String expected = "col1\tcol2\tcol3";
 
-    assertEquals(
-        expected,
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(inputDOS),
-            TextFileInputMeta.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
-    assertEquals(
-        expected,
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(inputUnix),
-            TextFileInputMeta.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
-    assertEquals(
-        expected,
-        TextFileInput.getLine(
-            null,
-            getInputStreamReader(inputOSX),
-            TextFileInputMeta.FILE_FORMAT_UNIX,
-            new StringBuilder(1000)));
+    assertEquals(expected, TextFileInput.getLine(null, getInputStreamReader(inputDOS), TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000)));
+    assertEquals(expected, TextFileInput.getLine(null, getInputStreamReader(inputUnix), TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000)));
+    assertEquals(expected, TextFileInput.getLine(null, getInputStreamReader(inputOSX), TextFileInputMeta.FILE_FORMAT_UNIX, new StringBuilder(1000)));
   }
 
   @Test
   public void readWrappedInputWithoutHeaders() throws Exception {
-    final String content =
-        new StringBuilder()
-            .append("r1c1")
-            .append('\n')
-            .append(";r1c2\n")
-            .append("r2c1")
-            .append('\n')
-            .append(";r2c2")
-            .toString();
+    final String content = new StringBuilder().append("r1c1").append('\n').append(";r1c2\n").append("r2c1").append('\n').append(";r2c2").toString();
     final String virtualFile = createVirtualFile("pdi-2607.txt", content);
 
     TextFileInputMeta meta = new TextFileInputMeta();
@@ -189,14 +143,7 @@ public class TextFileInputTest {
     data.filterProcessor = new TextFileFilterProcessor(new TextFileFilter[0]);
     data.filePlayList = new FilePlayListAll();
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
     List<Object[]> output = PipelineTestingUtil.execute(input, 2, false);
     PipelineTestingUtil.assertResult(new Object[] {"r1c1", "r1c2"}, output.get(0));
     PipelineTestingUtil.assertResult(new Object[] {"r2c1", "r2c2"}, output.get(1));
@@ -234,14 +181,7 @@ public class TextFileInputTest {
     data.filterProcessor = new TextFileFilterProcessor(new TextFileFilter[0]);
     data.filePlayList = new FilePlayListAll();
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
     List<Object[]> output = PipelineTestingUtil.execute(input, 2, false);
     PipelineTestingUtil.assertResult(new Object[] {"1", "1", "1"}, output.get(0));
     PipelineTestingUtil.assertResult(new Object[] {"2", "1", "2"}, output.get(1));
@@ -278,14 +218,7 @@ public class TextFileInputTest {
     data.filterProcessor = new TextFileFilterProcessor(new TextFileFilter[0]);
     data.filePlayList = new FilePlayListAll();
 
-    TextFileInput input =
-        TransformMockUtil.getTransform(
-            TextFileInput.class,
-            meta,
-            data,
-            TextFileInputMeta.class,
-            TextFileInputData.class,
-            "test");
+    TextFileInput input = TransformMockUtil.getTransform(TextFileInput.class, meta, data, TextFileInputMeta.class, TextFileInputData.class, "test");
     List<Object[]> output = PipelineTestingUtil.execute(input, 1, false);
     PipelineTestingUtil.assertResult(new Object[] {"1", "DEFAULT"}, output.get(0));
 
@@ -329,9 +262,7 @@ public class TextFileInputTest {
     TextFileLine textFileLine = Mockito.mock(TextFileLine.class);
     textFileLine.line = "testData1;testData2;testData3";
     IInputFileMeta info = Mockito.mock(IInputFileMeta.class);
-    TextFileInputField[] textFileInputFields = {
-      new TextFileInputField(), new TextFileInputField(), new TextFileInputField()
-    };
+    TextFileInputField[] textFileInputFields = {new TextFileInputField(), new TextFileInputField(), new TextFileInputField()};
     Mockito.doReturn(textFileInputFields).when(info).getInputFields();
     Mockito.doReturn("CSV").when(info).getFileType();
     Mockito.doReturn("/").when(info).getEscapeCharacter();
@@ -342,46 +273,13 @@ public class TextFileInputTest {
     Mockito.doReturn(15).when(outputRowMeta).size();
 
     IValueMeta valueMetaWithError = Mockito.mock(IValueMeta.class);
-    Mockito.doThrow(new HopValueException("Error converting"))
-        .when(valueMetaWithError)
-        .convertDataFromString(
-            Mockito.anyString(),
-            Mockito.any(IValueMeta.class),
-            Mockito.anyString(),
-            Mockito.anyString(),
-            Mockito.anyInt());
+    Mockito.doThrow(new HopValueException("Error converting")).when(valueMetaWithError)
+        .convertDataFromString(Mockito.anyString(), Mockito.any(IValueMeta.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     Mockito.doReturn(valueMetaWithError).when(outputRowMeta).getValueMeta(Mockito.anyInt());
 
     // it should run without NPE
     TextFileInput.convertLineToRow(
-        log,
-        textFileLine,
-        info,
-        new Object[3],
-        1,
-        outputRowMeta,
-        Mockito.mock(IRowMeta.class),
-        null,
-        1L,
-        ";",
-        null,
-        "/",
-        Mockito.mock(IFileErrorHandler.class),
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        null,
-        null,
-        false,
-        new Date(),
-        null,
-        null,
-        null,
-        1L);
+        log, textFileLine, info, new Object[3], 1, outputRowMeta, Mockito.mock(IRowMeta.class), null, 1L, ";", null, "/", Mockito.mock(IFileErrorHandler.class), false, false,
+        false, false, false, false, false, false, null, null, false, new Date(), null, null, null, 1L);
   }
 }

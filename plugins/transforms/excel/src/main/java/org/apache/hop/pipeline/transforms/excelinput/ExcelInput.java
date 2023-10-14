@@ -54,13 +54,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
 
   private static final Class<?> PKG = ExcelInputMeta.class; // For Translator
 
-  public ExcelInput(
-      TransformMeta transformMeta,
-      ExcelInputMeta meta,
-      ExcelInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ExcelInput(TransformMeta transformMeta, ExcelInputMeta meta, ExcelInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     setZipBombConfiguration();
   }
@@ -79,9 +73,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     // Set values in the row...
     IKCell cell = null;
 
-    for (int i = startColumn;
-        i < excelInputRow.cells.length && i - startColumn < meta.getFields().size();
-        i++) {
+    for (int i = startColumn; i < excelInputRow.cells.length && i - startColumn < meta.getFields().size(); i++) {
       cell = excelInputRow.cells[i];
 
       int rowColumn = i - startColumn;
@@ -102,13 +94,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           throw ex;
         }
         if (log.isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInput.Log.WarningProcessingExcelFile",
-                  "" + targetMeta,
-                  "" + data.filename,
-                  ex.getMessage()));
+          logBasic(BaseMessages.getString(PKG, "ExcelInput.Log.WarningProcessingExcelFile", "" + targetMeta, "" + data.filename, ex.getMessage()));
         }
 
         if (!errorHandled) {
@@ -161,12 +147,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
             } else {
               if (log.isDetailed()) {
                 KCellType ct = cell.getType();
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG,
-                        "ExcelInput.Log.UnknownType",
-                        ((ct != null) ? ct.toString() : "null"),
-                        cell.getContents()));
+                logDetailed(BaseMessages.getString(PKG, "ExcelInput.Log.UnknownType", ((ct != null) ? ct.toString() : "null"), cell.getContents()));
               }
               row[rowColumn] = null;
             }
@@ -179,9 +160,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
       try {
         // Null stays null folks.
         //
-        if (sourceMeta != null
-            && sourceMeta.getType() != targetMeta.getType()
-            && row[rowColumn] != null) {
+        if (sourceMeta != null && sourceMeta.getType() != targetMeta.getType() && row[rowColumn] != null) {
           IValueMeta sourceMetaCopy = sourceMeta.clone();
           sourceMetaCopy.setConversionMask(field.getFormat());
           sourceMetaCopy.setGroupingSymbol(field.getGroupSymbol());
@@ -189,9 +168,9 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           sourceMetaCopy.setCurrencySymbol(field.getCurrencySymbol());
 
           switch (targetMeta.getType()) {
-              // Use case: we find a numeric value: convert it using the supplied format to the
-              // desired data type...
-              //
+            // Use case: we find a numeric value: convert it using the supplied format to the
+            // desired data type...
+            //
             case IValueMeta.TYPE_NUMBER:
             case IValueMeta.TYPE_INTEGER:
               if (field.getHopType() == IValueMeta.TYPE_DATE) {
@@ -208,8 +187,8 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
                 row[rowColumn] = targetMeta.convertData(sourceMetaCopy, row[rowColumn]);
               }
               break;
-              // Use case: we find a date: convert it using the supplied format to String...
-              //
+            // Use case: we find a date: convert it using the supplied format to String...
+            //
             default:
               row[rowColumn] = targetMeta.convertData(sourceMetaCopy, row[rowColumn]);
           }
@@ -220,13 +199,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           throw ex;
         }
         if (log.isBasic()) {
-          logBasic(
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInput.Log.WarningProcessingExcelFile",
-                  "" + targetMeta,
-                  "" + data.filename,
-                  ex.toString()));
+          logBasic(BaseMessages.getString(PKG, "ExcelInput.Log.WarningProcessingExcelFile", "" + targetMeta, "" + data.filename, ex.toString()));
         }
         if (!errorHandled) {
           // check if we didn't log an error already for this one.
@@ -316,39 +289,20 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     }
     switch (cell.getType()) {
       case BOOLEAN:
-        if (!(v.getType() == IValueMeta.TYPE_STRING
-            || v.getType() == IValueMeta.TYPE_NONE
-            || v.getType() == IValueMeta.TYPE_BOOLEAN)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "ExcelInput.Exception.InvalidTypeBoolean", v.getTypeDesc()));
+        if (!(v.getType() == IValueMeta.TYPE_STRING || v.getType() == IValueMeta.TYPE_NONE || v.getType() == IValueMeta.TYPE_BOOLEAN)) {
+          throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.InvalidTypeBoolean", v.getTypeDesc()));
         }
         break;
 
       case DATE:
-        if (!(v.getType() == IValueMeta.TYPE_STRING
-            || v.getType() == IValueMeta.TYPE_NONE
-            || v.getType() == IValueMeta.TYPE_DATE)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInput.Exception.InvalidTypeDate",
-                  cell.getContents(),
-                  v.getTypeDesc()));
+        if (!(v.getType() == IValueMeta.TYPE_STRING || v.getType() == IValueMeta.TYPE_NONE || v.getType() == IValueMeta.TYPE_DATE)) {
+          throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.InvalidTypeDate", cell.getContents(), v.getTypeDesc()));
         }
         break;
 
       case LABEL:
-        if (v.getType() == IValueMeta.TYPE_BOOLEAN
-            || v.getType() == IValueMeta.TYPE_DATE
-            || v.getType() == IValueMeta.TYPE_INTEGER
-            || v.getType() == IValueMeta.TYPE_NUMBER) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInput.Exception.InvalidTypeLabel",
-                  cell.getContents(),
-                  v.getTypeDesc()));
+        if (v.getType() == IValueMeta.TYPE_BOOLEAN || v.getType() == IValueMeta.TYPE_DATE || v.getType() == IValueMeta.TYPE_INTEGER || v.getType() == IValueMeta.TYPE_NUMBER) {
+          throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.InvalidTypeLabel", cell.getContents(), v.getTypeDesc()));
         }
         break;
 
@@ -357,27 +311,14 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
         break;
 
       case NUMBER:
-        if (!(v.getType() == IValueMeta.TYPE_STRING
-            || v.getType() == IValueMeta.TYPE_NONE
-            || v.getType() == IValueMeta.TYPE_INTEGER
-            || v.getType() == IValueMeta.TYPE_BIGNUMBER
+        if (!(v.getType() == IValueMeta.TYPE_STRING || v.getType() == IValueMeta.TYPE_NONE || v.getType() == IValueMeta.TYPE_INTEGER || v.getType() == IValueMeta.TYPE_BIGNUMBER
             || v.getType() == IValueMeta.TYPE_NUMBER)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG,
-                  "ExcelInput.Exception.InvalidTypeNumber",
-                  cell.getContents(),
-                  v.getTypeDesc()));
+          throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.InvalidTypeNumber", cell.getContents(), v.getTypeDesc()));
         }
         break;
 
       default:
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "ExcelInput.Exception.UnsupportedType",
-                cell.getType().getDescription(),
-                cell.getContents()));
+        throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.UnsupportedType", cell.getType().getDescription(), cell.getContents()));
     }
   }
 
@@ -400,11 +341,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           if (idx < 0) {
             idx = rowSet.getRowMeta().indexOfValue(meta.getAcceptingField());
             if (idx < 0) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ExcelInput.Error.FilenameFieldNotFound",
-                      "" + meta.getAcceptingField()));
+              logError(BaseMessages.getString(PKG, "ExcelInput.Error.FilenameFieldNotFound", "" + meta.getAcceptingField()));
 
               setErrors(1);
               stopAll();
@@ -415,10 +352,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           try {
             data.files.addFile(HopVfs.getFileObject(fileValue));
           } catch (HopFileException e) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "ExcelInput.Exception.CanNotCreateFileObject", fileValue),
-                e);
+            throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.CanNotCreateFileObject", fileValue), e);
           }
 
           // Grab another row
@@ -443,8 +377,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     if (meta.getRowLimit() > 0 && getLinesInput() >= meta.getRowLimit()) {
       // The close of the openFile is in dispose()
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "ExcelInput.Log.RowLimitReached", "" + meta.getRowLimit()));
+        logDetailed(BaseMessages.getString(PKG, "ExcelInput.Log.RowLimitReached", "" + meta.getRowLimit()));
       }
 
       setOutputDone(); // signal end to receiver(s)
@@ -489,9 +422,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     if (!nonExistantFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
       if (log.isBasic()) {
-        logBasic(
-            BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesTitle"),
-            BaseMessages.getString(PKG, "ExcelInput.Warning.MissingFiles", message));
+        logBasic(BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "ExcelInput.Warning.MissingFiles", message));
       }
 
       if (meta.isErrorIgnored()) {
@@ -499,8 +430,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           data.errorHandler.handleNonExistantFile(fileObject);
         }
       } else {
-        throw new HopException(
-            BaseMessages.getString(PKG, "ExcelInput.Exception.MissingRequiredFiles", message));
+        throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.MissingRequiredFiles", message));
       }
     }
 
@@ -508,9 +438,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     if (!nonAccessibleFiles.isEmpty()) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
       if (log.isBasic()) {
-        logBasic(
-            BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesTitle"),
-            BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesMsgNotAccessible", message));
+        logBasic(BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "ExcelInput.Log.RequiredFilesMsgNotAccessible", message));
       }
 
       if (meta.isErrorIgnored()) {
@@ -518,9 +446,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           data.errorHandler.handleNonAccessibleFile(fileObject);
         }
       } else {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "ExcelInput.Exception.RequiredFilesNotAccessible", message));
+        throw new HopException(BaseMessages.getString(PKG, "ExcelInput.Exception.RequiredFilesNotAccessible", message));
       }
     }
   }
@@ -563,22 +489,16 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
           data.size = data.file.getContent().getSize();
         }
         if (meta.isAddResultFile()) {
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), toString());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), toString());
           resultFile.setComment(BaseMessages.getString(PKG, "ExcelInput.Log.FileReadByTransform"));
           addResultFile(resultFile);
         }
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ExcelInput.Log.OpeningFile", "" + data.filenr + " : " + data.filename));
+          logDetailed(BaseMessages.getString(PKG, "ExcelInput.Log.OpeningFile", "" + data.filenr + " : " + data.filename));
         }
 
-        data.workbook =
-            WorkbookFactory.getWorkbook(
-                meta.getSpreadSheetType(), data.filename, meta.getEncoding());
+        data.workbook = WorkbookFactory.getWorkbook(meta.getSpreadSheetType(), data.filename, meta.getEncoding());
 
         data.errorHandler.handleFile(data.file);
         // Start at the first sheet again...
@@ -601,9 +521,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
 
       // What sheet were we handling?
       if (log.isDebug()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "ExcelInput.Log.GetSheet", "" + data.filenr + "." + data.sheetnr));
+        logDetailed(BaseMessages.getString(PKG, "ExcelInput.Log.GetSheet", "" + data.filenr + "." + data.sheetnr));
       }
 
       String sheetName = data.sheetNames[data.sheetnr];
@@ -631,28 +549,17 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
             retval = null; // placeholder, was already null
           } else {
             if (log.isRowLevel()) {
-              logRowlevel(
-                  BaseMessages.getString(
-                      PKG,
-                      "ExcelInput.Log.GetLine",
-                      "" + lineNr,
-                      data.filenr + "." + data.sheetnr));
+              logRowlevel(BaseMessages.getString(PKG, "ExcelInput.Log.GetLine", "" + lineNr, data.filenr + "." + data.sheetnr));
             }
 
             if (log.isRowLevel()) {
-              logRowlevel(
-                  BaseMessages.getString(PKG, "ExcelInput.Log.ReadLineWith", "" + line.length));
+              logRowlevel(BaseMessages.getString(PKG, "ExcelInput.Log.ReadLineWith", "" + line.length));
             }
 
             ExcelInputRow excelInputRow = new ExcelInputRow(sheet.getName(), lineNr, line);
             Object[] r = fillRow(data.colnr, excelInputRow);
             if (log.isRowLevel()) {
-              logRowlevel(
-                  BaseMessages.getString(
-                      PKG,
-                      "ExcelInput.Log.ConvertedLinToRow",
-                      "" + lineNr,
-                      data.outputRowMeta.getString(r)));
+              logRowlevel(BaseMessages.getString(PKG, "ExcelInput.Log.ConvertedLinToRow", "" + lineNr, data.outputRowMeta.getString(r)));
             }
 
             boolean isEmpty = isLineEmpty(line);
@@ -699,10 +606,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
         }
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ExcelInput.Error.ProcessRowFromExcel", data.filename + "", e.toString()),
-          e);
+      logError(BaseMessages.getString(PKG, "ExcelInput.Error.ProcessRowFromExcel", data.filename + "", e.toString()), e);
 
       setErrors(1);
       stopAll();
@@ -780,9 +684,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
   protected void setZipBombConfiguration() {
 
     // The minimum allowed ratio between de- and inflated bytes to detect a zipbomb.
-    String minInflateRatioVariable =
-        EnvUtil.getSystemProperty(
-            Const.HOP_ZIP_MIN_INFLATE_RATIO, Const.HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT_STRING);
+    String minInflateRatioVariable = EnvUtil.getSystemProperty(Const.HOP_ZIP_MIN_INFLATE_RATIO, Const.HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT_STRING);
     double minInflateRatio;
     try {
       minInflateRatio = Double.parseDouble(minInflateRatioVariable);
@@ -792,9 +694,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     ZipSecureFile.setMinInflateRatio(minInflateRatio);
 
     // The maximum file size of a single zip entry.
-    String maxEntrySizeVariable =
-        EnvUtil.getSystemProperty(
-            Const.HOP_ZIP_MAX_ENTRY_SIZE, Const.HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT_STRING);
+    String maxEntrySizeVariable = EnvUtil.getSystemProperty(Const.HOP_ZIP_MAX_ENTRY_SIZE, Const.HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT_STRING);
     long maxEntrySize;
     try {
       maxEntrySize = Long.parseLong(maxEntrySizeVariable);
@@ -806,9 +706,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
     // The maximum number of characters of text that are extracted before an exception is thrown
     // during extracting
     // text from documents.
-    String maxTextSizeVariable =
-        EnvUtil.getSystemProperty(
-            Const.HOP_ZIP_MAX_TEXT_SIZE, Const.HOP_ZIP_MAX_TEXT_SIZE_DEFAULT_STRING);
+    String maxTextSizeVariable = EnvUtil.getSystemProperty(Const.HOP_ZIP_MAX_TEXT_SIZE, Const.HOP_ZIP_MAX_TEXT_SIZE_DEFAULT_STRING);
     long maxTextSize;
     try {
       maxTextSize = Long.parseLong(maxTextSizeVariable);
@@ -825,9 +723,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
       initErrorHandling();
       initReplayFactory();
       data.files = meta.getFileList(this);
-      if (data.files.nrOfFiles() == 0
-          && data.files.nrOfMissingFiles() > 0
-          && !meta.isAcceptingFilenames()) {
+      if (data.files.nrOfFiles() == 0 && data.files.nrOfMissingFiles() > 0 && !meta.isAcceptingFilenames()) {
 
         logError(BaseMessages.getString(PKG, "ExcelInput.Error.NoFileSpecified"));
         return false;
@@ -847,8 +743,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
         // Determine the maximum sheet name length...
         data.maxsheetlength = -1;
         if (!meta.readAllSheets()) {
-          data.sheetNames = meta.getSheetsNames();
-          ;
+          data.sheetNames = meta.getSheetsNames();;
           data.startColumn = meta.getSheetsStartColumns();
           data.startRow = meta.getSheetsStartRows();
         } else {
@@ -886,9 +781,7 @@ public class ExcelInput extends BaseTransform<ExcelInputMeta, ExcelInputData> {
       data.errorHandler.close();
     } catch (HopException e) {
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG, "ExcelInput.Error.CouldNotCloseErrorHandler", e.toString()));
+        logDebug(BaseMessages.getString(PKG, "ExcelInput.Error.CouldNotCloseErrorHandler", e.toString()));
 
         logDebug(Const.getStackTracker(e));
       }

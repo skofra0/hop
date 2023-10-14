@@ -52,15 +52,7 @@ import java.util.List;
 import java.util.Map;
 
 /** This class contains everything that is needed to define a transform. */
-public class TransformMeta
-    implements Cloneable,
-        Comparable<TransformMeta>,
-        IGuiPosition,
-        ICheckResultSource,
-        IResourceExport,
-        IResourceHolder,
-        IAttributes,
-        IBaseMeta {
+public class TransformMeta implements Cloneable, Comparable<TransformMeta>, IGuiPosition, ICheckResultSource, IResourceExport, IResourceHolder, IAttributes, IBaseMeta {
   private static final Class<?> PKG = TransformMeta.class; // For Translator
 
   public static final String XML_TAG = "transform";
@@ -80,14 +72,17 @@ public class TransformMeta
   @HopMetadataProperty(key = "type")
   private String transformPluginId; // --> transform plugin id
 
-  @HopMetadataProperty private String name;
+  @HopMetadataProperty
+  private String name;
 
   @HopMetadataProperty(inline = true)
   private ITransformMeta transform;
 
-  @HopMetadataProperty private boolean selected;
+  @HopMetadataProperty
+  private boolean selected;
 
-  @HopMetadataProperty private boolean distributes;
+  @HopMetadataProperty
+  private boolean distributes;
 
   private boolean isDeprecated;
 
@@ -101,7 +96,8 @@ public class TransformMeta
   @HopMetadataProperty(key = "GUI")
   private Point location;
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   private boolean terminator;
 
@@ -142,10 +138,7 @@ public class TransformMeta
       PluginRegistry registry = PluginRegistry.getInstance();
       this.transformPluginId = registry.getPluginId(TransformPluginType.class, transform);
       if (this.transformPluginId == null) {
-        System.err.println(
-            "WARNING: transform plugin class '"
-                + transform.getClass().getName()
-                + "' couldn't be found in the plugin registry. Check the classpath.");
+        System.err.println("WARNING: transform plugin class '" + transform.getClass().getName() + "' couldn't be found in the plugin registry. Check the classpath.");
       }
     }
     this.name = transformName;
@@ -175,17 +168,12 @@ public class TransformMeta
     xml.append("    ").append(XmlHandler.addTagValue("type", getTransformPluginId()));
     xml.append("    ").append(XmlHandler.addTagValue("description", description));
     xml.append("    ").append(XmlHandler.addTagValue("distribute", distributes));
-    xml.append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "custom_distribution", rowDistribution == null ? null : rowDistribution.getCode()));
+    xml.append("    ").append(XmlHandler.addTagValue("custom_distribution", rowDistribution == null ? null : rowDistribution.getCode()));
     xml.append("    ").append(XmlHandler.addTagValue("copies", copiesString));
 
     xml.append(transformPartitioningMeta.getXml());
     if (targetTransformPartitioningMeta != null) {
-      xml.append(XmlHandler.openTag("target_transform_partitioning"))
-          .append(targetTransformPartitioningMeta.getXml())
-          .append(XmlHandler.closeTag("target_transform_partitioning"));
+      xml.append(XmlHandler.openTag("target_transform_partitioning")).append(targetTransformPartitioningMeta.getXml()).append(XmlHandler.closeTag("target_transform_partitioning"));
     }
 
     xml.append(transform.getXml());
@@ -207,8 +195,7 @@ public class TransformMeta
    * @param transformNode The XML transform node.
    * @param metadataProvider where to get the metadata.
    */
-  public TransformMeta(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException, HopPluginLoaderException {
+  public TransformMeta(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException, HopPluginLoaderException {
     this();
     PluginRegistry registry = PluginRegistry.getInstance();
 
@@ -217,8 +204,7 @@ public class TransformMeta
       transformPluginId = XmlHandler.getTagValue(transformNode, "type");
 
       // Create a new ITransformMeta object...
-      IPlugin transformPlugin =
-          registry.findPluginWithId(TransformPluginType.class, transformPluginId, true);
+      IPlugin transformPlugin = registry.findPluginWithId(TransformPluginType.class, transformPluginId, true);
 
       if (transformPlugin == null) {
         setTransform(new Missing(name, transformPluginId));
@@ -227,9 +213,7 @@ public class TransformMeta
       }
       if (this.transform != null) {
         if (transformPlugin != null) {
-          transformPluginId =
-              transformPlugin
-                  .getIds()[0]; // revert to the default in case we loaded an alternate version
+          transformPluginId = transformPlugin.getIds()[0]; // revert to the default in case we loaded an alternate version
           suggestion = Const.NVL(transformPlugin.getSuggestion(), "");
         }
 
@@ -249,17 +233,12 @@ public class TransformMeta
 
         // Load the attribute groups map
         //
-        attributesMap =
-            AttributesUtil.loadAttributes(
-                XmlHandler.getSubNode(transformNode, AttributesUtil.XML_TAG));
+        attributesMap = AttributesUtil.loadAttributes(XmlHandler.getSubNode(transformNode, AttributesUtil.XML_TAG));
 
         // Determine the row distribution
         //
         String rowDistributionCode = XmlHandler.getTagValue(transformNode, "custom_distribution");
-        rowDistribution =
-            PluginRegistry.getInstance()
-                .loadClass(
-                    RowDistributionPluginType.class, rowDistributionCode, IRowDistribution.class);
+        rowDistribution = PluginRegistry.getInstance().loadClass(RowDistributionPluginType.class, rowDistributionCode, IRowDistribution.class);
 
         // Handle GUI information: location x and y coordinates
         //
@@ -290,17 +269,13 @@ public class TransformMeta
         Node targetPartNode = XmlHandler.getSubNode(transformNode, "target_transform_partitioning");
         partNode = XmlHandler.getSubNode(targetPartNode, "partitioning");
         if (partNode != null) {
-          targetTransformPartitioningMeta =
-              new TransformPartitioningMeta(partNode, metadataProvider);
+          targetTransformPartitioningMeta = new TransformPartitioningMeta(partNode, metadataProvider);
         }
       }
     } catch (HopPluginLoaderException e) {
       throw e;
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "TransformMeta.Exception.UnableToLoadTransformMeta")
-              + e.toString(),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "TransformMeta.Exception.UnableToLoadTransformMeta") + e.toString(), e);
     }
   }
 
@@ -337,10 +312,8 @@ public class TransformMeta
     // else...
     //
     if (isPartitioned() && getTransformPartitioningMeta().getPartitionSchema() != null) {
-      List<String> partitionIDs =
-          getTransformPartitioningMeta().getPartitionSchema().calculatePartitionIds(variables);
-      if (partitionIDs != null
-          && partitionIDs.size() > 0) { // these are the partitions the transform can "reach"
+      List<String> partitionIDs = getTransformPartitioningMeta().getPartitionSchema().calculatePartitionIds(variables);
+      if (partitionIDs != null && partitionIDs.size() > 0) { // these are the partitions the transform can "reach"
         return partitionIDs.size();
       }
     }
@@ -457,8 +430,7 @@ public class TransformMeta
     this.setChanged(true);
   }
 
-  private static Map<String, Map<String, String>> copyStringMap(
-      Map<String, Map<String, String>> map) {
+  private static Map<String, Map<String, String>> copyStringMap(Map<String, Map<String, String>> map) {
     if (map == null) {
       return new HashMap<>();
     }
@@ -571,8 +543,7 @@ public class TransformMeta
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    transform.check(
-        remarks, pipelineMeta, this, prev, input, output, info, variables, metadataProvider);
+    transform.check(remarks, pipelineMeta, this, prev, input, output, info, variables, metadataProvider);
   }
 
   @Override
@@ -594,8 +565,7 @@ public class TransformMeta
    * @return true is the transform is partitioned
    */
   public boolean isTargetPartitioned() {
-    return targetTransformPartitioningMeta != null
-        && targetTransformPartitioningMeta.isPartitioned();
+    return targetTransformPartitioningMeta != null && targetTransformPartitioningMeta.isPartitioned();
   }
 
   /**
@@ -650,8 +620,7 @@ public class TransformMeta
    * @param transformName The name of the transform
    * @return The transform if it was found, null if nothing was found
    */
-  public static final TransformMeta findTransform(
-      List<TransformMeta> transforms, String transformName) {
+  public static final TransformMeta findTransform(List<TransformMeta> transforms, String transformName) {
     if (transforms == null) {
       return null;
     }
@@ -670,18 +639,14 @@ public class TransformMeta
 
   /**
    * @return if error handling is supported for this transform, if error handling is defined and a
-   *     target transform is set
+   *         target transform is set
    */
   public boolean isDoingErrorHandling() {
-    return transform.supportsErrorHandling()
-        && transformErrorMeta != null
-        && transformErrorMeta.getTargetTransform() != null
-        && transformErrorMeta.isEnabled();
+    return transform.supportsErrorHandling() && transformErrorMeta != null && transformErrorMeta.getTargetTransform() != null && transformErrorMeta.isEnabled();
   }
 
   public boolean isSendingErrorRowsToTransform(TransformMeta targetTransform) {
-    return (isDoingErrorHandling()
-        && transformErrorMeta.getTargetTransform().equals(targetTransform));
+    return (isDoingErrorHandling() && transformErrorMeta.getTargetTransform().equals(targetTransform));
   }
 
   /** Support for ICheckResultSource */
@@ -729,11 +694,7 @@ public class TransformMeta
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
 
     // The transform calls out to ITransformMeta.
@@ -752,8 +713,7 @@ public class TransformMeta
   /**
    * @param targetTransformPartitioningMeta the targetTransformPartitioningMeta to set
    */
-  public void setTargetTransformPartitioningMeta(
-      TransformPartitioningMeta targetTransformPartitioningMeta) {
+  public void setTargetTransformPartitioningMeta(TransformPartitioningMeta targetTransformPartitioningMeta) {
     this.targetTransformPartitioningMeta = targetTransformPartitioningMeta;
   }
 
@@ -761,9 +721,7 @@ public class TransformMeta
     if (!isPartitioned() && isTargetPartitioned()) {
       return true;
     }
-    if (isPartitioned()
-        && isTargetPartitioned()
-        && !transformPartitioningMeta.equals(targetTransformPartitioningMeta)) {
+    if (isPartitioned() && isTargetPartitioned() && !transformPartitioningMeta.equals(targetTransformPartitioningMeta)) {
       return true;
     }
     return false;

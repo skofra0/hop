@@ -16,13 +16,13 @@
  */
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,18 +49,16 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.pipeline.config.PipelineRunConfiguration;
 
 @GuiPlugin
-public class BeamDirectPipelineRunConfiguration extends BeamPipelineRunConfiguration
-    implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
+public class BeamDirectPipelineRunConfiguration extends BeamPipelineRunConfiguration implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
 
   @GuiWidgetElement(
       order = "20000-direct-options",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
       label = "Number of workers",
-      toolTip =
-          "Controls the amount of target parallelism the DirectRunner will use. Defaults to"
-              + " the greater of the number of available processors and 3. Must be a value greater"
-              + " than zero.")
+      toolTip = "Controls the amount of target parallelism the DirectRunner will use. Defaults to"
+          + " the greater of the number of available processors and 3. Must be a value greater"
+          + " than zero.")
   @HopMetadataProperty(key = "number_of_workers")
   private String numberOfWorkers;
 

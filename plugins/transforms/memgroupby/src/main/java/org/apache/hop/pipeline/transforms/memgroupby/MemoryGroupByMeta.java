@@ -54,12 +54,10 @@ import java.util.Map;
     image = "memorygroupby.svg",
     name = "i18n::MemoryGroupBy.Name",
     description = "i18n::MemoryGroupBy.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
     keywords = "i18n::MemoryGroupByMeta.keyword",
     documentationUrl = "/pipeline/transforms/memgroupby.html")
-public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGroupByData>
-  { // implements IBeamPipelineTransformHandler // DEEM-MOD
+public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGroupByData> { // implements IBeamPipelineTransformHandler // DEEM-MOD
   private static final Class<?> PKG = MemoryGroupByMeta.class; // For Translator
 
   /** Fields to group over */
@@ -76,10 +74,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
   private List<GAggregate> aggregates;
 
   /** Flag to indicate that we always give back one row. Defaults to true for existing pipelines. */
-  @HopMetadataProperty(
-      key = "give_back_row",
-      injectionKey = "ALWAYSGIVINGBACKONEROW",
-      injectionKeyDescription = "MemoryGroupBy.Injection.ALWAYSGIVINGBACKONEROW")
+  @HopMetadataProperty(key = "give_back_row", injectionKey = "ALWAYSGIVINGBACKONEROW", injectionKeyDescription = "MemoryGroupBy.Injection.ALWAYSGIVINGBACKONEROW")
   private boolean alwaysGivingBackOneRow;
 
   public MemoryGroupByMeta() {
@@ -104,13 +99,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta r, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
 
     // re-assemble a new row of metadata
     //
@@ -161,7 +150,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
               valueType = IValueMeta.TYPE_NUMBER;
             }
             mask = subj.getConversionMask();
-            break;            
+            break;
           case Median:
           case Percentile:
           case StandardDeviation:
@@ -177,10 +166,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
             break;
         }
 
-        if (aggregate.getType() == GroupType.Sum
-            && valueType != IValueMeta.TYPE_INTEGER
-            && valueType != IValueMeta.TYPE_NUMBER
-            && valueType != IValueMeta.TYPE_BIGNUMBER) {
+        if (aggregate.getType() == GroupType.Sum && valueType != IValueMeta.TYPE_INTEGER && valueType != IValueMeta.TYPE_NUMBER && valueType != IValueMeta.TYPE_BIGNUMBER) {
           // If it ain't numeric, we change it to Number
           //
           valueType = IValueMeta.TYPE_NUMBER;
@@ -191,10 +177,7 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
           try {
             valueMeta = ValueMetaFactory.createValueMeta(valueName, valueType);
           } catch (HopPluginException e) {
-            log.logError(
-                BaseMessages.getString(PKG, "MemoryGroupByMeta.Exception.UnknownValueMetaType"),
-                valueType,
-                e);
+            log.logError(BaseMessages.getString(PKG, "MemoryGroupByMeta.Exception.UnknownValueMetaType"), valueType, e);
             valueMeta = new ValueMetaNone(valueName);
           }
           valueMeta.setOrigin(origin);
@@ -230,28 +213,20 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MemoryGroupByMeta.CheckResult.ReceivingInfoOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MemoryGroupByMeta.CheckResult.ReceivingInfoOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "MemoryGroupByMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MemoryGroupByMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }
 
-//@Override DEEM-MOD remove beam support
+  // @Override DEEM-MOD remove beam support
   public boolean isInput() {
     return false;
   }
 
-//@Override DEEM-MOD remove beam support
+  // @Override DEEM-MOD remove beam support
   public boolean isOutput() {
     return false;
   }
@@ -275,104 +250,88 @@ public class MemoryGroupByMeta extends BaseTransformMeta<MemoryGroupBy, MemoryGr
    * @param parentLogChannelId
    * @throws HopException
    */
-/*   DEEM-MOD remove beam support
-  @Override
-  public void handleTransform(
-      ILogChannel log,
-      IVariables variables,
-      String runConfigurationName,
-      IBeamPipelineEngineRunConfiguration runConfiguration,
-      String dataSamplersJson,
-      IHopMetadataProvider metadataProvider,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      Map<String, PCollection<HopRow>> transformCollectionMap,
-      Pipeline pipeline,
-      IRowMeta rowMeta,
-      List<TransformMeta> previousTransforms,
-      PCollection<HopRow> input,
-      String parentLogChannelId)
-      throws HopException {
-
-    MemoryGroupByMeta meta = new MemoryGroupByMeta();
-    BeamHop.loadTransformMetadata(meta, transformMeta, metadataProvider, pipelineMeta);
-
-    String[] subjectFields = new String[meta.getAggregates().size()];
-    String[] aggregateCodes = new String[meta.getAggregates().size()];
-
-    for (int i = 0; i < meta.getAggregates().size(); i++) {
-      GAggregate aggregate = meta.getAggregates().get(i);
-
-      aggregateCodes[i] = aggregate.getType().getCode();
-      subjectFields[i] = aggregate.getSubject();
-    }
-
-    List<String> groups = new ArrayList<>();
-    meta.getGroups().forEach(group -> groups.add(group.getField()));
-
-    PTransform<PCollection<HopRow>, PCollection<HopRow>> groupByTransform =
-        new GroupByTransform(
-            transformMeta.getName(),
-            JsonRowMeta.toJson(rowMeta), // The io row
-            groups.toArray(new String[0]),
-            subjectFields,
-            aggregateCodes,
-            new String[] {});
-
-    // Apply the transform to the previous io transform PCollection(s)
-    //
-    PCollection<HopRow> transformPCollection =
-        input.apply(transformMeta.getName(), groupByTransform);
-
-    // Save this in the map
-    //
-    transformCollectionMap.put(transformMeta.getName(), transformPCollection);
-    log.logBasic(
-        "Handled Group By (TRANSFORM) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransforms.size()
-            + " previous transform(s)");
-  }
-  */
+  /*
+   * DEEM-MOD remove beam support
+   * 
+   * @Override
+   * public void handleTransform(
+   * ILogChannel log,
+   * IVariables variables,
+   * String runConfigurationName,
+   * IBeamPipelineEngineRunConfiguration runConfiguration,
+   * String dataSamplersJson,
+   * IHopMetadataProvider metadataProvider,
+   * PipelineMeta pipelineMeta,
+   * TransformMeta transformMeta,
+   * Map<String, PCollection<HopRow>> transformCollectionMap,
+   * Pipeline pipeline,
+   * IRowMeta rowMeta,
+   * List<TransformMeta> previousTransforms,
+   * PCollection<HopRow> input,
+   * String parentLogChannelId)
+   * throws HopException {
+   * 
+   * MemoryGroupByMeta meta = new MemoryGroupByMeta();
+   * BeamHop.loadTransformMetadata(meta, transformMeta, metadataProvider, pipelineMeta);
+   * 
+   * String[] subjectFields = new String[meta.getAggregates().size()];
+   * String[] aggregateCodes = new String[meta.getAggregates().size()];
+   * 
+   * for (int i = 0; i < meta.getAggregates().size(); i++) {
+   * GAggregate aggregate = meta.getAggregates().get(i);
+   * 
+   * aggregateCodes[i] = aggregate.getType().getCode();
+   * subjectFields[i] = aggregate.getSubject();
+   * }
+   * 
+   * List<String> groups = new ArrayList<>();
+   * meta.getGroups().forEach(group -> groups.add(group.getField()));
+   * 
+   * PTransform<PCollection<HopRow>, PCollection<HopRow>> groupByTransform =
+   * new GroupByTransform(
+   * transformMeta.getName(),
+   * JsonRowMeta.toJson(rowMeta), // The io row
+   * groups.toArray(new String[0]),
+   * subjectFields,
+   * aggregateCodes,
+   * new String[] {});
+   * 
+   * // Apply the transform to the previous io transform PCollection(s)
+   * //
+   * PCollection<HopRow> transformPCollection =
+   * input.apply(transformMeta.getName(), groupByTransform);
+   * 
+   * // Save this in the map
+   * //
+   * transformCollectionMap.put(transformMeta.getName(), transformPCollection);
+   * log.logBasic(
+   * "Handled Group By (TRANSFORM) : "
+   * + transformMeta.getName()
+   * + ", gets data from "
+   * + previousTransforms.size()
+   * + " previous transform(s)");
+   * }
+   */
 
   public enum GroupType implements IEnumHasCode {
     None("-", "-"),
     Sum("SUM", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.SUM")),
     Average("AVERAGE", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.AVERAGE")),
     Median("MEDIAN", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.MEDIAN")),
-    Percentile(
-        "PERCENTILE",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.PERCENTILE")),
+    Percentile("PERCENTILE", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.PERCENTILE")),
     Minimum("MIN", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.MIN")),
     Maximum("MAX", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.MAX")),
-    CountAll(
-        "COUNT_ALL", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_ALL")),
-    ConcatComma(
-        "CONCAT_COMMA",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_COMMA")),
+    CountAll("COUNT_ALL", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_ALL")),
+    ConcatComma("CONCAT_COMMA", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_COMMA")),
     First("FIRST", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.FIRST")),
     Last("LAST", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.LAST")),
-    FirstIncludingNull(
-        "FIRST_INCL_NULL",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.FIRST_INCL_NULL")),
-    LastIncludingNull(
-        "LAST_INCL_NULL",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.LAST_INCL_NULL")),
-    StandardDeviation(
-        "STD_DEV",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION")),
-    ConcatString(
-        "CONCAT_STRING",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_STRING")),
-    CountDistinct(
-        "COUNT_DISTINCT",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.COUNT_DISTINCT")),
-    CountAny(
-        "COUNT_ANY", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.COUNT_ANY")),
-    ConcatDistinct(
-        "CONCAT_DISTINCT",
-        BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_DISTINCT"));
+    FirstIncludingNull("FIRST_INCL_NULL", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.FIRST_INCL_NULL")),
+    LastIncludingNull("LAST_INCL_NULL", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.LAST_INCL_NULL")),
+    StandardDeviation("STD_DEV", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.STANDARD_DEVIATION")),
+    ConcatString("CONCAT_STRING", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_STRING")),
+    CountDistinct("COUNT_DISTINCT", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.COUNT_DISTINCT")),
+    CountAny("COUNT_ANY", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.COUNT_ANY")),
+    ConcatDistinct("CONCAT_DISTINCT", BaseMessages.getString(PKG, "MemoryGroupByMeta.TypeGroupLongDesc.CONCAT_DISTINCT"));
 
     private String code;
     private String description;

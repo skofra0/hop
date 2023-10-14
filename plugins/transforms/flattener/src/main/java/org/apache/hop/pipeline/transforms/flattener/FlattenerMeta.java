@@ -70,13 +70,7 @@ public class FlattenerMeta extends BaseTransformMeta<Flattener, FlattenerData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // Remove the key value (there will be different entries for each output row)
@@ -84,9 +78,7 @@ public class FlattenerMeta extends BaseTransformMeta<Flattener, FlattenerData> {
     if (fieldName != null && fieldName.length() > 0) {
       int idx = row.indexOfValue(fieldName);
       if (idx < 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(
-                PKG, "FlattenerMeta.Exception.UnableToLocateFieldInInputFields", fieldName));
+        throw new HopTransformException(BaseMessages.getString(PKG, "FlattenerMeta.Exception.UnableToLocateFieldInInputFields", fieldName));
       }
 
       IValueMeta v = row.getValueMeta(idx);
@@ -100,8 +92,7 @@ public class FlattenerMeta extends BaseTransformMeta<Flattener, FlattenerData> {
         row.addValueMeta(value);
       }
     } else {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "FlattenerMeta.Exception.FlattenFieldRequired"));
+      throw new HopTransformException(BaseMessages.getString(PKG, "FlattenerMeta.Exception.FlattenFieldRequired"));
     }
   }
 
@@ -120,20 +111,10 @@ public class FlattenerMeta extends BaseTransformMeta<Flattener, FlattenerData> {
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FlattenerMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FlattenerMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FlattenerMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FlattenerMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

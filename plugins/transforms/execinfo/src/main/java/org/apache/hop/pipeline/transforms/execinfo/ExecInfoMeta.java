@@ -43,21 +43,29 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
   private static final Class<?> PKG = ExecInfoMeta.class; // For Translator
 
-  @HopMetadataProperty private String location;
+  @HopMetadataProperty
+  private String location;
 
-  @HopMetadataProperty private OperationType operationType;
+  @HopMetadataProperty
+  private OperationType operationType;
 
-  @HopMetadataProperty private String idFieldName;
+  @HopMetadataProperty
+  private String idFieldName;
 
-  @HopMetadataProperty private String parentIdFieldName;
+  @HopMetadataProperty
+  private String parentIdFieldName;
 
-  @HopMetadataProperty private String typeFieldName;
+  @HopMetadataProperty
+  private String typeFieldName;
 
-  @HopMetadataProperty private String nameFieldName;
+  @HopMetadataProperty
+  private String nameFieldName;
 
-  @HopMetadataProperty private String includeChildrenFieldName;
+  @HopMetadataProperty
+  private String includeChildrenFieldName;
 
-  @HopMetadataProperty private String limitFieldName;
+  @HopMetadataProperty
+  private String limitFieldName;
 
   public ExecInfoMeta() {
     super(); // allocate BaseTransformMeta
@@ -85,13 +93,7 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (operationType == null) {
@@ -111,45 +113,19 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
       case FindLastExecution:
       case FindExecutions:
         inputRowMeta.addRowMeta(
-            new RowMetaBuilder()
-                .addString("executionId")
-                .addString("parentId")
-                .addString("name")
-                .addString("executionType")
-                .addString("filename")
-                .addString("executorXml")
-                .addString("metadataJson")
-                .addDate("registrationDate")
-                .addDate("executionStartDate")
-                .addString("runConfigurationName")
-                .addString("logLevel")
-                .addDate("updateTime")
-                .addString("loggingText")
-                .addBoolean("failed")
-                .addString("statusDescription")
-                .addDate("executionEndDate")
-                .build());
+            new RowMetaBuilder().addString("executionId").addString("parentId").addString("name").addString("executionType").addString("filename").addString("executorXml")
+                .addString("metadataJson").addDate("registrationDate").addDate("executionStartDate").addString("runConfigurationName").addString("logLevel").addDate("updateTime")
+                .addString("loggingText").addBoolean("failed").addString("statusDescription").addDate("executionEndDate").build());
         return;
       case DeleteExecution:
         inputRowMeta.addRowMeta(new RowMetaBuilder().addBoolean("deleted").build());
         return;
       case GetExecutionData:
         inputRowMeta.addRowMeta(
-            new RowMetaBuilder()
-                .addString("parentId")
-                .addString("ownerId")
-                .addDate("collectionDate")
-                .addBoolean("finished")
+            new RowMetaBuilder().addString("parentId").addString("ownerId").addDate("collectionDate").addBoolean("finished")
                 // We also the collected data sets
-                .addString("setKey")
-                .addString("name")
-                .addString("copyNr")
-                .addString("description")
-                .addString("logChannelId")
-                .addString("setRowMetaJson")
-                .addInteger("setRowNr")
-                .addString("setRowDataJson")
-                .build());
+                .addString("setKey").addString("name").addString("copyNr").addString("description").addString("logChannelId").addString("setRowMetaJson").addInteger("setRowNr")
+                .addString("setRowDataJson").build());
         return;
       default:
         throw new HopTransformException("Unknown operation type " + operationType.description);
@@ -169,32 +145,16 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
       IHopMetadataProvider metadataProvider) {
 
     if (location == null) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.LocationMissing"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.LocationMissing"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.LocationOK"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.LocationOK"), transformMeta));
     }
 
     if (operationType == null) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationTypeMissing"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationTypeMissing"), transformMeta));
     } else {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ExecInfoMeta.CheckResult.OperationTypeOK", operationType.getDescription()),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationTypeOK", operationType.getDescription()), transformMeta));
     }
 
     // Does the input require an ID as input?
@@ -204,18 +164,11 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationRequiresId",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationRequiresId", operationType.getDescription()),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "ExecInfoMeta.CheckResult.OperationHasId", operationType.getDescription()),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationHasId", operationType.getDescription()), transformMeta));
       }
     }
 
@@ -226,19 +179,13 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationRequiresParentId",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationRequiresParentId", operationType.getDescription()),
                 transformMeta));
       } else {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationHasParentId",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationHasParentId", operationType.getDescription()),
                 transformMeta));
       }
     }
@@ -250,20 +197,11 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationRequiresName",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationRequiresName", operationType.getDescription()),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationHasName",
-                    operationType.getDescription()),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationHasName", operationType.getDescription()), transformMeta));
       }
     }
 
@@ -274,19 +212,13 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationRequiresIncludesChildren",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationRequiresIncludesChildren", operationType.getDescription()),
                 transformMeta));
       } else {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationHasIncludesChildren",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationHasIncludesChildren", operationType.getDescription()),
                 transformMeta));
       }
     }
@@ -298,99 +230,26 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationRequiresLimit",
-                    operationType.getDescription()),
+                BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationRequiresLimit", operationType.getDescription()),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "ExecInfoMeta.CheckResult.OperationHasLimit",
-                    operationType.getDescription()),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ExecInfoMeta.CheckResult.OperationHasLimit", operationType.getDescription()), transformMeta));
       }
     }
   }
 
   public static enum OperationType {
-    GetExecutionIds(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionIds"),
-        false,
-        false,
-        false,
-        false,
-        true,
-        true),
-    GetExecutionAndState(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionAndState"),
-        true,
-        false,
-        false,
-        false,
-        false,
-        false),
-    FindExecutions(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindExecutions"),
-        false,
-        true,
-        false,
-        false,
-        false,
-        false),
-    DeleteExecution(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.DeleteExecution"),
-        true,
-        false,
-        false,
-        false,
-        false,
-        false),
-    FindPreviousSuccessfulExecution(
-        BaseMessages.getString(
-            PKG, "ExecInfoMeta.OperationType.Description.FindPreviousSuccessfulExecution"),
-        false,
-        false,
-        true,
-        true,
-        false,
-        false),
-    GetExecutionData(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionData"),
-        true,
-        true,
-        false,
-        false,
-        false,
-        false),
-    FindLastExecution(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindLastExecution"),
-        false,
-        false,
-        true,
-        true,
-        false,
-        false),
-    FindChildIds(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindChildIds"),
-        false,
-        true,
-        true,
-        false,
-        false,
-        false),
-    FindParentId(
-        BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindParentId"),
-        true,
-        false,
-        false,
-        false,
-        false,
-        false),
-    ;
+    GetExecutionIds(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionIds"), false, false, false, false, true, true),
+    GetExecutionAndState(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionAndState"), true, false, false, false, false, false),
+    FindExecutions(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindExecutions"), false, true, false, false, false, false),
+    DeleteExecution(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.DeleteExecution"), true, false, false, false, false, false),
+    FindPreviousSuccessfulExecution(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindPreviousSuccessfulExecution"), false, false, true, true, false, false),
+    GetExecutionData(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.GetExecutionData"), true, true, false, false, false, false),
+    FindLastExecution(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindLastExecution"), false, false, true, true, false, false),
+    FindChildIds(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindChildIds"), false, true, true, false, false, false),
+    FindParentId(BaseMessages.getString(PKG, "ExecInfoMeta.OperationType.Description.FindParentId"), true, false, false, false, false, false),;
+
     private final String description;
     private final boolean acceptingExecutionId;
     private final boolean acceptingParentExecutionId;
@@ -399,14 +258,8 @@ public class ExecInfoMeta extends BaseTransformMeta<ExecInfo, ExecInfoData> {
     private final boolean acceptingIncludeChildren;
     private final boolean acceptingLimit;
 
-    OperationType(
-        String description,
-        boolean acceptingExecutionId,
-        boolean acceptingParentExecutionId,
-        boolean acceptingExecutionType,
-        boolean acceptingName,
-        boolean acceptingIncludeChildren,
-        boolean acceptingLimit) {
+    OperationType(String description, boolean acceptingExecutionId, boolean acceptingParentExecutionId, boolean acceptingExecutionType, boolean acceptingName,
+        boolean acceptingIncludeChildren, boolean acceptingLimit) {
       this.description = description;
       this.acceptingExecutionId = acceptingExecutionId;
       this.acceptingParentExecutionId = acceptingParentExecutionId;

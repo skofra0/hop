@@ -22,7 +22,7 @@ import org.apache.hop.pipeline.transform.ITransformData;
 
 public class DetectEmptyStreamData extends BaseTransformData implements ITransformData {
   IRowMeta outputRowMeta;
-  
+
   public DetectEmptyStreamData() {
     super();
   }

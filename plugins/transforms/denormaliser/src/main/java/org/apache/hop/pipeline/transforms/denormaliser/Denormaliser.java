@@ -53,13 +53,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
 
   private Map<String, IValueMeta> conversionMetaCache = new HashMap<>();
 
-  public Denormaliser(
-      TransformMeta transformMeta,
-      DenormaliserMeta meta,
-      DenormaliserData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Denormaliser(TransformMeta transformMeta, DenormaliserMeta meta, DenormaliserData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -120,8 +114,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
 
     data.keyFieldNr = data.inputRowMeta.indexOfValue(meta.getKeyField());
     if (data.keyFieldNr < 0) {
-      logError(
-          BaseMessages.getString(PKG, "Denormaliser.Log.KeyFieldNotFound", meta.getKeyField()));
+      logError(BaseMessages.getString(PKG, "Denormaliser.Log.KeyFieldNotFound", meta.getKeyField()));
       setErrors(1);
       stopAll();
       return false;
@@ -133,9 +126,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
       DenormaliserTargetField field = meta.getDenormaliserTargetFields().get(i);
       int idx = data.inputRowMeta.indexOfValue(field.getFieldName());
       if (idx < 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "Denormaliser.Log.UnpivotFieldNotFound", field.getFieldName()));
+        logError(BaseMessages.getString(PKG, "Denormaliser.Log.UnpivotFieldNotFound", field.getFieldName()));
         setErrors(1);
         stopAll();
         return false;
@@ -146,9 +137,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
       // See if by accident, the value fieldname isn't the same as the key fieldname.
       // This is not supported of-course and given the complexity of the transform, you can miss:
       if (data.fieldNameIndex[i] == data.keyFieldNr) {
-        logError(
-            BaseMessages.getString(
-                PKG, "Denormaliser.Log.ValueFieldSameAsKeyField", field.getFieldName()));
+        logError(BaseMessages.getString(PKG, "Denormaliser.Log.ValueFieldSameAsKeyField", field.getFieldName()));
         setErrors(1);
         stopAll();
         return false;
@@ -174,9 +163,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
     for (int i = 0; i < meta.getGroupFields().size(); i++) {
       data.groupnrs[i] = data.inputRowMeta.indexOfValue(meta.getGroupFields().get(i).getName());
       if (data.groupnrs[i] < 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "Denormaliser.Log.GroupingFieldNotFound", meta.getGroupFields().get(i)));
+        logError(BaseMessages.getString(PKG, "Denormaliser.Log.GroupingFieldNotFound", meta.getGroupFields().get(i)));
         setErrors(1);
         stopAll();
         return false;
@@ -258,13 +245,8 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
           if (resultValue == null) {
             resultValue = Long.valueOf(0);
           }
-          if (!field
-              .getTargetType()
-              .equals(ValueMetaFactory.getValueMetaName(IValueMeta.TYPE_INTEGER))) {
-            resultValue =
-                data.outputRowMeta
-                    .getValueMeta(outputIndex)
-                    .convertData(new ValueMetaInteger("num_values_aggregation"), resultValue);
+          if (!field.getTargetType().equals(ValueMetaFactory.getValueMetaName(IValueMeta.TYPE_INTEGER))) {
+            resultValue = data.outputRowMeta.getValueMeta(outputIndex).convertData(new ValueMetaInteger("num_values_aggregation"), resultValue);
           }
           break;
         default:
@@ -286,8 +268,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
   }
 
   // Is the row r of the same group as previous?
-  private boolean sameGroup(IRowMeta rowMeta, Object[] previous, Object[] rowData)
-      throws HopValueException {
+  private boolean sameGroup(IRowMeta rowMeta, Object[] previous, Object[] rowData) throws HopValueException {
     return rowMeta.compare(previous, rowData, data.groupnrs) == 0;
   }
 
@@ -314,7 +295,8 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
    * This method de-normalizes a single key-value pair. It looks up the key and determines the value
    * name to store it in. It converts it to the right type and stores it in the result row.
    *
-   * <p>Used for junits in DenormaliserAggregationsTest
+   * <p>
+   * Used for junits in DenormaliserAggregationsTest
    *
    * @param rowMeta Metadata of Row
    * @param rowData Data of Row
@@ -351,8 +333,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
       Object targetData;
       // What is the target value metadata??
       //
-      IValueMeta targetMeta =
-          data.outputRowMeta.getValueMeta(data.inputRowMeta.size() - data.removeNrs.length + idx);
+      IValueMeta targetMeta = data.outputRowMeta.getValueMeta(data.inputRowMeta.size() - data.removeNrs.length + idx);
       // What was the previous target in the result row?
       //
       Object prevTargetData = data.targetResult[idx];
@@ -378,8 +359,7 @@ public class Denormaliser extends BaseTransform<DenormaliserMeta, DenormaliserDa
           if (sourceData == null && !minNullIsValued) {
             break;
           }
-          if ((prevTargetData == null && !minNullIsValued)
-              || sourceMeta.compare(sourceData, targetMeta, prevTargetData) < 0) {
+          if ((prevTargetData == null && !minNullIsValued) || sourceMeta.compare(sourceData, targetMeta, prevTargetData) < 0) {
             prevTargetData = targetMeta.convertData(sourceMeta, sourceData);
           }
           break;

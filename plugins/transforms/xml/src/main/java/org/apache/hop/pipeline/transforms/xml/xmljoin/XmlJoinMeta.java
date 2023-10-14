@@ -115,8 +115,7 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
 
       sourceXmlTransform = XmlHandler.getTagValue(transformNode, "sourceXmlTransform");
@@ -129,8 +128,7 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
       encoding = XmlHandler.getTagValue(transformNode, "encoding");
       complexJoin = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "complexJoin"));
       omitXmlHeader = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "omitXMLHeader"));
-      omitNullValues =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "omitNullValues"));
+      omitNullValues = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "omitNullValues"));
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
@@ -143,13 +141,7 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     IValueMeta v = new ValueMetaString(this.getValueXmlField());
@@ -215,93 +207,45 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
     CheckResult cr;
     // checks for empty field which are required
     if (this.targetXmlTransform == null || this.targetXmlTransform.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformSpecified"), transformMeta);
       remarks.add(cr);
     }
     if (this.targetXmlField == null || this.targetXmlField.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLFieldNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLFieldNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLFieldSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLFieldSpecified"), transformMeta);
       remarks.add(cr);
     }
     if (this.sourceXmlTransform == null || this.sourceXmlTransform.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformSpecified"), transformMeta);
       remarks.add(cr);
     }
     if (this.sourceXmlField == null || this.sourceXmlField.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLFieldNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLFieldNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLFieldSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLFieldSpecified"), transformMeta);
       remarks.add(cr);
     }
     if (this.valueXmlField == null || this.valueXmlField.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.ResultFieldNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.ResultFieldNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.ResultFieldSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.ResultFieldSpecified"), transformMeta);
       remarks.add(cr);
     }
     if (this.targetXPath == null || this.targetXPath.length() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXPathNotSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXPathNotSpecified"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXPathSpecified"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXPathSpecified"), transformMeta);
       remarks.add(cr);
     }
 
@@ -312,50 +256,26 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
       for (int i = 0; i < input.length; i++) {
         if (this.targetXmlTransform != null && this.targetXmlTransform.equals(input[i])) {
           targetTransformFound = true;
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "XmlJoin.CheckResult.TargetXMLTransformFound", this.targetXmlTransform),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformFound", this.targetXmlTransform), transformMeta);
           remarks.add(cr);
         }
         if (this.sourceXmlTransform != null && this.sourceXmlTransform.equals(input[i])) {
           sourceTransformFound = true;
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(
-                      PKG, "XmlJoin.CheckResult.SourceXMLTransformFound", this.sourceXmlTransform),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformFound", this.sourceXmlTransform), transformMeta);
           remarks.add(cr);
         }
       }
 
       if (!targetTransformFound) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "XmlJoin.CheckResult.TargetXMLTransformNotFound", this.targetXmlTransform),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.TargetXMLTransformNotFound", this.targetXmlTransform), transformMeta);
         remarks.add(cr);
       }
       if (!sourceTransformFound) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "XmlJoin.CheckResult.SourceXMLTransformNotFound", this.sourceXmlTransform),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.SourceXMLTransformNotFound", this.sourceXmlTransform), transformMeta);
         remarks.add(cr);
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XmlJoin.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XmlJoin.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -371,20 +291,8 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      ioMeta.addStream(
-          new Stream(
-              IStream.StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "XmlJoinMeta.InfoStream.TargetInputStream.Description"),
-              StreamIcon.INFO,
-              null));
-      ioMeta.addStream(
-          new Stream(
-              IStream.StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "XmlJoinMeta.InfoStream.SourceInputStream.Description"),
-              StreamIcon.INFO,
-              null));
+      ioMeta.addStream(new Stream(IStream.StreamType.INFO, null, BaseMessages.getString(PKG, "XmlJoinMeta.InfoStream.TargetInputStream.Description"), StreamIcon.INFO, null));
+      ioMeta.addStream(new Stream(IStream.StreamType.INFO, null, BaseMessages.getString(PKG, "XmlJoinMeta.InfoStream.SourceInputStream.Description"), StreamIcon.INFO, null));
       setTransformIOMeta(ioMeta);
     }
 
@@ -395,8 +303,7 @@ public class XmlJoinMeta extends BaseTransformMeta<XmlJoin, XmlJoinData> {
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     List<IStream> infoStreams = getTransformIOMeta().getInfoStreams();
     for (IStream stream : infoStreams) {
-      stream.setTransformMeta(
-          TransformMeta.findTransform(transforms, (String) stream.getSubject()));
+      stream.setTransformMeta(TransformMeta.findTransform(transforms, (String) stream.getSubject()));
     }
   }
 

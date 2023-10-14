@@ -27,7 +27,8 @@ public interface IVariables {
    * Initializes this IVariables object by copying over the variables from the specified parent
    * (using copyFrom()).
    *
-   * <p>The parent is set as parent variable variables.
+   * <p>
+   * The parent is set as parent variable variables.
    *
    * @param parent the parent to start from, or null if root.
    */
@@ -68,7 +69,7 @@ public interface IVariables {
    *
    * @param variableName The name of the variable to set
    * @param variableValue The value of the variable to set. If the variableValue is null, the
-   *     variable is cleared from the list.
+   *        variable is cleared from the list.
    */
   void setVariable(String variableName, String variableValue);
 
@@ -119,7 +120,8 @@ public interface IVariables {
   /**
    * Replaces environment variables in an array of strings.
    *
-   * <p>See also: environmentSubstitute(String string)
+   * <p>
+   * See also: environmentSubstitute(String string)
    *
    * @param string The array of strings that wants its variables to be replaced.
    * @return the array with the environment variables replaced.
@@ -130,7 +132,7 @@ public interface IVariables {
    * Set all the variables specified in the map.
    *
    * @param map A strings Map containing 'key-value' pairs with 'key' being the name of the variable
-   *     and 'value' being the variable value.
+   *        and 'value' being the variable value.
    */
   void setVariables(Map<String, String> map);
 

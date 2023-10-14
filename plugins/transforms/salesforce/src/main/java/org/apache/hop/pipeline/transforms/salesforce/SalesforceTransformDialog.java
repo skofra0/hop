@@ -30,8 +30,7 @@ import org.apache.hop.ui.pipeline.transform.BaseTransformDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
-public abstract class SalesforceTransformDialog extends BaseTransformDialog
-    implements ITransformDialog {
+public abstract class SalesforceTransformDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = SalesforceTransformMeta.class; // For Translator
 
   protected static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'.000'Z";
@@ -39,8 +38,7 @@ public abstract class SalesforceTransformDialog extends BaseTransformDialog
 
   private final Class<? extends SalesforceTransformMeta> META_CLASS;
 
-  public SalesforceTransformDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SalesforceTransformDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     META_CLASS = ((SalesforceTransformMeta) in).getClass();
   }
@@ -82,9 +80,7 @@ public abstract class SalesforceTransformDialog extends BaseTransformDialog
     if (successConnection) {
 
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SalesforceTransformDialog.Connected.OK", realUsername)
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "SalesforceTransformDialog.Connected.OK", realUsername) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "SalesforceTransformDialog.Connected.Title.Ok"));
       mb.open();
     } else {

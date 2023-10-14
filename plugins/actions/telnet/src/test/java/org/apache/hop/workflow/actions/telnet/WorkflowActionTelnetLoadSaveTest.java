@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionTelnetLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionTelnet> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionTelnetLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionTelnet> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionTelnet> getActionClass() {
@@ -40,17 +40,11 @@ public class WorkflowActionTelnetLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "hostname", "getHostname",
-        "port", "getPort",
-        "timeout", "getTimeOut");
+    return toMap("hostname", "getHostname", "port", "getPort", "timeout", "getTimeOut");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "hostname", "setHostname",
-        "port", "setPort",
-        "timeout", "setTimeOut");
+    return toMap("hostname", "setHostname", "port", "setPort", "timeout", "setTimeOut");
   }
 }

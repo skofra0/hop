@@ -43,12 +43,10 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
 
   private static final Class<?> PKG = IfNullMeta.class; // For Translator
 
-  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS",
-      injectionGroupDescription = "IfNull.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "IfNull.Injection.FIELDS")
   private List<Field> fields;
 
-  @HopMetadataProperty(groupKey = "valuetypes", key = "valuetype", injectionGroupKey = "VALUE_TYPES",
-      injectionGroupDescription = "IfNull.Injection.VALUE_TYPES")
+  @HopMetadataProperty(groupKey = "valuetypes", key = "valuetype", injectionGroupKey = "VALUE_TYPES", injectionGroupDescription = "IfNull.Injection.VALUE_TYPES")
   private List<ValueType> valueTypes;
 
   @HopMetadataProperty(key = "selectFields", injectionKey = "SELECT_FIELDS", injectionKeyDescription = "IfNull.Injection.SELECT_FIELDS")
@@ -56,7 +54,7 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
 
   @HopMetadataProperty(key = "selectValuesType", injectionKey = "SELECT_VALUES_TYPE", injectionKeyDescription = "IfNull.Injection.SELECT_VALUES_TYPE")
   private boolean selectValuesType;
-  
+
   @HopMetadataProperty(key = "replaceAllByValue", injectionKey = "REPLACE_ALL_BY_VALUE", injectionKeyDescription = "IfNull.Injection.REPLACE_ALL_BY_VALUE")
   private String replaceAllByValue;
 
@@ -72,21 +70,21 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
     this.valueTypes = new ArrayList<>();
     this.fields = new ArrayList<>();
   }
-  
+
   public IfNullMeta(final IfNullMeta meta) {
-    this(); 
+    this();
     this.selectFields = meta.selectFields;
     this.selectValuesType = meta.selectValuesType;
     this.replaceAllByValue = meta.replaceAllByValue;
     this.replaceAllMask = meta.replaceAllMask;
     this.setEmptyStringAll = meta.setEmptyStringAll;
-    
-    for (Field field:meta.fields) {
+
+    for (Field field : meta.fields) {
       this.fields.add(new Field(field));
     }
-    for (ValueType vt:meta.valueTypes) {
+    for (ValueType vt : meta.valueTypes) {
       this.valueTypes.add(new ValueType(vt));
-    } 
+    }
   }
 
   /** @return Returns the setEmptyStringAll. */
@@ -176,19 +174,10 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -203,25 +192,16 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "IfNullMeta.CheckResult.FieldsFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "IfNullMeta.CheckResult.FieldsFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fields.size() > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "IfNullMeta.CheckResult.AllFieldsFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.AllFieldsFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_WARNING,
-                  BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoFieldsEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoFieldsEntered"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -229,19 +209,10 @@ public class IfNullMeta extends BaseTransformMeta<IfNull, IfNullData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "IfNullMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

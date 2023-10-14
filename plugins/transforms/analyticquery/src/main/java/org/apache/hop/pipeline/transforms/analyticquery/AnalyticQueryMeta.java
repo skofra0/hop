@@ -40,8 +40,7 @@ import java.util.List;
     image = "analyticquery.svg",
     name = "i18n::AnalyticQuery.Name",
     description = "i18n::AnalyticQuery.Description",
-    categoryDescription =
-        "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
+    categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Statistics",
     keywords = "i18n::AnalyticQueryMeta.keyword",
     documentationUrl = "/pipeline/transforms/analyticquery.html")
 public class AnalyticQueryMeta extends BaseTransformMeta<AnalyticQuery, AnalyticQueryData> {
@@ -61,13 +60,7 @@ public class AnalyticQueryMeta extends BaseTransformMeta<AnalyticQuery, Analytic
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // re-assemble a new row of metadata
     //
@@ -92,19 +85,11 @@ public class AnalyticQueryMeta extends BaseTransformMeta<AnalyticQuery, Analytic
         StringBuilder sbFieldNames = new StringBuilder();
         String[] fieldNames = r.getFieldNames();
         for (int j = 0; j < fieldNames.length; j++) {
-          sbFieldNames
-              .append("[")
-              .append(fieldNames[j])
-              .append("]")
-              .append(j < fieldNames.length - 1 ? ", " : "");
+          sbFieldNames.append("[").append(fieldNames[j]).append("]").append(j < fieldNames.length - 1 ? ", " : "");
         }
         throw new HopTransformException(
-            BaseMessages.getString(
-                PKG,
-                "AnalyticQueryMeta.Exception.SubjectFieldNotFound",
-                getParentTransformMeta().getName(),
-                queryField.getSubjectField(),
-                sbFieldNames.toString()));
+            BaseMessages
+                .getString(PKG, "AnalyticQueryMeta.Exception.SubjectFieldNotFound", getParentTransformMeta().getName(), queryField.getSubjectField(), sbFieldNames.toString()));
       }
     }
 
@@ -127,27 +112,17 @@ public class AnalyticQueryMeta extends BaseTransformMeta<AnalyticQuery, Analytic
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AnalyticQueryMeta.CheckResult.ReceivingInfoOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AnalyticQueryMeta.CheckResult.ReceivingInfoOK"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AnalyticQueryMeta.CheckResult.NoInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AnalyticQueryMeta.CheckResult.NoInputError"), transformMeta);
       remarks.add(cr);
     }
   }
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**

@@ -75,8 +75,7 @@ public class ActionMsgBoxInfo extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       bodymessage = XmlHandler.getTagValue(entrynode, "bodymessage");
@@ -96,9 +95,7 @@ public class ActionMsgBoxInfo extends ActionBase implements Cloneable, IAction {
 
       IThreadDialogs dialogs = GuiFactory.getThreadDialogs();
       if (dialogs != null) {
-        response =
-            dialogs.threadMessageBox(
-                getRealBodyMessage() + Const.CR, getRealTitleMessage(), true, Const.INFO);
+        response = dialogs.threadMessageBox(getRealBodyMessage() + Const.CR, getRealTitleMessage(), true, Const.INFO);
       }
 
       return response;
@@ -173,11 +170,7 @@ public class ActionMsgBoxInfo extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ActionValidatorUtils.addOkRemark(this, "bodyMessage", remarks);
     ActionValidatorUtils.addOkRemark(this, "titleMessage", remarks);
   }

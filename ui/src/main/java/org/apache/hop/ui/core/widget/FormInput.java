@@ -27,9 +27,11 @@ import java.lang.reflect.Method;
  * This class defines the fairly generic FormInput. This class is simply a convenience utility,
  * containing the primary information required to build an input for a FormLayout.
  *
- * <p>This template requires one to define the type of contained control.
+ * <p>
+ * This template requires one to define the type of contained control.
  *
- * <p>ex: FormInput<Text> input = new FormInput<Text>( new Label( shell, SWT.NONE ), new Text(shell,
+ * <p>
+ * ex: FormInput<Text> input = new FormInput<Text>( new Label( shell, SWT.NONE ), new Text(shell,
  * SWT.SINGLE | SWT.LEFT | SWT.BORDER) ); input.setText( "Hello", FormInput.Widget.LABEL );
  * input.setText( "World", FormInput.Widget.INPUT ); input.setToolTip( "To whom do you want to send
  * a shout out?", FormInput.Widget.INPUT ); input.setPosition( 0, 47, FormInput.Widget.LABEL,

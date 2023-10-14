@@ -45,7 +45,8 @@ import java.net.URL;
 /**
  * Class for loading images from SVG, PNG, or other bitmap formats.
  *
- * <p>Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
+ * <p>
+ * Logic is: if SVG is enabled, then SVG icon loaded if exist. Otherwise, class trying to change
  * name into PNG and try to load. If initial name is PNG, then PNG icon will be loaded.
  */
 public class SwtSvgImageUtil {
@@ -140,14 +141,12 @@ public class SwtSvgImageUtil {
    * @param height the height to scale the image to
    * @return an swt Image with width/height dimensions
    */
-  public static Image getImage(
-      Display display, ClassLoader classLoader, String filename, int width, int height) {
+  public static Image getImage(Display display, ClassLoader classLoader, String filename, int width, int height) {
     SwtUniversalImage u = getUniversalImage(display, classLoader, filename);
     return u.getAsBitmapForSize(display, width, height);
   }
 
-  private static SwtUniversalImage getUniversalImageInternal(
-      Display display, ClassLoader classLoader, String filename) {
+  private static SwtUniversalImage getUniversalImageInternal(Display display, ClassLoader classLoader, String filename) {
     SwtUniversalImage result = loadFromClassLoader(classLoader, filename);
     if (result == null) {
       result = loadFromClassLoader(classLoader, "/" + filename);
@@ -162,8 +161,7 @@ public class SwtSvgImageUtil {
   }
 
   /** Load image from several sources. */
-  public static SwtUniversalImage getUniversalImage(
-      Display display, ClassLoader classLoader, String filename) {
+  public static SwtUniversalImage getUniversalImage(Display display, ClassLoader classLoader, String filename) {
     if (StringUtils.isBlank(filename)) {
       return getImageAsResource(display, NO_IMAGE);
     }

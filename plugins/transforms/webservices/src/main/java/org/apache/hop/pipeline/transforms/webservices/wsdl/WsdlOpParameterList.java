@@ -110,8 +110,7 @@ public final class WsdlOpParameterList extends ArrayList<WsdlOpParameter> {
    * @param part A list of message part.
    * @param requesPart true if part from request message.
    */
-  private List<WsdlOpParameter> getParameter(Part part, boolean requesPart)
-      throws HopTransformException {
+  private List<WsdlOpParameter> getParameter(Part part, boolean requesPart) throws HopTransformException {
 
     List<WsdlOpParameter> params = new ArrayList<>();
 
@@ -121,12 +120,7 @@ public final class WsdlOpParameterList extends ArrayList<WsdlOpParameter> {
       }
       params.addAll(resolvePartElement(part));
     } else {
-      params.add(
-          new WsdlOpParameter(
-              part.getName(),
-              part.getTypeName(),
-              _wsdlTypes.findNamedType(part.getTypeName()),
-              _wsdlTypes));
+      params.add(new WsdlOpParameter(part.getName(), part.getTypeName(), _wsdlTypes.findNamedType(part.getTypeName()), _wsdlTypes));
     }
     return params;
   }
@@ -138,21 +132,21 @@ public final class WsdlOpParameterList extends ArrayList<WsdlOpParameter> {
    * <p>
    *
    * <ol>
-   *   <li>If the operation has 'parameterOrder' set:
-   *       <ol>
-   *         <li>If the response parameter is not in the operation's parameterOrder attribute, then
-   *             it represents the return value of the call. If there is no such part, then the
-   *             method does not return a value. b) If the response parameter is found in the
-   *             parameterOrder list, add it as an OUT mode parameter.
-   *       </ol>
-   *   <li>If the operation does not have 'parameterOrder' set:
-   *       <ol>
-   *         <li>If there is a single part in the output message that is not also in the input
-   *             message it is mapped to the return type of the method.
-   *         <li>If there is more than one part in the output message that is not in the input
-   *             message they are all mapped as out arguments and the return type of the method is
-   *             void.
-   *       </ol>
+   * <li>If the operation has 'parameterOrder' set:
+   * <ol>
+   * <li>If the response parameter is not in the operation's parameterOrder attribute, then
+   * it represents the return value of the call. If there is no such part, then the
+   * method does not return a value. b) If the response parameter is found in the
+   * parameterOrder list, add it as an OUT mode parameter.
+   * </ol>
+   * <li>If the operation does not have 'parameterOrder' set:
+   * <ol>
+   * <li>If there is a single part in the output message that is not also in the input
+   * message it is mapped to the return type of the method.
+   * <li>If there is more than one part in the output message that is not in the input
+   * message they are all mapped as out arguments and the return type of the method is
+   * void.
+   * </ol>
    * </ol>
    *
    * @param responseParam Parameter to process.
@@ -187,7 +181,7 @@ public final class WsdlOpParameterList extends ArrayList<WsdlOpParameter> {
    *
    * @param p A message part.
    * @return A list of parameters resulting from the schema type -- typically the list will only
-   *     contains a single parameter.
+   *         contains a single parameter.
    */
   private List<WsdlOpParameter> resolvePartElement(Part p) throws HopTransformException {
 

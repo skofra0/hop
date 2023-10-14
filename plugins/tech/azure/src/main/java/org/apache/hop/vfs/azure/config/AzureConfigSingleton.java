@@ -32,8 +32,7 @@ public class AzureConfigSingleton {
   private AzureConfigSingleton() {
     // Load from the HopConfig store
     //
-    Object configObject =
-        HopConfig.getInstance().getConfigMap().get(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY);
+    Object configObject = HopConfig.getInstance().getConfigMap().get(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY);
     if (configObject == null) {
       azureConfig = new AzureConfig();
     } else {
@@ -45,17 +44,11 @@ public class AzureConfigSingleton {
         ObjectMapper mapper = HopJson.newMapper();
         azureConfig = mapper.readValue(new Gson().toJson(configObject), AzureConfig.class);
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error reading Azure configuration, check property '"
-                + AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY
-                + "' in the Hop config json file",
-            e);
+        LogChannel.GENERAL.logError("Error reading Azure configuration, check property '" + AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY + "' in the Hop config json file", e);
         azureConfig = new AzureConfig();
       }
     }
-    HopConfig.getInstance()
-        .getConfigMap()
-        .put(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY, azureConfig);
+    HopConfig.getInstance().getConfigMap().put(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY, azureConfig);
   }
 
   public static AzureConfigSingleton getInstance() {
@@ -70,8 +63,7 @@ public class AzureConfigSingleton {
   }
 
   public static void saveConfig() throws HopException {
-    HopConfig.getInstance()
-        .saveOption(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY, configSingleton.azureConfig);
+    HopConfig.getInstance().saveOption(AzureConfig.HOP_CONFIG_AZURE_CONFIG_KEY, configSingleton.azureConfig);
     HopConfig.getInstance().saveToFile();
   }
 }

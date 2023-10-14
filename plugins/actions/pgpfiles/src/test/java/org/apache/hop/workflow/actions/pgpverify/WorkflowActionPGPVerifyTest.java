@@ -24,9 +24,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class WorkflowActionPGPVerifyTest
-    extends WorkflowActionLoadSaveTestSupport<ActionPGPVerify> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionPGPVerifyTest extends WorkflowActionLoadSaveTestSupport<ActionPGPVerify> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionPGPVerify> getActionClass() {
@@ -40,19 +40,11 @@ public class WorkflowActionPGPVerifyTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "gpglocation", "getGPGLocation",
-        "filename", "getFilename",
-        "detachedfilename", "getDetachedfilename",
-        "useDetachedSignature", "useDetachedfilename");
+    return toMap("gpglocation", "getGPGLocation", "filename", "getFilename", "detachedfilename", "getDetachedfilename", "useDetachedSignature", "useDetachedfilename");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "gpglocation", "setGPGLocation",
-        "filename", "setFilename",
-        "detachedfilename", "setDetachedfilename",
-        "useDetachedSignature", "setUseDetachedfilename");
+    return toMap("gpglocation", "setGPGLocation", "filename", "setFilename", "detachedfilename", "setDetachedfilename", "useDetachedSignature", "setUseDetachedfilename");
   }
 }

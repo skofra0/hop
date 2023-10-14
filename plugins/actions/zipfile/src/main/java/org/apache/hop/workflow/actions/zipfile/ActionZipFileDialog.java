@@ -55,11 +55,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionZipFile.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionZipFile.Filetype.Zip"),
-        BaseMessages.getString(PKG, "ActionZipFile.Filetype.All")
-      };
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionZipFile.Filetype.Zip"), BaseMessages.getString(PKG, "ActionZipFile.Filetype.All")};
 
   private Text wName;
 
@@ -130,8 +126,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionZipFileDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionZipFileDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionZipFile) action;
     if (this.action.getName() == null) {
@@ -233,21 +228,19 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlGetFromPrevious.setLayoutData(fdlGetFromPrevious);
     wGetFromPrevious = new Button(wSourceFiles, SWT.CHECK);
     PropsUi.setLook(wGetFromPrevious);
-    wGetFromPrevious.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.getFromPrevious.Tooltip"));
+    wGetFromPrevious.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.getFromPrevious.Tooltip"));
     FormData fdGetFromPrevious = new FormData();
     fdGetFromPrevious.left = new FormAttachment(middle, 0);
     fdGetFromPrevious.top = new FormAttachment(wlGetFromPrevious, 0, SWT.CENTER);
     fdGetFromPrevious.right = new FormAttachment(100, 0);
     wGetFromPrevious.setLayoutData(fdGetFromPrevious);
-    wGetFromPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setGetFromPrevious();
-          }
-        });
+    wGetFromPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setGetFromPrevious();
+      }
+    });
 
     // TargetDirectory line
     wlSourceDirectory = new Label(wSourceFiles, SWT.RIGHT);
@@ -267,8 +260,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdbSourceDirectory.right = new FormAttachment(100, 0);
     fdbSourceDirectory.top = new FormAttachment(wlGetFromPrevious, 2 * margin);
     wbSourceDirectory.setLayoutData(fdbSourceDirectory);
-    wbSourceDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceDirectory, variables));
+    wbSourceDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceDirectory, variables));
 
     // Browse Destination file browse button ...
     wbSourceFile = new Button(wSourceFiles, SWT.PUSH | SWT.CENTER);
@@ -278,18 +270,9 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdbSourceFile.right = new FormAttachment(wbSourceDirectory, -margin);
     fdbSourceFile.top = new FormAttachment(wlGetFromPrevious, 2 * margin);
     wbSourceFile.setLayoutData(fdbSourceFile);
-    wbSourceFile.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wSourceDirectory, variables, new String[] {"*"}, FILETYPES, true));
+    wbSourceFile.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wSourceDirectory, variables, new String[] {"*"}, FILETYPES, true));
 
-    wSourceDirectory =
-        new TextVar(
-            variables,
-            wSourceFiles,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionZipFile.SourceDir.Tooltip"));
+    wSourceDirectory = new TextVar(variables, wSourceFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionZipFile.SourceDir.Tooltip"));
     PropsUi.setLook(wSourceDirectory);
     wSourceDirectory.addModifyListener(lsMod);
     FormData fdSourceDirectory = new FormData();
@@ -307,12 +290,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdlWildcard.top = new FormAttachment(wSourceDirectory, margin);
     fdlWildcard.right = new FormAttachment(middle, -margin);
     wlWildcard.setLayoutData(fdlWildcard);
-    wWildcard =
-        new TextVar(
-            variables,
-            wSourceFiles,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionZipFile.Wildcard.Tooltip"));
+    wWildcard = new TextVar(variables, wSourceFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionZipFile.Wildcard.Tooltip"));
     PropsUi.setLook(wWildcard);
     wWildcard.addModifyListener(lsMod);
     FormData fdWildcard = new FormData();
@@ -330,12 +308,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdlWildcardExclude.top = new FormAttachment(wWildcard, margin);
     fdlWildcardExclude.right = new FormAttachment(middle, -margin);
     wlWildcardExclude.setLayoutData(fdlWildcardExclude);
-    wWildcardExclude =
-        new TextVar(
-            variables,
-            wSourceFiles,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionZipFile.WildcardExclude.Tooltip"));
+    wWildcardExclude = new TextVar(variables, wSourceFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionZipFile.WildcardExclude.Tooltip"));
     PropsUi.setLook(wWildcardExclude);
     wWildcardExclude.addModifyListener(lsMod);
     FormData fdWildcardExclude = new FormData();
@@ -347,8 +320,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     // Include sub-folders?
     //
     Label wlIncludeSubfolders = new Label(wSourceFiles, SWT.RIGHT);
-    wlIncludeSubfolders.setText(
-        BaseMessages.getString(PKG, "ActionZipFile.IncludeSubfolders.Label"));
+    wlIncludeSubfolders.setText(BaseMessages.getString(PKG, "ActionZipFile.IncludeSubfolders.Label"));
     PropsUi.setLook(wlIncludeSubfolders);
     FormData fdlIncludeSubfolders = new FormData();
     fdlIncludeSubfolders.left = new FormAttachment(0, 0);
@@ -357,20 +329,18 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlIncludeSubfolders.setLayoutData(fdlIncludeSubfolders);
     wIncludeSubfolders = new Button(wSourceFiles, SWT.CHECK);
     PropsUi.setLook(wIncludeSubfolders);
-    wIncludeSubfolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.IncludeSubfolders.Tooltip"));
+    wIncludeSubfolders.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.IncludeSubfolders.Tooltip"));
     FormData fdIncludeSubfolders = new FormData();
     fdIncludeSubfolders.left = new FormAttachment(middle, 0);
     fdIncludeSubfolders.top = new FormAttachment(wlIncludeSubfolders, 0, SWT.CENTER);
     fdIncludeSubfolders.right = new FormAttachment(100, 0);
     wIncludeSubfolders.setLayoutData(fdIncludeSubfolders);
-    wIncludeSubfolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubfolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     FormData fdSourceFiles = new FormData();
     fdSourceFiles.left = new FormAttachment(0, margin);
@@ -421,24 +391,13 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wZipFilename.setLayoutData(fdZipFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wZipFilename.addModifyListener(
-        e -> wZipFilename.setToolTipText(variables.resolve(wZipFilename.getText())));
+    wZipFilename.addModifyListener(e -> wZipFilename.setToolTipText(variables.resolve(wZipFilename.getText())));
 
-    wbZipFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wZipFilename,
-                variables,
-                new String[] {"*.zip;*.ZIP", "*"},
-                FILETYPES,
-                true));
+    wbZipFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wZipFilename, variables, new String[] {"*.zip;*.ZIP", "*"}, FILETYPES, true));
 
     // Create Parent Folder
     Label wlCreateParentFolder = new Label(wZipFile, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "ActionZipFile.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "ActionZipFile.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -446,21 +405,19 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdlCreateParentFolder.right = new FormAttachment(middle, -margin);
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wZipFile, SWT.CHECK);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.CreateParentFolder.Tooltip"));
     PropsUi.setLook(wCreateParentFolder);
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
     fdCreateParentFolder.right = new FormAttachment(100, 0);
     wCreateParentFolder.setLayoutData(fdCreateParentFolder);
-    wCreateParentFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wCreateParentFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddDate = new Label(wZipFile, SWT.RIGHT);
@@ -479,13 +436,12 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdAddDate.top = new FormAttachment(wlAddDate, 0, SWT.CENTER);
     fdAddDate.right = new FormAttachment(100, 0);
     wAddDate.setLayoutData(fdAddDate);
-    wAddDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Create multi-part file?
     wlAddTime = new Label(wZipFile, SWT.RIGHT);
@@ -504,13 +460,12 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdAddTime.top = new FormAttachment(wlAddTime, 0, SWT.CENTER);
     fdAddTime.right = new FormAttachment(100, 0);
     wAddTime.setLayoutData(fdAddTime);
-    wAddTime.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddTime.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Specify date time format?
     Label wlSpecifyFormat = new Label(wZipFile, SWT.RIGHT);
@@ -523,21 +478,19 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlSpecifyFormat.setLayoutData(fdlSpecifyFormat);
     wSpecifyFormat = new Button(wZipFile, SWT.CHECK);
     PropsUi.setLook(wSpecifyFormat);
-    wSpecifyFormat.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.SpecifyFormat.Tooltip"));
+    wSpecifyFormat.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.SpecifyFormat.Tooltip"));
     FormData fdSpecifyFormat = new FormData();
     fdSpecifyFormat.left = new FormAttachment(middle, 0);
     fdSpecifyFormat.top = new FormAttachment(wlSpecifyFormat, 0, SWT.CENTER);
     fdSpecifyFormat.right = new FormAttachment(100, 0);
     wSpecifyFormat.setLayoutData(fdSpecifyFormat);
-    wSpecifyFormat.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            setDateTimeFormat();
-          }
-        });
+    wSpecifyFormat.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        setDateTimeFormat();
+      }
+    });
 
     // Prepare a list of possible DateTimeFormats...
     String[] dats = Const.getDateFormats();
@@ -571,40 +524,33 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdbShowFiles.left = new FormAttachment(middle, 0);
     fdbShowFiles.top = new FormAttachment(wDateTimeFormat, margin * 2);
     wbShowFiles.setLayoutData(fdbShowFiles);
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (!Utils.isEmpty(wZipFilename.getText())) {
-              ActionZipFile actionZipFile = new ActionZipFile();
-              String[] filename = new String[1];
-              filename[0] =
-                  ActionZipFileDialog.this.action.getFullFilename(
-                      wZipFilename.getText(),
-                      wAddDate.getSelection(),
-                      wAddTime.getSelection(),
-                      wSpecifyFormat.getSelection(),
-                      wDateTimeFormat.getText());
-              if (filename != null && filename.length > 0) {
-                EnterSelectionDialog esd =
-                    new EnterSelectionDialog(
-                        shell,
-                        filename,
-                        BaseMessages.getString(PKG, "ActionZipFile.SelectOutputFiles.DialogTitle"),
-                        BaseMessages.getString(
-                            PKG, "ActionZipFile.SelectOutputFiles.DialogMessage"));
-                esd.setViewOnly();
-                esd.open();
-              } else {
-                MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-                mb.setMessage(
-                    BaseMessages.getString(PKG, "ActionZipFile.NoFilesFound.DialogMessage"));
-                mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-                mb.open();
-              }
-            }
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (!Utils.isEmpty(wZipFilename.getText())) {
+          ActionZipFile actionZipFile = new ActionZipFile();
+          String[] filename = new String[1];
+          filename[0] =
+              ActionZipFileDialog.this.action
+                  .getFullFilename(wZipFilename.getText(), wAddDate.getSelection(), wAddTime.getSelection(), wSpecifyFormat.getSelection(), wDateTimeFormat.getText());
+          if (filename != null && filename.length > 0) {
+            EnterSelectionDialog esd =
+                new EnterSelectionDialog(
+                    shell,
+                    filename,
+                    BaseMessages.getString(PKG, "ActionZipFile.SelectOutputFiles.DialogTitle"),
+                    BaseMessages.getString(PKG, "ActionZipFile.SelectOutputFiles.DialogMessage"));
+            esd.setViewOnly();
+            esd.open();
+          } else {
+            MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+            mb.setMessage(BaseMessages.getString(PKG, "ActionZipFile.NoFilesFound.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+            mb.open();
           }
-        });
+        }
+      }
+    });
 
     FormData fdZipFile = new FormData();
     fdZipFile.left = new FormAttachment(0, margin);
@@ -668,14 +614,10 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdlCompressionRate.top = new FormAttachment(wZipFile, margin);
     wlCompressionRate.setLayoutData(fdlCompressionRate);
     wCompressionRate = new CCombo(wSettings, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wCompressionRate.add(
-        BaseMessages.getString(PKG, "ActionZipFile.NO_COMP_CompressionRate.Label"));
-    wCompressionRate.add(
-        BaseMessages.getString(PKG, "ActionZipFile.DEF_COMP_CompressionRate.Label"));
-    wCompressionRate.add(
-        BaseMessages.getString(PKG, "ActionZipFile.BEST_COMP_CompressionRate.Label"));
-    wCompressionRate.add(
-        BaseMessages.getString(PKG, "ActionZipFile.BEST_SPEED_CompressionRate.Label"));
+    wCompressionRate.add(BaseMessages.getString(PKG, "ActionZipFile.NO_COMP_CompressionRate.Label"));
+    wCompressionRate.add(BaseMessages.getString(PKG, "ActionZipFile.DEF_COMP_CompressionRate.Label"));
+    wCompressionRate.add(BaseMessages.getString(PKG, "ActionZipFile.BEST_COMP_CompressionRate.Label"));
+    wCompressionRate.add(BaseMessages.getString(PKG, "ActionZipFile.BEST_SPEED_CompressionRate.Label"));
     wCompressionRate.select(1); // +1: starts at -1
 
     PropsUi.setLook(wCompressionRate);
@@ -695,8 +637,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdlIfFileExists.top = new FormAttachment(wCompressionRate, margin);
     wlIfFileExists.setLayoutData(fdlIfFileExists);
     wIfFileExists = new CCombo(wSettings, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wIfFileExists.add(
-        BaseMessages.getString(PKG, "ActionZipFile.Create_NewFile_IfFileExists.Label"));
+    wIfFileExists.add(BaseMessages.getString(PKG, "ActionZipFile.Create_NewFile_IfFileExists.Label"));
     wIfFileExists.add(BaseMessages.getString(PKG, "ActionZipFile.Append_File_IfFileExists.Label"));
     wIfFileExists.add(BaseMessages.getString(PKG, "ActionZipFile.Do_Nothing_IfFileExists.Label"));
 
@@ -733,13 +674,12 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdAfterZip.right = new FormAttachment(100, 0);
     wAfterZip.setLayoutData(fdAfterZip);
 
-    wAfterZip.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            afterZipActivate();
-          }
-        });
+    wAfterZip.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        afterZipActivate();
+      }
+    });
 
     // moveTo Directory
     wlMovetoDirectory = new Label(wSettings, SWT.RIGHT);
@@ -759,15 +699,9 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     fdbMovetoDirectory.right = new FormAttachment(100, 0);
     fdbMovetoDirectory.top = new FormAttachment(wAfterZip, margin);
     wbMovetoDirectory.setLayoutData(fdbMovetoDirectory);
-    wbMovetoDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wMovetoDirectory, variables));
+    wbMovetoDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wMovetoDirectory, variables));
 
-    wMovetoDirectory =
-        new TextVar(
-            variables,
-            wSettings,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionZipFile.MovetoDirectory.Tooltip"));
+    wMovetoDirectory = new TextVar(variables, wSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionZipFile.MovetoDirectory.Tooltip"));
     PropsUi.setLook(wMovetoDirectory);
     wMovetoDirectory.addModifyListener(lsMod);
     FormData fdMovetoDirectory = new FormData();
@@ -778,8 +712,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
 
     // create moveto folder
     wlCreateMoveToDirectory = new Label(wSettings, SWT.RIGHT);
-    wlCreateMoveToDirectory.setText(
-        BaseMessages.getString(PKG, "ActionZipFile.createMoveToDirectory.Label"));
+    wlCreateMoveToDirectory.setText(BaseMessages.getString(PKG, "ActionZipFile.createMoveToDirectory.Label"));
     PropsUi.setLook(wlCreateMoveToDirectory);
     FormData fdlCreateMoveToDirectory = new FormData();
     fdlCreateMoveToDirectory.left = new FormAttachment(0, 0);
@@ -788,24 +721,21 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlCreateMoveToDirectory.setLayoutData(fdlCreateMoveToDirectory);
     wCreateMoveToDirectory = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wCreateMoveToDirectory);
-    wCreateMoveToDirectory.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.createMoveToDirectory.Tooltip"));
+    wCreateMoveToDirectory.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.createMoveToDirectory.Tooltip"));
     FormData fdCreateMoveToDirectory = new FormData();
     fdCreateMoveToDirectory.left = new FormAttachment(middle, 0);
     fdCreateMoveToDirectory.top = new FormAttachment(wlCreateMoveToDirectory, 0, SWT.CENTER);
     fdCreateMoveToDirectory.right = new FormAttachment(100, 0);
     wCreateMoveToDirectory.setLayoutData(fdCreateMoveToDirectory);
-    wCreateMoveToDirectory.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wCreateMoveToDirectory.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     Label wlStoredSourcePathDepth = new Label(wSettings, SWT.RIGHT);
-    wlStoredSourcePathDepth.setText(
-        BaseMessages.getString(PKG, "ActionZipFile.StoredSourcePathDepth.Label"));
+    wlStoredSourcePathDepth.setText(BaseMessages.getString(PKG, "ActionZipFile.StoredSourcePathDepth.Label"));
     PropsUi.setLook(wlStoredSourcePathDepth);
     FormData fdlStoredSourcePathDepth = new FormData();
     fdlStoredSourcePathDepth.left = new FormAttachment(0, 0);
@@ -814,8 +744,7 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlStoredSourcePathDepth.setLayoutData(fdlStoredSourcePathDepth);
     wStoredSourcePathDepth = new ComboVar(variables, wSettings, SWT.SINGLE | SWT.BORDER);
     PropsUi.setLook(wStoredSourcePathDepth);
-    wStoredSourcePathDepth.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.StoredSourcePathDepth.Tooltip"));
+    wStoredSourcePathDepth.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.StoredSourcePathDepth.Tooltip"));
     FormData fdStoredSourcePathDepth = new FormData();
     fdStoredSourcePathDepth.left = new FormAttachment(middle, 0);
     fdStoredSourcePathDepth.top = new FormAttachment(wlCreateMoveToDirectory, 2 * margin);
@@ -823,16 +752,15 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wStoredSourcePathDepth.setLayoutData(fdStoredSourcePathDepth);
     wStoredSourcePathDepth.setItems(
         new String[] {
-          "0 : /project-hop/work/transfer/input/project/file.txt",
-          "1 : file.txt",
-          "2 : project/file.txt",
-          "3 : input/project/file.txt",
-          "4 : transfer/input/project/file.txt",
-          "5 : work/transfer/input/project/file.txt",
-          "6 : project-hop/work/transfer/input/project/file.txt",
-          "7 : project-hop/work/transfer/input/project/file.txt",
-          "8 : project-hop/work/transfer/input/project/file.txt",
-        });
+            "0 : /project-hop/work/transfer/input/project/file.txt",
+            "1 : file.txt",
+            "2 : project/file.txt",
+            "3 : input/project/file.txt",
+            "4 : transfer/input/project/file.txt",
+            "5 : work/transfer/input/project/file.txt",
+            "6 : project-hop/work/transfer/input/project/file.txt",
+            "7 : project-hop/work/transfer/input/project/file.txt",
+            "8 : project-hop/work/transfer/input/project/file.txt",});
 
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
@@ -869,20 +797,18 @@ public class ActionZipFileDialog extends ActionDialog implements IActionDialog {
     wlAddFileToResult.setLayoutData(fdlAddFileToResult);
     wAddFileToResult = new Button(wFileResult, SWT.CHECK);
     PropsUi.setLook(wAddFileToResult);
-    wAddFileToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionZipFile.AddFileToResult.Tooltip"));
+    wAddFileToResult.setToolTipText(BaseMessages.getString(PKG, "ActionZipFile.AddFileToResult.Tooltip"));
     FormData fdAddFileToResult = new FormData();
     fdAddFileToResult.left = new FormAttachment(middle, 0);
     fdAddFileToResult.top = new FormAttachment(wlAddFileToResult, 0, SWT.CENTER);
     fdAddFileToResult.right = new FormAttachment(100, 0);
     wAddFileToResult.setLayoutData(fdAddFileToResult);
-    wAddFileToResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAddFileToResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     FormData fdFileResult = new FormData();
     fdFileResult.left = new FormAttachment(0, margin);

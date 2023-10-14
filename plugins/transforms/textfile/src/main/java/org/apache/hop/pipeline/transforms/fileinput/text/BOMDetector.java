@@ -23,19 +23,19 @@ import java.io.InputStream;
 /**
  * Detector of BOM prefix in file.
  *
- * <p>We don't use BOMInputStream because: 1) it requires commons-io 2.1 or higher, 2) it doesn't
+ * <p>
+ * We don't use BOMInputStream because: 1) it requires commons-io 2.1 or higher, 2) it doesn't
  * support GB18030 charset, 3) it's additional abstraction level that add some microseconds to read
  */
 public class BOMDetector {
   public static final BOMMark[] MARKS =
       new BOMMark[] {
-        new BOMMark("UTF-8", 0xEF, 0xBB, 0xBF),
-        new BOMMark("UTF-32BE", 0x00, 0x00, 0xFE, 0xFF),
-        new BOMMark("UTF-32LE", 0xFF, 0xFE, 0x00, 0x00),
-        new BOMMark("UTF-16BE", 0xFE, 0xFF),
-        new BOMMark("UTF-16LE", 0xFF, 0xFE),
-        new BOMMark("GB18030", 0x84, 0x31, 0x95, 0x33),
-      };
+          new BOMMark("UTF-8", 0xEF, 0xBB, 0xBF),
+          new BOMMark("UTF-32BE", 0x00, 0x00, 0xFE, 0xFF),
+          new BOMMark("UTF-32LE", 0xFF, 0xFE, 0x00, 0x00),
+          new BOMMark("UTF-16BE", 0xFE, 0xFF),
+          new BOMMark("UTF-16LE", 0xFF, 0xFE),
+          new BOMMark("GB18030", 0x84, 0x31, 0x95, 0x33),};
 
   private final InputStream in;
   private int bomSize;

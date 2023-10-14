@@ -87,28 +87,21 @@ public class ActionPGPVerify extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("gpglocation", gpgLocation));
     retval.append("      ").append(XmlHandler.addTagValue("filename", filename));
     retval.append("      ").append(XmlHandler.addTagValue("detachedfilename", detachedfilename));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("useDetachedSignature", useDetachedSignature));
+    retval.append("      ").append(XmlHandler.addTagValue("useDetachedSignature", useDetachedSignature));
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       gpgLocation = XmlHandler.getTagValue(entrynode, "gpglocation");
       filename = XmlHandler.getTagValue(entrynode, "filename");
       detachedfilename = XmlHandler.getTagValue(entrynode, "detachedfilename");
-      useDetachedSignature =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "useDetachedSignature"));
+      useDetachedSignature = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "useDetachedSignature"));
 
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "ActionPGPVerify.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node"),
-          xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionPGPVerify.ERROR_0001_Cannot_Load_Workflow_Action_From_Xml_Node"), xe);
     }
   }
 
@@ -205,8 +198,7 @@ public class ActionPGPVerify extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(gpgLocation)) {
       String realFileName = resolve(gpgLocation);
@@ -218,17 +210,8 @@ public class ActionPGPVerify extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "gpglocation",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "gpglocation", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 
   /**
@@ -239,17 +222,13 @@ public class ActionPGPVerify extends ActionBase implements Cloneable, IAction {
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

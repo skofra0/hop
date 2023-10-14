@@ -37,7 +37,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class WebServiceMetaLoadSaveTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
   Class<WebServiceMeta> testMetaClass = WebServiceMeta.class;
 
@@ -47,40 +48,20 @@ public class WebServiceMetaLoadSaveTest {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "url",
-            "operationName",
-            "operationRequestName",
-            "operationNamespace",
-            "inFieldContainerName",
-            "inFieldArgumentName",
-            "outFieldContainerName",
-            "outFieldArgumentName",
-            "proxyHost",
-            "proxyPort",
-            "httpLogin",
-            "httpPassword",
-            "passingInputData",
-            "callTransform",
-            "compatible",
-            "repeatingElementName",
-            "returningReplyAsString",
-            "fieldsIn",
+            "url", "operationName", "operationRequestName", "operationNamespace", "inFieldContainerName", "inFieldArgumentName", "outFieldContainerName", "outFieldArgumentName",
+            "proxyHost", "proxyPort", "httpLogin", "httpPassword", "passingInputData", "callTransform", "compatible", "repeatingElementName", "returningReplyAsString", "fieldsIn",
             "fieldsOut");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "fieldsIn", new ListLoadSaveValidator<>(new WebServiceFieldLoadSaveValidator(), 5));
-    attrValidatorMap.put(
-        "fieldsOut", new ListLoadSaveValidator<>(new WebServiceFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fieldsIn", new ListLoadSaveValidator<>(new WebServiceFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fieldsOut", new ListLoadSaveValidator<>(new WebServiceFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test
@@ -88,8 +69,7 @@ public class WebServiceMetaLoadSaveTest {
     loadSaveTester.testSerialization();
   }
 
-  public class WebServiceFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<WebServiceField> {
+  public class WebServiceFieldLoadSaveValidator implements IFieldLoadSaveValidator<WebServiceField> {
     final Random rand = new Random();
 
     @Override
@@ -107,11 +87,8 @@ public class WebServiceMetaLoadSaveTest {
         return false;
       }
       WebServiceField another = (WebServiceField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getWsName(), another.getWsName())
-          .append(testObject.getXsdType(), another.getXsdType())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getWsName(), another.getWsName())
+          .append(testObject.getXsdType(), another.getXsdType()).isEquals();
     }
   }
 }

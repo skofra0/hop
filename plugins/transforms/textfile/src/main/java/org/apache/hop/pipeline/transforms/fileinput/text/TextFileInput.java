@@ -33,19 +33,12 @@ public class TextFileInput extends BaseFileInputTransform<TextFileInputMeta, Tex
 
   private static final Class<?> PKG = TextFileInputMeta.class; // For Translator
 
-  public TextFileInput(
-      TransformMeta transformMeta,
-      TextFileInputMeta meta,
-      TextFileInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TextFileInput(TransformMeta transformMeta, TextFileInputMeta meta, TextFileInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   @Override
-  protected IBaseFileInputReader createReader(
-      TextFileInputMeta meta, TextFileInputData data, FileObject file) throws Exception {
+  protected IBaseFileInputReader createReader(TextFileInputMeta meta, TextFileInputData data, FileObject file) throws Exception {
     return new TextFileInputReader(this, meta, data, file, log);
   }
 
@@ -69,8 +62,7 @@ public class TextFileInput extends BaseFileInputTransform<TextFileInputMeta, Tex
     data.enclosure = resolve(meta.content.enclosure);
     data.escapeCharacter = resolve(meta.content.escapeCharacter);
     // CSV without separator defined
-    if (meta.content.fileType.equalsIgnoreCase("CSV")
-        && (meta.content.separator == null || meta.content.separator.isEmpty())) {
+    if (meta.content.fileType.equalsIgnoreCase("CSV") && (meta.content.separator == null || meta.content.separator.isEmpty())) {
       logError(BaseMessages.getString(PKG, "TextFileInput.Exception.NoSeparator"));
       return false;
     }

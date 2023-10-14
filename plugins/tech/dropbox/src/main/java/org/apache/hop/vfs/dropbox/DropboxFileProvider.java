@@ -38,15 +38,8 @@ public class DropboxFileProvider extends AbstractOriginatingFileProvider {
 
   protected static final Collection<Capability> capabilities =
       Set.of(
-              Capability.CREATE,
-              Capability.DELETE,
-              Capability.RENAME,
-              Capability.GET_TYPE,
-              Capability.LIST_CHILDREN,
-              Capability.READ_CONTENT,
-              Capability.GET_LAST_MODIFIED,
-              Capability.URI,
-              Capability.WRITE_CONTENT);
+          Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED,
+          Capability.URI, Capability.WRITE_CONTENT);
 
   private static FileSystemOptions defaultOptions = new FileSystemOptions();
 
@@ -56,13 +49,12 @@ public class DropboxFileProvider extends AbstractOriginatingFileProvider {
 
   public DropboxFileProvider() {
     super();
-    
+
     setFileNameParser(DropboxFileNameParser.getInstance());
   }
 
   @Override
-  protected FileSystem doCreateFileSystem(FileName fileName, FileSystemOptions fileSystemOptions)
-      throws FileSystemException {
+  protected FileSystem doCreateFileSystem(FileName fileName, FileSystemOptions fileSystemOptions) throws FileSystemException {
 
     if (fileSystemOptions == null) {
       fileSystemOptions = getDefaultFileSystemOptions();
@@ -77,12 +69,10 @@ public class DropboxFileProvider extends AbstractOriginatingFileProvider {
     try {
       DropboxConfig config = DropboxConfigSingleton.getConfig();
       if (StringUtils.isEmpty(config.getAccessToken())) {
-        throw new FileSystemException(
-            "Please configure the Dropbox access token to use in the configuration (Options dialog or with hop-conf)");
+        throw new FileSystemException("Please configure the Dropbox access token to use in the configuration (Options dialog or with hop-conf)");
       }
 
-      DbxRequestConfig requestConfig =
-          DbxRequestConfig.newBuilder(APPLICATION_NAME).withAutoRetryEnabled().build();
+      DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(APPLICATION_NAME).withAutoRetryEnabled().build();
 
       return new DbxClientV2(requestConfig, config.getAccessToken());
 

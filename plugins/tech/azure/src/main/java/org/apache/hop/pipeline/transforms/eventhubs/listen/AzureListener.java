@@ -42,13 +42,7 @@ import java.util.concurrent.Executors;
 
 public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListenerData> {
 
-  public AzureListener(
-      TransformMeta transformMeta,
-      AzureListenerMeta meta,
-      AzureListenerData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AzureListener(TransformMeta transformMeta, AzureListenerMeta meta, AzureListenerData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -102,11 +96,8 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
 
     // Create a single threaded transformation
     //
-    if (StringUtils.isNotEmpty(batchTransformationFile)
-        && StringUtils.isNotEmpty(batchInputTransform)) {
-      logBasic(
-          "Passing rows to a batching transformation running single threaded : "
-              + batchTransformationFile);
+    if (StringUtils.isNotEmpty(batchTransformationFile) && StringUtils.isNotEmpty(batchInputTransform)) {
+      logBasic("Passing rows to a batching transformation running single threaded : " + batchTransformationFile);
       data.stt = true;
       data.sttMaxWaitTime = Const.toLong(resolve(meta.getBatchMaxWaitTime()), -1L);
       data.sttPipelineMeta = AzureListenerMeta.loadBatchPipelineMeta(meta, metadataProvider, this);
@@ -126,17 +117,14 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
       if (StringUtils.isNotEmpty(batchOutputTransform)) {
         ITransform outputTransform = data.sttPipeline.findRunThread(batchOutputTransform);
         if (outputTransform == null) {
-          throw new HopTransformException(
-              "Unable to find output transform '" + batchOutputTransform + "'in batch pipeline");
+          throw new HopTransformException("Unable to find output transform '" + batchOutputTransform + "'in batch pipeline");
         }
-        outputTransform.addRowListener(
-            new RowAdapter() {
-              @Override
-              public void rowWrittenEvent(IRowMeta rowMeta, Object[] row)
-                  throws HopTransformException {
-                AzureListener.this.putRow(rowMeta, row);
-              }
-            });
+        outputTransform.addRowListener(new RowAdapter() {
+          @Override
+          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+            AzureListener.this.putRow(rowMeta, row);
+          }
+        });
       }
 
       data.sttPipeline.startThreads();
@@ -155,12 +143,7 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
     }
 
     log.logDetailed("Creating connection string builder");
-    data.connectionStringBuilder =
-        new ConnectionStringBuilder()
-            .setNamespaceName(namespace)
-            .setEventHubName(eventHubName)
-            .setSasKeyName(sasKeyName)
-            .setSasKey(sasKey);
+    data.connectionStringBuilder = new ConnectionStringBuilder().setNamespaceName(namespace).setEventHubName(eventHubName).setSasKeyName(sasKeyName).setSasKey(sasKey);
 
     log.logDetailed("Opening new executor service");
 
@@ -168,9 +151,7 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
 
     log.logDetailed("Creating event hub client");
     try {
-      data.eventHubClient =
-          EventHubClient.createFromConnectionStringSync(
-              data.connectionStringBuilder.toString(), data.executorService);
+      data.eventHubClient = EventHubClient.createFromConnectionStringSync(data.connectionStringBuilder.toString(), data.executorService);
     } catch (Exception e) {
       throw new HopTransformException("Unable to create event hub client", e);
     }
@@ -179,11 +160,8 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
 
     try {
       host =
-          EventProcessorHost.EventProcessorHostBuilder.newBuilder(
-                  EventProcessorHost.createHostName("HopHost"), consumerGroupName)
-              .useAzureStorageCheckpointLeaseManager(
-                  storageConnectionString, storageContainerName, "hop")
-              .useEventHubConnectionString(data.connectionStringBuilder.toString())
+          EventProcessorHost.EventProcessorHostBuilder.newBuilder(EventProcessorHost.createHostName("HopHost"), consumerGroupName)
+              .useAzureStorageCheckpointLeaseManager(storageConnectionString, storageContainerName, "hop").useEventHubConnectionString(data.connectionStringBuilder.toString())
               .build();
     } catch (Exception e) {
       throw new HopException("Unable to set up events host processor", e);
@@ -203,9 +181,7 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
 
     data.executorService = Executors.newSingleThreadScheduledExecutor();
     try {
-      data.eventHubClient =
-          EventHubClient.createFromConnectionStringSync(
-              data.connectionStringBuilder.toString(), data.executorService);
+      data.eventHubClient = EventHubClient.createFromConnectionStringSync(data.connectionStringBuilder.toString(), data.executorService);
     } catch (Exception e) {
       throw new HopTransformException("Unable to create event hub client", e);
     }
@@ -214,12 +190,11 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
     // (or not)
     // and get rows from an optional output Transform.
     //
-    final AzureListenerEventProcessor eventProcessor =
-        new AzureListenerEventProcessor(AzureListener.this, data, data.batchSize);
+    final AzureListenerEventProcessor eventProcessor = new AzureListenerEventProcessor(AzureListener.this, data, data.batchSize);
 
     // In case we have a while since an iteration was done sending rows to the batch transformation,
     // keep an eye out for the
-    // maximum wait time.  If we go over that time, and we have records in the input of the batch,
+    // maximum wait time. If we go over that time, and we have records in the input of the batch,
     // call oneIteration.
     // We need to make sure to halt the rest though.
     //
@@ -227,104 +202,89 @@ public class AzureListener extends BaseTransform<AzureListenerMeta, AzureListene
       // Add a timer to check every max wait time to see whether or not we have to do an
       // iteration...
       //
-      logBasic(
-          "Checking for stalled rows every 100ms to see if we exceed the maximum wait time: "
-              + data.sttMaxWaitTime);
+      logBasic("Checking for stalled rows every 100ms to see if we exceed the maximum wait time: " + data.sttMaxWaitTime);
       try {
         Timer timer = new Timer();
-        TimerTask timerTask =
-            new TimerTask() {
-              @Override
-              public void run() {
-                // Do nothing if we haven't started yet.
-                //
-                if (eventProcessor.getLastIterationTime() > 0) {
-                  if (eventProcessor.getPassedRowsCount() > 0) {
-                    long now = System.currentTimeMillis();
+        TimerTask timerTask = new TimerTask() {
+          @Override
+          public void run() {
+            // Do nothing if we haven't started yet.
+            //
+            if (eventProcessor.getLastIterationTime() > 0) {
+              if (eventProcessor.getPassedRowsCount() > 0) {
+                long now = System.currentTimeMillis();
 
-                    long diff = now - eventProcessor.getLastIterationTime();
-                    if (diff > data.sttMaxWaitTime) {
-                      logDetailed(
-                          "Stalled rows detected with wait time of " + ((double) diff / 1000));
+                long diff = now - eventProcessor.getLastIterationTime();
+                if (diff > data.sttMaxWaitTime) {
+                  logDetailed("Stalled rows detected with wait time of " + ((double) diff / 1000));
 
-                      // Call one iteration but halt anything else first.
-                      //
-                      try {
-                        eventProcessor.startWait();
-                        eventProcessor.doOneIteration();
-                      } catch (Exception e) {
-                        throw new RuntimeException(
-                            "Error in batch iteration when max wait time was exceeded", e);
-                      } finally {
-                        eventProcessor.endWait();
-                      }
-                      logDetailed("Done processing after max wait time.");
-                    }
+                  // Call one iteration but halt anything else first.
+                  //
+                  try {
+                    eventProcessor.startWait();
+                    eventProcessor.doOneIteration();
+                  } catch (Exception e) {
+                    throw new RuntimeException("Error in batch iteration when max wait time was exceeded", e);
+                  } finally {
+                    eventProcessor.endWait();
                   }
+                  logDetailed("Done processing after max wait time.");
                 }
               }
-            };
+            }
+          }
+        };
         // Check ten times per second
         //
         timer.schedule(timerTask, 100, 100);
       } catch (RuntimeException e) {
-        throw new HopTransformException(
-            "Error in batch iteration when max wait time was exceeded", e);
+        throw new HopTransformException("Error in batch iteration when max wait time was exceeded", e);
       }
     }
 
     try {
-      host.registerEventProcessorFactory(partitionContext -> eventProcessor)
-          .whenComplete(
-              (unused, e) -> {
-                // whenComplete passes the result of the previous stage through unchanged,
-                // which makes it useful for logging a result without side effects.
-                //
-                if (e != null) {
-                  logError("Failure while registering: " + e.toString());
-                  if (e.getCause() != null) {
-                    logError("Inner exception: " + e.getCause().toString());
-                  }
-                  setErrors(1);
-                  stopAll();
-                  setOutputDone();
-                }
-              })
-          .thenAccept(
-              unused -> {
-                // This stage will only execute if registerEventProcessor succeeded.
-                // If it completed exceptionally, this stage will be skipped.
-                //
-                // block until we need to stop...
-                //
-                while (!AzureListener.this.isStopped() && !AzureListener.this.outputIsDone()) {
-                  try {
-                    Thread.sleep(0, 100);
-                  } catch (InterruptedException e) {
-                    // Ignore
-                  }
-                }
-              })
-          .thenCompose(
-              unused ->
-                  // This stage will only execute if registerEventProcessor succeeded.
-                  //
-                  // Processing of events continues until unregisterEventProcessor is called.
-                  // Unregistering shuts down the
-                  // receivers on all currently owned leases, shuts down the instances of the event
-                  // processor class, and
-                  // releases the leases for other instances of EventProcessorHost to claim.
-                  //
-                  host.unregisterEventProcessor())
-          .exceptionally(
-              e -> {
-                logError("Failure while unregistering: " + e.toString());
-                if (e.getCause() != null) {
-                  logError("Inner exception: " + e.getCause().toString());
-                }
-                return null;
-              })
-          .get(); // Wait for everything to finish before exiting main!
+      host.registerEventProcessorFactory(partitionContext -> eventProcessor).whenComplete((unused, e) -> {
+        // whenComplete passes the result of the previous stage through unchanged,
+        // which makes it useful for logging a result without side effects.
+        //
+        if (e != null) {
+          logError("Failure while registering: " + e.toString());
+          if (e.getCause() != null) {
+            logError("Inner exception: " + e.getCause().toString());
+          }
+          setErrors(1);
+          stopAll();
+          setOutputDone();
+        }
+      }).thenAccept(unused -> {
+        // This stage will only execute if registerEventProcessor succeeded.
+        // If it completed exceptionally, this stage will be skipped.
+        //
+        // block until we need to stop...
+        //
+        while (!AzureListener.this.isStopped() && !AzureListener.this.outputIsDone()) {
+          try {
+            Thread.sleep(0, 100);
+          } catch (InterruptedException e) {
+            // Ignore
+          }
+        }
+      }).thenCompose(unused ->
+      // This stage will only execute if registerEventProcessor succeeded.
+      //
+      // Processing of events continues until unregisterEventProcessor is called.
+      // Unregistering shuts down the
+      // receivers on all currently owned leases, shuts down the instances of the event
+      // processor class, and
+      // releases the leases for other instances of EventProcessorHost to claim.
+      //
+      host.unregisterEventProcessor()).exceptionally(e -> {
+        logError("Failure while unregistering: " + e.toString());
+        if (e.getCause() != null) {
+          logError("Inner exception: " + e.getCause().toString());
+        }
+        return null;
+      }).get(); // Wait for everything to finish before exiting main!
 
     } catch (Exception e) {
       throw new HopException("Error in event processor", e);

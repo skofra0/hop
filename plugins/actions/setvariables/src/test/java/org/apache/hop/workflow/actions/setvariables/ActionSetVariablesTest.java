@@ -84,9 +84,7 @@ public class ActionSetVariablesTest {
     HopClientEnvironment.init();
     MemoryMetadataProvider provider = new MemoryMetadataProvider();
 
-    ActionSetVariables action =
-        ActionSerializationTestUtil.testSerialization(
-            "/set-variables-action.xml", ActionSetVariables.class, provider);
+    ActionSetVariables action = ActionSerializationTestUtil.testSerialization("/set-variables-action.xml", ActionSetVariables.class, provider);
 
     // Properties file variables
     assertEquals(VariableType.CURRENT_WORKFLOW, action.getFileVariableType());
@@ -117,8 +115,7 @@ public class ActionSetVariablesTest {
   @Test
   public void testASCIIText() throws Exception {
     // properties file with native2ascii
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/ASCIIText.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/ASCIIText.properties");
     action.setReplaceVars(true);
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
@@ -130,8 +127,7 @@ public class ActionSetVariablesTest {
   @Test
   public void testUTF8Text() throws Exception {
     // properties files without native2ascii
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/UTF8Text.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/UTF8Text.properties");
     action.setReplaceVars(true);
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
@@ -143,8 +139,7 @@ public class ActionSetVariablesTest {
   @Test
   public void testInputStreamClosed() throws Exception {
     // properties files without native2ascii
-    String propertiesFilename =
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/UTF8Text.properties";
+    String propertiesFilename = "src/test/resources/org/apache/hop/workflow/actions/setvariables/UTF8Text.properties";
     action.setFilename(propertiesFilename);
     action.setReplaceVars(true);
     Result result = action.execute(new Result(), 0);
@@ -165,8 +160,7 @@ public class ActionSetVariablesTest {
   }
 
   @Test
-  public void testParentJobVariablesExecutingFilePropertiesThatChangesVariablesAndParameters()
-      throws Exception {
+  public void testParentJobVariablesExecutingFilePropertiesThatChangesVariablesAndParameters() throws Exception {
     action.setReplaceVars(true);
     action.setFileVariableType(VariableType.CURRENT_WORKFLOW);
 
@@ -176,16 +170,14 @@ public class ActionSetVariablesTest {
     parentWorkflow.setParameterValue("parentParam", "parentValue");
     parentWorkflow.setVariable("parentParam", "parentValue");
 
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationA.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationA.properties");
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
     assertEquals("a", parentWorkflow.getVariable("propertyFile"));
     assertEquals("a", parentWorkflow.getVariable("dynamicProperty"));
     assertEquals("parentValue", parentWorkflow.getVariable("parentParam"));
 
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationB.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationB.properties");
     result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
     assertEquals("b", parentWorkflow.getVariable("propertyFile"));
@@ -194,8 +186,7 @@ public class ActionSetVariablesTest {
     assertEquals("static", parentWorkflow.getVariable("staticProperty"));
     assertEquals("", parentWorkflow.getVariable("dynamicProperty"));
 
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationA.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationA.properties");
     result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
     assertEquals("a", parentWorkflow.getVariable("propertyFile"));
@@ -204,8 +195,7 @@ public class ActionSetVariablesTest {
     assertEquals("", parentWorkflow.getVariable("staticProperty"));
     assertEquals("a", parentWorkflow.getVariable("dynamicProperty"));
 
-    action.setFilename(
-        "src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationB.properties");
+    action.setFilename("src/test/resources/org/apache/hop/workflow/actions/setvariables/configurationB.properties");
     result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
     assertEquals("b", parentWorkflow.getVariable("propertyFile"));
@@ -225,11 +215,9 @@ public class ActionSetVariablesTest {
   }
 
   @Test
-  public void testSetVariablesExecute_VARIABLE_TYPE_CURRENT_WORKFLOW_NullVariable()
-      throws Exception {
+  public void testSetVariablesExecute_VARIABLE_TYPE_CURRENT_WORKFLOW_NullVariable() throws Exception {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
-    action.loadXml(
-        getEntryNode("nullVariable", null, "CURRENT_WORKFLOW"), metadataProvider, new Variables());
+    action.loadXml(getEntryNode("nullVariable", null, "CURRENT_WORKFLOW"), metadataProvider, new Variables());
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
     assertNull(action.getVariable("nullVariable"));
@@ -238,8 +226,7 @@ public class ActionSetVariablesTest {
   @Test
   public void testSetVariablesExecute_VARIABLE_TYPE_JVM_VariableNotNull() throws Exception {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
-    action.loadXml(
-        getEntryNode("variableNotNull", "someValue", "JVM"), metadataProvider, new Variables());
+    action.loadXml(getEntryNode("variableNotNull", "someValue", "JVM"), metadataProvider, new Variables());
     assertNull(System.getProperty("variableNotNull"));
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
@@ -247,13 +234,9 @@ public class ActionSetVariablesTest {
   }
 
   @Test
-  public void testSetVariablesExecute_VARIABLE_TYPE_CURRENT_WORKFLOW_VariableNotNull()
-      throws Exception {
+  public void testSetVariablesExecute_VARIABLE_TYPE_CURRENT_WORKFLOW_VariableNotNull() throws Exception {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
-    action.loadXml(
-        getEntryNode("variableNotNull", "someValue", "CURRENT_WORKFLOW"),
-        metadataProvider,
-        new Variables());
+    action.loadXml(getEntryNode("variableNotNull", "someValue", "CURRENT_WORKFLOW"), metadataProvider, new Variables());
     assertNull(System.getProperty("variableNotNull"));
     Result result = action.execute(new Result(), 0);
     assertTrue("Result should be true", result.getResult());
@@ -261,8 +244,7 @@ public class ActionSetVariablesTest {
   }
 
   // prepare xml for use
-  public Node getEntryNode(String variableName, String variableValue, String variableType)
-      throws ParserConfigurationException, SAXException, IOException {
+  public Node getEntryNode(String variableName, String variableValue, String variableType) throws ParserConfigurationException, SAXException, IOException {
     StringBuilder sb = new StringBuilder();
     sb.append(XmlHandler.openTag("workflow"));
     sb.append("      ").append(XmlHandler.openTag("fields"));

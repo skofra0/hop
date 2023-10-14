@@ -60,16 +60,26 @@ import static org.mockito.Mockito.when;
 public class MongodbInputDiscoverFieldsImplTest {
 
   private IVariables variables;
-  @Mock private MongoDbConnection connection;
-  @Mock private MongoWrapperClientFactory clientFactory;
-  @Mock private MongoClientWrapper clientWrapper;
-  @Mock private DB mockDb;
-  @Mock private MongoDbInputMeta inputMeta;
-  @Mock private DBCollection collection;
-  @Mock private DBCursor cursor;
-  @Captor private ArgumentCaptor<MongoProperties.Builder> propCaptor;
-  @Captor private ArgumentCaptor<DBObject> dbObjectCaptor;
-  @Captor private ArgumentCaptor<DBObject[]> dbObjectArrayCaptor;
+  @Mock
+  private MongoDbConnection connection;
+  @Mock
+  private MongoWrapperClientFactory clientFactory;
+  @Mock
+  private MongoClientWrapper clientWrapper;
+  @Mock
+  private DB mockDb;
+  @Mock
+  private MongoDbInputMeta inputMeta;
+  @Mock
+  private DBCollection collection;
+  @Mock
+  private DBCursor cursor;
+  @Captor
+  private ArgumentCaptor<MongoProperties.Builder> propCaptor;
+  @Captor
+  private ArgumentCaptor<DBObject> dbObjectCaptor;
+  @Captor
+  private ArgumentCaptor<DBObject[]> dbObjectArrayCaptor;
 
   private MongodbInputDiscoverFieldsImpl discoverFields;
   private final int NUM_DOCS_TO_SAMPLE = 2;
@@ -78,9 +88,7 @@ public class MongodbInputDiscoverFieldsImplTest {
   public void before() throws MongoDbException, HopPluginException {
     variables = new Variables();
     MockitoAnnotations.initMocks(this);
-    when(clientFactory.createMongoClientWrapper(
-            any(MongoProperties.class), any(MongoUtilLogger.class)))
-        .thenReturn(clientWrapper);
+    when(clientFactory.createMongoClientWrapper(any(MongoProperties.class), any(MongoUtilLogger.class))).thenReturn(clientWrapper);
     when(mockDb.getCollection(any(String.class))).thenReturn(collection);
     when(collection.find()).thenReturn(cursor);
     when(cursor.limit(anyInt())).thenReturn(cursor);
@@ -90,34 +98,30 @@ public class MongodbInputDiscoverFieldsImplTest {
   }
 
   private void setupPerform() throws MongoDbException {
-    when(clientWrapper.perform(any(String.class), any(MongoDBAction.class)))
-        .thenAnswer(
-            new Answer<List<MongoField>>() {
-              @Override
-              public List<MongoField> answer(InvocationOnMock invocationOnMock) throws Throwable {
-                MongoDBAction action = (MongoDBAction) invocationOnMock.getArguments()[1];
-                if (action != null) {
-                  return (List<MongoField>) action.perform(mockDb);
-                } else {
-                  return null;
-                }
-              }
-            });
+    when(clientWrapper.perform(any(String.class), any(MongoDBAction.class))).thenAnswer(new Answer<List<MongoField>>() {
+      @Override
+      public List<MongoField> answer(InvocationOnMock invocationOnMock) throws Throwable {
+        MongoDBAction action = (MongoDBAction) invocationOnMock.getArguments()[1];
+        if (action != null) {
+          return (List<MongoField>) action.perform(mockDb);
+        } else {
+          return null;
+        }
+      }
+    });
     when(connection.createWrapper(any(), any())).thenReturn(mock(MongoClientWrapper.class));
     setupCursorWithNRows(NUM_DOCS_TO_SAMPLE);
   }
 
   private void setupCursorWithNRows(final int N) {
-    when(cursor.hasNext())
-        .thenAnswer(
-            new Answer<Boolean>() {
-              int count = 0;
+    when(cursor.hasNext()).thenAnswer(new Answer<Boolean>() {
+      int count = 0;
 
-              @Override
-              public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return count++ < N;
-              }
-            });
+      @Override
+      public Boolean answer(InvocationOnMock invocationOnMock) throws Throwable {
+        return count++ < N;
+      }
+    });
   }
 
   /**
@@ -217,8 +221,7 @@ public class MongodbInputDiscoverFieldsImplTest {
   @Test
   public void testDocToFields() {
     Map<String, MongoField> fieldMap = new LinkedHashMap<>();
-    DBObject doc =
-        (DBObject) BasicDBObject.parse("{\"fred\" : {\"george\" : 1}, \"bob\" : [1 , 2]}");
+    DBObject doc = (DBObject) BasicDBObject.parse("{\"fred\" : {\"george\" : 1}, \"bob\" : [1 , 2]}");
 
     MongodbInputDiscoverFieldsImpl.docToFields(doc, fieldMap);
     assertThat(3, equalTo(fieldMap.size()));

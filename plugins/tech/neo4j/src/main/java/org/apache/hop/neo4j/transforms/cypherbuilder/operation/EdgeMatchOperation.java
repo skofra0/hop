@@ -24,13 +24,17 @@ import java.util.List;
 
 public class EdgeMatchOperation extends BaseOperation {
 
-  @HopMetadataProperty protected String sourceAlias;
+  @HopMetadataProperty
+  protected String sourceAlias;
 
-  @HopMetadataProperty protected String edgeAlias;
+  @HopMetadataProperty
+  protected String edgeAlias;
 
-  @HopMetadataProperty protected String edgeLabel;
+  @HopMetadataProperty
+  protected String edgeLabel;
 
-  @HopMetadataProperty protected String targetAlias;
+  @HopMetadataProperty
+  protected String targetAlias;
 
   public EdgeMatchOperation() {
     super(OperationType.EDGE_MATCH);
@@ -40,8 +44,7 @@ public class EdgeMatchOperation extends BaseOperation {
     super(operationType);
   }
 
-  public EdgeMatchOperation(
-      String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
+  public EdgeMatchOperation(String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
     this();
     this.sourceAlias = sourceAlias;
     this.edgeAlias = edgeAlias;
@@ -63,8 +66,7 @@ public class EdgeMatchOperation extends BaseOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
     // MATCH
     StringBuilder cypher = new StringBuilder(operationType.keyWord());
     // (a)

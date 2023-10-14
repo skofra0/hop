@@ -62,8 +62,7 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
 
   private ColumnInfo[] colinf;
 
-  public SortedMergeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SortedMergeDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (SortedMergeMeta) in;
   }
@@ -130,30 +129,14 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
     final int FieldsRows = input.getFieldName().length;
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SortedMergeDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "SortedMergeDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
     colinf[1] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "SortedMergeDialog.Ascending.Column"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              BaseMessages.getString(PKG, "System.Combo.Yes"),
-              BaseMessages.getString(PKG, "System.Combo.No")
-            });
+            new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")});
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -165,23 +148,22 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -214,11 +196,7 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
       TableItem ti = new TableItem(table, SWT.NONE);
       ti.setText(0, "" + (i + 1));
       ti.setText(1, input.getFieldName()[i]);
-      ti.setText(
-          2,
-          input.getAscending()[i]
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(2, input.getAscending()[i] ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wFields.setRowNums();
@@ -249,8 +227,7 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
     for (int i = 0; i < nrFields; i++) {
       TableItem ti = wFields.getNonEmpty(i);
       input.getFieldName()[i] = ti.getText(1);
-      input.getAscending()[i] =
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(2));
+      input.getAscending()[i] = BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(2));
     }
 
     // Show a warning (optional)
@@ -260,8 +237,7 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "SortedMergeDialog.InputNeedSort.DialogTitle"),
-              BaseMessages.getString(PKG, "SortedMergeDialog.InputNeedSort.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "SortedMergeDialog.InputNeedSort.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
               new String[] {BaseMessages.getString(PKG, "SortedMergeDialog.InputNeedSort.Option1")},
               BaseMessages.getString(PKG, "SortedMergeDialog.InputNeedSort.Option2"),
@@ -277,18 +253,10 @@ public class SortedMergeDialog extends BaseTransformDialog implements ITransform
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r,
-            wFields,
-            1,
-            new int[] {1},
-            new int[] {},
-            -1,
-            -1,
-            (tableItem, v) -> {
-              tableItem.setText(2, "Y");
-              return true;
-            });
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, (tableItem, v) -> {
+          tableItem.setText(2, "Y");
+          return true;
+        });
       }
     } catch (HopException ke) {
       new ErrorDialog(

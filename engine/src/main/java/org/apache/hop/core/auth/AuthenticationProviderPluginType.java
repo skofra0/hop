@@ -26,8 +26,7 @@ import java.util.Map;
 @PluginMainClassType(IAuthenticationProviderType.class)
 @PluginAnnotationType(AuthenticationProviderPlugin.class)
 public class AuthenticationProviderPluginType extends BasePluginType<AuthenticationProviderPlugin> {
-  protected static AuthenticationProviderPluginType pluginType =
-      new AuthenticationProviderPluginType();
+  protected static AuthenticationProviderPluginType pluginType = new AuthenticationProviderPluginType();
 
   private AuthenticationProviderPluginType() {
     super(AuthenticationProviderPlugin.class, "AUTHENTICATION_PROVIDER", "Authentication Provider");
@@ -67,8 +66,7 @@ public class AuthenticationProviderPluginType extends BasePluginType<Authenticat
   }
 
   @Override
-  protected void addExtraClasses(
-      Map<Class<?>, String> classMap, Class<?> clazz, AuthenticationProviderPlugin annotation) {}
+  protected void addExtraClasses(Map<Class<?>, String> classMap, Class<?> clazz, AuthenticationProviderPlugin annotation) {}
 
   @Override
   protected String extractDocumentationUrl(AuthenticationProviderPlugin annotation) {

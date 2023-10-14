@@ -30,13 +30,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class NullIf extends BaseTransform<NullIfMeta, NullIfData> {
   private static final Class<?> PKG = NullIfMeta.class; // For Translator
 
-  public NullIf(
-      TransformMeta transformMeta,
-      NullIfMeta meta,
-      NullIfData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public NullIf(TransformMeta transformMeta, NullIfMeta meta, NullIfData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -60,12 +54,10 @@ public class NullIf extends BaseTransform<NullIfMeta, NullIfData> {
       data.nullValue = new Object[fieldsLength];
       data.nullValueMeta = new IValueMeta[fieldsLength];
       for (int i = 0; i < fieldsLength; i++) {
-        NullIfField field = meta.getFields().get(i);        
+        NullIfField field = meta.getFields().get(i);
         data.keynr[i] = data.outputRowMeta.indexOfValue(field.getName());
         if (data.keynr[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "NullIf.Log.CouldNotFindFieldInRow", field.getName()));
+          logError(BaseMessages.getString(PKG, "NullIf.Log.CouldNotFindFieldInRow", field.getName()));
           setErrors(1);
           stopAll();
           return false;
@@ -74,18 +66,15 @@ public class NullIf extends BaseTransform<NullIfMeta, NullIfData> {
         // convert from input string entered by the user
         ValueMetaString vms = new ValueMetaString();
 
-        // look for an empty string to replace with null                            
-        String value = (field.getValue() == null) ? Const.EMPTY_STRING : field.getValue();        
+        // look for an empty string to replace with null
+        String value = (field.getValue() == null) ? Const.EMPTY_STRING : field.getValue();
         vms.setConversionMask(data.nullValueMeta[i].getConversionMask());
-        data.nullValue[i] =
-            data.nullValueMeta[i].convertData(vms, value);
+        data.nullValue[i] = data.nullValueMeta[i].convertData(vms, value);
       }
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "NullIf.Log.ConvertFieldValuesToNullForRow")
-              + data.outputRowMeta.getString(r));
+      logRowlevel(BaseMessages.getString(PKG, "NullIf.Log.ConvertFieldValuesToNullForRow") + data.outputRowMeta.getString(r));
     }
 
     for (int i = 0; i < meta.getFields().size(); i++) {

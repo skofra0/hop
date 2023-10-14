@@ -39,7 +39,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class XmlHandlerUnitTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   /** @see <a href="https://en.wikipedia.org/wiki/Billion_laughs" /> */
   private static final String MALICIOUS_XML =
       "<?xml version=\"1.0\"?>\n"
@@ -126,13 +127,9 @@ public class XmlHandlerUnitTest {
   @Test
   public void addTagValueBigDecimal() {
     BigDecimal input = new BigDecimal("1234567890123456789.01");
-    assertEquals(
-        "<bigdec>1234567890123456789.01</bigdec>" + cr, XmlHandler.addTagValue("bigdec", input));
-    assertEquals(
-        "<bigdec>1234567890123456789.01</bigdec>" + cr,
-        XmlHandler.addTagValue("bigdec", input, true));
-    assertEquals(
-        "<bigdec>1234567890123456789.01</bigdec>", XmlHandler.addTagValue("bigdec", input, false));
+    assertEquals("<bigdec>1234567890123456789.01</bigdec>" + cr, XmlHandler.addTagValue("bigdec", input));
+    assertEquals("<bigdec>1234567890123456789.01</bigdec>" + cr, XmlHandler.addTagValue("bigdec", input, true));
+    assertEquals("<bigdec>1234567890123456789.01</bigdec>", XmlHandler.addTagValue("bigdec", input, false));
   }
 
   @Test
@@ -152,13 +149,9 @@ public class XmlHandlerUnitTest {
     aDate.set(2014, (12 - 1), 29, 15, 59, 45);
     aDate.set(Calendar.MILLISECOND, 789);
 
-    assertEquals(
-        "<adate>" + result + "</adate>" + cr, XmlHandler.addTagValue("adate", aDate.getTime()));
-    assertEquals(
-        "<adate>" + result + "</adate>" + cr,
-        XmlHandler.addTagValue("adate", aDate.getTime(), true));
-    assertEquals(
-        "<adate>" + result + "</adate>", XmlHandler.addTagValue("adate", aDate.getTime(), false));
+    assertEquals("<adate>" + result + "</adate>" + cr, XmlHandler.addTagValue("adate", aDate.getTime()));
+    assertEquals("<adate>" + result + "</adate>" + cr, XmlHandler.addTagValue("adate", aDate.getTime(), true));
+    assertEquals("<adate>" + result + "</adate>", XmlHandler.addTagValue("adate", aDate.getTime(), false));
   }
 
   @Test
@@ -168,12 +161,8 @@ public class XmlHandlerUnitTest {
     assertEquals("<along>123</along>" + cr, XmlHandler.addTagValue("along", input, true));
     assertEquals("<along>123</along>", XmlHandler.addTagValue("along", input, false));
 
-    assertEquals(
-        "<along>" + String.valueOf(Long.MAX_VALUE) + "</along>",
-        XmlHandler.addTagValue("along", Long.MAX_VALUE, false));
-    assertEquals(
-        "<along>" + String.valueOf(Long.MIN_VALUE) + "</along>",
-        XmlHandler.addTagValue("along", Long.MIN_VALUE, false));
+    assertEquals("<along>" + String.valueOf(Long.MAX_VALUE) + "</along>", XmlHandler.addTagValue("along", Long.MAX_VALUE, false));
+    assertEquals("<along>" + String.valueOf(Long.MIN_VALUE) + "</along>", XmlHandler.addTagValue("along", Long.MIN_VALUE, false));
   }
 
   @Test
@@ -183,12 +172,8 @@ public class XmlHandlerUnitTest {
     assertEquals("<anint>456</anint>" + cr, XmlHandler.addTagValue("anint", input, true));
     assertEquals("<anint>456</anint>", XmlHandler.addTagValue("anint", input, false));
 
-    assertEquals(
-        "<anint>" + String.valueOf(Integer.MAX_VALUE) + "</anint>",
-        XmlHandler.addTagValue("anint", Integer.MAX_VALUE, false));
-    assertEquals(
-        "<anint>" + String.valueOf(Integer.MIN_VALUE) + "</anint>",
-        XmlHandler.addTagValue("anint", Integer.MIN_VALUE, false));
+    assertEquals("<anint>" + String.valueOf(Integer.MAX_VALUE) + "</anint>", XmlHandler.addTagValue("anint", Integer.MAX_VALUE, false));
+    assertEquals("<anint>" + String.valueOf(Integer.MIN_VALUE) + "</anint>", XmlHandler.addTagValue("anint", Integer.MIN_VALUE, false));
   }
 
   @Test
@@ -198,15 +183,9 @@ public class XmlHandlerUnitTest {
     assertEquals("<adouble>123.45</adouble>" + cr, XmlHandler.addTagValue("adouble", input, true));
     assertEquals("<adouble>123.45</adouble>", XmlHandler.addTagValue("adouble", input, false));
 
-    assertEquals(
-        "<adouble>" + String.valueOf(Double.MAX_VALUE) + "</adouble>",
-        XmlHandler.addTagValue("adouble", Double.MAX_VALUE, false));
-    assertEquals(
-        "<adouble>" + String.valueOf(Double.MIN_VALUE) + "</adouble>",
-        XmlHandler.addTagValue("adouble", Double.MIN_VALUE, false));
-    assertEquals(
-        "<adouble>" + String.valueOf(Double.MIN_NORMAL) + "</adouble>",
-        XmlHandler.addTagValue("adouble", Double.MIN_NORMAL, false));
+    assertEquals("<adouble>" + String.valueOf(Double.MAX_VALUE) + "</adouble>", XmlHandler.addTagValue("adouble", Double.MAX_VALUE, false));
+    assertEquals("<adouble>" + String.valueOf(Double.MIN_VALUE) + "</adouble>", XmlHandler.addTagValue("adouble", Double.MIN_VALUE, false));
+    assertEquals("<adouble>" + String.valueOf(Double.MIN_NORMAL) + "</adouble>", XmlHandler.addTagValue("adouble", Double.MIN_NORMAL, false));
   }
 
   @Test
@@ -214,28 +193,17 @@ public class XmlHandlerUnitTest {
     byte[] input = "Test Data".getBytes();
     String result = "H4sIAAAAAAAAAAtJLS5RcEksSQQAL4PL8QkAAAA=";
 
-    assertEquals(
-        "<bytedata>" + result + "</bytedata>" + cr, XmlHandler.addTagValue("bytedata", input));
-    assertEquals(
-        "<bytedata>" + result + "</bytedata>" + cr,
-        XmlHandler.addTagValue("bytedata", input, true));
-    assertEquals(
-        "<bytedata>" + result + "</bytedata>", XmlHandler.addTagValue("bytedata", input, false));
+    assertEquals("<bytedata>" + result + "</bytedata>" + cr, XmlHandler.addTagValue("bytedata", input));
+    assertEquals("<bytedata>" + result + "</bytedata>" + cr, XmlHandler.addTagValue("bytedata", input, true));
+    assertEquals("<bytedata>" + result + "</bytedata>", XmlHandler.addTagValue("bytedata", input, false));
   }
 
   @Test
   public void addTagValueWithSurrogateCharacters() throws Exception {
-    String expected =
-        "<testTag attributeTest=\"test attribute value \uD842\uDFB7\" >a\uD800\uDC01\uD842\uDFB7ﻉＤtest \uD802\uDF44&lt;</testTag>";
+    String expected = "<testTag attributeTest=\"test attribute value \uD842\uDFB7\" >a\uD800\uDC01\uD842\uDFB7ﻉＤtest \uD802\uDF44&lt;</testTag>";
     String tagValueWithSurrogates = "a\uD800\uDC01\uD842\uDFB7ﻉＤtest \uD802\uDF44<";
     String attributeValueWithSurrogates = "test attribute value \uD842\uDFB7";
-    String result =
-        XmlHandler.addTagValue(
-            "testTag",
-            tagValueWithSurrogates,
-            false,
-            "attributeTest",
-            attributeValueWithSurrogates);
+    String result = XmlHandler.addTagValue("testTag", tagValueWithSurrogates, false, "attributeTest", attributeValueWithSurrogates);
     assertEquals(expected, result);
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
     builder.parse(new ByteArrayInputStream(result.getBytes()));
@@ -255,22 +223,18 @@ public class XmlHandlerUnitTest {
   }
 
   @Test(expected = SAXParseException.class)
-  public void createdDocumentBuilderThrowsExceptionWhenParsingXmlWithABigAmountOfExternalEntities()
-      throws Exception {
+  public void createdDocumentBuilderThrowsExceptionWhenParsingXmlWithABigAmountOfExternalEntities() throws Exception {
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
     builder.parse(new ByteArrayInputStream(MALICIOUS_XML.getBytes()));
   }
 
   @Test(expected = HopXmlException.class)
-  public void loadingXmlFromStreamThrowsExceptionWhenParsingXmlWithBigAmountOfExternalEntities()
-      throws Exception {
-    XmlHandler.loadXmlFile(
-        new ByteArrayInputStream(MALICIOUS_XML.getBytes()), "<def>", false, false);
+  public void loadingXmlFromStreamThrowsExceptionWhenParsingXmlWithBigAmountOfExternalEntities() throws Exception {
+    XmlHandler.loadXmlFile(new ByteArrayInputStream(MALICIOUS_XML.getBytes()), "<def>", false, false);
   }
 
   @Test(expected = HopXmlException.class)
-  public void loadingXmlFromURLThrowsExceptionWhenParsingXmlWithBigAmountOfExternalEntities()
-      throws Exception {
+  public void loadingXmlFromURLThrowsExceptionWhenParsingXmlWithBigAmountOfExternalEntities() throws Exception {
     File tmpFile = createTmpFile(MALICIOUS_XML);
 
     XmlHandler.loadXmlFile(tmpFile.toURI().toURL());
@@ -289,14 +253,7 @@ public class XmlHandlerUnitTest {
 
   @Test
   public void testGetSubNode() throws Exception {
-    String testXML =
-        "<?xml version=\"1.0\"?>\n"
-            + "<root>\n"
-            + "<xpto>A</xpto>\n"
-            + "<xpto>B</xpto>\n"
-            + "<xpto>C</xpto>\n"
-            + "<xpto>D</xpto>\n"
-            + "</root>\n";
+    String testXML = "<?xml version=\"1.0\"?>\n" + "<root>\n" + "<xpto>A</xpto>\n" + "<xpto>B</xpto>\n" + "<xpto>C</xpto>\n" + "<xpto>D</xpto>\n" + "</root>\n";
 
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
 
@@ -309,14 +266,7 @@ public class XmlHandlerUnitTest {
 
   @Test
   public void testGetLastSubNode() throws Exception {
-    String testXML =
-        "<?xml version=\"1.0\"?>\n"
-            + "<root>\n"
-            + "<xpto>A</xpto>\n"
-            + "<xpto>B</xpto>\n"
-            + "<xpto>C</xpto>\n"
-            + "<xpto>D</xpto>\n"
-            + "</root>\n";
+    String testXML = "<?xml version=\"1.0\"?>\n" + "<root>\n" + "<xpto>A</xpto>\n" + "<xpto>B</xpto>\n" + "<xpto>C</xpto>\n" + "<xpto>D</xpto>\n" + "</root>\n";
 
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
 
@@ -329,14 +279,7 @@ public class XmlHandlerUnitTest {
 
   @Test
   public void testGetSubNodeByNr_WithCache() throws Exception {
-    String testXML =
-        "<?xml version=\"1.0\"?>\n"
-            + "<root>\n"
-            + "<xpto>0</xpto>\n"
-            + "<xpto>1</xpto>\n"
-            + "<xpto>2</xpto>\n"
-            + "<xpto>3</xpto>\n"
-            + "</root>\n";
+    String testXML = "<?xml version=\"1.0\"?>\n" + "<root>\n" + "<xpto>0</xpto>\n" + "<xpto>1</xpto>\n" + "<xpto>2</xpto>\n" + "<xpto>3</xpto>\n" + "</root>\n";
 
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
 
@@ -359,14 +302,7 @@ public class XmlHandlerUnitTest {
 
   @Test
   public void testGetSubNodeByNr_WithoutCache() throws Exception {
-    String testXML =
-        "<?xml version=\"1.0\"?>\n"
-            + "<root>\n"
-            + "<xpto>0</xpto>\n"
-            + "<xpto>1</xpto>\n"
-            + "<xpto>2</xpto>\n"
-            + "<xpto>3</xpto>\n"
-            + "</root>\n";
+    String testXML = "<?xml version=\"1.0\"?>\n" + "<root>\n" + "<xpto>0</xpto>\n" + "<xpto>1</xpto>\n" + "<xpto>2</xpto>\n" + "<xpto>3</xpto>\n" + "</root>\n";
 
     DocumentBuilder builder = XmlHandler.createDocumentBuilder(false, false);
 

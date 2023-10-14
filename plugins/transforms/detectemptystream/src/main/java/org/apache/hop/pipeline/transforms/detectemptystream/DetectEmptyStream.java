@@ -30,13 +30,7 @@ public class DetectEmptyStream extends BaseTransform<DetectEmptyStreamMeta, Dete
 
   private static final Class<?> PKG = DetectEmptyStreamMeta.class; // For Translator
 
-  public DetectEmptyStream(
-      TransformMeta transformMeta,
-      DetectEmptyStreamMeta meta,
-      DetectEmptyStreamData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DetectEmptyStream(TransformMeta transformMeta, DetectEmptyStreamMeta meta, DetectEmptyStreamData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -64,8 +58,7 @@ public class DetectEmptyStream extends BaseTransform<DetectEmptyStreamMeta, Dete
 
         if (checkFeedback(getLinesRead())) {
           if (log.isBasic()) {
-            logBasic(
-                BaseMessages.getString(PKG, "DetectEmptyStream.Log.LineNumber") + getLinesRead());
+            logBasic(BaseMessages.getString(PKG, "DetectEmptyStream.Log.LineNumber") + getLinesRead());
           }
         }
       }

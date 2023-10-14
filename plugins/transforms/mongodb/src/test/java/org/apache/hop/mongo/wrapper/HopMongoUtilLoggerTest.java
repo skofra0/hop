@@ -27,8 +27,10 @@ import static org.mockito.Mockito.verify;
 
 public class HopMongoUtilLoggerTest {
 
-  @Mock ILogChannel logChannelInterface;
-  @Mock Exception exception;
+  @Mock
+  ILogChannel logChannelInterface;
+  @Mock
+  Exception exception;
   HopMongoUtilLogger logger;
 
   @Before

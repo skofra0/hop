@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class WorkflowActionSqlTest extends WorkflowActionLoadSaveTestSupport<ActionSql> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionSql> getActionClass() {
@@ -34,34 +35,20 @@ public class WorkflowActionSqlTest extends WorkflowActionLoadSaveTestSupport<Act
 
   @Override
   protected List<String> listAttributes() {
-    return Arrays.asList(
-        "sql",
-        "useVariableSubstitution",
-        "sqlFromFile",
-        "sqlFilename",
-        "sendOneStatement",
-        "connection");
+    return Arrays.asList("sql", "useVariableSubstitution", "sqlFromFile", "sqlFilename", "sendOneStatement", "connection");
   }
 
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-        "sql", "getSql",
-        "useVariableSubstitution", "isUseVariableSubstitution",
-        "sqlFromFile", "isSqlFromFile",
-        "sqlFilename", "getSqlFilename",
-        "sendOneStatement", "isSendOneStatement",
-        "connection", "getConnection");
+        "sql", "getSql", "useVariableSubstitution", "isUseVariableSubstitution", "sqlFromFile", "isSqlFromFile", "sqlFilename", "getSqlFilename", "sendOneStatement",
+        "isSendOneStatement", "connection", "getConnection");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-        "sql", "setSql",
-        "useVariableSubstitution", "setUseVariableSubstitution",
-        "sqlFromFile", "setSqlFromFile",
-        "sqlFilename", "setSqlFilename",
-        "sendOneStatement", "setSendOneStatement",
-        "connection", "setConnection");
+        "sql", "setSql", "useVariableSubstitution", "setUseVariableSubstitution", "sqlFromFile", "setSqlFromFile", "sqlFilename", "setSqlFilename", "sendOneStatement",
+        "setSendOneStatement", "connection", "setConnection");
   }
 }

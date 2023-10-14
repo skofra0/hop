@@ -29,33 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "TextExplorerFileType",
-    name = "TXT File Type",
-    description = "Text file handling in the explorer perspective",
-    image = "textfile.svg")
-public class TextExplorerFileType extends BaseTextExplorerFileType<TextExplorerFileTypeHandler>
-    implements IExplorerFileType<TextExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "TextExplorerFileType", name = "TXT File Type", description = "Text file handling in the explorer perspective", image = "textfile.svg")
+public class TextExplorerFileType extends BaseTextExplorerFileType<TextExplorerFileTypeHandler> implements IExplorerFileType<TextExplorerFileTypeHandler> {
 
   public TextExplorerFileType() {
-    super("TXT File", ".txt", new String[] {"*.txt"}, new String[] {"TXT files"}, 
-        FileTypeCapabilities.getCapabilities(
-            IHopFileType.CAPABILITY_SAVE,
-            IHopFileType.CAPABILITY_CLOSE, 
-            IHopFileType.CAPABILITY_FILE_HISTORY,
-            IHopFileType.CAPABILITY_COPY, 
-            IHopFileType.CAPABILITY_SELECT));
+    super("TXT File", ".txt", new String[] {"*.txt"}, new String[] {"TXT files"}, FileTypeCapabilities.getCapabilities(
+        IHopFileType.CAPABILITY_SAVE, IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY, IHopFileType.CAPABILITY_COPY, IHopFileType.CAPABILITY_SELECT));
   }
 
   @Override
-  public TextExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public TextExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new TextExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

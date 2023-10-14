@@ -52,8 +52,7 @@ public class FilesFromResultMeta extends BaseTransformMeta<FilesFromResult, File
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -69,23 +68,12 @@ public class FilesFromResultMeta extends BaseTransformMeta<FilesFromResult, File
   public void setDefault() {}
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // Add the fields from a ResultFile
     try {
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              HopVfs.getFileObject("foo.bar"),
-              "parentOrigin",
-              "origin");
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject("foo.bar"), "parentOrigin", "origin");
       RowMetaAndData add = resultFile.getRow();
 
       // Set the origin on the fields...
@@ -114,17 +102,11 @@ public class FilesFromResultMeta extends BaseTransformMeta<FilesFromResult, File
       CheckResult cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "FilesFromResultMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
+              BaseMessages.getString(PKG, "FilesFromResultMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
               transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "FilesFromResultMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FilesFromResultMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

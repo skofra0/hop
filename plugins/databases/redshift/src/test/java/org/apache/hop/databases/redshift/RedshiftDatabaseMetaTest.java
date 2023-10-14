@@ -57,16 +57,12 @@ public class RedshiftDatabaseMetaTest {
   @Test
   public void testGetURL() throws Exception {
     assertEquals("jdbc:redshift://:/", dbMeta.getURL("", "", ""));
-    assertEquals(
-        "jdbc:redshift://rs.project-hop.org:4444/myDB",
-        dbMeta.getURL("rs.project-hop.org", "4444", "myDB"));
+    assertEquals("jdbc:redshift://rs.project-hop.org:4444/myDB", dbMeta.getURL("rs.project-hop.org", "4444", "myDB"));
   }
 
   @Test
   public void testGetExtraOptionsHelpText() throws Exception {
-    assertEquals(
-        "http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-connection.html",
-        dbMeta.getExtraOptionsHelpText());
+    assertEquals("http://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-connection.html", dbMeta.getExtraOptionsHelpText());
   }
 
   @Test

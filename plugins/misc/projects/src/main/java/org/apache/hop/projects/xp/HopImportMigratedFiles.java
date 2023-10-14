@@ -47,15 +47,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-@ExtensionPoint(
-    id = "HopImportMigratedFiles",
-    description = "Imports variables into a Hop project",
-    extensionPointId = "HopImportMigratedFiles")
+@ExtensionPoint(id = "HopImportMigratedFiles", description = "Imports variables into a Hop project", extensionPointId = "HopImportMigratedFiles")
 public class HopImportMigratedFiles implements IExtensionPoint<Object[]> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel iLogChannel, IVariables variables, Object[] migrationObject) throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables variables, Object[] migrationObject) throws HopException {
     String projectName = (String) migrationObject[0];
     HashMap<String, DOMSource> filesMap = (HashMap<String, DOMSource>) migrationObject[1];
     FileObject inputFolder = (FileObject) migrationObject[2];
@@ -67,35 +63,26 @@ public class HopImportMigratedFiles implements IExtensionPoint<Object[]> {
     String projectHome = HopVfs.getFileObject(projectConfig.getProjectHome()).getName().getURI();
 
     try {
-      ProgressMonitorDialog monitorDialog =
-          new ProgressMonitorDialog(HopGui.getInstance().getShell());
-      monitorDialog.run(
-          true,
-          monitor -> {
-            try {
-              monitor.beginTask("Importing Kettle files...", filesMap.size());
-              importFiles(filesMap, inputFolder, projectHome, skipExitingFiles, monitor);
-              monitor.done();
-            } catch (InterruptedException e) {
-              throw e;
-            } catch (Exception e) {
-              throw new InvocationTargetException(e, "Error importing files");
-            }
-          });
+      ProgressMonitorDialog monitorDialog = new ProgressMonitorDialog(HopGui.getInstance().getShell());
+      monitorDialog.run(true, monitor -> {
+        try {
+          monitor.beginTask("Importing Kettle files...", filesMap.size());
+          importFiles(filesMap, inputFolder, projectHome, skipExitingFiles, monitor);
+          monitor.done();
+        } catch (InterruptedException e) {
+          throw e;
+        } catch (Exception e) {
+          throw new InvocationTargetException(e, "Error importing files");
+        }
+      });
 
     } catch (Exception e) {
       throw new HopException("Error migrating file to project '" + projectName + "'", e);
     }
   }
 
-  private void importFiles(
-      HashMap<String, DOMSource> filesMap,
-      FileObject inputFolder,
-      String projectHome,
-      boolean skipExitingFiles,
-      IProgressMonitor monitor)
-      throws TransformerConfigurationException, HopException, FileSystemException,
-          InterruptedException {
+  private void importFiles(HashMap<String, DOMSource> filesMap, FileObject inputFolder, String projectHome, boolean skipExitingFiles, IProgressMonitor monitor)
+      throws TransformerConfigurationException, HopException, FileSystemException, InterruptedException {
     TransformerFactory transformerFactory = XmlHandler.createSecureTransformerFactory();
     Transformer transformer = transformerFactory.newTransformer();
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -132,8 +119,7 @@ public class HopImportMigratedFiles implements IExtensionPoint<Object[]> {
         // copy any non-Hop files as is
         //
         try {
-          NameFileFilter filter =
-              new NameFileFilter(Collections.singletonList(sourceFile.getName().getBaseName()));
+          NameFileFilter filter = new NameFileFilter(Collections.singletonList(sourceFile.getName().getBaseName()));
           targetFile.getParent().copyFrom(sourceFile.getParent(), new FileFilterSelector(filter));
           monitor.worked(++processed);
         } catch (IOException e) {

@@ -36,23 +36,16 @@ public class CreateOperation extends BaseOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
     // CREATE(n:Movie
     //
-    String cypher =
-        operationType.keyWord()
-            + "("
-            + getLabelsClause()
-            +
-            // { id : {pId} }
-            //
-            getKeysClause(unwindAlias)
-            + ") "
-            +
-            // SET prop1={param1}, prop2={param2}
-            //
-            getSetClause(unwindAlias);
+    String cypher = operationType.keyWord() + "(" + getLabelsClause() +
+    // { id : {pId} }
+    //
+        getKeysClause(unwindAlias) + ") " +
+        // SET prop1={param1}, prop2={param2}
+        //
+        getSetClause(unwindAlias);
 
     return cypher;
   }

@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 public class PGPEncryptStreamMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   LoadSaveTester loadSaveTester;
   Class<PGPEncryptStreamMeta> testMetaClass = PGPEncryptStreamMeta.class;
@@ -41,14 +42,7 @@ public class PGPEncryptStreamMetaTest {
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
-    List<String> attributes =
-        Arrays.asList(
-            "gPGLocation",
-            "keynameFieldName",
-            "streamField",
-            "resultFieldName",
-            "keynameInField",
-            "keynameFieldName");
+    List<String> attributes = Arrays.asList("gPGLocation", "keynameFieldName", "streamField", "resultFieldName", "keynameInField", "keynameFieldName");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
@@ -56,9 +50,7 @@ public class PGPEncryptStreamMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test

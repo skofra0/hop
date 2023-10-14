@@ -59,8 +59,7 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
     SHA1("SHA-1", BaseMessages.getString(PKG, "CheckSumMeta.Type.SHA1")),
     SHA256("SHA-256", BaseMessages.getString(PKG, "CheckSumMeta.Type.SHA256")),
     SHA384("SHA-384", BaseMessages.getString(PKG, "CheckSumMeta.Type.SHA384")),
-    SHA512("SHA-512", BaseMessages.getString(PKG, "CheckSumMeta.Type.SHA512")),
-    ;
+    SHA512("SHA-512", BaseMessages.getString(PKG, "CheckSumMeta.Type.SHA512")),;
 
     private String code;
     private String description;
@@ -110,8 +109,7 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
   public enum ResultType implements IEnumHasCode {
     STRING("string", BaseMessages.getString(PKG, "CheckSumMeta.ResultType.String")),
     HEXADECIMAL("hexadecimal", BaseMessages.getString(PKG, "CheckSumMeta.ResultType.Hexadecimal")),
-    BINARY("binary", BaseMessages.getString(PKG, "CheckSumMeta.ResultType.Binary")),
-    ;
+    BINARY("binary", BaseMessages.getString(PKG, "CheckSumMeta.ResultType.Binary")),;
 
     private String code;
     private String description;
@@ -159,33 +157,17 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
   }
 
   /** by which fields to display? */
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupKey = "FIELDS",
-      injectionKey = "FIELD",
-      injectionKeyDescription = "CheckSum.Injection.FIELD")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionKey = "FIELD", injectionKeyDescription = "CheckSum.Injection.FIELD")
   private List<Field> fields;
 
-  @HopMetadataProperty(
-      key = "resultfieldName",
-      injectionKey = "RESULT_FIELD",
-      injectionKeyDescription = "CheckSum.Injection.RESULT_FIELD")
+  @HopMetadataProperty(key = "resultfieldName", injectionKey = "RESULT_FIELD", injectionKeyDescription = "CheckSum.Injection.RESULT_FIELD")
   private String resultFieldName;
 
-  @HopMetadataProperty(
-      key = "checksumtype",
-      storeWithCode = true,
-      injectionKey = "TYPE",
-      injectionKeyDescription = "CheckSum.Injection.TYPE")
+  @HopMetadataProperty(key = "checksumtype", storeWithCode = true, injectionKey = "TYPE", injectionKeyDescription = "CheckSum.Injection.TYPE")
   private CheckSumType checkSumType;
 
   /** result type */
-  @HopMetadataProperty(
-      key = "resultType",
-      storeWithCode = true,
-      injectionKey = "RESULT_TYPE",
-      injectionKeyDescription = "CheckSum.Injection.RESULT_TYPE")
+  @HopMetadataProperty(key = "resultType", storeWithCode = true, injectionKey = "RESULT_TYPE", injectionKeyDescription = "CheckSum.Injection.RESULT_TYPE")
   private ResultType resultType;
 
   public CheckSumMeta() {
@@ -207,13 +189,7 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output field (String)
     if (!Utils.isEmpty(resultFieldName)) {
@@ -259,19 +235,10 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
     remarks.add(cr);
 
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "CheckSumMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
 
       boolean errorFound = false;
@@ -287,25 +254,16 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.FieldsFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.FieldsFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (!fields.isEmpty()) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.AllFieldsFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.AllFieldsFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_WARNING,
-                  BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.NoFieldsEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.NoFieldsEntered"), transformMeta);
           remarks.add(cr);
         }
       }
@@ -313,19 +271,10 @@ public class CheckSumMeta extends BaseTransformMeta<CheckSum, CheckSumData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "CheckSumMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CheckSumMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

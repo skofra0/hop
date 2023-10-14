@@ -81,8 +81,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
 
   private final AddSequenceMeta input;
 
-  public AddSequenceDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public AddSequenceDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (AddSequenceMeta) in;
   }
@@ -169,21 +168,19 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
     wlUseDatabase.setLayoutData(fdlUseDatabase);
     wUseDatabase = new Button(gDatabase, SWT.CHECK);
     PropsUi.setLook(wUseDatabase);
-    wUseDatabase.setToolTipText(
-        BaseMessages.getString(PKG, "AddSequenceDialog.UseDatabase.Tooltip"));
+    wUseDatabase.setToolTipText(BaseMessages.getString(PKG, "AddSequenceDialog.UseDatabase.Tooltip"));
     FormData fdUseDatabase = new FormData();
     fdUseDatabase.left = new FormAttachment(middle, 0);
     fdUseDatabase.top = new FormAttachment(wlUseDatabase, 0, SWT.CENTER);
     wUseDatabase.setLayoutData(fdUseDatabase);
-    wUseDatabase.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            wUseCounter.setSelection(!wUseDatabase.getSelection());
-            enableFields();
-            input.setChanged();
-          }
-        });
+    wUseDatabase.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        wUseCounter.setSelection(!wUseDatabase.getSelection());
+        enableFields();
+        input.setChanged();
+      }
+    });
     // Connection line
     wConnection = addConnectionLine(shell, wTransformName, input.getConnection(), lsMod);
     wConnection.addModifyListener(e -> activeSequence());
@@ -271,15 +268,14 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
     fdUseCounter.left = new FormAttachment(middle, 0);
     fdUseCounter.top = new FormAttachment(wlUseCounter, 0, SWT.CENTER);
     wUseCounter.setLayoutData(fdUseCounter);
-    wUseCounter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            wUseDatabase.setSelection(!wUseCounter.getSelection());
-            enableFields();
-            input.setChanged();
-          }
-        });
+    wUseCounter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        wUseDatabase.setSelection(!wUseCounter.getSelection());
+        enableFields();
+        input.setChanged();
+      }
+    });
 
     // CounterName line
     wlCounterName = new Label(gCounter, SWT.RIGHT);
@@ -356,20 +352,18 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
     fdMaxVal.top = new FormAttachment(wIncrBy, margin);
     fdMaxVal.right = new FormAttachment(100, 0);
     wMaxVal.setLayoutData(fdMaxVal);
-    wbSequence.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSequences();
-          }
-        });
-    wbSchema.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getSchemaNames();
-          }
-        });
+    wbSequence.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSequences();
+      }
+    });
+    wbSchema.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getSchemaNames();
+      }
+    });
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "System.Button.OK"));
@@ -472,10 +466,8 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
 
     if (input.isDatabaseUsed() && pipelineMeta.findDatabase(wConnection.getText(), variables) == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "AddSequenceDialog.NoValidConnectionError.DialogMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "AddSequenceDialog.NoValidConnectionError.DialogTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "AddSequenceDialog.NoValidConnectionError.DialogMessage"));
+      mb.setText(BaseMessages.getString(PKG, "AddSequenceDialog.NoValidConnectionError.DialogTitle"));
       mb.open();
     }
 
@@ -485,8 +477,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
   private void activeSequence() {
     boolean useDatabase = wUseDatabase.getSelection();
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
-    wbSequence.setEnabled(
-        databaseMeta == null ? false : useDatabase && databaseMeta.supportsSequences());
+    wbSequence.setEnabled(databaseMeta == null ? false : useDatabase && databaseMeta.supportsSequences());
   }
 
   private void getSequences() {
@@ -503,8 +494,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
               new EnterSelectionDialog(
                   shell,
                   sequences,
-                  BaseMessages.getString(
-                      PKG, "AddSequenceDialog.SelectSequence.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "AddSequenceDialog.SelectSequence.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "AddSequenceDialog.SelectSequence.Message"));
 
           String d = dialog.open();
@@ -519,11 +509,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "AddSequenceDialog.ErrorGettingSequences"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "AddSequenceDialog.ErrorGettingSequences"), e);
       } finally {
         if (database != null) {
           database.disconnect();
@@ -550,8 +536,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
               new EnterSelectionDialog(
                   shell,
                   schemas,
-                  BaseMessages.getString(
-                      PKG, "AddSequenceDialog.SelectSequence.Title", wConnection.getText()),
+                  BaseMessages.getString(PKG, "AddSequenceDialog.SelectSequence.Title", wConnection.getText()),
                   BaseMessages.getString(PKG, "AddSequenceDialog.SelectSequence.Message"));
           String d = dialog.open();
           if (d != null) {
@@ -565,11 +550,7 @@ public class AddSequenceDialog extends BaseTransformDialog implements ITransform
           mb.open();
         }
       } catch (Exception e) {
-        new ErrorDialog(
-            shell,
-            BaseMessages.getString(PKG, "System.Dialog.Error.Title"),
-            BaseMessages.getString(PKG, "AddSequenceDialog.ErrorGettingSchemas"),
-            e);
+        new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.Error.Title"), BaseMessages.getString(PKG, "AddSequenceDialog.ErrorGettingSchemas"), e);
       } finally {
         if (database != null) {
           database.disconnect();

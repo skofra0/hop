@@ -71,24 +71,14 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
 
   public static final String[] successConditionsDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountEqual.Label"),
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountDifferent.Label"),
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountSmallerThan.Label"),
-        BaseMessages.getString(
-            PKG, "ActionEvalTableContent.SuccessWhenRowCountSmallerOrEqualThan.Label"),
-        BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountGreaterThan.Label"),
-        BaseMessages.getString(
-            PKG, "ActionEvalTableContent.SuccessWhenRowCountGreaterOrEqual.Label")
-      };
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountEqual.Label"),
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountDifferent.Label"),
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountSmallerThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountSmallerOrEqualThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountGreaterThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalTableContent.SuccessWhenRowCountGreaterOrEqual.Label")};
   public static final String[] successConditionsCode =
-      new String[] {
-        "rows_count_equal",
-        "rows_count_different",
-        "rows_count_smaller",
-        "rows_count_smaller_equal",
-        "rows_count_greater",
-        "rows_count_greater_equal"
-      };
+      new String[] {"rows_count_equal", "rows_count_different", "rows_count_smaller", "rows_count_smaller_equal", "rows_count_greater", "rows_count_greater_equal"};
 
   public static final int SUCCESS_CONDITION_ROWS_COUNT_EQUAL = 0;
   public static final int SUCCESS_CONDITION_ROWS_COUNT_DIFFERENT = 1;
@@ -146,16 +136,10 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
     StringBuilder retval = new StringBuilder(200);
 
     retval.append(super.getXml());
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
+    retval.append("      ").append(XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
     retval.append("      ").append(XmlHandler.addTagValue("schemaname", schemaname));
     retval.append("      ").append(XmlHandler.addTagValue("tablename", tableName));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("success_condition", getSuccessConditionCode(successCondition)));
+    retval.append("      ").append(XmlHandler.addTagValue("success_condition", getSuccessConditionCode(successCondition)));
     retval.append("      ").append(XmlHandler.addTagValue("limit", limit));
     retval.append("      ").append(XmlHandler.addTagValue("is_custom_sql", useCustomSql));
     retval.append("      ").append(XmlHandler.addTagValue("is_usevars", useVars));
@@ -194,28 +178,23 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       String dbname = XmlHandler.getTagValue(entrynode, "connection");
       connection = DatabaseMeta.loadDatabase(metadataProvider, dbname);
       schemaname = XmlHandler.getTagValue(entrynode, "schemaname");
       tableName = XmlHandler.getTagValue(entrynode, "tablename");
-      successCondition =
-          getSucessConditionByCode(
-              Const.NVL(XmlHandler.getTagValue(entrynode, "success_condition"), ""));
+      successCondition = getSucessConditionByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "success_condition"), ""));
       limit = Const.NVL(XmlHandler.getTagValue(entrynode, "limit"), "0");
       useCustomSql = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "is_custom_sql"));
       useVars = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "is_usevars"));
       customSql = XmlHandler.getTagValue(entrynode, "custom_sql");
       addRowsResult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_rows_result"));
-      clearResultList =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "clear_result_rows"));
+      clearResultList = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "clear_result_rows"));
 
     } catch (HopException e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionEvalTableContent.UnableLoadXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionEvalTableContent.UnableLoadXML"), e);
     }
   }
 
@@ -263,8 +242,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
 
     int nrRowsLimit = Const.toInt(resolve(limit), 0);
     if (log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(PKG, "ActionEvalTableContent.Log.nrRowsLimit", "" + nrRowsLimit));
+      logDetailed(BaseMessages.getString(PKG, "ActionEvalTableContent.Log.nrRowsLimit", "" + nrRowsLimit));
     }
 
     if (connection != null) {
@@ -277,9 +255,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
             realCustomSql = resolve(realCustomSql);
           }
           if (log.isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG, "ActionEvalTableContent.Log.EnteredCustomSQL", realCustomSql));
+            logDebug(BaseMessages.getString(PKG, "ActionEvalTableContent.Log.EnteredCustomSQL", realCustomSql));
           }
 
           if (!Utils.isEmpty(realCustomSql)) {
@@ -295,10 +271,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
 
           if (!Utils.isEmpty(realTablename)) {
             if (!Utils.isEmpty(realSchemaname)) {
-              countSqlStatement =
-                  selectCount
-                      + db.getDatabaseMeta()
-                          .getQuotedSchemaTableCombination(this, realSchemaname, realTablename);
+              countSqlStatement = selectCount + db.getDatabaseMeta().getQuotedSchemaTableCombination(this, realSchemaname, realTablename);
             } else {
               countSqlStatement = selectCount + db.getDatabaseMeta().quoteField(realTablename);
             }
@@ -310,9 +283,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
 
         if (countSqlStatement != null) {
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionEvalTableContent.Log.RunSQLStatement", countSqlStatement));
+            logDetailed(BaseMessages.getString(PKG, "ActionEvalTableContent.Log.RunSQLStatement", countSqlStatement));
           }
 
           if (useCustomSql) {
@@ -338,11 +309,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
               }
             } else {
               if (log.isDebug()) {
-                logDebug(
-                    BaseMessages.getString(
-                        PKG,
-                        "ActionEvalTableContent.Log.customSQLreturnedNothing",
-                        countSqlStatement));
+                logDebug(BaseMessages.getString(PKG, "ActionEvalTableContent.Log.customSQLreturnedNothing", countSqlStatement));
               }
             }
 
@@ -353,9 +320,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
             }
           }
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionEvalTableContent.Log.NrRowsReturned", "" + rowsCount));
+            logDetailed(BaseMessages.getString(PKG, "ActionEvalTableContent.Log.NrRowsReturned", "" + rowsCount));
           }
           switch (successCondition) {
             case ActionEvalTableContent.SUCCESS_CONDITION_ROWS_COUNT_EQUAL:
@@ -382,9 +347,7 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
         } // end if countSqlStatement!=null
       } catch (HopException dbe) {
         errCount++;
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionEvalTableContent.Error.RunningEntry", dbe.getMessage()));
+        logError(BaseMessages.getString(PKG, "ActionEvalTableContent.Error.RunningEntry", dbe.getMessage()));
       }
     } else {
       errCount++;
@@ -400,38 +363,24 @@ public class ActionEvalTableContent extends ActionBase implements Cloneable, IAc
 
   @Override
   public DatabaseMeta[] getUsedDatabaseConnections() {
-    return new DatabaseMeta[] {
-      connection,
-    };
+    return new DatabaseMeta[] {connection,};
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (connection != null) {
       ResourceReference reference = new ResourceReference(this);
       reference.getEntries().add(new ResourceEntry(connection.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "WaitForSQL",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "WaitForSQL", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 
   public boolean isAddRowsResult() {

@@ -33,8 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class PluginMessages {
 
-  private static final ConcurrentHashMap<String, PluginMessages> MESSAGES_MAP =
-      new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, PluginMessages> MESSAGES_MAP = new ConcurrentHashMap<>();
 
   /**
    * Factory method.
@@ -43,8 +42,7 @@ public final class PluginMessages {
    * @return messages.
    * @throws IllegalArgumentException if package name is blank.
    */
-  public static PluginMessages getMessages(final String packageName)
-      throws IllegalArgumentException {
+  public static PluginMessages getMessages(final String packageName) throws IllegalArgumentException {
     Assert.assertNotBlank(packageName, "Package name cannot be blank");
 
     PluginMessages pm = MESSAGES_MAP.get(packageName);
@@ -61,8 +59,7 @@ public final class PluginMessages {
    * @return messages.
    * @throws IllegalArgumentException if class is null
    */
-  public static PluginMessages getMessages(final Class<?> someClassInPackage)
-      throws IllegalArgumentException {
+  public static PluginMessages getMessages(final Class<?> someClassInPackage) throws IllegalArgumentException {
     Assert.assertNotNull(someClassInPackage, "Class cannot be null");
     return getMessages(someClassInPackage.getPackage().getName());
   }
@@ -113,8 +110,7 @@ public final class PluginMessages {
    * @param param3 the param3.
    * @return the message.
    */
-  public String getString(
-      final String key, final String param1, final String param2, final String param3) {
+  public String getString(final String key, final String param1, final String param2, final String param3) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3);
   }
 
@@ -126,12 +122,7 @@ public final class PluginMessages {
    * @param param4 the param4.
    * @return the message.
    */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4) {
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4);
   }
 
@@ -144,13 +135,7 @@ public final class PluginMessages {
    * @param param5 the param5.
    * @return the message.
    */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4,
-      final String param5) {
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4, final String param5) {
     return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4, param5);
   }
 
@@ -164,16 +149,8 @@ public final class PluginMessages {
    * @param param6 the param6.
    * @return the message.
    */
-  public String getString(
-      final String key,
-      final String param1,
-      final String param2,
-      final String param3,
-      final String param4,
-      final String param5,
-      final String param6) {
-    return BaseMessages.getString(
-        this.packageName, key, param1, param2, param3, param4, param5, param6);
+  public String getString(final String key, final String param1, final String param2, final String param3, final String param4, final String param5, final String param6) {
+    return BaseMessages.getString(this.packageName, key, param1, param2, param3, param4, param5, param6);
   }
 
   /**

@@ -41,10 +41,9 @@ public class MailConnectionMeta {
 
   public static final String[] actionTypeDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionGetPOP.ActionType.GetMessages.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ActionType.MoveMessages.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ActionType.DeleteMessages.Label"),
-      };
+          BaseMessages.getString(PKG, "ActionGetPOP.ActionType.GetMessages.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ActionType.MoveMessages.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ActionType.DeleteMessages.Label"),};
   public static final String[] actionTypeCode = new String[] {"get", "move", "delete"};
   public static final int ACTION_TYPE_GET = 0;
   public static final int ACTION_TYPE_MOVE = 1;
@@ -52,14 +51,12 @@ public class MailConnectionMeta {
 
   public static final String[] conditionDateDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionIgnore.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionEqual.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionSmaller.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionGreater.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionBetween.Label")
-      };
-  public static final String[] conditionDateCode =
-      new String[] {"ignore", "equal", "smaller", "greater", "between"};
+          BaseMessages.getString(PKG, "ActionGetPOP.ConditionIgnore.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ConditionEqual.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ConditionSmaller.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ConditionGreater.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.ConditionBetween.Label")};
+  public static final String[] conditionDateCode = new String[] {"ignore", "equal", "smaller", "greater", "between"};
   public static final int CONDITION_DATE_IGNORE = 0;
   public static final int CONDITION_DATE_EQUAL = 1;
   public static final int CONDITION_DATE_SMALLER = 2;
@@ -68,32 +65,30 @@ public class MailConnectionMeta {
 
   public static final String[] valueIMAPListDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetAll.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNew.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetOld.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetRead.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetUnread.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetFlagged.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetUnFlagged.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetDraft.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNotDraft.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetAnswered.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNotAnswered.Label"),
-      };
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetAll.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNew.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetOld.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetRead.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetUnread.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetFlagged.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetUnFlagged.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetDraft.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNotDraft.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetAnswered.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.IMAPListGetNotAnswered.Label"),};
   public static final String[] valueIMAPListCode =
       new String[] {
-        "imaplistall",
-        "imaplistnew",
-        "imaplistold",
-        "imaplistread",
-        "imaplistunread",
-        "imaplistflagged",
-        "imaplistnotflagged",
-        "imaplistdraft",
-        "imaplistnotdraft",
-        "imaplistanswered",
-        "imaplistnotanswered"
-      };
+          "imaplistall",
+          "imaplistnew",
+          "imaplistold",
+          "imaplistread",
+          "imaplistunread",
+          "imaplistflagged",
+          "imaplistnotflagged",
+          "imaplistdraft",
+          "imaplistnotdraft",
+          "imaplistanswered",
+          "imaplistnotanswered"};
   public static final int VALUE_IMAP_LIST_ALL = 0;
   public static final int VALUE_IMAP_LIST_NEW = 1;
   public static final int VALUE_IMAP_LIST_OLD = 2;
@@ -108,10 +103,9 @@ public class MailConnectionMeta {
 
   public static final String[] afterGetIMAPDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.Nothing.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.Delete.Label"),
-        BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.MoveTo.Label")
-      };
+          BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.Nothing.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.Delete.Label"),
+          BaseMessages.getString(PKG, "ActionGetPOP.afterGetIMAP.MoveTo.Label")};
   public static final String[] afterGetIMAPCode = new String[] {"nothing", "delete", "move"};
   public static final int AFTER_GET_IMAP_NOTHING = 0;
   public static final int AFTER_GET_IMAP_DELETE = 1;

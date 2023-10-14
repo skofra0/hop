@@ -39,13 +39,7 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
 
   private static final Class<?> PKG = DeleteMeta.class; // For Translator
 
-  public Delete(
-      TransformMeta transformMeta,
-      DeleteMeta meta,
-      DeleteData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Delete(TransformMeta transformMeta, DeleteMeta meta, DeleteData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -70,12 +64,7 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
     data.db.setValues(data.deleteParameterRowMeta, deleteRow, data.prepStatementDelete);
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(
-              PKG,
-              "Delete.Log.SetValuesForDelete",
-              data.deleteParameterRowMeta.getString(deleteRow),
-              rowMeta.getString(row)));
+      logDebug(BaseMessages.getString(PKG, "Delete.Log.SetValuesForDelete", data.deleteParameterRowMeta.getString(deleteRow), rowMeta.getString(row)));
     }
 
     data.db.insertRow(data.prepStatementDelete);
@@ -102,14 +91,11 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
       meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
       DatabaseMeta databaseMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
-      data.schemaTable =
-          databaseMeta.getQuotedSchemaTableCombination(
-              this, meta.getLookup().getSchemaName(), meta.getLookup().getTableName());
+      data.schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, meta.getLookup().getSchemaName(), meta.getLookup().getTableName());
 
       // lookup the values!
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "Delete.Log.CheckingRow") + getInputRowMeta().getString(r));
+        logDetailed(BaseMessages.getString(PKG, "Delete.Log.CheckingRow") + getInputRowMeta().getString(r));
       }
 
       List<DeleteKeyField> keyFields = meta.getLookup().getFields();
@@ -118,32 +104,22 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
       for (int i = 0; i < keyFields.size(); i++) {
         DeleteKeyField dlf = keyFields.get(i);
         data.keynrs[i] = getInputRowMeta().indexOfValue(dlf.getKeyStream());
-        if (data.keynrs[i] < 0
-            && // couldn't find field!
-            !"IS NULL".equalsIgnoreCase(dlf.getKeyCondition())
-            && // No field needed!
+        if (data.keynrs[i] < 0 && // couldn't find field!
+            !"IS NULL".equalsIgnoreCase(dlf.getKeyCondition()) && // No field needed!
             !"IS NOT NULL".equalsIgnoreCase(dlf.getKeyCondition()) // No field needed!
         ) {
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "Delete.Exception.FieldRequired", dlf.getKeyStream()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "Delete.Exception.FieldRequired", dlf.getKeyStream()));
         }
 
-        data.keynrs2[i] =
-            (dlf.getKeyStream2() == null
-                ? -1
-                : getInputRowMeta().indexOfValue(dlf.getKeyStream2()));
-        if (data.keynrs2[i] < 0
-            && // couldn't find field!
+        data.keynrs2[i] = (dlf.getKeyStream2() == null ? -1 : getInputRowMeta().indexOfValue(dlf.getKeyStream2()));
+        if (data.keynrs2[i] < 0 && // couldn't find field!
             "BETWEEN".equalsIgnoreCase(dlf.getKeyCondition()) // 2 fields needed!
         ) {
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "Delete.Exception.FieldRequired", dlf.getKeyStream2()));
+          throw new HopTransformException(BaseMessages.getString(PKG, "Delete.Exception.FieldRequired", dlf.getKeyStream2()));
         }
 
         if (log.isDebug()) {
-          logDebug(
-              BaseMessages.getString(PKG, "Delete.Log.FieldInfo", dlf.getKeyStream())
-                  + data.keynrs[i]);
+          logDebug(BaseMessages.getString(PKG, "Delete.Log.FieldInfo", dlf.getKeyStream()) + data.keynrs[i]);
         }
       }
 
@@ -152,8 +128,7 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
 
     try {
       deleteValues(getInputRowMeta(), r); // add new values to the row in rowset[0].
-      putRow(
-          data.outputRowMeta, r); // output the same rows of data, but with a copy of the metadata
+      putRow(data.outputRowMeta, r); // output the same rows of data, but with a copy of the metadata
 
       if (checkFeedback(getLinesRead()) && log.isBasic()) {
         logBasic(BaseMessages.getString(PKG, "Delete.Log.LineNumber") + getLinesRead());
@@ -201,8 +176,7 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
         sql += " BETWEEN ? AND ? ";
         data.deleteParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(dlkf.getKeyStream()));
         data.deleteParameterRowMeta.addValueMeta(rowMeta.searchValueMeta(dlkf.getKeyStream2()));
-      } else if ("IS NULL".equalsIgnoreCase(dlkf.getKeyCondition())
-          || "IS NOT NULL".equalsIgnoreCase(dlkf.getKeyCondition())) {
+      } else if ("IS NULL".equalsIgnoreCase(dlkf.getKeyCondition()) || "IS NOT NULL".equalsIgnoreCase(dlkf.getKeyCondition())) {
         sql += " " + dlkf.getKeyCondition() + " ";
       } else {
         sql += " " + dlkf.getKeyCondition() + " ? ";
@@ -214,11 +188,9 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
       if (log.isDetailed()) {
         logDetailed("Setting delete preparedStatement to [" + sql + "]");
       }
-      data.prepStatementDelete =
-          data.db.getConnection().prepareStatement(databaseMeta.stripCR(sql));
+      data.prepStatementDelete = data.db.getConnection().prepareStatement(databaseMeta.stripCR(sql));
     } catch (SQLException ex) {
-      throw new HopDatabaseException(
-          "Unable to prepare statement for SQL statement [" + sql + "]", ex);
+      throw new HopDatabaseException("Unable to prepare statement for SQL statement [" + sql + "]", ex);
     }
   }
 
@@ -279,13 +251,10 @@ public class Delete extends BaseTransform<DeleteMeta, DeleteData> {
             data.db.rollback();
           }
         }
-        if (dispose) data.db.closeUpdate();
+        if (dispose)
+          data.db.closeUpdate();
       } catch (HopDatabaseException e) {
-        logError(
-            BaseMessages.getString(PKG, "Delete.Log.UnableToCommitUpdateConnection")
-                + data.db
-                + "] :"
-                + e.toString());
+        logError(BaseMessages.getString(PKG, "Delete.Log.UnableToCommitUpdateConnection") + data.db + "] :" + e.toString());
         setErrors(1);
       } finally {
         if (dispose) {

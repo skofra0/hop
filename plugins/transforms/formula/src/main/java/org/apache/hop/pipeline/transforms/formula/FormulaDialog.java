@@ -66,8 +66,7 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
 
   private String[] fieldNames;
 
-  public FormulaDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public FormulaDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
@@ -131,41 +130,14 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.NewField.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.Formula.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.ValueType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FormulaDialog.Replace.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {}),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.NewField.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.Formula.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.ValueType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FormulaDialog.Replace.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -174,63 +146,52 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
     fdFields.bottom = new FormAttachment(100, -50);
     wFields.setLayoutData(fdFields);
 
-    new Thread(
-            () -> {
-              TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-              if (transformMeta != null) {
-                try {
-                  IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    new Thread(() -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-                  // Remember these fields...
-                  for (int i = 0; i < row.size(); i++) {
-                    inputFields.add(row.getValueMeta(i).getName());
-                  }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
+          }
 
-                  setComboBoxes();
-                } catch (HopTransformException e) {
-                  logError(BaseMessages.getString(PKG, "FormulaDialog.Log.UnableToFindInput"));
-                }
-              }
-            })
-        .start();
+          setComboBoxes();
+        } catch (HopTransformException e) {
+          logError(BaseMessages.getString(PKG, "FormulaDialog.Log.UnableToFindInput"));
+        }
+      }
+    }).start();
 
-    colinf[1].setSelectionAdapter(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (fieldNames == null) {
-              return;
-            }
+    colinf[1].setSelectionAdapter(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (fieldNames == null) {
+          return;
+        }
 
-            TableView tv = (TableView) e.widget;
-            TableItem item = tv.table.getItem(e.y);
-            String formula = item.getText(e.x);
+        TableView tv = (TableView) e.widget;
+        TableItem item = tv.table.getItem(e.y);
+        String formula = item.getText(e.x);
 
-            try {
-              if (!shell.isDisposed()) {
-                FormulaEditor libFormulaEditor =
-                    new FormulaEditor(
-                        variables,
-                        shell,
-                        SWT.APPLICATION_MODAL | SWT.SHEET,
-                        Const.NVL(formula, ""),
-                        fieldNames);
-                formula = libFormulaEditor.open();
-                if (formula != null && !tv.isDisposed()) {
-                  tv.setText(formula, e.x, e.y);
-                }
-              }
-            } catch (Exception ex) {
-              new ErrorDialog(
-                  shell, "Error", "There was an unexpected error in the formula editor", ex);
+        try {
+          if (!shell.isDisposed()) {
+            FormulaEditor libFormulaEditor = new FormulaEditor(variables, shell, SWT.APPLICATION_MODAL | SWT.SHEET, Const.NVL(formula, ""), fieldNames);
+            formula = libFormulaEditor.open();
+            if (formula != null && !tv.isDisposed()) {
+              tv.setText(formula, e.x, e.y);
             }
           }
-        });
+        } catch (Exception ex) {
+          new ErrorDialog(shell, "Error", "There was an unexpected error in the formula editor", ex);
+        }
+      }
+    });
 
-    wFields.addModifyListener(
-        arg0 ->
-            // Now set the combo's
-            shell.getDisplay().asyncExec(this::setComboBoxes));
+    wFields.addModifyListener(arg0 ->
+    // Now set the combo's
+    shell.getDisplay().asyncExec(this::setComboBoxes));
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);
@@ -243,22 +204,20 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
     wCancel.addListener(SWT.Selection, e -> cancel());
     wOk.addListener(SWT.Selection, e -> ok());
 
-    wTransformName.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok();
-          }
-        });
+    wTransformName.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok();
+      }
+    });
 
     // Detect X or ALT-F4 or something that kills this window...
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            cancel();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        cancel();
+      }
+    });
 
     // Set the shell size, based upon previous time...
     setSize();
@@ -278,17 +237,15 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
   protected void setComboBoxes() {
     // Something was changed in the row.
     //
-    shell
-        .getDisplay()
-        .syncExec(
-            () -> {
-              // Add the newly create fields.
-              //
-              String[] fieldNames = ConstUi.sortFieldNames(inputFields);
-              colinf[5].setComboValues(fieldNames);
-              FormulaDialog.this.fieldNames = fieldNames;
-            });
+    shell.getDisplay().syncExec(() -> {
+      // Add the newly create fields.
+      //
+      String[] fieldNames = ConstUi.sortFieldNames(inputFields);
+      colinf[5].setComboValues(fieldNames);
+      FormulaDialog.this.fieldNames = fieldNames;
+    });
   }
+
   /** Copy information from the meta-data currentMeta to the dialog fields. */
   public void getData() {
 
@@ -343,11 +300,7 @@ public class FormulaDialog extends BaseTransformDialog implements ITransformDial
       String replaceField = item.getText(6);
 
       // CHECKSTYLE:Indentation:OFF
-      currentMeta
-          .getFormulas()
-          .add(
-              new FormulaMetaFunction(
-                  fieldName, formulaString, valueType, valueLength, valuePrecision, replaceField));
+      currentMeta.getFormulas().add(new FormulaMetaFunction(fieldName, formulaString, valueType, valueLength, valuePrecision, replaceField));
     }
 
     if (!originalMeta.equals(currentMeta)) {

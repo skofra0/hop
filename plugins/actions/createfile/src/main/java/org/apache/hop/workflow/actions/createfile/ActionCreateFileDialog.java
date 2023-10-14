@@ -45,8 +45,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionCreateFileDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionCreateFile.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionCreateFile.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionCreateFile.Filetype.All")};
 
   private Text wName;
 
@@ -60,8 +59,7 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
 
   private boolean changed;
 
-  public ActionCreateFileDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCreateFileDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCreateFile) action;
     if (this.action.getName() == null) {
@@ -74,7 +72,7 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
     Shell parent = getParent();
 
     shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.MIN | SWT.MAX | SWT.RESIZE);
-    shell.setMinimumSize(400, 210);    
+    shell.setMinimumSize(400, 210);
     PropsUi.setLook(shell);
     WorkflowDialog.setShellImage(shell, action);
 
@@ -138,14 +136,9 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
 
     Label wlAbortExists = new Label(shell, SWT.RIGHT);
     wlAbortExists.setText(BaseMessages.getString(PKG, "ActionCreateFile.FailIfExists.Label"));
@@ -157,25 +150,22 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
     wlAbortExists.setLayoutData(fdlAbortExists);
     wAbortExists = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wAbortExists);
-    wAbortExists.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCreateFile.FailIfExists.Tooltip"));
+    wAbortExists.setToolTipText(BaseMessages.getString(PKG, "ActionCreateFile.FailIfExists.Tooltip"));
     FormData fdAbortExists = new FormData();
     fdAbortExists.left = new FormAttachment(middle, 0);
     fdAbortExists.top = new FormAttachment(wlAbortExists, 0, SWT.CENTER);
     fdAbortExists.right = new FormAttachment(100, 0);
     wAbortExists.setLayoutData(fdAbortExists);
-    wAbortExists.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wAbortExists.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // Add filenames to result filenames...
     Label wlAddFilenameToResult = new Label(shell, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionCreateFile.AddFilenameToResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionCreateFile.AddFilenameToResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -183,8 +173,7 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
     fdlAddFilenameToResult.right = new FormAttachment(middle, -margin);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new Button(shell, SWT.CHECK);
-    wAddFilenameToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCreateFile.AddFilenameToResult.Tooltip"));
+    wAddFilenameToResult.setToolTipText(BaseMessages.getString(PKG, "ActionCreateFile.AddFilenameToResult.Tooltip"));
     PropsUi.setLook(wAddFilenameToResult);
     FormData fdAddFilenameToResult = new FormData();
     fdAddFilenameToResult.left = new FormAttachment(middle, 0);
@@ -199,8 +188,7 @@ public class ActionCreateFileDialog extends ActionDialog implements IActionDialo
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
 

@@ -28,32 +28,20 @@ import org.apache.hop.core.vfs.HopVfs;
 import org.apache.hop.metadata.api.IHasHopMetadataProvider;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "ManageConfigFileOptionPlugin",
-    description = "Allows command line editing of configuration files")
+@ConfigPlugin(id = "ManageConfigFileOptionPlugin", description = "Allows command line editing of configuration files")
 public class ManageConfigFileOptionPlugin implements IConfigOptions {
 
-  @CommandLine.Option(
-      names = {"-cfg", "--config-file"},
-      description = "Specify the configuration JSON file to manage")
+  @CommandLine.Option(names = {"-cfg", "--config-file"}, description = "Specify the configuration JSON file to manage")
   private String configFile = null;
 
-  @CommandLine.Option(
-      names = {"-cfv", "--config-file-set-variables"},
-      description = "A list of variable=value combinations separated by a comma",
-      split = ",")
+  @CommandLine.Option(names = {"-cfv", "--config-file-set-variables"}, description = "A list of variable=value combinations separated by a comma", split = ",")
   private String[] configSetVariables;
 
-  @CommandLine.Option(
-      names = {"-cfd", "--config-file-describe-variables"},
-      description = "A list of variable=description combinations separated by a comma",
-      split = ",")
+  @CommandLine.Option(names = {"-cfd", "--config-file-describe-variables"}, description = "A list of variable=description combinations separated by a comma", split = ",")
   private String[] configDescribeVariables;
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
 
     String realConfigFile = variables.resolve(configFile);
     if (StringUtils.isEmpty(realConfigFile)) {
@@ -62,8 +50,7 @@ public class ManageConfigFileOptionPlugin implements IConfigOptions {
 
     try {
       boolean changed = false;
-      DescribedVariablesConfigFile variablesConfigFile =
-          new DescribedVariablesConfigFile(realConfigFile);
+      DescribedVariablesConfigFile variablesConfigFile = new DescribedVariablesConfigFile(realConfigFile);
       if (HopVfs.fileExists(realConfigFile)) {
         variablesConfigFile.readFromFile();
       }
@@ -79,8 +66,7 @@ public class ManageConfigFileOptionPlugin implements IConfigOptions {
             if (variableValue != null && variableValue.startsWith("\"") && variableValue.endsWith("\"")) {
               variableValue = variableValue.substring(1, variableValue.length() - 1);
             }
-            DescribedVariable describedVariable =
-                variablesConfigFile.findDescribedVariable(variableName);
+            DescribedVariable describedVariable = variablesConfigFile.findDescribedVariable(variableName);
             if (describedVariable == null) {
               describedVariable = new DescribedVariable(variableName, variableValue, "");
             } else {
@@ -100,8 +86,7 @@ public class ManageConfigFileOptionPlugin implements IConfigOptions {
           if (equalsIndex > 0) {
             String variableName = varDesc.substring(0, equalsIndex);
             String variableDescription = varDesc.substring(equalsIndex + 1);
-            DescribedVariable describedVariable =
-                variablesConfigFile.findDescribedVariable(variableName);
+            DescribedVariable describedVariable = variablesConfigFile.findDescribedVariable(variableName);
             if (describedVariable == null) {
               describedVariable = new DescribedVariable(variableName, null, variableDescription);
             } else {

@@ -43,13 +43,7 @@ import java.util.Date;
 
 public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutputData> {
 
-  public ParquetOutput(
-      TransformMeta transformMeta,
-      ParquetOutputMeta meta,
-      ParquetOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ParquetOutput(TransformMeta transformMeta, ParquetOutputMeta meta, ParquetOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -58,14 +52,9 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
 
     // Pre-calculate some values...
     //
-    data.pageSize =
-        Const.toInt(resolve(meta.getDataPageSize()), ParquetProperties.DEFAULT_PAGE_SIZE);
-    data.dictionaryPageSize =
-        Const.toInt(
-            resolve(meta.getDictionaryPageSize()), ParquetProperties.DEFAULT_DICTIONARY_PAGE_SIZE);
-    data.rowGroupSize =
-        Const.toInt(
-            resolve(meta.getRowGroupSize()), ParquetProperties.DEFAULT_PAGE_ROW_COUNT_LIMIT);
+    data.pageSize = Const.toInt(resolve(meta.getDataPageSize()), ParquetProperties.DEFAULT_PAGE_SIZE);
+    data.dictionaryPageSize = Const.toInt(resolve(meta.getDictionaryPageSize()), ParquetProperties.DEFAULT_DICTIONARY_PAGE_SIZE);
+    data.rowGroupSize = Const.toInt(resolve(meta.getRowGroupSize()), ParquetProperties.DEFAULT_PAGE_ROW_COUNT_LIMIT);
     data.maxSplitSizeRows = Const.toLong(resolve(meta.getFileSplitSize()), -1);
 
     return super.init();
@@ -102,9 +91,7 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
 
     // See if we don't need to create a new file split into parts...
     //
-    if (meta.isFilenameIncludingSplitNr()
-        && data.maxSplitSizeRows > 0
-        && data.splitRowCount >= data.maxSplitSizeRows) {
+    if (meta.isFilenameIncludingSplitNr() && data.maxSplitSizeRows > 0 && data.splitRowCount >= data.maxSplitSizeRows) {
       // Close file and start a new one...
       //
       closeFile();
@@ -147,8 +134,7 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
     }
     data.props = builder.build();
 
-    SchemaBuilder.FieldAssembler<Schema> fieldAssembler =
-        SchemaBuilder.record("ApacheHopParquetSchema").fields();
+    SchemaBuilder.FieldAssembler<Schema> fieldAssembler = SchemaBuilder.record("ApacheHopParquetSchema").fields();
 
     // Build the Parquet Schema
     //
@@ -157,25 +143,14 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
       IValueMeta valueMeta = getInputRowMeta().getValueMeta(data.sourceFieldIndexes.get(i));
 
       // Start a new field
-      SchemaBuilder.BaseFieldTypeBuilder<Schema> fieldBuilder =
-          fieldAssembler.name(field.getTargetFieldName()).type().nullable();
+      SchemaBuilder.BaseFieldTypeBuilder<Schema> fieldBuilder = fieldAssembler.name(field.getTargetFieldName()).type().nullable();
 
       // Match these data types with class ParquetWriteSupport
       //
       switch (valueMeta.getType()) {
         case IValueMeta.TYPE_DATE:
-          Schema timestampMilliType =
-              LogicalTypes.timestampMillis().addToSchema(Schema.create(Schema.Type.LONG));
-          fieldAssembler =
-              fieldAssembler
-                  .name(field.getTargetFieldName())
-                  .type()
-                  .unionOf()
-                  .nullType()
-                  .and()
-                  .type(timestampMilliType)
-                  .endUnion()
-                  .noDefault();
+          Schema timestampMilliType = LogicalTypes.timestampMillis().addToSchema(Schema.create(Schema.Type.LONG));
+          fieldAssembler = fieldAssembler.name(field.getTargetFieldName()).type().unionOf().nullType().and().type(timestampMilliType).endUnion().noDefault();
           break;
         case IValueMeta.TYPE_INTEGER:
           fieldAssembler = fieldBuilder.longType().noDefault();
@@ -196,10 +171,7 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
           fieldAssembler = fieldBuilder.bytesType().noDefault();
           break;
         default:
-          throw new HopException(
-              "Writing Hop data type '"
-                  + valueMeta.getTypeDesc()
-                  + "' to Parquet is not supported");
+          throw new HopException("Writing Hop data type '" + valueMeta.getTypeDesc() + "' to Parquet is not supported");
       }
     }
     data.avroSchema = fieldAssembler.endRecord();
@@ -230,20 +202,9 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
       data.outputFile = new ParquetOutputFile(data.outputStream);
 
       data.writer =
-          new ParquetWriterBuilder(
-                  messageType,
-                  data.avroSchema,
-                  data.outputFile,
-                  data.sourceFieldIndexes,
-                  meta.getFields())
-              .withPageSize(data.pageSize)
-              .withDictionaryPageSize(data.dictionaryPageSize)
-              .withValidation(ParquetWriter.DEFAULT_IS_VALIDATING_ENABLED)
-              .withCompressionCodec(meta.getCompressionCodec())
-              .withRowGroupSize(data.rowGroupSize)
-              .withWriterVersion(data.props.getWriterVersion())
-              .withWriteMode(ParquetFileWriter.Mode.CREATE)
-              .build();
+          new ParquetWriterBuilder(messageType, data.avroSchema, data.outputFile, data.sourceFieldIndexes, meta.getFields()).withPageSize(data.pageSize)
+              .withDictionaryPageSize(data.dictionaryPageSize).withValidation(ParquetWriter.DEFAULT_IS_VALIDATING_ENABLED).withCompressionCodec(meta.getCompressionCodec())
+              .withRowGroupSize(data.rowGroupSize).withWriterVersion(data.props.getWriterVersion()).withWriteMode(ParquetFileWriter.Mode.CREATE).build();
 
     } catch (Exception e) {
       throw new HopException("Unable to create output file '" + data.filename + "'", e);
@@ -259,8 +220,7 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
       filename += "-" + new SimpleDateFormat("HHmmss").format(date);
     }
     if (meta.isFilenameIncludingDateTime()) {
-      filename +=
-          "-" + new SimpleDateFormat(resolve(meta.getFilenameDateTimeFormat())).format(date);
+      filename += "-" + new SimpleDateFormat(resolve(meta.getFilenameDateTimeFormat())).format(date);
     }
     if (meta.isFilenameIncludingCopyNr()) {
       filename += "-" + new DecimalFormat("00").format(getCopyNr());
@@ -269,7 +229,7 @@ public class ParquetOutput extends BaseTransform<ParquetOutputMeta, ParquetOutpu
       filename += "-" + new DecimalFormat("0000").format(data.split);
     }
     if (data.isBeamContext()) {
-      filename+= "_"+log.getLogChannelId()+"_"+data.getBeamBundleNr();
+      filename += "_" + log.getLogChannelId() + "_" + data.getBeamBundleNr();
     }
     filename += "." + Const.NVL(resolve(meta.getFilenameExtension()), "parquet");
     filename += meta.getCompressionCodec().getExtension();

@@ -64,8 +64,7 @@ public class HopGuiWorkflowRunDelegate {
     workflowMap = new ArrayList<>();
   }
 
-  public void executeWorkflow(
-      IVariables variables, WorkflowMeta workflowMeta, String startActionName) throws HopException {
+  public void executeWorkflow(IVariables variables, WorkflowMeta workflowMeta, String startActionName) throws HopException {
 
     if (workflowMeta == null) {
       return;
@@ -82,28 +81,21 @@ public class HopGuiWorkflowRunDelegate {
     executionConfiguration.setStartActionName(startActionName);
     executionConfiguration.setLogLevel(DefaultLogLevel.getLogLevel());
 
-    WorkflowExecutionConfigurationDialog dialog =
-        newWorkflowExecutionConfigurationDialog(executionConfiguration, workflowMeta);
+    WorkflowExecutionConfigurationDialog dialog = newWorkflowExecutionConfigurationDialog(executionConfiguration, workflowMeta);
 
     if (!workflowMeta.isShowDialog() || dialog.open()) {
 
       workflowGraph.workflowLogDelegate.addWorkflowLog();
 
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI,
-          workflowGraph.getVariables(),
-          HopExtensionPoint.HopGuiWorkflowExecutionConfiguration.id,
-          executionConfiguration);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, workflowGraph.getVariables(), HopExtensionPoint.HopGuiWorkflowExecutionConfiguration.id, executionConfiguration);
 
       workflowGraph.start(executionConfiguration);
     }
   }
 
   @VisibleForTesting
-  WorkflowExecutionConfigurationDialog newWorkflowExecutionConfigurationDialog(
-      WorkflowExecutionConfiguration executionConfiguration, WorkflowMeta workflowMeta) {
-    return new WorkflowExecutionConfigurationDialog(
-        hopGui.getShell(), executionConfiguration, workflowMeta);
+  WorkflowExecutionConfigurationDialog newWorkflowExecutionConfigurationDialog(WorkflowExecutionConfiguration executionConfiguration, WorkflowMeta workflowMeta) {
+    return new WorkflowExecutionConfigurationDialog(hopGui.getShell(), executionConfiguration, workflowMeta);
   }
 
   private static void showSaveJobBeforeRunningDialog(Shell shell) {
@@ -113,30 +105,14 @@ public class HopGuiWorkflowRunDelegate {
     m.open();
   }
 
-  private void monitorRemoteJob(
-      final WorkflowMeta workflowMeta,
-      final String serverObjectId,
-      final HopServer remoteHopServer) {
+  private void monitorRemoteJob(final WorkflowMeta workflowMeta, final String serverObjectId, final HopServer remoteHopServer) {
     // There is a workflow running in the background. When it finishes log the result on the
     // console.
     // Launch in a separate thread to prevent GUI blocking...
     //
-    Thread thread =
-        new Thread(
-            () ->
-                remoteHopServer.monitorRemoteWorkflow(
-                    hopGui.getVariables(),
-                    hopGui.getLog(),
-                    serverObjectId,
-                    workflowMeta.toString()));
+    Thread thread = new Thread(() -> remoteHopServer.monitorRemoteWorkflow(hopGui.getVariables(), hopGui.getLog(), serverObjectId, workflowMeta.toString()));
 
-    thread.setName(
-        "Monitor remote workflow '"
-            + workflowMeta.getName()
-            + "', carte object id="
-            + serverObjectId
-            + ", hop server: "
-            + remoteHopServer.getName());
+    thread.setName("Monitor remote workflow '" + workflowMeta.getName() + "', carte object id=" + serverObjectId + ", hop server: " + remoteHopServer.getName());
     thread.start();
   }
 
@@ -178,8 +154,7 @@ public class HopGuiWorkflowRunDelegate {
   }
 
   /** @param workflowExecutionConfiguration The workflowExecutionConfiguration to set */
-  public void setWorkflowExecutionConfiguration(
-      WorkflowExecutionConfiguration workflowExecutionConfiguration) {
+  public void setWorkflowExecutionConfiguration(WorkflowExecutionConfiguration workflowExecutionConfiguration) {
     this.workflowExecutionConfiguration = workflowExecutionConfiguration;
   }
 

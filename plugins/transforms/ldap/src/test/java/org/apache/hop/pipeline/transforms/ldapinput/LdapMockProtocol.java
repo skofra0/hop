@@ -28,8 +28,7 @@ import java.util.Collection;
 public class LdapMockProtocol extends LdapProtocol {
   public static InitialLdapContext mockContext;
 
-  public LdapMockProtocol(
-      ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
+  public LdapMockProtocol(ILogChannel log, IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) {
     super(log, variables, meta, binaryAttributes);
   }
 

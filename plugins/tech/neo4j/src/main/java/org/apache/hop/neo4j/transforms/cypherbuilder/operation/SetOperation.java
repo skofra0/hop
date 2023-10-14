@@ -37,8 +37,7 @@ public class SetOperation extends BaseOperation {
   }
 
   @Override
-  public String getCypherClause(String unwindAlias, List<Parameter> parameters)
-      throws HopException {
+  public String getCypherClause(String unwindAlias, List<Parameter> parameters) throws HopException {
     // SET
     //
     StringBuilder cypher = new StringBuilder(operationType.keyWord());

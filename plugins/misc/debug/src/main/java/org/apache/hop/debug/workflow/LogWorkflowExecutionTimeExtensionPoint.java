@@ -28,18 +28,12 @@ import org.apache.hop.workflow.engine.IWorkflowEngine;
 
 import java.util.Date;
 
-@ExtensionPoint(
-    id = "LogWorkflowExecutionTimeExtensionPoint",
-    description = "Logs execution time of a workflow when it finishes",
-    extensionPointId = "WorkflowStart")
+@ExtensionPoint(id = "LogWorkflowExecutionTimeExtensionPoint", description = "Logs execution time of a workflow when it finishes", extensionPointId = "WorkflowStart")
 /** set the debug level right before the transform starts to run */
-public class LogWorkflowExecutionTimeExtensionPoint
-    implements IExtensionPoint<IWorkflowEngine<WorkflowMeta>> {
+public class LogWorkflowExecutionTimeExtensionPoint implements IExtensionPoint<IWorkflowEngine<WorkflowMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IWorkflowEngine<WorkflowMeta> workflow)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IWorkflowEngine<WorkflowMeta> workflow) throws HopException {
 
     // If the HOP_DEBUG_DURATION variable is set to N or FALSE, we don't log duration
     //
@@ -51,21 +45,15 @@ public class LogWorkflowExecutionTimeExtensionPoint
 
     final long startTime = System.currentTimeMillis();
 
-    workflow.addWorkflowFinishedListener(
-        workflow1 -> {
-          Date startDate = workflow1.getExecutionStartDate();
-          Date endDate = workflow1.getExecutionEndDate();
-          if (startDate != null && endDate != null) {
-            long startTime1 = startDate.getTime();
-            long endTime = endDate.getTime();
-            double seconds = ((double) endTime - (double) startTime1) / 1000;
-            log.logBasic(
-                "Workflow duration : "
-                    + seconds
-                    + " seconds [ "
-                    + Utils.getDurationHMS(seconds)
-                    + " ]");
-          }
-        });
+    workflow.addWorkflowFinishedListener(workflow1 -> {
+      Date startDate = workflow1.getExecutionStartDate();
+      Date endDate = workflow1.getExecutionEndDate();
+      if (startDate != null && endDate != null) {
+        long startTime1 = startDate.getTime();
+        long endTime = endDate.getTime();
+        double seconds = ((double) endTime - (double) startTime1) / 1000;
+        log.logBasic("Workflow duration : " + seconds + " seconds [ " + Utils.getDurationHMS(seconds) + " ]");
+      }
+    });
   }
 }

@@ -39,8 +39,6 @@ public class ObjectUsageCountTest {
     count.setNrUses(nrUses);
     assertEquals(nrUses, count.getNrUses());
 
-    assertEquals(
-        -1,
-        count.compare(ObjectUsageCount.fromString("Obj1;2"), ObjectUsageCount.fromString("Obj2")));
+    assertEquals(-1, count.compare(ObjectUsageCount.fromString("Obj1;2"), ObjectUsageCount.fromString("Obj2")));
   }
 }

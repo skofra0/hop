@@ -33,60 +33,23 @@ import java.util.Map;
 
 public class LoadSaveTester<T extends IAction> extends LoadSaveBase<T> {
 
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap,
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap,
+      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap,
       ActionInitializer<T> actionInitializer) throws HopException {
-    super(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        fieldLoadSaveValidatorAttributeMap,
-        fieldLoadSaveValidatorTypeMap);
+    super(clazz, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, fieldLoadSaveValidatorTypeMap);
   }
 
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap,
-      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
-    this(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        fieldLoadSaveValidatorAttributeMap,
-        fieldLoadSaveValidatorTypeMap,
-        null);
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap,
+      Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap, Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorTypeMap) throws HopException {
+    this(clazz, attributes, getterMap, setterMap, fieldLoadSaveValidatorAttributeMap, fieldLoadSaveValidatorTypeMap, null);
   }
 
-  public LoadSaveTester(
-      Class<T> clazz,
-      List<String> attributes,
-      Map<String, String> getterMap,
-      Map<String, String> setterMap) throws HopException {
-    this(
-        clazz,
-        attributes,
-        getterMap,
-        setterMap,
-        new HashMap<>(),
-        new HashMap<>());
+  public LoadSaveTester(Class<T> clazz, List<String> attributes, Map<String, String> getterMap, Map<String, String> setterMap) throws HopException {
+    this(clazz, attributes, getterMap, setterMap, new HashMap<>(), new HashMap<>());
   }
 
   @Override
-  protected void validateLoadedMeta(
-      List<String> attributes,
-      Map<String, IFieldLoadSaveValidator<?>> validatorMap,
-      T metaSaved,
-      T metaLoaded) {
+  protected void validateLoadedMeta(List<String> attributes, Map<String, IFieldLoadSaveValidator<?>> validatorMap, T metaSaved, T metaLoaded) {
     super.validateLoadedMeta(attributes, validatorMap, metaSaved, metaLoaded);
   }
 
@@ -101,16 +64,12 @@ public class LoadSaveTester<T extends IAction> extends LoadSaveBase<T> {
     if (initializer != null) {
       initializer.modify(metaToSave);
     }
-    Map<String, IFieldLoadSaveValidator<?>> validatorMap =
-        createValidatorMapAndInvokeSetters(attributes, metaToSave);
+    Map<String, IFieldLoadSaveValidator<?>> validatorMap = createValidatorMapAndInvokeSetters(attributes, metaToSave);
     T metaLoaded = createMeta();
     String xml = "<transform>" + metaToSave.getXml() + "</transform>";
     InputStream is = new ByteArrayInputStream(xml.getBytes());
     IVariables variables = new Variables();
-    metaLoaded.loadXml(
-        XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "transform"),
-        metadataProvider,
-        variables);
+    metaLoaded.loadXml(XmlHandler.getSubNode(XmlHandler.loadXmlFile(is, null, false, false), "transform"), metadataProvider, variables);
     validateLoadedMeta(attributes, validatorMap, metaToSave, metaLoaded);
   }
 
@@ -120,8 +79,7 @@ public class LoadSaveTester<T extends IAction> extends LoadSaveBase<T> {
     if (initializer != null) {
       initializer.modify(metaToSave);
     }
-    Map<String, IFieldLoadSaveValidator<?>> validatorMap =
-        createValidatorMapAndInvokeSetters(attributes, metaToSave);
+    Map<String, IFieldLoadSaveValidator<?>> validatorMap = createValidatorMapAndInvokeSetters(attributes, metaToSave);
 
     @SuppressWarnings("unchecked")
     T metaLoaded = (T) metaToSave.clone();

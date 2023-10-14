@@ -20,9 +20,11 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class PipelineUnitTestTweak {
 
-  @HopMetadataProperty private PipelineTweak tweak;
+  @HopMetadataProperty
+  private PipelineTweak tweak;
 
-  @HopMetadataProperty private String transformName;
+  @HopMetadataProperty
+  private String transformName;
 
   public PipelineUnitTestTweak() {
     tweak = PipelineTweak.NONE;

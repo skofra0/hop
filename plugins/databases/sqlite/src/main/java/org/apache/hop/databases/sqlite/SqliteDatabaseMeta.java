@@ -92,12 +92,8 @@ public class SqliteDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -112,17 +108,12 @@ public class SqliteDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     String retval = "";
 
     String fieldname = v.getName();
@@ -145,8 +136,7 @@ public class SqliteDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           retval += "INTEGER PRIMARY KEY AUTOINCREMENT";
@@ -182,8 +172,8 @@ public class SqliteDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return true if the database supports error handling (the default). Returns false for certain
-   *     databases (SQLite) that invalidate a prepared statement or even the complete connection
-   *     when an error occurs.
+   *         databases (SQLite) that invalidate a prepared statement or even the complete connection
+   *         when an error occurs.
    */
   @Override
   public boolean isSupportsErrorHandling() {

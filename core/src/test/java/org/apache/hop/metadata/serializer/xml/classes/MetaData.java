@@ -23,7 +23,8 @@ import java.util.List;
 
 public class MetaData {
 
-  @HopMetadataProperty private String filename;
+  @HopMetadataProperty
+  private String filename;
 
   @HopMetadataProperty(key = "field_separator")
   private String separator;
@@ -40,7 +41,10 @@ public class MetaData {
   @HopMetadataProperty(key = "test_enum")
   private TestEnum testEnum;
 
-  /** The "inline" annotation property puts the metadata not in a separate element in the metadata (XML) */
+  /**
+   * The "inline" annotation property puts the metadata not in a separate element in the metadata
+   * (XML)
+   */
   @HopMetadataProperty(inline = true)
   private Info info;
 

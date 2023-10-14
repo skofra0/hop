@@ -74,49 +74,33 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
   public static final int SUCCESS_NUMBER_CONDITION_NOT_IN_LIST = 8;
 
   public static final String[] successNumberConditionCode =
-      new String[] {
-        "equal",
-        "different",
-        "smaller",
-        "smallequal",
-        "greater",
-        "greaterequal",
-        "between",
-        "inlist",
-        "notinlist"
-      };
+      new String[] {"equal", "different", "smaller", "smallequal", "greater", "greaterequal", "between", "inlist", "notinlist"};
 
   public static final String[] successNumberConditionDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenEqual.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenDifferent.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenSmallThan.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenSmallOrEqualThan.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenGreaterThan.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenGreaterOrEqualThan.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessBetween.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenInList.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenNotInList.Label"),
-      };
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenEqual.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenDifferent.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenSmallThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenSmallOrEqualThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenGreaterThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenGreaterOrEqualThan.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessBetween.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenInList.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SuccessWhenNotInList.Label"),};
 
   public static final BigDecimal ONE = new BigDecimal(1);
 
-  public static final String[] IncludeSubFoldersDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] IncludeSubFoldersDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] IncludeSubFoldersCodes = new String[] {"N", "Y"};
   private static final String YES = "Y";
   private static final String NO = "N";
 
   public static final String[] scaleDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Bytes.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.KBytes.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.MBytes.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.GBytes.Label")
-      };
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Bytes.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.KBytes.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.MBytes.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.GBytes.Label")};
   public static final String[] scaleCodes = new String[] {"bytes", "kbytes", "mbytes", "gbytes"};
   public static final int SCALE_BYTES = 0;
   public static final int SCALE_KBYTES = 1;
@@ -127,12 +111,10 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
 
   public static final String[] SourceFilesDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.Files.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.FilenamesResult.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.PreviousResult.Label"),
-      };
-  public static final String[] SourceFilesCodes =
-      new String[] {"files", "filenamesresult", "previousresult"};
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.Files.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.FilenamesResult.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.SourceFiles.PreviousResult.Label"),};
+  public static final String[] SourceFilesCodes = new String[] {"files", "filenamesresult", "previousresult"};
   public static final int SOURCE_FILES_FILES = 0;
   public static final int SOURCE_FILES_FILENAMES_RESULT = 1;
   public static final int SOURCE_FILES_PREVIOUS_RESULT = 2;
@@ -141,13 +123,9 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
 
   public static final String[] EvaluationTypeDesc =
       new String[] {
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.EvaluationType.Size.Label"),
-        BaseMessages.getString(PKG, "ActionEvalFilesMetrics.EvaluationType.Count.Label"),
-      };
-  public static final String[] EvaluationTypeCodes =
-      new String[] {
-        "size", "count",
-      };
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.EvaluationType.Size.Label"),
+          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.EvaluationType.Count.Label"),};
+  public static final String[] EvaluationTypeCodes = new String[] {"size", "count",};
   public static final int EVALUATE_TYPE_SIZE = 0;
   public static final int EVALUATE_TYPE_COUNT = 1;
 
@@ -221,29 +199,18 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
     StringBuilder retval = new StringBuilder(300);
 
     retval.append(super.getXml());
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("result_filenames_wildcard", resultFilenamesWildcard));
+    retval.append("      ").append(XmlHandler.addTagValue("result_filenames_wildcard", resultFilenamesWildcard));
     retval.append("      ").append(XmlHandler.addTagValue("Result_field_file", resultFieldFile));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("Result_field_wildcard", resultFieldWildcard));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("Result_field_includesubfolders", resultFieldIncludesubFolders));
+    retval.append("      ").append(XmlHandler.addTagValue("Result_field_wildcard", resultFieldWildcard));
+    retval.append("      ").append(XmlHandler.addTagValue("Result_field_includesubfolders", resultFieldIncludesubFolders));
 
     retval.append("      <fields>").append(Const.CR);
     if (sourceFileFolder != null) {
       for (int i = 0; i < sourceFileFolder.length; i++) {
         retval.append("        <field>").append(Const.CR);
-        retval
-            .append("          ")
-            .append(XmlHandler.addTagValue("source_filefolder", sourceFileFolder[i]));
+        retval.append("          ").append(XmlHandler.addTagValue("source_filefolder", sourceFileFolder[i]));
         retval.append("          ").append(XmlHandler.addTagValue("wildcard", sourceWildcard[i]));
-        retval
-            .append("          ")
-            .append(XmlHandler.addTagValue("include_subFolders", sourceIncludeSubfolders[i]));
+        retval.append("          ").append(XmlHandler.addTagValue("include_subFolders", sourceIncludeSubfolders[i]));
         retval.append("        </field>").append(Const.CR);
       }
     }
@@ -251,17 +218,9 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
     retval.append("      ").append(XmlHandler.addTagValue("comparevalue", comparevalue));
     retval.append("      ").append(XmlHandler.addTagValue("minvalue", minvalue));
     retval.append("      ").append(XmlHandler.addTagValue("maxvalue", maxvalue));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "successnumbercondition", getSuccessNumberConditionCode(successConditionType)));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("source_files", getSourceFilesCode(sourceFiles)));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("evaluation_type", getEvaluationTypeCode(evaluationType)));
+    retval.append("      ").append(XmlHandler.addTagValue("successnumbercondition", getSuccessNumberConditionCode(successConditionType)));
+    retval.append("      ").append(XmlHandler.addTagValue("source_files", getSourceFilesCode(sourceFiles)));
+    retval.append("      ").append(XmlHandler.addTagValue("evaluation_type", getEvaluationTypeCode(evaluationType)));
     retval.append("      ").append(XmlHandler.addTagValue("scale", getScaleCode(scale)));
     return retval.toString();
   }
@@ -289,8 +248,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
 
@@ -312,23 +270,16 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
       resultFilenamesWildcard = XmlHandler.getTagValue(entrynode, "result_filenames_wildcard");
       resultFieldFile = XmlHandler.getTagValue(entrynode, "result_field_file");
       resultFieldWildcard = XmlHandler.getTagValue(entrynode, "result_field_wildcard");
-      resultFieldIncludesubFolders =
-          XmlHandler.getTagValue(entrynode, "result_field_includesubfolders");
+      resultFieldIncludesubFolders = XmlHandler.getTagValue(entrynode, "result_field_includesubfolders");
       comparevalue = XmlHandler.getTagValue(entrynode, "comparevalue");
       minvalue = XmlHandler.getTagValue(entrynode, "minvalue");
       maxvalue = XmlHandler.getTagValue(entrynode, "maxvalue");
-      successConditionType =
-          getSuccessNumberConditionByCode(
-              Const.NVL(XmlHandler.getTagValue(entrynode, "successnumbercondition"), ""));
-      sourceFiles =
-          getSourceFilesByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "source_files"), ""));
-      evaluationType =
-          getEvaluationTypeByCode(
-              Const.NVL(XmlHandler.getTagValue(entrynode, "evaluation_type"), ""));
+      successConditionType = getSuccessNumberConditionByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "successnumbercondition"), ""));
+      sourceFiles = getSourceFilesByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "source_files"), ""));
+      evaluationType = getEvaluationTypeByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "evaluation_type"), ""));
       scale = getScaleByCode(Const.NVL(XmlHandler.getTagValue(entrynode, "scale"), ""));
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.Exception.UnableLoadXML"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.Exception.UnableLoadXML"), xe);
     }
   }
 
@@ -363,8 +314,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
 
         int indexOfResultFieldFile = -1;
         if (Utils.isEmpty(realResultFieldFile)) {
-          logError(
-              BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.ResultFieldsFileMissing"));
+          logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.ResultFieldsFileMissing"));
           return result;
         }
 
@@ -373,11 +323,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
 
         // as such we must get rows
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.ArgFromPrevious.Found",
-                  (rows != null ? rows.size() : 0) + ""));
+          logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.ArgFromPrevious.Found", (rows != null ? rows.size() : 0) + ""));
         }
 
         if (rows != null && rows.size() > 0) {
@@ -385,39 +331,25 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
           RowMetaAndData firstRow = rows.get(0);
           indexOfResultFieldFile = firstRow.getRowMeta().indexOfValue(realResultFieldFile);
           if (indexOfResultFieldFile == -1) {
-            logError(
-                BaseMessages.getString(
-                    PKG, "ActionEvalFilesMetrics.Error.CanNotFindField", realResultFieldFile));
+            logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.CanNotFindField", realResultFieldFile));
             return result;
           }
           if (!Utils.isEmpty(realResultFieldWildcard)) {
-            indexOfResultFieldWildcard =
-                firstRow.getRowMeta().indexOfValue(realResultFieldWildcard);
+            indexOfResultFieldWildcard = firstRow.getRowMeta().indexOfValue(realResultFieldWildcard);
             if (indexOfResultFieldWildcard == -1) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionEvalFilesMetrics.Error.CanNotFindField",
-                      realResultFieldWildcard));
+              logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.CanNotFindField", realResultFieldWildcard));
               return result;
             }
           }
           if (!Utils.isEmpty(realResultFieldIncluseSubfolders)) {
-            indexOfResultFieldIncludeSubfolders =
-                firstRow.getRowMeta().indexOfValue(realResultFieldIncluseSubfolders);
+            indexOfResultFieldIncludeSubfolders = firstRow.getRowMeta().indexOfValue(realResultFieldIncluseSubfolders);
             if (indexOfResultFieldIncludeSubfolders == -1) {
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionEvalFilesMetrics.Error.CanNotFindField",
-                      realResultFieldIncluseSubfolders));
+              logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.CanNotFindField", realResultFieldIncluseSubfolders));
               return result;
             }
           }
 
-          for (int iteration = 0;
-              iteration < rows.size() && !parentWorkflow.isStopped();
-              iteration++) {
+          for (int iteration = 0; iteration < rows.size() && !parentWorkflow.isStopped(); iteration++) {
 
             resultRow = rows.get(iteration);
 
@@ -429,25 +361,14 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
             }
             String vincludeSubFoldersPrevious = NO;
             if (indexOfResultFieldIncludeSubfolders > -1) {
-              vincludeSubFoldersPrevious =
-                  resultRow.getString(indexOfResultFieldIncludeSubfolders, NO);
+              vincludeSubFoldersPrevious = resultRow.getString(indexOfResultFieldIncludeSubfolders, NO);
             }
 
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionEvalFilesMetrics.Log.ProcessingRow",
-                      vSourceFileFolderPrevious,
-                      vWildcardPrevious));
+              logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.ProcessingRow", vSourceFileFolderPrevious, vWildcardPrevious));
             }
 
-            ProcessFileFolder(
-                vSourceFileFolderPrevious,
-                vWildcardPrevious,
-                vincludeSubFoldersPrevious,
-                parentWorkflow,
-                result);
+            ProcessFileFolder(vSourceFileFolderPrevious, vWildcardPrevious, vincludeSubFoldersPrevious, parentWorkflow, result);
           }
         }
 
@@ -455,11 +376,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
       case SOURCE_FILES_FILENAMES_RESULT:
         List<ResultFile> resultFiles = result.getResultFilesList();
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.ResultFilenames.Found",
-                  (resultFiles != null ? resultFiles.size() : 0) + ""));
+          logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.ResultFilenames.Found", (resultFiles != null ? resultFiles.size() : 0) + ""));
         }
 
         if (resultFiles != null && resultFiles.size() > 0) {
@@ -470,8 +387,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
             pattern = Pattern.compile(realPattern);
           }
 
-          for (Iterator<ResultFile> it = resultFiles.iterator();
-              it.hasNext() && !parentWorkflow.isStopped(); ) {
+          for (Iterator<ResultFile> it = resultFiles.iterator(); it.hasNext() && !parentWorkflow.isStopped();) {
             ResultFile resultFile = it.next();
             FileObject file = resultFile.getFile();
             try {
@@ -487,12 +403,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
               }
             } catch (Exception e) {
               incrementErrors();
-              logError(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionEvalFilesMetrics.Error.GettingFileFromResultFilenames",
-                      file.toString(),
-                      e.toString()));
+              logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.GettingFileFromResultFilenames", file.toString(), e.toString()));
             } finally {
               if (file != null) {
                 try {
@@ -512,16 +423,10 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
           for (int i = 0; i < vSourceFileFolder.length && !parentWorkflow.isStopped(); i++) {
 
             if (isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "ActionEvalFilesMetrics.Log.ProcessingRow",
-                      vSourceFileFolder[i],
-                      vwildcard[i]));
+              logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.ProcessingRow", vSourceFileFolder[i], vwildcard[i]));
             }
 
-            ProcessFileFolder(
-                vSourceFileFolder[i], vwildcard[i], vincludeSubFolders[i], parentWorkflow, result);
+            ProcessFileFolder(vSourceFileFolder[i], vwildcard[i], vincludeSubFolders[i], parentWorkflow, result);
           }
         } else {
           logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.FilesGridEmpty"));
@@ -540,19 +445,11 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
   private void displayResults() {
     if (isDetailed()) {
       logDetailed("=======================================");
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionEvalFilesMetrics.Log.Info.FilesCount", String.valueOf(getFilesCount())));
+      logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.Info.FilesCount", String.valueOf(getFilesCount())));
       if (evaluationType == EVALUATE_TYPE_SIZE) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionEvalFilesMetrics.Log.Info.FilesSize",
-                String.valueOf(getEvaluationValue())));
+        logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.Info.FilesSize", String.valueOf(getEvaluationValue())));
       }
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionEvalFilesMetrics.Log.Info.NrErrors", String.valueOf(getNrError())));
+      logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.Info.NrErrors", String.valueOf(getNrError())));
       logDetailed("=======================================");
     }
   }
@@ -583,83 +480,46 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
     switch (successConditionType) {
       case SUCCESS_NUMBER_CONDITION_EQUAL: // equal
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) == 0);
         break;
       case SUCCESS_NUMBER_CONDITION_DIFFERENT: // different
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) != 0);
         break;
       case SUCCESS_NUMBER_CONDITION_SMALLER: // smaller
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) < 0);
         break;
       case SUCCESS_NUMBER_CONDITION_SMALLER_EQUAL: // smaller or equal
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) <= 0);
         break;
       case SUCCESS_NUMBER_CONDITION_GREATER: // greater
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) > 0);
         break;
       case SUCCESS_NUMBER_CONDITION_GREATER_EQUAL: // greater or equal
         if (isDebug()) {
-          logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValue",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(compareValue)));
+          logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValue", String.valueOf(evaluationValue), String.valueOf(compareValue)));
         }
         retval = (getEvaluationValue().compareTo(compareValue) >= 0);
         break;
       case SUCCESS_NUMBER_CONDITION_BETWEEN: // between min and max
         if (isDebug()) {
           logDebug(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Log.CompareWithValues",
-                  String.valueOf(evaluationValue),
-                  String.valueOf(minValue),
-                  String.valueOf(maxValue)));
+              BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.CompareWithValues", String.valueOf(evaluationValue), String.valueOf(minValue), String.valueOf(maxValue)));
         }
-        retval =
-            (getEvaluationValue().compareTo(minValue) >= 0
-                && getEvaluationValue().compareTo(maxValue) <= 0);
+        retval = (getEvaluationValue().compareTo(minValue) >= 0 && getEvaluationValue().compareTo(maxValue) <= 0);
         break;
       default:
         break;
@@ -770,12 +630,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
     this.resultFieldIncludesubFolders = field;
   }
 
-  private void ProcessFileFolder(
-      String sourcefilefoldername,
-      String wildcard,
-      String includeSubfolders,
-      IWorkflowEngine<WorkflowMeta> parentWorkflow,
-      Result result) {
+  private void ProcessFileFolder(String sourcefilefoldername, String wildcard, String includeSubfolders, IWorkflowEngine<WorkflowMeta> parentWorkflow, Result result) {
 
     FileObject sourcefilefolder = null;
     FileObject currentFile = null;
@@ -797,9 +652,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
       if (sourcefilefolder.exists()) {
         // File exists
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "ActionEvalFilesMetrics.Log.FileExists", sourcefilefolder.toString()));
+          logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.FileExists", sourcefilefolder.toString()));
         }
 
         if (sourcefilefolder.getType() == FileType.FILE) {
@@ -810,39 +663,37 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
         } else if (sourcefilefolder.getType() == FileType.FOLDER) {
           // We have a folder
           // we will fetch and extract files
-          FileObject[] fileObjects =
-              sourcefilefolder.findFiles(
-                  new AllFileSelector() {
-                    @Override
-                    public boolean traverseDescendents(FileSelectInfo info) {
-                      return info.getDepth() == 0 || includeSubFolders;
-                    }
+          FileObject[] fileObjects = sourcefilefolder.findFiles(new AllFileSelector() {
+            @Override
+            public boolean traverseDescendents(FileSelectInfo info) {
+              return info.getDepth() == 0 || includeSubFolders;
+            }
 
-                    @Override
-                    public boolean includeFile(FileSelectInfo info) {
-                      FileObject fileObject = info.getFile();
-                      try {
-                        if (fileObject == null) {
-                          return false;
-                        }
-                        if (fileObject.getType() != FileType.FILE) {
-                          return false;
-                        }
-                      } catch (Exception ex) {
-                        // Upon error don't process the file.
-                        return false;
-                      } finally {
-                        if (fileObject != null) {
-                          try {
-                            fileObject.close();
-                          } catch (IOException ex) {
-                            /* Ignore */
-                          }
-                        }
-                      }
-                      return true;
-                    }
-                  });
+            @Override
+            public boolean includeFile(FileSelectInfo info) {
+              FileObject fileObject = info.getFile();
+              try {
+                if (fileObject == null) {
+                  return false;
+                }
+                if (fileObject.getType() != FileType.FILE) {
+                  return false;
+                }
+              } catch (Exception ex) {
+                // Upon error don't process the file.
+                return false;
+              } finally {
+                if (fileObject != null) {
+                  try {
+                    fileObject.close();
+                  } catch (IOException ex) {
+                    /* Ignore */
+                  }
+                }
+              }
+              return true;
+            }
+          });
 
           if (fileObjects != null) {
             for (int j = 0; j < fileObjects.length && !parentWorkflow.isStopped(); j++) {
@@ -866,26 +717,15 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
           }
         } else {
           incrementErrors();
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionEvalFilesMetrics.Error.UnknowFileFormat",
-                  sourcefilefolder.toString()));
+          logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.UnknowFileFormat", sourcefilefolder.toString()));
         }
       } else {
         incrementErrors();
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionEvalFilesMetrics.Error.SourceFileNotExists", realSourceFilefoldername));
+        logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.SourceFileNotExists", realSourceFilefoldername));
       }
     } catch (Exception e) {
       incrementErrors();
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "ActionEvalFilesMetrics.Error.Exception.Processing",
-              realSourceFilefoldername.toString(),
-              e.getMessage()));
+      logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.Exception.Processing", realSourceFilefoldername.toString(), e.getMessage()));
 
     } finally {
       if (sourcefilefolder != null) {
@@ -905,30 +745,19 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
     }
   }
 
-  private void getFileSize(
-      FileObject file, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
+  private void getFileSize(FileObject file, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) {
     try {
 
       incrementFilesCount();
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionEvalFilesMetrics.Log.GetFile",
-                file.toString(),
-                String.valueOf(getFilesCount())));
+        logDetailed(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.GetFile", file.toString(), String.valueOf(getFilesCount())));
       }
       switch (evaluationType) {
         case EVALUATE_TYPE_SIZE:
           BigDecimal fileSize = BigDecimal.valueOf(file.getContent().getSize());
           evaluationValue = evaluationValue.add(fileSize);
           if (isDebug()) {
-            logDebug(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionEvalFilesMetrics.Log.AddedFileSize",
-                    String.valueOf(fileSize),
-                    file.toString()));
+            logDebug(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Log.AddedFileSize", String.valueOf(fileSize), file.toString()));
           }
           break;
         default:
@@ -937,9 +766,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
       }
     } catch (Exception e) {
       incrementErrors();
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionEvalFilesMetrics.Error.GettingFileSize", file.toString(), e.toString()));
+      logError(BaseMessages.getString(PKG, "ActionEvalFilesMetrics.Error.GettingFileSize", file.toString(), e.toString()));
     }
   }
 
@@ -1183,18 +1010,8 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean res =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "arguments",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean res = ActionValidatorUtils.andValidator().validate(this, "arguments", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (res == false) {
       return;
@@ -1202,8 +1019,7 @@ public class ActionEvalFilesMetrics extends ActionBase implements Cloneable, IAc
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
 
     for (int i = 0; i < sourceFileFolder.length; i++) {
       ActionValidatorUtils.andValidator().validate(this, "arguments[" + i + "]", remarks, ctx);

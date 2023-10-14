@@ -35,14 +35,13 @@ import static org.junit.Assert.assertTrue;
 
 /** Test class for the basic functionality of the blocking & batching row set. */
 public class BlockingBatchingRowSetTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   public IRowMeta createRowMetaInterface() {
     IRowMeta rm = new RowMeta();
 
-    IValueMeta[] valuesMeta = {
-      new ValueMetaInteger("ROWNR"),
-    };
+    IValueMeta[] valuesMeta = {new ValueMetaInteger("ROWNR"),};
 
     for (int i = 0; i < valuesMeta.length; i++) {
       rm.addValueMeta(valuesMeta[i]);
@@ -69,10 +68,7 @@ public class BlockingBatchingRowSetTest {
 
     List<Object[]> rows = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
-      rows.add(
-          new Object[] {
-            new Long(i),
-          });
+      rows.add(new Object[] {new Long(i),});
     }
 
     assertEquals(0, set.size());

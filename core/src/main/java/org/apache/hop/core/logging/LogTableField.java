@@ -50,13 +50,7 @@ public class LogTableField implements Cloneable {
    * @param subject
    * @param description
    */
-  public LogTableField(
-      String id,
-      boolean enabled,
-      String fieldName,
-      Object subject,
-      String name,
-      String description) {
+  public LogTableField(String id, boolean enabled, String fieldName, Object subject, String name, String description) {
     this.id = id;
     this.enabled = enabled;
     this.fieldName = fieldName;
@@ -75,15 +69,7 @@ public class LogTableField implements Cloneable {
    * @param dataType
    * @param length
    */
-  public LogTableField(
-      String id,
-      boolean enabled,
-      boolean subjectAllowed,
-      String fieldName,
-      String name,
-      String description,
-      int dataType,
-      int length) {
+  public LogTableField(String id, boolean enabled, boolean subjectAllowed, String fieldName, String name, String description, int dataType, int length) {
     this.id = id;
     this.enabled = enabled;
     this.subjectAllowed = subjectAllowed;

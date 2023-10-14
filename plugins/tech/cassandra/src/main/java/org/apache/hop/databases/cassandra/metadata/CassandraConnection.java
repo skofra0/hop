@@ -164,8 +164,7 @@ public class CassandraConnection extends HopMetadataBase implements IHopMetadata
     return createConnection(variables, getOptionsMap(variables), output);
   }
 
-  public DriverConnection createConnection(
-      IVariables variables, Map<String, String> options, boolean output) throws Exception {
+  public DriverConnection createConnection(IVariables variables, Map<String, String> options, boolean output) throws Exception {
 
     String chosenHostname = variables.resolve(hostname);
     String chosenPort = variables.resolve(port);
@@ -182,19 +181,13 @@ public class CassandraConnection extends HopMetadataBase implements IHopMetadata
     }
 
     return CassandraUtils.getCassandraConnection(
-        chosenHostname,
-        Const.toInt(chosenPort, 9042),
-        variables.resolve(localDataCenter),
-        variables.resolve(username),
-        variables.resolve(password),
-        options);
+        chosenHostname, Const.toInt(chosenPort, 9042), variables.resolve(localDataCenter), variables.resolve(username), variables.resolve(password), options);
   }
 
   public Map<String, String> getOptionsMap(IVariables variables) {
     Map<String, String> options = new HashMap<>();
     if (!Utils.isEmpty(socketTimeout)) {
-      options.put(
-          CassandraUtils.ConnectionOptions.SOCKET_TIMEOUT, variables.resolve(socketTimeout));
+      options.put(CassandraUtils.ConnectionOptions.SOCKET_TIMEOUT, variables.resolve(socketTimeout));
     }
     if (usingCompression) {
       options.put(CassandraUtils.ConnectionOptions.COMPRESSION, Boolean.TRUE.toString());
@@ -202,8 +195,7 @@ public class CassandraConnection extends HopMetadataBase implements IHopMetadata
     return options;
   }
 
-  public Keyspace lookupKeyspace(DriverConnection connection, IVariables variables)
-      throws Exception {
+  public Keyspace lookupKeyspace(DriverConnection connection, IVariables variables) throws Exception {
     return connection.getKeyspace(variables.resolve(keyspace));
   }
 

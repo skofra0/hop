@@ -37,8 +37,7 @@ public abstract class AbstractTransformMeta<Main extends ITransform, Data extend
 
   private static final String CONNECTION_NAME = "connection";
 
-  private final PluginPropertyFactory propertyFactory =
-      new PluginPropertyFactory(new KeyValueSet());
+  private final PluginPropertyFactory propertyFactory = new PluginPropertyFactory(new KeyValueSet());
 
   private DatabaseMeta dbMeta;
 
@@ -77,11 +76,7 @@ public abstract class AbstractTransformMeta<Main extends ITransform, Data extend
     this.getProperties().walk(new ReadFromPreferences(node));
   }
 
-  public void loadXml(
-      final Node node,
-      final List<DatabaseMeta> databaseMeta,
-      final IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(final Node node, final List<DatabaseMeta> databaseMeta, final IHopMetadataProvider metadataProvider) throws HopXmlException {
     this.getProperties().walk(new LoadXml(node));
     initDbMeta(databaseMeta);
   }

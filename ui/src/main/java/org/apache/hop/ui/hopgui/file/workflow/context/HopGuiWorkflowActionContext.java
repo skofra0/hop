@@ -37,8 +37,7 @@ import org.apache.hop.workflow.action.IAction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
-    implements IGuiContextHandler {
+public class HopGuiWorkflowActionContext extends BaseGuiContextHandler implements IGuiContextHandler {
 
   public static final Class<?> PKG = HopGuiWorkflowActionContext.class; // i18n
   public static final String CONTEXT_ID = "HopGuiWorkflowActionContext";
@@ -49,11 +48,7 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowActionContext> lambdaBuilder;
 
-  public HopGuiWorkflowActionContext(
-      WorkflowMeta workflowMeta,
-      ActionMeta actionMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowActionContext(WorkflowMeta workflowMeta, ActionMeta actionMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     super();
     this.workflowMeta = workflowMeta;
     this.actionMeta = actionMeta;
@@ -88,20 +83,10 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
             new GuiAction(
                 "action-open-referenced-" + objectDescription,
                 GuiActionType.Info,
-                BaseMessages.getString(
-                    PKG,
-                    "HopGuiWorkflowTransformContext.OpenReferencedAction.Name",
-                    objectDescription),
-                BaseMessages.getString(
-                    PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Tooltip"),
+                BaseMessages.getString(PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Name", objectDescription),
+                BaseMessages.getString(PKG, "HopGuiWorkflowTransformContext.OpenReferencedAction.Tooltip"),
                 "ui/images/open.svg",
-                (shiftAction, controlAction, t) ->
-                    openReferencedObject(
-                        workflowMeta,
-                        workflowGraph.getVariables(),
-                        action,
-                        objectDescription,
-                        index));
+                (shiftAction, controlAction, t) -> openReferencedObject(workflowMeta, workflowGraph.getVariables(), action, objectDescription, index));
         openReferencedAction.setCategory("Basic");
         openReferencedAction.setCategoryOrder("1");
         actions.add(openReferencedAction);
@@ -120,16 +105,10 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
     return actions;
   }
 
-  public static final void openReferencedObject(
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IAction action,
-      String objectDescription,
-      int index) {
+  public static final void openReferencedObject(WorkflowMeta workflowMeta, IVariables variables, IAction action, String objectDescription, int index) {
     HopGui hopGui = HopGui.getInstance();
     try {
-      IHasFilename hasFilename =
-          action.loadReferencedObject(index, workflowMeta.getMetadataProvider(), variables);
+      IHasFilename hasFilename = action.loadReferencedObject(index, workflowMeta.getMetadataProvider(), variables);
       if (hasFilename != null) {
         String filename = variables.resolve(hasFilename.getFilename());
 
@@ -144,11 +123,7 @@ public class HopGuiWorkflowActionContext extends BaseGuiContextHandler
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(),
-          "Error",
-          "Error opening referenced object '" + objectDescription + "'",
-          e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error opening referenced object '" + objectDescription + "'", e);
     }
   }
 

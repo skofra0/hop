@@ -70,8 +70,7 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
   private Label wlPosition;
   private TableView wResultColumnsFields;
 
-  public RulesExecutorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public RulesExecutorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (RulesExecutorMeta) in;
   }
@@ -162,11 +161,10 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
 
   private void addRulesTab(CTabFolder wTabFolder, int margin) {
 
-    ModifyListener lsMod =
-        e -> {
-          // changedInDialog = true;
-          input.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      // changedInDialog = true;
+      input.setChanged();
+    };
 
     CTabItem wRulesTab = new CTabItem(wTabFolder, SWT.NONE);
     wRulesTab.setFont(GuiResource.getInstance().getFontDefault());
@@ -198,14 +196,7 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
     wbBrowse.setLayoutData(fdBrowse);
     wbBrowse.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wRuleFilePath,
-                variables,
-                new String[] {"*"},
-                new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")},
-                true));
+        e -> BaseDialog.presentFileDialog(shell, wRuleFilePath, variables, new String[] {"*"}, new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     wRuleFilePath = new TextVar(variables, wRulesComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     FormData fdRuleFilePath = new FormData();
@@ -216,24 +207,20 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
 
     wbRulesInEditor = new Button(wRulesComp, SWT.CHECK);
     PropsUi.setLook(wbRulesInEditor);
-    wbRulesInEditor.setText(
-        BaseMessages.getString(PKG, "RulesDialog.RuleDefinition.EnableScriptEditor.Label"));
+    wbRulesInEditor.setText(BaseMessages.getString(PKG, "RulesDialog.RuleDefinition.EnableScriptEditor.Label"));
     FormData fdPipelineNameInField = new FormData();
     fdPipelineNameInField.left = new FormAttachment(0, 0);
     fdPipelineNameInField.top = new FormAttachment(wRuleFilePath, margin);
     wbRulesInEditor.setLayoutData(fdPipelineNameInField);
-    wbRulesInEditor.addSelectionListener(
-            new SelectionAdapter() {
-              @Override
-              public void widgetSelected(SelectionEvent e) {
-                input.setChanged();
-                activeRuleFilenameField();
-              }
-            });
+    wbRulesInEditor.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activeRuleFilenameField();
+      }
+    });
 
-    wRulesEditor =
-        new StyledTextComp(
-            variables, wRulesComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wRulesEditor = new StyledTextComp(variables, wRulesComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wRulesEditor, Props.WIDGET_STYLE_FIXED);
 
     FormData fdRulesEditor = new FormData();
@@ -246,47 +233,44 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
     wRulesEditor.addModifyListener(lsMod);
     wRulesEditor.addModifyListener(arg0 -> setPosition());
 
-    wRulesEditor.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wRulesEditor.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wRulesEditor.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wRulesEditor.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wRulesEditor.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wRulesEditor.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     // Position label under the SQL editor
     //
@@ -294,8 +278,7 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
     PropsUi.setLook(wlPosition);
     FormData fdlPosition = new FormData();
     fdlPosition.left = new FormAttachment(0, 0);
-    fdlPosition.top =
-        new FormAttachment(wRulesEditor, margin); // 2 times since we deal with bottom instead of
+    fdlPosition.top = new FormAttachment(wRulesEditor, margin); // 2 times since we deal with bottom instead of
     fdlPosition.right = new FormAttachment(100, 0);
     // top
     wlPosition.setLayoutData(fdlPosition);
@@ -314,9 +297,7 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
   private void setPosition() {
     int lineNumber = wRulesEditor.getLineNumber();
     int columnNumber = wRulesEditor.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "RulesDialog.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "RulesDialog.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   private void addRulesResultsTab(CTabFolder wTabFolder, int margin) {
@@ -337,28 +318,11 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
 
     ColumnInfo[] ciResultFields =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RulesDialog.ColumnSelection.ColumnName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RulesDialog.ColumnSelection.ColumnType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RulesDialog.ColumnSelection.ColumnName"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RulesDialog.ColumnSelection.ColumnType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),};
 
     wResultColumnsFields =
-        new TableView(
-            variables,
-            wRulesResultsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciResultFields,
-            nrRows,
-            false,
-            null,
-            props,
-            false);
+        new TableView(variables, wRulesResultsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciResultFields, nrRows, false, null, props, false);
 
     FormData fdResultFields = new FormData();
     fdResultFields.left = new FormAttachment(0, 0);
@@ -420,7 +384,7 @@ public class RulesExecutorDialog extends BaseTransformDialog implements ITransfo
 
     wbRulesInEditor.setSelection(input.getRuleDefinition() != null);
 
-    for (int i = 0; i<input.getRuleResultColumns().size(); i++) {
+    for (int i = 0; i < input.getRuleResultColumns().size(); i++) {
       TableItem ti = wResultColumnsFields.table.getItem(i);
       RuleResultItem ri = input.getRuleResultColumns().get(i);
       ti.setText(1, ri.getName());

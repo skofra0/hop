@@ -58,8 +58,7 @@ public class SetValueFieldDialog extends BaseTransformDialog implements ITransfo
 
   private ColumnInfo[] colinf;
 
-  public SetValueFieldDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SetValueFieldDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SetValueFieldMeta) in;
   }
@@ -129,27 +128,9 @@ public class SetValueFieldDialog extends BaseTransformDialog implements ITransfo
     final int FieldsRows = input.getFields().size();
 
     colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SetValueFieldDialog.ColumnInfo.Name"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SetValueFieldDialog.ColumnInfo.ValueFromField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "SetValueFieldDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "SetValueFieldDialog.ColumnInfo.ValueFromField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -161,26 +142,23 @@ public class SetValueFieldDialog extends BaseTransformDialog implements ITransfo
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(
-                  "It was not possible to get the list of input fields from previous transforms",
-                  e);
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError("It was not possible to get the list of input fields from previous transforms", e);
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -247,7 +225,7 @@ public class SetValueFieldDialog extends BaseTransformDialog implements ITransfo
       fields.add(field);
     }
     input.setFields(fields);
-    
+
     dispose();
   }
 
@@ -258,11 +236,7 @@ public class SetValueFieldDialog extends BaseTransformDialog implements ITransfo
         BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, null, -1, -1, null);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 }

@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SearchableAnalyserPlugin(id = "DataSetSearchableAnalyser", name = "Search in data set metadata")
-public class DataSetSearchableAnalyser extends BaseMetadataSearchableAnalyser<DataSet>
-    implements ISearchableAnalyser<DataSet> {
+public class DataSetSearchableAnalyser extends BaseMetadataSearchableAnalyser<DataSet> implements ISearchableAnalyser<DataSet> {
   @Override
   public List<ISearchResult> search(ISearchable<DataSet> searchable, ISearchQuery searchQuery) {
     DataSet set = searchable.getSearchableObject();
@@ -41,34 +40,10 @@ public class DataSetSearchableAnalyser extends BaseMetadataSearchableAnalyser<Da
     matchProperty(searchable, results, searchQuery, "base-filename", set.getBaseFilename(), null);
 
     for (DataSetField field : set.getFields()) {
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "name of data set field: " + field.getFieldName(),
-          field.getFieldName(),
-          null);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "type of data set field: " + field.getFieldName(),
-          ValueMetaFactory.getValueMetaName(field.getType()),
-          null);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "format of data set field: " + field.getFieldName(),
-          field.getFormat(),
-          null);
-      matchProperty(
-          searchable,
-          results,
-          searchQuery,
-          "comment of data set field: " + field.getFieldName(),
-          field.getComment(),
-          null);
+      matchProperty(searchable, results, searchQuery, "name of data set field: " + field.getFieldName(), field.getFieldName(), null);
+      matchProperty(searchable, results, searchQuery, "type of data set field: " + field.getFieldName(), ValueMetaFactory.getValueMetaName(field.getType()), null);
+      matchProperty(searchable, results, searchQuery, "format of data set field: " + field.getFieldName(), field.getFormat(), null);
+      matchProperty(searchable, results, searchQuery, "comment of data set field: " + field.getFieldName(), field.getComment(), null);
     }
 
     return results;

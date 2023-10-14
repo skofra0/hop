@@ -24,9 +24,7 @@ public class SearchResult implements ISearchResult {
   private String component;
   private String value;
 
-
-  public SearchResult(
-      ISearchable matchingSearchable, String matchingString, String description, String component, String value) {
+  public SearchResult(ISearchable matchingSearchable, String matchingString, String description, String component, String value) {
     this.matchingSearchable = matchingSearchable;
     this.matchingString = matchingString;
     this.description = description;

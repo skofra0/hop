@@ -57,8 +57,7 @@ public class ExecCqlDialog extends ActionDialog implements IActionDialog {
   private TextVar wScript;
   private Button wReplaceVariables;
 
-  public ExecCqlDialog(
-      Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
+  public ExecCqlDialog(Shell parent, IAction iAction, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.execCql = (ExecCql) iAction;
 
@@ -157,9 +156,7 @@ public class ExecCqlDialog extends ActionDialog implements IActionDialog {
     fdlCypher.right = new FormAttachment(100, 0);
     fdlCypher.top = new FormAttachment(wConnection, margin);
     wlScript.setLayoutData(fdlCypher);
-    wScript =
-        new TextVar(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wScript = new TextVar(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wScript.getTextWidget().setFont(GuiResource.getInstance().getFontFixed());
     PropsUi.setLook(wScript);
     FormData fdCypher = new FormData();
@@ -171,13 +168,7 @@ public class ExecCqlDialog extends ActionDialog implements IActionDialog {
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, margin, null);
 
     getData();
 

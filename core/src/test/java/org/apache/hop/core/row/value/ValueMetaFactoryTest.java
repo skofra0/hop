@@ -41,7 +41,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class ValueMetaFactoryTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void beforeClassSetUp() throws HopException {
@@ -239,8 +240,7 @@ public class ValueMetaFactoryTest {
     assertEquals(-1, testObject.getLength());
     assertEquals(-1, testObject.getPrecision());
 
-    testObject =
-        ValueMetaFactory.createValueMeta("testBigNumber", IValueMeta.TYPE_BIGNUMBER, 10, 20);
+    testObject = ValueMetaFactory.createValueMeta("testBigNumber", IValueMeta.TYPE_BIGNUMBER, 10, 20);
     assertTrue(testObject instanceof ValueMetaBigNumber);
     assertEquals("testBigNumber", testObject.getName());
     assertEquals(10, testObject.getLength());
@@ -258,8 +258,7 @@ public class ValueMetaFactoryTest {
     assertEquals(-1, testObject.getLength());
     assertEquals(-1, testObject.getPrecision());
 
-    testObject =
-        ValueMetaFactory.createValueMeta("testSerializable", IValueMeta.TYPE_SERIALIZABLE, 10, 20);
+    testObject = ValueMetaFactory.createValueMeta("testSerializable", IValueMeta.TYPE_SERIALIZABLE, 10, 20);
     assertTrue(testObject instanceof ValueMetaSerializable);
     assertEquals("testSerializable", testObject.getName());
     assertEquals(10, testObject.getLength());
@@ -295,8 +294,7 @@ public class ValueMetaFactoryTest {
     assertEquals(-1, testObject.getLength());
     assertEquals(-1, testObject.getPrecision());
 
-    testObject =
-        ValueMetaFactory.createValueMeta("testTimestamp", IValueMeta.TYPE_TIMESTAMP, 10, 20);
+    testObject = ValueMetaFactory.createValueMeta("testTimestamp", IValueMeta.TYPE_TIMESTAMP, 10, 20);
     assertTrue(testObject instanceof ValueMetaTimestamp);
     assertEquals("testTimestamp", testObject.getName());
     assertEquals(10, testObject.getLength());
@@ -314,8 +312,7 @@ public class ValueMetaFactoryTest {
     assertEquals(-1, testObject.getLength());
     assertEquals(-1, testObject.getPrecision());
 
-    testObject =
-        ValueMetaFactory.createValueMeta("testInternetAddress", IValueMeta.TYPE_INET, 10, 20);
+    testObject = ValueMetaFactory.createValueMeta("testInternetAddress", IValueMeta.TYPE_INET, 10, 20);
     assertTrue(testObject instanceof ValueMetaInternetAddress);
     assertEquals("testInternetAddress", testObject.getName());
     assertEquals(10, testObject.getLength());
@@ -449,18 +446,13 @@ public class ValueMetaFactoryTest {
 
   @Test
   public void testGuessValueMetaInterface() {
-    assertTrue(
-        ValueMetaFactory.guessValueMetaInterface(new BigDecimal(1.0))
-            instanceof ValueMetaBigNumber);
-    assertTrue(
-        ValueMetaFactory.guessValueMetaInterface(new Double(1.0)) instanceof ValueMetaNumber);
+    assertTrue(ValueMetaFactory.guessValueMetaInterface(new BigDecimal(1.0)) instanceof ValueMetaBigNumber);
+    assertTrue(ValueMetaFactory.guessValueMetaInterface(new Double(1.0)) instanceof ValueMetaNumber);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(new Long(1)) instanceof ValueMetaInteger);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(new String()) instanceof ValueMetaString);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(new Date()) instanceof ValueMetaDate);
-    assertTrue(
-        ValueMetaFactory.guessValueMetaInterface(new Boolean(false)) instanceof ValueMetaBoolean);
-    assertTrue(
-        ValueMetaFactory.guessValueMetaInterface(new Boolean(true)) instanceof ValueMetaBoolean);
+    assertTrue(ValueMetaFactory.guessValueMetaInterface(new Boolean(false)) instanceof ValueMetaBoolean);
+    assertTrue(ValueMetaFactory.guessValueMetaInterface(new Boolean(true)) instanceof ValueMetaBoolean);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(false) instanceof ValueMetaBoolean);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(true) instanceof ValueMetaBoolean);
     assertTrue(ValueMetaFactory.guessValueMetaInterface(new byte[10]) instanceof ValueMetaBinary);

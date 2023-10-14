@@ -26,20 +26,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PropertyOutputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testSerialization() throws HopException {
     List<String> attributes =
         Arrays.asList(
-            "KeyField",
-            "ValueField",
-            "Comment",
-            "FileNameInField",
-            "FileNameField",
-            "FileName",
-            "Extension",
-            "TransformNrInFilename",
+            "KeyField", "ValueField", "Comment", "FileNameInField", "FileNameField", "FileName", "Extension", "TransformNrInFilename",
             //
             // Note - "partNrInFilename" not included above because while it seems to be
             // serialized/deserialized in the meta,
@@ -47,14 +41,9 @@ public class PropertyOutputMetaTest {
             // the dialog. So it is
             // always serialized/deserialized as "false" (N).
             // MB - 5/2016
-            "DateInFilename",
-            "TimeInFilename",
-            "CreateParentFolder",
-            "AddToResult",
-            "Append");
+            "DateInFilename", "TimeInFilename", "CreateParentFolder", "AddToResult", "Append");
 
-    LoadSaveTester<PropertyOutputMeta> tester =
-        new LoadSaveTester<>(PropertyOutputMeta.class, attributes);
+    LoadSaveTester<PropertyOutputMeta> tester = new LoadSaveTester<>(PropertyOutputMeta.class, attributes);
 
     tester.testSerialization();
   }

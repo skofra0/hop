@@ -28,10 +28,12 @@ import java.util.Random;
  * Holds temporary data (i.e. sampled rows). Implements the reservoir sampling algorithm "R" by
  * Jeffrey Scott Vitter.
  *
- * <p>For more information see:<br>
+ * <p>
+ * For more information see:<br>
  * <br>
  *
- * <p>Vitter, J. S. Random Sampling with a Reservoir. ACM Transactions on Mathematical Software,
+ * <p>
+ * Vitter, J. S. Random Sampling with a Reservoir. ACM Transactions on Mathematical Software,
  * Vol. 11, No. 1, March 1985. Pages 37-57.
  *
  * @version 1.0
@@ -65,7 +67,7 @@ public class ReservoirSamplingData extends BaseTransformData implements ITransfo
   public ReservoirSamplingData() {
     super();
   }
-  
+
   /**
    * Set the meta data for the output format
    *

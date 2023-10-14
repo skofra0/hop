@@ -36,11 +36,7 @@ public class LongValidator implements IActionValidator {
   }
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
     Object result = null;
     String value = null;
 
@@ -53,12 +49,7 @@ public class LongValidator implements IActionValidator {
     result = GenericTypeValidator.formatLong(value);
 
     if (result == null) {
-      ActionValidatorUtils.addFailureRemark(
-          source,
-          propertyName,
-          VALIDATOR_NAME,
-          remarks,
-          ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
+      ActionValidatorUtils.addFailureRemark(source, propertyName, VALIDATOR_NAME, remarks, ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
       return false;
     }
     return true;

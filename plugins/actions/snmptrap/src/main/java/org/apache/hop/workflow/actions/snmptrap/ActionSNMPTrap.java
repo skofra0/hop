@@ -88,10 +88,7 @@ public class ActionSNMPTrap extends ActionBase implements Cloneable, IAction {
   public static final int DEFAULT_PORT = 162;
 
   public static final String[] targetTypeDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionSNMPTrap.TargetType.Community"),
-        BaseMessages.getString(PKG, "ActionSNMPTrap.TargetType.User")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionSNMPTrap.TargetType.Community"), BaseMessages.getString(PKG, "ActionSNMPTrap.TargetType.User")};
   public static final String[] targetTypeCode = new String[] {"community", "user"};
 
   public ActionSNMPTrap(String n) {
@@ -155,18 +152,13 @@ public class ActionSNMPTrap extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("nrretry", nrretry));
     retval.append("      ").append(XmlHandler.addTagValue("targettype", targettype));
     retval.append("      ").append(XmlHandler.addTagValue("user", user));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "passphrase", Encr.encryptPasswordIfNotUsingVariables(passphrase)));
+    retval.append("      ").append(XmlHandler.addTagValue("passphrase", Encr.encryptPasswordIfNotUsingVariables(passphrase)));
     retval.append("      ").append(XmlHandler.addTagValue("engineid", engineid));
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       port = XmlHandler.getTagValue(entrynode, "port");
@@ -178,8 +170,7 @@ public class ActionSNMPTrap extends ActionBase implements Cloneable, IAction {
       nrretry = XmlHandler.getTagValue(entrynode, "nrretry");
       targettype = XmlHandler.getTagValue(entrynode, "targettype");
       user = XmlHandler.getTagValue(entrynode, "user");
-      passphrase =
-          Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "passphrase"));
+      passphrase = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(entrynode, "passphrase"));
       engineid = XmlHandler.getTagValue(entrynode, "engineid");
 
     } catch (HopXmlException xe) {
@@ -371,22 +362,14 @@ public class ActionSNMPTrap extends ActionBase implements Cloneable, IAction {
         // Since we are using SNMPv3 we use authenticated users
         // this is handled by the UsmUser and USM class
 
-        UsmUser uu =
-            new UsmUser(
-                new OctetString(userName),
-                AuthMD5.ID,
-                new OctetString(passPhrase),
-                PrivDES.ID,
-                new OctetString(passPhrase));
+        UsmUser uu = new UsmUser(new OctetString(userName), AuthMD5.ID, new OctetString(passPhrase), PrivDES.ID, new OctetString(passPhrase));
 
         USM usm = snmp.getUSM();
 
         if (usm == null) {
           throw new HopException("Null Usm");
         } else {
-          usm =
-              new USM(
-                  SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
+          usm = new USM(SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
           usm.addUser(new OctetString(userName), uu);
           if (log.isDebug()) {
             logDebug("Valid Usm");

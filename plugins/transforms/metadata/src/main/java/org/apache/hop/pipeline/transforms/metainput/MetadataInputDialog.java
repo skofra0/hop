@@ -64,8 +64,7 @@ public class MetadataInputDialog extends BaseTransformDialog implements ITransfo
 
   private final MetadataInputMeta input;
 
-  public MetadataInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public MetadataInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (MetadataInputMeta) in;
   }
@@ -178,8 +177,7 @@ public class MetadataInputDialog extends BaseTransformDialog implements ITransfo
     // TypeDescription
     //
     Label wlTypeDescription = new Label(shell, SWT.RIGHT);
-    wlTypeDescription.setText(
-        BaseMessages.getString(PKG, "MetadataInputDialog.TypeDescriptionField.Label"));
+    wlTypeDescription.setText(BaseMessages.getString(PKG, "MetadataInputDialog.TypeDescriptionField.Label"));
     PropsUi.setLook(wlTypeDescription);
     FormData fdlTypeDescription = new FormData();
     fdlTypeDescription.left = new FormAttachment(0, 0);
@@ -282,24 +280,15 @@ public class MetadataInputDialog extends BaseTransformDialog implements ITransfo
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MetadataInputDialog.KeyColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              HopMetadataUtil.getHopMetadataKeys(metadataProvider)),
-        };
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "MetadataInputDialog.KeyColumn.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                HopMetadataUtil.getHopMetadataKeys(metadataProvider)),};
 
     colinf[0].setToolTip(BaseMessages.getString(PKG, "MetadataInputDialog.KeyColumn.Tooltip"));
     colinf[0].setUsingVariables(true);
 
-    wTypeFilters =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            lsMod,
-            props);
+    wTypeFilters = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, lsMod, props);
 
     FormData fdTypeFilters = new FormData();
     fdTypeFilters.left = new FormAttachment(0, 0);
@@ -388,19 +377,11 @@ public class MetadataInputDialog extends BaseTransformDialog implements ITransfo
       MetadataInputMeta oneMeta = new MetadataInputMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              metadataProvider, oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformName.getText());
 
       // Preview the first 1000 rows...
       //
-      PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {1000});
+      PipelinePreviewProgressDialog progressDialog = new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {1000});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

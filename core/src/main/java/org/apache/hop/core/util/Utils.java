@@ -30,7 +30,7 @@ public class Utils {
 
   // Fairly simple algorithm implemented from pseudo-code algorithm documented on Wikipedia:
   //
-  //   https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
+  // https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
   //
   public static int getDamerauLevenshteinDistance(String one, String two) {
     // A few utility variables
@@ -100,11 +100,8 @@ public class Utils {
         // transposition
         //
         distancesMatrix[x + 1][y + 1] =
-            NumberUtils.min(
-                distancesMatrix[x][y] + distance,
-                distancesMatrix[x + 1][y] + 1,
-                distancesMatrix[x][y + 1] + 1,
-                distancesMatrix[x1][y1] + (x - x1 - 1) + 1 + (y - y1 - 1));
+            NumberUtils
+                .min(distancesMatrix[x][y] + distance, distancesMatrix[x + 1][y] + 1, distancesMatrix[x][y + 1] + 1, distancesMatrix[x1][y1] + (x - x1 - 1) + 1 + (y - y1 - 1));
       }
       characterMap.put(one.charAt(x - 1), x);
     }
@@ -294,12 +291,8 @@ public class Utils {
   public static String getDurationHMS(double seconds) {
     int day = (int) TimeUnit.SECONDS.toDays((long) seconds);
     long hours = TimeUnit.SECONDS.toHours((long) seconds) - (day * 24);
-    long minute =
-        TimeUnit.SECONDS.toMinutes((long) seconds)
-            - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
-    long second =
-        TimeUnit.SECONDS.toSeconds((long) seconds)
-            - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
+    long minute = TimeUnit.SECONDS.toMinutes((long) seconds) - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
+    long second = TimeUnit.SECONDS.toSeconds((long) seconds) - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
     long ms = (long) ((seconds - ((long) seconds)) * 1000);
 
     StringBuilder hms = new StringBuilder();

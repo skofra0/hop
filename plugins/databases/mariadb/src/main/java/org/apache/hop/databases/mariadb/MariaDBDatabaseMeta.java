@@ -33,8 +33,7 @@ import java.util.Set;
 public class MariaDBDatabaseMeta extends MySqlDatabaseMeta {
   private static final Class<?> PKG = MariaDBDatabaseMeta.class; // For Translator
 
-  private static final Set<String> SHORT_MESSAGE_EXCEPTIONS =
-      Sets.newHashSet("org.mariadb.jdbc.internal.stream.MaxAllowedPacketException");
+  private static final Set<String> SHORT_MESSAGE_EXCEPTIONS = Sets.newHashSet("org.mariadb.jdbc.internal.stream.MaxAllowedPacketException");
 
   @Override
   public String getDriverClass() {
@@ -66,31 +65,19 @@ public class MariaDBDatabaseMeta extends MySqlDatabaseMeta {
    * @throws HopDatabaseException
    */
   @Override
-  public String getLegacyColumnName(
-      DatabaseMetaData dbMetaData, ResultSetMetaData rsMetaData, int index)
-      throws HopDatabaseException {
+  public String getLegacyColumnName(DatabaseMetaData dbMetaData, ResultSetMetaData rsMetaData, int index) throws HopDatabaseException {
     if (dbMetaData == null) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameNoDBMetaDataException"));
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameNoDBMetaDataException"));
     }
 
     if (rsMetaData == null) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(
-              PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameNoRSMetaDataException"));
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameNoRSMetaDataException"));
     }
 
     try {
       return rsMetaData.getColumnLabel(index);
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          String.format(
-              "%s: %s",
-              BaseMessages.getString(
-                  PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameException"),
-              e.getMessage()),
-          e);
+      throw new HopDatabaseException(String.format("%s: %s", BaseMessages.getString(PKG, "MariaDBDatabaseMeta.Exception.LegacyColumnNameException"), e.getMessage()), e);
     }
   }
 }

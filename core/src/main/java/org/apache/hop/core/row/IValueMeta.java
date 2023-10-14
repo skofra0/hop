@@ -57,7 +57,8 @@ import org.w3c.dom.Node;
  * Apache Hop field type. Each field type maps to a corresponding native Java type for the actual
  * value.
  *
- * <p><b>Apache Hop Field Type / Java Mapping</b>
+ * <p>
+ * <b>Apache Hop Field Type / Java Mapping</b>
  *
  * <p>
  *
@@ -112,9 +113,11 @@ import org.w3c.dom.Node;
  * </tr>
  * </Table>
  *
- * <p><b>Storage Types</b>
+ * <p>
+ * <b>Storage Types</b>
  *
- * <p>In addition to the data type of a field, the storage type (getStorageType()/setStorageType())
+ * <p>
+ * In addition to the data type of a field, the storage type (getStorageType()/setStorageType())
  * is used to interpret the actual field value in a row array.
  *
  * <p>
@@ -128,17 +131,20 @@ import org.w3c.dom.Node;
  * <tr>
  * <td>STORAGE_TYPE_NORMAL</td>
  * <td>As listed above</td>
- * <td>The value in the row array is of the type listed in the data type table above and represents the field&#39;s
+ * <td>The value in the row array is of the type listed in the data type table above and represents
+ * the field&#39;s
  * value directly.
  * <tr>
  * <td>STORAGE_TYPE_BINARY_STRING</td>
  * <td>java.lang.byte[]</td>
- * <td>The field has been created using the &ldquo;Lazy conversion&rdquo; feature. This means it is a non-altered
+ * <td>The field has been created using the &ldquo;Lazy conversion&rdquo; feature. This means it is
+ * a non-altered
  * sequence of bytes as read from an external medium (usually a file).
  * <tr>
  * <td>STORAGE_TYPE_INDEXED</td>
  * <td>java.lang.Integer</td>
- * <td>The row value is an integer index into a fixed array of possible values. The IValueMeta object maintains
+ * <td>The row value is an integer index into a fixed array of possible values. The IValueMeta
+ * object maintains
  * the set of possible values in getIndex()/setIndex().
  * </Table>
  */
@@ -187,20 +193,7 @@ public interface IValueMeta extends Cloneable {
   int TYPE_AVRO = 20;
 
   /** The Constant typeCodes. */
-  String[] typeCodes =
-      new String[] {
-        "-",
-        "Number",
-        "String",
-        "Date",
-        "Boolean",
-        "Integer",
-        "BigNumber",
-        "Serializable",
-        "Binary",
-        "Timestamp",
-        "Internet Address",
-      };
+  String[] typeCodes = new String[] {"-", "Number", "String", "Date", "Boolean", "Integer", "BigNumber", "Serializable", "Binary", "Timestamp", "Internet Address",};
 
   /** The storage type is the same as the indicated value type */
   int STORAGE_TYPE_NORMAL = 0;
@@ -218,10 +211,7 @@ public interface IValueMeta extends Cloneable {
   int STORAGE_TYPE_INDEXED = 2;
 
   /** The Constant storageTypeCodes. */
-  String[] storageTypeCodes =
-      new String[] {
-        "normal", "binary-string", "indexed",
-      };
+  String[] storageTypeCodes = new String[] {"normal", "binary-string", "indexed",};
 
   /** Indicating that the rows are not sorted on this key */
   int SORT_TYPE_NOT_SORTED = 0;
@@ -233,10 +223,7 @@ public interface IValueMeta extends Cloneable {
   int SORT_TYPE_DESCENDING = 2;
 
   /** The Constant sortTypeCodes. */
-  String[] sortTypeCodes =
-      new String[] {
-        "none", "ascending", "descending",
-      };
+  String[] sortTypeCodes = new String[] {"none", "ascending", "descending",};
 
   /**
    * Indicating that the string content should NOT be trimmed if conversion is to occur to another
@@ -267,6 +254,7 @@ public interface IValueMeta extends Cloneable {
     LEFT("left", BaseMessages.getString(PKG, "ValueMeta.TrimType.Left"), TRIM_TYPE_LEFT),
     RIGHT("right", BaseMessages.getString(PKG, "ValueMeta.TrimType.Right"), TRIM_TYPE_RIGHT),
     BOTH("both", BaseMessages.getString(PKG, "ValueMeta.TrimType.Both"), TRIM_TYPE_BOTH);
+
     private final String code;
     private final String description;
     private final int type;
@@ -597,7 +585,7 @@ public interface IValueMeta extends Cloneable {
    * @param data the object to test
    * @return true if the object is considered null.
    * @throws HopValueException in case there is a conversion error (only thrown in case of lazy
-   *     conversion)
+   *         conversion)
    */
   boolean isNull(Object data) throws HopValueException;
 
@@ -679,7 +667,7 @@ public interface IValueMeta extends Cloneable {
    * Set to true if output padding is to be enabled (padding to specified length).
    *
    * @param outputPaddingEnabled Set to true if output padding is to be enabled (padding to
-   *     specified length)
+   *        specified length)
    */
   void setOutputPaddingEnabled(boolean outputPaddingEnabled);
 
@@ -694,7 +682,7 @@ public interface IValueMeta extends Cloneable {
    * Set to true if the this is to be a large text field (CLOB, TEXT) with arbitrary length.
    *
    * @param largeTextField Set to true if this is to be a large text field (CLOB, TEXT) with
-   *     arbitrary length.
+   *        arbitrary length.
    */
   void setLargeTextField(boolean largeTextField);
 
@@ -714,7 +702,8 @@ public interface IValueMeta extends Cloneable {
    * 15 - (December = 12) = 3 = March.
    * </pre>
    *
-   * <p>Set to false for stricter formatting validation.
+   * <p>
+   * Set to false for stricter formatting validation.
    *
    * @param dateFormatLenient true if the the date formatting (parsing) is to be set to lenient.
    */
@@ -1004,8 +993,7 @@ public interface IValueMeta extends Cloneable {
    * @throws HopEofException When we have read all the data there is to read
    * @throws SocketTimeoutException In case there is a timeout (when set on a socket) during reading
    */
-  Object readData(DataInputStream inputStream)
-      throws HopFileException, HopEofException, SocketTimeoutException;
+  Object readData(DataInputStream inputStream) throws HopFileException, HopEofException, SocketTimeoutException;
 
   /**
    * Read the attributes of this particular value meta object from the specified input stream.
@@ -1079,9 +1067,7 @@ public interface IValueMeta extends Cloneable {
    * @return the object in the data type of this value metadata object
    * @throws HopValueException in case there is a data conversion error
    */
-  Object convertDataFromString(
-      String pol, IValueMeta convertMeta, String nullif, String ifNull, int trimType)
-      throws HopValueException;
+  Object convertDataFromString(String pol, IValueMeta convertMeta, String nullif, String ifNull, int trimType) throws HopValueException;
 
   /**
    * Converts the specified data object to the normal storage type.
@@ -1141,7 +1127,7 @@ public interface IValueMeta extends Cloneable {
    * through the pipeline unchanged as long as the data type remains the same.
    *
    * @return the storage Meta data that is needed for internal conversion from BinaryString or
-   *     String to the specified type.
+   *         String to the specified type.
    */
   IValueMeta getStorageMetadata();
 
@@ -1149,9 +1135,9 @@ public interface IValueMeta extends Cloneable {
    * Sets the storage meta data.
    *
    * @param storageMetadata the storage Meta data that is needed for internal conversion from
-   *     BinaryString or String to the specified type. This storage Meta data object survives
-   *     cloning and should travel through the pipeline unchanged as long as the data type remains
-   *     the same.
+   *        BinaryString or String to the specified type. This storage Meta data object survives
+   *        cloning and should travel through the pipeline unchanged as long as the data type remains
+   *        the same.
    */
   void setStorageMetadata(IValueMeta storageMetadata);
 
@@ -1203,7 +1189,7 @@ public interface IValueMeta extends Cloneable {
    * conversions
    *
    * @return the number of binary string to native data type conversions done with this object
-   *     conversions
+   *         conversions
    */
   long getNumberOfBinaryStringConversions();
 
@@ -1212,7 +1198,7 @@ public interface IValueMeta extends Cloneable {
    * set.
    *
    * @param numberOfBinaryStringConversions the number of binary string to native data type done
-   *     with this object conversions to set
+   *        with this object conversions to set
    */
   void setNumberOfBinaryStringConversions(long numberOfBinaryStringConversions);
 
@@ -1225,13 +1211,13 @@ public interface IValueMeta extends Cloneable {
 
   /**
    * @return true if string to number conversion is occurring in a lenient fashion, parsing numbers
-   *     successfully until a non-numeric character is found.
+   *         successfully until a non-numeric character is found.
    */
   boolean isLenientStringToNumber();
 
   /**
    * @param lenientStringToNumber Set to if string to number conversion is to occur in a lenient
-   *     fashion, parsing numbers successfully until a non-numeric character is found.
+   *        fashion, parsing numbers successfully until a non-numeric character is found.
    */
   void setLenientStringToNumber(boolean lenientStringToNumber);
 
@@ -1250,14 +1236,7 @@ public interface IValueMeta extends Cloneable {
    * @return The value metadata if this value should handle the SQL type at the specified index.
    * @throws HopDatabaseException In case something went wrong.
    */
-  IValueMeta getValueFromSqlType(
-      IVariables variables,
-      DatabaseMeta databaseMeta,
-      String name,
-      ResultSetMetaData rm,
-      int index,
-      boolean ignoreLength,
-      boolean lazyConversion)
+  IValueMeta getValueFromSqlType(IVariables variables, DatabaseMeta databaseMeta, String name, ResultSetMetaData rm, int index, boolean ignoreLength, boolean lazyConversion)
       throws HopDatabaseException;
 
   /**
@@ -1265,15 +1244,15 @@ public interface IValueMeta extends Cloneable {
    * DatabaseMetaData#getColumns(String, String, String, String) The ResultSet must be positioned
    * correctly on the row to read.
    *
-   * <p>Note that the ValueMeta returned by this RowMeta may not contain actual values. This is a
+   * <p>
+   * Note that the ValueMeta returned by this RowMeta may not contain actual values. This is a
    * lightweight call using only JDBC metadata and does not make use of SQL statements.
    *
    * @param variables
    * @param databaseMeta the database metadata to reference capabilities and so on.
    * @param rs A ResultSet from getColumns, positioned correctly on a column to read.
    */
-  IValueMeta getMetadataPreview(IVariables variables, DatabaseMeta databaseMeta, ResultSet rs)
-      throws HopDatabaseException;
+  IValueMeta getMetadataPreview(IVariables variables, DatabaseMeta databaseMeta, ResultSet rs) throws HopDatabaseException;
 
   /**
    * Get a value from a result set column based on the current value metadata
@@ -1284,8 +1263,7 @@ public interface IValueMeta extends Cloneable {
    * @return The Hop native data type based on the value metadata
    * @throws HopDatabaseException in case something goes wrong.
    */
-  Object getValueFromResultSet(IDatabase iDatabase, ResultSet resultSet, int index)
-      throws HopDatabaseException;
+  Object getValueFromResultSet(IDatabase iDatabase, ResultSet resultSet, int index) throws HopDatabaseException;
 
   /**
    * Set a value on a JDBC prepared statement on the specified position
@@ -1296,9 +1274,7 @@ public interface IValueMeta extends Cloneable {
    * @param data the value to set
    * @throws HopDatabaseException in case something goes wrong
    */
-  void setPreparedStatementValue(
-      DatabaseMeta databaseMeta, PreparedStatement preparedStatement, int index, Object data)
-      throws HopDatabaseException;
+  void setPreparedStatementValue(DatabaseMeta databaseMeta, PreparedStatement preparedStatement, int index, Object data) throws HopDatabaseException;
 
   /**
    * This method gives you the native Java data type corresponding to the value meta-data.
@@ -1330,13 +1306,7 @@ public interface IValueMeta extends Cloneable {
    * @param addCr add a cariage return to the string?
    * @return The field type definition
    */
-  String getDatabaseColumnTypeDefinition(
-      IDatabase iDatabase,
-      String tk,
-      String pk,
-      boolean useAutoIncrement,
-      boolean addFieldName,
-      boolean addCr);
+  String getDatabaseColumnTypeDefinition(IDatabase iDatabase, String tk, String pk, boolean useAutoIncrement, boolean addFieldName, boolean addCr);
 
   /**
    * Is Ignore Whitespace Only applicable for TYPE_STRING comparisons

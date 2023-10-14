@@ -152,8 +152,7 @@ public class Translator {
   }
 
   public boolean showKey(String key, String messagesPackage) {
-    return !key.startsWith("System.")
-        || messagesPackage.equals(BaseMessages.class.getPackage().getName());
+    return !key.startsWith("System.") || messagesPackage.equals(BaseMessages.class.getPackage().getName());
   }
 
   public void readFiles() throws HopFileException {
@@ -177,13 +176,7 @@ public class Translator {
 
       // Convenience class to look up and manage things
       //
-      store =
-          new TranslationsStore(
-              log,
-              localeList,
-              referenceLocale,
-              crawler.getSourcePackageOccurrences(),
-              bundlesStore);
+      store = new TranslationsStore(log, localeList, referenceLocale, crawler.getSourcePackageOccurrences(), bundlesStore);
 
       // Keep some statistics
       //
@@ -208,9 +201,7 @@ public class Translator {
             // We don't want the system keys, just the regular ones.
             //
             if (showKey(keyOccurrence.getKey(), keyOccurrence.getMessagesPackage())) {
-              String value =
-                  store.lookupKeyValue(
-                      locale, keyOccurrence.getMessagesPackage(), keyOccurrence.getKey());
+              String value = store.lookupKeyValue(locale, keyOccurrence.getMessagesPackage(), keyOccurrence.getKey());
               if (!Utils.isEmpty(value)) {
                 keyCounts[i]++;
               }
@@ -263,17 +254,13 @@ public class Translator {
                   + pctFormat.format(donePct)
                   + "% "
                   + BaseMessages.getString(PKG, "i18n.Log.CompleteKeys", keyCounts[i])
-                  + (missingKeys != 0
-                      ? BaseMessages.getString(PKG, "i18n.Log.MissingKeys", missingKeys)
-                      : "");
+                  + (missingKeys != 0 ? BaseMessages.getString(PKG, "i18n.Log.MissingKeys", missingKeys) : "");
           System.out.println(statusKeys);
         }
       }
 
     } catch (Exception e) {
-      throw new HopFileException(
-          BaseMessages.getString(PKG, "i18n.Log.UnableToGetFiles", sourceDirectories.toString()),
-          e);
+      throw new HopFileException(BaseMessages.getString(PKG, "i18n.Log.UnableToGetFiles", sourceDirectories.toString()), e);
     }
     if (collisionException != null) {
       throw collisionException;
@@ -330,15 +317,7 @@ public class Translator {
     try {
       readFiles();
     } catch (Exception e) {
-      shell
-          .getDisplay()
-          .asyncExec(
-              () ->
-                  new ErrorDialog(
-                      shell,
-                      "Error reading translations",
-                      "There was an unexpected error reading the translations",
-                      e));
+      shell.getDisplay().asyncExec(() -> new ErrorDialog(shell, "Error reading translations", "There was an unexpected error reading the translations", e));
     }
 
     // Put something on the screen
@@ -365,46 +344,39 @@ public class Translator {
 
   private void addListeners() {
     // Kill process, press Ctrl + C in terminal window
-    Runtime.getRuntime()
-        .addShutdownHook(
-            new TranslateShutdownHook(
-                shell, () -> !store.getChangedBundleFiles().isEmpty(), () -> saveFiles(true)));
+    Runtime.getRuntime().addShutdownHook(new TranslateShutdownHook(shell, () -> !store.getChangedBundleFiles().isEmpty(), () -> saveFiles(true)));
     // System-level shortcut, like command + Q on macOS
     display.addListener(SWT.Close, event -> event.doit = quitFile());
     // In case someone dares to press the [X] in the corner ;-)
-    shell.addShellListener(
-        new ShellAdapter() {
-          @Override
-          public void shellClosed(ShellEvent e) {
-            e.doit = quitFile();
-          }
-        });
+    shell.addShellListener(new ShellAdapter() {
+      @Override
+      public void shellClosed(ShellEvent e) {
+        e.doit = quitFile();
+      }
+    });
 
-    wReload.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wPackages.table.getSelectionIndices();
-            reload();
-            wPackages.table.setSelection(idx);
-          }
-        });
+    wReload.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wPackages.table.getSelectionIndices();
+        reload();
+        wPackages.table.setSelection(idx);
+      }
+    });
 
-    wZip.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            saveFilesToZip();
-          }
-        });
+    wZip.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        saveFilesToZip();
+      }
+    });
 
-    wClose.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            quitFile();
-          }
-        });
+    wClose.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        quitFile();
+      }
+    });
   }
 
   public void reload() {
@@ -415,8 +387,7 @@ public class Translator {
 
       refresh();
     } catch (Exception e) {
-      new ErrorDialog(
-          shell, "Error loading data", "There was an unexpected error re-loading the data", e);
+      new ErrorDialog(shell, "Error loading data", "There was an unexpected error re-loading the data", e);
     }
   }
 
@@ -424,9 +395,7 @@ public class Translator {
     java.util.List<BundleFile> changedBundleFiles = store.getChangedBundleFiles();
     if (changedBundleFiles.size() > 0) {
       MessageBox mb = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_WARNING);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "i18nDialog.ChangedFilesWhenExit", changedBundleFiles.size() + ""));
+      mb.setMessage(BaseMessages.getString(PKG, "i18nDialog.ChangedFilesWhenExit", changedBundleFiles.size() + ""));
       mb.setText(BaseMessages.getString(PKG, "i18nDialog.Warning"));
 
       int answer = mb.open();
@@ -461,28 +430,10 @@ public class Translator {
 
     ColumnInfo[] colinfo =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "i18nDialog.SourceFolder"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "i18nDialog.Packagename"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "i18nDialog.SourceFolder"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "i18nDialog.Packagename"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
-    wPackages =
-        new TableView(
-            new Variables(),
-            composite,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            1,
-            true,
-            null,
-            props);
+    wPackages = new TableView(new Variables(), composite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, 1, true, null, props);
 
     FormData fdPackages = new FormData();
     fdPackages.left = new FormAttachment(0, 0);
@@ -500,20 +451,18 @@ public class Translator {
     composite.setLayoutData(fdComposite);
 
     // Add a selection listener.
-    wLocale.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            refreshGrid();
-          }
-        });
-    wPackages.table.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            refreshGrid();
-          }
-        });
+    wLocale.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        refreshGrid();
+      }
+    });
+    wPackages.table.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        refreshGrid();
+      }
+    });
 
     composite.layout();
   }
@@ -537,13 +486,7 @@ public class Translator {
     wClose = new Button(composite, SWT.NONE);
     wClose.setText(BaseMessages.getString(PKG, "i18nDialog.Close"));
 
-    BaseTransformDialog.positionBottomButtons(
-        composite,
-        new Button[] {
-          wReload, wSave, wZip, wClose,
-        },
-        props.getMargin() * 3,
-        null);
+    BaseTransformDialog.positionBottomButtons(composite, new Button[] {wReload, wSave, wZip, wClose,}, props.getMargin() * 3, null);
 
     int left = 30;
     int middle = 45;
@@ -600,8 +543,7 @@ public class Translator {
     // The selected source folder
     //
     Label wlSelectedSourceFolder = new Label(composite, SWT.RIGHT);
-    wlSelectedSourceFolder.setText(
-        BaseMessages.getString(PKG, "i18nDialog.TranslationSelectedSourceFolder"));
+    wlSelectedSourceFolder.setText(BaseMessages.getString(PKG, "i18nDialog.TranslationSelectedSourceFolder"));
     PropsUi.setLook(wlSelectedSourceFolder);
     FormData fdlSelectedSourceFolder = new FormData();
     fdlSelectedSourceFolder.left = new FormAttachment(left, props.getMargin());
@@ -816,96 +758,86 @@ public class Translator {
     fdNextV.top = new FormAttachment(wSearchV, props.getMargin() * 2);
     wNextV.setLayoutData(fdNextV);
 
-    wAll.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            refreshGrid();
-          }
-        });
+    wAll.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        refreshGrid();
+      }
+    });
 
-    wTodo.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            // If someone clicks on the todo list, we set the appropriate values
-            //
-            if (wTodo.getSelectionCount() == 1) {
+    wTodo.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        // If someone clicks on the todo list, we set the appropriate values
+        //
+        if (wTodo.getSelectionCount() == 1) {
 
-              String key = wTodo.getSelection()[0];
+          String key = wTodo.getSelection()[0];
 
-              showKeySelection(key);
-            }
-          }
-        });
+          showKeySelection(key);
+        }
+      }
+    });
 
-    wValue.addModifyListener(
-        e -> {
-          // The main value got changed...
-          // Capture this automatically
-          //
-          lastValueChanged = true;
-          lastValue = wValue.getText();
+    wValue.addModifyListener(e -> {
+      // The main value got changed...
+      // Capture this automatically
+      //
+      lastValueChanged = true;
+      lastValue = wValue.getText();
 
-          wApply.setEnabled(true);
-          wRevert.setEnabled(true);
-        });
+      wApply.setEnabled(true);
+      wRevert.setEnabled(true);
+    });
 
-    wApply.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            applyChangedValue();
-          }
-        });
+    wApply.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        applyChangedValue();
+      }
+    });
 
-    wRevert.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            revertChangedValue();
-          }
-        });
+    wRevert.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        revertChangedValue();
+      }
+    });
 
-    wSave.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            saveFiles();
-          }
-        });
+    wSave.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        saveFiles();
+      }
+    });
 
-    wSearch.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            search(referenceLocale);
-          }
-        });
+    wSearch.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        search(referenceLocale);
+      }
+    });
 
-    wNext.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            searchAgain(referenceLocale);
-          }
-        });
+    wNext.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        searchAgain(referenceLocale);
+      }
+    });
 
-    wSearchV.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            search(selectedLocale);
-          }
-        });
+    wSearchV.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        search(selectedLocale);
+      }
+    });
 
-    wNextV.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            searchAgain(selectedLocale);
-          }
-        });
+    wNextV.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        searchAgain(selectedLocale);
+      }
+    });
   }
 
   protected boolean saveFiles() {
@@ -916,8 +848,7 @@ public class Translator {
 
     // Check if we hve a last value changed but pending to be considered as such.
     if (!Utils.isEmpty(lastValue)) {
-      store.storeValue(
-          selectedLocale, selectedSourceFile, selectedMessagesPackage, selectedKey, lastValue);
+      store.storeValue(selectedLocale, selectedSourceFile, selectedMessagesPackage, selectedKey, lastValue);
       lastValueChanged = false;
       updateToDoList(wTodo.getSelectionIndex());
     }
@@ -937,25 +868,15 @@ public class Translator {
       }
 
       EnterTextDialog dialog =
-          new EnterTextDialog(
-              shell,
-              BaseMessages.getString(PKG, "i18nDialog.ChangedFiles"),
-              BaseMessages.getString(PKG, "i18nDialog.ChangedMessagesFiles"),
-              msg.toString());
+          new EnterTextDialog(shell, BaseMessages.getString(PKG, "i18nDialog.ChangedFiles"), BaseMessages.getString(PKG, "i18nDialog.ChangedMessagesFiles"), msg.toString());
       if (dialog.open() != null || force) {
         try {
           for (BundleFile bundleFile : changedBundleFiles) {
             bundleFile.write();
-            log.logBasic(
-                BaseMessages.getString(
-                    PKG, "i18n.Log.SavedMessagesFile", bundleFile.getFilename()));
+            log.logBasic(BaseMessages.getString(PKG, "i18n.Log.SavedMessagesFile", bundleFile.getFilename()));
           }
         } catch (HopException e) {
-          new ErrorDialog(
-              shell,
-              BaseMessages.getString(PKG, "i18n.UnexpectedError"),
-              "There was an error saving the changed messages files:",
-              e);
+          new ErrorDialog(shell, BaseMessages.getString(PKG, "i18n.UnexpectedError"), "There was an error saving the changed messages files:", e);
           return false;
         }
         return true;
@@ -979,8 +900,7 @@ public class Translator {
         for (BundleFile bundleFile : bundleFiles) {
           // Find the main locale variation for this messages store...
           //
-          BundleFile mainLocaleMessagesStore =
-              store.findMainBundleFile(bundleFile.getPackageName());
+          BundleFile mainLocaleMessagesStore = store.findMainBundleFile(bundleFile.getPackageName());
           String filename = bundleFile.getFilename();
           msg.append(filename).append(Const.CR);
         }
@@ -990,12 +910,7 @@ public class Translator {
         //
         String zipFilename =
             BaseDialog.presentFileDialog(
-                shell,
-                new String[] {"*.zip", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.ZIPFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
+                shell, new String[] {"*.zip", "*"}, new String[] {BaseMessages.getString(PKG, "System.FileType.ZIPFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")},
                 true);
         if (zipFilename != null) {
           try {
@@ -1013,11 +928,7 @@ public class Translator {
             }
             out.close();
           } catch (Exception e) {
-            new ErrorDialog(
-                shell,
-                BaseMessages.getString(PKG, "i18n.UnexpectedError"),
-                "There was an error saving the changed messages files:",
-                e);
+            new ErrorDialog(shell, BaseMessages.getString(PKG, "i18n.UnexpectedError"), "There was an error saving the changed messages files:", e);
           }
         }
       }
@@ -1032,11 +943,7 @@ public class Translator {
             shell,
             Const.NVL(searchString, ""),
             BaseMessages.getString(PKG, "i18nDialog.SearchKey"),
-            BaseMessages.getString(PKG, "i18nDialog.SearchLocale1")
-                + " '"
-                + Const.NVL(searchLocale, "")
-                + "' "
-                + BaseMessages.getString(PKG, "i18nDialog.SearchLocale2"));
+            BaseMessages.getString(PKG, "i18nDialog.SearchLocale1") + " '" + Const.NVL(searchLocale, "") + "' " + BaseMessages.getString(PKG, "i18nDialog.SearchLocale2"));
     searchString = dialog.open();
 
     lastFoundKey = null;
@@ -1058,8 +965,7 @@ public class Translator {
       // Search through all the main locale messages stores for the selected
       // package
       //
-      java.util.List<BundleFile> mainLocaleBundleFiles =
-          store.findBundleFiles(searchLocale, selectedMessagesPackage);
+      java.util.List<BundleFile> mainLocaleBundleFiles = store.findBundleFiles(searchLocale, selectedMessagesPackage);
       for (BundleFile bundleFile : mainLocaleBundleFiles) {
         for (String key : bundleFile.getContents().keySet()) {
           String value = bundleFile.getContents().get(key);
@@ -1110,18 +1016,13 @@ public class Translator {
       wSourceFile.setText(Const.NVL(javaFilename, ""));
       if (Const.NVL(javaFilename, "") != null) {
         selectedSourceFile = Const.NVL(javaFilename, "");
-        String lookupStr =
-            File.separator + "src" + File.separator + "main" + File.separator + "java";
-        selectedSourceFile =
-            rootFolder
-                + selectedSourceFile.substring(
-                    0, selectedSourceFile.indexOf(lookupStr) + lookupStr.length());
+        String lookupStr = File.separator + "src" + File.separator + "main" + File.separator + "java";
+        selectedSourceFile = rootFolder + selectedSourceFile.substring(0, selectedSourceFile.indexOf(lookupStr) + lookupStr.length());
       } else {
         selectedSourceFile = "";
       }
       String bundleFilename = "";
-      BundleFile file =
-          store.getBundleStore().findBundleFile(selectedMessagesPackage, selectedLocale);
+      BundleFile file = store.getBundleStore().findBundleFile(selectedMessagesPackage, selectedLocale);
       if (file != null) {
         bundleFilename = stripRootFolder(file.getFilename());
       }
@@ -1161,15 +1062,9 @@ public class Translator {
     wSource.setText("");
 
     selectedLocale = wLocale.getSelectionCount() == 0 ? null : wLocale.getSelection()[0];
-    selectedSourceFolder =
-        wPackages.table.getSelectionCount() == 0
-            ? null
-            : wPackages.table.getSelection()[0].getText(1);
+    selectedSourceFolder = wPackages.table.getSelectionCount() == 0 ? null : wPackages.table.getSelection()[0].getText(1);
     selectedSourceFolder = getLongSourceFolder(rootFolder, selectedSourceFolder);
-    selectedMessagesPackage =
-        wPackages.table.getSelectionCount() == 0
-            ? null
-            : wPackages.table.getSelection()[0].getText(2);
+    selectedMessagesPackage = wPackages.table.getSelectionCount() == 0 ? null : wPackages.table.getSelection()[0].getText(2);
     refreshPackages();
 
     // Only continue with a locale & a messages package, otherwise we won't
@@ -1178,8 +1073,7 @@ public class Translator {
     if (selectedLocale != null && selectedSourceFolder != null && selectedMessagesPackage != null) {
       // Get the list of keys that need a translation...
       //
-      java.util.List<KeyOccurrence> todo =
-          getTodoList(selectedLocale, selectedMessagesPackage, selectedSourceFolder, false);
+      java.util.List<KeyOccurrence> todo = getTodoList(selectedLocale, selectedMessagesPackage, selectedSourceFolder, false);
       String[] todoItems = new String[todo.size()];
       for (int i = 0; i < todoItems.length; i++) {
         todoItems[i] = todo.get(i).getKey();
@@ -1193,8 +1087,7 @@ public class Translator {
     wTodo.setRedraw(true);
   }
 
-  private java.util.List<KeyOccurrence> getTodoList(
-      String locale, String messagesPackage, String sourceFolder, boolean strict) {
+  private java.util.List<KeyOccurrence> getTodoList(String locale, String messagesPackage, String sourceFolder, boolean strict) {
     // Get the list of keys that need a translation...
     //
     java.util.List<KeyOccurrence> keys = crawler.getOccurrencesForPackage(messagesPackage);
@@ -1220,17 +1113,12 @@ public class Translator {
   private void applyChangedValue() {
     // Hang on, before we clear it all, did we have a previous value?
     //
-    if (selectedKey != null
-        && selectedLocale != null
-        && selectedMessagesPackage != null
-        && lastValueChanged
-        && selectedSourceFile != null) {
+    if (selectedKey != null && selectedLocale != null && selectedMessagesPackage != null && lastValueChanged && selectedSourceFile != null) {
       // Store the last modified value
       //
 
       if (!Utils.isEmpty(lastValue)) {
-        store.storeValue(
-            selectedLocale, selectedSourceFile, selectedMessagesPackage, selectedKey, lastValue);
+        store.storeValue(selectedLocale, selectedSourceFile, selectedMessagesPackage, selectedKey, lastValue);
         lastValueChanged = false;
 
         updateToDoList(wTodo.getSelectionIndex());
@@ -1281,16 +1169,14 @@ public class Translator {
     // OK, we have a distinct list of packages to work with...
     wPackages.table.removeAll();
 
-    Map<String, Map<String, java.util.List<KeyOccurrence>>> sourceMessagesPackages =
-        crawler.getSourcePackageOccurrences();
+    Map<String, Map<String, java.util.List<KeyOccurrence>>> sourceMessagesPackages = crawler.getSourcePackageOccurrences();
 
     // Sort the source folders...
     //
     java.util.List<String> sourceFolders = new ArrayList<>(sourceMessagesPackages.keySet());
     sourceFolders.sort(this::pathDepthFirstComparator);
     for (String sourceFolder : sourceFolders) {
-      Map<String, java.util.List<KeyOccurrence>> messagesPackages =
-          sourceMessagesPackages.get(sourceFolder);
+      Map<String, java.util.List<KeyOccurrence>> messagesPackages = sourceMessagesPackages.get(sourceFolder);
       java.util.List<String> packageNames = new ArrayList<>(messagesPackages.keySet());
       Collections.sort(packageNames);
 
@@ -1308,16 +1194,13 @@ public class Translator {
           // Check if there is a bundle file for this package.
           // If not we'll paint it in light red
           //
-          BundleFile bundleFile =
-              store.getBundleStore().findBundleFile(packageName, selectedLocale);
+          BundleFile bundleFile = store.getBundleStore().findBundleFile(packageName, selectedLocale);
           if (bundleFile == null) {
             item.setBackground(new Color(shell.getDisplay(), 230, 150, 150));
           } else {
-            java.util.List<KeyOccurrence> todo =
-                getTodoList(selectedLocale, packageName, sourceFolder, true);
+            java.util.List<KeyOccurrence> todo = getTodoList(selectedLocale, packageName, sourceFolder, true);
             if (todo.size() > 50) {
-              item.setBackground(
-                  new Color(shell.getDisplay(), props.contrastColor(150, 150, 150))); // dark gray
+              item.setBackground(new Color(shell.getDisplay(), props.contrastColor(150, 150, 150))); // dark gray
             } else if (todo.size() > 25) {
               item.setBackground(new Color(shell.getDisplay(), props.contrastColor(170, 170, 170)));
             } else if (todo.size() > 10) {
@@ -1325,8 +1208,7 @@ public class Translator {
             } else if (todo.size() > 5) {
               item.setBackground(new Color(shell.getDisplay(), props.contrastColor(210, 210, 210)));
             } else if (todo.size() > 0) {
-              item.setBackground(
-                  new Color(shell.getDisplay(), props.contrastColor(230, 230, 230))); // light gray
+              item.setBackground(new Color(shell.getDisplay(), props.contrastColor(230, 230, 230))); // light gray
             }
           }
         }
@@ -1356,12 +1238,7 @@ public class Translator {
       FileObject source = HopVfs.getFileObject(sourceFolder);
       return root.getName().getRelativeName(source.getName());
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error calculating relative source path against '"
-              + rootFolder
-              + "' for source folder: "
-              + sourceFolder,
-          e);
+      LogChannel.UI.logError("Error calculating relative source path against '" + rootFolder + "' for source folder: " + sourceFolder, e);
       return sourceFolder;
     }
   }
@@ -1375,9 +1252,7 @@ public class Translator {
       return rootFolder + shortSourceFolder;
     } else {
       // Use File.separator to build a path that is system agnostic
-      return rootFolder
-          + File.separatorChar
-          + shortSourceFolder.replace("/", String.valueOf(File.separatorChar));
+      return rootFolder + File.separatorChar + shortSourceFolder.replace("/", String.valueOf(File.separatorChar));
     }
   }
 
@@ -1440,8 +1315,7 @@ public class Translator {
     final Runnable doSaveRunnable;
     CountDownLatch exitLatch;
 
-    public TranslateShutdownHook(
-        Shell shell, Supplier<Boolean> ifNeedSupplier, Runnable doSaveRunnable) {
+    public TranslateShutdownHook(Shell shell, Supplier<Boolean> ifNeedSupplier, Runnable doSaveRunnable) {
       this.shell = shell;
       this.ifNeedSupplier = ifNeedSupplier;
       this.doSaveRunnable = doSaveRunnable;

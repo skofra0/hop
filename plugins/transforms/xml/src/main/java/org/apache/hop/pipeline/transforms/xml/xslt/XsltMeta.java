@@ -50,17 +50,7 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
   private static final Class<?> PKG = XsltMeta.class; // For Translator
 
   public static final String[] outputProperties =
-      new String[] {
-        "method",
-        "version",
-        "encoding",
-        "standalone",
-        "indent",
-        "omit-xml-declaration",
-        "doctype-public",
-        "doctype-system",
-        "media-type"
-      };
+      new String[] {"method", "version", "encoding", "standalone", "indent", "omit-xml-declaration", "doctype-public", "doctype-system", "media-type"};
 
   private String xslFilename;
   private String fieldName;
@@ -213,15 +203,13 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       xslFilename = XmlHandler.getTagValue(transformNode, "xslfilename");
       fieldName = XmlHandler.getTagValue(transformNode, "fieldname");
       resultFieldname = XmlHandler.getTagValue(transformNode, "resultfieldname");
       xslFileField = XmlHandler.getTagValue(transformNode, "xslfilefield");
-      xslFileFieldUse =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "xslfilefielduse"));
+      xslFileFieldUse = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "xslfilefielduse"));
       String isAFile = XmlHandler.getTagValue(transformNode, "xslfieldisafile");
       if (xslFileFieldUse && Utils.isEmpty(isAFile)) {
         xslFieldIsAFile = true;
@@ -250,8 +238,7 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
       }
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "XsltMeta.Exception.UnableToLoadTransformInfoFromXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "XsltMeta.Exception.UnableToLoadTransformInfoFromXML"), e);
     }
   }
 
@@ -280,13 +267,7 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Output field (String)
     IValueMeta v = new ValueMetaString(variables.resolve(getResultfieldname()));
@@ -343,46 +324,25 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "XsltMeta.CheckResult.ConnectedTransformOK", String.valueOf(prev.size())),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ConnectedTransformOK", String.valueOf(prev.size())), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XsltMeta.CheckResult.NoInputReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.NoInputReceived"), transformMeta);
       remarks.add(cr);
     }
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "XsltMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XsltMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
     // Check if The result field is given
     if (getResultfieldname() == null) {
       // Result Field is missing !
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultFieldNameMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultFieldNameMissing"), transformMeta);
       remarks.add(cr);
     }
 
@@ -390,29 +350,17 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
     if (xslFileFieldUse) {
       if (getXSLFileField() == null) {
         // Result Field is missing !
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultXSLFieldNameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultXSLFieldNameMissing"), transformMeta);
         remarks.add(cr);
       } else {
         // Result Field is provided !
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultXSLFieldNameOK"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorResultXSLFieldNameOK"), transformMeta);
         remarks.add(cr);
       }
     } else {
       if (xslFilename == null) {
         // Result Field is missing !
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorXSLFileNameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ErrorXSLFileNameMissing"), transformMeta);
         remarks.add(cr);
 
       } else {
@@ -422,27 +370,14 @@ public class XsltMeta extends BaseTransformMeta<Xslt, XsltData> {
 
         if (f.exists()) {
           if (f.isFile()) {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "XsltMeta.CheckResult.FileExists", realFilename),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "XsltMeta.CheckResult.FileExists", realFilename), transformMeta);
             remarks.add(cr);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_ERROR,
-                    BaseMessages.getString(
-                        PKG, "XsltMeta.CheckResult.ExistsButNoFile", realFilename),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.ExistsButNoFile", realFilename), transformMeta);
             remarks.add(cr);
           }
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "XsltMeta.CheckResult.FileNotExists", realFilename),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "XsltMeta.CheckResult.FileNotExists", realFilename), transformMeta);
           remarks.add(cr);
         }
       }

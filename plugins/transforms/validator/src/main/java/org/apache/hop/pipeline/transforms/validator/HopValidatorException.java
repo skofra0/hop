@@ -40,9 +40,22 @@ public class HopValidatorException extends HopValueException {
 
   private static final String[] errorCode =
       new String[] {
-        "KVD000", "KVD001", "KVD002", "KVD003", "KVD004", "KVD005", "KVD006", "KVD007", "KVD008",
-        "KVD009", "KVD010", "KVD011", "KVD012", "KVD013", "KVD014", "KVD015",
-      };
+          "KVD000",
+          "KVD001",
+          "KVD002",
+          "KVD003",
+          "KVD004",
+          "KVD005",
+          "KVD006",
+          "KVD007",
+          "KVD008",
+          "KVD009",
+          "KVD010",
+          "KVD011",
+          "KVD012",
+          "KVD013",
+          "KVD014",
+          "KVD015",};
 
   private final Validator validator;
   private final Validation validatorField;
@@ -55,16 +68,15 @@ public class HopValidatorException extends HopValueException {
    * Constructs a new Throwable with the specified detail message.
    *
    * @param validator - the instance of Validator that this object will resolve variable
-   *     substitution. The class is probably where this object is being created.
+   *        substitution. The class is probably where this object is being created.
    * @param validatorField - the Validation in which the failure happened and this exception is to
-   *     be created for.
+   *        be created for.
    * @param code - the error code, see the static members of this class.
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
+   *        getMessage() method.
    * @param fieldName - the name of the field that failed Validation.
    */
-  public HopValidatorException(
-      Validator validator, Validation validatorField, int code, String message, String fieldName) {
+  public HopValidatorException(Validator validator, Validation validatorField, int code, String message, String fieldName) {
     super(message);
     this.validator = validator;
     this.validatorField = validatorField;

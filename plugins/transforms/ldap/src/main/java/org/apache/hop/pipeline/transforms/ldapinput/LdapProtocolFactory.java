@@ -78,19 +78,14 @@ public class LdapProtocolFactory {
    * @return an LdapProtocol
    * @throws HopException
    */
-  public LdapProtocol createLdapProtocol(
-      IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes)
-      throws HopException {
+  public LdapProtocol createLdapProtocol(IVariables variables, ILdapMeta meta, Collection<String> binaryAttributes) throws HopException {
     String connectionType = variables.resolve(meta.getProtocol());
 
     synchronized (protocols) {
       for (Class<? extends LdapProtocol> protocol : protocols) {
         if (getName(protocol).equals(connectionType)) {
           try {
-            return protocol
-                .getConstructor(
-                    ILogChannel.class, IVariables.class, ILdapMeta.class, Collection.class)
-                .newInstance(log, variables, meta, binaryAttributes);
+            return protocol.getConstructor(ILogChannel.class, IVariables.class, ILdapMeta.class, Collection.class).newInstance(log, variables, meta, binaryAttributes);
           } catch (Exception e) {
             throw new HopException(e);
           }

@@ -45,11 +45,7 @@ public class HopRowCoderTest extends TestCase {
   @Test
   public void testEncodeDecodeBasic() throws IOException {
 
-    HopRow row1 =
-        new HopRow(
-            new Object[] {
-              "AAA", "BBB", Long.valueOf(100), Double.valueOf(1.234), new Date(876876868), new Timestamp(810311)
-            });
+    HopRow row1 = new HopRow(new Object[] {"AAA", "BBB", Long.valueOf(100), Double.valueOf(1.234), new Date(876876868), new Timestamp(810311)});
 
     hopRowCoder.encode(row1, outputStream);
     outputStream.flush();
@@ -65,56 +61,56 @@ public class HopRowCoderTest extends TestCase {
   @Test
   public void testEncodeDecodeAvro() throws Exception {
     String schemaJson =
-            "{\n"
-                    + "  \"doc\": \"No documentation URL for now\",\n"
-                    + "  \"fields\": [\n"
-                    + "    {\n"
-                    + "      \"name\": \"id\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"long\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    },\n"
-                    + "    {\n"
-                    + "      \"name\": \"sysdate\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"string\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    },\n"
-                    + "    {\n"
-                    + "      \"name\": \"num\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"double\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    },\n"
-                    + "    {\n"
-                    + "      \"name\": \"int\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"long\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    },\n"
-                    + "    {\n"
-                    + "      \"name\": \"str\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"string\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    },\n"
-                    + "    {\n"
-                    + "      \"name\": \"uuid\",\n"
-                    + "      \"type\": [\n"
-                    + "        \"string\",\n"
-                    + "        \"null\"\n"
-                    + "      ]\n"
-                    + "    }\n"
-                    + "  ],\n"
-                    + "  \"name\": \"all_values\",\n"
-                    + "  \"namespace\": \"hop.apache.org\",\n"
-                    + "  \"type\": \"record\"\n"
-                    + "}";
+        "{\n"
+            + "  \"doc\": \"No documentation URL for now\",\n"
+            + "  \"fields\": [\n"
+            + "    {\n"
+            + "      \"name\": \"id\",\n"
+            + "      \"type\": [\n"
+            + "        \"long\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"sysdate\",\n"
+            + "      \"type\": [\n"
+            + "        \"string\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"num\",\n"
+            + "      \"type\": [\n"
+            + "        \"double\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"int\",\n"
+            + "      \"type\": [\n"
+            + "        \"long\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"str\",\n"
+            + "      \"type\": [\n"
+            + "        \"string\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    },\n"
+            + "    {\n"
+            + "      \"name\": \"uuid\",\n"
+            + "      \"type\": [\n"
+            + "        \"string\",\n"
+            + "        \"null\"\n"
+            + "      ]\n"
+            + "    }\n"
+            + "  ],\n"
+            + "  \"name\": \"all_values\",\n"
+            + "  \"namespace\": \"hop.apache.org\",\n"
+            + "  \"type\": \"record\"\n"
+            + "}";
     Schema schema = new Schema.Parser().parse(schemaJson);
 
     GenericRecord genericRecord = new GenericData.Record(schema);
@@ -127,11 +123,7 @@ public class HopRowCoderTest extends TestCase {
 
     // Create a row with an ID, a name and an avro record...
     //
-    Object[] row = new Object[] {
-            123L,
-            "Apache Hop",
-            genericRecord
-    };
+    Object[] row = new Object[] {123L, "Apache Hop", genericRecord};
     HopRow hopRow = new HopRow(row);
 
     HopRowCoder hopRowCoder = new HopRowCoder();

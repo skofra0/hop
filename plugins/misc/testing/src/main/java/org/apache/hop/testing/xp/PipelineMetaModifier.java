@@ -50,16 +50,13 @@ public class PipelineMetaModifier {
   private final PipelineMeta pipelineMeta;
   private final PipelineUnitTest unitTest;
 
-  public PipelineMetaModifier(
-      IVariables variables, PipelineMeta pipelineMeta, PipelineUnitTest unitTest) {
+  public PipelineMetaModifier(IVariables variables, PipelineMeta pipelineMeta, PipelineUnitTest unitTest) {
     this.variables = variables;
     this.pipelineMeta = pipelineMeta;
     this.unitTest = unitTest;
   }
 
-  public PipelineMeta getTestPipeline(
-      ILogChannel log, IVariables variables, IHopMetadataProvider metadataProvider)
-      throws HopException {
+  public PipelineMeta getTestPipeline(ILogChannel log, IVariables variables, IHopMetadataProvider metadataProvider) throws HopException {
     // OK, so now replace an input transform with a data set attached with an Injector transform...
     // However, we don't want to have the user see this so we need to copy pipeline.pipelineMeta
     // first...
@@ -68,8 +65,7 @@ public class PipelineMetaModifier {
     //
     InputStream stream;
     try {
-      stream =
-          new ByteArrayInputStream(pipelineMeta.getXml(variables).getBytes(Const.XML_ENCODING));
+      stream = new ByteArrayInputStream(pipelineMeta.getXml(variables).getBytes(Const.XML_ENCODING));
     } catch (UnsupportedEncodingException e) {
       throw new HopException("Encoding error", e);
     }
@@ -83,31 +79,19 @@ public class PipelineMetaModifier {
     //
     for (PipelineUnitTestDatabaseReplacement dbReplacement : unitTest.getDatabaseReplacements()) {
       String sourceDatabaseName = variables.resolve(dbReplacement.getOriginalDatabaseName());
-      String replacementDatabaseName =
-          variables.resolve(dbReplacement.getReplacementDatabaseName());
+      String replacementDatabaseName = variables.resolve(dbReplacement.getReplacementDatabaseName());
 
       DatabaseMeta sourceDatabaseMeta = copyPipelineMeta.findDatabase(sourceDatabaseName);
       DatabaseMeta replacementDatabaseMeta = copyPipelineMeta.findDatabase(replacementDatabaseName);
       if (sourceDatabaseMeta == null) {
-        throw new HopException(
-            "Unable to find source database connection '"
-                + sourceDatabaseName
-                + "', can not be replaced");
+        throw new HopException("Unable to find source database connection '" + sourceDatabaseName + "', can not be replaced");
       }
       if (replacementDatabaseMeta == null) {
-        throw new HopException(
-            "Unable to find replacement database connection '"
-                + replacementDatabaseName
-                + "', can not be used to replace");
+        throw new HopException("Unable to find replacement database connection '" + replacementDatabaseName + "', can not be used to replace");
       }
 
       if (log.isDetailed()) {
-        log.logDetailed(
-            "Replaced database connection '"
-                + sourceDatabaseName
-                + "' with connection '"
-                + replacementDatabaseName
-                + "'");
+        log.logDetailed("Replaced database connection '" + sourceDatabaseName + "' with connection '" + replacementDatabaseName + "'");
       }
       sourceDatabaseMeta.replaceMeta(replacementDatabaseMeta);
     }
@@ -115,25 +99,22 @@ public class PipelineMetaModifier {
     // Replace all transforms with an Input Data Set marker with an Injector
     // Replace all transforms with a Golden Data Set marker with a Dummy
     // Apply the tweaks to the transforms:
-    //   - Bypass : replace with Dummy
-    //   - Remove : remove transform and all connected hops.
+    // - Bypass : replace with Dummy
+    // - Remove : remove transform and all connected hops.
     //
     // Loop over the original pipeline to allow us to safely modify the copy
     //
     List<TransformMeta> transforms = pipelineMeta.getTransforms();
     for (TransformMeta transform : transforms) {
       TransformMeta transformMeta = copyPipelineMeta.findTransform(transform.getName());
-      PipelineUnitTestSetLocation inputLocation =
-          unitTest.findInputLocation(transformMeta.getName());
-      PipelineUnitTestSetLocation goldenLocation =
-          unitTest.findGoldenLocation(transformMeta.getName());
+      PipelineUnitTestSetLocation inputLocation = unitTest.findInputLocation(transformMeta.getName());
+      PipelineUnitTestSetLocation goldenLocation = unitTest.findGoldenLocation(transformMeta.getName());
       PipelineUnitTestTweak transformTweak = unitTest.findTweak(transformMeta.getName());
 
       // See if there's a unit test if the transform isn't flagged...
       //
       if (inputLocation != null) {
-        handleInputDataSet(
-            log, inputLocation, unitTest, pipelineMeta, transformMeta, metadataProvider);
+        handleInputDataSet(log, inputLocation, unitTest, pipelineMeta, transformMeta, metadataProvider);
       }
 
       // Capture golden data in a dummy transform instead of the regular one?
@@ -173,12 +154,7 @@ public class PipelineMetaModifier {
     String inputSetName = inputLocation.getDataSetName();
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          "Replacing transform '"
-              + transformMeta.getName()
-              + "' with an Injector for dataset '"
-              + inputSetName
-              + "'");
+      log.logDetailed("Replacing transform '" + transformMeta.getName() + "' with an Injector for dataset '" + inputSetName + "'");
     }
 
     DataSet dataSet;
@@ -194,42 +170,25 @@ public class PipelineMetaModifier {
     final IRowMeta transformFields = DataSetConst.getTransformOutputFields(dataSet, inputLocation);
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          "Input Data Set '" + inputSetName + "' Injector fields : '" + transformFields.toString());
+      log.logDetailed("Input Data Set '" + inputSetName + "' Injector fields : '" + transformFields.toString());
     }
 
     InjectorMeta injectorMeta = new InjectorMeta();
     for (IValueMeta valueMeta : transformFields.getValueMetaList()) {
-      injectorMeta
-          .getInjectorFields()
-          .add(
-              new InjectorField(
-                  valueMeta.getName(),
-                  valueMeta.getTypeDesc(),
-                  Integer.toString(valueMeta.getLength()),
-                  Integer.toString(valueMeta.getPrecision())));
+      injectorMeta.getInjectorFields()
+          .add(new InjectorField(valueMeta.getName(), valueMeta.getTypeDesc(), Integer.toString(valueMeta.getLength()), Integer.toString(valueMeta.getPrecision())));
     }
 
     // Only the transform metadata, type...
     //
     transformMeta.setTransform(injectorMeta);
-    transformMeta.setTransformPluginId(
-        PluginRegistry.getInstance().getPluginId(TransformPluginType.class, injectorMeta));
+    transformMeta.setTransformPluginId(PluginRegistry.getInstance().getPluginId(TransformPluginType.class, injectorMeta));
   }
 
-  private void handleGoldenDataSet(
-      ILogChannel log,
-      PipelineUnitTestSetLocation goldenSetName,
-      TransformMeta transformMeta,
-      IHopMetadataProvider metadataProvider) {
+  private void handleGoldenDataSet(ILogChannel log, PipelineUnitTestSetLocation goldenSetName, TransformMeta transformMeta, IHopMetadataProvider metadataProvider) {
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          "Replacing transform '"
-              + transformMeta.getName()
-              + "' with an Dummy for golden dataset '"
-              + goldenSetName
-              + "'");
+      log.logDetailed("Replacing transform '" + transformMeta.getName() + "' with an Dummy for golden dataset '" + goldenSetName + "'");
     }
 
     replaceTransformWithDummy(log, transformMeta);
@@ -238,26 +197,20 @@ public class PipelineMetaModifier {
   private void replaceTransformWithDummy(ILogChannel log, TransformMeta transformMeta) {
     DummyMeta dummyTransformMeta = new DummyMeta();
     transformMeta.setTransform(dummyTransformMeta);
-    transformMeta.setTransformPluginId(
-        PluginRegistry.getInstance().getPluginId(TransformPluginType.class, dummyTransformMeta));
+    transformMeta.setTransformPluginId(PluginRegistry.getInstance().getPluginId(TransformPluginType.class, dummyTransformMeta));
   }
 
   private void handleTweakBypassTransform(ILogChannel log, TransformMeta transformMeta) {
     if (log.isDetailed()) {
-      log.logDetailed(
-          "Replacing transform '"
-              + transformMeta.getName()
-              + "' with an Dummy for Bypass transform tweak");
+      log.logDetailed("Replacing transform '" + transformMeta.getName() + "' with an Dummy for Bypass transform tweak");
     }
 
     replaceTransformWithDummy(log, transformMeta);
   }
 
-  private void handleTweakRemoveTransform(
-      ILogChannel log, PipelineMeta copyPipelineMeta, TransformMeta transformMeta) {
+  private void handleTweakRemoveTransform(ILogChannel log, PipelineMeta copyPipelineMeta, TransformMeta transformMeta) {
     if (log.isDetailed()) {
-      log.logDetailed(
-          "Removing transform '" + transformMeta.getName() + "' for Remove transform tweak");
+      log.logDetailed("Removing transform '" + transformMeta.getName() + "' for Remove transform tweak");
     }
 
     // Remove all hops connecting to the transform to be removed...

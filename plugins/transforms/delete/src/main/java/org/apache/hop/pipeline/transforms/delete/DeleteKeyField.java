@@ -31,9 +31,7 @@ public class DeleteKeyField {
   private String keyLookup;
 
   /** Comparator: =, <>, BETWEEN, ... */
-  @HopMetadataProperty(
-      key = "condition",
-      injectionKeyDescription = "Delete.Injection.KeyCondition.Field")
+  @HopMetadataProperty(key = "condition", injectionKeyDescription = "Delete.Injection.KeyCondition.Field")
   private String keyCondition;
 
   /** Extra field for between... */
@@ -42,8 +40,7 @@ public class DeleteKeyField {
 
   public DeleteKeyField() {}
 
-  public DeleteKeyField(
-      String keyLookup, String keyCondition, String keyStream, String keyStream2) {
+  public DeleteKeyField(String keyLookup, String keyCondition, String keyStream, String keyStream2) {
     this.keyLookup = keyLookup;
     this.keyCondition = keyCondition;
     this.keyStream = keyStream;
@@ -91,13 +88,12 @@ public class DeleteKeyField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     DeleteKeyField that = (DeleteKeyField) o;
-    return keyStream.equals(that.keyStream)
-        && keyLookup.equals(that.keyLookup)
-        && keyCondition.equals(that.keyCondition)
-        && Objects.equals(keyStream2, that.keyStream2);
+    return keyStream.equals(that.keyStream) && keyLookup.equals(that.keyLookup) && keyCondition.equals(that.keyCondition) && Objects.equals(keyStream2, that.keyStream2);
   }
 
   @Override

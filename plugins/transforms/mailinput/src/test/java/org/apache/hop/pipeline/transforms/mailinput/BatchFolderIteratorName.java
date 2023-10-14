@@ -36,15 +36,12 @@ public class BatchFolderIteratorName {
   public static void setUp() throws MessagingException {
     folder = mock(Folder.class);
     when(folder.getName()).thenReturn("INBOX");
-    when(folder.getMessages(anyInt(), anyInt()))
-        .thenAnswer(
-            (Answer<Message[]>)
-                invocation -> {
-                  Object[] args = invocation.getArguments();
-                  int start = ((Integer) args[0]).intValue();
-                  int end = ((Integer) args[1]).intValue();
-                  return new Message[end - start + 1];
-                });
+    when(folder.getMessages(anyInt(), anyInt())).thenAnswer((Answer<Message[]>) invocation -> {
+      Object[] args = invocation.getArguments();
+      int start = ((Integer) args[0]).intValue();
+      int end = ((Integer) args[1]).intValue();
+      return new Message[end - start + 1];
+    });
   }
 
   @Test

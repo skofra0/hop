@@ -33,7 +33,7 @@ public class HopFileException extends HopException {
    * Constructs a new throwable with the specified detail message.
    *
    * @param message - the detail message. The detail message is saved for later retrieval by the
-   *     getMessage() method.
+   *        getMessage() method.
    */
   public HopFileException(String message) {
     super(message);
@@ -44,7 +44,7 @@ public class HopFileException extends HopException {
    * : cause.toString()) (which typically contains the class and detail message of cause).
    *
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.)
    */
   public HopFileException(Throwable cause) {
     super(cause);
@@ -54,9 +54,9 @@ public class HopFileException extends HopException {
    * Constructs a new throwable with the specified detail message and cause.
    *
    * @param message the detail message (which is saved for later retrieval by the getMessage()
-   *     method).
+   *        method).
    * @param cause the cause (which is saved for later retrieval by the getCause() method). (A null
-   *     value is permitted, and indicates that the cause is nonexistent or unknown.)
+   *        value is permitted, and indicates that the cause is nonexistent or unknown.)
    */
   public HopFileException(String message, Throwable cause) {
     super(message, cause);
@@ -77,17 +77,7 @@ public class HopFileException extends HopException {
         // Add with stack trace elements of cause...
         StackTraceElement[] ste = cause.getStackTrace();
         for (int i = ste.length - 1; i >= 0; i--) {
-          retval +=
-              " at "
-                  + ste[i].getClassName()
-                  + "."
-                  + ste[i].getMethodName()
-                  + " ("
-                  + ste[i].getFileName()
-                  + ":"
-                  + ste[i].getLineNumber()
-                  + ")"
-                  + Const.CR;
+          retval += " at " + ste[i].getClassName() + "." + ste[i].getMethodName() + " (" + ste[i].getFileName() + ":" + ste[i].getLineNumber() + ")" + Const.CR;
         }
       }
     }

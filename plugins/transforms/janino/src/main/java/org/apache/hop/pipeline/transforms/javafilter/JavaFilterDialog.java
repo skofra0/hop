@@ -60,8 +60,7 @@ public class JavaFilterDialog extends BaseTransformDialog implements ITransformD
   private Map<String, Integer> inputFields;
   private ColumnInfo[] colinf;
 
-  public JavaFilterDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public JavaFilterDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
@@ -192,11 +191,7 @@ public class JavaFilterDialog extends BaseTransformDialog implements ITransformD
     fdlCondition.left = new FormAttachment(0, 0);
     fdlCondition.right = new FormAttachment(middle, -margin);
     wlCondition.setLayoutData(fdlCondition);
-    wCondition =
-        new StyledTextComp(
-            variables,
-            wSettingsGroup,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCondition = new StyledTextComp(variables, wSettingsGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wCondition);
     wCondition.addModifyListener(lsMod);
     FormData fdCondition = new FormData();
@@ -237,21 +232,18 @@ public class JavaFilterDialog extends BaseTransformDialog implements ITransformD
     // Add the currentMeta fields...
     fields.putAll(inputFields);
 
-    shell
-        .getDisplay()
-        .syncExec(
-            () -> {
-              // Add the newly create fields.
+    shell.getDisplay().syncExec(() -> {
+      // Add the newly create fields.
 
-              Set<String> keySet = fields.keySet();
-              List<String> entries = new ArrayList<>(keySet);
+      Set<String> keySet = fields.keySet();
+      List<String> entries = new ArrayList<>(keySet);
 
-              String[] fieldNames = entries.toArray(new String[entries.size()]);
+      String[] fieldNames = entries.toArray(new String[entries.size()]);
 
-              Const.sortStrings(fieldNames);
+      Const.sortStrings(fieldNames);
 
-              colinf[5].setComboValues(fieldNames);
-            });
+      colinf[5].setComboValues(fieldNames);
+    });
   }
 
   /** Copy information from the meta-data currentMeta to the dialog fields. */

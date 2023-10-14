@@ -50,8 +50,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
     bucketPath = getAbstractFileSystem().getBucketPath(getName()).trim();
   }
 
-  protected GoogleStorageFileObject(
-      AbstractFileName name, GoogleStorageFileSystem fs, Bucket bucket, Blob blob) {
+  protected GoogleStorageFileObject(AbstractFileName name, GoogleStorageFileSystem fs, Bucket bucket, Blob blob) {
     super(name, fs);
     bucketName = getAbstractFileSystem().getBucketName(getName()).trim();
     bucketPath = getAbstractFileSystem().getBucketPath(getName()).trim();
@@ -82,11 +81,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
             String child = lastPathElement(stripTrailingSlash(bucketPath));
             Page<Blob> page;
             if (parent.length() > 0) {
-              page =
-                  storage.list(
-                      bucketName,
-                      BlobListOption.currentDirectory(),
-                      BlobListOption.prefix(parent + "/"));
+              page = storage.list(bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(parent + "/"));
 
             } else {
               page = storage.list(bucketName, BlobListOption.currentDirectory());
@@ -149,11 +144,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
     } else {
       Page<Blob> page;
       if (bucketPath.length() > 0) {
-        page =
-            storage.list(
-                bucketName,
-                BlobListOption.currentDirectory(),
-                BlobListOption.prefix(appendTrailingSlash(bucketPath)));
+        page = storage.list(bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(appendTrailingSlash(bucketPath)));
       } else {
         page = storage.list(bucketName, BlobListOption.currentDirectory());
       }
@@ -170,8 +161,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
     if (!hasBucket()) {
       this.bucket = storage.create(BucketInfo.newBuilder(bucketName).build());
     } else {
-      this.blob =
-          storage.create(BlobInfo.newBuilder(bucket, appendTrailingSlash(bucketPath)).build());
+      this.blob = storage.create(BlobInfo.newBuilder(bucket, appendTrailingSlash(bucketPath)).build());
     }
   }
 
@@ -220,8 +210,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
     }
     Storage storage = getAbstractFileSystem().setupStorage();
     if (!hasObject()) {
-      this.blob =
-          storage.create(BlobInfo.newBuilder(bucket, stripTrailingSlash(bucketPath)).build());
+      this.blob = storage.create(BlobInfo.newBuilder(bucket, stripTrailingSlash(bucketPath)).build());
     }
     return new WriteChannelOutputStream(storage.writer(blob));
   }
@@ -236,18 +225,12 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
     if (!hasBucket()) {
       Page<Bucket> page = storage.list();
       for (Bucket b : page.iterateAll()) {
-        results.add(
-            new GoogleStorageFileObject(
-                new GoogleStorageFileName(b.getName(), FileType.FOLDER), getAbstractFileSystem()));
+        results.add(new GoogleStorageFileObject(new GoogleStorageFileName(b.getName(), FileType.FOLDER), getAbstractFileSystem()));
       }
     } else {
       Page<Blob> page;
       if (bucketPath.length() > 0) {
-        page =
-            storage.list(
-                bucketName,
-                BlobListOption.currentDirectory(),
-                BlobListOption.prefix(appendTrailingSlash(bucketPath)));
+        page = storage.list(bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(appendTrailingSlash(bucketPath)));
       } else {
         page = storage.list(bucketName, BlobListOption.currentDirectory());
       }
@@ -257,9 +240,7 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
         }
         results.add(
             new GoogleStorageFileObject(
-                new GoogleStorageFileName(
-                    getName().getPath() + "/" + lastPathElement(stripTrailingSlash(b.getName())),
-                    b.isDirectory() ? FileType.FOLDER : FileType.FILE),
+                new GoogleStorageFileName(getName().getPath() + "/" + lastPathElement(stripTrailingSlash(b.getName())), b.isDirectory() ? FileType.FOLDER : FileType.FILE),
                 getAbstractFileSystem(),
                 this.bucket != null ? bucket : storage.get(bucketName),
                 b));
@@ -306,8 +287,10 @@ public class GoogleStorageFileObject extends AbstractFileObject<GoogleStorageFil
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     GoogleStorageFileObject that = (GoogleStorageFileObject) o;
 
     return Objects.equals(getName().getPath(), that.getName().getPath());

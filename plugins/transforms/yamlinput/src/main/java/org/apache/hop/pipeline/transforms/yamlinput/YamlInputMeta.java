@@ -60,11 +60,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
 
   private static final String YES = "Y";
 
-  public static final String[] RequiredFilesDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] RequiredFilesDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
   public static final String[] RequiredFilesCode = new String[] {"N", "Y"};
 
   /** Array of filenames */
@@ -303,8 +299,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -350,9 +345,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
       retval.append("      ").append(XmlHandler.addTagValue("name", fileName[i]));
       retval.append("      ").append(XmlHandler.addTagValue("filemask", fileMask[i]));
       retval.append("      ").append(XmlHandler.addTagValue("file_required", fileRequired[i]));
-      retval
-          .append("      ")
-          .append(XmlHandler.addTagValue("include_subfolders", includeSubFolders[i]));
+      retval.append("      ").append(XmlHandler.addTagValue("include_subfolders", includeSubFolders[i]));
     }
     retval.append("    </file>").append(Const.CR);
 
@@ -400,10 +393,8 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
 
       addResultFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "addresultfile"));
       validating = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "validating"));
-      isIgnoreEmptyFile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "IsIgnoreEmptyFile"));
-      doNotFailIfNoFile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "doNotFailIfNoFile"));
+      isIgnoreEmptyFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "IsIgnoreEmptyFile"));
+      doNotFailIfNoFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "doNotFailIfNoFile"));
 
       includeRowNumber = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rownum"));
       rowNumberField = XmlHandler.getTagValue(transformNode, "rownum_field");
@@ -439,8 +430,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
       isAFile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "IsAFile"));
       yamlField = XmlHandler.getTagValue(transformNode, "YamlField");
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "YamlInputMeta.Exception.ErrorLoadingXml", e.toString()));
+      throw new HopXmlException(BaseMessages.getString(PKG, "YamlInputMeta.Exception.ErrorLoadingXml", e.toString()));
     }
   }
 
@@ -487,13 +477,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     int i;
     for (i = 0; i < inputFields.length; i++) {
@@ -537,8 +521,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
   }
 
   public FileInputList getFiles(IVariables variables) {
-    return FileInputList.createFileList(
-        variables, fileName, fileMask, fileRequired, includeSubFolderBoolean());
+    return FileInputList.createFileList(variables, fileName, fileMask, fileRequired, includeSubFolderBoolean());
   }
 
   private boolean[] includeSubFolderBoolean() {
@@ -565,62 +548,33 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
 
     // See if we get input...
     if (input.length <= 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInputExpected"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInput"), transformMeta);
       remarks.add(cr);
     }
 
     if (getInputFields().length <= 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInputField"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoInputField"), transformMeta);
       remarks.add(cr);
     }
 
     if (isInFields()) {
       if (Utils.isEmpty(getYamlField())) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoField"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoField"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.FieldOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.FieldOk"), transformMeta);
         remarks.add(cr);
       }
     } else {
       FileInputList fileInputList = getFiles(variables);
       if (fileInputList == null || fileInputList.getFiles().size() == 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoFiles"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.NoFiles"), transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "YamlInputMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "YamlInputMeta.CheckResult.FilesOk", "" + fileInputList.getFiles().size()), transformMeta);
         remarks.add(cr);
       }
     }
@@ -644,11 +598,7 @@ public class YamlInputMeta extends BaseTransformMeta<YamlInput, YamlInputData> {
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

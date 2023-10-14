@@ -72,14 +72,7 @@ public class FormulaMeta extends BaseTransformMeta<Formula, FormulaData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider) throws HopTransformException {
     for (FormulaMetaFunction formula : formulas) {
       if (Utils.isEmpty(formula.getReplaceField())) {
         // Not replacing a field.
@@ -87,8 +80,7 @@ public class FormulaMeta extends BaseTransformMeta<Formula, FormulaData> {
           // It's a new field!
 
           try {
-            IValueMeta v =
-                ValueMetaFactory.createValueMeta(formula.getFieldName(), formula.getValueType());
+            IValueMeta v = ValueMetaFactory.createValueMeta(formula.getFieldName(), formula.getValueType());
             v.setLength(formula.getValueLength(), formula.getValuePrecision());
             v.setOrigin(name);
             row.addValueMeta(v);
@@ -100,10 +92,7 @@ public class FormulaMeta extends BaseTransformMeta<Formula, FormulaData> {
         // Replacing a field
         int index = row.indexOfValue(formula.getReplaceField());
         if (index < 0) {
-          throw new HopTransformException(
-              "Unknown field specified to replace with a formula result: ["
-                  + formula.getReplaceField()
-                  + "]");
+          throw new HopTransformException("Unknown field specified to replace with a formula result: [" + formula.getReplaceField() + "]");
         }
         // Change the data type etc.
         //

@@ -33,7 +33,8 @@ import java.io.OutputStream;
 import static org.junit.Assert.assertEquals;
 
 public class WorkflowEntryDosToUnix_ConversionIdempotency_Test {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void init() throws Exception {
@@ -141,8 +142,7 @@ public class WorkflowEntryDosToUnix_ConversionIdempotency_Test {
     doTestForSignificantInput("\r\n", false, "\r\n");
   }
 
-  private void doTestForSignificantInput(
-      String contentPattern, boolean toUnix, String expectedPattern) throws Exception {
+  private void doTestForSignificantInput(String contentPattern, boolean toUnix, String expectedPattern) throws Exception {
     int copyTimes = (8 * 1024 / contentPattern.length()) + 1;
     String content = copyUntilReachesEightKbs(contentPattern, copyTimes);
     String expected = copyUntilReachesEightKbs(expectedPattern, copyTimes);

@@ -43,8 +43,7 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
   private Point click;
   private GuiActionLambdaBuilder<HopGuiPipelineContext> lambdaBuilder;
 
-  public HopGuiPipelineContext(
-      PipelineMeta pipelineMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
+  public HopGuiPipelineContext(PipelineMeta pipelineMeta, HopGuiPipelineGraph pipelineGraph, Point click) {
     this.pipelineMeta = pipelineMeta;
     this.pipelineGraph = pipelineGraph;
     this.click = click;
@@ -87,24 +86,15 @@ public class HopGuiPipelineContext extends BaseGuiContextHandler implements IGui
               transformPlugin.getName(),
               transformPlugin.getDescription(),
               transformPlugin.getImageFile(),
-              (shiftClicked, controlClicked, t) ->
-                  pipelineGraph.pipelineTransformDelegate.newTransform(
-                      pipelineMeta,
-                      transformPlugin.getIds()[0],
-                      transformPlugin.getName(),
-                      transformPlugin.getDescription(),
-                      controlClicked,
-                      true,
-                      click));
+              (shiftClicked, controlClicked, t) -> pipelineGraph.pipelineTransformDelegate
+                  .newTransform(pipelineMeta, transformPlugin.getIds()[0], transformPlugin.getName(), transformPlugin.getDescription(), controlClicked, true, click));
       createTransformAction.getKeywords().addAll(Arrays.asList(transformPlugin.getKeywords()));
       createTransformAction.setCategory(transformPlugin.getCategory());
-      createTransformAction.setCategoryOrder(
-          "9999_" + transformPlugin.getCategory()); // sort alphabetically
+      createTransformAction.setCategoryOrder("9999_" + transformPlugin.getCategory()); // sort alphabetically
       try {
         createTransformAction.setClassLoader(registry.getClassLoader(transformPlugin));
       } catch (HopPluginException e) {
-        LogChannel.UI.logError(
-            "Unable to get classloader for transform plugin " + transformPlugin.getIds()[0], e);
+        LogChannel.UI.logError("Unable to get classloader for transform plugin " + transformPlugin.getIds()[0], e);
       }
       createTransformAction.getKeywords().add(transformPlugin.getCategory());
       actions.add(createTransformAction);

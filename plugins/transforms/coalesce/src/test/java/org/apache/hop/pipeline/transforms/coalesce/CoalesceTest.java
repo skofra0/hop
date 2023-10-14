@@ -31,7 +31,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class CoalesceTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -41,12 +42,10 @@ public class CoalesceTest {
   @Test
   public void testLoadSave() throws Exception {
 
-    LoadSaveTester<CoalesceMeta> loadSaveTester =
-        new LoadSaveTester<>(CoalesceMeta.class);
+    LoadSaveTester<CoalesceMeta> loadSaveTester = new LoadSaveTester<>(CoalesceMeta.class);
 
-    loadSaveTester.getFieldLoadSaveValidatorFactory().registerValidator(
-            CoalesceMeta.class.getDeclaredField("fields").getGenericType().toString(),
-            new ListLoadSaveValidator<>(new CoalesceFieldLoadSaveValidator()));
+    loadSaveTester.getFieldLoadSaveValidatorFactory()
+        .registerValidator(CoalesceMeta.class.getDeclaredField("fields").getGenericType().toString(), new ListLoadSaveValidator<>(new CoalesceFieldLoadSaveValidator()));
 
     loadSaveTester.testSerialization();
   }
@@ -55,13 +54,7 @@ public class CoalesceTest {
 
     @Override
     public CoalesceField getTestObject() {
-      return new CoalesceField(
-              UUID.randomUUID().toString(),
-              UUID.randomUUID().toString(),
-              new Random().nextBoolean(),
-              UUID.randomUUID().toString(),
-              Collections.emptyList()
-      );
+      return new CoalesceField(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextBoolean(), UUID.randomUUID().toString(), Collections.emptyList());
     }
 
     @Override
@@ -70,10 +63,8 @@ public class CoalesceTest {
         return false;
       }
       CoalesceField actualObject = (CoalesceField) actual;
-      return testObject.getName().equals(actualObject.getName()) &&
-              testObject.getType().equals(actualObject.getType()) &&
-              testObject.isRemoveFields()==actualObject.isRemoveFields() &&
-              testObject.getInputFields().equals(actualObject.getInputFields());
+      return testObject.getName().equals(actualObject.getName()) && testObject.getType().equals(actualObject.getType())
+          && testObject.isRemoveFields() == actualObject.isRemoveFields() && testObject.getInputFields().equals(actualObject.getInputFields());
     }
   }
 }

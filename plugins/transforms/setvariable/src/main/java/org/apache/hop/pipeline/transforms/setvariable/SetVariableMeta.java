@@ -81,41 +81,23 @@ public class SetVariableMeta extends BaseTransformMeta<SetVariable, SetVariableD
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "SetVariableMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "SetVariableMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "SetVariableMeta.CheckResult.ReceivingFieldsFromPreviousTransforms",
-                  "" + prev.size()),
+              BaseMessages.getString(PKG, "SetVariableMeta.CheckResult.ReceivingFieldsFromPreviousTransforms", "" + prev.size()),
               transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SetVariableMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SetVariableMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "SetVariableMeta.CheckResult.NotReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SetVariableMeta.CheckResult.NotReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

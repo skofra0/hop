@@ -137,8 +137,7 @@ public class TableViewExportToExcelToolbarButton {
                 if (cellStyle == null) {
                   storeStyle = true;
                   cellStyle = workbook.createCellStyle();
-                  cellStyle.setDataFormat(
-                      creationHelper.createDataFormat().getFormat("yyyy/m/d h:mm:ss"));
+                  cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("yyyy/m/d h:mm:ss"));
                 }
                 break;
               case IValueMeta.TYPE_BOOLEAN:
@@ -168,9 +167,7 @@ public class TableViewExportToExcelToolbarButton {
 
       if (EnvironmentUtils.getInstance().isWeb()) {
         LogChannel.UI.logBasic("Asking where to save the Excel file...");
-        String filename =
-            BaseDialog.presentFileDialog(
-                shell, new String[] {"*.xlsx"}, new String[] {"Excel XLSX files"}, true);
+        String filename = BaseDialog.presentFileDialog(shell, new String[] {"*.xlsx"}, new String[] {"Excel XLSX files"}, true);
         if (StringUtils.isEmpty(filename)) {
           return;
         }
@@ -178,9 +175,7 @@ public class TableViewExportToExcelToolbarButton {
       } else {
         // Just create a temporary file
         //
-        fileObject =
-            HopVfs.createTempFile(
-                "apache-hop-table-export", ".xlsx", System.getProperty("java.io.tmpdir"));
+        fileObject = HopVfs.createTempFile("apache-hop-table-export", ".xlsx", System.getProperty("java.io.tmpdir"));
       }
 
       String filename = HopVfs.getFilename(fileObject);

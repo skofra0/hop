@@ -19,4 +19,5 @@ package com.mysql.jdbc;
 import java.sql.SQLException;
 
 /** Class for DatabaseLogExceptionFactory unit test */
-public class MysqlDataTruncation extends SQLException {}
+public class MysqlDataTruncation extends SQLException {
+}

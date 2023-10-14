@@ -21,8 +21,7 @@ public class EdgeMergeOperation extends EdgeMatchOperation {
     super(OperationType.EDGE_MERGE);
   }
 
-  public EdgeMergeOperation(
-      String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
+  public EdgeMergeOperation(String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
     this();
     this.sourceAlias = sourceAlias;
     this.edgeAlias = edgeAlias;

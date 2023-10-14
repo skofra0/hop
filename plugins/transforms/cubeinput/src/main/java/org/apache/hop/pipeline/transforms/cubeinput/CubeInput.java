@@ -40,13 +40,7 @@ public class CubeInput extends BaseTransform<CubeInputMeta, CubeInputData> {
 
   private int realRowLimit;
 
-  public CubeInput(
-      TransformMeta transformMeta,
-      CubeInputMeta meta,
-      CubeInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CubeInput(TransformMeta transformMeta, CubeInputMeta meta, CubeInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -92,12 +86,7 @@ public class CubeInput extends BaseTransform<CubeInputMeta, CubeInputData> {
 
         // Add filename to result filenames ?
         if (meta.isAddFilenameResult()) {
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  HopVfs.getFileObject(filename),
-                  getPipelineMeta().getName(),
-                  toString());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), toString());
           resultFile.setComment("File was read by a Cube Input transform");
           addResultFile(resultFile);
         }

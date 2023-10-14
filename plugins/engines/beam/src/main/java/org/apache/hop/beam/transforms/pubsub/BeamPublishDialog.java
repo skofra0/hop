@@ -50,8 +50,7 @@ public class BeamPublishDialog extends BaseTransformDialog implements ITransform
   private Combo wMessageType;
   private TextVar wMessageField;
 
-  public BeamPublishDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamPublishDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamPublishMeta) in;
   }
@@ -155,8 +154,7 @@ public class BeamPublishDialog extends BaseTransformDialog implements ITransform
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, lastControl);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, lastControl);
 
     getData();
 

@@ -46,8 +46,7 @@ import java.util.Map;
  *
  * @param <T> The subject class to execute
  */
-public interface IPipelineEngine<T extends PipelineMeta>
-    extends IVariables, ILoggingObject, INamedParameters, IExtensionData {
+public interface IPipelineEngine<T extends PipelineMeta> extends IVariables, ILoggingObject, INamedParameters, IExtensionData {
 
   public static final String PIPELINE_IN_PREVIEW_MODE = "PIPELINE_IN_PREVIEW_MODE";
 
@@ -136,7 +135,8 @@ public interface IPipelineEngine<T extends PipelineMeta>
   void waitUntilFinished();
 
   /**
-   * This method is called when all the finished listeners are executed and when the pipeline has completed.
+   * This method is called when all the finished listeners are executed and when the pipeline has
+   * completed.
    * @throws HopException
    */
   void pipelineCompleted() throws HopException;
@@ -194,8 +194,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @param listener
    * @throws HopException
    */
-  void addExecutionStartedListener(IExecutionStartedListener<IPipelineEngine<T>> listener)
-      throws HopException;
+  void addExecutionStartedListener(IExecutionStartedListener<IPipelineEngine<T>> listener) throws HopException;
 
   void firePipelineExecutionStartedListeners() throws HopException;
 
@@ -205,8 +204,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @param listener
    * @throws HopException
    */
-  void addExecutionFinishedListener(IExecutionFinishedListener<IPipelineEngine<T>> listener)
-      throws HopException;
+  void addExecutionFinishedListener(IExecutionFinishedListener<IPipelineEngine<T>> listener) throws HopException;
 
   void firePipelineExecutionFinishedListeners() throws HopException;
 
@@ -216,8 +214,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @param listener
    * @throws HopException
    */
-  void addExecutionStoppedListener(IExecutionStoppedListener<IPipelineEngine<T>> listener)
-      throws HopException;
+  void addExecutionStoppedListener(IExecutionStoppedListener<IPipelineEngine<T>> listener) throws HopException;
 
   void firePipelineExecutionStoppedListeners() throws HopException;
 
@@ -325,7 +322,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    *
    * @param preview
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   void setPreview(boolean preview);
 
   /**
@@ -333,7 +330,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    *
    * @return
    */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   boolean isPreview();
 
   /**
@@ -346,13 +343,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @param rowsReceived
    * @throws HopException
    */
-  void retrieveComponentOutput(
-      IVariables variables,
-      String componentName,
-      int copyNr,
-      int nrRows,
-      IPipelineComponentRowsReceived rowsReceived)
-      throws HopException;
+  void retrieveComponentOutput(IVariables variables, String componentName, int copyNr, int nrRows, IPipelineComponentRowsReceived rowsReceived) throws HopException;
 
   /**
    * Determine the pipeline engine which is executing this pipeline engine.
@@ -387,15 +378,14 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @return The rowset if one was found.
    * @throws RuntimeException in case the engine doesn't support this operation.
    */
-  IRowSet findRowSet(
-      String fromTransformName, int fromTransformCopy, String toTransformName, int toTransformCopy);
+  IRowSet findRowSet(String fromTransformName, int fromTransformCopy, String toTransformName, int toTransformCopy);
 
   /**
    * True if feedback need to be given every X rows
    *
    * @return True if feedback needs to be given
    */
-  @Deprecated(since="2.0") // TODO: move this to the run configuration API
+  @Deprecated(since = "2.0") // TODO: move this to the run configuration API
   boolean isFeedbackShown();
 
   /**
@@ -403,7 +393,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    *
    * @return The feedback size in rows
    */
-  @Deprecated(since="2.0") // TODO: move the run configuration API
+  @Deprecated(since = "2.0") // TODO: move the run configuration API
   int getFeedbackSize();
 
   /**
@@ -441,8 +431,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
    * @param subWorkflowName
    * @param subWorkflow
    */
-  void addActiveSubWorkflow(
-      final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow);
+  void addActiveSubWorkflow(final String subWorkflowName, IWorkflowEngine<WorkflowMeta> subWorkflow);
 
   /**
    * Get the active sub-workflow with the given name
@@ -470,7 +459,7 @@ public interface IPipelineEngine<T extends PipelineMeta>
 
   /**
    * @return Get a status description of the state of the engine (running, stopped, finished,
-   *     paused, halted, ...)
+   *         paused, halted, ...)
    */
   String getStatusDescription();
 
@@ -486,12 +475,12 @@ public interface IPipelineEngine<T extends PipelineMeta>
   Map<String, Object> getExtensionDataMap();
 
   /**
-   * Plugins can add individual data samplers which will act upon the rows passing through the transforms
-   * in the pipeline.  The execution information collected at this level will be sent to the execution
+   * Plugins can add individual data samplers which will act upon the rows passing through the
+   * transforms
+   * in the pipeline. The execution information collected at this level will be sent to the execution
    * information location if any is defined in the run configuration used to execute this pipeline.
    *
    * @param sampler The sampler to use
    */
-  <Store extends IExecutionDataSamplerStore, Sampler extends IExecutionDataSampler<Store>>
-    void addExecutionDataSampler(Sampler sampler) throws HopException;
+  <Store extends IExecutionDataSamplerStore, Sampler extends IExecutionDataSampler<Store>> void addExecutionDataSampler(Sampler sampler) throws HopException;
 }

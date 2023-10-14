@@ -46,8 +46,7 @@ public class AnalyseImpactProgressDialog {
    * Creates a new dialog that will handle the wait while determining the impact of the pipeline on
    * the databases used...
    */
-  public AnalyseImpactProgressDialog(
-      Shell shell, IVariables variables, PipelineMeta pipelineMeta, List<DatabaseImpact> impact) {
+  public AnalyseImpactProgressDialog(Shell shell, IVariables variables, PipelineMeta pipelineMeta, List<DatabaseImpact> impact) {
     this.shell = shell;
     this.variables = variables;
     this.pipelineMeta = pipelineMeta;
@@ -55,24 +54,18 @@ public class AnalyseImpactProgressDialog {
   }
 
   public boolean open() {
-    IRunnableWithProgress op =
-        monitor -> {
-          try {
-            impact.clear(); // Start with a clean slate!!
-            pipelineMeta.analyseImpact(variables, impact, new ProgressMonitorAdapter(monitor));
-            impactHasRun = true;
-          } catch (Exception e) {
-            impact.clear();
-            impactHasRun = false;
-            // Problem encountered generating impact list: {0}
-            throw new InvocationTargetException(
-                e,
-                BaseMessages.getString(
-                    PKG,
-                    "AnalyseImpactProgressDialog.RuntimeError.UnableToAnalyzeImpact.Exception",
-                    e.toString()));
-          }
-        };
+    IRunnableWithProgress op = monitor -> {
+      try {
+        impact.clear(); // Start with a clean slate!!
+        pipelineMeta.analyseImpact(variables, impact, new ProgressMonitorAdapter(monitor));
+        impactHasRun = true;
+      } catch (Exception e) {
+        impact.clear();
+        impactHasRun = false;
+        // Problem encountered generating impact list: {0}
+        throw new InvocationTargetException(e, BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.RuntimeError.UnableToAnalyzeImpact.Exception", e.toString()));
+      }
+    };
 
     try {
       ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
@@ -80,18 +73,14 @@ public class AnalyseImpactProgressDialog {
     } catch (InvocationTargetException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Title"),
-          BaseMessages.getString(
-              PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Messages"),
+          BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Title"),
+          BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Messages"),
           e);
     } catch (InterruptedException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Title"),
-          BaseMessages.getString(
-              PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Messages"),
+          BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Title"),
+          BaseMessages.getString(PKG, "AnalyseImpactProgressDialog.Dialog.UnableToAnalyzeImpact.Messages"),
           e);
     }
 

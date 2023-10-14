@@ -47,8 +47,7 @@ public class GetDatabaseInfoProgressDialog {
    * Creates a new dialog that will handle the wait while we're finding out what tables, views etc
    * we can reach in the database.
    */
-  public GetDatabaseInfoProgressDialog(
-      Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
+  public GetDatabaseInfoProgressDialog(Shell shell, IVariables variables, DatabaseMeta databaseMeta) {
     this.shell = shell;
     this.variables = variables;
     this.databaseMeta = databaseMeta;
@@ -58,24 +57,20 @@ public class GetDatabaseInfoProgressDialog {
     final DatabaseMetaInformation dmi = new DatabaseMetaInformation(variables, databaseMeta);
 
     if (!EnvironmentUtils.getInstance().isWeb()) {
-      IRunnableWithProgress op =
-          monitor -> {
-            try {
-              dmi.getData(
-                  HopGui.getInstance().getLoggingObject(), new ProgressMonitorAdapter(monitor));
-            } catch (Exception e) {
-              throw new InvocationTargetException(
-                  e,
-                  BaseMessages.getString(
-                      PKG, "GetDatabaseInfoProgressDialog.Error.GettingInfoTable", e.toString()));
-            }
-          };
+      IRunnableWithProgress op = monitor -> {
+        try {
+          dmi.getData(HopGui.getInstance().getLoggingObject(), new ProgressMonitorAdapter(monitor));
+        } catch (Exception e) {
+          throw new InvocationTargetException(e, BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.GettingInfoTable", e.toString()));
+        }
+      };
 
       try {
         ProgressMonitorDialog pmd = new ProgressMonitorDialog(shell);
         pmd.run(true, op);
 
-        if (pmd.getProgressMonitor().isCanceled()) return null;
+        if (pmd.getProgressMonitor().isCanceled())
+          return null;
       } catch (InvocationTargetException e) {
         showErrorDialog(e);
         return null;
@@ -103,10 +98,6 @@ public class GetDatabaseInfoProgressDialog {
    * @param e
    */
   private void showErrorDialog(Exception e) {
-    new ErrorDialog(
-        shell,
-        BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Title"),
-        BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Message"),
-        e);
+    new ErrorDialog(shell, BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Title"), BaseMessages.getString(PKG, "GetDatabaseInfoProgressDialog.Error.Message"), e);
   }
 }

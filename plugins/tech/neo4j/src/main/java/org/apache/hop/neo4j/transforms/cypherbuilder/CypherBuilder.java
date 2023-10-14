@@ -40,13 +40,7 @@ import java.util.Map;
 
 public class CypherBuilder extends BaseTransform<CypherBuilderMeta, CypherBuilderData> {
 
-  public CypherBuilder(
-      TransformMeta transformMeta,
-      CypherBuilderMeta meta,
-      CypherBuilderData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CypherBuilder(TransformMeta transformMeta, CypherBuilderMeta meta, CypherBuilderData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -141,19 +135,13 @@ public class CypherBuilder extends BaseTransform<CypherBuilderMeta, CypherBuilde
     for (Parameter parameter : meta.getParameters()) {
       int index = getInputRowMeta().indexOfValue(parameter.getInputFieldName());
       if (index < 0) {
-        throw new HopException(
-            "Input field of parameter " + parameter.getName() + " could not be found");
+        throw new HopException("Input field of parameter " + parameter.getName() + " could not be found");
       }
       data.parameterIndexes.add(index);
       // This defaults to String
-      GraphPropertyType propertyType =
-          GraphPropertyType.parseCode(Const.NVL(parameter.getNeoType(), ""));
+      GraphPropertyType propertyType = GraphPropertyType.parseCode(Const.NVL(parameter.getNeoType(), ""));
       if (propertyType == null) {
-        throw new HopException(
-            "Unable to convert to unknown property type for parameter '"
-                + parameter.getName()
-                + "', input field: "
-                + parameter.getInputFieldName());
+        throw new HopException("Unable to convert to unknown property type for parameter '" + parameter.getName() + "', input field: " + parameter.getInputFieldName());
       }
 
       data.parameterTypes.add(propertyType);
@@ -189,8 +177,7 @@ public class CypherBuilder extends BaseTransform<CypherBuilderMeta, CypherBuilde
 
     int retries = Const.toInt(resolve(meta.getRetries()), 0);
     if (retries < 0) {
-      throw new HopException(
-          "The number of retries on an error should be larger than or equal to 0, not " + retries);
+      throw new HopException("The number of retries on an error should be larger than or equal to 0, not " + retries);
     }
     data.attempts = 1 + retries;
   }
@@ -219,10 +206,7 @@ public class CypherBuilder extends BaseTransform<CypherBuilderMeta, CypherBuilde
           } else {
             // One UNWIND statement with all the data in a new Map in a "rows" parameter.
             //
-            Result result =
-                data.session.run(
-                    data.cypher,
-                    Map.of(CypherBuilderMeta.ROWS_UNWIND_MAP_ENTRY, data.rowParametersList));
+            Result result = data.session.run(data.cypher, Map.of(CypherBuilderMeta.ROWS_UNWIND_MAP_ENTRY, data.rowParametersList));
 
             // Parse the results and send its data to the next transforms.
             //
@@ -263,8 +247,7 @@ public class CypherBuilder extends BaseTransform<CypherBuilderMeta, CypherBuilde
 
         // Convert the Neo4j data type to the selected Hop data type
         //
-        outputRow[index] =
-            NeoHopData.convertNeoToHopValue(valueMeta.getName(), value, neoType, valueMeta);
+        outputRow[index] = NeoHopData.convertNeoToHopValue(valueMeta.getName(), value, neoType, valueMeta);
       }
 
       // Send the row on its merry way.

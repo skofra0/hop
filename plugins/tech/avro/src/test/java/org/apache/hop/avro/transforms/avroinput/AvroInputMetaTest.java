@@ -34,17 +34,9 @@ public class AvroInputMetaTest {
     meta.setDataFilenameField("filename");
 
     String xml = meta.getXml();
-    assertEquals(
-        "<data_filename_field>filename</data_filename_field>"
-            + Const.CR
-            + "<output_field>avro</output_field>"
-            + Const.CR,
-        xml);
+    assertEquals("<data_filename_field>filename</data_filename_field>" + Const.CR + "<output_field>avro</output_field>" + Const.CR, xml);
 
-    String transformXml =
-        XmlHandler.openTag(TransformMeta.XML_TAG)
-            + xml
-            + XmlHandler.closeTag(TransformMeta.XML_TAG);
+    String transformXml = XmlHandler.openTag(TransformMeta.XML_TAG) + xml + XmlHandler.closeTag(TransformMeta.XML_TAG);
     Node transformNode = XmlHandler.loadXmlString(transformXml, TransformMeta.XML_TAG);
 
     // Read it back...

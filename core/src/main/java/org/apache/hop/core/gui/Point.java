@@ -23,7 +23,7 @@ import java.util.Objects;
 public class Point {
 
   public Point() {
-    this(0,0);
+    this(0, 0);
   }
 
   public Point(int x, int y) {
@@ -66,7 +66,7 @@ public class Point {
 
   @Override
   public String toString() {
-    return "Point("+x+","+y+")";
+    return "Point(" + x + "," + y + ")";
   }
 
   public DPoint toDouble() {

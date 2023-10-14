@@ -167,8 +167,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
     xml.append("      ").append(XmlHandler.addTagValue("outputfilename", outputfilename));
     xml.append("      ").append(XmlHandler.addTagValue("iffileexists", ifFileExists));
     xml.append("      ").append(XmlHandler.addTagValue("addfiletoresult", addfiletoresult));
-    xml.append("      ")
-        .append(XmlHandler.addTagValue("filenamesfromprevious", filenamesfromprevious));
+    xml.append("      ").append(XmlHandler.addTagValue("filenamesfromprevious", filenamesfromprevious));
     xml.append("      ").append(XmlHandler.addTagValue("xsltfactory", xsltfactory));
 
     xml.append("    <parameters>").append(Const.CR);
@@ -195,8 +194,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       xmlfilename = XmlHandler.getTagValue(entrynode, "xmlfilename");
@@ -204,8 +202,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
       outputfilename = XmlHandler.getTagValue(entrynode, "outputfilename");
       ifFileExists = Const.toInt(XmlHandler.getTagValue(entrynode, "iffileexists"), -1);
       addfiletoresult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "addfiletoresult"));
-      filenamesfromprevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "filenamesfromprevious"));
+      filenamesfromprevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "filenamesfromprevious"));
       xsltfactory = XmlHandler.getTagValue(entrynode, "xsltfactory");
       if (xsltfactory == null) {
         xsltfactory = FACTORY_JAXP;
@@ -286,8 +283,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
         String name = resolve(getParameterName()[i]);
         String value = resolve(getParameterField()[i]);
         if (Utils.isEmpty(value)) {
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldMissing", name, i));
+          throw new HopTransformException(BaseMessages.getString(PKG, "Xslt.Exception.ParameterFieldMissing", name, i));
         }
         nameOfParams[i] = name;
         valueOfParams[i] = value;
@@ -298,11 +294,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
     List<RowMetaAndData> rows = result.getRows();
     if (isFilenamesFromPrevious()) {
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG,
-                "ActionXSLT.Log.ArgFromPrevious.Found",
-                (rows != null ? rows.size() : 0) + ""));
+        logDetailed(BaseMessages.getString(PKG, "ActionXSLT.Log.ArgFromPrevious.Found", (rows != null ? rows.size() : 0) + ""));
       }
     }
 
@@ -317,15 +309,8 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
         String xslfilenamePrevious = resultRow.getString(1, null);
         String ouputfilenamePrevious = resultRow.getString(2, null);
 
-        if (!Utils.isEmpty(xmlfilenamePrevious)
-            && !Utils.isEmpty(xslfilenamePrevious)
-            && !Utils.isEmpty(ouputfilenamePrevious)) {
-          if (processOneXMLFile(
-              xmlfilenamePrevious,
-              xslfilenamePrevious,
-              ouputfilenamePrevious,
-              result,
-              parentWorkflow)) {
+        if (!Utils.isEmpty(xmlfilenamePrevious) && !Utils.isEmpty(xslfilenamePrevious) && !Utils.isEmpty(ouputfilenamePrevious)) {
+          if (processOneXMLFile(xmlfilenamePrevious, xslfilenamePrevious, ouputfilenamePrevious, result, parentWorkflow)) {
             nrSuccess++;
           } else {
             nrErrors++;
@@ -340,11 +325,8 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
       String realxmlfilename = getRealxmlfilename();
       String realxslfilename = getRealxslfilename();
       String realoutputfilename = getoutputfilename();
-      if (!Utils.isEmpty(realxmlfilename)
-          && !Utils.isEmpty(realxslfilename)
-          && !Utils.isEmpty(realoutputfilename)) {
-        if (processOneXMLFile(
-            realxmlfilename, realxslfilename, realoutputfilename, result, parentWorkflow)) {
+      if (!Utils.isEmpty(realxmlfilename) && !Utils.isEmpty(realxslfilename) && !Utils.isEmpty(realoutputfilename)) {
+        if (processOneXMLFile(realxmlfilename, realxslfilename, realoutputfilename, result, parentWorkflow)) {
           nrSuccess++;
         } else {
           nrErrors++;
@@ -363,12 +345,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
     return result;
   }
 
-  private boolean processOneXMLFile(
-      String xmlfilename,
-      String xslfilename,
-      String outputfilename,
-      Result result,
-      IWorkflowEngine parentWorkflow) {
+  private boolean processOneXMLFile(String xmlfilename, String xslfilename, String outputfilename, Result result, IWorkflowEngine parentWorkflow) {
     boolean retval = false;
     FileObject xmlfile = null;
     FileObject xslfile = null;
@@ -383,19 +360,13 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
         if (outputfile.exists() && ifFileExists == 2) {
           // Output file exists
           // User want to fail
-          logError(
-              BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label")
-                  + outputfilename
-                  + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
+          logError(BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label") + outputfilename + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
           return retval;
 
         } else if (outputfile.exists() && ifFileExists == 1) {
           // Do nothing
           if (log.isDebug()) {
-            logDebug(
-                BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label")
-                    + outputfilename
-                    + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
+            logDebug(BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label") + outputfilename + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
           }
           retval = true;
           return retval;
@@ -406,28 +377,18 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
             // Format Date
 
             // Try to clean filename (without wildcard)
-            String wildcard =
-                outputfilename.substring(outputfilename.length() - 4, outputfilename.length());
+            String wildcard = outputfilename.substring(outputfilename.length() - 4, outputfilename.length());
             if (wildcard.substring(0, 1).equals(".")) {
               // Find wildcard
-              outputfilename =
-                  outputfilename.substring(0, outputfilename.length() - 4)
-                      + "_"
-                      + StringUtil.getFormattedDateTimeNow(true)
-                      + wildcard;
+              outputfilename = outputfilename.substring(0, outputfilename.length() - 4) + "_" + StringUtil.getFormattedDateTimeNow(true) + wildcard;
             } else {
               // did not find wildcard
               outputfilename = outputfilename + "_" + StringUtil.getFormattedDateTimeNow(true);
             }
             if (log.isDebug()) {
+              logDebug(BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label") + outputfilename + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
               logDebug(
-                  BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists1.Label")
-                      + outputfilename
-                      + BaseMessages.getString(PKG, "ActionXSLT.OuputFileExists2.Label"));
-              logDebug(
-                  BaseMessages.getString(PKG, "ActionXSLT.OuputFileNameChange1.Label")
-                      + outputfilename
-                      + BaseMessages.getString(PKG, "ActionXSLT.OuputFileNameChange2.Label"));
+                  BaseMessages.getString(PKG, "ActionXSLT.OuputFileNameChange1.Label") + outputfilename + BaseMessages.getString(PKG, "ActionXSLT.OuputFileNameChange2.Label"));
             }
           }
 
@@ -442,8 +403,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
           if (log.isDetailed()) {
             log.logDetailed(
                 BaseMessages.getString(PKG, "ActionXSL.Log.TransformerFactoryInfos"),
-                BaseMessages.getString(
-                    PKG, "ActionXSL.Log.TransformerFactory", factory.getClass().getName()));
+                BaseMessages.getString(PKG, "ActionXSL.Log.TransformerFactory", factory.getClass().getName()));
           }
 
           InputStream xslInputStream = HopVfs.getInputStream(xslfile);
@@ -458,9 +418,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
 
             if (log.isDetailed()) {
               log.logDetailed(
-                  BaseMessages.getString(PKG, "ActionXSL.Log.TransformerClassInfos"),
-                  BaseMessages.getString(
-                      PKG, "ActionXSL.Log.TransformerClass", xformer.getClass().getName()));
+                  BaseMessages.getString(PKG, "ActionXSL.Log.TransformerClassInfos"), BaseMessages.getString(PKG, "ActionXSL.Log.TransformerClass", xformer.getClass().getName()));
             }
 
             // Do we need to set output properties?
@@ -485,12 +443,7 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
 
             if (isAddFileToResult()) {
               // Add output filename to output files
-              ResultFile resultFile =
-                  new ResultFile(
-                      ResultFile.FILE_TYPE_GENERAL,
-                      HopVfs.getFileObject(outputfilename),
-                      parentWorkflow.getWorkflowName(),
-                      toString());
+              ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(outputfilename), parentWorkflow.getWorkflowName(), toString());
               result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
             }
 
@@ -519,28 +472,17 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
       } else {
 
         if (!xmlfile.exists()) {
-          logError(
-              BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist1.Label")
-                  + xmlfilename
-                  + BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist2.Label"));
+          logError(BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist1.Label") + xmlfilename + BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist2.Label"));
         }
         if (!xslfile.exists()) {
-          logError(
-              BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist1.Label")
-                  + xmlfilename
-                  + BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist2.Label"));
+          logError(BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist1.Label") + xmlfilename + BaseMessages.getString(PKG, "ActionXSLT.FileDoesNotExist2.Label"));
         }
       }
     } catch (Exception e) {
       logError(
-          BaseMessages.getString(PKG, "ActionXSLT.ErrorXLST.Label")
-              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXML1.Label")
-              + xmlfilename
-              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXML2.Label")
-              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXSL1.Label")
-              + xslfilename
-              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXSL2.Label")
-              + e.getMessage());
+          BaseMessages.getString(PKG, "ActionXSLT.ErrorXLST.Label") + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXML1.Label") + xmlfilename
+              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXML2.Label") + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXSL1.Label") + xslfilename
+              + BaseMessages.getString(PKG, "ActionXSLT.ErrorXLSTXSL2.Label") + e.getMessage());
     } finally {
       try {
         if (xmlfile != null) {
@@ -599,30 +541,21 @@ public class Xslt extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if ((!Utils.isEmpty(xslfilename)) && (!Utils.isEmpty(xmlfilename))) {
       String realXmlFileName = variables.resolve(xmlfilename);
       String realXslFileName = variables.resolve(xslfilename);
       ResourceReference reference = new ResourceReference(this);
-      reference
-          .getEntries()
-          .add(new ResourceEntry(realXmlFileName, ResourceEntry.ResourceType.FILE));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(realXslFileName, ResourceEntry.ResourceType.FILE));
+      reference.getEntries().add(new ResourceEntry(realXmlFileName, ResourceEntry.ResourceType.FILE));
+      reference.getEntries().add(new ResourceEntry(realXslFileName, ResourceEntry.ResourceType.FILE));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta jobMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta jobMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     putVariableSpace(ctx, getVariables());
     putValidators(ctx, notBlankValidator(), fileExistsValidator());

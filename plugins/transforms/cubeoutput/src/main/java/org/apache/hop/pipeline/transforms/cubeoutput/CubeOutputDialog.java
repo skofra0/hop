@@ -48,8 +48,7 @@ public class CubeOutputDialog extends BaseTransformDialog implements ITransformD
 
   private final CubeOutputMeta input;
 
-  public CubeOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public CubeOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (CubeOutputMeta) in;
     this.pipelineMeta = pipelineMeta;
@@ -128,8 +127,7 @@ public class CubeOutputDialog extends BaseTransformDialog implements ITransformD
 
     // Open new File at Init
     Label wlDoNotOpenNewFileInit = new Label(shell, SWT.RIGHT);
-    wlDoNotOpenNewFileInit.setText(
-        BaseMessages.getString(PKG, "CubeOutputDialog.DoNotOpenNewFileInit.Label"));
+    wlDoNotOpenNewFileInit.setText(BaseMessages.getString(PKG, "CubeOutputDialog.DoNotOpenNewFileInit.Label"));
     PropsUi.setLook(wlDoNotOpenNewFileInit);
     FormData fdlDoNotOpenNewFileInit = new FormData();
     fdlDoNotOpenNewFileInit.left = new FormAttachment(0, 0);
@@ -137,21 +135,19 @@ public class CubeOutputDialog extends BaseTransformDialog implements ITransformD
     fdlDoNotOpenNewFileInit.right = new FormAttachment(middle, -margin);
     wlDoNotOpenNewFileInit.setLayoutData(fdlDoNotOpenNewFileInit);
     wDoNotOpenNewFileInit = new Button(shell, SWT.CHECK);
-    wDoNotOpenNewFileInit.setToolTipText(
-        BaseMessages.getString(PKG, "CubeOutputDialog.DoNotOpenNewFileInit.Tooltip"));
+    wDoNotOpenNewFileInit.setToolTipText(BaseMessages.getString(PKG, "CubeOutputDialog.DoNotOpenNewFileInit.Tooltip"));
     PropsUi.setLook(wDoNotOpenNewFileInit);
     FormData fdDoNotOpenNewFileInit = new FormData();
     fdDoNotOpenNewFileInit.left = new FormAttachment(middle, 0);
     fdDoNotOpenNewFileInit.top = new FormAttachment(wlDoNotOpenNewFileInit, 0, SWT.CENTER);
     fdDoNotOpenNewFileInit.right = new FormAttachment(100, 0);
     wDoNotOpenNewFileInit.setLayoutData(fdDoNotOpenNewFileInit);
-    wDoNotOpenNewFileInit.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDoNotOpenNewFileInit.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Add File to the result files name
     Label wlAddToResult = new Label(shell, SWT.RIGHT);
@@ -163,21 +159,19 @@ public class CubeOutputDialog extends BaseTransformDialog implements ITransformD
     fdlAddToResult.right = new FormAttachment(middle, -margin);
     wlAddToResult.setLayoutData(fdlAddToResult);
     wAddToResult = new Button(shell, SWT.CHECK);
-    wAddToResult.setToolTipText(
-        BaseMessages.getString(PKG, "CubeOutputDialog.AddFileToResult.Tooltip"));
+    wAddToResult.setToolTipText(BaseMessages.getString(PKG, "CubeOutputDialog.AddFileToResult.Tooltip"));
     PropsUi.setLook(wAddToResult);
     FormData fdAddToResult = new FormData();
     fdAddToResult.left = new FormAttachment(middle, 0);
     fdAddToResult.top = new FormAttachment(wlAddToResult, 0, SWT.CENTER);
     fdAddToResult.right = new FormAttachment(100, 0);
     wAddToResult.setLayoutData(fdAddToResult);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddToResult.addSelectionListener(lsSelR);
 
     wOk = new Button(shell, SWT.PUSH);
@@ -193,17 +187,12 @@ public class CubeOutputDialog extends BaseTransformDialog implements ITransformD
 
     wbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.cube", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "CubeOutputDialog.FilterNames.Options.CubeFiles"),
-                  BaseMessages.getString(PKG, "CubeOutputDialog.FilterNames.Options.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            shell, wFilename, variables, new String[] {"*.cube", "*"},
+            new String[] {
+                BaseMessages.getString(PKG, "CubeOutputDialog.FilterNames.Options.CubeFiles"),
+                BaseMessages.getString(PKG, "CubeOutputDialog.FilterNames.Options.AllFiles")},
+            true));
 
     getData();
 

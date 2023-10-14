@@ -75,8 +75,7 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
   private Label wlErrorDesc;
   private TextVar wErrorDesc;
 
-  public UniqueRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public UniqueRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (UniqueRowsMeta) in;
   }
@@ -149,12 +148,10 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     fdCount.left = new FormAttachment(middle, 0);
     fdCount.top = new FormAttachment(wlCount, 0, SWT.CENTER);
     wCount.setLayoutData(fdCount);
-    wCount.addListener(
-        SWT.Selection,
-        e -> {
-          input.setChanged();
-          setFlags();
-        });
+    wCount.addListener(SWT.Selection, e -> {
+      input.setChanged();
+      setFlags();
+    });
 
     wlCountField = new Label(wSettings, SWT.LEFT);
     wlCountField.setText(BaseMessages.getString(PKG, "UniqueRowsDialog.CounterField.Label"));
@@ -173,8 +170,7 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     wCountField.setLayoutData(fdCountField);
 
     Label wlRejectDuplicateRow = new Label(wSettings, SWT.RIGHT);
-    wlRejectDuplicateRow.setText(
-        BaseMessages.getString(PKG, "UniqueRowsDialog.RejectDuplicateRow.Label"));
+    wlRejectDuplicateRow.setText(BaseMessages.getString(PKG, "UniqueRowsDialog.RejectDuplicateRow.Label"));
     PropsUi.setLook(wlRejectDuplicateRow);
     FormData fdlRejectDuplicateRow = new FormData();
     fdlRejectDuplicateRow.left = new FormAttachment(0, 0);
@@ -183,18 +179,15 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     wlRejectDuplicateRow.setLayoutData(fdlRejectDuplicateRow);
     wRejectDuplicateRow = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wRejectDuplicateRow);
-    wRejectDuplicateRow.setToolTipText(
-        BaseMessages.getString(PKG, "UniqueRowsDialog.RejectDuplicateRow.ToolTip", Const.CR));
+    wRejectDuplicateRow.setToolTipText(BaseMessages.getString(PKG, "UniqueRowsDialog.RejectDuplicateRow.ToolTip", Const.CR));
     FormData fdRejectDuplicateRow = new FormData();
     fdRejectDuplicateRow.left = new FormAttachment(middle, 0);
     fdRejectDuplicateRow.top = new FormAttachment(wlRejectDuplicateRow, 0, SWT.CENTER);
     wRejectDuplicateRow.setLayoutData(fdRejectDuplicateRow);
-    wRejectDuplicateRow.addListener(
-        SWT.Selection,
-        e -> {
-          input.setChanged();
-          setErrorDesc();
-        });
+    wRejectDuplicateRow.addListener(SWT.Selection, e -> {
+      input.setChanged();
+      setErrorDesc();
+    });
 
     wlErrorDesc = new Label(wSettings, SWT.LEFT);
     wlErrorDesc.setText(BaseMessages.getString(PKG, "UniqueRowsDialog.ErrorDescription.Label"));
@@ -243,27 +236,10 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "UniqueRowsDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "UniqueRowsDialog.ColumnInfo.IgnoreCase"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"Y", "N"},
-              true)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "UniqueRowsDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "UniqueRowsDialog.ColumnInfo.IgnoreCase"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}, true)};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -275,23 +251,22 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -378,14 +353,12 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     input.setErrorDescription(wErrorDesc.getText());
     input.setCompareFields(fields);
 
-
     if ("Y".equalsIgnoreCase(props.getCustomParameter(STRING_SORT_WARNING_PARAMETER, "Y"))) {
       MessageDialogWithToggle md =
           new MessageDialogWithToggle(
               shell,
               BaseMessages.getString(PKG, "UniqueRowsDialog.InputNeedSort.DialogTitle"),
-              BaseMessages.getString(PKG, "UniqueRowsDialog.InputNeedSort.DialogMessage", Const.CR)
-                  + Const.CR,
+              BaseMessages.getString(PKG, "UniqueRowsDialog.InputNeedSort.DialogMessage", Const.CR) + Const.CR,
               SWT.ICON_WARNING,
               new String[] {BaseMessages.getString(PKG, "UniqueRowsDialog.InputNeedSort.Option1")},
               BaseMessages.getString(PKG, "UniqueRowsDialog.InputNeedSort.Option2"),
@@ -398,14 +371,10 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     // unselected. This has to be completed before the transformname is changed
     if (!wRejectDuplicateRow.getSelection()) {
       List<PipelineHopMeta> hops = this.pipelineMeta.getPipelineHops();
-      IntStream.range(0, hops.size() - 1)
-              .filter(
-                      hopInd -> {
-                        PipelineHopMeta hop = hops.get(hopInd);
-                        return (hop.isErrorHop()
-                                && hop.getFromTransform().getName().equals(this.transformName));
-                      })
-              .forEach(hopInd -> this.pipelineMeta.removePipelineHop(hopInd));
+      IntStream.range(0, hops.size() - 1).filter(hopInd -> {
+        PipelineHopMeta hop = hops.get(hopInd);
+        return (hop.isErrorHop() && hop.getFromTransform().getName().equals(this.transformName));
+      }).forEach(hopInd -> this.pipelineMeta.removePipelineHop(hopInd));
     }
 
     transformName = wTransformName.getText(); // return value
@@ -417,8 +386,7 @@ public class UniqueRowsDialog extends BaseTransformDialog implements ITransformD
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

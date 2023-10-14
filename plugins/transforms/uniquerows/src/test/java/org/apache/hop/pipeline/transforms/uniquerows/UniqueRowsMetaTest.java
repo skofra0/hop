@@ -35,7 +35,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class UniqueRowsMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrip() throws HopException {
@@ -43,30 +44,20 @@ public class UniqueRowsMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> fieldLoadSaveValidatorAttributeMap = new HashMap<>();
 
     // Arrays need to be consistent length
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
-    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator =
-        new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 25);
+    IFieldLoadSaveValidator<boolean[]> booleanArrayLoadSaveValidator = new PrimitiveBooleanArrayLoadSaveValidator(new BooleanLoadSaveValidator(), 25);
 
     fieldLoadSaveValidatorAttributeMap.put("name", stringArrayLoadSaveValidator);
     fieldLoadSaveValidatorAttributeMap.put("case_insensitive", booleanArrayLoadSaveValidator);
-    fieldLoadSaveValidatorAttributeMap.put(
-        "compareFields", new ListLoadSaveValidator<>(new UniqueFieldLoadSaveTester()));
+    fieldLoadSaveValidatorAttributeMap.put("compareFields", new ListLoadSaveValidator<>(new UniqueFieldLoadSaveTester()));
 
     LoadSaveTester loadSaveTester =
-        new LoadSaveTester(
-            UniqueRowsMeta.class,
-            new ArrayList<>(),
-            new HashMap<>(),
-            new HashMap<>(),
-            fieldLoadSaveValidatorAttributeMap,
-            new HashMap<>());
+        new LoadSaveTester(UniqueRowsMeta.class, new ArrayList<>(), new HashMap<>(), new HashMap<>(), fieldLoadSaveValidatorAttributeMap, new HashMap<>());
 
     loadSaveTester.testSerialization();
   }
 
-  private static final class UniqueFieldLoadSaveTester
-      implements IFieldLoadSaveValidator<UniqueField> {
+  private static final class UniqueFieldLoadSaveTester implements IFieldLoadSaveValidator<UniqueField> {
 
     @Override
     public UniqueField getTestObject() {
@@ -79,8 +70,7 @@ public class UniqueRowsMetaTest {
         return false;
       }
       UniqueField actualObject = (UniqueField) actual;
-      return testObject.getName().equals(actualObject.getName())
-          && testObject.isCaseInsensitive() == actualObject.isCaseInsensitive();
+      return testObject.getName().equals(actualObject.getName()) && testObject.isCaseInsensitive() == actualObject.isCaseInsensitive();
     }
   }
 }

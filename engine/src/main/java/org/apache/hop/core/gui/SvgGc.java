@@ -132,8 +132,7 @@ public class SvgGc implements IGc {
 
   private AffineTransform originalTransform;
 
-  public SvgGc(HopSvgGraphics2D gc, Point area, int iconSize, int xOffset, int yOffset)
-      throws HopException {
+  public SvgGc(HopSvgGraphics2D gc, Point area, int iconSize, int xOffset, int yOffset) throws HopException {
     this.gc = gc;
     this.transformImages = getTransformImageFilenames();
     this.actionImages = getActionImageFilenames();
@@ -199,39 +198,29 @@ public class SvgGc implements IGc {
     imageLocked = new SvgFile("ui/images/lock.svg", this.getClass().getClassLoader());
     imageFailure = new SvgFile("ui/images/failure.svg", this.getClass().getClassLoader());
     imageEdit = new SvgFile("ui/images/edit.svg", this.getClass().getClassLoader());
-    imageContextMenu =
-        new SvgFile("ui/images/settings.svg", this.getClass().getClassLoader()); // Used ?
+    imageContextMenu = new SvgFile("ui/images/settings.svg", this.getClass().getClassLoader()); // Used ?
     imageTrue = new SvgFile("ui/images/true.svg", this.getClass().getClassLoader());
-    imageTrueDisabled =
-        new SvgFile("ui/images/true-disabled.svg", this.getClass().getClassLoader());
+    imageTrueDisabled = new SvgFile("ui/images/true-disabled.svg", this.getClass().getClassLoader());
     imageFalse = new SvgFile("ui/images/false.svg", this.getClass().getClassLoader());
-    imageFalseDisabled =
-        new SvgFile("ui/images/false-disabled.svg", this.getClass().getClassLoader());
+    imageFalseDisabled = new SvgFile("ui/images/false-disabled.svg", this.getClass().getClassLoader());
     imageError = new SvgFile("ui/images/error.svg", this.getClass().getClassLoader());
-    imageErrorDisabled =
-        new SvgFile("ui/images/error-disabled.svg", this.getClass().getClassLoader());
+    imageErrorDisabled = new SvgFile("ui/images/error-disabled.svg", this.getClass().getClassLoader());
     imageInfo = new SvgFile("ui/images/info.svg", this.getClass().getClassLoader());
-    imageInfoDisabled =
-        new SvgFile("ui/images/info-disabled.svg", this.getClass().getClassLoader());
+    imageInfoDisabled = new SvgFile("ui/images/info-disabled.svg", this.getClass().getClassLoader());
     imageTarget = new SvgFile("ui/images/target.svg", this.getClass().getClassLoader());
-    imageTargetDisabled =
-        new SvgFile("ui/images/target-disabled.svg", this.getClass().getClassLoader());
+    imageTargetDisabled = new SvgFile("ui/images/target-disabled.svg", this.getClass().getClassLoader());
     imageInput = new SvgFile("ui/images/input.svg", this.getClass().getClassLoader());
     imageOutput = new SvgFile("ui/images/output.svg", this.getClass().getClassLoader());
     imageArrow = new SvgFile("ui/images/arrow.svg", this.getClass().getClassLoader());
     imageCopyRows = new SvgFile("ui/images/copy-rows.svg", this.getClass().getClassLoader());
-    imageCopyRowsDisabled =
-        new SvgFile("ui/images/copy-rows-disabled.svg", this.getClass().getClassLoader());
+    imageCopyRowsDisabled = new SvgFile("ui/images/copy-rows-disabled.svg", this.getClass().getClassLoader());
     imageLoadBalance = new SvgFile("ui/images/scales.svg", this.getClass().getClassLoader());
     imageCheckpoint = new SvgFile("ui/images/checkpoint.svg", this.getClass().getClassLoader());
     imageDatabase = new SvgFile("ui/images/database.svg", this.getClass().getClassLoader());
     imageParallel = new SvgFile("ui/images/parallel-hop.svg", this.getClass().getClassLoader());
-    imageParallelDisabled =
-        new SvgFile("ui/images/parallel-hop-disabled.svg", this.getClass().getClassLoader());
-    imageUnconditional =
-        new SvgFile("ui/images/unconditional.svg", this.getClass().getClassLoader());
-    imageUnconditionalDisabled =
-        new SvgFile("ui/images/unconditional-disabled.svg", this.getClass().getClassLoader());
+    imageParallelDisabled = new SvgFile("ui/images/parallel-hop-disabled.svg", this.getClass().getClassLoader());
+    imageUnconditional = new SvgFile("ui/images/unconditional.svg", this.getClass().getClassLoader());
+    imageUnconditionalDisabled = new SvgFile("ui/images/unconditional-disabled.svg", this.getClass().getClassLoader());
     imageBusy = new SvgFile("ui/images/busy.svg", this.getClass().getClassLoader());
     imageInject = new SvgFile("ui/images/inject.svg", this.getClass().getClassLoader());
     imageMissing = new SvgFile("ui/images/missing.svg", this.getClass().getClassLoader());
@@ -239,15 +228,11 @@ public class SvgGc implements IGc {
 
     // Hop arrow
     //
-    imageArrowDefault =
-        new SvgFile("ui/images/hop-arrow-default.svg", this.getClass().getClassLoader());
-    imageArrowFalse =
-        new SvgFile("ui/images/hop-arrow-false.svg", this.getClass().getClassLoader());
+    imageArrowDefault = new SvgFile("ui/images/hop-arrow-default.svg", this.getClass().getClassLoader());
+    imageArrowFalse = new SvgFile("ui/images/hop-arrow-false.svg", this.getClass().getClassLoader());
     imageArrowTrue = new SvgFile("ui/images/hop-arrow-true.svg", this.getClass().getClassLoader());
-    imageArrowError =
-        new SvgFile("ui/images/hop-arrow-error.svg", this.getClass().getClassLoader());
-    imageArrowDisabled =
-        new SvgFile("ui/images/hop-arrow-disabled.svg", this.getClass().getClassLoader());
+    imageArrowError = new SvgFile("ui/images/hop-arrow-error.svg", this.getClass().getClassLoader());
+    imageArrowDisabled = new SvgFile("ui/images/hop-arrow-disabled.svg", this.getClass().getClassLoader());
 
     fontGraph = new Font("FreeSans", Font.PLAIN, 10);
     fontNote = new Font("FreeSans", Font.PLAIN, 10);
@@ -307,8 +292,7 @@ public class SvgGc implements IGc {
   }
 
   @Override
-  public void drawRoundRectangle(
-      int x, int y, int width, int height, int circleWidth, int circleHeight) {
+  public void drawRoundRectangle(int x, int y, int width, int height, int circleWidth, int circleHeight) {
     gc.drawRoundRect(x + xOffset, y + yOffset, width, height, circleWidth, circleHeight);
   }
 
@@ -351,8 +335,7 @@ public class SvgGc implements IGc {
   }
 
   @Override
-  public void fillRoundRectangle(
-      int x, int y, int width, int height, int circleWidth, int circleHeight) {
+  public void fillRoundRectangle(int x, int y, int width, int height, int circleWidth, int circleHeight) {
     switchForegroundBackgroundColors();
     gc.fillRoundRect(x + xOffset, y + yOffset, width, height, circleWidth, circleHeight);
     switchForegroundBackgroundColors();
@@ -366,8 +349,7 @@ public class SvgGc implements IGc {
   @Override
   public void setAlpha(int alpha) {
     this.alpha = alpha;
-    AlphaComposite alphaComposite =
-        AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha / 255);
+    AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha / 255);
     gc.setComposite(alphaComposite);
   }
 
@@ -460,28 +442,16 @@ public class SvgGc implements IGc {
         dash = null;
         break;
       case DOT:
-        dash =
-            new float[] {
-              5,
-            };
+        dash = new float[] {5,};
         break;
       case DASHDOT:
-        dash =
-            new float[] {
-              10, 5, 5, 5,
-            };
+        dash = new float[] {10, 5, 5, 5,};
         break;
       case PARALLEL:
-        dash =
-            new float[] {
-              10, 5, 10, 5,
-            };
+        dash = new float[] {10, 5, 10, 5,};
         break;
       case DASH:
-        dash =
-            new float[] {
-              6, 2,
-            };
+        dash = new float[] {6, 2,};
         break;
       default:
         throw new RuntimeException("Unhandled line style!");
@@ -532,13 +502,9 @@ public class SvgGc implements IGc {
   @Override
   public void setAntialias(boolean antiAlias) {
     if (antiAlias) {
-      RenderingHints hints =
-          new RenderingHints(
-              RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-      hints.add(
-          new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
-      hints.add(
-          new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+      RenderingHints hints = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      hints.add(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+      hints.add(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
       gc.setRenderingHints(hints);
     }
   }
@@ -674,22 +640,13 @@ public class SvgGc implements IGc {
   }
 
   @Override
-  public void drawImage(EImage image, int x, int y, float magnification, double angle)
-      throws HopException {
+  public void drawImage(EImage image, int x, int y, float magnification, double angle) throws HopException {
     SvgFile svgFile = getNativeImage(image);
-    drawImage(
-        svgFile,
-        x + xOffset - miniIconSize / 2,
-        y + yOffset - miniIconSize / 2,
-        miniIconSize,
-        miniIconSize,
-        magnification,
-        angle);
+    drawImage(svgFile, x + xOffset - miniIconSize / 2, y + yOffset - miniIconSize / 2, miniIconSize, miniIconSize, magnification, angle);
   }
 
   @Override
-  public void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification)
-      throws HopException {
+  public void drawTransformIcon(int x, int y, TransformMeta transformMeta, float magnification) throws HopException {
 
     SvgFile svgFile;
     if (transformMeta.isMissing()) {
@@ -707,8 +664,7 @@ public class SvgGc implements IGc {
   }
 
   @Override
-  public void drawActionIcon(int x, int y, ActionMeta actionMeta, float magnification)
-      throws HopException {
+  public void drawActionIcon(int x, int y, ActionMeta actionMeta, float magnification) throws HopException {
 
     SvgFile svgFile;
     if (actionMeta.isMissing()) {
@@ -726,15 +682,7 @@ public class SvgGc implements IGc {
   }
 
   @Override
-  public void drawImage(
-      SvgFile svgFile,
-      int x,
-      int y,
-      int desiredWidth,
-      int desiredHeight,
-      float magnification,
-      double angle)
-      throws HopException {
+  public void drawImage(SvgFile svgFile, int x, int y, int desiredWidth, int desiredHeight, float magnification, double angle) throws HopException {
 
     // Load the SVG XML document
     // Simply embed the SVG into the parent document (HopSvgGraphics2D)
@@ -760,15 +708,8 @@ public class SvgGc implements IGc {
       yScaleFactor = Math.min(xScaleFactor, yScaleFactor);
 
       gc.embedSvg(
-          svgDocument.getRootElement(),
-          svgFile.getFilename(),
-          x - cacheEntry.getX(),
-          y - cacheEntry.getY(),
-          cacheEntry.getWidth(),
-          cacheEntry.getHeight(),
-          xScaleFactor,
-          yScaleFactor,
-          Math.toDegrees(angle));
+          svgDocument.getRootElement(), svgFile.getFilename(), x - cacheEntry.getX(), y - cacheEntry.getY(), cacheEntry.getWidth(), cacheEntry.getHeight(), xScaleFactor,
+          yScaleFactor, Math.toDegrees(angle));
     } catch (Exception e) {
       throw new HopException("Unable to load SVG file '" + svgFile.getFilename() + "'", e);
     }

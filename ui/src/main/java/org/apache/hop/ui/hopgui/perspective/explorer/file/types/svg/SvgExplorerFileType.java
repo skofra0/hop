@@ -29,28 +29,21 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileType;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.capabilities.FileTypeCapabilities;
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.base.BaseExplorerFileType;
 
-@HopFileTypePlugin(
-    id = "SvgExplorerFileType",
-    name = "SVG File Type",
-    description = "SVG file handling in the explorer perspective",
-    image = "ui/images/image.svg")
-public class SvgExplorerFileType extends BaseExplorerFileType<SvgExplorerFileTypeHandler>
-    implements IExplorerFileType<SvgExplorerFileTypeHandler> {
+@HopFileTypePlugin(id = "SvgExplorerFileType", name = "SVG File Type", description = "SVG file handling in the explorer perspective", image = "ui/images/image.svg")
+public class SvgExplorerFileType extends BaseExplorerFileType<SvgExplorerFileTypeHandler> implements IExplorerFileType<SvgExplorerFileTypeHandler> {
 
   public SvgExplorerFileType() {
-    super("SVG file", ".svg", new String[] {"*.svg"}, new String[] {"SVG Files"}, 
+    super("SVG file", ".svg", new String[] {"*.svg"}, new String[] {"SVG Files"},
         FileTypeCapabilities.getCapabilities(IHopFileType.CAPABILITY_CLOSE, IHopFileType.CAPABILITY_FILE_HISTORY));
   }
 
   @Override
-  public SvgExplorerFileTypeHandler createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
+  public SvgExplorerFileTypeHandler createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file) {
     return new SvgExplorerFileTypeHandler(hopGui, perspective, file);
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     return new EmptyHopFileTypeHandler();
   }
 }

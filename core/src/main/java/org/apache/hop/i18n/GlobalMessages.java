@@ -33,49 +33,46 @@ public class GlobalMessages extends AbstractMessageHandler {
 
   protected static final String BUNDLE_NAME = "messages.messages";
 
-  protected static final Map<String, ResourceBundle> locales =
-      Collections.synchronizedMap(new HashMap<>());
+  protected static final Map<String, ResourceBundle> locales = Collections.synchronizedMap(new HashMap<>());
 
   protected static final ILogChannel log = new LogChannel("i18n");
 
-  public static final String[] localeCodes = {
-    "en_US", "nl_NL", "zh_CN", "es_ES", "fr_FR", "de_DE", "pt_BR", "pt_PT", "es_AR", "no_NO",
-    "it_IT", "ja_JP", "ko_KR", "pl_PL"
-  };
+  public static final String[] localeCodes = {"en_US", "nl_NL", "zh_CN", "es_ES", "fr_FR", "de_DE", "pt_BR", "pt_PT", "es_AR", "no_NO", "it_IT", "ja_JP", "ko_KR", "pl_PL"};
 
-  public static final String[] localeDescr = {
-    "English (US)",
-    "Nederlands (Beta)",
-    "\u7B80\u4F53\u4E2D\u6587 (Simplified Chinese)",
-    "Espa\u00F1ol (Spain) (Beta)",
-    "Fran\u00E7ais",
-    "Deutsch (Beta)",
-    "Portuguese (Brazil) (Beta)",
-    "Portuguese (Portugal) (Beta)",
-    "Espa\u00F1ol (Argentina) (Beta)",
-    "Norwegian (Norway) (Beta)",
-    "Italian (Italy)",
-    "Japanese (Japan) (Beta)",
-    "Korean (Korea) (Beta)",
-    "Polski (Beta)",
-  };
+  public static final String[] localeDescr =
+      {
+          "English (US)",
+          "Nederlands (Beta)",
+          "\u7B80\u4F53\u4E2D\u6587 (Simplified Chinese)",
+          "Espa\u00F1ol (Spain) (Beta)",
+          "Fran\u00E7ais",
+          "Deutsch (Beta)",
+          "Portuguese (Brazil) (Beta)",
+          "Portuguese (Portugal) (Beta)",
+          "Espa\u00F1ol (Argentina) (Beta)",
+          "Norwegian (Norway) (Beta)",
+          "Italian (Italy)",
+          "Japanese (Japan) (Beta)",
+          "Korean (Korea) (Beta)",
+          "Polski (Beta)",};
 
-  public static final String[] localeBetaStatus = {
-    "N", // "English (US)"
-    "Y", // "Nederlands"
-    "N", // "Simplified Chinese"
-    "Y", // "Espa\u00F1ol (Spain)"
-    "N", // "Fran\u00E7ais"
-    "Y", // "Deutsch"
-    "Y", // "Portuguese (Brazil)"
-    "Y", // "Portuguese (Portugal)"
-    "Y", // "Espa\u00F1ol (Argentina)"
-    "Y", // "Norwegian (Norway)"
-    "N", // "Italian (Italy)"
-    "Y", // "Japanese (Japan)"
-    "Y", // "Korean (Korea)"
-    "Y", // "Polski (Beta)"
-  };
+  public static final String[] localeBetaStatus =
+      {
+          "N", // "English (US)"
+          "Y", // "Nederlands"
+          "N", // "Simplified Chinese"
+          "Y", // "Espa\u00F1ol (Spain)"
+          "N", // "Fran\u00E7ais"
+          "Y", // "Deutsch"
+          "Y", // "Portuguese (Brazil)"
+          "Y", // "Portuguese (Portugal)"
+          "Y", // "Espa\u00F1ol (Argentina)"
+          "Y", // "Norwegian (Norway)"
+          "N", // "Italian (Italy)"
+          "Y", // "Japanese (Japan)"
+          "Y", // "Korean (Korea)"
+          "Y", // "Polski (Beta)"
+      };
 
   protected static GlobalMessages GMinstance = null;
 
@@ -120,8 +117,9 @@ public class GlobalMessages extends AbstractMessageHandler {
    * @param key the message key being looked up
    * @param parameters parameters within the looked up message
    * @return the localized string for the given {@code key} and {@code parameters} in a bundle
-   *     defined by the the concatenation of {@code packageName} and {@link #BUNDLE_NAME}, using the
-   *     {@link GlobalMessages} class loader.
+   *         defined by the the concatenation of {@code packageName} and {@link #BUNDLE_NAME}, using
+   *         the
+   *         {@link GlobalMessages} class loader.
    */
   protected String calculateString(String packageName, String key, Object[] parameters) {
     return calculateString(packageName, key, parameters, PKG);
@@ -137,11 +135,11 @@ public class GlobalMessages extends AbstractMessageHandler {
    * @param parameters parameters within the looked up message
    * @param resourceClass the class whose class loader is used to getch the resource bundle
    * @return the localized string for the given {@code key} and {@code parameters} in a bundle
-   *     defined by the the concatenation of {@code packageName} and {@link #BUNDLE_NAME}, using the
-   *     provided {@code resourceClass}'s class loader.
+   *         defined by the the concatenation of {@code packageName} and {@link #BUNDLE_NAME}, using
+   *         the
+   *         provided {@code resourceClass}'s class loader.
    */
-  protected String calculateString(
-      String packageName, String key, Object[] parameters, Class<?> resourceClass) {
+  protected String calculateString(String packageName, String key, Object[] parameters, Class<?> resourceClass) {
     final String[] pkgNames = new String[] {packageName, SYSTEM_BUNDLE_PACKAGE};
     return calculateString(pkgNames, key, parameters, resourceClass);
   }
@@ -153,17 +151,16 @@ public class GlobalMessages extends AbstractMessageHandler {
    * sing the provided {@code resourceClass}'s class loader.
    *
    * @param pkgNames an array of packages potentially containing the localized messages the first
-   *     one found to contain the messages is the one that is used to localize the message
+   *        one found to contain the messages is the one that is used to localize the message
    * @param key the message key being looked up
    * @param parameters parameters within the looked up message
    * @param resourceClass the class whose class loader is used to getch the resource bundle
    * @return the localized string for the given {@code key} and {@code parameters} in a bundle
-   *     defined by the the concatenation of the package names defined in {@code packageName} and
-   *     {@link #BUNDLE_NAME} (the first valid combination of {@code packageName} + {@link
-   *     #BUNDLE_NAME} wins), sing the provided {@code resourceClass}'s class loader
+   *         defined by the the concatenation of the package names defined in {@code packageName} and
+   *         {@link #BUNDLE_NAME} (the first valid combination of {@code packageName} + {@link
+   *         #BUNDLE_NAME} wins), sing the provided {@code resourceClass}'s class loader
    */
-  protected String calculateString(
-      String[] pkgNames, String key, Object[] parameters, Class<?> resourceClass) {
+  protected String calculateString(String[] pkgNames, String key, Object[] parameters, Class<?> resourceClass) {
     return GlobalMessageUtil.calculateString(pkgNames, key, parameters, resourceClass, BUNDLE_NAME);
   }
 
@@ -173,14 +170,13 @@ public class GlobalMessages extends AbstractMessageHandler {
    *
    * @param locale the {@link Locale} for which the {@link ResourceBundle} is being retrieved
    * @param packagePath the full path to the localized message file without the {@code .properties}
-   *     extension
+   *        extension
    * @return a {@link ResourceBundle} for the given {@link Locale} and {@code packagePath}, using
-   *     the {@link GlobalMessages} class loader
+   *         the {@link GlobalMessages} class loader
    * @throws MissingResourceException when the {@link ResourceBundle} cannot be found
    */
   @VisibleForTesting
-  static ResourceBundle getBundle(final Locale locale, final String packagePath)
-      throws MissingResourceException {
+  static ResourceBundle getBundle(final Locale locale, final String packagePath) throws MissingResourceException {
     return GlobalMessageUtil.getBundle(locale, packagePath, PKG);
   }
 
@@ -202,8 +198,7 @@ public class GlobalMessages extends AbstractMessageHandler {
   }
 
   @Override
-  public String getString(
-      String packageName, String key, Class<?> resourceClass, String... parameters) {
+  public String getString(String packageName, String key, Class<?> resourceClass, String... parameters) {
     return calculateString(packageName, key, parameters, resourceClass);
   }
 }

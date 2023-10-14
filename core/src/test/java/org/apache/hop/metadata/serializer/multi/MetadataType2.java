@@ -23,16 +23,14 @@ import org.apache.hop.metadata.api.IHopMetadata;
 
 import java.util.Objects;
 
-@HopMetadata(
-    key = "type-2",
-    name = "type 2",
-    description = "This is a simple test object type 2",
-    image = "ui/images/dummy.svg")
+@HopMetadata(key = "type-2", name = "type 2", description = "This is a simple test object type 2", image = "ui/images/dummy.svg")
 public class MetadataType2 extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
   public MetadataType2(String name, String description, String value) {
     super(name);

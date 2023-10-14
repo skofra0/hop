@@ -58,8 +58,7 @@ public class SystemDataDialog extends BaseTransformDialog implements ITransformD
 
   private final SystemDataMeta input;
 
-  public SystemDataDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SystemDataDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (SystemDataMeta) in;
   }
@@ -138,44 +137,27 @@ public class SystemDataDialog extends BaseTransformDialog implements ITransformD
     }
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SystemDataDialog.NameColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SystemDataDialog.TypeColumn.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1].setSelectionAdapter(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            EnterSelectionDialog esd =
-                new EnterSelectionDialog(
-                    shell,
-                    functionDesc,
-                    BaseMessages.getString(PKG, "SystemDataDialog.SelectInfoType.DialogTitle"),
-                    BaseMessages.getString(PKG, "SystemDataDialog.SelectInfoType.DialogMessage"));
-            String string = esd.open();
-            if (string != null) {
-              TableView tv = (TableView) e.widget;
-              tv.setText(string, e.x, e.y);
-            }
-            input.setChanged();
-          }
-        });
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "SystemDataDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "SystemDataDialog.TypeColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1].setSelectionAdapter(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        EnterSelectionDialog esd =
+            new EnterSelectionDialog(
+                shell,
+                functionDesc,
+                BaseMessages.getString(PKG, "SystemDataDialog.SelectInfoType.DialogTitle"),
+                BaseMessages.getString(PKG, "SystemDataDialog.SelectInfoType.DialogMessage"));
+        String string = esd.open();
+        if (string != null) {
+          TableView tv = (TableView) e.widget;
+          tv.setText(string, e.x, e.y);
+        }
+        input.setChanged();
+      }
+    });
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -259,9 +241,7 @@ public class SystemDataDialog extends BaseTransformDialog implements ITransformD
       SystemDataMeta oneMeta = new SystemDataMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -273,12 +253,7 @@ public class SystemDataDialog extends BaseTransformDialog implements ITransformD
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {

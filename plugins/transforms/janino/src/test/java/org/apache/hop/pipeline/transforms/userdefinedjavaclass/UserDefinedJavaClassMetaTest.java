@@ -29,14 +29,7 @@ public class UserDefinedJavaClassMetaTest {
 
   @Test
   public void cookClassErrorCompilationTest() throws Exception {
-    String wrongCode =
-        "public boolean processRow() {\n"
-            + "   return true;\n"
-            + "}\n"
-            + "\n"
-            + "public boolean processRow() {\n"
-            + "   return true;\n"
-            + "}\n";
+    String wrongCode = "public boolean processRow() {\n" + "   return true;\n" + "}\n" + "\n" + "public boolean processRow() {\n" + "   return true;\n" + "}\n";
 
     UserDefinedJavaClassMeta userDefinedJavaClassMeta = new UserDefinedJavaClassMeta();
 
@@ -51,8 +44,7 @@ public class UserDefinedJavaClassMetaTest {
     userDefinedJavaClassMeta.setParentTransformMeta(transformMeta);
 
     UserDefinedJavaClassMeta userDefinedJavaClassMetaSpy = Mockito.spy(userDefinedJavaClassMeta);
-    Mockito.when(userDefinedJavaClassMetaSpy.getDefinitions())
-        .thenReturn(Collections.singletonList(userDefinedJavaClassDef));
+    Mockito.when(userDefinedJavaClassMetaSpy.getDefinitions()).thenReturn(Collections.singletonList(userDefinedJavaClassDef));
 
     userDefinedJavaClassMetaSpy.cookClasses();
     Assert.assertEquals(1, userDefinedJavaClassMeta.cookErrors.size());
@@ -61,16 +53,10 @@ public class UserDefinedJavaClassMetaTest {
   @Test
   public void cookClassesCachingTest() throws Exception {
     String codeBlock1 = "public boolean processRow() {\n" + "    return true;\n" + "}\n\n";
-    String codeBlock2 =
-        "public boolean processRow() {\n"
-            + "    // Random comment\n"
-            + "    return true;\n"
-            + "}\n\n";
+    String codeBlock2 = "public boolean processRow() {\n" + "    // Random comment\n" + "    return true;\n" + "}\n\n";
     UserDefinedJavaClassMeta userDefinedJavaClassMeta1 = new UserDefinedJavaClassMeta();
 
-    UserDefinedJavaClassDef userDefinedJavaClassDef1 =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "MainClass", codeBlock1);
+    UserDefinedJavaClassDef userDefinedJavaClassDef1 = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "MainClass", codeBlock1);
 
     TransformMeta transformMeta = Mockito.mock(TransformMeta.class);
     Mockito.when(transformMeta.getName()).thenReturn("User Defined Java Class");
@@ -80,22 +66,18 @@ public class UserDefinedJavaClassMetaTest {
 
     // Added classloader
     Class<?> clazz1 = userDefinedJavaClassMetaSpy.cookClass(userDefinedJavaClassDef1, null);
-    Class<?> clazz2 =
-        userDefinedJavaClassMetaSpy.cookClass(userDefinedJavaClassDef1, clazz1.getClassLoader());
+    Class<?> clazz2 = userDefinedJavaClassMetaSpy.cookClass(userDefinedJavaClassDef1, clazz1.getClassLoader());
     Assert.assertTrue(clazz1 == clazz2); // Caching should work here and return exact same class
 
     UserDefinedJavaClassMeta userDefinedJavaClassMeta2 = new UserDefinedJavaClassMeta();
-    UserDefinedJavaClassDef userDefinedJavaClassDef2 =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "AnotherClass", codeBlock2);
+    UserDefinedJavaClassDef userDefinedJavaClassDef2 = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "AnotherClass", codeBlock2);
 
     TransformMeta transformMeta2 = Mockito.mock(TransformMeta.class);
     Mockito.when(transformMeta2.getName()).thenReturn("Another UDJC");
     userDefinedJavaClassMeta2.setParentTransformMeta(transformMeta2);
     UserDefinedJavaClassMeta userDefinedJavaClassMeta2Spy = Mockito.spy(userDefinedJavaClassMeta2);
 
-    Class<?> clazz3 =
-        userDefinedJavaClassMeta2Spy.cookClass(userDefinedJavaClassDef2, clazz2.getClassLoader());
+    Class<?> clazz3 = userDefinedJavaClassMeta2Spy.cookClass(userDefinedJavaClassDef2, clazz2.getClassLoader());
 
     Assert.assertTrue(clazz3 != clazz1); // They should not be the exact same class
   }
@@ -103,32 +85,14 @@ public class UserDefinedJavaClassMetaTest {
   @Test
   public void oderDefinitionTest() throws Exception {
     String codeBlock1 = "public boolean processRow() {\n" + "    return true;\n" + "}\n\n";
-    String codeBlock2 =
-        "public boolean extraClassA() {\n"
-            + "    // Random comment\n"
-            + "    return true;\n"
-            + "}\n\n";
-    String codeBlock3 =
-        "public boolean extraClassB() {\n"
-            + "    // Random comment\n"
-            + "    return true;\n"
-            + "}\n\n";
+    String codeBlock2 = "public boolean extraClassA() {\n" + "    // Random comment\n" + "    return true;\n" + "}\n\n";
+    String codeBlock3 = "public boolean extraClassB() {\n" + "    // Random comment\n" + "    return true;\n" + "}\n\n";
     UserDefinedJavaClassMeta userDefinedJavaClassMeta = new UserDefinedJavaClassMeta();
-    UserDefinedJavaClassDef processClassDef =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.TRANSFORM_CLASS, "Process", codeBlock1);
-    UserDefinedJavaClassDef processClassDefA =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.TRANSFORM_CLASS, "ProcessA", codeBlock1);
-    UserDefinedJavaClassDef normalClassADef =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "A", codeBlock1);
-    UserDefinedJavaClassDef normalClassBDef =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "B", codeBlock1);
-    UserDefinedJavaClassDef normalClassCDef =
-        new UserDefinedJavaClassDef(
-            UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "C", codeBlock1);
+    UserDefinedJavaClassDef processClassDef = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.TRANSFORM_CLASS, "Process", codeBlock1);
+    UserDefinedJavaClassDef processClassDefA = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.TRANSFORM_CLASS, "ProcessA", codeBlock1);
+    UserDefinedJavaClassDef normalClassADef = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "A", codeBlock1);
+    UserDefinedJavaClassDef normalClassBDef = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "B", codeBlock1);
+    UserDefinedJavaClassDef normalClassCDef = new UserDefinedJavaClassDef(UserDefinedJavaClassDef.ClassType.NORMAL_CLASS, "C", codeBlock1);
 
     ArrayList<UserDefinedJavaClassDef> defs = new ArrayList<>(5);
     defs.add(processClassDefA);

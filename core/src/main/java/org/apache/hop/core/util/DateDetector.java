@@ -28,172 +28,125 @@ public class DateDetector {
   private static final String LOCALE_en_US = "en_US";
 
   @SuppressWarnings("serial")
-  static final BidiMap<String, String> DATE_FORMAT_TO_REGEXPS_US =
-      new DualHashBidiMap<String, String>() {
-        {
-          put("MM-dd-yyyy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{4}$");
-          put("dd/MM/yyyy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{4}$");
-          put("MM-dd-yy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{2}$");
-          put("dd/MM/yy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{2}$");
-          put("yyyyMMdd", "^\\d{8}$");
-          put("dd-MM-yy", "^\\d{1,2}-\\d{1,2}-\\d{2}$");
-          put("dd-MM-yyyy", "^\\d{1,2}-\\d{1,2}-\\d{4}$");
-          put("dd.MM.yy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}$");
-          put("dd.MM.yyyy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}$");
-          put("MM/dd/yy", "^\\d{1,2}/\\d{1,2}/\\d{2}$");
-          put("MM/dd/yyyy", "^\\d{1,2}/\\d{1,2}/\\d{4}$");
-          put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
-          put("yyyy.MM.dd", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}$");
-          put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
-          put("dd MMM yyyy", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$");
-          put("dd MMMM yyyy", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$");
-          put("yyyyMMddHHmm", "^\\d{12}$");
-          put("yyyyMMdd HHmm", "^\\d{8}\\s\\d{4}$");
-          put("dd-MM-yy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("dd-MM-yyyy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("dd.MM.yy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("dd.MM.yyyy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("MM/dd/yy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("MM/dd/yyyy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy.MM.dd HH:mm", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("dd MMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("dd MMMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("yyyyMMddHHmmss", "^\\d{14}$");
-          put("yyyyMMdd HHmmss", "^\\d{8}\\s\\d{6}$");
-          put("dd-MM-yy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd-MM-yyyy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd.MM.yy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd.MM.yyyy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("MM/dd/yy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("MM/dd/yyyy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy.MM.dd HH:mm:ss", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd MMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd MMMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put(
-              "dd-MM-yy HH:mm:ss.SSS",
-              "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd-MM-yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd.MM.yy HH:mm:ss.SSS",
-              "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd.MM.yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "MM/dd/yy HH:mm:ss.SSS",
-              "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "MM/dd/yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy-MM-dd HH:mm:ss.SSS",
-              "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy.MM.dd HH:mm:ss.SSS",
-              "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy/MM/dd HH:mm:ss.SSS",
-              "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd MMM yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd MMMM yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-        }
-      };
+  static final BidiMap<String, String> DATE_FORMAT_TO_REGEXPS_US = new DualHashBidiMap<String, String>() {
+    {
+      put("MM-dd-yyyy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{4}$");
+      put("dd/MM/yyyy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{4}$");
+      put("MM-dd-yy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{2}$");
+      put("dd/MM/yy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{2}$");
+      put("yyyyMMdd", "^\\d{8}$");
+      put("dd-MM-yy", "^\\d{1,2}-\\d{1,2}-\\d{2}$");
+      put("dd-MM-yyyy", "^\\d{1,2}-\\d{1,2}-\\d{4}$");
+      put("dd.MM.yy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}$");
+      put("dd.MM.yyyy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}$");
+      put("MM/dd/yy", "^\\d{1,2}/\\d{1,2}/\\d{2}$");
+      put("MM/dd/yyyy", "^\\d{1,2}/\\d{1,2}/\\d{4}$");
+      put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
+      put("yyyy.MM.dd", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}$");
+      put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
+      put("dd MMM yyyy", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$");
+      put("dd MMMM yyyy", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$");
+      put("yyyyMMddHHmm", "^\\d{12}$");
+      put("yyyyMMdd HHmm", "^\\d{8}\\s\\d{4}$");
+      put("dd-MM-yy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("dd-MM-yyyy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("dd.MM.yy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("dd.MM.yyyy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("MM/dd/yy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("MM/dd/yyyy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy.MM.dd HH:mm", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("dd MMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("dd MMMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("yyyyMMddHHmmss", "^\\d{14}$");
+      put("yyyyMMdd HHmmss", "^\\d{8}\\s\\d{6}$");
+      put("dd-MM-yy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd-MM-yyyy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd.MM.yy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd.MM.yyyy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("MM/dd/yy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("MM/dd/yyyy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy.MM.dd HH:mm:ss", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd MMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd MMMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd-MM-yy HH:mm:ss.SSS", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd-MM-yyyy HH:mm:ss.SSS", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd.MM.yy HH:mm:ss.SSS", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd.MM.yyyy HH:mm:ss.SSS", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("MM/dd/yy HH:mm:ss.SSS", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("MM/dd/yyyy HH:mm:ss.SSS", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy-MM-dd HH:mm:ss.SSS", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy.MM.dd HH:mm:ss.SSS", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy/MM/dd HH:mm:ss.SSS", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd MMM yyyy HH:mm:ss.SSS", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd MMMM yyyy HH:mm:ss.SSS", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+    }
+  };
 
   @SuppressWarnings("serial")
-  static final BidiMap DATE_FORMAT_TO_REGEXPS =
-      new DualHashBidiMap() {
-        {
-          put("MM-dd-yyyy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{4}$");
-          put("dd/MM/yyyy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{4}$");
-          put("MM-dd-yy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{2}$");
-          put("dd/MM/yy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{2}$");
-          put("yyyyMMdd", "^\\d{8}$");
-          put("dd-MM-yy", "^\\d{1,2}-\\d{1,2}-\\d{2}$");
-          put("dd-MM-yyyy", "^\\d{1,2}-\\d{1,2}-\\d{4}$");
-          put("dd.MM.yy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}$");
-          put("dd.MM.yyyy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}$");
-          put("dd/MM/yy", "^\\d{1,2}/\\d{1,2}/\\d{2}$");
-          put("dd/MM/yyyy", "^\\d{1,2}/\\d{1,2}/\\d{4}$");
-          put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
-          put("yyyy.MM.dd", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}$");
-          put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
-          put("dd MMM yyyy", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$");
-          put("dd MMMM yyyy", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$");
-          put("yyyyMMddHHmm", "^\\d{12}$");
-          put("yyyyMMdd HHmm", "^\\d{8}\\s\\d{4}$");
-          put("dd-MM-yy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("dd-MM-yyyy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("dd.MM.yy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("dd.MM.yyyy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("dd/MM/yy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}$");
-          put("dd/MM/yyyy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy.MM.dd HH:mm", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}$");
-          put("dd MMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("dd MMMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
-          put("yyyyMMddHHmmss", "^\\d{14}$");
-          put("yyyyMMdd HHmmss", "^\\d{8}\\s\\d{6}$");
-          put("dd-MM-yy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd-MM-yyyy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd.MM.yy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd.MM.yyyy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd/MM/yy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd/MM/yyyy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy.MM.dd HH:mm:ss", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd MMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put("dd MMMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
-          put(
-              "dd-MM-yy HH:mm:ss.SSS",
-              "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd-MM-yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd.MM.yy HH:mm:ss.SSS",
-              "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd.MM.yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd/MM/yy HH:mm:ss.SSS",
-              "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd/MM/yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy-MM-dd HH:mm:ss.SSS",
-              "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy.MM.dd HH:mm:ss.SSS",
-              "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "yyyy/MM/dd HH:mm:ss.SSS",
-              "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd MMM yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-          put(
-              "dd MMMM yyyy HH:mm:ss.SSS",
-              "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
-        }
-      };
+  static final BidiMap DATE_FORMAT_TO_REGEXPS = new DualHashBidiMap() {
+    {
+      put("MM-dd-yyyy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{4}$");
+      put("dd/MM/yyyy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{4}$");
+      put("MM-dd-yy", "^[0-1]?[0-9]-[0-3]?[0-9]-\\d{2}$");
+      put("dd/MM/yy", "^[0-3]?[0-9]/[0-1]?[0-9]/\\d{2}$");
+      put("yyyyMMdd", "^\\d{8}$");
+      put("dd-MM-yy", "^\\d{1,2}-\\d{1,2}-\\d{2}$");
+      put("dd-MM-yyyy", "^\\d{1,2}-\\d{1,2}-\\d{4}$");
+      put("dd.MM.yy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}$");
+      put("dd.MM.yyyy", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}$");
+      put("dd/MM/yy", "^\\d{1,2}/\\d{1,2}/\\d{2}$");
+      put("dd/MM/yyyy", "^\\d{1,2}/\\d{1,2}/\\d{4}$");
+      put("yyyy-MM-dd", "^\\d{4}-\\d{1,2}-\\d{1,2}$");
+      put("yyyy.MM.dd", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}$");
+      put("yyyy/MM/dd", "^\\d{4}/\\d{1,2}/\\d{1,2}$");
+      put("dd MMM yyyy", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$");
+      put("dd MMMM yyyy", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$");
+      put("yyyyMMddHHmm", "^\\d{12}$");
+      put("yyyyMMdd HHmm", "^\\d{8}\\s\\d{4}$");
+      put("dd-MM-yy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("dd-MM-yyyy HH:mm", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("dd.MM.yy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("dd.MM.yyyy HH:mm", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("dd/MM/yy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}$");
+      put("dd/MM/yyyy HH:mm", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy-MM-dd HH:mm", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy.MM.dd HH:mm", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("yyyy/MM/dd HH:mm", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}$");
+      put("dd MMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("dd MMMM yyyy HH:mm", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}$");
+      put("yyyyMMddHHmmss", "^\\d{14}$");
+      put("yyyyMMdd HHmmss", "^\\d{8}\\s\\d{6}$");
+      put("dd-MM-yy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd-MM-yyyy HH:mm:ss", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd.MM.yy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd.MM.yyyy HH:mm:ss", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd/MM/yy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd/MM/yyyy HH:mm:ss", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy-MM-dd HH:mm:ss", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy.MM.dd HH:mm:ss", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("yyyy/MM/dd HH:mm:ss", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd MMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd MMMM yyyy HH:mm:ss", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$");
+      put("dd-MM-yy HH:mm:ss.SSS", "^\\d{1,2}-\\d{1,2}-\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd-MM-yyyy HH:mm:ss.SSS", "^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd.MM.yy HH:mm:ss.SSS", "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd.MM.yyyy HH:mm:ss.SSS", "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd/MM/yy HH:mm:ss.SSS", "^\\d{1,2}/\\d{1,2}/\\d{2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd/MM/yyyy HH:mm:ss.SSS", "^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy-MM-dd HH:mm:ss.SSS", "^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy.MM.dd HH:mm:ss.SSS", "^\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("yyyy/MM/dd HH:mm:ss.SSS", "^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd MMM yyyy HH:mm:ss.SSS", "^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+      put("dd MMMM yyyy HH:mm:ss.SSS", "^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\.\\d{3}$");
+    }
+  };
 
   // util class, hide constructor
-  private DateDetector() {}
-  ;
+  private DateDetector() {};
 
   /**
    * @param dateFormat - date format for get regexp
@@ -216,9 +169,11 @@ public class DateDetector {
 
   /**
    * @param regex - regexp for parse date format from string <br>
-   *     <b>NOTES:</b> if regex could be used for US and EU locale. It returns europeans locale. For
-   *     en_US locale please use
-   *     <p>{@link #getDateFormatByRegex(String regex, String locale) }
+   *        <b>NOTES:</b> if regex could be used for US and EU locale. It returns europeans locale.
+   *        For
+   *        en_US locale please use
+   *        <p>
+   *        {@link #getDateFormatByRegex(String regex, String locale) }
    * @return {@link java.lang.String} string wich represented Date Format
    */
   public static String getDateFormatByRegex(String regex) {
@@ -240,7 +195,7 @@ public class DateDetector {
    * @param dateString date string for parse
    * @return {@link java.util.Date} converted from dateString by detected format
    * @throws ParseException - if we can not detect date format for string or we can not parse date
-   *     string
+   *         string
    */
   public static Date getDateFromString(String dateString) throws ParseException {
     String dateFormat = detectDateFormat(dateString);
@@ -254,7 +209,7 @@ public class DateDetector {
    * @param dateString date string for parse
    * @return {@link java.util.Date} converted from dateString by detected format
    * @throws ParseException - if we can not detect date format for string or we can not parse date
-   *     string
+   *         string
    */
   public static Date getDateFromString(String dateString, String locale) throws ParseException {
     String dateFormat = detectDateFormat(dateString, locale);
@@ -270,8 +225,7 @@ public class DateDetector {
    * @return {@link java.util.Date} converted from dateString by format
    * @throws ParseException if we can not parse date string
    */
-  public static Date getDateFromStringByFormat(String dateString, String dateFormat)
-      throws ParseException {
+  public static Date getDateFromStringByFormat(String dateString, String dateFormat) throws ParseException {
     if (dateFormat == null) {
       throw new ParseException("Unknown date format. Format is null. ", 0);
     }
@@ -382,12 +336,8 @@ public class DateDetector {
    * @param locale - locale for date format
    * @return true if we found that we know dateFormat and it applied for given string
    */
-  public static boolean isValidDateFormatToStringDate(
-      String dateFormat, String dateString, String locale) {
-    String detectedDateFormat =
-        dateFormat != null
-            ? detectDateFormatBiased(dateString, locale, dateFormat)
-            : detectDateFormat(dateString, locale);
+  public static boolean isValidDateFormatToStringDate(String dateFormat, String dateString, String locale) {
+    String detectedDateFormat = dateFormat != null ? detectDateFormatBiased(dateString, locale, dateFormat) : detectDateFormat(dateString, locale);
     if ((dateFormat != null) && (dateFormat.equals(detectedDateFormat))) {
       return true;
     }

@@ -19,9 +19,11 @@ package org.apache.hop.testing;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class VariableValue {
-  @HopMetadataProperty private String key;
+  @HopMetadataProperty
+  private String key;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
   public VariableValue() {}
 

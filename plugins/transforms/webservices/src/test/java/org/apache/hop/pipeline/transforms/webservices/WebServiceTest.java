@@ -48,21 +48,11 @@ public class WebServiceTest {
 
   @Before
   public void setUpBefore() {
-    mockHelper =
-        new TransformMockHelper<>("WebService", WebServiceMeta.class, WebServiceData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("WebService", WebServiceMeta.class, WebServiceData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
 
-    webServiceTransform =
-        spy(
-            new WebService(
-                mockHelper.transformMeta,
-                mockHelper.iTransformMeta,
-                mockHelper.iTransformData,
-                0,
-                mockHelper.pipelineMeta,
-                mockHelper.pipeline));
+    webServiceTransform = spy(new WebService(mockHelper.transformMeta, mockHelper.iTransformMeta, mockHelper.iTransformData, 0, mockHelper.pipelineMeta, mockHelper.pipeline));
   }
 
   @After

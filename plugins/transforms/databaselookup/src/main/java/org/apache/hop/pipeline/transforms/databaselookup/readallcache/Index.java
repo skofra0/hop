@@ -64,8 +64,7 @@ abstract class Index {
     return column;
   }
 
-  public void applyRestrictionsTo(
-      SearchingContext context, IValueMeta lookupMeta, Object lookupValue) {
+  public void applyRestrictionsTo(SearchingContext context, IValueMeta lookupMeta, Object lookupValue) {
     try {
       doApply(context, lookupMeta, lookupValue);
     } catch (HopException e) {
@@ -73,8 +72,7 @@ abstract class Index {
     }
   }
 
-  abstract void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue)
-      throws HopException;
+  abstract void doApply(SearchingContext context, IValueMeta lookupMeta, Object lookupValue) throws HopException;
 
   /**
    * Return the "anti-strength" of the restriction of the index. It is a heuristic weight of the

@@ -92,39 +92,22 @@ public class FieldSplitterMeta extends BaseTransformMeta<FieldSplitter, FieldSpl
   private static final Class<?> PKG = FieldSplitterMeta.class; // For Translator
 
   /** Field to split */
-  @HopMetadataProperty(
-      key = "splitfield",
-      injectionKey = "FIELD_TO_SPLIT",
-      injectionKeyDescription = "FieldSplitter.Injection.FIELD_TO_SPLIT")
+  @HopMetadataProperty(key = "splitfield", injectionKey = "FIELD_TO_SPLIT", injectionKeyDescription = "FieldSplitter.Injection.FIELD_TO_SPLIT")
   private String splitField;
 
   /** Split fields based upon this delimiter. */
-  @HopMetadataProperty(
-      key = "delimiter",
-      injectionKey = "DELIMITER",
-      injectionKeyDescription = "FieldSplitter.Injection.DELIMITER")
+  @HopMetadataProperty(key = "delimiter", injectionKey = "DELIMITER", injectionKeyDescription = "FieldSplitter.Injection.DELIMITER")
   private String delimiter;
 
   /** Ignore delimiter inside pairs of the enclosure string */
-  @HopMetadataProperty(
-      key = "enclosure",
-      injectionKey = "ENCLOSURE",
-      injectionKeyDescription = "FieldSplitterDialog.Enclosure.Label")
+  @HopMetadataProperty(key = "enclosure", injectionKey = "ENCLOSURE", injectionKeyDescription = "FieldSplitterDialog.Enclosure.Label")
   private String enclosure;
 
   /** Ignore delimiter when preceded by an escape string */
-  @HopMetadataProperty(
-      key = "escape_string",
-      injectionKey = "ESCAPE_STRING",
-      injectionKeyDescription = "FieldSplitterDialog.EscapeString.Label")
+  @HopMetadataProperty(key = "escape_string", injectionKey = "ESCAPE_STRING", injectionKeyDescription = "FieldSplitterDialog.EscapeString.Label")
   private String escapeString;
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionKey = "FIELD",
-      injectionGroupKey = "FIELDS",
-      injectionKeyDescription = "FieldSplitter.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionKey = "FIELD", injectionGroupKey = "FIELDS", injectionKeyDescription = "FieldSplitter.Injection.FIELDS")
   private List<FSField> fields;
 
   public FieldSplitterMeta() {
@@ -154,22 +137,14 @@ public class FieldSplitterMeta extends BaseTransformMeta<FieldSplitter, FieldSpl
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     // Get the index of the field to split
     //
     int idx = r.indexOfValue(getSplitField());
     if (idx < 0) { // not found
-      throw new HopTransformException(
-          BaseMessages.getString(
-              PKG, "FieldSplitter.Log.CouldNotFindFieldToSplit", getSplitField()));
+      throw new HopTransformException(BaseMessages.getString(PKG, "FieldSplitter.Log.CouldNotFindFieldToSplit", getSplitField()));
     }
 
     // Add the new fields at the place of the index --> replace!
@@ -210,137 +185,71 @@ public class FieldSplitterMeta extends BaseTransformMeta<FieldSplitter, FieldSpl
     // Look up fields in the input stream <prev>
     if (prev != null && prev.size() > 0) {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FieldSplitterMeta.CheckResult.TransformReceivingFields", prev.size() + ""),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.TransformReceivingFields", prev.size() + ""), transformMeta));
 
       int i = prev.indexOfValue(splitField);
       if (i < 0) {
         remarks.add(
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "FieldSplitterMeta.CheckResult.SplitedFieldNotPresentInInputStream",
-                    splitField),
+                BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.SplitedFieldNotPresentInInputStream", splitField),
                 transformMeta));
       } else {
         remarks.add(
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG,
-                    "FieldSplitterMeta.CheckResult.SplitedFieldFoundInInputStream",
-                    splitField),
-                transformMeta));
+            new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.SplitedFieldFoundInInputStream", splitField), transformMeta));
       }
     } else {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FieldSplitterMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.CouldNotReadFieldsFromPreviousTransform"), transformMeta));
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "FieldSplitterMeta.CheckResult.TransformReceivingInfoFromOtherTransform"),
-              transformMeta));
+      remarks
+          .add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.TransformReceivingInfoFromOtherTransform"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "FieldSplitterMeta.CheckResult.NoInputReceivedFromOtherTransform"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "FieldSplitterMeta.CheckResult.NoInputReceivedFromOtherTransform"), transformMeta));
     }
   }
 
   public static class FSField {
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "NAME",
-        injectionKeyDescription = "FieldSplitter.Injection.NAME")
+    @HopMetadataProperty(key = "name", injectionKey = "NAME", injectionKeyDescription = "FieldSplitter.Injection.NAME")
     private String name;
 
-    @HopMetadataProperty(
-        key = "id",
-        injectionKey = "ID",
-        injectionKeyDescription = "FieldSplitter.Injection.ID")
+    @HopMetadataProperty(key = "id", injectionKey = "ID", injectionKeyDescription = "FieldSplitter.Injection.ID")
     private String id;
 
-    @HopMetadataProperty(
-        key = "idrem",
-        injectionKey = "REMOVE_ID",
-        injectionKeyDescription = "FieldSplitter.Injection.REMOVE_ID")
+    @HopMetadataProperty(key = "idrem", injectionKey = "REMOVE_ID", injectionKeyDescription = "FieldSplitter.Injection.REMOVE_ID")
     private boolean idRemoved;
 
-    @HopMetadataProperty(
-        key = "type",
-        injectionKey = "DATA_TYPE",
-        injectionKeyDescription = "FieldSplitter.Injection.DATA_TYPE")
+    @HopMetadataProperty(key = "type", injectionKey = "DATA_TYPE", injectionKeyDescription = "FieldSplitter.Injection.DATA_TYPE")
     private String type;
 
-    @HopMetadataProperty(
-        key = "format",
-        injectionKey = "FORMAT",
-        injectionKeyDescription = "FieldSplitter.Injection.FORMAT")
+    @HopMetadataProperty(key = "format", injectionKey = "FORMAT", injectionKeyDescription = "FieldSplitter.Injection.FORMAT")
     private String format;
 
-    @HopMetadataProperty(
-        key = "group",
-        injectionKey = "GROUPING",
-        injectionKeyDescription = "FieldSplitter.Injection.GROUPING")
+    @HopMetadataProperty(key = "group", injectionKey = "GROUPING", injectionKeyDescription = "FieldSplitter.Injection.GROUPING")
     private String group;
 
-    @HopMetadataProperty(
-        key = "decimal",
-        injectionKey = "DECIMAL",
-        injectionKeyDescription = "FieldSplitter.Injection.DECIMAL")
+    @HopMetadataProperty(key = "decimal", injectionKey = "DECIMAL", injectionKeyDescription = "FieldSplitter.Injection.DECIMAL")
     private String decimal;
 
-    @HopMetadataProperty(
-        key = "currency",
-        injectionKey = "CURRENCY",
-        injectionKeyDescription = "FieldSplitter.Injection.CURRENCY")
+    @HopMetadataProperty(key = "currency", injectionKey = "CURRENCY", injectionKeyDescription = "FieldSplitter.Injection.CURRENCY")
     private String currency;
 
-    @HopMetadataProperty(
-        key = "length",
-        injectionKey = "LENGTH",
-        injectionKeyDescription = "FieldSplitter.Injection.LENGTH")
+    @HopMetadataProperty(key = "length", injectionKey = "LENGTH", injectionKeyDescription = "FieldSplitter.Injection.LENGTH")
     private int length;
 
-    @HopMetadataProperty(
-        key = "precision",
-        injectionKey = "PRECISION",
-        injectionKeyDescription = "FieldSplitter.Injection.PRECISION")
+    @HopMetadataProperty(key = "precision", injectionKey = "PRECISION", injectionKeyDescription = "FieldSplitter.Injection.PRECISION")
     private int precision;
 
-    @HopMetadataProperty(
-        key = "nullif",
-        injectionKey = "NULL_IF",
-        injectionKeyDescription = "FieldSplitter.Injection.NULL_IF")
+    @HopMetadataProperty(key = "nullif", injectionKey = "NULL_IF", injectionKeyDescription = "FieldSplitter.Injection.NULL_IF")
     private String nullIf;
 
-    @HopMetadataProperty(
-        key = "ifnull",
-        injectionKey = "DEFAULT",
-        injectionKeyDescription = "FieldSplitter.Injection.DEFAULT")
+    @HopMetadataProperty(key = "ifnull", injectionKey = "DEFAULT", injectionKeyDescription = "FieldSplitter.Injection.DEFAULT")
     private String ifNull;
 
-    @HopMetadataProperty(
-        key = "trimtype",
-        storeWithCode = true,
-        injectionKey = "TRIM_TYPE",
-        injectionKeyDescription = "FieldSplitter.Injection.TRIM_TYPE")
+    @HopMetadataProperty(key = "trimtype", storeWithCode = true, injectionKey = "TRIM_TYPE", injectionKeyDescription = "FieldSplitter.Injection.TRIM_TYPE")
     private IValueMeta.TrimType trimType;
 
     public FSField() {

@@ -28,7 +28,5 @@ import org.apache.hop.metadata.api.IHasHopMetadataProvider;
  */
 public interface IConfigOptions {
 
-  boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException;
+  boolean handleOption(ILogChannel log, IHasHopMetadataProvider metadataProvider, IVariables variables) throws HopException;
 }

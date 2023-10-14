@@ -23,14 +23,10 @@ import java.util.List;
 
 public class HttpPostLookupField {
 
-  @HopMetadataProperty(
-      key = "query",
-      injectionGroupDescription = "HTTPPOST.Injection.LookupQueryField")
+  @HopMetadataProperty(key = "query", injectionGroupDescription = "HTTPPOST.Injection.LookupQueryField")
   private List<HttpPostQuery> queryField = new ArrayList<>();
 
-  @HopMetadataProperty(
-      key = "arg",
-      injectionGroupDescription = "HTTPPOST.Injection.LookupArgumentField")
+  @HopMetadataProperty(key = "arg", injectionGroupDescription = "HTTPPOST.Injection.LookupArgumentField")
   private List<HttpPostArgumentField> argumentField = new ArrayList<>();
 
   public List<HttpPostQuery> getQueryField() {
@@ -49,8 +45,7 @@ public class HttpPostLookupField {
     this.argumentField = argumentField;
   }
 
-  public HttpPostLookupField(
-      List<HttpPostQuery> postQuery, List<HttpPostArgumentField> argumentField) {
+  public HttpPostLookupField(List<HttpPostQuery> postQuery, List<HttpPostArgumentField> argumentField) {
     this.queryField = postQuery;
     this.argumentField = argumentField;
   }

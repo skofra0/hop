@@ -45,8 +45,7 @@ public class InsertUpdateTestLazyConversion {
   @Before
   public void setUp() {
     smh = new TransformMockHelper<>("insertUpdate", InsertUpdateMeta.class, InsertUpdateData.class);
-    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(smh.iLogChannel);
+    when(smh.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(smh.iLogChannel);
     when(smh.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -61,9 +60,7 @@ public class InsertUpdateTestLazyConversion {
     Database db = mock(Database.class);
 
     RowMeta returnRowMeta = new RowMeta();
-    doReturn(new Object[] {new Timestamp(System.currentTimeMillis())})
-        .when(db)
-        .getLookup(any(PreparedStatement.class));
+    doReturn(new Object[] {new Timestamp(System.currentTimeMillis())}).when(db).getLookup(any(PreparedStatement.class));
     returnRowMeta.addValueMeta(new ValueMetaDate("TimeStamp"));
     doReturn(returnRowMeta).when(db).getReturnRowMeta();
 
@@ -92,17 +89,9 @@ public class InsertUpdateTestLazyConversion {
     transformData.keynrs2 = new int[] {-1};
     transformData.updateParameterRowMeta = when(mock(RowMeta.class).size()).thenReturn(2).getMock();
 
-    InsertUpdate transform =
-        new InsertUpdate(
-            smh.transformMeta,
-            smh.iTransformMeta,
-            smh.iTransformData,
-            0,
-            smh.pipelineMeta,
-            smh.pipeline);
+    InsertUpdate transform = new InsertUpdate(smh.transformMeta, smh.iTransformMeta, smh.iTransformData, 0, smh.pipelineMeta, smh.pipeline);
     transform.setInputRowMeta(inputRowMeta);
-    transform.addRowSetToInputRowSets(
-        smh.getMockInputRowSet(new Object[] {"2013-12-20".getBytes()}));
+    transform.addRowSetToInputRowSets(smh.getMockInputRowSet(new Object[] {"2013-12-20".getBytes()}));
     transform.init();
     transform.first = false;
     transform.processRow();

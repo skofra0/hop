@@ -35,16 +35,15 @@ public class ValueType {
   @HopMetadataProperty(key = "set_type_empty_string", injectionKey = "SET_TYPE_EMPTY_STRING", injectionKeyDescription = "IfNull.Injection.SET_TYPE_EMPTY_STRING")
   private boolean setEmptyString;
 
-  public ValueType() {   
-  }
+  public ValueType() {}
 
   public ValueType(ValueType other) {
-      this.name = other.name;
-      this.value = other.value;
-      this.mask = other.mask;
-      this.setEmptyString = other.setEmptyString;
+    this.name = other.name;
+    this.value = other.value;
+    this.mask = other.mask;
+    this.setEmptyString = other.setEmptyString;
   }
-  
+
   public String getName() {
     return name;
   }

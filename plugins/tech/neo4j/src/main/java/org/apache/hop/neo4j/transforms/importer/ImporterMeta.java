@@ -53,7 +53,8 @@ public class ImporterMeta extends BaseTransformMeta<Importer, ImporterData> {
   @HopMetadataProperty(key = "db_name")
   protected String databaseName;
 
-  @HopMetadataProperty protected boolean verbose;
+  @HopMetadataProperty
+  protected boolean verbose;
 
   @HopMetadataProperty(key = "high_io")
   protected boolean highIo;
@@ -97,7 +98,8 @@ public class ImporterMeta extends BaseTransformMeta<Importer, ImporterData> {
   @HopMetadataProperty(key = "read_buffer_size")
   protected String readBufferSize;
 
-  @HopMetadataProperty protected String processors;
+  @HopMetadataProperty
+  protected String processors;
 
   public ImporterMeta() {
     databaseName = "neo4j";
@@ -121,13 +123,7 @@ public class ImporterMeta extends BaseTransformMeta<Importer, ImporterData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextStep,
-      IVariables space,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextStep, IVariables space, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // No fields are added by default
   }

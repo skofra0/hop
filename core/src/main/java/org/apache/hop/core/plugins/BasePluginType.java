@@ -120,19 +120,13 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     if (log.isDebug()) {
       watch.stop();
       List<Plugin> plugins = registry.getPlugins(this.getClass());
-      log.logBasic(
-          pluginClass.getSimpleName()
-              + " register "
-              + plugins.size()
-              + " plugins (Time Elapsed: "
-              + watch.getTime()
-              + "ms)");
+      log.logBasic(pluginClass.getSimpleName() + " register " + plugins.size() + " plugins (Time Elapsed: " + watch.getTime() + "ms)");
     }
   }
 
   protected void registerNatives() throws HopPluginException {
     try {
-      JarCache cache = JarCache.getInstance();     
+      JarCache cache = JarCache.getInstance();
       for (File jarFile : cache.getNativeJars()) {
         IndexView index = cache.getIndex(jarFile);
 
@@ -216,8 +210,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     }
   }
 
-  protected static String[] getTranslations(
-      String[] strings, String packageName, Class<?> resourceClass) {
+  protected static String[] getTranslations(String[] strings, String packageName, Class<?> resourceClass) {
     if (strings == null) {
       return null;
     }
@@ -228,8 +221,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     return translations;
   }
 
-  protected static String getTranslation(
-      String string, String packageName, Class<?> resourceClass) {
+  protected static String getTranslation(String string, String packageName, Class<?> resourceClass) {
     if (string == null) {
       return null;
     }
@@ -285,8 +277,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     }
   }
 
-  protected List<PluginClassFile> findAnnotatedClassFiles(String annotationClassName)
-      throws HopPluginException {
+  protected List<PluginClassFile> findAnnotatedClassFiles(String annotationClassName) throws HopPluginException {
     JarCache cache = JarCache.getInstance();
 
     List<PluginClassFile> classFiles = new ArrayList<>();
@@ -308,12 +299,10 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
 
               File folder = jarFile.getParentFile();
 
-              classFiles.add(
-                  new PluginClassFile(className, jarFile.toURI().toURL(), folder.toURI().toURL()));
+              classFiles.add(new PluginClassFile(className, jarFile.toURI().toURL(), folder.toURI().toURL()));
 
             } catch (Exception e) {
-              System.out.println(
-                  "Error searching annotation for " + pluginClass + " in " + jarFile);
+              System.out.println("Error searching annotation for " + pluginClass + " in " + jarFile);
             }
           }
         }
@@ -337,13 +326,10 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
    * @param image the image for the plugin
    * @throws HopPluginException
    */
-  public void registerCustom(
-      Class<?> clazz, String cat, String id, String name, String desc, String image)
-      throws HopPluginException {
+  public void registerCustom(Class<?> clazz, String cat, String id, String name, String desc, String image) throws HopPluginException {
     Class<? extends IPluginType> pluginType = getClass();
     Map<Class<?>, String> classMap = new HashMap<>();
-    PluginMainClassType mainClassTypesAnnotation =
-        pluginType.getAnnotation(PluginMainClassType.class);
+    PluginMainClassType mainClassTypesAnnotation = pluginType.getAnnotation(PluginMainClassType.class);
     classMap.put(mainClassTypesAnnotation.value(), clazz.getName());
     IPlugin plugin =
         new Plugin(
@@ -378,13 +364,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     for (String extraLibraryFolder : extraLibraryFolders) {
       File folder = new File(extraLibraryFolder);
       if (folder.exists()) {
-        Collection<File> jarFiles =
-            FileUtils.listFiles(
-                folder,
-                new String[] {
-                  "jar", "JAR",
-                },
-                true);
+        Collection<File> jarFiles = FileUtils.listFiles(folder, new String[] {"jar", "JAR",}, true);
         jarFiles.stream().forEach(file -> files.add(file.getPath()));
       }
     }
@@ -434,8 +414,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     try {
       JarCache jarCache = JarCache.getInstance();
 
-      String parentFolderName =
-          new File(URLDecoder.decode(jarFileUrl.getFile(), "UTF-8")).getParent();
+      String parentFolderName = new File(URLDecoder.decode(jarFileUrl.getFile(), "UTF-8")).getParent();
 
       File libFolder = new File(parentFolderName + Const.FILE_SEPARATOR + "lib");
       if (libFolder.exists()) {
@@ -457,8 +436,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
         List<Node> folderNodes = XmlHandler.getNodes(dependenciesNode, "folder");
         for (Node folderNode : folderNodes) {
           String relativeFolderName = XmlHandler.getNodeValue(folderNode);
-          String dependenciesFolderName =
-              parentFolderName + Const.FILE_SEPARATOR + relativeFolderName;
+          String dependenciesFolderName = parentFolderName + Const.FILE_SEPARATOR + relativeFolderName;
           File dependenciesFolder = new File(dependenciesFolderName);
           if (dependenciesFolder.exists()) {
             // Now get the jar files in this dependency folder
@@ -471,11 +449,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
         }
       }
     } catch (Exception e) {
-      LogChannel.GENERAL.logError(
-          "Unexpected error searching for plugin jar files in lib/ folder and dependencies for jar file '"
-              + jarFileUrl
-              + "'",
-          e);
+      LogChannel.GENERAL.logError("Unexpected error searching for plugin jar files in lib/ folder and dependencies for jar file '" + jarFileUrl + "'", e);
     }
 
     urls.add(jarFileUrl);
@@ -537,23 +511,20 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     List<PluginClassFile> pluginClassFiles = findAnnotatedClassFiles(pluginClass.getName());
     for (PluginClassFile pluginClassFile : pluginClassFiles) {
 
-      URLClassLoader urlClassLoader =
-          createUrlClassLoader(pluginClassFile.getJarFile(), getClass().getClassLoader());
+      URLClassLoader urlClassLoader = createUrlClassLoader(pluginClassFile.getJarFile(), getClass().getClassLoader());
 
       try {
         Class<?> clazz = urlClassLoader.loadClass(pluginClassFile.getClassName());
         if (clazz == null) {
           throw new HopPluginException("Unable to load class: " + pluginClassFile.getClassName());
         }
-        List<String> libraries =
-            Arrays.stream(urlClassLoader.getURLs()).map(URL::getFile).collect(Collectors.toList());
+        List<String> libraries = Arrays.stream(urlClassLoader.getURLs()).map(URL::getFile).collect(Collectors.toList());
         T annotation = clazz.getAnnotation(pluginClass);
 
         handlePluginAnnotation(clazz, annotation, libraries, false, pluginClassFile.getFolder());
       } catch (Exception e) {
         // Ignore for now, don't know if it's even possible.
-        LogChannel.GENERAL.logError(
-            "Unexpected error registering jar plugin file: " + pluginClassFile.getJarFile(), e);
+        LogChannel.GENERAL.logError("Unexpected error registering jar plugin file: " + pluginClassFile.getJarFile(), e);
       }
     }
   }
@@ -570,13 +541,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
    */
   // @Override
   @Override
-  public void handlePluginAnnotation(
-      Class<?> clazz,
-      T annotation,
-      List<String> libraries,
-      boolean nativePluginType,
-      URL pluginFolder)
-      throws HopPluginException {
+  public void handlePluginAnnotation(Class<?> clazz, T annotation, List<String> libraries, boolean nativePluginType, URL pluginFolder) throws HopPluginException {
 
     String idList = extractID(annotation);
     if (Utils.isEmpty(idList)) {
@@ -616,8 +581,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     //
     Deprecated deprecated = clazz.getDeclaredAnnotation(Deprecated.class);
     if (deprecated != null) {
-      String str =
-          BaseMessages.getString(classFromResourcesPackage, "System.Deprecated").toLowerCase();
+      String str = BaseMessages.getString(classFromResourcesPackage, "System.Deprecated").toLowerCase();
       pluginName += " (" + str + ")";
     }
 
@@ -659,12 +623,7 @@ public abstract class BasePluginType<T extends Annotation> implements IPluginTyp
     registry.registerPlugin(this.getClass(), plugin);
 
     if (libraries != null && !libraries.isEmpty()) {
-      LogChannel.GENERAL.logDetailed(
-          "Plugin with id ["
-              + ids[0]
-              + "] has "
-              + libraries.size()
-              + " libaries in its private class path");
+      LogChannel.GENERAL.logDetailed("Plugin with id [" + ids[0] + "] has " + libraries.size() + " libaries in its private class path");
     }
   }
 

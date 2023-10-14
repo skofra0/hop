@@ -85,8 +85,7 @@ public class PipelineExecutorParameters implements Cloneable {
       input[i] = XmlHandler.getTagValue(variableMappingNode, "input");
     }
 
-    inheritingAllVariables =
-        "Y".equalsIgnoreCase(XmlHandler.getTagValue(paramNode, "inherit_all_vars"));
+    inheritingAllVariables = "Y".equalsIgnoreCase(XmlHandler.getTagValue(paramNode, "inherit_all_vars"));
   }
 
   public String getXml() {

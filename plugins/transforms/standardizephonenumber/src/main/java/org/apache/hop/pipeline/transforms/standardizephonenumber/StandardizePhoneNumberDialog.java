@@ -71,8 +71,7 @@ public class StandardizePhoneNumberDialog extends BaseTransformDialog implements
   private final StandardizePhoneNumberMeta input; // purposes
   private TableView wFields;
 
-  public StandardizePhoneNumberDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public StandardizePhoneNumberDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (StandardizePhoneNumberMeta) in;
   }
@@ -135,8 +134,7 @@ public class StandardizePhoneNumberDialog extends BaseTransformDialog implements
     setButtonPositions(new Button[] {wOk, wCancel}, margin, null);
 
     Label hSpacer = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
-    hSpacer.setLayoutData(
-        new FormDataBuilder().left().right().bottom(wOk, -margin).height(2).result());
+    hSpacer.setLayoutData(new FormDataBuilder().left().right().bottom(wOk, -margin).height(2).result());
 
     // Transform name line
     //
@@ -148,8 +146,7 @@ public class StandardizePhoneNumberDialog extends BaseTransformDialog implements
     wTransformName = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wTransformName.setText(transformName);
     wTransformName.addListener(SWT.Modify, e -> input.setChanged());
-    wTransformName.setLayoutData(
-        new FormDataBuilder().left(wlTransformName, margin).top(wlTransformName, 0, SWT.CENTER).right().result());
+    wTransformName.setLayoutData(new FormDataBuilder().left(wlTransformName, margin).top(wlTransformName, 0, SWT.CENTER).right().result());
     PropsUi.setLook(wTransformName);
 
     // Table with fields
@@ -160,145 +157,86 @@ public class StandardizePhoneNumberDialog extends BaseTransformDialog implements
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.InputField.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.OutputField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.CountryField.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.DefaultCountry.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              input.getSupportedCountries(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberFormat.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              input.getSupportedFormats(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberTypeField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "StandardizePhoneNumberDialog.ColumnInfo.IsValidNumberField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              new String[] {""},
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.InputField.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.OutputField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.CountryField.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.DefaultCountry.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                input.getSupportedCountries(),
+                false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberFormat.Label"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                input.getSupportedFormats(),
+                false),
+            new ColumnInfo(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberTypeField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.IsValidNumberField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, new String[] {""}, false)};
 
-    columns[0].setToolTip(
-        BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.InputField.Tooltip"));
-    columns[1].setToolTip(
-        BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.OutputField.Tooltip"));
+    columns[0].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.InputField.Tooltip"));
+    columns[1].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.OutputField.Tooltip"));
     columns[1].setUsingVariables(true);
-    columns[2].setToolTip(
-        BaseMessages.getString(
-            PKG, "StandardizePhoneNumberDialog.ColumnInfo.CountryField.Tooltip"));
-    columns[3].setToolTip(
-        BaseMessages.getString(
-            PKG, "StandardizePhoneNumberDialog.ColumnInfo.DefaultCountry.Tooltip"));
-    columns[4].setToolTip(
-        BaseMessages.getString(
-            PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberFormat.Tooltip"));
+    columns[2].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.CountryField.Tooltip"));
+    columns[3].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.DefaultCountry.Tooltip"));
+    columns[4].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberFormat.Tooltip"));
     columns[5].setUsingVariables(true);
-    columns[5].setToolTip(
-        BaseMessages.getString(
-            PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberTypeField.Tooltip"));
+    columns[5].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.NumberTypeField.Tooltip"));
     columns[6].setUsingVariables(true);
-    columns[6].setToolTip(
-        BaseMessages.getString(
-            PKG, "StandardizePhoneNumberDialog.ColumnInfo.IsValidNumberField.Tooltip"));
+    columns[6].setToolTip(BaseMessages.getString(PKG, "StandardizePhoneNumberDialog.ColumnInfo.IsValidNumberField.Tooltip"));
 
-    wFields =
-        new TableView(
-            this.getVariables(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            0,
-            e -> input.setChanged(),
-            props);
-    wFields.setLayoutData(
-        new FormDataBuilder()
-            .left()
-            .fullWidth()
-            .top(lblFields, margin)
-            .bottom(hSpacer, -margin)
-            .result());
+    wFields = new TableView(this.getVariables(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, 0, e -> input.setChanged(), props);
+    wFields.setLayoutData(new FormDataBuilder().left().fullWidth().top(lblFields, margin).bottom(hSpacer, -margin).result());
     wFields.getTable().addListener(SWT.Resize, new ColumnsResizer(2, 20, 20, 10, 12, 12, 12, 8));
 
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              final List<String> inputFields = new ArrayList<>();
+          final List<String> inputFields = new ArrayList<>();
 
-              if (rowMeta != null) {
+          if (rowMeta != null) {
 
-                for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-                  inputFields.add(valueMeta.getName());
-                }
-
-                // Sort by name
-                String[] fieldNames = Const.sortStrings(inputFields.toArray(new String[0]));
-                columns[0].setComboValues(fieldNames);
-                columns[2].setComboValues(fieldNames);
-              }
-
-              // Display in red missing field names
-              HopGui.getInstance().getDisplay()
-                  .asyncExec(
-                      new Runnable() {
-                        public void run() {
-                          if (!wFields.isDisposed()) {
-                            for (int i = 0; i < wFields.table.getItemCount(); i++) {
-                              TableItem item = wFields.table.getItem(i);
-
-                              // Input field
-                              if (!Utils.isEmpty(item.getText(1))
-                                  && !inputFields.contains(item.getText(1))) {
-                                item.setBackground(GuiResource.getInstance().getColorRed());
-                              }
-
-                              // Country field
-                              if (!Utils.isEmpty(item.getText(3))
-                                  && !inputFields.contains(item.getText(3))) {
-
-                                item.setBackground(GuiResource.getInstance().getColorRed());
-                              }
-                            }
-                          }
-                        }
-                      });
-
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+            for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
+              inputFields.add(valueMeta.getName());
             }
+
+            // Sort by name
+            String[] fieldNames = Const.sortStrings(inputFields.toArray(new String[0]));
+            columns[0].setComboValues(fieldNames);
+            columns[2].setComboValues(fieldNames);
           }
-        };
+
+          // Display in red missing field names
+          HopGui.getInstance().getDisplay().asyncExec(new Runnable() {
+            public void run() {
+              if (!wFields.isDisposed()) {
+                for (int i = 0; i < wFields.table.getItemCount(); i++) {
+                  TableItem item = wFields.table.getItem(i);
+
+                  // Input field
+                  if (!Utils.isEmpty(item.getText(1)) && !inputFields.contains(item.getText(1))) {
+                    item.setBackground(GuiResource.getInstance().getColorRed());
+                  }
+
+                  // Country field
+                  if (!Utils.isEmpty(item.getText(3)) && !inputFields.contains(item.getText(3))) {
+
+                    item.setBackground(GuiResource.getInstance().getColorRed());
+                  }
+                }
+              }
+            }
+          });
+
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();

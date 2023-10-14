@@ -40,7 +40,7 @@ public class HopWebEntryPoint extends AbstractEntryPoint {
     WidgetUtil.registerDataKeys("notes");
     // WidgetUtil.registerDataKeys("svg");
 
-    //  The following options are session specific.
+    // The following options are session specific.
     //
     StartupParameters serviceParams = RWT.getClient().getService(StartupParameters.class);
     List<String> args = new ArrayList<>();
@@ -56,15 +56,9 @@ public class HopWebEntryPoint extends AbstractEntryPoint {
     HopGui.getInstance().setShell(parent.getShell());
     HopGui.getInstance().setProps(PropsUi.getInstance());
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          HopGui.getInstance().getLog(),
-          HopGui.getInstance().getVariables(),
-          HopExtensionPoint.HopGuiInit.id,
-          HopGui.getInstance());
+      ExtensionPointHandler.callExtensionPoint(HopGui.getInstance().getLog(), HopGui.getInstance().getVariables(), HopExtensionPoint.HopGuiInit.id, HopGui.getInstance());
     } catch (Exception e) {
-      HopGui.getInstance()
-          .getLog()
-          .logError("Error calling extension point plugin(s) for HopGuiInit", e);
+      HopGui.getInstance().getLog().logError("Error calling extension point plugin(s) for HopGuiInit", e);
     }
 
     HopGui.getInstance().open();

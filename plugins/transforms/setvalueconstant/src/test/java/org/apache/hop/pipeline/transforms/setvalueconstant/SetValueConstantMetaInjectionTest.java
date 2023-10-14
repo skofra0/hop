@@ -22,9 +22,9 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-public class SetValueConstantMetaInjectionTest
-    extends BaseMetadataInjectionTest<SetValueConstantMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class SetValueConstantMetaInjectionTest extends BaseMetadataInjectionTest<SetValueConstantMeta> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {

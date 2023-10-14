@@ -27,7 +27,8 @@ public class WriteToLogMetaSymmetric extends WriteToLogMeta {
    * LogLevel object, and the setter expects an int. The underlying storage is a String. This
    * asymmetry causes issues with test harnesses using reflection.
    *
-   * <p>MB - 5/2016
+   * <p>
+   * MB - 5/2016
    */
   public WriteToLogMetaSymmetric() {
     super();

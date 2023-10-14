@@ -107,165 +107,143 @@ public class HopRowCoder extends AtomicCoder<HopRow> {
 
   private void write(ObjectOutputStream out, int objectType, Object object) throws IOException {
     switch (objectType) {
-      case IValueMeta.TYPE_STRING:
-        {
-          String string = (String) object;
-          byte[] data = string.getBytes(StandardCharsets.UTF_8);
-          out.writeInt(data.length);
-          out.write(data);
-        }
+      case IValueMeta.TYPE_STRING: {
+        String string = (String) object;
+        byte[] data = string.getBytes(StandardCharsets.UTF_8);
+        out.writeInt(data.length);
+        out.write(data);
+      }
         break;
-      case IValueMeta.TYPE_INTEGER:
-        {
-          Long lng = (Long) object;
-          out.writeLong(lng);
-        }
+      case IValueMeta.TYPE_INTEGER: {
+        Long lng = (Long) object;
+        out.writeLong(lng);
+      }
         break;
-      case IValueMeta.TYPE_TIMESTAMP:
-        {
-          out.writeLong(((Timestamp) object).getTime());
-          out.writeInt(((Timestamp) object).getNanos());
-        }
+      case IValueMeta.TYPE_TIMESTAMP: {
+        out.writeLong(((Timestamp) object).getTime());
+        out.writeInt(((Timestamp) object).getNanos());
+      }
         break;
-      case IValueMeta.TYPE_DATE:
-        {
-          long lng = ((Date) object).getTime();
-          out.writeLong(lng);
-        }
+      case IValueMeta.TYPE_DATE: {
+        long lng = ((Date) object).getTime();
+        out.writeLong(lng);
+      }
         break;
-      case IValueMeta.TYPE_BOOLEAN:
-        {
-          boolean b = (Boolean) object;
-          out.writeBoolean(b);
-        }
+      case IValueMeta.TYPE_BOOLEAN: {
+        boolean b = (Boolean) object;
+        out.writeBoolean(b);
+      }
         break;
-      case IValueMeta.TYPE_NUMBER:
-        {
-          Double dbl = (Double) object;
-          out.writeDouble(dbl);
-        }
+      case IValueMeta.TYPE_NUMBER: {
+        Double dbl = (Double) object;
+        out.writeDouble(dbl);
+      }
         break;
-      case IValueMeta.TYPE_BIGNUMBER:
-        {
-          BigDecimal bd = (BigDecimal) object;
-          out.writeUTF(bd.toString());
-        }
+      case IValueMeta.TYPE_BIGNUMBER: {
+        BigDecimal bd = (BigDecimal) object;
+        out.writeUTF(bd.toString());
+      }
         break;
-      case IValueMeta.TYPE_BINARY:
-        {
-          byte[] bytes = (byte[]) object;
-          out.write(bytes.length);
-          out.write(bytes);
-        }
+      case IValueMeta.TYPE_BINARY: {
+        byte[] bytes = (byte[]) object;
+        out.write(bytes.length);
+        out.write(bytes);
+      }
         break;
-      case IValueMeta.TYPE_INET:
-        {
-          InetAddress inetAddress = (InetAddress) object;
-          write(out, IValueMeta.TYPE_STRING, inetAddress.getHostName());
-          out.writeInt(inetAddress.getAddress().length == 4 ? 1 : 2);
-          out.write(inetAddress.getAddress());
-        }
+      case IValueMeta.TYPE_INET: {
+        InetAddress inetAddress = (InetAddress) object;
+        write(out, IValueMeta.TYPE_STRING, inetAddress.getHostName());
+        out.writeInt(inetAddress.getAddress().length == 4 ? 1 : 2);
+        out.write(inetAddress.getAddress());
+      }
         break;
-      case IValueMeta.TYPE_AVRO:
-        {
-          // Write the schema and record. This way we can continue to do interesting things later
-          // on.
+      case IValueMeta.TYPE_AVRO: {
+        // Write the schema and record. This way we can continue to do interesting things later
+        // on.
+        //
+        GenericRecord genericRecord = (GenericRecord) object;
+
+        try {
+          // Write the schema as a JSON string...
           //
-          GenericRecord genericRecord = (GenericRecord) object;
+          out.writeUTF(genericRecord.getSchema().toString(false));
 
-          try {
-            // Write the schema as a JSON string...
-            //
-            out.writeUTF(genericRecord.getSchema().toString(false));
-
-            // Now we perform the binary serialization of the data
-            //
-            ValueMetaAvroRecord valueMeta = new ValueMetaAvroRecord("write", genericRecord.getSchema());
-            DataOutputStream dataOutputStream = new DataOutputStream(out);
-            valueMeta.writeData(dataOutputStream, genericRecord);
-            dataOutputStream.flush();
-          } catch (Exception e) {
-            throw new IOException("Error serializing Avro generic schema and record to String", e);
-          }
+          // Now we perform the binary serialization of the data
+          //
+          ValueMetaAvroRecord valueMeta = new ValueMetaAvroRecord("write", genericRecord.getSchema());
+          DataOutputStream dataOutputStream = new DataOutputStream(out);
+          valueMeta.writeData(dataOutputStream, genericRecord);
+          dataOutputStream.flush();
+        } catch (Exception e) {
+          throw new IOException("Error serializing Avro generic schema and record to String", e);
         }
+      }
         break;
       default:
-        throw new IOException(
-            "Data type not supported yet: " + objectType + " - " + object.toString());
+        throw new IOException("Data type not supported yet: " + objectType + " - " + object.toString());
     }
   }
 
   private Object read(ObjectInputStream in, int objectType) throws IOException {
     switch (objectType) {
-      case IValueMeta.TYPE_STRING:
-        {
-          int length = in.readInt();
-          byte[] data = new byte[length];
-          in.readFully(data);
-          return new String(data, StandardCharsets.UTF_8);
-        }
+      case IValueMeta.TYPE_STRING: {
+        int length = in.readInt();
+        byte[] data = new byte[length];
+        in.readFully(data);
+        return new String(data, StandardCharsets.UTF_8);
+      }
 
-      case IValueMeta.TYPE_INTEGER:
-        {
-          return in.readLong();
-        }
+      case IValueMeta.TYPE_INTEGER: {
+        return in.readLong();
+      }
 
-      case IValueMeta.TYPE_TIMESTAMP:
-        {
-          Timestamp timestamp = new Timestamp(in.readLong());
-          timestamp.setNanos(in.readInt());
-          return timestamp;
-        }
+      case IValueMeta.TYPE_TIMESTAMP: {
+        Timestamp timestamp = new Timestamp(in.readLong());
+        timestamp.setNanos(in.readInt());
+        return timestamp;
+      }
 
-      case IValueMeta.TYPE_DATE:
-        {
-          return new Date(in.readLong());
-        }
+      case IValueMeta.TYPE_DATE: {
+        return new Date(in.readLong());
+      }
 
-      case IValueMeta.TYPE_BOOLEAN:
-        {
-          return in.readBoolean();
-        }
+      case IValueMeta.TYPE_BOOLEAN: {
+        return in.readBoolean();
+      }
 
-      case IValueMeta.TYPE_NUMBER:
-        {
-          return in.readDouble();
-        }
+      case IValueMeta.TYPE_NUMBER: {
+        return in.readDouble();
+      }
 
-      case IValueMeta.TYPE_BIGNUMBER:
-        {
-          return new BigDecimal(in.readUTF());
-        }
+      case IValueMeta.TYPE_BIGNUMBER: {
+        return new BigDecimal(in.readUTF());
+      }
 
-      case IValueMeta.TYPE_BINARY:
-        {
-          byte[] bytes = new byte[in.readInt()];
-          in.read(bytes);
-          return bytes;
-        }
+      case IValueMeta.TYPE_BINARY: {
+        byte[] bytes = new byte[in.readInt()];
+        in.read(bytes);
+        return bytes;
+      }
 
-      case IValueMeta.TYPE_INET:
-        {
-          String hostname = (String) read(in, IValueMeta.TYPE_STRING);
-          byte[] addr = new byte[in.readInt() == 1 ? 4 : 16];
-          in.read(addr);
-          return InetAddress.getByAddress(hostname, addr);
-        }
+      case IValueMeta.TYPE_INET: {
+        String hostname = (String) read(in, IValueMeta.TYPE_STRING);
+        byte[] addr = new byte[in.readInt() == 1 ? 4 : 16];
+        in.read(addr);
+        return InetAddress.getByAddress(hostname, addr);
+      }
 
-      case IValueMeta.TYPE_AVRO:
-        {
-          try {
-            String schemaJson = in.readUTF();
-            Schema schema = new Schema.Parser().parse(schemaJson);
-            ValueMetaAvroRecord valueMeta = new ValueMetaAvroRecord("read", schema);
-            DataInputStream dataInputStream = new DataInputStream(in);
-            GenericRecord genericRecord = (GenericRecord) valueMeta.readData(dataInputStream);
-            return genericRecord;
-          } catch (Exception e) {
-            throw new IOException(
-                "Error de-serializing Avro schema and generic record from JSON", e);
-          }
+      case IValueMeta.TYPE_AVRO: {
+        try {
+          String schemaJson = in.readUTF();
+          Schema schema = new Schema.Parser().parse(schemaJson);
+          ValueMetaAvroRecord valueMeta = new ValueMetaAvroRecord("read", schema);
+          DataInputStream dataInputStream = new DataInputStream(in);
+          GenericRecord genericRecord = (GenericRecord) valueMeta.readData(dataInputStream);
+          return genericRecord;
+        } catch (Exception e) {
+          throw new IOException("Error de-serializing Avro schema and generic record from JSON", e);
         }
+      }
 
       default:
         throw new IOException("Data type not supported yet: " + objectType);
@@ -303,7 +281,6 @@ public class HopRowCoder extends AtomicCoder<HopRow> {
     if (object instanceof GenericRecord) {
       return IValueMeta.TYPE_AVRO;
     }
-    throw new CoderException(
-        "Data type for object class " + object.getClass().getName() + " isn't supported yet");
+    throw new CoderException("Data type for object class " + object.getClass().getName() + " isn't supported yet");
   }
 }

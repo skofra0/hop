@@ -47,11 +47,16 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class PipelineTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
-  @Mock private ITransform transformMock, transformMock2;
-  @Mock private ITransformData data, data2;
-  @Mock private TransformMeta transformMeta, transformMeta2;
-  @Mock private PipelineMeta pipelineMeta;
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @Mock
+  private ITransform transformMock, transformMock2;
+  @Mock
+  private ITransformData data, data2;
+  @Mock
+  private TransformMeta transformMeta, transformMeta2;
+  @Mock
+  private PipelineMeta pipelineMeta;
 
   int count = 10000;
   IPipelineEngine<PipelineMeta> pipeline;
@@ -94,17 +99,13 @@ public class PipelineTest {
    * @throws InterruptedException
    */
   @Test
-  public void testPipelineFinishListenersConcurrentModification()
-      throws HopException, InterruptedException {
+  public void testPipelineFinishListenersConcurrentModification() throws HopException, InterruptedException {
     CountDownLatch start = new CountDownLatch(1);
     PipelineFinishListenerAdder add = new PipelineFinishListenerAdder(pipeline, start);
     PipelineFinishListenerFirer firer = new PipelineFinishListenerFirer(pipeline, start);
     startThreads(add, firer, start);
     assertEquals("All listeners are added: no ConcurrentModificationException", count, add.c);
-    assertEquals(
-        "All Finish listeners are iterated over: no ConcurrentModificationException",
-        count,
-        firer.c);
+    assertEquals("All Finish listeners are iterated over: no ConcurrentModificationException", count, firer.c);
   }
 
   /**
@@ -119,10 +120,7 @@ public class PipelineTest {
     PipelineStartListenerFirer starter = new PipelineStartListenerFirer(pipeline, start);
     startThreads(add, starter, start);
     assertEquals("All listeners are added: no ConcurrentModificationException", count, add.c);
-    assertEquals(
-        "All Start listeners are iterated over: no ConcurrentModificationException",
-        count,
-        starter.c);
+    assertEquals("All Start listeners are iterated over: no ConcurrentModificationException", count, starter.c);
   }
 
   /**
@@ -176,8 +174,7 @@ public class PipelineTest {
     verify(transform, times(numberTimesCalled)).stopRunning();
   }
 
-  private TransformMetaDataCombi combi(
-      ITransform transform, ITransformData data, TransformMeta transformMeta) {
+  private TransformMetaDataCombi combi(ITransform transform, ITransformData data, TransformMeta transformMeta) {
     TransformMetaDataCombi transformMetaDataCombi = new TransformMetaDataCombi();
     transformMetaDataCombi.transform = transform;
     transformMetaDataCombi.data = data;
@@ -185,8 +182,7 @@ public class PipelineTest {
     return transformMetaDataCombi;
   }
 
-  private void startThreads(Runnable one, Runnable two, CountDownLatch start)
-      throws InterruptedException {
+  private void startThreads(Runnable one, Runnable two, CountDownLatch start) throws InterruptedException {
     Thread th = new Thread(one);
     Thread tt = new Thread(two);
     th.start();
@@ -324,10 +320,11 @@ public class PipelineTest {
     }
   }
 
-  private final IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener = pipeline -> {};
+  private final IExecutionFinishedListener<IPipelineEngine<PipelineMeta>> listener = pipeline -> {
+  };
 
-  private final IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener =
-      pipeline -> {};
+  private final IExecutionStoppedListener<IPipelineEngine<PipelineMeta>> pipelineStoppedListener = pipeline -> {
+  };
 
   /**
    * When a workflow is scheduled twice, it gets the same log channel Id and both logs get merged
@@ -351,15 +348,11 @@ public class PipelineTest {
     boolean hasFilename = true;
     boolean hasRepoDir = false;
     pipelineTest.copyFrom(null);
-    pipelineTest.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    pipelineTest.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
+    pipelineTest.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    pipelineTest.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
     pipelineTest.setInternalEntryCurrentDirectory(hasFilename);
 
-    assertEquals(
-        "file:///C:/SomeFilenameDirectory",
-        pipelineTest.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("file:///C:/SomeFilenameDirectory", pipelineTest.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 
   @Test
@@ -367,14 +360,10 @@ public class PipelineTest {
     Pipeline pipelineTest = new LocalPipelineEngine();
     pipelineTest.copyFrom(null);
     boolean hasFilename = false;
-    pipelineTest.setVariable(
-        Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
-    pipelineTest.setVariable(
-        Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
+    pipelineTest.setVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, "Original value defined at run execution");
+    pipelineTest.setVariable(Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, "file:///C:/SomeFilenameDirectory");
     pipelineTest.setInternalEntryCurrentDirectory(hasFilename);
 
-    assertEquals(
-        "Original value defined at run execution",
-        pipelineTest.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
+    assertEquals("Original value defined at run execution", pipelineTest.getVariable(Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER));
   }
 }

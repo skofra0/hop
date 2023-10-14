@@ -42,8 +42,7 @@ import java.util.List;
     keywords = "i18n::SalesforceUpdateMeta.keyword",
     image = "SFUD.svg",
     documentationUrl = "/pipeline/transforms/salesforceupdate.html")
-public class SalesforceUpdateMeta
-    extends SalesforceTransformMeta<SalesforceUpdate, SalesforceUpdateData> {
+public class SalesforceUpdateMeta extends SalesforceTransformMeta<SalesforceUpdate, SalesforceUpdateData> {
   private static final Class<?> PKG = SalesforceUpdateMeta.class; // For Translator
 
   /** Field value to update */
@@ -119,8 +118,7 @@ public class SalesforceUpdateMeta
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
     readData(transformNode);
   }
@@ -153,16 +151,12 @@ public class SalesforceUpdateMeta
       retval.append("      <field>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("name", getUpdateLookup()[i]));
       retval.append("        ").append(XmlHandler.addTagValue("field", getUpdateStream()[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("useExternalId", getUseExternalId()[i].booleanValue()));
+      retval.append("        ").append(XmlHandler.addTagValue("useExternalId", getUseExternalId()[i].booleanValue()));
       retval.append("      </field>").append(Const.CR);
     }
 
     retval.append("      </fields>" + Const.CR);
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
+    retval.append("    " + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
     return retval.toString();
   }
 
@@ -195,8 +189,7 @@ public class SalesforceUpdateMeta
           }
         }
       }
-      setRollbackAllChangesOnError(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
+      setRollbackAllChangesOnError("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
     }
@@ -220,13 +213,7 @@ public class SalesforceUpdateMeta
 
   /* This function adds meta data to the rows being pushed out */
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {}
 
   @Override
@@ -240,48 +227,23 @@ public class SalesforceUpdateMeta
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    super.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        input,
-        output,
-        info,
-        variables,
-        metadataProvider);
+    super.check(remarks, pipelineMeta, transformMeta, prev, input, output, info, variables, metadataProvider);
 
     CheckResult cr;
 
     // See if we get input...
     if (input != null && input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
 
     // check return fields
     if (getUpdateLookup().length == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.NoFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.FieldsOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceUpdateMeta.CheckResult.FieldsOk"), transformMeta);
     }
     remarks.add(cr);
   }

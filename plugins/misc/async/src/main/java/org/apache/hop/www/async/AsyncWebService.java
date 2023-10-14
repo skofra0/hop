@@ -35,23 +35,23 @@ import java.util.List;
     documentationUrl = "https://hop.apache.org/manual/latest/metadata-types/async-web-service.html")
 public class AsyncWebService extends HopMetadataBase implements IHopMetadata {
 
-  @HopMetadataProperty private boolean enabled;
-  @HopMetadataProperty private String filename;
-  @HopMetadataProperty private String statusVariables;
-  @HopMetadataProperty private String bodyContentVariable;
-  @HopMetadataProperty private String runConfigurationName;
+  @HopMetadataProperty
+  private boolean enabled;
+  @HopMetadataProperty
+  private String filename;
+  @HopMetadataProperty
+  private String statusVariables;
+  @HopMetadataProperty
+  private String bodyContentVariable;
+  @HopMetadataProperty
+  private String runConfigurationName;
 
   public AsyncWebService() {
     this.enabled = true;
     this.bodyContentVariable = "ASYNC_CONTENT";
   }
 
-  public AsyncWebService(
-      String name,
-      boolean enabled,
-      String filename,
-      String statusVariables,
-      String bodyContentVariable, String runConfigurationName) {
+  public AsyncWebService(String name, boolean enabled, String filename, String statusVariables, String bodyContentVariable, String runConfigurationName) {
     super(name);
     this.enabled = enabled;
     this.filename = filename;

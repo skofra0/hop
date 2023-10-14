@@ -55,9 +55,7 @@ public class BQSchemaAndRecordToHopFn implements SerializableFunction<SchemaAndR
   private transient SimpleDateFormat simpleDateTimeFormat;
   private transient SimpleDateFormat simpleDateFormat;
 
-  public BQSchemaAndRecordToHopFn(
-      String transformName,
-      String rowMetaJson) {
+  public BQSchemaAndRecordToHopFn(String transformName, String rowMetaJson) {
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
   }
@@ -96,8 +94,7 @@ public class BQSchemaAndRecordToHopFn implements SerializableFunction<SchemaAndR
               AvroType avroType = AvroType.valueOf(avroTypeString);
               valueTypes[index] = avroType.getHopType();
             } catch (IllegalArgumentException e) {
-              throw new RuntimeException(
-                  "Unable to recognize data type '" + avroTypeString + "'", e);
+              throw new RuntimeException("Unable to recognize data type '" + avroTypeString + "'", e);
             }
           }
         }
@@ -155,10 +152,7 @@ public class BQSchemaAndRecordToHopFn implements SerializableFunction<SchemaAndR
               row[index] = new Timestamp((Long) srcData / 1000);
               break;
             default:
-              throw new RuntimeException(
-                  "Conversion from Avro JSON to Hop is not yet supported for Hop data type '"
-                      + valueMeta.getTypeDesc()
-                      + "'");
+              throw new RuntimeException("Conversion from Avro JSON to Hop is not yet supported for Hop data type '" + valueMeta.getTypeDesc() + "'");
           }
         }
       }
@@ -175,8 +169,8 @@ public class BQSchemaAndRecordToHopFn implements SerializableFunction<SchemaAndR
     }
   }
 
-  //  From:
-  //         https://cloud.google.com/dataprep/docs/html/BigQuery-Data-Type-Conversions_102563896
+  // From:
+  // https://cloud.google.com/dataprep/docs/html/BigQuery-Data-Type-Conversions_102563896
   //
   public enum AvroType {
     STRING(IValueMeta.TYPE_STRING),
@@ -190,8 +184,7 @@ public class BQSchemaAndRecordToHopFn implements SerializableFunction<SchemaAndR
     TIMESTAMP(IValueMeta.TYPE_DATE),
     DATE(IValueMeta.TYPE_DATE),
     TIME(IValueMeta.TYPE_DATE),
-    DATETIME(IValueMeta.TYPE_DATE),
-    ;
+    DATETIME(IValueMeta.TYPE_DATE),;
 
     private int hopType;
 

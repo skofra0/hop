@@ -21,13 +21,15 @@ package org.apache.hop.core.row;
  * way, when we want to go for a metadata driven system with hiding deletes, over sized arrays etc,
  * we can change these methods to find occurrences.
  *
- * <p>For example, a transform adding a field to the row should always call
+ * <p>
+ * For example, a transform adding a field to the row should always call
  *
  * <pre>
  * <a href="">public static Object[] resizeArray(Object[] objects, int newSize)</a></i>
  * </pre>
  *
- * <p>which will either physically resize the array or return the original row, in case it was
+ * <p>
+ * which will either physically resize the array or return the original row, in case it was
  * over-allocated and has enough slots. If a transform needs to create new rows from scratch, it
  * should use allocateRowData() which will return a somewhat over-allocated object array to fit the
  * desired number of fields.
@@ -138,7 +140,7 @@ public class RowDataUtil {
    *
    * @param one The first array
    * @param the length of the row data or of it's longer, the location of the new extra value in the
-   *     returned data row
+   *        returned data row
    * @param two The second array
    * @return a new Array containing all elements from one and two after one another
    */
@@ -155,7 +157,7 @@ public class RowDataUtil {
    *
    * @param rowData The original row of data
    * @param the length of the row data or of it's longer, the location of the new extra value in the
-   *     returned data row
+   *        returned data row
    * @param extra The extra value to add
    * @return a new Array containing all elements, including the extra one
    */
@@ -171,7 +173,7 @@ public class RowDataUtil {
    *
    * @param rowData the row of data to remove from
    * @param index the index of all the items in the source table to remove. We don't check if the
-   *     same index gets deleted twice!
+   *        same index gets deleted twice!
    */
   public static Object[] removeItems(Object[] rowData, int[] index) {
     Object[] data = new Object[rowData.length - index.length];

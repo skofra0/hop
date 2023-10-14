@@ -33,23 +33,15 @@ import java.util.Map;
 public class ExecSqlRowMetaTest {
   LoadSaveTester loadSaveTester;
   Class<ExecSqlRowMeta> testMetaClass = ExecSqlRowMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
     List<String> attributes =
-        Arrays.asList(
-            "sqlFieldName",
-            "updateField",
-            "insertField",
-            "deleteField",
-            "readField",
-            "commitSize",
-            "sqlFromfile",
-            "sendOneStatement",
-            "connection");
+        Arrays.asList("sqlFieldName", "updateField", "insertField", "deleteField", "readField", "commitSize", "sqlFromfile", "sendOneStatement", "connection");
 
     Map<String, String> getterMap = new HashMap<String, String>();
     Map<String, String> setterMap = new HashMap<String, String>();

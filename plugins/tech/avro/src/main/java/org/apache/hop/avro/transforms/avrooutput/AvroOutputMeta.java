@@ -63,35 +63,23 @@ public class AvroOutputMeta extends BaseTransformMeta<AvroOutput, AvroOutputData
   private String fileName;
 
   /** The base name of the schema file */
-  @HopMetadataProperty(
-      key = "schemafilename",
-      injectionKeyDescription = "AvroOutput.Injection.SCHEMA_FILENAME")
+  @HopMetadataProperty(key = "schemafilename", injectionKeyDescription = "AvroOutput.Injection.SCHEMA_FILENAME")
   private String schemaFileName;
 
   /** Flag: create schema file, default to false */
-  @HopMetadataProperty(
-      key = "create_schema_file",
-      injectionKeyDescription = "AvroOutput.Injection.AUTO_CREATE_SCHEMA")
+  @HopMetadataProperty(key = "create_schema_file", injectionKeyDescription = "AvroOutput.Injection.AUTO_CREATE_SCHEMA")
   private boolean createSchemaFile;
 
   /** Flag: write schema file, default to true */
-  @HopMetadataProperty(
-      key = "write_schema_file",
-      defaultBoolean = true,
-      injectionKeyDescription = "AvroOutput.Injection.WRITE_SCHEMA_TO_FILE")
+  @HopMetadataProperty(key = "write_schema_file", defaultBoolean = true, injectionKeyDescription = "AvroOutput.Injection.WRITE_SCHEMA_TO_FILE")
   private boolean writeSchemaFile;
 
   /** The namespace for the schema file */
-  @HopMetadataProperty(
-      key = "namespace",
-      injectionKey = "AVRO_NAMESPACE",
-      injectionKeyDescription = "AvroOutput.Injection.AVRO_NAMESPACE")
+  @HopMetadataProperty(key = "namespace", injectionKey = "AVRO_NAMESPACE", injectionKeyDescription = "AvroOutput.Injection.AVRO_NAMESPACE")
   private String namespace;
 
   /** The record name for the schema file */
-  @HopMetadataProperty(
-      key = "recordname",
-      injectionKeyDescription = "AvroOutput.Injection.AVRO_RECORD_NAME")
+  @HopMetadataProperty(key = "recordname", injectionKeyDescription = "AvroOutput.Injection.AVRO_RECORD_NAME")
   private String recordName;
 
   /** The documentation for the schema file */
@@ -99,75 +87,49 @@ public class AvroOutputMeta extends BaseTransformMeta<AvroOutput, AvroOutputData
   private String doc;
 
   /** Flag: create parent folder, default to true */
-  @HopMetadataProperty(
-      key = "create_parent_folder",
-      injectionKeyDescription = "AvroOutput.Injection.CREATE_PARENT_FOLDER")
+  @HopMetadataProperty(key = "create_parent_folder", injectionKeyDescription = "AvroOutput.Injection.CREATE_PARENT_FOLDER")
   private boolean createParentFolder = true;
 
   /** Flag: add the transform copy number in the filename */
-  @HopMetadataProperty(
-      key = "split",
-      injectionKeyDescription = "AvroOutput.Injection.INCLUDE_TRANSFORM_NR")
+  @HopMetadataProperty(key = "split", injectionKeyDescription = "AvroOutput.Injection.INCLUDE_TRANSFORM_NR")
   private boolean transformNrInFilename;
 
   /** Flag: add the partition number in the filename */
-  @HopMetadataProperty(
-      key = "haspartno",
-      injectionKeyDescription = "AvroOutput.Injection.INCLUDE_PART_NR")
+  @HopMetadataProperty(key = "haspartno", injectionKeyDescription = "AvroOutput.Injection.INCLUDE_PART_NR")
   private boolean partNrInFilename;
 
-
   /** Flag: add the date in the filename */
-  @HopMetadataProperty(
-      key = "add_date",
-      injectionKeyDescription = "AvroOutput.Injection.INCLUDE_DATE")
+  @HopMetadataProperty(key = "add_date", injectionKeyDescription = "AvroOutput.Injection.INCLUDE_DATE")
   private boolean dateInFilename;
 
   /** Flag: add the time in the filename */
-  @HopMetadataProperty(
-      key = "add_time",
-      injectionKeyDescription = "AvroOutput.Injection.INCLUDE_TIME")
+  @HopMetadataProperty(key = "add_time", injectionKeyDescription = "AvroOutput.Injection.INCLUDE_TIME")
   private boolean timeInFilename;
 
   /** The compression type */
-  @HopMetadataProperty(
-      key = "compressiontype",
-      injectionKeyDescription = "AvroOutput.Injection.COMPRESSION_CODEC")
+  @HopMetadataProperty(key = "compressiontype", injectionKeyDescription = "AvroOutput.Injection.COMPRESSION_CODEC")
   private String compressionType;
 
   /* THE FIELD SPECIFICATIONS ... */
 
   /** The output fields */
-  @HopMetadataProperty(
-      key = "field",
-      groupKey = "fields",
-      injectionGroupDescription = "AvroOutput.Injection.OUTPUT_FIELDS")
+  @HopMetadataProperty(key = "field", groupKey = "fields", injectionGroupDescription = "AvroOutput.Injection.OUTPUT_FIELDS")
   private List<AvroOutputField> outputFields;
 
   /** Flag: add the filenames to result filenames */
-  @HopMetadataProperty(
-      key = "add_to_result_filenames",
-      injectionKeyDescription = "AvroOutput.Injection.ADD_TO_RESULT")
+  @HopMetadataProperty(key = "add_to_result_filenames", injectionKeyDescription = "AvroOutput.Injection.ADD_TO_RESULT")
   private boolean addToResultFilenames;
 
-  @HopMetadataProperty(
-      key = "SpecifyFormat",
-      injectionKeyDescription = "AvroOutput.Injection.SPECIFY_FORMAT")
+  @HopMetadataProperty(key = "SpecifyFormat", injectionKeyDescription = "AvroOutput.Injection.SPECIFY_FORMAT")
   private boolean specifyingFormat;
 
-  @HopMetadataProperty(
-      key = "date_time_format",
-      injectionKeyDescription = "AvroOutput.Injection.DATE_FORMAT")
+  @HopMetadataProperty(key = "date_time_format", injectionKeyDescription = "AvroOutput.Injection.DATE_FORMAT")
   private String dateTimeFormat;
 
-  @HopMetadataProperty(
-      key = "output_type",
-      injectionKeyDescription = "AvroOutput.Injection.OUTPUT_TYPE")
+  @HopMetadataProperty(key = "output_type", injectionKeyDescription = "AvroOutput.Injection.OUTPUT_TYPE")
   private String outputType;
 
-  @HopMetadataProperty(
-      key = "output_field_name",
-      injectionKeyDescription = "AvroOutput.Injection.OUTPUT_FIELD_NAME")
+  @HopMetadataProperty(key = "output_field_name", injectionKeyDescription = "AvroOutput.Injection.OUTPUT_FIELD_NAME")
   private String outputFieldName;
 
   public AvroOutputMeta() {
@@ -432,14 +394,7 @@ public class AvroOutputMeta extends BaseTransformMeta<AvroOutput, AvroOutputData
     outputFieldName = "avro_record";
   }
 
-  public String buildFilename(
-      String baseFilename,
-      IVariables space,
-      int transformNr,
-      String partNr,
-      boolean beamContext,
-      String transformId,
-      int bundleNr) {
+  public String buildFilename(String baseFilename, IVariables space, int transformNr, String partNr, boolean beamContext, String transformId, int bundleNr) {
     SimpleDateFormat daf = new SimpleDateFormat();
 
     // Replace possible environment variables...
@@ -501,12 +456,7 @@ public class AvroOutputMeta extends BaseTransformMeta<AvroOutput, AvroOutputData
 
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "TextFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transforminfo);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -521,54 +471,30 @@ public class AvroOutputMeta extends BaseTransformMeta<AvroOutput, AvroOutputData
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "TextFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.AllFieldsFound"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.AllFieldsFound"), transforminfo);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputOk"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputOk"), transforminfo);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputError"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.ExpectedInputError"), transforminfo);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FilesNotChecked"),
-            transforminfo);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "TextFileOutputMeta.CheckResult.FilesNotChecked"), transforminfo);
     remarks.add(cr);
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // change the case insensitive flag too
 

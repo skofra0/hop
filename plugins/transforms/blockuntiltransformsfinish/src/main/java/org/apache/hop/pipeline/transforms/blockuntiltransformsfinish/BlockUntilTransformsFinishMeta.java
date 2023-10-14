@@ -74,46 +74,24 @@ public class BlockUntilTransformsFinishMeta extends BaseTransformMeta<BlockUntil
     CheckResult cr;
 
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "BlockUntilTransformsFinishMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "BlockUntilTransformsFinishMeta.CheckResult.NotReceivingFields"), transformMeta);
     } else {
       if (blockingTransforms.size() > 0) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "BlockUntilTransformsFinishMeta.CheckResult.AllTransformsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "BlockUntilTransformsFinishMeta.CheckResult.AllTransformsFound"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(
-                    PKG, "BlockUntilTransformsFinishMeta.CheckResult.NoTransformsEntered"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "BlockUntilTransformsFinishMeta.CheckResult.NoTransformsEntered"), transformMeta);
       }
     }
     remarks.add(cr);
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "BlockUntilTransformsFinishMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "BlockUntilTransformsFinishMeta.CheckResult.TransformRecevingData2"), transformMeta);
     } else {
       cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "BlockUntilTransformsFinishMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
+              BaseMessages.getString(PKG, "BlockUntilTransformsFinishMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
               transformMeta);
     }
     remarks.add(cr);
@@ -121,9 +99,7 @@ public class BlockUntilTransformsFinishMeta extends BaseTransformMeta<BlockUntil
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**

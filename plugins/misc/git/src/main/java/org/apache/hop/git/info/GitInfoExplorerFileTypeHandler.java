@@ -72,8 +72,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /** Show git information about a file or folder : revisions */
-public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler, Listener {
+public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler, Listener {
 
   private String id;
 
@@ -88,8 +87,7 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
   private Text wDiff;
   private Button wbDiff;
 
-  public GitInfoExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public GitInfoExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
     id = UUID.randomUUID().toString();
   }
@@ -189,14 +187,13 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     wlRevisions.setLayoutData(fdlRevisions);
     lastControl = wlRevisions;
 
-    ColumnInfo[] revisionColumns = {
-      new ColumnInfo("RevisionId", ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo("Creation", ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo("Login", ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo("Comment", ColumnInfo.COLUMN_TYPE_TEXT),
-    };
-    wRevisions =
-        new TableView(hopGui.getVariables(), composite, SWT.NONE, revisionColumns, 1, null, props);
+    ColumnInfo[] revisionColumns =
+        {
+            new ColumnInfo("RevisionId", ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo("Creation", ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo("Login", ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo("Comment", ColumnInfo.COLUMN_TYPE_TEXT),};
+    wRevisions = new TableView(hopGui.getVariables(), composite, SWT.NONE, revisionColumns, 1, null, props);
     wRevisions.setReadonly(true);
     PropsUi.setLook(wRevisions);
     FormData fdRevisions = new FormData();
@@ -229,11 +226,11 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     fdSashForm.bottom = new FormAttachment(100, 0);
     sashForm.setLayoutData(fdSashForm);
 
-    ColumnInfo[] filesColumns = {
-      new ColumnInfo("Filename", ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo("Status", ColumnInfo.COLUMN_TYPE_TEXT),
-      new ColumnInfo("Staged?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}),
-    };
+    ColumnInfo[] filesColumns =
+        {
+            new ColumnInfo("Filename", ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo("Status", ColumnInfo.COLUMN_TYPE_TEXT),
+            new ColumnInfo("Staged?", ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"}),};
     wFiles = new TableView(hopGui.getVariables(), sashForm, SWT.NONE, filesColumns, 1, null, props);
     wFiles.setReadonly(true);
     PropsUi.setLook(wFiles);
@@ -336,13 +333,11 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       }
 
     } catch (Exception e) {
-      new ErrorDialog(
-          hopGui.getShell(), "Error", "Error while doing visual diff on file : " + filename, e);
+      new ErrorDialog(hopGui.getShell(), "Error", "Error while doing visual diff on file : " + filename, e);
     }
   }
 
-  private void showPipelineFileDiff(String filename, String commitIdNew, String commitIdOld)
-      throws HopException {
+  private void showPipelineFileDiff(String filename, String commitIdNew, String commitIdOld) throws HopException {
     GitGuiPlugin guiPlugin = GitGuiPlugin.getInstance();
     UIGit git = guiPlugin.getGit();
 
@@ -353,10 +348,8 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       xmlStreamOld = git.open(filename, commitIdOld);
       xmlStreamNew = git.open(filename, commitIdNew);
 
-      PipelineMeta pipelineMetaOld =
-          new PipelineMeta(xmlStreamOld, hopGui.getMetadataProvider(), hopGui.getVariables());
-      PipelineMeta pipelineMetaNew =
-          new PipelineMeta(xmlStreamNew, hopGui.getMetadataProvider(), hopGui.getVariables());
+      PipelineMeta pipelineMetaOld = new PipelineMeta(xmlStreamOld, hopGui.getMetadataProvider(), hopGui.getVariables());
+      PipelineMeta pipelineMetaNew = new PipelineMeta(xmlStreamNew, hopGui.getMetadataProvider(), hopGui.getVariables());
 
       pipelineMetaOld = HopDiff.compareTransforms(pipelineMetaOld, pipelineMetaNew, true);
       pipelineMetaOld = HopDiff.comparePipelineHops(pipelineMetaOld, pipelineMetaNew, true);
@@ -369,19 +362,11 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       // Change the name to indicate the git revisions of the file
       //
       pipelineMetaOld.setName(
-          String.format(
-              "%s (%s -> %s)",
-              pipelineMetaOld.getName(),
-              git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT),
-              git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT)));
+          String.format("%s (%s -> %s)", pipelineMetaOld.getName(), git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT), git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT)));
       pipelineMetaOld.setNameSynchronizedWithFilename(false);
 
       pipelineMetaNew.setName(
-          String.format(
-              "%s (%s -> %s)",
-              pipelineMetaNew.getName(),
-              git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT),
-              git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT)));
+          String.format("%s (%s -> %s)", pipelineMetaNew.getName(), git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT), git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT)));
       pipelineMetaNew.setNameSynchronizedWithFilename(false);
 
       // Load both in the data orchestration perspective...
@@ -404,8 +389,7 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     }
   }
 
-  private void showWorkflowFileDiff(String filename, String commitIdNew, String commitIdOld)
-      throws HopException {
+  private void showWorkflowFileDiff(String filename, String commitIdNew, String commitIdOld) throws HopException {
     GitGuiPlugin guiPlugin = GitGuiPlugin.getInstance();
     UIGit git = guiPlugin.getGit();
 
@@ -416,10 +400,8 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       xmlStreamOld = git.open(filename, commitIdOld);
       xmlStreamNew = git.open(filename, commitIdNew);
 
-      WorkflowMeta workflowMetaOld =
-          new WorkflowMeta(xmlStreamOld, hopGui.getMetadataProvider(), hopGui.getVariables());
-      WorkflowMeta workflowMetaNew =
-          new WorkflowMeta(xmlStreamNew, hopGui.getMetadataProvider(), hopGui.getVariables());
+      WorkflowMeta workflowMetaOld = new WorkflowMeta(xmlStreamOld, hopGui.getMetadataProvider(), hopGui.getVariables());
+      WorkflowMeta workflowMetaNew = new WorkflowMeta(xmlStreamNew, hopGui.getMetadataProvider(), hopGui.getVariables());
 
       workflowMetaOld = HopDiff.compareActions(workflowMetaOld, workflowMetaNew, true);
       workflowMetaOld = HopDiff.compareWorkflowHops(workflowMetaOld, workflowMetaNew, true);
@@ -432,19 +414,11 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       // Change the name to indicate the git revisions of the file
       //
       workflowMetaOld.setName(
-          String.format(
-              "%s (%s -> %s)",
-              workflowMetaOld.getName(),
-              git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT),
-              git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT)));
+          String.format("%s (%s -> %s)", workflowMetaOld.getName(), git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT), git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT)));
       workflowMetaOld.setNameSynchronizedWithFilename(false);
 
       workflowMetaNew.setName(
-          String.format(
-              "%s (%s -> %s)",
-              workflowMetaNew.getName(),
-              git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT),
-              git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT)));
+          String.format("%s (%s -> %s)", workflowMetaNew.getName(), git.getShortenedName(commitIdNew, VCS.TYPE_COMMIT), git.getShortenedName(commitIdOld, VCS.TYPE_COMMIT)));
       workflowMetaNew.setNameSynchronizedWithFilename(false);
 
       // Load both in the data orchestration perspective...
@@ -503,11 +477,7 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       }
       MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
       box.setText("Change location?");
-      box.setMessage(
-          "Do you want to change the location of the current git info view?"
-              + Const.CR
-              + Const.CR
-              + relativePath);
+      box.setMessage("Do you want to change the location of the current git info view?" + Const.CR + Const.CR + relativePath);
       int answer = box.open();
       if ((answer & SWT.YES) != 0) {
         this.explorerFile = file;
@@ -525,12 +495,10 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     UIGit git = guiPlugin.getGit();
     List<ObjectRevision> revisions = new ArrayList<>();
     try {
-      String relativePath =
-          calculateRelativePath(perspective.getRootFolder(), explorerFile.getFilename());
+      String relativePath = calculateRelativePath(perspective.getRootFolder(), explorerFile.getFilename());
       revisions = git.getRevisions(relativePath);
     } catch (Exception e) {
-      LogChannel.UI.logError(
-          "Error getting git object revisions for path: " + explorerFile.getFilename(), e);
+      LogChannel.UI.logError("Error getting git object revisions for path: " + explorerFile.getFilename(), e);
     }
 
     wFile.setText(Const.NVL(explorerFile.getFilename(), ""));
@@ -554,8 +522,7 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     refreshChangedFiles();
   }
 
-  private String calculateRelativePath(String rootFolder, String filename)
-      throws HopFileException, FileSystemException {
+  private String calculateRelativePath(String rootFolder, String filename) throws HopFileException, FileSystemException {
     FileObject root = HopVfs.getFileObject(rootFolder);
     FileObject file = HopVfs.getFileObject(filename);
 
@@ -578,19 +545,14 @@ public class GitInfoExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
       }
 
       try {
-        if (HopGui.getDataOrchestrationPerspective()
-            .getPipelineFileType()
-            .isHandledBy(filename, false)) {
+        if (HopGui.getDataOrchestrationPerspective().getPipelineFileType().isHandledBy(filename, false)) {
           wbDiff.setEnabled(true);
         }
-        if (HopGui.getDataOrchestrationPerspective()
-            .getWorkflowFileType()
-            .isHandledBy(filename, false)) {
+        if (HopGui.getDataOrchestrationPerspective().getWorkflowFileType().isHandledBy(filename, false)) {
           wbDiff.setEnabled(true);
         }
       } catch (Exception e) {
-        LogChannel.UI.logError(
-            "Error checking if this file is a pipeline or workflow: " + filename, e);
+        LogChannel.UI.logError("Error checking if this file is a pipeline or workflow: " + filename, e);
       }
     }
   }

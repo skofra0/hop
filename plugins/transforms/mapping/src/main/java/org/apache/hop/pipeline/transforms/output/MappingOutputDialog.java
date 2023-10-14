@@ -41,8 +41,7 @@ public class MappingOutputDialog extends BaseTransformDialog implements ITransfo
 
   private MappingOutputMeta input;
 
-  public MappingOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MappingOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MappingOutputMeta) in;
   }
@@ -55,13 +54,12 @@ public class MappingOutputDialog extends BaseTransformDialog implements ITransfo
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    ModifyListener lsMod =
-        new ModifyListener() {
-          @Override
-          public void modifyText(ModifyEvent e) {
-            input.setChanged();
-          }
-        };
+    ModifyListener lsMod = new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -100,12 +98,7 @@ public class MappingOutputDialog extends BaseTransformDialog implements ITransfo
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    setButtonPositions(
-        new Button[] {
-          wOk, wCancel,
-        },
-        margin,
-        wTransformName);
+    setButtonPositions(new Button[] {wOk, wCancel,}, margin, wTransformName);
 
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());

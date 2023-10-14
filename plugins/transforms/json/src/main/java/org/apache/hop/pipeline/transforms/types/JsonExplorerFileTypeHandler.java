@@ -23,11 +23,9 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.IExplorerFileTypeHandl
 import org.apache.hop.ui.hopgui.perspective.explorer.file.types.text.BaseTextExplorerFileTypeHandler;
 
 /** How do we handle a JSON file in file explorer perspective? */
-public class JsonExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class JsonExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public JsonExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public JsonExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 }

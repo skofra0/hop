@@ -78,8 +78,7 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public DBProcDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public DBProcDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (DBProcMeta) in;
   }
@@ -112,12 +111,7 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    setButtonPositions(
-        new Button[] {
-          wOk, wGet, wCancel,
-        },
-        margin,
-        null);
+    setButtonPositions(new Button[] {wOk, wGet, wCancel,}, margin, null);
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
@@ -237,31 +231,10 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
 
     fieldColumns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Direction"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              "IN",
-              "OUT",
-              "INOUT"),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-        };
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            fieldColumns,
-            nrRows,
-            null,
-            props);
+            new ColumnInfo(BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Direction"), ColumnInfo.COLUMN_TYPE_CCOMBO, "IN", "OUT", "INOUT"),
+            new ColumnInfo(BaseMessages.getString(PKG, "DBProcDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),};
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, fieldColumns, nrRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -273,32 +246,30 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();
@@ -310,7 +281,7 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
 
   private void selectProcedure(Event event) {
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
-    if (databaseMeta != null) {      
+    if (databaseMeta != null) {
       try (Database db = new Database(loggingObject, variables, databaseMeta)) {
         db.connect();
         String[] procs = db.getProcedures();
@@ -327,8 +298,7 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
           }
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "DBProcDialog.NoProceduresFound.DialogMessage"));
+          mb.setMessage(BaseMessages.getString(PKG, "DBProcDialog.NoProceduresFound.DialogMessage"));
           mb.setText(BaseMessages.getString(PKG, "DBProcDialog.NoProceduresFound.DialogTitle"));
           mb.open();
         }
@@ -420,13 +390,11 @@ public class DBProcDialog extends BaseTransformDialog implements ITransformDialo
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(2, "IN");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {3}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(2, "IN");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {3}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(

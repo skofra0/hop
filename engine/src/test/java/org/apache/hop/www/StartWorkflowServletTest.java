@@ -57,8 +57,7 @@ public class StartWorkflowServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testStartWorkflowServletEscapesHtmlWhenPipelineNotFound()
-      throws ServletException, IOException {
+  public void testStartWorkflowServletEscapesHtmlWhenPipelineNotFound() throws ServletException, IOException {
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
 
@@ -67,8 +66,7 @@ public class StartWorkflowServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(StartWorkflowServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
 
     startJobServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
@@ -80,8 +78,7 @@ public class StartWorkflowServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testStartWorkflowServletEscapesHtmlWhenPipelineFound()
-      throws ServletException, IOException {
+  public void testStartWorkflowServletEscapesHtmlWhenPipelineFound() throws ServletException, IOException {
     HopLogStore.init();
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
@@ -94,8 +91,7 @@ public class StartWorkflowServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(StartWorkflowServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
     when(mockWorkflowMap.getWorkflow(any(HopServerObjectEntry.class))).thenReturn(mockWorkflow);
     when(mockWorkflow.getLogChannelId()).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);

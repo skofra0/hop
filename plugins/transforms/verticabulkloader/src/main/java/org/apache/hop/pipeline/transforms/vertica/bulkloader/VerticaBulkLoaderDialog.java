@@ -57,8 +57,7 @@ import org.eclipse.swt.widgets.*;
 
 public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITransformDialog {
 
-  private static final Class<?> PKG =
-      VerticaBulkLoaderMeta.class; // For Translator
+  private static final Class<?> PKG = VerticaBulkLoaderMeta.class; // For Translator
 
   private MetaSelectionLine<DatabaseMeta> wConnection;
 
@@ -98,8 +97,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
   private List<ColumnInfo> tableFieldColumns = new ArrayList<>();
 
   /** Constructor. */
-  public VerticaBulkLoaderDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public VerticaBulkLoaderDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (VerticaBulkLoaderMeta) in;
     inputFields = new HashMap<>();
@@ -143,13 +141,12 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    FocusListener lsFocusLost =
-        new FocusAdapter() {
-          @Override
-          public void focusLost(FocusEvent arg0) {
-            setTableFieldCombo();
-          }
-        };
+    FocusListener lsFocusLost = new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent arg0) {
+        setTableFieldCombo();
+      }
+    };
     backupChanged = input.hasChanged();
 
     int middle = props.getMiddlePct();
@@ -192,8 +189,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // Schema line...
     wlSchema = new Label(shell, SWT.RIGHT);
-    wlSchema.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.TargetSchema.Label")); // $NON-NLS-1$
+    wlSchema.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.TargetSchema.Label")); // $NON-NLS-1$
     PropsUi.setLook(wlSchema);
     fdlSchema = new FormData();
     fdlSchema.left = new FormAttachment(0, 0);
@@ -239,13 +235,12 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdTable.right = new FormAttachment(wbTable, -margin);
     wTable.setLayoutData(fdTable);
 
-    SelectionAdapter lsSelMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
 
     // Truncate table
     wlTruncate = new Label(shell, SWT.RIGHT);
@@ -263,26 +258,23 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdTruncate.top = new FormAttachment(wlTruncate, 0, SWT.CENTER);
     fdTruncate.right = new FormAttachment(100, 0);
     wTruncate.setLayoutData(fdTruncate);
-    SelectionAdapter lsTruncMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsTruncMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wTruncate.addSelectionListener(lsTruncMod);
-    wTruncate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setFlags();
-          }
-        });
+    wTruncate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setFlags();
+      }
+    });
 
     // Truncate only when have rows
     Label wlOnlyWhenHaveRows = new Label(shell, SWT.RIGHT);
-    wlOnlyWhenHaveRows.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.OnlyWhenHaveRows.Label"));
+    wlOnlyWhenHaveRows.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.OnlyWhenHaveRows.Label"));
     PropsUi.setLook(wlOnlyWhenHaveRows);
     FormData fdlOnlyWhenHaveRows = new FormData();
     fdlOnlyWhenHaveRows.left = new FormAttachment(0, 0);
@@ -290,8 +282,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdlOnlyWhenHaveRows.right = new FormAttachment(middle, -margin);
     wlOnlyWhenHaveRows.setLayoutData(fdlOnlyWhenHaveRows);
     wOnlyWhenHaveRows = new Button(shell, SWT.CHECK);
-    wOnlyWhenHaveRows.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.OnlyWhenHaveRows.Tooltip"));
+    wOnlyWhenHaveRows.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.OnlyWhenHaveRows.Tooltip"));
     PropsUi.setLook(wOnlyWhenHaveRows);
     FormData fdTruncateWhenHaveRows = new FormData();
     fdTruncateWhenHaveRows.left = new FormAttachment(middle, 0);
@@ -302,8 +293,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // Specify fields
     wlSpecifyFields = new Label(shell, SWT.RIGHT);
-    wlSpecifyFields.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.SpecifyFields.Label"));
+    wlSpecifyFields.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.SpecifyFields.Label"));
     PropsUi.setLook(wlSpecifyFields);
     FormData fdlSpecifyFields = new FormData();
     fdlSpecifyFields.left = new FormAttachment(0, 0);
@@ -320,13 +310,12 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     wSpecifyFields.addSelectionListener(lsSelMod);
 
     // If the flag is off, gray out the fields tab e.g.
-    wSpecifyFields.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            setFlags();
-          }
-        });
+    wSpecifyFields.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        setFlags();
+      }
+    });
 
     wTabFolder = new CTabFolder(shell, SWT.BORDER);
     PropsUi.setLook(wTabFolder, Props.WIDGET_STYLE_TAB);
@@ -335,8 +324,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     // START OF KEY TAB ///
     // /
     wMainTab = new CTabItem(wTabFolder, SWT.NONE);
-    wMainTab.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.MainTab.CTabItem")); // $NON-NLS-1$
+    wMainTab.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.MainTab.CTabItem")); // $NON-NLS-1$
 
     FormLayout mainLayout = new FormLayout();
     mainLayout.marginWidth = 3;
@@ -356,8 +344,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Insert directly to ROS
     Label wlDirect = new Label(wMainComp, SWT.RIGHT);
     wlDirect.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertDirect.Label"));
-    wlDirect.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertDirect.Tooltip"));
+    wlDirect.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertDirect.Tooltip"));
     PropsUi.setLook(wlDirect);
     FormData fdlDirect = new FormData();
     fdlDirect.left = new FormAttachment(0, 0);
@@ -365,8 +352,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdlDirect.right = new FormAttachment(middle, -margin);
     wlDirect.setLayoutData(fdlDirect);
     wDirect = new Button(wMainComp, SWT.CHECK);
-    wDirect.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertDirect.Tooltip"));
+    wDirect.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertDirect.Tooltip"));
     PropsUi.setLook(wDirect);
     fdDirect = new FormData();
     fdDirect.left = new FormAttachment(middle, 0);
@@ -378,10 +364,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // Abort on error
     wlAbortOnError = new Label(wMainComp, SWT.RIGHT);
-    wlAbortOnError.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Label"));
-    wlAbortOnError.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Tooltip"));
+    wlAbortOnError.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Label"));
+    wlAbortOnError.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Tooltip"));
     PropsUi.setLook(wlAbortOnError);
     fdlAbortOnError = new FormData();
     fdlAbortOnError.left = new FormAttachment(0, 0);
@@ -389,8 +373,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     fdlAbortOnError.right = new FormAttachment(middle, -margin);
     wlAbortOnError.setLayoutData(fdlAbortOnError);
     wAbortOnError = new Button(wMainComp, SWT.CHECK);
-    wAbortOnError.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Tooltip"));
+    wAbortOnError.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.AbortOnError.Tooltip"));
     PropsUi.setLook(wAbortOnError);
     fdAbortOnError = new FormData();
     fdAbortOnError.left = new FormAttachment(middle, 0);
@@ -402,12 +385,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // ExceptionsLogFile line...
     wlExceptionsLogFile = new Label(wMainComp, SWT.RIGHT);
-    wlExceptionsLogFile.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Label")); // $NON-NLS-1$
-    wlExceptionsLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
+    wlExceptionsLogFile.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Label")); // $NON-NLS-1$
+    wlExceptionsLogFile.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wlExceptionsLogFile);
     fdlExceptionsLogFile = new FormData();
     fdlExceptionsLogFile.left = new FormAttachment(0, 0);
@@ -416,9 +395,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     wlExceptionsLogFile.setLayoutData(fdlExceptionsLogFile);
 
     wExceptionsLogFile = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wExceptionsLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
+    wExceptionsLogFile.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ExceptionsLogFile.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wExceptionsLogFile);
     wExceptionsLogFile.addModifyListener(lsMod);
     wExceptionsLogFile.addFocusListener(lsFocusLost);
@@ -430,12 +407,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // RejectedDataLogFile line...
     wlRejectedDataLogFile = new Label(wMainComp, SWT.RIGHT);
-    wlRejectedDataLogFile.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Label")); // $NON-NLS-1$
-    wlRejectedDataLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
+    wlRejectedDataLogFile.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Label")); // $NON-NLS-1$
+    wlRejectedDataLogFile.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wlRejectedDataLogFile);
     fdlRejectedDataLogFile = new FormData();
     fdlRejectedDataLogFile.left = new FormAttachment(0, 0);
@@ -444,9 +417,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     wlRejectedDataLogFile.setLayoutData(fdlRejectedDataLogFile);
 
     wRejectedDataLogFile = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wRejectedDataLogFile.setToolTipText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
+    wRejectedDataLogFile.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.RejectedDataLogFile.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wRejectedDataLogFile);
     wRejectedDataLogFile.addModifyListener(lsMod);
     wRejectedDataLogFile.addFocusListener(lsFocusLost);
@@ -458,10 +429,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // StreamName line...
     wlStreamName = new Label(wMainComp, SWT.RIGHT);
-    wlStreamName.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Label")); // $NON-NLS-1$
-    wlStreamName.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
+    wlStreamName.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Label")); // $NON-NLS-1$
+    wlStreamName.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wlStreamName);
     FormData fdlStreamName = new FormData();
     fdlStreamName.left = new FormAttachment(0, 0);
@@ -470,8 +439,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     wlStreamName.setLayoutData(fdlStreamName);
 
     wStreamName = new TextVar(variables, wMainComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wStreamName.setToolTipText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
+    wStreamName.setToolTipText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.StreamName.Tooltip")); // $NON-NLS-1$
     PropsUi.setLook(wStreamName);
     wStreamName.addModifyListener(lsMod);
     wStreamName.addFocusListener(lsFocusLost);
@@ -488,9 +456,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Fields tab...
     //
     wFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
-    wFieldsTab.setText(
-        BaseMessages.getString(
-            PKG, "VerticaBulkLoaderDialog.FieldsTab.CTabItem.Title")); // $NON-NLS-1$
+    wFieldsTab.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FieldsTab.CTabItem.Title")); // $NON-NLS-1$
 
     Composite wFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wFieldsComp);
@@ -502,8 +468,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     // The fields table
     wlFields = new Label(wFieldsComp, SWT.NONE);
-    wlFields.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertFields.Label")); // $NON-NLS-1$
+    wlFields.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.InsertFields.Label")); // $NON-NLS-1$
     PropsUi.setLook(wlFields);
     FormData fdlUpIns = new FormData();
     fdlUpIns.left = new FormAttachment(0, 0);
@@ -511,58 +476,33 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     wlFields.setLayoutData(fdlUpIns);
 
     int tableCols = 2;
-    int upInsRows =
-        (input.getFields() != null && !input.getFields().equals(Collections.emptyList())
-            ? input.getFields().size()
-            : 1);
+    int upInsRows = (input.getFields() != null && !input.getFields().equals(Collections.emptyList()) ? input.getFields().size() : 1);
 
     ciFields = new ColumnInfo[tableCols];
-    ciFields[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false); //$NON-NLS-1$
-    ciFields[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false); //$NON-NLS-1$
+    ciFields[0] = new ColumnInfo(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false); // $NON-NLS-1$
+    ciFields[1] = new ColumnInfo(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false); // $NON-NLS-1$
     tableFieldColumns.add(ciFields[0]);
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciFields,
-            upInsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciFields, upInsRows, lsMod, props);
 
     wGetFields = new Button(wFieldsComp, SWT.PUSH);
-    wGetFields.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.GetFields.Button")); // $NON-NLS-1$
+    wGetFields.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.GetFields.Button")); // $NON-NLS-1$
     fdGetFields = new FormData();
     fdGetFields.top = new FormAttachment(wlFields, margin);
     fdGetFields.right = new FormAttachment(100, 0);
     wGetFields.setLayoutData(fdGetFields);
 
     wDoMapping = new Button(wFieldsComp, SWT.PUSH);
-    wDoMapping.setText(
-        BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.Button")); // $NON-NLS-1$
+    wDoMapping.setText(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.Button")); // $NON-NLS-1$
     fdDoMapping = new FormData();
     fdDoMapping.top = new FormAttachment(wGetFields, margin);
     fdDoMapping.right = new FormAttachment(100, 0);
     wDoMapping.setLayoutData(fdDoMapping);
 
-    wDoMapping.addListener(
-        SWT.Selection,
-        new Listener() {
-          public void handleEvent(Event arg0) {
-            generateMappings();
-          }
-        });
+    wDoMapping.addListener(SWT.Selection, new Listener() {
+      public void handleEvent(Event arg0) {
+        generateMappings();
+      }
+    });
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -585,27 +525,25 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        new Runnable() {
-          public void run() {
-            TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-            if (transformMeta != null) {
-              try {
-                IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = new Runnable() {
+      public void run() {
+        TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+        if (transformMeta != null) {
+          try {
+            IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-                // Remember these fields...
-                for (int i = 0; i < row.size(); i++) {
-                  inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
-                }
-
-                setComboBoxes();
-              } catch (HopException e) {
-                log.logError(
-                    toString(), BaseMessages.getString("System.Dialog.GetFieldsFailed.Message"));
-              }
+            // Remember these fields...
+            for (int i = 0; i < row.size(); i++) {
+              inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
             }
+
+            setComboBoxes();
+          } catch (HopException e) {
+            log.logError(toString(), BaseMessages.getString("System.Dialog.GetFieldsFailed.Message"));
           }
-        };
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Some buttons
@@ -660,10 +598,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -676,10 +612,8 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -724,44 +658,21 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(
-                  PKG, "VerticaBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(
-                  PKG, "VerticaBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+          BaseDialog.openMessageBox(shell, BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
       boolean goOn = (answer & SWT.YES) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            VerticaBulkLoaderDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(VerticaBulkLoaderDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -783,45 +694,40 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
   }
 
   private void setTableFieldCombo() {
-    Runnable fieldLoader =
-        () -> {
-          // clear
-          for (int i = 0; i < tableFieldColumns.size(); i++) {
-            ColumnInfo colInfo = (ColumnInfo) tableFieldColumns.get(i);
-            colInfo.setComboValues(new String[] {});
-          }
-          if (!StringUtil.isEmpty(wTable.getText())) {
-            DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
-            if (databaseMeta != null) {
-              try (Database db = new Database(loggingObject, variables, databaseMeta)) {
-                db.connect();
+    Runnable fieldLoader = () -> {
+      // clear
+      for (int i = 0; i < tableFieldColumns.size(); i++) {
+        ColumnInfo colInfo = (ColumnInfo) tableFieldColumns.get(i);
+        colInfo.setComboValues(new String[] {});
+      }
+      if (!StringUtil.isEmpty(wTable.getText())) {
+        DatabaseMeta databaseMeta = pipelineMeta.findDatabase(wConnection.getText(), variables);
+        if (databaseMeta != null) {
+          try (Database db = new Database(loggingObject, variables, databaseMeta)) {
+            db.connect();
 
-                String schemaTable =
-                    databaseMeta.getQuotedSchemaTableCombination(
-                        variables,
-                        variables.resolve(wSchema.getText()),
-                        variables.resolve(wTable.getText()));
-                IRowMeta r = db.getTableFields(schemaTable);
-                if (null != r) {
-                  String[] fieldNames = r.getFieldNames();
-                  if (null != fieldNames) {
-                    for (int i = 0; i < tableFieldColumns.size(); i++) {
-                      ColumnInfo colInfo = (ColumnInfo) tableFieldColumns.get(i);
-                      colInfo.setComboValues(fieldNames);
-                    }
-                  }
-                }
-              } catch (Exception e) {
+            String schemaTable = databaseMeta.getQuotedSchemaTableCombination(variables, variables.resolve(wSchema.getText()), variables.resolve(wTable.getText()));
+            IRowMeta r = db.getTableFields(schemaTable);
+            if (null != r) {
+              String[] fieldNames = r.getFieldNames();
+              if (null != fieldNames) {
                 for (int i = 0; i < tableFieldColumns.size(); i++) {
                   ColumnInfo colInfo = (ColumnInfo) tableFieldColumns.get(i);
-                  colInfo.setComboValues(new String[] {});
+                  colInfo.setComboValues(fieldNames);
                 }
-                // ignore any errors here. drop downs will not be
-                // filled, but no problem for the user
               }
             }
+          } catch (Exception e) {
+            for (int i = 0; i < tableFieldColumns.size(); i++) {
+              ColumnInfo colInfo = (ColumnInfo) tableFieldColumns.get(i);
+              colInfo.setComboValues(new String[] {});
+            }
+            // ignore any errors here. drop downs will not be
+            // filled, but no problem for the user
           }
-        };
+        }
+      }
+    };
     shell.getDisplay().asyncExec(fieldLoader);
   }
 
@@ -925,9 +831,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     for (int i = 0; i < nrRows; i++) {
       TableItem item = wFields.getNonEmpty(i);
-      VerticaBulkLoaderField vbf =
-          new VerticaBulkLoaderField(
-              Const.NVL(item.getText(1), ""), Const.NVL(item.getText(2), ""));
+      VerticaBulkLoaderField vbf = new VerticaBulkLoaderField(Const.NVL(item.getText(1), ""), Const.NVL(item.getText(2), ""));
       info.getFields().add(vbf);
     }
   }
@@ -943,8 +847,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
 
     if (Utils.isEmpty(input.getConnection())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ConnectionError.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ConnectionError.DialogMessage"));
       mb.setText(BaseMessages.getString("System.Dialog.Error.Title"));
       mb.open();
       return;
@@ -962,14 +865,9 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     DatabaseMeta databaseMeta = pipelineMeta.findDatabase(connectionName, variables);
 
     if (databaseMeta != null) {
-      log.logDebug(
-          toString(),
-          BaseMessages.getString(
-              PKG, "VerticaBulkLoaderDialog.Log.LookingAtConnection", databaseMeta.toString()));
+      log.logDebug(toString(), BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.Log.LookingAtConnection", databaseMeta.toString()));
 
-      DatabaseExplorerDialog std =
-          new DatabaseExplorerDialog(
-              shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
+      DatabaseExplorerDialog std = new DatabaseExplorerDialog(shell, SWT.NONE, variables, databaseMeta, pipelineMeta.getDatabases());
       std.setSelectedSchemaAndTable(wSchema.getText(), wTable.getText());
       if (std.open()) {
         wSchema.setText(Const.NVL(std.getSchemaName(), ""));
@@ -977,8 +875,7 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
       }
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ConnectionError2.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.ConnectionError2.DialogMessage"));
       mb.setText(BaseMessages.getString("System.Dialog.Error.Title"));
       mb.open();
     }
@@ -989,15 +886,14 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FailedToGetFields.DialogTitle"),
           BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FailedToGetFields.DialogMessage"),
-          ke); //$NON-NLS-1$ //$NON-NLS-2$
+          ke); // $NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -1025,23 +921,16 @@ public class VerticaBulkLoaderDialog extends BaseTransformDialog implements ITra
             insertValue.setName(vbf.getFieldDatabase());
             prevNew.addValueMeta(insertValue);
           } else {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG,
-                    "VerticaBulkLoaderDialog.FailedToFindField.Message",
-                    vbf.getFieldStream())); // $NON-NLS-1$
+            throw new HopTransformException(BaseMessages.getString(PKG, "VerticaBulkLoaderDialog.FailedToFindField.Message", vbf.getFieldStream())); // $NON-NLS-1$
           }
         }
         prev = prevNew;
       }
 
-      SqlStatement sql =
-          info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
+      SqlStatement sql = info.getSqlStatements(variables, pipelineMeta, transformMeta, prev, metadataProvider);
       if (!sql.hasError()) {
         if (sql.hasSql()) {
-          SqlEditor sqledit =
-              new SqlEditor(
-                  shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
+          SqlEditor sqledit = new SqlEditor(shell, SWT.NONE, variables, databaseMeta, DbCache.getInstance(), sql.getSql());
           sqledit.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);

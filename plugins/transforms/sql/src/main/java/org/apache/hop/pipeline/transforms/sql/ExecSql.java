@@ -40,18 +40,11 @@ public class ExecSql extends BaseTransform<ExecSqlMeta, ExecSqlData> {
 
   private static final Class<?> PKG = ExecSqlMeta.class; // For Translator
 
-  public ExecSql(
-      TransformMeta transformMeta,
-      ExecSqlMeta meta,
-      ExecSqlData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ExecSql(TransformMeta transformMeta, ExecSqlMeta meta, ExecSqlData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  public static final RowMetaAndData getResultRow(
-      Result result, String upd, String ins, String del, String read) {
+  public static final RowMetaAndData getResultRow(Result result, String upd, String ins, String del, String read) {
     RowMetaAndData resultRow = new RowMetaAndData();
 
     if (upd != null && upd.length() > 0) {
@@ -85,13 +78,7 @@ public class ExecSql extends BaseTransform<ExecSqlMeta, ExecSqlData> {
   public boolean processRow() throws HopException {
 
     if (!meta.isExecutedEachInputRow()) {
-      RowMetaAndData resultRow =
-          getResultRow(
-              data.result,
-              meta.getUpdateField(),
-              meta.getInsertField(),
-              meta.getDeleteField(),
-              meta.getReadField());
+      RowMetaAndData resultRow = getResultRow(data.result, meta.getUpdateField(), meta.getInsertField(), meta.getDeleteField(), meta.getReadField());
       putRow(resultRow.getRowMeta(), resultRow.getData());
       setOutputDone(); // Stop processing, this is all we do!
       return false;
@@ -118,8 +105,7 @@ public class ExecSql extends BaseTransform<ExecSqlMeta, ExecSqlData> {
         data.argumentIndexes[i] = this.getInputRowMeta().indexOfValue(arg);
         if (data.argumentIndexes[i] < 0) {
           logError(BaseMessages.getString(PKG, "ExecSql.Log.ErrorFindingField") + arg + "]");
-          throw new HopTransformException(
-              BaseMessages.getString(PKG, "ExecSql.Exception.CouldNotFindField", arg));
+          throw new HopTransformException(BaseMessages.getString(PKG, "ExecSql.Exception.CouldNotFindField", arg));
         }
         if (meta.isParams()) {
           if (i == 0) {
@@ -201,13 +187,7 @@ public class ExecSql extends BaseTransform<ExecSqlMeta, ExecSqlData> {
         data.result = data.db.execStatements(sql, data.paramsMeta, paramsData);
       }
 
-      RowMetaAndData add =
-          getResultRow(
-              data.result,
-              meta.getUpdateField(),
-              meta.getInsertField(),
-              meta.getDeleteField(),
-              meta.getReadField());
+      RowMetaAndData add = getResultRow(data.result, meta.getUpdateField(), meta.getInsertField(), meta.getDeleteField(), meta.getReadField());
 
       row = RowDataUtil.addRowData(row, getInputRowMeta().size(), add.getData());
 
@@ -225,8 +205,7 @@ public class ExecSql extends BaseTransform<ExecSqlMeta, ExecSqlData> {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "ExecSql.Log.ErrorInTransform"), e);
+        throw new HopTransformException(BaseMessages.getString(PKG, "ExecSql.Log.ErrorInTransform"), e);
       }
 
       if (sendToErrorRow) {

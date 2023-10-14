@@ -39,13 +39,7 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
 
   private static final Class<?> PKG = CoalesceMeta.class;
 
-  public CoalesceTransform(
-      TransformMeta transformMeta,
-      CoalesceMeta meta,
-      CoalesceData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CoalesceTransform(TransformMeta transformMeta, CoalesceMeta meta, CoalesceData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -84,8 +78,7 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
       for (CoalesceField coalesce : meta.getFields()) {
         String name = this.resolve(coalesce.getName());
         if (Utils.isEmpty(name)) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "CoalesceTransform.Log.MissingFieldName"));
+          throw new HopException(BaseMessages.getString(PKG, "CoalesceTransform.Log.MissingFieldName"));
         }
       }
 
@@ -103,7 +96,8 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
     for (int inputIndex = 0; inputIndex < inputRowMeta.size(); inputIndex++) {
       IValueMeta vm = inputRowMeta.getValueMeta(inputIndex);
 
-      if (data.outputRowMeta.indexOfValue(vm.getName()) == -1) continue;
+      if (data.outputRowMeta.indexOfValue(vm.getName()) == -1)
+        continue;
 
       outputRowValues[outputIndex++] = row[inputIndex];
     }
@@ -113,9 +107,7 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
     // or in case it was None to reflect on the default data type logic.
     for (CoalesceField coalesce : meta.getFields()) {
 
-      int inputIndex =
-          getFirstNonNullValueIndex(
-              inputRowMeta, row, coalesce.getInputFieldNames(), meta.isTreatEmptyStringsAsNulls());
+      int inputIndex = getFirstNonNullValueIndex(inputRowMeta, row, coalesce.getInputFieldNames(), meta.isTreatEmptyStringsAsNulls());
 
       // Resolve variable name
       String name = this.resolve(coalesce.getName());
@@ -130,12 +122,8 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
         outputRowValues[outputIndex++] = result;
       } catch (HopValueException e) {
         logError(
-            BaseMessages.getString(
-                PKG,
-                "CoalesceTransform.Log.DataIncompatibleError",
-                row[inputIndex].toString(),
-                inputRowMeta.getValueMeta(inputIndex).toString(),
-                vm.toString()));
+            BaseMessages
+                .getString(PKG, "CoalesceTransform.Log.DataIncompatibleError", row[inputIndex].toString(), inputRowMeta.getValueMeta(inputIndex).toString(), vm.toString()));
         throw e;
       }
     }
@@ -144,9 +132,7 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
     putRow(data.outputRowMeta, outputRowValues);
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(
-              PKG, "CoalesceTransform.Log.WroteRowToNextTransform", outputRowValues));
+      logRowlevel(BaseMessages.getString(PKG, "CoalesceTransform.Log.WroteRowToNextTransform", outputRowValues));
     }
 
     // log progress if it is time to to so
@@ -174,34 +160,23 @@ public class CoalesceTransform extends BaseTransform<CoalesceMeta, CoalesceData>
         }
       }
       if (!missingFields.isEmpty()) {
-        String errorText =
-            BaseMessages.getString(
-                PKG,
-                "CoalesceTransform.Log.MissingInputFields",
-                StringUtils.join(missingFields, ','));
+        String errorText = BaseMessages.getString(PKG, "CoalesceTransform.Log.MissingInputFields", StringUtils.join(missingFields, ','));
         throw new HopException(errorText);
       }
     }
   }
 
   /** The actual coalesce logic, returns the index of the first non null value */
-  private int getFirstNonNullValueIndex(
-      final IRowMeta inputRowMeta,
-      Object[] row,
-      List<String> fields,
-      boolean isTreatEmptyStringsAsNulls) {
+  private int getFirstNonNullValueIndex(final IRowMeta inputRowMeta, Object[] row, List<String> fields, boolean isTreatEmptyStringsAsNulls) {
 
     for (String fieldName : fields) {
       int index = inputRowMeta.indexOfValue(fieldName);
       if (index >= 0) {
         Object data = row[index];
-        boolean isNotNull = data instanceof byte[] ?data != null && ((byte[]) data).length > 0 : row[index] != null;
+        boolean isNotNull = data instanceof byte[] ? data != null && ((byte[]) data).length > 0 : row[index] != null;
         if (!isTreatEmptyStringsAsNulls && data != null && isNotNull) {
           return index;
-        } else if (isTreatEmptyStringsAsNulls
-                && row[index] != null
-                && isNotNull
-                && !Utils.isEmpty(data.toString())) {
+        } else if (isTreatEmptyStringsAsNulls && row[index] != null && isNotNull && !Utils.isEmpty(data.toString())) {
           return index;
         }
       }

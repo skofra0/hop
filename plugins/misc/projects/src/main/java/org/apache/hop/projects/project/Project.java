@@ -45,7 +45,8 @@ import java.util.List;
 
 public class Project extends ConfigFile implements IConfigFile {
 
-  @JsonIgnore private String configFilename;
+  @JsonIgnore
+  private String configFilename;
 
   private String description;
 
@@ -97,8 +98,7 @@ public class Project extends ConfigFile implements IConfigFile {
       OutputStream outputStream = HopVfs.getOutputStream(file, false);
       objectMapper.writeValue(outputStream, this);
     } catch (Exception e) {
-      throw new HopException(
-          "Error saving project configuration to file '" + configFilename + "'", e);
+      throw new HopException("Error saving project configuration to file '" + configFilename + "'", e);
     }
   }
 
@@ -118,17 +118,11 @@ public class Project extends ConfigFile implements IConfigFile {
       this.configMap = project.configMap;
       this.parentProjectName = project.parentProjectName;
     } catch (Exception e) {
-      throw new HopException(
-          "Error saving project configuration to file '" + configFilename + "'", e);
+      throw new HopException("Error saving project configuration to file '" + configFilename + "'", e);
     }
   }
 
-  public void modifyVariables(
-      IVariables variables,
-      ProjectConfig projectConfig,
-      List<String> configurationFiles,
-      String environmentName)
-      throws HopException {
+  public void modifyVariables(IVariables variables, ProjectConfig projectConfig, List<String> configurationFiles, String environmentName) throws HopException {
 
     if (variables == null) {
       variables = Variables.getADefaultVariableSpace();
@@ -145,8 +139,7 @@ public class Project extends ConfigFile implements IConfigFile {
     String realParentProjectName = variables.resolve(parentProjectName);
     if (StringUtils.isNotEmpty(realParentProjectName)) {
 
-      ProjectConfig parentProjectConfig =
-          ProjectsConfigSingleton.getConfig().findProjectConfig(realParentProjectName);
+      ProjectConfig parentProjectConfig = ProjectsConfigSingleton.getConfig().findProjectConfig(realParentProjectName);
       if (parentProjectConfig != null) {
         try {
           parentProject = parentProjectConfig.loadProject(variables);
@@ -154,17 +147,14 @@ public class Project extends ConfigFile implements IConfigFile {
           //
           parentProject.modifyVariables(variables, parentProjectConfig, new ArrayList<>(), null);
         } catch (HopException he) {
-          LogChannel.GENERAL.logError(
-              "Error loading configuration file of parent project '" + realParentProjectName + "'",
-              he);
+          LogChannel.GENERAL.logError("Error loading configuration file of parent project '" + realParentProjectName + "'", he);
         }
       }
     }
 
     // Set the name of the active environment
     //
-    variables.setVariable(
-        Defaults.VARIABLE_HOP_PROJECT_NAME, Const.NVL(projectConfig.getProjectName(), ""));
+    variables.setVariable(Defaults.VARIABLE_HOP_PROJECT_NAME, Const.NVL(projectConfig.getProjectName(), ""));
     variables.setVariable(Defaults.VARIABLE_HOP_ENVIRONMENT_NAME, Const.NVL(environmentName, ""));
 
     // To allow circular logic where an environment file is relative to the project home
@@ -193,17 +183,10 @@ public class Project extends ConfigFile implements IConfigFile {
           }
 
         } else {
-          LogChannel.GENERAL.logError(
-              "Configuration file '"
-                  + realConfigurationFile
-                  + "' does not exist to read variables from.");
+          LogChannel.GENERAL.logError("Configuration file '" + realConfigurationFile + "' does not exist to read variables from.");
         }
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            "Error reading described variables from configuration file '"
-                + realConfigurationFile
-                + "'",
-            e);
+        LogChannel.GENERAL.logError("Error reading described variables from configuration file '" + realConfigurationFile + "'", e);
       }
     }
 
@@ -253,8 +236,7 @@ public class Project extends ConfigFile implements IConfigFile {
     }
 
     if (parentProjectName.equals(projectName)) {
-      throw new HopException(
-          "Parent project '" + parentProjectName + "' can not be the same as the project itself");
+      throw new HopException("Parent project '" + parentProjectName + "' can not be the same as the project itself");
     }
 
     ProjectsConfig config = ProjectsConfigSingleton.getConfig();
@@ -281,10 +263,7 @@ public class Project extends ConfigFile implements IConfigFile {
               // See if we've had this one before...
               //
               if (projectsList.contains(realParentProjectName)) {
-                throw new HopException(
-                    "There is a loop in the parent projects hierarchy: project "
-                        + realParentProjectName
-                        + " references itself");
+                throw new HopException("There is a loop in the parent projects hierarchy: project " + realParentProjectName + " references itself");
               }
             }
           }

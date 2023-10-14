@@ -29,8 +29,7 @@ import org.apache.hop.i18n.BaseMessages;
 
 public class AuthenticationPersistenceManager {
   private static final Class<?> PKG = AuthenticationPersistenceManager.class; // For Translator
-  private static final ILogChannel log =
-      new LogChannel(AuthenticationPersistenceManager.class.getName());
+  private static final ILogChannel log = new LogChannel(AuthenticationPersistenceManager.class.getName());
 
   public static AuthenticationManager getAuthenticationManager() {
     AuthenticationManager manager = new AuthenticationManager();
@@ -38,21 +37,14 @@ public class AuthenticationPersistenceManager {
 
     // TODO: Register providers from metadata
 
-    for (IPlugin plugin :
-        PluginRegistry.getInstance().getPlugins(AuthenticationConsumerPluginType.class)) {
+    for (IPlugin plugin : PluginRegistry.getInstance().getPlugins(AuthenticationConsumerPluginType.class)) {
       try {
         Object pluginMain = PluginRegistry.getInstance().loadClass(plugin);
         if (pluginMain instanceof IAuthenticationConsumerType) {
-          Class<? extends IAuthenticationConsumer<?, ?>> consumerClass =
-              ((IAuthenticationConsumerType) pluginMain).getConsumerClass();
+          Class<? extends IAuthenticationConsumer<?, ?>> consumerClass = ((IAuthenticationConsumerType) pluginMain).getConsumerClass();
           manager.registerConsumerClass(consumerClass);
         } else {
-          throw new HopPluginException(
-              BaseMessages.getString(
-                  PKG,
-                  "AuthenticationPersistenceManager.NotConsumerType",
-                  pluginMain,
-                  IAuthenticationConsumerType.class));
+          throw new HopPluginException(BaseMessages.getString(PKG, "AuthenticationPersistenceManager.NotConsumerType", pluginMain, IAuthenticationConsumerType.class));
         }
       } catch (HopPluginException e) {
         log.logError(e.getMessage(), e);

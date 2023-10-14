@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DelayMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testTransformMeta() throws HopException {
@@ -42,8 +43,7 @@ public class DelayMetaTest {
     setterMap.put("timeout", "setTimeout");
     setterMap.put("scaletime", "setScaletime");
 
-    LoadSaveTester loadSaveTester =
-        new LoadSaveTester(DelayMeta.class, attributes, getterMap, setterMap);
+    LoadSaveTester loadSaveTester = new LoadSaveTester(DelayMeta.class, attributes, getterMap, setterMap);
     loadSaveTester.testSerialization();
   }
 }

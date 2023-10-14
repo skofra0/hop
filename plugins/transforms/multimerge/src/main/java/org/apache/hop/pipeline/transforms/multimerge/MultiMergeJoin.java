@@ -41,7 +41,8 @@ import java.util.PriorityQueue;
  * of hash join is both your input streams are too big to fit in memory. Note that both the inputs
  * must be sorted on the join key.
  *
- * <p>This is a first prototype implementation that only handles two streams and inner join. It also
+ * <p>
+ * This is a first prototype implementation that only handles two streams and inner join. It also
  * always outputs all values from both streams. Ideally, we should: 1) Support any number of
  * incoming streams 2) Allow user to choose the join type (inner, outer) for each stream 3) Allow
  * user to choose which fields to push to next transform 4) Have multiple output ports as follows:
@@ -52,18 +53,11 @@ import java.util.PriorityQueue;
 public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMergeJoinData> {
   private static final Class<?> PKG = MultiMergeJoinMeta.class; // For Translator
 
-  public MultiMergeJoin(
-      TransformMeta transformMeta,
-      MultiMergeJoinMeta meta,
-      MultiMergeJoinData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MultiMergeJoin(TransformMeta transformMeta, MultiMergeJoinMeta meta, MultiMergeJoinData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
-  private boolean processFirstRow(MultiMergeJoinMeta smi, MultiMergeJoinData sdi)
-      throws HopException {
+  private boolean processFirstRow(MultiMergeJoinMeta smi, MultiMergeJoinData sdi) throws HopException {
 
     PipelineHopMeta pipelineHopMeta;
 
@@ -83,24 +77,18 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
       fromTransformMeta = stream.getTransformMeta();
       if (fromTransformMeta == null) {
         // should not arrive here, shoud typically have been caught by init.
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
+        throw new HopException(BaseMessages.getString(PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
       }
       // check the hop
       pipelineHopMeta = getPipelineMeta().findPipelineHop(fromTransformMeta, toTransformMeta, true);
       // there is no hop: this is unexpected.
       if (pipelineHopMeta == null) {
         // should not arrive here, shoud typically have been caught by init.
-        throw new HopException(
-            BaseMessages.getString(
-                PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
+        throw new HopException(BaseMessages.getString(PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
       } else if (pipelineHopMeta.isEnabled()) {
         inputTransformNameList.add(inputTransformName);
       } else {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "MultiMergeJoin.Log.IgnoringTransform", inputTransformName));
+        logDetailed(BaseMessages.getString(PKG, "MultiMergeJoin.Log.IgnoringTransform", inputTransformName));
       }
     }
 
@@ -143,11 +131,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
 
       rowSet = findInputRowSet(inputTransformName);
       if (rowSet == null) {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "MultiMergeJoin.Exception.UnableToFindSpecifiedTransform",
-                inputTransformName));
+        throw new HopException(BaseMessages.getString(PKG, "MultiMergeJoin.Exception.UnableToFindSpecifiedTransform", inputTransformName));
       }
       data.rowSets[j] = rowSet;
 
@@ -168,12 +152,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
           keyFieldPart = keyFieldParts[k];
           data.keyNrs[j][k] = rowMeta.indexOfValue(keyFieldPart);
           if (data.keyNrs[j][k] < 0) {
-            String message =
-                BaseMessages.getString(
-                    PKG,
-                    "MultiMergeJoin.Exception.UnableToFindFieldInReferenceStream",
-                    keyFieldPart,
-                    inputTransformName);
+            String message = BaseMessages.getString(PKG, "MultiMergeJoin.Exception.UnableToFindFieldInReferenceStream", keyFieldPart, inputTransformName);
             logError(message);
             throw new HopTransformException(message);
           }
@@ -201,9 +180,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
     }
 
     if (log.isRowLevel()) {
-      String metaString =
-          BaseMessages.getString(
-              PKG, "MultiMergeJoin.Log.DataInfo", data.metas[0].getString(data.rows[0]) + "");
+      String metaString = BaseMessages.getString(PKG, "MultiMergeJoin.Log.DataInfo", data.metas[0].getString(data.rows[0]) + "");
       for (int i = 1; i < data.metas.length; i++) {
         metaString += data.metas[i].getString(data.rows[i]);
       }
@@ -211,7 +188,8 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
     }
 
     /*
-     * We can stop processing if any of the following is true: a) All streams are empty b) Any stream is empty and join
+     * We can stop processing if any of the following is true: a) All streams are empty b) Any stream is
+     * empty and join
      * type is INNER
      */
     int streamSize = data.metas.length;
@@ -224,8 +202,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
       int drainSize = 1;
       data.rows[minEntry.index] = minEntry.row;
       data.drainIndices[0] = minEntry.index;
-      MultiMergeJoinData.QueueComparator comparator =
-          (MultiMergeJoinData.QueueComparator) data.queue.comparator();
+      MultiMergeJoinData.QueueComparator comparator = (MultiMergeJoinData.QueueComparator) data.queue.comparator();
       while (!data.queue.isEmpty() && comparator.compare(data.queue.peek(), minEntry) == 0) {
         MultiMergeJoinData.QueueEntry entry = data.queue.poll();
         data.rows[entry.index] = entry.row;
@@ -237,9 +214,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
       for (int i = 0; i < drainSize; i++) {
         index = data.drainIndices[i];
         data.results.get(index).add(data.rows[index]);
-        while (!isStopped()
-            && ((row = getRowFrom(data.rowSets[index])) != null
-                && data.metas[index].compare(data.rows[index], row, data.keyNrs[index]) == 0)) {
+        while (!isStopped() && ((row = getRowFrom(data.rowSets[index])) != null && data.metas[index].compare(data.rows[index], row, data.keyNrs[index]) == 0)) {
           data.results.get(index).add(row);
         }
         if (isStopped()) {
@@ -286,10 +261,10 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
         data.queue.clear();
         for (int i = 0; i < streamSize; i++) {
           while (data.rows[i] != null && !isStopped()) {
-            try{
+            try {
               data.rows[i] = getRowFrom(data.rowSets[i]);
-            }catch (Exception e){
-              //break loop
+            } catch (Exception e) {
+              // break loop
               break;
             }
           }
@@ -302,8 +277,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
       int drainSize = 1;
       data.rows[minEntry.index] = minEntry.row;
       data.drainIndices[0] = minEntry.index;
-      MultiMergeJoinData.QueueComparator comparator =
-          (MultiMergeJoinData.QueueComparator) data.queue.comparator();
+      MultiMergeJoinData.QueueComparator comparator = (MultiMergeJoinData.QueueComparator) data.queue.comparator();
       while (!data.queue.isEmpty() && comparator.compare(data.queue.peek(), minEntry) == 0) {
         MultiMergeJoinData.QueueEntry entry = data.queue.poll();
         data.rows[entry.index] = entry.row;
@@ -314,9 +288,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
         // rows from all input streams match: get all equal rows and create result set
         for (int i = 0; i < streamSize; i++) {
           data.results.get(i).add(data.rows[i]);
-          while (!isStopped()
-              && ((row = getRowFrom(data.rowSets[i])) != null
-                  && data.metas[i].compare(data.rows[i], row, data.keyNrs[i]) == 0)) {
+          while (!isStopped() && ((row = getRowFrom(data.rowSets[i])) != null && data.metas[i].compare(data.rows[i], row, data.keyNrs[i]) == 0)) {
             data.results.get(i).add(row);
           }
           if (isStopped()) {
@@ -359,8 +331,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
 
         for (int i = 0; i < drainSize; i++) {
           int index = data.drainIndices[i];
-          while ((row = getRowFrom(data.rowSets[index])) != null
-              && data.metas[index].compare(data.rows[index], row, data.keyNrs[index]) == 0) {
+          while ((row = getRowFrom(data.rowSets[index])) != null && data.metas[index].compare(data.rows[index], row, data.keyNrs[index]) == 0) {
             if (isStopped()) {
               break;
             }
@@ -396,9 +367,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
         inputTransformName = inputTransformNames[i];
         stream = infoStreams.get(i);
         if (stream.getTransformMeta() == null) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
+          logError(BaseMessages.getString(PKG, "MultiMergeJoin.Log.UnableToFindReferenceStream", inputTransformName));
           return false;
         }
       }
@@ -409,8 +378,7 @@ public class MultiMergeJoin extends BaseTransform<MultiMergeJoinMeta, MultiMerge
           return true;
         }
       }
-      logError(
-          BaseMessages.getString(PKG, "MultiMergeJoin.Log.InvalidJoinType", meta.getJoinType()));
+      logError(BaseMessages.getString(PKG, "MultiMergeJoin.Log.InvalidJoinType", meta.getJoinType()));
       return false;
     }
     return true;

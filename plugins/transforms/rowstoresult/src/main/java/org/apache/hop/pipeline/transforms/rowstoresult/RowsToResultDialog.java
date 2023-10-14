@@ -40,8 +40,7 @@ public class RowsToResultDialog extends BaseTransformDialog implements ITransfor
 
   private final RowsToResultMeta input;
 
-  public RowsToResultDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public RowsToResultDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (RowsToResultMeta) in;
   }

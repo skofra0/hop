@@ -74,8 +74,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
 
   private Button wExecuteForEachRow;
 
-  public CassandraInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
+  public CassandraInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String name) {
     super(parent, variables, (BaseTransformMeta) in, tr, name);
     input = (CassandraInputMeta) in;
   }
@@ -114,8 +113,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
 
     // transform name line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "CassandraInputDialog.transformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "CassandraInputDialog.transformName.Label"));
     PropsUi.setLook(wlTransformName);
     FormData fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -158,8 +156,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     // max length line
     Label wlMaxLength = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlMaxLength);
-    wlMaxLength.setText(
-        BaseMessages.getString(PKG, "CassandraInputDialog.TransportMaxLength.Label"));
+    wlMaxLength.setText(BaseMessages.getString(PKG, "CassandraInputDialog.TransportMaxLength.Label"));
     FormData fdlMaxLength = new FormData();
     fdlMaxLength.left = new FormAttachment(0, 0);
     fdlMaxLength.top = new FormAttachment(wConnection, margin);
@@ -168,8 +165,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
 
     wMaxLength = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wMaxLength);
-    wMaxLength.addModifyListener(
-        e -> wMaxLength.setToolTipText(variables.resolve(wMaxLength.getText())));
+    wMaxLength.addModifyListener(e -> wMaxLength.setToolTipText(variables.resolve(wMaxLength.getText())));
     FormData fdMaxLength = new FormData();
     fdMaxLength.right = new FormAttachment(100, 0);
     fdMaxLength.top = new FormAttachment(wlMaxLength, 0, SWT.CENTER);
@@ -179,8 +175,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     // execute for each row
     Label wlExecuteForEach = new Label(shell, SWT.RIGHT);
     PropsUi.setLook(wlExecuteForEach);
-    wlExecuteForEach.setText(
-        BaseMessages.getString(PKG, "CassandraInputDialog.ExecuteForEachRow.Label"));
+    wlExecuteForEach.setText(BaseMessages.getString(PKG, "CassandraInputDialog.ExecuteForEachRow.Label"));
     FormData fdlExecuteForEach = new FormData();
     fdlExecuteForEach.right = new FormAttachment(middle, -margin);
     fdlExecuteForEach.left = new FormAttachment(0, 0);
@@ -223,9 +218,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     fdlCql.right = new FormAttachment(middle, -margin);
     wlCql.setLayoutData(fdlCql);
 
-    wCql =
-        new StyledTextComp(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCql = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wCql, Props.WIDGET_STYLE_FIXED);
     FormData fdCql = new FormData();
     fdCql.left = new FormAttachment(0, 0);
@@ -233,55 +226,51 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     fdCql.right = new FormAttachment(100, -2 * margin);
     fdCql.bottom = new FormAttachment(wbShowSchema, -margin);
     wCql.setLayoutData(fdCql);
-    wCql.addModifyListener(
-        e -> {
-          setPosition();
-          wCql.setToolTipText(variables.resolve(wCql.getText()));
-        });
+    wCql.addModifyListener(e -> {
+      setPosition();
+      wCql.setToolTipText(variables.resolve(wCql.getText()));
+    });
 
-    wCql.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wCql.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
 
-    wCql.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+    wCql.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
 
-    wCql.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+    wCql.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     getData();
 
@@ -330,9 +319,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     int lineNr = wCql.getLineNumber();
     int colNr = wCql.getColumnNumber();
 
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "CassandraInputDialog.Position.Label", "" + lineNr, "" + colNr));
+    wlPosition.setText(BaseMessages.getString(PKG, "CassandraInputDialog.Position.Label", "" + lineNr, "" + colNr));
   }
 
   private boolean checkForUnresolved(CassandraInputMeta meta, String title) {
@@ -346,9 +333,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
               shell,
               SWT.ICON_WARNING | SWT.OK,
               title,
-              BaseMessages.getString(
-                  PKG,
-                  "CassandraInputDialog.Warning.Message.CassandraQueryContainsUnresolvedVarsFieldSubs"));
+              BaseMessages.getString(PKG, "CassandraInputDialog.Warning.Message.CassandraQueryContainsUnresolvedVarsFieldSubs"));
       smd.open();
     }
 
@@ -364,17 +349,11 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     // the query string
     oneMeta.setExecuteForEachIncomingRow(false);
 
-    if (!checkForUnresolved(
-        oneMeta,
-        BaseMessages.getString(
-            PKG,
-            "CassandraInputDialog.Warning.Message.CassandraQueryContainsUnresolvedVarsFieldSubs.PreviewTitle"))) {
+    if (!checkForUnresolved(oneMeta, BaseMessages.getString(PKG, "CassandraInputDialog.Warning.Message.CassandraQueryContainsUnresolvedVarsFieldSubs.PreviewTitle"))) {
       return;
     }
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -386,12 +365,7 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       Pipeline pipeline = progressDialog.getPipeline();
@@ -426,28 +400,16 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
   protected void popupSchemaInfo() {
     Keyspace kSpace;
     try {
-      CassandraConnection cassandraConnection =
-          metadataProvider
-              .getSerializer(CassandraConnection.class)
-              .load(variables.resolve(wConnection.getText()));
+      CassandraConnection cassandraConnection = metadataProvider.getSerializer(CassandraConnection.class).load(variables.resolve(wConnection.getText()));
 
       try (DriverConnection conn = cassandraConnection.createConnection(variables, false)) {
         kSpace = cassandraConnection.lookupKeyspace(conn, variables);
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(
-                    PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message")
-                + ":\n\n"
-                + e.getLocalizedMessage(),
-            e);
+        logError(BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message") + ":\n\n" + e.getLocalizedMessage(), e);
         new ErrorDialog(
             shell,
-            BaseMessages.getString(
-                PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Title"),
-            BaseMessages.getString(
-                    PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message")
-                + ":\n\n"
-                + e.getLocalizedMessage(),
+            BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Title"),
+            BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message") + ":\n\n" + e.getLocalizedMessage(),
             e);
         return;
       }
@@ -455,36 +417,22 @@ public class CassandraInputDialog extends BaseTransformDialog implements ITransf
       String cqlText = variables.resolve(wCql.getText());
       String table = CassandraUtils.getTableNameFromCQLSelectQuery(cqlText);
       if (Utils.isEmpty(table)) {
-        throw new Exception(
-            BaseMessages.getString(PKG, "CassandraInput.Error.NoFromClauseInQuery"));
+        throw new Exception(BaseMessages.getString(PKG, "CassandraInput.Error.NoFromClauseInQuery"));
       }
 
       if (!kSpace.tableExists(table)) {
-        throw new Exception(
-            BaseMessages.getString(
-                PKG,
-                "CassandraInput.Error.NonExistentTable",
-                CassandraUtils.removeQuotes(table),
-                cassandraConnection.getKeyspace()));
+        throw new Exception(BaseMessages.getString(PKG, "CassandraInput.Error.NonExistentTable", CassandraUtils.removeQuotes(table), cassandraConnection.getKeyspace()));
       }
 
       String schemaDescription = kSpace.getTableMetaData(table).describe();
-      ShowMessageDialog smd =
-          new ShowMessageDialog(
-              shell, SWT.ICON_INFORMATION | SWT.OK, "Schema info", schemaDescription, true);
+      ShowMessageDialog smd = new ShowMessageDialog(shell, SWT.ICON_INFORMATION | SWT.OK, "Schema info", schemaDescription, true);
       smd.open();
     } catch (Exception e1) {
-      logError(
-          BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message")
-              + ":\n\n"
-              + e1.getMessage(),
-          e1);
+      logError(BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message") + ":\n\n" + e1.getMessage(), e1);
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Title"),
-          BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message")
-              + ":\n\n"
-              + e1.getMessage(),
+          BaseMessages.getString(PKG, "CassandraInputDialog.Error.ProblemGettingSchemaInfo.Message") + ":\n\n" + e1.getMessage(),
           e1);
     }
   }

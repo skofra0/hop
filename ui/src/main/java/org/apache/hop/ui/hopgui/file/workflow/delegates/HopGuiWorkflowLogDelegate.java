@@ -110,10 +110,7 @@ public class HopGuiWorkflowLogDelegate {
     fd.right = new FormAttachment(100, 0);
     toolbar.setLayoutData(fd);
 
-    workflowLogText =
-        new Text(
-            workflowLogComposite,
-            SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+    workflowLogText = new Text(workflowLogComposite, SWT.READ_ONLY | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(workflowLogText);
     FormData fdText = new FormData();
     fdText.left = new FormAttachment(0, 0);
@@ -132,12 +129,11 @@ public class HopGuiWorkflowLogDelegate {
     // If the workflow is closed, we should dispose of all the logging information in the buffer and
     // registry for it
     //
-    workflowGraph.addDisposeListener(
-        event -> {
-          if (workflowGraph.getWorkflow() != null) {
-            HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
-          }
-        });
+    workflowGraph.addDisposeListener(event -> {
+      if (workflowGraph.getWorkflow() != null) {
+        HopLogStore.discardLines(workflowGraph.getWorkflow().getLogChannelId(), true);
+      }
+    });
 
     workflowLogTab.setControl(workflowLogComposite);
 
@@ -215,8 +211,7 @@ public class HopGuiWorkflowLogDelegate {
         line = all.substring(startpos, i);
         lineUpper = line.toUpperCase();
         if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0
-            || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION"))
-                >= 0) {
+            || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
           err.add(line);
         }
         // New start of line
@@ -227,8 +222,7 @@ public class HopGuiWorkflowLogDelegate {
     }
     line = all.substring(startpos);
     lineUpper = line.toUpperCase();
-    if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0
-        || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
+    if (lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.ERROR")) >= 0 || lineUpper.indexOf(BaseMessages.getString(PKG, "WorkflowLog.System.EXCEPTION")) >= 0) {
       err.add(line);
     }
 
@@ -281,9 +275,7 @@ public class HopGuiWorkflowLogDelegate {
   }
 
   public boolean hasSelectedText() {
-    return workflowLogText != null
-        && !workflowLogText.isDisposed()
-        && StringUtils.isNotEmpty(workflowLogText.getSelectionText());
+    return workflowLogText != null && !workflowLogText.isDisposed() && StringUtils.isNotEmpty(workflowLogText.getSelectionText());
   }
 
   public void copySelected() {

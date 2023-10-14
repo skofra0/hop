@@ -78,12 +78,7 @@ public class EnterValueDialog extends Dialog {
 
   public ValueMetaAndData open() {
     Shell parent = getParent();
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM
-                | SWT.RESIZE
-                | (modalDialog ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE));
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | (modalDialog ? SWT.APPLICATION_MODAL | SWT.SHEET : SWT.NONE));
     PropsUi.setLook(shell);
     shell.setImage(GuiResource.getInstance().getImageHopUi());
 
@@ -195,8 +190,7 @@ public class EnterValueDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wTest, wCancel}, margin, wPrecision);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wTest, wCancel}, margin, wPrecision);
 
     // Add listeners
     wCancel.addListener(SWT.Selection, e -> cancel());
@@ -206,24 +200,22 @@ public class EnterValueDialog extends Dialog {
     // If the user changes data type or if we type a text, we set the default mask for the type
     // We also set the list of possible masks in the wFormat
     //
-    wInputString.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusGained(FocusEvent focusEvent) {}
+    wInputString.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent focusEvent) {}
 
-          @Override
-          public void focusLost(FocusEvent focusEvent) {
-            setFormats();
-          }
-        });
+      @Override
+      public void focusLost(FocusEvent focusEvent) {
+        setFormats();
+      }
+    });
 
-    wValueType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            setFormats();
-          }
-        });
+    wValueType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        setFormats();
+      }
+    });
 
     getData();
 
@@ -252,8 +244,7 @@ public class EnterValueDialog extends Dialog {
     switch (type) {
       case IValueMeta.TYPE_INTEGER:
         wFormat.setItems(Const.getNumberFormats());
-        int index =
-            (!Utils.isEmpty(formatString)) ? wFormat.indexOf(formatString) : wFormat.indexOf("#");
+        int index = (!Utils.isEmpty(formatString)) ? wFormat.indexOf(formatString) : wFormat.indexOf("#");
         // ... then we have a custom format mask
         if ((!Utils.isEmpty(formatString)) && (index < 0)) {
           wFormat.add(formatString);
@@ -263,8 +254,7 @@ public class EnterValueDialog extends Dialog {
         break;
       case IValueMeta.TYPE_NUMBER:
         wFormat.setItems(Const.getNumberFormats());
-        index =
-            (!Utils.isEmpty(formatString)) ? wFormat.indexOf(formatString) : wFormat.indexOf("#.#");
+        index = (!Utils.isEmpty(formatString)) ? wFormat.indexOf(formatString) : wFormat.indexOf("#.#");
         // ... then we have a custom format mask
         if ((!Utils.isEmpty(formatString)) && (index < 0)) {
           wFormat.add(formatString);
@@ -274,10 +264,7 @@ public class EnterValueDialog extends Dialog {
         break;
       case IValueMeta.TYPE_DATE:
         wFormat.setItems(Const.getDateFormats());
-        index =
-            (!Utils.isEmpty(formatString))
-                ? wFormat.indexOf(formatString)
-                : wFormat.indexOf("yyyy/MM/dd HH:mm:ss"); // default
+        index = (!Utils.isEmpty(formatString)) ? wFormat.indexOf(formatString) : wFormat.indexOf("yyyy/MM/dd HH:mm:ss"); // default
         // ... then we have a custom format mask
         if ((!Utils.isEmpty(formatString)) && (index < 0)) {
           wFormat.add(formatString);
@@ -350,8 +337,7 @@ public class EnterValueDialog extends Dialog {
       Object valueData = val.getValueData();
 
       int formatIndex = wFormat.getSelectionIndex();
-      valueMeta.setConversionMask(
-          formatIndex >= 0 ? wFormat.getItem(formatIndex) : wFormat.getText());
+      valueMeta.setConversionMask(formatIndex >= 0 ? wFormat.getItem(formatIndex) : wFormat.getText());
       valueMeta.setLength(Const.toInt(wLength.getText(), -1));
       valueMeta.setPrecision(Const.toInt(wPrecision.getText(), -1));
       val.setValueMeta(valueMeta);
@@ -387,8 +373,7 @@ public class EnterValueDialog extends Dialog {
       result.append(Const.CR).append(Const.CR).append("    ").append(v.toString());
       result.append(Const.CR).append("    ").append(v.toStringMeta());
 
-      mb.setMessage(
-          BaseMessages.getString(PKG, "EnterValueDialog.TestResult.Message", result.toString()));
+      mb.setMessage(BaseMessages.getString(PKG, "EnterValueDialog.TestResult.Message", result.toString()));
       mb.setText(BaseMessages.getString(PKG, "EnterValueDialog.TestResult.Title"));
       mb.open();
     } catch (HopValueException e) {

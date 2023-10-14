@@ -57,18 +57,8 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
 
   private CCombo wFieldname;
 
-  public ModPartitionerDialog(
-      Shell parent,
-      IVariables variables,
-      TransformMeta transformMeta,
-      TransformPartitioningMeta partitioningMeta,
-      PipelineMeta pipelineMeta) {
-    super(
-        parent,
-        variables,
-        (BaseTransformMeta) transformMeta.getTransform(),
-        pipelineMeta,
-        partitioningMeta.getPartitioner().getDescription());
+  public ModPartitionerDialog(Shell parent, IVariables variables, TransformMeta transformMeta, TransformPartitioningMeta partitioningMeta, PipelineMeta pipelineMeta) {
+    super(parent, variables, (BaseTransformMeta) transformMeta.getTransform(), pipelineMeta, partitioningMeta.getPartitioner().getDescription());
     this.transformMeta = transformMeta;
     this.partitioningMeta = partitioningMeta;
     partitioner = (ModPartitioner) partitioningMeta.getPartitioner();
@@ -143,8 +133,7 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
     partitioningMeta.hasChanged(changed);
 
     wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
-    ModifyListener modifyListener =
-        modifyEvent -> wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
+    ModifyListener modifyListener = modifyEvent -> wOk.setEnabled(!StringUtil.isEmpty(wFieldname.getText()));
     wFieldname.addModifyListener(modifyListener);
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
@@ -170,8 +159,7 @@ public class ModPartitionerDialog extends BaseTransformDialog implements ITransf
   }
 
   private void setShellImage(Shell shell) {
-    IPlugin plugin =
-        PluginRegistry.getInstance().getPlugin(PartitionerPluginType.class, partitioner.getId());
+    IPlugin plugin = PluginRegistry.getInstance().getPlugin(PartitionerPluginType.class, partitioner.getId());
     if (!Utils.isEmpty(plugin.getDocumentationUrl())) {
       HelpUtils.createHelpButton(shell, plugin);
     }

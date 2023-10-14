@@ -90,74 +90,52 @@ public class BrowserEnvironmentWarningDialog extends Dialog {
 
   private void showMacWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Mac"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"),
-        EnvironmentCase.MAC_OS_X,
-        MAX_TEXT_WIDTH_MAC);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Mac"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"), EnvironmentCase.MAC_OS_X, MAX_TEXT_WIDTH_MAC);
   }
 
   private void showUbuntuWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title.Ubuntu"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Ubuntu"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink.Ubuntu"),
-        EnvironmentCase.UBUNTU,
-        MAX_TEXT_WIDTH_UBUNTU);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title.Ubuntu"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Ubuntu"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink.Ubuntu"), EnvironmentCase.UBUNTU, MAX_TEXT_WIDTH_UBUNTU);
   }
 
   private void showWindowsWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Windows"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"),
-        EnvironmentCase.WINDOWS,
-        MAX_TEXT_WIDTH_WINDOWS);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Windows"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"), EnvironmentCase.WINDOWS, MAX_TEXT_WIDTH_WINDOWS);
   }
 
   private void showMacThinWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Mac.Thin"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"),
-        EnvironmentCase.MAC_OS_X_THIN,
-        MAX_TEXT_WIDTH_MAC);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Mac.Thin"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"), EnvironmentCase.MAC_OS_X_THIN, MAX_TEXT_WIDTH_MAC);
   }
 
   private void showUbuntuThinWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title.Ubuntu"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Ubuntu.Thin"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink.Ubuntu"),
-        EnvironmentCase.UBUNTU_THIN,
-        MAX_TEXT_WIDTH_UBUNTU);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title.Ubuntu"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Ubuntu.Thin"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink.Ubuntu"), EnvironmentCase.UBUNTU_THIN, MAX_TEXT_WIDTH_UBUNTU);
   }
 
   private void showWindowsThinWarningDialog() {
     showWarningDialog(
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Windows.Thin"),
-        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"),
-        EnvironmentCase.WINDOWS_THIN,
-        MAX_TEXT_WIDTH_WINDOWS);
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Title"), BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.Message.Windows.Thin"),
+        BaseMessages.getString(PKG, "BrowserEnvironmentWarningDialog.HelpLink"), EnvironmentCase.WINDOWS_THIN, MAX_TEXT_WIDTH_WINDOWS);
   }
 
   /**
    * showWarningDialog
    *
-   * <p>Shows a SWT dialog warning the user that something is wrong with the browser environment.
+   * <p>
+   * Shows a SWT dialog warning the user that something is wrong with the browser environment.
    *
    * @param title the title on the top of the window.
    * @param message the message at the center of the screen.
    * @param helpLink a string that contains a hyperlink to a help web page.
    * @param maxTextWidth the width for the text inside the dialog.
    */
-  private void showWarningDialog(
-      String title,
-      String message,
-      String helpLink,
-      EnvironmentCase environment,
-      int maxTextWidth) {
+  private void showWarningDialog(String title, String message, String helpLink, EnvironmentCase environment, int maxTextWidth) {
     if (this.getParent().isDisposed()) {
       return;
     }
@@ -180,9 +158,7 @@ public class BrowserEnvironmentWarningDialog extends Dialog {
 
     shell.setSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
     Rectangle screenSize = display.getPrimaryMonitor().getBounds();
-    shell.setLocation(
-        (screenSize.width - shell.getBounds().width) / 2,
-        (screenSize.height - shell.getBounds().height) / 2);
+    shell.setLocation((screenSize.width - shell.getBounds().width) / 2, (screenSize.height - shell.getBounds().height) / 2);
     closeButton.setFocus();
     shell.open();
     while (!shell.isDisposed()) {
@@ -201,27 +177,23 @@ public class BrowserEnvironmentWarningDialog extends Dialog {
     fdIcon.left = new FormAttachment(0, 0);
     fdIcon.top = new FormAttachment(0, 0);
     fdIcon.right = new FormAttachment(0, image.getBounds().width);
-    fdIcon.bottom =
-        new FormAttachment(0, image.getBounds().height); // icon should be at the top left corner
+    fdIcon.bottom = new FormAttachment(0, image.getBounds().height); // icon should be at the top left corner
     warningIcon.setLayoutData(fdIcon);
   }
 
   private void setWarningText(String message, int maxTextWidth) {
-    description =
-        new Text(shell, SWT.MULTI | SWT.LEFT | SWT.WRAP | SWT.NO_FOCUS | SWT.HIDE_SELECTION);
+    description = new Text(shell, SWT.MULTI | SWT.LEFT | SWT.WRAP | SWT.NO_FOCUS | SWT.HIDE_SELECTION);
     description.setText(message);
     description.setEditable(false);
     FormData fdlDesc = new FormData();
-    fdlDesc.left =
-        new FormAttachment(warningIcon, margin); // Text should be right of the icon and at the top
+    fdlDesc.left = new FormAttachment(warningIcon, margin); // Text should be right of the icon and at the top
     fdlDesc.top = new FormAttachment(0, 0);
     fdlDesc.width = maxTextWidth;
     description.setLayoutData(fdlDesc);
     PropsUi.setLook(description);
   }
 
-  private void setHelpLink(
-      Display display, String helpLink, int maxTextWidth, EnvironmentCase environment) {
+  private void setHelpLink(Display display, String helpLink, int maxTextWidth, EnvironmentCase environment) {
     link = new Link(shell, SWT.SINGLE | SWT.WRAP);
     link.setText(helpLink);
     if (environment == EnvironmentCase.MAC_OS_X || environment == EnvironmentCase.MAC_OS_X_THIN) {
@@ -230,24 +202,21 @@ public class BrowserEnvironmentWarningDialog extends Dialog {
       link.setFont(new Font(display, fD[0]));
     }
     FormData fdlink = new FormData();
-    fdlink.left =
-        new FormAttachment(warningIcon, margin); // Link should be below description right of icon
+    fdlink.left = new FormAttachment(warningIcon, margin); // Link should be below description right of icon
     fdlink.top = new FormAttachment(description, margin);
     fdlink.width = maxTextWidth;
     link.setLayoutData(fdlink);
     PropsUi.setLook(link);
 
-    link.addListener(
-        SWT.Selection,
-        event -> {
-          if (Desktop.isDesktopSupported()) {
-            try {
-              Desktop.getDesktop().browse(new URI(Const.getDocUrl(URI_PATH)));
-            } catch (Exception e) {
-              log.logError("Error opening external browser", e);
-            }
-          }
-        });
+    link.addListener(SWT.Selection, event -> {
+      if (Desktop.isDesktopSupported()) {
+        try {
+          Desktop.getDesktop().browse(new URI(Const.getDocUrl(URI_PATH)));
+        } catch (Exception e) {
+          log.logError("Error opening external browser", e);
+        }
+      }
+    });
   }
 
   private void setCloseButton() {
@@ -267,7 +236,8 @@ public class BrowserEnvironmentWarningDialog extends Dialog {
   /**
    * dispose
    *
-   * <p>used to dispose the dialog.
+   * <p>
+   * used to dispose the dialog.
    */
   public void dispose() {
     props.setScreen(new WindowProperty(shell));

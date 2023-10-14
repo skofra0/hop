@@ -117,12 +117,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
   private boolean warningShown;
 
-  public CypherBuilderDialog(
-      Shell parent,
-      IVariables variables,
-      Object inputMetadata,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public CypherBuilderDialog(Shell parent, IVariables variables, Object inputMetadata, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) inputMetadata, pipelineMeta, transformName);
     input = (CypherBuilderMeta) inputMetadata;
 
@@ -182,13 +177,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     addOperationsTab();
     addCypherTab();
 
-    wTabFolder.setLayoutData(
-        new FormDataBuilder()
-            .left()
-            .top(new FormAttachment(wTransformName, margin))
-            .right()
-            .bottom(new FormAttachment(wOk, -2 * margin))
-            .result());
+    wTabFolder.setLayoutData(new FormDataBuilder().left().top(new FormAttachment(wTransformName, margin)).right().bottom(new FormAttachment(wOk, -2 * margin)).result());
 
     getData();
 
@@ -206,8 +195,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     CTabItem wOptionsTab = new CTabItem(wTabFolder, SWT.NONE);
     wOptionsTab.setFont(GuiResource.getInstance().getFontDefault());
     wOptionsTab.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Options.Label"));
-    wOptionsTab.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Options.ToolTip"));
+    wOptionsTab.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Options.ToolTip"));
     Composite wOptionsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wOptionsComp);
     wOptionsComp.setLayout(new FormLayout());
@@ -254,8 +242,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     Label wlUnwindAlias = new Label(wOptionsComp, SWT.RIGHT);
     wlUnwindAlias.setText("Unwind map alias");
-    wlUnwindAlias.setToolTipText(
-        "Set this to enable UNWIND style cypher building.  The map is called $rows so you can call this row");
+    wlUnwindAlias.setToolTipText("Set this to enable UNWIND style cypher building.  The map is called $rows so you can call this row");
     PropsUi.setLook(wlUnwindAlias);
     FormData fdlUnwindAlias = new FormData();
     fdlUnwindAlias.left = new FormAttachment(0, 0);
@@ -274,8 +261,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     Label wlRetries = new Label(wOptionsComp, SWT.RIGHT);
     wlRetries.setText("Maximum retries");
-    wlRetries.setToolTipText(
-        "This is the maximum number of times a transaction will be re-tried on the database before giving up.");
+    wlRetries.setToolTipText("This is the maximum number of times a transaction will be re-tried on the database before giving up.");
     PropsUi.setLook(wlRetries);
     FormData fdlRetries = new FormData();
     fdlRetries.left = new FormAttachment(0, 0);
@@ -299,8 +285,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     CTabItem wParametersTab = new CTabItem(wTabFolder, SWT.NONE);
     wParametersTab.setFont(GuiResource.getInstance().getFontDefault());
     wParametersTab.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Parameters.Label"));
-    wParametersTab.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Parameters.ToolTip"));
+    wParametersTab.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Parameters.ToolTip"));
     Composite wParametersComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wParametersComp);
     wParametersComp.setLayout(createFormLayout());
@@ -319,11 +304,9 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] parameterColumns =
         new ColumnInfo[] {
-          new ColumnInfo("Parameter", ColumnInfo.COLUMN_TYPE_TEXT, false),
-          new ColumnInfo("Input field", ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
-          new ColumnInfo(
-              "Neo4j Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),
-        };
+            new ColumnInfo("Parameter", ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo("Input field", ColumnInfo.COLUMN_TYPE_CCOMBO, fieldNames, false),
+            new ColumnInfo("Neo4j Type", ColumnInfo.COLUMN_TYPE_CCOMBO, GraphPropertyType.getNames(), false),};
 
     Label wlParameters = new Label(wParametersComp, SWT.LEFT);
     wlParameters.setText("Parameters: (NOTE that parameters for labels are not supported)");
@@ -340,37 +323,19 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     fdbGetParameters.right = new FormAttachment(100, 0);
     fdbGetParameters.top = new FormAttachment(wlParameters, 0, SWT.BOTTOM);
     wbGetParameters.setLayoutData(fdbGetParameters);
-    wbGetParameters.addListener(
-        SWT.Selection,
-        e -> {
-          try {
-            IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    wbGetParameters.addListener(SWT.Selection, e -> {
+      try {
+        IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-            BaseTransformDialog.getFieldsFromPrevious(
-                r,
-                wParameters,
-                2,
-                new int[] {2},
-                new int[] {},
-                -1,
-                -1,
-                (item, valueMeta) ->
-                    Neo4JOutputDialog.getPropertyNameTypePrimary(
-                        item, valueMeta, new int[] {1}, new int[] {3}, -1));
-          } catch (Exception ex) {
-            new ErrorDialog(shell, "Error", "Error getting transform input fields", ex);
-          }
-        });
+        BaseTransformDialog.getFieldsFromPrevious(
+            r, wParameters, 2, new int[] {2}, new int[] {}, -1, -1,
+            (item, valueMeta) -> Neo4JOutputDialog.getPropertyNameTypePrimary(item, valueMeta, new int[] {1}, new int[] {3}, -1));
+      } catch (Exception ex) {
+        new ErrorDialog(shell, "Error", "Error getting transform input fields", ex);
+      }
+    });
 
-    wParameters =
-        new TableView(
-            variables,
-            wParametersComp,
-            SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER,
-            parameterColumns,
-            input.getParameters().size(),
-            null,
-            props);
+    wParameters = new TableView(variables, wParametersComp, SWT.FULL_SELECTION | SWT.MULTI | SWT.BORDER, parameterColumns, input.getParameters().size(), null, props);
     PropsUi.setLook(wParameters);
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -387,8 +352,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     CTabItem wOperationsTab = new CTabItem(wTabFolder, SWT.NONE);
     wOperationsTab.setFont(GuiResource.getInstance().getFontDefault());
     wOperationsTab.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Operations.Label"));
-    wOperationsTab.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Operations.ToolTip"));
+    wOperationsTab.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Operations.ToolTip"));
     SashForm sashForm = new SashForm(wTabFolder, SWT.HORIZONTAL);
     wOperationsTab.setControl(sashForm);
 
@@ -418,32 +382,27 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ToolItem addOperationItem = new ToolItem(wOperationsBar, SWT.PUSH);
     addOperationItem.setImage(GuiResource.getInstance().getImageAdd());
-    addOperationItem.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.OperationAdd.Tooltip"));
+    addOperationItem.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.OperationAdd.Tooltip"));
     addOperationItem.addListener(SWT.Selection, e -> operationAdd());
 
     ToolItem deleteOperationItem = new ToolItem(wOperationsBar, SWT.PUSH);
     deleteOperationItem.setImage(GuiResource.getInstance().getImageDelete());
-    deleteOperationItem.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.OperationDelete.Tooltip"));
+    deleteOperationItem.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.OperationDelete.Tooltip"));
     deleteOperationItem.addListener(SWT.Selection, e -> operationDelete());
 
     ToolItem moveUpOperationItem = new ToolItem(wOperationsBar, SWT.PUSH);
     moveUpOperationItem.setImage(GuiResource.getInstance().getImageUp());
-    moveUpOperationItem.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.OperationMoveUp.Tooltip"));
+    moveUpOperationItem.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.OperationMoveUp.Tooltip"));
     moveUpOperationItem.addListener(SWT.Selection, e -> operationMoveUp());
 
     ToolItem moveDownOperationItem = new ToolItem(wOperationsBar, SWT.PUSH);
     moveDownOperationItem.setImage(GuiResource.getInstance().getImageDown());
-    moveDownOperationItem.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.OperationMoveDown.Tooltip"));
+    moveDownOperationItem.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.OperationMoveDown.Tooltip"));
     moveDownOperationItem.addListener(SWT.Selection, e -> operationMoveDown());
 
     // Below that toolbar we have the list of operations
     //
-    wOperationsList =
-        new org.eclipse.swt.widgets.List(wOperationsComp, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
+    wOperationsList = new org.eclipse.swt.widgets.List(wOperationsComp, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
     PropsUi.setLook(wOperationsList);
     FormData fdOperationsList = new FormData();
     fdOperationsList.left = new FormAttachment(0, 0);
@@ -538,12 +497,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     lastControl = addOperationWidgetLabels(matchOperation, lastControl);
     lastControl =
         addOperationWidgetText(
-            matchOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"),
-            matchOperation.getAlias(),
-            c -> matchOperation.setAlias(c.getText()));
+            matchOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"), matchOperation.getAlias(), c -> matchOperation.setAlias(c.getText()));
     addOperationWidgetKeys(matchOperation, lastControl);
   }
 
@@ -557,12 +512,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     lastControl = addOperationWidgetLabels(mergeOperation, lastControl);
     lastControl =
         addOperationWidgetText(
-            mergeOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"),
-            mergeOperation.getAlias(),
-            c -> mergeOperation.setAlias(c.getText()));
+            mergeOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"), mergeOperation.getAlias(), c -> mergeOperation.setAlias(c.getText()));
     lastControl = addOperationWidgetKeys(mergeOperation, lastControl);
     addOperationWidgetProperties(mergeOperation, lastControl);
   }
@@ -577,12 +528,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     lastControl = addOperationWidgetLabels(createOperation, lastControl);
     lastControl =
         addOperationWidgetText(
-            createOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"),
-            createOperation.getAlias(),
-            c -> createOperation.setAlias(c.getText()));
+            createOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"), createOperation.getAlias(), c -> createOperation.setAlias(c.getText()));
     lastControl = addOperationWidgetKeys(createOperation, lastControl);
     addOperationWidgetProperties(createOperation, lastControl);
   }
@@ -597,12 +544,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     lastControl = addOperationWidgetLabels(deleteOperation, lastControl);
     lastControl =
         addOperationWidgetText(
-            deleteOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"),
-            deleteOperation.getAlias(),
-            c -> deleteOperation.setAlias(c.getText()));
+            deleteOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeAlias.Tooltip"), deleteOperation.getAlias(), c -> deleteOperation.setAlias(c.getText()));
     addOperationWidgetKeys(deleteOperation, lastControl);
   }
 
@@ -614,34 +557,20 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     lastControl = addOperationWidgetType(edgeMatchOperation, lastControl);
     lastControl =
         addOperationWidgetText(
-            edgeMatchOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SourceNodeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SourceNodeAlias.Tooltip"),
-            edgeMatchOperation.getSourceAlias(),
+            edgeMatchOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SourceNodeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SourceNodeAlias.Tooltip"), edgeMatchOperation.getSourceAlias(),
             c -> edgeMatchOperation.setSourceAlias(c.getText()));
     lastControl =
         addOperationWidgetText(
-            edgeMatchOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeAlias.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeAlias.Tooltip"),
-            edgeMatchOperation.getEdgeAlias(),
-            c -> edgeMatchOperation.setEdgeAlias(c.getText()));
+            edgeMatchOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeAlias.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeAlias.Tooltip"), edgeMatchOperation.getEdgeAlias(), c -> edgeMatchOperation.setEdgeAlias(c.getText()));
     lastControl =
         addOperationWidgetText(
-            edgeMatchOperation,
-            lastControl,
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeLabel.Label"),
-            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeLabel.Tooltip"),
-            edgeMatchOperation.getEdgeLabel(),
-            c -> edgeMatchOperation.setEdgeLabel(c.getText()));
+            edgeMatchOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeLabel.Label"),
+            BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.EdgeLabel.Tooltip"), edgeMatchOperation.getEdgeLabel(), c -> edgeMatchOperation.setEdgeLabel(c.getText()));
     addOperationWidgetText(
-        edgeMatchOperation,
-        lastControl,
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.TargetNodeAlias.Label"),
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.TargetNodeAlias.Tooltip"),
-        edgeMatchOperation.getTargetAlias(),
+        edgeMatchOperation, lastControl, BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.TargetNodeAlias.Label"),
+        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.TargetNodeAlias.Tooltip"), edgeMatchOperation.getTargetAlias(),
         c -> edgeMatchOperation.setTargetAlias(c.getText()));
   }
 
@@ -675,14 +604,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   /** Shows a dialog asking which type of operation to pick */
   private void operationAdd() {
     String[] operationDescriptions = OperationType.getOperationDescriptions();
-    EnterSelectionDialog dialog =
-        new EnterSelectionDialog(
-            shell,
-            operationDescriptions,
-            "Add Operation",
-            "Select the operation to add:",
-            null,
-            variables);
+    EnterSelectionDialog dialog = new EnterSelectionDialog(shell, operationDescriptions, "Add Operation", "Select the operation to add:", null, variables);
     String operationChoice = dialog.open();
     if (operationChoice == null) {
       return;
@@ -724,13 +646,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
   private void operationMoveDown() {}
 
-  private Control addOperationWidgetText(
-      BaseOperation operation,
-      Control lastControl,
-      String label,
-      String toolTip,
-      String value,
-      ITextChanged changed) {
+  private Control addOperationWidgetText(BaseOperation operation, Control lastControl, String label, String toolTip, String value, ITextChanged changed) {
     Label wlText = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlText);
     wlText.setText(label);
@@ -757,10 +673,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   private Control addOperationWidgetType(IOperation operation, Control lastControl) {
     Label wlOperationType = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlOperationType);
-    wlOperationType.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeOperationType.Label"));
-    wlOperationType.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeOperationType.Tooltip"));
+    wlOperationType.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeOperationType.Label"));
+    wlOperationType.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.NodeOperationType.Tooltip"));
     FormData fdlOperationType = new FormData();
     fdlOperationType.top = new FormAttachment(lastControl, margin);
     fdlOperationType.left = new FormAttachment(0, 0);
@@ -783,10 +697,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   private Control addOperationWidgetDetachDelete(DeleteOperation operation, Control lastControl) {
     Label wlDetachDelete = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlDetachDelete);
-    wlDetachDelete.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.DetachDelete.Label"));
-    wlDetachDelete.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.DetachDelete.Tooltip"));
+    wlDetachDelete.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.DetachDelete.Label"));
+    wlDetachDelete.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.DetachDelete.Tooltip"));
     FormData fdlDetachDelete = new FormData();
     fdlDetachDelete.left = new FormAttachment(0, 0);
     fdlDetachDelete.right = new FormAttachment(middle, 0);
@@ -801,8 +713,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     fdDetachDelete.right = new FormAttachment(100, 0);
     fdDetachDelete.top = new FormAttachment(wlDetachDelete, 0, SWT.CENTER);
     wDetachDelete.setLayoutData(fdDetachDelete);
-    wDetachDelete.addListener(
-        SWT.Selection, e -> operation.setDetach(wDetachDelete.getSelection()));
+    wDetachDelete.addListener(SWT.Selection, e -> operation.setDetach(wDetachDelete.getSelection()));
 
     return wDetachDelete;
   }
@@ -811,8 +722,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     Label wlLabels = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlLabels);
     wlLabels.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Labels.Label"));
-    wlLabels.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Labels.Tooltip"));
+    wlLabels.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Labels.Tooltip"));
     FormData fdlLabels = new FormData();
     fdlLabels.top = new FormAttachment(lastControl, margin);
     fdlLabels.left = new FormAttachment(0, 0);
@@ -822,23 +732,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     // Table view with 1 column, change listeners modifying operation.labels
     //
     ColumnInfo[] columns =
-        new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Labels.Column.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false)
-        };
-    TableView wLabels =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getLabels().size(),
-            false,
-            null,
-            props);
+        new ColumnInfo[] {new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Labels.Column.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false)};
+    TableView wLabels = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getLabels().size(), false, null, props);
     FormData fdLabels = new FormData();
     fdLabels.top = new FormAttachment(lastControl, margin);
     fdLabels.left = new FormAttachment(middle, margin);
@@ -855,8 +750,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     // Keep track of any changes with a listener
     //
     Function<TableItem, String> itemFunction = tableItem -> tableItem.getText(1);
-    wLabels.addModifyListener(
-        new TableViewModified<>(wLabels, operation.getLabels(), itemFunction));
+    wLabels.addModifyListener(new TableViewModified<>(wLabels, operation.getLabels(), itemFunction));
     return wLabels;
   }
 
@@ -864,8 +758,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     Label wlName = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlName);
     wlName.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Name.Label"));
-    wlName.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Name.Tooltip"));
+    wlName.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Name.Tooltip"));
     FormData fdlName = new FormData();
     fdlName.top = new FormAttachment(0, 0);
     fdlName.left = new FormAttachment(0, 0);
@@ -880,14 +773,11 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     fdName.left = new FormAttachment(middle, margin);
     fdName.right = new FormAttachment(100, 0);
     wName.setLayoutData(fdName);
-    wName.addListener(
-        SWT.Modify,
-        e -> {
-          operation.setName(wName.getText());
-          // Also change the selected item in the operations list widget
-          wOperationsList.setItem(
-              wOperationsList.getSelectionIndex(), Const.NVL(wName.getText(), ""));
-        });
+    wName.addListener(SWT.Modify, e -> {
+      operation.setName(wName.getText());
+      // Also change the selected item in the operations list widget
+      wOperationsList.setItem(wOperationsList.getSelectionIndex(), Const.NVL(wName.getText(), ""));
+    });
 
     return wlName;
   }
@@ -896,8 +786,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     Label wlKeys = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlKeys);
     wlKeys.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Label"));
-    wlKeys.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Tooltip"));
+    wlKeys.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Tooltip"));
     FormData fdlKeys = new FormData();
     fdlKeys.top = new FormAttachment(lastControl, margin);
     fdlKeys.left = new FormAttachment(0, 0);
@@ -909,31 +798,13 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Keys.Column.Parameter"), ColumnInfo.COLUMN_TYPE_CCOMBO, false, false),};
 
     // List of parameters:
     columns[1].setComboValues(copy.getParameterNames());
 
-    TableView wKeys =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getKeys().size(),
-            false,
-            null,
-            props);
+    TableView wKeys = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getKeys().size(), false, null, props);
     FormData fdKeys = new FormData();
     fdKeys.left = new FormAttachment(middle, margin);
     fdKeys.right = new FormAttachment(100, 0);
@@ -951,8 +822,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     // Keep track of any changes with a listener
     //
-    Function<TableItem, Property> itemFunction =
-        tableItem -> new Property(operation.getAlias(), tableItem.getText(1), tableItem.getText(2));
+    Function<TableItem, Property> itemFunction = tableItem -> new Property(operation.getAlias(), tableItem.getText(1), tableItem.getText(2));
     wKeys.addModifyListener(new TableViewModified<>(wKeys, operation.getKeys(), itemFunction));
 
     return wKeys;
@@ -961,10 +831,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   private Control addOperationWidgetProperties(BaseOperation operation, Control lastControl) {
     Label wlProperties = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlProperties);
-    wlProperties.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Label"));
-    wlProperties.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Tooltip"));
+    wlProperties.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Label"));
+    wlProperties.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Tooltip"));
     FormData fdlProperties = new FormData();
     fdlProperties.left = new FormAttachment(0, 0);
     fdlProperties.right = new FormAttachment(middle, 0);
@@ -976,38 +844,14 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Parameter"), ColumnInfo.COLUMN_TYPE_CCOMBO, false, false),};
 
     // List of parameters:
     columns[2].setComboValues(copy.getParameterNames());
 
-    TableView wProperties =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getProperties().size(),
-            false,
-            null,
-            props);
+    TableView wProperties = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getProperties().size(), false, null, props);
     FormData fdProperties = new FormData();
     fdProperties.left = new FormAttachment(middle, margin);
     fdProperties.right = new FormAttachment(100, 0);
@@ -1026,28 +870,17 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     // Keep track of any changes with a listener
     //
-    Function<TableItem, Property> itemFunction =
-        item ->
-            new Property(
-                operation.getAlias(),
-                item.getText(1),
-                item.getText(2),
-                item.getText(3),
-                item.getText(4));
-    wProperties.addModifyListener(
-        new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
+    Function<TableItem, Property> itemFunction = item -> new Property(operation.getAlias(), item.getText(1), item.getText(2), item.getText(3), item.getText(4));
+    wProperties.addModifyListener(new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
 
     return wProperties;
   }
 
-  private Control addOperationWidgetOrderByProperties(
-      BaseOperation operation, Control lastControl) {
+  private Control addOperationWidgetOrderByProperties(BaseOperation operation, Control lastControl) {
     Label wlProperties = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlProperties);
-    wlProperties.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.OrderByProperties.Label"));
-    wlProperties.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.OrderByProperties.Tooltip"));
+    wlProperties.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.OrderByProperties.Label"));
+    wlProperties.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.OrderByProperties.Tooltip"));
     FormData fdlProperties = new FormData();
     fdlProperties.left = new FormAttachment(0, 0);
     fdlProperties.right = new FormAttachment(middle, 0);
@@ -1059,40 +892,16 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Alias"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Descending"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {"N", "Y"},
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Alias"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Descending"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {"N", "Y"},
+                false),};
 
-    TableView wProperties =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getProperties().size(),
-            false,
-            null,
-            props);
+    TableView wProperties = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getProperties().size(), false, null, props);
     FormData fdProperties = new FormData();
     fdProperties.left = new FormAttachment(middle, margin);
     fdProperties.right = new FormAttachment(100, 0);
@@ -1112,17 +921,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     // Keep track of any changes with a listener
     //
-    Function<TableItem, Property> itemFunction =
-        item ->
-            new Property(
-                item.getText(1),
-                item.getText(2),
-                item.getText(3),
-                null,
-                null,
-                "Y".equalsIgnoreCase(item.getText(4)));
-    wProperties.addModifyListener(
-        new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
+    Function<TableItem, Property> itemFunction = item -> new Property(item.getText(1), item.getText(2), item.getText(3), null, null, "Y".equalsIgnoreCase(item.getText(4)));
+    wProperties.addModifyListener(new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
 
     return wProperties;
   }
@@ -1130,10 +930,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   private Control addOperationWidgetReturnValues(ReturnOperation operation, Control lastControl) {
     Label wlReturnValues = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlReturnValues);
-    wlReturnValues.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Label"));
-    wlReturnValues.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Tooltip"));
+    wlReturnValues.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Label"));
+    wlReturnValues.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Tooltip"));
     FormData fdlReturnValues = new FormData();
     fdlReturnValues.left = new FormAttachment(0, 0);
     fdlReturnValues.right = new FormAttachment(middle, 0);
@@ -1145,60 +943,23 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Alias"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Property"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Expression"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Rename"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.NeoType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GraphPropertyDataType.getNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.HopType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Alias"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Property"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Expression"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.Rename"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.NeoType"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                GraphPropertyDataType.getNames(),
+                false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.ReturnValues.Column.HopType"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                ValueMetaFactory.getValueMetaNames(),
+                false),};
 
-    TableView wReturnValues =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getReturnValues().size(),
-            false,
-            null,
-            props);
+    TableView wReturnValues = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getReturnValues().size(), false, null, props);
     FormData fdReturnValues = new FormData();
     fdReturnValues.left = new FormAttachment(middle, margin);
     fdReturnValues.right = new FormAttachment(100, 0);
@@ -1223,15 +984,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
         new TableViewModified<>(
             wReturnValues,
             operation.getReturnValues(),
-            item ->
-                new ReturnValue(
-                    item.getText(1),
-                    item.getText(2),
-                    item.getText(3),
-                    item.getText(4),
-                    item.getText(5),
-                    item.getText(6),
-                    item.getText(7))));
+            item -> new ReturnValue(item.getText(1), item.getText(2), item.getText(3), item.getText(4), item.getText(5), item.getText(6), item.getText(7))));
 
     return wReturnValues;
   }
@@ -1239,10 +992,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
   private Control addOperationWidgetSetProperties(SetOperation operation, Control lastControl) {
     Label wlProperties = new Label(wOperationComp, SWT.RIGHT);
     // props.setLook(wlProperties);
-    wlProperties.setText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SetProperties.Label"));
-    wlProperties.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SetProperties.Tooltip"));
+    wlProperties.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SetProperties.Label"));
+    wlProperties.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.SetProperties.Tooltip"));
     FormData fdlProperties = new FormData();
     fdlProperties.left = new FormAttachment(0, 0);
     fdlProperties.right = new FormAttachment(middle, 0);
@@ -1254,41 +1005,13 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     //
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Alias"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[0],
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(
-                  PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Alias"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Parameter"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[0], false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CypherBuilderDialog.Operation.Properties.Column.Expression"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columns[2].setComboValues(copy.getParameterNames());
 
-    TableView wProperties =
-        new TableView(
-            variables,
-            wOperationComp,
-            SWT.NONE,
-            columns,
-            operation.getProperties().size(),
-            false,
-            null,
-            props);
+    TableView wProperties = new TableView(variables, wOperationComp, SWT.NONE, columns, operation.getProperties().size(), false, null, props);
     FormData fdProperties = new FormData();
     fdProperties.left = new FormAttachment(middle, margin);
     fdProperties.right = new FormAttachment(100, 0);
@@ -1308,12 +1031,8 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     // Keep track of any changes with a listener
     //
-    Function<TableItem, Property> itemFunction =
-        item ->
-            new Property(
-                item.getText(1), item.getText(2), item.getText(4), item.getText(3), null, false);
-    wProperties.addModifyListener(
-        new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
+    Function<TableItem, Property> itemFunction = item -> new Property(item.getText(1), item.getText(2), item.getText(4), item.getText(3), null, false);
+    wProperties.addModifyListener(new TableViewModified<>(wProperties, operation.getProperties(), itemFunction));
 
     return wProperties;
   }
@@ -1322,14 +1041,12 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     CTabItem wCypherTab = new CTabItem(wTabFolder, SWT.NONE);
     wCypherTab.setFont(GuiResource.getInstance().getFontDefault());
     wCypherTab.setText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Cypher.Label"));
-    wCypherTab.setToolTipText(
-        BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Cypher.ToolTip"));
+    wCypherTab.setToolTipText(BaseMessages.getString(PKG, "CypherBuilderDialog.Tab.Cypher.ToolTip"));
     Composite wCypherComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wCypherComp);
     wCypherComp.setLayout(createFormLayout());
 
-    wCypher =
-        new Text(wCypherComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wCypher = new Text(wCypherComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wCypher.setFont(GuiResource.getInstance().getFontFixed());
     PropsUi.setLook(wCypher);
     FormData fdCypher = new FormData();
@@ -1345,26 +1062,19 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
 
     // Refresh the content every time the user switches to this tab
     //
-    Listener cypherRefresh =
-        e -> {
-          try {
-            wCypher.setText(Const.NVL(copy.getCypher(variables), ""));
-          } catch (Exception ex) {
-            wCypher.setText(
-                "Error building cypher statement: "
-                    + Const.CR
-                    + Const.CR
-                    + Const.getSimpleStackTrace(ex));
-          }
-        };
+    Listener cypherRefresh = e -> {
+      try {
+        wCypher.setText(Const.NVL(copy.getCypher(variables), ""));
+      } catch (Exception ex) {
+        wCypher.setText("Error building cypher statement: " + Const.CR + Const.CR + Const.getSimpleStackTrace(ex));
+      }
+    };
 
-    wTabFolder.addListener(
-        SWT.Selection,
-        e -> {
-          if (e.item.equals(wCypherTab)) {
-            cypherRefresh.handleEvent(e);
-          }
-        });
+    wTabFolder.addListener(SWT.Selection, e -> {
+      if (e.item.equals(wCypherTab)) {
+        cypherRefresh.handleEvent(e);
+      }
+    });
   }
 
   private Layout createFormLayout() {
@@ -1425,9 +1135,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
         new MessageDialogWithToggle(
             shell,
             "Work in progress",
-            "This transform is not finished yet! \n"
-                + "It's intended to get feedback from you. \n"
-                + "It's not intended to be used in production",
+            "This transform is not finished yet! \n" + "It's intended to get feedback from you. \n" + "It's not intended to be used in production",
             SWT.ICON_WARNING,
             new String[] {BaseMessages.getString(PKG, "System.Button.OK")},
             "Don't show this message again",
@@ -1473,8 +1181,7 @@ public class CypherBuilderDialog extends BaseTransformDialog implements ITransfo
     private final List<T> list;
     private final Function<TableItem, T> itemFunction;
 
-    public TableViewModified(
-        TableView tableView, List<T> list, Function<TableItem, T> itemFunction) {
+    public TableViewModified(TableView tableView, List<T> list, Function<TableItem, T> itemFunction) {
       this.tableView = tableView;
       this.list = list;
       this.itemFunction = itemFunction;

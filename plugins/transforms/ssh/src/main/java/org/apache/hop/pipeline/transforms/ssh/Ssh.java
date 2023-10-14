@@ -31,13 +31,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class Ssh extends BaseTransform<SshMeta, SshData> {
   private static final Class<?> PKG = SshMeta.class; // For Translator
 
-  public Ssh(
-      TransformMeta transformMeta,
-      SshMeta meta,
-      SshData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Ssh(TransformMeta transformMeta, SshMeta meta, SshData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -67,9 +61,7 @@ public class Ssh extends BaseTransform<SshMeta, SshData> {
           data.indexOfCommand = data.outputRowMeta.indexOfValue(meta.getCommandFieldName());
           if (data.indexOfCommand < 0) {
             // The field is unreachable !
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "SSH.Exception.CouldNotFindField", meta.getCommandFieldName()));
+            throw new HopException(BaseMessages.getString(PKG, "SSH.Exception.CouldNotFindField", meta.getCommandFieldName()));
           }
         }
       }
@@ -82,8 +74,7 @@ public class Ssh extends BaseTransform<SshMeta, SshData> {
           first = false;
           data.outputRowMeta = new RowMeta();
           data.nrInputFields = 0;
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
           data.nrOutputFields = data.outputRowMeta.size();
           data.commands = resolve(meta.getCommand());
         }
@@ -130,13 +121,7 @@ public class Ssh extends BaseTransform<SshMeta, SshData> {
       // Read Stdout, Sterr and exitStatus
       SessionResult sessionresult = new SessionResult(session);
       if (log.isDebug()) {
-        logDebug(
-            BaseMessages.getString(
-                PKG,
-                    "SSH.Log.ExecutedSshCommand",
-                data.commands,
-                sessionresult.getStdOut(),
-                sessionresult.getStdErr()));
+        logDebug(BaseMessages.getString(PKG, "SSH.Log.ExecutedSshCommand", data.commands, sessionresult.getStdOut(), sessionresult.getStdErr()));
       }
 
       // Add stdout to output
@@ -148,9 +133,7 @@ public class Ssh extends BaseTransform<SshMeta, SshData> {
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG, "SSH.Log.OutputLine", data.outputRowMeta.getString(rowData)));
+        logRowlevel(BaseMessages.getString(PKG, "SSH.Log.OutputLine", data.outputRowMeta.getString(rowData)));
       }
 
       putRow(data.outputRowMeta, rowData);

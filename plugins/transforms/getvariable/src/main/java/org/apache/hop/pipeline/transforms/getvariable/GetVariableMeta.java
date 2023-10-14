@@ -47,11 +47,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 public class GetVariableMeta extends BaseTransformMeta<GetVariable, GetVariableData> {
   private static final Class<?> PKG = GetVariableMeta.class; // For Translator
 
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupKey = "FIELDS",
-      injectionGroupDescription = "GetVariable.Injection.FIELDS")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupKey = "FIELDS", injectionGroupDescription = "GetVariable.Injection.FIELDS")
   private List<FieldDefinition> fieldDefinitions;
 
   public GetVariableMeta() {
@@ -70,13 +66,7 @@ public class GetVariableMeta extends BaseTransformMeta<GetVariable, GetVariableD
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       for (FieldDefinition fieldDefinition : fieldDefinitions) {
@@ -107,20 +97,13 @@ public class GetVariableMeta extends BaseTransformMeta<GetVariable, GetVariableD
         CheckResult cr =
             new CheckResult(
                 ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "GetVariableMeta.CheckResult.VariableNotSpecified",
-                    fieldDefinition.getFieldName()),
+                BaseMessages.getString(PKG, "GetVariableMeta.CheckResult.VariableNotSpecified", fieldDefinition.getFieldName()),
                 transformMeta);
         remarks.add(cr);
       }
     }
     if (remarks.size() == nrRemarks) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "GetVariableMeta.CheckResult.AllVariablesSpecified"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "GetVariableMeta.CheckResult.AllVariablesSpecified"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -140,66 +123,34 @@ public class GetVariableMeta extends BaseTransformMeta<GetVariable, GetVariableD
   }
 
   public static final class FieldDefinition {
-    @HopMetadataProperty(
-        key = "name",
-        injectionKey = "FIELDNAME",
-        injectionKeyDescription = "GetVariable.Injection.FIELDNAME")
+    @HopMetadataProperty(key = "name", injectionKey = "FIELDNAME", injectionKeyDescription = "GetVariable.Injection.FIELDNAME")
     private String fieldName;
 
-    @HopMetadataProperty(
-        key = "variable",
-        injectionKey = "VARIABLE",
-        injectionKeyDescription = "GetVariable.Injection.VARIABLE")
+    @HopMetadataProperty(key = "variable", injectionKey = "VARIABLE", injectionKeyDescription = "GetVariable.Injection.VARIABLE")
     private String variableString;
 
-    @HopMetadataProperty(
-        key = "type",
-        injectionKey = "FIELDTYPE",
-        injectionKeyDescription = "GetVariable.Injection.FIELDTYPE",
-        intCodeConverter = IntTypeConverter.class)
+    @HopMetadataProperty(key = "type", injectionKey = "FIELDTYPE", injectionKeyDescription = "GetVariable.Injection.FIELDTYPE", intCodeConverter = IntTypeConverter.class)
     private String fieldType;
 
-    @HopMetadataProperty(
-        key = "format",
-        injectionKey = "FIELDFORMAT",
-        injectionKeyDescription = "GetVariable.Injection.FIELDFORMAT")
+    @HopMetadataProperty(key = "format", injectionKey = "FIELDFORMAT", injectionKeyDescription = "GetVariable.Injection.FIELDFORMAT")
     private String fieldFormat;
 
-    @HopMetadataProperty(
-        key = "length",
-        injectionKey = "FIELDLENGTH",
-        injectionKeyDescription = "GetVariable.Injection.FIELDLENGTH")
+    @HopMetadataProperty(key = "length", injectionKey = "FIELDLENGTH", injectionKeyDescription = "GetVariable.Injection.FIELDLENGTH")
     private int fieldLength;
 
-    @HopMetadataProperty(
-        key = "precision",
-        injectionKey = "FIELDPRECISION",
-        injectionKeyDescription = "GetVariable.Injection.FIELDPRECISION")
+    @HopMetadataProperty(key = "precision", injectionKey = "FIELDPRECISION", injectionKeyDescription = "GetVariable.Injection.FIELDPRECISION")
     private int fieldPrecision;
 
-    @HopMetadataProperty(
-        key = "currency",
-        injectionKey = "CURRENCY",
-        injectionKeyDescription = "GetVariable.Injection.CURRENCY")
+    @HopMetadataProperty(key = "currency", injectionKey = "CURRENCY", injectionKeyDescription = "GetVariable.Injection.CURRENCY")
     private String currency;
 
-    @HopMetadataProperty(
-        key = "decimal",
-        injectionKey = "DECIMAL",
-        injectionKeyDescription = "GetVariable.Injection.DECIMAL")
+    @HopMetadataProperty(key = "decimal", injectionKey = "DECIMAL", injectionKeyDescription = "GetVariable.Injection.DECIMAL")
     private String decimal;
 
-    @HopMetadataProperty(
-        key = "group",
-        injectionKey = "GROUP",
-        injectionKeyDescription = "GetVariable.Injection.GROUP")
+    @HopMetadataProperty(key = "group", injectionKey = "GROUP", injectionKeyDescription = "GetVariable.Injection.GROUP")
     private String group;
 
-    @HopMetadataProperty(
-        key = "trim_type",
-        storeWithCode = true,
-        injectionKey = "TRIMTYPE",
-        injectionKeyDescription = "GetVariable.Injection.TRIMTYPE")
+    @HopMetadataProperty(key = "trim_type", storeWithCode = true, injectionKey = "TRIMTYPE", injectionKeyDescription = "GetVariable.Injection.TRIMTYPE")
     private IValueMeta.TrimType trimType;
 
     public FieldDefinition() {

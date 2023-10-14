@@ -22,25 +22,15 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 import org.apache.hop.pipeline.config.PipelineRunConfiguration;
 import org.apache.hop.pipeline.engines.EmptyPipelineRunConfiguration;
 
-public abstract class BeamPipelineRunConfiguration extends EmptyPipelineRunConfiguration
-    implements IBeamPipelineEngineRunConfiguration {
+public abstract class BeamPipelineRunConfiguration extends EmptyPipelineRunConfiguration implements IBeamPipelineEngineRunConfiguration {
 
-  @GuiWidgetElement(
-      order = "90000-general-options",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.TEXT,
-      label = "User agent")
+  @GuiWidgetElement(order = "90000-general-options", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.TEXT, label = "User agent")
   @HopMetadataProperty
   protected String userAgent;
 
-  @GuiWidgetElement(
-      order = "90010-general-options",
-      parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
-      type = GuiElementType.FOLDER,
-      label = "Temp location")
+  @GuiWidgetElement(order = "90010-general-options", parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID, type = GuiElementType.FOLDER, label = "Temp location")
   @HopMetadataProperty
   protected String tempLocation;
-
 
   @GuiWidgetElement(
       order = "90050-general-options",

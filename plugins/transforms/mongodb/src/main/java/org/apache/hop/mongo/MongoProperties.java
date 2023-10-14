@@ -82,17 +82,12 @@ public class MongoProperties {
     StringBuilder builder = new StringBuilder();
     builder.append("MongoProperties:\n");
     List<MongoProp> propList = new ArrayList<>(props.keySet());
-    Collections.sort(
-        propList,
-        new Comparator<MongoProp>() {
-          @Override
-          public int compare(MongoProp p1, MongoProp p2) {
-            return Objects.compare(
-                p1 == null ? null : p1.name(),
-                p2 == null ? null : p2.name(),
-                String.CASE_INSENSITIVE_ORDER);
-          }
-        });
+    Collections.sort(propList, new Comparator<MongoProp>() {
+      @Override
+      public int compare(MongoProp p1, MongoProp p2) {
+        return Objects.compare(p1 == null ? null : p1.name(), p2 == null ? null : p2.name(), String.CASE_INSENSITIVE_ORDER);
+      }
+    });
     for (MongoProp prop : propList) {
       builder.append(String.format("%s=%s\n", prop.name(), props.get(prop)));
     }

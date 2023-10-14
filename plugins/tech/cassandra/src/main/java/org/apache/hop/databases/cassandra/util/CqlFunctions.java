@@ -36,7 +36,7 @@ public enum CqlFunctions {
    * Indicates if the name of the function should be processed as case sensitive or not.
    *
    * @return isCaseSensitive true if the name of the function should be processed as case sensitive
-   *     or not.
+   *         or not.
    */
   public boolean isCaseSensitive() {
     return isCaseSensitive;

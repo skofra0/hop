@@ -35,11 +35,7 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
   private Map<String, T> objectMap;
   protected String description;
 
-  public MemoryMetadataSerializer(
-      IHopMetadataProvider provider,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public MemoryMetadataSerializer(IHopMetadataProvider provider, Class<T> managedClass, IVariables variables, String description) {
     this.metadataProvider = provider;
     this.managedClass = managedClass;
     this.variables = variables;
@@ -91,8 +87,7 @@ public class MemoryMetadataSerializer<T extends IHopMetadata> implements IHopMet
   @Override
   public T delete(String name) throws HopException {
     if (name == null) {
-      throw new HopException(
-          "Error: you need to specify the name of the metadata object to delete");
+      throw new HopException("Error: you need to specify the name of the metadata object to delete");
     }
     if (!exists(name)) {
       throw new HopException("Error: Object '" + name + "' doesn't exist");

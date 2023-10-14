@@ -74,24 +74,9 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
 
   public BeamKafkaInputTransform() {}
 
-  public BeamKafkaInputTransform(
-      @Nullable String name,
-      String transformName,
-      String bootstrapServers,
-      String topics,
-      String groupId,
-      boolean usingProcessingTime,
-      boolean usingLogAppendTime,
-      boolean usingCreateTime,
-      boolean restrictedToCommitted,
-      boolean allowingCommitOnConsumedOffset,
-      String[] configOptionParameters,
-      String[] configOptionValues,
-      String[] configOptionTypes,
-      String messageType,
-      String schemaRegistryUrl,
-      String schemaRegistrySubject,
-      String rowMetaJson) {
+  public BeamKafkaInputTransform(@Nullable String name, String transformName, String bootstrapServers, String topics, String groupId, boolean usingProcessingTime,
+      boolean usingLogAppendTime, boolean usingCreateTime, boolean restrictedToCommitted, boolean allowingCommitOnConsumedOffset, String[] configOptionParameters,
+      String[] configOptionValues, String[] configOptionTypes, String messageType, String schemaRegistryUrl, String schemaRegistrySubject, String rowMetaJson) {
     super(name);
     this.transformName = transformName;
     this.bootstrapServers = bootstrapServers;
@@ -104,11 +89,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
     this.allowingCommitOnConsumedOffset = allowingCommitOnConsumedOffset;
     this.configOptions = new ArrayList<>();
     for (int i = 0; i < configOptionParameters.length; i++) {
-      this.configOptions.add(
-          new ConfigOption(
-              configOptionParameters[i],
-              configOptionValues[i],
-              ConfigOption.Type.getTypeFromName(configOptionTypes[i])));
+      this.configOptions.add(new ConfigOption(configOptionParameters[i], configOptionValues[i], ConfigOption.Type.getTypeFromName(configOptionTypes[i])));
     }
     this.messageType = messageType;
     this.schemaRegistryUrl = schemaRegistryUrl;
@@ -156,11 +137,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
             value = Boolean.valueOf(optionValue);
             break;
           default:
-            throw new RuntimeException(
-                "Config option parameter "
-                    + configOption.getParameter()
-                    + " uses unsupported type "
-                    + configOption.getType().name());
+            throw new RuntimeException("Config option parameter " + configOption.getParameter() + " uses unsupported type " + configOption.getType().name());
         }
         consumerConfigUpdates.put(configOption.getParameter(), value);
       }
@@ -176,16 +153,11 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
         // Keys and such to authenticate should in the consumer options map
         //
         ConfluentSchemaRegistryDeserializerProvider<GenericRecord> provider =
-            ConfluentSchemaRegistryDeserializerProvider.of(
-                schemaRegistryUrl, schemaRegistrySubject, null, consumerConfigUpdates);
+            ConfluentSchemaRegistryDeserializerProvider.of(schemaRegistryUrl, schemaRegistrySubject, null, consumerConfigUpdates);
 
         KafkaIO.Read<String, GenericRecord> io =
-            KafkaIO.<String, GenericRecord>read()
-                .withBootstrapServers(bootstrapServers)
-                .withConsumerConfigUpdates(consumerConfigUpdates)
-                .withTopics(topicList)
-                .withKeyDeserializer(StringDeserializer.class)
-                .withValueDeserializer(provider);
+            KafkaIO.<String, GenericRecord>read().withBootstrapServers(bootstrapServers).withConsumerConfigUpdates(consumerConfigUpdates).withTopics(topicList)
+                .withKeyDeserializer(StringDeserializer.class).withValueDeserializer(provider);
 
         if (usingProcessingTime) {
           io = io.withProcessingTime();
@@ -204,14 +176,9 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
         }
         // Read keys and values from Kafka
         //
-        PCollection<KV<String, GenericRecord>> kafkaConsumerOutput =
-            input.apply(io.withoutMetadata());
+        PCollection<KV<String, GenericRecord>> kafkaConsumerOutput = input.apply(io.withoutMetadata());
 
-        output =
-            kafkaConsumerOutput.apply(
-                ParDo.of(
-                    new KVStringGenericRecordToHopRowFn(
-                        transformName, rowMetaJson)));
+        output = kafkaConsumerOutput.apply(ParDo.of(new KVStringGenericRecordToHopRowFn(transformName, rowMetaJson)));
 
         return output;
       } else if ("String".equalsIgnoreCase(messageType)) {
@@ -219,12 +186,8 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
         // This is something to solve in the future for sure if the Beam API permits it.
         //
         KafkaIO.Read<String, String> io =
-            KafkaIO.<String, String>read()
-                .withBootstrapServers(bootstrapServers)
-                .withConsumerConfigUpdates(consumerConfigUpdates)
-                .withTopics(topicList)
-                .withKeyDeserializer(StringDeserializer.class)
-                .withValueDeserializer(StringDeserializer.class);
+            KafkaIO.<String, String>read().withBootstrapServers(bootstrapServers).withConsumerConfigUpdates(consumerConfigUpdates).withTopics(topicList)
+                .withKeyDeserializer(StringDeserializer.class).withValueDeserializer(StringDeserializer.class);
 
         if (usingProcessingTime) {
           io = io.withProcessingTime();
@@ -245,15 +208,10 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
         //
         PCollection<KV<String, String>> kafkaConsumerOutput = input.apply(io.withoutMetadata());
 
-        output =
-            kafkaConsumerOutput.apply(
-                ParDo.of(
-                    new KVStringStringToHopRowFn(
-                        transformName, rowMetaJson)));
+        output = kafkaConsumerOutput.apply(ParDo.of(new KVStringStringToHopRowFn(transformName, rowMetaJson)));
 
       } else {
-        throw new HopException(
-            "Only parsing String or Avro Record messages is supported at this time");
+        throw new HopException("Only parsing String or Avro Record messages is supported at this time");
       }
 
       return output;
@@ -277,9 +235,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
     private transient Counter inputCounter;
     private transient Counter writtenCounter;
 
-    public KVStringStringToHopRowFn(
-        String transformName,
-        String rowMetaJson) {
+    public KVStringStringToHopRowFn(String transformName, String rowMetaJson) {
       this.transformName = transformName;
       this.rowMetaJson = rowMetaJson;
     }
@@ -299,8 +255,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in setup of KV<String,String> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in setup of KV<String,String> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in setup of KV<String,String> to Hop Row conversion function", e);
       }
     }
 
@@ -324,8 +279,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
     }
   }
 
-  public static final class KVStringGenericRecordToHopRowFn
-      extends DoFn<KV<String, GenericRecord>, HopRow> {
+  public static final class KVStringGenericRecordToHopRowFn extends DoFn<KV<String, GenericRecord>, HopRow> {
 
     private final String rowMetaJson;
     private final String transformName;
@@ -337,9 +291,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
     private transient Counter inputCounter;
     private transient Counter writtenCounter;
 
-    public KVStringGenericRecordToHopRowFn(
-        String transformName,
-        String rowMetaJson) {
+    public KVStringGenericRecordToHopRowFn(String transformName, String rowMetaJson) {
       this.transformName = transformName;
       this.rowMetaJson = rowMetaJson;
     }
@@ -359,8 +311,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
       }
     }
 
@@ -379,8 +330,7 @@ public class BeamKafkaInputTransform extends PTransform<PBegin, PCollection<HopR
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in KV<String,GenericRecord> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in KV<String,GenericRecord> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in KV<String,GenericRecord> to Hop Row conversion function", e);
       }
     }
   }

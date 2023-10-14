@@ -24,8 +24,7 @@ public class GuiActionFilter {
 
   public GuiActionFilter() {}
 
-  public GuiActionFilter(
-      String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
+  public GuiActionFilter(String id, String guiPluginClassName, String guiPluginMethodName, ClassLoader classLoader) {
     this.id = id;
     this.guiPluginClassName = guiPluginClassName;
     this.guiPluginMethodName = guiPluginMethodName;

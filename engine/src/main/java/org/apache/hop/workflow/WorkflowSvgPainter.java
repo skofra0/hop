@@ -27,8 +27,7 @@ import java.util.ArrayList;
 
 public class WorkflowSvgPainter {
 
-  public static final String generateWorkflowSvg(
-      WorkflowMeta workflowMeta, float magnification, IVariables variables) throws HopException {
+  public static final String generateWorkflowSvg(WorkflowMeta workflowMeta, float magnification, IVariables variables) throws HopException {
     try {
       Point maximum = workflowMeta.getMaximum();
       maximum.multiply(magnification);
@@ -37,22 +36,7 @@ public class WorkflowSvgPainter {
 
       SvgGc gc = new SvgGc(graphics2D, new Point(maximum.x, maximum.y), 32, 0, 0);
       WorkflowPainter workflowPainter =
-          new WorkflowPainter(
-              gc,
-              variables,
-              workflowMeta,
-              maximum,
-              new DPoint(0,0),
-              null,
-              null,
-              new ArrayList<>(),
-              32,
-              1,
-              0,
-              "Arial",
-              10,
-              1.0d,
-              false);
+          new WorkflowPainter(gc, variables, workflowMeta, maximum, new DPoint(0, 0), null, null, new ArrayList<>(), 32, 1, 0, "Arial", 10, 1.0d, false);
       workflowPainter.setMagnification(magnification);
       workflowPainter.drawWorkflow();
 

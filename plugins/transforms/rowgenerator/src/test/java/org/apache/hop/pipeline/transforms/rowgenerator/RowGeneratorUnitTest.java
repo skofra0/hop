@@ -33,15 +33,15 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 public class RowGeneratorUnitTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private TransformMockHelper<RowGeneratorMeta, RowGeneratorData> transformMockHelper;
 
   @Before
   public void setup() {
-    transformMockHelper = new TransformMockHelper("RowGenerator TEST", RowGeneratorMeta.class,RowGeneratorData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper("RowGenerator TEST", RowGeneratorMeta.class, RowGeneratorData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -49,7 +49,7 @@ public class RowGeneratorUnitTest {
   public void tearDown() {
     transformMockHelper.cleanUp();
   }
-  
+
   @BeforeClass
   public static void initEnvironment() throws Exception {
     HopEnvironment.init();
@@ -65,14 +65,14 @@ public class RowGeneratorUnitTest {
             0,
             transformMockHelper.pipelineMeta,
             transformMockHelper.pipeline);
-    
+
     // add variable to pipeline variable variables
     Variables variables = new Variables();
     variables.setVariable("ROW_LIMIT", "1440");
-    transformMockHelper.pipeline.setVariables(variables);        
-    
+    transformMockHelper.pipeline.setVariables(variables);
+
     when(transformMockHelper.iTransformMeta.getRowLimit()).thenReturn("${ROW_LIMIT}");
-    
+
     rowGenerator.initializeFrom(transformMockHelper.pipeline);
     rowGenerator.init();
 

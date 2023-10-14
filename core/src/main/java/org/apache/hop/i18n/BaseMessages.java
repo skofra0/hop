@@ -69,20 +69,16 @@ public class BaseMessages implements ILafChangeListener<IMessageHandler> {
     return getInstanceHandler().getString(packageName, key, parameters);
   }
 
-  public static String getString(
-      String packageName, String key, Class<?> resourceClass, String... parameters) {
+  public static String getString(String packageName, String key, Class<?> resourceClass, String... parameters) {
     return getInstanceHandler().getString(packageName, key, resourceClass, parameters);
   }
 
   public static String getString(Class<?> packageClass, String key, String... parameters) {
-    return getInstanceHandler()
-        .getString(packageClass.getPackage().getName(), key, packageClass, parameters);
+    return getInstanceHandler().getString(packageClass.getPackage().getName(), key, packageClass, parameters);
   }
 
-  public static String getString(
-      Class<?> packageClass, String key, Class<?> resourceClass, String... parameters) {
-    return getInstanceHandler()
-        .getString(packageClass.getPackage().getName(), key, packageClass, parameters);
+  public static String getString(Class<?> packageClass, String key, Class<?> resourceClass, String... parameters) {
+    return getInstanceHandler().getString(packageClass.getPackage().getName(), key, packageClass, parameters);
   }
 
   public static String getString(Class<?> packageClass, String key, Object... parameters) {

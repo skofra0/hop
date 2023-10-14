@@ -32,8 +32,7 @@ import org.apache.hop.www.HopServer;
 public class HopServerCalculateFilenameExtensionPoint implements IExtensionPoint<HopServer> {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, HopServer hopServer)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopServer hopServer) throws HopException {
 
     if (hopServer.getParameters() == null || hopServer.getParameters().size() == 1)
       try {

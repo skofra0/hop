@@ -88,8 +88,7 @@ public class EndRepeat extends ActionBase implements IAction, Cloneable {
   }
 
   @Override
-  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node actionNode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(actionNode);
     } catch (Exception e) {

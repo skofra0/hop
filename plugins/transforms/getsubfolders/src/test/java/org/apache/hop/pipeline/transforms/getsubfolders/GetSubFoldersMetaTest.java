@@ -23,9 +23,7 @@ import org.junit.Test;
 public class GetSubFoldersMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    GetSubFoldersMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/get-subfolder-names-transform.xml", GetSubFoldersMeta.class);
+    GetSubFoldersMeta meta = TransformSerializationTestUtil.testSerialization("/get-subfolder-names-transform.xml", GetSubFoldersMeta.class);
 
     Assert.assertTrue(meta.isIncludeRowNumber());
     Assert.assertEquals(1, meta.getFiles().size());

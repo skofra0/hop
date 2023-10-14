@@ -25,8 +25,7 @@ public class GetLoggingInfoMetaInjectionTypeConverter extends InjectionTypeConve
   public Enum<?> string2enum(Class<?> enumClass, String v) throws HopValueException {
     // For GetLoggingInfoMeta, enum should be a GetLoggingInfoTypes
     GetLoggingInfoTypes type = GetLoggingInfoTypes.getTypeFromString(v);
-    if (!GetLoggingInfoTypes.TYPE_SYSTEM_INFO_NONE.toString().equals(v)
-        && type == GetLoggingInfoTypes.TYPE_SYSTEM_INFO_NONE) {
+    if (!GetLoggingInfoTypes.TYPE_SYSTEM_INFO_NONE.toString().equals(v) && type == GetLoggingInfoTypes.TYPE_SYSTEM_INFO_NONE) {
       // Throw exception to let user know entered string was not valid SystemDataType
       throw new HopValueException("Unknown value '" + v + "' for enum " + enumClass);
     } else {

@@ -61,7 +61,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class LoadFileInputTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private FileSystemManager fs;
   private String filesPath;
@@ -119,11 +120,8 @@ public class LoadFileInputTest {
 
     loadFileInputMeta = spy(new LoadFileInputMeta());
     fileInputList = new FileInputList();
-    Mockito.doReturn(fileInputList)
-        .when(loadFileInputMeta)
-        .getFiles(any(IVariables.class));
-    String transformId =
-        PluginRegistry.getInstance().getPluginId(TransformPluginType.class, loadFileInputMeta);
+    Mockito.doReturn(fileInputList).when(loadFileInputMeta).getFiles(any(IVariables.class));
+    String transformId = PluginRegistry.getInstance().getPluginId(TransformPluginType.class, loadFileInputMeta);
     TransformMeta transformMeta = new TransformMeta(transformId, "Load File Input", loadFileInputMeta);
     pipelineMeta.addTransform(transformMeta);
 
@@ -131,14 +129,7 @@ public class LoadFileInputTest {
 
     int transformCopyNr = 0;
 
-    loadFileInput =
-        new LoadFileInput(
-            transformMeta,
-            loadFileInputMeta,
-            loadFileInputData,
-            transformCopyNr,
-            pipelineMeta,
-            pipeline);
+    loadFileInput = new LoadFileInput(transformMeta, loadFileInputMeta, loadFileInputData, transformCopyNr, pipelineMeta, pipeline);
 
     assertSame(loadFileInputMeta, transformMeta.getTransform());
 
@@ -359,9 +350,7 @@ public class LoadFileInputTest {
     loadFileInputMeta.setEncoding(null);
     fileInputList.addFile(getFile("Windows-1252.txt"));
     assertNotEquals(" Windows-1252 string ÕÕÕ€ ", loadFileInput.getOneRow()[0]);
-    assertEquals(
-        " Windows-1252 string ÕÕÕ€ ",
-        new String(loadFileInput.getData().filecontent, "Windows-1252"));
+    assertEquals(" Windows-1252 string ÕÕÕ€ ", new String(loadFileInput.getData().filecontent, "Windows-1252"));
   }
 
   @Test
@@ -380,9 +369,7 @@ public class LoadFileInputTest {
     loadFileInputMeta.setInputFields(new LoadFileInputField[] {loadFileInputField});
 
     assertNotNull(loadFileInput.getOneRow());
-    assertArrayEquals(
-        IOUtils.toByteArray(getFile("hop.jpg").getContent().getInputStream()),
-        loadFileInput.getData().filecontent);
+    assertArrayEquals(IOUtils.toByteArray(getFile("hop.jpg").getContent().getInputStream()), loadFileInput.getData().filecontent);
   }
 
   @Test

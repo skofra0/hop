@@ -30,13 +30,7 @@ public class FilesToResult extends BaseTransform<FilesToResultMeta, FilesToResul
 
   private static final Class<?> PKG = FilesToResultMeta.class; // For Translator
 
-  public FilesToResult(
-      TransformMeta transformMeta,
-      FilesToResultMeta meta,
-      FilesToResultData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FilesToResult(TransformMeta transformMeta, FilesToResultMeta meta, FilesToResultData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -49,9 +43,7 @@ public class FilesToResult extends BaseTransform<FilesToResultMeta, FilesToResul
       for (ResultFile resultFile : data.filenames) {
         addResultFile(resultFile);
       }
-      logBasic(
-          BaseMessages.getString(
-              PKG, "FilesToResult.Log.AddedNrOfFiles", String.valueOf(data.filenames.size())));
+      logBasic(BaseMessages.getString(PKG, "FilesToResult.Log.AddedNrOfFiles", String.valueOf(data.filenames.size())));
       setOutputDone();
       return false;
     }
@@ -62,9 +54,7 @@ public class FilesToResult extends BaseTransform<FilesToResultMeta, FilesToResul
       data.filenameIndex = getInputRowMeta().indexOfValue(meta.getFilenameField());
 
       if (data.filenameIndex < 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "FilesToResult.Log.CouldNotFindField", meta.getFilenameField()));
+        logError(BaseMessages.getString(PKG, "FilesToResult.Log.CouldNotFindField", meta.getFilenameField()));
         setErrors(1);
         stopAll();
         return false;
@@ -77,9 +67,7 @@ public class FilesToResult extends BaseTransform<FilesToResultMeta, FilesToResul
     try {
       ResultFile resultFile =
           new ResultFile(
-              meta.getFileType() == null
-                  ? ResultFile.FileType.GENERAL.getType()
-                  : meta.getFileType().getType(),
+              meta.getFileType() == null ? ResultFile.FileType.GENERAL.getType() : meta.getFileType().getType(),
               HopVfs.getFileObject(filename),
               getPipeline().getPipelineMeta().getName(),
               getTransformName());

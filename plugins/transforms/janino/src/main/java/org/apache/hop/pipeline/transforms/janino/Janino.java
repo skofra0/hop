@@ -39,13 +39,7 @@ public class Janino extends BaseTransform<JaninoMeta, JaninoData> {
 
   private static final Class<?> PKG = JaninoMeta.class; // For Translator
 
-  public Janino(
-      TransformMeta transformMeta,
-      JaninoMeta meta,
-      JaninoData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Janino(TransformMeta transformMeta, JaninoMeta meta, JaninoData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -75,10 +69,7 @@ public class Janino extends BaseTransform<JaninoMeta, JaninoData> {
         if (!Utils.isEmpty(fn.getReplaceField())) {
           data.replaceIndex[i] = getInputRowMeta().indexOfValue(fn.getReplaceField());
           if (data.replaceIndex[i] < 0) {
-            throw new HopException(
-                "Unknown field specified to replace with a formula result: ["
-                    + fn.getReplaceField()
-                    + "]");
+            throw new HopException("Unknown field specified to replace with a formula result: [" + fn.getReplaceField() + "]");
           }
         } else {
           data.replaceIndex[i] = -1;
@@ -94,11 +85,7 @@ public class Janino extends BaseTransform<JaninoMeta, JaninoData> {
       Object[] outputRowData = calcFields(getInputRowMeta(), r);
       putRow(data.outputRowMeta, outputRowData); // copy row to possible alternate rowset(s).
       if (log.isRowLevel()) {
-        logRowlevel(
-            "Wrote row #"
-                + getLinesWritten()
-                + " : "
-                + data.outputRowMeta.getString(outputRowData));
+        logRowlevel("Wrote row #" + getLinesWritten() + " : " + data.outputRowMeta.getString(outputRowData));
       }
     } catch (Exception e) {
       if (getTransformMeta().isDoingErrorHandling()) {
@@ -158,17 +145,12 @@ public class Janino extends BaseTransform<JaninoMeta, JaninoData> {
             // row...
             //
             data.expressionEvaluators[m] = new ExpressionEvaluator();
-            data.expressionEvaluators[m].setParameters(
-                parameterNames.toArray(new String[parameterNames.size()]),
-                parameterTypes.toArray(new Class<?>[parameterTypes.size()]));
+            data.expressionEvaluators[m].setParameters(parameterNames.toArray(new String[parameterNames.size()]), parameterTypes.toArray(new Class<?>[parameterTypes.size()]));
             data.expressionEvaluators[m].setReturnType(Object.class);
             data.expressionEvaluators[m].setThrownExceptions(new Class<?>[] {Exception.class});
             data.expressionEvaluators[m].cook(fn.getFormula());
           } else {
-            throw new HopException(
-                "Unable to find field name for formula ["
-                    + (!StringUtil.isEmpty(fn.getFormula()) ? fn.getFormula() : "")
-                    + "]");
+            throw new HopException("Unable to find field name for formula [" + (!StringUtil.isEmpty(fn.getFormula()) ? fn.getFormula() : "") + "]");
           }
         }
       }
@@ -194,17 +176,12 @@ public class Janino extends BaseTransform<JaninoMeta, JaninoData> {
           IValueMeta valueMeta = data.returnType[i];
           if (valueMeta.getNativeDataTypeClass().isAssignableFrom(formulaResult.getClass())) {
             value = formulaResult;
-          } else if (formulaResult instanceof Integer
-              && valueMeta.getType() == IValueMeta.TYPE_INTEGER) {
+          } else if (formulaResult instanceof Integer && valueMeta.getType() == IValueMeta.TYPE_INTEGER) {
             value = ((Integer) formulaResult).longValue();
           } else {
             throw new HopValueException(
                 BaseMessages.getString(
-                    PKG,
-                    "Janino.Error.ValueTypeMismatch",
-                    valueMeta.getTypeDesc(),
-                    meta.getFormula()[i].getFieldName(),
-                    formulaResult.getClass(),
+                    PKG, "Janino.Error.ValueTypeMismatch", valueMeta.getTypeDesc(), meta.getFormula()[i].getFieldName(), formulaResult.getClass(),
                     meta.getFormula()[i].getFormula()));
           }
         }

@@ -137,13 +137,7 @@ public class ConfigurationPerspective implements IHopPerspective, TabClosable {
           Object object = tabItem.getMethod().getDeclaringClass().getConstructor().newInstance();
           tabItem.getMethod().invoke(object, configTabs);
         } catch (Exception e) {
-          new ErrorDialog(
-              hopGui.getShell(),
-              "Error",
-              "Hop was unable to invoke @GuiTab method "
-                  + tabItem.getMethod().getName()
-                  + " with the parent composite as argument",
-              e);
+          new ErrorDialog(hopGui.getShell(), "Error", "Hop was unable to invoke @GuiTab method " + tabItem.getMethod().getName() + " with the parent composite as argument", e);
         }
       }
       if (configTabs.getItemCount() > 0) {
@@ -155,7 +149,8 @@ public class ConfigurationPerspective implements IHopPerspective, TabClosable {
   }
 
   public void showSystemVariablesTab() {
-    for (CTabItem tabItem : configTabs.getItems()) {}
+    for (CTabItem tabItem : configTabs.getItems()) {
+    }
   }
 
   @Override

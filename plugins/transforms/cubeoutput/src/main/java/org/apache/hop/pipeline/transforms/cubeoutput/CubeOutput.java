@@ -37,13 +37,7 @@ public class CubeOutput extends BaseTransform<CubeOutputMeta, CubeOutputData> {
 
   private static final Class<?> PKG = CubeOutputMeta.class; // For Translator
 
-  public CubeOutput(
-      TransformMeta transformMeta,
-      CubeOutputMeta meta,
-      CubeOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CubeOutput(TransformMeta transformMeta, CubeOutputMeta meta, CubeOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -86,9 +80,7 @@ public class CubeOutput extends BaseTransform<CubeOutputMeta, CubeOutputData> {
           prepareFile();
           data.oneFileOpened = true;
         } catch (HopFileException ioe) {
-          logError(
-              BaseMessages.getString(PKG, "CubeOutput.Log.ErrorOpeningCubeOutputFile")
-                  + ioe.toString());
+          logError(BaseMessages.getString(PKG, "CubeOutput.Log.ErrorOpeningCubeOutputFile") + ioe.toString());
           setErrors(1);
           return false;
         }
@@ -155,9 +147,7 @@ public class CubeOutput extends BaseTransform<CubeOutputMeta, CubeOutputData> {
           data.oneFileOpened = true;
           return true;
         } catch (HopFileException ioe) {
-          logError(
-              BaseMessages.getString(PKG, "CubeOutput.Log.ErrorOpeningCubeOutputFile")
-                  + ioe.toString());
+          logError(BaseMessages.getString(PKG, "CubeOutput.Log.ErrorOpeningCubeOutputFile") + ioe.toString());
         }
       } else {
         return true;
@@ -171,12 +161,7 @@ public class CubeOutput extends BaseTransform<CubeOutputMeta, CubeOutputData> {
       String filename = resolve(meta.getFilename());
       if (meta.isAddToResultFilenames()) {
         // Add this to the result file names...
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_GENERAL,
-                HopVfs.getFileObject(filename),
-                getPipelineMeta().getName(),
-                getTransformName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(filename), getPipelineMeta().getName(), getTransformName());
         resultFile.setComment("This file was created with a cube file output transform");
         addResultFile(resultFile);
       }
@@ -206,8 +191,7 @@ public class CubeOutput extends BaseTransform<CubeOutputMeta, CubeOutputData> {
           data.fos = null;
         }
       } catch (IOException e) {
-        logError(
-            BaseMessages.getString(PKG, "CubeOutput.Log.ErrorClosingFile") + meta.getFilename());
+        logError(BaseMessages.getString(PKG, "CubeOutput.Log.ErrorClosingFile") + meta.getFilename());
         setErrors(1);
         stopAll();
       }

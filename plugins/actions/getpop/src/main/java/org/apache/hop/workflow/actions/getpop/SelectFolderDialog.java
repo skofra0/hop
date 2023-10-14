@@ -91,8 +91,7 @@ public class SelectFolderDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> dispose());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wRefresh, wCancel}, PropsUi.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wRefresh, wCancel}, PropsUi.getMargin(), null);
 
     FormData fdTree = new FormData();
     fdTree.left = new FormAttachment(0, 0); // To the right of the label
@@ -121,8 +120,7 @@ public class SelectFolderDialog extends Dialog {
     return true;
   }
 
-  private void buildFoldersTree(Folder folder, TreeItem parentTreeItem, boolean topfolder)
-      throws MessagingException {
+  private void buildFoldersTree(Folder folder, TreeItem parentTreeItem, boolean topfolder) throws MessagingException {
     if ((folder.getType() & Folder.HOLDS_FOLDERS) != 0) {
       Folder[] f = folder.list();
       for (Folder value : f) {

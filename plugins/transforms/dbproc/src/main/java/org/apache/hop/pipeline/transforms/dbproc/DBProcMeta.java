@@ -55,15 +55,17 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
   /** database connection */
   @HopMetadataProperty(key = "connection")
   private String connection;
-  
+
   /** procedure name to be called */
-  @HopMetadataProperty private String procedure;
+  @HopMetadataProperty
+  private String procedure;
 
   /** function arguments */
   @HopMetadataProperty(groupKey = "lookup", key = "arg")
   List<ProcArgument> arguments;
 
-  @HopMetadataProperty private ProcResult result;
+  @HopMetadataProperty
+  private ProcResult result;
 
   /** The flag to set auto commit on or off on the connection */
   @HopMetadataProperty(key = "auto_commit")
@@ -100,13 +102,7 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (!Utils.isEmpty(result.getName())) {
@@ -154,17 +150,9 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
     DatabaseMeta databaseMeta = null;
 
     try {
-      databaseMeta =
-          metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
+      databaseMeta = metadataProvider.getSerializer(DatabaseMeta.class).load(variables.resolve(connection));
     } catch (HopException e) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "DBProcMeta.CheckResult.DatabaseMetaError",
-                  variables.resolve(connection)),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DBProcMeta.CheckResult.DatabaseMetaError", variables.resolve(connection)), transformMeta);
       remarks.add(cr);
     }
 
@@ -185,9 +173,7 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
             if (v == null) {
               if (first) {
                 first = false;
-                errorMessage +=
-                    BaseMessages.getString(PKG, "DBProcMeta.CheckResult.MissingArguments")
-                        + Const.CR;
+                errorMessage += BaseMessages.getString(PKG, "DBProcMeta.CheckResult.MissingArguments") + Const.CR;
               }
               errorFound = true;
               errorMessage += "\t\t" + argument.getName() + Const.CR;
@@ -199,11 +185,7 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
                 errorMessage +=
                     "\t\t"
                         + argument.getName()
-                        + BaseMessages.getString(
-                            PKG,
-                            "DBProcMeta.CheckResult.WrongTypeArguments",
-                            v.getTypeDesc(),
-                            ValueMetaFactory.getValueMetaName(hopType))
+                        + BaseMessages.getString(PKG, "DBProcMeta.CheckResult.WrongTypeArguments", v.getTypeDesc(), ValueMetaFactory.getValueMetaName(hopType))
                         + Const.CR;
               }
             }
@@ -211,25 +193,19 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
           if (errorFound) {
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           } else {
-            cr =
-                new CheckResult(
-                    ICheckResult.TYPE_RESULT_OK,
-                    BaseMessages.getString(PKG, "DBProcMeta.CheckResult.AllArgumentsOK"),
-                    transformMeta);
+            cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DBProcMeta.CheckResult.AllArgumentsOK"), transformMeta);
           }
           remarks.add(cr);
         } else {
-          errorMessage =
-              BaseMessages.getString(PKG, "DBProcMeta.CheckResult.CouldNotReadFields") + Const.CR;
+          errorMessage = BaseMessages.getString(PKG, "DBProcMeta.CheckResult.CouldNotReadFields") + Const.CR;
           cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
           remarks.add(cr);
-        }        
+        }
       } catch (HopException e) {
-        errorMessage =
-            BaseMessages.getString(PKG, "DBProcMeta.CheckResult.ErrorOccurred") + e.getMessage();
+        errorMessage = BaseMessages.getString(PKG, "DBProcMeta.CheckResult.ErrorOccurred") + e.getMessage();
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
-     }          
+      }
     } else {
       errorMessage = BaseMessages.getString(PKG, "DBProcMeta.CheckResult.InvalidConnection");
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
@@ -238,19 +214,10 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "DBProcMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "DBProcMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "DBProcMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "DBProcMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -280,9 +247,12 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
   }
 
   public static class ProcArgument {
-    @HopMetadataProperty private String name;
-    @HopMetadataProperty private String direction;
-    @HopMetadataProperty private String type;
+    @HopMetadataProperty
+    private String name;
+    @HopMetadataProperty
+    private String direction;
+    @HopMetadataProperty
+    private String type;
 
     public ProcArgument() {}
 
@@ -353,10 +323,12 @@ public class DBProcMeta extends BaseTransformMeta<DBProc, DBProcData> {
 
   public static class ProcResult {
     /** function result: new value name */
-    @HopMetadataProperty private String name;
+    @HopMetadataProperty
+    private String name;
 
     /** function result: new value type */
-    @HopMetadataProperty private String type;
+    @HopMetadataProperty
+    private String type;
 
     public ProcResult() {}
 

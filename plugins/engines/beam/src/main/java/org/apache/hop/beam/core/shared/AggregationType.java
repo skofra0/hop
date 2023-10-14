@@ -27,8 +27,7 @@ public enum AggregationType {
   FIRST_INCL_NULL,
   LAST_INCL_NULL,
   FIRST,
-  LAST,
-  ;
+  LAST,;
 
   public static final AggregationType getTypeFromName(String name) throws HopException {
     for (AggregationType type : values()) {

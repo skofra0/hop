@@ -57,10 +57,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = XmlWellFormedDialog.class; // For Translator
 
   private static final String[] FILETYPES =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.Filetype.Xml"),
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.Filetype.All")
-      };
+      new String[] {BaseMessages.getString(PKG, "ActionXMLWellFormed.Filetype.Xml"), BaseMessages.getString(PKG, "ActionXMLWellFormed.Filetype.All")};
 
   private Text wName;
 
@@ -97,8 +94,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
   private Label wlNrErrorsLessThan;
   private TextVar wNrErrorsLessThan;
 
-  public XmlWellFormedDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public XmlWellFormedDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (XmlWellFormed) action;
 
@@ -190,8 +186,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     wSettings.setLayout(groupLayout);
 
     Label wlIncludeSubfolders = new Label(wSettings, SWT.RIGHT);
-    wlIncludeSubfolders.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.IncludeSubfolders.Label"));
+    wlIncludeSubfolders.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.IncludeSubfolders.Label"));
     PropsUi.setLook(wlIncludeSubfolders);
     FormData fdlIncludeSubfolders = new FormData();
     fdlIncludeSubfolders.left = new FormAttachment(0, 0);
@@ -200,20 +195,18 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     wlIncludeSubfolders.setLayoutData(fdlIncludeSubfolders);
     wIncludeSubfolders = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubfolders);
-    wIncludeSubfolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.IncludeSubfolders.Tooltip"));
+    wIncludeSubfolders.setToolTipText(BaseMessages.getString(PKG, "ActionXMLWellFormed.IncludeSubfolders.Tooltip"));
     FormData fdIncludeSubfolders = new FormData();
     fdIncludeSubfolders.left = new FormAttachment(middle, 0);
     fdIncludeSubfolders.top = new FormAttachment(wlIncludeSubfolders, 0, SWT.CENTER);
     fdIncludeSubfolders.right = new FormAttachment(100, 0);
     wIncludeSubfolders.setLayoutData(fdIncludeSubfolders);
-    wIncludeSubfolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubfolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // previous
     Label wlPrevious = new Label(wSettings, SWT.RIGHT);
@@ -233,14 +226,13 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
 
-            RefreshArgFromPrevious();
-          }
-        });
+        RefreshArgFromPrevious();
+      }
+    });
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
     fdSettings.top = new FormAttachment(wName, margin);
@@ -253,8 +245,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
 
     // SourceFileFolder line
     wlSourceFileFolder = new Label(wGeneralComp, SWT.RIGHT);
-    wlSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SourceFileFolder.Label"));
+    wlSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.SourceFileFolder.Label"));
     PropsUi.setLook(wlSourceFileFolder);
     FormData fdlSourceFileFolder = new FormData();
     fdlSourceFileFolder.left = new FormAttachment(0, 0);
@@ -265,20 +256,17 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     // Browse Source folders button ...
     wbSourceDirectory = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbSourceDirectory);
-    wbSourceDirectory.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.BrowseFolders.Label"));
+    wbSourceDirectory.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.BrowseFolders.Label"));
     FormData fdbSourceDirectory = new FormData();
     fdbSourceDirectory.right = new FormAttachment(100, 0);
     fdbSourceDirectory.top = new FormAttachment(wSettings, margin);
     wbSourceDirectory.setLayoutData(fdbSourceDirectory);
-    wbSourceDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceFileFolder, variables));
+    wbSourceDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSourceFileFolder, variables));
 
     // Browse Source files button ...
     wbSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbSourceFileFolder);
-    wbSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.BrowseFiles.Label"));
+    wbSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.BrowseFiles.Label"));
     FormData fdbSourceFileFolder = new FormData();
     fdbSourceFileFolder.right = new FormAttachment(wbSourceDirectory, -margin);
     fdbSourceFileFolder.top = new FormAttachment(wSettings, margin);
@@ -287,16 +275,14 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     // Browse Destination file add button ...
     wbaSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbaSourceFileFolder);
-    wbaSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameAdd.Button"));
+    wbaSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameAdd.Button"));
     FormData fdbaSourceFileFolder = new FormData();
     fdbaSourceFileFolder.right = new FormAttachment(wbSourceFileFolder, -margin);
     fdbaSourceFileFolder.top = new FormAttachment(wSettings, margin);
     wbaSourceFileFolder.setLayoutData(fdbaSourceFileFolder);
 
     wSourceFileFolder = new TextVar(variables, wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SourceFileFolder.Tooltip"));
+    wSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionXMLWellFormed.SourceFileFolder.Tooltip"));
 
     PropsUi.setLook(wSourceFileFolder);
     wSourceFileFolder.addModifyListener(lsMod);
@@ -307,18 +293,8 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     wSourceFileFolder.setLayoutData(fdSourceFileFolder);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wSourceFileFolder.addModifyListener(
-        e -> wSourceFileFolder.setToolTipText(variables.resolve(wSourceFileFolder.getText())));
-    wbSourceFileFolder.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wSourceFileFolder,
-                variables,
-                new String[] {"*.xml;*.XML", "*"},
-                FILETYPES,
-                true));
+    wSourceFileFolder.addModifyListener(e -> wSourceFileFolder.setToolTipText(variables.resolve(wSourceFileFolder.getText())));
+    wbSourceFileFolder.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wSourceFileFolder, variables, new String[] {"*.xml;*.XML", "*"}, FILETYPES, true));
 
     // Wildcard
     wlWildcard = new Label(wGeneralComp, SWT.RIGHT);
@@ -352,10 +328,8 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     // Buttons to the right of the screen...
     wbdSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdSourceFileFolder);
-    wbdSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameDelete.Button"));
-    wbdSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameDelete.Tooltip"));
+    wbdSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameDelete.Button"));
+    wbdSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameDelete.Tooltip"));
     FormData fdbdSourceFileFolder = new FormData();
     fdbdSourceFileFolder.right = new FormAttachment(100, 0);
     fdbdSourceFileFolder.top = new FormAttachment(wlFields, margin);
@@ -363,52 +337,28 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
 
     wbeSourceFileFolder = new Button(wGeneralComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeSourceFileFolder);
-    wbeSourceFileFolder.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameEdit.Button"));
-    wbeSourceFileFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameEdit.Tooltip"));
+    wbeSourceFileFolder.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameEdit.Button"));
+    wbeSourceFileFolder.setToolTipText(BaseMessages.getString(PKG, "ActionXMLWellFormed.FilenameEdit.Tooltip"));
     FormData fdbeSourceFileFolder = new FormData();
     fdbeSourceFileFolder.right = new FormAttachment(100, 0);
     fdbeSourceFileFolder.left = new FormAttachment(wbdSourceFileFolder, 0, SWT.LEFT);
     fdbeSourceFileFolder.top = new FormAttachment(wbdSourceFileFolder, margin);
     wbeSourceFileFolder.setLayoutData(fdbeSourceFileFolder);
 
-    int rows =
-        action.getSourceFileFolders() == null
-            ? 1
-            : (action.getSourceFileFolders().length == 0
-                ? 0
-                : action.getSourceFileFolders().length);
+    int rows = action.getSourceFileFolders() == null ? 1 : (action.getSourceFileFolders().length == 0 ? 0 : action.getSourceFileFolders().length);
     final int FieldsRows = rows;
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.SourceFileFolder.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.Wildcard.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.SourceFileFolder.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.Wildcard.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[0].setUsingVariables(true);
-    colinf[0].setToolTip(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.SourceFileFolder.Tooltip"));
+    colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.SourceFileFolder.Tooltip"));
     colinf[1].setUsingVariables(true);
-    colinf[1].setToolTip(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.Wildcard.Tooltip"));
+    colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionXMLWellFormed.Fields.Wildcard.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -420,50 +370,47 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     RefreshArgFromPrevious();
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFields.add(new String[] {wSourceFileFolder.getText(), wWildcard.getText()});
-            wSourceFileFolder.setText("");
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFields.add(new String[] {wSourceFileFolder.getText(), wWildcard.getText()});
+        wSourceFileFolder.setText("");
 
-            wWildcard.setText("");
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-            wFields.optWidth(true);
-          }
-        };
+        wWildcard.setText("");
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+        wFields.optWidth(true);
+      }
+    };
     wbaSourceFileFolder.addSelectionListener(selA);
     wSourceFileFolder.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdSourceFileFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdSourceFileFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeSourceFileFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFields.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFields.getItem(idx);
-              wSourceFileFolder.setText(string[0]);
-              wWildcard.setText(string[1]);
-              wFields.remove(idx);
-            }
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbeSourceFileFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFields.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFields.getItem(idx);
+          wSourceFileFolder.setText(string[0]);
+          wWildcard.setText(string[1]);
+          wFields.remove(idx);
+        }
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     FormData fdGeneralComp = new FormData();
     fdGeneralComp.left = new FormAttachment(0, 0);
@@ -512,8 +459,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
 
     // Success Condition
     Label wlSuccessCondition = new Label(wSuccessOn, SWT.RIGHT);
-    wlSuccessCondition.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessCondition.Label"));
+    wlSuccessCondition.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessCondition.Label"));
     PropsUi.setLook(wlSuccessCondition);
     FormData fdlSuccessCondition = new FormData();
     fdlSuccessCondition.left = new FormAttachment(0, 0);
@@ -521,12 +467,9 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdlSuccessCondition.top = new FormAttachment(0, margin);
     wlSuccessCondition.setLayoutData(fdlSuccessCondition);
     wSuccessCondition = new CCombo(wSuccessOn, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenAllWorksFine.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenAtLeat.Label"));
-    wSuccessCondition.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenBadFormedLessThan.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenAllWorksFine.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenAtLeat.Label"));
+    wSuccessCondition.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.SuccessWhenBadFormedLessThan.Label"));
     wSuccessCondition.select(0); // +1: starts at -1
 
     PropsUi.setLook(wSuccessCondition);
@@ -535,18 +478,16 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdSuccessCondition.top = new FormAttachment(0, margin);
     fdSuccessCondition.right = new FormAttachment(100, 0);
     wSuccessCondition.setLayoutData(fdSuccessCondition);
-    wSuccessCondition.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeSuccessCondition();
-          }
-        });
+    wSuccessCondition.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeSuccessCondition();
+      }
+    });
 
     // Success when number of errors less than
     wlNrErrorsLessThan = new Label(wSuccessOn, SWT.RIGHT);
-    wlNrErrorsLessThan.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.NrBadFormedLessThan.Label"));
+    wlNrErrorsLessThan.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.NrBadFormedLessThan.Label"));
     PropsUi.setLook(wlNrErrorsLessThan);
     FormData fdlNrErrorsLessThan = new FormData();
     fdlNrErrorsLessThan.left = new FormAttachment(0, 0);
@@ -554,12 +495,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdlNrErrorsLessThan.right = new FormAttachment(middle, -margin);
     wlNrErrorsLessThan.setLayoutData(fdlNrErrorsLessThan);
 
-    wNrErrorsLessThan =
-        new TextVar(
-            variables,
-            wSuccessOn,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionXMLWellFormed.NrBadFormedLessThan.Tooltip"));
+    wNrErrorsLessThan = new TextVar(variables, wSuccessOn, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionXMLWellFormed.NrBadFormedLessThan.Tooltip"));
     PropsUi.setLook(wNrErrorsLessThan);
     wNrErrorsLessThan.addModifyListener(lsMod);
     FormData fdNrErrorsLessThan = new FormData();
@@ -593,8 +529,7 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
 
     // Add Filenames to result filenames?
     Label wlAddFilenameToResult = new Label(wFileResult, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.AddFilenameToResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionXMLWellFormed.AddFilenameToResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -602,12 +537,9 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdlAddFilenameToResult.top = new FormAttachment(0, margin);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new CCombo(wFileResult, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.AddAllFilenamesToResult.Label"));
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.AddOnlyWellFormedFilenames.Label"));
-    wAddFilenameToResult.add(
-        BaseMessages.getString(PKG, "ActionXMLWellFormed.AddOnlyBadFormedFilenames.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.AddAllFilenamesToResult.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.AddOnlyWellFormedFilenames.Label"));
+    wAddFilenameToResult.add(BaseMessages.getString(PKG, "ActionXMLWellFormed.AddOnlyBadFormedFilenames.Label"));
     wAddFilenameToResult.select(0); // +1: starts at -1
 
     PropsUi.setLook(wAddFilenameToResult);
@@ -616,11 +548,10 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     fdAddFilenameToResult.top = new FormAttachment(0, margin);
     fdAddFilenameToResult.right = new FormAttachment(100, 0);
     wAddFilenameToResult.setLayoutData(fdAddFilenameToResult);
-    wAddFilenameToResult.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {}
-        });
+    wAddFilenameToResult.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {}
+    });
 
     FormData fdFileResult = new FormData();
     fdFileResult.left = new FormAttachment(0, margin);
@@ -706,13 +637,9 @@ public class XmlWellFormedDialog extends ActionDialog implements IActionDialog {
     wNrErrorsLessThan.setText(Const.NVL(action.getNrErrorsLessThan(), "10"));
 
     if (action.getSuccessCondition() != null) {
-      if (action
-          .getSuccessCondition()
-          .equals(XmlWellFormed.SUCCESS_IF_AT_LEAST_X_FILES_WELL_FORMED)) {
+      if (action.getSuccessCondition().equals(XmlWellFormed.SUCCESS_IF_AT_LEAST_X_FILES_WELL_FORMED)) {
         wSuccessCondition.select(1);
-      } else if (action
-          .getSuccessCondition()
-          .equals(XmlWellFormed.SUCCESS_IF_BAD_FORMED_FILES_LESS)) {
+      } else if (action.getSuccessCondition().equals(XmlWellFormed.SUCCESS_IF_BAD_FORMED_FILES_LESS)) {
         wSuccessCondition.select(2);
       } else {
         wSuccessCondition.select(0);

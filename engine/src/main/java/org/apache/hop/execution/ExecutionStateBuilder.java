@@ -72,10 +72,8 @@ public final class ExecutionStateBuilder {
     return loggingTextBuffer.toString();
   }
 
-  public static ExecutionStateBuilder fromExecutor(
-      IPipelineEngine<PipelineMeta> pipeline, Integer lastLogLineNr) {
-    String parentLogChannelId =
-        pipeline.getParent() == null ? null : pipeline.getParent().getLogChannelId();
+  public static ExecutionStateBuilder fromExecutor(IPipelineEngine<PipelineMeta> pipeline, Integer lastLogLineNr) {
+    String parentLogChannelId = pipeline.getParent() == null ? null : pipeline.getParent().getLogChannelId();
 
     // The last log line nr for this pipeline?
     // Look it up before querying the store to avoid missing lines
@@ -83,18 +81,10 @@ public final class ExecutionStateBuilder {
     int lastNrInLogStore = HopLogStore.getLastBufferLineNr();
 
     ExecutionStateBuilder builder =
-        of().withExecutionType(ExecutionType.Pipeline)
-            .withParentId(parentLogChannelId)
-            .withId(pipeline.getLogChannelId())
-            .withName(pipeline.getPipelineMeta().getName())
-            .withLoggingText(getLoggingText(pipeline.getLogChannelId(), lastLogLineNr))
-            .withLastLogLineNr(lastNrInLogStore)
-            .withFailed(pipeline.getErrors() > 0)
-            .withStatusDescription(pipeline.getStatusDescription())
-            .withChildIds(
-                LoggingRegistry.getInstance().getChildrenMap().get(pipeline.getLogChannelId()))
-            .withContainerId(pipeline.getContainerId())
-            .withExecutionEndDate(pipeline.getExecutionEndDate());
+        of().withExecutionType(ExecutionType.Pipeline).withParentId(parentLogChannelId).withId(pipeline.getLogChannelId()).withName(pipeline.getPipelineMeta().getName())
+            .withLoggingText(getLoggingText(pipeline.getLogChannelId(), lastLogLineNr)).withLastLogLineNr(lastNrInLogStore).withFailed(pipeline.getErrors() > 0)
+            .withStatusDescription(pipeline.getStatusDescription()).withChildIds(LoggingRegistry.getInstance().getChildrenMap().get(pipeline.getLogChannelId()))
+            .withContainerId(pipeline.getContainerId()).withExecutionEndDate(pipeline.getExecutionEndDate());
 
     EngineMetrics engineMetrics = pipeline.getEngineMetrics();
 
@@ -102,9 +92,7 @@ public final class ExecutionStateBuilder {
       // See if we have any component metrics...
       //
       for (IEngineComponent component : pipeline.getComponents()) {
-        ExecutionStateComponentMetrics componentMetrics =
-            new ExecutionStateComponentMetrics(
-                component.getName(), Integer.toString(component.getCopyNr()));
+        ExecutionStateComponentMetrics componentMetrics = new ExecutionStateComponentMetrics(component.getName(), Integer.toString(component.getCopyNr()));
 
         addMetric(componentMetrics, engineMetrics, component, Pipeline.METRIC_INIT);
         addMetric(componentMetrics, engineMetrics, component, Pipeline.METRIC_INPUT);
@@ -125,34 +113,21 @@ public final class ExecutionStateBuilder {
     return builder;
   }
 
-  public static ExecutionStateBuilder fromTransform(
-      IPipelineEngine<PipelineMeta> pipeline, IEngineComponent component) {
-    return of().withExecutionType(ExecutionType.Transform)
-        .withId(component.getLogChannelId())
-        .withStatusDescription(component.getStatusDescription())
-        .withFailed(component.getErrors() > 0)
-        .withName(component.getName())
-        .withCopyNr(Integer.toString(component.getCopyNr()))
-        .withParentId(pipeline.getLogChannelId())
-        .withContainerId(pipeline.getContainerId())
-        .withExecutionEndDate(component.getExecutionEndDate());
+  public static ExecutionStateBuilder fromTransform(IPipelineEngine<PipelineMeta> pipeline, IEngineComponent component) {
+    return of().withExecutionType(ExecutionType.Transform).withId(component.getLogChannelId()).withStatusDescription(component.getStatusDescription())
+        .withFailed(component.getErrors() > 0).withName(component.getName()).withCopyNr(Integer.toString(component.getCopyNr())).withParentId(pipeline.getLogChannelId())
+        .withContainerId(pipeline.getContainerId()).withExecutionEndDate(component.getExecutionEndDate());
   }
 
-  private static void addMetric(
-      ExecutionStateComponentMetrics componentMetrics,
-      EngineMetrics engineMetrics,
-      IEngineComponent component,
-      IEngineMetric metric) {
+  private static void addMetric(ExecutionStateComponentMetrics componentMetrics, EngineMetrics engineMetrics, IEngineComponent component, IEngineMetric metric) {
     Long value = engineMetrics.getComponentMetric(component, metric);
     if (value != null) {
       componentMetrics.getMetrics().put(metric.getHeader(), value);
     }
   }
 
-  public static ExecutionStateBuilder fromExecutor(
-      IWorkflowEngine<WorkflowMeta> workflow, Integer lastLogLineNr) {
-    String parentLogChannelId =
-        workflow.getParent() == null ? null : workflow.getParent().getLogChannelId();
+  public static ExecutionStateBuilder fromExecutor(IWorkflowEngine<WorkflowMeta> workflow, Integer lastLogLineNr) {
+    String parentLogChannelId = workflow.getParent() == null ? null : workflow.getParent().getLogChannelId();
 
     // The last log line nr for this workflow?
     // Look it up before querying the store to avoid missing lines
@@ -160,18 +135,10 @@ public final class ExecutionStateBuilder {
     int lastNrInLogStore = HopLogStore.getLastBufferLineNr();
     Result result = workflow.getResult();
 
-    return of().withExecutionType(ExecutionType.Workflow)
-        .withParentId(parentLogChannelId)
-        .withId(workflow.getLogChannelId())
-        .withName(workflow.getWorkflowMeta().getName())
-        .withLoggingText(getLoggingText(workflow.getLogChannelId(), lastLogLineNr))
-        .withLastLogLineNr(lastNrInLogStore)
-        .withFailed(result != null && !result.getResult())
-        .withStatusDescription(workflow.getStatusDescription())
-        .withChildIds(
-            LoggingRegistry.getInstance().getChildrenMap().get(workflow.getLogChannelId()))
-        .withContainerId(workflow.getContainerId())
-        .withExecutionEndDate(workflow.getExecutionEndDate());
+    return of().withExecutionType(ExecutionType.Workflow).withParentId(parentLogChannelId).withId(workflow.getLogChannelId()).withName(workflow.getWorkflowMeta().getName())
+        .withLoggingText(getLoggingText(workflow.getLogChannelId(), lastLogLineNr)).withLastLogLineNr(lastNrInLogStore).withFailed(result != null && !result.getResult())
+        .withStatusDescription(workflow.getStatusDescription()).withChildIds(LoggingRegistry.getInstance().getChildrenMap().get(workflow.getLogChannelId()))
+        .withContainerId(workflow.getContainerId()).withExecutionEndDate(workflow.getExecutionEndDate());
   }
 
   public ExecutionStateBuilder withExecutionType(ExecutionType executionType) {

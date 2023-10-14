@@ -64,26 +64,24 @@ public class BeamOutputMeta extends BaseTransformMeta<BeamOutput, BeamOutputData
   @HopMetadataProperty(key = "file_suffix")
   private String fileSuffix;
 
-  @HopMetadataProperty private boolean windowed;
+  @HopMetadataProperty
+  private boolean windowed;
 
   @Override
   public String getDialogClassName() {
     return BeamOutputDialog.class.getName();
   }
 
-  public FileDefinition loadFileDefinition(IHopMetadataProvider metadataProvider)
-      throws HopTransformException {
+  public FileDefinition loadFileDefinition(IHopMetadataProvider metadataProvider) throws HopTransformException {
     if (StringUtils.isEmpty(fileDefinitionName)) {
       throw new HopTransformException("No file description name provided");
     }
     FileDefinition fileDefinition;
     try {
-      IHopMetadataSerializer<FileDefinition> serializer =
-          metadataProvider.getSerializer(FileDefinition.class);
+      IHopMetadataSerializer<FileDefinition> serializer = metadataProvider.getSerializer(FileDefinition.class);
       fileDefinition = serializer.load(fileDefinitionName);
     } catch (Exception e) {
-      throw new HopTransformException(
-          "Unable to load file description '" + fileDefinitionName + "' from the metadata", e);
+      throw new HopTransformException("Unable to load file description '" + fileDefinitionName + "' from the metadata", e);
     }
 
     return fileDefinition;
@@ -133,8 +131,7 @@ public class BeamOutputMeta extends BaseTransformMeta<BeamOutput, BeamOutputData
     // Apply the output transform from HopRow to PDone
     //
     if (rowMeta == null || rowMeta.isEmpty()) {
-      throw new HopException(
-          "No output fields found in the file definition or from previous transforms");
+      throw new HopException("No output fields found in the file definition or from previous transforms");
     }
 
     BeamOutputTransform beamOutputTransform =
@@ -159,11 +156,7 @@ public class BeamOutputMeta extends BaseTransformMeta<BeamOutput, BeamOutputData
     // No need to store this, it's PDone.
     //
     input.apply(beamOutputTransform);
-    log.logBasic(
-        "Handled transform (OUTPUT) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (OUTPUT) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   private FileDefinition getDefaultFileDefinition() {
@@ -179,15 +172,8 @@ public class BeamOutputMeta extends BaseTransformMeta<BeamOutput, BeamOutputData
   private void addAllFieldsToEmptyFileDefinition(IRowMeta rowMeta, FileDefinition fileDefinition) {
     if (fileDefinition.getFieldDefinitions().isEmpty()) {
       for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-        fileDefinition
-            .getFieldDefinitions()
-            .add(
-                new FieldDefinition(
-                    valueMeta.getName(),
-                    valueMeta.getTypeDesc(),
-                    valueMeta.getLength(),
-                    valueMeta.getPrecision(),
-                    valueMeta.getConversionMask()));
+        fileDefinition.getFieldDefinitions()
+            .add(new FieldDefinition(valueMeta.getName(), valueMeta.getTypeDesc(), valueMeta.getLength(), valueMeta.getPrecision(), valueMeta.getConversionMask()));
       }
     }
   }

@@ -23,8 +23,7 @@ public class LoggingObjectTest {
 
   @Test
   public void testEquals() throws Exception {
-    ILoggingObject parent =
-        new LoggingObject(new SimpleLoggingObject("parent", LoggingObjectType.WORKFLOW, null));
+    ILoggingObject parent = new LoggingObject(new SimpleLoggingObject("parent", LoggingObjectType.WORKFLOW, null));
 
     LoggingObject loggingObject1 = new LoggingObject("test");
     loggingObject1.setFilename("fileName");

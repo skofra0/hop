@@ -39,7 +39,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 public class TextFileOutputMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -48,35 +49,9 @@ public class TextFileOutputMetaTest {
 
   public static List<String> getMetaAttributes() {
     return Arrays.asList(
-        "separator",
-        "enclosure",
-        "enclosure_forced",
-        "enclosure_fix_disabled",
-        "header",
-        "footer",
-        "format",
-        "compression",
-        "encoding",
-        "endedLine",
-        "fileNameInField",
-        "fileNameField",
-        "create_parent_folder",
-        "fileName",
-        "servlet_output",
-        "do_not_open_new_file_init",
-        "extention",
-        "append",
-        "split",
-        "haspartno",
-        "add_date",
-        "add_time",
-        "SpecifyFormat",
-        "date_time_format",
-        "add_to_result_filenames",
-        "pad",
-        "fast_dump",
-        "splitevery",
-        "OutputFields");
+        "separator", "enclosure", "enclosure_forced", "enclosure_fix_disabled", "header", "footer", "format", "compression", "encoding", "endedLine", "fileNameInField",
+        "fileNameField", "create_parent_folder", "fileName", "servlet_output", "do_not_open_new_file_init", "extention", "append", "split", "haspartno", "add_date", "add_time",
+        "SpecifyFormat", "date_time_format", "add_to_result_filenames", "pad", "fast_dump", "splitevery", "OutputFields");
   }
 
   public static Map<String, String> getGetterMap() {
@@ -153,22 +128,14 @@ public class TextFileOutputMetaTest {
 
   public static Map<String, IFieldLoadSaveValidator<?>> getTypeValidators() {
     Map<String, IFieldLoadSaveValidator<?>> typeValidators = new HashMap<>();
-    typeValidators.put(
-        TextFileField[].class.getCanonicalName(),
-        new ArrayLoadSaveValidator<>(new TextFileFieldLoadSaveValidator()));
+    typeValidators.put(TextFileField[].class.getCanonicalName(), new ArrayLoadSaveValidator<>(new TextFileFieldLoadSaveValidator()));
     return typeValidators;
   }
 
   @Test
   public void testRoundTrip() throws HopException {
     LoadSaveTester<TextFileOutputMeta> loadSaveTester =
-        new LoadSaveTester<>(
-            TextFileOutputMeta.class,
-            getMetaAttributes(),
-            getGetterMap(),
-            getSetterMap(),
-            getAttributeValidators(),
-            getTypeValidators());
+        new LoadSaveTester<>(TextFileOutputMeta.class, getMetaAttributes(), getGetterMap(), getSetterMap(), getAttributeValidators(), getTypeValidators());
 
     loadSaveTester.testSerialization();
   }
@@ -188,17 +155,13 @@ public class TextFileOutputMetaTest {
     assertEquals("foo_5.txt2", fileName);
   }
 
-  public static class TextFileFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<TextFileField> {
+  public static class TextFileFieldLoadSaveValidator implements IFieldLoadSaveValidator<TextFileField> {
     Random rand = new Random();
 
     @Override
     public TextFileField getTestObject() {
       String name = UUID.randomUUID().toString();
-      int type =
-          ValueMetaFactory.getIdForValueMeta(
-              ValueMetaFactory.getValueMetaNames()[
-                  rand.nextInt(ValueMetaFactory.getValueMetaNames().length)]);
+      int type = ValueMetaFactory.getIdForValueMeta(ValueMetaFactory.getValueMetaNames()[rand.nextInt(ValueMetaFactory.getValueMetaNames().length)]);
       String format = UUID.randomUUID().toString();
       int length = Math.abs(rand.nextInt());
       int precision = Math.abs(rand.nextInt());
@@ -207,16 +170,7 @@ public class TextFileOutputMetaTest {
       String groupSymbol = UUID.randomUUID().toString();
       String nullString = UUID.randomUUID().toString();
 
-      return new TextFileField(
-          name,
-          type,
-          format,
-          length,
-          precision,
-          currencySymbol,
-          decimalSymbol,
-          groupSymbol,
-          nullString);
+      return new TextFileField(name, type, format, length, precision, currencySymbol, decimalSymbol, groupSymbol, nullString);
     }
 
     @Override
@@ -225,14 +179,9 @@ public class TextFileOutputMetaTest {
         return false;
       }
       TextFileField act = (TextFileField) actual;
-      if (testObject.getName().equals(act.getName())
-          && testObject.getType() == act.getType()
-          && testObject.getFormat().equals(act.getFormat())
-          && testObject.getLength() == act.getLength()
-          && testObject.getPrecision() == act.getPrecision()
-          && testObject.getCurrencySymbol().equals(act.getCurrencySymbol())
-          && testObject.getDecimalSymbol().equals(act.getDecimalSymbol())
-          && testObject.getGroupingSymbol().equals(act.getGroupingSymbol())
+      if (testObject.getName().equals(act.getName()) && testObject.getType() == act.getType() && testObject.getFormat().equals(act.getFormat())
+          && testObject.getLength() == act.getLength() && testObject.getPrecision() == act.getPrecision() && testObject.getCurrencySymbol().equals(act.getCurrencySymbol())
+          && testObject.getDecimalSymbol().equals(act.getDecimalSymbol()) && testObject.getGroupingSymbol().equals(act.getGroupingSymbol())
           && testObject.getNullString().equals(act.getNullString())) {
         return true;
       } else {

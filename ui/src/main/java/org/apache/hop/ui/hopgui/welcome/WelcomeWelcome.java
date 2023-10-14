@@ -37,11 +37,7 @@ public class WelcomeWelcome {
 
   private static final String WELCOME_WELCOME_PARENT_ID = "WelcomeWelcome.Parent.ID";
 
-  @GuiWidgetElement(
-      type = GuiElementType.COMPOSITE,
-      id = "10000-welcome",
-      label = "Welcome!",
-      parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
+  @GuiWidgetElement(type = GuiElementType.COMPOSITE, id = "10000-welcome", label = "Welcome!", parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
   public void welcome(Composite parent) {
     PropsUi props = PropsUi.getInstance();
 
@@ -56,10 +52,8 @@ public class WelcomeWelcome {
     parentComposite.setLayoutData(fdParentComposite);
     PropsUi.setLook(parentComposite);
 
-    GuiCompositeWidgets compositeWidgets =
-        new GuiCompositeWidgets(HopGui.getInstance().getVariables());
-    compositeWidgets.createCompositeWidgets(
-        this, null, parentComposite, WELCOME_WELCOME_PARENT_ID, null);
+    GuiCompositeWidgets compositeWidgets = new GuiCompositeWidgets(HopGui.getInstance().getVariables());
+    compositeWidgets.createCompositeWidgets(this, null, parentComposite, WELCOME_WELCOME_PARENT_ID, null);
     // No data to set on these widgets
   }
 
@@ -69,14 +63,11 @@ public class WelcomeWelcome {
   public static final String WEB_LINK_GITHUB_STAR = "https://github.com/apache/hop";
 
   @GuiWidgetElement(
-      id= "WelcomeWelcome.0900-github-star",
+      id = "WelcomeWelcome.0900-github-star",
       parentId = WELCOME_WELCOME_PARENT_ID,
       type = GuiElementType.LINK,
-      label = "If you like Apache Hop, please consider <a>"
-              + WEB_NAME_GITHUB_STAR
-              + "</a> \u2B50 the project on github. \n"
-  )
-  public void githubStarLink(Event event){
+      label = "If you like Apache Hop, please consider <a>" + WEB_NAME_GITHUB_STAR + "</a> \u2B50 the project on github. \n")
+  public void githubStarLink(Event event) {
     handleWebLinkEvent(event, WEB_NAME_GITHUB_STAR, WEB_LINK_GITHUB_STAR);
   }
 
@@ -84,19 +75,17 @@ public class WelcomeWelcome {
       id = "WelcomeWelcome.1000-homepage",
       parentId = WELCOME_WELCOME_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "Welcome to the Apache Hop project!\n\n"
-              + "The Hop Orchestration Platform, or Apache Hop, aims to facilitate all aspects of data and metadata orchestration.\n\n"
-              + "The Apache Hop website can be found at <a>"
-              + WEB_NAME_HOP_APACHE_ORG
-              + "</a>.\n\nBelow are a few documentation links to get started:\n")
+      label = "Welcome to the Apache Hop project!\n\n"
+          + "The Hop Orchestration Platform, or Apache Hop, aims to facilitate all aspects of data and metadata orchestration.\n\n"
+          + "The Apache Hop website can be found at <a>"
+          + WEB_NAME_HOP_APACHE_ORG
+          + "</a>.\n\nBelow are a few documentation links to get started:\n")
   public void homepageLink(Event event) {
     handleWebLinkEvent(event, WEB_NAME_HOP_APACHE_ORG, WEB_LINK_HOP_APACHE_ORG);
   }
 
   public static final String WEB_NAME_GETTING_STARTED = "The getting started guide";
-  public static final String WEB_LINK_GETTING_STARTED =
-      "https://hop.apache.org/manual/latest/getting-started/";
+  public static final String WEB_LINK_GETTING_STARTED = "https://hop.apache.org/manual/latest/getting-started/";
 
   @GuiWidgetElement(
       id = "WelcomeWelcome.1010-getting-started",

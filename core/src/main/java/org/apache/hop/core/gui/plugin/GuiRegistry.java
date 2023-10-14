@@ -136,7 +136,7 @@ public class GuiRegistry {
    *
    * @param root The menu root ID
    * @return An empty list if the root could not be found. The parent menu items or an empty list if
-   *     nothing was found.
+   *         nothing was found.
    */
   public List<GuiMenuItem> findChildGuiMenuItems(String root, String parentId) {
     Map<String, GuiMenuItem> menuMap = guiMenuMap.get(root);
@@ -188,7 +188,7 @@ public class GuiRegistry {
    *
    * @param root The toolbar root ID
    * @return Returns either: an empty list if the root could not be found, the toolbar items or an
-   *     empty list if nothing was found.
+   *         empty list if nothing was found.
    */
   public List<GuiToolbarItem> findGuiToolbarItems(String root) {
     Map<String, GuiToolbarItem> menuMap = guiToolbarMap.get(root);
@@ -210,8 +210,7 @@ public class GuiRegistry {
    * @param parentGuiElementId
    * @param guiElements
    */
-  public void putGuiElements(
-      String dataClassName, String parentGuiElementId, GuiElements guiElements) {
+  public void putGuiElements(String dataClassName, String parentGuiElementId, GuiElements guiElements) {
     Map<String, GuiElements> elementsMap = dataElementsMap.get(dataClassName);
     if (elementsMap == null) {
       elementsMap = new HashMap<>();
@@ -318,16 +317,11 @@ public class GuiRegistry {
    * @param guiElement
    * @param guiPluginClassMethod
    */
-  public void addGuiMenuElement(
-      String guiPluginClassName,
-      GuiMenuElement guiElement,
-      Method guiPluginClassMethod,
-      ClassLoader classLoader) {
+  public void addGuiMenuElement(String guiPluginClassName, GuiMenuElement guiElement, Method guiPluginClassMethod, ClassLoader classLoader) {
 
     // Extract all the information we need from the available data at boot time
     //
-    GuiMenuItem guiMenuItem =
-        new GuiMenuItem(guiElement, guiPluginClassMethod, guiPluginClassName, classLoader);
+    GuiMenuItem guiMenuItem = new GuiMenuItem(guiElement, guiPluginClassMethod, guiPluginClassName, classLoader);
 
     // Store the element under the specified root
     // This holds together a menu
@@ -342,11 +336,7 @@ public class GuiRegistry {
    * @param guiElement
    * @param guiPluginClassMethod
    */
-  public void addGuiWidgetElement(
-      GuiWidgetElement guiElement,
-      Method guiPluginClassMethod,
-      String dataClassName,
-      ClassLoader classLoader) {
+  public void addGuiWidgetElement(GuiWidgetElement guiElement, Method guiPluginClassMethod, String dataClassName, ClassLoader classLoader) {
 
     GuiElements guiElements = findGuiElements(dataClassName, guiElement.parentId());
     if (guiElements == null) {
@@ -379,11 +369,9 @@ public class GuiRegistry {
    * @param guiElement
    * @param guiPluginClassMethod
    */
-  public void addCompositeGuiWidgetElement(
-      GuiWidgetElement guiElement, Method guiPluginClassMethod, ClassLoader classLoader) {
+  public void addCompositeGuiWidgetElement(GuiWidgetElement guiElement, Method guiPluginClassMethod, ClassLoader classLoader) {
 
-    List<GuiElements> elements =
-        compositeGuiElements.computeIfAbsent(guiElement.parentId(), f -> new ArrayList<>());
+    List<GuiElements> elements = compositeGuiElements.computeIfAbsent(guiElement.parentId(), f -> new ArrayList<>());
 
     // Extract all the information we need from the available data at boot time.
     // In this case we simply add all the items since we want to show a simple list of items.
@@ -393,16 +381,16 @@ public class GuiRegistry {
     elements.add(child);
   }
 
-  /** Add a GUI element to the registry.
+  /**
+   * Add a GUI element to the registry.
    *
    * @param guiPluginClassName
    * @param method
    * @param guiTab
    * @param classLoader
    */
-  public void addGuiTab(String guiPluginClassName, Method method, GuiTab guiTab, ClassLoader classLoader){
-    List<GuiTabItem> guiTabItemList =
-            guiTabsMap.computeIfAbsent(guiTab.parentId(), k -> new ArrayList<>());
+  public void addGuiTab(String guiPluginClassName, Method method, GuiTab guiTab, ClassLoader classLoader) {
+    List<GuiTabItem> guiTabItemList = guiTabsMap.computeIfAbsent(guiTab.parentId(), k -> new ArrayList<>());
 
     GuiTabItem guiTabItem = new GuiTabItem(guiPluginClassName, guiTab, method, classLoader);
 
@@ -418,27 +406,18 @@ public class GuiRegistry {
    * @param method
    * @param classLoader
    */
-  public void addGuiToolbarElement(
-      String guiPluginClassName,
-      GuiToolbarElement toolbarElement,
-      Method method,
-      ClassLoader classLoader) {
+  public void addGuiToolbarElement(String guiPluginClassName, GuiToolbarElement toolbarElement, Method method, ClassLoader classLoader) {
 
     // Convert it to a class so we can work with it more easily compared to an annotation
     //
-    GuiToolbarItem toolbarItem =
-        new GuiToolbarItem(toolbarElement, guiPluginClassName, method, classLoader);
+    GuiToolbarItem toolbarItem = new GuiToolbarItem(toolbarElement, guiPluginClassName, method, classLoader);
 
     // Store the toolbar item under its root
     //
     addGuiToolbarItem(toolbarElement.root(), toolbarItem);
   }
 
-  public void addGuiToolbarItemFilter(
-      String guiPluginClassName,
-      Method method,
-      GuiToolbarElementFilter filter,
-      ClassLoader classLoader) {
+  public void addGuiToolbarItemFilter(String guiPluginClassName, Method method, GuiToolbarElementFilter filter, ClassLoader classLoader) {
 
     GuiToolbarItemFilter itemFilter = new GuiToolbarItemFilter();
     itemFilter.setGuiPluginClassName(guiPluginClassName);
@@ -446,8 +425,7 @@ public class GuiRegistry {
     itemFilter.setClassLoader(classLoader);
     itemFilter.setId(guiPluginClassName.getClass().getName() + "." + method.getName());
 
-    List<GuiToolbarItemFilter> itemFilters =
-        toolbarItemFiltersMap.computeIfAbsent(filter.parentId(), k -> new ArrayList<>());
+    List<GuiToolbarItemFilter> itemFilters = toolbarItemFiltersMap.computeIfAbsent(filter.parentId(), k -> new ArrayList<>());
     itemFilters.add(itemFilter);
   }
 
@@ -467,27 +445,23 @@ public class GuiRegistry {
     }
   }
 
-  public Map<String, List<GuiTabItem>> getGuiTabsMap(){
+  public Map<String, List<GuiTabItem>> getGuiTabsMap() {
     return guiTabsMap;
   }
 
-  public List<GuiTabItem> findGuiTabItems(String parent){
+  public List<GuiTabItem> findGuiTabItems(String parent) {
     List<GuiTabItem> guiTabItems = guiTabsMap.get(parent);
     return guiTabItems;
   }
 
-  public void addKeyboardShortcut(
-      String guiPluginClassName, Method method, GuiKeyboardShortcut shortcut) {
-    List<KeyboardShortcut> shortcuts =
-        shortCutsMap.computeIfAbsent(guiPluginClassName, k -> new ArrayList<>());
+  public void addKeyboardShortcut(String guiPluginClassName, Method method, GuiKeyboardShortcut shortcut) {
+    List<KeyboardShortcut> shortcuts = shortCutsMap.computeIfAbsent(guiPluginClassName, k -> new ArrayList<>());
     KeyboardShortcut keyboardShortCut = new KeyboardShortcut(shortcut, method);
     shortcuts.add(keyboardShortCut);
   }
 
-  public void addKeyboardShortcut(
-      String parentClassName, Method parentMethod, GuiOsxKeyboardShortcut shortcut) {
-    List<KeyboardShortcut> shortcuts =
-        shortCutsMap.computeIfAbsent(parentClassName, k -> new ArrayList<>());
+  public void addKeyboardShortcut(String parentClassName, Method parentMethod, GuiOsxKeyboardShortcut shortcut) {
+    List<KeyboardShortcut> shortcuts = shortCutsMap.computeIfAbsent(parentClassName, k -> new ArrayList<>());
     shortcuts.add(new KeyboardShortcut(shortcut, parentMethod));
   }
 
@@ -497,8 +471,7 @@ public class GuiRegistry {
 
   // Shortcuts are pretty much global so we'll look everywhere...
   //
-  public KeyboardShortcut findKeyboardShortcut(
-      String parentClassName, String methodName, boolean osx) {
+  public KeyboardShortcut findKeyboardShortcut(String parentClassName, String methodName, boolean osx) {
     List<KeyboardShortcut> shortcuts = getKeyboardShortcuts(parentClassName);
     if (shortcuts != null) {
       for (KeyboardShortcut shortcut : shortcuts) {
@@ -519,23 +492,19 @@ public class GuiRegistry {
    * @param ca
    * @param classLoader
    */
-  public void addGuiContextAction(
-      String guiPluginClassName, Method method, GuiContextAction ca, ClassLoader classLoader) {
+  public void addGuiContextAction(String guiPluginClassName, Method method, GuiContextAction ca, ClassLoader classLoader) {
 
     String name = TranslateUtil.translate(ca.name(), method.getDeclaringClass());
     String category = TranslateUtil.translate(ca.category(), method.getDeclaringClass());
     String tooltip = TranslateUtil.translate(ca.tooltip(), method.getDeclaringClass());
 
-    GuiAction action =
-        new GuiAction(
-            ca.id(), ca.type(), name, tooltip, ca.image(), guiPluginClassName, method.getName());
+    GuiAction action = new GuiAction(ca.id(), ca.type(), name, tooltip, ca.image(), guiPluginClassName, method.getName());
     action.setCategory(StringUtils.isEmpty(category) ? null : category);
     action.setCategoryOrder(StringUtils.isEmpty(ca.categoryOrder()) ? null : ca.categoryOrder());
     action.setKeywords(List.of(ca.keywords()));
     action.setClassLoader(classLoader);
 
-    List<GuiAction> actions =
-        contextActionsMap.computeIfAbsent(ca.parentId(), k -> new ArrayList<>());
+    List<GuiAction> actions = contextActionsMap.computeIfAbsent(ca.parentId(), k -> new ArrayList<>());
     actions.add(action);
   }
 
@@ -550,8 +519,7 @@ public class GuiRegistry {
    * @param method
    * @param guiCallback
    */
-  public void registerGuiCallback(
-      Class<?> singletonGuiClass, Method method, GuiCallback guiCallback) {
+  public void registerGuiCallback(Class<?> singletonGuiClass, Method method, GuiCallback guiCallback) {
     String callbackId = guiCallback.callbackId();
 
     GuiCallbackMethod callbackMethod = new GuiCallbackMethod(callbackId, singletonGuiClass, method);
@@ -582,12 +550,9 @@ public class GuiRegistry {
    * @param instanceId
    * @param guiPluginObject
    */
-  public void registerGuiPluginObject(
-      String hopGuiId, String guiPluginClassname, String instanceId, Object guiPluginObject) {
-    Map<String, Map<String, Object>> instanceObjectsMap =
-        guiPluginObjectsMap.computeIfAbsent(hopGuiId, k -> new HashMap<>());
-    Map<String, Object> objectsMap =
-        instanceObjectsMap.computeIfAbsent(instanceId, k -> new HashMap<>());
+  public void registerGuiPluginObject(String hopGuiId, String guiPluginClassname, String instanceId, Object guiPluginObject) {
+    Map<String, Map<String, Object>> instanceObjectsMap = guiPluginObjectsMap.computeIfAbsent(hopGuiId, k -> new HashMap<>());
+    Map<String, Object> objectsMap = instanceObjectsMap.computeIfAbsent(instanceId, k -> new HashMap<>());
     objectsMap.put(guiPluginClassname, guiPluginObject);
   }
 
@@ -652,11 +617,7 @@ public class GuiRegistry {
    * @param af
    * @param classLoader
    */
-  public void addGuiActionFilter(
-      String guiPluginClassName,
-      Method method,
-      GuiContextActionFilter af,
-      ClassLoader classLoader) {
+  public void addGuiActionFilter(String guiPluginClassName, Method method, GuiContextActionFilter af, ClassLoader classLoader) {
 
     GuiActionFilter actionFilter = new GuiActionFilter();
     actionFilter.setGuiPluginClassName(guiPluginClassName);
@@ -664,8 +625,7 @@ public class GuiRegistry {
     actionFilter.setClassLoader(classLoader);
     actionFilter.setId(guiPluginClassName.getClass().getName() + "." + method.getName());
 
-    List<GuiActionFilter> actionFilters =
-        contextActionFiltersMap.computeIfAbsent(af.parentId(), k -> new ArrayList<>());
+    List<GuiActionFilter> actionFilters = contextActionFiltersMap.computeIfAbsent(af.parentId(), k -> new ArrayList<>());
     actionFilters.add(actionFilter);
   }
 
@@ -765,8 +725,7 @@ public class GuiRegistry {
   /**
    * @param guiPluginObjectsMap The guiPluginObjectsMap to set
    */
-  public void setGuiPluginObjectsMap(
-      Map<String, Map<String, Map<String, Object>>> guiPluginObjectsMap) {
+  public void setGuiPluginObjectsMap(Map<String, Map<String, Map<String, Object>>> guiPluginObjectsMap) {
     this.guiPluginObjectsMap = guiPluginObjectsMap;
   }
 
@@ -782,8 +741,7 @@ public class GuiRegistry {
   /**
    * @param contextActionFiltersMap The contextActionFiltersMap to set
    */
-  public void setContextActionFiltersMap(
-      Map<String, List<GuiActionFilter>> contextActionFiltersMap) {
+  public void setContextActionFiltersMap(Map<String, List<GuiActionFilter>> contextActionFiltersMap) {
     this.contextActionFiltersMap = contextActionFiltersMap;
   }
 

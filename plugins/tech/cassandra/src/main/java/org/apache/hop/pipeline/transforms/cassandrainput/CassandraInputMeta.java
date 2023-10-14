@@ -52,31 +52,19 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
   protected static final Class<?> PKG = CassandraInputMeta.class;
 
   /** The connection to use (metadata) */
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKey = "CONNECTION",
-      injectionKeyDescription = "CassandraInput.Injection.CONNECTION")
+  @HopMetadataProperty(key = "connection", injectionKey = "CONNECTION", injectionKeyDescription = "CassandraInput.Injection.CONNECTION")
   protected String connectionName;
 
   /** The select query to execute */
-  @HopMetadataProperty(
-      key = "cql_select_query",
-      injectionKey = "CQL_QUERY",
-      injectionKeyDescription = "CassandraInput.Injection.CQL_QUERY")
+  @HopMetadataProperty(key = "cql_select_query", injectionKey = "CQL_QUERY", injectionKeyDescription = "CassandraInput.Injection.CQL_QUERY")
   protected String cqlSelectQuery = "SELECT <fields> FROM <table> WHERE <condition>;";
 
   /** Whether to execute the query for each incoming row */
-  @HopMetadataProperty(
-      key = "execute_for_each_row",
-      injectionKey = "EXECUTE_FOR_EACH_ROW",
-      injectionKeyDescription = "CassandraInput.Injection.EXECUTE_FOR_EACH_ROW")
+  @HopMetadataProperty(key = "execute_for_each_row", injectionKey = "EXECUTE_FOR_EACH_ROW", injectionKeyDescription = "CassandraInput.Injection.EXECUTE_FOR_EACH_ROW")
   protected boolean executeForEachIncomingRow;
 
   /** Max size of the object can be transported - blank means use default (16384000) */
-  @HopMetadataProperty(
-      key = "max_length",
-      injectionKey = "TRANSPORT_MAX_LENGTH",
-      injectionKeyDescription = "CassandraInput.Injection.TRANSPORT_MAX_LENGTH")
+  @HopMetadataProperty(key = "max_length", injectionKey = "TRANSPORT_MAX_LENGTH", injectionKeyDescription = "CassandraInput.Injection.TRANSPORT_MAX_LENGTH")
   protected String maxLength = "";
 
   // set based on parsed CQL
@@ -110,13 +98,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     specificCols = null;
@@ -135,29 +117,22 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
 
       if (!subQ.toLowerCase().startsWith("select")) {
         // not a select statement!
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "CassandraInput.Error.NoSelectInQuery"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.NoSelectInQuery"));
       }
 
       if (subQ.indexOf(';') < 0) {
         // query must end with a ';' or it will wait for more!
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "CassandraInput.Error.QueryTermination"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.QueryTermination"));
       }
 
       // is there a LIMIT clause?
       if (subQ.toLowerCase().indexOf("limit") > 0) {
-        String limitS =
-            subQ.toLowerCase()
-                .substring(subQ.toLowerCase().indexOf("limit") + 5, subQ.length())
-                .trim();
+        String limitS = subQ.toLowerCase().substring(subQ.toLowerCase().indexOf("limit") + 5, subQ.length()).trim();
         limitS = limitS.replace(";", "");
         try {
           rowLimit = Integer.parseInt(limitS);
         } catch (NumberFormatException ex) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "CassandraInput.Error.UnableToParseLimitClause", cqlSelectQuery));
+          throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.UnableToParseLimitClause", cqlSelectQuery));
         }
       }
 
@@ -171,10 +146,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
       int fromIndex = subQ.toLowerCase().indexOf("from");
       String tempS = subQ.toLowerCase();
       int offset = fromIndex;
-      while (fromIndex > 0
-          && tempS.charAt(fromIndex - 1) != ' '
-          && (fromIndex + 4 < tempS.length())
-          && tempS.charAt(fromIndex + 4) != ' ') {
+      while (fromIndex > 0 && tempS.charAt(fromIndex - 1) != ' ' && (fromIndex + 4 < tempS.length()) && tempS.charAt(fromIndex + 4) != ' ') {
         tempS = tempS.substring(fromIndex + 4);
         fromIndex = tempS.indexOf("from");
         offset += (4 + fromIndex);
@@ -182,8 +154,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
 
       fromIndex = offset;
       if (fromIndex < 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "CassandraInput.Error.MustSpecifyATable"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.MustSpecifyATable"));
       }
 
       tableName = subQ.substring(fromIndex + 4).trim();
@@ -194,8 +165,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
       }
 
       if (tableName.length() == 0) {
-        throw new HopTransformException(
-            BaseMessages.getString(PKG, "CassandraInput.Error.MustSpecifyATable"));
+        throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.MustSpecifyATable"));
       }
 
       // Remove leading/trailing spaces and newlines in the table name
@@ -212,9 +182,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
         try {
           colLimit = Integer.parseInt(firstS);
         } catch (NumberFormatException ex) {
-          throw new HopTransformException(
-              BaseMessages.getString(
-                  PKG, "CassandraInput.Error.UnableToParseFirstClause", cqlSelectQuery));
+          throw new HopTransformException(BaseMessages.getString(PKG, "CassandraInput.Error.UnableToParseFirstClause", cqlSelectQuery));
         }
       } else {
         subQ = subQ.substring(subQ.toLowerCase().indexOf("select") + 6);
@@ -239,10 +207,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
 
       CassandraConnection cassandraConnection;
       try {
-        cassandraConnection =
-            metadataProvider
-                .getSerializer(CassandraConnection.class)
-                .load(variables.resolve(connectionName));
+        cassandraConnection = metadataProvider.getSerializer(CassandraConnection.class).load(variables.resolve(connectionName));
       } catch (HopException e) {
         throw new HopTransformException("Unable to load cassandra connection " + connectionName, e);
       }
@@ -254,11 +219,7 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
         try {
           kSpace = cassandraConnection.lookupKeyspace(conn, variables);
         } catch (Exception e) {
-          throw new HopTransformException(
-              "Unable to connect to Cassandra with '"
-                  + connectionName
-                  + "' or look up the keyspace",
-              e);
+          throw new HopTransformException("Unable to connect to Cassandra with '" + connectionName + "' or look up the keyspace", e);
         }
 
         ITableMetaData colMeta = kSpace.getTableMetaData(tableName);
@@ -275,16 +236,14 @@ public class CassandraInputMeta extends BaseTransformMeta<CassandraInput, Cassan
               // this one isn't known about in about in the schema - we can
               // output it
               // as long as its values satisfy the default validator...
-              logBasic(
-                  BaseMessages.getString(PKG, "CassandraInput.Info.DefaultColumnValidator", col));
+              logBasic(BaseMessages.getString(PKG, "CassandraInput.Info.DefaultColumnValidator", col));
             }
             IValueMeta vm = colMeta.getValueMeta(col);
             rowMeta.addValueMeta(vm);
           }
         }
       } catch (Exception e) {
-        throw new HopTransformException(
-            "Error determining output row metadata of Cassandra query", e);
+        throw new HopTransformException("Error determining output row metadata of Cassandra query", e);
       }
     }
   }

@@ -48,12 +48,7 @@ public class SimpleFileSelection extends SelectionAdapter {
    * @param filterNames filter names to set.
    * @throws IllegalArgumentException if shell or text variable is null.
    */
-  public SimpleFileSelection(
-      final Shell shell,
-      final TextVar textVar,
-      final String[] filterExtensions,
-      final String[] filterNames)
-      throws IllegalArgumentException {
+  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String[] filterExtensions, final String[] filterNames) throws IllegalArgumentException {
     super();
     Assert.assertNotNull(shell, "Shell cannot be null");
     Assert.assertNotNull(textVar, "Text var cannot be null");
@@ -74,13 +69,8 @@ public class SimpleFileSelection extends SelectionAdapter {
    * @param textVar the text variable to edit.
    * @throws IllegalArgumentException if shell or text variable is null.
    */
-  public SimpleFileSelection(final Shell shell, final TextVar textVar)
-      throws IllegalArgumentException {
-    this(
-        shell,
-        textVar,
-        new String[] {DEFAULT_FILTER_EXTENSION},
-        new String[] {DEFAULT_FILTER_NAME});
+  public SimpleFileSelection(final Shell shell, final TextVar textVar) throws IllegalArgumentException {
+    this(shell, textVar, new String[] {DEFAULT_FILTER_EXTENSION}, new String[] {DEFAULT_FILTER_NAME});
   }
 
   /**
@@ -91,8 +81,7 @@ public class SimpleFileSelection extends SelectionAdapter {
    * @param filterNames the filter names to use.
    * @throws IllegalArgumentException if shell or text variable is null.
    */
-  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String... filterNames)
-      throws IllegalArgumentException {
+  public SimpleFileSelection(final Shell shell, final TextVar textVar, final String... filterNames) throws IllegalArgumentException {
     this(shell, textVar, new String[] {DEFAULT_FILTER_EXTENSION}, filterNames);
   }
 
@@ -100,7 +89,7 @@ public class SimpleFileSelection extends SelectionAdapter {
    * {@inheritDoc}
    *
    * @see
-   *     org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+   *      org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
    */
   @Override
   public void widgetSelected(final SelectionEvent event) {

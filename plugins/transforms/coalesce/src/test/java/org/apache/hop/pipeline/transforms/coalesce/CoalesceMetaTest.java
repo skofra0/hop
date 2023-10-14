@@ -53,20 +53,12 @@ public class CoalesceMetaTest {
   @Test
   public void testInjection() throws Exception {
     BeanInjectionInfo<CoalesceMeta> injectionInfo = new BeanInjectionInfo<>(CoalesceMeta.class);
-    BeanInjector<CoalesceMeta> injector =
-        new BeanInjector<>(injectionInfo, new MemoryMetadataProvider());
+    BeanInjector<CoalesceMeta> injector = new BeanInjector<>(injectionInfo, new MemoryMetadataProvider());
 
-    IRowMeta resultMeta =
-        new RowMetaBuilder()
-            .addString("name")
-            .addString("type")
-            .addString("remove?")
-            .addString("inputs")
-            .build();
+    IRowMeta resultMeta = new RowMetaBuilder().addString("name").addString("type").addString("remove?").addString("inputs").build();
     List<RowMetaAndData> resultRows =
         Arrays.asList(
-            new RowMetaAndData(resultMeta, "result1", "String", "false", "A,B,C"),
-            new RowMetaAndData(resultMeta, "result2", "String", "true", "D,E,F"),
+            new RowMetaAndData(resultMeta, "result1", "String", "false", "A,B,C"), new RowMetaAndData(resultMeta, "result2", "String", "true", "D,E,F"),
             new RowMetaAndData(resultMeta, "result3", "String", "false", "G,H"));
 
     CoalesceMeta meta = new CoalesceMeta();

@@ -29,10 +29,7 @@ public class SequenceMetaTest {
   @Test
   public void testSupport() {
 
-    IDatabase[] support =
-        new IDatabase[] {
-          new RedshiftDatabaseMeta(),
-        };
+    IDatabase[] support = new IDatabase[] {new RedshiftDatabaseMeta(),};
 
     for (IDatabase db : support) {
       assertSupports(db, true);
@@ -45,15 +42,13 @@ public class SequenceMetaTest {
       assertTrue(dbType, db.isSupportsSequences());
       assertFalse(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertFalse(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertFalse(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertFalse(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertFalse(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     } else {
       assertFalse(db.getClass().getSimpleName(), db.isSupportsSequences());
       assertTrue(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertTrue(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertTrue(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertTrue(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertTrue(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     }
   }
@@ -65,15 +60,9 @@ public class SequenceMetaTest {
     final String sequenceName = "sequence_name";
 
     iDatabase = new RedshiftDatabaseMeta();
-    assertEquals(
-        "SELECT nextval('sequence_name')", iDatabase.getSqlNextSequenceValue(sequenceName));
-    assertEquals(
-        "SELECT currval('sequence_name')", iDatabase.getSqlCurrentSequenceValue(sequenceName));
-    assertEquals(
-        "SELECT relname AS sequence_name FROM pg_catalog.pg_statio_all_sequences",
-        iDatabase.getSqlListOfSequences());
-    assertEquals(
-        "SELECT relname AS sequence_name FROM pg_catalog.pg_statio_all_sequences WHERE relname = 'sequence_name'",
-        iDatabase.getSqlSequenceExists(sequenceName));
+    assertEquals("SELECT nextval('sequence_name')", iDatabase.getSqlNextSequenceValue(sequenceName));
+    assertEquals("SELECT currval('sequence_name')", iDatabase.getSqlCurrentSequenceValue(sequenceName));
+    assertEquals("SELECT relname AS sequence_name FROM pg_catalog.pg_statio_all_sequences", iDatabase.getSqlListOfSequences());
+    assertEquals("SELECT relname AS sequence_name FROM pg_catalog.pg_statio_all_sequences WHERE relname = 'sequence_name'", iDatabase.getSqlSequenceExists(sequenceName));
   }
 }

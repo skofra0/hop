@@ -24,20 +24,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 
-@CompressionPlugin(
-    id = "HADOOPSNAPPY",
-    name = "Hadoop-snappy",
-    description = "Hadoop Snappy compression")
+@CompressionPlugin(id = "HADOOPSNAPPY", name = "Hadoop-snappy", description = "Hadoop Snappy compression")
 public class HadoopSnappyCompressionProvider implements ICompressionProvider {
 
   public static final int IO_COMPRESSION_CODEC_SNAPPY_DEFAULT_BUFFERSIZE = 256 * 1024;
 
   private static final String HADOOP_CONFIG_UTIL_CLASS_PROPERTY = "hadoop.config.util.class";
 
-  private static final String[] HADOOP_CONFIG_UTIL_CLASS = {
-    "org.apache.hadoop.hive.jdbc.HadoopConfigurationUtil",
-    "org.apache.hop.hadoop.hive.jdbc.HadoopConfigurationUtil",
-  };
+  private static final String[] HADOOP_CONFIG_UTIL_CLASS = {"org.apache.hadoop.hive.jdbc.HadoopConfigurationUtil", "org.apache.hop.hadoop.hive.jdbc.HadoopConfigurationUtil",};
 
   private static final String GET_ACTIVE_CONFIGURATION_METHOD = "getActiveConfiguration";
 
@@ -48,12 +42,12 @@ public class HadoopSnappyCompressionProvider implements ICompressionProvider {
    *
    * @return A {@link org.apache.hop.hadoop.shim.spi.SnappyShim} to interact with Snappy
    * @throws Exception Error locating a valid Snappy shim:
-   *     <p>
-   *     <ul>
-   *       <li>{@link org.apache.hop.hadoop.hive.jdbc.HadoopConfigurationUtil} could not be located
-   *       <li>No active Hadoop configuration
-   *       <li>Active Hadoop configuration doesn't support Snappy
-   *     </ul>
+   *         <p>
+   *         <ul>
+   *         <li>{@link org.apache.hop.hadoop.hive.jdbc.HadoopConfigurationUtil} could not be located
+   *         <li>No active Hadoop configuration
+   *         <li>Active Hadoop configuration doesn't support Snappy
+   *         </ul>
    */
   public static Object getActiveSnappyShim() throws Exception {
     Class<?> hadoopConfigUtilClass = null;
@@ -69,13 +63,11 @@ public class HadoopSnappyCompressionProvider implements ICompressionProvider {
         }
       }
       if (hadoopConfigUtilClass == null) {
-        throw new Exception(
-            "No Hadoop Configuration Utilities class found, unable to get active Snappy shim");
+        throw new Exception("No Hadoop Configuration Utilities class found, unable to get active Snappy shim");
       }
     }
 
-    Method getActiveConfiguration =
-        hadoopConfigUtilClass.getMethod(GET_ACTIVE_CONFIGURATION_METHOD);
+    Method getActiveConfiguration = hadoopConfigUtilClass.getMethod(GET_ACTIVE_CONFIGURATION_METHOD);
     Object hadoopConfiguration = getActiveConfiguration.invoke(hadoopConfigUtilClass.newInstance());
     Method getSnappyShim = hadoopConfiguration.getClass().getMethod(GET_SNAPPY_SHIM);
     return getSnappyShim.invoke(hadoopConfiguration);
@@ -108,8 +100,7 @@ public class HadoopSnappyCompressionProvider implements ICompressionProvider {
   }
 
   @Override
-  public HadoopSnappyCompressionOutputStream createOutputStream(OutputStream out)
-      throws IOException {
+  public HadoopSnappyCompressionOutputStream createOutputStream(OutputStream out) throws IOException {
     return new HadoopSnappyCompressionOutputStream(out, this);
   }
 

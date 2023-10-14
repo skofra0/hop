@@ -47,16 +47,14 @@ public class MemoryMetadataProvider extends BaseMetadataProvider implements IHop
     }
   }
 
-  public MemoryMetadataProvider(
-      ITwoWayPasswordEncoder twoWayPasswordEncoder, IVariables variables) {
+  public MemoryMetadataProvider(ITwoWayPasswordEncoder twoWayPasswordEncoder, IVariables variables) {
     super(variables, DEFAULT_DESCRIPTION);
     this.serializerMap = new HashMap<>();
     this.twoWayPasswordEncoder = twoWayPasswordEncoder;
   }
 
   @Override
-  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass)
-      throws HopException {
+  public <T extends IHopMetadata> IHopMetadataSerializer<T> getSerializer(Class<T> managedClass) throws HopException {
     IHopMetadataSerializer<IHopMetadata> serializer = serializerMap.get(managedClass.getName());
     if (serializer == null) {
       HopMetadata hopMetadata = managedClass.getAnnotation(HopMetadata.class);
@@ -64,9 +62,7 @@ public class MemoryMetadataProvider extends BaseMetadataProvider implements IHop
       if (hopMetadata != null) {
         description = hopMetadata.name();
       }
-      serializer =
-          (IHopMetadataSerializer<IHopMetadata>)
-              new MemoryMetadataSerializer<>(this, managedClass, variables, description);
+      serializer = (IHopMetadataSerializer<IHopMetadata>) new MemoryMetadataSerializer<>(this, managedClass, variables, description);
       serializerMap.put(managedClass.getName(), serializer);
     }
 

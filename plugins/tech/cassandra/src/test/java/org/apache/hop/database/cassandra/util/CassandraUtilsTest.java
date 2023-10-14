@@ -93,24 +93,10 @@ public class CassandraUtilsTest {
 
   @Test
   public void testGetPartitionerClassInstance() {
-    assertTrue(
-        CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.Murmur3Partitioner")
-                .getClass()
-            == Murmur3Partitioner.class);
-    assertTrue(
-        CassandraUtils.getPartitionerClassInstance(
-                    "org.apache.cassandra.dht.ByteOrderedPartitioner")
-                .getClass()
-            == ByteOrderedPartitioner.class);
-    assertTrue(
-        CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.RandomPartitioner")
-                .getClass()
-            == RandomPartitioner.class);
-    assertTrue(
-        CassandraUtils.getPartitionerClassInstance(
-                    "org.apache.cassandra.dht.OrderPreservingPartitioner")
-                .getClass()
-            == OrderPreservingPartitioner.class);
+    assertTrue(CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.Murmur3Partitioner").getClass() == Murmur3Partitioner.class);
+    assertTrue(CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.ByteOrderedPartitioner").getClass() == ByteOrderedPartitioner.class);
+    assertTrue(CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.RandomPartitioner").getClass() == RandomPartitioner.class);
+    assertTrue(CassandraUtils.getPartitionerClassInstance("org.apache.cassandra.dht.OrderPreservingPartitioner").getClass() == OrderPreservingPartitioner.class);
   }
 
   @Test
@@ -146,10 +132,8 @@ public class CassandraUtilsTest {
     when(vmDate.getDate(any())).thenReturn(testTimestamp);
     when(vmTimestamp.getDate(any())).thenReturn(testTimestamp);
 
-    assertEquals(
-        "'2018-03-12T01:02:03.456Z'", CassandraUtils.hopValueToCql(vmDate, testTimestamp, 3));
-    assertEquals(
-        "'2018-03-12T01:02:03.456Z'", CassandraUtils.hopValueToCql(vmTimestamp, testTimestamp, 3));
+    assertEquals("'2018-03-12T01:02:03.456Z'", CassandraUtils.hopValueToCql(vmDate, testTimestamp, 3));
+    assertEquals("'2018-03-12T01:02:03.456Z'", CassandraUtils.hopValueToCql(vmTimestamp, testTimestamp, 3));
   }
 
   @Test

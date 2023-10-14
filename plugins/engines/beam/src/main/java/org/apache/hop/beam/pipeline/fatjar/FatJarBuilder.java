@@ -68,8 +68,7 @@ public class FatJarBuilder {
     extraXpPluginClasses = null;
   }
 
-  public FatJarBuilder(
-      ILogChannel log, IVariables variables, String targetJarFile, List<String> jarFiles) {
+  public FatJarBuilder(ILogChannel log, IVariables variables, String targetJarFile, List<String> jarFiles) {
     this();
     this.log = log;
     this.variables = variables;
@@ -92,8 +91,7 @@ public class FatJarBuilder {
 
     try {
       byte[] buffer = new byte[1024];
-      try (JarOutputStream zipOutputStream =
-          new JarOutputStream(new FileOutputStream(realTargetJarFile))) {
+      try (JarOutputStream zipOutputStream = new JarOutputStream(new FileOutputStream(realTargetJarFile))) {
 
         for (String jarFile : jarFiles) {
 
@@ -170,8 +168,7 @@ public class FatJarBuilder {
                     // Did we already warn about this?
                     if (!collisionFileSet.contains(jarFile)) {
                       collisionFileSet.add(jarFile);
-                      log.logDetailed(
-                          "Duplicate class(es) detected in " + jarFile + " from : " + otherJar);
+                      log.logDetailed("Duplicate class(es) detected in " + jarFile + " from : " + otherJar);
                       log.logDetailed("    Example class: " + entryName);
                     }
                   } else {
@@ -183,15 +180,9 @@ public class FatJarBuilder {
                 // Nothing to index in guava as it gives an error for some reason
                 //
                 if (zipEntry.getName().contains("$") // skip anonymous inner classes
-                    || jarFileBaseName.startsWith("guava")
-                    || jarFileBaseName.startsWith("akka-")
-                    || jarFileBaseName.startsWith("scala-")
-                    || jarFileBaseName.startsWith("flink-runtime")
-                    || jarFileBaseName.startsWith("beam-sdks-java-io")
-                    || jarFileBaseName.startsWith("beam-runners-spark")
-                    || jarFileBaseName.startsWith("beam-runners-direct")
-                    || jarFileBaseName.startsWith("beam-runners-flink")
-                    || jarFileBaseName.startsWith("beam-sdks-java-core")
+                    || jarFileBaseName.startsWith("guava") || jarFileBaseName.startsWith("akka-") || jarFileBaseName.startsWith("scala-")
+                    || jarFileBaseName.startsWith("flink-runtime") || jarFileBaseName.startsWith("beam-sdks-java-io") || jarFileBaseName.startsWith("beam-runners-spark")
+                    || jarFileBaseName.startsWith("beam-runners-direct") || jarFileBaseName.startsWith("beam-runners-flink") || jarFileBaseName.startsWith("beam-sdks-java-core")
                     || jarFileBaseName.startsWith("beam-runners-core")) {
                   index = false;
                 }

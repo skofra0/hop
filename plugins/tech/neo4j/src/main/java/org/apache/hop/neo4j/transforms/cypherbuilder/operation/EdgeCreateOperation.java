@@ -21,8 +21,7 @@ public class EdgeCreateOperation extends EdgeMatchOperation {
     super(OperationType.EDGE_CREATE);
   }
 
-  public EdgeCreateOperation(
-      String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
+  public EdgeCreateOperation(String sourceAlias, String edgeAlias, String edgeLabel, String targetAlias) {
     this();
     this.sourceAlias = sourceAlias;
     this.edgeAlias = edgeAlias;

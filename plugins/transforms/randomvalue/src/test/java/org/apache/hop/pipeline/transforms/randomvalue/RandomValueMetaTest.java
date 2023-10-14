@@ -25,9 +25,7 @@ public class RandomValueMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    RandomValueMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/generate-random-values-transform.xml", RandomValueMeta.class);
+    RandomValueMeta meta = TransformSerializationTestUtil.testSerialization("/generate-random-values-transform.xml", RandomValueMeta.class);
     Assert.assertEquals("12345", meta.getSeed());
     Assert.assertEquals(7, meta.getFields().size());
 

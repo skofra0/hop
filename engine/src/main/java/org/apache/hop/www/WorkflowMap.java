@@ -39,19 +39,13 @@ public class WorkflowMap {
     configurationMap = new ConcurrentHashMap<>();
   }
 
-  public synchronized void addWorkflow(
-      String workflowName,
-      String serverObjectId,
-      IWorkflowEngine<WorkflowMeta> workflow,
-      WorkflowConfiguration workflowConfiguration) {
+  public synchronized void addWorkflow(String workflowName, String serverObjectId, IWorkflowEngine<WorkflowMeta> workflow, WorkflowConfiguration workflowConfiguration) {
     synchronized (workflowMap) {
       if (StringUtils.isEmpty(workflowName)) {
-        throw new RuntimeException(
-            "API usage error: to add a workflow on a server we always need its name.");
+        throw new RuntimeException("API usage error: to add a workflow on a server we always need its name.");
       }
       if (serverObjectId == null) {
-        throw new RuntimeException(
-            "API usage error: to add a workflow on a server we always need a server object ID to uniquely identify it.");
+        throw new RuntimeException("API usage error: to add a workflow on a server we always need a server object ID to uniquely identify it.");
       }
 
       HopServerObjectEntry entry = new HopServerObjectEntry(workflowName, serverObjectId);
@@ -60,18 +54,14 @@ public class WorkflowMap {
     }
   }
 
-  public synchronized void replaceWorkflow(
-      IWorkflowEngine<WorkflowMeta> oldWorkflow,
-      IWorkflowEngine<WorkflowMeta> workflow,
-      WorkflowConfiguration workflowConfiguration) {
+  public synchronized void replaceWorkflow(IWorkflowEngine<WorkflowMeta> oldWorkflow, IWorkflowEngine<WorkflowMeta> workflow, WorkflowConfiguration workflowConfiguration) {
     synchronized (workflowMap) {
       HopServerObjectEntry entry = getEntry(oldWorkflow);
       if (entry != null) {
         workflowMap.put(entry, workflow);
         configurationMap.put(entry, workflowConfiguration);
       } else {
-        addWorkflow(
-            workflow.getWorkflowName(), workflow.getContainerId(), workflow, workflowConfiguration);
+        addWorkflow(workflow.getWorkflowName(), workflow.getContainerId(), workflow, workflowConfiguration);
       }
     }
   }

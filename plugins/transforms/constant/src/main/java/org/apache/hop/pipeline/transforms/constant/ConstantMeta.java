@@ -48,11 +48,7 @@ public class ConstantMeta extends BaseTransformMeta<Constant, ConstantData> {
   private static final Class<?> PKG = ConstantMeta.class; // For Translator
 
   /** The output fields */
-  @HopMetadataProperty(
-      groupKey = "fields",
-      key = "field",
-      injectionGroupDescription = "ConstantMeta.Injection.Fields",
-      injectionKeyDescription = "ConstantMeta.Injection.Field")
+  @HopMetadataProperty(groupKey = "fields", key = "field", injectionGroupDescription = "ConstantMeta.Injection.Fields", injectionKeyDescription = "ConstantMeta.Injection.Field")
   List<ConstantField> fields;
 
   public List<ConstantField> getFields() {
@@ -74,13 +70,7 @@ public class ConstantMeta extends BaseTransformMeta<Constant, ConstantData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < fields.size(); i++) {
       ConstantField item = fields.get(i);
@@ -116,19 +106,10 @@ public class ConstantMeta extends BaseTransformMeta<Constant, ConstantData> {
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ConstantMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ConstantMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ConstantMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ConstantMeta.CheckResult.NoFields"), transformMeta);
       remarks.add(cr);
     }
 

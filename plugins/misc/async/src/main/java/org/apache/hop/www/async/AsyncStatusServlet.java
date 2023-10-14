@@ -44,9 +44,7 @@ import org.apache.hop.www.IHopServerPlugin;
 import org.apache.hop.www.PipelineMap;
 import org.apache.hop.www.WebServiceServlet;
 
-@HopServerServlet(
-    id = "asyncStatus",
-    name = "Get the status of an asynchronously executing workflow")
+@HopServerServlet(id = "asyncStatus", name = "Get the status of an asynchronously executing workflow")
 public class AsyncStatusServlet extends BaseHttpServlet implements IHopServerPlugin {
 
   private static final Class<?> PKG = WebServiceServlet.class; // For Translator
@@ -62,8 +60,7 @@ public class AsyncStatusServlet extends BaseHttpServlet implements IHopServerPlu
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
@@ -75,48 +72,38 @@ public class AsyncStatusServlet extends BaseHttpServlet implements IHopServerPlu
 
     IVariables variables = pipelineMap.getHopServerConfig().getVariables();
 
-    MultiMetadataProvider metadataProvider =
-        new MultiMetadataProvider(Encr.getEncoder(), new ArrayList<>(), variables);
+    MultiMetadataProvider metadataProvider = new MultiMetadataProvider(Encr.getEncoder(), new ArrayList<>(), variables);
     metadataProvider.getProviders().add(HopMetadataUtil.getStandardHopMetadataProvider(variables));
 
     String metadataFolder = pipelineMap.getHopServerConfig().getMetadataFolder();
     if (StringUtils.isNotEmpty(metadataFolder)) {
       // Get the metadata from the specified metadata folder...
       //
-      metadataProvider
-          .getProviders()
-          .add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
+      metadataProvider.getProviders().add(new JsonMetadataProvider(Encr.getEncoder(), metadataFolder, variables));
     }
 
     String webServiceName = request.getParameter("service");
     if (StringUtils.isEmpty(webServiceName)) {
-      throw new ServletException(
-          "Please specify a service parameter pointing to the name of the asynchronous webservice object");
+      throw new ServletException("Please specify a service parameter pointing to the name of the asynchronous webservice object");
     }
 
     String serverObjectId = request.getParameter("id");
     if (StringUtils.isEmpty(serverObjectId)) {
-      throw new ServletException(
-          "Please specify an id parameter pointing to the unique ID of the asynchronous webservice object");
+      throw new ServletException("Please specify an id parameter pointing to the unique ID of the asynchronous webservice object");
     }
 
     try {
       // Load the web service metadata
       //
-      IHopMetadataSerializer<AsyncWebService> serializer =
-          metadataProvider.getSerializer(AsyncWebService.class);
+      IHopMetadataSerializer<AsyncWebService> serializer = metadataProvider.getSerializer(AsyncWebService.class);
       AsyncWebService webService = serializer.load(webServiceName);
       if (webService == null) {
-        throw new HopException(
-            "Unable to find asynchronous web service '"
-                + webServiceName
-                + "'.  You can set option metadata_folder in the Hop server XML configuration");
+        throw new HopException("Unable to find asynchronous web service '" + webServiceName + "'.  You can set option metadata_folder in the Hop server XML configuration");
       }
 
       // Get the workflow...
       //
-      IWorkflowEngine<WorkflowMeta> workflow =
-          workflowMap.findWorkflow(webServiceName, serverObjectId);
+      IWorkflowEngine<WorkflowMeta> workflow = workflowMap.findWorkflow(webServiceName, serverObjectId);
 
       // Report back in JSON format
       //

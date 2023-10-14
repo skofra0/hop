@@ -57,8 +57,7 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
   private Text fallBackValueControl;
   private TableView rulesControl;
 
-  public NumberRangeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public NumberRangeDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (NumberRangeMeta) in;
   }
@@ -88,36 +87,27 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
     wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, props.getMargin(), null);
 
     // Create controls
-    wTransformName =
-        createLine(lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.TransformName"), null);
-    inputFieldControl =
-        createLineCombo(
-            lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.InputField"), wTransformName);
-    outputFieldControl =
-        createLine(
-            lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.OutputField"), inputFieldControl);
+    wTransformName = createLine(lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.TransformName"), null);
+    inputFieldControl = createLineCombo(lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.InputField"), wTransformName);
+    outputFieldControl = createLine(lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.OutputField"), inputFieldControl);
 
-    inputFieldControl.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    inputFieldControl.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            loadComboOptions();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
-    fallBackValueControl =
-        createLine(
-            lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.DefaultValue"), outputFieldControl);
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        loadComboOptions();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
+    fallBackValueControl = createLine(lsMod, BaseMessages.getString(PKG, "NumberRangeDialog.DefaultValue"), outputFieldControl);
 
     createRulesTable(lsMod);
 
@@ -143,29 +133,11 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
     final int FieldsRows = input.getRules().size();
 
     ColumnInfo[] colinf = new ColumnInfo[3];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NumberRangeDialog.LowerBound"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NumberRangeDialog.UpperBound"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NumberRangeDialog.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "NumberRangeDialog.LowerBound"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "NumberRangeDialog.UpperBound"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "NumberRangeDialog.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    rulesControl =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    rulesControl = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -265,9 +237,9 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
     for (int i = 0; i < input.getRules().size(); i++) {
       NumberRangeRule rule = input.getRules().get(i);
       TableItem item = rulesControl.table.getItem(i);
-      item.setText(1, Const.NVL(rule.getLowerBound(),""));
-      item.setText(2, Const.NVL(rule.getUpperBound(),""));
-      item.setText(3, Const.NVL(rule.getValue(),""));
+      item.setText(1, Const.NVL(rule.getLowerBound(), ""));
+      item.setText(2, Const.NVL(rule.getUpperBound(), ""));
+      item.setText(3, Const.NVL(rule.getValue(), ""));
     }
     rulesControl.setRowNums();
     rulesControl.optWidth(true);
@@ -287,7 +259,7 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
     transformName = wTransformName.getText(); // return value
 
     input.setInputField(inputFieldControl.getText());
-    input.setOutputField(outputFieldControl.getText());   
+    input.setOutputField(outputFieldControl.getText());
     input.setFallBackValue(fallBackValueControl.getText());
 
     input.emptyRules();
@@ -298,7 +270,7 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
       String lowerBoundStr = item.getText(1);
       String upperBoundStr = item.getText(2);
       String value = item.getText(3);
-      
+
       input.addRule(lowerBoundStr, upperBoundStr, value);
     }
 
@@ -320,12 +292,7 @@ public class NumberRangeDialog extends BaseTransformDialog implements ITransform
       }
 
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell, 
-          BaseMessages.getString(PKG, "NumberRangeDialog.Title"), 
-          BaseMessages.getString(PKG, "NumberRangeDialog.FailedToGetFields.DialogMessage"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "NumberRangeDialog.Title"), BaseMessages.getString(PKG, "NumberRangeDialog.FailedToGetFields.DialogMessage"), ke);
     }
   }
 }
-

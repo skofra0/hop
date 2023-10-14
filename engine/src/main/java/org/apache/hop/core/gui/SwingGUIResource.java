@@ -64,13 +64,7 @@ public class SwingGUIResource {
           map.put(id, image);
         }
       } catch (Exception e) {
-        log.logError(
-            "Unable to load transform icon image for plugin: "
-                + plugin.getName()
-                + " (id="
-                + plugin.getIds()[0]
-                + ")",
-            e);
+        log.logError("Unable to load transform icon image for plugin: " + plugin.getName() + " (id=" + plugin.getIds()[0] + ")", e);
       }
     }
 
@@ -84,19 +78,12 @@ public class SwingGUIResource {
       try {
         SwingUniversalImageSvg image = getUniversalImageIcon(plugin);
         if (image == null) {
-          throw new HopException(
-              "Unable to find image file: " + plugin.getImageFile() + " for plugin: " + plugin);
+          throw new HopException("Unable to find image file: " + plugin.getImageFile() + " for plugin: " + plugin);
         }
 
         map.put(plugin.getIds()[0], image);
       } catch (Exception e) {
-        log.logError(
-            "Unable to load action icon image for plugin: "
-                + plugin.getName()
-                + " (id="
-                + plugin.getIds()[0]
-                + ")",
-            e);
+        log.logError("Unable to load action icon image for plugin: " + plugin.getName() + " (id=" + plugin.getIds()[0] + ")", e);
       }
     }
 
@@ -147,15 +134,12 @@ public class SwingGUIResource {
       }
 
       if (image == null) {
-        throw new HopException(
-            "Unable to find file: " + plugin.getImageFile() + " for plugin: " + plugin);
+        throw new HopException("Unable to find file: " + plugin.getImageFile() + " for plugin: " + plugin);
       }
 
       return image;
     } catch (Throwable e) {
-      throw new HopException(
-          "Unable to load image from file : '" + plugin.getImageFile() + "' for plugin: " + plugin,
-          e);
+      throw new HopException("Unable to load image from file : '" + plugin.getImageFile() + "' for plugin: " + plugin, e);
     }
   }
 

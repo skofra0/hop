@@ -31,21 +31,12 @@ public class NotNullValidator implements IActionValidator {
   private static final String VALIDATOR_NAME = "notNull";
 
   @Override
-  public boolean validate(
-      ICheckResultSource source,
-      String propertyName,
-      List<ICheckResult> remarks,
-      ValidatorContext context) {
+  public boolean validate(ICheckResultSource source, String propertyName, List<ICheckResult> remarks, ValidatorContext context) {
     Object value = null;
     try {
       value = PropertyUtils.getProperty(source, propertyName);
       if (null == value) {
-        ActionValidatorUtils.addFailureRemark(
-            source,
-            propertyName,
-            VALIDATOR_NAME,
-            remarks,
-            ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
+        ActionValidatorUtils.addFailureRemark(source, propertyName, VALIDATOR_NAME, remarks, ActionValidatorUtils.getLevelOnFail(context, VALIDATOR_NAME));
         return false;
       } else {
         return true;

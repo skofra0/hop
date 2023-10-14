@@ -26,8 +26,7 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 import java.util.Objects;
 
-public abstract class ExecutionDataSamplerBase<Store extends IExecutionDataSamplerStore>
-    implements IExecutionDataSampler<Store> {
+public abstract class ExecutionDataSamplerBase<Store extends IExecutionDataSamplerStore> implements IExecutionDataSampler<Store> {
 
   @GuiWidgetElement(
       order = "100",
@@ -67,8 +66,10 @@ public abstract class ExecutionDataSamplerBase<Store extends IExecutionDataSampl
   @SuppressWarnings("rawtypes")
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ExecutionDataSamplerBase that = (ExecutionDataSamplerBase) o;
     return Objects.equals(pluginId, that.pluginId);
   }

@@ -63,13 +63,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
    * @param pipelineMeta transformation description
    * @param pipeline transformation executing
    */
-  public FileMetadata(
-      TransformMeta transformMeta,
-      FileMetadataMeta meta,
-      FileMetadataData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FileMetadata(TransformMeta transformMeta, FileMetadataMeta meta, FileMetadataData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -83,8 +77,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
     if (first) {
       first = false;
       // remember whether the transform is consuming a stream, or generating a row
-      data.isReceivingInput =
-          !getPipelineMeta().findPreviousTransforms(getTransformMeta()).isEmpty();
+      data.isReceivingInput = !getPipelineMeta().findPreviousTransforms(getTransformMeta()).isEmpty();
 
       // processing existing rows?
       if (data.isReceivingInput) {
@@ -139,39 +132,33 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
   public String getOutputFileName(Object[] row) throws HopException {
     String filename = null;
     if (row == null) {
-        filename = variables.resolve(meta.getFileName());
-        if (filename == null) {
-          throw new HopFileException(
-                  BaseMessages.getString(PKG, "FileMetadata.Exception.FileNameNotSet"));
-        }
+      filename = variables.resolve(meta.getFileName());
+      if (filename == null) {
+        throw new HopFileException(BaseMessages.getString(PKG, "FileMetadata.Exception.FileNameNotSet"));
+      }
     } else {
       int fileNameFieldIndex = getInputRowMeta().indexOfValue(meta.getFilenameField());
       if (fileNameFieldIndex < 0) {
-        throw new HopTransformException(
-                BaseMessages.getString(
-                        PKG, "FileMetadata.Exception.FileNameFieldNotFound", meta.getFilenameField()));
+        throw new HopTransformException(BaseMessages.getString(PKG, "FileMetadata.Exception.FileNameFieldNotFound", meta.getFilenameField()));
       }
       IValueMeta fileNameMeta = getInputRowMeta().getValueMeta(fileNameFieldIndex);
       filename = variables.resolve(fileNameMeta.getString(row[fileNameFieldIndex]));
 
       if (filename == null) {
-        throw new HopFileException(
-                BaseMessages.getString(PKG, "FileMetadata.Exception.FileNameNotSet"));
+        throw new HopFileException(BaseMessages.getString(PKG, "FileMetadata.Exception.FileNameNotSet"));
       }
     }
 
     return filename;
   }
+
   private void buildOutputRows() throws HopException {
 
     // which index does the next field go to
     int idx = data.isReceivingInput ? getInputRowMeta().size() : 0;
 
     // prepare an output row
-    Object[] outputRow =
-        data.isReceivingInput
-            ? RowDataUtil.createResizedCopy(r, data.outputRowMeta.size())
-            : RowDataUtil.allocateRowData(data.outputRowMeta.size());
+    Object[] outputRow = data.isReceivingInput ? RowDataUtil.createResizedCopy(r, data.outputRowMeta.size()) : RowDataUtil.allocateRowData(data.outputRowMeta.size());
 
     // get the configuration from the dialog
     String fileName = getOutputFileName((data.isReceivingInput && meta.isFilenameInField() ? r : null));
@@ -201,9 +188,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
       if (candidate.length() == 0) {
         logBasic("Warning: file metadata transform ignores empty delimiter candidate");
       } else if (candidate.length() > 1) {
-        logBasic(
-            "Warning: file metadata transform ignores non-character delimiter candidate: "
-                + candidate);
+        logBasic("Warning: file metadata transform ignores non-character delimiter candidate: " + candidate);
       } else {
         delimiterCandidates.add(candidate.charAt(0));
       }
@@ -215,9 +200,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
       if (candidate.length() == 0) {
         logBasic("Warning: file metadata transform ignores empty enclosure candidate");
       } else if (candidate.length() > 1) {
-        logBasic(
-            "Warning: file metadata transform ignores non-character enclosure candidate: "
-                + candidate);
+        logBasic("Warning: file metadata transform ignores non-character enclosure candidate: " + candidate);
       } else {
         enclosureCandidates.add(candidate.charAt(0));
       }
@@ -228,19 +211,16 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
     outputRow[idx++] = detectedCharset;
 
     // guess the delimiters
-    DelimiterDetector.DetectionResult delimiters =
-        detectDelimiters(fileName, detectedCharset, delimiterCandidates, enclosureCandidates);
+    DelimiterDetector.DetectionResult delimiters = detectDelimiters(fileName, detectedCharset, delimiterCandidates, enclosureCandidates);
 
     if (delimiters == null) {
-      throw new HopTransformException(
-          "Could not determine a consistent format for file " + fileName);
+      throw new HopTransformException("Could not determine a consistent format for file " + fileName);
     }
 
     // delimiter
     outputRow[idx++] = delimiters.getDelimiter();
     // enclosure
-    outputRow[idx++] =
-        delimiters.getEnclosure() == null ? "" : delimiters.getEnclosure().toString();
+    outputRow[idx++] = delimiters.getEnclosure() == null ? "" : delimiters.getEnclosure().toString();
     // field count = delimiter frequency on data lines +1
     outputRow[idx++] = delimiters.getDataLineFrequency() + 1L;
     // bad headers
@@ -253,20 +233,16 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
     long skipLines = delimiters.getBadHeaders();
     long dataLines = delimiters.getDataLines();
 
-    try (BufferedReader inputReader =
-        new BufferedReader(
-            new InputStreamReader(HopVfs.getInputStream(fileName), detectedCharset))) {
+    try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(HopVfs.getInputStream(fileName), detectedCharset))) {
       while (skipLines > 0) {
         skipLines--;
         // Skip the line. There is no need to use a variable here.
         inputReader.readLine();
       }
 
-      CSVParser csvParser =
-          new CSVParserBuilder().withSeparator(delimiter).withQuoteChar(enclosure).build();
+      CSVParser csvParser = new CSVParserBuilder().withSeparator(delimiter).withQuoteChar(enclosure).build();
 
-      try (CSVReader csvReader =
-          new CSVReaderBuilder(inputReader).withCSVParser(csvParser).build()) {
+      try (CSVReader csvReader = new CSVReaderBuilder(inputReader).withCSVParser(csvParser).build()) {
         String[] firstLine = csvReader.readNext();
         dataLines--;
 
@@ -278,9 +254,11 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
         while (dataLines > 0) {
           dataLines--;
           String[] fields = csvReader.readNext();
-          if (fields == null) break;
+          if (fields == null)
+            break;
           for (int i = 0; i < fields.length; i++) {
-            if (i < evaluators.length) evaluators[i].evaluateString(fields[i]);
+            if (i < evaluators.length)
+              evaluators[i].evaluateString(fields[i]);
           }
         }
 
@@ -337,8 +315,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
           outputRow[idx++] = fields[i].getName();
           outputRow[idx++] = fields[i].getTypeDesc();
           outputRow[idx++] = (fields[i].getLength() >= 0) ? (long) fields[i].getLength() : null;
-          outputRow[idx++] =
-              (fields[i].getPrecision() >= 0) ? (long) fields[i].getPrecision() : null;
+          outputRow[idx++] = (fields[i].getPrecision() >= 0) ? (long) fields[i].getPrecision() : null;
           outputRow[idx++] = fields[i].getConversionMask();
           outputRow[idx++] = fields[i].getDecimalSymbol();
           outputRow[idx] = fields[i].getGroupingSymbol();
@@ -362,8 +339,7 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
 
   private Charset detectCharset(String fileName) {
     try (InputStream stream = HopVfs.getInputStream(fileName)) {
-      return EncodingDetector.detectEncoding(
-          stream, defaultCharset, limitRows * 500); // estimate a row is ~500 chars
+      return EncodingDetector.detectEncoding(stream, defaultCharset, limitRows * 500); // estimate a row is ~500 chars
     } catch (FileNotFoundException e) {
       throw new RuntimeException("File not found: " + fileName, e);
     } catch (IOException | HopFileException e) {
@@ -371,25 +347,15 @@ public class FileMetadata extends BaseTransform<FileMetadataMeta, FileMetadataDa
     }
   }
 
-  private DelimiterDetector.DetectionResult detectDelimiters(
-      String fileName,
-      Charset charset,
-      ArrayList<Character> delimiterCandidates,
-      ArrayList<Character> enclosureCandidates) {
+  private DelimiterDetector.DetectionResult detectDelimiters(String fileName, Charset charset, ArrayList<Character> delimiterCandidates, ArrayList<Character> enclosureCandidates) {
 
     // guess the delimiters
 
-    try (BufferedReader f =
-        new BufferedReader(new InputStreamReader(HopVfs.getInputStream(fileName), charset))) {
+    try (BufferedReader f = new BufferedReader(new InputStreamReader(HopVfs.getInputStream(fileName), charset))) {
 
       DelimiterDetector detector =
-          new DelimiterDetectorBuilder()
-              .withDelimiterCandidates(delimiterCandidates)
-              .withEnclosureCandidates(enclosureCandidates)
-              .withInput(f)
-              .withLogger(log)
-              .withRowLimit(limitRows)
-              .build();
+          new DelimiterDetectorBuilder().withDelimiterCandidates(delimiterCandidates).withEnclosureCandidates(enclosureCandidates).withInput(f).withLogger(log)
+              .withRowLimit(limitRows).build();
 
       return detector.detectDelimiters();
 

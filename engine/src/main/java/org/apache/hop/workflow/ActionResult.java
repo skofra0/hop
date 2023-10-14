@@ -25,9 +25,11 @@ import java.util.Date;
  * This class holds the result of a action after it was executed. Things we want to keep track of
  * are:
  *
- * <p>--> result of the execution (Result)
+ * <p>
+ * --> result of the execution (Result)
  *
- * <p>--> ...
+ * <p>
+ * --> ...
  *
  * <p>
  */
@@ -50,13 +52,7 @@ public class ActionResult implements Cloneable, Comparator<ActionResult>, Compar
   }
 
   /** Creates a new action result... */
-  public ActionResult(
-      Result result,
-      String logChannelId,
-      String comment,
-      String reason,
-      String actionName,
-      String actionFilename) {
+  public ActionResult(Result result, String logChannelId, String comment, String reason, String actionName, String actionFilename) {
     this();
     if (result != null) {
       // lightClone doesn't bother cloning all the rows.

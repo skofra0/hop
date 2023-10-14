@@ -50,7 +50,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class WebServiceMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -65,8 +66,7 @@ public class WebServiceMetaTest {
     WebServiceMeta webServiceMeta = new WebServiceMeta(node, metadataProvider);
     assertEquals("httpUser", webServiceMeta.getHttpLogin());
     assertEquals("tryandguess", webServiceMeta.getHttpPassword());
-    assertEquals(
-        "http://webservices.gama-system.com/exchangerates.asmx?WSDL", webServiceMeta.getUrl());
+    assertEquals("http://webservices.gama-system.com/exchangerates.asmx?WSDL", webServiceMeta.getUrl());
     assertEquals("GetCurrentExchangeRate", webServiceMeta.getOperationName());
     assertEquals("opRequestName", webServiceMeta.getOperationRequestName());
     assertEquals("GetCurrentExchangeRateResult", webServiceMeta.getOutFieldArgumentName());
@@ -83,19 +83,13 @@ public class WebServiceMetaTest {
     assertWebServiceField(fieldsIn.get(2), "Rank", "intRank", "int", 5);
     List<WebServiceField> fieldsOut = webServiceMeta.getFieldsOut();
     assertEquals(1, fieldsOut.size());
-    assertWebServiceField(
-        fieldsOut.get(0),
-        "GetCurrentExchangeRateResult",
-        "GetCurrentExchangeRateResult",
-        "decimal",
-        6);
+    assertWebServiceField(fieldsOut.get(0), "GetCurrentExchangeRateResult", "GetCurrentExchangeRateResult", "decimal", 6);
     WebServiceMeta clone = webServiceMeta.clone();
     assertNotSame(clone, webServiceMeta);
     assertEquals(clone.getXml(), webServiceMeta.getXml());
   }
 
-  void assertWebServiceField(
-      WebServiceField webServiceField, String name, String wsName, String xsdType, int type) {
+  void assertWebServiceField(WebServiceField webServiceField, String name, String wsName, String xsdType, int type) {
     assertEquals(name, webServiceField.getName());
     assertEquals(wsName, webServiceField.getWsName());
     assertEquals(xsdType, webServiceField.getXsdType());
@@ -123,11 +117,10 @@ public class WebServiceMetaTest {
     field3.setWsName("field3WS");
     field3.setXsdType("string");
     webServiceMeta.setFieldsOut(Arrays.asList(field1, field2, field3));
-    webServiceMeta.getFields(
-        rmi, "idk", new IRowMeta[] {rmi2}, nextTransform, new Variables(), metadataProvider);
-    //verify(rmi).addValueMeta(argThat(matchValueMetaString("field1")));
-    //verify(rmi).addValueMeta(argThat(matchValueMetaString("field2")));
-    //verify(rmi).addValueMeta(argThat(matchValueMetaString("field3")));
+    webServiceMeta.getFields(rmi, "idk", new IRowMeta[] {rmi2}, nextTransform, new Variables(), metadataProvider);
+    // verify(rmi).addValueMeta(argThat(matchValueMetaString("field1")));
+    // verify(rmi).addValueMeta(argThat(matchValueMetaString("field2")));
+    // verify(rmi).addValueMeta(argThat(matchValueMetaString("field3")));
   }
 
   private Matcher<IValueMeta> matchValueMetaString(final String fieldName) {
@@ -152,16 +145,7 @@ public class WebServiceMetaTest {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
     String[] input = {"one"};
     ArrayList<ICheckResult> remarks = new ArrayList<>();
-    webServiceMeta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        null,
-        input,
-        null,
-        info,
-        new Variables(),
-        metadataProvider);
+    webServiceMeta.check(remarks, pipelineMeta, transformMeta, null, input, null, info, new Variables(), metadataProvider);
     assertEquals(2, remarks.size());
     assertEquals("Not receiving any fields from previous transforms!", remarks.get(0).getText());
     assertEquals("Transform is receiving info from other transforms.", remarks.get(1).getText());
@@ -169,19 +153,9 @@ public class WebServiceMetaTest {
     remarks.clear();
     webServiceMeta.setInFieldArgumentName("ifan");
     when(prev.size()).thenReturn(2);
-    webServiceMeta.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        new String[] {},
-        null,
-        info,
-        new Variables(),
-        metadataProvider);
+    webServiceMeta.check(remarks, pipelineMeta, transformMeta, prev, new String[] {}, null, info, new Variables(), metadataProvider);
     assertEquals(2, remarks.size());
-    assertEquals(
-        "Transform is connected to previous one, receiving 2 fields", remarks.get(0).getText());
+    assertEquals("Transform is connected to previous one, receiving 2 fields", remarks.get(0).getText());
     assertEquals("No input received from other transforms!", remarks.get(1).getText());
   }
 
@@ -191,14 +165,8 @@ public class WebServiceMetaTest {
     IHopMetadataProvider metadataProvider = mock(IHopMetadataProvider.class);
     WebServiceMeta webServiceMeta = new WebServiceMeta(getTestNode(), metadataProvider);
     assertNull(webServiceMeta.getFieldOutFromWsName("", true));
-    assertEquals(
-        "GetCurrentExchangeRateResult",
-        webServiceMeta.getFieldOutFromWsName("GetCurrentExchangeRateResult", false).getName());
-    assertEquals(
-        "GetCurrentExchangeRateResult",
-        webServiceMeta
-            .getFieldOutFromWsName("something:GetCurrentExchangeRateResult", true)
-            .getName());
+    assertEquals("GetCurrentExchangeRateResult", webServiceMeta.getFieldOutFromWsName("GetCurrentExchangeRateResult", false).getName());
+    assertEquals("GetCurrentExchangeRateResult", webServiceMeta.getFieldOutFromWsName("something:GetCurrentExchangeRateResult", true).getName());
   }
 
   private Node getTestNode() throws HopXmlException {

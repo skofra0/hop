@@ -33,13 +33,7 @@ public class AnalyticQuery extends BaseTransform<AnalyticQueryMeta, AnalyticQuer
 
   private static final Class<?> PKG = AnalyticQuery.class; // For Translator
 
-  public AnalyticQuery(
-      TransformMeta transformMeta,
-      AnalyticQueryMeta meta,
-      AnalyticQueryData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AnalyticQuery(TransformMeta transformMeta, AnalyticQueryMeta meta, AnalyticQueryData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,14 +62,9 @@ public class AnalyticQuery extends BaseTransform<AnalyticQueryMeta, AnalyticQuer
 
       data.groupnrs = new int[meta.getGroupFields().size()];
       for (int i = 0; i < meta.getGroupFields().size(); i++) {
-        data.groupnrs[i] =
-            data.inputRowMeta.indexOfValue(meta.getGroupFields().get(i).getFieldName());
+        data.groupnrs[i] = data.inputRowMeta.indexOfValue(meta.getGroupFields().get(i).getFieldName());
         if (data.groupnrs[i] < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "AnalyticQuery.Log.GroupFieldCouldNotFound",
-                  meta.getGroupFields().get(i).getFieldName()));
+          logError(BaseMessages.getString(PKG, "AnalyticQuery.Log.GroupFieldCouldNotFound", meta.getGroupFields().get(i).getFieldName()));
           setErrors(1);
           stopAll();
           return false;
@@ -195,8 +184,7 @@ public class AnalyticQuery extends BaseTransform<AnalyticQueryMeta, AnalyticQuer
       }
     }
 
-    Object[] newRow =
-        RowDataUtil.addRowData((Object[]) rows[index], data.inputRowMeta.size(), fields);
+    Object[] newRow = RowDataUtil.addRowData((Object[]) rows[index], data.inputRowMeta.size(), fields);
 
     putRow(data.outputRowMeta, newRow);
   }

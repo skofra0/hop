@@ -37,8 +37,10 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TransformOptionTest {
-  @Mock TransformMeta transformMeta;
-  @Mock IVariables variables;
+  @Mock
+  TransformMeta transformMeta;
+  @Mock
+  IVariables variables;
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -47,12 +49,10 @@ public class TransformOptionTest {
 
   @Before
   public void setup() {
-    when(variables.resolve(anyString()))
-        .thenAnswer(
-            incovacationMock -> {
-              Object[] arguments = incovacationMock.getArguments();
-              return (String) arguments[0];
-            });
+    when(variables.resolve(anyString())).thenAnswer(incovacationMock -> {
+      Object[] arguments = incovacationMock.getArguments();
+      return (String) arguments[0];
+    });
   }
 
   @Test
@@ -82,9 +82,7 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkInteger(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
   }
 
   @Test
@@ -92,9 +90,7 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkLong(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotAInteger", "IDENTIFIER"));
   }
 
   @Test
@@ -102,8 +98,6 @@ public class TransformOptionTest {
     List<ICheckResult> remarks = new ArrayList<>();
     TransformOption.checkBoolean(remarks, transformMeta, variables, "IDENTIFIER", "asdf");
     assertEquals(1, remarks.size());
-    assertEquals(
-        remarks.get(0).getText(),
-        getString(TransformOption.class, "TransformOption.CheckResult.NotABoolean", "IDENTIFIER"));
+    assertEquals(remarks.get(0).getText(), getString(TransformOption.class, "TransformOption.CheckResult.NotABoolean", "IDENTIFIER"));
   }
 }

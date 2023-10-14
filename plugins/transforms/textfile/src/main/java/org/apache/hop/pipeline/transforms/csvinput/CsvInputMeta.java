@@ -57,9 +57,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@InjectionSupported(
-    localizationPrefix = "CsvInputMeta.Injection.",
-    groups = {"INPUT_FIELDS"})
+@InjectionSupported(localizationPrefix = "CsvInputMeta.Injection.", groups = {"INPUT_FIELDS"})
 @Transform(
     id = "CSVInput",
     image = "textfileinput.svg",
@@ -68,9 +66,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
     keywords = "i18n::CsvInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/csvinput.html")
-public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> implements
-        IInputFileMeta,
-        ICsvInputAwareMeta {
+public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> implements IInputFileMeta, ICsvInputAwareMeta {
 
   private static final Class<?> PKG = CsvInput.class; // For Translator
 
@@ -101,7 +97,8 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
   @Injection(name = "LAZY_CONVERSION")
   private boolean lazyConversionActive;
 
-  @InjectionDeep private TextFileInputField[] inputFields;
+  @InjectionDeep
+  private TextFileInputField[] inputFields;
 
   @Injection(name = "ADD_RESULT")
   private boolean isaddresult;
@@ -121,8 +118,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -151,16 +147,13 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
       filename = XmlHandler.getTagValue(transformNode, "filename");
       filenameField = XmlHandler.getTagValue(transformNode, "filename_field");
       rowNumField = XmlHandler.getTagValue(transformNode, "rownum_field");
-      includingFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_filename"));
+      includingFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "include_filename"));
       delimiter = XmlHandler.getTagValue(transformNode, "separator");
       enclosure = XmlHandler.getTagValue(transformNode, "enclosure");
       bufferSize = XmlHandler.getTagValue(transformNode, "buffer_size");
       headerPresent = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "header"));
-      lazyConversionActive =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "lazy_conversion"));
-      isaddresult =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "add_filename_result"));
+      lazyConversionActive = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "lazy_conversion"));
+      isaddresult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "add_filename_result"));
       runningInParallel = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "parallel"));
       String nlp = XmlHandler.getTagValue(transformNode, "newline_possible");
       if (Utils.isEmpty(nlp)) {
@@ -185,16 +178,14 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
         Node fnode = XmlHandler.getSubNodeByNr(fields, "field", i);
 
         inputFields[i].setName(XmlHandler.getTagValue(fnode, "name"));
-        inputFields[i].setType(
-            ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fnode, "type")));
+        inputFields[i].setType(ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fnode, "type")));
         inputFields[i].setFormat(XmlHandler.getTagValue(fnode, "format"));
         inputFields[i].setCurrencySymbol(XmlHandler.getTagValue(fnode, "currency"));
         inputFields[i].setDecimalSymbol(XmlHandler.getTagValue(fnode, "decimal"));
         inputFields[i].setGroupSymbol(XmlHandler.getTagValue(fnode, "group"));
         inputFields[i].setLength(Const.toInt(XmlHandler.getTagValue(fnode, "length"), -1));
         inputFields[i].setPrecision(Const.toInt(XmlHandler.getTagValue(fnode, "precision"), -1));
-        inputFields[i].setTrimType(
-            ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
+        inputFields[i].setTrimType(ValueMetaString.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
       }
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
@@ -220,9 +211,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
     retval.append("    ").append(XmlHandler.addTagValue("lazy_conversion", lazyConversionActive));
     retval.append("    ").append(XmlHandler.addTagValue("add_filename_result", isaddresult));
     retval.append("    ").append(XmlHandler.addTagValue("parallel", runningInParallel));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("newline_possible", newlinePossibleInFields));
+    retval.append("    ").append(XmlHandler.addTagValue("newline_possible", newlinePossibleInFields));
     retval.append("    ").append(XmlHandler.addTagValue("encoding", encoding));
 
     retval.append("    ").append(XmlHandler.openTag("fields")).append(Const.CR);
@@ -231,23 +220,14 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
 
       retval.append("      ").append(XmlHandler.openTag("field")).append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("name", field.getName()));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(field.getType())));
+      retval.append("        ").append(XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(field.getType())));
       retval.append("        ").append(XmlHandler.addTagValue("format", field.getFormat()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
+      retval.append("        ").append(XmlHandler.addTagValue("currency", field.getCurrencySymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("decimal", field.getDecimalSymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("group", field.getGroupSymbol()));
       retval.append("        ").append(XmlHandler.addTagValue("length", field.getLength()));
       retval.append("        ").append(XmlHandler.addTagValue("precision", field.getPrecision()));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue(
-                  "trim_type", ValueMetaString.getTrimTypeCode(field.getTrimType())));
+      retval.append("        ").append(XmlHandler.addTagValue("trim_type", ValueMetaString.getTrimTypeCode(field.getTrimType())));
       retval.append("      ").append(XmlHandler.closeTag("field")).append(Const.CR);
     }
     retval.append("    ").append(XmlHandler.closeTag("fields")).append(Const.CR);
@@ -256,13 +236,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       rowMeta.clear(); // Start with a clean slate, eats the input
@@ -290,11 +264,9 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
         // Preview will show the data the same way as we read it.
         // This layout is then taken further down the road by the metadata through the pipeline.
         //
-        IValueMeta storageMetadata =
-            ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING);
+        IValueMeta storageMetadata = ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING);
         storageMetadata.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
-        storageMetadata.setLength(
-            -1, -1); // we don't really know the lengths of the strings read in advance.
+        storageMetadata.setLength(-1, -1); // we don't really know the lengths of the strings read in advance.
         valueMeta.setStorageMetadata(storageMetadata);
 
         valueMeta.setOrigin(origin);
@@ -336,37 +308,19 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
       IHopMetadataProvider metadataProvider) {
     CheckResult cr;
     if (prev == null || prev.size() == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.NotReceivingFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.NotReceivingFields"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "CsvInputMeta.CheckResult.TransformRecevingData", prev.size() + ""),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.TransformRecevingData", prev.size() + ""), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.TransformRecevingData2"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.TransformRecevingData2"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "CsvInputMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CsvInputMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -404,7 +358,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
 
   /**
    * @return true if lazy conversion is turned on: conversions are delayed as long as possible,
-   *     perhaps to never occur at all.
+   *         perhaps to never occur at all.
    */
   public boolean isLazyConversionActive() {
     return lazyConversionActive;
@@ -412,7 +366,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
 
   /**
    * @param lazyConversionActive true if lazy conversion is to be turned on: conversions are delayed
-   *     as long as possible, perhaps to never occur at all.
+   *        as long as possible, perhaps to never occur at all.
    */
   public void setLazyConversionActive(boolean lazyConversionActive) {
     this.lazyConversionActive = lazyConversionActive;
@@ -440,8 +394,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
 
     List<ResourceReference> references = new ArrayList<>(5);
 
@@ -474,9 +427,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
 
   @Override
   public String[] getFilePaths(IVariables variables) {
-    return new String[] {
-      variables.resolve(filename),
-    };
+    return new String[] {variables.resolve(filename),};
   }
 
   @Override
@@ -608,11 +559,7 @@ public class CsvInputMeta extends BaseTransformMeta<CsvInput, CsvInputData> impl
    * @return the filename of the exported resource
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming iResourceNaming,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming iResourceNaming, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

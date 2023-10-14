@@ -27,29 +27,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ExecInfoMetaTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Test
   public void testRoundTrip() throws HopException {
     List<String> attributes =
-        Arrays.asList(
-            "location",
-            "operationType",
-            "idFieldName",
-            "parentIdFieldName",
-            "typeFieldName",
-            "nameFieldName",
-            "includeChildrenFieldName",
-            "limitFieldName");
+        Arrays.asList("location", "operationType", "idFieldName", "parentIdFieldName", "typeFieldName", "nameFieldName", "includeChildrenFieldName", "limitFieldName");
 
-    LoadSaveTester<ExecInfoMeta> loadSaveTester =
-        new LoadSaveTester<>(ExecInfoMeta.class, attributes);
-    loadSaveTester
-        .getFieldLoadSaveValidatorFactory()
-        .registerValidator(
-            ExecInfoMeta.OperationType.class.getCanonicalName(),
-            new EnumLoadSaveValidator<ExecInfoMeta.OperationType>(
-                ExecInfoMeta.OperationType.class));
+    LoadSaveTester<ExecInfoMeta> loadSaveTester = new LoadSaveTester<>(ExecInfoMeta.class, attributes);
+    loadSaveTester.getFieldLoadSaveValidatorFactory()
+        .registerValidator(ExecInfoMeta.OperationType.class.getCanonicalName(), new EnumLoadSaveValidator<ExecInfoMeta.OperationType>(ExecInfoMeta.OperationType.class));
 
     loadSaveTester.testSerialization();
   }

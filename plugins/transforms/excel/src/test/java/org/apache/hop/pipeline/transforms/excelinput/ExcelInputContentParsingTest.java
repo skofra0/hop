@@ -25,7 +25,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static final String[] CNST_3_SHEET_NAME_ARRAY = {"Sheet1", "Sheet2", "Sheet3"};
   private static final String[] CNST_1_SHEET_NAME_ARRAY = {"Sheet1"};
@@ -101,10 +102,7 @@ public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
 
     process();
 
-    check(
-        new Object[][] {
-          {"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}
-        });
+    check(new Object[][] {{"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}, {"AAABBC", "Nissan"}});
   }
 
   @Test
@@ -130,8 +128,7 @@ public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
     // Verify that the default values were used
     assertEquals(Const.HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT, (Long) ZipSecureFile.getMaxEntrySize());
     assertEquals(Const.HOP_ZIP_MAX_TEXT_SIZE_DEFAULT, (Long) ZipSecureFile.getMaxTextSize());
-    assertEquals(
-        Const.HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT, (Double) ZipSecureFile.getMinInflateRatio());
+    assertEquals(Const.HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT, (Double) ZipSecureFile.getMinInflateRatio());
   }
 
   @Test
@@ -178,13 +175,7 @@ public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
     checkContent(new Object[][] {{"FIST0200", "ACM"}});
   }
 
-  protected void testLimitOption(
-      int rowLimit,
-      boolean startsWithHeader,
-      int[] startRowArr,
-      int[] startColumnArr,
-      String[] sheetNameArr)
-      throws Exception {
+  protected void testLimitOption(int rowLimit, boolean startsWithHeader, int[] startRowArr, int[] startColumnArr, String[] sheetNameArr) throws Exception {
 
     // Common stuff
     meta.setSpreadSheetType(SpreadSheetType.SAX_POI);
@@ -212,22 +203,14 @@ public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
     assertEquals("Wrong row count", rowLimit, rows.size());
   }
 
-  protected void testLimitOptionSingleSheet(
-      int rowLimit, boolean startsWithHeader, int startRow, Object firstResult, Object lastResult)
-      throws Exception {
+  protected void testLimitOptionSingleSheet(int rowLimit, boolean startsWithHeader, int startRow, Object firstResult, Object lastResult) throws Exception {
 
-    testLimitOption(
-            TEST_ROW_LIMIT_SINGLE_SHEET,
-        startsWithHeader,
-        new int[] {startRow},
-        CNST_1_ZERO_INT_ARRAY,
-        CNST_1_SHEET_NAME_ARRAY);
+    testLimitOption(TEST_ROW_LIMIT_SINGLE_SHEET, startsWithHeader, new int[] {startRow}, CNST_1_ZERO_INT_ARRAY, CNST_1_SHEET_NAME_ARRAY);
 
     // Checks
     assertEquals("Wrong row count", TEST_ROW_LIMIT_SINGLE_SHEET, rows.size());
     assertEquals("Wrong first result", firstResult, rows.get(0)[0]);
-    assertEquals(
-        "Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_SINGLE_SHEET - 1)[0]);
+    assertEquals("Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_SINGLE_SHEET - 1)[0]);
   }
 
   @Test
@@ -269,75 +252,50 @@ public class ExcelInputContentParsingTest extends BaseExcelParsingTest {
   public void testLimitOptionSingleSheet_NoHeader_StartRow12() throws Exception {
     String firstResult = "12.0";
     String lastResult = "21.0";
-    testLimitOptionSingleSheet(
-            TEST_ROW_LIMIT_SINGLE_SHEET, false, 12, firstResult, lastResult);
+    testLimitOptionSingleSheet(TEST_ROW_LIMIT_SINGLE_SHEET, false, 12, firstResult, lastResult);
   }
 
   @Test
   public void testLimitOptionMultipleSheets_Header_StartRow0() throws Exception {
     String firstResult = "1.0";
     String lastResult = "20.0";
-    testLimitOption(
-            TEST_ROW_LIMIT_MULTIPLE_SHEET,
-        true,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_SHEET_NAME_ARRAY);
+    testLimitOption(TEST_ROW_LIMIT_MULTIPLE_SHEET, true, CNST_3_ZERO_INT_ARRAY, CNST_3_ZERO_INT_ARRAY, CNST_3_SHEET_NAME_ARRAY);
 
     // Checks
     assertEquals("Wrong first result", firstResult, rows.get(0)[0]);
-    assertEquals(
-        "Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
+    assertEquals("Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
   }
 
   @Test
   public void testLimitOptionMultipleSheets_NoHeader_StartRow0() throws Exception {
     String firstResult = "col";
     String lastResult = "19.0";
-    testLimitOption(
-            TEST_ROW_LIMIT_MULTIPLE_SHEET,
-        false,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_SHEET_NAME_ARRAY);
+    testLimitOption(TEST_ROW_LIMIT_MULTIPLE_SHEET, false, CNST_3_ZERO_INT_ARRAY, CNST_3_ZERO_INT_ARRAY, CNST_3_SHEET_NAME_ARRAY);
 
     // Checks
     assertEquals("Wrong first result", firstResult, rows.get(0)[0]);
-    assertEquals(
-        "Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
+    assertEquals("Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
   }
 
   @Test
   public void testLimitOptionMultipleSheets_Header_StartRowX() throws Exception {
     String firstResult = "24.0";
     String lastResult = "132.0";
-    testLimitOption(
-            TEST_ROW_LIMIT_MULTIPLE_SHEET,
-        true,
-        CNST_3_SHEET_START_ROW_ARRAY,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_SHEET_NAME_ARRAY);
+    testLimitOption(TEST_ROW_LIMIT_MULTIPLE_SHEET, true, CNST_3_SHEET_START_ROW_ARRAY, CNST_3_ZERO_INT_ARRAY, CNST_3_SHEET_NAME_ARRAY);
 
     // Checks
     assertEquals("Wrong first result", firstResult, rows.get(0)[0]);
-    assertEquals(
-        "Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
+    assertEquals("Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
   }
 
   @Test
   public void testLimitOptionMultipleSheets_NoHeader_StartRowX() throws Exception {
     String firstResult = "23.0";
     String lastResult = "102.0";
-    testLimitOption(
-            TEST_ROW_LIMIT_MULTIPLE_SHEET,
-        false,
-        CNST_3_SHEET_START_ROW_ARRAY,
-        CNST_3_ZERO_INT_ARRAY,
-        CNST_3_SHEET_NAME_ARRAY);
+    testLimitOption(TEST_ROW_LIMIT_MULTIPLE_SHEET, false, CNST_3_SHEET_START_ROW_ARRAY, CNST_3_ZERO_INT_ARRAY, CNST_3_SHEET_NAME_ARRAY);
 
     // Checks
     assertEquals("Wrong first result", firstResult, rows.get(0)[0]);
-    assertEquals(
-        "Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
+    assertEquals("Wrong last result", lastResult, rows.get(TEST_ROW_LIMIT_MULTIPLE_SHEET - 1)[0]);
   }
 }

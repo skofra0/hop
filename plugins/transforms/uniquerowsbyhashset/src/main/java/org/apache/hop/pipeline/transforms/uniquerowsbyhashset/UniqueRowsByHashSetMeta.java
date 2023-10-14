@@ -103,8 +103,7 @@ public class UniqueRowsByHashSetMeta extends BaseTransformMeta<UniqueRowsByHashS
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -123,8 +122,7 @@ public class UniqueRowsByHashSetMeta extends BaseTransformMeta<UniqueRowsByHashS
   private void readData(Node transformNode) throws HopXmlException {
     try {
       storeValues = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "store_values"));
-      rejectDuplicateRow =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "reject_duplicate_row"));
+      rejectDuplicateRow = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "reject_duplicate_row"));
       errorDescription = XmlHandler.getTagValue(transformNode, "error_description");
 
       Node fields = XmlHandler.getSubNode(transformNode, "fields");
@@ -139,10 +137,7 @@ public class UniqueRowsByHashSetMeta extends BaseTransformMeta<UniqueRowsByHashS
       }
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "UniqueRowsByHashSetMeta.Exception.UnableToLoadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "UniqueRowsByHashSetMeta.Exception.UnableToLoadTransformMetaFromXML"), e);
     }
   }
 
@@ -160,13 +155,7 @@ public class UniqueRowsByHashSetMeta extends BaseTransformMeta<UniqueRowsByHashS
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {}
 
   @Override
@@ -202,20 +191,10 @@ public class UniqueRowsByHashSetMeta extends BaseTransformMeta<UniqueRowsByHashS
 
     if (input.length > 0) {
       cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "UniqueRowsByHashSetMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UniqueRowsByHashSetMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "UniqueRowsByHashSetMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "UniqueRowsByHashSetMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

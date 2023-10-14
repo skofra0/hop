@@ -20,8 +20,7 @@ public abstract class ServerPushSessionFacade {
   private static final ServerPushSessionFacade IMPL;
 
   static {
-    IMPL =
-        (ServerPushSessionFacade) ImplementationLoader.newInstance(ServerPushSessionFacade.class);
+    IMPL = (ServerPushSessionFacade) ImplementationLoader.newInstance(ServerPushSessionFacade.class);
   }
 
   public static void start() {

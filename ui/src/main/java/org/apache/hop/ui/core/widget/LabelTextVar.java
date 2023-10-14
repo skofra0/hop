@@ -36,33 +36,19 @@ public class LabelTextVar extends Composite {
   private Label wLabel;
   private TextVar wText;
 
-  public LabelTextVar(
-      IVariables variables, Composite composite, String labelText, String toolTipText) {
+  public LabelTextVar(IVariables variables, Composite composite, String labelText, String toolTipText) {
     this(variables, composite, SWT.NONE, labelText, toolTipText);
   }
 
-  public LabelTextVar(
-      IVariables variables,
-      Composite composite,
-      String labelText,
-      String toolTipText,
-      boolean passwordField) {
+  public LabelTextVar(IVariables variables, Composite composite, String labelText, String toolTipText, boolean passwordField) {
     this(variables, composite, SWT.NONE, labelText, toolTipText, passwordField, true);
   }
 
-  public LabelTextVar(
-      IVariables variables, Composite composite, int flags, String labelText, String toolTipText) {
+  public LabelTextVar(IVariables variables, Composite composite, int flags, String labelText, String toolTipText) {
     this(variables, composite, flags, labelText, toolTipText, false, true);
   }
 
-  public LabelTextVar(
-      IVariables variables,
-      Composite composite,
-      int flags,
-      String labelText,
-      String toolTipText,
-      boolean passwordField,
-      boolean rightAligned) {
+  public LabelTextVar(IVariables variables, Composite composite, int flags, String labelText, String toolTipText, boolean passwordField, boolean rightAligned) {
     super(composite, SWT.NONE);
     PropsUi.setLook(this);
 

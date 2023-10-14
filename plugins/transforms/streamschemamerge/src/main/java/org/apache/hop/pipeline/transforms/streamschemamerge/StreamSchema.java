@@ -36,7 +36,8 @@ import java.util.List;
  * in. Fields that have the same name will be placed in the same field. The field type will be taken
  * from the first occurrence of a field.
  *
- * <p>Because this transform combines multiple streams with different RowMetas together, it is
+ * <p>
+ * Because this transform combines multiple streams with different RowMetas together, it is
  * deemed "not safe" and will fail if you try to run the pipeline with the "Enable Safe Mode
  * checked". Therefore it disables safe mode
  */
@@ -51,13 +52,7 @@ public class StreamSchema extends BaseTransform<StreamSchemaMeta, StreamSchemaDa
    * @param pipelineMeta transformation description
    * @param pipeline transformation executing
    */
-  public StreamSchema(
-      TransformMeta transformMeta,
-      StreamSchemaMeta meta,
-      StreamSchemaData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public StreamSchema(TransformMeta transformMeta, StreamSchemaMeta meta, StreamSchemaData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
     pipeline.setSafeModeEnabled(false); // safe mode is incompatible with this transform
   }
@@ -78,7 +73,7 @@ public class StreamSchema extends BaseTransform<StreamSchemaMeta, StreamSchemaDa
    * values in to the appropriate indexes
    *
    * @return true to indicate that the function should be called again, false if the transform is
-   *     done
+   *         done
    */
   @Override
   public boolean processRow() throws HopException {
@@ -141,10 +136,7 @@ public class StreamSchema extends BaseTransform<StreamSchemaMeta, StreamSchemaDa
       }
     }
     if (isRowLevel()) {
-      logRowlevel(
-          String.format(
-              "Current row from %s. This maps to stream number %d",
-              data.currentName, data.streamNum));
+      logRowlevel(String.format("Current row from %s. This maps to stream number %d", data.currentName, data.streamNum));
     }
 
     // create a new (empty) output row in the model of the master outputer row

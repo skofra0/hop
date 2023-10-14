@@ -34,8 +34,7 @@ public class DatabaseMetaObjectFactory implements IHopMetadataObjectFactory {
   @Override
   public String getObjectId(Object object) throws HopException {
     if (!(object instanceof IDatabase)) {
-      throw new HopException(
-          "Object is not of class IDatabase but of " + object.getClass().getName() + "'");
+      throw new HopException("Object is not of class IDatabase but of " + object.getClass().getName() + "'");
     }
     return ((IDatabase) object).getPluginId();
   }

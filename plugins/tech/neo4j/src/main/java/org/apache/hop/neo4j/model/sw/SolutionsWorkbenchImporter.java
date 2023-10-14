@@ -80,16 +80,14 @@ public class SolutionsWorkbenchImporter {
           Double nodeLocationX = getDouble(jNodeDisplay.get("x"));
           Double nodeLocationY = getDouble(jNodeDisplay.get("y"));
           if (nodeLocationX != null && nodeLocationY != null) {
-            graphNode.setPresentation(
-                new GraphPresentation(nodeLocationX.intValue(), nodeLocationY.intValue()));
+            graphNode.setPresentation(new GraphPresentation(nodeLocationX.intValue(), nodeLocationY.intValue()));
           }
 
           boolean isOnlySecondaryNodeLabel = getBoolean(jNodeLabel.get("isOnlySecondaryNodeLabel"));
           if (!isOnlySecondaryNodeLabel) {
             // Get the secondary node label keys:
             //
-            JSONArray jSecondaryNodeLabelKeys =
-                (JSONArray) jNodeLabel.get("secondaryNodeLabelKeys");
+            JSONArray jSecondaryNodeLabelKeys = (JSONArray) jNodeLabel.get("secondaryNodeLabelKeys");
             List<String> keys = new ArrayList<>();
             for (int s = 0; s < jSecondaryNodeLabelKeys.size(); s++) {
               keys.add((String) jSecondaryNodeLabelKeys.get(s));
@@ -130,16 +128,9 @@ public class SolutionsWorkbenchImporter {
           String relationshipType = (String) jRelationshipType.get("type");
           String relationshipStartKey = (String) jRelationshipType.get("startNodeLabelKey");
           String relationshipEndKey = (String) jRelationshipType.get("endNodeLabelKey");
-          List<GraphProperty> relationshipProperties =
-              importProperties(jRelationshipType, "properties");
+          List<GraphProperty> relationshipProperties = importProperties(jRelationshipType, "properties");
           GraphRelationship graphRelationship =
-              new GraphRelationship(
-                  relationshipKey,
-                  relationshipType,
-                  relationshipType,
-                  relationshipProperties,
-                  relationshipStartKey,
-                  relationshipEndKey);
+              new GraphRelationship(relationshipKey, relationshipType, relationshipType, relationshipProperties, relationshipStartKey, relationshipEndKey);
           graphModel.getRelationships().add(graphRelationship);
         }
       }
@@ -224,18 +215,14 @@ public class SolutionsWorkbenchImporter {
       }
       for (String label : graphNode.getLabels()) {
         if (nodeLabels.contains(label)) {
-          throw new HopException(
-              "Node label '" + label + "' is used more than once in model " + graphModel.getName());
+          throw new HopException("Node label '" + label + "' is used more than once in model " + graphModel.getName());
         }
       }
       // We also need to make sure that the label is not an existing node name...
       //
       String label = graphNode.getLabels().get(0);
       if (graphModel.findNode(label) != null) {
-        throw new HopException(
-            "A node named '"
-                + label
-                + "' already exists in the model. Renaming nodes might break consistency");
+        throw new HopException("A node named '" + label + "' already exists in the model. Renaming nodes might break consistency");
       }
 
       nodeLabels.add(label);
@@ -275,19 +262,12 @@ public class SolutionsWorkbenchImporter {
     for (GraphRelationship relationship : graphModel.getRelationships()) {
       String label = relationship.getLabel();
       if (StringUtils.isEmpty(label)) {
-        throw new HopException(
-            "No relationship label found for relationship between nodes: "
-                + relationship.getNodeSource()
-                + " and "
-                + relationship.getNodeTarget());
+        throw new HopException("No relationship label found for relationship between nodes: " + relationship.getNodeSource() + " and " + relationship.getNodeTarget());
       }
       // We also need to make sure that the label is not an existing node name...
       //
       if (graphModel.findRelationship(label) != null) {
-        throw new HopException(
-            "A relationship named '"
-                + label
-                + "' already exists in the model. Renaming relationships might break consistency");
+        throw new HopException("A relationship named '" + label + "' already exists in the model. Renaming relationships might break consistency");
       }
 
       relationshipLabels.add(label);
@@ -298,8 +278,7 @@ public class SolutionsWorkbenchImporter {
     //
     for (GraphRelationship relationship : graphModel.getRelationships()) {
       relationship.setName(relationship.getLabel());
-      relationship.setDescription(
-          relationship.getNodeSource() + " - " + relationship.getNodeTarget());
+      relationship.setDescription(relationship.getNodeSource() + " - " + relationship.getNodeTarget());
 
       // Fix the property names as well
       //

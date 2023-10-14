@@ -70,12 +70,9 @@ public class MemoryGroupByMetaGetFieldsTest {
     mockStatic(ValueMetaFactory.class);
     when(ValueMetaFactory.createValueMeta(anyInt())).thenCallRealMethod();
     when(ValueMetaFactory.createValueMeta(anyString(), anyInt())).thenCallRealMethod();
-    when(ValueMetaFactory.createValueMeta("maxDate", 3, -1, -1))
-        .thenReturn(new ValueMetaDate("maxDate"));
-    when(ValueMetaFactory.createValueMeta("minDate", 3, -1, -1))
-        .thenReturn(new ValueMetaDate("minDate"));
-    when(ValueMetaFactory.createValueMeta("countDate", 5, -1, -1))
-        .thenReturn(new ValueMetaInteger("countDate"));
+    when(ValueMetaFactory.createValueMeta("maxDate", 3, -1, -1)).thenReturn(new ValueMetaDate("maxDate"));
+    when(ValueMetaFactory.createValueMeta("minDate", 3, -1, -1)).thenReturn(new ValueMetaDate("minDate"));
+    when(ValueMetaFactory.createValueMeta("countDate", 5, -1, -1)).thenReturn(new ValueMetaInteger("countDate"));
     when(ValueMetaFactory.getValueMetaName(3)).thenReturn("Date");
     when(ValueMetaFactory.getValueMetaName(5)).thenReturn("Integer");
   }
@@ -92,16 +89,9 @@ public class MemoryGroupByMetaGetFieldsTest {
     doReturn(valueMeta).when(rowMeta).searchValueMeta("date");
 
     memoryGroupByMeta.getGroups().clear();
-    memoryGroupByMeta.setAggregates(
-        List.of(new GAggregate("maxDate", "date", MemoryGroupByMeta.GroupType.Maximum, null)));
+    memoryGroupByMeta.setAggregates(List.of(new GAggregate("maxDate", "date", MemoryGroupByMeta.GroupType.Maximum, null)));
 
-    memoryGroupByMeta.getFields(
-        rowMeta,
-        "Memory Group by",
-        mockInfo,
-        mockNextTransform,
-        mockSpace,
-        mockIHopMetadataProvider);
+    memoryGroupByMeta.getFields(rowMeta, "Memory Group by", mockInfo, mockNextTransform, mockSpace, mockIHopMetadataProvider);
 
     verify(rowMeta, times(1)).clear();
     verify(rowMeta, times(1)).addRowMeta(any());
@@ -115,11 +105,9 @@ public class MemoryGroupByMetaGetFieldsTest {
 
     doReturn(valueMeta).when(rowMeta).searchValueMeta("date");
 
-    memoryGroupByMeta.setAggregates(
-        List.of(new GAggregate("minDate", "date", MemoryGroupByMeta.GroupType.Minimum, null)));
+    memoryGroupByMeta.setAggregates(List.of(new GAggregate("minDate", "date", MemoryGroupByMeta.GroupType.Minimum, null)));
 
-    memoryGroupByMeta.getFields(
-        rowMeta, "Group by", mockInfo, mockNextTransform, mockSpace, mockIHopMetadataProvider);
+    memoryGroupByMeta.getFields(rowMeta, "Group by", mockInfo, mockNextTransform, mockSpace, mockIHopMetadataProvider);
 
     verify(rowMeta, times(1)).clear();
     verify(rowMeta, times(1)).addRowMeta(any());
@@ -134,11 +122,9 @@ public class MemoryGroupByMetaGetFieldsTest {
     doReturn(valueMeta).when(rowMeta).searchValueMeta("date");
 
     memoryGroupByMeta.setGroups(List.of(new GGroup("date")));
-    memoryGroupByMeta.setAggregates(
-        List.of(new GAggregate("countDate", "date", MemoryGroupByMeta.GroupType.CountAny, null)));
+    memoryGroupByMeta.setAggregates(List.of(new GAggregate("countDate", "date", MemoryGroupByMeta.GroupType.CountAny, null)));
 
-    memoryGroupByMeta.getFields(
-        rowMeta, "Group by", mockInfo, mockNextTransform, mockSpace, mockIHopMetadataProvider);
+    memoryGroupByMeta.getFields(rowMeta, "Group by", mockInfo, mockNextTransform, mockSpace, mockIHopMetadataProvider);
 
     verify(rowMeta, times(1)).clear();
     verify(rowMeta, times(1)).addRowMeta(any());

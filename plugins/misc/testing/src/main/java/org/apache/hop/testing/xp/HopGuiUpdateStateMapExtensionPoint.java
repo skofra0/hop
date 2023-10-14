@@ -32,19 +32,13 @@ import java.util.Map;
 
 @ExtensionPoint(
     id = "HopGuiUpdateStateMapExtensionPoint",
-    description =
-        "Update the state map with unit test results in the Hop GUI pipeline graph so that it can be rendered",
+    description = "Update the state map with unit test results in the Hop GUI pipeline graph so that it can be rendered",
     extensionPointId = "HopGuiPipelineFinished")
-public class HopGuiUpdateStateMapExtensionPoint
-    implements IExtensionPoint<HopGuiPipelineFinishedExtension> {
+public class HopGuiUpdateStateMapExtensionPoint implements IExtensionPoint<HopGuiPipelineFinishedExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiPipelineFinishedExtension ext)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiPipelineFinishedExtension ext) throws HopException {
 
-    final List<UnitTestResult> results =
-        (List<UnitTestResult>)
-            ext.pipeline.getExtensionDataMap().get(DataSetConst.UNIT_TEST_RESULTS);
+    final List<UnitTestResult> results = (List<UnitTestResult>) ext.pipeline.getExtensionDataMap().get(DataSetConst.UNIT_TEST_RESULTS);
     if (results != null && !results.isEmpty()) {
       Map<String, Object> stateMap = ext.pipelineGraph.getStateMap();
       if (stateMap == null) {

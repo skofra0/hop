@@ -39,8 +39,7 @@ import java.util.Map;
     id = "BasicDataProfilingRowsExecutionDataSampler",
     name = "Data profile output rows",
     description = "Allow for some basic data profiling to be performed on transform output rows")
-public class BasicDataProfilingDataSampler
-    implements IExecutionDataSampler<BasicDataProfilingDataSamplerStore> {
+public class BasicDataProfilingDataSampler implements IExecutionDataSampler<BasicDataProfilingDataSamplerStore> {
   private static final Class<?> PKG = BasicDataProfilingDataSampler.class; // For Translator
 
   public enum ProfilingType {
@@ -168,25 +167,19 @@ public class BasicDataProfilingDataSampler
   }
 
   @Override
-  public BasicDataProfilingDataSamplerStore createSamplerStore(
-      ExecutionDataSamplerMeta samplerMeta) {
+  public BasicDataProfilingDataSamplerStore createSamplerStore(ExecutionDataSamplerMeta samplerMeta) {
     return new BasicDataProfilingDataSamplerStore(this, samplerMeta);
   }
 
   @Override
-  public void sampleRow(
-      BasicDataProfilingDataSamplerStore store,
-      IStream.StreamType streamType,
-      IRowMeta rowMeta,
-      Object[] row)
-      throws HopException {
+  public void sampleRow(BasicDataProfilingDataSamplerStore store, IStream.StreamType streamType, IRowMeta rowMeta, Object[] row) throws HopException {
 
     if (streamType != IStream.StreamType.OUTPUT) {
       return;
     }
 
-     // By default, we only do data profiling on the end-points of a pipeline, the last transforms.
-     //
+    // By default, we only do data profiling on the end-points of a pipeline, the last transforms.
+    //
     if (onlyProfilingLastTransforms && !store.getSamplerMeta().isLastTransform()) {
       return;
     }
@@ -331,25 +324,17 @@ public class BasicDataProfilingDataSampler
     }
   }
 
-  private void clearSampleRows(
-      BasicDataProfilingDataSamplerStore store, String name, ProfilingType profilingType) {
+  private void clearSampleRows(BasicDataProfilingDataSamplerStore store, String name, ProfilingType profilingType) {
     Map<ProfilingType, RowBuffer> typeBufferMap = store.getProfileSamples().get(name);
     if (typeBufferMap != null) {
       typeBufferMap.remove(profilingType);
     }
   }
 
-  private void addSampleRow(
-      BasicDataProfilingDataSamplerStore store,
-      String name,
-      ProfilingType profilingType,
-      IRowMeta rowMeta,
-      Object[] row) {
+  private void addSampleRow(BasicDataProfilingDataSamplerStore store, String name, ProfilingType profilingType, IRowMeta rowMeta, Object[] row) {
     synchronized (store.getProfileSamples()) {
-      Map<ProfilingType, RowBuffer> typeBufferMap =
-          store.getProfileSamples().computeIfAbsent(name, k -> new HashMap<>());
-      RowBuffer rowBuffer =
-          typeBufferMap.computeIfAbsent(profilingType, k -> new RowBuffer(rowMeta));
+      Map<ProfilingType, RowBuffer> typeBufferMap = store.getProfileSamples().computeIfAbsent(name, k -> new HashMap<>());
+      RowBuffer rowBuffer = typeBufferMap.computeIfAbsent(profilingType, k -> new RowBuffer(rowMeta));
 
       // Keep the memory consumption sane
       //

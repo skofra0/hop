@@ -41,8 +41,7 @@ public class MongoDbOutputMetaTest {
   public static void beforeClass() throws HopException {
     PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
     PluginRegistry.init();
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
     Encr.init(passwordEncoderPluginID);
   }
 
@@ -50,16 +49,7 @@ public class MongoDbOutputMetaTest {
   public void testRoundTrips() throws HopException {
     List<String> commonFields =
         Arrays.asList(
-            "mongo_collection",
-            "batch_insert_size",
-            "truncate",
-            "update",
-            "upsert",
-            "multi",
-            "modifier_update",
-            "write_retries",
-            "write_retry_delay",
-            "mongo_fields",
+            "mongo_collection", "batch_insert_size", "truncate", "update", "upsert", "multi", "modifier_update", "write_retries", "write_retry_delay", "mongo_fields",
             "mongo_indexes");
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("mongo_collection", "getCollection");
@@ -68,8 +58,7 @@ public class MongoDbOutputMetaTest {
     setterMap.put("mongo_collection", "setCollection");
     setterMap.put("batch_insert_size", "setBatchInsertSize");
 
-    LoadSaveTester tester =
-        new LoadSaveTester(MongoDbOutputMeta.class, commonFields, getterMap, setterMap);
+    LoadSaveTester tester = new LoadSaveTester(MongoDbOutputMeta.class, commonFields, getterMap, setterMap);
 
     IFieldLoadSaveValidatorFactory validatorFactory = tester.getFieldLoadSaveValidatorFactory();
 
@@ -80,22 +69,12 @@ public class MongoDbOutputMetaTest {
                 validatorFactory,
                 MongoField.class,
                 Arrays.asList(
-                    "incomingFieldName",
-                    "mongoDocPath",
-                    "useIncomingFieldNameAsMongoFieldName",
-                    "updateMatchField",
-                    "modifierUpdateOperation",
-                    "modifierOperationApplyPolicy",
-                    "inputJson",
-                    "insertNull"))));
+                    "incomingFieldName", "mongoDocPath", "useIncomingFieldNameAsMongoFieldName", "updateMatchField", "modifierUpdateOperation", "modifierOperationApplyPolicy",
+                    "inputJson", "insertNull"))));
 
     validatorFactory.registerValidator(
         validatorFactory.getName(List.class, MongoIndex.class),
-        new ListLoadSaveValidator<>(
-            new ObjectValidator<>(
-                validatorFactory,
-                MongoIndex.class,
-                Arrays.asList("pathToFields", "drop", "unique", "sparse"))));
+        new ListLoadSaveValidator<>(new ObjectValidator<>(validatorFactory, MongoIndex.class, Arrays.asList("pathToFields", "drop", "unique", "sparse"))));
 
     tester.testXmlRoundTrip();
   }

@@ -46,13 +46,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
 
   private static final Class<?> PKG = TableOutputMeta.class; // For Translator
 
-  public TableOutput(
-      TransformMeta transformMeta,
-      TableOutputMeta meta,
-      TableOutputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public TableOutput(TransformMeta transformMeta, TableOutputMeta meta, TableOutputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -90,9 +84,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
           TableOutputField tf = meta.getFields().get(i);
           data.valuenrs[i] = getInputRowMeta().indexOfValue(tf.getFieldStream());
           if (data.valuenrs[i] < 0) {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "TableOutput.Exception.FieldRequired", tf.getFieldStream()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TableOutput.Exception.FieldRequired", tf.getFieldStream()));
           }
         }
 
@@ -104,9 +96,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
             insertValue.setName(tf.getFieldDatabase());
             data.insertRowMeta.addValueMeta(insertValue);
           } else {
-            throw new HopTransformException(
-                BaseMessages.getString(
-                    PKG, "TableOutput.Exception.FailedToFindField", tf.getFieldStream()));
+            throw new HopTransformException(BaseMessages.getString(PKG, "TableOutput.Exception.FailedToFindField", tf.getFieldStream()));
           }
         }
       }
@@ -179,15 +169,13 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
       } else {
         insertRowData = r;
       }
-    } else if (meta.isPartitioningEnabled()
-        && (meta.isPartitioningDaily() || meta.isPartitioningMonthly())
+    } else if (meta.isPartitioningEnabled() && (meta.isPartitioningDaily() || meta.isPartitioningMonthly())
         && (meta.getPartitioningField() != null && meta.getPartitioningField().length() > 0)) {
       // Initialize some stuff!
       if (data.indexOfPartitioningField < 0) {
         data.indexOfPartitioningField = rowMeta.indexOfValue(resolve(meta.getPartitioningField()));
         if (data.indexOfPartitioningField < 0) {
-          throw new HopTransformException(
-              "Unable to find field [" + meta.getPartitioningField() + "] in the input row!");
+          throw new HopTransformException("Unable to find field [" + meta.getPartitioningField() + "] in the input row!");
         }
 
         if (Boolean.TRUE.equals(meta.isPartitioningDaily())) {
@@ -199,15 +187,11 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
 
       IValueMeta partitioningValue = rowMeta.getValueMeta(data.indexOfPartitioningField);
       if (!partitioningValue.isDate() || r[data.indexOfPartitioningField] == null) {
-        throw new HopTransformException(
-            "Sorry, the partitioning field needs to contain a data value and can't be empty!");
+        throw new HopTransformException("Sorry, the partitioning field needs to contain a data value and can't be empty!");
       }
 
       Object partitioningValueData = rowMeta.getDate(r, data.indexOfPartitioningField);
-      tableName =
-          resolve(meta.getTableName())
-              + "_"
-              + data.dateFormater.format((Date) partitioningValueData);
+      tableName = resolve(meta.getTableName()) + "_" + data.dateFormater.format((Date) partitioningValueData);
       insertRowData = r;
     } else {
       tableName = data.tableName;
@@ -230,8 +214,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
 
     insertStatement = data.preparedStatements.get(tableName);
     if (insertStatement == null) {
-      String sql =
-          data.db.getInsertStatement(resolve(meta.getSchemaName()), tableName, data.insertRowMeta);
+      String sql = data.db.getInsertStatement(resolve(meta.getSchemaName()), tableName, data.insertRowMeta);
       if (log.isDetailed()) {
         logDetailed("Prepared statement : " + sql);
       }
@@ -247,10 +230,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
         data.savepoint = data.db.setSavepoint();
       }
       data.db.setValues(data.insertRowMeta, insertRowData, insertStatement);
-      data.db.insertRow(
-          insertStatement,
-          data.batchMode,
-          false); // false: no commit, it is handled in this transform differently
+      data.db.insertRow(insertStatement, data.batchMode, false); // false: no commit, it is handled in this transform differently
       if (isRowLevel()) {
         logRowlevel("Written row: " + data.insertRowMeta.getString(insertRowData));
       }
@@ -309,8 +289,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
           // we have to throw something here, else we don't know what the
           // type is of the returned key(s) and we would violate our own rule
           // that a hop should always contain rows of the same type.
-          throw new HopTransformException(
-              "No generated keys while \"return generated keys\" is active!");
+          throw new HopTransformException("No generated keys while \"return generated keys\" is active!");
         }
       }
     } catch (HopDatabaseBatchException be) {
@@ -326,8 +305,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
       } else {
         data.db.clearBatch(insertStatement);
         data.db.rollback();
-        StringBuilder msg =
-            new StringBuilder("Error batch inserting rows into table [" + tableName + "].");
+        StringBuilder msg = new StringBuilder("Error batch inserting rows into table [" + tableName + "].");
         msg.append(Const.CR);
         msg.append("Errors encountered (first 10):").append(Const.CR);
         for (int x = 0; x < be.getExceptionsList().size() && x < 10; x++) {
@@ -358,29 +336,16 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
         if (meta.isIgnoreErrors()) {
           if (data.warnings < 20) {
             if (log.isBasic()) {
-              logBasic(
-                  "WARNING: Couldn't insert row into table: "
-                      + rowMeta.getString(r)
-                      + Const.CR
-                      + dbe.getMessage());
+              logBasic("WARNING: Couldn't insert row into table: " + rowMeta.getString(r) + Const.CR + dbe.getMessage());
             }
           } else if (data.warnings == 20 && log.isBasic()) {
-            logBasic(
-                "FINAL WARNING (no more then 20 displayed): Couldn't insert row into table: "
-                    + rowMeta.getString(r)
-                    + Const.CR
-                    + dbe.getMessage());
+            logBasic("FINAL WARNING (no more then 20 displayed): Couldn't insert row into table: " + rowMeta.getString(r) + Const.CR + dbe.getMessage());
           }
           data.warnings++;
         } else {
           setErrors(getErrors() + 1);
           data.db.rollback();
-          throw new HopException(
-              "Error inserting row into table ["
-                  + tableName
-                  + "] with values: "
-                  + rowMeta.getString(r),
-              dbe);
+          throw new HopException("Error inserting row into table [" + tableName + "] with values: " + rowMeta.getString(r), dbe);
         }
       }
     }
@@ -431,8 +396,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
     return log.isRowLevel();
   }
 
-  private void processBatchException(
-      String errorMessage, int[] updateCounts, List<Exception> exceptionsList) throws HopException {
+  private void processBatchException(String errorMessage, int[] updateCounts, List<Exception> exceptionsList) throws HopException {
     // There was an error with the commit
     // We should put all the failing rows out there...
     //
@@ -485,9 +449,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
         // together with error handling
         // For these situations we can use savepoints to help out.
         //
-        data.useSafePoints =
-            data.databaseMeta.getIDatabase().isUseSafePoints()
-                && getTransformMeta().isDoingErrorHandling();
+        data.useSafePoints = data.databaseMeta.getIDatabase().isUseSafePoints() && getTransformMeta().isDoingErrorHandling();
 
         // Get the boolean that indicates whether or not we can/should release
         // savepoints during data load.
@@ -500,21 +462,14 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
         // - if you are running the pipeline as a single database transaction (unique connections)
         // - if we are reverting to save-points
         //
-        data.batchMode =
-            meta.isUseBatchUpdate()
-                && data.commitSize > 0
-                && !meta.isReturningGeneratedKeys()
-                && !data.useSafePoints;
+        data.batchMode = meta.isUseBatchUpdate() && data.commitSize > 0 && !meta.isReturningGeneratedKeys() && !data.useSafePoints;
 
         // give a warning that batch mode operation in combination with transform error handling can
         // lead to
         // incorrectly processed rows.
         //
-        if (getTransformMeta().isDoingErrorHandling()
-            && !dbInterface.IsSupportsErrorHandlingOnBatchUpdates()) {
-          log.logBasic(
-              BaseMessages.getString(
-                  PKG, "TableOutput.Warning.ErrorHandlingIsNotFullySupportedWithBatchProcessing"));
+        if (getTransformMeta().isDoingErrorHandling() && !dbInterface.IsSupportsErrorHandlingOnBatchUpdates()) {
+          log.logBasic(BaseMessages.getString(PKG, "TableOutput.Warning.ErrorHandlingIsNotFullySupportedWithBatchProcessing"));
         }
 
         if (!dbInterface.supportsStandardTableOutput()) {
@@ -525,12 +480,7 @@ public class TableOutput extends BaseTransform<TableOutputMeta, TableOutputData>
         data.db.connect();
 
         if (log.isBasic()) {
-          logBasic(
-              "Connected to database ["
-                  + variables.resolve(meta.getConnection())
-                  + "] (commit="
-                  + data.commitSize
-                  + ")");
+          logBasic("Connected to database [" + variables.resolve(meta.getConnection()) + "] (commit=" + data.commitSize + ")");
         }
 
         // Postpone commit as long as possible.

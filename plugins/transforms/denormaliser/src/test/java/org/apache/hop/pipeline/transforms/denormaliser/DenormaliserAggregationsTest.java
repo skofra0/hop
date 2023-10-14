@@ -51,10 +51,8 @@ public class DenormaliserAggregationsTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    mockHelper =
-        new TransformMockHelper<>("Denormaliser", DenormaliserMeta.class, DenormaliserData.class);
-    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(mockHelper.iLogChannel);
+    mockHelper = new TransformMockHelper<>("Denormaliser", DenormaliserMeta.class, DenormaliserData.class);
+    when(mockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(mockHelper.iLogChannel);
     when(mockHelper.pipeline.isRunning()).thenReturn(true);
   }
 
@@ -66,9 +64,7 @@ public class DenormaliserAggregationsTest {
   @Before
   public void setUp() throws Exception {
     Mockito.when(mockHelper.transformMeta.getTransform()).thenReturn(meta);
-    transform =
-        new Denormaliser(
-            mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
+    transform = new Denormaliser(mockHelper.transformMeta, meta, data, 0, mockHelper.pipelineMeta, mockHelper.pipeline);
   }
 
   /**
@@ -82,9 +78,7 @@ public class DenormaliserAggregationsTest {
     Long sto = new Long(100);
     data.targetResult = new Object[] {sto};
 
-    transform.deNormalise(
-        testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_SUM),
-        new Object[] {JUNIT, null});
+    transform.deNormalise(testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_SUM), new Object[] {JUNIT, null});
 
     Assert.assertEquals("100 + null = 100 ", sto, data.targetResult[0]);
   }
@@ -95,9 +89,7 @@ public class DenormaliserAggregationsTest {
     Long sto = new Long(100);
     data.targetResult = new Object[] {null};
 
-    transform.deNormalise(
-        testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_SUM),
-        new Object[] {JUNIT, sto});
+    transform.deNormalise(testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_SUM), new Object[] {JUNIT, sto});
 
     Assert.assertEquals("null + 100 = 100 ", sto, data.targetResult[0]);
   }
@@ -114,9 +106,7 @@ public class DenormaliserAggregationsTest {
     Long trinadzat = new Long(-13);
     data.targetResult = new Object[] {trinadzat};
 
-    transform.deNormalise(
-        testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_MIN),
-        new Object[] {JUNIT, null});
+    transform.deNormalise(testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_MIN), new Object[] {JUNIT, null});
 
     Assert.assertNull("Null now is new minimal", data.targetResult[0]);
   }
@@ -133,9 +123,7 @@ public class DenormaliserAggregationsTest {
     Long sto = new Long(100);
     data.targetResult = new Object[] {sto};
 
-    transform.deNormalise(
-        testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_MIN),
-        new Object[] {JUNIT, null});
+    transform.deNormalise(testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_MIN), new Object[] {JUNIT, null});
 
     Assert.assertEquals("Null is ignored", sto, data.targetResult[0]);
   }
@@ -190,8 +178,7 @@ public class DenormaliserAggregationsTest {
     Object[] rowData = new Object[10];
     data.targetResult = new Object[1];
     // this removal of input rows?
-    IRowMeta rmi =
-        testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_NONE);
+    IRowMeta rmi = testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_NONE);
     data.removeNrs = new int[] {0};
     Object[] outputRowData = transform.buildResult(rmi, rowData);
 
@@ -204,10 +191,7 @@ public class DenormaliserAggregationsTest {
 
     Object[] rowData = new Object[10];
     data.targetResult = new Object[1];
-    Object[] outputRowData =
-        transform.buildResult(
-            testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_NONE),
-            rowData);
+    Object[] outputRowData = transform.buildResult(testSumPreconditions(DenormaliserTargetField.DenormaliseAggregation.TYPE_AGGR_NONE), rowData);
 
     Assert.assertNull("Output row: nulls are nulls", outputRowData[3]);
   }

@@ -44,12 +44,12 @@ public class ActionWriteToLog extends ActionBase implements Cloneable, IAction {
   private static final Class<?> PKG = ActionWriteToLog.class; // For Translator
 
   /** The log level with which the message should be logged. */
-  @HopMetadataProperty(key = "loglevel", storeWithCode=true)
+  @HopMetadataProperty(key = "loglevel", storeWithCode = true)
   private LogLevel actionLogLevel;
-  
+
   @HopMetadataProperty(key = "logsubject")
   private String logSubject;
-  
+
   @HopMetadataProperty(key = "logmessage")
   private String logMessage;
 
@@ -200,9 +200,7 @@ public class ActionWriteToLog extends ActionBase implements Cloneable, IAction {
       return true;
     } catch (Exception e) {
       result.setNrErrors(1);
-      log.logError(
-          BaseMessages.getString(PKG, "WriteToLog.Error.Label"),
-          BaseMessages.getString(PKG, "WriteToLog.Error.Description") + " : " + e.toString());
+      log.logError(BaseMessages.getString(PKG, "WriteToLog.Error.Label"), BaseMessages.getString(PKG, "WriteToLog.Error.Description") + " : " + e.toString());
       return false;
     }
   }

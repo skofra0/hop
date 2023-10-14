@@ -34,6 +34,6 @@ public @interface DatabaseMetaPlugin {
   String typeDescription();
 
   String classLoaderGroup() default "";
-  
+
   String documentationUrl() default "";
 }

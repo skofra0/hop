@@ -44,10 +44,7 @@ public abstract class BaseResource {
         hop.getLog().logError(errorMessage);
       }
     }
-    return Response.serverError()
-        .status(Response.Status.INTERNAL_SERVER_ERROR)
-        .entity(errorMessage + (e == null ? "" : ("\n" + Const.getSimpleStackTrace(e))))
-        .type(MediaType.TEXT_PLAIN)
-        .build();
+    return Response.serverError().status(Response.Status.INTERNAL_SERVER_ERROR).entity(errorMessage + (e == null ? "" : ("\n" + Const.getSimpleStackTrace(e))))
+        .type(MediaType.TEXT_PLAIN).build();
   }
 }

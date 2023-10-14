@@ -22,11 +22,14 @@ import java.util.Objects;
 
 public class Address {
 
-  @HopMetadataProperty private String street;
+  @HopMetadataProperty
+  private String street;
 
-  @HopMetadataProperty private String number;
+  @HopMetadataProperty
+  private String number;
 
-  @HopMetadataProperty private City city;
+  @HopMetadataProperty
+  private City city;
 
   public Address() {}
 
@@ -45,9 +48,7 @@ public class Address {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(street, address.street)
-        && Objects.equals(number, address.number)
-        && Objects.equals(city, address.city);
+    return Objects.equals(street, address.street) && Objects.equals(number, address.number) && Objects.equals(city, address.city);
   }
 
   @Override

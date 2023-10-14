@@ -25,9 +25,7 @@ import java.io.ByteArrayInputStream;
 public class IgnoreDtdEntityResolver implements EntityResolver {
 
   @Override
-  public InputSource resolveEntity(String publicId, String systemId)
-      throws SAXException, java.io.IOException {
-    return new InputSource(
-        new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes()));
+  public InputSource resolveEntity(String publicId, String systemId) throws SAXException, java.io.IOException {
+    return new InputSource(new ByteArrayInputStream("<?xml version='1.0' encoding='UTF-8'?>".getBytes()));
   }
 }

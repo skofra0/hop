@@ -17,7 +17,7 @@
 package org.apache.hop.pipeline.transforms.fileinput;
 
 /** @deprecated replaced by implementation in the ...transforms.fileinput.text package */
-@Deprecated(since="2.0")
+@Deprecated(since = "2.0")
 public class TextFileFilter implements Cloneable {
   /** The position of the occurrence of the filter string to check at */
   private int filterPosition;
@@ -35,11 +35,10 @@ public class TextFileFilter implements Cloneable {
    * @param filterPosition The position of the occurrence of the filter string to check at
    * @param filterString The string to filter on
    * @param filterLastLine True if we want to stop when we reach a filter string on the specified
-   *     position False if you just want to skip the line.
+   *        position False if you just want to skip the line.
    * @param filterPositive True if we want to get only lines that match this string
    */
-  public TextFileFilter(
-      int filterPosition, String filterString, boolean filterLastLine, boolean filterPositive) {
+  public TextFileFilter(int filterPosition, String filterString, boolean filterLastLine, boolean filterPositive) {
     this.filterPosition = filterPosition;
     this.filterString = filterString;
     this.filterLastLine = filterLastLine;

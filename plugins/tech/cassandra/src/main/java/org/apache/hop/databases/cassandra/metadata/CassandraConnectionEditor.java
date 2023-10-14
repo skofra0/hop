@@ -41,8 +41,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class CassandraConnectionEditor extends MetadataEditor<CassandraConnection>
-    implements IMetadataEditor<CassandraConnection> {
+public class CassandraConnectionEditor extends MetadataEditor<CassandraConnection> implements IMetadataEditor<CassandraConnection> {
 
   private static final Class<?> PKG = CassandraConnectionEditor.class; // For Translator
 
@@ -52,8 +51,7 @@ public class CassandraConnectionEditor extends MetadataEditor<CassandraConnectio
   private Text wName;
   private GuiCompositeWidgets widgets;
 
-  public CassandraConnectionEditor(
-      HopGui hopGui, MetadataManager<CassandraConnection> manager, CassandraConnection metadata) {
+  public CassandraConnectionEditor(HopGui hopGui, MetadataManager<CassandraConnection> manager, CassandraConnection metadata) {
     super(hopGui, manager, metadata);
   }
 
@@ -95,14 +93,12 @@ public class CassandraConnectionEditor extends MetadataEditor<CassandraConnectio
 
     // Add changed listeners
     wName.addListener(SWT.Modify, e -> setChanged());
-    widgets.setWidgetsListener(
-        new GuiCompositeWidgetsAdapter() {
-          @Override
-          public void widgetModified(
-              GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
-            setChanged();
-          }
-        });
+    widgets.setWidgetsListener(new GuiCompositeWidgetsAdapter() {
+      @Override
+      public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+        setChanged();
+      }
+    });
   }
 
   @Override
@@ -137,9 +133,7 @@ public class CassandraConnectionEditor extends MetadataEditor<CassandraConnectio
     wbCql.setText("Execute CQL");
     wbCql.addListener(SWT.Selection, e -> execCql());
 
-    return new Button[] {
-      wbCql, wbSelectKeyspace, wbTest,
-    };
+    return new Button[] {wbCql, wbSelectKeyspace, wbTest,};
   }
 
   public void test() {
@@ -172,9 +166,7 @@ public class CassandraConnectionEditor extends MetadataEditor<CassandraConnectio
       try (DriverConnection connection = meta.createConnection(manager.getVariables(), false)) {
         connection.open();
         String[] keyspaceNames = connection.getKeyspaceNames();
-        EnterSelectionDialog dialog =
-            new EnterSelectionDialog(
-                getShell(), keyspaceNames, "Select keyspace", "Select the keyspace to use:");
+        EnterSelectionDialog dialog = new EnterSelectionDialog(getShell(), keyspaceNames, "Select keyspace", "Select the keyspace to use:");
         String keyspaceName = dialog.open();
         if (keyspaceName != null) {
           meta.setKeyspace(keyspaceName);
@@ -207,20 +199,14 @@ public class CassandraConnectionEditor extends MetadataEditor<CassandraConnectio
         CassandraConnection meta = new CassandraConnection();
         getWidgetsContent(meta);
 
-        int executed =
-            ExecCql.executeCqlStatements(
-                manager.getVariables(), LogChannel.UI, new Result(), meta, cql);
+        int executed = ExecCql.executeCqlStatements(manager.getVariables(), LogChannel.UI, new Result(), meta, cql);
         MessageBox box = new MessageBox(parent.getShell(), SWT.ICON_INFORMATION | SWT.OK);
         box.setText("Success!");
         box.setMessage(+executed + " CQL statements were executed.");
         box.open();
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          parent.getShell(),
-          "Error",
-          "There was an error executing CQL on this Cassandra cluster",
-          e);
+      new ErrorDialog(parent.getShell(), "Error", "There was an error executing CQL on this Cassandra cluster", e);
     }
   }
 }

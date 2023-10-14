@@ -47,14 +47,10 @@ public class GeneratorField {
   private String group;
 
   // Yeah, it has a key of "nullif", keep it for backward compatibility
-  @HopMetadataProperty(
-      key = "nullif",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.Field.Value")
+  @HopMetadataProperty(key = "nullif", injectionKeyDescription = "RowGeneratorMeta.Injection.Field.Value")
   private String value;
 
-  @HopMetadataProperty(
-      key = "set_empty_string",
-      injectionKeyDescription = "RowGeneratorMeta.Injection.Field.SetEmptyString")
+  @HopMetadataProperty(key = "set_empty_string", injectionKeyDescription = "RowGeneratorMeta.Injection.Field.SetEmptyString")
   private boolean setEmptyString;
 
   public GeneratorField() {}
@@ -72,17 +68,7 @@ public class GeneratorField {
     this.setEmptyString = f.setEmptyString;
   }
 
-  public GeneratorField(
-      String name,
-      String type,
-      String format,
-      int length,
-      int precision,
-      String currency,
-      String decimal,
-      String group,
-      String value,
-      boolean setEmptyString) {
+  public GeneratorField(String name, String type, String format, int length, int precision, String currency, String decimal, String group, String value, boolean setEmptyString) {
     this.name = name;
     this.type = type;
     this.format = format;

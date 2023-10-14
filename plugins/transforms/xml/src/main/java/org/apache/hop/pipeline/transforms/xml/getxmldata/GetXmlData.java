@@ -66,19 +66,11 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
 
   private Object[] prevRow = null; // A pre-allocated spot for the previous row
 
-  public GetXmlData(
-      TransformMeta transformMeta,
-      GetXmlDataMeta meta,
-      GetXmlDataData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline trans) {
+  public GetXmlData(TransformMeta transformMeta, GetXmlDataMeta meta, GetXmlDataData data, int copyNr, PipelineMeta pipelineMeta, Pipeline trans) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, trans);
   }
 
-  protected boolean setDocument(
-      String stringXML, FileObject file, boolean isInXMLField, boolean readurl)
-      throws HopException {
+  protected boolean setDocument(String stringXML, FileObject file, boolean isInXMLField, boolean readurl) throws HopException {
 
     this.prevRow = buildEmptyRow(); // pre-allocate previous row
 
@@ -109,57 +101,53 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
           data.an = new ArrayList<>(1); // pre-allocate array and sizes
           data.an.add(null);
         }
-        reader.addHandler(
-            data.prunePath,
-            new ElementHandler() {
-              @Override
-              public void onStart(ElementPath path) {
-                // do nothing here...
-              }
+        reader.addHandler(data.prunePath, new ElementHandler() {
+          @Override
+          public void onStart(ElementPath path) {
+            // do nothing here...
+          }
 
-              @Override
-              public void onEnd(ElementPath path) {
-                long rowLimit = meta.getRowLimit();
-                if (isStopped() || (rowLimit > 0 && data.rownr > rowLimit)) {
-                  // when a large file is processed and it should be stopped it is still reading the
-                  // hole thing
-                  // the only solution I see is to prune / detach the document and this will lead
-                  // into a
-                  // NPE or other errors depending on the parsing location - this will be treated in
-                  // the catch part below
-                  // any better idea is welcome
-                  if (log.isBasic()) {
-                    logBasic(BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.Stopped"));
-                  }
-                  data.stopPruning = true;
-                  path.getCurrent().getDocument().detach(); // trick to stop reader
-                  return;
-                }
-
-                // process a ROW element
-                if (log.isDebug()) {
-                  logDebug(
-                      BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.StartProcessing"));
-                }
-                Element row = path.getCurrent();
-                try {
-                  // Pass over the row instead of just the document. If
-                  // if there's only one row, there's no need to
-                  // go back to the whole document.
-                  processStreaming(row);
-                } catch (Exception e) {
-                  // catch the HopException or others and forward to caller, e.g. when applyXPath()
-                  // has a problem
-                  throw new RuntimeException(e);
-                }
-                // prune the tree
-                row.detach();
-                if (log.isDebug()) {
-                  logDebug(
-                      BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.EndProcessing"));
-                }
+          @Override
+          public void onEnd(ElementPath path) {
+            long rowLimit = meta.getRowLimit();
+            if (isStopped() || (rowLimit > 0 && data.rownr > rowLimit)) {
+              // when a large file is processed and it should be stopped it is still reading the
+              // hole thing
+              // the only solution I see is to prune / detach the document and this will lead
+              // into a
+              // NPE or other errors depending on the parsing location - this will be treated in
+              // the catch part below
+              // any better idea is welcome
+              if (log.isBasic()) {
+                logBasic(BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.Stopped"));
               }
-            });
+              data.stopPruning = true;
+              path.getCurrent().getDocument().detach(); // trick to stop reader
+              return;
+            }
+
+            // process a ROW element
+            if (log.isDebug()) {
+              logDebug(BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.StartProcessing"));
+            }
+            Element row = path.getCurrent();
+            try {
+              // Pass over the row instead of just the document. If
+              // if there's only one row, there's no need to
+              // go back to the whole document.
+              processStreaming(row);
+            } catch (Exception e) {
+              // catch the HopException or others and forward to caller, e.g. when applyXPath()
+              // has a problem
+              throw new RuntimeException(e);
+            }
+            // prune the tree
+            row.detach();
+            if (log.isDebug()) {
+              logDebug(BaseMessages.getString(PKG, "GetXMLData.Log.StreamingMode.EndProcessing"));
+            }
+          }
+        });
       }
 
       if (isInXMLField) {
@@ -239,8 +227,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
       }
       Object[] r = getXmlRowPutRowWithErrorhandling();
       if (!data.errorInRowButContinue) { // do not put out the row but continue
-        putRowOut(
-            r); // false when limit is reached, functionality is there but we can not stop reading
+        putRowOut(r); // false when limit is reached, functionality is there but we can not stop reading
         // the hole file
         // (slow but works)
       }
@@ -263,9 +250,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
       if (data.errorInRowButContinue) {
         continue; // do not put out the row but continue
       }
-      cont =
-          putRowOut(
-              r); // false when limit is reached, functionality is there but we can not stop reading
+      cont = putRowOut(r); // false when limit is reached, functionality is there but we can not stop reading
       // the hole
       // file (slow but works)
     }
@@ -288,12 +273,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         Element element = l;
         while (element != null) {
           if (element.getNamespacePrefix() != null && element.getNamespacePrefix().length() > 0) {
-            path =
-                GetXmlDataMeta.N0DE_SEPARATOR
-                    + element.getNamespacePrefix()
-                    + ":"
-                    + element.getName()
-                    + path;
+            path = GetXmlDataMeta.N0DE_SEPARATOR + element.getNamespacePrefix() + ":" + element.getName() + path;
           } else {
             path = GetXmlDataMeta.N0DE_SEPARATOR + element.getName() + path;
           }
@@ -325,23 +305,17 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
     List<FileObject> nonExistantFiles = data.files.getNonExistentFiles();
     if (nonExistantFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
-      logError(
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFiles", message));
+      logError(BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFiles", message));
 
-      throw new HopException(
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesMissing", message));
+      throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesMissing", message));
     }
 
     List<FileObject> nonAccessibleFiles = data.files.getNonAccessibleFiles();
     if (nonAccessibleFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
-      logError(
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredNotAccessibleFiles", message));
+      logError(BaseMessages.getString(PKG, "GetXMLData.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "GetXMLData.Log.RequiredNotAccessibleFiles", message));
 
-      throw new HopException(
-          BaseMessages.getString(PKG, "GetXMLData.Log.RequiredNotAccessibleFilesMissing", message));
+      throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.RequiredNotAccessibleFilesMissing", message));
     }
   }
 
@@ -374,8 +348,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         // Create convert meta-data objects that will contain Date & Number formatters
         data.convertRowMeta = new RowMeta();
         for (IValueMeta valueMeta : data.convertRowMeta.getValueMetaList()) {
-          data.convertRowMeta.addValueMeta(
-              ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING));
+          data.convertRowMeta.addValueMeta(ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING));
         }
 
         // For String to <type> conversions, we allocate a conversion meta data row as well...
@@ -393,12 +366,8 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
           data.indexOfXmlField = getInputRowMeta().indexOfValue(meta.getXMLField());
           if (data.indexOfXmlField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(
-                    PKG, "GetXMLData.Log.ErrorFindingField", meta.getXMLField()));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "GetXMLData.Exception.CouldnotFindField", meta.getXMLField()));
+            logError(BaseMessages.getString(PKG, "GetXMLData.Log.ErrorFindingField", meta.getXMLField()));
+            throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Exception.CouldnotFindField", meta.getXMLField()));
           }
         }
       }
@@ -408,9 +377,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         String fieldvalue = getInputRowMeta().getString(data.readrow, data.indexOfXmlField);
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "GetXMLData.Log.XMLStream", meta.getXMLField(), fieldvalue));
+          logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.XMLStream", meta.getXMLField(), fieldvalue));
         }
 
         if (meta.getIsAFile()) {
@@ -420,32 +387,23 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
             file = HopVfs.getFileObject(resolve(fieldvalue));
 
             if (meta.isIgnoreEmptyFile() && file.getContent().getSize() == 0) {
-              logBasic(
-                  BaseMessages.getString(
-                      PKG, "GetXMLData.Error.FileSizeZero", "" + file.getName()));
+              logBasic(BaseMessages.getString(PKG, "GetXMLData.Error.FileSizeZero", "" + file.getName()));
               return ReadNextString();
             }
 
             // Open the XML document
             if (!setDocument(null, file, false, false)) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
+              throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
             }
 
             if (!applyXPath()) {
-              throw new HopException(
-                  BaseMessages.getString(PKG, "GetXMLData.Log.UnableApplyXPath"));
+              throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.UnableApplyXPath"));
             }
 
             addFileToResultFilesname(file);
 
             if (log.isDetailed()) {
-              logDetailed(
-                  BaseMessages.getString(
-                      PKG,
-                      "GetXMLData.Log.LoopFileOccurences",
-                      "" + data.nodesize,
-                      file.getName().getBaseName()));
+              logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.LoopFileOccurences", "" + data.nodesize, file.getName().getBaseName()));
             }
 
           } catch (Exception e) {
@@ -469,8 +427,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
 
           // Open the XML document
           if (!setDocument(fieldvalue, null, xmltring, url)) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
+            throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
           }
 
           // Apply XPath and set node list
@@ -478,9 +435,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
             throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.UnableApplyXPath"));
           }
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "GetXMLData.Log.LoopFileOccurences", "" + data.nodesize));
+            logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.LoopFileOccurences", "" + data.nodesize));
           }
         }
       }
@@ -497,9 +452,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
   private void addFileToResultFilesname(FileObject file) throws Exception {
     if (meta.addResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment(BaseMessages.getString(PKG, "GetXMLData.Log.FileAddedResult"));
       addResultFile(resultFile);
     }
@@ -522,11 +475,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
       int length = 0;
       for (int i = 0; i < data.NSPath.size(); i++) {
         if (data.NSPath.get(i).length() > length && fullPath.startsWith(data.NSPath.get(i))) {
-          java.util.Arrays.fill(
-              indexs,
-              data.NSPath.get(i).split(GetXmlDataMeta.N0DE_SEPARATOR).length - 2,
-              indexs.length,
-              i);
+          java.util.Arrays.fill(indexs, data.NSPath.get(i).split(GetXmlDataMeta.N0DE_SEPARATOR).length - 2, indexs.length, i);
           length = data.NSPath.get(i).length();
         }
       }
@@ -538,10 +487,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         if (newPath.length() > 0) {
           newPath.append(GetXmlDataMeta.N0DE_SEPARATOR);
         }
-        if (tmp.length() > 0
-            && !tmp.contains(":")
-            && !tmp.contains(".")
-            && !tmp.contains(GetXmlDataMeta.AT)) {
+        if (tmp.length() > 0 && !tmp.contains(":") && !tmp.contains(".") && !tmp.contains(GetXmlDataMeta.AT)) {
           int index = indexs[i + indexs.length - pathStrs.length];
           if (index >= 0) {
             newPath.append("pre").append(index).append(":").append(tmp);
@@ -602,8 +548,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
       if (meta.getExtensionField() != null && meta.getExtensionField().length() > 0) {
         data.extension = data.file.getName().getExtension();
       }
-      if (meta.getLastModificationDateField() != null
-          && meta.getLastModificationDateField().length() > 0) {
+      if (meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0) {
         data.lastModificationDateTime = new Date(data.file.getContent().getLastModifiedTime());
       }
       if (meta.getUriField() != null && meta.getUriField().length() > 0) {
@@ -628,14 +573,12 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
 
       if (meta.isIgnoreEmptyFile() && fileSize == 0) {
         // log only basic as a warning (was before logError)
-        logBasic(
-            BaseMessages.getString(PKG, "GetXMLData.Error.FileSizeZero", "" + data.file.getName()));
+        logBasic(BaseMessages.getString(PKG, "GetXMLData.Error.FileSizeZero", "" + data.file.getName()));
         openNextFile();
 
       } else {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "GetXMLData.Log.OpeningFile", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.OpeningFile", data.file.toString()));
         }
 
         // Open the XML document
@@ -643,8 +586,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
           if (data.stopPruning) {
             return false; // ignore error when stopped while pruning
           }
-          throw new HopException(
-              BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
+          throw new HopException(BaseMessages.getString(PKG, "GetXMLData.Log.UnableCreateDocument"));
         }
 
         // Apply XPath and set node list
@@ -657,24 +599,12 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         addFileToResultFilesname(data.file);
 
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "GetXMLData.Log.FileOpened", data.file.toString()));
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "GetXMLData.Log.LoopFileOccurences",
-                  "" + data.nodesize,
-                  data.file.getName().getBaseName()));
+          logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.FileOpened", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "GetXMLData.Log.LoopFileOccurences", "" + data.nodesize, data.file.getName().getBaseName()));
         }
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "GetXMLData.Log.UnableToOpenFile",
-              "" + data.filenr,
-              data.file.toString(),
-              e.toString()));
+      logError(BaseMessages.getString(PKG, "GetXMLData.Log.UnableToOpenFile", "" + data.filenr, data.file.toString(), e.toString()));
       stopAll();
       setErrors(1);
       return false;
@@ -720,8 +650,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
 
   private boolean putRowOut(Object[] r) throws HopException {
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "GetXMLData.Log.ReadRow", data.outputRowMeta.getString(r)));
+      logRowlevel(BaseMessages.getString(PKG, "GetXMLData.Log.ReadRow", data.outputRowMeta.getString(r)));
     }
     incrementLinesInput();
     data.rownr++;
@@ -851,14 +780,12 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         //
         IValueMeta targetValueMeta = data.outputRowMeta.getValueMeta(data.totalpreviousfields + i);
         IValueMeta sourceValueMeta = data.convertRowMeta.getValueMeta(data.totalpreviousfields + i);
-        outputRowData[data.totalpreviousfields + i] =
-            targetValueMeta.convertData(sourceValueMeta, nodevalue);
+        outputRowData[data.totalpreviousfields + i] = targetValueMeta.convertData(sourceValueMeta, nodevalue);
 
         // Do we need to repeat this field if it is null?
         if (meta.getInputFields()[i].isRepeated()) {
           if (data.previousRow != null && Utils.isEmpty(nodevalue)) {
-            outputRowData[data.totalpreviousfields + i] =
-                data.previousRow[data.totalpreviousfields + i];
+            outputRowData[data.totalpreviousfields + i] = data.previousRow[data.totalpreviousfields + i];
           }
         }
       } // End of loop over fields...
@@ -894,8 +821,7 @@ public class GetXmlData extends BaseTransform<GetXmlDataMeta, GetXmlDataData> {
         outputRowData[rowIndex++] = Boolean.valueOf(data.path);
       }
       // Add modification date
-      if (meta.getLastModificationDateField() != null
-          && meta.getLastModificationDateField().length() > 0) {
+      if (meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0) {
         outputRowData[rowIndex++] = data.lastModificationDateTime;
       }
       // Add Uri

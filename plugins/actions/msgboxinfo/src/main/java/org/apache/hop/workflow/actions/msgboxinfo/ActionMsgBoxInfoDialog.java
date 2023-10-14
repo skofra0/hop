@@ -55,8 +55,7 @@ public class ActionMsgBoxInfoDialog extends ActionDialog implements IActionDialo
 
   private TextVar wTitleMessage;
 
-  public ActionMsgBoxInfoDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionMsgBoxInfoDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionMsgBoxInfo) action;
     if (this.action.getName() == null) {
@@ -143,9 +142,7 @@ public class ActionMsgBoxInfoDialog extends ActionDialog implements IActionDialo
     fdlBodyMessage.right = new FormAttachment(middle, -margin);
     wlBodyMessage.setLayoutData(fdlBodyMessage);
 
-    wBodyMessage =
-        new TextVar(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wBodyMessage = new TextVar(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wBodyMessage.setText(BaseMessages.getString(PKG, "MsgBoxInfo.Name.Default"));
     PropsUi.setLook(wBodyMessage, Props.WIDGET_STYLE_FIXED);
     wBodyMessage.addModifyListener(lsMod);

@@ -65,8 +65,7 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
   private Button wAllowCommitConsumed;
   private TableView wConfigOptions;
 
-  public BeamConsumeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamConsumeDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamConsumeMeta) in;
   }
@@ -214,7 +213,7 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
     fdlMessageType.right = new FormAttachment(middle, -margin);
     wlMessageType.setLayoutData(fdlMessageType);
     wMessageType = new ComboVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wMessageType.setItems(new String[] { "String", "Avro Record" });
+    wMessageType.setItems(new String[] {"String", "Avro Record"});
     PropsUi.setLook(wMessageType);
     FormData fdMessageType = new FormData();
     fdMessageType.left = new FormAttachment(middle, 0);
@@ -256,7 +255,7 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
     fdSchemaRegistrySubject.right = new FormAttachment(100, 0);
     wSchemaRegistrySubject.setLayoutData(fdSchemaRegistrySubject);
     lastControl = wSchemaRegistrySubject;
-    
+
     Label wlUseProcessingTime = new Label(shell, SWT.RIGHT);
     wlUseProcessingTime.setText(BaseMessages.getString(PKG, "BeamProduceDialog.UseProcessingTime"));
     PropsUi.setLook(wlUseProcessingTime);
@@ -309,8 +308,7 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
     lastControl = wUseCreateTime;
 
     Label wlRestrictToCommitted = new Label(shell, SWT.RIGHT);
-    wlRestrictToCommitted.setText(
-        BaseMessages.getString(PKG, "BeamProduceDialog.RestrictToCommitted"));
+    wlRestrictToCommitted.setText(BaseMessages.getString(PKG, "BeamProduceDialog.RestrictToCommitted"));
     PropsUi.setLook(wlRestrictToCommitted);
     FormData fdlRestrictToCommitted = new FormData();
     fdlRestrictToCommitted.left = new FormAttachment(0, 0);
@@ -327,8 +325,7 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
     lastControl = wlRestrictToCommitted;
 
     Label wlAllowCommitConsumed = new Label(shell, SWT.RIGHT);
-    wlAllowCommitConsumed.setText(
-        BaseMessages.getString(PKG, "BeamProduceDialog.AllowCommitConsumed"));
+    wlAllowCommitConsumed.setText(BaseMessages.getString(PKG, "BeamProduceDialog.AllowCommitConsumed"));
     PropsUi.setLook(wlAllowCommitConsumed);
     FormData fdlAllowCommitConsumed = new FormData();
     fdlAllowCommitConsumed.left = new FormAttachment(0, 0);
@@ -356,26 +353,13 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Parameter"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ConfigOption.Type.getTypeNames(),
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Parameter"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamProduceDialog.ConfigOptions.Column.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ConfigOption.Type.getTypeNames(), false),};
     columns[0].setUsingVariables(true);
     columns[1].setUsingVariables(true);
 
-    wConfigOptions =
-        new TableView(
-            variables, shell, SWT.NONE, columns, input.getConfigOptions().size(), null, props);
+    wConfigOptions = new TableView(variables, shell, SWT.NONE, columns, input.getConfigOptions().size(), null, props);
     PropsUi.setLook(wConfigOptions);
     FormData fdConfigOptions = new FormData();
     fdConfigOptions.left = new FormAttachment(0, 0);
@@ -384,24 +368,18 @@ public class BeamConsumeDialog extends BaseTransformDialog implements ITransform
     fdConfigOptions.bottom = new FormAttachment(wOk, -margin * 2);
     wConfigOptions.setLayoutData(fdConfigOptions);
 
-    wUseProcessingTime.addListener(
-        SWT.Selection,
-        e -> {
-          wUseLogAppendTime.setSelection(false);
-          wUseCreateTime.setSelection(false);
-        });
-    wUseLogAppendTime.addListener(
-        SWT.Selection,
-        e -> {
-          wUseProcessingTime.setSelection(false);
-          wUseCreateTime.setSelection(false);
-        });
-    wUseCreateTime.addListener(
-        SWT.Selection,
-        e -> {
-          wUseProcessingTime.setSelection(false);
-          wUseLogAppendTime.setSelection(false);
-        });
+    wUseProcessingTime.addListener(SWT.Selection, e -> {
+      wUseLogAppendTime.setSelection(false);
+      wUseCreateTime.setSelection(false);
+    });
+    wUseLogAppendTime.addListener(SWT.Selection, e -> {
+      wUseProcessingTime.setSelection(false);
+      wUseCreateTime.setSelection(false);
+    });
+    wUseCreateTime.addListener(SWT.Selection, e -> {
+      wUseProcessingTime.setSelection(false);
+      wUseLogAppendTime.setSelection(false);
+    });
 
     getData();
 

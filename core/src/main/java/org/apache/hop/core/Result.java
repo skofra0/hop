@@ -38,20 +38,21 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  *
  * <ul>
- *   <li>Number of errors the workflow or pipeline encountered
- *   <li>Number of lines input
- *   <li>Number of lines output
- *   <li>Number of lines updated
- *   <li>Number of lines read
- *   <li>Number of lines written
- *   <li>Number of lines deleted
- *   <li>Number of lines rejected
- *   <li>Number of files retrieved
- *   <li>Boolean result of the execution
- *   <li>Exit status value
- *   <li>Whether the pipeline was stopped
- *   <li>Logging information (channel ID and text)
- *       <p>After execution of a workflow or pipeline, the Result can be evaluated.
+ * <li>Number of errors the workflow or pipeline encountered
+ * <li>Number of lines input
+ * <li>Number of lines output
+ * <li>Number of lines updated
+ * <li>Number of lines read
+ * <li>Number of lines written
+ * <li>Number of lines deleted
+ * <li>Number of lines rejected
+ * <li>Number of files retrieved
+ * <li>Boolean result of the execution
+ * <li>Exit status value
+ * <li>Whether the pipeline was stopped
+ * <li>Logging information (channel ID and text)
+ * <p>
+ * After execution of a workflow or pipeline, the Result can be evaluated.
  */
 public class Result implements Cloneable {
 
@@ -222,13 +223,7 @@ public class Result implements Cloneable {
    */
   @Override
   public String toString() {
-    return "nr="
-        + entryNr
-        + ", errors="
-        + nrErrors
-        + ", exit_status="
-        + exitStatus
-        + (stopped ? " (Stopped)" : "" + ", result=" + result);
+    return "nr=" + entryNr + ", errors=" + nrErrors + ", exit_status=" + exitStatus + (stopped ? " (Stopped)" : "" + ", result=" + result);
   }
 
   /**
@@ -624,8 +619,7 @@ public class Result implements Cloneable {
     int nrResultFiles = XmlHandler.countNodes(resultFilesNode, XML_FILE_TAG);
     for (int i = 0; i < nrResultFiles; i++) {
       try {
-        ResultFile resultFile =
-            new ResultFile(XmlHandler.getSubNodeByNr(resultFilesNode, XML_FILE_TAG, i));
+        ResultFile resultFile = new ResultFile(XmlHandler.getSubNodeByNr(resultFilesNode, XML_FILE_TAG, i));
         resultFiles.put(resultFile.getFile().toString(), resultFile);
       } catch (HopFileException e) {
         throw new HopException("Unexpected error reading back a ResultFile object from XML", e);
@@ -672,7 +666,7 @@ public class Result implements Cloneable {
    * Sets the result files for this Result to the specified Map of ResultFile objects
    *
    * @param usedFiles The Map of result files to set. This is a Map with the filename as key and
-   *     ResultFile object as value
+   *        ResultFile object as value
    * @see ResultFile
    */
   public void setResultFiles(Map<String, ResultFile> usedFiles) {
@@ -836,7 +830,7 @@ public class Result implements Cloneable {
    * Sets a unique identifier of an ETL execution, should one ever care to declare one such
    *
    * @param executionId unique identifier of an ETL execution, should one ever care to declare one
-   *     such
+   *        such
    */
   public void setExecutionId(String executionId) {
     this.executionId = executionId;

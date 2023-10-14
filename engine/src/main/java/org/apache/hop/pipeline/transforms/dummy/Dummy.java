@@ -24,17 +24,10 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Do nothing. Pass all input data to the next transforms. */
-public class Dummy extends BaseTransform<DummyMeta, DummyData>
-{
+public class Dummy extends BaseTransform<DummyMeta, DummyData> {
   private static final Class<?> PKG = DummyMeta.class; // For Translator
 
-  public Dummy(
-      TransformMeta transformMeta,
-      DummyMeta meta,
-      DummyData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Dummy(TransformMeta transformMeta, DummyMeta meta, DummyData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

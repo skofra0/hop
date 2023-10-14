@@ -49,8 +49,7 @@ import org.eclipse.swt.widgets.Text;
 public class ActionCheckFilesLockedDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionCheckFilesLocked.class; // For Translator
 
-  private static final String[] FILETYPES =
-      new String[] {BaseMessages.getString(PKG, "ActionCheckFilesLocked.Filetype.All")};
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionCheckFilesLocked.Filetype.All")};
 
   private Text wName;
 
@@ -77,8 +76,7 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
   private Button wbeFilename; // Edit
   private Button wbaFilename; // Add or change
 
-  public ActionCheckFilesLockedDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionCheckFilesLockedDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionCheckFilesLocked) action;
 
@@ -151,8 +149,7 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wSettings.setLayout(groupLayout);
 
     Label wlIncludeSubfolders = new Label(wSettings, SWT.RIGHT);
-    wlIncludeSubfolders.setText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.IncludeSubfolders.Label"));
+    wlIncludeSubfolders.setText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.IncludeSubfolders.Label"));
     PropsUi.setLook(wlIncludeSubfolders);
     FormData fdlIncludeSubfolders = new FormData();
     fdlIncludeSubfolders.left = new FormAttachment(0, 0);
@@ -161,20 +158,18 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wlIncludeSubfolders.setLayoutData(fdlIncludeSubfolders);
     wIncludeSubfolders = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubfolders);
-    wIncludeSubfolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.IncludeSubfolders.Tooltip"));
+    wIncludeSubfolders.setToolTipText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.IncludeSubfolders.Tooltip"));
     FormData fdIncludeSubfolders = new FormData();
     fdIncludeSubfolders.left = new FormAttachment(middle, 0);
     fdIncludeSubfolders.top = new FormAttachment(wlIncludeSubfolders, 0, SWT.CENTER);
     fdIncludeSubfolders.right = new FormAttachment(100, 0);
     wIncludeSubfolders.setLayoutData(fdIncludeSubfolders);
-    wIncludeSubfolders.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wIncludeSubfolders.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     Label wlPrevious = new Label(wSettings, SWT.RIGHT);
     wlPrevious.setText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Previous.Label"));
@@ -187,21 +182,19 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wPrevious = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wPrevious);
     wPrevious.setSelection(action.argFromPrevious);
-    wPrevious.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.Previous.Tooltip"));
+    wPrevious.setToolTipText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Previous.Tooltip"));
     FormData fdPrevious = new FormData();
     fdPrevious.left = new FormAttachment(middle, 0);
     fdPrevious.top = new FormAttachment(wlPrevious, 0, SWT.CENTER);
     fdPrevious.right = new FormAttachment(100, 0);
     wPrevious.setLayoutData(fdPrevious);
-    wPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setPrevious();
-            action.setChanged();
-          }
-        });
+    wPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setPrevious();
+        action.setChanged();
+      }
+    });
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
     fdSettings.top = new FormAttachment(wName, margin);
@@ -231,8 +224,7 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     fdbDirectory.top = new FormAttachment(wSettings, margin);
     wbDirectory.setLayoutData(fdbDirectory);
 
-    wbDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFilename, variables));
+    wbDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wFilename, variables));
 
     wbFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbFilename);
@@ -261,14 +253,9 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wFilename.setLayoutData(fdFilename);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilename.addModifyListener(
-        e -> wFilename.setToolTipText(this.variables.resolve(wFilename.getText())));
+    wFilename.addModifyListener(e -> wFilename.setToolTipText(this.variables.resolve(wFilename.getText())));
 
-    wbFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
+    wbFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*"}, FILETYPES, true));
 
     // Filemask
     wlFilemask = new Label(shell, SWT.RIGHT);
@@ -279,12 +266,7 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     fdlFilemask.top = new FormAttachment(wFilename, margin);
     fdlFilemask.right = new FormAttachment(middle, -margin);
     wlFilemask.setLayoutData(fdlFilemask);
-    wFilemask =
-        new TextVar(
-            variables,
-            shell,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionCheckFilesLocked.Wildcard.Tooltip"));
+    wFilemask = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionCheckFilesLocked.Wildcard.Tooltip"));
     PropsUi.setLook(wFilemask);
     wFilemask.addModifyListener(lsMod);
     FormData fdFilemask = new FormData();
@@ -305,10 +287,8 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     // Buttons to the right of the screen...
     wbdFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
-    wbdFilename.setText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameDelete.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameDelete.Tooltip"));
+    wbdFilename.setText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameDelete.Button"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameDelete.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wlFields, margin);
@@ -317,44 +297,27 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wbeFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFilename);
     wbeFilename.setText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameEdit.Button"));
-    wbeFilename.setToolTipText(
-        BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameEdit.Tooltip"));
+    wbeFilename.setToolTipText(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FilenameEdit.Tooltip"));
     FormData fdbeFilename = new FormData();
     fdbeFilename.right = new FormAttachment(100, 0);
     fdbeFilename.left = new FormAttachment(wbdFilename, 0, SWT.LEFT);
     fdbeFilename.top = new FormAttachment(wbdFilename, margin);
     wbeFilename.setLayoutData(fdbeFilename);
 
-    int rows =
-        action.arguments == null ? 1 : (action.arguments.length == 0 ? 0 : action.arguments.length);
+    int rows = action.arguments == null ? 1 : (action.arguments.length == 0 ? 0 : action.arguments.length);
     final int FieldsRows = rows;
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCheckFilesLocked.Fields.Argument.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ActionCheckFilesLocked.Fields.Wildcard.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Fields.Argument.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Fields.Wildcard.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
     colinf[0].setUsingVariables(true);
     colinf[0].setToolTip(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Fields.Column"));
     colinf[1].setUsingVariables(true);
     colinf[1].setToolTip(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Wildcard.Column"));
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -367,49 +330,46 @@ public class ActionCheckFilesLockedDialog extends ActionDialog implements IActio
     wFields.setEnabled(!action.argFromPrevious);
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFields.add(new String[] {wFilename.getText(), wFilemask.getText()});
-            wFilename.setText("");
-            wFilemask.setText("");
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-            wFields.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFields.add(new String[] {wFilename.getText(), wFilemask.getText()});
+        wFilename.setText("");
+        wFilemask.setText("");
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+        wFields.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFields.getSelectionIndices();
-            wFields.remove(idx);
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbdFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFields.getSelectionIndices();
+        wFields.remove(idx);
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFields.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFields.getItem(idx);
-              wFilename.setText(string[0]);
-              wFilemask.setText(string[1]);
-              wFields.remove(idx);
-            }
-            wFields.removeEmptyRows();
-            wFields.setRowNums();
-          }
-        });
+    wbeFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFields.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFields.getItem(idx);
+          wFilename.setText(string[0]);
+          wFilemask.setText(string[1]);
+          wFields.remove(idx);
+        }
+        wFields.removeEmptyRows();
+        wFields.setRowNums();
+      }
+    });
 
     // Add listeners
     getData();

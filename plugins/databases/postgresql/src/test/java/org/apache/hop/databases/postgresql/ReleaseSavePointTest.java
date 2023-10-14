@@ -23,10 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReleaseSavePointTest {
 
-  IDatabase[] support =
-      new IDatabase[] {
-        new PostgreSqlDatabaseMeta(),
-      };
+  IDatabase[] support = new IDatabase[] {new PostgreSqlDatabaseMeta(),};
 
   @Test
   public void testReleaseSavePointBooleans() {

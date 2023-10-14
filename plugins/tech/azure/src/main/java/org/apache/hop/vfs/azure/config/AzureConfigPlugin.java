@@ -34,13 +34,9 @@ import org.apache.hop.ui.hopgui.perspective.configuration.tabs.ConfigPluginOptio
 import org.eclipse.swt.widgets.Control;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "AzureConfigPlugin",
-    description = "Configuration options for Azure",
-    category = ConfigPlugin.CATEGORY_CONFIG)
-@GuiPlugin(
-    description = "Azure" // Tab label in options dialog
-    )
+@ConfigPlugin(id = "AzureConfigPlugin", description = "Configuration options for Azure", category = ConfigPlugin.CATEGORY_CONFIG)
+@GuiPlugin(description = "Azure" // Tab label in options dialog
+)
 public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
   private static final String WIDGET_ID_AZURE_ACCOUNT = "10000-azure-account";
@@ -53,9 +49,7 @@ public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWid
       type = GuiElementType.TEXT,
       variables = true,
       label = "Your Azure account")
-  @CommandLine.Option(
-      names = {"-aza", "--azure-account"},
-      description = "The account to use for the Azure VFS")
+  @CommandLine.Option(names = {"-aza", "--azure-account"}, description = "The account to use for the Azure VFS")
   private String account;
 
   @GuiWidgetElement(
@@ -65,9 +59,7 @@ public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWid
       variables = true,
       password = true,
       label = "Your Azure key")
-  @CommandLine.Option(
-      names = {"-azk", "--azure-key"},
-      description = "The key to use for the Azure VFS")
+  @CommandLine.Option(names = {"-azk", "--azure-key"}, description = "The key to use for the Azure VFS")
   private String key;
 
   @GuiWidgetElement(
@@ -76,10 +68,9 @@ public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWid
       type = GuiElementType.TEXT,
       variables = true,
       label = "File block increment size (multiples of 512 only)")
-  @CommandLine.Option(
-      names = {"-azi", "--azure-block-increment"},
-      description = "The block increment size for new files on Azure, multiples of 512 only.")
+  @CommandLine.Option(names = {"-azi", "--azure-block-increment"}, description = "The block increment size for new files on Azure, multiples of 512 only.")
   private String blockIncrement;
+
   /**
    * Gets instance
    *
@@ -97,9 +88,7 @@ public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWid
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     AzureConfig config = AzureConfigSingleton.getConfig();
     try {
       boolean changed = false;
@@ -140,8 +129,7 @@ public class AzureConfigPlugin implements IConfigOptions, IGuiPluginCompositeWid
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     persistContents(compositeWidgets);
   }
 

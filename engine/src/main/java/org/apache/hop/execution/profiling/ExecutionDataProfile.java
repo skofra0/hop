@@ -38,7 +38,8 @@ import java.util.List;
 public class ExecutionDataProfile extends HopMetadataBase implements IHopMetadata, Cloneable {
 
   public static final String GUI_PLUGIN_ELEMENT_PARENT_ID = "ExecutionDataSamplerParent";
-  @HopMetadataProperty private String description;
+  @HopMetadataProperty
+  private String description;
 
   @HopMetadataProperty(groupKey = "samplers", key = "sampler")
   private List<IExecutionDataSampler> samplers;
@@ -52,8 +53,7 @@ public class ExecutionDataProfile extends HopMetadataBase implements IHopMetadat
     this.samplers = new ArrayList<>();
   }
 
-  public ExecutionDataProfile(
-      String name, String description, List<IExecutionDataSampler> samplers) {
+  public ExecutionDataProfile(String name, String description, List<IExecutionDataSampler> samplers) {
     super(name);
     this.description = description;
     this.samplers = samplers;

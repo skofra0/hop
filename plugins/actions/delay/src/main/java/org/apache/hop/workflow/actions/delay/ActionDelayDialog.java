@@ -54,8 +54,7 @@ public class ActionDelayDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionDelayDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionDelayDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionDelay) action;
     if (this.action.getName() == null) {
@@ -106,11 +105,7 @@ public class ActionDelayDialog extends ActionDialog implements IActionDialog {
 
     // MaximumTimeout line
     wMaximumTimeout =
-        new LabelTextVar(
-            variables,
-            shell,
-            BaseMessages.getString(PKG, "ActionDelay.MaximumTimeout.Label"),
-            BaseMessages.getString(PKG, "ActionDelay.MaximumTimeout.Tooltip"));
+        new LabelTextVar(variables, shell, BaseMessages.getString(PKG, "ActionDelay.MaximumTimeout.Label"), BaseMessages.getString(PKG, "ActionDelay.MaximumTimeout.Tooltip"));
     PropsUi.setLook(wMaximumTimeout);
     wMaximumTimeout.addModifyListener(lsMod);
     FormData fdMaximumTimeout = new FormData();
@@ -120,8 +115,7 @@ public class ActionDelayDialog extends ActionDialog implements IActionDialog {
     wMaximumTimeout.setLayoutData(fdMaximumTimeout);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wMaximumTimeout.addModifyListener(
-        e -> wMaximumTimeout.setToolTipText(variables.resolve(wMaximumTimeout.getText())));
+    wMaximumTimeout.addModifyListener(e -> wMaximumTimeout.setToolTipText(variables.resolve(wMaximumTimeout.getText())));
 
     // Scale time
 
@@ -145,8 +139,7 @@ public class ActionDelayDialog extends ActionDialog implements IActionDialog {
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
 

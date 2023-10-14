@@ -27,12 +27,7 @@ import java.util.Date;
 public class FileErrorHandlerContentLineNumber extends AbstractFileErrorHandler {
   private static final Class<?> PKG = FileErrorHandlerContentLineNumber.class; // For Translator
 
-  public FileErrorHandlerContentLineNumber(
-      Date date,
-      String destinationDirectory,
-      String fileExtension,
-      String encoding,
-      BaseTransform baseTransform) {
+  public FileErrorHandlerContentLineNumber(Date date, String destinationDirectory, String fileExtension, String encoding, BaseTransform baseTransform) {
     super(date, destinationDirectory, fileExtension, encoding, baseTransform);
   }
 
@@ -42,11 +37,7 @@ public class FileErrorHandlerContentLineNumber extends AbstractFileErrorHandler 
       getWriter(filePart).write(String.valueOf(lineNr));
       getWriter(filePart).write(Const.CR);
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-                  PKG, "FileErrorHandlerContentLineNumber.Exception.CouldNotCreateWriteLine")
-              + lineNr,
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "FileErrorHandlerContentLineNumber.Exception.CouldNotCreateWriteLine") + lineNr, e);
     }
   }
 

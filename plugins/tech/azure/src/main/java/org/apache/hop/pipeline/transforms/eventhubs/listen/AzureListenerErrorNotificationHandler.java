@@ -38,13 +38,7 @@ public class AzureListenerErrorNotificationHandler implements Consumer<Exception
   @Override
   public void accept(ExceptionReceivedEventArgs t) {
 
-    azureTransform.logError(
-        "Host "
-            + t.getHostname()
-            + " received general error notification during "
-            + t.getAction()
-            + ": "
-            + t.getException().toString());
+    azureTransform.logError("Host " + t.getHostname() + " received general error notification during " + t.getAction() + ": " + t.getException().toString());
     azureTransform.setErrors(1);
     azureTransform.stopAll();
   }

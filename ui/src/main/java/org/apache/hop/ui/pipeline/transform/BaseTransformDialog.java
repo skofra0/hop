@@ -81,8 +81,7 @@ public class BaseTransformDialog extends Dialog {
   private static final Class<?> PKG = ITransform.class; // For Translator
 
   /** The logging object interface for this dialog. */
-  public static final ILoggingObject loggingObject =
-      new SimpleLoggingObject("Transform dialog", LoggingObjectType.TRANSFORM_DIALOG, null);
+  public static final ILoggingObject loggingObject = new SimpleLoggingObject("Transform dialog", LoggingObjectType.TRANSFORM_DIALOG, null);
 
   /** The variable bindings for this dialog. */
   protected IVariables variables;
@@ -173,12 +172,7 @@ public class BaseTransformDialog extends Dialog {
    * @param pipelineMeta the associated pipeline metadata
    * @param transformName the transform name
    */
-  public BaseTransformDialog(
-      Shell parent,
-      IVariables variables,
-      BaseTransformMeta<?, ?> baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public BaseTransformDialog(Shell parent, IVariables variables, BaseTransformMeta<?, ?> baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, SWT.NONE);
 
     this.log = new LogChannel(baseTransformMeta);
@@ -200,12 +194,7 @@ public class BaseTransformDialog extends Dialog {
    * @param pipelineMeta the associated pipeline metadata
    * @param transformName the transform name
    */
-  public BaseTransformDialog(
-      Shell parent,
-      IVariables variables,
-      ITransformMeta baseTransformMeta,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public BaseTransformDialog(Shell parent, IVariables variables, ITransformMeta baseTransformMeta, PipelineMeta pipelineMeta, String transformName) {
     super(parent, SWT.NONE);
 
     this.log = new LogChannel(baseTransformMeta);
@@ -227,8 +216,7 @@ public class BaseTransformDialog extends Dialog {
    * @param in the base transform metadata
    * @param tr the pipeline metadata
    */
-  public BaseTransformDialog(
-      Shell parent, int nr, IVariables variables, BaseTransformMeta<?, ?> in, PipelineMeta tr) {
+  public BaseTransformDialog(Shell parent, int nr, IVariables variables, BaseTransformMeta<?, ?> in, PipelineMeta tr) {
     this(parent, variables, in, tr, null);
   }
 
@@ -259,22 +247,21 @@ public class BaseTransformDialog extends Dialog {
 
       return;
     }
-    shell.addShellListener(
-        new ShellAdapter() {
+    shell.addShellListener(new ShellAdapter() {
 
-          private boolean deprecation = false;
+      private boolean deprecation = false;
 
-          @Override
-          public void shellActivated(ShellEvent shellEvent) {
-            super.shellActivated(shellEvent);
-            if (!transformMeta.isDeprecated() || deprecation) {
-              return;
-            }
-            String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
-            shell.setText(shell.getText() + " (" + deprecated + ")");
-            deprecation = true;
-          }
-        });
+      @Override
+      public void shellActivated(ShellEvent shellEvent) {
+        super.shellActivated(shellEvent);
+        if (!transformMeta.isDeprecated() || deprecation) {
+          return;
+        }
+        String deprecated = BaseMessages.getString(PKG, "System.Deprecated").toLowerCase();
+        shell.setText(shell.getText() + " (" + deprecated + ")");
+        deprecation = true;
+      }
+    });
   }
 
   /** Dispose this dialog. */
@@ -312,7 +299,8 @@ public class BaseTransformDialog extends Dialog {
    * Position the specified buttons at the bottom of the parent composite. Also, make the buttons
    * all the same width: the width of the largest button.
    *
-   * <p>The default alignment for buttons in the system will be used. This is set as an LAF property
+   * <p>
+   * The default alignment for buttons in the system will be used. This is set as an LAF property
    * with the key <code>Button_Position</code> and has the valid values of <code>left, center, right
    * </code> with <code>center</code> being the default.
    *
@@ -321,14 +309,12 @@ public class BaseTransformDialog extends Dialog {
    * @param margin The margin between the buttons in pixels
    * @param lastControl the last control
    */
-  public static final void positionBottomButtons(
-      Composite composite, Button[] buttons, int margin, Control lastControl) {
+  public static final void positionBottomButtons(Composite composite, Button[] buttons, int margin, Control lastControl) {
     // call positionBottomButtons method the system button alignment
     positionBottomButtons(composite, buttons, margin, buttonAlignment, lastControl);
   }
 
-  public static final void positionBottomButtons(
-      Composite composite, Button[] buttons, int margin, int alignment, Control lastControl) {
+  public static final void positionBottomButtons(Composite composite, Button[] buttons, int margin, int alignment, Control lastControl) {
     // Set a default font on all the buttons
     //
     for (Button button : buttons) {
@@ -379,16 +365,15 @@ public class BaseTransformDialog extends Dialog {
         // We also know that if a button is hit, the table loses focus
         // In that case, we can apply the content of an open text editor...
         //
-        button.addSelectionListener(
-            new SelectionAdapter() {
+        button.addSelectionListener(new SelectionAdapter() {
 
-              @Override
-              public void widgetSelected(SelectionEvent e) {
-                for (TableView view : tableViews) {
-                  view.applyOSXChanges();
-                }
-              }
-            });
+          @Override
+          public void widgetSelected(SelectionEvent e) {
+            for (TableView view : tableViews) {
+              view.applyOSXChanges();
+            }
+          }
+        });
       }
     }
   }
@@ -425,9 +410,9 @@ public class BaseTransformDialog extends Dialog {
    * <code>Button_Position</code>. The valid values are:
    *
    * <UL>
-   *   <LI><code>left</code>
-   *   <LI><code>center</code>
-   *   <LI><code>right</code>
+   * <LI><code>left</code>
+   * <LI><code>center</code>
+   * <LI><code>right</code>
    * </UL>
    *
    * NOTE: if the alignment is not provided or contains an invalid value, <code>center</code> will
@@ -456,8 +441,7 @@ public class BaseTransformDialog extends Dialog {
    * @param lastControl the last control above the buttons
    * @return the newly created FormData object
    */
-  private static FormData createDefaultFormData(
-      Button button, int width, int margin, Control lastControl) {
+  private static FormData createDefaultFormData(Button button, int width, int margin, Control lastControl) {
     FormData formData = new FormData();
     if (lastControl != null) {
       formData.top = new FormAttachment(lastControl, margin * 3);
@@ -475,10 +459,9 @@ public class BaseTransformDialog extends Dialog {
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
+   *        the bottom of the controls on the dialog
    */
-  protected static void leftAlignButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+  protected static void leftAlignButtons(Button[] buttons, int width, int margin, Control lastControl) {
     for (int i = 0; i < buttons.length; ++i) {
       FormData formData = createDefaultFormData(buttons[i], width, margin, lastControl);
 
@@ -502,10 +485,9 @@ public class BaseTransformDialog extends Dialog {
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
+   *        the bottom of the controls on the dialog
    */
-  protected static void rightAlignButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+  protected static void rightAlignButtons(Button[] buttons, int width, int margin, Control lastControl) {
     for (int i = buttons.length - 1; i >= 0; --i) {
       FormData formData = createDefaultFormData(buttons[i], width, margin, lastControl);
 
@@ -529,14 +511,12 @@ public class BaseTransformDialog extends Dialog {
    * @param width the standardized width of all the buttons
    * @param margin the margin between buttons
    * @param lastControl (optional) the bottom most control used for aligning the buttons relative to
-   *     the bottom of the controls on the dialog
+   *        the bottom of the controls on the dialog
    */
-  protected static void centerButtons(
-      Button[] buttons, int width, int margin, Control lastControl) {
+  protected static void centerButtons(Button[] buttons, int width, int margin, Control lastControl) {
     // Setup the middle button
     int middleButtonIndex = buttons.length / 2;
-    FormData formData =
-        createDefaultFormData(buttons[middleButtonIndex], width, margin, lastControl);
+    FormData formData = createDefaultFormData(buttons[middleButtonIndex], width, margin, lastControl);
 
     // See if we have an even or odd number of buttons...
     int leftOffset = 0;
@@ -573,11 +553,10 @@ public class BaseTransformDialog extends Dialog {
    * @param textField the text field
    * @return the modify listener tooltip text
    */
-  public static final ModifyListener getModifyListenerTooltipText(
-      IVariables variables, final TextVar textField) {
+  public static final ModifyListener getModifyListenerTooltipText(IVariables variables, final TextVar textField) {
     return e ->
-        // maybe replace this with extra arguments
-        textField.setToolTipText(variables.resolve(textField.getText()));
+    // maybe replace this with extra arguments
+    textField.setToolTipText(variables.resolve(textField.getText()));
   }
 
   /**
@@ -589,31 +568,15 @@ public class BaseTransformDialog extends Dialog {
    * @param
    * @return the combo box UI component
    */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod) {
 
     return addConnectionLine(
-        parent,
-        previous,
-        selected,
-        lsMod,
-        BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"),
+        parent, previous, selected, lsMod, BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Label"),
         BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
   }
 
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent,
-      Control previous,
-      DatabaseMeta selected,
-      ModifyListener lsMod,
-      String connectionLabel) {
-    return addConnectionLine(
-        parent,
-        previous,
-        selected,
-        lsMod,
-        connectionLabel,
-        BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, DatabaseMeta selected, ModifyListener lsMod, String connectionLabel) {
+    return addConnectionLine(parent, previous, selected, lsMod, connectionLabel, BaseMessages.getString(PKG, "BaseTransformDialog.Connection.Tooltip"));
   }
 
   public MetaSelectionLine<DatabaseMeta> addConnectionLine(
@@ -624,14 +587,7 @@ public class BaseTransformDialog extends Dialog {
       String connectionLabel,
       String connectionTooltip) {
     final MetaSelectionLine<DatabaseMeta> wConnection =
-        new MetaSelectionLine<>(
-            variables,
-            metadataProvider,
-            DatabaseMeta.class,
-            parent,
-            SWT.NONE,
-            connectionLabel,
-            connectionTooltip);
+        new MetaSelectionLine<>(variables, metadataProvider, DatabaseMeta.class, parent, SWT.NONE, connectionLabel, connectionTooltip);
     wConnection.addToConnectionLine(parent, previous, selected, lsMod);
     return wConnection;
   }
@@ -724,40 +680,38 @@ public class BaseTransformDialog extends Dialog {
     for (int i = 0; i < controls.length; i++) {
       final int controlNr = i;
       if (i < controls.length - 1) {
-        controls[i].addTraverseListener(
-            te -> {
-              te.doit = false;
-              // set focus on the next control.
-              // What is the next control?
-              int thisOne = controlNr + 1;
-              while (!controls[thisOne].isEnabled()) {
-                thisOne++;
-                if (thisOne >= controls.length) {
-                  thisOne = 0;
-                }
-                if (thisOne == controlNr) {
-                  return; // already tried all others, time to quit.
-                }
-              }
-              controls[thisOne].setFocus();
-            });
+        controls[i].addTraverseListener(te -> {
+          te.doit = false;
+          // set focus on the next control.
+          // What is the next control?
+          int thisOne = controlNr + 1;
+          while (!controls[thisOne].isEnabled()) {
+            thisOne++;
+            if (thisOne >= controls.length) {
+              thisOne = 0;
+            }
+            if (thisOne == controlNr) {
+              return; // already tried all others, time to quit.
+            }
+          }
+          controls[thisOne].setFocus();
+        });
       } else { // Link last item to first.
 
-        controls[i].addTraverseListener(
-            te -> {
-              te.doit = false;
-              // set focus on the next control.
-              // set focus on the next control.
-              // What is the next control : 0
-              int thisOne = 0;
-              while (!controls[thisOne].isEnabled()) {
-                thisOne++;
-                if (thisOne >= controls.length) {
-                  return; // already tried all others, time to quit.
-                }
-              }
-              controls[thisOne].setFocus();
-            });
+        controls[i].addTraverseListener(te -> {
+          te.doit = false;
+          // set focus on the next control.
+          // set focus on the next control.
+          // What is the next control : 0
+          int thisOne = 0;
+          while (!controls[thisOne].isEnabled()) {
+            thisOne++;
+            if (thisOne >= controls.length) {
+              return; // already tried all others, time to quit.
+            }
+          }
+          controls[thisOne].setFocus();
+        });
       }
     }
   }
@@ -790,22 +744,13 @@ public class BaseTransformDialog extends Dialog {
     try {
       IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
       if (row != null) {
-        getFieldsFromPrevious(
-            row,
-            tableView,
-            keyColumn,
-            nameColumn,
-            dataTypeColumn,
-            lengthColumn,
-            precisionColumn,
-            listener);
+        getFieldsFromPrevious(row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
           tableView.getShell(),
           BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFields.Title"),
-          BaseMessages.getString(
-              PKG, "BaseTransformDialog.FailedToGetFields.Message", transformMeta.getName()),
+          BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFields.Message", transformMeta.getName()),
           ke);
     }
   }
@@ -816,13 +761,13 @@ public class BaseTransformDialog extends Dialog {
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
+   *        item, based on a value from the provided row
    */
   public static final void getFieldsFromPrevious(
       IRowMeta row,
@@ -833,16 +778,7 @@ public class BaseTransformDialog extends Dialog {
       int lengthColumn,
       int precisionColumn,
       ITableItemInsertListener listener) {
-    getFieldsFromPrevious(
-        row,
-        tableView,
-        keyColumn,
-        nameColumn,
-        dataTypeColumn,
-        lengthColumn,
-        precisionColumn,
-        true,
-        listener);
+    getFieldsFromPrevious(row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, true, listener);
   }
 
   /**
@@ -851,14 +787,14 @@ public class BaseTransformDialog extends Dialog {
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param optimizeWidth
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
+   *        item, based on a value from the provided row
    */
   public static final void getFieldsFromPrevious(
       IRowMeta row,
@@ -871,16 +807,7 @@ public class BaseTransformDialog extends Dialog {
       boolean optimizeWidth,
       ITableItemInsertListener listener) {
     getFieldsFromPrevious(
-        row,
-        tableView,
-        keyColumn,
-        nameColumn,
-        dataTypeColumn,
-        lengthColumn,
-        precisionColumn,
-        optimizeWidth,
-        listener,
-        BaseTransformDialog::getFieldsChoiceDialog);
+        row, tableView, keyColumn, nameColumn, dataTypeColumn, lengthColumn, precisionColumn, optimizeWidth, listener, BaseTransformDialog::getFieldsChoiceDialog);
   }
 
   /**
@@ -889,14 +816,14 @@ public class BaseTransformDialog extends Dialog {
    * @param row the input fields
    * @param tableView the table view to modify
    * @param keyColumn the column in the table view to match with the names of the fields, checks for
-   *     existance if >0
+   *        existance if >0
    * @param nameColumn the column numbers in which the name should end up in
    * @param dataTypeColumn the target column numbers in which the data type should end up in
    * @param lengthColumn the length column where the length should end up in (if >0)
    * @param precisionColumn the length column where the precision should end up in (if >0)
    * @param optimizeWidth
    * @param listener A listener that you can use to do custom modifications to the inserted table
-   *     item, based on a value from the provided row
+   *        item, based on a value from the provided row
    * @param getFieldsChoiceDialogProvider the GetFieldsChoice dialog provider
    */
   public static final void getFieldsFromPrevious(
@@ -932,8 +859,7 @@ public class BaseTransformDialog extends Dialog {
     if (keys.isEmpty()) {
       // Ask what we should do with the existing data in the transform.
       //
-      DialogBoxWithButtons getFieldsChoiceDialog =
-          getFieldsChoiceDialogProvider.provide(tableView.getShell(), keys.size(), row.size());
+      DialogBoxWithButtons getFieldsChoiceDialog = getFieldsChoiceDialogProvider.provide(tableView.getShell(), keys.size(), row.size());
 
       int idx = getFieldsChoiceDialog.open();
       choice = idx & 0xFF;
@@ -952,8 +878,7 @@ public class BaseTransformDialog extends Dialog {
 
       boolean add = true;
 
-      if (choice == 0
-          && keys.indexOf(v.getName()) >= 0) { // hang on, see if it's not yet in the table view
+      if (choice == 0 && keys.indexOf(v.getName()) >= 0) { // hang on, see if it's not yet in the table view
         add = false;
       }
 
@@ -987,23 +912,17 @@ public class BaseTransformDialog extends Dialog {
     }
   }
 
-  static DialogBoxWithButtons getFieldsChoiceDialog(
-      Shell shell, int existingFields, int newFields) {
+  static DialogBoxWithButtons getFieldsChoiceDialog(Shell shell, int existingFields, int newFields) {
     DialogBoxWithButtons messageDialog =
         new DialogBoxWithButtons(
             shell,
             BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Title"), // "Warning!"
-            BaseMessages.getString(
-                PKG,
-                "BaseTransformDialog.GetFieldsChoice.Message",
-                "" + existingFields,
-                "" + newFields),
+            BaseMessages.getString(PKG, "BaseTransformDialog.GetFieldsChoice.Message", "" + existingFields, "" + newFields),
             new String[] {
-              BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.Add"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"),
-              BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),
-            });
+                BaseMessages.getString(PKG, "BaseTransformDialog.AddNew"),
+                BaseMessages.getString(PKG, "BaseTransformDialog.Add"),
+                BaseMessages.getString(PKG, "BaseTransformDialog.ClearAndAdd"),
+                BaseMessages.getString(PKG, "BaseTransformDialog.Cancel"),});
     return messageDialog;
   }
 
@@ -1015,11 +934,7 @@ public class BaseTransformDialog extends Dialog {
    * @param pipelineMeta the pipeline metadata
    * @param transformMeta the transform metadata
    */
-  public static final void getFieldsFromPrevious(
-      IVariables variables,
-      ComboVar comboVar,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta) {
+  public static final void getFieldsFromPrevious(IVariables variables, ComboVar comboVar, PipelineMeta pipelineMeta, TransformMeta transformMeta) {
     String selectedField;
     int indexField = -1;
     try {
@@ -1044,8 +959,7 @@ public class BaseTransformDialog extends Dialog {
       new ErrorDialog(
           comboVar.getShell(),
           BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogTitle"),
-          BaseMessages.getString(
-              PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogMessage"),
+          BaseMessages.getString(PKG, "BaseTransformDialog.FailedToGetFieldsPrevious.DialogMessage"),
           ke);
     }
   }
@@ -1212,17 +1126,11 @@ public class BaseTransformDialog extends Dialog {
 
   private void setShellImage(Shell shell) {
     if (transformMeta != null) {
-      IPlugin plugin =
-          PluginRegistry.getInstance()
-              .getPlugin(TransformPluginType.class, transformMeta.getTransform());
+      IPlugin plugin = PluginRegistry.getInstance().getPlugin(TransformPluginType.class, transformMeta.getTransform());
       HelpUtils.createHelpButton(shell, plugin);
       String id = plugin.getIds()[0];
       if (id != null) {
-        shell.setImage(
-            GuiResource.getInstance()
-                .getImagesTransforms()
-                .get(id)
-                .getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE));
+        shell.setImage(GuiResource.getInstance().getImagesTransforms().get(id).getAsBitmapForSize(shell.getDisplay(), ConstUi.ICON_SIZE, ConstUi.ICON_SIZE));
       }
     }
   }
@@ -1245,8 +1153,7 @@ public class BaseTransformDialog extends Dialog {
    * @param lsMod
    * @return the combo box UI component
    */
-  public MetaSelectionLine<DatabaseMeta> addConnectionLine(
-      Composite parent, Control previous, String connection, ModifyListener lsMod) {
+  public MetaSelectionLine<DatabaseMeta> addConnectionLine(Composite parent, Control previous, String connection, ModifyListener lsMod) {
     DatabaseMeta databaseMeta = null;
     if (!Utils.isEmpty(connection)) {
       databaseMeta = pipelineMeta.findDatabase(connection, variables);
@@ -1255,13 +1162,8 @@ public class BaseTransformDialog extends Dialog {
       // can proceed to correct the issue in the affected pipeline
       if (databaseMeta == null) {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_WARNING);
-        mb.setMessage(
-            BaseMessages.getString(
-                PKG,
-                "BaseTransformDialog.InvalidConnection.DialogMessage",
-                variables.resolve(connection)));
-        mb.setText(
-            BaseMessages.getString(PKG, "BaseTransformDialog.InvalidConnection.DialogTitle"));
+        mb.setMessage(BaseMessages.getString(PKG, "BaseTransformDialog.InvalidConnection.DialogMessage", variables.resolve(connection)));
+        mb.setText(BaseMessages.getString(PKG, "BaseTransformDialog.InvalidConnection.DialogTitle"));
         mb.open();
       }
     }
@@ -1293,8 +1195,7 @@ public class BaseTransformDialog extends Dialog {
         String baseName = HopVfs.getFileObject(variables.resolve(filename)).getName().getBaseName();
         wTransformName.setText(baseName);
       } catch (Exception e) {
-        new ErrorDialog(
-            shell, "Error", "Error extracting name from filename '" + filename + "'", e);
+        new ErrorDialog(shell, "Error", "Error extracting name from filename '" + filename + "'", e);
       }
     }
   }

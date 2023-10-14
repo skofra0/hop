@@ -27,15 +27,15 @@ import static org.junit.Assert.assertEquals;
 
 public class MetricsDurationTest {
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   @SuppressWarnings("deprecation")
   public void test() {
     Date startDate = new Date((2016 - 1900), Calendar.JANUARY, 10);
     Long duration = Long.valueOf(4L);
-    MetricsDuration metric =
-        new MetricsDuration(startDate, "theDesc", "theSubj", "theLogChannel", duration);
+    MetricsDuration metric = new MetricsDuration(startDate, "theDesc", "theSubj", "theLogChannel", duration);
 
     assertEquals("theDesc", metric.getDescription());
     assertEquals("theSubj", metric.getSubject());

@@ -69,10 +69,7 @@ public class ConfigGeneralOptionsTab {
     // calls the addGeneralOptionsTab() method.
   }
 
-  @GuiTab(
-      id = "10000-config-perspective-general-options-tab",
-      parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS,
-      description = "General options tab")
+  @GuiTab(id = "10000-config-perspective-general-options-tab", parentId = ConfigurationPerspective.CONFIG_PERSPECTIVE_TABS, description = "General options tab")
   public void addGeneralOptionsTab(CTabFolder wTabFolder) {
     Shell shell = wTabFolder.getShell();
     PropsUi props = PropsUi.getInstance();
@@ -116,8 +113,7 @@ public class ConfigGeneralOptionsTab {
 
     // Explain HOP_CONFIG
     Label wlWhatIsHopConfig = new Label(wGeneralComp, SWT.LEFT);
-    wlWhatIsHopConfig.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.WhatIsHopConfigSize.Label"));
+    wlWhatIsHopConfig.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.WhatIsHopConfigSize.Label"));
     PropsUi.setLook(wlWhatIsHopConfig);
     FormData fdlWhatIsHopConfig = new FormData();
     fdlWhatIsHopConfig.left = new FormAttachment(middle, 0);
@@ -128,8 +124,7 @@ public class ConfigGeneralOptionsTab {
 
     // The default preview size
     Label wlDefaultPreview = new Label(wGeneralComp, SWT.RIGHT);
-    wlDefaultPreview.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.DefaultPreviewSize.Label"));
+    wlDefaultPreview.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.DefaultPreviewSize.Label"));
     PropsUi.setLook(wlDefaultPreview);
     FormData fdlDefaultPreview = new FormData();
     fdlDefaultPreview.left = new FormAttachment(0, 0);
@@ -218,8 +213,7 @@ public class ConfigGeneralOptionsTab {
     wlAutoSplit.setLayoutData(fdlAutoSplit);
     wAutoSplit = new Button(wGeneralComp, SWT.CHECK);
     PropsUi.setLook(wAutoSplit);
-    wAutoSplit.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.AutoSplitHops.Tooltip"));
+    wAutoSplit.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.AutoSplitHops.Tooltip"));
     wAutoSplit.setSelection(props.getAutoSplit());
     FormData fdAutoSplit = new FormData();
     fdAutoSplit.left = new FormAttachment(middle, 0);
@@ -231,8 +225,7 @@ public class ConfigGeneralOptionsTab {
 
     // Show warning for copy / distribute...
     Label wlCopyDistrib = new Label(wGeneralComp, SWT.RIGHT);
-    wlCopyDistrib.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Label"));
+    wlCopyDistrib.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Label"));
     PropsUi.setLook(wlCopyDistrib);
     FormData fdlCopyDistrib = new FormData();
     fdlCopyDistrib.left = new FormAttachment(0, 0);
@@ -241,8 +234,7 @@ public class ConfigGeneralOptionsTab {
     wlCopyDistrib.setLayoutData(fdlCopyDistrib);
     wCopyDistribute = new Button(wGeneralComp, SWT.CHECK);
     PropsUi.setLook(wCopyDistribute);
-    wCopyDistribute.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Tooltip"));
+    wCopyDistribute.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.CopyOrDistributeDialog.Tooltip"));
     wCopyDistribute.setSelection(props.showCopyOrDistributeWarning());
     FormData fdCopyDistrib = new FormData();
     fdCopyDistrib.left = new FormAttachment(middle, 0);
@@ -274,8 +266,7 @@ public class ConfigGeneralOptionsTab {
 
     // Clear custom parameters. (from transform)
     Label wlClearCustom = new Label(wGeneralComp, SWT.RIGHT);
-    wlClearCustom.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Label"));
+    wlClearCustom.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Label"));
     PropsUi.setLook(wlClearCustom);
     FormData fdlClearCustom = new FormData();
     fdlClearCustom.left = new FormAttachment(0, 0);
@@ -291,39 +282,30 @@ public class ConfigGeneralOptionsTab {
     fdClearCustom.left = new FormAttachment(middle, 0);
     fdClearCustom.top = new FormAttachment(wlClearCustom, 0, SWT.CENTER);
     wClearCustom.setLayoutData(fdClearCustom);
-    wClearCustom.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Tooltip"));
-    wClearCustom.addListener(
-        SWT.Selection,
-        e -> {
-          MessageBox mb = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Question"));
-          mb.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Title"));
-          int id = mb.open();
-          if (id == SWT.YES) {
-            try {
-              props.clearCustomParameters();
-              saveValues(null);
-              MessageBox ok = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-              ok.setMessage(
-                  BaseMessages.getString(
-                      PKG, "EnterOptionsDialog.ClearCustomParameters.Confirmation"));
-              ok.open();
-            } catch (Exception ex) {
-              new ErrorDialog(
-                  shell, "Error", "Error clearing custom parameters, saving config file", ex);
-            }
-          }
-        });
+    wClearCustom.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Tooltip"));
+    wClearCustom.addListener(SWT.Selection, e -> {
+      MessageBox mb = new MessageBox(shell, SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+      mb.setMessage(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Question"));
+      mb.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Title"));
+      int id = mb.open();
+      if (id == SWT.YES) {
+        try {
+          props.clearCustomParameters();
+          saveValues(null);
+          MessageBox ok = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
+          ok.setMessage(BaseMessages.getString(PKG, "EnterOptionsDialog.ClearCustomParameters.Confirmation"));
+          ok.open();
+        } catch (Exception ex) {
+          new ErrorDialog(shell, "Error", "Error clearing custom parameters, saving config file", ex);
+        }
+      }
+    });
     lastControl = wClearCustom;
 
     // Sort field by name
     Label wlSortFieldByName = new Label(wGeneralComp, SWT.RIGHT);
-    wlSortFieldByName.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.SortFieldByName.Label"));
-    wlSortFieldByName.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.SortFieldByName.ToolTip"));
+    wlSortFieldByName.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.SortFieldByName.Label"));
+    wlSortFieldByName.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.SortFieldByName.ToolTip"));
     PropsUi.setLook(wlSortFieldByName);
     FormData fdlSortFieldByName = new FormData();
     fdlSortFieldByName.left = new FormAttachment(0, 0);
@@ -383,8 +365,7 @@ public class ConfigGeneralOptionsTab {
 
     // Help tool tips
     Label wlUseDoubleClick = new Label(wGeneralComp, SWT.RIGHT);
-    wlUseDoubleClick.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.UseDoubleClickOnCanvas.Label"));
+    wlUseDoubleClick.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.UseDoubleClickOnCanvas.Label"));
     PropsUi.setLook(wlUseDoubleClick);
     FormData fdlUseDoubleClick = new FormData();
     fdlUseDoubleClick.left = new FormAttachment(0, 0);
@@ -404,8 +385,7 @@ public class ConfigGeneralOptionsTab {
 
     // Use global file bookmarks?
     Label wlUseGlobalFileBookmarks = new Label(wGeneralComp, SWT.RIGHT);
-    wlUseGlobalFileBookmarks.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.UseGlobalFileBookmarks.Label"));
+    wlUseGlobalFileBookmarks.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.UseGlobalFileBookmarks.Label"));
     PropsUi.setLook(wlUseGlobalFileBookmarks);
     FormData fdlUseGlobalFileBookmarks = new FormData();
     fdlUseGlobalFileBookmarks.left = new FormAttachment(0, 0);
@@ -425,8 +405,7 @@ public class ConfigGeneralOptionsTab {
 
     // The default preview size
     Label wlMaxExecutionLoggingTextSize = new Label(wGeneralComp, SWT.RIGHT);
-    wlMaxExecutionLoggingTextSize.setText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.MaxExecutionLoggingTextSizeSize.Label"));
+    wlMaxExecutionLoggingTextSize.setText(BaseMessages.getString(PKG, "EnterOptionsDialog.MaxExecutionLoggingTextSizeSize.Label"));
     PropsUi.setLook(wlMaxExecutionLoggingTextSize);
     FormData fdlMaxExecutionLoggingTextSize = new FormData();
     fdlMaxExecutionLoggingTextSize.left = new FormAttachment(0, 0);
@@ -434,15 +413,13 @@ public class ConfigGeneralOptionsTab {
     fdlMaxExecutionLoggingTextSize.top = new FormAttachment(lastControl, 2 * margin);
     wlMaxExecutionLoggingTextSize.setLayoutData(fdlMaxExecutionLoggingTextSize);
     wMaxExecutionLoggingTextSize = new Text(wGeneralComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wMaxExecutionLoggingTextSize.setToolTipText(
-        BaseMessages.getString(PKG, "EnterOptionsDialog.MaxExecutionLoggingTextSizeSize.ToolTip"));
+    wMaxExecutionLoggingTextSize.setToolTipText(BaseMessages.getString(PKG, "EnterOptionsDialog.MaxExecutionLoggingTextSizeSize.ToolTip"));
     wMaxExecutionLoggingTextSize.setText(Integer.toString(props.getMaxExecutionLoggingTextSize()));
     PropsUi.setLook(wMaxExecutionLoggingTextSize);
     FormData fdMaxExecutionLoggingTextSize = new FormData();
     fdMaxExecutionLoggingTextSize.left = new FormAttachment(middle, 0);
     fdMaxExecutionLoggingTextSize.right = new FormAttachment(100, 0);
-    fdMaxExecutionLoggingTextSize.top =
-        new FormAttachment(wlMaxExecutionLoggingTextSize, 0, SWT.CENTER);
+    fdMaxExecutionLoggingTextSize.top = new FormAttachment(wlMaxExecutionLoggingTextSize, 0, SWT.CENTER);
     wMaxExecutionLoggingTextSize.setLayoutData(fdMaxExecutionLoggingTextSize);
     wMaxExecutionLoggingTextSize.addListener(SWT.Modify, this::saveValues);
 
@@ -491,8 +468,7 @@ public class ConfigGeneralOptionsTab {
   private void saveValues(Event event) {
     PropsUi props = PropsUi.getInstance();
 
-    props.setDefaultPreviewSize(
-        Const.toInt(wDefaultPreview.getText(), props.getDefaultPreviewSize()));
+    props.setDefaultPreviewSize(Const.toInt(wDefaultPreview.getText(), props.getDefaultPreviewSize()));
     props.setUseDBCache(wUseCache.getSelection());
     props.setOpenLastFile(wOpenLast.getSelection());
     props.setAutoSave(wAutoSave.getSelection());
@@ -504,16 +480,12 @@ public class ConfigGeneralOptionsTab {
     props.setShowingHelpToolTips(wHelpTip.getSelection());
     props.setUseDoubleClickOnCanvas(wbUseDoubleClick.getSelection());
     props.setUseGlobalFileBookmarks(wbUseGlobalFileBookmarks.getSelection());
-    props.setMaxExecutionLoggingTextSize(
-        Const.toInt(
-            wMaxExecutionLoggingTextSize.getText(),
-            PropsUi.DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE));
+    props.setMaxExecutionLoggingTextSize(Const.toInt(wMaxExecutionLoggingTextSize.getText(), PropsUi.DEFAULT_MAX_EXECUTION_LOGGING_TEXT_SIZE));
 
     try {
       HopConfig.getInstance().saveToFile();
     } catch (Exception e) {
-      new ErrorDialog(
-          HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
+      new ErrorDialog(HopGui.getInstance().getShell(), "Error", "Error saving configuration to file", e);
     }
   }
 }

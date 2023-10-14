@@ -34,7 +34,7 @@ public abstract class SwtUniversalImage {
 
   private Map<String, Image> cache = new TreeMap<>();
 
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   protected abstract Image renderSimple(Device device);
 
   protected abstract Image renderSimple(Device device, int width, int height);
@@ -61,7 +61,7 @@ public abstract class SwtUniversalImage {
   }
 
   /** @deprecated Use getAsBitmapForSize() instead. */
-  @Deprecated(since="2.0")
+  @Deprecated(since = "2.0")
   public synchronized Image getAsBitmap(Device device) {
     checkDisposed();
 
@@ -88,8 +88,7 @@ public abstract class SwtUniversalImage {
   }
 
   /** Draw rotated image on double canvas size. It required against lost corners on rotate. */
-  public synchronized Image getAsBitmapForSize(
-      Device device, int width, int height, double angleRadians) {
+  public synchronized Image getAsBitmapForSize(Device device, int width, int height, double angleRadians) {
     checkDisposed();
 
     int angleDegree = (int) Math.round(Math.toDegrees(angleRadians));

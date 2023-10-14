@@ -53,8 +53,7 @@ public class FakeDialog extends BaseTransformDialog implements ITransformDialog 
 
   private final FakeMeta input;
 
-  public FakeDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public FakeDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (FakeMeta) in;
   }
@@ -130,31 +129,13 @@ public class FakeDialog extends BaseTransformDialog implements ITransformDialog 
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FakeDialog.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FakeDialog.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[0]),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "FakeDialog.Topic.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[0]),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "FakeDialog.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "FakeDialog.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[0]),
+            new ColumnInfo(BaseMessages.getString(PKG, "FakeDialog.Topic.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[0]),};
     columns[1].setComboValuesSelectionListener(this::getComboValues);
     columns[2].setComboValuesSelectionListener(this::getComboValues);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            input.getFields().size(),
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, input.getFields().size(), lsMod, props);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
     fdFields.top = new FormAttachment(wLocale, 2 * margin);
@@ -162,13 +143,12 @@ public class FakeDialog extends BaseTransformDialog implements ITransformDialog 
     fdFields.bottom = new FormAttachment(wOk, -2 * margin);
     wFields.setLayoutData(fdFields);
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();

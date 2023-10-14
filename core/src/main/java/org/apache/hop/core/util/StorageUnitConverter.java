@@ -30,9 +30,11 @@ public class StorageUnitConverter {
    * Converts byte count to the human readable representation. The size is rounded to nearest
    * X-byte.
    *
-   * <p>For example: 13.1MB in byte count will return 13MB and 13.9MB in byte count wil return 13MB.
+   * <p>
+   * For example: 13.1MB in byte count will return 13MB and 13.9MB in byte count wil return 13MB.
    *
-   * <p>Supported types: EB, PB, TB, GB, MB, KB or B (for bytes).
+   * <p>
+   * Supported types: EB, PB, TB, GB, MB, KB or B (for bytes).
    *
    * @param byteCount
    * @return human reabable display size
@@ -45,13 +47,14 @@ public class StorageUnitConverter {
   /**
    * Convert human human readable file size format to byte equivalent.
    *
-   * <p>Accepted units:
+   * <p>
+   * Accepted units:
    *
    * <ul>
-   *   <li>B - Bytes
-   *   <li>KB - Kilobytes
-   *   <li>MB - Megabytes
-   *   <li>GB - Gigabytes
+   * <li>B - Bytes
+   * <li>KB - Kilobytes
+   * <li>MB - Megabytes
+   * <li>GB - Gigabytes
    * </ul>
    *
    * Example display sizes: <br>

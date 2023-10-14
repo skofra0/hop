@@ -90,15 +90,12 @@ public class ActionCreateFile extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       filename = XmlHandler.getTagValue(entrynode, "filename");
-      failIfFileExists =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "fail_if_file_exists"));
-      addfilenameresult =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_filename_result"));
+      failIfFileExists = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "fail_if_file_exists"));
+      addfilenameresult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_filename_result"));
 
     } catch (HopXmlException xe) {
       throw new HopXmlException("Unable to load action of type 'create file' from XML node", xe);
@@ -175,26 +172,18 @@ public class ActionCreateFile extends ActionBase implements Cloneable, IAction {
     return result;
   }
 
-  private void addFilenameToResult(
-      String targetFilename, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow)
-      throws HopException {
+  private void addFilenameToResult(String targetFilename, Result result, IWorkflowEngine<WorkflowMeta> parentWorkflow) throws HopException {
     FileObject targetFile = null;
     try {
       targetFile = HopVfs.getFileObject(targetFilename);
 
       // Add to the result files...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL,
-              targetFile,
-              parentWorkflow.getWorkflowName(),
-              toString());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, targetFile, parentWorkflow.getWorkflowName(), toString());
       resultFile.setComment("");
       result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
 
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "ActionCreateFile.FileAddedToResult", targetFilename));
+        logDetailed(BaseMessages.getString(PKG, "ActionCreateFile.FileAddedToResult", targetFilename));
       }
     } catch (Exception e) {
       throw new HopException(e);
@@ -231,17 +220,10 @@ public class ActionCreateFile extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx,
-        ActionValidatorUtils.notNullValidator(),
-        ActionValidatorUtils.fileDoesNotExistValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileDoesNotExistValidator());
     ActionValidatorUtils.andValidator().validate(this, "filename", remarks, ctx);
   }
 }

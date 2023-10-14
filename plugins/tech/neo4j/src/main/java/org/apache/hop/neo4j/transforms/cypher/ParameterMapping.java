@@ -20,22 +20,13 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class ParameterMapping {
 
-  @HopMetadataProperty(
-      key = "parameter",
-      injectionKey = "PARAMETER_NAME",
-      injectionKeyDescription = "Cypher.Injection.PARAMETER_NAME")
+  @HopMetadataProperty(key = "parameter", injectionKey = "PARAMETER_NAME", injectionKeyDescription = "Cypher.Injection.PARAMETER_NAME")
   private String parameter;
 
-  @HopMetadataProperty(
-      key = "field",
-      injectionKey = "PARAMETER_FIELD",
-      injectionKeyDescription = "Cypher.Injection.PARAMETER_FIELD")
+  @HopMetadataProperty(key = "field", injectionKey = "PARAMETER_FIELD", injectionKeyDescription = "Cypher.Injection.PARAMETER_FIELD")
   private String field;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKey = "PARAMETER_NEO4J_TYPE",
-      injectionKeyDescription = "Cypher.Injection.PARAMETER_NEO4J_TYPE")
+  @HopMetadataProperty(key = "type", injectionKey = "PARAMETER_NEO4J_TYPE", injectionKeyDescription = "Cypher.Injection.PARAMETER_NEO4J_TYPE")
   private String neoType;
 
   public ParameterMapping() {}

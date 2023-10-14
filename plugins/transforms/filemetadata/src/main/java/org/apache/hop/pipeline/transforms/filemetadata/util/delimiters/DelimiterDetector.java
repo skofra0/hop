@@ -75,8 +75,7 @@ public class DelimiterDetector {
 
       // following up, may merge with previous one
       LineResult prev = lineResults.peekLast();
-      if (prev.frequency == lineResult.frequency
-          && (enclosure == null || (prev.consistentEnclosure && lineResult.consistentEnclosure))) {
+      if (prev.frequency == lineResult.frequency && (enclosure == null || (prev.consistentEnclosure && lineResult.consistentEnclosure))) {
         prev.streak += 1;
         if (!prev.enclosureSeen) {
           prev.enclosureSeen = lineResult.enclosureSeen;
@@ -274,13 +273,9 @@ public class DelimiterDetector {
               if (sc == enc) {
                 enclosureSeen[j] = true;
                 enclosureConsistent[j] =
-                    enclosureConsistent[j]
-                        && (i == 0 && !enclosureOpen[j]
-                            || i == s.length() - 1 && enclosureOpen[j]
-                            || i > 0 && s.charAt(i - 1) == c && !enclosureOpen[j]
-                            || i > 0 && s.charAt(i - 1) == enc && !enclosureOpen[j]
-                            || s.length() > i + 1 && s.charAt(i + 1) == c && enclosureOpen[j]
-                            || s.length() > i + 1 && s.charAt(i + 1) == enc && enclosureOpen[j]);
+                    enclosureConsistent[j] && (i == 0 && !enclosureOpen[j] || i == s.length() - 1 && enclosureOpen[j] || i > 0 && s.charAt(i - 1) == c && !enclosureOpen[j]
+                        || i > 0 && s.charAt(i - 1) == enc && !enclosureOpen[j] || s.length() > i + 1 && s.charAt(i + 1) == c && enclosureOpen[j]
+                        || s.length() > i + 1 && s.charAt(i + 1) == enc && enclosureOpen[j]);
 
                 enclosureOpen[j] = !enclosureOpen[j];
               }
@@ -308,7 +303,7 @@ public class DelimiterDetector {
         }
 
         // can any results be eliminated now?
-        for (int j = 0; j < potentialResults.size(); ) {
+        for (int j = 0; j < potentialResults.size();) {
           DetectionResult d = potentialResults.get(j);
 
           if (isPlausible(d)) {
@@ -322,7 +317,7 @@ public class DelimiterDetector {
       }
 
       // final evaluation
-      for (int j = 0; j < potentialResults.size(); ) {
+      for (int j = 0; j < potentialResults.size();) {
         DetectionResult d = potentialResults.get(j);
         d.evaluate();
         if (qualifies(d)) {
@@ -361,9 +356,7 @@ public class DelimiterDetector {
   }
 
   private boolean qualifies(DetectionResult d) {
-    return d.getDataLineFrequency() > 0
-        && d.getBadFooters() <= maxBadFooterLines
-        && d.getBadHeaders() <= maxBadHeaderLines
+    return d.getDataLineFrequency() > 0 && d.getBadFooters() <= maxBadFooterLines && d.getBadHeaders() <= maxBadHeaderLines
         && (!d.hasEnclosure() || d.isConsistentEnclosure() && d.isEnclosureSeen());
   }
 

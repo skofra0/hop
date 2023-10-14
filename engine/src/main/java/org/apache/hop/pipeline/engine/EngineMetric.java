@@ -27,8 +27,7 @@ public class EngineMetric implements IEngineMetric {
 
   public EngineMetric() {}
 
-  public EngineMetric(
-      String code, String header, String tooltip, String displayPriority, boolean numeric) {
+  public EngineMetric(String code, String header, String tooltip, String displayPriority, boolean numeric) {
     this.code = code;
     this.header = header;
     this.tooltip = tooltip;

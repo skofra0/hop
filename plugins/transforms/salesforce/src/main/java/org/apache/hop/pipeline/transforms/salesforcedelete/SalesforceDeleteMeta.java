@@ -42,8 +42,7 @@ import java.util.List;
     image = "SFD.svg",
     keywords = "i18n::SalesforceDeleteMeta.keyword",
     documentationUrl = "/pipeline/transforms/salesforcedelete.html")
-public class SalesforceDeleteMeta
-    extends SalesforceTransformMeta<SalesforceDelete, SalesforceDeleteData> {
+public class SalesforceDeleteMeta extends SalesforceTransformMeta<SalesforceDelete, SalesforceDeleteData> {
   private static final Class<?> PKG = SalesforceDeleteMeta.class; // For Translator
 
   /** Deletefield */
@@ -93,8 +92,7 @@ public class SalesforceDeleteMeta
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
     readData(transformNode);
   }
@@ -111,9 +109,7 @@ public class SalesforceDeleteMeta
     StringBuilder retval = new StringBuilder(super.getXml());
     retval.append("    " + XmlHandler.addTagValue("DeleteField", getDeleteField()));
     retval.append("    " + XmlHandler.addTagValue("batchSize", getBatchSize()));
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
+    retval.append("    " + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
 
     return retval.toString();
   }
@@ -123,8 +119,7 @@ public class SalesforceDeleteMeta
       setDeleteField(XmlHandler.getTagValue(transformNode, "DeleteField"));
 
       setBatchSize(XmlHandler.getTagValue(transformNode, "batchSize"));
-      setRollbackAllChangesOnError(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
+      setRollbackAllChangesOnError("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
     }
@@ -141,13 +136,7 @@ public class SalesforceDeleteMeta
 
   /* This function adds meta data to the rows being pushed out */
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {}
 
   @Override
@@ -161,31 +150,14 @@ public class SalesforceDeleteMeta
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    super.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        input,
-        output,
-        info,
-        variables,
-        metadataProvider);
+    super.check(remarks, pipelineMeta, transformMeta, prev, input, output, info, variables, metadataProvider);
     CheckResult cr;
 
     // See if we get input...
     if (input != null && input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceDeleteMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceDeleteMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceDeleteMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceDeleteMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
   }

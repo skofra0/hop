@@ -27,24 +27,16 @@ import org.apache.hop.ui.hopgui.perspective.explorer.file.types.base.BaseExplore
 
 import java.util.Properties;
 
-public abstract class BaseTextExplorerFileType<T extends BaseTextExplorerFileTypeHandler>
-    extends BaseExplorerFileType<T> implements IExplorerFileType<T> {
+public abstract class BaseTextExplorerFileType<T extends BaseTextExplorerFileTypeHandler> extends BaseExplorerFileType<T> implements IExplorerFileType<T> {
 
   public BaseTextExplorerFileType() {}
 
-  public BaseTextExplorerFileType(
-      String name,
-      String defaultFileExtension,
-      String[] filterExtensions,
-      String[] filterNames,
-      Properties capabilities) {
+  public BaseTextExplorerFileType(String name, String defaultFileExtension, String[] filterExtensions, String[] filterNames, Properties capabilities) {
     super(name, defaultFileExtension, filterExtensions, filterNames, capabilities);
   }
 
-  public abstract T createFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
+  public abstract T createFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile file);
 
   @Override
-  public abstract IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException;
+  public abstract IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException;
 }

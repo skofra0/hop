@@ -65,8 +65,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
   private final int middle = props.getMiddlePct();
   private final int margin = props.getMargin();
 
-  public AbortDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public AbortDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (AbortMeta) in;
   }
@@ -81,13 +80,12 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
     setShellImage(shell, input);
 
     lsMod = e -> input.setChanged();
-    lsSelMod =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    lsSelMod = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -185,8 +183,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
 
     wAbortWithErrorButton = new Button(wOptionsGroup, SWT.RADIO);
     wAbortWithErrorButton.addSelectionListener(lsSelMod);
-    wAbortWithErrorButton.setText(
-        BaseMessages.getString(PKG, "AbortDialog.Options.AbortWithError.Label"));
+    wAbortWithErrorButton.setText(BaseMessages.getString(PKG, "AbortDialog.Options.AbortWithError.Label"));
     FormData fdAbortWithError = new FormData();
     fdAbortWithError.left = new FormAttachment(middle, margin);
     fdAbortWithError.top = new FormAttachment(wAbortButton, 10);
@@ -215,8 +212,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
     wRowThreshold.setText("");
     PropsUi.setLook(wRowThreshold);
     wRowThreshold.addModifyListener(lsMod);
-    wRowThreshold.setToolTipText(
-        BaseMessages.getString(PKG, "AbortDialog.Options.RowThreshold.Tooltip"));
+    wRowThreshold.setToolTipText(BaseMessages.getString(PKG, "AbortDialog.Options.RowThreshold.Tooltip"));
     FormData fdRowThreshold = new FormData();
     fdRowThreshold.left = new FormAttachment(wlRowThreshold, margin);
     fdRowThreshold.top = new FormAttachment(wlRowThreshold, 0, SWT.CENTER);
@@ -253,8 +249,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
     wMessage.setText("");
     PropsUi.setLook(wMessage);
     wMessage.addModifyListener(lsMod);
-    wMessage.setToolTipText(
-        BaseMessages.getString(PKG, "AbortDialog.Logging.AbortMessage.Tooltip"));
+    wMessage.setToolTipText(BaseMessages.getString(PKG, "AbortDialog.Logging.AbortMessage.Tooltip"));
     FormData fdMessage = new FormData();
     fdMessage.left = new FormAttachment(wlMessage, margin);
     fdMessage.top = new FormAttachment(wlMessage, 0, SWT.CENTER);
@@ -264,8 +259,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
     wAlwaysLogRows = new Button(wLoggingGroup, SWT.CHECK);
     wAlwaysLogRows.setText(BaseMessages.getString(PKG, "AbortDialog.Logging.AlwaysLogRows.Label"));
     PropsUi.setLook(wAlwaysLogRows);
-    wAlwaysLogRows.setToolTipText(
-        BaseMessages.getString(PKG, "AbortDialog.Logging.AlwaysLogRows.Tooltip"));
+    wAlwaysLogRows.setToolTipText(BaseMessages.getString(PKG, "AbortDialog.Logging.AlwaysLogRows.Tooltip"));
     FormData fdAlwaysLogRows = new FormData();
     fdAlwaysLogRows.left = new FormAttachment(middle, margin);
     fdAlwaysLogRows.top = new FormAttachment(wMessage, 10);
@@ -274,12 +268,7 @@ public class AbortDialog extends BaseTransformDialog implements ITransformDialog
   }
 
   private Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "abort.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "abort.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 
   /** Copy information from the meta-data input to the dialog fields. */

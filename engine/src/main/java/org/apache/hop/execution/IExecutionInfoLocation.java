@@ -103,15 +103,14 @@ public interface IExecutionInfoLocation extends Cloneable {
    * @return The state of the execution or null if not found
    * @throws HopException In case there was a problem reading the state
    */
-  ExecutionState getExecutionState(String executionId, boolean includeLogging)
-      throws HopException;
+  ExecutionState getExecutionState(String executionId, boolean includeLogging) throws HopException;
 
   /**
    * Load the logging text of an execution state separately.
    *
    * @param executionId The id of the execution to look for.
    * @param sizeLimit The maximum amount of characters to load from the logging text.
-   *                  Set the limit to <=0 if you want to load everything up to a global limit of usually 20MB.
+   *        Set the limit to <=0 if you want to load everything up to a global limit of usually 20MB.
    * @return The complete logging text
    * @throws HopException
    */
@@ -130,7 +129,7 @@ public interface IExecutionInfoLocation extends Cloneable {
    * reverse ordered by (start of) execution date.
    *
    * @param includeChildren set to true if you want to see child executions of workflows and
-   *     pipelines.
+   *        pipelines.
    * @param limit the maximum number of IDs to retrieve or a value <=0 to get all IDs.
    * @return The list of execution IDs
    * @throws HopException in case something went wrong
@@ -165,8 +164,7 @@ public interface IExecutionInfoLocation extends Cloneable {
    * @return The execution or null if no previous successful execution could be found.
    * @throws HopException
    */
-  Execution findPreviousSuccessfulExecution(ExecutionType executionType, String name)
-      throws HopException;
+  Execution findPreviousSuccessfulExecution(ExecutionType executionType, String name) throws HopException;
 
   /**
    * Find executions with a matcher. This will parse through all executions in the location.
@@ -184,9 +182,9 @@ public interface IExecutionInfoLocation extends Cloneable {
    *
    * @param parentExecutionId The ID of the parent (pipeline) execution.
    * @param executionId The ID of the transforms (all transforms) or a specific action. Set this
-   *     parameter to null if you want to collect all the data associated with the parent execution
-   *     ID. This is for the Beam use case where we don't know up-front how many transforms are
-   *     running or when they'll pop up.
+   *        parameter to null if you want to collect all the data associated with the parent execution
+   *        ID. This is for the Beam use case where we don't know up-front how many transforms are
+   *        running or when they'll pop up.
    * @return The ExecutionData
    * @throws HopException In case something went wrong
    */
@@ -209,8 +207,7 @@ public interface IExecutionInfoLocation extends Cloneable {
    * @return A list of IDs or an empty list if nothing could be found.
    * @throws HopException in case of a serialization error
    */
-  List<String> findChildIds(ExecutionType parentExecutionType, String parentExecutionId)
-      throws HopException;
+  List<String> findChildIds(ExecutionType parentExecutionType, String parentExecutionId) throws HopException;
 
   String findParentId(String childId) throws HopException;
 
@@ -230,10 +227,7 @@ public interface IExecutionInfoLocation extends Cloneable {
     @Override
     public String getObjectId(Object object) throws HopException {
       if (!(object instanceof IExecutionInfoLocation)) {
-        throw new HopException(
-            "Object is not of class IExecutionInfoLocation but of "
-                + object.getClass().getName()
-                + "'");
+        throw new HopException("Object is not of class IExecutionInfoLocation but of " + object.getClass().getName() + "'");
       }
       return ((IExecutionInfoLocation) object).getPluginId();
     }

@@ -33,7 +33,8 @@ public class ValueDateUtilTest {
   private TimeZone defTimeZone;
   private TimeZone defUserTimezone;
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Before
   public void setUp() {
@@ -70,8 +71,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1230768000000L); // 2009-01-01 00:00:00
     endDate.setTimeInMillis(1233360000000L); // 2009-01-31 00:00:00
-    Object workingDayOfJAN =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfJAN = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in JAN ", 22L, workingDayOfJAN);
   }
 
@@ -83,8 +83,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1233446400000L); // 2009-02-01 00:00:00
     endDate.setTimeInMillis(1235779200000L); // 2009-02-28 00:00:00
-    Object workingDayOfFEB =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfFEB = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in FEB ", 20L, workingDayOfFEB);
   }
 
@@ -96,8 +95,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1235865600000L); // 2009-03-01 00:00:00
     endDate.setTimeInMillis(1238457600000L); // 2009-03-31 00:00:00
-    Object workingDayOfMAR =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfMAR = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in MAR ", 22L, workingDayOfMAR);
   }
 
@@ -109,8 +107,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1238544000000L); // 2009-04-01 00:00:00
     endDate.setTimeInMillis(1241049600000L); // 2009-04-30 00:00:00
-    Object workingDayOfAPR =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfAPR = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in APR ", 22L, workingDayOfAPR);
   }
 
@@ -122,8 +119,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1241136000000L); // 2009-05-01 00:00:00
     endDate.setTimeInMillis(1243728000000L); // 2009-05-31 00:00:00
-    Object workingDayOfMAY =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfMAY = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in MAY ", 21L, workingDayOfMAY);
   }
 
@@ -135,8 +131,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1243814400000L); // 2009-06-01 00:00:00
     endDate.setTimeInMillis(1246320000000L); // 2009-06-30 00:00:00
-    Object workingDayOfJUN =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfJUN = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in JUN ", 22L, workingDayOfJUN);
   }
 
@@ -148,8 +143,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1246406400000L); // 2009-07-01 00:00:00
     endDate.setTimeInMillis(1248998400000L); // 2009-07-31 00:00:00
-    Object workingDayOfJUL =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfJUL = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in JUL ", 23L, workingDayOfJUL);
   }
 
@@ -161,8 +155,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1249084800000L); // 2009-08-01 00:00:00
     endDate.setTimeInMillis(1251676800000L); // 2009-08-31 00:00:00
-    Object workingDayOfAUG =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfAUG = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in AUG ", 21L, workingDayOfAUG);
   }
 
@@ -174,8 +167,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1251763200000L); // 2009-09-01 00:00:00
     endDate.setTimeInMillis(1254268800000L); // 2009-09-30 00:00:00
-    Object workingDayOfSEP =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfSEP = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in SEP ", 22L, workingDayOfSEP);
   }
 
@@ -187,8 +179,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1254355200000L); // 2009-10-01 00:00:00
     endDate.setTimeInMillis(1256947200000L); // 2009-10-31 00:00:00
-    Object workingDayOfOCT =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfOCT = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in OCT ", 22L, workingDayOfOCT);
   }
 
@@ -200,8 +191,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1257033600000L); // 2009-11-01 00:00:00
     endDate.setTimeInMillis(1259539200000L); // 2009-11-30 00:00:00
-    Object workingDayOfNOV =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfNOV = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in NOV ", 21L, workingDayOfNOV);
   }
 
@@ -213,8 +203,7 @@ public class ValueDateUtilTest {
     Calendar endDate = Calendar.getInstance();
     startDate.setTimeInMillis(1259625600000L); // 2009-12-01 00:00:00
     endDate.setTimeInMillis(1262217600000L); // 2009-12-31 00:00:00
-    Object workingDayOfDEC =
-        ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
+    Object workingDayOfDEC = ValueDataUtil.DateWorkingDiff(metaA, endDate.getTime(), metaB, startDate.getTime());
     assertEquals("Working days count in DEC ", 23L, workingDayOfDEC);
   }
 }

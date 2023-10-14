@@ -32,8 +32,7 @@ public class VariableButtonListenerFactory {
   private static final Class<?> PKG = TextFileInputMeta.class; // For Translator
 
   // Listen to the Variable... button
-  public static final SelectionAdapter getSelectionAdapter(
-      final Composite composite, final Text destination, IVariables variables) {
+  public static final SelectionAdapter getSelectionAdapter(final Composite composite, final Text destination, IVariables variables) {
     return getSelectionAdapter(composite, destination, null, null, variables);
   }
 

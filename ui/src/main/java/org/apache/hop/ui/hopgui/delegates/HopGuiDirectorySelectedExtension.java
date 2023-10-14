@@ -24,8 +24,7 @@ public class HopGuiDirectorySelectedExtension {
   public IVariables variables;
   public String folderName;
 
-  public HopGuiDirectorySelectedExtension(
-      IDirectoryDialog directoryDialog, IVariables variables, String folderName) {
+  public HopGuiDirectorySelectedExtension(IDirectoryDialog directoryDialog, IVariables variables, String folderName) {
     this.directoryDialog = directoryDialog;
     this.variables = variables;
     this.folderName = folderName;

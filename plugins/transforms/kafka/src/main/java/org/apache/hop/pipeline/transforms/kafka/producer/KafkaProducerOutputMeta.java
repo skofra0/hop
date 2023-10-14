@@ -44,9 +44,7 @@ import java.util.stream.IntStream;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Streaming",
     keywords = "i18n::KafkaProducerOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/kafkaproducer.html")
-@InjectionSupported(
-    localizationPrefix = "KafkaProducerOutputMeta.Injection.",
-    groups = {"CONFIGURATION_PROPERTIES"})
+@InjectionSupported(localizationPrefix = "KafkaProducerOutputMeta.Injection.", groups = {"CONFIGURATION_PROPERTIES"})
 public class KafkaProducerOutputMeta extends BaseTransformMeta<KafkaProducerOutput, KafkaProducerOutputData> {
 
   public static final String DIRECT_BOOTSTRAP_SERVERS = "directBootstrapServers";
@@ -96,23 +94,14 @@ public class KafkaProducerOutputMeta extends BaseTransformMeta<KafkaProducerOutp
 
     config = new LinkedHashMap<>();
 
-    Optional.ofNullable(XmlHandler.getSubNode(transformNode, ADVANCED_CONFIG))
-        .map(Node::getChildNodes)
-        .ifPresent(
-            nodes ->
-                IntStream.range(0, nodes.getLength())
-                    .mapToObj(nodes::item)
-                    .filter(node -> node.getNodeType() == Node.ELEMENT_NODE)
-                    .forEach(
-                        node -> {
-                          if (CONFIG_OPTION.equals(node.getNodeName())) {
-                            config.put(
-                                node.getAttributes().getNamedItem(OPTION_PROPERTY).getTextContent(),
-                                node.getAttributes().getNamedItem(OPTION_VALUE).getTextContent());
-                          } else {
-                            config.put(node.getNodeName(), node.getTextContent());
-                          }
-                        }));
+    Optional.ofNullable(XmlHandler.getSubNode(transformNode, ADVANCED_CONFIG)).map(Node::getChildNodes)
+        .ifPresent(nodes -> IntStream.range(0, nodes.getLength()).mapToObj(nodes::item).filter(node -> node.getNodeType() == Node.ELEMENT_NODE).forEach(node -> {
+          if (CONFIG_OPTION.equals(node.getNodeName())) {
+            config.put(node.getAttributes().getNamedItem(OPTION_PROPERTY).getTextContent(), node.getAttributes().getNamedItem(OPTION_VALUE).getTextContent());
+          } else {
+            config.put(node.getNodeName(), node.getTextContent());
+          }
+        }));
   }
 
   @Override
@@ -121,13 +110,7 @@ public class KafkaProducerOutputMeta extends BaseTransformMeta<KafkaProducerOutp
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     // Default: nothing changes to rowMeta
   }
 
@@ -166,22 +149,13 @@ public class KafkaProducerOutputMeta extends BaseTransformMeta<KafkaProducerOutp
   @Override
   public String getXml() {
     StringBuilder retval = new StringBuilder();
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue(DIRECT_BOOTSTRAP_SERVERS, directBootstrapServers));
+    retval.append("    ").append(XmlHandler.addTagValue(DIRECT_BOOTSTRAP_SERVERS, directBootstrapServers));
     retval.append("    ").append(XmlHandler.addTagValue(TOPIC, topicVal));
     retval.append("    ").append(XmlHandler.addTagValue(CLIENT_ID, clientId));
     retval.append("    ").append(XmlHandler.addTagValue(KEY_FIELD, keyField));
     retval.append("    ").append(XmlHandler.addTagValue(MESSAGE_FIELD, messageField));
     retval.append("    ").append(XmlHandler.openTag(ADVANCED_CONFIG)).append(Const.CR);
-    getConfig()
-        .forEach(
-            (key, value) ->
-                retval
-                    .append("        ")
-                    .append(
-                        XmlHandler.addTagValue(
-                            CONFIG_OPTION, "", true, OPTION_PROPERTY, key, OPTION_VALUE, value)));
+    getConfig().forEach((key, value) -> retval.append("        ").append(XmlHandler.addTagValue(CONFIG_OPTION, "", true, OPTION_PROPERTY, key, OPTION_VALUE, value)));
     retval.append("    ").append(XmlHandler.closeTag(ADVANCED_CONFIG)).append(Const.CR);
 
     return retval.toString();
@@ -208,19 +182,11 @@ public class KafkaProducerOutputMeta extends BaseTransformMeta<KafkaProducerOutp
     if (injectedConfigNames != null || injectedConfigValues != null) {
       Preconditions.checkState(injectedConfigNames != null, "Options names were not injected");
       Preconditions.checkState(injectedConfigValues != null, "Options values were not injected");
-      Preconditions.checkState(
-          injectedConfigNames.size() == injectedConfigValues.size(),
-          "Injected different number of options names and value");
+      Preconditions.checkState(injectedConfigNames.size() == injectedConfigValues.size(), "Injected different number of options names and value");
 
       setConfig(
-          IntStream.range(0, injectedConfigNames.size())
-              .boxed()
-              .collect(
-                  Collectors.toMap(
-                      injectedConfigNames::get,
-                      injectedConfigValues::get,
-                      (v1, v2) -> v1,
-                      LinkedHashMap::new)));
+          IntStream.range(0, injectedConfigNames.size()).boxed()
+              .collect(Collectors.toMap(injectedConfigNames::get, injectedConfigValues::get, (v1, v2) -> v1, LinkedHashMap::new)));
 
       injectedConfigNames = null;
       injectedConfigValues = null;

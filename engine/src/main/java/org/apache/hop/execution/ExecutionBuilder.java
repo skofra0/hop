@@ -65,23 +65,14 @@ public final class ExecutionBuilder {
     return new ExecutionBuilder();
   }
 
-  public static ExecutionBuilder fromExecutor(IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public static ExecutionBuilder fromExecutor(IPipelineEngine<PipelineMeta> pipeline) throws HopException {
     ExecutionBuilder builder = of();
-    builder
-        .withFilename(pipeline.getPipelineMeta().getFilename())
-        .withName(pipeline.getPipelineMeta().getName())
-        .withId(pipeline.getLogChannelId())
-        .withParentId(pipeline.getParent() == null ? null : pipeline.getParent().getLogChannelId())
-        .withExecutorType(ExecutionType.Pipeline)
-        .withExecutorXml(pipeline.getPipelineMeta().getXml(pipeline))
-        .withMetadataJson(new SerializableMetadataProvider(pipeline.getMetadataProvider()).toJson())
-        .withRunConfigurationName(pipeline.getPipelineRunConfiguration().getName())
-        .withLogLevel(pipeline.getLogLevel())
-        .withExecutionStartDate(pipeline.getExecutionStartDate());
+    builder.withFilename(pipeline.getPipelineMeta().getFilename()).withName(pipeline.getPipelineMeta().getName()).withId(pipeline.getLogChannelId())
+        .withParentId(pipeline.getParent() == null ? null : pipeline.getParent().getLogChannelId()).withExecutorType(ExecutionType.Pipeline)
+        .withExecutorXml(pipeline.getPipelineMeta().getXml(pipeline)).withMetadataJson(new SerializableMetadataProvider(pipeline.getMetadataProvider()).toJson())
+        .withRunConfigurationName(pipeline.getPipelineRunConfiguration().getName()).withLogLevel(pipeline.getLogLevel()).withExecutionStartDate(pipeline.getExecutionStartDate());
 
-    builder.environmentDetails.put(
-        EnvironmentDetailType.ContainerId.name(), pipeline.getContainerId());
+    builder.environmentDetails.put(EnvironmentDetailType.ContainerId.name(), pipeline.getContainerId());
 
     builder.getVariableInformation(pipeline);
     builder.getParameterInformation(pipeline);
@@ -90,24 +81,15 @@ public final class ExecutionBuilder {
     return builder;
   }
 
-  public static ExecutionBuilder fromExecutor(IWorkflowEngine<WorkflowMeta> workflow)
-      throws HopException {
+  public static ExecutionBuilder fromExecutor(IWorkflowEngine<WorkflowMeta> workflow) throws HopException {
     ExecutionBuilder builder =
-        of().withFilename(workflow.getWorkflowMeta().getFilename())
-            .withName(workflow.getWorkflowMeta().getName())
-            .withId(workflow.getLogChannelId())
-            .withParentId(
-                workflow.getParent() == null ? null : workflow.getParent().getLogChannelId())
-            .withExecutorType(ExecutionType.Workflow)
-            .withExecutorXml(workflow.getWorkflowMeta().getXml(workflow))
-            .withMetadataJson(
-                new SerializableMetadataProvider(workflow.getMetadataProvider()).toJson())
-            .withRunConfigurationName(workflow.getWorkflowRunConfiguration().getName())
-            .withLogLevel(workflow.getLogLevel())
+        of().withFilename(workflow.getWorkflowMeta().getFilename()).withName(workflow.getWorkflowMeta().getName()).withId(workflow.getLogChannelId())
+            .withParentId(workflow.getParent() == null ? null : workflow.getParent().getLogChannelId()).withExecutorType(ExecutionType.Workflow)
+            .withExecutorXml(workflow.getWorkflowMeta().getXml(workflow)).withMetadataJson(new SerializableMetadataProvider(workflow.getMetadataProvider()).toJson())
+            .withRunConfigurationName(workflow.getWorkflowRunConfiguration().getName()).withLogLevel(workflow.getLogLevel())
             .withExecutionStartDate(workflow.getExecutionStartDate());
 
-    builder.environmentDetails.put(
-        EnvironmentDetailType.ContainerId.name(), workflow.getContainerId());
+    builder.environmentDetails.put(EnvironmentDetailType.ContainerId.name(), workflow.getContainerId());
 
     builder.getVariableInformation(workflow);
     builder.getParameterInformation(workflow);
@@ -116,37 +98,15 @@ public final class ExecutionBuilder {
     return builder;
   }
 
-  public static ExecutionBuilder fromTransform(
-      IPipelineEngine<PipelineMeta> pipeline, ITransform transform) {
-    return ExecutionBuilder.of()
-        .withFilename(null)
-        .withName(transform.getTransformName())
-        .withCopyNr(Integer.toString(transform.getCopyNr()))
-        .withId(transform.getLogChannelId())
-        .withParentId(pipeline.getLogChannelId())
-        .withExecutorType(ExecutionType.Transform)
-        .withExecutorXml(null)
-        .withMetadataJson(null)
-        .withRunConfigurationName(null)
-        .withLogLevel(transform.getLogLevel())
-        .withExecutionStartDate(pipeline.getExecutionStartDate());
+  public static ExecutionBuilder fromTransform(IPipelineEngine<PipelineMeta> pipeline, ITransform transform) {
+    return ExecutionBuilder.of().withFilename(null).withName(transform.getTransformName()).withCopyNr(Integer.toString(transform.getCopyNr())).withId(transform.getLogChannelId())
+        .withParentId(pipeline.getLogChannelId()).withExecutorType(ExecutionType.Transform).withExecutorXml(null).withMetadataJson(null).withRunConfigurationName(null)
+        .withLogLevel(transform.getLogLevel()).withExecutionStartDate(pipeline.getExecutionStartDate());
   }
 
-  public static ExecutionBuilder fromAction(
-      IWorkflowEngine<WorkflowMeta> workflow,
-      ActionMeta actionMeta,
-      IAction action,
-      Date startDate) {
-    return ExecutionBuilder.of()
-        .withFilename(null)
-        .withName(actionMeta.getName())
-        .withId(action.getLogChannel().getLogChannelId())
-        .withParentId(workflow.getLogChannelId())
-        .withExecutorType(ExecutionType.Action)
-        .withExecutorXml(null)
-        .withMetadataJson(null)
-        .withRunConfigurationName(null)
-        .withLogLevel(action.getLogChannel().getLogLevel())
+  public static ExecutionBuilder fromAction(IWorkflowEngine<WorkflowMeta> workflow, ActionMeta actionMeta, IAction action, Date startDate) {
+    return ExecutionBuilder.of().withFilename(null).withName(actionMeta.getName()).withId(action.getLogChannel().getLogChannelId()).withParentId(workflow.getLogChannelId())
+        .withExecutorType(ExecutionType.Action).withExecutorXml(null).withMetadataJson(null).withRunConfigurationName(null).withLogLevel(action.getLogChannel().getLogLevel())
         .withExecutionStartDate(startDate);
   }
 
@@ -166,23 +126,15 @@ public final class ExecutionBuilder {
 
   public ExecutionBuilder updateRuntimeInformation() {
     Runtime runtime = Runtime.getRuntime();
-    environmentDetails.put(
-        EnvironmentDetailType.MaxMemory.name(), Long.toString(runtime.maxMemory()));
-    environmentDetails.put(
-        EnvironmentDetailType.FreeMemory.name(), Long.toString(runtime.freeMemory()));
-    environmentDetails.put(
-        EnvironmentDetailType.TotalMemory.name(), Long.toString(runtime.totalMemory()));
-    environmentDetails.put(
-        EnvironmentDetailType.AvailableProcessors.name(),
-        Integer.toString(runtime.availableProcessors()));
-    environmentDetails.put(
-        EnvironmentDetailType.JavaVersion.name(), System.getProperty("java.version"));
+    environmentDetails.put(EnvironmentDetailType.MaxMemory.name(), Long.toString(runtime.maxMemory()));
+    environmentDetails.put(EnvironmentDetailType.FreeMemory.name(), Long.toString(runtime.freeMemory()));
+    environmentDetails.put(EnvironmentDetailType.TotalMemory.name(), Long.toString(runtime.totalMemory()));
+    environmentDetails.put(EnvironmentDetailType.AvailableProcessors.name(), Integer.toString(runtime.availableProcessors()));
+    environmentDetails.put(EnvironmentDetailType.JavaVersion.name(), System.getProperty("java.version"));
     environmentDetails.put(EnvironmentDetailType.JavaUser.name(), System.getProperty("user.name"));
     try {
-      environmentDetails.put(
-          EnvironmentDetailType.HostName.name(), InetAddress.getLocalHost().getHostName());
-      environmentDetails.put(
-          EnvironmentDetailType.HostAddress.name(), InetAddress.getLocalHost().getHostAddress());
+      environmentDetails.put(EnvironmentDetailType.HostName.name(), InetAddress.getLocalHost().getHostName());
+      environmentDetails.put(EnvironmentDetailType.HostAddress.name(), InetAddress.getLocalHost().getHostAddress());
     } catch (UnknownHostException e) {
       environmentDetails.put(EnvironmentDetailType.HostName.name(), "<unknown>");
       environmentDetails.put(EnvironmentDetailType.HostAddress.name(), "<unknown>");
@@ -220,8 +172,7 @@ public final class ExecutionBuilder {
 
   public ExecutionBuilder withExecutorType(ExecutionType executionType) {
     assert executionType != null : "Please specify execution type Pipeline or Workflow, not null";
-    assert executionType == ExecutionType.Pipeline || executionType == ExecutionType.Workflow
-        : "Please specify execution type Pipeline or Workflow";
+    assert executionType == ExecutionType.Pipeline || executionType == ExecutionType.Workflow : "Please specify execution type Pipeline or Workflow";
     this.executionType = executionType;
     return this;
   }

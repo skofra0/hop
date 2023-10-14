@@ -35,8 +35,7 @@ public class RowOutputConverter {
     this.log = log;
   }
 
-  private Object getValue(IValueMeta targetMeta, IValueMeta strConvertMeta, Object value)
-      throws HopValueException {
+  private Object getValue(IValueMeta targetMeta, IValueMeta strConvertMeta, Object value) throws HopValueException {
     if (targetMeta.isNumeric()) {
       try {
         // attempt direct conversion
@@ -49,8 +48,7 @@ public class RowOutputConverter {
     }
     // convert from string
     String strValue = getStringValue(value);
-    return targetMeta.convertDataFromString(
-        strValue, strConvertMeta, null, null, targetMeta.getTrimType());
+    return targetMeta.convertDataFromString(strValue, strConvertMeta, null, null, targetMeta.getTrimType());
   }
 
   private String getStringValue(Object jo) {
@@ -67,18 +65,13 @@ public class RowOutputConverter {
     return nodevalue;
   }
 
-  public Object[] getRow(Object[] baseOutputRow, Object[] rawPartRow, JsonInputData data)
-      throws HopException {
+  public Object[] getRow(Object[] baseOutputRow, Object[] rawPartRow, JsonInputData data) throws HopException {
     if (rawPartRow == null) {
       return null;
     }
     for (int i = 0; i < rawPartRow.length; i++) {
       int outIdx = data.totalpreviousfields + i;
-      Object val =
-          getValue(
-              data.outputRowMeta.getValueMeta(outIdx),
-              data.convertRowMeta.getValueMeta(outIdx),
-              rawPartRow[i]);
+      Object val = getValue(data.outputRowMeta.getValueMeta(outIdx), data.convertRowMeta.getValueMeta(outIdx), rawPartRow[i]);
       rawPartRow[i] = val;
       if (val == null && data.repeatedFields.get(i) && data.previousRow != null) {
         rawPartRow[i] = data.previousRow[outIdx];

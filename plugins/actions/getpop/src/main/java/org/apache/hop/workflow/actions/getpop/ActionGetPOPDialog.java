@@ -214,8 +214,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
   private MailConnection mailConn = null;
 
-  public ActionGetPOPDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionGetPOPDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionGetPOP) action;
     if (this.action.getName() == null) {
@@ -231,20 +230,18 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     PropsUi.setLook(shell);
     WorkflowDialog.setShellImage(shell, action);
 
-    ModifyListener lsMod =
-        e -> {
-          closeMailConnection();
-          action.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      closeMailConnection();
+      action.setChanged();
+    };
 
-    SelectionListener lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            closeMailConnection();
-          }
-        };
+    SelectionListener lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        closeMailConnection();
+      }
+    };
     changed = action.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -350,14 +347,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdUseSSL.right = new FormAttachment(100, 0);
     wUseSSL.setLayoutData(fdUseSSL);
 
-    wUseSSL.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            closeMailConnection();
-            refreshPort(true);
-          }
-        });
+    wUseSSL.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        closeMailConnection();
+        refreshPort(true);
+      }
+    });
 
     // USE connection with XOAUTH2
     Label wlUseXOAUTH2 = new Label(wServerSettings, SWT.RIGHT);
@@ -377,14 +373,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdUseXOAUTH2.right = new FormAttachment(100, 0);
     wUseXOAUTH2.setLayoutData(fdUseXOAUTH2);
 
-    wUseXOAUTH2.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            closeMailConnection();
-            refreshPort(true);
-          }
-        });
+    wUseXOAUTH2.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        closeMailConnection();
+        refreshPort(true);
+      }
+    });
 
     // port
     Label wlPort = new Label(wServerSettings, SWT.RIGHT);
@@ -460,14 +455,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdUseProxy.right = new FormAttachment(100, 0);
     wUseProxy.setLayoutData(fdUseProxy);
 
-    wUseProxy.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setUserProxy();
-            action.setChanged();
-          }
-        });
+    wUseProxy.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setUserProxy();
+        action.setChanged();
+      }
+    });
 
     // ProxyUsername line
     wlProxyUsername = new Label(wServerSettings, SWT.RIGHT);
@@ -480,8 +474,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wlProxyUsername.setLayoutData(fdlProxyUsername);
     wProxyUsername = new TextVar(variables, wServerSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wProxyUsername);
-    wProxyUsername.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.ProxyUsername.Tooltip"));
+    wProxyUsername.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.ProxyUsername.Tooltip"));
     wProxyUsername.addModifyListener(lsMod);
     FormData fdProxyUsername = new FormData();
     fdProxyUsername.left = new FormAttachment(middle, 0);
@@ -507,13 +500,12 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdProtocol.top = new FormAttachment(wProxyUsername, margin);
     fdProtocol.right = new FormAttachment(100, 0);
     wProtocol.setLayoutData(fdProtocol);
-    wProtocol.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            refreshProtocol(true);
-          }
-        });
+    wProtocol.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        refreshProtocol(true);
+      }
+    });
 
     // Test connection button
     Button wTest = new Button(wServerSettings, SWT.PUSH);
@@ -565,13 +557,11 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdbDirectory.right = new FormAttachment(100, -margin);
     fdbDirectory.top = new FormAttachment(wServerSettings, margin);
     wbDirectory.setLayoutData(fdbDirectory);
-    wbDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputDirectory, variables));
+    wbDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wOutputDirectory, variables));
 
     wOutputDirectory = new TextVar(variables, wTargetFolder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wOutputDirectory);
-    wOutputDirectory.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.OutputDirectory.Tooltip"));
+    wOutputDirectory.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.OutputDirectory.Tooltip"));
     wOutputDirectory.addModifyListener(lsMod);
     FormData fdOutputDirectory = new FormData();
     fdOutputDirectory.left = new FormAttachment(middle, 0);
@@ -581,8 +571,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // Create local folder
     wlCreateLocalFolder = new Label(wTargetFolder, SWT.RIGHT);
-    wlCreateLocalFolder.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.createLocalFolder.Label"));
+    wlCreateLocalFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.createLocalFolder.Label"));
     PropsUi.setLook(wlCreateLocalFolder);
     FormData fdlCreateLocalFolder = new FormData();
     fdlCreateLocalFolder.left = new FormAttachment(0, 0);
@@ -592,8 +581,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wCreateLocalFolder = new Button(wTargetFolder, SWT.CHECK);
     PropsUi.setLook(wCreateLocalFolder);
     FormData fdCreateLocalFolder = new FormData();
-    wCreateLocalFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.createLocalFolder.Tooltip"));
+    wCreateLocalFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.createLocalFolder.Tooltip"));
     fdCreateLocalFolder.left = new FormAttachment(middle, 0);
     fdCreateLocalFolder.top = new FormAttachment(wlCreateLocalFolder, 0, SWT.CENTER);
     fdCreateLocalFolder.right = new FormAttachment(100, 0);
@@ -610,8 +598,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wlFilenamePattern.setLayoutData(fdlFilenamePattern);
     wFilenamePattern = new TextVar(variables, wTargetFolder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wFilenamePattern);
-    wFilenamePattern.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.FilenamePattern.Tooltip"));
+    wFilenamePattern.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.FilenamePattern.Tooltip"));
     wFilenamePattern.addModifyListener(lsMod);
     FormData fdFilenamePattern = new FormData();
     fdFilenamePattern.left = new FormAttachment(middle, 0);
@@ -620,8 +607,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wFilenamePattern.setLayoutData(fdFilenamePattern);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wFilenamePattern.addModifyListener(
-        e -> wFilenamePattern.setToolTipText(variables.resolve(wFilenamePattern.getText())));
+    wFilenamePattern.addModifyListener(e -> wFilenamePattern.setToolTipText(variables.resolve(wFilenamePattern.getText())));
 
     // Get message?
     wlGetMessage = new Label(wTargetFolder, SWT.RIGHT);
@@ -641,15 +627,14 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdGetMessage.right = new FormAttachment(100, 0);
     wGetMessage.setLayoutData(fdGetMessage);
 
-    wGetMessage.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (!wGetAttachment.getSelection() && !wGetMessage.getSelection()) {
-              wGetAttachment.setSelection(true);
-            }
-          }
-        });
+    wGetMessage.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (!wGetAttachment.getSelection() && !wGetMessage.getSelection()) {
+          wGetAttachment.setSelection(true);
+        }
+      }
+    });
 
     // Get attachment?
     wlGetAttachment = new Label(wTargetFolder, SWT.RIGHT);
@@ -663,25 +648,22 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wGetAttachment = new Button(wTargetFolder, SWT.CHECK);
     PropsUi.setLook(wGetAttachment);
     FormData fdGetAttachment = new FormData();
-    wGetAttachment.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.GetAttachmentMails.Tooltip"));
+    wGetAttachment.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.GetAttachmentMails.Tooltip"));
     fdGetAttachment.left = new FormAttachment(middle, 0);
     fdGetAttachment.top = new FormAttachment(wlGetAttachment, 0, SWT.CENTER);
     fdGetAttachment.right = new FormAttachment(100, 0);
     wGetAttachment.setLayoutData(fdGetAttachment);
 
-    wGetAttachment.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeAttachmentFolder();
-          }
-        });
+    wGetAttachment.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeAttachmentFolder();
+      }
+    });
 
     // different folder for attachment?
     wlDifferentFolderForAttachment = new Label(wTargetFolder, SWT.RIGHT);
-    wlDifferentFolderForAttachment.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.DifferentFolderForAttachmentMails.Label"));
+    wlDifferentFolderForAttachment.setText(BaseMessages.getString(PKG, "ActionGetPOP.DifferentFolderForAttachmentMails.Label"));
     PropsUi.setLook(wlDifferentFolderForAttachment);
     FormData fdlDifferentFolderForAttachment = new FormData();
     fdlDifferentFolderForAttachment.left = new FormAttachment(0, 0);
@@ -691,21 +673,18 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wDifferentFolderForAttachment = new Button(wTargetFolder, SWT.CHECK);
     PropsUi.setLook(wDifferentFolderForAttachment);
     FormData fdDifferentFolderForAttachment = new FormData();
-    wDifferentFolderForAttachment.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.DifferentFolderForAttachmentMails.Tooltip"));
+    wDifferentFolderForAttachment.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.DifferentFolderForAttachmentMails.Tooltip"));
     fdDifferentFolderForAttachment.left = new FormAttachment(middle, 0);
-    fdDifferentFolderForAttachment.top =
-        new FormAttachment(wlDifferentFolderForAttachment, 0, SWT.CENTER);
+    fdDifferentFolderForAttachment.top = new FormAttachment(wlDifferentFolderForAttachment, 0, SWT.CENTER);
     fdDifferentFolderForAttachment.right = new FormAttachment(100, 0);
     wDifferentFolderForAttachment.setLayoutData(fdDifferentFolderForAttachment);
 
-    wDifferentFolderForAttachment.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeAttachmentFolder();
-          }
-        });
+    wDifferentFolderForAttachment.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeAttachmentFolder();
+      }
+    });
 
     // AttachmentFolder line
     wlAttachmentFolder = new Label(wTargetFolder, SWT.RIGHT);
@@ -725,13 +704,11 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdbAttachmentFolder.right = new FormAttachment(100, -margin);
     fdbAttachmentFolder.top = new FormAttachment(wlAttachmentFolder, 0, SWT.CENTER);
     wbAttachmentFolder.setLayoutData(fdbAttachmentFolder);
-    wbAttachmentFolder.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wAttachmentFolder, variables));
+    wbAttachmentFolder.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wAttachmentFolder, variables));
 
     wAttachmentFolder = new TextVar(variables, wTargetFolder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wAttachmentFolder);
-    wAttachmentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.AttachmentFolder.Tooltip"));
+    wAttachmentFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.AttachmentFolder.Tooltip"));
     wAttachmentFolder.addModifyListener(lsMod);
     FormData fdAttachmentFolder = new FormData();
     fdAttachmentFolder.left = new FormAttachment(middle, 0);
@@ -741,8 +718,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // Limit attached files
     wlAttachmentWildcard = new Label(wTargetFolder, SWT.RIGHT);
-    wlAttachmentWildcard.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.AttachmentWildcard.Label"));
+    wlAttachmentWildcard.setText(BaseMessages.getString(PKG, "ActionGetPOP.AttachmentWildcard.Label"));
     PropsUi.setLook(wlAttachmentWildcard);
     FormData fdlAttachmentWildcard = new FormData();
     fdlAttachmentWildcard.left = new FormAttachment(0, 0);
@@ -751,8 +727,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wlAttachmentWildcard.setLayoutData(fdlAttachmentWildcard);
     wAttachmentWildcard = new TextVar(variables, wTargetFolder, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wAttachmentWildcard);
-    wAttachmentWildcard.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.AttachmentWildcard.Tooltip"));
+    wAttachmentWildcard.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.AttachmentWildcard.Tooltip"));
     wAttachmentWildcard.addModifyListener(lsMod);
     FormData fdAttachmentWildcard = new FormData();
     fdAttachmentWildcard.left = new FormAttachment(middle, 0);
@@ -761,8 +736,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wAttachmentWildcard.setLayoutData(fdAttachmentWildcard);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wAttachmentWildcard.addModifyListener(
-        e -> wAttachmentWildcard.setToolTipText(variables.resolve(wAttachmentWildcard.getText())));
+    wAttachmentWildcard.addModifyListener(e -> wAttachmentWildcard.setToolTipText(variables.resolve(wAttachmentWildcard.getText())));
 
     FormData fdTargetFolder = new FormData();
     fdTargetFolder.left = new FormAttachment(0, margin);
@@ -822,14 +796,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdActionType.top = new FormAttachment(0, 3 * margin);
     fdActionType.right = new FormAttachment(100, 0);
     wActionType.setLayoutData(fdActionType);
-    wActionType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setActionType();
-            action.setChanged();
-          }
-        });
+    wActionType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setActionType();
+        action.setChanged();
+      }
+    });
 
     // Message: for POP3, only INBOX folder is available!
     wlPOP3Message = new Label(wSettingsComp, SWT.RIGHT);
@@ -874,14 +847,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdListmails.right = new FormAttachment(100, 0);
     wListmails.setLayoutData(fdListmails);
 
-    wListmails.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-            chooseListMails();
-          }
-        });
+    wListmails.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+        chooseListMails();
+      }
+    });
 
     // Retrieve the first ... mails
     wlFirstmails = new Label(wPOP3Settings, SWT.RIGHT);
@@ -946,8 +918,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wSelectFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectFolderConnection.Label"));
     PropsUi.setLook(wSelectFolder);
     FormData fdSelectFolder = new FormData();
-    wSelectFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.SelectFolderConnection.Tooltip"));
+    wSelectFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.SelectFolderConnection.Tooltip"));
     fdSelectFolder.top = new FormAttachment(wPOP3Settings, margin);
     fdSelectFolder.right = new FormAttachment(100, 0);
     wSelectFolder.setLayoutData(fdSelectFolder);
@@ -955,17 +926,14 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // TestIMAPFolder button
     wTestIMAPFolder = new Button(wIMAPSettings, SWT.PUSH);
-    wTestIMAPFolder.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.TestIMAPFolderConnection.Label"));
+    wTestIMAPFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.TestIMAPFolderConnection.Label"));
     PropsUi.setLook(wTestIMAPFolder);
     FormData fdTestIMAPFolder = new FormData();
-    wTestIMAPFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.TestIMAPFolderConnection.Tooltip"));
+    wTestIMAPFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.TestIMAPFolderConnection.Tooltip"));
     fdTestIMAPFolder.top = new FormAttachment(wPOP3Settings, margin);
     fdTestIMAPFolder.right = new FormAttachment(wSelectFolder, -margin);
     wTestIMAPFolder.setLayoutData(fdTestIMAPFolder);
-    wTestIMAPFolder.addListener(
-        SWT.Selection, e -> checkFolder(variables.resolve(wIMAPFolder.getText())));
+    wTestIMAPFolder.addListener(SWT.Selection, e -> checkFolder(variables.resolve(wIMAPFolder.getText())));
 
     // IMAPFolder line
     wlIMAPFolder = new Label(wIMAPSettings, SWT.RIGHT);
@@ -988,8 +956,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // Include subfolders?
     wlIncludeSubFolders = new Label(wIMAPSettings, SWT.RIGHT);
-    wlIncludeSubFolders.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.IncludeSubFoldersMails.Label"));
+    wlIncludeSubFolders.setText(BaseMessages.getString(PKG, "ActionGetPOP.IncludeSubFoldersMails.Label"));
     PropsUi.setLook(wlIncludeSubFolders);
     FormData fdlIncludeSubFolders = new FormData();
     fdlIncludeSubFolders.left = new FormAttachment(0, 0);
@@ -999,8 +966,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wIncludeSubFolders = new Button(wIMAPSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSubFolders);
     FormData fdIncludeSubFolders = new FormData();
-    wIncludeSubFolders.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.IncludeSubFoldersMails.Tooltip"));
+    wIncludeSubFolders.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.IncludeSubFoldersMails.Tooltip"));
     fdIncludeSubFolders.left = new FormAttachment(middle, 0);
     fdIncludeSubFolders.top = new FormAttachment(wlIncludeSubFolders, 0, SWT.CENTER);
     fdIncludeSubFolders.right = new FormAttachment(100, 0);
@@ -1026,14 +992,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdIMAPListmails.right = new FormAttachment(100, 0);
     wIMAPListmails.setLayoutData(fdIMAPListmails);
 
-    wIMAPListmails.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            // disalbe selection event
+    wIMAPListmails.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        // disalbe selection event
 
-          }
-        });
+      }
+    });
 
     // Retrieve the first ... mails
     wlIMAPFirstmails = new Label(wIMAPSettings, SWT.RIGHT);
@@ -1074,14 +1039,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdAfterGetIMAP.right = new FormAttachment(100, 0);
     wAfterGetIMAP.setLayoutData(fdAfterGetIMAP);
 
-    wAfterGetIMAP.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setAfterIMAPRetrived();
-            action.setChanged();
-          }
-        });
+    wAfterGetIMAP.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setAfterIMAPRetrived();
+        action.setChanged();
+      }
+    });
 
     // MoveToFolder line
     wlMoveToFolder = new Label(wIMAPSettings, SWT.RIGHT);
@@ -1095,12 +1059,10 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // SelectMoveToFolder button
     wSelectMoveToFolder = new Button(wIMAPSettings, SWT.PUSH);
-    wSelectMoveToFolder.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.SelectMoveToFolderConnection.Label"));
+    wSelectMoveToFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectMoveToFolderConnection.Label"));
     PropsUi.setLook(wSelectMoveToFolder);
     FormData fdSelectMoveToFolder = new FormData();
-    wSelectMoveToFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.SelectMoveToFolderConnection.Tooltip"));
+    wSelectMoveToFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.SelectMoveToFolderConnection.Tooltip"));
     fdSelectMoveToFolder.top = new FormAttachment(wAfterGetIMAP, margin);
     fdSelectMoveToFolder.right = new FormAttachment(100, 0);
     wSelectMoveToFolder.setLayoutData(fdSelectMoveToFolder);
@@ -1108,17 +1070,14 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // TestMoveToFolder button
     wTestMoveToFolder = new Button(wIMAPSettings, SWT.PUSH);
-    wTestMoveToFolder.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.TestMoveToFolderConnection.Label"));
+    wTestMoveToFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.TestMoveToFolderConnection.Label"));
     PropsUi.setLook(wTestMoveToFolder);
     FormData fdTestMoveToFolder = new FormData();
-    wTestMoveToFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.TestMoveToFolderConnection.Tooltip"));
+    wTestMoveToFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.TestMoveToFolderConnection.Tooltip"));
     fdTestMoveToFolder.top = new FormAttachment(wAfterGetIMAP, margin);
     fdTestMoveToFolder.right = new FormAttachment(wSelectMoveToFolder, -margin);
     wTestMoveToFolder.setLayoutData(fdTestMoveToFolder);
-    wTestMoveToFolder.addListener(
-        SWT.Selection, e -> checkFolder(variables.resolve(wMoveToFolder.getText())));
+    wTestMoveToFolder.addListener(SWT.Selection, e -> checkFolder(variables.resolve(wMoveToFolder.getText())));
 
     wMoveToFolder = new TextVar(variables, wIMAPSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wMoveToFolder);
@@ -1132,8 +1091,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     // Create move to folder
     wlCreateMoveToFolder = new Label(wIMAPSettings, SWT.RIGHT);
-    wlCreateMoveToFolder.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.createMoveToFolderMails.Label"));
+    wlCreateMoveToFolder.setText(BaseMessages.getString(PKG, "ActionGetPOP.createMoveToFolderMails.Label"));
     PropsUi.setLook(wlCreateMoveToFolder);
     FormData fdlCreateMoveToFolder = new FormData();
     fdlCreateMoveToFolder.left = new FormAttachment(0, 0);
@@ -1143,8 +1101,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wCreateMoveToFolder = new Button(wIMAPSettings, SWT.CHECK);
     PropsUi.setLook(wCreateMoveToFolder);
     FormData fdCreateMoveToFolder = new FormData();
-    wCreateMoveToFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.createMoveToFolderMails.Tooltip"));
+    wCreateMoveToFolder.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.createMoveToFolderMails.Tooltip"));
     fdCreateMoveToFolder.left = new FormAttachment(middle, 0);
     fdCreateMoveToFolder.top = new FormAttachment(wlCreateMoveToFolder, 0, SWT.CENTER);
     fdCreateMoveToFolder.right = new FormAttachment(100, 0);
@@ -1242,8 +1199,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wNegateReceipient = new Button(wHeader, SWT.CHECK);
     PropsUi.setLook(wNegateReceipient);
     FormData fdNegateRecipient = new FormData();
-    wNegateReceipient.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.NegateReceipient.Tooltip"));
+    wNegateReceipient.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.NegateReceipient.Tooltip"));
     fdNegateRecipient.top = new FormAttachment(wlRecipient, 0, SWT.CENTER);
     fdNegateRecipient.right = new FormAttachment(100, -margin);
     wNegateReceipient.setLayoutData(fdNegateRecipient);
@@ -1271,8 +1227,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wNegateSubject = new Button(wHeader, SWT.CHECK);
     PropsUi.setLook(wNegateSubject);
     FormData fdNegateSubject = new FormData();
-    wNegateSubject.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.NegateSubject.Tooltip"));
+    wNegateSubject.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.NegateSubject.Tooltip"));
     fdNegateSubject.top = new FormAttachment(wlSubject, 0, SWT.CENTER);
     fdNegateSubject.right = new FormAttachment(100, -margin);
     wNegateSubject.setLayoutData(fdNegateSubject);
@@ -1359,8 +1314,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     // Received Date Condition line: label, text, negate checkbox
     //
     wlConditionOnReceivedDate = new Label(wReceivedDate, SWT.RIGHT);
-    wlConditionOnReceivedDate.setText(
-        BaseMessages.getString(PKG, "ActionGetPOP.ConditionOnReceivedDate.Label"));
+    wlConditionOnReceivedDate.setText(BaseMessages.getString(PKG, "ActionGetPOP.ConditionOnReceivedDate.Label"));
     PropsUi.setLook(wlConditionOnReceivedDate);
     FormData fdlConditionOnReceivedDate = new FormData();
     fdlConditionOnReceivedDate.left = new FormAttachment(0, 0);
@@ -1371,8 +1325,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wNegateReceivedDate = new Button(wReceivedDate, SWT.CHECK);
     PropsUi.setLook(wNegateReceivedDate);
     FormData fdNegateReceivedDate = new FormData();
-    wNegateReceivedDate.setToolTipText(
-        BaseMessages.getString(PKG, "ActionGetPOP.NegateReceivedDate.Tooltip"));
+    wNegateReceivedDate.setToolTipText(BaseMessages.getString(PKG, "ActionGetPOP.NegateReceivedDate.Tooltip"));
     fdNegateReceivedDate.top = new FormAttachment(wlConditionOnReceivedDate, 0, SWT.CENTER);
     fdNegateReceivedDate.right = new FormAttachment(100, -margin);
     wNegateReceivedDate.setLayoutData(fdNegateReceivedDate);
@@ -1386,14 +1339,13 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdConditionOnReceivedDate.top = new FormAttachment(wlConditionOnReceivedDate, 0, SWT.CENTER);
     fdConditionOnReceivedDate.right = new FormAttachment(wNegateReceivedDate, -margin);
     wConditionOnReceivedDate.setLayoutData(fdConditionOnReceivedDate);
-    wConditionOnReceivedDate.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            conditionReceivedDate();
-            action.setChanged();
-          }
-        });
+    wConditionOnReceivedDate.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        conditionReceivedDate();
+        action.setChanged();
+      }
+    });
 
     open = new Button(wReceivedDate, SWT.PUSH);
     open.setImage(GuiResource.getInstance().getImageCalendar());
@@ -1402,47 +1354,44 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdlButton.top = new FormAttachment(wConditionOnReceivedDate, margin);
     fdlButton.right = new FormAttachment(100, 0);
     open.setLayoutData(fdlButton);
-    open.addSelectionListener(
-        new SelectionAdapter() {
+    open.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
+        dialog.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectDate"));
+        dialog.setImage(GuiResource.getInstance().getImageHopUi());
+        dialog.setLayout(new GridLayout(3, false));
+
+        final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
+        final DateTime time = new DateTime(dialog, SWT.TIME);
+        new Label(dialog, SWT.NONE);
+        new Label(dialog, SWT.NONE);
+
+        Button ok = new Button(dialog, SWT.PUSH);
+        ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        ok.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialog = new Shell(shell, SWT.DIALOG_TRIM);
-            dialog.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectDate"));
-            dialog.setImage(GuiResource.getInstance().getImageHopUi());
-            dialog.setLayout(new GridLayout(3, false));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, calendar.getYear());
+            cal.set(Calendar.MONTH, calendar.getMonth());
+            cal.set(Calendar.DAY_OF_MONTH, calendar.getDay());
 
-            final DateTime calendar = new DateTime(dialog, SWT.CALENDAR);
-            final DateTime time = new DateTime(dialog, SWT.TIME);
-            new Label(dialog, SWT.NONE);
-            new Label(dialog, SWT.NONE);
+            cal.set(Calendar.HOUR_OF_DAY, time.getHours());
+            cal.set(Calendar.MINUTE, time.getMinutes());
+            cal.set(Calendar.SECOND, time.getSeconds());
 
-            Button ok = new Button(dialog, SWT.PUSH);
-            ok.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            ok.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            ok.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.YEAR, calendar.getYear());
-                    cal.set(Calendar.MONTH, calendar.getMonth());
-                    cal.set(Calendar.DAY_OF_MONTH, calendar.getDay());
+            wReadFrom.setText(new SimpleDateFormat(ActionGetPOP.DATE_PATTERN).format(cal.getTime()));
 
-                    cal.set(Calendar.HOUR_OF_DAY, time.getHours());
-                    cal.set(Calendar.MINUTE, time.getMinutes());
-                    cal.set(Calendar.SECOND, time.getSeconds());
-
-                    wReadFrom.setText(
-                        new SimpleDateFormat(ActionGetPOP.DATE_PATTERN).format(cal.getTime()));
-
-                    dialog.close();
-                  }
-                });
-            dialog.setDefaultButton(ok);
-            dialog.pack();
-            dialog.open();
+            dialog.close();
           }
         });
+        dialog.setDefaultButton(ok);
+        dialog.pack();
+        dialog.open();
+      }
+    });
 
     wlReadFrom = new Label(wReceivedDate, SWT.RIGHT);
     wlReadFrom.setText(BaseMessages.getString(PKG, "ActionGetPOP.ReadFrom.Label"));
@@ -1469,45 +1418,42 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     fdlButtonto.top = new FormAttachment(wReadFrom, 2 * margin);
     fdlButtonto.right = new FormAttachment(100, 0);
     opento.setLayoutData(fdlButtonto);
-    opento.addSelectionListener(
-        new SelectionAdapter() {
+    opento.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
+        dialogto.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectDate"));
+        dialogto.setImage(GuiResource.getInstance().getImageHopUi());
+        dialogto.setLayout(new GridLayout(3, false));
+
+        final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
+        final DateTime timeto = new DateTime(dialogto, SWT.TIME);
+        new Label(dialogto, SWT.NONE);
+        new Label(dialogto, SWT.NONE);
+        Button okto = new Button(dialogto, SWT.PUSH);
+        okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
+        okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        okto.addSelectionListener(new SelectionAdapter() {
           @Override
           public void widgetSelected(SelectionEvent e) {
-            final Shell dialogto = new Shell(shell, SWT.DIALOG_TRIM);
-            dialogto.setText(BaseMessages.getString(PKG, "ActionGetPOP.SelectDate"));
-            dialogto.setImage(GuiResource.getInstance().getImageHopUi());
-            dialogto.setLayout(new GridLayout(3, false));
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, calendarto.getYear());
+            cal.set(Calendar.MONTH, calendarto.getMonth());
+            cal.set(Calendar.DAY_OF_MONTH, calendarto.getDay());
 
-            final DateTime calendarto = new DateTime(dialogto, SWT.CALENDAR | SWT.BORDER);
-            final DateTime timeto = new DateTime(dialogto, SWT.TIME);
-            new Label(dialogto, SWT.NONE);
-            new Label(dialogto, SWT.NONE);
-            Button okto = new Button(dialogto, SWT.PUSH);
-            okto.setText(BaseMessages.getString(PKG, "System.Button.OK"));
-            okto.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-            okto.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.YEAR, calendarto.getYear());
-                    cal.set(Calendar.MONTH, calendarto.getMonth());
-                    cal.set(Calendar.DAY_OF_MONTH, calendarto.getDay());
+            cal.set(Calendar.HOUR_OF_DAY, timeto.getHours());
+            cal.set(Calendar.MINUTE, timeto.getMinutes());
+            cal.set(Calendar.SECOND, timeto.getSeconds());
 
-                    cal.set(Calendar.HOUR_OF_DAY, timeto.getHours());
-                    cal.set(Calendar.MINUTE, timeto.getMinutes());
-                    cal.set(Calendar.SECOND, timeto.getSeconds());
-
-                    wReadTo.setText(
-                        new SimpleDateFormat(ActionGetPOP.DATE_PATTERN).format(cal.getTime()));
-                    dialogto.close();
-                  }
-                });
-            dialogto.setDefaultButton(okto);
-            dialogto.pack();
-            dialogto.open();
+            wReadTo.setText(new SimpleDateFormat(ActionGetPOP.DATE_PATTERN).format(cal.getTime()));
+            dialogto.close();
           }
         });
+        dialogto.setDefaultButton(okto);
+        dialogto.pack();
+        dialogto.open();
+      }
+    });
 
     wlReadTo = new Label(wReceivedDate, SWT.RIGHT);
     wlReadTo.setText(BaseMessages.getString(PKG, "ActionGetPOP.ReadTo.Label"));
@@ -1593,8 +1539,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
         mailConn =
             new MailConnection(
                 LogChannel.UI,
-                MailConnectionMeta.getProtocolFromString(
-                    wProtocol.getText(), MailConnectionMeta.PROTOCOL_IMAP),
+                MailConnectionMeta.getProtocolFromString(wProtocol.getText(), MailConnectionMeta.PROTOCOL_IMAP),
                 realserver,
                 realport,
                 realuser,
@@ -1613,11 +1558,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
     if (!retval) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-                  PKG, "ActionGetPOP.Connected.NOK.ConnectionBad", wServerName.getText())
-              + Const.CR
-              + Const.NVL(errordescription, ""));
+      mb.setMessage(BaseMessages.getString(PKG, "ActionGetPOP.Connected.NOK.ConnectionBad", wServerName.getText()) + Const.CR + Const.NVL(errordescription, ""));
       mb.setText(BaseMessages.getString(PKG, "ActionGetPOP.Connected.Title.Bad"));
       mb.open();
     }
@@ -1628,9 +1569,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
   private void test() {
     if (connect()) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionGetPOP.Connected.OK", wServerName.getText())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionGetPOP.Connected.OK", wServerName.getText()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionGetPOP.Connected.Title.Ok"));
       mb.open();
     }
@@ -1657,16 +1596,12 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
         // check folder
         if (mailConn.folderExists(folderName)) {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "ActionGetPOP.IMAPFolderExists.OK", folderName)
-                  + Const.CR);
+          mb.setMessage(BaseMessages.getString(PKG, "ActionGetPOP.IMAPFolderExists.OK", folderName) + Const.CR);
           mb.setText(BaseMessages.getString(PKG, "ActionGetPOP.IMAPFolderExists.Title.Ok"));
           mb.open();
         } else {
           MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-          mb.setMessage(
-              BaseMessages.getString(PKG, "ActionGetPOP.Connected.NOK.IMAPFolderExists", folderName)
-                  + Const.CR);
+          mb.setMessage(BaseMessages.getString(PKG, "ActionGetPOP.Connected.NOK.IMAPFolderExists", folderName) + Const.CR);
           mb.setText(BaseMessages.getString(PKG, "ActionGetPOP.IMAPFolderExists.Title.Bad"));
           mb.open();
         }
@@ -1686,12 +1621,8 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
   }
 
   private void conditionReceivedDate() {
-    boolean activeReceivedDate =
-        (MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText())
-            != MailConnectionMeta.CONDITION_DATE_IGNORE);
-    boolean useBetween =
-        (MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText())
-            == MailConnectionMeta.CONDITION_DATE_BETWEEN);
+    boolean activeReceivedDate = (MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()) != MailConnectionMeta.CONDITION_DATE_IGNORE);
+    boolean useBetween = (MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()) == MailConnectionMeta.CONDITION_DATE_BETWEEN);
     wlReadFrom.setVisible(activeReceivedDate);
     wReadFrom.setVisible(activeReceivedDate);
     open.setVisible(activeReceivedDate);
@@ -1706,13 +1637,10 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
   }
 
   private void activeAttachmentFolder() {
-    boolean getmessages =
-        MailConnectionMeta.getActionTypeByDesc(wActionType.getText())
-            == MailConnectionMeta.ACTION_TYPE_GET;
+    boolean getmessages = MailConnectionMeta.getActionTypeByDesc(wActionType.getText()) == MailConnectionMeta.ACTION_TYPE_GET;
     wlDifferentFolderForAttachment.setEnabled(getmessages && wGetAttachment.getSelection());
     wDifferentFolderForAttachment.setEnabled(getmessages && wGetAttachment.getSelection());
-    boolean activeattachmentfolder =
-        (wGetAttachment.getSelection() && wDifferentFolderForAttachment.getSelection());
+    boolean activeattachmentfolder = (wGetAttachment.getSelection() && wDifferentFolderForAttachment.getSelection());
     wlAttachmentFolder.setEnabled(getmessages && activeattachmentfolder);
     wAttachmentFolder.setEnabled(getmessages && activeattachmentfolder);
     wbAttachmentFolder.setEnabled(getmessages && activeattachmentfolder);
@@ -1725,25 +1653,21 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     if (refreshport) {
       if (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3)) {
         if (wUseSSL.getSelection()) {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT);
           }
         } else {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals(MailConnectionMeta.DEFAULT_IMAP_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals(MailConnectionMeta.DEFAULT_IMAP_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_POP3_PORT);
           }
         }
       } else {
         if (wUseSSL.getSelection()) {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals("" + MailConnectionMeta.DEFAULT_SSL_POP3_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_SSL_IMAP_PORT);
           }
         } else {
-          if (Utils.isEmpty(wPort.getText())
-              || wPort.getText().equals(MailConnectionMeta.DEFAULT_POP3_PORT)) {
+          if (Utils.isEmpty(wPort.getText()) || wPort.getText().equals(MailConnectionMeta.DEFAULT_POP3_PORT)) {
             wPort.setText("" + MailConnectionMeta.DEFAULT_IMAP_PORT);
           }
         }
@@ -1791,8 +1715,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
   private void checkUnavailableMode() {
     if (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3)
-        && MailConnectionMeta.getActionTypeByDesc(wActionType.getText())
-            == MailConnectionMeta.ACTION_TYPE_MOVE) {
+        && MailConnectionMeta.getActionTypeByDesc(wActionType.getText()) == MailConnectionMeta.ACTION_TYPE_MOVE) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
       mb.setMessage(
           "This action is not available for POP3!"
@@ -1810,15 +1733,11 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
 
   private void setActionType() {
     checkUnavailableMode();
-    if (MailConnectionMeta.getActionTypeByDesc(wActionType.getText())
-        != MailConnectionMeta.ACTION_TYPE_GET) {
-      wAfterGetIMAP.setText(
-          MailConnectionMeta.getAfterGetIMAPDesc(MailConnectionMeta.AFTER_GET_IMAP_NOTHING));
+    if (MailConnectionMeta.getActionTypeByDesc(wActionType.getText()) != MailConnectionMeta.ACTION_TYPE_GET) {
+      wAfterGetIMAP.setText(MailConnectionMeta.getAfterGetIMAPDesc(MailConnectionMeta.AFTER_GET_IMAP_NOTHING));
     }
 
-    boolean getmessages =
-        MailConnectionMeta.getActionTypeByDesc(wActionType.getText())
-            == MailConnectionMeta.ACTION_TYPE_GET;
+    boolean getmessages = MailConnectionMeta.getActionTypeByDesc(wActionType.getText()) == MailConnectionMeta.ACTION_TYPE_GET;
 
     wlOutputDirectory.setEnabled(getmessages);
     wOutputDirectory.setEnabled(getmessages);
@@ -1836,10 +1755,8 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     wlGetMessage.setEnabled(getmessages);
     wGetMessage.setEnabled(getmessages);
 
-    wlAfterGetIMAP.setEnabled(
-        getmessages && wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP));
-    wAfterGetIMAP.setEnabled(
-        getmessages && wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP));
+    wlAfterGetIMAP.setEnabled(getmessages && wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP));
+    wAfterGetIMAP.setEnabled(getmessages && wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP));
 
     setAfterIMAPRetrived();
   }
@@ -1847,10 +1764,8 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
   private void setAfterIMAPRetrived() {
     boolean activeMoveToFolfer =
         (((wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_IMAP))
-                && (MailConnectionMeta.getActionTypeByDesc(wActionType.getText())
-                    == MailConnectionMeta.ACTION_TYPE_MOVE))
-            || (MailConnectionMeta.getAfterGetIMAPByDesc(wAfterGetIMAP.getText())
-                == MailConnectionMeta.AFTER_GET_IMAP_MOVE));
+            && (MailConnectionMeta.getActionTypeByDesc(wActionType.getText()) == MailConnectionMeta.ACTION_TYPE_MOVE))
+            || (MailConnectionMeta.getAfterGetIMAPByDesc(wAfterGetIMAP.getText()) == MailConnectionMeta.AFTER_GET_IMAP_MOVE));
     wlMoveToFolder.setEnabled(activeMoveToFolfer);
     wMoveToFolder.setEnabled(activeMoveToFolfer);
     wTestMoveToFolder.setEnabled(activeMoveToFolfer);
@@ -1860,9 +1775,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
   }
 
   public void chooseListMails() {
-    boolean ok =
-        (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3)
-            && wListmails.getSelectionIndex() == 1);
+    boolean ok = (wProtocol.getText().equals(MailConnectionMeta.PROTOCOL_STRING_POP3) && wListmails.getSelectionIndex() == 1);
     wlFirstmails.setEnabled(ok);
     wFirstmails.setEnabled(ok);
   }
@@ -1952,8 +1865,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
       wBody.setText(action.getBodySearch());
     }
     wNegateBody.setSelection(action.isNotTermBodySearch());
-    wConditionOnReceivedDate.setText(
-        MailConnectionMeta.getConditionDateDesc(action.getConditionOnReceivedDate()));
+    wConditionOnReceivedDate.setText(MailConnectionMeta.getConditionDateDesc(action.getConditionOnReceivedDate()));
     wNegateReceivedDate.setSelection(action.isNotTermReceivedDateSearch());
     if (action.getReceivedDate1() != null) {
       wReadFrom.setText(action.getReceivedDate1());
@@ -2031,8 +1943,7 @@ public class ActionGetPOPDialog extends ActionDialog implements IActionDialog {
     action.setNotTermSubjectSearch(wNegateSubject.getSelection());
     action.setBodySearch(wBody.getText());
     action.setNotTermBodySearch(wNegateBody.getSelection());
-    action.setConditionOnReceivedDate(
-        MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()));
+    action.setConditionOnReceivedDate(MailConnectionMeta.getConditionDateByDesc(wConditionOnReceivedDate.getText()));
     action.setNotTermReceivedDateSearch(wNegateReceivedDate.getSelection());
     action.setReceivedDate1(wReadFrom.getText());
     action.setReceivedDate2(wReadTo.getText());

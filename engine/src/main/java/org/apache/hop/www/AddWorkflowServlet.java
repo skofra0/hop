@@ -54,8 +54,7 @@ public class AddWorkflowServlet extends BaseHttpServlet implements IHopServerPlu
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -94,20 +93,13 @@ public class AddWorkflowServlet extends BaseHttpServlet implements IHopServerPlu
 
       // Parse the XML, create a workflow configuration
       //
-      WorkflowConfiguration workflowConfiguration =
-          WorkflowConfiguration.fromXml(xml.toString(), variables);
-      IHopMetadataProvider metadataProvider =
-          new MultiMetadataProvider(
-              variables,
-              getServerConfig().getMetadataProvider(),
-              workflowConfiguration.getMetadataProvider());
+      WorkflowConfiguration workflowConfiguration = WorkflowConfiguration.fromXml(xml.toString(), variables);
+      IHopMetadataProvider metadataProvider = new MultiMetadataProvider(variables, getServerConfig().getMetadataProvider(), workflowConfiguration.getMetadataProvider());
       WorkflowMeta workflowMeta = workflowConfiguration.getWorkflowMeta();
-      WorkflowExecutionConfiguration workflowExecutionConfiguration =
-          workflowConfiguration.getWorkflowExecutionConfiguration();
+      WorkflowExecutionConfiguration workflowExecutionConfiguration = workflowConfiguration.getWorkflowExecutionConfiguration();
 
       String serverObjectId = UUID.randomUUID().toString();
-      SimpleLoggingObject servletLoggingObject =
-          new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+      SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
       servletLoggingObject.setContainerObjectId(serverObjectId);
       servletLoggingObject.setLogLevel(workflowExecutionConfiguration.getLogLevel());
 
@@ -115,19 +107,13 @@ public class AddWorkflowServlet extends BaseHttpServlet implements IHopServerPlu
       //
       String runConfigurationName = workflowExecutionConfiguration.getRunConfiguration();
       final IWorkflowEngine<WorkflowMeta> workflow =
-          WorkflowEngineFactory.createWorkflowEngine(
-              variables,
-              variables.resolve(runConfigurationName),
-              metadataProvider,
-              workflowMeta,
-              servletLoggingObject);
+          WorkflowEngineFactory.createWorkflowEngine(variables, variables.resolve(runConfigurationName), metadataProvider, workflowMeta, servletLoggingObject);
 
       // Setting variables
       //
       workflow.initializeFrom(null);
       workflow.getWorkflowMeta().setInternalHopVariables(workflow);
-      workflow.setVariables(
-          workflowConfiguration.getWorkflowExecutionConfiguration().getVariablesMap());
+      workflow.setVariables(workflowConfiguration.getWorkflowExecutionConfiguration().getVariablesMap());
 
       // Also copy the parameters over...
       //
@@ -137,8 +123,7 @@ public class AddWorkflowServlet extends BaseHttpServlet implements IHopServerPlu
       for (int idx = 0; idx < parameterNames.length; idx++) {
         // Grab the parameter value set in the action
         //
-        String thisValue =
-            workflowExecutionConfiguration.getParametersMap().get(parameterNames[idx]);
+        String thisValue = workflowExecutionConfiguration.getParametersMap().get(parameterNames[idx]);
         if (!Utils.isEmpty(thisValue)) {
           // Set the value as specified by the user in the action
           //
@@ -154,14 +139,9 @@ public class AddWorkflowServlet extends BaseHttpServlet implements IHopServerPlu
         workflow.setStartActionMeta(startActionMeta);
       }
 
-      getWorkflowMap()
-          .addWorkflow(workflow.getWorkflowName(), serverObjectId, workflow, workflowConfiguration);
+      getWorkflowMap().addWorkflow(workflow.getWorkflowName(), serverObjectId, workflow, workflowConfiguration);
 
-      String message =
-          "Workflow '"
-              + workflow.getWorkflowName()
-              + "' was added to the list with id "
-              + serverObjectId;
+      String message = "Workflow '" + workflow.getWorkflowName() + "' was added to the list with id " + serverObjectId;
 
       if (useXML) {
         out.println(new WebResult(WebResult.STRING_OK, message, serverObjectId));

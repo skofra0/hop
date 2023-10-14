@@ -79,8 +79,7 @@ public class MetadataEditorDialog extends Dialog implements IMetadataDialog {
       }
     }
     buttons.add(wCancel);
-    BaseTransformDialog.positionBottomButtons(
-        shell, buttons.toArray(new Button[0]), props.getMargin(), null);
+    BaseTransformDialog.positionBottomButtons(shell, buttons.toArray(new Button[0]), props.getMargin(), null);
 
     Button wHelp = editor.createHelpButton(shell);
     FormData fdHelp = new FormData();
@@ -123,11 +122,7 @@ public class MetadataEditorDialog extends Dialog implements IMetadataDialog {
 
       dispose();
     } catch (HopException e) {
-      new ErrorDialog(
-          getParent(),
-          BaseMessages.getString(PKG, "MetadataEditor.Dialog.Ok.Error.Header"),
-          BaseMessages.getString(PKG, "MetadataEditor.Dialog.Ok.Error.Message"),
-          e);
+      new ErrorDialog(getParent(), BaseMessages.getString(PKG, "MetadataEditor.Dialog.Ok.Error.Header"), BaseMessages.getString(PKG, "MetadataEditor.Dialog.Ok.Error.Message"), e);
     }
   }
 

@@ -19,11 +19,12 @@ package org.apache.hop.metadata.serializer.xml.classes;
 import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class Info {
-  @HopMetadataProperty private String a;
-  @HopMetadataProperty private String b;
+  @HopMetadataProperty
+  private String a;
+  @HopMetadataProperty
+  private String b;
 
-  public Info() {
-  }
+  public Info() {}
 
   public Info(String a, String b) {
     this.a = a;

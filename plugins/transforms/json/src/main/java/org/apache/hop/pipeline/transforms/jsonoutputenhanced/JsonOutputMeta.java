@@ -48,9 +48,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Output",
     keywords = "i18n::JsonOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/enhancedjsonoutput.html")
-@InjectionSupported(
-    localizationPrefix = "JsonOutput.Injection.",
-    groups = {"GENERAL", "FIELDS"})
+@InjectionSupported(localizationPrefix = "JsonOutput.Injection.", groups = {"GENERAL", "FIELDS"})
 public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputData> {
   private static final Class<?> PKG = JsonOutputMeta.class;
 
@@ -59,11 +57,11 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   private int operationType;
 
   /** The operations description */
-  public static final String[] operationTypeDesc = {
-    BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"),
-    BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"),
-    BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both")
-  };
+  public static final String[] operationTypeDesc =
+      {
+          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.OutputValue"),
+          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.WriteToFile"),
+          BaseMessages.getString(PKG, "JsonOutputMeta.operationType.Both")};
 
   /** The operations type codes */
   public static final String[] operationTypeCode = {"outputvalue", "writetofile", "both"};
@@ -91,10 +89,12 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   /* THE FIELD SPECIFICATIONS ... */
 
   /** The output fields */
-  @InjectionDeep private JsonOutputField[] outputFields;
+  @InjectionDeep
+  private JsonOutputField[] outputFields;
 
   /** The key fields */
-  @InjectionDeep private JsonOutputKeyField[] keyFields;
+  @InjectionDeep
+  private JsonOutputKeyField[] keyFields;
 
   @Injection(name = "ADD_TO_RESULT", group = "GENERAL")
   private boolean addToResult;
@@ -297,8 +297,7 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   }
 
   @Override
-  public void loadXml(Node transformnode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformnode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformnode);
   }
 
@@ -344,39 +343,22 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
     try {
       outputValue = XmlHandler.getTagValue(transformnode, "outputValue");
       jsonBloc = XmlHandler.getTagValue(transformnode, "jsonBloc");
-      operationType =
-          getOperationTypeByCode(
-              Const.NVL(XmlHandler.getTagValue(transformnode, "operation_type"), ""));
-      useArrayWithSingleInstance =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformnode, "use_arrays_with_single_instance"));
-      jsonPrittified =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "json_prittified"));
+      operationType = getOperationTypeByCode(Const.NVL(XmlHandler.getTagValue(transformnode, "operation_type"), ""));
+      useArrayWithSingleInstance = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "use_arrays_with_single_instance"));
+      jsonPrittified = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "json_prittified"));
 
       encoding = XmlHandler.getTagValue(transformnode, "encoding");
       addToResult = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "addToResult"));
       fileName = XmlHandler.getTagValue(transformnode, "file", "name");
-      splitOutputAfter =
-          Integer.parseInt(XmlHandler.getTagValue(transformnode, "file", "split_output_after"));
-      createparentfolder =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformnode, "file", "create_parent_folder"));
+      splitOutputAfter = Integer.parseInt(XmlHandler.getTagValue(transformnode, "file", "split_output_after"));
+      createparentfolder = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "create_parent_folder"));
       extension = XmlHandler.getTagValue(transformnode, "file", "extention");
       fileAppended = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "append"));
-      transformNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "split"));
-      partNrInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "haspartno"));
-      dateInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "add_date"));
-      timeInFilename =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "add_time"));
-      doNotOpenNewFileInit =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformnode, "file", "doNotOpenNewFileInit"));
+      transformNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "split"));
+      partNrInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "haspartno"));
+      dateInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "add_date"));
+      timeInFilename = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "add_time"));
+      doNotOpenNewFileInit = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformnode, "file", "doNotOpenNewFileInit"));
 
       Node keyFieldNodes = XmlHandler.getSubNode(transformnode, "key_fields");
       int nrKeyFields = XmlHandler.countNodes(keyFieldNodes, "key_field");
@@ -402,16 +384,12 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
         outputFields[i] = new JsonOutputField();
         outputFields[i].setFieldName(XmlHandler.getTagValue(fnode, "name"));
         outputFields[i].setElementName(XmlHandler.getTagValue(fnode, "element"));
-        outputFields[i].setJSONFragment(
-            !"N".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "json_fragment")));
-        outputFields[i].setWithoutEnclosing(
-            "Y".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "is_without_enclosing")));
-        outputFields[i].setRemoveIfBlank(
-            !"N".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "remove_if_blank")));
+        outputFields[i].setJSONFragment(!"N".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "json_fragment")));
+        outputFields[i].setWithoutEnclosing("Y".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "is_without_enclosing")));
+        outputFields[i].setRemoveIfBlank(!"N".equalsIgnoreCase(XmlHandler.getTagValue(fnode, "remove_if_blank")));
       }
 
-      jsonSizeFieldname =
-          XmlHandler.getTagValue(transformnode, "additional_fields", "json_size_field");
+      jsonSizeFieldname = XmlHandler.getTagValue(transformnode, "additional_fields", "json_size_field");
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load Transform info from XML", e);
@@ -451,13 +429,7 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (getOperationType() != OPERATION_TYPE_WRITE_TO_FILE) {
@@ -487,33 +459,22 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
 
     retval.append("    ").append(XmlHandler.addTagValue("outputValue", outputValue));
     retval.append("    ").append(XmlHandler.addTagValue("jsonBloc", jsonBloc));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("operation_type", getOperationTypeCode(operationType)));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("use_arrays_with_single_instance", useArrayWithSingleInstance));
+    retval.append("    ").append(XmlHandler.addTagValue("operation_type", getOperationTypeCode(operationType)));
+    retval.append("    ").append(XmlHandler.addTagValue("use_arrays_with_single_instance", useArrayWithSingleInstance));
     retval.append("    ").append(XmlHandler.addTagValue("json_prittified", jsonPrittified));
     retval.append("    ").append(XmlHandler.addTagValue("encoding", encoding));
     retval.append("    ").append(XmlHandler.addTagValue("addtoresult", addToResult));
     retval.append("    <file>" + Const.CR);
     retval.append("      ").append(XmlHandler.addTagValue("name", fileName));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("split_output_after", Integer.toString(splitOutputAfter)));
+    retval.append("      ").append(XmlHandler.addTagValue("split_output_after", Integer.toString(splitOutputAfter)));
     retval.append("      ").append(XmlHandler.addTagValue("extention", extension));
     retval.append("      ").append(XmlHandler.addTagValue("append", fileAppended));
     retval.append("      ").append(XmlHandler.addTagValue("split", transformNrInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("haspartno", partNrInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("add_date", dateInFilename));
     retval.append("      ").append(XmlHandler.addTagValue("add_time", timeInFilename));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("create_parent_folder", createparentfolder));
-    retval
-        .append("      ")
-        .append(XmlHandler.addTagValue("doNotOpenNewFileInit", doNotOpenNewFileInit));
+    retval.append("      ").append(XmlHandler.addTagValue("create_parent_folder", createparentfolder));
+    retval.append("      ").append(XmlHandler.addTagValue("doNotOpenNewFileInit", doNotOpenNewFileInit));
     retval.append("      </file>" + Const.CR);
     retval.append("     <additional_fields>" + Const.CR);
     retval.append("      ").append(XmlHandler.addTagValue("json_size_field", jsonSizeFieldname));
@@ -525,12 +486,8 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
 
       if (keyField.getFieldName() != null && keyField.getFieldName().length() != 0) {
         retval.append("      <key_field>").append(Const.CR);
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("key_field_name", keyField.getFieldName()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("key_field_element", keyField.getElementName()));
+        retval.append("        ").append(XmlHandler.addTagValue("key_field_name", keyField.getFieldName()));
+        retval.append("        ").append(XmlHandler.addTagValue("key_field_element", keyField.getElementName()));
         retval.append("    </key_field>" + Const.CR);
       }
     }
@@ -544,15 +501,9 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
         retval.append("      <field>").append(Const.CR);
         retval.append("        ").append(XmlHandler.addTagValue("name", field.getFieldName()));
         retval.append("        ").append(XmlHandler.addTagValue("element", field.getElementName()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("json_fragment", field.isJSONFragment()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("is_without_enclosing", field.isWithoutEnclosing()));
-        retval
-            .append("        ")
-            .append(XmlHandler.addTagValue("remove_if_blank", field.isRemoveIfBlank()));
+        retval.append("        ").append(XmlHandler.addTagValue("json_fragment", field.isJSONFragment()));
+        retval.append("        ").append(XmlHandler.addTagValue("is_without_enclosing", field.isWithoutEnclosing()));
+        retval.append("        ").append(XmlHandler.addTagValue("remove_if_blank", field.isRemoveIfBlank()));
         retval.append("    </field>" + Const.CR);
       }
     }
@@ -583,30 +534,17 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
     if (getOperationType() != JsonOutputMeta.OPERATION_TYPE_WRITE_TO_FILE) {
       // We need to have output field name
       if (Utils.isEmpty(variables.resolve(getOutputValue()))) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(PKG, "JsonOutput.Error.MissingOutputFieldName"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutput.Error.MissingOutputFieldName"), transformMeta);
         remarks.add(cr);
       }
     }
     if (Utils.isEmpty(variables.resolve(getFileName()))) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonOutput.Error.MissingTargetFilename"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutput.Error.MissingTargetFilename"), transformMeta);
       remarks.add(cr);
     }
     // Check output fields
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "JsonOutputMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -621,42 +559,25 @@ public class JsonOutputMeta extends BaseFileOutputMeta<JsonOutput, JsonOutputDat
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FieldsNotFound", errorMessage);
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.AllFieldsFound"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.AllFieldsFound"), transformMeta);
         remarks.add(cr);
       }
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
 
-    cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_COMMENT,
-            BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FilesNotChecked"),
-            transformMeta);
+    cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, BaseMessages.getString(PKG, "JsonOutputMeta.CheckResult.FilesNotChecked"), transformMeta);
     remarks.add(cr);
   }
 

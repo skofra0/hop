@@ -26,7 +26,7 @@ public interface IResourceHolder {
 
   /**
    * @return The Type ID of the resource holder. The Type ID is the system-defined type identifier
-   *     (like PIPELINE or SORT).
+   *         (like PIPELINE or SORT).
    */
   String getPluginId();
 

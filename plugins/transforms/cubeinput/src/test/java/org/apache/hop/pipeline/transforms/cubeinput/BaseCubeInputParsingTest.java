@@ -23,8 +23,7 @@ import org.junit.Ignore;
 
 /** Base class for all Cube Input transform tests. */
 @Ignore("No tests in abstract base class")
-public class BaseCubeInputParsingTest
-    extends BaseParsingTest<CubeInputMeta, CubeInputData, CubeInput> {
+public class BaseCubeInputParsingTest extends BaseParsingTest<CubeInputMeta, CubeInputData, CubeInput> {
   /** Initialize transform info. */
   @Before
   public void before() {

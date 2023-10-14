@@ -49,42 +49,50 @@ public class TransformMetaStructureMeta extends BaseTransformMeta<TransformMetaS
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includePositionField;
 
-  @HopMetadataProperty private String positionFieldname;
+  @HopMetadataProperty
+  private String positionFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includeFieldnameField;
 
-  @HopMetadataProperty private String fieldFieldname;
+  @HopMetadataProperty
+  private String fieldFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includeCommentsField;
 
-  @HopMetadataProperty private String commentsFieldname;
+  @HopMetadataProperty
+  private String commentsFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includeTypeField;
 
-  @HopMetadataProperty private String typeFieldname;
+  @HopMetadataProperty
+  private String typeFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includeLengthField;
 
-  @HopMetadataProperty private String lengthFieldname;
+  @HopMetadataProperty
+  private String lengthFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includePrecisionField;
 
-  @HopMetadataProperty private String precisionFieldname;
+  @HopMetadataProperty
+  private String precisionFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean includeOriginField;
 
-  @HopMetadataProperty private String originFieldname;
+  @HopMetadataProperty
+  private String originFieldname;
 
   @HopMetadataProperty(defaultBoolean = true)
   private boolean outputRowcount;
 
-  @HopMetadataProperty private String rowcountField;
+  @HopMetadataProperty
+  private String rowcountField;
 
   public TransformMetaStructureMeta() {
     includePositionField = true;
@@ -125,13 +133,7 @@ public class TransformMetaStructureMeta extends BaseTransformMeta<TransformMetaS
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // we create a new output row structure - clear r
     inputRowMeta.clear();

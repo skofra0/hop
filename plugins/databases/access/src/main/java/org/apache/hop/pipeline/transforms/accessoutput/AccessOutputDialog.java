@@ -48,8 +48,7 @@ import java.io.File;
 import java.util.Set;
 
 public class AccessOutputDialog extends BaseTransformDialog implements ITransformDialog {
-  private static final Class<?> PKG =
-      AccessOutputDialog.class; // For Translator
+  private static final Class<?> PKG = AccessOutputDialog.class; // For Translator
 
   private final AccessOutputMeta input;
 
@@ -63,8 +62,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
   private Button wAddToResultFile;
   private Button wWaitFirstRowToCreateFile;
 
-  public AccessOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public AccessOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (AccessOutputMeta) in;
   }
@@ -123,8 +121,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     Button wbbFileName = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFileName);
     wbbFileName.setText(BaseMessages.getString(PKG, "System.Button.Browse"));
-    wbbFileName.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFileName.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     wbbFileName.addListener(SWT.Selection, e -> onSelectFileName());
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
@@ -145,8 +142,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     // Create file?
     Label wlCreateFile = new Label(shell, SWT.RIGHT);
     wlCreateFile.setText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateFile.Label"));
-    wlCreateFile.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.CreateFile.Tooltip"));
+    wlCreateFile.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateFile.Tooltip"));
     PropsUi.setLook(wlCreateFile);
     FormData fdlCreateFile = new FormData();
     fdlCreateFile.left = new FormAttachment(0, 0);
@@ -154,8 +150,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     fdlCreateFile.right = new FormAttachment(middle, 0);
     wlCreateFile.setLayoutData(fdlCreateFile);
     wCreateFile = new Button(shell, SWT.CHECK);
-    wCreateFile.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.CreateFile.Tooltip"));
+    wCreateFile.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateFile.Tooltip"));
     PropsUi.setLook(wCreateFile);
     FormData fdCreateFile = new FormData();
     fdCreateFile.left = new FormAttachment(middle, margin);
@@ -166,8 +161,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
 
     // Wait first row to create file
     Label wlWaitFirstRowToCreateFile = new Label(shell, SWT.RIGHT);
-    wlWaitFirstRowToCreateFile.setText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.WaitFirstRowToCreateFile.Label"));
+    wlWaitFirstRowToCreateFile.setText(BaseMessages.getString(PKG, "AccessOutputDialog.WaitFirstRowToCreateFile.Label"));
     PropsUi.setLook(wlWaitFirstRowToCreateFile);
     FormData fdlWaitFirstRowToCreateFile = new FormData();
     fdlWaitFirstRowToCreateFile.left = new FormAttachment(0, 0);
@@ -175,8 +169,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     fdlWaitFirstRowToCreateFile.right = new FormAttachment(middle, -margin);
     wlWaitFirstRowToCreateFile.setLayoutData(fdlWaitFirstRowToCreateFile);
     wWaitFirstRowToCreateFile = new Button(shell, SWT.CHECK);
-    wWaitFirstRowToCreateFile.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.WaitFirstRowToCreateFile.Tooltip"));
+    wWaitFirstRowToCreateFile.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.WaitFirstRowToCreateFile.Tooltip"));
     PropsUi.setLook(wWaitFirstRowToCreateFile);
     FormData fdWaitFirstRowToCreateFile = new FormData();
     fdWaitFirstRowToCreateFile.left = new FormAttachment(middle, margin);
@@ -206,8 +199,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     wbbTableName.setLayoutData(fdbTablename);
 
     wTableName = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wTableName.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.TargetTable.Tooltip"));
+    wTableName.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.TargetTable.Tooltip"));
     PropsUi.setLook(wTableName);
     FormData fdTablename = new FormData();
     fdTablename.left = new FormAttachment(middle, margin);
@@ -218,8 +210,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     // Create table?
     Label wlCreateTable = new Label(shell, SWT.RIGHT);
     wlCreateTable.setText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateTable.Label"));
-    wlCreateTable.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.CreateTable.Tooltip"));
+    wlCreateTable.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateTable.Tooltip"));
     PropsUi.setLook(wlCreateTable);
     FormData fdlCreateTable = new FormData();
     fdlCreateTable.left = new FormAttachment(0, 0);
@@ -227,8 +218,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     fdlCreateTable.right = new FormAttachment(middle, 0);
     wlCreateTable.setLayoutData(fdlCreateTable);
     wCreateTable = new Button(shell, SWT.CHECK);
-    wCreateTable.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.CreateTable.Tooltip"));
+    wCreateTable.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.CreateTable.Tooltip"));
     PropsUi.setLook(wCreateTable);
     FormData fdCreateTable = new FormData();
     fdCreateTable.left = new FormAttachment(middle, margin);
@@ -240,8 +230,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     // Truncate table?
     Label wlTruncateTable = new Label(shell, SWT.RIGHT);
     wlTruncateTable.setText(BaseMessages.getString(PKG, "AccessOutputDialog.TruncateTable.Label"));
-    wlTruncateTable.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.TruncateTable.Tooltip"));
+    wlTruncateTable.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.TruncateTable.Tooltip"));
     PropsUi.setLook(wlTruncateTable);
     FormData fdlTruncateTable = new FormData();
     fdlTruncateTable.left = new FormAttachment(0, 0);
@@ -249,8 +238,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     fdlTruncateTable.right = new FormAttachment(middle, 0);
     wlTruncateTable.setLayoutData(fdlTruncateTable);
     wTruncateTable = new Button(shell, SWT.CHECK);
-    wTruncateTable.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.TruncateTable.Tooltip"));
+    wTruncateTable.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.TruncateTable.Tooltip"));
     PropsUi.setLook(wTruncateTable);
     FormData fdTruncateTable = new FormData();
     fdTruncateTable.left = new FormAttachment(middle, margin);
@@ -270,8 +258,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     wlCommitSize.setLayoutData(fdlCommitSize);
 
     wCommitSize = new Text(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wCommitSize.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputDialog.CommitSize.Tooltip"));
+    wCommitSize.setToolTipText(BaseMessages.getString(PKG, "AccessOutputDialog.CommitSize.Tooltip"));
     PropsUi.setLook(wCommitSize);
     FormData fdCommitSize = new FormData();
     fdCommitSize.left = new FormAttachment(middle, margin);
@@ -282,8 +269,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
 
     // Add File to the result files name
     Label wlAddToResultFile = new Label(shell, SWT.RIGHT);
-    wlAddToResultFile.setText(
-        BaseMessages.getString(PKG, "AccessOutputMeta.AddToResultFile.Label"));
+    wlAddToResultFile.setText(BaseMessages.getString(PKG, "AccessOutputMeta.AddToResultFile.Label"));
     PropsUi.setLook(wlAddToResultFile);
     FormData fdlAddToResultFile = new FormData();
     fdlAddToResultFile.left = new FormAttachment(0, 0);
@@ -291,8 +277,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
     fdlAddToResultFile.right = new FormAttachment(middle, -margin);
     wlAddToResultFile.setLayoutData(fdlAddToResultFile);
     wAddToResultFile = new Button(shell, SWT.CHECK);
-    wAddToResultFile.setToolTipText(
-        BaseMessages.getString(PKG, "AccessOutputMeta.AddToResultFile.Tooltip"));
+    wAddToResultFile.setToolTipText(BaseMessages.getString(PKG, "AccessOutputMeta.AddToResultFile.Tooltip"));
     PropsUi.setLook(wAddToResultFile);
     FormData fdAddToResultFile = new FormData();
     fdAddToResultFile.left = new FormAttachment(middle, margin);
@@ -371,16 +356,8 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
 
   private void onSelectFileName() {
     BaseDialog.presentFileDialog(
-        false,
-        shell,
-        wFileName,
-        variables,
-        new String[] {"*.mdb;*.MDB;*.accdb;*.ACCDB", "*"},
-        new String[] {
-          BaseMessages.getString(PKG, "AccessOutputDialog.FileType.AccessFiles"),
-          BaseMessages.getString(PKG, "System.FileType.AllFiles")
-        },
-        true);
+        false, shell, wFileName, variables, new String[] {"*.mdb;*.MDB;*.accdb;*.ACCDB", "*"},
+        new String[] {BaseMessages.getString(PKG, "AccessOutputDialog.FileType.AccessFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true);
   }
 
   private void onSelectTableName() {
@@ -395,8 +372,7 @@ public class AccessOutputDialog extends BaseTransformDialog implements ITransfor
       File file = FileUtils.toFile(fileObject.getURL());
 
       if (!file.exists() || !file.isFile()) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "AccessOutputMeta.Exception.FileDoesNotExist", fileName));
+        throw new HopException(BaseMessages.getString(PKG, "AccessOutputMeta.Exception.FileDoesNotExist", fileName));
       }
 
       database = DatabaseBuilder.open(file);

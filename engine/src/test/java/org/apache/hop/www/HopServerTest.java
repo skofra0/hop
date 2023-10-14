@@ -41,7 +41,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Client.class)
 public class HopServerTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Ignore
   @Test
@@ -60,7 +61,6 @@ public class HopServerTest {
     mockStatic(Client.class);
     when(ClientBuilder.newClient(any(ClientConfig.class))).thenReturn(client);
 
-    HopServer.callStopHopServerRestService(
-        "localhost", "8080", "8079", "admin", "Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde");
+    HopServer.callStopHopServerRestService("localhost", "8080", "8079", "admin", "Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde");
   }
 }

@@ -20,9 +20,11 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 public class JobParameter {
 
-  @HopMetadataProperty private String variable;
+  @HopMetadataProperty
+  private String variable;
 
-  @HopMetadataProperty private String value;
+  @HopMetadataProperty
+  private String value;
 
   public JobParameter() {}
 

@@ -54,8 +54,7 @@ public class StartPipelineServlet extends BaseHttpServlet implements IHopServerP
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -82,10 +81,7 @@ public class StartPipelineServlet extends BaseHttpServlet implements IHopServerP
       response.setContentType("text/html;charset=UTF-8");
       out.println("<HTML>");
       out.println("<HEAD>");
-      out.println(
-          "<TITLE>"
-              + BaseMessages.getString(PKG, "StartPipelineServlet.Log.StartOfPipeline")
-              + "</TITLE>");
+      out.println("<TITLE>" + BaseMessages.getString(PKG, "StartPipelineServlet.Log.StartOfPipeline") + "</TITLE>");
       out.println(
           "<META http-equiv=\"Refresh\" content=\"2;url="
               + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -125,16 +121,14 @@ public class StartPipelineServlet extends BaseHttpServlet implements IHopServerP
         HopLogStore.discardLines(pipeline.getLogChannelId(), true);
 
         String serverObjectId = UUID.randomUUID().toString();
-        SimpleLoggingObject servletLoggingObject =
-            new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
+        SimpleLoggingObject servletLoggingObject = new SimpleLoggingObject(CONTEXT_PATH, LoggingObjectType.HOP_SERVER, null);
         servletLoggingObject.setContainerObjectId(serverObjectId);
         servletLoggingObject.setLogLevel(pipeline.getLogLevel());
         pipeline.setParent(servletLoggingObject);
 
         executePipeline(pipeline);
 
-        String message =
-            BaseMessages.getString(PKG, "StartPipelineServlet.Log.PipelineStarted", pipelineName);
+        String message = BaseMessages.getString(PKG, "StartPipelineServlet.Log.PipelineStarted", pipelineName);
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_OK, message).getXml());
         } else {
@@ -152,31 +146,18 @@ public class StartPipelineServlet extends BaseHttpServlet implements IHopServerP
                   + "</a><p>");
         }
       } else {
-        String message =
-            BaseMessages.getString(
-                PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName);
+        String message = BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName);
         if (useXML) {
           out.println(new WebResult(WebResult.STRING_ERROR, message, id));
         } else {
           out.println("<H1>" + Encode.forHtml(message) + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }
     } catch (Exception ex) {
       if (useXML) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "StartPipelineServlet.Error.UnexpectedError",
-                    Const.CR + Const.getStackTracker(ex))));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "StartPipelineServlet.Error.UnexpectedError", Const.CR + Const.getStackTracker(ex))));
       } else {
         out.println("<p>");
         out.println("<pre>");

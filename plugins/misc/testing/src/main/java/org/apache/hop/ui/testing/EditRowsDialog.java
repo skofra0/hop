@@ -94,13 +94,7 @@ public class EditRowsDialog {
 
   private IRowMeta stringRowMeta;
 
-  public EditRowsDialog(
-      Shell parent,
-      int style,
-      String title,
-      String message,
-      IRowMeta rowMeta,
-      List<Object[]> rowBuffer) {
+  public EditRowsDialog(Shell parent, int style, String title, String message, IRowMeta rowMeta, List<Object[]> rowBuffer) {
     this.title = title;
     this.message = message;
     this.rowBuffer = rowBuffer;
@@ -143,13 +137,7 @@ public class EditRowsDialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOk, wCancel,
-        },
-        PropsUi.getMargin(),
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel,}, PropsUi.getMargin(), null);
 
     if (addFields()) {
       return null;
@@ -199,15 +187,7 @@ public class EditRowsDialog {
       colinf[i].setValueMeta(v);
     }
 
-    wFields =
-        new TableView(
-            new Variables(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            rowBuffer.size(),
-            null,
-            props);
+    wFields = new TableView(new Variables(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, rowBuffer.size(), null, props);
     wFields.setShowingBlueNullValues(true);
 
     FormData fdFields = new FormData();
@@ -232,18 +212,15 @@ public class EditRowsDialog {
 
   /** Copy information from the meta-data input to the dialog fields. */
   private void getData() {
-    shell
-        .getDisplay()
-        .asyncExec(
-            () -> {
-              lineNr = 0;
-              for (int i = 0; i < rowBuffer.size(); i++) {
-                TableItem item = wFields.table.getItem(i);
-                Object[] row = rowBuffer.get(i);
-                getDataForRow(item, row);
-              }
-              wFields.optWidth(true, 200);
-            });
+    shell.getDisplay().asyncExec(() -> {
+      lineNr = 0;
+      for (int i = 0; i < rowBuffer.size(); i++) {
+        TableItem item = wFields.table.getItem(i);
+        Object[] row = rowBuffer.get(i);
+        getDataForRow(item, row);
+      }
+      wFields.optWidth(true, 200);
+    });
   }
 
   protected int getDataForRow(TableItem item, Object[] row) {
@@ -309,17 +286,12 @@ public class EditRowsDialog {
           row[i] = null; // <null> value
         } else {
           String string = item.getText(colnr);
-          row[i] =
-              valueMeta.convertDataFromString(
-                  string, stringValueMeta, null, null, IValueMeta.TRIM_TYPE_NONE);
+          row[i] = valueMeta.convertDataFromString(string, stringValueMeta, null, null, IValueMeta.TRIM_TYPE_NONE);
         }
       }
       return row;
     } catch (HopException e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "EditRowsDialog.Error.ErrorGettingRowForData", Integer.toString(rowNr)),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "EditRowsDialog.Error.ErrorGettingRowForData", Integer.toString(rowNr)), e);
     }
   }
 
@@ -328,8 +300,7 @@ public class EditRowsDialog {
     try {
       stringRowMeta = new RowMeta();
       for (IValueMeta valueMeta : rowMeta.getValueMetaList()) {
-        IValueMeta stringValueMeta =
-            ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING);
+        IValueMeta stringValueMeta = ValueMetaFactory.cloneValueMeta(valueMeta, IValueMeta.TYPE_STRING);
         stringRowMeta.addValueMeta(stringValueMeta);
       }
 
@@ -347,8 +318,7 @@ public class EditRowsDialog {
       dispose();
 
     } catch (Exception e) {
-      new ErrorDialog(
-          shell, "Error", BaseMessages.getString(PKG, "EditRowsDialog.ErrorConvertingData"), e);
+      new ErrorDialog(shell, "Error", BaseMessages.getString(PKG, "EditRowsDialog.ErrorConvertingData"), e);
     }
   }
 

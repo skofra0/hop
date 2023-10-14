@@ -29,7 +29,7 @@ public class RecordStream extends InputStream {
    *
    * @param bufferSize A buffer's capacity, in bytes.
    * @param bufferCount BufferSize * BufferCount is the max capacity to buffer data before doing
-   *     real stream load
+   *        real stream load
    */
   public RecordStream(int bufferSize, int bufferCount) {
     this.recordBuffer = new RecordBuffer(bufferSize, bufferCount);

@@ -34,19 +34,13 @@ import org.apache.hop.ui.hopgui.perspective.configuration.tabs.ConfigPluginOptio
 import org.eclipse.swt.widgets.Control;
 import picocli.CommandLine;
 
-@ConfigPlugin(
-    id = "GoogleDriveConfigPlugin",
-    description = "i18n::GoogleDriveConfig.ConfigPlugin.Description",
-    category = ConfigPlugin.CATEGORY_CONFIG)
-@GuiPlugin(
-    description = "i18n::GoogleDriveConfig.GuiPlugin.Description" // Tab label in options dialog
-    )
+@ConfigPlugin(id = "GoogleDriveConfigPlugin", description = "i18n::GoogleDriveConfig.ConfigPlugin.Description", category = ConfigPlugin.CATEGORY_CONFIG)
+@GuiPlugin(description = "i18n::GoogleDriveConfig.GuiPlugin.Description" // Tab label in options dialog
+)
 public class GoogleDriveConfigPlugin implements IConfigOptions, IGuiPluginCompositeWidgetsListener {
 
-  private static final String WIDGET_ID_GOOGLE_DRIVE_VFS_CREDENTIALS_PATH =
-      "10000-google-drive-vfs-credentials-path";
-  private static final String WIDGET_ID_GOOGLE_DRIVE_VFS_TOKENS_FOLDER =
-      "10100-google-drive-vfs-tokens-folder";
+  private static final String WIDGET_ID_GOOGLE_DRIVE_VFS_CREDENTIALS_PATH = "10000-google-drive-vfs-credentials-path";
+  private static final String WIDGET_ID_GOOGLE_DRIVE_VFS_TOKENS_FOLDER = "10100-google-drive-vfs-tokens-folder";
 
   @GuiWidgetElement(
       id = WIDGET_ID_GOOGLE_DRIVE_VFS_CREDENTIALS_PATH,
@@ -55,9 +49,7 @@ public class GoogleDriveConfigPlugin implements IConfigOptions, IGuiPluginCompos
       variables = true,
       label = "i18n::GoogleDriveConfig.CredentialsFile.Label",
       toolTip = "i18n::GoogleDriveConfig.CredentialsFile.ToolTip")
-  @CommandLine.Option(
-      names = {"-gdc", "--google-drive-credentials-file"},
-      description = "Configure the path to a Google Drive credentials JSON file")
+  @CommandLine.Option(names = {"-gdc", "--google-drive-credentials-file"}, description = "Configure the path to a Google Drive credentials JSON file")
   private String credentialsFile;
 
   @GuiWidgetElement(
@@ -67,9 +59,7 @@ public class GoogleDriveConfigPlugin implements IConfigOptions, IGuiPluginCompos
       variables = true,
       label = "i18n::GoogleDriveConfig.TokensFolder.Label",
       toolTip = "i18n::GoogleDriveConfig.TokensFolder.ToolTip")
-  @CommandLine.Option(
-      names = {"-gdt", "--google-drive-tokens-folder"},
-      description = "Configure the path to a Google Drive tokens folder")
+  @CommandLine.Option(names = {"-gdt", "--google-drive-tokens-folder"}, description = "Configure the path to a Google Drive tokens folder")
   private String tokensFolder;
 
   /**
@@ -88,9 +78,7 @@ public class GoogleDriveConfigPlugin implements IConfigOptions, IGuiPluginCompos
   }
 
   @Override
-  public boolean handleOption(
-      ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables)
-      throws HopException {
+  public boolean handleOption(ILogChannel log, IHasHopMetadataProvider hasHopMetadataProvider, IVariables variables) throws HopException {
     GoogleDriveConfig config = GoogleDriveConfigSingleton.getConfig();
     try {
       boolean changed = false;
@@ -124,8 +112,7 @@ public class GoogleDriveConfigPlugin implements IConfigOptions, IGuiPluginCompos
   public void widgetsPopulated(GuiCompositeWidgets compositeWidgets) {}
 
   @Override
-  public void widgetModified(
-      GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
+  public void widgetModified(GuiCompositeWidgets compositeWidgets, Control changedWidget, String widgetId) {
     persistContents(compositeWidgets);
   }
 

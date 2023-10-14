@@ -32,8 +32,8 @@ import java.util.Map;
 public class SnowflakeBulkLoaderData extends BaseTransformData implements ITransformData {
 
   // When the meta.splitSize is exceeded the file being written is closed and a new file is created.
-  //  These new files
-  // are called splits.  Every time a new file is created this is incremented so it will contain the
+  // These new files
+  // are called splits. Every time a new file is created this is incremented so it will contain the
   // latest split number
   public int splitnr;
 
@@ -44,12 +44,12 @@ public class SnowflakeBulkLoaderData extends BaseTransformData implements ITrans
   public Database db;
   public DatabaseMeta databaseMeta;
 
-  // A list of table fields mapped to their data type.  String[0] is the field name, String[1] is
+  // A list of table fields mapped to their data type. String[0] is the field name, String[1] is
   // the Snowflake
   // data type
   public ArrayList<String[]> dbFields;
 
-  // The number of rows output to temp files.  Incremented every time a new row is written.
+  // The number of rows output to temp files. Incremented every time a new row is written.
   public int outputCount;
 
   // The output stream being used to write files

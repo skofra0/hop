@@ -23,40 +23,25 @@ import java.util.Objects;
 public class ExcelWriterTemplateField {
 
   /** Flag: use a template */
-  @HopMetadataProperty(
-      key = "enabled",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateEnabled.Field")
+  @HopMetadataProperty(key = "enabled", injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateEnabled.Field")
   private boolean templateEnabled;
 
-  @HopMetadataProperty(
-      key = "sheet_enabled",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetEnabled.Field")
+  @HopMetadataProperty(key = "sheet_enabled", injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetEnabled.Field")
   private boolean templateSheetEnabled;
 
-  @HopMetadataProperty(
-      key = "hidden",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetHidden.Field")
+  @HopMetadataProperty(key = "hidden", injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetHidden.Field")
   private boolean templateSheetHidden;
 
   /** the excel template */
-  @HopMetadataProperty(
-      key = "filename",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateFileName.Field")
+  @HopMetadataProperty(key = "filename", injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateFileName.Field")
   private String templateFileName;
 
-  @HopMetadataProperty(
-      key = "sheetname",
-      injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetName.Field")
+  @HopMetadataProperty(key = "sheetname", injectionKeyDescription = "ExcelWriterMeta.Injection.TemplateSheetName.Field")
   private String templateSheetName;
 
   public ExcelWriterTemplateField() {}
 
-  public ExcelWriterTemplateField(
-      boolean templateEnabled,
-      boolean templateSheetEnabled,
-      boolean templateSheetHidden,
-      String templateFileName,
-      String templateSheetName) {
+  public ExcelWriterTemplateField(boolean templateEnabled, boolean templateSheetEnabled, boolean templateSheetHidden, String templateFileName, String templateSheetName) {
     this.templateEnabled = templateEnabled;
     this.templateSheetEnabled = templateSheetEnabled;
     this.templateSheetHidden = templateSheetHidden;
@@ -66,10 +51,13 @@ public class ExcelWriterTemplateField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ExcelWriterTemplateField that = (ExcelWriterTemplateField) o;
-    return templateEnabled == that.templateEnabled && templateSheetEnabled == that.templateSheetEnabled && templateSheetHidden == that.templateSheetHidden && Objects.equals(templateFileName, that.templateFileName) && Objects.equals(templateSheetName, that.templateSheetName);
+    return templateEnabled == that.templateEnabled && templateSheetEnabled == that.templateSheetEnabled && templateSheetHidden == that.templateSheetHidden
+        && Objects.equals(templateFileName, that.templateFileName) && Objects.equals(templateSheetName, that.templateSheetName);
   }
 
   @Override

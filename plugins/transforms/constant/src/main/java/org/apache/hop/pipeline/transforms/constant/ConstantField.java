@@ -31,39 +31,25 @@ public class ConstantField {
   @HopMetadataProperty(injectionKeyDescription = "ConstantMeta.Injection.Group.Field")
   private String group;
 
-  @HopMetadataProperty(
-      key = "nullif",
-      injectionKeyDescription = "ConstantMeta.Injection.Value.Field")
+  @HopMetadataProperty(key = "nullif", injectionKeyDescription = "ConstantMeta.Injection.Value.Field")
   private String value; // Null-if
 
-  @HopMetadataProperty(
-      key = "name",
-      injectionKeyDescription = "ConstantMeta.Injection.FieldName.Field")
+  @HopMetadataProperty(key = "name", injectionKeyDescription = "ConstantMeta.Injection.FieldName.Field")
   private String fieldName;
 
-  @HopMetadataProperty(
-      key = "type",
-      injectionKeyDescription = "ConstantMeta.Injection.FieldType.Field")
+  @HopMetadataProperty(key = "type", injectionKeyDescription = "ConstantMeta.Injection.FieldType.Field")
   private String fieldType;
 
-  @HopMetadataProperty(
-      key = "format",
-      injectionKeyDescription = "ConstantMeta.Injection.FieldFormat.Field")
+  @HopMetadataProperty(key = "format", injectionKeyDescription = "ConstantMeta.Injection.FieldFormat.Field")
   private String fieldFormat;
 
-  @HopMetadataProperty(
-      key = "length",
-      injectionKeyDescription = "ConstantMeta.Injection.FieldLength.Field")
+  @HopMetadataProperty(key = "length", injectionKeyDescription = "ConstantMeta.Injection.FieldLength.Field")
   private int fieldLength;
 
-  @HopMetadataProperty(
-      key = "precision",
-      injectionKeyDescription = "ConstantMeta.Injection.FieldPrecision.Field")
+  @HopMetadataProperty(key = "precision", injectionKeyDescription = "ConstantMeta.Injection.FieldPrecision.Field")
   private int fieldPrecision;
   /** Flag : set empty string */
-  @HopMetadataProperty(
-      key = "set_empty_string",
-      injectionKeyDescription = "ConstantMeta.Injection.SetEmptyString.Field")
+  @HopMetadataProperty(key = "set_empty_string", injectionKeyDescription = "ConstantMeta.Injection.SetEmptyString.Field")
   private boolean emptyString;
 
   public ConstantField() {}
@@ -184,33 +170,18 @@ public class ConstantField {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     ConstantField that = (ConstantField) o;
-    return fieldLength == that.fieldLength
-        && fieldPrecision == that.fieldPrecision
-        && emptyString == that.emptyString
-        && Objects.equals(currency, that.currency)
-        && Objects.equals(decimal, that.decimal)
-        && Objects.equals(group, that.group)
-        && Objects.equals(value, that.value)
-        && fieldName.equals(that.fieldName)
-        && fieldType.equals(that.fieldType)
-        && Objects.equals(fieldFormat, that.fieldFormat);
+    return fieldLength == that.fieldLength && fieldPrecision == that.fieldPrecision && emptyString == that.emptyString && Objects.equals(currency, that.currency)
+        && Objects.equals(decimal, that.decimal) && Objects.equals(group, that.group) && Objects.equals(value, that.value) && fieldName.equals(that.fieldName)
+        && fieldType.equals(that.fieldType) && Objects.equals(fieldFormat, that.fieldFormat);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        currency,
-        decimal,
-        group,
-        value,
-        fieldName,
-        fieldType,
-        fieldFormat,
-        fieldLength,
-        fieldPrecision,
-        emptyString);
+    return Objects.hash(currency, decimal, group, value, fieldName, fieldType, fieldFormat, fieldLength, fieldPrecision, emptyString);
   }
 }

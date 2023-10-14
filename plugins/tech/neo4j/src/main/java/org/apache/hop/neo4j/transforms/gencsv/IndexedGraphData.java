@@ -61,9 +61,7 @@ public class IndexedGraphData extends GraphData {
     relPropertiesSet = new HashSet<>();
   }
 
-  public IndexedGraphData(
-      UniquenessStrategy nodeUniquenessStrategy,
-      UniquenessStrategy relationshipUniquenessStrategy) {
+  public IndexedGraphData(UniquenessStrategy nodeUniquenessStrategy, UniquenessStrategy relationshipUniquenessStrategy) {
     this();
     this.nodeUniquenessStrategy = nodeUniquenessStrategy;
     this.relationshipUniquenessStrategy = relationshipUniquenessStrategy;

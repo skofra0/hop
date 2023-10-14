@@ -124,6 +124,7 @@ public class CassandraUtils {
         return DataTypes.BLOB;
     }
   }
+
   /**
    * Split a script containing one or more CQL statements (terminated by ;'s) into a list of
    * individual statements.
@@ -213,10 +214,7 @@ public class CassandraUtils {
     int fromIndex = subQ.toLowerCase().indexOf("from");
     String tempS = subQ.toLowerCase();
     int offset = fromIndex;
-    while (fromIndex > 0
-        && tempS.charAt(fromIndex - 1) != ' '
-        && (fromIndex + 4 < tempS.length())
-        && tempS.charAt(fromIndex + 4) != ' ') {
+    while (fromIndex > 0 && tempS.charAt(fromIndex - 1) != ' ' && (fromIndex + 4 < tempS.length()) && tempS.charAt(fromIndex + 4) != ' ') {
       tempS = tempS.substring(fromIndex + 4, tempS.length());
       fromIndex = tempS.indexOf("from");
       offset += (4 + fromIndex);
@@ -271,20 +269,14 @@ public class CassandraUtils {
    * @return true if the row is OK
    * @throws HopException if a problem occurs
    */
-  protected static boolean preAddChecks(
-      IRowMeta inputMeta, List<String> keyColNames, Object[] row, ILogChannel log)
-      throws HopException {
+  protected static boolean preAddChecks(IRowMeta inputMeta, List<String> keyColNames, Object[] row, ILogChannel log) throws HopException {
 
     for (String keyN : keyColNames) {
       int keyIndex = inputMeta.indexOfValue(keyN);
       // check the key columns first
       IValueMeta keyMeta = inputMeta.getValueMeta(keyIndex);
       if (keyMeta.isNull(row[keyIndex])) {
-        log.logBasic(
-            BaseMessages.getString(
-                PKG,
-                "CassandraUtils.Error.SkippingRowNullKey",
-                rowToStringRepresentation(inputMeta, row)));
+        log.logBasic(BaseMessages.getString(PKG, "CassandraUtils.Error.SkippingRowNullKey", rowToStringRepresentation(inputMeta, row)));
         return false;
       }
     }
@@ -312,9 +304,7 @@ public class CassandraUtils {
         }
       }
       if (!ok) {
-        log.logBasic(
-            BaseMessages.getString(
-                PKG, "CassandraUtils.Error.SkippingRowNoNonNullValues", fullKey.toString()));
+        log.logBasic(BaseMessages.getString(PKG, "CassandraUtils.Error.SkippingRowNoNonNullValues", fullKey.toString()));
       }
       return ok;
     }
@@ -343,20 +333,14 @@ public class CassandraUtils {
    * @param inputMeta the row format
    * @param familyMeta meta data on the columns in the cassandra table
    * @param insertFieldsNotInMetaData true if any Hop fields that are not in the Cassandra table
-   *     meta data are to be inserted. This is irrelevant if the user has opted to have the
-   *     transform initially update the Cassandra meta data for incoming fields that are not known
-   *     about.
+   *        meta data are to be inserted. This is irrelevant if the user has opted to have the
+   *        transform initially update the Cassandra meta data for incoming fields that are not known
+   *        about.
    * @param log for logging
    * @return true if the row was added to the batch
    * @throws Exception if a problem occurs
    */
-  public static boolean addRowToNonCQLBatch(
-      List<Object[]> batch,
-      Object[] row,
-      IRowMeta inputMeta,
-      ITableMetaData familyMeta,
-      boolean insertFieldsNotInMetaData,
-      ILogChannel log)
+  public static boolean addRowToNonCQLBatch(List<Object[]> batch, Object[] row, IRowMeta inputMeta, ITableMetaData familyMeta, boolean insertFieldsNotInMetaData, ILogChannel log)
       throws Exception {
 
     if (!preAddChecks(inputMeta, familyMeta.getKeyColumnNames(), row, log)) {
@@ -432,9 +416,9 @@ public class CassandraUtils {
    * @param row the Hop row
    * @param familyMeta meta data on the columns in the cassandra table
    * @param insertFieldsNotInMetaData true if any Hop fields that are not in the Cassandra table
-   *     meta data are to be inserted. This is irrelevant if the user has opted to have the
-   *     transform initially update the Cassandra meta data for incoming fields that are not known
-   *     about.
+   *        meta data are to be inserted. This is irrelevant if the user has opted to have the
+   *        transform initially update the Cassandra meta data for incoming fields that are not known
+   *        about.
    * @param cqlMajVersion the major version number of the cql version to use
    * @param additionalOpts additional options for the insert statement
    * @param log for logging
@@ -580,75 +564,64 @@ public class CassandraUtils {
    * @param value the actual Hop value
    * @param cqlMajVersion the major version number of the CQL to use
    * @return an appropriately encoded CQL string representation of the value, suitable for using in
-   *     an CQL query.
+   *         an CQL query.
    * @throws HopValueException if there is an error converting.
    */
-  public static String hopValueToCql(IValueMeta vm, Object value, int cqlMajVersion)
-      throws HopValueException {
+  public static String hopValueToCql(IValueMeta vm, Object value, int cqlMajVersion) throws HopValueException {
 
     String quote = cqlMajVersion == 2 ? "'" : "";
     switch (vm.getType()) {
-      case IValueMeta.TYPE_STRING:
-        {
-          UTF8Type u = UTF8Type.instance;
-          String toConvert = vm.getString(value);
-          ByteBuffer decomposed = u.decompose(toConvert);
-          String cassandraString = u.getString(decomposed);
-          return "'" + escapeSingleQuotes(cassandraString) + "'";
-        }
-      case IValueMeta.TYPE_BIGNUMBER:
-        {
-          DecimalType dt = DecimalType.instance;
-          BigDecimal toConvert = vm.getBigNumber(value);
-          ByteBuffer decomposed = dt.decompose(toConvert);
-          String cassandraString = dt.getString(decomposed);
-          return quote + cassandraString + quote;
-        }
-      case IValueMeta.TYPE_BOOLEAN:
-        {
-          BooleanType bt = BooleanType.instance;
-          Boolean toConvert = vm.getBoolean(value);
-          ByteBuffer decomposed = bt.decompose(toConvert);
-          String cassandraString = bt.getString(decomposed);
-          return quote + escapeSingleQuotes(cassandraString) + quote;
-        }
-      case IValueMeta.TYPE_INTEGER:
-        {
-          LongType lt = LongType.instance;
-          Long toConvert = vm.getInteger(value);
-          ByteBuffer decomposed = lt.decompose(toConvert);
-          String cassandraString = lt.getString(decomposed);
-          return quote + cassandraString + quote;
-        }
-      case IValueMeta.TYPE_NUMBER:
-        {
-          DoubleType dt = DoubleType.instance;
-          Double toConvert = vm.getNumber(value);
-          ByteBuffer decomposed = dt.decompose(toConvert);
-          String cassandraString = dt.getString(decomposed);
-          return quote + cassandraString + quote;
-        }
+      case IValueMeta.TYPE_STRING: {
+        UTF8Type u = UTF8Type.instance;
+        String toConvert = vm.getString(value);
+        ByteBuffer decomposed = u.decompose(toConvert);
+        String cassandraString = u.getString(decomposed);
+        return "'" + escapeSingleQuotes(cassandraString) + "'";
+      }
+      case IValueMeta.TYPE_BIGNUMBER: {
+        DecimalType dt = DecimalType.instance;
+        BigDecimal toConvert = vm.getBigNumber(value);
+        ByteBuffer decomposed = dt.decompose(toConvert);
+        String cassandraString = dt.getString(decomposed);
+        return quote + cassandraString + quote;
+      }
+      case IValueMeta.TYPE_BOOLEAN: {
+        BooleanType bt = BooleanType.instance;
+        Boolean toConvert = vm.getBoolean(value);
+        ByteBuffer decomposed = bt.decompose(toConvert);
+        String cassandraString = bt.getString(decomposed);
+        return quote + escapeSingleQuotes(cassandraString) + quote;
+      }
+      case IValueMeta.TYPE_INTEGER: {
+        LongType lt = LongType.instance;
+        Long toConvert = vm.getInteger(value);
+        ByteBuffer decomposed = lt.decompose(toConvert);
+        String cassandraString = lt.getString(decomposed);
+        return quote + cassandraString + quote;
+      }
+      case IValueMeta.TYPE_NUMBER: {
+        DoubleType dt = DoubleType.instance;
+        Double toConvert = vm.getNumber(value);
+        ByteBuffer decomposed = dt.decompose(toConvert);
+        String cassandraString = dt.getString(decomposed);
+        return quote + cassandraString + quote;
+      }
       case IValueMeta.TYPE_DATE:
-      case IValueMeta.TYPE_TIMESTAMP:
-        {
-          TimestampSerializer ts = TimestampSerializer.instance;
-          Date toConvert = vm.getDate(value);
-          String cassandraFormattedDateString =
-              ts.toStringUTC(toConvert); // Timestamp string in format "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-          return "'" + escapeSingleQuotes(cassandraFormattedDateString) + "'";
-        }
+      case IValueMeta.TYPE_TIMESTAMP: {
+        TimestampSerializer ts = TimestampSerializer.instance;
+        Date toConvert = vm.getDate(value);
+        String cassandraFormattedDateString = ts.toStringUTC(toConvert); // Timestamp string in format "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+        return "'" + escapeSingleQuotes(cassandraFormattedDateString) + "'";
+      }
       case IValueMeta.TYPE_BINARY:
       case IValueMeta.TYPE_SERIALIZABLE:
 
         // TODO blob constant (hex string) for TYPE_BINARY (see
         // http://cassandra.apache.org/doc/cql3/CQL.html)
-        throw new HopValueException(
-            BaseMessages.getString(PKG, "CassandraUtils.Error.CantConvertBinaryToCQL"));
+        throw new HopValueException(BaseMessages.getString(PKG, "CassandraUtils.Error.CantConvertBinaryToCQL"));
     }
 
-    throw new HopValueException(
-        BaseMessages.getString(
-            PKG, "CassandraUtils.Error.CantConvertType", vm.getName(), vm.getTypeDesc()));
+    throw new HopValueException(BaseMessages.getString(PKG, "CassandraUtils.Error.CantConvertType", vm.getName(), vm.getTypeDesc()));
   }
 
   /**
@@ -681,13 +654,7 @@ public class CassandraUtils {
    * @return a connection to cassandra
    * @throws Exception if a problem occurs during connection
    */
-  public static DriverConnection getCassandraConnection(
-      String hosts,
-      int port,
-      String localDataCenter,
-      String username,
-      String password,
-      Map<String, String> opts)
+  public static DriverConnection getCassandraConnection(String hosts, int port, String localDataCenter, String username, String password, Map<String, String> opts)
       throws Exception {
     DriverConnection conn = new DriverConnection();
     conn.setHosts(hosts);
@@ -736,12 +703,11 @@ public class CassandraUtils {
    *
    * @param batch the batch list of rows to process
    * @param inputMeta the meta of the incoming rows (column order aligns with batch, whereas
-   *     cassandraMeta does not)
+   *        cassandraMeta does not)
    * @param cassandraMeta the metadata for a Cassandra table
    * @return the updated batch list
    */
-  public static List<Object[]> fixBatchMismatchedTypes(
-      List<Object[]> batch, IRowMeta inputMeta, ITableMetaData cassandraMeta) {
+  public static List<Object[]> fixBatchMismatchedTypes(List<Object[]> batch, IRowMeta inputMeta, ITableMetaData cassandraMeta) {
 
     if (cassandraMeta != null) {
       List<String> colNames = cassandraMeta.getColumnNames();
@@ -792,25 +758,15 @@ public class CassandraUtils {
     return partitionKey;
   }
 
-  private static String getPartitionKeyIter(
-      String primaryKey, String partitionKey, int parenLevel) {
+  private static String getPartitionKeyIter(String primaryKey, String partitionKey, int parenLevel) {
     if (parenLevel == 0 && !partitionKey.isEmpty()) {
       return partitionKey;
     } else if (primaryKey.charAt(0) == '(') {
-      return getPartitionKeyIter(
-          primaryKey.substring(1, primaryKey.length()),
-          partitionKey + primaryKey.charAt(0),
-          ++parenLevel);
+      return getPartitionKeyIter(primaryKey.substring(1, primaryKey.length()), partitionKey + primaryKey.charAt(0), ++parenLevel);
     } else if (primaryKey.charAt(0) == ')') {
-      return getPartitionKeyIter(
-          primaryKey.substring(1, primaryKey.length()),
-          partitionKey + primaryKey.charAt(0),
-          --parenLevel);
+      return getPartitionKeyIter(primaryKey.substring(1, primaryKey.length()), partitionKey + primaryKey.charAt(0), --parenLevel);
     } else {
-      return getPartitionKeyIter(
-          primaryKey.substring(1, primaryKey.length()),
-          partitionKey + primaryKey.charAt(0),
-          parenLevel);
+      return getPartitionKeyIter(primaryKey.substring(1, primaryKey.length()), partitionKey + primaryKey.charAt(0), parenLevel);
     }
   }
 }

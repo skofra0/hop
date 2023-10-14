@@ -71,7 +71,6 @@ public class DatabaseLookupData extends BaseTransformData implements ITransformD
      * @param lookupRow tuple of keys
      * @param add tuple of data
      */
-    void storeRowInCache(
-        DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add);
+    void storeRowInCache(DatabaseLookupMeta meta, IRowMeta lookupMeta, Object[] lookupRow, Object[] add);
   }
 }

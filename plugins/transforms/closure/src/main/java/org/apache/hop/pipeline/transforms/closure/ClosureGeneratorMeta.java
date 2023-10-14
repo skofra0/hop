@@ -44,8 +44,7 @@ import java.util.List;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform",
     keywords = "i18n::ClosureGeneratorMeta.keyword",
     documentationUrl = "/pipeline/transforms/closure.html")
-public class ClosureGeneratorMeta
-    extends BaseTransformMeta<ClosureGenerator, ClosureGeneratorData> {
+public class ClosureGeneratorMeta extends BaseTransformMeta<ClosureGenerator, ClosureGeneratorData> {
 
   @HopMetadataProperty(key = "is_root_zero")
   private boolean rootIdZero;
@@ -79,13 +78,7 @@ public class ClosureGeneratorMeta
   public void setDefault() {}
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // The output for the closure table is:
     //
@@ -129,35 +122,19 @@ public class ClosureGeneratorMeta
 
     IValueMeta parentValueMeta = prev.searchValueMeta(parentIdFieldName);
     if (parentValueMeta != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "The fieldname of the parent id could not be found.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "The fieldname of the parent id could not be found.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "The fieldname of the parent id could be found",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "The fieldname of the parent id could be found", transformMeta);
       remarks.add(cr);
     }
 
     IValueMeta childValueMeta = prev.searchValueMeta(childIdFieldName);
     if (childValueMeta != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "The fieldname of the child id could not be found.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "The fieldname of the child id could not be found.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "The fieldname of the child id could be found",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "The fieldname of the child id could be found", transformMeta);
       remarks.add(cr);
     }
   }

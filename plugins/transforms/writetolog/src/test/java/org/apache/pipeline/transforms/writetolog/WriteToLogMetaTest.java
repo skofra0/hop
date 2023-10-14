@@ -37,7 +37,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class WriteToLogMetaTest implements IInitializer<WriteToLogMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
   Class<WriteToLogMetaSymmetric> testMetaClass = WriteToLogMetaSymmetric.class;
 
@@ -45,34 +46,29 @@ public class WriteToLogMetaTest implements IInitializer<WriteToLogMeta> {
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
-    List<String> attributes =
-        Arrays.asList(
-            "displayHeader", "limitRows", "limitRowsNumber", "logmessage", "loglevel", "fieldName");
+    List<String> attributes = Arrays.asList("displayHeader", "limitRows", "limitRowsNumber", "logmessage", "loglevel", "fieldName");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("displayHeader", "isDisplayHeader");
-            put("limitRows", "isLimitRows");
-            put("limitRowsNumber", "getLimitRowsNumber");
-            put("logmessage", "getLogMessage");
-            put("loglevel", "getLogLevelString");
-            put("fieldName", "getFieldName");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("displayHeader", "setDisplayHeader");
-            put("limitRows", "setLimitRows");
-            put("limitRowsNumber", "setLimitRowsNumber");
-            put("logmessage", "setLogMessage");
-            put("loglevel", "setLogLevelString");
-            put("fieldName", "setFieldName");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("displayHeader", "isDisplayHeader");
+        put("limitRows", "isLimitRows");
+        put("limitRowsNumber", "getLimitRowsNumber");
+        put("logmessage", "getLogMessage");
+        put("loglevel", "getLogLevelString");
+        put("fieldName", "getFieldName");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("displayHeader", "setDisplayHeader");
+        put("limitRows", "setLimitRows");
+        put("limitRowsNumber", "setLimitRowsNumber");
+        put("logmessage", "setLogMessage");
+        put("loglevel", "setLogLevelString");
+        put("fieldName", "setFieldName");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fieldName", stringArrayLoadSaveValidator);
@@ -80,15 +76,7 @@ public class WriteToLogMetaTest implements IInitializer<WriteToLogMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class

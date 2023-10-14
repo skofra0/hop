@@ -69,8 +69,7 @@ public interface MongoClientWrapper {
    * @return a list of replica set members who's tags satisfy the supplied list of tag sets
    * @throws MongoDbException if a problem occurs
    */
-  List<String> getReplicaSetMembersThatSatisfyTagSets(List<DBObject> tagSets)
-      throws MongoDbException;
+  List<String> getReplicaSetMembersThatSatisfyTagSets(List<DBObject> tagSets) throws MongoDbException;
 
   /**
    * Return a list of custom "lastErrorModes" (if any) defined in the replica set configuration
@@ -121,8 +120,7 @@ public interface MongoClientWrapper {
    * @return the result of the action
    * @throws MongoDbException
    */
-  <ReturnType> ReturnType perform(String db, MongoDBAction<ReturnType> action)
-      throws MongoDbException;
+  <ReturnType> ReturnType perform(String db, MongoDBAction<ReturnType> action) throws MongoDbException;
 
   /** @return the ReplicaSetStatus for the cluster. */
   ReplicaSetStatus getReplicaSetStatus();

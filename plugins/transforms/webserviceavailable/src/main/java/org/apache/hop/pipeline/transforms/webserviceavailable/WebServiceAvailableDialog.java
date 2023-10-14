@@ -57,8 +57,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
 
   private boolean gotPreviousFields = false;
 
-  public WebServiceAvailableDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public WebServiceAvailableDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (WebServiceAvailableMeta) in;
   }
@@ -87,8 +86,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -124,23 +122,21 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     fdURL.top = new FormAttachment(wTransformName, margin);
     fdURL.right = new FormAttachment(100, -margin);
     wURL.setLayoutData(fdURL);
-    wURL.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable FocusLost event
-          }
+    wURL.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable FocusLost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
 
     // connect timeout line
     Label wlConnectTimeOut = new Label(shell, SWT.RIGHT);
-    wlConnectTimeOut.setText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.ConnectTimeOut.Label"));
+    wlConnectTimeOut.setText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.ConnectTimeOut.Label"));
     PropsUi.setLook(wlConnectTimeOut);
     FormData fdlConnectTimeOut = new FormData();
     fdlConnectTimeOut.left = new FormAttachment(0, 0);
@@ -149,8 +145,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     wlConnectTimeOut.setLayoutData(fdlConnectTimeOut);
 
     wConnectTimeOut = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wConnectTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.ConnectTimeOut.Tooltip"));
+    wConnectTimeOut.setToolTipText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.ConnectTimeOut.Tooltip"));
     PropsUi.setLook(wConnectTimeOut);
     wConnectTimeOut.addModifyListener(lsMod);
     FormData fdConnectTimeOut = new FormData();
@@ -160,13 +155,11 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     wConnectTimeOut.setLayoutData(fdConnectTimeOut);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wConnectTimeOut.addModifyListener(
-        e -> wConnectTimeOut.setToolTipText(variables.resolve(wConnectTimeOut.getText())));
+    wConnectTimeOut.addModifyListener(e -> wConnectTimeOut.setToolTipText(variables.resolve(wConnectTimeOut.getText())));
 
     // Read timeout line
     Label wlReadTimeOut = new Label(shell, SWT.RIGHT);
-    wlReadTimeOut.setText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.ReadTimeOut.Label"));
+    wlReadTimeOut.setText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.ReadTimeOut.Label"));
     PropsUi.setLook(wlReadTimeOut);
     FormData fdlReadTimeOut = new FormData();
     fdlReadTimeOut.left = new FormAttachment(0, 0);
@@ -175,8 +168,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     wlReadTimeOut.setLayoutData(fdlReadTimeOut);
 
     wReadTimeOut = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wReadTimeOut.setToolTipText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.ReadTimeOut.Tooltip"));
+    wReadTimeOut.setToolTipText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.ReadTimeOut.Tooltip"));
     PropsUi.setLook(wReadTimeOut);
     wReadTimeOut.addModifyListener(lsMod);
     FormData fdReadTimeOut = new FormData();
@@ -186,8 +178,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     wReadTimeOut.setLayoutData(fdReadTimeOut);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wReadTimeOut.addModifyListener(
-        e -> wReadTimeOut.setToolTipText(variables.resolve(wReadTimeOut.getText())));
+    wReadTimeOut.addModifyListener(e -> wReadTimeOut.setToolTipText(variables.resolve(wReadTimeOut.getText())));
 
     // Result fieldname ...
     Label wlResult = new Label(shell, SWT.RIGHT);
@@ -200,8 +191,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
     wlResult.setLayoutData(fdlResult);
 
     wResult = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wResult.setToolTipText(
-        BaseMessages.getString(PKG, "WebServiceAvailableDialog.ResultField.Tooltip"));
+    wResult.setToolTipText(BaseMessages.getString(PKG, "WebServiceAvailableDialog.ResultField.Tooltip"));
     PropsUi.setLook(wResult);
     wResult.addModifyListener(lsMod);
     FormData fdResult = new FormData();
@@ -288,8 +278,7 @@ public class WebServiceAvailableDialog extends BaseTransformDialog implements IT
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "WebServiceAvailableDialog.FailedToGetFields.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "WebServiceAvailableDialog.FailedToGetFields.DialogMessage"),
+            BaseMessages.getString(PKG, "WebServiceAvailableDialog.FailedToGetFields.DialogMessage"),
             ke);
       }
       gotPreviousFields = true;

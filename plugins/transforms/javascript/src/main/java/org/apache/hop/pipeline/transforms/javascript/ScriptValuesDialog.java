@@ -107,11 +107,7 @@ import java.util.Vector;
 public class ScriptValuesDialog extends BaseTransformDialog implements ITransformDialog {
   private static final Class<?> PKG = ScriptValuesMeta.class; // For Translator
 
-  private static final String[] YES_NO_COMBO =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  private static final String[] YES_NO_COMBO = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   private ModifyListener lsMod;
 
@@ -170,8 +166,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
   private RowGeneratorMeta genMeta;
 
-  public ScriptValuesDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ScriptValuesDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
 
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ScriptValuesMeta) in;
@@ -189,14 +184,9 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     }
 
     try {
-      scVHelp =
-          new ScriptValuesHelp("org/apache/hop/pipeline/transforms/javascript/jsFunctionHelp.xml");
+      scVHelp = new ScriptValuesHelp("org/apache/hop/pipeline/transforms/javascript/jsFunctionHelp.xml");
     } catch (Exception e) {
-      new ErrorDialog(
-          shell,
-          "Unexpected error",
-          "There was an unexpected error reading the javascript functions help",
-          e);
+      new ErrorDialog(shell, "Unexpected error", "There was an unexpected error reading the javascript functions help", e);
     }
   }
 
@@ -239,8 +229,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
     // Filename line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -271,8 +260,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
     // Script line
     Label wlScriptFunctions = new Label(wTop, SWT.NONE);
-    wlScriptFunctions.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.JavascriptFunctions.Label"));
+    wlScriptFunctions.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.JavascriptFunctions.Label"));
     PropsUi.setLook(wlScriptFunctions);
     FormData fdlScriptFunctions = new FormData();
     fdlScriptFunctions.left = new FormAttachment(0, 0);
@@ -304,8 +292,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // The optimisation level...
     //
     Label wlOptimizationLevel = new Label(wTop, SWT.NONE);
-    wlOptimizationLevel.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.OptimizationLevel.Label"));
+    wlOptimizationLevel.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.OptimizationLevel.Label"));
     PropsUi.setLook(wlOptimizationLevel);
     FormData fdlOptimizationLevel = new FormData();
     fdlOptimizationLevel.left = new FormAttachment(wTree, margin * 2);
@@ -313,8 +300,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     wlOptimizationLevel.setLayoutData(fdlOptimizationLevel);
 
     wOptimizationLevel = new TextVar(variables, wTop, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wOptimizationLevel.setToolTipText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.OptimizationLevel.Tooltip"));
+    wOptimizationLevel.setToolTipText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.OptimizationLevel.Tooltip"));
     PropsUi.setLook(wOptimizationLevel);
     FormData fdOptimizationLevel = new FormData();
     fdOptimizationLevel.left = new FormAttachment(wlOptimizationLevel, margin);
@@ -378,41 +364,14 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Filename"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.RenameTo"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Replace"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              YES_NO_COMBO),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Filename"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.RenameTo"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ColumnInfo.Replace"), ColumnInfo.COLUMN_TYPE_CCOMBO, YES_NO_COMBO),};
 
-    wFields =
-        new TableView(
-            variables,
-            wBottom,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wBottom, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -440,30 +399,26 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // Add listeners
     wTree.addListener(SWT.MouseDoubleClick, e -> treeDblClick(e));
 
-    folder.addCTabFolder2Listener(
-        new CTabFolder2Adapter() {
-          @Override
-          public void close(CTabFolderEvent event) {
-            CTabItem cItem = (CTabItem) event.item;
-            event.doit = false;
-            if (cItem != null && folder.getItemCount() > 1) {
-              MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
-              messageBox.setText(
-                  BaseMessages.getString(PKG, "ScriptValuesDialogMod.DeleteItem.Label"));
-              messageBox.setMessage(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.ConfirmDeleteItem.Label", cItem.getText()));
-              switch (messageBox.open()) {
-                case SWT.YES:
-                  modifyScriptTree(cItem, DELETE_ITEM);
-                  event.doit = true;
-                  break;
-                default:
-                  break;
-              }
-            }
+    folder.addCTabFolder2Listener(new CTabFolder2Adapter() {
+      @Override
+      public void close(CTabFolderEvent event) {
+        CTabItem cItem = (CTabItem) event.item;
+        event.doit = false;
+        if (cItem != null && folder.getItemCount() > 1) {
+          MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
+          messageBox.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.DeleteItem.Label"));
+          messageBox.setMessage(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ConfirmDeleteItem.Label", cItem.getText()));
+          switch (messageBox.open()) {
+            case SWT.YES:
+              modifyScriptTree(cItem, DELETE_ITEM);
+              event.doit = true;
+              break;
+            default:
+              break;
           }
-        });
+        }
+      }
+    });
 
     cMenu = new Menu(shell, SWT.POP_UP);
     buildingFolderMenu();
@@ -473,8 +428,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // Adding the Default Transform Scripts Item to the Tree
     wTreeScriptsItem = new TreeItem(wTree, SWT.NULL);
     wTreeScriptsItem.setImage(guiresource.getImageFolder());
-    wTreeScriptsItem.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.TransformScript.Label"));
+    wTreeScriptsItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.TransformScript.Label"));
 
     getData();
 
@@ -492,15 +446,13 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
     // Display waiting message for input
     TreeItem itemWaitFieldsIn = new TreeItem(iteminput, SWT.NULL);
-    itemWaitFieldsIn.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.GettingFields.Label"));
+    itemWaitFieldsIn.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.GettingFields.Label"));
     itemWaitFieldsIn.setForeground(guiresource.getColorDirectory());
     iteminput.setExpanded(true);
 
     // Display waiting message for output
     TreeItem itemWaitFieldsOut = new TreeItem(itemoutput, SWT.NULL);
-    itemWaitFieldsOut.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.GettingFields.Label"));
+    itemWaitFieldsOut.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.GettingFields.Label"));
     itemWaitFieldsOut.setForeground(guiresource.getColorDirectory());
     itemoutput.setExpanded(true);
 
@@ -508,25 +460,23 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              rowPrevTransformFields =
-                  pipelineMeta.getPrevTransformFields(variables, transformMeta);
-              if (rowPrevTransformFields != null) {
-                setInputOutputFields();
-              } else {
-                // Can not get fields...end of wait message
-                iteminput.removeAll();
-                itemoutput.removeAll();
-              }
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          rowPrevTransformFields = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+          if (rowPrevTransformFields != null) {
+            setInputOutputFields();
+          } else {
+            // Can not get fields...end of wait message
+            iteminput.removeAll();
+            itemoutput.removeAll();
           }
-        };
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     buildAddClassesListTree();
@@ -536,38 +486,37 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // Create the drag source on the tree
     DragSource ds = new DragSource(wTree, DND.DROP_MOVE);
     ds.setTransfer(new Transfer[] {TextTransfer.getInstance()});
-    ds.addDragListener(
-        new DragSourceAdapter() {
+    ds.addDragListener(new DragSourceAdapter() {
 
-          @Override
-          public void dragStart(DragSourceEvent event) {
-            TreeItem item = wTree.getSelection()[0];
+      @Override
+      public void dragStart(DragSourceEvent event) {
+        TreeItem item = wTree.getSelection()[0];
 
-            // Qualifikation where the Drag Request Comes from
-            if (item != null && item.getParentItem() != null) {
-              if (item.getParentItem().equals(wTreeScriptsItem)) {
-                event.doit = false;
-              } else if (!item.getData().equals("Function")) {
-                String strInsert = (String) item.getData();
-                if (strInsert.equals("jsFunction")) {
-                  event.doit = true;
-                } else {
-                  event.doit = false;
-                }
-              } else {
-                event.doit = false;
-              }
+        // Qualifikation where the Drag Request Comes from
+        if (item != null && item.getParentItem() != null) {
+          if (item.getParentItem().equals(wTreeScriptsItem)) {
+            event.doit = false;
+          } else if (!item.getData().equals("Function")) {
+            String strInsert = (String) item.getData();
+            if (strInsert.equals("jsFunction")) {
+              event.doit = true;
             } else {
               event.doit = false;
             }
+          } else {
+            event.doit = false;
           }
+        } else {
+          event.doit = false;
+        }
+      }
 
-          @Override
-          public void dragSetData(DragSourceEvent event) {
-            // Set the data to be the first selected item's text
-            event.data = wTree.getSelection()[0].getText();
-          }
-        });
+      @Override
+      public void dragSetData(DragSourceEvent event) {
+        // Set the data to be the first selected item's text
+        event.data = wTree.getSelection()[0].getText();
+      }
+    });
 
     BaseDialog.defaultShellHandling(shell, c -> ok(), c -> cancel());
 
@@ -594,16 +543,11 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         item.setText(getNextName(cScriptName));
         break;
     }
-    StyledTextComp wScript =
-        new StyledTextComp(
-            variables, item.getParent(), SWT.MULTI | SWT.LEFT | SWT.H_SCROLL | SWT.V_SCROLL, false);
+    StyledTextComp wScript = new StyledTextComp(variables, item.getParent(), SWT.MULTI | SWT.LEFT | SWT.H_SCROLL | SWT.V_SCROLL, false);
     if ((strScript != null) && strScript.length() > 0) {
       wScript.setText(strScript);
     } else {
-      wScript.setText(
-          BaseMessages.getString(PKG, "ScriptValuesDialogMod.ScriptHere.Label")
-              + Const.CR
-              + Const.CR);
+      wScript.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ScriptHere.Label") + Const.CR + Const.CR);
     }
 
     PropsUi.setLook(wScript, Props.WIDGET_STYLE_FIXED);
@@ -759,9 +703,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
   public void setPosition(StyledTextComp wScript) {
     int lineNumber = wScript.getLineNumber();
     int columnNumber = wScript.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "ScriptValuesDialogMod.Position.Label", lineNumber, columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Position.Label", lineNumber, columnNumber));
   }
 
   /** Copy information from the meta-data input to the dialog fields. */
@@ -846,9 +788,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     if (input.hasChanged()) {
       MessageBox box = new MessageBox(shell, SWT.YES | SWT.NO | SWT.APPLICATION_MODAL | SWT.SHEET);
       box.setText(BaseMessages.getString(PKG, "ScriptValuesModDialog.WarningDialogChanged.Title"));
-      box.setMessage(
-          BaseMessages.getString(
-              PKG, "ScriptValuesModDialog.WarningDialogChanged.Message", Const.CR));
+      box.setMessage(BaseMessages.getString(PKG, "ScriptValuesModDialog.WarningDialogChanged.Message", Const.CR));
       int answer = box.open();
 
       if (answer == SWT.NO) {
@@ -870,9 +810,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
       TableItem item = wFields.getNonEmpty(i);
       meta.getFieldname()[i] = item.getText(1);
       meta.getRename()[i] = item.getText(2);
-      if (meta.getRename()[i] == null
-          || meta.getRename()[i].length() == 0
-          || meta.getRename()[i].equalsIgnoreCase(meta.getFieldname()[i])) {
+      if (meta.getRename()[i] == null || meta.getRename()[i].length() == 0 || meta.getRename()[i].equalsIgnoreCase(meta.getFieldname()[i])) {
         meta.getRename()[i] = meta.getFieldname()[i];
       }
       meta.getType()[i] = ValueMetaFactory.getIdForValueMeta(item.getText(3));
@@ -887,11 +825,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     if (cTabs.length > 0) {
       ScriptValuesScript[] jsScripts = new ScriptValuesScript[cTabs.length];
       for (int i = 0; i < cTabs.length; i++) {
-        ScriptValuesScript jsScript =
-            new ScriptValuesScript(
-                ScriptValuesScript.NORMAL_SCRIPT,
-                cTabs[i].getText(),
-                getStyledTextComp(cTabs[i]).getText());
+        ScriptValuesScript jsScript = new ScriptValuesScript(ScriptValuesScript.NORMAL_SCRIPT, cTabs[i].getText(), getStyledTextComp(cTabs[i]).getText());
         if (cTabs[i].getImage().equals(imageActiveScript)) {
           jsScript.setScriptType(ScriptValuesScript.TRANSFORM_SCRIPT);
         } else if (cTabs[i].getImage().equals(imageActiveStartScript)) {
@@ -1009,11 +943,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
                 string = valueMeta.getString(Boolean.TRUE);
                 break;
               case IValueMeta.TYPE_BINARY:
-                string =
-                    valueMeta.getString(
-                        new byte[] {
-                          65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
-                        });
+                string = valueMeta.getString(new byte[] {65, 66, 67, 68, 69, 70, 71, 72, 73, 74,});
                 break;
               default:
                 break;
@@ -1038,22 +968,14 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
             genMeta.getFields().add(field);
           }
         }
-        TransformMeta genTransform =
-            new TransformMeta(
-                registry.getPluginId(TransformPluginType.class, genMeta),
-                "## TEST DATA ##",
-                genMeta);
+        TransformMeta genTransform = new TransformMeta(registry.getPluginId(TransformPluginType.class, genMeta), "## TEST DATA ##", genMeta);
         genTransform.setLocation(50, 50);
 
         // Now create a JavaScript transform with the information in this dialog
         //
         ScriptValuesMeta scriptMeta = new ScriptValuesMeta();
         getInfo(scriptMeta);
-        TransformMeta scriptTransform =
-            new TransformMeta(
-                registry.getPluginId(TransformPluginType.class, scriptMeta),
-                Const.NVL(scriptTransformName, "## SCRIPT ##"),
-                scriptMeta);
+        TransformMeta scriptTransform = new TransformMeta(registry.getPluginId(TransformPluginType.class, scriptMeta), Const.NVL(scriptTransformName, "## SCRIPT ##"), scriptMeta);
         scriptTransformName = scriptTransform.getName();
         scriptTransform.setLocation(150, 50);
 
@@ -1074,16 +996,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         // Now run this pipeline and grab the results...
         //
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                pipelineMeta,
-                new String[] {
-                  scriptTransformName,
-                },
-                new int[] {
-                  Const.toInt(genMeta.getRowLimit(), 10),
-                });
+            new PipelinePreviewProgressDialog(shell, variables, pipelineMeta, new String[] {scriptTransformName,}, new int[] {Const.toInt(genMeta.getRowLimit(), 10),});
         progressDialog.open();
 
         Pipeline pipeline = progressDialog.getPipeline();
@@ -1107,15 +1020,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         List<Object[]> previewRows = progressDialog.getPreviewRows(wTransformName.getText());
 
         if (previewRowsMeta != null && previewRows != null && previewRows.size() > 0) {
-          PreviewRowsDialog prd =
-              new PreviewRowsDialog(
-                  shell,
-                  variables,
-                  SWT.NONE,
-                  wTransformName.getText(),
-                  previewRowsMeta,
-                  previewRows,
-                  loggingText);
+          PreviewRowsDialog prd = new PreviewRowsDialog(shell, variables, SWT.NONE, wTransformName.getText(), previewRowsMeta, previewRows, loggingText);
           prd.open();
         }
       }
@@ -1161,9 +1066,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
       IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (rowMeta != null) {
 
-        ScriptValuesDummy dummyTransform =
-            new ScriptValuesDummy(
-                rowMeta, pipelineMeta.getTransformFields(variables, transformName));
+        ScriptValuesDummy dummyTransform = new ScriptValuesDummy(rowMeta, pipelineMeta.getTransformFields(variables, transformName));
         Scriptable jsvalue = Context.toObject(dummyTransform, jsscope);
         jsscope.put("_transform_", jsscope, jsvalue);
 
@@ -1176,24 +1079,16 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
             }
           }
         } catch (Exception e) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.CouldNotAddToContext", e.toString()));
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.CouldNotAddToContext", e.toString()));
           retval = false;
         }
 
         // Adding some default JavaScriptFunctions to the System
         try {
           Context.javaToJS(ScriptValuesAddedFunctions.class, jsscope);
-          ((ScriptableObject) jsscope)
-              .defineFunctionProperties(
-                  jsFunctionList, ScriptValuesAddedFunctions.class, ScriptableObject.DONTENUM);
+          ((ScriptableObject) jsscope).defineFunctionProperties(jsFunctionList, ScriptValuesAddedFunctions.class, ScriptableObject.DONTENUM);
         } catch (Exception ex) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.CouldNotAddDefaultFunctions", ex.toString()));
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.CouldNotAddDefaultFunctions", ex.toString()));
           retval = false;
         }
 
@@ -1204,10 +1099,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
           jsscope.put("ERROR_PIPELINE", jsscope, ERROR_PIPELINE);
           jsscope.put("CONTINUE_PIPELINE", jsscope, CONTINUE_PIPELINE);
         } catch (Exception ex) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.CouldNotAddPipelineConstants", ex.toString()));
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.CouldNotAddPipelineConstants", ex.toString()));
           retval = false;
         }
 
@@ -1225,9 +1117,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
               valueData = new Date();
             }
             if (valueMeta.isString()) {
-              valueData =
-                  "test value test value test value test value test value "
-                      + "test value test value test value test value test value";
+              valueData = "test value test value test value test value test value " + "test value test value test value test value test value";
             }
             if (valueMeta.isInteger()) {
               valueData = 0L;
@@ -1242,10 +1132,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
               valueData = Boolean.TRUE;
             }
             if (valueMeta.isBinary()) {
-              valueData =
-                  new byte[] {
-                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                  };
+              valueData = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,};
             }
 
             if (valueMeta.isStorageBinaryString()) {
@@ -1266,28 +1153,18 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
           jsscope.put("row", jsscope, jsRow);
 
         } catch (Exception ev) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.CouldNotAddInputFields", ev.toString()));
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.CouldNotAddInputFields", ev.toString()));
           retval = false;
         }
 
         try {
           // Checking for StartScript
-          if (strActiveStartScript != null
-              && !folder.getSelection().getText().equals(strActiveStartScript)
-              && strActiveStartScript.length() > 0) {
-            String strStartScript =
-                getStyledTextComp(folder.getItem(getCTabPosition(strActiveStartScript))).getText();
-            /* Object startScript = */ jscx.evaluateString(
-                jsscope, strStartScript, "pipeline_Start", 1, null);
+          if (strActiveStartScript != null && !folder.getSelection().getText().equals(strActiveStartScript) && strActiveStartScript.length() > 0) {
+            String strStartScript = getStyledTextComp(folder.getItem(getCTabPosition(strActiveStartScript))).getText();
+            /* Object startScript = */ jscx.evaluateString(jsscope, strStartScript, "pipeline_Start", 1, null);
           }
         } catch (Exception e) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.CouldProcessStartScript", e.toString()));
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.CouldProcessStartScript", e.toString()));
           retval = false;
         }
 
@@ -1300,8 +1177,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
             ScriptNode tree = parseVariables(jscx, jsscope, scr, "script", 1, null);
             for (int i = 0; i < tree.getParamAndVarCount(); i++) {
               String varname = tree.getParamOrVarName(i);
-              if (!varname.equalsIgnoreCase("row")
-                  && !varname.equalsIgnoreCase("pipeline_Status")) {
+              if (!varname.equalsIgnoreCase("row") && !varname.equalsIgnoreCase("pipeline_Status")) {
                 int type = IValueMeta.TYPE_STRING;
                 int length = -1;
                 int precision = -1;
@@ -1328,8 +1204,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
                     length = 16;
                     precision = 2;
 
-                  } else if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeDate")
-                      || classname.equalsIgnoreCase("java.util.Date")) {
+                  } else if (classname.equalsIgnoreCase("org.mozilla.javascript.NativeDate") || classname.equalsIgnoreCase("java.util.Date")) {
                     type = IValueMeta.TYPE_DATE;
                   } else if (classname.equalsIgnoreCase("java.lang.Boolean")) {
                     type = IValueMeta.TYPE_BOOLEAN;
@@ -1344,8 +1219,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
 
                 // If the variable name exists in the input, suggest to replace the value
                 //
-                ti.setText(
-                    6, (rowMeta.indexOfValue(varname) >= 0) ? YES_NO_COMBO[1] : YES_NO_COMBO[0]);
+                ti.setText(6, (rowMeta.indexOfValue(varname) >= 0) ? YES_NO_COMBO[1] : YES_NO_COMBO[0]);
               }
             }
             wFields.removeEmptyRows();
@@ -1356,30 +1230,20 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
           // End Script!
         } catch (EvaluatorException e) {
           String position = "(" + e.lineNumber() + ":" + e.columnNumber() + ")";
-          String message =
-              BaseMessages.getString(
-                  PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript", position);
+          String message = BaseMessages.getString(PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript", position);
           testException = new HopException(message, e);
           retval = false;
         } catch (JavaScriptException e) {
           String position = "(" + e.lineNumber() + ":" + e.columnNumber() + ")";
-          String message =
-              BaseMessages.getString(
-                  PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript", position);
+          String message = BaseMessages.getString(PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript", position);
           testException = new HopException(message, e);
           retval = false;
         } catch (Exception e) {
-          testException =
-              new HopException(
-                  BaseMessages.getString(
-                      PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript2"),
-                  e);
+          testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Exception.CouldNotExecuteScript2"), e);
           retval = false;
         }
       } else {
-        testException =
-            new HopException(
-                BaseMessages.getString(PKG, "ScriptValuesDialogMod.Exception.CouldNotGetFields"));
+        testException = new HopException(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Exception.CouldNotGetFields"));
         retval = false;
       }
 
@@ -1387,9 +1251,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         if (retval) {
           if (!getvars) {
             MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-            mb.setMessage(
-                BaseMessages.getString(PKG, "ScriptValuesDialogMod.ScriptCompilationOK")
-                    + Const.CR);
+            mb.setMessage(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ScriptCompilationOK") + Const.CR);
             mb.setText("OK");
             mb.open();
           }
@@ -1442,33 +1304,27 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     // Adding the Grouping Items to the Tree
     TreeItem itemStringFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemStringFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemStringFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.StringFunctions.Label"));
+    itemStringFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.StringFunctions.Label"));
     itemStringFunctionsGroup.setData("Function");
     TreeItem itemNumericFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemNumericFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemNumericFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.NumericFunctions.Label"));
+    itemNumericFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.NumericFunctions.Label"));
     itemNumericFunctionsGroup.setData("Function");
     TreeItem itemDateFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemDateFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemDateFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.DateFunctions.Label"));
+    itemDateFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.DateFunctions.Label"));
     itemDateFunctionsGroup.setData("Function");
     TreeItem itemLogicFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemLogicFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemLogicFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.LogicFunctions.Label"));
+    itemLogicFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.LogicFunctions.Label"));
     itemLogicFunctionsGroup.setData("Function");
     TreeItem itemSpecialFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemSpecialFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemSpecialFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.SpecialFunctions.Label"));
+    itemSpecialFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SpecialFunctions.Label"));
     itemSpecialFunctionsGroup.setData("Function");
     TreeItem itemFileFunctionsGroup = new TreeItem(item, SWT.NULL);
     itemFileFunctionsGroup.setImage(GuiResource.getInstance().getImageFolder());
-    itemFileFunctionsGroup.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.FileFunctions.Label"));
+    itemFileFunctionsGroup.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.FileFunctions.Label"));
     itemFileFunctionsGroup.setData("Function");
 
     Hashtable<String, String> hatFunctions = scVHelp.getFunctionList();
@@ -1526,35 +1382,30 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
   }
 
   private void setInputOutputFields() {
-    shell
-        .getDisplay()
-        .syncExec(
-            () -> {
-              // fields are got...end of wait message
-              iteminput.removeAll();
-              itemoutput.removeAll();
+    shell.getDisplay().syncExec(() -> {
+      // fields are got...end of wait message
+      iteminput.removeAll();
+      itemoutput.removeAll();
 
-              String strItemInToAdd = "";
-              String strItemToAddOut = "";
+      String strItemInToAdd = "";
+      String strItemToAddOut = "";
 
-              if (rowPrevTransformFields != null) {
+      if (rowPrevTransformFields != null) {
 
-                for (int i = 0; i < rowPrevTransformFields.size(); i++) {
-                  IValueMeta valueMeta = rowPrevTransformFields.getValueMeta(i);
-                  strItemToAddOut = valueMeta.getName() + ".setValue(var)";
-                  strItemInToAdd = valueMeta.getName();
-                  TreeItem itemFields = new TreeItem(iteminput, SWT.NULL);
-                  itemFields.setImage(GuiResource.getInstance().getImage(valueMeta));
-                  itemFields.setText(strItemInToAdd);
-                  itemFields.setData(strItemInToAdd);
-                }
-                TreeItem itemFields = new TreeItem(itemoutput, SWT.NULL);
-                itemFields.setData("");
-                itemFields.setText(
-                    BaseMessages.getString(
-                        PKG, "ScriptValuesDialogMod.OutputFiels.CompatibilityOff"));
-              }
-            });
+        for (int i = 0; i < rowPrevTransformFields.size(); i++) {
+          IValueMeta valueMeta = rowPrevTransformFields.getValueMeta(i);
+          strItemToAddOut = valueMeta.getName() + ".setValue(var)";
+          strItemInToAdd = valueMeta.getName();
+          TreeItem itemFields = new TreeItem(iteminput, SWT.NULL);
+          itemFields.setImage(GuiResource.getInstance().getImage(valueMeta));
+          itemFields.setText(strItemInToAdd);
+          itemFields.setData(strItemInToAdd);
+        }
+        TreeItem itemFields = new TreeItem(itemoutput, SWT.NULL);
+        itemFields.setData("");
+        itemFields.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.OutputFiels.CompatibilityOff"));
+      }
+    });
   }
 
   // Adds the Current item to the current Position
@@ -1569,10 +1420,8 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         setActiveCtab(item.getText());
       } else if (!item.getData().equals("Function")) {
         int iStart = wScript.getTextWidget().getCaretPosition();
-        int selCount =
-            wScript.getSelectionCount(); // this selection will be replaced by wScript.insert
-        iStart =
-            iStart - selCount; // when a selection is already there we need to subtract the position
+        int selCount = wScript.getSelectionCount(); // this selection will be replaced by wScript.insert
+        iStart = iStart - selCount; // when a selection is already there we need to subtract the position
         if (iStart < 0) {
           iStart = 0; // just safety
         }
@@ -1605,13 +1454,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
               TreeItem item2 = new TreeItem(wTreeClassesitem, SWT.NULL);
               strParams = buildAddClassFunctionName(method);
               item2.setText(method.getName() + "(" + strParams + ")");
-              String strData =
-                  input.getAddClasses()[i].getJSName()
-                      + "."
-                      + method.getName()
-                      + "("
-                      + strParams
-                      + ")";
+              String strData = input.getAddClasses()[i].getJSName() + "." + method.getName() + "(" + strParams + ")";
               item2.setData(strData);
             }
           }
@@ -1659,100 +1502,20 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     MenuItem copyItem = new MenuItem(cMenu, SWT.PUSH);
     copyItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.AddCopy"));
     copyItem.setImage(guiresource.getImageDuplicate());
-    copyItem.addListener(
-        SWT.Selection,
-        e -> {
-          CTabItem item = folder.getSelection();
-          StyledTextComp st = (StyledTextComp) item.getControl();
-          addCtab(item.getText(), st.getText(), ADD_COPY);
-        });
+    copyItem.addListener(SWT.Selection, e -> {
+      CTabItem item = folder.getSelection();
+      StyledTextComp st = (StyledTextComp) item.getControl();
+      addCtab(item.getText(), st.getText(), ADD_COPY);
+    });
     new MenuItem(cMenu, SWT.SEPARATOR);
 
     MenuItem setActiveScriptItem = new MenuItem(cMenu, SWT.PUSH);
-    setActiveScriptItem.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetTransformScript"));
+    setActiveScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetTransformScript"));
     setActiveScriptItem.setImage(imageActiveScript);
-    setActiveScriptItem.addListener(
-        SWT.Selection,
-        e -> {
-          CTabItem item = folder.getSelection();
-          for (int i = 0; i < folder.getItemCount(); i++) {
-            if (folder.getItem(i).equals(item)) {
-              if (item.getImage().equals(imageActiveScript)) {
-                strActiveScript = "";
-              } else if (item.getImage().equals(imageActiveStartScript)) {
-                strActiveStartScript = "";
-              } else if (item.getImage().equals(imageActiveEndScript)) {
-                strActiveEndScript = "";
-              }
-              item.setImage(imageActiveScript);
-              strActiveScript = item.getText();
-            } else if (folder.getItem(i).getImage().equals(imageActiveScript)) {
-              folder.getItem(i).setImage(imageInactiveScript);
-            }
-          }
-          modifyScriptTree(item, SET_ACTIVE_ITEM);
-        });
-
-    MenuItem setStartScriptItem = new MenuItem(cMenu, SWT.PUSH);
-    setStartScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetStartScript"));
-    setStartScriptItem.setImage(imageActiveStartScript);
-    setStartScriptItem.addListener(
-        SWT.Selection,
-        e -> {
-          CTabItem item = folder.getSelection();
-          for (int i = 0; i < folder.getItemCount(); i++) {
-            if (folder.getItem(i).equals(item)) {
-              if (item.getImage().equals(imageActiveScript)) {
-                strActiveScript = "";
-              } else if (item.getImage().equals(imageActiveStartScript)) {
-                strActiveStartScript = "";
-              } else if (item.getImage().equals(imageActiveEndScript)) {
-                strActiveEndScript = "";
-              }
-              item.setImage(imageActiveStartScript);
-              strActiveStartScript = item.getText();
-            } else if (folder.getItem(i).getImage().equals(imageActiveStartScript)) {
-              folder.getItem(i).setImage(imageInactiveScript);
-            }
-          }
-          modifyScriptTree(item, SET_ACTIVE_ITEM);
-        });
-
-    MenuItem setEndScriptItem = new MenuItem(cMenu, SWT.PUSH);
-    setEndScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetEndScript"));
-    setEndScriptItem.setImage(imageActiveEndScript);
-    setEndScriptItem.addListener(
-        SWT.Selection,
-        e -> {
-          CTabItem item = folder.getSelection();
-          for (int i = 0; i < folder.getItemCount(); i++) {
-            if (folder.getItem(i).equals(item)) {
-              if (item.getImage().equals(imageActiveScript)) {
-                strActiveScript = "";
-              } else if (item.getImage().equals(imageActiveStartScript)) {
-                strActiveStartScript = "";
-              } else if (item.getImage().equals(imageActiveEndScript)) {
-                strActiveEndScript = "";
-              }
-              item.setImage(imageActiveEndScript);
-              strActiveEndScript = item.getText();
-            } else if (folder.getItem(i).getImage().equals(imageActiveEndScript)) {
-              folder.getItem(i).setImage(imageInactiveScript);
-            }
-          }
-          modifyScriptTree(item, SET_ACTIVE_ITEM);
-        });
-    new MenuItem(cMenu, SWT.SEPARATOR);
-    MenuItem setRemoveScriptItem = new MenuItem(cMenu, SWT.PUSH);
-    setRemoveScriptItem.setText(
-        BaseMessages.getString(PKG, "ScriptValuesDialogMod.RemoveScriptType"));
-    setRemoveScriptItem.setImage(imageInactiveScript);
-    setRemoveScriptItem.addListener(
-        SWT.Selection,
-        e -> {
-          CTabItem item = folder.getSelection();
-          input.setChanged(true);
+    setActiveScriptItem.addListener(SWT.Selection, e -> {
+      CTabItem item = folder.getSelection();
+      for (int i = 0; i < folder.getItemCount(); i++) {
+        if (folder.getItem(i).equals(item)) {
           if (item.getImage().equals(imageActiveScript)) {
             strActiveScript = "";
           } else if (item.getImage().equals(imageActiveStartScript)) {
@@ -1760,8 +1523,76 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
           } else if (item.getImage().equals(imageActiveEndScript)) {
             strActiveEndScript = "";
           }
-          item.setImage(imageInactiveScript);
-        });
+          item.setImage(imageActiveScript);
+          strActiveScript = item.getText();
+        } else if (folder.getItem(i).getImage().equals(imageActiveScript)) {
+          folder.getItem(i).setImage(imageInactiveScript);
+        }
+      }
+      modifyScriptTree(item, SET_ACTIVE_ITEM);
+    });
+
+    MenuItem setStartScriptItem = new MenuItem(cMenu, SWT.PUSH);
+    setStartScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetStartScript"));
+    setStartScriptItem.setImage(imageActiveStartScript);
+    setStartScriptItem.addListener(SWT.Selection, e -> {
+      CTabItem item = folder.getSelection();
+      for (int i = 0; i < folder.getItemCount(); i++) {
+        if (folder.getItem(i).equals(item)) {
+          if (item.getImage().equals(imageActiveScript)) {
+            strActiveScript = "";
+          } else if (item.getImage().equals(imageActiveStartScript)) {
+            strActiveStartScript = "";
+          } else if (item.getImage().equals(imageActiveEndScript)) {
+            strActiveEndScript = "";
+          }
+          item.setImage(imageActiveStartScript);
+          strActiveStartScript = item.getText();
+        } else if (folder.getItem(i).getImage().equals(imageActiveStartScript)) {
+          folder.getItem(i).setImage(imageInactiveScript);
+        }
+      }
+      modifyScriptTree(item, SET_ACTIVE_ITEM);
+    });
+
+    MenuItem setEndScriptItem = new MenuItem(cMenu, SWT.PUSH);
+    setEndScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.SetEndScript"));
+    setEndScriptItem.setImage(imageActiveEndScript);
+    setEndScriptItem.addListener(SWT.Selection, e -> {
+      CTabItem item = folder.getSelection();
+      for (int i = 0; i < folder.getItemCount(); i++) {
+        if (folder.getItem(i).equals(item)) {
+          if (item.getImage().equals(imageActiveScript)) {
+            strActiveScript = "";
+          } else if (item.getImage().equals(imageActiveStartScript)) {
+            strActiveStartScript = "";
+          } else if (item.getImage().equals(imageActiveEndScript)) {
+            strActiveEndScript = "";
+          }
+          item.setImage(imageActiveEndScript);
+          strActiveEndScript = item.getText();
+        } else if (folder.getItem(i).getImage().equals(imageActiveEndScript)) {
+          folder.getItem(i).setImage(imageInactiveScript);
+        }
+      }
+      modifyScriptTree(item, SET_ACTIVE_ITEM);
+    });
+    new MenuItem(cMenu, SWT.SEPARATOR);
+    MenuItem setRemoveScriptItem = new MenuItem(cMenu, SWT.PUSH);
+    setRemoveScriptItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.RemoveScriptType"));
+    setRemoveScriptItem.setImage(imageInactiveScript);
+    setRemoveScriptItem.addListener(SWT.Selection, e -> {
+      CTabItem item = folder.getSelection();
+      input.setChanged(true);
+      if (item.getImage().equals(imageActiveScript)) {
+        strActiveScript = "";
+      } else if (item.getImage().equals(imageActiveStartScript)) {
+        strActiveStartScript = "";
+      } else if (item.getImage().equals(imageActiveEndScript)) {
+        strActiveEndScript = "";
+      }
+      item.setImage(imageInactiveScript);
+    });
 
     folder.setMenu(cMenu);
   }
@@ -1770,32 +1601,27 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     MenuItem addDeleteItem = new MenuItem(tMenu, SWT.PUSH);
     addDeleteItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Delete.Label"));
     addDeleteItem.setImage(guiresource.getImageDelete());
-    addDeleteItem.addListener(
-        SWT.Selection,
-        e -> {
-          if (wTree.getSelectionCount() <= 0) {
-            return;
-          }
+    addDeleteItem.addListener(SWT.Selection, e -> {
+      if (wTree.getSelectionCount() <= 0) {
+        return;
+      }
 
-          TreeItem tItem = wTree.getSelection()[0];
-          if (tItem != null) {
-            MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
-            messageBox.setText(
-                BaseMessages.getString(PKG, "ScriptValuesDialogMod.DeleteItem.Label"));
-            messageBox.setMessage(
-                BaseMessages.getString(
-                    PKG, "ScriptValuesDialogMod.ConfirmDeleteItem.Label", tItem.getText()));
-            switch (messageBox.open()) {
-              case SWT.YES:
-                modifyCTabItem(tItem, DELETE_ITEM, "");
-                tItem.dispose();
-                input.setChanged();
-                break;
-              default:
-                break;
-            }
-          }
-        });
+      TreeItem tItem = wTree.getSelection()[0];
+      if (tItem != null) {
+        MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.NO | SWT.YES);
+        messageBox.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.DeleteItem.Label"));
+        messageBox.setMessage(BaseMessages.getString(PKG, "ScriptValuesDialogMod.ConfirmDeleteItem.Label", tItem.getText()));
+        switch (messageBox.open()) {
+          case SWT.YES:
+            modifyCTabItem(tItem, DELETE_ITEM, "");
+            tItem.dispose();
+            input.setChanged();
+            break;
+          default:
+            break;
+        }
+      }
+    });
 
     MenuItem renItem = new MenuItem(tMenu, SWT.PUSH);
     renItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Rename.Label"));
@@ -1804,69 +1630,63 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
     new MenuItem(tMenu, SWT.SEPARATOR);
     MenuItem helpItem = new MenuItem(tMenu, SWT.PUSH);
     helpItem.setText(BaseMessages.getString(PKG, "ScriptValuesDialogMod.Sample.Label"));
-    helpItem.addListener(
-        SWT.Selection,
-        e -> {
-          String strFunctionName = wTree.getSelection()[0].getText();
-          String strFunctionNameWithArgs = strFunctionName;
-          strFunctionName = strFunctionName.substring(0, strFunctionName.indexOf('('));
-          String strHelpTabName = strFunctionName + "_Sample";
+    helpItem.addListener(SWT.Selection, e -> {
+      String strFunctionName = wTree.getSelection()[0].getText();
+      String strFunctionNameWithArgs = strFunctionName;
+      strFunctionName = strFunctionName.substring(0, strFunctionName.indexOf('('));
+      String strHelpTabName = strFunctionName + "_Sample";
 
-          if (getCTabPosition(strHelpTabName) == -1) {
-            addCtab(strHelpTabName, scVHelp.getSample(strFunctionName, strFunctionNameWithArgs), 0);
+      if (getCTabPosition(strHelpTabName) == -1) {
+        addCtab(strHelpTabName, scVHelp.getSample(strFunctionName, strFunctionNameWithArgs), 0);
+      }
+
+      if (getCTabPosition(strHelpTabName) != -1) {
+        setActiveCtab(strHelpTabName);
+      }
+    });
+
+    wTree.addListener(SWT.MouseDown, e -> {
+      if (wTree.getSelectionCount() <= 0) {
+        return;
+      }
+
+      TreeItem tItem = wTree.getSelection()[0];
+      if (tItem != null) {
+        TreeItem pItem = tItem.getParentItem();
+
+        if (pItem != null && pItem.equals(wTreeScriptsItem)) {
+          if (folder.getItemCount() > 1) {
+            tMenu.getItem(0).setEnabled(true);
+          } else {
+            tMenu.getItem(0).setEnabled(false);
           }
-
-          if (getCTabPosition(strHelpTabName) != -1) {
-            setActiveCtab(strHelpTabName);
-          }
-        });
-
-    wTree.addListener(
-        SWT.MouseDown,
-        e -> {
-          if (wTree.getSelectionCount() <= 0) {
-            return;
-          }
-
-          TreeItem tItem = wTree.getSelection()[0];
-          if (tItem != null) {
-            TreeItem pItem = tItem.getParentItem();
-
-            if (pItem != null && pItem.equals(wTreeScriptsItem)) {
-              if (folder.getItemCount() > 1) {
-                tMenu.getItem(0).setEnabled(true);
-              } else {
-                tMenu.getItem(0).setEnabled(false);
-              }
-              tMenu.getItem(1).setEnabled(true);
-              tMenu.getItem(3).setEnabled(false);
-            } else if (tItem.equals(wTreeClassesitem)) {
-              tMenu.getItem(0).setEnabled(false);
-              tMenu.getItem(1).setEnabled(false);
-              tMenu.getItem(3).setEnabled(false);
-            } else if (tItem.getData() != null && tItem.getData().equals("jsFunction")) {
-              tMenu.getItem(0).setEnabled(false);
-              tMenu.getItem(1).setEnabled(false);
-              tMenu.getItem(3).setEnabled(true);
-            } else {
-              tMenu.getItem(0).setEnabled(false);
-              tMenu.getItem(1).setEnabled(false);
-              tMenu.getItem(3).setEnabled(false);
-            }
-          }
-        });
+          tMenu.getItem(1).setEnabled(true);
+          tMenu.getItem(3).setEnabled(false);
+        } else if (tItem.equals(wTreeClassesitem)) {
+          tMenu.getItem(0).setEnabled(false);
+          tMenu.getItem(1).setEnabled(false);
+          tMenu.getItem(3).setEnabled(false);
+        } else if (tItem.getData() != null && tItem.getData().equals("jsFunction")) {
+          tMenu.getItem(0).setEnabled(false);
+          tMenu.getItem(1).setEnabled(false);
+          tMenu.getItem(3).setEnabled(true);
+        } else {
+          tMenu.getItem(0).setEnabled(false);
+          tMenu.getItem(1).setEnabled(false);
+          tMenu.getItem(3).setEnabled(false);
+        }
+      }
+    });
     wTree.setMenu(tMenu);
   }
 
   private void addRenameTowTreeScriptItems() {
     lastItem = new TreeItem[1];
     editor = new TreeEditor(wTree);
-    wTree.addListener(
-        SWT.Selection,
-        event -> {
-          final TreeItem item = (TreeItem) event.item;
-          renameFunction(item);
-        });
+    wTree.addListener(SWT.Selection, event -> {
+      final TreeItem item = (TreeItem) event.item;
+      renameFunction(item);
+    });
   }
 
   // This function is for a Windows Like renaming inside the tree
@@ -1881,17 +1701,41 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
         }
         final Text text = new Text(composite, SWT.NONE);
         final int inset = isCarbon ? 0 : 1;
-        composite.addListener(
-            SWT.Resize,
-            e -> {
-              Rectangle rect = composite.getClientArea();
-              text.setBounds(
-                  rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
-            });
-        Listener textListener =
-            e -> {
-              switch (e.type) {
-                case SWT.FocusOut:
+        composite.addListener(SWT.Resize, e -> {
+          Rectangle rect = composite.getClientArea();
+          text.setBounds(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
+        });
+        Listener textListener = e -> {
+          switch (e.type) {
+            case SWT.FocusOut:
+              if (text.getText().length() > 0) {
+                // Check if the name Exists
+                if (getCTabItemByName(text.getText()) == null) {
+                  modifyCTabItem(item, RENAME_ITEM, text.getText());
+                  item.setText(text.getText());
+                }
+              }
+              composite.dispose();
+              break;
+            case SWT.Verify:
+              String newText = text.getText();
+              String leftText = newText.substring(0, e.start);
+              String rightText = newText.substring(e.end, newText.length());
+              Point size = TextSizeUtilFacade.textExtent(leftText + e.text + rightText);
+              size = text.computeSize(size.x, SWT.DEFAULT);
+              editor.horizontalAlignment = SWT.LEFT;
+              Rectangle itemRect = item.getBounds();
+              Rectangle rect = wTree.getClientArea();
+              editor.minimumWidth = Math.max(size.x, itemRect.width) + inset * 2;
+              int left = itemRect.x;
+              int right = rect.x + rect.width;
+              editor.minimumWidth = Math.min(editor.minimumWidth, right - left);
+              editor.minimumHeight = size.y + inset * 2;
+              editor.layout();
+              break;
+            case SWT.Traverse:
+              switch (e.detail) {
+                case SWT.TRAVERSE_RETURN:
                   if (text.getText().length() > 0) {
                     // Check if the name Exists
                     if (getCTabItemByName(text.getText()) == null) {
@@ -1899,47 +1743,19 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
                       item.setText(text.getText());
                     }
                   }
+                  break;
+                case SWT.TRAVERSE_ESCAPE:
                   composite.dispose();
-                  break;
-                case SWT.Verify:
-                  String newText = text.getText();
-                  String leftText = newText.substring(0, e.start);
-                  String rightText = newText.substring(e.end, newText.length());
-                  Point size = TextSizeUtilFacade.textExtent(leftText + e.text + rightText);
-                  size = text.computeSize(size.x, SWT.DEFAULT);
-                  editor.horizontalAlignment = SWT.LEFT;
-                  Rectangle itemRect = item.getBounds();
-                  Rectangle rect = wTree.getClientArea();
-                  editor.minimumWidth = Math.max(size.x, itemRect.width) + inset * 2;
-                  int left = itemRect.x;
-                  int right = rect.x + rect.width;
-                  editor.minimumWidth = Math.min(editor.minimumWidth, right - left);
-                  editor.minimumHeight = size.y + inset * 2;
-                  editor.layout();
-                  break;
-                case SWT.Traverse:
-                  switch (e.detail) {
-                    case SWT.TRAVERSE_RETURN:
-                      if (text.getText().length() > 0) {
-                        // Check if the name Exists
-                        if (getCTabItemByName(text.getText()) == null) {
-                          modifyCTabItem(item, RENAME_ITEM, text.getText());
-                          item.setText(text.getText());
-                        }
-                      }
-                      break;
-                    case SWT.TRAVERSE_ESCAPE:
-                      composite.dispose();
-                      e.doit = false;
-                      break;
-                    default:
-                      break;
-                  }
+                  e.doit = false;
                   break;
                 default:
                   break;
               }
-            };
+              break;
+            default:
+              break;
+          }
+        };
         text.addListener(SWT.FocusOut, textListener);
         text.addListener(SWT.Traverse, textListener);
         text.addListener(SWT.Verify, textListener);
@@ -1953,13 +1769,7 @@ public class ScriptValuesDialog extends BaseTransformDialog implements ITransfor
   }
 
   // This could be useful for further improvements
-  public static ScriptNode parseVariables(
-      Context cx,
-      Scriptable scope,
-      String source,
-      String sourceName,
-      int lineno,
-      Object securityDomain) {
+  public static ScriptNode parseVariables(Context cx, Scriptable scope, String source, String sourceName, int lineno, Object securityDomain) {
     CompilerEnvirons evn = new CompilerEnvirons();
     evn.setOptimizationLevel(-1);
     evn.setGeneratingSource(true);

@@ -84,8 +84,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public DatabaseJoinDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public DatabaseJoinDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (DatabaseJoinMeta) in;
   }
@@ -142,9 +141,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     fdlSql.top = new FormAttachment(wConnection, margin * 2);
     wlSql.setLayoutData(fdlSql);
 
-    wSql =
-        new StyledTextComp(
-            variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wSql = new StyledTextComp(variables, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wSql, Props.WIDGET_STYLE_FIXED);
     wSql.addModifyListener(lsMod);
     FormData fdSql = new FormData();
@@ -156,47 +153,44 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
 
     wSql.addModifyListener(arg0 -> setPosition());
 
-    wSql.addKeyListener(
-        new KeyAdapter() {
-          @Override
-          public void keyPressed(KeyEvent e) {
-            setPosition();
-          }
+    wSql.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void keyReleased(KeyEvent e) {
-            setPosition();
-          }
-        });
-    wSql.addFocusListener(
-        new FocusAdapter() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            setPosition();
-          }
+      @Override
+      public void keyReleased(KeyEvent e) {
+        setPosition();
+      }
+    });
+    wSql.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void focusLost(FocusEvent e) {
-            setPosition();
-          }
-        });
-    wSql.addMouseListener(
-        new MouseAdapter() {
-          @Override
-          public void mouseDoubleClick(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void focusLost(FocusEvent e) {
+        setPosition();
+      }
+    });
+    wSql.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDoubleClick(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseDown(MouseEvent e) {
-            setPosition();
-          }
+      @Override
+      public void mouseDown(MouseEvent e) {
+        setPosition();
+      }
 
-          @Override
-          public void mouseUp(MouseEvent e) {
-            setPosition();
-          }
-        });
+      @Override
+      public void mouseUp(MouseEvent e) {
+        setPosition();
+      }
+    });
 
     wlPosition = new Label(shell, SWT.NONE);
     PropsUi.setLook(wlPosition);
@@ -241,13 +235,12 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     fdOuter.left = new FormAttachment(middle, 0);
     fdOuter.top = new FormAttachment(wlOuter, 0, SWT.CENTER);
     wOuter.setLayoutData(fdOuter);
-    wOuter.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wOuter.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // useVars ?
     Label wluseVars = new Label(shell, SWT.RIGHT);
@@ -266,13 +259,12 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     fduseVars.left = new FormAttachment(middle, 0);
     fduseVars.top = new FormAttachment(wluseVars, 0, SWT.CENTER);
     wUseVars.setLayoutData(fduseVars);
-    wUseVars.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wUseVars.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
@@ -297,27 +289,10 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     int nrKeyRows = (input.getParameters() != null ? input.getParameters().size() : 1);
 
     ciKey = new ColumnInfo[nrKeyCols];
-    ciKey[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseJoinDialog.ColumnInfo.ParameterFieldname"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciKey[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "DatabaseJoinDialog.ColumnInfo.ParameterType"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            ValueMetaFactory.getValueMetaNames());
+    ciKey[0] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseJoinDialog.ColumnInfo.ParameterFieldname"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciKey[1] = new ColumnInfo(BaseMessages.getString(PKG, "DatabaseJoinDialog.ColumnInfo.ParameterType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames());
 
-    wParam =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciKey,
-            nrKeyRows,
-            lsMod,
-            props);
+    wParam = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciKey, nrKeyRows, lsMod, props);
 
     FormData fdParam = new FormData();
     fdParam.left = new FormAttachment(0, 0);
@@ -329,23 +304,22 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     // Add listeners
@@ -362,7 +336,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
 
   protected void setComboBoxes() {
     // Something was changed in the row.
-    //    
+    //
     String[] fieldNames = ConstUi.sortFieldNames(inputFields);
     ciKey[0].setComboValues(fieldNames);
   }
@@ -370,9 +344,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
   public void setPosition() {
     int lineNumber = wSql.getLineNumber();
     int columnNumber = wSql.getColumnNumber();
-    wlPosition.setText(
-        BaseMessages.getString(
-            PKG, "DatabaseJoinDialog.Position.Label", "" + lineNumber, "" + columnNumber));
+    wlPosition.setText(BaseMessages.getString(PKG, "DatabaseJoinDialog.Position.Label", "" + lineNumber, "" + columnNumber));
   }
 
   /** Copy information from the meta-data input to the dialog fields. */
@@ -420,10 +392,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     input.setSql(wSql.getText());
     input.setOuterJoin(wOuter.getSelection());
     input.setReplaceVariables(wUseVars.getSelection());
-    logDebug(
-        BaseMessages.getString(PKG, "DatabaseJoinDialog.Log.ParametersFound")
-            + nrparam
-            + " parameters");
+    logDebug(BaseMessages.getString(PKG, "DatabaseJoinDialog.Log.ParametersFound") + nrparam + " parameters");
 
     List<ParameterField> parameters = new ArrayList<>();
     for (int i = 0; i < nrparam; i++) {
@@ -439,8 +408,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
 
     if (pipelineMeta.findDatabase(wConnection.getText(), variables) == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "DatabaseJoinDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "DatabaseJoinDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "DatabaseJoinDialog.InvalidConnection.DialogTitle"));
       mb.open();
     }
@@ -452,8 +420,7 @@ public class DatabaseJoinDialog extends BaseTransformDialog implements ITransfor
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wParam, 1, new int[] {1}, new int[] {2}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wParam, 1, new int[] {1}, new int[] {2}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

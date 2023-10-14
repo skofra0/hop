@@ -56,8 +56,7 @@ import static org.mockito.Mockito.when;
 /** Tests for applying Format and Style from cell (from a template) when writing fields */
 public class ExcelWriterTransform_StyleFormatTest {
 
-  private TransformMockHelper<ExcelWriterTransformMeta, ExcelWriterTransformData>
-      transformMockHelper;
+  private TransformMockHelper<ExcelWriterTransformMeta, ExcelWriterTransformData> transformMockHelper;
   private ExcelWriterTransform transform;
   private ExcelWriterTransformMeta meta;
   private ExcelWriterTransformData data;
@@ -68,13 +67,8 @@ public class ExcelWriterTransform_StyleFormatTest {
   @Before
   /** Get mock helper */
   public void setUp() throws Exception {
-    transformMockHelper =
-        new TransformMockHelper<>(
-            "Excel Writer Style Format Test",
-            ExcelWriterTransformMeta.class,
-            ExcelWriterTransformData.class);
-    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
-        .thenReturn(transformMockHelper.iLogChannel);
+    transformMockHelper = new TransformMockHelper<>("Excel Writer Style Format Test", ExcelWriterTransformMeta.class, ExcelWriterTransformData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class))).thenReturn(transformMockHelper.iLogChannel);
     verify(transformMockHelper.iLogChannel, never()).logError(anyString());
     verify(transformMockHelper.iLogChannel, never()).logError(anyString(), any(Object[].class));
     verify(transformMockHelper.iLogChannel, never()).logError(anyString(), (Throwable) anyObject());
@@ -86,8 +80,7 @@ public class ExcelWriterTransform_StyleFormatTest {
   @After
   /** Clean-up objects */
   public void tearDown() {
-    ExcelWriterWorkbookDefinition workbookDefinition =
-        new ExcelWriterWorkbookDefinition(null, null, null, null, 0, 0);
+    ExcelWriterWorkbookDefinition workbookDefinition = new ExcelWriterWorkbookDefinition(null, null, null, null, 0, 0);
     data.currentWorkbookDefinition = workbookDefinition;
     data.currentWorkbookDefinition.setFile(null);
     data.currentWorkbookDefinition.setSheet(null);
@@ -178,10 +171,10 @@ public class ExcelWriterTransform_StyleFormatTest {
     meta.setStartingCell("A2");
 
     // Try different combinations of specifying data format and style from cell
-    //   1. Only format, no style
-    //   2. No format, only style
-    //   3. Format, and a different style without a format defined
-    //   4. Format, and a different style with a different format defined but gets overridden
+    // 1. Only format, no style
+    // 2. No format, only style
+    // 3. Format, and a different style without a format defined
+    // 4. Format, and a different style with a different format defined but gets overridden
     List<ExcelWriterOutputField> outputFields = new ArrayList<>();
     ExcelWriterOutputField field = new ExcelWriterOutputField("col 1", "Integer", "0.00000");
     field.setStyleCell("");
@@ -209,8 +202,7 @@ public class ExcelWriterTransform_StyleFormatTest {
     data = new ExcelWriterTransformData();
     data.inputRowMeta = inputRowMeta.clone();
     data.outputRowMeta = inputRowMeta.clone();
-    ExcelWriterWorkbookDefinition workbookDefinition =
-        new ExcelWriterWorkbookDefinition(null, null, null, null, 0, 0);
+    ExcelWriterWorkbookDefinition workbookDefinition = new ExcelWriterWorkbookDefinition(null, null, null, null, 0, 0);
     data.currentWorkbookDefinition = workbookDefinition;
 
     // we don't run pipeline so ExcelWriterTransform.processRow() doesn't get executed
@@ -234,12 +226,8 @@ public class ExcelWriterTransform_StyleFormatTest {
     // we avoid reading/writing Excel files, so ExcelWriterTransform.prepareNextOutputFile() doesn't
     // get executed
     // create Excel workbook object
-    data.currentWorkbookDefinition.setWorkbook(
-        meta.getFile().getExtension().equalsIgnoreCase("xlsx")
-            ? new XSSFWorkbook()
-            : new HSSFWorkbook());
-    data.currentWorkbookDefinition.setSheet(
-        data.currentWorkbookDefinition.getWorkbook().createSheet());
+    data.currentWorkbookDefinition.setWorkbook(meta.getFile().getExtension().equalsIgnoreCase("xlsx") ? new XSSFWorkbook() : new HSSFWorkbook());
+    data.currentWorkbookDefinition.setSheet(data.currentWorkbookDefinition.getWorkbook().createSheet());
     data.currentWorkbookDefinition.setFile(null);
     data.currentWorkbookDefinition.clearStyleCache(numOfFields);
 
@@ -281,14 +269,7 @@ public class ExcelWriterTransform_StyleFormatTest {
    * @throws Exception
    */
   private void setupTransformMock(String fileType) throws Exception {
-    transform =
-        new ExcelWriterTransform(
-            transformMockHelper.transformMeta,
-            meta,
-            data,
-            0,
-            transformMockHelper.pipelineMeta,
-            transformMockHelper.pipeline);
+    transform = new ExcelWriterTransform(transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta, transformMockHelper.pipeline);
     transform.init();
 
     transform.addRowSetToInputRowSets(inputRowSet);
@@ -304,18 +285,9 @@ public class ExcelWriterTransform_StyleFormatTest {
    */
   private ArrayList<Object[]> createRowData() throws Exception {
     ArrayList<Object[]> rows = new ArrayList<>();
-    Object[] row =
-        new Object[] {
-          new Long(123456),
-          new Double(2.34e-4),
-          new BigDecimal("123456789.987654321"),
-          new Double(504150)
-        };
+    Object[] row = new Object[] {new Long(123456), new Double(2.34e-4), new BigDecimal("123456789.987654321"), new Double(504150)};
     rows.add(row);
-    row =
-        new Object[] {
-          new Long(1001001), new Double(4.6789e10), new BigDecimal(123123e-2), new Double(12312300)
-        };
+    row = new Object[] {new Long(1001001), new Double(4.6789e10), new BigDecimal(123123e-2), new Double(12312300)};
     rows.add(row);
     return rows;
   }
@@ -329,12 +301,7 @@ public class ExcelWriterTransform_StyleFormatTest {
   private IRowMeta createRowMeta() throws HopException {
     IRowMeta rm = new RowMeta();
     try {
-      IValueMeta[] valuesMeta = {
-        new ValueMetaInteger("col 1"),
-        new ValueMetaNumber("col 2"),
-        new ValueMetaBigNumber("col 3"),
-        new ValueMetaNumber("col 4")
-      };
+      IValueMeta[] valuesMeta = {new ValueMetaInteger("col 1"), new ValueMetaNumber("col 2"), new ValueMetaBigNumber("col 3"), new ValueMetaNumber("col 4")};
       for (int i = 0; i < valuesMeta.length; i++) {
         rm.addValueMeta(valuesMeta[i]);
       }

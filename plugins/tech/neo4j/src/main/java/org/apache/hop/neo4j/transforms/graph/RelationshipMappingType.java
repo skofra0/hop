@@ -22,8 +22,7 @@ public enum RelationshipMappingType implements IEnumHasCode {
   NoMapping("none", "No mapping"),
   NoRelationship("no-relationship", "Do not update relationship between specified nodes"),
   UsingValue("using-value", "Update specific relationship using field value"),
-  All("all", "Update all relationships between specified nodes (default)"),
-  ;
+  All("all", "Update all relationships between specified nodes (default)"),;
 
   private String code;
   private String description;

@@ -84,15 +84,8 @@ public class SSTableWriterBuilderTest extends SSTableWriterBuilder {
   public void testBuild2() throws Exception {
     SSTableWriterBuilder ssTableWriterBuilder = new SSTableWriterBuilderTest();
     ssTableWriterBuilder =
-        ssTableWriterBuilder
-            .withConfig(CONF_PATH)
-            .withBufferSize(BUFFER_SIZE)
-            .withTable(TABLE)
-            .withCqlVersion(2)
-            .withDirectory(DIR)
-            .withPrimaryKey(KEY_FIELD)
-            .withKeyspace(KEYSPACE)
-            .withRowMeta(ROW_META);
+        ssTableWriterBuilder.withConfig(CONF_PATH).withBufferSize(BUFFER_SIZE).withTable(TABLE).withCqlVersion(2).withDirectory(DIR).withPrimaryKey(KEY_FIELD)
+            .withKeyspace(KEYSPACE).withRowMeta(ROW_META);
     ssTableWriterBuilder.build();
   }
 
@@ -101,15 +94,8 @@ public class SSTableWriterBuilderTest extends SSTableWriterBuilder {
     SSTableWriterBuilder ssTableWriterBuilder = new SSTableWriterBuilderTest();
 
     ssTableWriterBuilder =
-        ssTableWriterBuilder
-            .withConfig(CONF_PATH)
-            .withBufferSize(BUFFER_SIZE)
-            .withTable(TABLE)
-            .withCqlVersion(3)
-            .withDirectory(DIR)
-            .withPrimaryKey(KEY_FIELD)
-            .withKeyspace(KEYSPACE)
-            .withRowMeta(ROW_META);
+        ssTableWriterBuilder.withConfig(CONF_PATH).withBufferSize(BUFFER_SIZE).withTable(TABLE).withCqlVersion(3).withDirectory(DIR).withPrimaryKey(KEY_FIELD)
+            .withKeyspace(KEYSPACE).withRowMeta(ROW_META);
     ssTableWriterBuilder.build();
   }
 }

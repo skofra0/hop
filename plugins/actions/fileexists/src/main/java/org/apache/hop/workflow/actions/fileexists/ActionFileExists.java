@@ -107,14 +107,11 @@ public class ActionFileExists extends ActionBase implements Cloneable, IAction {
           logDetailed(BaseMessages.getString(PKG, "ActionFileExists.File_Exists", realFilename));
           result.setResult(true);
         } else {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionFileExists.File_Does_Not_Exist", realFilename));
+          logDetailed(BaseMessages.getString(PKG, "ActionFileExists.File_Does_Not_Exist", realFilename));
         }
       } catch (Exception e) {
         result.setNrErrors(1);
-        logError(
-            BaseMessages.getString(PKG, "ActionFileExists.ERROR_0004_IO_Exception", e.getMessage()),
-            e);
+        logError(BaseMessages.getString(PKG, "ActionFileExists.ERROR_0004_IO_Exception", e.getMessage()), e);
       }
     } else {
       result.setNrErrors(1);
@@ -130,8 +127,7 @@ public class ActionFileExists extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       String realFileName = resolve(filename);
@@ -143,17 +139,8 @@ public class ActionFileExists extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 
   /**
@@ -164,17 +151,13 @@ public class ActionFileExists extends ActionBase implements Cloneable, IAction {
    * @param variables The variable variables to resolve (environment) variables with.
    * @param definitions The map containing the filenames and content
    * @param namingInterface The resource naming interface allows the object to be named
-   *     appropriately
+   *        appropriately
    * @param metadataProvider the metadataProvider to load external metadata from
    * @return The filename for this object. (also contained in the definitions map)
    * @throws HopException in case something goes wrong during the export
    */
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming namingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming namingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // The object that we're modifying here is a copy of the original!

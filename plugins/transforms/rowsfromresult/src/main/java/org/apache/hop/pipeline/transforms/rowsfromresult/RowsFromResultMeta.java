@@ -98,8 +98,7 @@ public class RowsFromResultMeta extends BaseTransformMeta<RowsFromResult, RowsFr
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -129,8 +128,7 @@ public class RowsFromResultMeta extends BaseTransformMeta<RowsFromResult, RowsFr
     for (int i = 0; i < fieldname.length; i++) {
       retval.append("      <field>");
       retval.append("        " + XmlHandler.addTagValue("name", fieldname[i]));
-      retval.append(
-          "        " + XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type[i])));
+      retval.append("        " + XmlHandler.addTagValue("type", ValueMetaFactory.getValueMetaName(type[i])));
       retval.append("        " + XmlHandler.addTagValue("length", length[i]));
       retval.append("        " + XmlHandler.addTagValue("precision", precision[i]));
       retval.append("        </field>");
@@ -161,13 +159,7 @@ public class RowsFromResultMeta extends BaseTransformMeta<RowsFromResult, RowsFr
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     for (int i = 0; i < this.fieldname.length; i++) {
       IValueMeta v;
@@ -197,17 +189,11 @@ public class RowsFromResultMeta extends BaseTransformMeta<RowsFromResult, RowsFr
       CheckResult cr =
           new CheckResult(
               ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG,
-                  "RowsFromResultMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
+              BaseMessages.getString(PKG, "RowsFromResultMeta.CheckResult.TransformExpectingNoReadingInfoFromOtherTransforms"),
               transformMeta);
       remarks.add(cr);
     } else {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RowsFromResultMeta.CheckResult.NoInputReceivedError"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RowsFromResultMeta.CheckResult.NoInputReceivedError"), transformMeta);
       remarks.add(cr);
     }
   }

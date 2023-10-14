@@ -23,9 +23,7 @@ import org.junit.Test;
 public class GetFilesRowsCountMetaTest {
   @Test
   public void testSerialization() throws Exception {
-    GetFilesRowsCountMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/get-files-rows-count-transform.xml", GetFilesRowsCountMeta.class);
+    GetFilesRowsCountMeta meta = TransformSerializationTestUtil.testSerialization("/get-files-rows-count-transform.xml", GetFilesRowsCountMeta.class);
 
     Assert.assertEquals("filesCount", meta.getFilesCountFieldName());
     Assert.assertEquals("rowsCount", meta.getRowsCountFieldName());

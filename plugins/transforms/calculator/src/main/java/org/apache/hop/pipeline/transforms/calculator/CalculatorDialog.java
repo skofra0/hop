@@ -68,8 +68,7 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
   private final List<String> inputFields = new ArrayList<>();
   private ColumnInfo[] colinf;
 
-  public CalculatorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public CalculatorDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
 
     // The order here is important... currentMeta is looked at for changes
@@ -148,8 +147,7 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
     // Fail if no File line
     wFailIfNoFile = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wFailIfNoFile);
-    wFailIfNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "CalculatorDialog.FailIfNoFileTooltip"));
+    wFailIfNoFile.setToolTipText(BaseMessages.getString(PKG, "CalculatorDialog.FailIfNoFileTooltip"));
     wFailIfNoFile.setText(BaseMessages.getString(PKG, "CalculatorDialog.FailIfNoFile"));
     FormData fdFailIfNoFile = new FormData();
     fdFailIfNoFile.left = new FormAttachment(wlTransformName, margin);
@@ -169,84 +167,40 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.NewFieldColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.CalculationColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.FieldAColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.FieldBColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.FieldCColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.ValueTypeColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.LengthColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.PrecisionColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.RemoveColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.No"),
-                BaseMessages.getString(PKG, "System.Combo.Yes")
-              }),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.ConversionMask.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              6),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.DecimalSymbol.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.GroupingSymbol.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "CalculatorDialog.CurrencySymbol.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.NewFieldColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.CalculationColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.FieldAColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.FieldBColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.FieldCColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.ValueTypeColumn.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.LengthColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.PrecisionColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "CalculatorDialog.RemoveColumn.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")}),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.ConversionMask.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 6),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.DecimalSymbol.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.GroupingSymbol.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "CalculatorDialog.CurrencySymbol.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    colinf[1].setSelectionAdapter(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            EnterSelectionDialog esd =
-                new EnterSelectionDialog(
-                    shell,
-                    CalculationType.getDescriptions(),
-                    BaseMessages.getString(PKG, "CalculatorDialog.SelectCalculationType.Title"),
-                    BaseMessages.getString(PKG, "CalculatorDialog.SelectCalculationType.Message"));
-            String string = esd.open();
-            if (string != null) {
-              TableView tv = (TableView) e.widget;
-              tv.setText(string, e.x, e.y);
-              currentMeta.setChanged();
-            }
-          }
-        });
+    colinf[1].setSelectionAdapter(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        EnterSelectionDialog esd =
+            new EnterSelectionDialog(
+                shell,
+                CalculationType.getDescriptions(),
+                BaseMessages.getString(PKG, "CalculatorDialog.SelectCalculationType.Title"),
+                BaseMessages.getString(PKG, "CalculatorDialog.SelectCalculationType.Message"));
+        String string = esd.open();
+        if (string != null) {
+          TableView tv = (TableView) e.widget;
+          tv.setText(string, e.x, e.y);
+          currentMeta.setChanged();
+        }
+      }
+    });
 
     // Draw line separator
     Label hSeparator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
@@ -256,15 +210,7 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
     fdhSeparator.bottom = new FormAttachment(wOk, -fdMargin);
     hSeparator.setLayoutData(fdhSeparator);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            nrFieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, nrFieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -276,29 +222,27 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
     //
     // Search the fields in the background
     //
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "CalculatorDialog.Log.UnableToFindInput"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "CalculatorDialog.Log.UnableToFindInput"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    wFields.addModifyListener(
-        arg0 ->
-            // Now set the combo's
-            shell.getDisplay().asyncExec(() -> setComboBoxes()));
+    wFields.addModifyListener(arg0 ->
+    // Now set the combo's
+    shell.getDisplay().asyncExec(() -> setComboBoxes()));
 
     getData();
 
@@ -313,22 +257,19 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
     final List<String> fields = new ArrayList<>();
 
     // Add the currentMeta fields...
-    for(String s :  inputFields) {
+    for (String s : inputFields) {
       fields.add(s);
     }
 
-    shell
-        .getDisplay()
-        .syncExec(
-            () -> {
-              // Add the newly create fields.
-              //
-              int nrNonEmptyFields = wFields.nrNonEmpty();
-              for (int i = 0; i < nrNonEmptyFields; i++) {
-                TableItem item = wFields.getNonEmpty(i);
-                fields.add(item.getText(1));
-              }
-            });
+    shell.getDisplay().syncExec(() -> {
+      // Add the newly create fields.
+      //
+      int nrNonEmptyFields = wFields.nrNonEmpty();
+      for (int i = 0; i < nrNonEmptyFields; i++) {
+        TableItem item = wFields.getNonEmpty(i);
+        fields.add(item.getText(1));
+      }
+    });
 
     String[] fieldNames = ConstUi.sortFieldNames(fields);
     colinf[2].setComboValues(fieldNames);
@@ -353,11 +294,7 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
       if (fn.getValuePrecision() >= 0) {
         item.setText(8, "" + fn.getValuePrecision());
       }
-      item.setText(
-          9,
-          fn.isRemovedFromResult()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      item.setText(9, fn.isRemovedFromResult() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
       item.setText(10, Const.NVL(fn.getConversionMask(), ""));
       item.setText(11, Const.NVL(fn.getDecimalSymbol(), ""));
       item.setText(12, Const.NVL(fn.getGroupingSymbol(), ""));
@@ -399,31 +336,28 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
       String valueType = item.getText(6);
       int valueLength = Const.toInt(item.getText(7), -1);
       int valuePrecision = Const.toInt(item.getText(8), -1);
-      boolean removed =
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(9));
+      boolean removed = BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(9));
       String conversionMask = item.getText(10);
       String decimalSymbol = item.getText(11);
       String groupingSymbol = item.getText(12);
       String currencySymbol = item.getText(13);
 
       // CHECKSTYLE:Indentation:OFF
-      currentMeta
-          .getFunctions()
-          .add(
-              new CalculatorMetaFunction(
-                  fieldName,
-                  calcType,
-                  fieldA,
-                  fieldB,
-                  fieldC,
-                  valueType,
-                  valueLength,
-                  valuePrecision,
-                  conversionMask,
-                  decimalSymbol,
-                  groupingSymbol,
-                  currencySymbol,
-                  removed));
+      currentMeta.getFunctions().add(
+          new CalculatorMetaFunction(
+              fieldName,
+              calcType,
+              fieldA,
+              fieldB,
+              fieldC,
+              valueType,
+              valueLength,
+              valuePrecision,
+              conversionMask,
+              decimalSymbol,
+              groupingSymbol,
+              currencySymbol,
+              removed));
     }
 
     if (!originalMeta.equals(currentMeta)) {
@@ -435,11 +369,6 @@ public class CalculatorDialog extends BaseTransformDialog implements ITransformD
   }
 
   protected Image getImage() {
-    return SwtSvgImageUtil.getImage(
-        shell.getDisplay(),
-        getClass().getClassLoader(),
-        "calculator.svg",
-        ConstUi.LARGE_ICON_SIZE,
-        ConstUi.LARGE_ICON_SIZE);
+    return SwtSvgImageUtil.getImage(shell.getDisplay(), getClass().getClassLoader(), "calculator.svg", ConstUi.LARGE_ICON_SIZE, ConstUi.LARGE_ICON_SIZE);
   }
 }

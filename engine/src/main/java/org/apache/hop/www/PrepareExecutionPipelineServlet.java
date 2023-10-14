@@ -49,16 +49,13 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
 
     if (log.isDebug()) {
-      logDebug(
-          BaseMessages.getString(
-              PKG, "PrepareExecutionPipelineServlet.PipelinePrepareExecutionRequested"));
+      logDebug(BaseMessages.getString(PKG, "PrepareExecutionPipelineServlet.PipelinePrepareExecutionRequested"));
     }
 
     String pipelineName = request.getParameter("name");
@@ -78,11 +75,7 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
 
       out.println("<HTML>");
       out.println("<HEAD>");
-      out.println(
-          "<TITLE>"
-              + BaseMessages.getString(
-                  PKG, "PrepareExecutionPipelineServlet.PipelinePrepareExecution")
-              + "</TITLE>");
+      out.println("<TITLE>" + BaseMessages.getString(PKG, "PrepareExecutionPipelineServlet.PipelinePrepareExecution") + "</TITLE>");
       out.println(
           "<META http-equiv=\"Refresh\" content=\"2;url="
               + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -119,8 +112,7 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
       PipelineConfiguration pipelineConfiguration = getPipelineMap().getConfiguration(entry);
 
       if (pipeline != null && pipelineConfiguration != null) {
-        PipelineExecutionConfiguration executionConfiguration =
-            pipelineConfiguration.getPipelineExecutionConfiguration();
+        PipelineExecutionConfiguration executionConfiguration = pipelineConfiguration.getPipelineExecutionConfiguration();
         // Set the appropriate logging, variables, arguments, replay date, ...
         // etc.
         pipeline.setVariables(executionConfiguration.getVariablesMap());
@@ -133,12 +125,7 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
             out.println(WebResult.OK.getXml());
           } else {
 
-            out.println(
-                "<H1>"
-                    + Encode.forHtml(
-                        BaseMessages.getString(
-                            PKG, "PrepareExecutionPipelineServlet.PipelinePrepared", pipelineName))
-                    + "</H1>");
+            out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "PrepareExecutionPipelineServlet.PipelinePrepared", pipelineName)) + "</H1>");
             out.println(
                 "<a href=\""
                     + convertContextPath(GetPipelineStatusServlet.CONTEXT_PATH)
@@ -151,32 +138,16 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
                     + "</a><p>");
           }
         } catch (Throwable e) {
-          String logText =
-              HopLogStore.getAppender()
-                  .getBuffer(pipeline.getLogChannel().getLogChannelId(), true)
-                  .toString();
+          String logText = HopLogStore.getAppender().getBuffer(pipeline.getLogChannel().getLogChannelId(), true).toString();
           if (useXML) {
             out.println(
                 new WebResult(
                     WebResult.STRING_ERROR,
                     BaseMessages.getString(
-                        PKG,
-                        "PrepareExecutionPipelineServlet.Error.PipelineInitFailed",
-                        Const.CR
-                            + logText
-                            + Const.CR
-                            + Const.getSimpleStackTrace(e)
-                            + Const.CR
-                            + Const.getStackTracker(e))));
+                        PKG, "PrepareExecutionPipelineServlet.Error.PipelineInitFailed",
+                        Const.CR + logText + Const.CR + Const.getSimpleStackTrace(e) + Const.CR + Const.getStackTracker(e))));
           } else {
-            out.println(
-                "<H1>"
-                    + Encode.forHtml(
-                        BaseMessages.getString(
-                            PKG,
-                            "PrepareExecutionPipelineServlet.Log.PipelineNotInit",
-                            pipelineName))
-                    + "</H1>");
+            out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "PrepareExecutionPipelineServlet.Log.PipelineNotInit", pipelineName)) + "</H1>");
             out.println("<pre>");
             out.println(Encode.forHtml(logText));
             out.println(Encode.forHtml(Const.getStackTracker(e)));
@@ -196,36 +167,17 @@ public class PrepareExecutionPipelineServlet extends BaseHttpServlet implements 
         }
       } else {
         if (useXML) {
-          out.println(
-              new WebResult(
-                  WebResult.STRING_ERROR,
-                  BaseMessages.getString(
-                      PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
+          out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindSpecPipeline", pipelineName)));
         } else {
-          out.println(
-              "<H1>"
-                  + Encode.forHtml(
-                      BaseMessages.getString(
-                          PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName))
-                  + "</H1>");
-          out.println(
-              "<a href=\""
-                  + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                  + "\">"
-                  + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage")
-                  + "</a><p>");
+          out.println("<H1>" + Encode.forHtml(BaseMessages.getString(PKG, "PipelineStatusServlet.Log.CoundNotFindPipeline", pipelineName)) + "</H1>");
+          out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "PipelineStatusServlet.BackToStatusPage") + "</a><p>");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
       }
     } catch (Exception ex) {
       if (useXML) {
         out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG,
-                    "PrepareExecutionPipelineServlet.Error.UnexpectedError",
-                    Const.CR + Const.getStackTracker(ex))));
+            new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "PrepareExecutionPipelineServlet.Error.UnexpectedError", Const.CR + Const.getStackTracker(ex))));
       } else {
         out.println("<p>");
         out.println("<pre>");

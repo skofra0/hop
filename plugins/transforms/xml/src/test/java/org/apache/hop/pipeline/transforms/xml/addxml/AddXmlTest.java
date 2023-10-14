@@ -44,11 +44,8 @@ public class AddXmlTest {
     when(field.getElementName()).thenReturn("ADDXML_TEST");
     when(field.isAttribute()).thenReturn(true);
 
-    transformMockHelper =
-        new TransformMockHelper<>("ADDXML_TEST", AddXmlMeta.class, AddXmlData.class);
-    Mockito.doReturn(transformMockHelper.iLogChannel)
-        .when(transformMockHelper.logChannelFactory)
-        .create(any(), any(ILoggingObject.class));
+    transformMockHelper = new TransformMockHelper<>("ADDXML_TEST", AddXmlMeta.class, AddXmlData.class);
+    Mockito.doReturn(transformMockHelper.iLogChannel).when(transformMockHelper.logChannelFactory).create(any(), any(ILoggingObject.class));
 
     when(transformMockHelper.pipeline.isRunning()).thenReturn(true);
     when(transformMockHelper.iTransformMeta.getOutputFields()).thenReturn(new XmlField[] {field});

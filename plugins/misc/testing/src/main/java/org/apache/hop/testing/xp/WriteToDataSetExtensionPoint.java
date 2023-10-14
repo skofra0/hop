@@ -40,12 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ExtensionPoint(
-    id = "WriteToDataSetExtensionPoint",
-    extensionPointId = "PipelineStartThreads",
-    description = "Writes rows of data from a transform into a data set")
-public class WriteToDataSetExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+@ExtensionPoint(id = "WriteToDataSetExtensionPoint", extensionPointId = "PipelineStartThreads", description = "Writes rows of data from a transform into a data set")
+public class WriteToDataSetExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   // These maps have the name of the pipeline as key
   //
@@ -54,30 +50,26 @@ public class WriteToDataSetExtensionPoint
   public static Map<String, DataSet> setsMap = new HashMap<>();
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     final PipelineMeta pipelineMeta = pipeline.getPipelineMeta();
-    boolean writeToDataSet =
-        "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_WRITE_TO_DATASET));
+    boolean writeToDataSet = "Y".equalsIgnoreCase(pipeline.getVariable(DataSetConst.VAR_WRITE_TO_DATASET));
     if (!writeToDataSet) {
       return;
     }
 
-    pipeline.addExecutionFinishedListener(
-        engine -> {
-          // Remove the flag when done.
-          // We don't want to write to the data set every time we run
-          //
-          pipeline.setVariable(DataSetConst.VAR_WRITE_TO_DATASET, null);
+    pipeline.addExecutionFinishedListener(engine -> {
+      // Remove the flag when done.
+      // We don't want to write to the data set every time we run
+      //
+      pipeline.setVariable(DataSetConst.VAR_WRITE_TO_DATASET, null);
 
-          // Prevent memory leaking as well
-          //
-          WriteToDataSetExtensionPoint.transformsMap.remove(pipelineMeta.getName());
-          WriteToDataSetExtensionPoint.mappingsMap.remove(pipelineMeta.getName());
-          WriteToDataSetExtensionPoint.setsMap.remove(pipelineMeta.getName());
-        });
+      // Prevent memory leaking as well
+      //
+      WriteToDataSetExtensionPoint.transformsMap.remove(pipelineMeta.getName());
+      WriteToDataSetExtensionPoint.mappingsMap.remove(pipelineMeta.getName());
+      WriteToDataSetExtensionPoint.setsMap.remove(pipelineMeta.getName());
+    });
 
     try {
       IHopMetadataProvider metadataProvider = pipelineMeta.getMetadataProvider();
@@ -125,24 +117,22 @@ public class WriteToDataSetExtensionPoint
 
     final List<Object[]> transformsForDbRows = new ArrayList<>();
 
-    component.addRowListener(
-        new RowAdapter() {
-          @Override
-          public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
-            Object[] transformForDbRow = RowDataUtil.allocateRowData(setRowMeta.size());
-            for (SourceToTargetMapping mapping : mappings) {
-              transformForDbRow[mapping.getTargetPosition()] = row[mapping.getSourcePosition()];
-            }
-            transformsForDbRows.add(transformForDbRow);
-          }
-        });
+    component.addRowListener(new RowAdapter() {
+      @Override
+      public void rowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+        Object[] transformForDbRow = RowDataUtil.allocateRowData(setRowMeta.size());
+        for (SourceToTargetMapping mapping : mappings) {
+          transformForDbRow[mapping.getTargetPosition()] = row[mapping.getSourcePosition()];
+        }
+        transformsForDbRows.add(transformForDbRow);
+      }
+    });
 
     // At the end of the pipeline, write it...
     //
-    pipeline.addExecutionFinishedListener(
-        engine ->
-            // Write it
-            //
-            DataSetCsvUtil.writeDataSetData(pipeline, dataSet, setRowMeta, transformsForDbRows));
+    pipeline.addExecutionFinishedListener(engine ->
+    // Write it
+    //
+    DataSetCsvUtil.writeDataSetData(pipeline, dataSet, setRowMeta, transformsForDbRows));
   }
 }

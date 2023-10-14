@@ -116,30 +116,30 @@ public class ValueMetaInternetAddressTest {
   @Test
   public void testGetBigNumber_Success() throws UnknownHostException, HopValueException {
     ValueMetaInternetAddress vm = new ValueMetaInternetAddress();
-    String[] addresses = {
-      // Some IPv6 addresses
-      "1080:0:0:0:8:800:200C:417A",
-      "1080::8:800:200C:417A",
-      "::1",
-      "0:0:0:0:0:0:0:1",
-      "::",
-      "0:0:0:0:0:0:0:0",
-      "::d",
-      // Some IPv4-mapped IPv6 addresses
-      "::ffff:0:0",
-      "::ffff:d",
-      "::ffff:127.0.0.1",
-      // Some IPv4-compatible IPv6 addresses
-      "::0.0.0.0",
-      "::255.255.0.10",
-      // Some IPv4 addresses
-      "192.168.10.0",
-      "0.0.0.1",
-      "0.0.0.0",
-      "127.0.0.1",
-      "255.255.0.10",
-      "192.0.2.235"
-    };
+    String[] addresses =
+        {
+            // Some IPv6 addresses
+            "1080:0:0:0:8:800:200C:417A",
+            "1080::8:800:200C:417A",
+            "::1",
+            "0:0:0:0:0:0:0:1",
+            "::",
+            "0:0:0:0:0:0:0:0",
+            "::d",
+            // Some IPv4-mapped IPv6 addresses
+            "::ffff:0:0",
+            "::ffff:d",
+            "::ffff:127.0.0.1",
+            // Some IPv4-compatible IPv6 addresses
+            "::0.0.0.0",
+            "::255.255.0.10",
+            // Some IPv4 addresses
+            "192.168.10.0",
+            "0.0.0.1",
+            "0.0.0.0",
+            "127.0.0.1",
+            "255.255.0.10",
+            "192.0.2.235"};
 
     // No exception should be thrown in any of the following calls
     for (String address : addresses) {

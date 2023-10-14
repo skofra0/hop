@@ -35,12 +35,9 @@ import java.util.Map;
     id = "MarkAsyncWorkflowActionExtensionPoint",
     extensionPointId = "WorkflowBeforeActionExecution",
     description = "Before the execution of an action, pass service to workflow data map")
-public class MarkAsyncWorkflowActionExtensionPoint
-    implements IExtensionPoint<WorkflowExecutionExtension> {
+public class MarkAsyncWorkflowActionExtensionPoint implements IExtensionPoint<WorkflowExecutionExtension> {
   @Override
-  public void callExtensionPoint(
-      ILogChannel iLogChannel, IVariables iVariables, WorkflowExecutionExtension ext)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel iLogChannel, IVariables iVariables, WorkflowExecutionExtension ext) throws HopException {
 
     ActionMeta actionMeta = ext.actionMeta;
 
@@ -52,8 +49,7 @@ public class MarkAsyncWorkflowActionExtensionPoint
 
     // Do we have a set of status group attributes?
     //
-    Map<String, String> attributesMap =
-        actionMeta.getAttributesMap().get(Defaults.ASYNC_STATUS_GROUP);
+    Map<String, String> attributesMap = actionMeta.getAttributesMap().get(Defaults.ASYNC_STATUS_GROUP);
     if (attributesMap == null) {
       return;
     }
@@ -69,8 +65,7 @@ public class MarkAsyncWorkflowActionExtensionPoint
     //
     IWorkflowEngine<WorkflowMeta> workflow = ext.workflow;
 
-    IHopMetadataSerializer<AsyncWebService> serializer =
-        workflow.getMetadataProvider().getSerializer(AsyncWebService.class);
+    IHopMetadataSerializer<AsyncWebService> serializer = workflow.getMetadataProvider().getSerializer(AsyncWebService.class);
     AsyncWebService service = serializer.load(serviceName);
     if (service == null) {
       throw new HopException("Unable to load asynchronous service " + serviceName);

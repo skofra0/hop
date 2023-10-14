@@ -70,9 +70,7 @@ public class RowMeta implements IRowMeta {
   private RowMeta(RowMeta rowMeta, Integer targetType) throws HopPluginException {
     this(new ArrayList<>(rowMeta.valueMetaList.size()), new RowMetaCache(rowMeta.cache));
     for (IValueMeta iValueMeta : rowMeta.valueMetaList) {
-      valueMetaList.add(
-          ValueMetaFactory.cloneValueMeta(
-              iValueMeta, targetType == null ? iValueMeta.getType() : targetType));
+      valueMetaList.add(ValueMetaFactory.cloneValueMeta(iValueMeta, targetType == null ? iValueMeta.getType() : targetType));
     }
     this.needRealClone = rowMeta.needRealClone;
   }
@@ -86,8 +84,10 @@ public class RowMeta implements IRowMeta {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     RowMeta rowMeta = (RowMeta) o;
     for (int i = 0; i < valueMetaList.size(); i++) {
       IValueMeta thisValue = valueMetaList.get(i);
@@ -455,7 +455,7 @@ public class RowMeta implements IRowMeta {
    * @param index the index to reference
    * @return true if the value on the index is null.
    * @throws HopValueException in case there is a conversion error (only thrown in case of lazy
-   *     conversion)
+   *         conversion)
    */
   @Override
   public boolean isNull(Object[] dataRow, int index) throws HopValueException {
@@ -515,8 +515,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public String getString(Object[] dataRow, String valueName, String defaultValue)
-      throws HopValueException {
+  public String getString(Object[] dataRow, String valueName, String defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -525,8 +524,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public Long getInteger(Object[] dataRow, String valueName, Long defaultValue)
-      throws HopValueException {
+  public Long getInteger(Object[] dataRow, String valueName, Long defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -535,8 +533,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public Date getDate(Object[] dataRow, String valueName, Date defaultValue)
-      throws HopValueException {
+  public Date getDate(Object[] dataRow, String valueName, Date defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -545,8 +542,7 @@ public class RowMeta implements IRowMeta {
   }
 
   @Override
-  public Boolean getBoolean(Object[] dataRow, String valueName, Boolean defaultValue)
-      throws HopValueException {
+  public Boolean getBoolean(Object[] dataRow, String valueName, Boolean defaultValue) throws HopValueException {
     int index = indexOfValue(valueName);
     if (index < 0) {
       return defaultValue;
@@ -766,8 +762,7 @@ public class RowMeta implements IRowMeta {
     } catch (SocketTimeoutException e) {
       throw e;
     } catch (EOFException e) {
-      throw new HopEofException(
-          "End of file while reading the number of metadata values in the row metadata", e);
+      throw new HopEofException("End of file while reading the number of metadata values in the row metadata", e);
     } catch (IOException e) {
       throw new HopFileException("Unable to read nr of metadata values: " + e.toString(), e);
     }
@@ -781,15 +776,13 @@ public class RowMeta implements IRowMeta {
       } catch (EOFException e) {
         throw new HopEofException(e);
       } catch (Exception e) {
-        throw new HopFileException(
-            toString() + " : Unable to read row metadata from input stream", e);
+        throw new HopFileException(toString() + " : Unable to read row metadata from input stream", e);
       }
     }
   }
 
   @Override
-  public Object[] readData(DataInputStream inputStream)
-      throws HopFileException, SocketTimeoutException {
+  public Object[] readData(DataInputStream inputStream) throws HopFileException, SocketTimeoutException {
     lock.readLock().lock();
     try {
       Object[] data = new Object[size()];
@@ -804,8 +797,7 @@ public class RowMeta implements IRowMeta {
         } catch (SocketTimeoutException e) {
           throw e;
         } catch (IOException e) {
-          throw new HopFileException(
-              toString() + " : Unable to read the marker flag data from input stream", e);
+          throw new HopFileException(toString() + " : Unable to read the marker flag data from input stream", e);
         }
       }
       return data;
@@ -832,8 +824,7 @@ public class RowMeta implements IRowMeta {
     try {
       int index = indexOfValue(valueName);
       if (index < 0) {
-        throw new HopValueException(
-            "Unable to find value metadata with name '" + valueName + "', so I can't delete it.");
+        throw new HopValueException("Unable to find value metadata with name '" + valueName + "', so I can't delete it.");
       }
       removeValueMeta(index);
     } finally {
@@ -938,8 +929,7 @@ public class RowMeta implements IRowMeta {
    * @throws HopValueException
    */
   @Override
-  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs)
-      throws HopValueException {
+  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs) throws HopValueException {
     lock.readLock().lock();
     try {
       for (int fieldnr : fieldnrs) {
@@ -968,8 +958,7 @@ public class RowMeta implements IRowMeta {
    * @throws HopValueException
    */
   @Override
-  public boolean equals(Object[] rowData1, Object[] rowData2, int[] fieldnrs)
-      throws HopValueException {
+  public boolean equals(Object[] rowData1, Object[] rowData2, int[] fieldnrs) throws HopValueException {
     lock.readLock().lock();
     try {
       for (int fieldnr : fieldnrs) {
@@ -999,8 +988,7 @@ public class RowMeta implements IRowMeta {
    * @throws HopValueException
    */
   @Override
-  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException {
+  public int compare(Object[] rowData1, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException {
     int len = (fieldnrs1.length < fieldnrs2.length) ? fieldnrs1.length : fieldnrs2.length;
     lock.readLock().lock();
     try {
@@ -1032,9 +1020,7 @@ public class RowMeta implements IRowMeta {
    * @throws HopValueException
    */
   @Override
-  public int compare(
-      Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2)
-      throws HopValueException {
+  public int compare(Object[] rowData1, IRowMeta rowMeta2, Object[] rowData2, int[] fieldnrs1, int[] fieldnrs2) throws HopValueException {
     int len = (fieldnrs1.length < fieldnrs2.length) ? fieldnrs1.length : fieldnrs2.length;
     lock.readLock().lock();
     try {
@@ -1201,14 +1187,8 @@ public class RowMeta implements IRowMeta {
 
     int nrValues = XmlHandler.countNodes(node, ValueMetaBase.XML_META_TAG);
     for (int i = 0; i < nrValues; i++) {
-      IValueMeta valueMetaSource =
-          new ValueMetaBase(XmlHandler.getSubNodeByNr(node, ValueMetaBase.XML_META_TAG, i));
-      IValueMeta valueMeta =
-          ValueMetaFactory.createValueMeta(
-              valueMetaSource.getName(),
-              valueMetaSource.getType(),
-              valueMetaSource.getLength(),
-              valueMetaSource.getPrecision());
+      IValueMeta valueMetaSource = new ValueMetaBase(XmlHandler.getSubNodeByNr(node, ValueMetaBase.XML_META_TAG, i));
+      IValueMeta valueMeta = ValueMetaFactory.createValueMeta(valueMetaSource.getName(), valueMetaSource.getType(), valueMetaSource.getLength(), valueMetaSource.getPrecision());
       ValueMetaFactory.cloneInfo(valueMetaSource, valueMeta);
       addValueMeta(valueMeta);
     }
@@ -1264,7 +1244,8 @@ public class RowMeta implements IRowMeta {
 
   @VisibleForTesting
   static class RowMetaCache {
-    @VisibleForTesting final Map<String, Integer> mapping;
+    @VisibleForTesting
+    final Map<String, Integer> mapping;
 
     RowMetaCache() {
       this(new ConcurrentHashMap<>());

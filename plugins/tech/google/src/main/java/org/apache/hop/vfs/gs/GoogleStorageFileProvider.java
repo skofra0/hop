@@ -30,16 +30,8 @@ public class GoogleStorageFileProvider extends AbstractOriginatingFileProvider {
 
   public static final Collection<Capability> capabilities =
       Set.of(
-              Capability.CREATE,
-              Capability.DELETE,
-              Capability.GET_TYPE,
-              Capability.GET_LAST_MODIFIED,
-              Capability.SET_LAST_MODIFIED_FILE,
-              Capability.SET_LAST_MODIFIED_FOLDER,
-              Capability.LIST_CHILDREN,
-              Capability.READ_CONTENT,
-              Capability.URI,
-              Capability.WRITE_CONTENT);
+          Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.SET_LAST_MODIFIED_FOLDER,
+          Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.WRITE_CONTENT);
 
   @Override
   public Collection<Capability> getCapabilities() {
@@ -47,8 +39,7 @@ public class GoogleStorageFileProvider extends AbstractOriginatingFileProvider {
   }
 
   @Override
-  protected FileSystem doCreateFileSystem(FileName rootName, FileSystemOptions fileSystemOptions)
-      throws FileSystemException {
+  protected FileSystem doCreateFileSystem(FileName rootName, FileSystemOptions fileSystemOptions) throws FileSystemException {
     return new GoogleStorageFileSystem(rootName, null, fileSystemOptions);
   }
 }

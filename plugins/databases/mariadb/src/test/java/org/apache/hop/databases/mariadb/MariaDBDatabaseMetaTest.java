@@ -55,7 +55,8 @@ public class MariaDBDatabaseMetaTest {
     /**
      * Fields setup around the following query:
      *
-     * <p>select CUSTOMERNUMBER as NUMBER , CUSTOMERNAME as NAME , CONTACTLASTNAME as LAST_NAME ,
+     * <p>
+     * select CUSTOMERNUMBER as NUMBER , CUSTOMERNAME as NAME , CONTACTLASTNAME as LAST_NAME ,
      * CONTACTFIRSTNAME as FIRST_NAME , 'MariaDB' as DB , 'NoAliasText' from CUSTOMERS ORDER BY
      * CUSTOMERNAME;
      */
@@ -83,50 +84,32 @@ public class MariaDBDatabaseMetaTest {
 
   @Test
   public void testGetLegacyColumnNameFieldNumber() throws Exception {
-    assertEquals(
-        "NUMBER",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 1));
+    assertEquals("NUMBER", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 1));
   }
 
   @Test
   public void testGetLegacyColumnNameFieldName() throws Exception {
-    assertEquals(
-        "NAME",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 2));
+    assertEquals("NAME", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 2));
   }
 
   @Test
   public void testGetLegacyColumnNameFieldLastName() throws Exception {
-    assertEquals(
-        "LAST_NAME",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 3));
+    assertEquals("LAST_NAME", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 3));
   }
 
   @Test
   public void testGetLegacyColumnNameFieldFirstName() throws Exception {
-    assertEquals(
-        "FIRST_NAME",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 4));
+    assertEquals("FIRST_NAME", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 4));
   }
 
   @Test
   public void testGetLegacyColumnNameFieldDB() throws Exception {
-    assertEquals(
-        "DB",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 5));
+    assertEquals("DB", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 5));
   }
 
   @Test
   public void testGetLegacyColumnNameNoAliasText() throws Exception {
-    assertEquals(
-        "NoAliasText",
-        new MariaDBDatabaseMeta()
-            .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 6));
+    assertEquals("NoAliasText", new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaData(), 6));
   }
 
   @Test(expected = HopDatabaseException.class)
@@ -141,8 +124,7 @@ public class MariaDBDatabaseMetaTest {
 
   @Test(expected = HopDatabaseException.class)
   public void testGetLegacyColumnNameDatabaseException() throws Exception {
-    new MariaDBDatabaseMeta()
-        .getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaDataException(), 1);
+    new MariaDBDatabaseMeta().getLegacyColumnName(mock(DatabaseMetaData.class), getResultSetMetaDataException(), 1);
   }
 
   @Test
@@ -161,8 +143,7 @@ public class MariaDBDatabaseMetaTest {
 
   @Test
   public void testAddOptionsMariaDB() {
-    DatabaseMeta databaseMeta =
-        new DatabaseMeta("", "MariaDB", "JDBC", null, "stub:stub", null, null, null);
+    DatabaseMeta databaseMeta = new DatabaseMeta("", "MariaDB", "JDBC", null, "stub:stub", null, null, null);
     Map<String, String> options = databaseMeta.getExtraOptions();
     if (!options.keySet().contains("MARIADB.defaultFetchSize")) {
       fail();

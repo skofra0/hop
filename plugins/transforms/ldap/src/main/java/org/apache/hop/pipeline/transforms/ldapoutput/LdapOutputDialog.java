@@ -147,8 +147,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
   public static final int[] dateLengths = new int[] {23, 19, 14, 10, 10, 10, 10, 8, 8, 8, 8, 6, 6};
 
-  public LdapOutputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public LdapOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (LdapOutputMeta) in;
   }
@@ -227,8 +226,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
     Group wConnectionGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wConnectionGroup);
-    wConnectionGroup.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.Group.ConnectionGroup.Label"));
+    wConnectionGroup.setText(BaseMessages.getString(PKG, "LdapOutputDialog.Group.ConnectionGroup.Label"));
 
     FormLayout connectiongroupLayout = new FormLayout();
     connectiongroupLayout.marginWidth = 10;
@@ -292,13 +290,12 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdReferral.right = new FormAttachment(100, -margin);
     wReferral.setLayoutData(fdReferral);
     wReferral.setItems(LdapOutputMeta.referralTypeDesc);
-    wReferral.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wReferral.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // DerefAliases
     Label wlDerefAliases = new Label(wConnectionGroup, SWT.RIGHT);
@@ -319,13 +316,12 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdDerefAliases.right = new FormAttachment(100, -margin);
     wDerefAliases.setLayoutData(fdDerefAliases);
     wDerefAliases.setItems(LdapOutputMeta.derefAliasesTypeDesc);
-    wDerefAliases.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wDerefAliases.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // Protocol Line
     Label wlProtocol = new Label(wConnectionGroup, SWT.RIGHT);
@@ -347,14 +343,13 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdProtocol.right = new FormAttachment(100, -margin);
     wProtocol.setLayoutData(fdProtocol);
     wProtocol.setItems(LdapProtocolFactory.getConnectionTypes(log).toArray(new String[] {}));
-    wProtocol.addSelectionListener(
-        new SelectionAdapter() {
+    wProtocol.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setProtocol();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setProtocol();
+      }
+    });
 
     FormData fdConnectionGroup = new FormData();
     fdConnectionGroup.left = new FormAttachment(0, margin);
@@ -372,8 +367,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
     Group wAuthenticationGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAuthenticationGroup);
-    wAuthenticationGroup.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.Group.AuthenticationGroup.Label"));
+    wAuthenticationGroup.setText(BaseMessages.getString(PKG, "LdapOutputDialog.Group.AuthenticationGroup.Label"));
 
     FormLayout authenticationGroupLayout = new FormLayout();
     authenticationGroupLayout.marginWidth = 10;
@@ -382,8 +376,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
     // using authentication ?
     Label wlUsingAuthentication = new Label(wAuthenticationGroup, SWT.RIGHT);
-    wlUsingAuthentication.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.usingAuthentication.Label"));
+    wlUsingAuthentication.setText(BaseMessages.getString(PKG, "LdapOutputDialog.usingAuthentication.Label"));
     PropsUi.setLook(wlUsingAuthentication);
     FormData fdlUsingAuthentication = new FormData();
     fdlUsingAuthentication.left = new FormAttachment(0, 0);
@@ -392,21 +385,19 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     wlUsingAuthentication.setLayoutData(fdlUsingAuthentication);
     wUsingAuthentication = new Button(wAuthenticationGroup, SWT.CHECK);
     PropsUi.setLook(wUsingAuthentication);
-    wUsingAuthentication.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.usingAuthentication.Tooltip"));
+    wUsingAuthentication.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.usingAuthentication.Tooltip"));
     FormData fdUsingAuthentication = new FormData();
     fdUsingAuthentication.left = new FormAttachment(middle, 0);
     fdUsingAuthentication.top = new FormAttachment(wlUsingAuthentication, 0, SWT.CENTER);
     wUsingAuthentication.setLayoutData(fdUsingAuthentication);
 
-    wUsingAuthentication.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            useAuthentication();
-            input.setChanged();
-          }
-        });
+    wUsingAuthentication.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        useAuthentication();
+        input.setChanged();
+      }
+    });
 
     // UserName line
     wlUserName = new Label(wAuthenticationGroup, SWT.RIGHT);
@@ -436,8 +427,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdlPassword.top = new FormAttachment(wUserName, margin);
     fdlPassword.right = new FormAttachment(middle, -margin);
     wlPassword.setLayoutData(fdlPassword);
-    wPassword =
-        new PasswordTextVar(variables, wAuthenticationGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPassword = new PasswordTextVar(variables, wAuthenticationGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     wPassword.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.Password.Tooltip"));
     PropsUi.setLook(wPassword);
     wPassword.addModifyListener(lsMod);
@@ -463,8 +453,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
     Group wCertificateGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wCertificateGroup);
-    wCertificateGroup.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.Group.CertificateGroup.Label"));
+    wCertificateGroup.setText(BaseMessages.getString(PKG, "LdapOutputDialog.Group.CertificateGroup.Label"));
 
     FormLayout certificateGroupLayout = new FormLayout();
     certificateGroupLayout.marginWidth = 10;
@@ -482,21 +471,19 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     wlSetTrustStore.setLayoutData(fdlsetTrustStore);
     wSetTrustStore = new Button(wCertificateGroup, SWT.CHECK);
     PropsUi.setLook(wSetTrustStore);
-    wSetTrustStore.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.setTrustStore.Tooltip"));
+    wSetTrustStore.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.setTrustStore.Tooltip"));
     FormData fdsetTrustStore = new FormData();
     fdsetTrustStore.left = new FormAttachment(middle, 0);
     fdsetTrustStore.top = new FormAttachment(wlSetTrustStore, 0, SWT.CENTER);
     wSetTrustStore.setLayoutData(fdsetTrustStore);
 
-    wSetTrustStore.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setTrustStore();
-          }
-        });
+    wSetTrustStore.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setTrustStore();
+      }
+    });
 
     // TrustStorePath line
     wlTrustStorePath = new Label(wCertificateGroup, SWT.RIGHT);
@@ -511,21 +498,18 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     wbbFilename = new Button(wCertificateGroup, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "System.Button.Browse"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wSetTrustStore, margin);
     wbbFilename.setLayoutData(fdbFilename);
     // Listen to the Browse... button
 
-    wbbFilename.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wTrustStorePath, variables));
+    wbbFilename.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wTrustStorePath, variables));
 
     wTrustStorePath = new TextVar(variables, wCertificateGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTrustStorePath);
-    wTrustStorePath.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePath.Tooltip"));
+    wTrustStorePath.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePath.Tooltip"));
     wTrustStorePath.addModifyListener(lsMod);
     FormData fdTrustStorePath = new FormData();
     fdTrustStorePath.left = new FormAttachment(middle, 0);
@@ -535,19 +519,16 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
     // TrustStorePassword line
     wlTrustStorePassword = new Label(wCertificateGroup, SWT.RIGHT);
-    wlTrustStorePassword.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePassword.Label"));
+    wlTrustStorePassword.setText(BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePassword.Label"));
     PropsUi.setLook(wlTrustStorePassword);
     FormData fdlTrustStorePassword = new FormData();
     fdlTrustStorePassword.left = new FormAttachment(0, -margin);
     fdlTrustStorePassword.top = new FormAttachment(wTrustStorePath, margin);
     fdlTrustStorePassword.right = new FormAttachment(middle, -margin);
     wlTrustStorePassword.setLayoutData(fdlTrustStorePassword);
-    wTrustStorePassword =
-        new PasswordTextVar(variables, wCertificateGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wTrustStorePassword = new PasswordTextVar(variables, wCertificateGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTrustStorePassword);
-    wTrustStorePassword.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePassword.Tooltip"));
+    wTrustStorePassword.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.TrustStorePassword.Tooltip"));
     wTrustStorePassword.addModifyListener(lsMod);
     FormData fdTrustStorePassword = new FormData();
     fdTrustStorePassword.left = new FormAttachment(middle, 0);
@@ -571,14 +552,13 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdTrustAll.left = new FormAttachment(middle, 0);
     fdTrustAll.top = new FormAttachment(wlTrustAll, 0, SWT.CENTER);
     wTrustAll.setLayoutData(fdTrustAll);
-    wTrustAll.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            trustAll();
-          }
-        });
+    wTrustAll.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        trustAll();
+      }
+    });
 
     FormData fdCertificateGroup = new FormData();
     fdCertificateGroup.left = new FormAttachment(0, margin);
@@ -661,19 +641,17 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdOperation.right = new FormAttachment(100, -margin);
     wOperation.setLayoutData(fdOperation);
     wOperation.setItems(LdapOutputMeta.operationTypeDesc);
-    wOperation.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            updateOperation();
-            input.setChanged();
-          }
-        });
+    wOperation.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        updateOperation();
+        input.setChanged();
+      }
+    });
 
     // Multi valued field separator
     wlMultiValuedSeparator = new Label(wSettings, SWT.RIGHT);
-    wlMultiValuedSeparator.setText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.MultiValuedSeparator.Label"));
+    wlMultiValuedSeparator.setText(BaseMessages.getString(PKG, "LdapOutputDialog.MultiValuedSeparator.Label"));
     PropsUi.setLook(wlMultiValuedSeparator);
     FormData fdlMultiValuedSeparator = new FormData();
     fdlMultiValuedSeparator.left = new FormAttachment(0, 0);
@@ -682,8 +660,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     wlMultiValuedSeparator.setLayoutData(fdlMultiValuedSeparator);
     wMultiValuedSeparator = new TextVar(variables, wSettings, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wMultiValuedSeparator);
-    wMultiValuedSeparator.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.MultiValuedSeparator.Tooltip"));
+    wMultiValuedSeparator.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.MultiValuedSeparator.Tooltip"));
     wMultiValuedSeparator.addModifyListener(lsMod);
     FormData fdMultiValuedSeparator = new FormData();
     fdMultiValuedSeparator.left = new FormAttachment(middle, 0);
@@ -701,21 +678,19 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdlFailIfNotExist.right = new FormAttachment(middle, -margin);
     wlFailIfNotExist.setLayoutData(fdlFailIfNotExist);
     wFailIfNotExist = new Button(wSettings, SWT.CHECK);
-    wFailIfNotExist.setToolTipText(
-        BaseMessages.getString(PKG, "LdapOutputDialog.FailIfNotExist.Tooltip"));
+    wFailIfNotExist.setToolTipText(BaseMessages.getString(PKG, "LdapOutputDialog.FailIfNotExist.Tooltip"));
     PropsUi.setLook(wFailIfNotExist);
     FormData fdFailIfNotExist = new FormData();
     fdFailIfNotExist.left = new FormAttachment(middle, 0);
     fdFailIfNotExist.top = new FormAttachment(wlFailIfNotExist, 0, SWT.CENTER);
     fdFailIfNotExist.right = new FormAttachment(100, 0);
     wFailIfNotExist.setLayoutData(fdFailIfNotExist);
-    SelectionAdapter lsSelR =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSelR = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wFailIfNotExist.addSelectionListener(lsSelR);
 
     // Dn fieldname
@@ -736,16 +711,15 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdDnField.top = new FormAttachment(wFailIfNotExist, margin);
     fdDnField.right = new FormAttachment(100, -margin);
     wDnField.setLayoutData(fdDnField);
-    wDnField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wDnField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            getPreviousFields();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        getPreviousFields();
+      }
+    });
 
     FormData fdSettings = new FormData();
     fdSettings.left = new FormAttachment(0, margin);
@@ -788,16 +762,15 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdOldDnField.top = new FormAttachment(wSettings, margin);
     fdOldDnField.right = new FormAttachment(100, -margin);
     wOldDnField.setLayoutData(fdOldDnField);
-    wOldDnField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wOldDnField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            getPreviousFields();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        getPreviousFields();
+      }
+    });
 
     // NewDn fieldname
     wlNewDnField = new Label(wRenameGroup, SWT.RIGHT);
@@ -817,16 +790,15 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdNewDnField.top = new FormAttachment(wOldDnField, margin);
     fdNewDnField.right = new FormAttachment(100, -margin);
     wNewDnField.setLayoutData(fdNewDnField);
-    wNewDnField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wNewDnField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            getPreviousFields();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        getPreviousFields();
+      }
+    });
 
     wlDeleteRDN = new Label(wRenameGroup, SWT.RIGHT);
     wlDeleteRDN.setText(BaseMessages.getString(PKG, "LdapOutputDialog.DeleteRDN.Label"));
@@ -844,13 +816,12 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdDeleteRDN.top = new FormAttachment(wlDeleteRDN, 0, SWT.CENTER);
     fdDeleteRDN.right = new FormAttachment(100, 0);
     wDeleteRDN.setLayoutData(fdDeleteRDN);
-    SelectionAdapter lsSeld =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSeld = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wDeleteRDN.addSelectionListener(lsSeld);
 
     FormData fdRenameGroup = new FormData();
@@ -923,16 +894,15 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     fdBaseDN.top = new FormAttachment(wSettings, margin);
     fdBaseDN.right = new FormAttachment(100, 0);
     wBaseDN.setLayoutData(fdBaseDN);
-    wBaseDN.addModifyListener(
-        e -> {
-          input.setChanged();
-          if (Utils.isEmpty(wBaseDN.getText())) {
-            wDoMapping.setEnabled(false);
-          } else {
-            setFieldsCombo();
-            wDoMapping.setEnabled(true);
-          }
-        });
+    wBaseDN.addModifyListener(e -> {
+      input.setChanged();
+      if (Utils.isEmpty(wBaseDN.getText())) {
+        wDoMapping.setEnabled(false);
+      } else {
+        setFieldsCombo();
+        wDoMapping.setEnabled(true);
+      }
+    });
     // THE UPDATE/INSERT TABLE
     wlReturn = new Label(wFields, SWT.NONE);
     wlReturn.setText(BaseMessages.getString(PKG, "LdapOutputUpdateDialog.UpdateFields.Label"));
@@ -946,34 +916,12 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     int upInsRows = (input.getUpdateLookup() != null ? input.getUpdateLookup().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.Update"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {"Y", "N"});
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "LdapOutputUpdateDialog.ColumnInfo.Update"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"});
 
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wFields,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, wFields, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     wGetLU = new Button(wFields, SWT.PUSH);
     wGetLU.setText(BaseMessages.getString(PKG, "LdapOutputUpdateDialog.GetAndUpdateFields.Label"));
@@ -1002,24 +950,23 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdFields = new FormData();
@@ -1083,9 +1030,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
       connection = new LdapConnection(log, variables, meta, null);
       // connect...
       if (wUsingAuthentication.getSelection()) {
-        connection.connect(
-            variables.resolve(meta.getUserName()),
-            Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassword())));
+        connection.connect(variables.resolve(meta.getUserName()), Encr.decryptPasswordOptionallyEncrypted(variables.resolve(meta.getPassword())));
       } else {
         connection.connect();
       }
@@ -1119,8 +1064,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
    * @param in The LdapOutputMeta object to obtain the data from.
    */
   public void getData(LdapOutputMeta in) {
-    wProtocol.setText(
-        Const.NVL(in.getProtocol(), LdapProtocolFactory.getConnectionTypes(log).get(0)));
+    wProtocol.setText(Const.NVL(in.getProtocol(), LdapProtocolFactory.getConnectionTypes(log).get(0)));
     wSetTrustStore.setSelection(in.isUseCertificate());
     if (in.getTrustStorePath() != null) {
       wTrustStorePath.setText(in.getTrustStorePath());
@@ -1307,13 +1251,11 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(3, "Y");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(3, "Y");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1326,10 +1268,8 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
   private void updateOperation() {
     boolean activateFields =
-        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_DELETE
-            && LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_RENAME);
+        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_DELETE
+            && LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_RENAME);
 
     wlReturn.setEnabled(activateFields);
     wReturn.setEnabled(activateFields);
@@ -1339,28 +1279,20 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
     wDoMapping.setEnabled(activateFields && !Utils.isEmpty(wBaseDN.getText()));
 
     boolean activateMulTiValueSeparator =
-        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_DELETE)
-            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_UPDATE)
-            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_RENAME);
+        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_DELETE)
+            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_UPDATE)
+            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_RENAME);
     wlMultiValuedSeparator.setEnabled(activateMulTiValueSeparator);
     wMultiValuedSeparator.setEnabled(activateMulTiValueSeparator);
 
     boolean activateFailIfNotExist =
-        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_UPSERT)
-            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_INSERT)
-            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-                != LdapOutputMeta.OPERATION_TYPE_RENAME);
+        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_UPSERT)
+            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_INSERT)
+            && (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) != LdapOutputMeta.OPERATION_TYPE_RENAME);
     wlFailIfNotExist.setEnabled(activateFailIfNotExist);
     wFailIfNotExist.setEnabled(activateFailIfNotExist);
 
-    boolean activateRename =
-        (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText())
-            == LdapOutputMeta.OPERATION_TYPE_RENAME);
+    boolean activateRename = (LdapOutputMeta.getOperationTypeByDesc(wOperation.getText()) == LdapOutputMeta.OPERATION_TYPE_RENAME);
     wlOldDnField.setEnabled(activateRename);
     wOldDnField.setEnabled(activateRename);
     wlNewDnField.setEnabled(activateRename);
@@ -1381,8 +1313,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
       // connect ...
       if (wUsingAuthentication.getSelection()) {
         String username = variables.resolve(wUserName.getText());
-        String password =
-            Encr.decryptPasswordOptionallyEncrypted(variables.resolve(wPassword.getText()));
+        String password = Encr.decryptPasswordOptionallyEncrypted(variables.resolve(wPassword.getText()));
         connection.connect(username, password);
       } else {
         connection.connect();
@@ -1417,8 +1348,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "LdapOutputDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -1432,8 +1362,7 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
       new ErrorDialog(
           shell,
           BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "LdapOutputDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     } finally {
@@ -1486,41 +1415,23 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "LdapOutputDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "LdapOutputDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
 
       MessageBox box = new MessageBox(shell, SWT.YES | SWT.NO);
-      box.setText(
-          BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeFieldsNotFoundTitle"));
+      box.setText(BaseMessages.getString(PKG, "LdapOutputDialog.DoMapping.SomeFieldsNotFoundTitle"));
       box.setMessage(message);
       boolean goOn = ((box.open()) & SWT.YES) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            LdapOutputDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(LdapOutputDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -1544,39 +1455,38 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
   public void setFieldsCombo() {
     Display display = shell.getDisplay();
     if (!(display == null || display.isDisposed())) {
-      display.asyncExec(
-          () -> {
-            // clear
+      display.asyncExec(() -> {
+        // clear
+        for (ColumnInfo colInfo : tableFieldColumns) {
+          colInfo.setComboValues(new String[] {});
+        }
+        if (wBaseDN.isDisposed()) {
+          return;
+        }
+        String baseDn = variables.resolve(wBaseDN.getText());
+        if (!Utils.isEmpty(baseDn)) {
+          try {
+            IRowMeta fields = getLDAPFields();
+            // loop through the objects and find build the list of fields
+            String[] fieldsName = new String[fields.size()];
+            for (int i = 0; i < fields.size(); i++) {
+              fieldsName[i] = fields.getValueMeta(i).getName();
+            }
+
+            if (fieldsName != null) {
+              for (ColumnInfo colInfo : tableFieldColumns) {
+                colInfo.setComboValues(fieldsName);
+              }
+            }
+          } catch (Exception e) {
             for (ColumnInfo colInfo : tableFieldColumns) {
               colInfo.setComboValues(new String[] {});
             }
-            if (wBaseDN.isDisposed()) {
-              return;
-            }
-            String baseDn = variables.resolve(wBaseDN.getText());
-            if (!Utils.isEmpty(baseDn)) {
-              try {
-                IRowMeta fields = getLDAPFields();
-                // loop through the objects and find build the list of fields
-                String[] fieldsName = new String[fields.size()];
-                for (int i = 0; i < fields.size(); i++) {
-                  fieldsName[i] = fields.getValueMeta(i).getName();
-                }
-
-                if (fieldsName != null) {
-                  for (ColumnInfo colInfo : tableFieldColumns) {
-                    colInfo.setComboValues(fieldsName);
-                  }
-                }
-              } catch (Exception e) {
-                for (ColumnInfo colInfo : tableFieldColumns) {
-                  colInfo.setComboValues(new String[] {});
-                }
-                // ignore any errors here. drop downs will not be
-                // filled, but no problem for the user
-              }
-            }
-          });
+            // ignore any errors here. drop downs will not be
+            // filled, but no problem for the user
+          }
+        }
+      });
     }
   }
 
@@ -1588,18 +1498,14 @@ public class LdapOutputDialog extends BaseTransformDialog implements ITransformD
   }
 
   private void setTrustStore() {
-    boolean enable =
-        wSetTrustStore.getSelection() && !LdapProtocol.getName().equals(wProtocol.getText());
+    boolean enable = wSetTrustStore.getSelection() && !LdapProtocol.getName().equals(wProtocol.getText());
     wlTrustAll.setEnabled(enable);
     wTrustAll.setEnabled(enable);
     trustAll();
   }
 
   private void trustAll() {
-    boolean enable =
-        wSetTrustStore.getSelection()
-            && !LdapProtocol.getName().equals(wProtocol.getText())
-            && !wTrustAll.getSelection();
+    boolean enable = wSetTrustStore.getSelection() && !LdapProtocol.getName().equals(wProtocol.getText()) && !wTrustAll.getSelection();
     wlTrustStorePath.setEnabled(enable);
     wTrustStorePath.setEnabled(enable);
     wlTrustStorePassword.setEnabled(enable);

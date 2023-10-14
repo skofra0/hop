@@ -60,31 +60,30 @@ public class DatabaseMetaInformation {
     this.databaseMeta = databaseMeta;
   }
 
-  public void getData(ILoggingObject parentLoggingObject, IProgressMonitor monitor)
-      throws HopDatabaseException {
+  public void getData(ILoggingObject parentLoggingObject, IProgressMonitor monitor) throws HopDatabaseException {
     if (monitor == null) {
-        monitor = new ProgressNullMonitorListener();
+      monitor = new ProgressNullMonitorListener();
     }
 
     monitor.beginTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingInfoFromDb"), 8);
     Database db = new Database(parentLoggingObject, variables, databaseMeta);
 
     try {
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ConnectingDb"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ConnectingDb"));
       db.connect();
       monitor.worked(1);
 
       if (monitor.isCanceled()) {
         return;
       }
-      
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingMetaData"));     
+
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingMetaData"));
       DatabaseMetaData dbmd = db.getDatabaseMetaData();
       monitor.worked(1);
       if (monitor.isCanceled()) {
         return;
       }
-      
+
       // Get catalogs
       //
       monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingInfo"));
@@ -93,8 +92,7 @@ public class DatabaseMetaInformation {
         ArrayList<Catalog> catalogList = new ArrayList<>();
 
         String catalogFilterKey = databaseMeta.getPluginId() + "." + FILTER_CATALOG_LIST;
-        if ((connectionExtraOptions != null)
-            && connectionExtraOptions.containsKey(catalogFilterKey)) {
+        if ((connectionExtraOptions != null) && connectionExtraOptions.containsKey(catalogFilterKey)) {
           String catsFilterCommaList = connectionExtraOptions.get(catalogFilterKey);
           String[] catsFilterArray = catsFilterCommaList.split(",");
           for (int i = 0; i < catsFilterArray.length; i++) {
@@ -124,8 +122,7 @@ public class DatabaseMetaInformation {
           ArrayList<String> catalogTables = new ArrayList<>();
 
           try {
-            ResultSet catalogTablesResultSet =
-                dbmd.getTables(catalog.getCatalogName(), null, null, null);
+            ResultSet catalogTablesResultSet = dbmd.getTables(catalog.getCatalogName(), null, null, null);
             while (catalogTablesResultSet.next()) {
               String tableName = catalogTablesResultSet.getString(3);
 
@@ -159,13 +156,12 @@ public class DatabaseMetaInformation {
 
       // Get schemas
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSchemaInfo"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSchemaInfo"));
       if (databaseMeta.supportsSchemas() && dbmd.supportsSchemasInTableDefinitions()) {
         ArrayList<Schema> schemaList = new ArrayList<>();
         try {
           String schemaFilterKey = databaseMeta.getPluginId() + "." + FILTER_SCHEMA_LIST;
-          if ((connectionExtraOptions != null)
-              && connectionExtraOptions.containsKey(schemaFilterKey)) {
+          if ((connectionExtraOptions != null) && connectionExtraOptions.containsKey(schemaFilterKey)) {
             String schemasFilterCommaList = connectionExtraOptions.get(schemaFilterKey);
             String[] schemasFilterArray = schemasFilterCommaList.split(",");
             for (int i = 0; i < schemasFilterArray.length; i++) {
@@ -204,8 +200,7 @@ public class DatabaseMetaInformation {
             ArrayList<String> schemaTables = new ArrayList<>();
 
             try {
-              ResultSet schemaTablesResultSet =
-                  dbmd.getTables(null, schema.getSchemaName(), null, null);
+              ResultSet schemaTablesResultSet = dbmd.getTables(null, schema.getSchemaName(), null, null);
               while (schemaTablesResultSet.next()) {
                 String tableName = schemaTablesResultSet.getString(3);
                 if (!db.isSystemTable(tableName)) {
@@ -224,7 +219,7 @@ public class DatabaseMetaInformation {
             }
 
             schema.setItems(schemaTables.toArray(new String[schemaTables.size()]));
-            
+
             if (monitor.isCanceled()) {
               return;
             }
@@ -244,7 +239,7 @@ public class DatabaseMetaInformation {
 
       // Get tables
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingTables"));      
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingTables"));
       setTables(db.getTablenames(databaseMeta.supportsSchemas())); // legacy call
       setTableMap(db.getTableMap());
       monitor.worked(1);
@@ -266,7 +261,7 @@ public class DatabaseMetaInformation {
 
       // Get synonyms
       //
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSynonyms"));     
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingSynonyms"));
       if (databaseMeta.supportsSynonyms()) {
         setSynonyms(db.getSynonyms(databaseMeta.supportsSchemas())); // legacy call
         setSynonymMap(db.getSynonymMap());
@@ -277,13 +272,12 @@ public class DatabaseMetaInformation {
       }
 
       // Get procedures
-      //      
-      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingProcedures"));      
+      //
+      monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.GettingProcedures"));
       setProcedures(db.getProcedures());
       monitor.worked(1);
     } catch (Exception e) {
-      throw new HopDatabaseException(
-          BaseMessages.getString(PKG, "DatabaseMeta.Error.UnableRetrieveDbInfo"), e);
+      throw new HopDatabaseException(BaseMessages.getString(PKG, "DatabaseMeta.Error.UnableRetrieveDbInfo"), e);
     } finally {
       monitor.subTask(BaseMessages.getString(PKG, "DatabaseMeta.Info.ClosingDbConnection"));
       db.disconnect();

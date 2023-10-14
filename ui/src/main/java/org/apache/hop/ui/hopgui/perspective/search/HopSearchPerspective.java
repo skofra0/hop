@@ -230,8 +230,7 @@ public class HopSearchPerspective implements IHopPerspective {
     //
     Label wlSearchString = new Label(composite, SWT.LEFT);
     PropsUi.setLook(wlSearchString);
-    wlSearchString.setText(
-        BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Description"));
+    wlSearchString.setText(BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Description"));
     FormData fdlSearchString = new FormData();
     fdlSearchString.left = new FormAttachment(0, 0);
     fdlSearchString.top = new FormAttachment(lastControl, margin);
@@ -239,8 +238,7 @@ public class HopSearchPerspective implements IHopPerspective {
 
     wCaseSensitive = new Button(composite, SWT.CHECK);
     PropsUi.setLook(wCaseSensitive);
-    wCaseSensitive.setText(
-        BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Option1.Label"));
+    wCaseSensitive.setText(BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Option1.Label"));
     FormData fdCaseSensitive = new FormData();
     fdCaseSensitive.left = new FormAttachment(wlSearchString, margin * 2);
     fdCaseSensitive.top = new FormAttachment(lastControl, margin);
@@ -248,8 +246,7 @@ public class HopSearchPerspective implements IHopPerspective {
 
     wRegEx = new Button(composite, SWT.CHECK);
     PropsUi.setLook(wRegEx);
-    wRegEx.setText(
-        BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Option2.Label"));
+    wRegEx.setText(BaseMessages.getString(PKG, "HopSearchPerspective.SearchStringOptions.Option2.Label"));
     FormData fdRegEx = new FormData();
     fdRegEx.left = new FormAttachment(wCaseSensitive, margin * 2);
     fdRegEx.top = new FormAttachment(lastControl, margin);
@@ -289,53 +286,17 @@ public class HopSearchPerspective implements IHopPerspective {
 
     // A table with the search results...
     //
-    ColumnInfo[] resultsColumns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Type.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Name.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.File.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Location.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.MatchText.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-      new ColumnInfo(
-              BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Value.Field"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              true),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Description.Field"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true),
-    };
+    ColumnInfo[] resultsColumns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Type.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Name.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.File.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Location.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.MatchText.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Value.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopSearchPerspective.ResultsTable.Description.Field"), ColumnInfo.COLUMN_TYPE_TEXT, false, true),};
 
-    wResults =
-        new TableView(
-            hopGui.getVariables(),
-            composite,
-            SWT.V_SCROLL | SWT.V_SCROLL | SWT.MULTI,
-            resultsColumns,
-            0,
-            null,
-            props);
+    wResults = new TableView(hopGui.getVariables(), composite, SWT.V_SCROLL | SWT.V_SCROLL | SWT.MULTI, resultsColumns, 0, null, props);
     PropsUi.setLook(wResults);
     wResults.setReadonly(true);
     FormData fdResults = new FormData();
@@ -344,8 +305,7 @@ public class HopSearchPerspective implements IHopPerspective {
     fdResults.top = new FormAttachment(lastControl, margin);
     fdResults.bottom = new FormAttachment(wbOpen, -2 * margin);
     wResults.setLayoutData(fdResults);
-    wResults.table.addListener(
-        SWT.Selection, e -> wbOpen.setEnabled(wResults.getSelectionIndices().length == 1));
+    wResults.table.addListener(SWT.Selection, e -> wbOpen.setEnabled(wResults.getSelectionIndices().length == 1));
     wResults.table.addListener(SWT.DefaultSelection, this::open);
   }
 
@@ -380,8 +340,7 @@ public class HopSearchPerspective implements IHopPerspective {
     boolean caseSensitive = wCaseSensitive.getSelection();
     boolean regularExpression = wRegEx.getSelection();
 
-    SearchQuery searchQuery =
-        new SearchQuery(wSearchString.getText(), caseSensitive, regularExpression);
+    SearchQuery searchQuery = new SearchQuery(wSearchString.getText(), caseSensitive, regularExpression);
 
     wResults.table.removeAll();
     allSearchResults = new ArrayList<>();
@@ -392,8 +351,7 @@ public class HopSearchPerspective implements IHopPerspective {
       Map<Class<ISearchableAnalyser>, ISearchableAnalyser> searchableAnalyserMap = new HashMap<>();
       PluginRegistry registry = PluginRegistry.getInstance();
       for (IPlugin analyserPlugin : registry.getPlugins(SearchableAnalyserPluginType.class)) {
-        ISearchableAnalyser searchableAnalyser =
-            (ISearchableAnalyser) registry.loadClass(analyserPlugin);
+        ISearchableAnalyser searchableAnalyser = (ISearchableAnalyser) registry.loadClass(analyserPlugin);
         searchableAnalyserMap.put(searchableAnalyser.getSearchableClass(), searchableAnalyser);
       }
 
@@ -404,12 +362,10 @@ public class HopSearchPerspective implements IHopPerspective {
 
       // Save the last used location and search string...
       //
-      AuditManagerGuiUtil.addLastUsedValue(
-          AUDIT_TYPE_SEARCH_LOCATION, searchablesLocation.getLocationDescription());
+      AuditManagerGuiUtil.addLastUsedValue(AUDIT_TYPE_SEARCH_LOCATION, searchablesLocation.getLocationDescription());
       AuditManagerGuiUtil.addLastUsedValue(AUDIT_TYPE_SEARCH_STRING, wSearchString.getText());
 
-      Iterator<ISearchable> iterator =
-          searchablesLocation.getSearchables(hopGui.getMetadataProvider(), hopGui.getVariables());
+      Iterator<ISearchable> iterator = searchablesLocation.getSearchables(hopGui.getMetadataProvider(), hopGui.getVariables());
       while (iterator.hasNext()) {
         // Load the next object
         //

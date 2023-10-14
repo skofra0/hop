@@ -63,8 +63,7 @@ public class ValueMapperDialog extends BaseTransformDialog implements ITransform
 
   private boolean gotPreviousFields = false;
 
-  public ValueMapperDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ValueMapperDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ValueMapperMeta) in;
   }
@@ -135,24 +134,22 @@ public class ValueMapperDialog extends BaseTransformDialog implements ITransform
     fdFieldname.top = new FormAttachment(wTransformName, margin);
     fdFieldname.right = new FormAttachment(100, 0);
     wFieldName.setLayoutData(fdFieldname);
-    wFieldName.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wFieldName.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
     // TargetFieldname line
     Label wlTargetFieldname = new Label(shell, SWT.RIGHT);
-    wlTargetFieldname.setText(
-        BaseMessages.getString(PKG, "ValueMapperDialog.TargetFieldname.Label"));
+    wlTargetFieldname.setText(BaseMessages.getString(PKG, "ValueMapperDialog.TargetFieldname.Label"));
     PropsUi.setLook(wlTargetFieldname);
     FormData fdlTargetFieldname = new FormData();
     fdlTargetFieldname.left = new FormAttachment(0, 0);
@@ -170,8 +167,7 @@ public class ValueMapperDialog extends BaseTransformDialog implements ITransform
 
     // Non match default line
     Label wlNonMatchDefault = new Label(shell, SWT.RIGHT);
-    wlNonMatchDefault.setText(
-        BaseMessages.getString(PKG, "ValueMapperDialog.NonMatchDefault.Label"));
+    wlNonMatchDefault.setText(BaseMessages.getString(PKG, "ValueMapperDialog.NonMatchDefault.Label"));
     PropsUi.setLook(wlNonMatchDefault);
     FormData fdlNonMatchDefault = new FormData();
     fdlNonMatchDefault.left = new FormAttachment(0, 0);
@@ -199,27 +195,11 @@ public class ValueMapperDialog extends BaseTransformDialog implements ITransform
     final int FieldsRows = input.getValues().size();
 
     ColumnInfo[] colinf = new ColumnInfo[FieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ValueMapperDialog.Fields.Column.SourceValue"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "ValueMapperDialog.Fields.Column.TargetValue"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "ValueMapperDialog.Fields.Column.SourceValue"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "ValueMapperDialog.Fields.Column.TargetValue"), ColumnInfo.COLUMN_TYPE_TEXT, false);
     colinf[1].setUsingVariables(true);
-    
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -319,7 +299,7 @@ public class ValueMapperDialog extends BaseTransformDialog implements ITransform
       v.setTarget(item.getText(2));
       input.getValues().add(v);
     }
-    
+
     dispose();
   }
 }

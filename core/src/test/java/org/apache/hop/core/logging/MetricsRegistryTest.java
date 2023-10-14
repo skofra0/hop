@@ -33,7 +33,8 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 
 public class MetricsRegistryTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
   private MetricsRegistry metricsRegistry;
   private List<String> logIds;
   private int threadCount = 100;

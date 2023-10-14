@@ -23,38 +23,23 @@ import java.util.Objects;
 public class FieldModelMapping {
 
   /** The Hop input field where the data is coming from */
-  @HopMetadataProperty(
-      key = "source_field",
-      injectionKey = "MAPPING_SOURCE_FIELD",
-      injectionKeyDescription = "GraphOutput.Injection.MAPPING_SOURCE_FIELD")
+  @HopMetadataProperty(key = "source_field", injectionKey = "MAPPING_SOURCE_FIELD", injectionKeyDescription = "GraphOutput.Injection.MAPPING_SOURCE_FIELD")
   private String field;
 
   /** Write to a node or a relationship */
-  @HopMetadataProperty(
-      key = "target_type",
-      injectionKey = "MAPPING_TARGET_TYPE",
-      injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_TYPE")
+  @HopMetadataProperty(key = "target_type", injectionKey = "MAPPING_TARGET_TYPE", injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_TYPE")
   private ModelTargetType targetType;
 
   /** Name of the node or relationship to write to */
-  @HopMetadataProperty(
-      key = "target_name",
-      injectionKey = "MAPPING_TARGET_NAME",
-      injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_NAME")
+  @HopMetadataProperty(key = "target_name", injectionKey = "MAPPING_TARGET_NAME", injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_NAME")
   private String targetName;
 
   /** Name of the property to write to */
-  @HopMetadataProperty(
-      key = "target_property",
-      injectionKey = "MAPPING_TARGET_PROPERTY",
-      injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_PROPERTY")
+  @HopMetadataProperty(key = "target_property", injectionKey = "MAPPING_TARGET_PROPERTY", injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_PROPERTY")
   private String targetProperty;
 
   /** Write to a node or a relationship */
-  @HopMetadataProperty(
-      key = "target_hint",
-      injectionKey = "MAPPING_TARGET_HINT",
-      injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_HINT")
+  @HopMetadataProperty(key = "target_hint", injectionKey = "MAPPING_TARGET_HINT", injectionKeyDescription = "GraphOutput.Injection.MAPPING_TARGET_HINT")
   private ModelTargetHint targetHint;
 
   public FieldModelMapping() {
@@ -62,12 +47,7 @@ public class FieldModelMapping {
     targetHint = ModelTargetHint.None;
   }
 
-  public FieldModelMapping(
-      String field,
-      ModelTargetType targetType,
-      String targetName,
-      String targetProperty,
-      ModelTargetHint targetHint) {
+  public FieldModelMapping(String field, ModelTargetType targetType, String targetName, String targetProperty, ModelTargetHint targetHint) {
     this.field = field;
     this.targetType = targetType;
     this.targetName = targetName;
@@ -84,10 +64,7 @@ public class FieldModelMapping {
       return false;
     }
     FieldModelMapping that = (FieldModelMapping) o;
-    return Objects.equals(field, that.field)
-        && targetType == that.targetType
-        && Objects.equals(targetName, that.targetName)
-        && Objects.equals(targetProperty, that.targetProperty)
+    return Objects.equals(field, that.field) && targetType == that.targetType && Objects.equals(targetName, that.targetName) && Objects.equals(targetProperty, that.targetProperty)
         && targetHint == that.targetHint;
   }
 

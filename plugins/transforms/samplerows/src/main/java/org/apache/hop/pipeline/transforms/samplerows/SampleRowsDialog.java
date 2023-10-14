@@ -44,8 +44,7 @@ public class SampleRowsDialog extends BaseTransformDialog implements ITransformD
   private LabelTextVar wLineNumberField;
   private SampleRowsMeta input;
 
-  public SampleRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SampleRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (SampleRowsMeta) in;
   }
@@ -92,11 +91,7 @@ public class SampleRowsDialog extends BaseTransformDialog implements ITransformD
 
     // Lines ragne
     wLinesRange =
-        new LabelTextVar(
-            variables,
-            shell,
-            BaseMessages.getString(PKG, "SampleRowsDialog.LinesRange.Label"),
-            BaseMessages.getString(PKG, "SampleRowsDialog.LinesRange.Tooltip"));
+        new LabelTextVar(variables, shell, BaseMessages.getString(PKG, "SampleRowsDialog.LinesRange.Label"), BaseMessages.getString(PKG, "SampleRowsDialog.LinesRange.Tooltip"));
     PropsUi.setLook(wLinesRange);
     wLinesRange.addModifyListener(lsMod);
     FormData fdLinesRange = new FormData();

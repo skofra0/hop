@@ -37,11 +37,9 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 /** How do we handle an SVG file in file explorer perspective? */
-public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
-  public SvgExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public SvgExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 
@@ -51,11 +49,8 @@ public class SvgExplorerFileTypeHandler extends BaseExplorerFileTypeHandler
     Rectangle area = canvas.getBounds();
 
     try {
-      SvgCacheEntry entry =
-          SvgCache.loadSvg(
-              new SvgFile(explorerFile.getFilename(), SvgExplorerFileType.class.getClassLoader()));
-      SwtUniversalImageSvg svg =
-          new SwtUniversalImageSvg(new SvgImage(entry.getSvgDocument()), true);
+      SvgCacheEntry entry = SvgCache.loadSvg(new SvgFile(explorerFile.getFilename(), SvgExplorerFileType.class.getClassLoader()));
+      SwtUniversalImageSvg svg = new SwtUniversalImageSvg(new SvgImage(entry.getSvgDocument()), true);
 
       float factorX = (float) area.width / entry.getWidth();
       float factorY = (float) area.height / entry.getHeight();

@@ -24,8 +24,7 @@ import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.pipeline.transforms.dummy.DummyMeta;
 
 public class PipelinePreviewFactory {
-  public static final PipelineMeta generatePreviewPipeline(
-      IHopMetadataProvider metadataProvider, ITransformMeta oneMeta, String oneTransformName) {
+  public static final PipelineMeta generatePreviewPipeline(IHopMetadataProvider metadataProvider, ITransformMeta oneMeta, String oneTransformName) {
     PluginRegistry registry = PluginRegistry.getInstance();
 
     PipelineMeta previewMeta = new PipelineMeta();
@@ -39,16 +38,12 @@ public class PipelinePreviewFactory {
     previewMeta.setName("Preview pipeline for " + oneTransformName);
 
     // At it to the first transform.
-    TransformMeta one =
-        new TransformMeta(
-            registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
+    TransformMeta one = new TransformMeta(registry.getPluginId(TransformPluginType.class, oneMeta), oneTransformName, oneMeta);
     one.setLocation(50, 50);
     previewMeta.addTransform(one);
 
     DummyMeta twoMeta = new DummyMeta();
-    TransformMeta two =
-        new TransformMeta(
-            registry.getPluginId(TransformPluginType.class, twoMeta), "dummy", twoMeta);
+    TransformMeta two = new TransformMeta(registry.getPluginId(TransformPluginType.class, twoMeta), "dummy", twoMeta);
     two.setLocation(250, 50);
     previewMeta.addTransform(two);
 

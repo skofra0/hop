@@ -33,7 +33,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 public class MongoPropToOptionTest {
-  @Mock private MongoUtilLogger log;
+  @Mock
+  private MongoUtilLogger log;
 
   @Before
   public void before() {
@@ -63,30 +64,22 @@ public class MongoPropToOptionTest {
     assertEquals(1, wrapper.getTagSets(builder.build()).length);
 
     builder.set(MongoProp.tagSet, TAG_SET_LIST);
-    assertEquals(
-        BasicDBObject.parse("{ \"disk\": \"ssd\", \"use\": \"reporting\", \"rack\": \"a\" }"),
-        wrapper.getTagSets(builder.build())[0]);
+    assertEquals(BasicDBObject.parse("{ \"disk\": \"ssd\", \"use\": \"reporting\", \"rack\": \"a\" }"), wrapper.getTagSets(builder.build())[0]);
     assertEquals(3, wrapper.getTagSets(builder.build()).length);
 
     String tagsAsArray = "[" + TAG_SET_LIST + "]";
     builder.set(MongoProp.tagSet, tagsAsArray);
-    assertEquals(
-        BasicDBObject.parse("{ \"disk\": \"ssd\", \"use\": \"reporting\", \"rack\": \"a\" }"),
-        wrapper.getTagSets(builder.build())[0]);
+    assertEquals(BasicDBObject.parse("{ \"disk\": \"ssd\", \"use\": \"reporting\", \"rack\": \"a\" }"), wrapper.getTagSets(builder.build())[0]);
     assertEquals(3, wrapper.getTagSets(builder.build()).length);
 
     // extra curly paren.
-    String tagSetInvalid =
-        " { \"key\" : \"value\", \"key2\" : \"value2\" }, { \"key\" : \"value3\" } } ";
+    String tagSetInvalid = " { \"key\" : \"value\", \"key2\" : \"value2\" }, { \"key\" : \"value3\" } } ";
     builder.set(MongoProp.tagSet, tagSetInvalid);
     try {
       wrapper.getTagSets(builder.build());
       fail("Expected a parse exception");
     } catch (MongoDbException e) {
-      assertEquals(
-          "The tagSet property specified cannot be parsed:  "
-              + "[ { \"key\" : \"value\", \"key2\" : \"value2\" }, { \"key\" : \"value3\" } } ]",
-          e.getMessage());
+      assertEquals("The tagSet property specified cannot be parsed:  " + "[ { \"key\" : \"value\", \"key2\" : \"value2\" }, { \"key\" : \"value3\" } } ]", e.getMessage());
       assertTrue(e.getCause() instanceof JSONParseException);
     }
   }
@@ -112,12 +105,7 @@ public class MongoPropToOptionTest {
 
   @Test
   public void testWriteConcernWithWriteTimeout() throws MongoDbException {
-    MongoProperties props =
-        new MongoProperties.Builder()
-            .set(MongoProp.writeConcern, "2")
-            .set(MongoProp.wTimeout, "1010")
-            .set(MongoProp.JOURNALED, "false")
-            .build();
+    MongoProperties props = new MongoProperties.Builder().set(MongoProp.writeConcern, "2").set(MongoProp.wTimeout, "1010").set(MongoProp.JOURNALED, "false").build();
     MongoPropToOption mongoPropToOption = new MongoPropToOption(log);
     WriteConcern writeConcern = mongoPropToOption.writeConcernValue(props);
     assertThat((Integer) writeConcern.getWObject(), IsEqual.equalTo(2));
@@ -126,12 +114,7 @@ public class MongoPropToOptionTest {
 
   @Test
   public void testWriteConcernWithInvalidWriteTimeout() throws MongoDbException {
-    MongoProperties props =
-        new MongoProperties.Builder()
-            .set(MongoProp.writeConcern, "2")
-            .set(MongoProp.wTimeout, "FooBar")
-            .set(MongoProp.JOURNALED, "false")
-            .build();
+    MongoProperties props = new MongoProperties.Builder().set(MongoProp.writeConcern, "2").set(MongoProp.wTimeout, "FooBar").set(MongoProp.JOURNALED, "false").build();
     MongoPropToOption mongoPropToOption = new MongoPropToOption(log);
     try {
       mongoPropToOption.writeConcernValue(props);
@@ -144,12 +127,7 @@ public class MongoPropToOptionTest {
 
   @Test
   public void testNonNumericWriteConcernValue() throws MongoDbException {
-    MongoProperties props =
-        new MongoProperties.Builder()
-            .set(MongoProp.writeConcern, "majority")
-            .set(MongoProp.wTimeout, "1010")
-            .set(MongoProp.JOURNALED, "false")
-            .build();
+    MongoProperties props = new MongoProperties.Builder().set(MongoProp.writeConcern, "majority").set(MongoProp.wTimeout, "1010").set(MongoProp.JOURNALED, "false").build();
     MongoPropToOption mongoPropToOption = new MongoPropToOption(log);
     WriteConcern wc = mongoPropToOption.writeConcernValue(props);
     assertThat(wc.getWString(), IsEqual.equalTo("majority"));
@@ -158,9 +136,6 @@ public class MongoPropToOptionTest {
   @Test
   public void getReadPrefUnset() throws MongoDbException {
     MongoPropToOption mongoPropToOption = new MongoPropToOption(null);
-    assertThat(
-        mongoPropToOption.readPrefValue(
-            new MongoProperties.Builder().set(MongoProp.readPreference, "").build()),
-        IsEqual.equalTo(null));
+    assertThat(mongoPropToOption.readPrefValue(new MongoProperties.Builder().set(MongoProp.readPreference, "").build()), IsEqual.equalTo(null));
   }
 }

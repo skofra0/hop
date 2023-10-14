@@ -34,8 +34,7 @@ public class SalesforceUtils {
 
   private static final String CUSTOM_OBJECT_SUFFIX = "_c";
 
-  private static final Pattern FIELD_NAME_WITH_EXTID_PATTERN =
-      Pattern.compile("^\\w+\\:\\w+\\/\\w+$");
+  private static final Pattern FIELD_NAME_WITH_EXTID_PATTERN = Pattern.compile("^\\w+\\:\\w+\\/\\w+$");
 
   /**
    * Extract and return the correct name for the field that should be processed as NULL
@@ -51,9 +50,7 @@ public class SalesforceUtils {
       // verify if the field has correct syntax
       if (!FIELD_NAME_WITH_EXTID_PATTERN.matcher(field).matches()) {
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(
-                  PKG, "SalesforceUtils.Warn.IncorrectExternalKeySyntax", field, fieldToNullName));
+          log.logDebug(BaseMessages.getString(PKG, "SalesforceUtils.Warn.IncorrectExternalKeySyntax", field, fieldToNullName));
         }
         return fieldToNullName;
       }
@@ -62,13 +59,9 @@ public class SalesforceUtils {
       // working with custom objects and relationship
       // cut off _r and then add _c in the end of the name
       if (lookupField.endsWith(CUSTOM_OBJECT_RELATIONSHIP_FIELD_SUFFIX)) {
-        fieldToNullName =
-            lookupField.substring(
-                    0, lookupField.length() - CUSTOM_OBJECT_RELATIONSHIP_FIELD_SUFFIX.length())
-                + CUSTOM_OBJECT_SUFFIX;
+        fieldToNullName = lookupField.substring(0, lookupField.length() - CUSTOM_OBJECT_RELATIONSHIP_FIELD_SUFFIX.length()) + CUSTOM_OBJECT_SUFFIX;
         if (log.isDebug()) {
-          log.logDebug(
-              BaseMessages.getString(PKG, "SalesforceUtils.Debug.NullFieldName", fieldToNullName));
+          log.logDebug(BaseMessages.getString(PKG, "SalesforceUtils.Debug.NullFieldName", fieldToNullName));
         }
         return fieldToNullName;
       }
@@ -77,8 +70,7 @@ public class SalesforceUtils {
     }
 
     if (log.isDebug()) {
-      log.logDebug(
-          BaseMessages.getString(PKG, "SalesforceUtils.Debug.NullFieldName", fieldToNullName));
+      log.logDebug(BaseMessages.getString(PKG, "SalesforceUtils.Debug.NullFieldName", fieldToNullName));
     }
 
     return fieldToNullName;

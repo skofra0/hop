@@ -67,7 +67,8 @@ public class HopEnvironment {
   /**
    * Initializes the Hop environment. This method performs the following operations:
    *
-   * <p>- Creates a Hop "home" directory if it does not already exist - Reads in the hop.properties
+   * <p>
+   * - Creates a Hop "home" directory if it does not already exist - Reads in the hop.properties
    * file - Initializes the logging back-end - Sets the console log level to debug - If specified by
    * parameter, configures - Initializes the Lifecycle listeners
    *
@@ -79,21 +80,10 @@ public class HopEnvironment {
 
   public static List<IPluginType> getStandardPluginTypes() {
     return Arrays.asList(
-        RowDistributionPluginType.getInstance(),
-        TransformPluginType.getInstance(),
-        PartitionerPluginType.getInstance(),
-        ActionPluginType.getInstance(),
-        HopServerPluginType.getInstance(),
-        CompressionPluginType.getInstance(),
-        AuthenticationProviderPluginType.getInstance(),
-        AuthenticationConsumerPluginType.getInstance(),
-        PipelineEnginePluginType.getInstance(),
-        WorkflowEnginePluginType.getInstance(),
-        ConfigPluginType.getInstance(),
-        MetadataPluginType.getInstance(),
-        ImportPluginType.getInstance(),
-        ExecutionDataSamplerPluginType.getInstance(),
-        ExecutionInfoLocationPluginType.getInstance());
+        RowDistributionPluginType.getInstance(), TransformPluginType.getInstance(), PartitionerPluginType.getInstance(), ActionPluginType.getInstance(),
+        HopServerPluginType.getInstance(), CompressionPluginType.getInstance(), AuthenticationProviderPluginType.getInstance(), AuthenticationConsumerPluginType.getInstance(),
+        PipelineEnginePluginType.getInstance(), WorkflowEnginePluginType.getInstance(), ConfigPluginType.getInstance(), MetadataPluginType.getInstance(),
+        ImportPluginType.getInstance(), ExecutionDataSamplerPluginType.getInstance(), ExecutionInfoLocationPluginType.getInstance());
   }
 
   public static void init(List<IPluginType> pluginTypes) throws HopException {
@@ -127,9 +117,7 @@ public class HopEnvironment {
         // or if new variables are added
         //
         HopConfig hopConfig = HopConfig.getInstance();
-        for (DescribedVariable describedVariable :
-            VariableRegistry.getInstance()
-                .getDescribedVariables(VariableScope.APPLICATION, VariableScope.ENGINE)) {
+        for (DescribedVariable describedVariable : VariableRegistry.getInstance().getDescribedVariables(VariableScope.APPLICATION, VariableScope.ENGINE)) {
           DescribedVariable variable = hopConfig.findDescribedVariable(describedVariable.getName());
           if (variable == null) {
             // Add the variable if it does not exist
@@ -145,19 +133,14 @@ public class HopEnvironment {
         //
         for (DescribedVariable describedVariable : hopConfig.getDescribedVariables()) {
           if (StringUtils.isNotEmpty(describedVariable.getName())) {
-            System.setProperty(
-                describedVariable.getName(), Const.NVL(describedVariable.getValue(), ""));
+            System.setProperty(describedVariable.getName(), Const.NVL(describedVariable.getValue(), ""));
           }
         }
 
         // Inform the outside world that we're ready with the init of the Hop Environment
         // Others might want to register extra plugins that perhaps were not found automatically
         //
-        ExtensionPointHandler.callExtensionPoint(
-            LogChannel.GENERAL,
-            null,
-            HopExtensionPoint.HopEnvironmentAfterInit.name(),
-            PluginRegistry.getInstance());
+        ExtensionPointHandler.callExtensionPoint(LogChannel.GENERAL, null, HopExtensionPoint.HopEnvironmentAfterInit.name(), PluginRegistry.getInstance());
 
         ready.set(true);
       } catch (Throwable t) {
@@ -185,14 +168,12 @@ public class HopEnvironment {
    */
   private static void initLifecycleListeners() throws HopException {
     // Register a shutdown hook to invoke the listener's onExit() methods
-    Runtime.getRuntime()
-        .addShutdownHook(
-            new Thread() {
-              @Override
-              public void run() {
-                shutdown();
-              }
-            });
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        shutdown();
+      }
+    });
   }
 
   // Shutdown the Hop environment programmatically

@@ -24,9 +24,7 @@ public class FieldSplitterMetaTest {
 
   @Test
   public void testSerialization() throws Exception {
-    FieldSplitterMeta meta =
-        TransformSerializationTestUtil.testSerialization(
-            "/field-splitter-transform.xml", FieldSplitterMeta.class);
+    FieldSplitterMeta meta = TransformSerializationTestUtil.testSerialization("/field-splitter-transform.xml", FieldSplitterMeta.class);
     Assert.assertEquals(4, meta.getFields().size());
   }
 }

@@ -94,22 +94,17 @@ public class MainBeam {
 
       // Inflate the metadata:
       //
-      SerializableMetadataProvider metadataProvider =
-          new SerializableMetadataProvider(metadataJson);
+      SerializableMetadataProvider metadataProvider = new SerializableMetadataProvider(metadataJson);
 
       // Load the pipeline run configuration from this metadata provider:
       //
-      IHopMetadataSerializer<PipelineRunConfiguration> serializer =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class);
+      IHopMetadataSerializer<PipelineRunConfiguration> serializer = metadataProvider.getSerializer(PipelineRunConfiguration.class);
       if (!serializer.exists(runConfigName)) {
-        throw new HopException(
-            "The specified pipeline run configuration '" + runConfigName + "' doesn't exist");
+        throw new HopException("The specified pipeline run configuration '" + runConfigName + "' doesn't exist");
       }
 
       System.out.println(">>>>>> Loading pipeline metadata");
-      PipelineMeta pipelineMeta =
-          new PipelineMeta(
-              XmlHandler.loadXmlString(pipelineMetaXml, PipelineMeta.XML_TAG), metadataProvider);
+      PipelineMeta pipelineMeta = new PipelineMeta(XmlHandler.loadXmlString(pipelineMetaXml, PipelineMeta.XML_TAG), metadataProvider);
 
       System.out.println(">>>>>> Building Apache Beam Pipeline...");
       PluginRegistry registry = PluginRegistry.getInstance();
@@ -117,11 +112,9 @@ public class MainBeam {
       // Validate that the fat jar was found and built correctly.
       // If it doesn't contain the Beam plugin we should just call it quits here.
       //
-      IPlugin beamInputPlugin =
-          registry.getPlugin(TransformPluginType.class, BeamConst.STRING_BEAM_INPUT_PLUGIN_ID);
+      IPlugin beamInputPlugin = registry.getPlugin(TransformPluginType.class, BeamConst.STRING_BEAM_INPUT_PLUGIN_ID);
       if (beamInputPlugin == null) {
-        throw new HopException(
-            "ERROR: Unable to find Beam Input transform plugin. Is it in the fat jar? ");
+        throw new HopException("ERROR: Unable to find Beam Input transform plugin. Is it in the fat jar? ");
       }
 
       IVariables variables = Variables.getADefaultVariableSpace();
@@ -129,21 +122,17 @@ public class MainBeam {
       // Apply the variables in the configuration file, if any is specified
       //
       if (StringUtils.isNotEmpty(environmentFile)) {
-        DescribedVariablesConfigFile configFile =
-            new DescribedVariablesConfigFile(variables.resolve(environmentFile));
+        DescribedVariablesConfigFile configFile = new DescribedVariablesConfigFile(variables.resolve(environmentFile));
         configFile.readFromFile();
         for (DescribedVariable variable : configFile.getDescribedVariables()) {
           variables.setVariable(variable.getName(), variable.getValue());
         }
-        System.out.println(
-            ">>>>>> Applied number of variables: " + configFile.getDescribedVariables().size());
+        System.out.println(">>>>>> Applied number of variables: " + configFile.getDescribedVariables().size());
       }
 
       // Execute it...
       //
-      IPipelineEngine<PipelineMeta> pipelineEngine =
-          PipelineEngineFactory.createPipelineEngine(
-              variables, runConfigName, metadataProvider, pipelineMeta);
+      IPipelineEngine<PipelineMeta> pipelineEngine = PipelineEngineFactory.createPipelineEngine(variables, runConfigName, metadataProvider, pipelineMeta);
       System.out.println(">>>>>> Pipeline executing starting...");
       pipelineEngine.execute();
       pipelineEngine.waitUntilFinished();

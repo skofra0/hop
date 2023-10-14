@@ -86,8 +86,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
 
   private CCombo wTargetType;
 
-  public ActionSNMPTrapDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSNMPTrapDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSNMPTrap) action;
     if (this.action.getName() == null) {
@@ -127,11 +126,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     // Action name line
-    wName =
-        new LabelText(
-            shell,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Name.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Name.Tooltip"));
+    wName = new LabelText(shell, BaseMessages.getString(PKG, "ActionSNMPTrap.Name.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.Name.Tooltip"));
     wName.addModifyListener(lsMod);
     FormData fdName = new FormData();
     fdName.top = new FormAttachment(0, 0);
@@ -163,8 +158,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     // /
     Group wServerSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wServerSettings);
-    wServerSettings.setText(
-        BaseMessages.getString(PKG, "ActionSNMPTrap.ServerSettings.Group.Label"));
+    wServerSettings.setText(BaseMessages.getString(PKG, "ActionSNMPTrap.ServerSettings.Group.Label"));
 
     FormLayout serverSettingsgroupLayout = new FormLayout();
     serverSettingsgroupLayout.marginWidth = 10;
@@ -174,11 +168,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
 
     // ServerName line
     wServerName =
-        new LabelTextVar(
-            variables,
-            wServerSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Server.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Server.Tooltip"));
+        new LabelTextVar(variables, wServerSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.Server.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.Server.Tooltip"));
     PropsUi.setLook(wServerName);
     wServerName.addModifyListener(lsMod);
     FormData fdServerName = new FormData();
@@ -188,12 +178,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     wServerName.setLayoutData(fdServerName);
 
     // Server port line
-    wPort =
-        new LabelTextVar(
-            variables,
-            wServerSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Port.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Port.Tooltip"));
+    wPort = new LabelTextVar(variables, wServerSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.Port.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.Port.Tooltip"));
     PropsUi.setLook(wPort);
     wPort.addModifyListener(lsMod);
     FormData fdPort = new FormData();
@@ -203,12 +188,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     wPort.setLayoutData(fdPort);
 
     // Server OID line
-    wOID =
-        new LabelTextVar(
-            variables,
-            wServerSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.OID.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.OID.Tooltip"));
+    wOID = new LabelTextVar(variables, wServerSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.OID.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.OID.Tooltip"));
     PropsUi.setLook(wOID);
     wOID.addModifyListener(lsMod);
     FormData fdOID = new FormData();
@@ -242,8 +222,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     // /
     Group wAdvancedSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdvancedSettings);
-    wAdvancedSettings.setText(
-        BaseMessages.getString(PKG, "ActionSNMPTrap.AdvancedSettings.Group.Label"));
+    wAdvancedSettings.setText(BaseMessages.getString(PKG, "ActionSNMPTrap.AdvancedSettings.Group.Label"));
     FormLayout advancedSettingsgroupLayout = new FormLayout();
     advancedSettingsgroupLayout.marginWidth = 10;
     advancedSettingsgroupLayout.marginHeight = 10;
@@ -267,13 +246,12 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     fdTargetType.top = new FormAttachment(wServerSettings, margin);
     fdTargetType.right = new FormAttachment(100, 0);
     wTargetType.setLayoutData(fdTargetType);
-    wTargetType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            checkUseUserTarget();
-          }
-        });
+    wTargetType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        checkUseUserTarget();
+      }
+    });
 
     // Community String line
     wComString =
@@ -291,12 +269,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     wComString.setLayoutData(fdComString);
 
     // User line
-    wUser =
-        new LabelTextVar(
-            variables,
-            wAdvancedSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.User.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.User.Tooltip"));
+    wUser = new LabelTextVar(variables, wAdvancedSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.User.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.User.Tooltip"));
     PropsUi.setLook(wUser);
     wUser.addModifyListener(lsMod);
     FormData fdUser = new FormData();
@@ -337,12 +310,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     wEngineID.setLayoutData(fdEngineID);
 
     // Retry line
-    wRetry =
-        new LabelTextVar(
-            variables,
-            wAdvancedSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Retry.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Retry.Tooltip"));
+    wRetry = new LabelTextVar(variables, wAdvancedSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.Retry.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.Retry.Tooltip"));
     PropsUi.setLook(wRetry);
     wRetry.addModifyListener(lsMod);
     FormData fdRetry = new FormData();
@@ -353,11 +321,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
 
     // Timeout line
     wTimeout =
-        new LabelTextVar(
-            variables,
-            wAdvancedSettings,
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Timeout.Label"),
-            BaseMessages.getString(PKG, "ActionSNMPTrap.Timeout.Tooltip"));
+        new LabelTextVar(variables, wAdvancedSettings, BaseMessages.getString(PKG, "ActionSNMPTrap.Timeout.Label"), BaseMessages.getString(PKG, "ActionSNMPTrap.Timeout.Tooltip"));
     PropsUi.setLook(wTimeout);
     wTimeout.addModifyListener(lsMod);
     FormData fdTimeout = new FormData();
@@ -396,9 +360,7 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     fdlMessage.right = new FormAttachment(middle, -margin);
     wlMessage.setLayoutData(fdlMessage);
 
-    wMessage =
-        new StyledTextComp(
-            action, wMessageGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wMessage = new StyledTextComp(action, wMessageGroup, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     PropsUi.setLook(wMessage);
     wMessage.addModifyListener(lsMod);
     FormData fdMessage = new FormData();
@@ -478,17 +440,12 @@ public class ActionSNMPTrapDialog extends ActionDialog implements IActionDialog 
     }
     if (testOK) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.OK", hostname) + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.OK", hostname) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.Title.Ok"));
       mb.open();
     } else {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.NOK.ConnectionBad", hostname)
-              + Const.CR
-              + errMsg
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.NOK.ConnectionBad", hostname) + Const.CR + errMsg + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSNMPTrap.Connected.Title.Bad"));
       mb.open();
     }

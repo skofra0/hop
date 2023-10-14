@@ -20,32 +20,13 @@ import org.apache.hop.metadata.api.HopMetadataProperty;
 
 /** Describes a single field in an Json output file */
 public class JsonOutputField implements Cloneable {
-  @HopMetadataProperty(
-          key = "name",
-          injectionGroupKey = "FIELDS",
-          injectionKeyDescription = "JsonOutput.Injection.JSON_FIELDNAME"
-  )
+  @HopMetadataProperty(key = "name", injectionGroupKey = "FIELDS", injectionKeyDescription = "JsonOutput.Injection.JSON_FIELDNAME")
   private String fieldName;
-  @HopMetadataProperty(
-          key = "element",
-          injectionGroupKey = "FIELDS",
-          injectionKeyDescription = "JsonOutput.Injection.JSON_ELEMENTNAME"
-  )
+  @HopMetadataProperty(key = "element", injectionGroupKey = "FIELDS", injectionKeyDescription = "JsonOutput.Injection.JSON_ELEMENTNAME")
   private String elementName;
 
-  public JsonOutputField(
-      String fieldName,
-      String elementName,
-      int type,
-      String format,
-      int length,
-      int precision,
-      String currencySymbol,
-      String decimalSymbol,
-      String groupSymbol,
-      String nullString,
-      boolean attribute,
-      String attributeParentName) {
+  public JsonOutputField(String fieldName, String elementName, int type, String format, int length, int precision, String currencySymbol, String decimalSymbol, String groupSymbol,
+      String nullString, boolean attribute, String attributeParentName) {
     this.fieldName = fieldName;
     this.elementName = elementName;
   }

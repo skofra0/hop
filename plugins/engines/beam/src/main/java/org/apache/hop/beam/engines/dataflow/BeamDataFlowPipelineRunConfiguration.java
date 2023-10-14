@@ -39,8 +39,7 @@ import java.util.Collections;
 import java.util.List;
 
 @GuiPlugin
-public class BeamDataFlowPipelineRunConfiguration extends BeamPipelineRunConfiguration
-    implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
+public class BeamDataFlowPipelineRunConfiguration extends BeamPipelineRunConfiguration implements IBeamPipelineEngineRunConfiguration, IVariables, Cloneable {
 
   public static final String EXPERIMENT_APACHE_HOP_PIPELINE = "apache_hop_pipeline";
 
@@ -276,12 +275,10 @@ public class BeamDataFlowPipelineRunConfiguration extends BeamPipelineRunConfigu
       String algorithmCode = resolve(getGcpAutoScalingAlgorithm());
       try {
 
-        DataflowPipelineWorkerPoolOptions.AutoscalingAlgorithmType algorithm =
-            DataflowPipelineWorkerPoolOptions.AutoscalingAlgorithmType.valueOf(algorithmCode);
+        DataflowPipelineWorkerPoolOptions.AutoscalingAlgorithmType algorithm = DataflowPipelineWorkerPoolOptions.AutoscalingAlgorithmType.valueOf(algorithmCode);
         options.setAutoscalingAlgorithm(algorithm);
       } catch (Exception e) {
-        throw new HopException(
-            "Unknown autoscaling algorithm for GCP DataFlow: " + algorithmCode, e);
+        throw new HopException("Unknown autoscaling algorithm for GCP DataFlow: " + algorithmCode, e);
       }
     }
 

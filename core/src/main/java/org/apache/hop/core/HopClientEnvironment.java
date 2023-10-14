@@ -75,12 +75,8 @@ public class HopClientEnvironment {
   public static synchronized void init() throws HopException {
     init(
         List.of(
-            LoggingPluginType.getInstance(),
-            ValueMetaPluginType.getInstance(),
-            DatabasePluginType.getInstance(),
-            ExtensionPointPluginType.getInstance(),
-            TwoWayPasswordEncoderPluginType.getInstance(),
-            VfsPluginType.getInstance()));
+            LoggingPluginType.getInstance(), ValueMetaPluginType.getInstance(), DatabasePluginType.getInstance(), ExtensionPointPluginType.getInstance(),
+            TwoWayPasswordEncoderPluginType.getInstance(), VfsPluginType.getInstance()));
   }
 
   public static synchronized void init(List<IPluginType> pluginsToLoad) throws HopException {
@@ -114,8 +110,7 @@ public class HopClientEnvironment {
     List<IPlugin> loggingPlugins = PluginRegistry.getInstance().getPlugins(LoggingPluginType.class);
     initLogginPlugins(loggingPlugins);
 
-    String passwordEncoderPluginID =
-        Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
+    String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.HOP_PASSWORD_ENCODER_PLUGIN), "Hop");
 
     Encr.init(passwordEncoderPluginID);
 
@@ -180,8 +175,7 @@ public class HopClientEnvironment {
 
   private static void initLogginPlugins(List<IPlugin> logginPlugins) throws HopPluginException {
     for (IPlugin plugin : logginPlugins) {
-      ILoggingPlugin loggingPlugin =
-          (ILoggingPlugin) PluginRegistry.getInstance().loadClass(plugin);
+      ILoggingPlugin loggingPlugin = (ILoggingPlugin) PluginRegistry.getInstance().loadClass(plugin);
       loggingPlugin.init();
     }
   }

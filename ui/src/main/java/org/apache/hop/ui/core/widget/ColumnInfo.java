@@ -106,7 +106,7 @@ public class ColumnInfo {
    * @param columnName The column name
    * @param columnType The column type (see: COLUMN_TYPE_...)
    * @param numeric true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
+   *        numeric: IValueMeta.TYPE_INTEGER is the default.
    */
   public ColumnInfo(String columnName, int columnType, boolean numeric) {
     this(columnName, columnType);
@@ -131,7 +131,7 @@ public class ColumnInfo {
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param combo The choices in the combo box
    * @param ro true if the column is read-only (you can't type in the combo box, you CAN make a
-   *     choice)
+   *        choice)
    */
   public ColumnInfo(String colname, int coltype, String[] combo, boolean ro) {
     this(colname, coltype, combo);
@@ -144,7 +144,7 @@ public class ColumnInfo {
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param num true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
+   *        numeric: IValueMeta.TYPE_INTEGER is the default.
    * @param ro true if the column is read-only.
    */
   public ColumnInfo(String colname, int coltype, boolean num, boolean ro) {
@@ -158,7 +158,7 @@ public class ColumnInfo {
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param num true if the column type is numeric. Use setValueType() to specify the type of
-   *     numeric: IValueMeta.TYPE_INTEGER is the default.
+   *        numeric: IValueMeta.TYPE_INTEGER is the default.
    * @param ro true if the column is read-only.
    * @param width The column width
    */
@@ -175,7 +175,7 @@ public class ColumnInfo {
    * @param colname The column name
    * @param coltype The column type (see: COLUMN_TYPE_...)
    * @param fieldTypeColumn The column that contains the field type (for use when filtering the
-   *     format combo dropdown)
+   *        format combo dropdown)
    */
   public ColumnInfo(String colname, int coltype, int fieldTypeColumn) {
     this(colname, coltype);
@@ -313,8 +313,7 @@ public class ColumnInfo {
   }
 
   /** @param comboValuesSelectionListener the comboValuesSelectionListener to set */
-  public void setComboValuesSelectionListener(
-      IComboValuesSelectionListener comboValuesSelectionListener) {
+  public void setComboValuesSelectionListener(IComboValuesSelectionListener comboValuesSelectionListener) {
     this.comboValuesSelectionListener = comboValuesSelectionListener;
   }
 
@@ -341,8 +340,7 @@ public class ColumnInfo {
   }
 
   public boolean shouldRenderTextVarButton() {
-    return this.renderTextVarButtonCallback == null
-        || this.renderTextVarButtonCallback.shouldRenderButton();
+    return this.renderTextVarButtonCallback == null || this.renderTextVarButtonCallback.shouldRenderButton();
   }
 
   public int getWidth() {

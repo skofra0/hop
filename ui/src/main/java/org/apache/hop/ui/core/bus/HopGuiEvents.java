@@ -43,6 +43,5 @@ public enum HopGuiEvents {
   ProjectUpdated,
   ProjectDeleted,
   ProjectActivated,
-  ProjectDeactivated,
-  ;
+  ProjectDeactivated,;
 }

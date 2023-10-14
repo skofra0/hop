@@ -31,13 +31,7 @@ public class ClosureGenerator extends BaseTransform<ClosureGeneratorMeta, Closur
 
   private static final Class<?> PKG = ClosureGeneratorMeta.class; // For Translator
 
-  public ClosureGenerator(
-      TransformMeta transformMeta,
-      ClosureGeneratorMeta meta,
-      ClosureGeneratorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public ClosureGenerator(TransformMeta transformMeta, ClosureGeneratorMeta meta, ClosureGeneratorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -55,20 +49,17 @@ public class ClosureGenerator extends BaseTransform<ClosureGeneratorMeta, Closur
           // Create the output row metadata
           //
           data.outputRowMeta = getInputRowMeta().clone();
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Get indexes of parent and child field
           //
           data.parentIndex = getInputRowMeta().indexOfValue(meta.getParentIdFieldName());
           if (data.parentIndex < 0) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "ClosureGenerator.Exception.ParentFieldNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "ClosureGenerator.Exception.ParentFieldNotFound"));
           }
           data.childIndex = getInputRowMeta().indexOfValue(meta.getChildIdFieldName());
           if (data.childIndex < 0) {
-            throw new HopException(
-                BaseMessages.getString(PKG, "ClosureGenerator.Exception.ChildFieldNotFound"));
+            throw new HopException(BaseMessages.getString(PKG, "ClosureGenerator.Exception.ChildFieldNotFound"));
           }
 
           data.parentValueMeta = getInputRowMeta().getValueMeta(data.parentIndex);

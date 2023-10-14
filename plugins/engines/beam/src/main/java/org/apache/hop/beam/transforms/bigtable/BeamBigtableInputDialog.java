@@ -51,8 +51,7 @@ public class BeamBigtableInputDialog extends BaseTransformDialog implements ITra
   private TextVar wKeyField;
   private TableView wColumns;
 
-  public BeamBigtableInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public BeamBigtableInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (BeamBigtableInputMeta) in;
   }
@@ -184,29 +183,14 @@ public class BeamBigtableInputDialog extends BaseTransformDialog implements ITra
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.Qualifier"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.TargetName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.Qualifier"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), false),
+            new ColumnInfo(BaseMessages.getString(PKG, "BeamBigtableInputDialog.Column.TargetName"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columns[0].setUsingVariables(false);
     columns[1].setUsingVariables(false);
     columns[2].setUsingVariables(false);
 
-    wColumns =
-        new TableView(
-            variables, shell, SWT.BORDER, columns, input.getSourceColumns().size(), null, props);
+    wColumns = new TableView(variables, shell, SWT.BORDER, columns, input.getSourceColumns().size(), null, props);
     FormData fdColumns = new FormData();
     fdColumns.left = new FormAttachment(0, 0);
     fdColumns.top = new FormAttachment(lastControl, margin);

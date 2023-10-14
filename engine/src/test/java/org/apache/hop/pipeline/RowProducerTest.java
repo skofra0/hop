@@ -53,9 +53,7 @@ public class RowProducerTest {
 
   @Test
   public void testPutRow2Arg() throws Exception {
-    when(rowSet.putRowWait(
-            any(IRowMeta.class), any(Object[].class), anyLong(), any(TimeUnit.class)))
-        .thenReturn(true);
+    when(rowSet.putRowWait(any(IRowMeta.class), any(Object[].class), anyLong(), any(TimeUnit.class))).thenReturn(true);
     rowProducer.putRow(rowMeta, rowData);
     verify(rowSet, times(1)).putRowWait(rowMeta, rowData, Long.MAX_VALUE, TimeUnit.DAYS);
     assertTrue(rowProducer.putRow(rowMeta, rowData, true));
@@ -63,9 +61,7 @@ public class RowProducerTest {
 
   @Test
   public void testPutRow3Arg() throws Exception {
-    when(rowSet.putRowWait(
-            any(IRowMeta.class), any(Object[].class), anyLong(), any(TimeUnit.class)))
-        .thenReturn(true);
+    when(rowSet.putRowWait(any(IRowMeta.class), any(Object[].class), anyLong(), any(TimeUnit.class))).thenReturn(true);
 
     rowProducer.putRow(rowMeta, rowData, false);
     verify(rowSet, times(1)).putRow(rowMeta, rowData);

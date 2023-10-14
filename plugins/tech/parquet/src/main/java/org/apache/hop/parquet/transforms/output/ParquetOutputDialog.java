@@ -73,12 +73,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
 
   private String returnValue;
 
-  public ParquetOutputDialog(
-      Shell parent,
-      IVariables variables,
-      Object in,
-      PipelineMeta pipelineMeta,
-      String transformName) {
+  public ParquetOutputDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String transformName) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, transformName);
     input = (ParquetOutputMeta) in;
   }
@@ -161,8 +156,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wFilenameBase;
 
     Label wlFilenameExtension = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameExtension.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameExtension.Label"));
+    wlFilenameExtension.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameExtension.Label"));
     PropsUi.setLook(wlFilenameExtension);
     FormData fdlFilenameExtension = new FormData();
     fdlFilenameExtension.left = new FormAttachment(0, 0);
@@ -179,8 +173,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wFilenameExtension;
 
     Label wlFilenameIncludeDate = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameIncludeDate.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeDate.Label"));
+    wlFilenameIncludeDate.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeDate.Label"));
     PropsUi.setLook(wlFilenameIncludeDate);
     FormData fdlFilenameIncludeDate = new FormData();
     fdlFilenameIncludeDate.left = new FormAttachment(0, 0);
@@ -197,8 +190,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wlFilenameIncludeDate;
 
     Label wlFilenameIncludeTime = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameIncludeTime.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeTime.Label"));
+    wlFilenameIncludeTime.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeTime.Label"));
     PropsUi.setLook(wlFilenameIncludeTime);
     FormData fdlFilenameIncludeTime = new FormData();
     fdlFilenameIncludeTime.left = new FormAttachment(0, 0);
@@ -215,8 +207,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wlFilenameIncludeTime;
 
     Label wlFilenameIncludeDateTime = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameIncludeDateTime.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeDateTime.Label"));
+    wlFilenameIncludeDateTime.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeDateTime.Label"));
     PropsUi.setLook(wlFilenameIncludeDateTime);
     FormData fdlFilenameIncludeDateTime = new FormData();
     fdlFilenameIncludeDateTime.left = new FormAttachment(0, 0);
@@ -234,16 +225,14 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wlFilenameIncludeDateTime;
 
     wlFilenameDateTimeFormat = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameDateTimeFormat.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameDateTimeFormat.Label"));
+    wlFilenameDateTimeFormat.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameDateTimeFormat.Label"));
     PropsUi.setLook(wlFilenameDateTimeFormat);
     FormData fdlFilenameDateTimeFormat = new FormData();
     fdlFilenameDateTimeFormat.left = new FormAttachment(0, 0);
     fdlFilenameDateTimeFormat.right = new FormAttachment(middle, -margin);
     fdlFilenameDateTimeFormat.top = new FormAttachment(lastControl, margin);
     wlFilenameDateTimeFormat.setLayoutData(fdlFilenameDateTimeFormat);
-    wFilenameDateTimeFormat =
-        new TextVar(variables, wFileGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wFilenameDateTimeFormat = new TextVar(variables, wFileGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wFilenameDateTimeFormat);
     FormData fdFilenameDateTimeFormat = new FormData();
     fdFilenameDateTimeFormat.left = new FormAttachment(middle, 0);
@@ -253,8 +242,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wFilenameDateTimeFormat;
 
     Label wlFilenameIncludeCopyNr = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameIncludeCopyNr.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeCopyNr.Label"));
+    wlFilenameIncludeCopyNr.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeCopyNr.Label"));
     PropsUi.setLook(wlFilenameIncludeCopyNr);
     FormData fdlFilenameIncludeCopyNr = new FormData();
     fdlFilenameIncludeCopyNr.left = new FormAttachment(0, 0);
@@ -271,8 +259,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wlFilenameIncludeCopyNr;
 
     Label wlFilenameIncludeSplitNr = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameIncludeSplitNr.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeSplitNr.Label"));
+    wlFilenameIncludeSplitNr.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameIncludeSplitNr.Label"));
     PropsUi.setLook(wlFilenameIncludeSplitNr);
     FormData fdlFilenameIncludeSplitNr = new FormData();
     fdlFilenameIncludeSplitNr.left = new FormAttachment(0, 0);
@@ -290,8 +277,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wlFilenameIncludeSplitNr;
 
     wlFilenameSplitSize = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameSplitSize.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameSplitSize.Label"));
+    wlFilenameSplitSize.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameSplitSize.Label"));
     PropsUi.setLook(wlFilenameSplitSize);
     FormData fdlFilenameSplitSize = new FormData();
     fdlFilenameSplitSize.left = new FormAttachment(0, 0);
@@ -308,8 +294,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wFilenameSplitSize;
 
     Label wlFilenameCreateFolders = new Label(wFileGroup, SWT.RIGHT);
-    wlFilenameCreateFolders.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameCreateFolders.Label"));
+    wlFilenameCreateFolders.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.FilenameCreateFolders.Label"));
     PropsUi.setLook(wlFilenameCreateFolders);
     FormData fdlFilenameCreateFolders = new FormData();
     fdlFilenameCreateFolders.left = new FormAttachment(0, 0);
@@ -329,8 +314,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wFileGroup;
 
     Label wlCompressionCodec = new Label(shell, SWT.RIGHT);
-    wlCompressionCodec.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.CompressionCodec.Label"));
+    wlCompressionCodec.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.CompressionCodec.Label"));
     PropsUi.setLook(wlCompressionCodec);
     FormData fdlCompressionCodec = new FormData();
     fdlCompressionCodec.left = new FormAttachment(0, 0);
@@ -404,8 +388,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     lastControl = wDataPageSize;
 
     Label wlDictionaryPageSize = new Label(shell, SWT.RIGHT);
-    wlDictionaryPageSize.setText(
-        BaseMessages.getString(PKG, "ParquetOutputDialog.DictionaryPageSize.Label"));
+    wlDictionaryPageSize.setText(BaseMessages.getString(PKG, "ParquetOutputDialog.DictionaryPageSize.Label"));
     PropsUi.setLook(wlDictionaryPageSize);
     FormData fdlDictionaryPageSize = new FormData();
     fdlDictionaryPageSize.left = new FormAttachment(0, 0);
@@ -432,19 +415,9 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetOutputDialog.FieldsColumn.SourceField.Label"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[0]),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "ParquetOutputDialog.FieldsColumn.TargetField.Label"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false,
-              false),
-        };
-    wFields =
-        new TableView(
-            variables, shell, SWT.BORDER, columns, input.getFields().size(), false, null, props);
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetOutputDialog.FieldsColumn.SourceField.Label"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[0]),
+            new ColumnInfo(BaseMessages.getString(PKG, "ParquetOutputDialog.FieldsColumn.TargetField.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
+    wFields = new TableView(variables, shell, SWT.BORDER, columns, input.getFields().size(), false, null, props);
     PropsUi.setLook(wFields);
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -472,8 +445,7 @@ public class ParquetOutputDialog extends BaseTransformDialog implements ITransfo
     //
     try {
       IRowMeta rowMeta = pipelineMeta.getPrevTransformFields(variables, transformName);
-      BaseTransformDialog.getFieldsFromPrevious(
-          rowMeta, wFields, 2, new int[] {1, 2}, new int[0], -1, -1, true, null);
+      BaseTransformDialog.getFieldsFromPrevious(rowMeta, wFields, 2, new int[] {1, 2}, new int[0], -1, -1, true, null);
     } catch (Exception e) {
       new ErrorDialog(shell, "Error", "Error getting fields", e);
     }

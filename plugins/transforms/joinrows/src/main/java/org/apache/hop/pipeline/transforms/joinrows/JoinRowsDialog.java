@@ -65,8 +65,7 @@ public class JoinRowsDialog extends BaseTransformDialog implements ITransformDia
 
   private Condition backupCondition;
 
-  public JoinRowsDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public JoinRowsDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (JoinRowsMeta) in;
     condition = input.getCondition();
@@ -141,8 +140,7 @@ public class JoinRowsDialog extends BaseTransformDialog implements ITransformDia
     fdSortDir.right = new FormAttachment(wbSortDir, -margin);
     wSortDir.setLayoutData(fdSortDir);
 
-    wbSortDir.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
+    wbSortDir.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wSortDir, variables));
 
     // Whenever something changes, set the tooltip to the expanded version:
     wSortDir.addModifyListener(e -> wSortDir.setToolTipText(variables.resolve(wSortDir.getText())));
@@ -196,8 +194,7 @@ public class JoinRowsDialog extends BaseTransformDialog implements ITransformDia
     wMainTransform = new CCombo(shell, SWT.BORDER);
     PropsUi.setLook(wMainTransform);
 
-    List<TransformMeta> prevTransforms =
-        pipelineMeta.findPreviousTransforms(pipelineMeta.findTransform(transformName));
+    List<TransformMeta> prevTransforms = pipelineMeta.findPreviousTransforms(pipelineMeta.findTransform(transformName));
     for (TransformMeta transformMeta : prevTransforms) {
       wMainTransform.add(transformMeta.getName());
     }

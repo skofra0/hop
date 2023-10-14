@@ -34,12 +34,7 @@ public class Stream implements IStream {
    * @param streamIcon
    * @param subject
    */
-  public Stream(
-      StreamType streamType,
-      TransformMeta transformMeta,
-      String description,
-      StreamIcon streamIcon,
-      String subject) {
+  public Stream(StreamType streamType, TransformMeta transformMeta, String description, StreamIcon streamIcon, String subject) {
     this.streamType = streamType;
     this.transformMeta = transformMeta;
     this.description = description;
@@ -48,25 +43,14 @@ public class Stream implements IStream {
   }
 
   public Stream(IStream stream) {
-    this(
-        stream.getStreamType(),
-        stream.getTransformMeta(),
-        stream.getDescription(),
-        stream.getStreamIcon(),
-        stream.getSubject());
+    this(stream.getStreamType(), stream.getTransformMeta(), stream.getDescription(), stream.getStreamIcon(), stream.getSubject());
   }
 
   public String toString() {
     if (transformMeta == null) {
       return "Stream type " + streamType + Const.CR + description;
     } else {
-      return "Stream type "
-          + streamType
-          + " for transform '"
-          + transformMeta.getName()
-          + "'"
-          + Const.CR
-          + description;
+      return "Stream type " + streamType + " for transform '" + transformMeta.getName() + "'" + Const.CR + description;
     }
   }
 

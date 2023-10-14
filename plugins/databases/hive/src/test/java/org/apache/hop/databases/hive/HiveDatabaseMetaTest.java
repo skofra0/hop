@@ -61,7 +61,8 @@ import static org.mockito.Mockito.when;
 public class HiveDatabaseMetaTest {
   HiveDatabaseMeta nativeMeta;
 
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -95,149 +96,146 @@ public class HiveDatabaseMetaTest {
     assertFalse(nativeMeta.isSupportsSynonyms());
     assertArrayEquals(
         new String[] {
-                "ALL",
-                "ALTER",
-                "AND",
-                "ARRAY",
-                "AS",
-                "AUTHORIZATION",
-                "BETWEEN",
-                "BIGINT",
-                "BINARY",
-                "BOOLEAN",
-                "BOTH",
-                "BY",
-                "CACHE",
-                "CASE",
-                "CAST",
-                "CHAR",
-                "COLUMN",
-                "COMMIT",
-                "CONF",
-                "CONSTRAINT",
-                "CREATE",
-                "CROSS",
-                "CUBE",
-                "CURRENT",
-                "CURRENT_DATE",
-                "CURRENT_TIMESTAMP",
-                "CURSOR",
-                "DATABASE",
-                "DATE",
-                "DAYOFWEEK",
-                "DECIMAL",
-                "DELETE",
-                "DESCRIBE",
-                "DISTINCT",
-                "DOUBLE",
-                "DROP",
-                "ELSE",
-                "END",
-                "EXCHANGE",
-                "EXISTS",
-                "EXTENDED",
-                "EXTERNAL",
-                "EXTRACT",
-                "FALSE",
-                "FETCH",
-                "FLOAT",
-                "FLOOR",
-                "FOLLOWING",
-                "FOR",
-                "FOREIGN",
-                "FROM",
-                "FULL",
-                "FUNCTION",
-                "GRANT",
-                "GROUP",
-                "GROUPING",
-                "HAVING",
-                "IF",
-                "IMPORT",
-                "IN",
-                "INNER",
-                "INSERT",
-                "INT",
-                "INTEGER",
-                "INTERSECT",
-                "INTERVAL",
-                "INTO",
-                "IS",
-                "JOIN",
-                "LATERAL",
-                "LEFT",
-                "LESS",
-                "LIKE",
-                "LOCAL",
-                "MACRO",
-                "MAP",
-                "MORE",
-                "NONE",
-                "NOT",
-                "NULL",
-                "OF",
-                "ON",
-                "ONLY",
-                "OR",
-                "ORDER",
-                "OUT",
-                "OUTER",
-                "OVER",
-                "PARTIALSCAN",
-                "PARTITION",
-                "PERCENT",
-                "PRECEDING",
-                "PRECISION",
-                "PRESERVE",
-                "PRIMARY",
-                "PROCEDURE",
-                "RANGE",
-                "READS",
-                "REDUCE",
-                "REFERENCES",
-                "REGEXP",
-                "REVOKE",
-                "RIGHT",
-                "RLIKE",
-                "ROLLBACK",
-                "ROLLUP",
-                "ROW",
-                "ROWS",
-                "SELECT",
-                "SET",
-                "SMALLINT",
-                "START",
-                "TABLE",
-                "TABLESAMPLE",
-                "THEN",
-                "TIMESTAMP",
-                "TO",
-                "TRANSFORM",
-                "TRIGGER",
-                "TRUE",
-                "TRUNCATE",
-                "UNBOUNDED",
-                "UNION",
-                "UNIQUEJOIN",
-                "UPDATE",
-                "USER",
-                "USING",
-                "UTC_TMESTAMP",
-                "VALUES",
-                "VARCHAR",
-                "VIEWS",
-                "WHEN",
-                "WHERE",
-                "WINDOW",
-                "WITH",
-        },
+            "ALL",
+            "ALTER",
+            "AND",
+            "ARRAY",
+            "AS",
+            "AUTHORIZATION",
+            "BETWEEN",
+            "BIGINT",
+            "BINARY",
+            "BOOLEAN",
+            "BOTH",
+            "BY",
+            "CACHE",
+            "CASE",
+            "CAST",
+            "CHAR",
+            "COLUMN",
+            "COMMIT",
+            "CONF",
+            "CONSTRAINT",
+            "CREATE",
+            "CROSS",
+            "CUBE",
+            "CURRENT",
+            "CURRENT_DATE",
+            "CURRENT_TIMESTAMP",
+            "CURSOR",
+            "DATABASE",
+            "DATE",
+            "DAYOFWEEK",
+            "DECIMAL",
+            "DELETE",
+            "DESCRIBE",
+            "DISTINCT",
+            "DOUBLE",
+            "DROP",
+            "ELSE",
+            "END",
+            "EXCHANGE",
+            "EXISTS",
+            "EXTENDED",
+            "EXTERNAL",
+            "EXTRACT",
+            "FALSE",
+            "FETCH",
+            "FLOAT",
+            "FLOOR",
+            "FOLLOWING",
+            "FOR",
+            "FOREIGN",
+            "FROM",
+            "FULL",
+            "FUNCTION",
+            "GRANT",
+            "GROUP",
+            "GROUPING",
+            "HAVING",
+            "IF",
+            "IMPORT",
+            "IN",
+            "INNER",
+            "INSERT",
+            "INT",
+            "INTEGER",
+            "INTERSECT",
+            "INTERVAL",
+            "INTO",
+            "IS",
+            "JOIN",
+            "LATERAL",
+            "LEFT",
+            "LESS",
+            "LIKE",
+            "LOCAL",
+            "MACRO",
+            "MAP",
+            "MORE",
+            "NONE",
+            "NOT",
+            "NULL",
+            "OF",
+            "ON",
+            "ONLY",
+            "OR",
+            "ORDER",
+            "OUT",
+            "OUTER",
+            "OVER",
+            "PARTIALSCAN",
+            "PARTITION",
+            "PERCENT",
+            "PRECEDING",
+            "PRECISION",
+            "PRESERVE",
+            "PRIMARY",
+            "PROCEDURE",
+            "RANGE",
+            "READS",
+            "REDUCE",
+            "REFERENCES",
+            "REGEXP",
+            "REVOKE",
+            "RIGHT",
+            "RLIKE",
+            "ROLLBACK",
+            "ROLLUP",
+            "ROW",
+            "ROWS",
+            "SELECT",
+            "SET",
+            "SMALLINT",
+            "START",
+            "TABLE",
+            "TABLESAMPLE",
+            "THEN",
+            "TIMESTAMP",
+            "TO",
+            "TRANSFORM",
+            "TRIGGER",
+            "TRUE",
+            "TRUNCATE",
+            "UNBOUNDED",
+            "UNION",
+            "UNIQUEJOIN",
+            "UPDATE",
+            "USER",
+            "USING",
+            "UTC_TMESTAMP",
+            "VALUES",
+            "VARCHAR",
+            "VIEWS",
+            "WHEN",
+            "WHERE",
+            "WINDOW",
+            "WITH",},
         nativeMeta.getReservedWords());
 
     assertEquals("`", nativeMeta.getStartQuote());
     assertEquals("`", nativeMeta.getEndQuote());
-    assertEquals(
-        "https://docs.cloudera.com/HDPDocuments/HDP3/HDP-3.1.5/integrating-hive/content/hive_connection_string_url_syntax.html",
-        nativeMeta.getExtraOptionsHelpText());
+    assertEquals("https://docs.cloudera.com/HDPDocuments/HDP3/HDP-3.1.5/integrating-hive/content/hive_connection_string_url_syntax.html", nativeMeta.getExtraOptionsHelpText());
     assertFalse(nativeMeta.isReleaseSavepoint());
     assertTrue(nativeMeta.IsSupportsErrorHandlingOnBatchUpdates());
     assertFalse(nativeMeta.isRequiringTransactionsOnQueries());
@@ -250,169 +248,70 @@ public class HiveDatabaseMetaTest {
     assertEquals("SELECT * FROM FOO LIMIT 0", nativeMeta.getSqlTableExists("FOO"));
     assertEquals("SELECT FOO FROM BAR LIMIT 0", nativeMeta.getSqlQueryColumnFields("FOO", "BAR"));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR TIMESTAMP",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaDate("BAR"), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR TIMESTAMP", nativeMeta.getAddColumnStatement("FOO", new ValueMetaTimestamp("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR CHAR(1)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR INT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR INT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(21, 4)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
 
     assertEquals(
-        "ALTER TABLE FOO ADD BAR CHAR(1)",
-        nativeMeta.getAddColumnStatement("FOO", new ValueMetaBoolean("BAR"), "", false, "", false));
+        "ALTER TABLE FOO ADD BAR STRING", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR STRING", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
+
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 10, -7), "", false, "", false)); // Bug here - invalid SQL
+
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(22, 7)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DOUBLE", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR  UNKNOWN", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
 
     assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 0), "", false, "", false));
+        "ALTER TABLE FOO ADD BAR BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
 
     assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 10, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR INT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 0, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR INT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 3), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(21, 4)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 21, 4), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR STRING",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaString("BAR", nativeMeta.getMaxVARCHARLength() + 2, 0),
-            "",
-            false,
-            "",
-            false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR STRING",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO",
-            new ValueMetaNumber("BAR", 10, -7),
-            "",
-            false,
-            "",
-            false)); // Bug here - invalid SQL
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(22, 7)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", -10, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DOUBLE",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 5, 7), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR  UNKNOWN",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInternetAddress("BAR"), "", false, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", true, "", false));
-
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
+        "ALTER TABLE FOO ADD BAR BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaNumber("BAR", 26, 8), "BAR", true, "", false));
 
     String lineSep = System.getProperty("line.separator");
-    assertEquals(
-        "ALTER TABLE FOO DROP BAR" + lineSep,
-        nativeMeta.getDropColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO DROP BAR" + lineSep, nativeMeta.getDropColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO MODIFY BAR STRING",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
+    assertEquals("ALTER TABLE FOO MODIFY BAR STRING", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR", 15, 0), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO MODIFY BAR STRING",
-        nativeMeta.getModifyColumnStatement(
-            "FOO", new ValueMetaString("BAR"), "", false, "", true));
+    assertEquals("ALTER TABLE FOO MODIFY BAR STRING", nativeMeta.getModifyColumnStatement("FOO", new ValueMetaString("BAR"), "", false, "", true));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR INT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR INT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR", 4, 0), "", true, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT NOT NULL PRIMARY KEY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT NOT NULL PRIMARY KEY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaInteger("BAR"), "BAR", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BIGINT",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BIGINT", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 10, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR DECIMAL(22)",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR DECIMAL(22)", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBigNumber("BAR", 22, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR STRING",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR STRING", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 1, 0), "", false, "", false));
 
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR STRING",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
-    assertEquals(
-        "ALTER TABLE FOO ADD BAR BINARY",
-        nativeMeta.getAddColumnStatement(
-            "FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR STRING", nativeMeta.getAddColumnStatement("FOO", new ValueMetaString("BAR", 16777250, 0), "", false, "", false));
+    assertEquals("ALTER TABLE FOO ADD BAR BINARY", nativeMeta.getAddColumnStatement("FOO", new ValueMetaBinary("BAR", 16777250, 0), "", false, "", false));
 
-    assertEquals(
-        "LOCK TABLES FOO WRITE, BAR WRITE;" + lineSep,
-        nativeMeta.getSqlLockTables(new String[] {"FOO", "BAR"}));
+    assertEquals("LOCK TABLES FOO WRITE, BAR WRITE;" + lineSep, nativeMeta.getSqlLockTables(new String[] {"FOO", "BAR"}));
 
     assertEquals("UNLOCK TABLES", nativeMeta.getSqlUnlockTables(new String[] {}));
 
-    assertEquals(
-        "insert into FOO(FOOKEY, FOOVERSION) values (1, 1)",
-        nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
+    assertEquals("insert into FOO(FOOKEY, FOOVERSION) values (1, 1)", nativeMeta.getSqlInsertAutoIncUnknownDimensionRow("FOO", "FOOKEY", "FOOVERSION"));
   }
 
   /**
@@ -425,7 +324,8 @@ public class HiveDatabaseMetaTest {
     /**
      * Fields setup around the following query:
      *
-     * <p>select CUSTOMERNUMBER as NUMBER , CUSTOMERNAME as NAME , CONTACTLASTNAME as LAST_NAME ,
+     * <p>
+     * select CUSTOMERNUMBER as NUMBER , CUSTOMERNAME as NAME , CONTACTLASTNAME as LAST_NAME ,
      * CONTACTFIRSTNAME as FIRST_NAME , 'Hive' as DB , 'NoAliasText' from CUSTOMERS ORDER BY
      * CUSTOMERNAME;
      */
@@ -458,7 +358,6 @@ public class HiveDatabaseMetaTest {
 
     return resultSetMetaData;
   }
-
 
   @Test
   public void testReleaseSavepoint() {

@@ -27,8 +27,7 @@ import static org.junit.Assert.assertEquals;
 public class XmlUtilsTest {
   @Test
   public void secureFeatureEnabledAfterDocBuilderFactoryCreation() throws Exception {
-    DocumentBuilderFactory documentBuilderFactory =
-        XmlParserFactoryProducer.createSecureDocBuilderFactory();
+    DocumentBuilderFactory documentBuilderFactory = XmlParserFactoryProducer.createSecureDocBuilderFactory();
 
     assertEquals(true, documentBuilderFactory.getFeature(XMLConstants.FEATURE_SECURE_PROCESSING));
   }

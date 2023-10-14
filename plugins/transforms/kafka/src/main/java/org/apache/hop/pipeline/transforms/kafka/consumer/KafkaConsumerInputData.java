@@ -35,7 +35,6 @@ public class KafkaConsumerInputData extends BaseTransformData implements ITransf
   public boolean isKafkaConsumerClosing;
   public List<Object[]> incomingRowsBuffer;
 
-
   /** */
   public KafkaConsumerInputData() {
     super();

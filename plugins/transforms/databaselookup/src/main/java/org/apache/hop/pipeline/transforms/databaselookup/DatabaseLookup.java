@@ -48,13 +48,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
   private static final Class<?> PKG = DatabaseLookupMeta.class; // For Translator
 
-  public DatabaseLookup(
-      TransformMeta transformMeta,
-      DatabaseLookupMeta meta,
-      DatabaseLookupData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public DatabaseLookup(TransformMeta transformMeta, DatabaseLookupMeta meta, DatabaseLookupData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -79,8 +73,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         lookupRow[lookupIndex] = row[data.keynrs[i]];
 
         // Try to convert type if needed
-        if (input.getType() != value.getType()
-            || IValueMeta.STORAGE_TYPE_BINARY_STRING == input.getStorageType()) {
+        if (input.getType() != value.getType() || IValueMeta.STORAGE_TYPE_BINARY_STRING == input.getStorageType()) {
           lookupRow[lookupIndex] = value.convertData(input, lookupRow[lookupIndex]);
           value.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
         }
@@ -92,8 +85,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         lookupRow[lookupIndex] = row[data.keynrs2[i]];
 
         // Try to convert type if needed
-        if (input.getType() != value.getType()
-            || IValueMeta.STORAGE_TYPE_BINARY_STRING == input.getStorageType()) {
+        if (input.getType() != value.getType() || IValueMeta.STORAGE_TYPE_BINARY_STRING == input.getStorageType()) {
           lookupRow[lookupIndex] = value.convertData(input, lookupRow[lookupIndex]);
           value.setStorageType(IValueMeta.STORAGE_TYPE_NORMAL);
         }
@@ -117,17 +109,14 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
     if (add == null) {
       // if (!(meta.isCached() && meta.isLoadingAllDataInCache()) DEEM-MOD
-      if (!(meta.isCached() && meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause()) )
-          || data.hasDBCondition) { // do not go to the
+      if (!(meta.isCached() && meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause())) || data.hasDBCondition) { // do not go to the
         // database when all rows
         // are in (exception LIKE
         // operator)
         if (log.isRowLevel()) {
           logRowlevel(
-              BaseMessages.getString(PKG, "DatabaseLookup.Log.AddedValuesToLookupRow1")
-                  + meta.getLookup().getKeyFields().size()
-                  + BaseMessages.getString(PKG, "DatabaseLookup.Log.AddedValuesToLookupRow2")
-                  + data.lookupMeta.getString(lookupRow));
+              BaseMessages.getString(PKG, "DatabaseLookup.Log.AddedValuesToLookupRow1") + meta.getLookup().getKeyFields().size()
+                  + BaseMessages.getString(PKG, "DatabaseLookup.Log.AddedValuesToLookupRow2") + data.lookupMeta.getString(lookupRow));
         }
 
         data.db.setValuesLookup(data.lookupMeta, lookupRow);
@@ -161,17 +150,13 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       }
     } else {
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "DatabaseLookup.Log.FoundResultsAfterLookup")
-                + Arrays.toString(add));
+        logRowlevel(BaseMessages.getString(PKG, "DatabaseLookup.Log.FoundResultsAfterLookup") + Arrays.toString(add));
       }
 
       // Trim the fields if required
       for (int i : data.trimIndexes) {
         IValueMeta expected = data.returnMeta.getValueMeta(i);
-        add[i] =
-                expected.convertDataFromString(
-                        (String) add[i], expected, "", "", ValueMetaBase.getTrimTypeByCode(data.returnTrimTypes[i]));
+        add[i] = expected.convertDataFromString((String) add[i], expected, "", "", ValueMetaBase.getTrimTypeByCode(data.returnTrimTypes[i]));
       }
 
       // Only verify the data types if the data comes from the DB, NOT when we have a cache hit
@@ -199,7 +184,8 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     // Store in cache if we need to!
     // If we already loaded all data into the cache, storing more makes no sense.
     //
-    // if (meta.isCached() && cacheNow && !meta.isLoadingAllDataInCache() && data.allEquals) { // DEEM-MOD
+    // if (meta.isCached() && cacheNow && !meta.isLoadingAllDataInCache() && data.allEquals) { //
+    // DEEM-MOD
     if (meta.isCached() && cacheNow && !(meta.isLoadingAllDataInCache() && StringUtils.isEmpty(meta.getLookup().getWhereClause())) && data.allEquals) { // DEEM-MOD
       data.cache.storeRowInCache(meta, data.lookupMeta, lookupRow, add);
     }
@@ -217,9 +203,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     data.keytypes = new int[keyFields.size()];
 
     DatabaseMeta databaseMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
-    String schemaTable =
-        databaseMeta.getQuotedSchemaTableCombination(
-            this, meta.getSchemaName(), meta.getTableName());
+    String schemaTable = databaseMeta.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
 
     IRowMeta fields = data.db.getTableFields(schemaTable);
     if (fields != null) {
@@ -231,10 +215,8 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
           data.keytypes[i] = key.getType();
         } else {
           throw new HopTransformException(
-              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired5.Exception")
-                  + keyField.getTableField()
-                  + BaseMessages.getString(
-                      PKG, "DatabaseLookup.ERROR0001.FieldRequired6.Exception"));
+              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired5.Exception") + keyField.getTableField()
+                  + BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired6.Exception"));
         }
       }
 
@@ -253,10 +235,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         }
       }
     } else {
-      throw new HopTransformException(
-          BaseMessages.getString(PKG, "DatabaseLookup.ERROR0002.UnableToDetermineFieldsOfTable")
-              + schemaTable
-              + "]");
+      throw new HopTransformException(BaseMessages.getString(PKG, "DatabaseLookup.ERROR0002.UnableToDetermineFieldsOfTable") + schemaTable + "]");
     }
   }
 
@@ -314,8 +293,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
     data.returnValueTypes = new int[returnValues.size()];
     for (int i = 0; i < returnValues.size(); i++) {
-      data.returnValueTypes[i] =
-          ValueMetaFactory.getIdForValueMeta(returnValues.get(i).getDefaultType());
+      data.returnValueTypes[i] = ValueMetaFactory.getIdForValueMeta(returnValues.get(i).getDefaultType());
       IValueMeta v = data.outputRowMeta.getValueMeta(getInputRowMeta().size() + i).clone();
       data.returnMeta.addValueMeta(v);
     }
@@ -354,28 +332,17 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
       for (int i = 0; i < returnValues.size(); i++) {
         returnField[i] = returnValues.get(i).getTableField();
-        returnRename[i] =
-            Utils.isEmpty(returnValues.get(i).getNewName())
-                ? null
-                : returnValues.get(i).getNewName();
+        returnRename[i] = Utils.isEmpty(returnValues.get(i).getNewName()) ? null : returnValues.get(i).getNewName();
         data.returnTrimTypes[i] = returnValues.get(i).getTrimType();
       }
 
       data.db.setLookup(
-          resolve(meta.getSchemaName()),
-          resolve(meta.getTableName()),
-          keyField,
-          keyCondition,
-          returnField,
-          returnRename,
-          lookup.getOrderByClause(),
+          resolve(meta.getSchemaName()), resolve(meta.getTableName()), keyField, keyCondition, returnField, returnRename, lookup.getOrderByClause(),
           lookup.isFailingOnMultipleResults());
 
       // lookup the values!
       if (log.isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(PKG, "DatabaseLookup.Log.CheckingRow")
-                + getInputRowMeta().getString(r));
+        logDetailed(BaseMessages.getString(PKG, "DatabaseLookup.Log.CheckingRow") + getInputRowMeta().getString(r));
       }
 
       data.keynrs = new int[keyFields.size()];
@@ -384,34 +351,25 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       for (int i = 0; i < keyFields.size(); i++) {
         KeyField field = keyFields.get(i);
         data.keynrs[i] = getInputRowMeta().indexOfValue(field.getStreamField1());
-        if (data.keynrs[i] < 0
-            && // couldn't find field!
-            !"IS NULL".equalsIgnoreCase(field.getCondition())
-            && // No field needed!
+        if (data.keynrs[i] < 0 && // couldn't find field!
+            !"IS NULL".equalsIgnoreCase(field.getCondition()) && // No field needed!
             !"IS NOT NULL".equalsIgnoreCase(field.getCondition()) // No field needed!
         ) {
           throw new HopTransformException(
-              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired1.Exception")
-                  + field.getStreamField1()
-                  + BaseMessages.getString(
-                      PKG, "DatabaseLookup.ERROR0001.FieldRequired2.Exception"));
+              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired1.Exception") + field.getStreamField1()
+                  + BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired2.Exception"));
         }
         data.keynrs2[i] = getInputRowMeta().indexOfValue(field.getStreamField2());
-        if (data.keynrs2[i] < 0
-            && // couldn't find field!
+        if (data.keynrs2[i] < 0 && // couldn't find field!
             "BETWEEN".equalsIgnoreCase(field.getCondition()) // 2 fields needed!
         ) {
           throw new HopTransformException(
-              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired3.Exception")
-                  + field.getStreamField2()
-                  + BaseMessages.getString(
-                      PKG, "DatabaseLookup.ERROR0001.FieldRequired4.Exception"));
+              BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired3.Exception") + field.getStreamField2()
+                  + BaseMessages.getString(PKG, "DatabaseLookup.ERROR0001.FieldRequired4.Exception"));
         }
         if (log.isDebug()) {
           logDebug(
-              BaseMessages.getString(PKG, "DatabaseLookup.Log.FieldHasIndex1")
-                  + field.getStreamField1()
-                  + BaseMessages.getString(PKG, "DatabaseLookup.Log.FieldHasIndex2")
+              BaseMessages.getString(PKG, "DatabaseLookup.Log.FieldHasIndex1") + field.getStreamField1() + BaseMessages.getString(PKG, "DatabaseLookup.Log.FieldHasIndex2")
                   + data.keynrs[i]);
         }
       }
@@ -432,9 +390,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       //
       data.trimIndexes = new ArrayList<>();
       for (int i = 0; i < returnValues.size(); i++) {
-        if (data.returnValueTypes[i] == IValueMeta.TYPE_STRING
-            && ValueMetaBase.getTrimTypeByCode(data.returnTrimTypes[i])
-                != IValueMeta.TRIM_TYPE_NONE) {
+        if (data.returnValueTypes[i] == IValueMeta.TYPE_STRING && ValueMetaBase.getTrimTypeByCode(data.returnTrimTypes[i]) != IValueMeta.TRIM_TYPE_NONE) {
           data.trimIndexes.add(i);
         }
       }
@@ -447,9 +403,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     }
 
     if (log.isRowLevel()) {
-      logRowlevel(
-          BaseMessages.getString(PKG, "DatabaseLookup.Log.GotRowFromPreviousTransform")
-              + getInputRowMeta().getString(r));
+      logRowlevel(BaseMessages.getString(PKG, "DatabaseLookup.Log.GotRowFromPreviousTransform") + getInputRowMeta().getString(r));
     }
 
     try {
@@ -461,9 +415,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         putRow(data.outputRowMeta, outputRow);
 
         if (log.isRowLevel()) {
-          logRowlevel(
-              BaseMessages.getString(PKG, "DatabaseLookup.Log.WroteRowToNextTransform")
-                  + getInputRowMeta().getString(r));
+          logRowlevel(BaseMessages.getString(PKG, "DatabaseLookup.Log.WroteRowToNextTransform") + getInputRowMeta().getString(r));
         }
         if (checkFeedback(getLinesRead())) {
           logBasic("linenr " + getLinesRead());
@@ -473,9 +425,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       if (getTransformMeta().isDoingErrorHandling()) {
         putError(getInputRowMeta(), r, 1, e.getMessage(), null, "DBLOOKUPD001");
       } else {
-        logError(
-            BaseMessages.getString(PKG, "DatabaseLookup.ERROR003.UnexpectedErrorDuringProcessing")
-                + e.getMessage());
+        logError(BaseMessages.getString(PKG, "DatabaseLookup.ERROR003.UnexpectedErrorDuringProcessing") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
@@ -490,7 +440,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     DatabaseMeta dbMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
     String noLock = ""; // DEEM-MOD
     if (dbMeta.getIDatabase().isMsSqlServerVariant() || dbMeta.getIDatabase().isMsSqlServerNativeVariant()) {
-        noLock = " WITH (NOLOCK)";
+      noLock = " WITH (NOLOCK)";
     } // DEEM-MOD END
 
     Database db = getDatabase(dbMeta);
@@ -522,13 +472,10 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
       }
       // The schema/table
       //
-      sql +=
-          " FROM "
-              + dbMeta.getQuotedSchemaTableCombination(
-                  this, meta.getSchemaName(), meta.getTableName());
+      sql += " FROM " + dbMeta.getQuotedSchemaTableCombination(this, meta.getSchemaName(), meta.getTableName());
 
       // where? //DEEM-MOD
-      sql +=  noLock;
+      sql += noLock;
       if (StringUtils.isNotEmpty(lookup.getWhereClause())) {
         sql += " WHERE " + resolve(lookup.getWhereClause());
       }
@@ -538,9 +485,9 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         sql += " ORDER BY " + lookup.getOrderByClause();
       }
 
-      if (log.isDetailed()) {  // DEEM-MOD
+      if (log.isDetailed()) { // DEEM-MOD
         logDetailed(sql);
-      } 
+      }
 
       // Now that we have the SQL constructed, let's store the rows...
       //
@@ -640,9 +587,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
     if (super.init()) {
 
       if (Utils.isEmpty(meta.getConnection())) {
-        logError(
-            BaseMessages.getString(
-                PKG, "DatabaseLookup.Init.ConnectionMissing", getTransformName()));
+        logError(BaseMessages.getString(PKG, "DatabaseLookup.Init.ConnectionMissing", getTransformName()));
         return false;
       }
       DatabaseMeta databaseMeta = getPipelineMeta().findDatabase(meta.getConnection(), variables);
@@ -661,10 +606,8 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
         data.conditions = new int[keyFields.size()];
         for (int i = 0; i < keyFields.size(); i++) {
           KeyField keyField = keyFields.get(i);
-          data.conditions[i] =
-              Const.indexOfString(keyField.getCondition(), DatabaseLookupMeta.conditionStrings);
-          if (!("=".equals(keyField.getCondition())
-              || "IS NULL".equalsIgnoreCase(keyField.getCondition()))) {
+          data.conditions[i] = Const.indexOfString(keyField.getCondition(), DatabaseLookupMeta.conditionStrings);
+          if (!("=".equals(keyField.getCondition()) || "IS NULL".equalsIgnoreCase(keyField.getCondition()))) {
             data.allEquals = false;
           }
           if (data.conditions[i] == DatabaseLookupMeta.CONDITION_LIKE) {
@@ -674,8 +617,7 @@ public class DatabaseLookup extends BaseTransform<DatabaseLookupMeta, DatabaseLo
 
         return true;
       } catch (Exception e) {
-        logError(
-            BaseMessages.getString(PKG, "DatabaseLookup.ERROR0004.UnexpectedErrorDuringInit") + e);
+        logError(BaseMessages.getString(PKG, "DatabaseLookup.ERROR0004.UnexpectedErrorDuringInit") + e);
         if (data.db != null) {
           data.db.disconnect();
         }

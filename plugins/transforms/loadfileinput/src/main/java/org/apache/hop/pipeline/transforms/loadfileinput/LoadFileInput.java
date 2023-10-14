@@ -46,22 +46,14 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
 
   private static final Class<?> PKG = LoadFileInputMeta.class; // For Translator
 
-  public LoadFileInput(
-      TransformMeta transformMeta,
-      LoadFileInputMeta meta,
-      LoadFileInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public LoadFileInput(TransformMeta transformMeta, LoadFileInputMeta meta, LoadFileInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   private void addFileToResultFilesName(FileObject file) throws Exception {
     if (meta.getAddResultFile()) {
       // Add this to the result file names...
-      ResultFile resultFile =
-          new ResultFile(
-              ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
+      ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, file, getPipelineMeta().getName(), getTransformName());
       resultFile.setComment("File was read by a LoadFileInput transform");
       addResultFile(resultFile);
     }
@@ -85,8 +77,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
 
           data.inputRowMeta = getInputRowMeta();
           data.outputRowMeta = data.inputRowMeta.clone();
-          meta.getFields(
-              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Create convert meta-data objects that will contain Date & Number formatters
           // All non binary content is handled as a String. It would be converted to the target type
@@ -102,20 +93,11 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
 
             // cache the position of the field
             if (data.indexOfFilenameField < 0) {
-              data.indexOfFilenameField =
-                  data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
+              data.indexOfFilenameField = data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
               if (data.indexOfFilenameField < 0) {
                 // The field is unreachable !
-                logError(
-                    BaseMessages.getString(PKG, "LoadFileInput.Log.ErrorFindingField")
-                        + "["
-                        + meta.getDynamicFilenameField()
-                        + "]");
-                throw new HopException(
-                    BaseMessages.getString(
-                        PKG,
-                        "LoadFileInput.Exception.CouldnotFindField",
-                        meta.getDynamicFilenameField()));
+                logError(BaseMessages.getString(PKG, "LoadFileInput.Log.ErrorFindingField") + "[" + meta.getDynamicFilenameField() + "]");
+                throw new HopException(BaseMessages.getString(PKG, "LoadFileInput.Exception.CouldnotFindField", meta.getDynamicFilenameField()));
               }
             }
             // Get the number of previous fields
@@ -127,9 +109,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
         String fieldvalue = data.inputRowMeta.getString(data.readrow, data.indexOfFilenameField);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG, "LoadFileInput.Log.Stream", meta.getDynamicFilenameField(), fieldvalue));
+          logDetailed(BaseMessages.getString(PKG, "LoadFileInput.Log.Stream", meta.getDynamicFilenameField(), fieldvalue));
         }
 
         try {
@@ -155,9 +135,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
 
       // Check if file exists
       if (meta.isIgnoreMissingPath() && !data.file.exists()) {
-        logBasic(
-            BaseMessages.getString(
-                PKG, "LoadFileInput.Error.FileNotExists", "" + data.file.getName()));
+        logBasic(BaseMessages.getString(PKG, "LoadFileInput.Error.FileNotExists", "" + data.file.getName()));
         return openNextFile();
       }
 
@@ -167,15 +145,12 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
       data.filenr++;
 
       if (meta.isIgnoreEmptyFile() && data.fileSize == 0) {
-        logError(
-            BaseMessages.getString(
-                PKG, "LoadFileInput.Error.FileSizeZero", "" + data.file.getName()));
+        logError(BaseMessages.getString(PKG, "LoadFileInput.Error.FileSizeZero", "" + data.file.getName()));
         return openNextFile();
 
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "LoadFileInput.Log.OpeningFile", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "LoadFileInput.Log.OpeningFile", data.file.toString()));
         }
         data.filename = HopVfs.getFilename(data.file);
         // Add additional fields?
@@ -191,8 +166,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
         if (meta.getExtensionField() != null && meta.getExtensionField().length() > 0) {
           data.extension = data.file.getName().getExtension();
         }
-        if (meta.getLastModificationDateField() != null
-            && meta.getLastModificationDateField().length() > 0) {
+        if (meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0) {
           data.lastModificationDateTime = new Date(data.file.getContent().getLastModifiedTime());
         }
         if (meta.getUriField() != null && meta.getUriField().length() > 0) {
@@ -207,19 +181,12 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
         addFileToResultFilesName(data.file);
 
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "LoadFileInput.Log.FileOpened", data.file.toString()));
+          logDetailed(BaseMessages.getString(PKG, "LoadFileInput.Log.FileOpened", data.file.toString()));
         }
       }
 
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG,
-              "LoadFileInput.Log.UnableToOpenFile",
-              "" + data.filenr,
-              data.file.toString(),
-              e.toString()));
+      logError(BaseMessages.getString(PKG, "LoadFileInput.Log.UnableToOpenFile", "" + data.filenr, data.file.toString(), e.toString()));
       stopAll();
       setErrors(1);
       return false;
@@ -238,21 +205,17 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
       }
 
       if (isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG, "LoadFileInput.Log.ReadRow", data.outputRowMeta.getString(outputRowData)));
+        logRowlevel(BaseMessages.getString(PKG, "LoadFileInput.Log.ReadRow", data.outputRowMeta.getString(outputRowData)));
       }
 
       putRow(data.outputRowMeta, outputRowData);
 
-      if (meta.getRowLimit() > 0
-          && data.rownr > meta.getRowLimit()) { // limit has been reached: stop now.
+      if (meta.getRowLimit() > 0 && data.rownr > meta.getRowLimit()) { // limit has been reached: stop now.
         setOutputDone();
         return false;
       }
     } catch (HopException e) {
-      logError(
-          BaseMessages.getString(PKG, "LoadFileInput.ErrorInTransformRunning", e.getMessage()));
+      logError(BaseMessages.getString(PKG, "LoadFileInput.ErrorInTransformRunning", e.getMessage()));
       logError(Const.getStackTracker(e));
       setErrors(1);
       stopAll();
@@ -266,10 +229,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
     try {
       data.filecontent = getFileBinaryContent(data.file.toString());
     } catch (OutOfMemoryError o) {
-      logError(
-          "There is no enaugh memory to load the content of the file ["
-              + data.file.getName()
-              + "]");
+      logError("There is no enaugh memory to load the content of the file [" + data.file.getName() + "]");
       throw new HopException(o);
     } catch (Exception e) {
       throw new HopException(e);
@@ -291,9 +251,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
       inputStream = HopVfs.getInputStream(vfsFilename);
       retval = IOUtils.toByteArray(new BufferedInputStream(inputStream));
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "LoadFileInput.Error.GettingFileContent", vfsFilename, e.toString()));
+      throw new HopException(BaseMessages.getString(PKG, "LoadFileInput.Error.GettingFileContent", vfsFilename, e.toString()));
     } finally {
       if (inputStream != null) {
         try {
@@ -312,23 +270,16 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
 
     if (nonExistantFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonExistantFiles);
-      logError(
-          BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFiles", message));
+      logError(BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFiles", message));
 
-      throw new HopException(
-          BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesMissing", message));
+      throw new HopException(BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesMissing", message));
     }
 
     List<FileObject> nonAccessibleFiles = data.files.getNonAccessibleFiles();
     if (nonAccessibleFiles.size() != 0) {
       String message = FileInputList.getRequiredFilesDescription(nonAccessibleFiles);
-      logError(
-          BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesTitle"),
-          BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredNotAccessibleFiles", message));
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "LoadFileInput.Log.RequiredNotAccessibleFilesMissing", message));
+      logError(BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredFilesTitle"), BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredNotAccessibleFiles", message));
+      throw new HopException(BaseMessages.getString(PKG, "LoadFileInput.Log.RequiredNotAccessibleFilesMissing", message));
     }
   }
 
@@ -374,24 +325,21 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
             switch (loadFileInputField.getTrimType()) {
               case LoadFileInputField.TYPE_TRIM_LEFT:
                 if (meta.getEncoding() != null) {
-                  data.filecontent =
-                      Const.ltrim(new String(data.filecontent, meta.getEncoding())).getBytes();
+                  data.filecontent = Const.ltrim(new String(data.filecontent, meta.getEncoding())).getBytes();
                 } else {
                   data.filecontent = Const.ltrim(new String(data.filecontent)).getBytes();
                 }
                 break;
               case LoadFileInputField.TYPE_TRIM_RIGHT:
                 if (meta.getEncoding() != null) {
-                  data.filecontent =
-                      Const.rtrim(new String(data.filecontent, meta.getEncoding())).getBytes();
+                  data.filecontent = Const.rtrim(new String(data.filecontent, meta.getEncoding())).getBytes();
                 } else {
                   data.filecontent = Const.rtrim(new String(data.filecontent)).getBytes();
                 }
                 break;
               case LoadFileInputField.TYPE_TRIM_BOTH:
                 if (meta.getEncoding() != null) {
-                  data.filecontent =
-                      Const.trim(new String(data.filecontent, meta.getEncoding())).getBytes();
+                  data.filecontent = Const.trim(new String(data.filecontent, meta.getEncoding())).getBytes();
                 } else {
                   data.filecontent = Const.trim(new String(data.filecontent)).getBytes();
                 }
@@ -436,16 +384,12 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
       int rowIndex = data.totalpreviousfields + data.nrInputFields;
 
       // See if we need to add the filename to the row...
-      if (meta.getIncludeFilename()
-          && meta.getFilenameField() != null
-          && meta.getFilenameField().length() > 0) {
+      if (meta.getIncludeFilename() && meta.getFilenameField() != null && meta.getFilenameField().length() > 0) {
         outputRowData[rowIndex++] = data.filename;
       }
 
       // See if we need to add the row number to the row...
-      if (meta.getIncludeRowNumber()
-          && meta.getRowNumberField() != null
-          && meta.getRowNumberField().length() > 0) {
+      if (meta.getIncludeRowNumber() && meta.getRowNumberField() != null && meta.getRowNumberField().length() > 0) {
         outputRowData[rowIndex++] = data.rownr;
       }
       // Possibly add short filename...
@@ -466,8 +410,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
         outputRowData[rowIndex++] = data.hidden;
       }
       // Add modification date
-      if (meta.getLastModificationDateField() != null
-          && meta.getLastModificationDateField().length() > 0) {
+      if (meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0) {
         outputRowData[rowIndex++] = data.lastModificationDateTime;
       }
       // Add Uri
@@ -480,8 +423,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
       }
       IRowMeta irow = getInputRowMeta();
 
-      data.previousRow =
-          irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
+      data.previousRow = irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
       // surely the next transform doesn't change it in between...
 
       incrementLinesInput();
@@ -504,13 +446,7 @@ public class LoadFileInput extends BaseTransform<LoadFileInputMeta, LoadFileInpu
           handleMissingFiles();
           // Create the output row meta-data
           data.outputRowMeta = new RowMeta();
-          meta.getFields(
-              data.outputRowMeta,
-              getTransformName(),
-              null,
-              null,
-              this,
-              metadataProvider); // get the
+          meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
           // metadata
           // populated
 

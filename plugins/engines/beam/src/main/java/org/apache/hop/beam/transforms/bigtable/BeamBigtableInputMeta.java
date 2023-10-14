@@ -54,8 +54,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamBigtableInputMeta.keyword",
     documentationUrl = "/pipeline/transforms/beambigtableinput.html")
-public class BeamBigtableInputMeta extends BaseTransformMeta<Dummy, DummyData>
-    implements IBeamPipelineTransformHandler {
+public class BeamBigtableInputMeta extends BaseTransformMeta<Dummy, DummyData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "project_id")
   private String projectId;
@@ -83,13 +82,7 @@ public class BeamBigtableInputMeta extends BaseTransformMeta<Dummy, DummyData>
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     String keyFieldName = variables.resolve(keyField);
@@ -101,10 +94,7 @@ public class BeamBigtableInputMeta extends BaseTransformMeta<Dummy, DummyData>
       try {
         inputRowMeta.addValueMeta(sourceColumn.getValueMeta());
       } catch (Exception e) {
-        throw new HopTransformException(
-            "Error creating value metadata for Bigtable source column "
-                + sourceColumn.getQualifier(),
-            e);
+        throw new HopTransformException("Error creating value metadata for Bigtable source column " + sourceColumn.getQualifier(), e);
       }
     }
   }
@@ -137,21 +127,11 @@ public class BeamBigtableInputMeta extends BaseTransformMeta<Dummy, DummyData>
     }
 
     PCollection<com.google.bigtable.v2.Row> rowPCollection =
-        pipeline
-            .begin()
-            .apply(
-                transformMeta.getName(),
-                BigtableIO.read()
-                    .withProjectId(variables.resolve(projectId))
-                    .withInstanceId(variables.resolve(instanceId))
-                    .withTableId(variables.resolve(tableId)));
-
-    BigtableRowToHopRowFn fn =
-        new BigtableRowToHopRowFn(
+        pipeline.begin().apply(
             transformMeta.getName(),
-            JsonRowMeta.toJson(rowMeta),
-            variables.resolve(keyField),
-            j.toJSONString());
+            BigtableIO.read().withProjectId(variables.resolve(projectId)).withInstanceId(variables.resolve(instanceId)).withTableId(variables.resolve(tableId)));
+
+    BigtableRowToHopRowFn fn = new BigtableRowToHopRowFn(transformMeta.getName(), JsonRowMeta.toJson(rowMeta), variables.resolve(keyField), j.toJSONString());
 
     PCollection<HopRow> output = rowPCollection.apply(ParDo.of(fn));
     transformCollectionMap.put(transformMeta.getName(), output);

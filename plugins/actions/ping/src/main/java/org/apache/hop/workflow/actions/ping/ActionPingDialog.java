@@ -63,8 +63,7 @@ public class ActionPingDialog extends ActionDialog implements IActionDialog {
 
   private boolean changed;
 
-  public ActionPingDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionPingDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionPing) action;
     if (this.action.getName() == null) {
@@ -133,8 +132,7 @@ public class ActionPingDialog extends ActionDialog implements IActionDialog {
     wHostname.setLayoutData(fdHostname);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wHostname.addModifyListener(
-        e -> wHostname.setToolTipText(variables.resolve(wHostname.getText())));
+    wHostname.addModifyListener(e -> wHostname.setToolTipText(variables.resolve(wHostname.getText())));
 
     Label wlPingType = new Label(shell, SWT.RIGHT);
     wlPingType.setText(BaseMessages.getString(PKG, "ActionPing.PingType.Label"));
@@ -155,14 +153,13 @@ public class ActionPingDialog extends ActionDialog implements IActionDialog {
     fdPingType.top = new FormAttachment(wHostname, margin);
     fdPingType.right = new FormAttachment(100, 0);
     wPingType.setLayoutData(fdPingType);
-    wPingType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setPingType();
-            action.setChanged();
-          }
-        });
+    wPingType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setPingType();
+        action.setChanged();
+      }
+    });
 
     // Timeout
     wlTimeOut = new Label(shell, SWT.RIGHT);
@@ -211,8 +208,7 @@ public class ActionPingDialog extends ActionDialog implements IActionDialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wCancel}, margin, null);
 
     getData();
     setPingType();
@@ -223,18 +219,10 @@ public class ActionPingDialog extends ActionDialog implements IActionDialog {
   }
 
   private void setPingType() {
-    wlTimeOut.setEnabled(
-        wPingType.getSelectionIndex() == action.isystemPing
-            || wPingType.getSelectionIndex() == action.ibothPings);
-    wTimeOut.setEnabled(
-        wPingType.getSelectionIndex() == action.isystemPing
-            || wPingType.getSelectionIndex() == action.ibothPings);
-    wlNbrPackets.setEnabled(
-        wPingType.getSelectionIndex() == action.iclassicPing
-            || wPingType.getSelectionIndex() == action.ibothPings);
-    wNbrPackets.setEnabled(
-        wPingType.getSelectionIndex() == action.iclassicPing
-            || wPingType.getSelectionIndex() == action.ibothPings);
+    wlTimeOut.setEnabled(wPingType.getSelectionIndex() == action.isystemPing || wPingType.getSelectionIndex() == action.ibothPings);
+    wTimeOut.setEnabled(wPingType.getSelectionIndex() == action.isystemPing || wPingType.getSelectionIndex() == action.ibothPings);
+    wlNbrPackets.setEnabled(wPingType.getSelectionIndex() == action.iclassicPing || wPingType.getSelectionIndex() == action.ibothPings);
+    wNbrPackets.setEnabled(wPingType.getSelectionIndex() == action.iclassicPing || wPingType.getSelectionIndex() == action.ibothPings);
   }
 
   /** Copy information from the meta-data input to the dialog fields. */

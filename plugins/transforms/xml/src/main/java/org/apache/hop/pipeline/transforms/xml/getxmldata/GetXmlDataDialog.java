@@ -182,8 +182,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
   private PdOption readHopVfsPdOption;
   private PdOption readSnippetPdOption;
 
-  public GetXmlDataDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetXmlDataDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (GetXmlDataMeta) in;
   }
@@ -273,8 +272,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     // Is XML string defined in a Field
     Label wlXmlStreamField = new Label(wOutputField, SWT.RIGHT);
-    wlXmlStreamField.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.wlXmlStreamField.Label"));
+    wlXmlStreamField.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.wlXmlStreamField.Label"));
     PropsUi.setLook(wlXmlStreamField);
     FormData fdlXMLStreamField = new FormData();
     fdlXMLStreamField.left = new FormAttachment(0, -margin);
@@ -284,19 +282,16 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     wXMLStreamField = new Button(wOutputField, SWT.CHECK);
     PropsUi.setLook(wXMLStreamField);
-    wXMLStreamField.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.wXmlStreamField.Tooltip"));
+    wXMLStreamField.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.wXmlStreamField.Tooltip"));
     FormData fdXSDFileField = new FormData();
     fdXSDFileField.left = new FormAttachment(middle, -margin);
     fdXSDFileField.top = new FormAttachment(wlXmlStreamField, 0, SWT.CENTER);
     wXMLStreamField.setLayoutData(fdXSDFileField);
-    wXMLStreamField.addListener(
-        SWT.Selection,
-        e -> {
-          xmlSource = null;
-          activateXmlStreamField();
-          input.setChanged();
-        });
+    wXMLStreamField.addListener(SWT.Selection, e -> {
+      xmlSource = null;
+      activateXmlStreamField();
+      input.setChanged();
+    });
 
     // Is XML source is a file?
     wlXMLIsAFile = new Label(wOutputField, SWT.RIGHT);
@@ -315,15 +310,13 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdXMLIsAFile.left = new FormAttachment(middle, -margin);
     fdXMLIsAFile.top = new FormAttachment(wlXMLIsAFile, 0, SWT.CENTER);
     wXMLIsAFile.setLayoutData(fdXMLIsAFile);
-    wXMLIsAFile.addListener(
-        SWT.Selection,
-        e -> {
-          xmlSource = null;
-          if (wXMLIsAFile.getSelection()) {
-            wReadUrl.setSelection(false);
-          }
-          input.setChanged();
-        });
+    wXMLIsAFile.addListener(SWT.Selection, e -> {
+      xmlSource = null;
+      if (wXMLIsAFile.getSelection()) {
+        wReadUrl.setSelection(false);
+      }
+      input.setChanged();
+    });
 
     // read url as source ?
     wlReadUrl = new Label(wOutputField, SWT.RIGHT);
@@ -341,17 +334,16 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdreadUrl.left = new FormAttachment(middle, -margin);
     fdreadUrl.top = new FormAttachment(wlReadUrl, 0, SWT.CENTER);
     wReadUrl.setLayoutData(fdreadUrl);
-    SelectionAdapter lsreadurl =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            xmlSource = null;
-            if (wReadUrl.getSelection()) {
-              wXMLIsAFile.setSelection(false);
-            }
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsreadurl = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        xmlSource = null;
+        if (wReadUrl.getSelection()) {
+          wXMLIsAFile.setSelection(false);
+        }
+        input.setChanged();
+      }
+    };
     wReadUrl.addSelectionListener(lsreadurl);
 
     // If XML string defined in a Field
@@ -373,20 +365,19 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdXMLField.top = new FormAttachment(wReadUrl, margin);
     fdXMLField.right = new FormAttachment(100, -margin);
     wXMLField.setLayoutData(fdXMLField);
-    wXMLField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wXMLField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setXMLStreamField();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setXMLStreamField();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdOutputField = new FormData();
     fdOutputField.left = new FormAttachment(0, margin);
@@ -411,8 +402,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wbbFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameBrowse.Button"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
@@ -454,8 +444,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wFilemask.setLayoutData(fdFilemask);
 
     wlExcludeFilemask = new Label(wFileComp, SWT.RIGHT);
-    wlExcludeFilemask.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.ExcludeFilemask.Label"));
+    wlExcludeFilemask.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.ExcludeFilemask.Label"));
     PropsUi.setLook(wlExcludeFilemask);
     FormData fdlExcludeFilemask = new FormData();
     fdlExcludeFilemask.left = new FormAttachment(0, 0);
@@ -485,8 +474,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wbdFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
     wbdFilename.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameRemove.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameRemove.Tooltip"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameRemove.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wExcludeFilemask, margin);
@@ -495,8 +483,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wbeFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFilename);
     wbeFilename.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameEdit.Button"));
-    wbeFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameEdit.Tooltip"));
+    wbeFilename.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.FilenameEdit.Tooltip"));
     FormData fdbeFilename = new FormData();
     fdbeFilename.right = new FormAttachment(100, 0);
     fdbeFilename.left = new FormAttachment(wbdFilename, 0, SWT.LEFT);
@@ -512,50 +499,21 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wbShowFiles.setLayoutData(fdbShowFiles);
 
     ColumnInfo[] colinfo = new ColumnInfo[5];
-    colinfo[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.Files.Filename.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinfo[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.Files.Wildcard.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinfo[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.Files.ExcludeWildcard.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinfo[0] = new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.Files.Filename.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinfo[1] = new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.Files.Wildcard.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinfo[2] = new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.Files.ExcludeWildcard.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
     colinfo[0].setUsingVariables(true);
     colinfo[1].setUsingVariables(true);
     colinfo[1].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.Files.Wildcard.Tooltip"));
     colinfo[2].setUsingVariables(true);
-    colinfo[2].setToolTip(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.Files.ExcludeWildcard.Tooltip"));
-    colinfo[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.Required.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            GetXmlDataMeta.RequiredFilesDesc);
+    colinfo[2].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.Files.ExcludeWildcard.Tooltip"));
+    colinfo[3] = new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.Required.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetXmlDataMeta.RequiredFilesDesc);
     colinfo[3].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.Required.Tooltip"));
-    colinfo[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.IncludeSubDirs.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            GetXmlDataMeta.RequiredFilesDesc);
+    colinfo[4] = new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.IncludeSubDirs.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetXmlDataMeta.RequiredFilesDesc);
     colinfo[4].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.IncludeSubDirs.Tooltip"));
 
-    wFilenameList =
-        new TableView(
-            variables,
-            wFileComp,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            2,
-            lsMod,
-            props);
+    wFilenameList = new TableView(variables, wFileComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, 2, lsMod, props);
     PropsUi.setLook(wFilenameList);
     FormData fdFilenameList = new FormData();
     fdFilenameList.left = new FormAttachment(middle, 0);
@@ -607,13 +565,12 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wXmlConf.setLayout(xmlConfgroupLayout);
 
     Button wbbLoopPathList = getWbbLoopPathList(wXmlConf);
-    wbbLoopPathList.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            getLoopPathList();
-          }
-        });
+    wbbLoopPathList.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        getLoopPathList();
+      }
+    });
 
     Label wlLoopXPath = new Label(wXmlConf, SWT.RIGHT);
     wlLoopXPath.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.LoopXPath.Label"));
@@ -650,20 +607,19 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdEncoding.top = new FormAttachment(wLoopXPath, margin);
     fdEncoding.right = new FormAttachment(100, 0);
     wEncoding.setLayoutData(fdEncoding);
-    wEncoding.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
+    wEncoding.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {}
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setEncodings();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setEncodings();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Set Namespace aware ?
     Label wlNameSpaceAware = new Label(wXmlConf, SWT.RIGHT);
@@ -676,8 +632,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wlNameSpaceAware.setLayoutData(fdlNameSpaceAware);
     wNameSpaceAware = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wNameSpaceAware);
-    wNameSpaceAware.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.NameSpaceAware.Tooltip"));
+    wNameSpaceAware.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.NameSpaceAware.Tooltip"));
     FormData fdNameSpaceAware = new FormData();
     fdNameSpaceAware.left = new FormAttachment(middle, 0);
     fdNameSpaceAware.top = new FormAttachment(wlNameSpaceAware, 0, SWT.CENTER);
@@ -694,8 +649,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wlIgnoreComment.setLayoutData(fdlIgnoreComment);
     wIgnoreComment = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wIgnoreComment);
-    wIgnoreComment.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreComment.Tooltip"));
+    wIgnoreComment.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreComment.Tooltip"));
     FormData fdIgnoreComment = new FormData();
     fdIgnoreComment.left = new FormAttachment(middle, 0);
     fdIgnoreComment.top = new FormAttachment(wlIgnoreComment, 0, SWT.CENTER);
@@ -738,8 +692,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     // Ignore Empty File
     // ignore empty files flag
     Label wlIgnoreEmptyFile = new Label(wXmlConf, SWT.RIGHT);
-    wlIgnoreEmptyFile.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreEmptyFile.Label"));
+    wlIgnoreEmptyFile.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreEmptyFile.Label"));
     PropsUi.setLook(wlIgnoreEmptyFile);
     FormData fdlIgnoreEmptyFile = new FormData();
     fdlIgnoreEmptyFile.left = new FormAttachment(0, 0);
@@ -748,8 +701,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wlIgnoreEmptyFile.setLayoutData(fdlIgnoreEmptyFile);
     wIgnoreEmptyFile = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wIgnoreEmptyFile);
-    wIgnoreEmptyFile.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreEmptyFile.Tooltip"));
+    wIgnoreEmptyFile.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.IgnoreEmptyFile.Tooltip"));
     FormData fdIgnoreEmptyFile = new FormData();
     fdIgnoreEmptyFile.left = new FormAttachment(middle, 0);
     fdIgnoreEmptyFile.top = new FormAttachment(wlIgnoreEmptyFile, 0, SWT.CENTER);
@@ -758,8 +710,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     // do not fail if no files?
     // do not fail if no files?
     Label wlDoNotFailIfNoFile = new Label(wXmlConf, SWT.RIGHT);
-    wlDoNotFailIfNoFile.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.doNotFailIfNoFile.Label"));
+    wlDoNotFailIfNoFile.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.doNotFailIfNoFile.Label"));
     PropsUi.setLook(wlDoNotFailIfNoFile);
     FormData fdldoNotFailIfNoFile = new FormData();
     fdldoNotFailIfNoFile.left = new FormAttachment(0, 0);
@@ -768,8 +719,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wlDoNotFailIfNoFile.setLayoutData(fdldoNotFailIfNoFile);
     wDoNotFailIfNoFile = new Button(wXmlConf, SWT.CHECK);
     PropsUi.setLook(wDoNotFailIfNoFile);
-    wDoNotFailIfNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.doNotFailIfNoFile.Tooltip"));
+    wDoNotFailIfNoFile.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.doNotFailIfNoFile.Tooltip"));
     FormData fddoNotFailIfNoFile = new FormData();
     fddoNotFailIfNoFile.left = new FormAttachment(middle, 0);
     fddoNotFailIfNoFile.top = new FormAttachment(wlDoNotFailIfNoFile, 0, SWT.CENTER);
@@ -802,8 +752,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlPrunePath.right = new FormAttachment(middle, -margin);
     wlPrunePath.setLayoutData(fdlPrunePath);
     wPrunePath = new TextVar(variables, wXmlConf, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wPrunePath.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.StreamingMode.Tooltip"));
+    wPrunePath.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.StreamingMode.Tooltip"));
     PropsUi.setLook(wPrunePath);
     wPrunePath.addModifyListener(lsMod);
     FormData fdPrunePath = new FormData();
@@ -828,8 +777,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     Group wAdditionalFields = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalFields);
-    wAdditionalFields.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.wAdditionalFields.Label"));
+    wAdditionalFields.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.wAdditionalFields.Label"));
 
     FormLayout additionalFieldsgroupLayout = new FormLayout();
     additionalFieldsgroupLayout.marginWidth = 10;
@@ -846,23 +794,20 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wlInclFilename.setLayoutData(fdlInclFilename);
     wInclFilename = new Button(wAdditionalFields, SWT.CHECK);
     PropsUi.setLook(wInclFilename);
-    wInclFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.InclFilename.Tooltip"));
+    wInclFilename.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.InclFilename.Tooltip"));
     FormData fdInclFilename = new FormData();
     fdInclFilename.left = new FormAttachment(middle, 0);
     fdInclFilename.top = new FormAttachment(wlInclFilename, 0, SWT.CENTER);
     wInclFilename.setLayoutData(fdInclFilename);
 
     wlInclFilenameField = new Label(wAdditionalFields, SWT.LEFT);
-    wlInclFilenameField.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.InclFilenameField.Label"));
+    wlInclFilenameField.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.InclFilenameField.Label"));
     PropsUi.setLook(wlInclFilenameField);
     FormData fdlInclFilenameField = new FormData();
     fdlInclFilenameField.left = new FormAttachment(wInclFilename, margin);
     fdlInclFilenameField.top = new FormAttachment(wLimit, 4 * margin);
     wlInclFilenameField.setLayoutData(fdlInclFilenameField);
-    wInclFilenameField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclFilenameField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclFilenameField);
     wInclFilenameField.addModifyListener(lsMod);
     FormData fdInclFilenameField = new FormData();
@@ -888,15 +833,13 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wInclRownum.setLayoutData(fdRownum);
 
     wlInclRownumField = new Label(wAdditionalFields, SWT.RIGHT);
-    wlInclRownumField.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.InclRownumField.Label"));
+    wlInclRownumField.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.InclRownumField.Label"));
     PropsUi.setLook(wlInclRownumField);
     FormData fdlInclRownumField = new FormData();
     fdlInclRownumField.left = new FormAttachment(wInclRownum, margin);
     fdlInclRownumField.top = new FormAttachment(wInclFilenameField, margin);
     wlInclRownumField.setLayoutData(fdlInclRownumField);
-    wInclRownumField =
-        new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclRownumField = new TextVar(variables, wAdditionalFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclRownumField);
     wInclRownumField.addModifyListener(lsMod);
     FormData fdInclRownumField = new FormData();
@@ -995,84 +938,30 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Name.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.XPath.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Element.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GetXmlDataField.ElementTypeDesc,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.ResultType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GetXmlDataField.ResultTypeDesc,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Type.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaBase.getTypes(),
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Format.Column"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              5),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Length.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Precision.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Currency.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Decimal.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Group.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.TrimType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              GetXmlDataField.trimTypeDesc,
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Repeat.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              },
-              true),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Name.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.XPath.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Element.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetXmlDataField.ElementTypeDesc, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.ResultType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetXmlDataField.ResultTypeDesc, true),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Type.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaBase.getTypes(), true),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Format.Column"), ColumnInfo.COLUMN_TYPE_FORMAT, 5),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Length.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Precision.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Currency.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Decimal.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Group.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.TrimType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetXmlDataField.trimTypeDesc, true),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Repeat.Column"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")},
+                true),};
 
     colinf[0].setUsingVariables(true);
-    colinf[0].setToolTip(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Name.Column.Tooltip"));
+    colinf[0].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.Name.Column.Tooltip"));
     colinf[1].setUsingVariables(true);
-    colinf[1].setToolTip(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.XPath.Column.Tooltip"));
+    colinf[1].setToolTip(BaseMessages.getString(PKG, "GetXMLDataDialog.FieldsTable.XPath.Column.Tooltip"));
 
-    wFields =
-        new TableView(
-            variables,
-            wFieldsComp,
-            SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wFieldsComp, SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -1104,130 +993,107 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wGet.addListener(SWT.Selection, e -> get());
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFilenameList.add(
-                new String[] {
-                  wFilename.getText(),
-                  wFilemask.getText(),
-                  wExcludeFilemask.getText(),
-                  GetXmlDataMeta.RequiredFilesCode[0],
-                  GetXmlDataMeta.RequiredFilesCode[0]
-                });
-            wFilename.setText("");
-            wFilemask.setText("");
-            wExcludeFilemask.setText("");
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            wFilenameList.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFilenameList
+            .add(new String[] {wFilename.getText(), wFilemask.getText(), wExcludeFilemask.getText(), GetXmlDataMeta.RequiredFilesCode[0], GetXmlDataMeta.RequiredFilesCode[0]});
+        wFilename.setText("");
+        wFilemask.setText("");
+        wExcludeFilemask.setText("");
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        wFilenameList.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int[] idx = wFilenameList.getSelectionIndices();
-            wFilenameList.remove(idx);
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-          }
-        });
+    wbdFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int[] idx = wFilenameList.getSelectionIndices();
+        wFilenameList.remove(idx);
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+      }
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            int idx = wFilenameList.getSelectionIndex();
-            if (idx >= 0) {
-              String[] string = wFilenameList.getItem(idx);
-              wFilename.setText(string[0]);
-              wFilemask.setText(string[1]);
-              wExcludeFilemask.setText(string[2]);
-              wFilenameList.remove(idx);
-            }
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-          }
-        });
+    wbeFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        int idx = wFilenameList.getSelectionIndex();
+        if (idx >= 0) {
+          String[] string = wFilenameList.getItem(idx);
+          wFilename.setText(string[0]);
+          wFilemask.setText(string[1]);
+          wExcludeFilemask.setText(string[2]);
+          wFilenameList.remove(idx);
+        }
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+      }
+    });
 
     // Show the files that are selected at this time...
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            try {
-              GetXmlDataMeta tfii = new GetXmlDataMeta();
-              getInfo(tfii);
-              FileInputList fileInputList = tfii.getFiles(variables);
-              String[] files = fileInputList.getFileStrings();
-              if (files != null && files.length > 0) {
-                EnterSelectionDialog esd =
-                    new EnterSelectionDialog(
-                        shell,
-                        files,
-                        BaseMessages.getString(
-                            PKG, "GetXMLDataDialog.FilesReadSelection.DialogTitle"),
-                        BaseMessages.getString(
-                            PKG, "GetXMLDataDialog.FilesReadSelection.DialogMessage"));
-                esd.setViewOnly();
-                esd.open();
-              } else {
-                MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-                mb.setMessage(
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.NoFileFound.DialogMessage"));
-                mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-                mb.open();
-              }
-            } catch (HopException ex) {
-              new ErrorDialog(
-                  shell,
-                  BaseMessages.getString(PKG, "GetXMLDataDialog.ErrorParsingData.DialogTitle"),
-                  BaseMessages.getString(PKG, "GetXMLDataDialog.ErrorParsingData.DialogMessage"),
-                  ex);
-            }
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        try {
+          GetXmlDataMeta tfii = new GetXmlDataMeta();
+          getInfo(tfii);
+          FileInputList fileInputList = tfii.getFiles(variables);
+          String[] files = fileInputList.getFileStrings();
+          if (files != null && files.length > 0) {
+            EnterSelectionDialog esd =
+                new EnterSelectionDialog(
+                    shell,
+                    files,
+                    BaseMessages.getString(PKG, "GetXMLDataDialog.FilesReadSelection.DialogTitle"),
+                    BaseMessages.getString(PKG, "GetXMLDataDialog.FilesReadSelection.DialogMessage"));
+            esd.setViewOnly();
+            esd.open();
+          } else {
+            MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+            mb.setMessage(BaseMessages.getString(PKG, "GetXMLDataDialog.NoFileFound.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+            mb.open();
           }
-        });
+        } catch (HopException ex) {
+          new ErrorDialog(
+              shell,
+              BaseMessages.getString(PKG, "GetXMLDataDialog.ErrorParsingData.DialogTitle"),
+              BaseMessages.getString(PKG, "GetXMLDataDialog.ErrorParsingData.DialogMessage"),
+              ex);
+        }
+      }
+    });
     // Enable/disable the right fields to allow a filename to be added to each row...
-    wInclFilename.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setIncludeFilename();
-          }
-        });
+    wInclFilename.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setIncludeFilename();
+      }
+    });
 
     // Enable/disable the right fields to allow a row number to be added to each row...
-    wInclRownum.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setIncludeRownum();
-          }
-        });
+    wInclRownum.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setIncludeRownum();
+      }
+    });
 
     // Whenever something changes, set the tooltip to the expanded version of the filename:
     wFilename.addModifyListener(e -> wFilename.setToolTipText(wFilename.getText()));
 
     wbbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.xml", "*.XML", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.XMLFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            shell, wFilename, variables, new String[] {"*.xml", "*.XML", "*"},
+            new String[] {BaseMessages.getString(PKG, "System.FileType.XMLFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     wTabFolder.setSelection(0);
 
@@ -1247,8 +1113,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     Button wbbLoopPathList = new Button(composite, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbLoopPathList);
     wbbLoopPathList.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.LoopPathList.Button"));
-    wbbLoopPathList.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbLoopPathList.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbLoopPathList = new FormData();
     fdbLoopPathList.right = new FormAttachment(100, 0);
     fdbLoopPathList.top = new FormAttachment(0, 0);
@@ -1273,19 +1138,14 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
             readSnippetPdOption.setUseSnippet(true);
 
             Button wbbLoopPathList = getWbbLoopPathList(enterTextDialog.getShell());
-            wbbLoopPathList.addSelectionListener(
-                new SelectionAdapter() {
-                  @Override
-                  public void widgetSelected(SelectionEvent e) {
-                    LoopNodesImportProgressDialog pd =
-                        new LoopNodesImportProgressDialog(
-                            enterTextDialog.getShell(),
-                            enterTextDialog.getText(),
-                            readSnippetPdOption);
-                    populateLoopPaths(enterTextDialog.getText(), pd);
-                    readSnippetPdOption.setLoopXPath(wLoopXPathSnippet.getText());
-                  }
-                });
+            wbbLoopPathList.addSelectionListener(new SelectionAdapter() {
+              @Override
+              public void widgetSelected(SelectionEvent e) {
+                LoopNodesImportProgressDialog pd = new LoopNodesImportProgressDialog(enterTextDialog.getShell(), enterTextDialog.getText(), readSnippetPdOption);
+                populateLoopPaths(enterTextDialog.getText(), pd);
+                readSnippetPdOption.setLoopXPath(wLoopXPathSnippet.getText());
+              }
+            });
 
             Label wlLoopXPath = new Label(enterTextDialog.getShell(), SWT.RIGHT);
             wlLoopXPath.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.LoopXPath.Label"));
@@ -1294,11 +1154,8 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
             fdlLoopXPath.top = new FormAttachment(0, margin);
             fdlLoopXPath.left = new FormAttachment(0, 0);
             wlLoopXPath.setLayoutData(fdlLoopXPath);
-            wLoopXPathSnippet =
-                new TextVar(
-                    variables, enterTextDialog.getShell(), SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-            wLoopXPathSnippet.setToolTipText(
-                BaseMessages.getString(PKG, "GetXMLDataDialog.LoopXPath.Tooltip"));
+            wLoopXPathSnippet = new TextVar(variables, enterTextDialog.getShell(), SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+            wLoopXPathSnippet.setToolTipText(BaseMessages.getString(PKG, "GetXMLDataDialog.LoopXPath.Tooltip"));
             PropsUi.setLook(wLoopXPathSnippet);
             FormData fdLoopXPath = new FormData();
             fdLoopXPath.left = new FormAttachment(wlLoopXPath, margin);
@@ -1308,26 +1165,19 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
             FormData fdlDesc = (FormData) enterTextDialog.getWlDesc().getLayoutData();
             fdlDesc.top = new FormAttachment(wlLoopXPath, 2 * margin);
 
-            enterTextDialog.setWOkListener(
-                e -> {
-                  try {
-                    XmlInputFieldsImportProgressDialog prd =
-                        new XmlInputFieldsImportProgressDialog(
-                            shell,
-                            enterTextDialog.getText(),
-                            readSnippetPdOption.getLoopXPath(),
-                            readSnippetPdOption);
-                    populateFields(prd, SWT.YES);
-                  } catch (HopException ex) {
-                    new ErrorDialog(
-                        shell,
-                        BaseMessages.getString(
-                            PKG, "GetXMLDataDialog.FailedToGetFields.DialogTitle"),
-                        BaseMessages.getString(
-                            PKG, "GetXMLDataDialog.FailedToGetFieldsFromSnippet.DialogMessage"),
-                        ex);
-                  }
-                });
+            enterTextDialog.setWOkListener(e -> {
+              try {
+                XmlInputFieldsImportProgressDialog prd =
+                    new XmlInputFieldsImportProgressDialog(shell, enterTextDialog.getText(), readSnippetPdOption.getLoopXPath(), readSnippetPdOption);
+                populateFields(prd, SWT.YES);
+              } catch (HopException ex) {
+                new ErrorDialog(
+                    shell,
+                    BaseMessages.getString(PKG, "GetXMLDataDialog.FailedToGetFields.DialogTitle"),
+                    BaseMessages.getString(PKG, "GetXMLDataDialog.FailedToGetFieldsFromSnippet.DialogMessage"),
+                    ex);
+              }
+            });
           }
         };
     getFromSnippetDialog.open();
@@ -1449,18 +1299,13 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           String url = xmlSource;
           if (url == null) {
             EnterStringDialog d =
-                new EnterStringDialog(
-                    shell,
-                    "",
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"),
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Message"));
+                new EnterStringDialog(shell, "", BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"), BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Message"));
             url = d.open();
           }
           readUrlPdOption = new PdOption();
           readUrlPdOption.setUseUrl(true);
           readUrlPdOption.setValidating(meta.isValidating());
-          LoopNodesImportProgressDialog pd =
-              new LoopNodesImportProgressDialog(shell, url, readUrlPdOption);
+          LoopNodesImportProgressDialog pd = new LoopNodesImportProgressDialog(shell, url, readUrlPdOption);
           populateLoopPaths(url, pd);
 
         } else if (meta.getIsAFile()) {
@@ -1469,23 +1314,15 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           if (str == null) {
             FileDialog dialog = new FileDialog(shell, SWT.OPEN);
             dialog.setFilterExtensions(new String[] {"*.xml;*.XML", "*"});
-            dialog.setFilterNames(
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.XMLFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                });
+            dialog.setFilterNames(new String[] {BaseMessages.getString(PKG, "System.FileType.XMLFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")});
 
             if (dialog.open() != null) {
-              str =
-                  dialog.getFilterPath()
-                      + System.getProperty("file.separator")
-                      + dialog.getFileName();
+              str = dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName();
             }
             readFilePdOption = new PdOption();
             readFilePdOption.setEncoding(meta.getEncoding() == null ? "UTF-8" : meta.getEncoding());
             readFilePdOption.setValidating(meta.isValidating());
-            LoopNodesImportProgressDialog pd =
-                new LoopNodesImportProgressDialog(shell, str, readFilePdOption);
+            LoopNodesImportProgressDialog pd = new LoopNodesImportProgressDialog(shell, str, readFilePdOption);
             populateLoopPaths(str, pd);
           }
         } else {
@@ -1493,17 +1330,12 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           String xml = xmlSource;
           if (xml == null) {
             EnterTextDialog d =
-                new EnterTextDialog(
-                    shell,
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Title"),
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Message"),
-                    null);
+                new EnterTextDialog(shell, BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Title"), BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Message"), null);
             xml = d.open();
           }
           readXmlPdOption = new PdOption();
           readXmlPdOption.setValidating(meta.isValidating());
-          LoopNodesImportProgressDialog pd =
-              new LoopNodesImportProgressDialog(shell, xml, readXmlPdOption);
+          LoopNodesImportProgressDialog pd = new LoopNodesImportProgressDialog(shell, xml, readXmlPdOption);
           populateLoopPaths(xml, pd);
         }
       } else {
@@ -1516,19 +1348,13 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           if (fileinputList.getFile(0).exists()) {
             readHopVfsPdOption = new PdOption();
             readHopVfsPdOption.setValidating(meta.isValidating());
-            readHopVfsPdOption.setEncoding(
-                meta.getEncoding() == null ? "UTF-8" : meta.getEncoding());
+            readHopVfsPdOption.setEncoding(meta.getEncoding() == null ? "UTF-8" : meta.getEncoding());
             String xml = HopVfs.getFilename(fileinputList.getFile(0));
-            LoopNodesImportProgressDialog pd =
-                new LoopNodesImportProgressDialog(shell, xml, readHopVfsPdOption);
+            LoopNodesImportProgressDialog pd = new LoopNodesImportProgressDialog(shell, xml, readHopVfsPdOption);
             populateLoopPaths(xml, pd);
           } else {
             // The file not exists !
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "GetXMLDataDialog.Exception.FileDoesNotExist",
-                    HopVfs.getFilename(fileinputList.getFile(0))));
+            throw new HopException(BaseMessages.getString(PKG, "GetXMLDataDialog.Exception.FileDoesNotExist", HopVfs.getFilename(fileinputList.getFile(0))));
           }
         } else {
           // No file specified
@@ -1559,12 +1385,9 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
       }
       int clearFields = SWT.YES;
       if (wFields.nrNonEmpty() > 0) {
-        MessageBox messageBox =
-            new MessageBox(shell, SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
-        messageBox.setMessage(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.ClearFieldList.DialogMessage"));
-        messageBox.setText(
-            BaseMessages.getString(PKG, "GetXMLDataDialog.ClearFieldList.DialogTitle"));
+        MessageBox messageBox = new MessageBox(shell, SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
+        messageBox.setMessage(BaseMessages.getString(PKG, "GetXMLDataDialog.ClearFieldList.DialogMessage"));
+        messageBox.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.ClearFieldList.DialogTitle"));
         clearFields = messageBox.open();
         if (clearFields == SWT.CANCEL) {
           return;
@@ -1577,16 +1400,10 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           String url = xmlSource;
           if (url == null) {
             EnterStringDialog enterStringDialog =
-                new EnterStringDialog(
-                    shell,
-                    "",
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"),
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"));
+                new EnterStringDialog(shell, "", BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"), BaseMessages.getString(PKG, "GetXMLDataDialog.AskURL.Title"));
             url = enterStringDialog.open();
           }
-          XmlInputFieldsImportProgressDialog prd =
-              new XmlInputFieldsImportProgressDialog(
-                  shell, url, variables.resolve(meta.getLoopXPath()), readUrlPdOption);
+          XmlInputFieldsImportProgressDialog prd = new XmlInputFieldsImportProgressDialog(shell, url, variables.resolve(meta.getLoopXPath()), readUrlPdOption);
           populateFields(prd, clearFields);
 
         } else if (meta.getIsAFile()) {
@@ -1595,38 +1412,23 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
           if (str == null) {
             FileDialog dialog = new FileDialog(shell, SWT.OPEN);
             dialog.setFilterExtensions(new String[] {"*.xml;*.XML", "*"});
-            dialog.setFilterNames(
-                new String[] {
-                  BaseMessages.getString(PKG, "System.FileType.XMLFiles"),
-                  BaseMessages.getString(PKG, "System.FileType.AllFiles")
-                });
+            dialog.setFilterNames(new String[] {BaseMessages.getString(PKG, "System.FileType.XMLFiles"), BaseMessages.getString(PKG, "System.FileType.AllFiles")});
 
             if (dialog.open() != null) {
-              str =
-                  dialog.getFilterPath()
-                      + System.getProperty("file.separator")
-                      + dialog.getFileName();
+              str = dialog.getFilterPath() + System.getProperty("file.separator") + dialog.getFileName();
             }
           }
-          XmlInputFieldsImportProgressDialog prd =
-              new XmlInputFieldsImportProgressDialog(
-                  shell, str, variables.resolve(meta.getLoopXPath()), readFilePdOption);
+          XmlInputFieldsImportProgressDialog prd = new XmlInputFieldsImportProgressDialog(shell, str, variables.resolve(meta.getLoopXPath()), readFilePdOption);
           populateFields(prd, clearFields);
         } else {
           // Read xml
           String xml = xmlSource;
           if (xml == null) {
             EnterTextDialog d =
-                new EnterTextDialog(
-                    shell,
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Title"),
-                    BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Message"),
-                    null);
+                new EnterTextDialog(shell, BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Title"), BaseMessages.getString(PKG, "GetXMLDataDialog.AskXML.Message"), null);
             xml = d.open();
           }
-          XmlInputFieldsImportProgressDialog prd =
-              new XmlInputFieldsImportProgressDialog(
-                  shell, xml, variables.resolve(meta.getLoopXPath()), readXmlPdOption);
+          XmlInputFieldsImportProgressDialog prd = new XmlInputFieldsImportProgressDialog(shell, xml, variables.resolve(meta.getLoopXPath()), readXmlPdOption);
           populateFields(prd, clearFields);
         }
       } else {
@@ -1635,11 +1437,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
         if (inputList.getFiles().size() > 0) {
           XmlInputFieldsImportProgressDialog prd =
-              new XmlInputFieldsImportProgressDialog(
-                  shell,
-                  HopVfs.getFilename(inputList.getFile(0)),
-                  variables.resolve(meta.getLoopXPath()),
-                  readHopVfsPdOption);
+              new XmlInputFieldsImportProgressDialog(shell, HopVfs.getFilename(inputList.getFile(0)), variables.resolve(meta.getLoopXPath()), readHopVfsPdOption);
           populateFields(prd, clearFields);
         }
       }
@@ -1702,12 +1500,11 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
       for (int i = 0; i < in.getFileName().length; i++) {
         wFilenameList.add(
             new String[] {
-              in.getFileName()[i],
-              in.getFileMask()[i],
-              in.getExludeFileMask()[i],
-              in.getRequiredFilesDesc(in.getFileRequired()[i]),
-              in.getRequiredFilesDesc(in.getIncludeSubFolders()[i])
-            });
+                in.getFileName()[i],
+                in.getFileMask()[i],
+                in.getExludeFileMask()[i],
+                in.getRequiredFilesDesc(in.getFileRequired()[i]),
+                in.getRequiredFilesDesc(in.getIncludeSubFolders()[i])});
       }
 
       wFilenameList.removeEmptyRows();
@@ -1768,10 +1565,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
         String group = field.getGroupSymbol();
         String decim = field.getDecimalSymbol();
         String trim = field.getTrimTypeDesc();
-        String rep =
-            field.isRepeated()
-                ? BaseMessages.getString(PKG, "System.Combo.Yes")
-                : BaseMessages.getString(PKG, "System.Combo.No");
+        String rep = field.isRepeated() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No");
 
         if (name != null) {
           item.setText(1, name);
@@ -1925,8 +1719,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
       field.setDecimalSymbol(item.getText(10));
       field.setGroupSymbol(item.getText(11));
       field.setTrimType(GetXmlDataField.getTrimTypeByDesc(item.getText(12)));
-      field.setRepeated(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(13)));
+      field.setRepeated(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(13)));
 
       // CHECKSTYLE:Indentation:OFF
       in.getInputFields()[i] = field;
@@ -1945,8 +1738,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
   private boolean checkLoopXPath(GetXmlDataMeta meta) {
     if (meta.getLoopXPath() == null || meta.getLoopXPath().length() < 1) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "GetXMLDataDialog.SpecifyRepeatingElement.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "GetXMLDataDialog.SpecifyRepeatingElement.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return false;
@@ -1966,9 +1758,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
       if (!checkLoopXPath(oneMeta)) {
         return;
       }
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              metadataProvider, oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(metadataProvider, oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -1980,12 +1770,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {
@@ -2030,8 +1815,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     // ////////////////////////
     CTabItem wAdditionalFieldsTab = new CTabItem(wTabFolder, SWT.NONE);
     wAdditionalFieldsTab.setFont(GuiResource.getInstance().getFontDefault());
-    wAdditionalFieldsTab.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.AdditionalFieldsTab.TabTitle"));
+    wAdditionalFieldsTab.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.AdditionalFieldsTab.TabTitle"));
 
     Composite wAdditionalFieldsComp = new Composite(wTabFolder, SWT.NONE);
     PropsUi.setLook(wAdditionalFieldsComp);
@@ -2042,8 +1826,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     wAdditionalFieldsComp.setLayout(fieldsLayout);
     // ShortFileFieldName line
     wlShortFileFieldName = new Label(wAdditionalFieldsComp, SWT.RIGHT);
-    wlShortFileFieldName.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.ShortFileFieldName.Label"));
+    wlShortFileFieldName.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.ShortFileFieldName.Label"));
     PropsUi.setLook(wlShortFileFieldName);
     FormData fdlShortFileFieldName = new FormData();
     fdlShortFileFieldName.left = new FormAttachment(0, 0);
@@ -2051,8 +1834,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlShortFileFieldName.right = new FormAttachment(middle, -margin);
     wlShortFileFieldName.setLayoutData(fdlShortFileFieldName);
 
-    wShortFileFieldName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wShortFileFieldName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wShortFileFieldName);
     wShortFileFieldName.addModifyListener(lsMod);
     FormData fdShortFileFieldName = new FormData();
@@ -2063,8 +1845,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     // ExtensionFieldName line
     wlExtensionFieldName = new Label(wAdditionalFieldsComp, SWT.RIGHT);
-    wlExtensionFieldName.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.ExtensionFieldName.Label"));
+    wlExtensionFieldName.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.ExtensionFieldName.Label"));
     PropsUi.setLook(wlExtensionFieldName);
     FormData fdlExtensionFieldName = new FormData();
     fdlExtensionFieldName.left = new FormAttachment(0, 0);
@@ -2072,8 +1853,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlExtensionFieldName.right = new FormAttachment(middle, -margin);
     wlExtensionFieldName.setLayoutData(fdlExtensionFieldName);
 
-    wExtensionFieldName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wExtensionFieldName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wExtensionFieldName);
     wExtensionFieldName.addModifyListener(lsMod);
     FormData fdExtensionFieldName = new FormData();
@@ -2092,8 +1872,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlPathFieldName.right = new FormAttachment(middle, -margin);
     wlPathFieldName.setLayoutData(fdlPathFieldName);
 
-    wPathFieldName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPathFieldName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wPathFieldName);
     wPathFieldName.addModifyListener(lsMod);
     FormData fdPathFieldName = new FormData();
@@ -2112,8 +1891,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlSizeFieldName.right = new FormAttachment(middle, -margin);
     wlSizeFieldName.setLayoutData(fdlSizeFieldName);
 
-    wSizeFieldName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wSizeFieldName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSizeFieldName);
     wSizeFieldName.addModifyListener(lsMod);
     FormData fdSizeFieldName = new FormData();
@@ -2132,8 +1910,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlIsHiddenName.right = new FormAttachment(middle, -margin);
     wlIsHiddenName.setLayoutData(fdlIsHiddenName);
 
-    wIsHiddenName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wIsHiddenName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wIsHiddenName);
     wIsHiddenName.addModifyListener(lsMod);
     FormData fdIsHiddenName = new FormData();
@@ -2144,8 +1921,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
 
     // LastModificationTimeName line
     wlLastModificationTimeName = new Label(wAdditionalFieldsComp, SWT.RIGHT);
-    wlLastModificationTimeName.setText(
-        BaseMessages.getString(PKG, "GetXMLDataDialog.LastModificationTimeName.Label"));
+    wlLastModificationTimeName.setText(BaseMessages.getString(PKG, "GetXMLDataDialog.LastModificationTimeName.Label"));
     PropsUi.setLook(wlLastModificationTimeName);
     FormData fdlLastModificationTimeName = new FormData();
     fdlLastModificationTimeName.left = new FormAttachment(0, 0);
@@ -2153,8 +1929,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlLastModificationTimeName.right = new FormAttachment(middle, -margin);
     wlLastModificationTimeName.setLayoutData(fdlLastModificationTimeName);
 
-    wLastModificationTimeName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wLastModificationTimeName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wLastModificationTimeName);
     wLastModificationTimeName.addModifyListener(lsMod);
     FormData fdLastModificationTimeName = new FormData();
@@ -2192,8 +1967,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     fdlRootUriName.right = new FormAttachment(middle, -margin);
     wlRootUriName.setLayoutData(fdlRootUriName);
 
-    wRootUriName =
-        new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wRootUriName = new TextVar(variables, wAdditionalFieldsComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wRootUriName);
     wRootUriName.addModifyListener(lsMod);
     FormData fdRootUriName = new FormData();
@@ -2243,8 +2017,7 @@ public class GetXmlDataDialog extends BaseTransformDialog implements ITransformD
     this.xmlSource = xmlSource;
   }
 
-  private void populateFields(XmlInputFieldsImportProgressDialog prd, int clearFields)
-      throws HopException {
+  private void populateFields(XmlInputFieldsImportProgressDialog prd, int clearFields) throws HopException {
     if (Utils.isEmpty(xmlSource)) {
       return;
     }

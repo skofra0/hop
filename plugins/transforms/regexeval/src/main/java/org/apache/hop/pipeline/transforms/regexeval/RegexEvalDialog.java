@@ -88,8 +88,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
   private Label wlFields;
   private TableView wFields;
 
-  public RegexEvalDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public RegexEvalDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (RegexEvalMeta) in;
   }
@@ -103,13 +102,12 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    SelectionListener lsSel =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        };
+    SelectionListener lsSel = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -179,8 +177,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
 
     Group wTransformSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wTransformSettings);
-    wTransformSettings.setText(
-        BaseMessages.getString(PKG, "RegexEvalDialog.Group.TransformSettings.Label"));
+    wTransformSettings.setText(BaseMessages.getString(PKG, "RegexEvalDialog.Group.TransformSettings.Label"));
 
     FormLayout groupLayout = new FormLayout();
     groupLayout.marginWidth = 10;
@@ -206,20 +203,19 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdfieldevaluate.right = new FormAttachment(100, -margin);
     wFieldEvaluate.setLayoutData(fdfieldevaluate);
     wFieldEvaluate.addSelectionListener(lsSel);
-    wFieldEvaluate.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wFieldEvaluate.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getPreviousFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getPreviousFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     // Output Fieldame
 
@@ -240,8 +236,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
 
     // Allow capture groups?
     Label wlAllowCaptureGroups = new Label(wTransformSettings, SWT.RIGHT);
-    wlAllowCaptureGroups.setText(
-        BaseMessages.getString(PKG, "RegexEvalDialog.AllowCaptureGroups.Label"));
+    wlAllowCaptureGroups.setText(BaseMessages.getString(PKG, "RegexEvalDialog.AllowCaptureGroups.Label"));
     PropsUi.setLook(wlAllowCaptureGroups);
     FormData fdlAllowCaptureGroups = new FormData();
     fdlAllowCaptureGroups.left = new FormAttachment(0, 0);
@@ -249,8 +244,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdlAllowCaptureGroups.right = new FormAttachment(middle, -margin);
     wlAllowCaptureGroups.setLayoutData(fdlAllowCaptureGroups);
     wAllowCaptureGroups = new Button(wTransformSettings, SWT.CHECK);
-    wAllowCaptureGroups.setToolTipText(
-        BaseMessages.getString(PKG, "RegexEvalDialog.AllowCaptureGroups.Tooltip"));
+    wAllowCaptureGroups.setToolTipText(BaseMessages.getString(PKG, "RegexEvalDialog.AllowCaptureGroups.Tooltip"));
     PropsUi.setLook(wAllowCaptureGroups);
     FormData fdAllowCaptureGroups = new FormData();
     fdAllowCaptureGroups.left = new FormAttachment(middle, margin);
@@ -258,14 +252,13 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdAllowCaptureGroups.right = new FormAttachment(100, 0);
     wAllowCaptureGroups.setLayoutData(fdAllowCaptureGroups);
 
-    wAllowCaptureGroups.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setFieldsEnabledStatus();
-            input.setChanged();
-          }
-        });
+    wAllowCaptureGroups.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setFieldsEnabledStatus();
+        input.setChanged();
+      }
+    });
 
     // Replace fields?
     wlReplaceFields = new Label(wTransformSettings, SWT.RIGHT);
@@ -277,8 +270,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdlReplaceFields.right = new FormAttachment(middle, -margin);
     wlReplaceFields.setLayoutData(fdlReplaceFields);
     wReplaceFields = new Button(wTransformSettings, SWT.CHECK);
-    wReplaceFields.setToolTipText(
-        BaseMessages.getString(PKG, "RegexEvalDialog.ReplaceFields.Tooltip"));
+    wReplaceFields.setToolTipText(BaseMessages.getString(PKG, "RegexEvalDialog.ReplaceFields.Tooltip"));
     PropsUi.setLook(wReplaceFields);
     FormData fdReplaceFields = new FormData();
     fdReplaceFields.left = new FormAttachment(middle, margin);
@@ -286,13 +278,12 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdReplaceFields.right = new FormAttachment(100, 0);
     wReplaceFields.setLayoutData(fdReplaceFields);
 
-    wReplaceFields.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wReplaceFields.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
 
     // settings layout
     FormData fdTransformSettings = new FormData();
@@ -342,11 +333,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     Composite wBottom = new Composite(wSash, SWT.NONE);
     PropsUi.setLook(wBottom);
 
-    wScript =
-        new StyledTextComp(
-            variables,
-            wGeneralComp,
-            SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+    wScript = new StyledTextComp(variables, wGeneralComp, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
     wScript.setText(BaseMessages.getString(PKG, "RegexEvalDialog.Script.Label"));
     PropsUi.setLook(wScript, Props.WIDGET_STYLE_FIXED);
     wScript.addModifyListener(lsMod);
@@ -382,63 +369,19 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
 
     ColumnInfo[] columnInfo =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.NewField"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames(),
-              true),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              2),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Nullif"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.IfNull"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.TrimType"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaString.trimTypeDesc,
-              true),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.NewField"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames(), true),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 2),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.Nullif"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.IfNull"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RegexEvalDialog.ColumnInfo.TrimType"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaString.trimTypeDesc, true),};
 
-    wFields =
-        new TableView(
-            variables,
-            wBottom,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columnInfo,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wBottom, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columnInfo, fieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -447,7 +390,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdFields.bottom = new FormAttachment(100, 0);
     wFields.setLayoutData(fdFields);
     wFields.getTable().addListener(SWT.Resize, new ColumnsResizer(2, 20, 10, 5, 5, 10, 8, 8, 8, 8, 8, 8));
-    
+
     FormData fdGeneralComp = new FormData();
     fdGeneralComp.left = new FormAttachment(0, 0);
     fdGeneralComp.top = new FormAttachment(0, 0);
@@ -521,8 +464,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
     fdlCaseInsensitive.right = new FormAttachment(middle, -margin);
     wlCaseInsensitive.setLayoutData(fdlCaseInsensitive);
     wCaseInsensitive = new Button(wRegexSettings, SWT.CHECK);
-    wCaseInsensitive.setToolTipText(
-        BaseMessages.getString(PKG, "RegexEvalDialog.CaseInsensitive.Tooltip"));
+    wCaseInsensitive.setToolTipText(BaseMessages.getString(PKG, "RegexEvalDialog.CaseInsensitive.Tooltip"));
     PropsUi.setLook(wCaseInsensitive);
     FormData fdCaseInsensitive = new FormData();
     fdCaseInsensitive.left = new FormAttachment(middle, 0);
@@ -838,13 +780,7 @@ public class RegexEvalDialog extends BaseTransformDialog implements ITransformDi
   private void testRegExScript() {
     RegexEvalMeta meta = new RegexEvalMeta();
     setRegexOptions(meta);
-    RegexEvalHelperDialog d =
-        new RegexEvalHelperDialog(
-            shell,
-            new Variables(),
-            meta.getScript(),
-            meta.getRegexOptions(),
-            meta.isCanonicalEqualityFlagSet());
+    RegexEvalHelperDialog d = new RegexEvalHelperDialog(shell, new Variables(), meta.getScript(), meta.getRegexOptions(), meta.isCanonicalEqualityFlagSet());
     wScript.setText(d.open());
   }
 }

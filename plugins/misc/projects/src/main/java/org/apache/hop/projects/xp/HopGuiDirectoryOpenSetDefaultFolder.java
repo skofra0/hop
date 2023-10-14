@@ -33,23 +33,18 @@ import org.apache.hop.ui.hopgui.delegates.HopGuiDirectoryDialogExtension;
 @ExtensionPoint(
     id = "HopGuiDirectoryOpenSetDefaultFolder",
     extensionPointId = "HopGuiFileDirectoryDialog",
-    description =
-        "When HopGui asks for a folder a directory dialog is shown. We want to set the default folder to the project home folder")
-public class HopGuiDirectoryOpenSetDefaultFolder
-    implements IExtensionPoint<HopGuiDirectoryDialogExtension> {
+    description = "When HopGui asks for a folder a directory dialog is shown. We want to set the default folder to the project home folder")
+public class HopGuiDirectoryOpenSetDefaultFolder implements IExtensionPoint<HopGuiDirectoryDialogExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, HopGuiDirectoryDialogExtension ext)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiDirectoryDialogExtension ext) throws HopException {
     String projectName = HopNamespace.getNamespace();
     if (StringUtil.isEmpty(projectName)) {
       return;
     }
     // Keep the proposed filter path...
     //
-    if (ext.directoryDialog != null
-        && StringUtils.isNotEmpty(ext.directoryDialog.getFilterPath())) {
+    if (ext.directoryDialog != null && StringUtils.isNotEmpty(ext.directoryDialog.getFilterPath())) {
       return;
     }
     try {

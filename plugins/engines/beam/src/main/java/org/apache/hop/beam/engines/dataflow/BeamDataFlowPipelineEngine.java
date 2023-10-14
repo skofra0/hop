@@ -32,11 +32,9 @@ import org.apache.hop.pipeline.engine.PipelineEnginePlugin;
 @PipelineEnginePlugin(
     id = "BeamDataFlowPipelineEngine",
     name = "Beam DataFlow pipeline engine",
-    description =
-        "This allows you to run your pipeline on Google Cloud Platform DataFlow, provided by the Apache Beam community")
+    description = "This allows you to run your pipeline on Google Cloud Platform DataFlow, provided by the Apache Beam community")
 @GuiPlugin
-public class BeamDataFlowPipelineEngine extends BeamPipelineEngine
-    implements IPipelineEngine<PipelineMeta> {
+public class BeamDataFlowPipelineEngine extends BeamPipelineEngine implements IPipelineEngine<PipelineMeta> {
 
   public static final String DETAIL_DATAFLOW_JOB_ID = "dataflow.job.id";
   public static final String DETAIL_DATAFLOW_PROJECT_ID = "dataflow.project.id";
@@ -44,31 +42,26 @@ public class BeamDataFlowPipelineEngine extends BeamPipelineEngine
 
   @Override
   public IPipelineEngineRunConfiguration createDefaultPipelineEngineRunConfiguration() {
-    BeamDataFlowPipelineRunConfiguration runConfiguration =
-        new BeamDataFlowPipelineRunConfiguration();
+    BeamDataFlowPipelineRunConfiguration runConfiguration = new BeamDataFlowPipelineRunConfiguration();
     runConfiguration.setUserAgent("Hop");
     return runConfiguration;
   }
 
   @Override
-  public void validatePipelineRunConfigurationClass(
-      IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
+  public void validatePipelineRunConfigurationClass(IPipelineEngineRunConfiguration engineRunConfiguration) throws HopException {
     if (!(engineRunConfiguration instanceof BeamDataFlowPipelineRunConfiguration)) {
-      throw new HopException(
-          "A Beam Direct pipeline engine needs a direct run configuration, not of class "
-              + engineRunConfiguration.getClass().getName());
+      throw new HopException("A Beam Direct pipeline engine needs a direct run configuration, not of class " + engineRunConfiguration.getClass().getName());
     }
   }
 
   @Override
   protected void updatePipelineState(IExecutionInfoLocation iLocation) throws HopException {
-    ExecutionState executionState =
-            ExecutionStateBuilder.fromExecutor(BeamDataFlowPipelineEngine.this, -1).build();
+    ExecutionState executionState = ExecutionStateBuilder.fromExecutor(BeamDataFlowPipelineEngine.this, -1).build();
 
     // Add Dataflow specific information to the execution state.
     // This can then be picked up
     //
-    if (beamPipelineResults!=null) {
+    if (beamPipelineResults != null) {
       DataflowPipelineJob dataflowPipelineJob = (DataflowPipelineJob) beamPipelineResults;
       executionState.getDetails().put(DETAIL_DATAFLOW_JOB_ID, dataflowPipelineJob.getJobId());
       executionState.getDetails().put(DETAIL_DATAFLOW_PROJECT_ID, dataflowPipelineJob.getProjectId());

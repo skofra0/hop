@@ -36,8 +36,7 @@ public class S3NFileProvider extends S3CommonFileProvider {
   }
 
   @Override
-  public FileSystem doCreateFileSystem(
-      final FileName name, final FileSystemOptions fileSystemOptions) throws FileSystemException {
+  public FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) throws FileSystemException {
     return new S3NFileSystem(name, fileSystemOptions);
   }
 }

@@ -35,8 +35,7 @@ public class ActionWorkflowRunner implements Runnable {
   private boolean finished;
 
   /** */
-  public ActionWorkflowRunner(
-      IWorkflowEngine<WorkflowMeta> workflow, Result result, int entryNr, ILogChannel log) {
+  public ActionWorkflowRunner(IWorkflowEngine<WorkflowMeta> workflow, Result result, int entryNr, ILogChannel log) {
     this.workflow = workflow;
     this.result = result;
     this.log = log;
@@ -47,8 +46,7 @@ public class ActionWorkflowRunner implements Runnable {
   @Override
   public void run() {
     try {
-      if (workflow.isStopped()
-          || (workflow.getParentWorkflow() != null && workflow.getParentWorkflow().isStopped())) {
+      if (workflow.isStopped() || (workflow.getParentWorkflow() != null && workflow.getParentWorkflow().isStopped())) {
         return;
       }
       result = workflow.startExecution();
@@ -56,15 +54,13 @@ public class ActionWorkflowRunner implements Runnable {
       // Remember the result
       workflow.setResult(result);
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            log, workflow, HopExtensionPoint.WorkflowFinish.id, workflow);
+        ExtensionPointHandler.callExtensionPoint(log, workflow, HopExtensionPoint.WorkflowFinish.id, workflow);
 
         // catch more general exception to prevent thread hanging
       } catch (Exception e) {
         result.setNrErrors(1);
         result.setResult(false);
-        log.logError(
-            BaseMessages.getString(PKG, "Action.Log.ErrorExecWorkflow", e.getMessage()), e);
+        log.logError(BaseMessages.getString(PKG, "Action.Log.ErrorExecWorkflow", e.getMessage()), e);
       }
       workflow.setFinished(true);
     }

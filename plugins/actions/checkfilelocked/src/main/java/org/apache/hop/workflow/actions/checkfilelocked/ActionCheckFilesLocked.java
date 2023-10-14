@@ -121,14 +121,11 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
-      argFromPrevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
-      includeSubfolders =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
+      argFromPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
+      includeSubfolders = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "include_subfolders"));
 
       Node fields = XmlHandler.getSubNode(entrynode, "fields");
 
@@ -144,8 +141,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
         filemasks[i] = XmlHandler.getTagValue(fnode, "filemask");
       }
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "ActionCheckFilesLocked.UnableToLoadFromXml"), xe);
+      throw new HopXmlException(BaseMessages.getString(PKG, "ActionCheckFilesLocked.UnableToLoadFromXml"), xe);
     }
   }
 
@@ -162,19 +158,13 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
     try {
       if (argFromPrevious) {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionCheckFilesLocked.FoundPreviousRows",
-                  String.valueOf((rows != null ? rows.size() : 0))));
+          logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FoundPreviousRows", String.valueOf((rows != null ? rows.size() : 0))));
         }
       }
 
       if (argFromPrevious && rows != null) {
         // Copy the input row to the (command line) arguments
-        for (int iteration = 0;
-            iteration < rows.size() && !parentWorkflow.isStopped();
-            iteration++) {
+        for (int iteration = 0; iteration < rows.size() && !parentWorkflow.isStopped(); iteration++) {
           resultRow = rows.get(iteration);
 
           // Get values from previous result
@@ -183,12 +173,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
 
           // ok we can process this file/folder
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG,
-                    "ActionCheckFilesLocked.ProcessingRow",
-                    fileFolderPrevious,
-                    fileMasksPrevious));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.ProcessingRow", fileFolderPrevious, fileMasksPrevious));
           }
 
           ProcessFile(fileFolderPrevious, fileMasksPrevious);
@@ -198,9 +183,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
         for (int i = 0; i < arguments.length && !parentWorkflow.isStopped(); i++) {
           // ok we can process this file/folder
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCheckFilesLocked.ProcessingArg", arguments[i], filemasks[i]));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.ProcessingArg", arguments[i], filemasks[i]));
           }
 
           ProcessFile(arguments[i], filemasks[i]);
@@ -232,37 +215,28 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
         if (filefolder.getType() == FileType.FOLDER) {
           // It's a folder
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCheckFilesLocked.ProcessingFolder", realFilefoldername));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.ProcessingFolder", realFilefoldername));
           }
           // Retrieve all files
           files = filefolder.findFiles(new TextFileSelector(filefolder.toString(), realwilcard));
 
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCheckFilesLocked.TotalFilesToCheck", String.valueOf(files.length)));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.TotalFilesToCheck", String.valueOf(files.length)));
           }
         } else {
           // It's a file
           if (isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "ActionCheckFilesLocked.ProcessingFile", realFilefoldername));
+            logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.ProcessingFile", realFilefoldername));
           }
         }
         // Check files locked
         checkFilesLocked(files);
       } else {
         // We can not find thsi file
-        logBasic(
-            BaseMessages.getString(PKG, "ActionCheckFilesLocked.FileNotExist", realFilefoldername));
+        logBasic(BaseMessages.getString(PKG, "ActionCheckFilesLocked.FileNotExist", realFilefoldername));
       }
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionCheckFilesLocked.CouldNotProcess", realFilefoldername, e.getMessage()));
+      logError(BaseMessages.getString(PKG, "ActionCheckFilesLocked.CouldNotProcess", realFilefoldername, e.getMessage()));
     } finally {
       if (filefolder != null) {
         try {
@@ -285,8 +259,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
         logError(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Log.FileLocked", filename));
       } else {
         if (isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionCheckFilesLocked.Log.FileNotLocked", filename));
+          logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.Log.FileNotLocked", filename));
         }
       }
     }
@@ -321,13 +294,9 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
           if (!info.getFile().getParent().equals(info.getBaseFolder())) {
 
             // Not in the Base Folder..Only if include sub folders
-            if (includeSubfolders
-                && (info.getFile().getType() == FileType.FILE)
-                && GetFileWildcard(shortFilename, fileWildcard)) {
+            if (includeSubfolders && (info.getFile().getType() == FileType.FILE) && GetFileWildcard(shortFilename, fileWildcard)) {
               if (isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionCheckFilesLocked.CheckingFile", info.getFile().toString()));
+                logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.CheckingFile", info.getFile().toString()));
               }
 
               returncode = true;
@@ -335,12 +304,9 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
           } else {
             // In the Base Folder...
 
-            if ((info.getFile().getType() == FileType.FILE)
-                && GetFileWildcard(shortFilename, fileWildcard)) {
+            if ((info.getFile().getType() == FileType.FILE) && GetFileWildcard(shortFilename, fileWildcard)) {
               if (isDetailed()) {
-                logDetailed(
-                    BaseMessages.getString(
-                        PKG, "ActionCheckFilesLocked.CheckingFile", info.getFile().toString()));
+                logDetailed(BaseMessages.getString(PKG, "ActionCheckFilesLocked.CheckingFile", info.getFile().toString()));
               }
 
               returncode = true;
@@ -351,11 +317,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
       } catch (Exception e) {
         logError(
             BaseMessages.getString(PKG, "ActionCheckFilesLocked.Error.Exception.ProcessError"),
-            BaseMessages.getString(
-                PKG,
-                "JobCheckFilesLocked.Error.Exception.Process",
-                info.getFile().toString(),
-                e.getMessage()));
+            BaseMessages.getString(PKG, "JobCheckFilesLocked.Error.Exception.Process", info.getFile().toString(), e.getMessage()));
         returncode = false;
       } finally {
         if (filename != null) {
@@ -429,18 +391,8 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    boolean res =
-        ActionValidatorUtils.andValidator()
-            .validate(
-                this,
-                "arguments",
-                remarks,
-                AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    boolean res = ActionValidatorUtils.andValidator().validate(this, "arguments", remarks, AndValidator.putValidators(ActionValidatorUtils.notNullValidator()));
 
     if (res == false) {
       return;
@@ -448,8 +400,7 @@ public class ActionCheckFilesLocked extends ActionBase implements Cloneable, IAc
 
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notNullValidator(), ActionValidatorUtils.fileExistsValidator());
 
     for (int i = 0; i < arguments.length; i++) {
       ActionValidatorUtils.andValidator().validate(this, "arguments[" + i + "]", remarks, ctx);

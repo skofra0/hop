@@ -56,8 +56,7 @@ public interface ICsvInputAwareTransformDialog {
     return fieldNames;
   }
 
-  default String[] getFieldNamesImpl(final InputStreamReader reader, final ICsvInputAwareMeta meta)
-      throws HopException {
+  default String[] getFieldNamesImpl(final InputStreamReader reader, final ICsvInputAwareMeta meta) throws HopException {
 
     String[] fieldNames = new String[] {};
     if (reader == null || meta == null) {
@@ -70,17 +69,9 @@ public interface ICsvInputAwareTransformDialog {
     final EncodingType encodingType = EncodingType.guessEncodingType(reader.getEncoding());
 
     // Read a line of data to determine the number of rows...
-    final String line =
-        TextFileLineUtil.getLine(
-            getLogChannel(),
-            reader,
-            encodingType,
-            meta.getFileFormatTypeNr(),
-            new StringBuilder(1000));
+    final String line = TextFileLineUtil.getLine(getLogChannel(), reader, encodingType, meta.getFileFormatTypeNr(), new StringBuilder(1000));
     if (!StringUtils.isBlank(line)) {
-      fieldNames =
-          TextFileLineUtil.guessStringsFromLine(
-              getLogChannel(), line, delimiter, enclosure, meta.getEscapeCharacter());
+      fieldNames = TextFileLineUtil.guessStringsFromLine(getLogChannel(), line, delimiter, enclosure, meta.getEscapeCharacter());
     }
     if (Utils.isEmpty(fieldNames)) {
       logError(BaseMessages.getString("Dialog.ErrorGettingFields.Message"));
@@ -93,12 +84,10 @@ public interface ICsvInputAwareTransformDialog {
       if (!meta.hasHeader()) {
         final DecimalFormat df = new DecimalFormat("000");
         fieldNames[i] = "Field_" + df.format(i);
-      } else if (!Utils.isEmpty(meta.getEnclosure())
-          && fieldNames[i].startsWith(meta.getEnclosure())
-          && fieldNames[i].endsWith(meta.getEnclosure())
+      } else if (!Utils.isEmpty(meta.getEnclosure()) && fieldNames[i].startsWith(meta.getEnclosure()) && fieldNames[i].endsWith(meta.getEnclosure())
           && fieldNames[i].length() > 1) {
         fieldNames[i] = fieldNames[i].substring(1, fieldNames[i].length() - 1);
-      } else if (meta.hasHeader() && fieldNames[i].length()==0) {
+      } else if (meta.hasHeader() && fieldNames[i].length() == 0) {
         final DecimalFormat df = new DecimalFormat("000");
         fieldNames[i] = "EmptyField_" + df.format(i);
       }
@@ -119,7 +108,7 @@ public interface ICsvInputAwareTransformDialog {
    * read.
    *
    * @return the {@link InputStream} corresponding to the csv file, or null if the file cannot be
-   *     read
+   *         read
    */
   InputStream getInputStream(final ICsvInputAwareMeta meta);
 
@@ -128,10 +117,9 @@ public interface ICsvInputAwareTransformDialog {
    * be read.
    *
    * @return the {@link InputStreamReader} corresponding to the csv file, or null if the file cannot
-   *     be read
+   *         be read
    */
-  default InputStreamReader getReader(
-      final ICsvInputAwareMeta meta, final InputStream inputStream) {
+  default InputStreamReader getReader(final ICsvInputAwareMeta meta, final InputStream inputStream) {
     InputStreamReader reader = null;
     try {
       String realEncoding = getVariables().resolve(meta.getEncoding());
@@ -162,8 +150,7 @@ public interface ICsvInputAwareTransformDialog {
     InputStream inputStream = getInputStream(meta);
     try {
       final InputStreamReader reader = getReader(meta, inputStream);
-      final ICsvInputAwareImportProgressDialog pd =
-          getCsvImportProgressDialog(meta, samples, reader);
+      final ICsvInputAwareImportProgressDialog pd = getCsvImportProgressDialog(meta, samples, reader);
       String message = pd.open(false);
       return message;
     } finally {
@@ -175,8 +162,7 @@ public interface ICsvInputAwareTransformDialog {
     }
   }
 
-  ICsvInputAwareImportProgressDialog getCsvImportProgressDialog(
-      final ICsvInputAwareMeta meta, final int samples, final InputStreamReader reader);
+  ICsvInputAwareImportProgressDialog getCsvImportProgressDialog(final ICsvInputAwareMeta meta, final int samples, final InputStreamReader reader);
 
   default void logError(final String message, final Exception exception) {
     getLogChannel().logError(message, exception);

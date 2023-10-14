@@ -71,13 +71,7 @@ public class RandomValueMeta extends BaseTransformMeta<RandomValue, RandomValueD
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
     for (RVField field : fields) {
       IValueMeta v;
 
@@ -123,21 +117,12 @@ public class RandomValueMeta extends BaseTransformMeta<RandomValue, RandomValueD
     int nrRemarks = remarks.size();
     for (RVField field : fields) {
       if (field.getType() == null || field.getType() == RandomType.NONE) {
-        CheckResult cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "RandomValueMeta.CheckResult.FieldHasNoType", field.getName()),
-                transformMeta);
+        CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "RandomValueMeta.CheckResult.FieldHasNoType", field.getName()), transformMeta);
         remarks.add(cr);
       }
     }
     if (remarks.size() == nrRemarks) {
-      CheckResult cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "RandomValueMeta.CheckResult.AllTypesSpecified"),
-              transformMeta);
+      CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "RandomValueMeta.CheckResult.AllTypesSpecified"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -145,16 +130,13 @@ public class RandomValueMeta extends BaseTransformMeta<RandomValue, RandomValueD
   public enum RandomType implements IEnumHasCodeAndDescription {
     NONE("", ""),
     NUMBER("random number", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomNumber")),
-    INTEGER(
-        "random integer", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomInteger")),
+    INTEGER("random integer", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomInteger")),
     STRING("random string", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomString")),
     UUID("random uuid", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomUUID")),
     UUID4("random uuid4", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomUUID4")),
-    HMAC_MD5(
-        "random machmacmd5", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomHMACMD5")),
-    HMAC_SHA1(
-        "random machmacsha1",
-        BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomHMACSHA1"));
+    HMAC_MD5("random machmacmd5", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomHMACMD5")),
+    HMAC_SHA1("random machmacsha1", BaseMessages.getString(PKG, "RandomValueMeta.TypeDesc.RandomHMACSHA1"));
+
     private final String code;
     private final String description;
 

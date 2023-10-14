@@ -55,12 +55,10 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
   private boolean addResultFile;
 
   /** The number of rows to ignore before sending rows to the next transform */
-  private String
-      nrRowsToSkip; // String for variable usage, enables chunk loading defined in an outer loop
+  private String nrRowsToSkip; // String for variable usage, enables chunk loading defined in an outer loop
 
   /** The maximum number of lines to read */
-  private String
-      rowLimit; // String for variable usage, enables chunk loading defined in an outer loop
+  private String rowLimit; // String for variable usage, enables chunk loading defined in an outer loop
 
   /** This is the default String length for name/value elements & attributes */
   private String defaultStringLen; // default set to DEFAULT_STRING_LEN
@@ -72,8 +70,7 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
   private boolean enableNamespaces;
 
   /** Trim all name/value elements & attributes? */
-  private boolean
-      enableTrim; // trim is also eliminating white spaces, tab, cr, lf at the beginning and end of
+  private boolean enableTrim; // trim is also eliminating white spaces, tab, cr, lf at the beginning and end of
   // the
   // string
 
@@ -128,15 +125,8 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    int defaultStringLenNameValueElements =
-        Const.toInt(variables.resolve(defaultStringLen), Integer.valueOf(DEFAULT_STRING_LEN));
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider) {
+    int defaultStringLenNameValueElements = Const.toInt(variables.resolve(defaultStringLen), Integer.valueOf(DEFAULT_STRING_LEN));
 
     if (includeFilenameField) {
       IValueMeta v = new ValueMetaString(variables.resolve(filenameField));
@@ -229,11 +219,9 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
-      sourceFromInput =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "sourceFromInput"));
+      sourceFromInput = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "sourceFromInput"));
       sourceFieldName = Const.NVL(XmlHandler.getTagValue(transformNode, "sourceFieldName"), "");
 
       filename = Const.NVL(XmlHandler.getTagValue(transformNode, "filename"), "");
@@ -241,101 +229,51 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
 
       nrRowsToSkip = Const.NVL(XmlHandler.getTagValue(transformNode, "nrRowsToSkip"), "0");
       rowLimit = Const.NVL(XmlHandler.getTagValue(transformNode, "rowLimit"), "0");
-      defaultStringLen =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "defaultStringLen"), DEFAULT_STRING_LEN);
+      defaultStringLen = Const.NVL(XmlHandler.getTagValue(transformNode, "defaultStringLen"), DEFAULT_STRING_LEN);
       encoding = Const.NVL(XmlHandler.getTagValue(transformNode, "encoding"), DEFAULT_ENCODING);
-      enableNamespaces =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enableNamespaces"));
+      enableNamespaces = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enableNamespaces"));
       enableTrim = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "enableTrim"));
 
       // The fields in the output stream
       // When they are undefined (checked with NVL) the original default value will be taken
-      includeFilenameField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeFilenameField"));
-      filenameField =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "filenameField"), filenameField);
+      includeFilenameField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeFilenameField"));
+      filenameField = Const.NVL(XmlHandler.getTagValue(transformNode, "filenameField"), filenameField);
 
-      includeRowNumberField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeRowNumberField"));
-      rowNumberField =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "rowNumberField"), rowNumberField);
+      includeRowNumberField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeRowNumberField"));
+      rowNumberField = Const.NVL(XmlHandler.getTagValue(transformNode, "rowNumberField"), rowNumberField);
 
-      includeXmlDataTypeNumericField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeDataTypeNumericField"));
-      xmlDataTypeNumericField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "dataTypeNumericField"),
-              xmlDataTypeNumericField);
+      includeXmlDataTypeNumericField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeDataTypeNumericField"));
+      xmlDataTypeNumericField = Const.NVL(XmlHandler.getTagValue(transformNode, "dataTypeNumericField"), xmlDataTypeNumericField);
 
-      includeXmlDataTypeDescriptionField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeDataTypeDescriptionField"));
-      xmlDataTypeDescriptionField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "dataTypeDescriptionField"),
-              xmlDataTypeDescriptionField);
+      includeXmlDataTypeDescriptionField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeDataTypeDescriptionField"));
+      xmlDataTypeDescriptionField = Const.NVL(XmlHandler.getTagValue(transformNode, "dataTypeDescriptionField"), xmlDataTypeDescriptionField);
 
-      includeXmlLocationLineField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeXmlLocationLineField"));
-      xmlLocationLineField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "xmlLocationLineField"), xmlLocationLineField);
+      includeXmlLocationLineField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlLocationLineField"));
+      xmlLocationLineField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlLocationLineField"), xmlLocationLineField);
 
-      includeXmlLocationColumnField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeXmlLocationColumnField"));
-      xmlLocationColumnField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "xmlLocationColumnField"),
-              xmlLocationColumnField);
+      includeXmlLocationColumnField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlLocationColumnField"));
+      xmlLocationColumnField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlLocationColumnField"), xmlLocationColumnField);
 
-      includeXmlElementIDField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlElementIDField"));
-      xmlElementIDField =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "xmlElementIDField"), xmlElementIDField);
+      includeXmlElementIDField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlElementIDField"));
+      xmlElementIDField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlElementIDField"), xmlElementIDField);
 
-      includeXmlParentElementIDField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeXmlParentElementIDField"));
-      xmlParentElementIDField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "xmlParentElementIDField"),
-              xmlParentElementIDField);
+      includeXmlParentElementIDField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlParentElementIDField"));
+      xmlParentElementIDField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlParentElementIDField"), xmlParentElementIDField);
 
-      includeXmlElementLevelField =
-          "Y"
-              .equalsIgnoreCase(
-                  XmlHandler.getTagValue(transformNode, "includeXmlElementLevelField"));
-      xmlElementLevelField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "xmlElementLevelField"), xmlElementLevelField);
+      includeXmlElementLevelField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlElementLevelField"));
+      xmlElementLevelField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlElementLevelField"), xmlElementLevelField);
 
-      includeXmlPathField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlPathField"));
+      includeXmlPathField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlPathField"));
       xmlPathField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlPathField"), xmlPathField);
 
-      includeXmlParentPathField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlParentPathField"));
-      xmlParentPathField =
-          Const.NVL(
-              XmlHandler.getTagValue(transformNode, "xmlParentPathField"), xmlParentPathField);
+      includeXmlParentPathField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlParentPathField"));
+      xmlParentPathField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlParentPathField"), xmlParentPathField);
 
-      includeXmlDataNameField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlDataNameField"));
-      xmlDataNameField =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "xmlDataNameField"), xmlDataNameField);
+      includeXmlDataNameField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlDataNameField"));
+      xmlDataNameField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlDataNameField"), xmlDataNameField);
 
-      includeXmlDataValueField =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlDataValueField"));
-      xmlDataValueField =
-          Const.NVL(XmlHandler.getTagValue(transformNode, "xmlDataValueField"), xmlDataValueField);
+      includeXmlDataValueField = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "includeXmlDataValueField"));
+      xmlDataValueField = Const.NVL(XmlHandler.getTagValue(transformNode, "xmlDataValueField"), xmlDataValueField);
 
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
@@ -372,60 +310,37 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
     retval.append("    " + XmlHandler.addTagValue("includeRowNumberField", includeRowNumberField));
     retval.append("    " + XmlHandler.addTagValue("rowNumberField", rowNumberField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "includeDataTypeNumericField", includeXmlDataTypeNumericField));
+    retval.append("    " + XmlHandler.addTagValue("includeDataTypeNumericField", includeXmlDataTypeNumericField));
     retval.append("    " + XmlHandler.addTagValue("dataTypeNumericField", xmlDataTypeNumericField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "includeDataTypeDescriptionField", includeXmlDataTypeDescriptionField));
-    retval.append(
-        "    " + XmlHandler.addTagValue("dataTypeDescriptionField", xmlDataTypeDescriptionField));
+    retval.append("    " + XmlHandler.addTagValue("includeDataTypeDescriptionField", includeXmlDataTypeDescriptionField));
+    retval.append("    " + XmlHandler.addTagValue("dataTypeDescriptionField", xmlDataTypeDescriptionField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue("includeXmlLocationLineField", includeXmlLocationLineField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlLocationLineField", includeXmlLocationLineField));
     retval.append("    " + XmlHandler.addTagValue("xmlLocationLineField", xmlLocationLineField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "includeXmlLocationColumnField", includeXmlLocationColumnField));
-    retval.append(
-        "    " + XmlHandler.addTagValue("xmlLocationColumnField", xmlLocationColumnField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlLocationColumnField", includeXmlLocationColumnField));
+    retval.append("    " + XmlHandler.addTagValue("xmlLocationColumnField", xmlLocationColumnField));
 
-    retval.append(
-        "    " + XmlHandler.addTagValue("includeXmlElementIDField", includeXmlElementIDField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlElementIDField", includeXmlElementIDField));
     retval.append("    " + XmlHandler.addTagValue("xmlElementIDField", xmlElementIDField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue(
-                "includeXmlParentElementIDField", includeXmlParentElementIDField));
-    retval.append(
-        "    " + XmlHandler.addTagValue("xmlParentElementIDField", xmlParentElementIDField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlParentElementIDField", includeXmlParentElementIDField));
+    retval.append("    " + XmlHandler.addTagValue("xmlParentElementIDField", xmlParentElementIDField));
 
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue("includeXmlElementLevelField", includeXmlElementLevelField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlElementLevelField", includeXmlElementLevelField));
     retval.append("    " + XmlHandler.addTagValue("xmlElementLevelField", xmlElementLevelField));
 
     retval.append("    " + XmlHandler.addTagValue("includeXmlPathField", includeXmlPathField));
     retval.append("    " + XmlHandler.addTagValue("xmlPathField", xmlPathField));
 
-    retval.append(
-        "    " + XmlHandler.addTagValue("includeXmlParentPathField", includeXmlParentPathField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlParentPathField", includeXmlParentPathField));
     retval.append("    " + XmlHandler.addTagValue("xmlParentPathField", xmlParentPathField));
 
-    retval.append(
-        "    " + XmlHandler.addTagValue("includeXmlDataNameField", includeXmlDataNameField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlDataNameField", includeXmlDataNameField));
     retval.append("    " + XmlHandler.addTagValue("xmlDataNameField", xmlDataNameField));
 
-    retval.append(
-        "    " + XmlHandler.addTagValue("includeXmlDataValueField", includeXmlDataValueField));
+    retval.append("    " + XmlHandler.addTagValue("includeXmlDataValueField", includeXmlDataValueField));
     retval.append("    " + XmlHandler.addTagValue("xmlDataValueField", xmlDataValueField));
 
     return retval.toString();
@@ -509,53 +424,27 @@ public class XmlInputStreamMeta extends BaseTransformMeta<XmlInputStream, XmlInp
       try {
         previousFields = pipelineMeta.getPrevTransformFields(variables, transformMeta);
         if (null == previousFields.searchValueMeta(filename)) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  "Field name is not in previous transform",
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Field name is not in previous transform", transformMeta);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  "Field name is in previous transform",
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Field name is in previous transform", transformMeta);
         }
       } catch (HopTransformException e) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR, "Could not find previous transform", transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "Could not find previous transform", transformMeta);
       }
       remarks.add(cr);
     }
 
     if (includeXmlDataTypeNumericField || includeXmlDataTypeDescriptionField) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_COMMENT,
-              "At least one Data Type field (numeric or description) is in the data stream",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, "At least one Data Type field (numeric or description) is in the data stream", transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              "Data Type field (numeric or description) is missing in the data stream",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, "Data Type field (numeric or description) is missing in the data stream", transformMeta);
     }
     remarks.add(cr);
 
     if (includeXmlDataValueField && includeXmlDataNameField) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_COMMENT,
-              "Data Name and Data Value fields are in the data stream",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_COMMENT, "Data Name and Data Value fields are in the data stream", transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              "Both Data Name and Data Value fields should be in the data stream",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, "Both Data Name and Data Value fields should be in the data stream", transformMeta);
     }
     remarks.add(cr);
   }

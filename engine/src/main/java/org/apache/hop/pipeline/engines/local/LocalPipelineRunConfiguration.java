@@ -32,16 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @GuiPlugin(description = "Local pipeline run configuration widgets")
-public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
-    implements IPipelineEngineRunConfiguration {
+public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration implements IPipelineEngineRunConfiguration {
 
   @GuiWidgetElement(
       id = "rowSetSize",
       order = "010",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RowSetSize.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.RowSetSize.Label")
   @HopMetadataProperty(key = "rowset_size")
   protected String rowSetSize;
 
@@ -50,8 +48,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "020",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SafeModeEnabled.Label")
   @HopMetadataProperty(key = "safe_mode")
   protected boolean safeModeEnabled;
 
@@ -60,8 +57,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "030",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.GatheringMetrics.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.GatheringMetrics.Label")
   @HopMetadataProperty(key = "gather_metrics")
   protected boolean gatheringMetrics;
 
@@ -70,8 +66,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "040",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SortTransformsTopologically.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SortTransformsTopologically.Label")
   @HopMetadataProperty(key = "topo_sort")
   protected boolean sortingTransformsTopologically;
 
@@ -81,8 +76,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "050",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackShown.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackShown.Label")
   @HopMetadataProperty(key = "show_feedback")
   protected boolean feedbackShown;
 
@@ -92,8 +86,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "060",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackSize.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.FeedbackSize.Label")
   @HopMetadataProperty(key = "feedback_size")
   protected String feedbackSize;
 
@@ -103,8 +96,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "070",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.WaitTime.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.WaitTime.Label")
   @HopMetadataProperty(key = "wait_time")
   protected String waitTime;
 
@@ -114,8 +106,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "080",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.COMBO,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleTypeInGui.Label",
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleTypeInGui.Label",
       comboValuesMethod = "getSampleTypes")
   @HopMetadataProperty(key = "sample_type_in_gui")
   protected String sampleTypeInGui;
@@ -126,8 +117,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "090",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.TEXT,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleSize.Label")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.SampleSize.Label")
   @HopMetadataProperty(key = "sample_size")
   protected String sampleSize;
 
@@ -136,10 +126,8 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
       order = "100",
       parentId = PipelineRunConfiguration.GUI_PLUGIN_ELEMENT_PARENT_ID,
       type = GuiElementType.CHECKBOX,
-      label =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.Label",
-      toolTip =
-          "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.ToolTip")
+      label = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.Label",
+      toolTip = "i18n:org.apache.hop.ui.pipeline.config:PipelineRunConfigurationDialog.Transactional.ToolTip")
   @HopMetadataProperty(key = "transactional")
   protected boolean transactional;
 
@@ -187,6 +175,7 @@ public class LocalPipelineRunConfiguration extends EmptyPipelineRunConfiguration
     }
     return list;
   }
+
   /**
    * Gets rowSetSize
    *

@@ -279,19 +279,15 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
     //
     Label wlBodyContentVariable = new Label(parent, SWT.RIGHT);
     PropsUi.setLook(wlBodyContentVariable);
-    wlBodyContentVariable.setText(
-        BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Label"));
-    wlBodyContentVariable.setToolTipText(
-        BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Tooltip"));
+    wlBodyContentVariable.setText(BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Label"));
+    wlBodyContentVariable.setToolTipText(BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Tooltip"));
     FormData fdlBodyContentVariable = new FormData();
     fdlBodyContentVariable.left = new FormAttachment(0, 0);
     fdlBodyContentVariable.right = new FormAttachment(middle, -margin);
     fdlBodyContentVariable.top = new FormAttachment(lastControl, 2 * margin);
     wlBodyContentVariable.setLayoutData(fdlBodyContentVariable);
-    wBodyContentVariable =
-        new TextVar(manager.getVariables(), parent, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wBodyContentVariable.setToolTipText(
-        BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Tooltip"));
+    wBodyContentVariable = new TextVar(manager.getVariables(), parent, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wBodyContentVariable.setToolTipText(BaseMessages.getString(PKG, "WebServiceEditor.BodyContentVariable.Tooltip"));
     PropsUi.setLook(wBodyContentVariable);
     FormData fdBodyContentVariable = new FormData();
     fdBodyContentVariable.left = new FormAttachment(middle, 0);
@@ -330,9 +326,7 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
       //
       NotePadMeta note =
           new NotePadMeta(
-              "This pipeline can create output for a web service."
-                  + Const.CR
-                  + "It will pick up the data in a single field in a single transform of this pipeline",
+              "This pipeline can create output for a web service." + Const.CR + "It will pick up the data in a single field in a single transform of this pipeline",
               150,
               350,
               -1,
@@ -345,12 +339,7 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
       String filename =
           BaseDialog.presentFileDialog(
               true, // save
-              parent.getShell(),
-              wFilename,
-              manager.getVariables(),
-              type.getFilterExtensions(),
-              type.getFilterNames(),
-              true);
+              parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
       if (filename != null) {
         // User specified a pipeline filename
         //
@@ -394,13 +383,7 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
 
   private void selectPipelineFilename(Composite parent) {
     HopPipelineFileType<?> type = new HopPipelineFileType<>();
-    BaseDialog.presentFileDialog(
-        parent.getShell(),
-        wFilename,
-        manager.getVariables(),
-        type.getFilterExtensions(),
-        type.getFilterNames(),
-        true);
+    BaseDialog.presentFileDialog(parent.getShell(), wFilename, manager.getVariables(), type.getFilterExtensions(), type.getFilterNames(), true);
   }
 
   @Override
@@ -462,22 +445,14 @@ public class WebServiceEditor extends MetadataEditor<WebService> {
       PipelineMeta pipelineMeta = new PipelineMeta(filename, metadataProvider, variables);
 
       EnterSelectionDialog selectTransformDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              pipelineMeta.getTransformNames(),
-              "Select output transform",
-              "Select the transform output for the web service");
+          new EnterSelectionDialog(hopGui.getShell(), pipelineMeta.getTransformNames(), "Select output transform", "Select the transform output for the web service");
       String transformName = selectTransformDialog.open();
       if (transformName == null) {
         return;
       }
       IRowMeta rowMeta = pipelineMeta.getTransformFields(variables, transformName);
       EnterSelectionDialog selectFieldDialog =
-          new EnterSelectionDialog(
-              hopGui.getShell(),
-              rowMeta.getFieldNames(),
-              "Select the output field",
-              "Select the field to use as output for this web service");
+          new EnterSelectionDialog(hopGui.getShell(), rowMeta.getFieldNames(), "Select the output field", "Select the field to use as output for this web service");
       String fieldName = selectFieldDialog.open();
       if (fieldName == null) {
         return;

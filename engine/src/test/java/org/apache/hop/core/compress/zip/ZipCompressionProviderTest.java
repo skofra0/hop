@@ -38,7 +38,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ZipCompressionProviderTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   public static final String PROVIDER_NAME = "Zip";
 
@@ -69,16 +70,14 @@ public class ZipCompressionProviderTest {
 
   @Test
   public void testGetName() {
-    ZipCompressionProvider provider =
-        (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    ZipCompressionProvider provider = (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertNotNull(provider);
     assertEquals(PROVIDER_NAME, provider.getName());
   }
 
   @Test
   public void testGetProviderAttributes() {
-    ZipCompressionProvider provider =
-        (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    ZipCompressionProvider provider = (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     assertEquals("ZIP compression", provider.getDescription());
     assertTrue(provider.supportsInput());
     assertTrue(provider.supportsOutput());
@@ -87,8 +86,7 @@ public class ZipCompressionProviderTest {
 
   @Test
   public void testCreateInputStream() throws IOException {
-    ZipCompressionProvider provider =
-        (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    ZipCompressionProvider provider = (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     ByteArrayInputStream in = new ByteArrayInputStream("Test".getBytes());
     ZipInputStream zis = new ZipInputStream(in);
     ZipCompressionInputStream inStream = new ZipCompressionInputStream(in, provider);
@@ -101,8 +99,7 @@ public class ZipCompressionProviderTest {
 
   @Test
   public void testCreateOutputStream() throws IOException {
-    ZipCompressionProvider provider =
-        (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
+    ZipCompressionProvider provider = (ZipCompressionProvider) factory.getCompressionProviderByName(PROVIDER_NAME);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ZipOutputStream zos = new ZipOutputStream(out);
     ZipCompressionOutputStream outStream = new ZipCompressionOutputStream(out, provider);

@@ -16,7 +16,6 @@
  */
 package org.apache.hop.core.injection;
 
-@InjectionSupported(
-    localizationPrefix = "",
-    groups = {"ONE"})
-public class MetaBeanWrong6 extends MetaBeanWrong6Base {}
+@InjectionSupported(localizationPrefix = "", groups = {"ONE"})
+public class MetaBeanWrong6 extends MetaBeanWrong6Base {
+}

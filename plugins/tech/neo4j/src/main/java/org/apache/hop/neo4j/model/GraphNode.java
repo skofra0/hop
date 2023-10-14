@@ -25,15 +25,20 @@ import java.util.List;
 
 public class GraphNode {
 
-  @HopMetadataProperty protected String name;
+  @HopMetadataProperty
+  protected String name;
 
-  @HopMetadataProperty protected String description;
+  @HopMetadataProperty
+  protected String description;
 
-  @HopMetadataProperty protected List<String> labels;
+  @HopMetadataProperty
+  protected List<String> labels;
 
-  @HopMetadataProperty protected List<GraphProperty> properties;
+  @HopMetadataProperty
+  protected List<GraphProperty> properties;
 
-  @HopMetadataProperty protected GraphPresentation presentation;
+  @HopMetadataProperty
+  protected GraphPresentation presentation;
 
   public GraphNode() {
     labels = new ArrayList<>();
@@ -41,8 +46,7 @@ public class GraphNode {
     presentation = new GraphPresentation(0, 0);
   }
 
-  public GraphNode(
-      String name, String description, List<String> labels, List<GraphProperty> properties) {
+  public GraphNode(String name, String description, List<String> labels, List<GraphProperty> properties) {
     this.name = name;
     this.description = description;
     this.labels = labels;
@@ -121,10 +125,7 @@ public class GraphNode {
       }
     }
     if (!hasPk) {
-      throw new HopException(
-          "Node '"
-              + name
-              + "' has no primary key field. This makes it impossible to update or create relationships with.");
+      throw new HopException("Node '" + name + "' has no primary key field. This makes it impossible to update or create relationships with.");
     }
   }
 

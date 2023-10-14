@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WorkflowActionEvalFilesMetricsLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionEvalFilesMetrics> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionEvalFilesMetricsLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionEvalFilesMetrics> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionEvalFilesMetrics> getActionClass() {
@@ -43,44 +43,32 @@ public class WorkflowActionEvalFilesMetricsLoadSaveTest
   protected List<String> listAttributes() {
     return Arrays.asList(
         new String[] {
-          "resultFilenamesWildcard",
-          "resultFieldFile",
-          "resultFieldWildcard",
-          "resultFieldIncludeSubfolders",
-          "sourceFileFolder",
-          "sourceWildcard",
-          "sourceIncludeSubfolders",
-          "compareValue",
-          "minValue",
-          "maxValue",
-          "successConditionType",
-          "sourceFiles",
-          "evaluationType",
-          "scale"
-        });
+            "resultFilenamesWildcard",
+            "resultFieldFile",
+            "resultFieldWildcard",
+            "resultFieldIncludeSubfolders",
+            "sourceFileFolder",
+            "sourceWildcard",
+            "sourceIncludeSubfolders",
+            "compareValue",
+            "minValue",
+            "maxValue",
+            "successConditionType",
+            "sourceFiles",
+            "evaluationType",
+            "scale"});
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
     int sourceFileCount = new Random().nextInt(50) + 1;
-    validators.put(
-        "sourceFileFolder",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
-    validators.put(
-        "sourceWildcard",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
-    validators.put(
-        "sourceIncludeSubfolders",
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
-    validators.put(
-        "successConditionType",
-        new IntLoadSaveValidator(ActionEvalFilesMetrics.successNumberConditionCode.length));
-    validators.put(
-        "sourceFiles", new IntLoadSaveValidator(ActionEvalFilesMetrics.SourceFilesCodes.length));
-    validators.put(
-        "evaluationType",
-        new IntLoadSaveValidator(ActionEvalFilesMetrics.EvaluationTypeCodes.length));
+    validators.put("sourceFileFolder", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
+    validators.put("sourceWildcard", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
+    validators.put("sourceIncludeSubfolders", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), sourceFileCount));
+    validators.put("successConditionType", new IntLoadSaveValidator(ActionEvalFilesMetrics.successNumberConditionCode.length));
+    validators.put("sourceFiles", new IntLoadSaveValidator(ActionEvalFilesMetrics.SourceFilesCodes.length));
+    validators.put("evaluationType", new IntLoadSaveValidator(ActionEvalFilesMetrics.EvaluationTypeCodes.length));
     validators.put("scale", new IntLoadSaveValidator(ActionEvalFilesMetrics.scaleCodes.length));
 
     return validators;

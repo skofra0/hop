@@ -28,19 +28,19 @@ import org.eclipse.swt.widgets.Text;
  *
  * <p>
  *
- * <p>TODO: add bottom section to show status, size, cursor position...
+ * <p>
+ * TODO: add bottom section to show status, size, cursor position...
  *
- * <p>TODO: add a checkbox so that we can implement a "tail -f" log viewer
+ * <p>
+ * TODO: add a checkbox so that we can implement a "tail -f" log viewer
  *
  * <p>
  */
-public class LogExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler
-    implements IExplorerFileTypeHandler {
+public class LogExplorerFileTypeHandler extends BaseTextExplorerFileTypeHandler implements IExplorerFileTypeHandler {
 
   private Text wText;
 
-  public LogExplorerFileTypeHandler(
-      HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
+  public LogExplorerFileTypeHandler(HopGui hopGui, ExplorerPerspective perspective, ExplorerFile explorerFile) {
     super(hopGui, perspective, explorerFile);
   }
 }

@@ -46,8 +46,7 @@ public class HopTrustManager implements X509TrustManager {
    * @param certPassword
    * @throws HopException
    */
-  public HopTrustManager(KeyStore keyStore, String certFilename, String certPassword)
-      throws HopException {
+  public HopTrustManager(KeyStore keyStore, String certFilename, String certPassword) throws HopException {
     try {
       // Load the CERT key from the file into the store using the provided
       // password if needed.
@@ -57,19 +56,13 @@ public class HopTrustManager implements X509TrustManager {
         inputStream = HopVfs.getInputStream(certFilename);
         keyStore.load(inputStream, Const.NVL(certPassword, "").toCharArray());
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(
-                classFromPackage, "HopTrustManager.Exception.CouldNotOpenCertStore"),
-            e);
+        throw new HopException(BaseMessages.getString(classFromPackage, "HopTrustManager.Exception.CouldNotOpenCertStore"), e);
       } finally {
         if (inputStream != null) {
           try {
             inputStream.close();
           } catch (Exception e) {
-            throw new HopException(
-                BaseMessages.getString(
-                    classFromPackage, "HopTrustManager.Exception.CouldNotOpenCertStore"),
-                e);
+            throw new HopException(BaseMessages.getString(classFromPackage, "HopTrustManager.Exception.CouldNotOpenCertStore"), e);
           }
         }
       }
@@ -83,16 +76,10 @@ public class HopTrustManager implements X509TrustManager {
         TrustManager[] tms = tmf.getTrustManagers();
         tm = (X509TrustManager) tms[0];
       } catch (Exception e) {
-        throw new HopException(
-            BaseMessages.getString(
-                classFromPackage, "HopTrustManager.Exception.CouldNotInitializeTrustManager"),
-            e);
+        throw new HopException(BaseMessages.getString(classFromPackage, "HopTrustManager.Exception.CouldNotInitializeTrustManager"), e);
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              classFromPackage, "HopTrustManager.Exception.CouldNotInitializeHopTrustManager"),
-          e);
+      throw new HopException(BaseMessages.getString(classFromPackage, "HopTrustManager.Exception.CouldNotInitializeHopTrustManager"), e);
     }
   }
 
@@ -100,7 +87,7 @@ public class HopTrustManager implements X509TrustManager {
    * Pass method from x509TrustManager to this class...
    *
    * @return an array of certificate authority certificates which are trusted for authenticating
-   *     peers
+   *         peers
    */
   @Override
   public X509Certificate[] getAcceptedIssuers() {
@@ -113,13 +100,13 @@ public class HopTrustManager implements X509TrustManager {
   /**
    * Pass method from x509TrustManager to this class...
    *
-   * <p>Given the partial or complete certificate chain provided by the peer, build a certificate
+   * <p>
+   * Given the partial or complete certificate chain provided by the peer, build a certificate
    * path to a trusted root and return if it can be validated and is trusted for client SSL
    * authentication based on the authentication type
    */
   @Override
-  public void checkClientTrusted(X509Certificate[] chain, String authType)
-      throws CertificateException {
+  public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     if (tm == null) {
       return;
     }
@@ -129,13 +116,13 @@ public class HopTrustManager implements X509TrustManager {
   /**
    * Pass method from x509TrustManager to this class...
    *
-   * <p>Given the partial or complete certificate chain provided by the peer, build a certificate
+   * <p>
+   * Given the partial or complete certificate chain provided by the peer, build a certificate
    * path to a trusted root and return if it can be validated and is trusted for server SSL
    * authentication based on the authentication type
    */
   @Override
-  public void checkServerTrusted(X509Certificate[] chain, String authType)
-      throws CertificateException {
+  public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     if (tm == null) {
       return;
     }

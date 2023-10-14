@@ -46,7 +46,8 @@ import static org.junit.Assert.assertEquals;
 
 /** User: Dzmitry Stsiapanau Date: 1/20/14 Time: 3:04 PM */
 public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
   Class<SystemDataMeta> testMetaClass = SystemDataMeta.class;
   SystemDataMeta expectedSystemDataMeta;
@@ -70,12 +71,8 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
     SystemDataTypes[] types = expectedSystemDataMeta.getFieldType();
     names[0] = "hostname_real";
     names[1] = "hostname";
-    types[0] =
-        SystemDataTypes.getTypeFromString(
-            SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME_REAL.getDescription());
-    types[1] =
-        SystemDataTypes.getTypeFromString(
-            SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME.getDescription());
+    types[0] = SystemDataTypes.getTypeFromString(SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME_REAL.getDescription());
+    types[1] = SystemDataTypes.getTypeFromString(SystemDataTypes.TYPE_SYSTEM_INFO_HOSTNAME.getDescription());
   }
 
   @After
@@ -84,8 +81,7 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
   @Test
   public void testLoadXml() throws Exception {
     SystemDataMeta systemDataMeta = new SystemDataMeta();
-    DocumentBuilderFactory documentBuilderFactory =
-        XmlParserFactoryProducer.createSecureDocBuilderFactory();
+    DocumentBuilderFactory documentBuilderFactory = XmlParserFactoryProducer.createSecureDocBuilderFactory();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
     Node node = documentBuilder.parse(new InputSource(new StringReader(expectedXML)));
     systemDataMeta.loadXml(node, null);
@@ -95,9 +91,7 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
   @Test
   public void testGetXml() throws Exception {
     String generatedXML = expectedSystemDataMeta.getXml();
-    assertEquals(
-        expectedXML.replaceAll("\n", "").replaceAll("\r", ""),
-        generatedXML.replaceAll("\n", "").replaceAll("\r", ""));
+    assertEquals(expectedXML.replaceAll("\n", "").replaceAll("\r", ""), generatedXML.replaceAll("\n", "").replaceAll("\r", ""));
   }
 
   @Before
@@ -106,25 +100,21 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
     PluginRegistry.init();
     List<String> attributes = Arrays.asList("fieldName", "fieldType");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("fieldName", "getFieldName");
-            put("fieldType", "getFieldType");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("fieldName", "setFieldName");
-            put("fieldType", "setFieldType");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("fieldName", "getFieldName");
+        put("fieldType", "getFieldType");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("fieldName", "setFieldName");
+        put("fieldType", "setFieldType");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
-    IFieldLoadSaveValidator<SystemDataTypes[]> sdtArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new SystemDataTypesLoadSaveValidator(), 5);
+    IFieldLoadSaveValidator<SystemDataTypes[]> sdtArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new SystemDataTypesLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("fieldName", stringArrayLoadSaveValidator);
@@ -132,15 +122,7 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -156,8 +138,7 @@ public class SystemDataMetaTest implements IInitializer<SystemDataMeta> {
     loadSaveTester.testSerialization();
   }
 
-  public class SystemDataTypesLoadSaveValidator
-      implements IFieldLoadSaveValidator<SystemDataTypes> {
+  public class SystemDataTypesLoadSaveValidator implements IFieldLoadSaveValidator<SystemDataTypes> {
     final Random rand = new Random();
 
     @Override

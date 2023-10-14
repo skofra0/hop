@@ -70,16 +70,14 @@ public class PluginsResource extends BaseResource {
       Set<String> typeClassesSet = new HashSet<>();
       pluginTypes.forEach(c -> typeClassesSet.add(c.getName()));
       if (!typeClassesSet.contains(typeClassName)) {
-        throw new HopException(
-            "Type class name is not available in the plugin registry: " + typeClassName);
+        throw new HopException("Type class name is not available in the plugin registry: " + typeClassName);
       }
 
       Class<IPluginType<?>> typeClass = (Class<IPluginType<?>>) Class.forName(typeClassName);
       List<IPlugin> plugins = registry.getPlugins(typeClass);
       return Response.ok(plugins).build();
     } catch (Exception e) {
-      String errorMessage =
-          "Unexpected error retrieving the list of plugins for plugin type class " + typeClassName;
+      String errorMessage = "Unexpected error retrieving the list of plugins for plugin type class " + typeClassName;
       return getServerError(errorMessage, e);
     }
   }

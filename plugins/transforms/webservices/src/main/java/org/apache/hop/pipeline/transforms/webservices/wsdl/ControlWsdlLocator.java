@@ -72,9 +72,9 @@ public final class ControlWsdlLocator implements WSDLLocator {
    * file by:
    *
    * <ol>
-   *   <li>If the _wsdlName can be converted to a URL, use url.openStream()
-   *   <li>Attempt to locate _wsdlName using the bean context's getResourceAsStream()
-   *   <li>Attempt to locate _wsdlName using the current class loader's getResourceAsStream()
+   * <li>If the _wsdlName can be converted to a URL, use url.openStream()
+   * <li>Attempt to locate _wsdlName using the bean context's getResourceAsStream()
+   * <li>Attempt to locate _wsdlName using the current class loader's getResourceAsStream()
    * </ol>
    *
    * @return An InputSource for the WSDL file.

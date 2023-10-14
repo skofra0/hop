@@ -48,8 +48,7 @@ public class MappingInputDialog extends BaseTransformDialog implements ITransfor
 
   private MappingInputMeta input;
 
-  public MappingInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public MappingInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (MappingInputMeta) in;
   }
@@ -62,13 +61,12 @@ public class MappingInputDialog extends BaseTransformDialog implements ITransfor
     PropsUi.setLook(shell);
     setShellImage(shell, input);
 
-    ModifyListener lsMod =
-        new ModifyListener() {
-          @Override
-          public void modifyText(ModifyEvent e) {
-            input.setChanged();
-          }
-        };
+    ModifyListener lsMod = new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        input.setChanged();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -124,33 +122,12 @@ public class MappingInputDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "MappingInputDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false)};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            nrFieldRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, nrFieldRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -210,9 +187,7 @@ public class MappingInputDialog extends BaseTransformDialog implements ITransfor
 
     input.getFields().clear();
     for (TableItem item : wFields.getNonEmptyItems()) {
-      input
-          .getFields()
-          .add(new InputField(item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
+      input.getFields().add(new InputField(item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
     }
 
     dispose();

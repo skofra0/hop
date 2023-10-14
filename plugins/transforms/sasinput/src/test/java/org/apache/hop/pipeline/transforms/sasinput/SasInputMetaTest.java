@@ -38,7 +38,8 @@ import java.util.UUID;
 public class SasInputMetaTest {
   LoadSaveTester loadSaveTester;
   Class<SasInputMeta> testMetaClass = SasInputMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -49,14 +50,11 @@ public class SasInputMetaTest {
     Map<String, String> gsMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "outputFields", new ListLoadSaveValidator<>(new SasInputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("outputFields", new ListLoadSaveValidator<>(new SasInputFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, gsMap, gsMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, gsMap, gsMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test
@@ -88,17 +86,10 @@ public class SasInputMetaTest {
         return false;
       }
       SasInputField another = (SasInputField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getTrimType(), another.getTrimType())
-          .append(testObject.getType(), another.getType())
-          .append(testObject.getPrecision(), another.getPrecision())
-          .append(testObject.getRename(), another.getRename())
-          .append(testObject.getDecimalSymbol(), another.getDecimalSymbol())
-          .append(testObject.getConversionMask(), another.getConversionMask())
-          .append(testObject.getGroupingSymbol(), another.getGroupingSymbol())
-          .append(testObject.getLength(), another.getLength())
-          .isEquals();
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getTrimType(), another.getTrimType())
+          .append(testObject.getType(), another.getType()).append(testObject.getPrecision(), another.getPrecision()).append(testObject.getRename(), another.getRename())
+          .append(testObject.getDecimalSymbol(), another.getDecimalSymbol()).append(testObject.getConversionMask(), another.getConversionMask())
+          .append(testObject.getGroupingSymbol(), another.getGroupingSymbol()).append(testObject.getLength(), another.getLength()).isEquals();
     }
   }
 }

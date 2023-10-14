@@ -121,11 +121,7 @@ public class EnterMappingDialog extends Dialog {
    * @param mappings the already selected mappings (ArrayList containing <code>SourceToTargetMapping
    *     </code>s)
    */
-  public EnterMappingDialog(
-      Shell parent,
-      String[] source,
-      String[] target,
-      java.util.List<SourceToTargetMapping> mappings) {
+  public EnterMappingDialog(Shell parent, String[] source, String[] target, java.util.List<SourceToTargetMapping> mappings) {
     super(parent, SWT.NONE);
     props = PropsUi.getInstance();
     this.sourceList = source;
@@ -136,10 +132,7 @@ public class EnterMappingDialog extends Dialog {
 
   public java.util.List<SourceToTargetMapping> open() {
     Shell parent = getParent();
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MIN | SWT.MAX | SWT.APPLICATION_MODAL | SWT.SHEET);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MIN | SWT.MAX | SWT.APPLICATION_MODAL | SWT.SHEET);
     PropsUi.setLook(shell);
 
     shell.setImage(GuiResource.getInstance().getImageHopUi());
@@ -165,8 +158,7 @@ public class EnterMappingDialog extends Dialog {
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
     wCancel.addListener(SWT.Selection, e -> cancel());
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wOk, wGuess, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOk, wGuess, wCancel}, margin, null);
 
     // Hide used source fields?
     wSourceHide = new Button(shell, SWT.CHECK);
@@ -194,8 +186,7 @@ public class EnterMappingDialog extends Dialog {
 
     // Automatic source selection
     Button wSourceAuto = new Button(shell, SWT.CHECK);
-    wSourceAuto.setText(
-        BaseMessages.getString(PKG, "EnterMappingDialog.AutoTargetSelection.Label"));
+    wSourceAuto.setText(BaseMessages.getString(PKG, "EnterMappingDialog.AutoTargetSelection.Label"));
     wSourceAuto.setSelection(true);
     PropsUi.setLook(wSourceAuto);
     FormData fdSourceAuto = new FormData();
@@ -206,8 +197,7 @@ public class EnterMappingDialog extends Dialog {
 
     // Automatic target selection
     Button wTargetAuto = new Button(shell, SWT.CHECK);
-    wTargetAuto.setText(
-        BaseMessages.getString(PKG, "EnterMappingDialog.AutoSourceSelection.Label"));
+    wTargetAuto.setText(BaseMessages.getString(PKG, "EnterMappingDialog.AutoSourceSelection.Label"));
     wTargetAuto.setSelection(false);
     PropsUi.setLook(wTargetAuto);
     FormData fdTargetAuto = new FormData();
@@ -296,22 +286,18 @@ public class EnterMappingDialog extends Dialog {
     fdResult.bottom = new FormAttachment(wSource, 0, SWT.BOTTOM);
     wResult.setLayoutData(fdResult);
 
-    wSource.addListener(
-        SWT.Selection,
-        event -> {
-          if (wSourceAuto.getSelection()) {
-            findTarget();
-          }
-        });
+    wSource.addListener(SWT.Selection, event -> {
+      if (wSourceAuto.getSelection()) {
+        findTarget();
+      }
+    });
     wSource.addListener(SWT.DefaultSelection, event -> add());
 
-    wTarget.addListener(
-        SWT.Selection,
-        event -> {
-          if (wTargetAuto.getSelection()) {
-            findSource();
-          }
-        });
+    wTarget.addListener(SWT.Selection, event -> {
+      if (wTargetAuto.getSelection()) {
+        findSource();
+      }
+    });
     wTarget.addListener(SWT.DefaultSelection, event -> add());
 
     getData();
@@ -358,8 +344,7 @@ public class EnterMappingDialog extends Dialog {
     Collections.sort(pList, (s1, s2) -> s1.getSrcIndex() - s2.getSrcIndex());
     for (GuessPair p : pList) {
       if (p.getFound()) {
-        SourceToTargetMapping mapping =
-            new SourceToTargetMapping(p.getSrcIndex(), p.getTargetIndex());
+        SourceToTargetMapping mapping = new SourceToTargetMapping(p.getSrcIndex(), p.getTargetIndex());
         mappings.add(mapping);
       }
     }
@@ -418,8 +403,7 @@ public class EnterMappingDialog extends Dialog {
 
       // Compare sourceValue and targetValue using a distance
       //
-      int distance =
-          Utils.getDamerauLevenshteinDistance(sourceValue.toLowerCase(), targetValue.toLowerCase());
+      int distance = Utils.getDamerauLevenshteinDistance(sourceValue.toLowerCase(), targetValue.toLowerCase());
       if (distance < minDistance) {
         minDistance = distance;
         minTarget = i;
@@ -532,9 +516,7 @@ public class EnterMappingDialog extends Dialog {
   }
 
   private String getMappingResultString(SourceToTargetMapping mapping) {
-    return sourceList[mapping.getSourcePosition()]
-        + " --> "
-        + targetList[mapping.getTargetPosition()];
+    return sourceList[mapping.getSourcePosition()] + " --> " + targetList[mapping.getTargetPosition()];
   }
 
   private void delete() {

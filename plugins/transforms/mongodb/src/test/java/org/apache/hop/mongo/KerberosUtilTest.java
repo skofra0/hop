@@ -25,28 +25,17 @@ public class KerberosUtilTest {
 
   @Test
   public void testJaasAuthenticationMode() throws MongoDbException {
-    assertEquals(
-        KerberosUtil.JaasAuthenticationMode.EXTERNAL,
-        KerberosUtil.JaasAuthenticationMode.byName("EXTERNAL"));
-    assertEquals(
-        KerberosUtil.JaasAuthenticationMode.KERBEROS_KEYTAB,
-        KerberosUtil.JaasAuthenticationMode.byName("KERBEROS_KEYTAB"));
-    assertEquals(
-        KerberosUtil.JaasAuthenticationMode.KERBEROS_USER,
-        KerberosUtil.JaasAuthenticationMode.byName("KERBEROS_USER"));
+    assertEquals(KerberosUtil.JaasAuthenticationMode.EXTERNAL, KerberosUtil.JaasAuthenticationMode.byName("EXTERNAL"));
+    assertEquals(KerberosUtil.JaasAuthenticationMode.KERBEROS_KEYTAB, KerberosUtil.JaasAuthenticationMode.byName("KERBEROS_KEYTAB"));
+    assertEquals(KerberosUtil.JaasAuthenticationMode.KERBEROS_USER, KerberosUtil.JaasAuthenticationMode.byName("KERBEROS_USER"));
     // KERBEROS_USER should be default
-    assertEquals(
-        KerberosUtil.JaasAuthenticationMode.KERBEROS_USER,
-        KerberosUtil.JaasAuthenticationMode.byName(null));
+    assertEquals(KerberosUtil.JaasAuthenticationMode.KERBEROS_USER, KerberosUtil.JaasAuthenticationMode.byName(null));
 
     try {
       KerberosUtil.JaasAuthenticationMode.byName("Invalid");
       fail();
     } catch (MongoDbException e) {
-      assertEquals(
-          "HOP_JAAS_AUTH_MODE is incorrect.  "
-              + "Should be one of [KERBEROS_USER, KERBEROS_KEYTAB, EXTERNAL], found 'Invalid'.",
-          e.getMessage());
+      assertEquals("HOP_JAAS_AUTH_MODE is incorrect.  " + "Should be one of [KERBEROS_USER, KERBEROS_KEYTAB, EXTERNAL], found 'Invalid'.", e.getMessage());
     }
   }
 }

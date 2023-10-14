@@ -74,11 +74,11 @@ public class ZipFileMeta extends BaseTransformMeta<ZipFile, ZipFileData> {
   private int operationType;
 
   /** The operations description */
-  public static final String[] operationTypeDesc = {
-    BaseMessages.getString(PKG, "ZipFileMeta.operationType.DoNothing"),
-    BaseMessages.getString(PKG, "ZipFileMeta.operationType.Move"),
-    BaseMessages.getString(PKG, "ZipFileMeta.operationType.Delete")
-  };
+  public static final String[] operationTypeDesc =
+      {
+          BaseMessages.getString(PKG, "ZipFileMeta.operationType.DoNothing"),
+          BaseMessages.getString(PKG, "ZipFileMeta.operationType.Move"),
+          BaseMessages.getString(PKG, "ZipFileMeta.operationType.Delete")};
 
   /** The operations type codes */
   public static final String[] operationTypeCode = {"", "move", "delete"};
@@ -246,19 +246,10 @@ public class ZipFileMeta extends BaseTransformMeta<ZipFile, ZipFileData> {
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "ZipFileMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "ZipFileMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "ZipFileMeta.CheckResult.NoInpuReceived"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "ZipFileMeta.CheckResult.NoInpuReceived"), transformMeta);
       remarks.add(cr);
     }
   }

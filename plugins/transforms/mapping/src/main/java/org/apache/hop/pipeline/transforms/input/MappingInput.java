@@ -27,13 +27,7 @@ public class MappingInput extends BaseTransform<MappingInputMeta, MappingInputDa
 
   private static final Class<?> PKG = MappingInputMeta.class; // For Translator
 
-  public MappingInput(
-      TransformMeta transformMeta,
-      MappingInputMeta meta,
-      MappingInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MappingInput(TransformMeta transformMeta, MappingInputMeta meta, MappingInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

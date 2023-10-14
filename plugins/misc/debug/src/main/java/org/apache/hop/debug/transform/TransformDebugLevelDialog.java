@@ -57,8 +57,7 @@ public class TransformDebugLevelDialog extends Dialog {
 
   private boolean ok;
 
-  public TransformDebugLevelDialog(
-      Shell par, TransformDebugLevel debugLevel, IRowMeta inputRowMeta) {
+  public TransformDebugLevelDialog(Shell par, TransformDebugLevel debugLevel, IRowMeta inputRowMeta) {
     super(par, SWT.NONE);
     this.input = debugLevel;
     this.inputRowMeta = inputRowMeta;
@@ -160,8 +159,7 @@ public class TransformDebugLevelDialog extends Dialog {
     fdlCondition.left = new FormAttachment(0, 0);
     fdlCondition.right = new FormAttachment(middle, -margin);
     wlCondition.setLayoutData(fdlCondition);
-    ConditionEditor wCondition =
-        new ConditionEditor(shell, SWT.NONE, debugLevel.getCondition(), inputRowMeta);
+    ConditionEditor wCondition = new ConditionEditor(shell, SWT.NONE, debugLevel.getCondition(), inputRowMeta);
     PropsUi.setLook(wCondition);
     FormData fdCondition = new FormData();
     fdCondition.top = new FormAttachment(lastControl, margin);
@@ -184,8 +182,7 @@ public class TransformDebugLevelDialog extends Dialog {
 
   public void getData() {
     wLogLevel.setText(debugLevel.getLogLevel().getDescription());
-    wStartRow.setText(
-        debugLevel.getStartRow() < 0 ? "" : Integer.toString(debugLevel.getStartRow()));
+    wStartRow.setText(debugLevel.getStartRow() < 0 ? "" : Integer.toString(debugLevel.getStartRow()));
     wEndRow.setText(debugLevel.getEndRow() < 0 ? "" : Integer.toString(debugLevel.getEndRow()));
 
     wLogLevel.setFocus();

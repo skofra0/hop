@@ -79,37 +79,23 @@ import java.util.Map;
 
 @GuiPlugin
 public class TestingGuiPlugin {
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_INPUT_DATA_SET =
-      "pipeline-graph-transform-20200-define-input-data-set";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_INPUT_DATA_SET =
-      "pipeline-graph-transform-20210-clear-input-data-set";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_GOLDEN_DATA_SET =
-      "pipeline-graph-transform-20220-define-golden-data-set";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_GOLDEN_DATA_SET =
-      "pipeline-graph-transform-20240-clear-golden-data-set";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_ENABLE_TWEAK_REMOVE_TRANSFORM =
-      "pipeline-graph-transform-20800-enable-tweak-remove-transform";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_REMOVE_TRANSFORM =
-      "pipeline-graph-transform-20810-disable-tweak-remove-transform";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_ENABLE_TWEAK_BYPASS_TRANSFORM =
-      "pipeline-graph-transform-20820-enable-tweak-bypass-transform";
-  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_BYPASS_TRANSFORM =
-      "pipeline-graph-transform-20830-disable-tweak-bypass-transform";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_INPUT_DATA_SET = "pipeline-graph-transform-20200-define-input-data-set";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_INPUT_DATA_SET = "pipeline-graph-transform-20210-clear-input-data-set";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_GOLDEN_DATA_SET = "pipeline-graph-transform-20220-define-golden-data-set";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_GOLDEN_DATA_SET = "pipeline-graph-transform-20240-clear-golden-data-set";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_ENABLE_TWEAK_REMOVE_TRANSFORM = "pipeline-graph-transform-20800-enable-tweak-remove-transform";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_REMOVE_TRANSFORM = "pipeline-graph-transform-20810-disable-tweak-remove-transform";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_ENABLE_TWEAK_BYPASS_TRANSFORM = "pipeline-graph-transform-20820-enable-tweak-bypass-transform";
+  public static final String ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_BYPASS_TRANSFORM = "pipeline-graph-transform-20830-disable-tweak-bypass-transform";
   protected static Class<?> PKG = TestingGuiPlugin.class; // For Translator
 
-  public static final String ID_TOOLBAR_ITEM_UNIT_TEST_EDIT =
-      "HopGuiPipelineGraph-ToolBar-20015-unit-test-edit";
-  public static final String ID_TOOLBAR_ITEM_UNIT_TESTS_CREATE =
-      "HopGuiPipelineGraph-ToolBar-20020-unit-tests-create";
-  public static final String ID_TOOLBAR_ITEM_UNIT_TEST_DETACH =
-      "HopGuiPipelineGraph-ToolBar-20030-unit-test-detach";
-  public static final String ID_TOOLBAR_ITEM_UNIT_TESTS_DELETE =
-      "HopGuiPipelineGraph-ToolBar-20050-unit-tests-delete";
+  public static final String ID_TOOLBAR_ITEM_UNIT_TEST_EDIT = "HopGuiPipelineGraph-ToolBar-20015-unit-test-edit";
+  public static final String ID_TOOLBAR_ITEM_UNIT_TESTS_CREATE = "HopGuiPipelineGraph-ToolBar-20020-unit-tests-create";
+  public static final String ID_TOOLBAR_ITEM_UNIT_TEST_DETACH = "HopGuiPipelineGraph-ToolBar-20030-unit-test-detach";
+  public static final String ID_TOOLBAR_ITEM_UNIT_TESTS_DELETE = "HopGuiPipelineGraph-ToolBar-20050-unit-tests-delete";
 
-  public static final String ID_TOOLBAR_UNIT_TESTS_LABEL =
-      "HopGuiPipelineGraph-ToolBar-20000-unit-tests-label";
-  public static final String ID_TOOLBAR_UNIT_TESTS_COMBO =
-      "HopGuiPipelineGraph-ToolBar-20010-unit-tests-combo";
+  public static final String ID_TOOLBAR_UNIT_TESTS_LABEL = "HopGuiPipelineGraph-ToolBar-20000-unit-tests-label";
+  public static final String ID_TOOLBAR_UNIT_TESTS_COMBO = "HopGuiPipelineGraph-ToolBar-20010-unit-tests-combo";
 
   private static TestingGuiPlugin instance = null;
 
@@ -122,8 +108,7 @@ public class TestingGuiPlugin {
     return instance;
   }
 
-  public static String validateDataSet(
-      DataSet dataSet, String previousName, List<String> setNames) {
+  public static String validateDataSet(DataSet dataSet, String previousName, List<String> setNames) {
 
     String message = null;
 
@@ -131,14 +116,10 @@ public class TestingGuiPlugin {
     if (StringUtil.isEmpty(newName)) {
       message = BaseMessages.getString(PKG, "TestingGuiPlugin.DataSet.NoNameSpecified.Message");
     } else if (!StringUtil.isEmpty(previousName) && !previousName.equals(newName)) {
-      message =
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.DataSet.RenamingOfADataSetsNotSupported.Message");
+      message = BaseMessages.getString(PKG, "TestingGuiPlugin.DataSet.RenamingOfADataSetsNotSupported.Message");
     } else {
       if (StringUtil.isEmpty(previousName) && Const.indexOfString(newName, setNames) >= 0) {
-        message =
-            BaseMessages.getString(
-                PKG, "TestingGuiPlugin.DataSet.ADataSetWithNameExists.Message", newName);
+        message = BaseMessages.getString(PKG, "TestingGuiPlugin.DataSet.ADataSetWithNameExists.Message", newName);
       }
     }
 
@@ -177,14 +158,11 @@ public class TestingGuiPlugin {
               hopGui.getShell(),
               setNames.toArray(new String[setNames.size()]),
               BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Header"),
-              BaseMessages.getString(
-                  PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Message"));
+              BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Message"));
       String setName = esd.open();
       if (setName != null) {
         DataSet dataSet = setSerializer.load(setName);
-        boolean changed =
-            setInputDataSetOnTransform(
-                variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
+        boolean changed = setInputDataSetOnTransform(variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
         if (changed) {
           context.getPipelineGraph().updateGui();
         }
@@ -192,10 +170,8 @@ public class TestingGuiPlugin {
     } catch (Exception e) {
       new ErrorDialog(
           hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Error.Message"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Error.Header"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetInputDataset.Error.Message"),
           e);
     }
   }
@@ -228,8 +204,7 @@ public class TestingGuiPlugin {
     String[] transformFieldNames = transformFields.getFieldNames();
     String[] setFieldNames = setFields.getFieldNames();
 
-    EnterMappingDialog mappingDialog =
-        new EnterMappingDialog(hopGui.getShell(), setFieldNames, transformFieldNames);
+    EnterMappingDialog mappingDialog = new EnterMappingDialog(hopGui.getShell(), setFieldNames, transformFieldNames);
     List<SourceToTargetMapping> mappings = mappingDialog.open();
     if (mappings == null) {
       return false;
@@ -239,9 +214,7 @@ public class TestingGuiPlugin {
     // Show the mapping as well as an order column
     //
     IRowMeta sortMeta = new RowMeta();
-    sortMeta.addValueMeta(
-        new ValueMetaString(
-            BaseMessages.getString(PKG, "TestingGuiPlugin.SortOrder.Column.SetField")));
+    sortMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "TestingGuiPlugin.SortOrder.Column.SetField")));
     List<Object[]> sortData = new ArrayList<>();
     for (String setFieldName : setFieldNames) {
       sortData.add(new Object[] {setFieldName});
@@ -318,8 +291,7 @@ public class TestingGuiPlugin {
     try {
       PipelineUnitTest currentUnitTest = getCurrentUnitTest(pipelineMeta);
 
-      PipelineUnitTestSetLocation inputLocation =
-          currentUnitTest.findInputLocation(transformMeta.getName());
+      PipelineUnitTestSetLocation inputLocation = currentUnitTest.findInputLocation(transformMeta.getName());
       if (inputLocation != null) {
         currentUnitTest.getInputDataSets().remove(inputLocation);
       }
@@ -330,10 +302,8 @@ public class TestingGuiPlugin {
     } catch (Exception e) {
       new ErrorDialog(
           hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.ClearInputDataset.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.ClearInputDataset.Error.Message"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.ClearInputDataset.Error.Header"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.ClearInputDataset.Error.Message"),
           e);
     }
   }
@@ -349,10 +319,8 @@ public class TestingGuiPlugin {
     // Show a warning
     //
     MessageBox box = new MessageBox(hopGui.getShell(), SWT.OK | SWT.ICON_INFORMATION);
-    box.setMessage(
-        BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CheckTestPresent.Message"));
-    box.setText(
-        BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CheckTestPresent.Header"));
+    box.setMessage(BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CheckTestPresent.Message"));
+    box.setText(BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CheckTestPresent.Header"));
     box.open();
 
     return true;
@@ -384,10 +352,8 @@ public class TestingGuiPlugin {
     try {
       // Create a copy and modify the pipeline
       // This way we have
-      PipelineMetaModifier modifier =
-          new PipelineMetaModifier(variables, sourcePipelineMeta, unitTest);
-      PipelineMeta pipelineMeta =
-          modifier.getTestPipeline(LogChannel.UI, variables, metadataProvider);
+      PipelineMetaModifier modifier = new PipelineMetaModifier(variables, sourcePipelineMeta, unitTest);
+      PipelineMeta pipelineMeta = modifier.getTestPipeline(LogChannel.UI, variables, metadataProvider);
 
       IHopMetadataSerializer<DataSet> setSerializer = metadataProvider.getSerializer(DataSet.class);
       List<String> setNames = setSerializer.listObjectNames();
@@ -397,14 +363,11 @@ public class TestingGuiPlugin {
               hopGui.getShell(),
               setNames.toArray(new String[setNames.size()]),
               BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Header"),
-              BaseMessages.getString(
-                  PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Message"));
+              BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Message"));
       String setName = esd.open();
       if (setName != null) {
         DataSet dataSet = setSerializer.load(setName);
-        boolean changed =
-            setGoldenDataSetOnTransform(
-                variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
+        boolean changed = setGoldenDataSetOnTransform(variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
         if (changed) {
           pipelineGraph.updateGui();
         }
@@ -412,10 +375,8 @@ public class TestingGuiPlugin {
     } catch (Exception e) {
       new ErrorDialog(
           hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Error.Message"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Error.Header"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.SetGoldenDataset.Error.Message"),
           e);
     }
   }
@@ -444,8 +405,7 @@ public class TestingGuiPlugin {
     String[] transformFieldNames = transformFields.getFieldNames();
     String[] setFieldNames = setFields.getFieldNames();
 
-    EnterMappingDialog mappingDialog =
-        new EnterMappingDialog(HopGui.getInstance().getShell(), transformFieldNames, setFieldNames);
+    EnterMappingDialog mappingDialog = new EnterMappingDialog(HopGui.getInstance().getShell(), transformFieldNames, setFieldNames);
     List<SourceToTargetMapping> mappings = mappingDialog.open();
     if (mappings == null) {
       return false;
@@ -455,9 +415,7 @@ public class TestingGuiPlugin {
     // Show the mapping as well as an order column
     //
     IRowMeta sortMeta = new RowMeta();
-    sortMeta.addValueMeta(
-        new ValueMetaString(
-            BaseMessages.getString(PKG, "TestingGuiPlugin.SortOrder.Column.SetField")));
+    sortMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "TestingGuiPlugin.SortOrder.Column.SetField")));
     List<Object[]> sortData = new ArrayList<>();
     for (String setFieldName : setFieldNames) {
       sortData.add(new Object[] {setFieldName});
@@ -491,10 +449,7 @@ public class TestingGuiPlugin {
     fieldMappings.clear();
 
     for (SourceToTargetMapping mapping : mappings) {
-      fieldMappings.add(
-          new PipelineUnitTestFieldMapping(
-              mapping.getSourceString(transformFieldNames),
-              mapping.getTargetString(setFieldNames)));
+      fieldMappings.add(new PipelineUnitTestFieldMapping(mapping.getSourceString(transformFieldNames), mapping.getTargetString(setFieldNames)));
     }
 
     List<String> setFieldOrder = new ArrayList<>();
@@ -535,8 +490,7 @@ public class TestingGuiPlugin {
     try {
       PipelineUnitTest currentUnitTest = getCurrentUnitTest(pipelineMeta);
 
-      PipelineUnitTestSetLocation goldenLocation =
-          currentUnitTest.findGoldenLocation(transformMeta.getName());
+      PipelineUnitTestSetLocation goldenLocation = currentUnitTest.findGoldenLocation(transformMeta.getName());
       if (goldenLocation != null) {
         currentUnitTest.getGoldenDataSets().remove(goldenLocation);
       }
@@ -545,10 +499,8 @@ public class TestingGuiPlugin {
     } catch (Exception e) {
       new ErrorDialog(
           hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.ClearGoldenDataset.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.ClearGoldenDataset.Error.Message"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.ClearGoldenDataset.Error.Header"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.ClearGoldenDataset.Error.Message"),
           e);
     }
     pipelineMeta.setChanged();
@@ -556,27 +508,22 @@ public class TestingGuiPlugin {
   }
 
   @GuiContextActionFilter(parentId = HopGuiPipelineTransformContext.CONTEXT_ID)
-  public boolean filterTestingActions(
-      String contextActionId, HopGuiPipelineTransformContext context) {
+  public boolean filterTestingActions(String contextActionId, HopGuiPipelineTransformContext context) {
     PipelineUnitTest currentTest = getCurrentUnitTest(context.getPipelineMeta());
 
     // Input & golden data set handling
     //
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_INPUT_DATA_SET.equals(contextActionId)) {
-      return currentTest != null
-          && currentTest.findInputLocation(context.getTransformMeta().getName()) == null;
+      return currentTest != null && currentTest.findInputLocation(context.getTransformMeta().getName()) == null;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_INPUT_DATA_SET.equals(contextActionId)) {
-      return currentTest != null
-          && currentTest.findInputLocation(context.getTransformMeta().getName()) != null;
+      return currentTest != null && currentTest.findInputLocation(context.getTransformMeta().getName()) != null;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DEFINE_GOLDEN_DATA_SET.equals(contextActionId)) {
-      return currentTest != null
-          && currentTest.findGoldenLocation(context.getTransformMeta().getName()) == null;
+      return currentTest != null && currentTest.findGoldenLocation(context.getTransformMeta().getName()) == null;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_CLEAR_GOLDEN_DATA_SET.equals(contextActionId)) {
-      return currentTest != null
-          && currentTest.findGoldenLocation(context.getTransformMeta().getName()) != null;
+      return currentTest != null && currentTest.findGoldenLocation(context.getTransformMeta().getName()) != null;
     }
 
     // Tweaks
@@ -589,17 +536,13 @@ public class TestingGuiPlugin {
       return currentTest != null && tweak == null;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_REMOVE_TRANSFORM.equals(contextActionId)) {
-      return currentTest != null
-          && tweak != null
-          && tweak.getTweak() == PipelineTweak.REMOVE_TRANSFORM;
+      return currentTest != null && tweak != null && tweak.getTweak() == PipelineTweak.REMOVE_TRANSFORM;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_ENABLE_TWEAK_BYPASS_TRANSFORM.equals(contextActionId)) {
       return currentTest != null && tweak == null;
     }
     if (ACTION_ID_PIPELINE_GRAPH_TRANSFORM_DISABLE_TWEAK_BYPASS_TRANSFORM.equals(contextActionId)) {
-      return currentTest != null
-          && tweak != null
-          && tweak.getTweak() == PipelineTweak.BYPASS_TRANSFORM;
+      return currentTest != null && tweak != null && tweak.getTweak() == PipelineTweak.BYPASS_TRANSFORM;
     }
 
     return true;
@@ -631,18 +574,11 @@ public class TestingGuiPlugin {
         IValueMeta valueMeta = rowMeta.getValueMeta(i);
         String setFieldName = valueMeta.getName();
         DataSetField field =
-            new DataSetField(
-                setFieldName,
-                valueMeta.getType(),
-                valueMeta.getLength(),
-                valueMeta.getPrecision(),
-                valueMeta.getComments(),
-                valueMeta.getFormatMask());
+            new DataSetField(setFieldName, valueMeta.getType(), valueMeta.getLength(), valueMeta.getPrecision(), valueMeta.getComments(), valueMeta.getFormatMask());
         dataSet.getFields().add(field);
       }
 
-      MetadataManager<DataSet> manager =
-          new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), DataSet.class, hopGui.getShell());
+      MetadataManager<DataSet> manager = new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), DataSet.class, hopGui.getShell());
       if (manager.newMetadata(dataSet) != null) {
 
         PipelineUnitTest unitTest = getCurrentUnitTest(pipelineMeta);
@@ -653,37 +589,21 @@ public class TestingGuiPlugin {
         // Now that the data set is created and we have an active unit test, perhaps the user wants
         // to use it on the transform?
         //
-        MessageBox box =
-            new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
-        box.setText(
-            BaseMessages.getString(
-                PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Header"));
+        MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.CANCEL | SWT.ICON_QUESTION);
+        box.setText(BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Header"));
         box.setMessage(
-            BaseMessages.getString(
-                    PKG,
-                    "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Message",
-                    dataSet.getName(),
-                    transformMeta.getName())
-                + Const.CR
-                + BaseMessages.getString(
-                    PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer1")
-                + Const.CR
-                + BaseMessages.getString(
-                    PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer2")
-                + Const.CR
-                + BaseMessages.getString(
-                    PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer3")
-                + Const.CR);
+            BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Message", dataSet.getName(), transformMeta.getName()) + Const.CR
+                + BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer1") + Const.CR
+                + BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer2") + Const.CR
+                + BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.CreateDataset.DatasetType.Answer3") + Const.CR);
         int answer = box.open();
         if ((answer & SWT.YES) != 0) {
           // set the new data set as an input
           //
-          setInputDataSetOnTransform(
-              variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
+          setInputDataSetOnTransform(variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
         }
         if ((answer & SWT.NO) != 0) {
-          setGoldenDataSetOnTransform(
-              variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
+          setGoldenDataSetOnTransform(variables, metadataProvider, pipelineMeta, transformMeta, unitTest, dataSet);
         }
       }
     } catch (Exception e) {
@@ -719,12 +639,8 @@ public class TestingGuiPlugin {
 
     if (pipelineMeta.hasChanged()) {
       MessageBox box = new MessageBox(hopGui.getShell(), SWT.OK | SWT.ICON_INFORMATION);
-      box.setText(
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.Run.SavePipelineDialog.Header"));
-      box.setMessage(
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ContextAction.Run.SavePipelineDialog.Message"));
+      box.setText(BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.Run.SavePipelineDialog.Header"));
+      box.setMessage(BaseMessages.getString(PKG, "TestingGuiPlugin.ContextAction.Run.SavePipelineDialog.Message"));
       box.open();
       return;
     }
@@ -763,14 +679,13 @@ public class TestingGuiPlugin {
 
       // Ask for the mapping between the output row and the data set field
       //
-      EnterMappingDialog mappingDialog =
-          new EnterMappingDialog(hopGui.getShell(), transformFields, setFields);
+      EnterMappingDialog mappingDialog = new EnterMappingDialog(hopGui.getShell(), transformFields, setFields);
       List<SourceToTargetMapping> mapping = mappingDialog.open();
       if (mapping == null) {
         return;
       }
 
-      // Run the pipeline.  We want to use the standard HopGui runFile() method
+      // Run the pipeline. We want to use the standard HopGui runFile() method
       // So we need to leave the source to target mapping list somewhere so it can be picked up
       // later.
       // For now we'll leave it where we need it.
@@ -796,12 +711,7 @@ public class TestingGuiPlugin {
     }
   }
 
-  private void saveUnitTest(
-      IVariables variables,
-      IHopMetadataProvider metadataProvider,
-      PipelineUnitTest unitTest,
-      PipelineMeta pipelineMeta)
-      throws HopException {
+  private void saveUnitTest(IVariables variables, IHopMetadataProvider metadataProvider, PipelineUnitTest unitTest, PipelineMeta pipelineMeta) throws HopException {
     unitTest.setRelativeFilename(variables, pipelineMeta.getFilename());
     metadataProvider.getSerializer(PipelineUnitTest.class).save(unitTest);
   }
@@ -870,9 +780,7 @@ public class TestingGuiPlugin {
     }
     PipelineUnitTest unitTest = getCurrentUnitTest(pipelineMeta);
 
-    MetadataManager<PipelineUnitTest> manager =
-        new MetadataManager<>(
-            hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
+    MetadataManager<PipelineUnitTest> manager = new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
     if (manager.editMetadata(unitTest.getName())) {
       // Activate the test
       refreshUnitTestsList();
@@ -893,9 +801,7 @@ public class TestingGuiPlugin {
       return;
     }
 
-    MetadataManager<PipelineUnitTest> manager =
-        new MetadataManager<>(
-            hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
+    MetadataManager<PipelineUnitTest> manager = new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
     PipelineUnitTest test = manager.newMetadata();
     if (test != null) {
       // Activate the test
@@ -927,22 +833,15 @@ public class TestingGuiPlugin {
     // Load the test, delete it after confirmation
     //
     try {
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          hopGui.getMetadataProvider().getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = hopGui.getMetadataProvider().getSerializer(PipelineUnitTest.class);
       PipelineUnitTest pipelineUnitTest = testSerializer.load(combo.getText());
       if (pipelineUnitTest == null) {
         return; // doesn't exist
       }
 
       MessageBox box = new MessageBox(hopGui.getShell(), SWT.YES | SWT.NO | SWT.ICON_QUESTION);
-      box.setMessage(
-          BaseMessages.getString(
-              PKG,
-              "TestingGuiPlugin.ToolbarElement.Delete.Confirmation.Message",
-              pipelineUnitTest.getName()));
-      box.setText(
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ToolbarElement.Delete.Confirmation.Header"));
+      box.setMessage(BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.Delete.Confirmation.Message", pipelineUnitTest.getName()));
+      box.setText(BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.Delete.Confirmation.Header"));
       int answer = box.open();
       if ((answer & SWT.YES) == 0) {
         return;
@@ -971,8 +870,7 @@ public class TestingGuiPlugin {
     if (pipelineGraph == null) {
       return null;
     }
-    Control control =
-        pipelineGraph.getToolBarWidgets().getWidgetsMap().get(ID_TOOLBAR_UNIT_TESTS_COMBO);
+    Control control = pipelineGraph.getToolBarWidgets().getWidgetsMap().get(ID_TOOLBAR_UNIT_TESTS_COMBO);
     if ((control != null) && (control instanceof Combo)) {
       Combo combo = (Combo) control;
       return combo;
@@ -1011,9 +909,7 @@ public class TestingGuiPlugin {
     }
     String unitTestName = combo.getText();
     try {
-      MetadataManager<PipelineUnitTest> manager =
-          new MetadataManager<>(
-              hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
+      MetadataManager<PipelineUnitTest> manager = new MetadataManager<>(hopGui.getVariables(), hopGui.getMetadataProvider(), PipelineUnitTest.class, hopGui.getShell());
       if (manager.editMetadata(unitTestName)) {
         refreshUnitTestsList();
         selectUnitTestInList(unitTestName);
@@ -1022,8 +918,7 @@ public class TestingGuiPlugin {
       new ErrorDialog(
           hopGui.getShell(),
           BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.UnitTest.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ToolbarElement.UnitTest.Error.Message", unitTestName),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.UnitTest.Error.Message", unitTestName),
           e);
     }
   }
@@ -1061,15 +956,11 @@ public class TestingGuiPlugin {
    * @return
    * @throws Exception
    */
-  public List<String> getUnitTestsList(
-      ILogChannel log, IHopMetadataProvider metadataProvider, String instanceId) throws Exception {
+  public List<String> getUnitTestsList(ILogChannel log, IHopMetadataProvider metadataProvider, String instanceId) throws Exception {
 
     // Grab the relevant variables
     //
-    Object guiPluginObject =
-        GuiRegistry.getInstance()
-            .findGuiPluginObject(
-                HopGui.getInstance().getId(), HopGuiPipelineGraph.class.getName(), instanceId);
+    Object guiPluginObject = GuiRegistry.getInstance().findGuiPluginObject(HopGui.getInstance().getId(), HopGuiPipelineGraph.class.getName(), instanceId);
     if (guiPluginObject == null) {
       return Collections.emptyList();
     }
@@ -1084,8 +975,7 @@ public class TestingGuiPlugin {
     //
     List<String> names;
     PipelineMeta pipelineMeta = pipelineGraph.getPipelineMeta();
-    IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-        metadataProvider.getSerializer(PipelineUnitTest.class);
+    IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
     if (pipelineMeta == null) {
       names = testSerializer.listObjectNames();
     } else {
@@ -1123,16 +1013,13 @@ public class TestingGuiPlugin {
         return;
       }
 
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          metadataProvider.getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
 
       String testName = combo.getText();
       if (testName != null) {
         PipelineUnitTest unitTest = testSerializer.load(testName);
         if (unitTest == null) {
-          throw new HopException(
-              BaseMessages.getString(
-                  PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Exception", testName));
+          throw new HopException(BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Exception", testName));
         }
 
         selectUnitTest(pipelineMeta, unitTest);
@@ -1144,10 +1031,8 @@ public class TestingGuiPlugin {
     } catch (Exception e) {
       new ErrorDialog(
           hopGui.getShell(),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Error.Header"),
-          BaseMessages.getString(
-              PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Error.Message"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Error.Header"),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.ToolbarElement.GetUnitTestList.Error.Message"),
           e);
     }
   }
@@ -1182,8 +1067,7 @@ public class TestingGuiPlugin {
       return null;
     }
 
-    PipelineUnitTest test =
-        (PipelineUnitTest) stateMap.get(DataSetConst.STATE_KEY_ACTIVE_UNIT_TEST);
+    PipelineUnitTest test = (PipelineUnitTest) stateMap.get(DataSetConst.STATE_KEY_ACTIVE_UNIT_TEST);
     return test;
   }
 
@@ -1198,8 +1082,7 @@ public class TestingGuiPlugin {
       categoryOrder = "8")
   public void enableTweakRemoveTransformInUnitTest(HopGuiPipelineTransformContext context) {
     IVariables variables = context.getPipelineGraph().getVariables();
-    tweakRemoveTransformInUnitTest(
-        variables, context.getPipelineMeta(), context.getTransformMeta(), true);
+    tweakRemoveTransformInUnitTest(variables, context.getPipelineMeta(), context.getTransformMeta(), true);
   }
 
   @GuiContextAction(
@@ -1212,20 +1095,11 @@ public class TestingGuiPlugin {
       category = "i18n::TestingGuiPlugin.Category",
       categoryOrder = "8")
   public void disableTweakRemoveTransformInUnitTest(HopGuiPipelineTransformContext context) {
-    tweakRemoveTransformInUnitTest(
-        context.getPipelineGraph().getVariables(),
-        context.getPipelineMeta(),
-        context.getTransformMeta(),
-        false);
+    tweakRemoveTransformInUnitTest(context.getPipelineGraph().getVariables(), context.getPipelineMeta(), context.getTransformMeta(), false);
   }
 
-  public void tweakRemoveTransformInUnitTest(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      boolean enable) {
-    tweakUnitTestTransform(
-        variables, pipelineMeta, transformMeta, PipelineTweak.REMOVE_TRANSFORM, enable);
+  public void tweakRemoveTransformInUnitTest(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, boolean enable) {
+    tweakUnitTestTransform(variables, pipelineMeta, transformMeta, PipelineTweak.REMOVE_TRANSFORM, enable);
   }
 
   @GuiContextAction(
@@ -1238,11 +1112,7 @@ public class TestingGuiPlugin {
       category = "i18n::TestingGuiPlugin.Category",
       categoryOrder = "8")
   public void enableTweakBypassTransformInUnitTest(HopGuiPipelineTransformContext context) {
-    tweakBypassTransformInUnitTest(
-        context.getPipelineGraph().getVariables(),
-        context.getPipelineMeta(),
-        context.getTransformMeta(),
-        true);
+    tweakBypassTransformInUnitTest(context.getPipelineGraph().getVariables(), context.getPipelineMeta(), context.getTransformMeta(), true);
   }
 
   @GuiContextAction(
@@ -1255,28 +1125,14 @@ public class TestingGuiPlugin {
       category = "i18n::TestingGuiPlugin.Category",
       categoryOrder = "8")
   public void disableTweakBypassTransformInUnitTest(HopGuiPipelineTransformContext context) {
-    tweakBypassTransformInUnitTest(
-        context.getPipelineGraph().getVariables(),
-        context.getPipelineMeta(),
-        context.getTransformMeta(),
-        false);
+    tweakBypassTransformInUnitTest(context.getPipelineGraph().getVariables(), context.getPipelineMeta(), context.getTransformMeta(), false);
   }
 
-  public void tweakBypassTransformInUnitTest(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      boolean enable) {
-    tweakUnitTestTransform(
-        variables, pipelineMeta, transformMeta, PipelineTweak.BYPASS_TRANSFORM, enable);
+  public void tweakBypassTransformInUnitTest(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, boolean enable) {
+    tweakUnitTestTransform(variables, pipelineMeta, transformMeta, PipelineTweak.BYPASS_TRANSFORM, enable);
   }
 
-  private void tweakUnitTestTransform(
-      IVariables variables,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      PipelineTweak tweak,
-      boolean enable) {
+  private void tweakUnitTestTransform(IVariables variables, PipelineMeta pipelineMeta, TransformMeta transformMeta, PipelineTweak tweak, boolean enable) {
     HopGui hopGui = HopGui.getInstance();
     IHopMetadataProvider metadataProvider = hopGui.getMetadataProvider();
     if (transformMeta == null || pipelineMeta == null) {
@@ -1305,11 +1161,7 @@ public class TestingGuiPlugin {
       new ErrorDialog(
           hopGui.getShell(),
           BaseMessages.getString(PKG, "TestingGuiPlugin.TweakUnitTestTransform.Error.Header"),
-          BaseMessages.getString(
-              PKG,
-              "TestingGuiPlugin.TweakUnitTestTransform.Error.Message",
-              transformMeta.getName(),
-              tweak.name()),
+          BaseMessages.getString(PKG, "TestingGuiPlugin.TweakUnitTestTransform.Error.Message", transformMeta.getName(), tweak.name()),
           exception);
     }
   }
@@ -1327,8 +1179,7 @@ public class TestingGuiPlugin {
     List<RowMetaAndData> rows = new ArrayList<>();
 
     try {
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          metadataProvider.getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
 
       List<String> testNames = testSerializer.listObjectNames();
       for (String testName : testNames) {
@@ -1344,9 +1195,7 @@ public class TestingGuiPlugin {
 
       // Now show a selection dialog...
       //
-      SelectRowDialog dialog =
-          new SelectRowDialog(
-              hopGui.getShell(), new Variables(), SWT.DIALOG_TRIM | SWT.MAX | SWT.RESIZE, rows);
+      SelectRowDialog dialog = new SelectRowDialog(hopGui.getShell(), new Variables(), SWT.DIALOG_TRIM | SWT.MAX | SWT.RESIZE, rows);
       RowMetaAndData selection = dialog.open();
       if (selection != null) {
         return selection;
@@ -1373,8 +1222,7 @@ public class TestingGuiPlugin {
           // Load the unit test...
           //
           String unitTestName = selection.getString(0, null);
-          PipelineUnitTest targetTest =
-              metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
+          PipelineUnitTest targetTest = metadataProvider.getSerializer(PipelineUnitTest.class).load(unitTestName);
 
           if (targetTest != null) {
             String completeFilename = targetTest.calculateCompletePipelineFilename(variables);
@@ -1405,25 +1253,19 @@ public class TestingGuiPlugin {
     } catch (Exception exception) {
       new ErrorDialog(
           HopGui.getInstance().getShell(),
-          BaseMessages.getString(
-              PKG, "ShowUnitTestMenuExtensionPoint.ErrorSwitchingUnitTest.Title"),
-          BaseMessages.getString(
-              PKG,
-              "ShowUnitTestMenuExtensionPoint.ErrorSwitchingUnitTest.Message",
-              targetTest.getName()),
+          BaseMessages.getString(PKG, "ShowUnitTestMenuExtensionPoint.ErrorSwitchingUnitTest.Title"),
+          BaseMessages.getString(PKG, "ShowUnitTestMenuExtensionPoint.ErrorSwitchingUnitTest.Message", targetTest.getName()),
           exception);
     }
     HopGui.getInstance().getActiveFileTypeHandler().updateGui();
   }
 
-  public static List<PipelineUnitTest> findPipelineUnitTest(
-      IVariables variables, PipelineMeta pipelineMeta, IHopMetadataProvider metadataProvider) {
+  public static List<PipelineUnitTest> findPipelineUnitTest(IVariables variables, PipelineMeta pipelineMeta, IHopMetadataProvider metadataProvider) {
     List<PipelineUnitTest> tests = new ArrayList<>();
 
     try {
 
-      IHopMetadataSerializer<PipelineUnitTest> testSerializer =
-          metadataProvider.getSerializer(PipelineUnitTest.class);
+      IHopMetadataSerializer<PipelineUnitTest> testSerializer = metadataProvider.getSerializer(PipelineUnitTest.class);
 
       if (StringUtils.isNotEmpty(pipelineMeta.getFilename())) {
 
@@ -1439,10 +1281,8 @@ public class TestingGuiPlugin {
     } catch (Exception exception) {
       new ErrorDialog(
           HopGui.getInstance().getShell(),
-          BaseMessages.getString(
-              PKG, "ShowUnitTestMenuExtensionPoint.ErrorFindingUnitTestsForPipeline.Title"),
-          BaseMessages.getString(
-              PKG, "ShowUnitTestMenuExtensionPoint.ErrorFindingUnitTestsForPipeline.Message"),
+          BaseMessages.getString(PKG, "ShowUnitTestMenuExtensionPoint.ErrorFindingUnitTestsForPipeline.Title"),
+          BaseMessages.getString(PKG, "ShowUnitTestMenuExtensionPoint.ErrorFindingUnitTestsForPipeline.Message"),
           exception);
     }
     return tests;

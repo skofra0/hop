@@ -57,8 +57,7 @@ public class MongoDbConnection extends HopMetadataBase implements IHopMetadata {
   public static final String WIDGET_ID_CONNECTION_TIMEOUT_MS = "10900-connection-timeout-ms";
   public static final String WIDGET_ID_SOCKET_TIMEOUT_MS = "11000-socket-timeout-ms";
   public static final String WIDGET_ID_READ_PREFERENCE = "11100-read-preference";
-  public static final String WIDGET_ID_USE_ALL_REPLICA_SET_MEMBERS =
-      "11200-use-all-replica-set-members";
+  public static final String WIDGET_ID_USE_ALL_REPLICA_SET_MEMBERS = "11200-use-all-replica-set-members";
   public static final String WIDGET_ID_READ_PREF_TAG_SETS = "11300-read-pref-tag-sets";
   public static final String WIDGET_ID_USE_SSL_SOCKET_FACTORY = "11400-use-ssl-socket-factory";
   public static final String WIDGET_ID_WRITE_CONCERN = "11500-write-concern";
@@ -128,8 +127,7 @@ public class MongoDbConnection extends HopMetadataBase implements IHopMetadata {
       label = "i18n::MongoMetadata.AuthenticationMechanism.Label",
       toolTip = "i18n::MongoMetadata.AuthenticationMechanism.ToolTip",
       variables = false)
-  private MongoDbAuthenticationMechanism authenticationMechanism =
-      MongoDbAuthenticationMechanism.PLAIN;
+  private MongoDbAuthenticationMechanism authenticationMechanism = MongoDbAuthenticationMechanism.PLAIN;
 
   @HopMetadataProperty
   @GuiWidgetElement(
@@ -245,8 +243,7 @@ public class MongoDbConnection extends HopMetadataBase implements IHopMetadata {
     this.journaled = m.journaled;
   }
 
-  private static MongoWrapperClientFactory mongoWrapperClientFactory =
-      (props, log) -> MongoClientWrapperFactory.createMongoClientWrapper(props, log);
+  private static MongoWrapperClientFactory mongoWrapperClientFactory = (props, log) -> MongoClientWrapperFactory.createMongoClientWrapper(props, log);
 
   /**
    * Test this connection
@@ -264,10 +261,8 @@ public class MongoDbConnection extends HopMetadataBase implements IHopMetadata {
     }
   }
 
-  public MongoClientWrapper createWrapper(IVariables variables, ILogChannel log)
-      throws MongoDbException {
-    return mongoWrapperClientFactory.createMongoClientWrapper(
-        createPropertiesBuilder(variables).build(), new HopMongoUtilLogger(log));
+  public MongoClientWrapper createWrapper(IVariables variables, ILogChannel log) throws MongoDbException {
+    return mongoWrapperClientFactory.createMongoClientWrapper(createPropertiesBuilder(variables).build(), new HopMongoUtilLogger(log));
   }
 
   public MongoProperties.Builder createPropertiesBuilder(IVariables variables) {
@@ -278,42 +273,29 @@ public class MongoDbConnection extends HopMetadataBase implements IHopMetadata {
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.DBNAME, dbName);
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.connectTimeout, connectTimeoutMs);
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.socketTimeout, socketTimeoutMs);
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.readPreference, readPreference.getName());
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.readPreference, readPreference.getName());
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.writeConcern, writeConcern);
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.wTimeout, replicationTimeoutMs);
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.JOURNALED, Boolean.toString(journaled));
-    setIfNotNullOrEmpty(
-        variables,
-        propertiesBuilder,
-        MongoProp.USE_ALL_REPLICA_SET_MEMBERS,
-        Boolean.toString(usingAllReplicaSetMembers));
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.AUTH_DATABASE, authenticationDatabaseName);
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.JOURNALED, Boolean.toString(journaled));
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.USE_ALL_REPLICA_SET_MEMBERS, Boolean.toString(usingAllReplicaSetMembers));
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.AUTH_DATABASE, authenticationDatabaseName);
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.USERNAME, authenticationUser);
-    setIfNotNullOrEmptyPassword(
-        variables, propertiesBuilder, MongoProp.PASSWORD, authenticationPassword);
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.AUTH_MECHA, authenticationMechanism.name());
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.USE_KERBEROS, Boolean.toString(usingKerberos));
-    setIfNotNullOrEmpty(
-        variables, propertiesBuilder, MongoProp.useSSL, Boolean.toString(usingSslSocketFactory));
+    setIfNotNullOrEmptyPassword(variables, propertiesBuilder, MongoProp.PASSWORD, authenticationPassword);
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.AUTH_MECHA, authenticationMechanism.name());
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.USE_KERBEROS, Boolean.toString(usingKerberos));
+    setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.useSSL, Boolean.toString(usingSslSocketFactory));
     setIfNotNullOrEmpty(variables, propertiesBuilder, MongoProp.tagSet, readPrefTagSets);
 
     return propertiesBuilder;
   }
 
-  private static void setIfNotNullOrEmpty(
-      IVariables variables, MongoProperties.Builder builder, MongoProp prop, String value) {
+  private static void setIfNotNullOrEmpty(IVariables variables, MongoProperties.Builder builder, MongoProp prop, String value) {
     if (StringUtils.isNotEmpty(value)) {
       builder.set(prop, variables.resolve(value));
     }
   }
 
-  private static void setIfNotNullOrEmptyPassword(
-      IVariables variables, MongoProperties.Builder builder, MongoProp prop, String value) {
+  private static void setIfNotNullOrEmptyPassword(IVariables variables, MongoProperties.Builder builder, MongoProp prop, String value) {
     if (StringUtils.isNotEmpty(value)) {
       builder.set(prop, Utils.resolvePassword(variables, variables.resolve(value)));
     }

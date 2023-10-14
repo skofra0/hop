@@ -50,9 +50,7 @@ import java.util.List;
     documentationUrl = "/pipeline/transforms/mongodboutput.html",
     keywords = "i18n::MongoDbOutputMeta.keyword",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Output")
-@InjectionSupported(
-    localizationPrefix = "MongoDbOutput.Injection.",
-    groups = {"FIELDS", "INDEXES"})
+@InjectionSupported(localizationPrefix = "MongoDbOutput.Injection.", groups = {"FIELDS", "INDEXES"})
 public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputData> {
 
   private static final Class<?> PKG = MongoDbOutputMeta.class; // For Translator
@@ -92,9 +90,11 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
      * Ignored if not doing a modifier update since all mongo paths are involved in a standard
      * upsert. If null/empty then this field is not being updated in the modifier update case.
      *
-     * <p>$set $inc $push - append value to array (or set to [value] if field doesn't exist)
+     * <p>
+     * $set $inc $push - append value to array (or set to [value] if field doesn't exist)
      *
-     * <p>(support any others?)
+     * <p>
+     * (support any others?)
      */
     @Injection(name = "MODIFIER_OPERATION", group = "FIELDS")
     public String modifierUpdateOperation = "N/A";
@@ -190,7 +190,8 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
      * Dot notation for accessing a fields - e.g. person.address.street. Can also specify entire
      * embedded documents as an index (rather than a primitive key) - e.g. person.address.
      *
-     * <p>Multiple fields are comma-separated followed by an optional "direction" indicator for the
+     * <p>
+     * Multiple fields are comma-separated followed by an optional "direction" indicator for the
      * index (1 or -1). If omitted, direction is assumed to be 1.
      */
     @Injection(name = "INDEX_FIELD", group = "INDEXES")
@@ -210,13 +211,7 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
     @Override
     public String toString() {
       StringBuffer buff = new StringBuffer();
-      buff.append(
-          pathToFields
-              + " (unique = "
-              + Boolean.toString(unique)
-              + " sparse = "
-              + Boolean.toString(sparse)
-              + ")");
+      buff.append(pathToFields + " (unique = " + Boolean.toString(unique) + " sparse = " + Boolean.toString(sparse) + ")");
 
       return buff.toString();
     }
@@ -243,7 +238,8 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
    * overhead. Is also particularly efficient for $incr operations since the queried object does not
    * have to be returned in order to increment the field and then saved again.
    *
-   * <p>If modifier update is false, then the standard update/insert operation is performed which
+   * <p>
+   * If modifier update is false, then the standard update/insert operation is performed which
    * involves replacing the matched object with a new object involving all the user-defined mongo
    * paths
    */
@@ -255,10 +251,12 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
   protected String batchInsertSize = "100";
 
   /** The list of paths to document fields for incoming Hop values */
-  @InjectionDeep protected List<MongoField> mongoFields;
+  @InjectionDeep
+  protected List<MongoField> mongoFields;
 
   /** The list of index definitions (if any) */
-  @InjectionDeep protected List<MongoIndex> mongoIndexes;
+  @InjectionDeep
+  protected List<MongoIndex> mongoIndexes;
 
   public static final int RETRIES = 5;
   public static final int RETRY_DELAY = 10; // seconds
@@ -471,37 +469,19 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
     CheckResult cr;
 
     if ((prev == null) || (prev.size() == 0)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "MongoDbOutput.Messages.Error.NotReceivingFieldsFromPreviousTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MongoDbOutput.Messages.Error.NotReceivingFieldsFromPreviousTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MongoDbOutput.Messages.ReceivingFields", prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MongoDbOutput.Messages.ReceivingFields", prev.size()), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "MongoDbOutput.Messages.ReceivingInfo"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "MongoDbOutput.Messages.ReceivingInfo"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "MongoDbOutput.Messages.Error.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "MongoDbOutput.Messages.Error.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -534,22 +514,12 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
       for (MongoField field : mongoFields) {
         xml.append("\n      ").append(XmlHandler.openTag("mongo_field"));
 
-        xml.append("\n         ")
-            .append(XmlHandler.addTagValue("incoming_field_name", field.incomingFieldName));
-        xml.append("\n         ")
-            .append(XmlHandler.addTagValue("mongo_doc_path", field.mongoDocPath));
-        xml.append("\n         ")
-            .append(
-                XmlHandler.addTagValue(
-                    "use_incoming_field_name_as_mongo_field_name",
-                    field.useIncomingFieldNameAsMongoFieldName));
-        xml.append("\n         ")
-            .append(XmlHandler.addTagValue("update_match_field", field.updateMatchField));
-        xml.append("\n         ")
-            .append(
-                XmlHandler.addTagValue("modifier_update_operation", field.modifierUpdateOperation));
-        xml.append("\n         ")
-            .append(XmlHandler.addTagValue("modifier_policy", field.modifierOperationApplyPolicy));
+        xml.append("\n         ").append(XmlHandler.addTagValue("incoming_field_name", field.incomingFieldName));
+        xml.append("\n         ").append(XmlHandler.addTagValue("mongo_doc_path", field.mongoDocPath));
+        xml.append("\n         ").append(XmlHandler.addTagValue("use_incoming_field_name_as_mongo_field_name", field.useIncomingFieldNameAsMongoFieldName));
+        xml.append("\n         ").append(XmlHandler.addTagValue("update_match_field", field.updateMatchField));
+        xml.append("\n         ").append(XmlHandler.addTagValue("modifier_update_operation", field.modifierUpdateOperation));
+        xml.append("\n         ").append(XmlHandler.addTagValue("modifier_policy", field.modifierOperationApplyPolicy));
         xml.append("\n         ").append(XmlHandler.addTagValue("json_field", field.inputJson));
         xml.append("\n         ").append(XmlHandler.addTagValue("allow_null", field.insertNull));
 
@@ -565,8 +535,7 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
       for (MongoIndex index : mongoIndexes) {
         xml.append("\n      ").append(XmlHandler.openTag("mongo_index"));
 
-        xml.append("\n         ")
-            .append(XmlHandler.addTagValue("path_to_fields", index.pathToFields));
+        xml.append("\n         ").append(XmlHandler.addTagValue("path_to_fields", index.pathToFields));
         xml.append("\n         ").append(XmlHandler.addTagValue("drop", index.drop));
         xml.append("\n         ").append(XmlHandler.addTagValue("unique", index.unique));
         xml.append("\n         ").append(XmlHandler.addTagValue("sparse", index.sparse));
@@ -624,14 +593,10 @@ public class MongoDbOutputMeta extends MongoDbMeta<MongoDbOutput, MongoDbOutputD
         MongoField newField = new MongoField();
         newField.incomingFieldName = XmlHandler.getTagValue(fieldNode, "incoming_field_name");
         newField.mongoDocPath = XmlHandler.getTagValue(fieldNode, "mongo_doc_path");
-        newField.useIncomingFieldNameAsMongoFieldName =
-            XmlHandler.getTagValue(fieldNode, "use_incoming_field_name_as_mongo_field_name")
-                .equalsIgnoreCase("Y");
-        newField.updateMatchField =
-            XmlHandler.getTagValue(fieldNode, "update_match_field").equalsIgnoreCase("Y");
+        newField.useIncomingFieldNameAsMongoFieldName = XmlHandler.getTagValue(fieldNode, "use_incoming_field_name_as_mongo_field_name").equalsIgnoreCase("Y");
+        newField.updateMatchField = XmlHandler.getTagValue(fieldNode, "update_match_field").equalsIgnoreCase("Y");
 
-        newField.modifierUpdateOperation =
-            XmlHandler.getTagValue(fieldNode, "modifier_update_operation");
+        newField.modifierUpdateOperation = XmlHandler.getTagValue(fieldNode, "modifier_update_operation");
         String policy = XmlHandler.getTagValue(fieldNode, "modifier_policy");
         if (!StringUtils.isEmpty(policy)) {
           newField.modifierOperationApplyPolicy = policy;

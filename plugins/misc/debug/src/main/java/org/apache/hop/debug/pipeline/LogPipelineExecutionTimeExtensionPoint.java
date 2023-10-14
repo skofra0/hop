@@ -33,13 +33,10 @@ import java.util.Date;
     description = "Logs execution time of a transformation when it finishes",
     extensionPointId = "PipelinePrepareExecution")
 /** set the debug level right before the transform starts to run */
-public class LogPipelineExecutionTimeExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+public class LogPipelineExecutionTimeExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
 
     // If the HOP_DEBUG_DURATION variable is set to N or FALSE, we don't log duration
     //
@@ -49,21 +46,15 @@ public class LogPipelineExecutionTimeExtensionPoint
       return;
     }
 
-    pipeline.addExecutionFinishedListener(
-        engine -> {
-          Date startDate = pipeline.getExecutionStartDate();
-          Date endDate = pipeline.getExecutionEndDate();
-          if (startDate != null && endDate != null) {
-            long startTime = startDate.getTime();
-            long endTime = endDate.getTime();
-            double seconds = ((double) endTime - (double) startTime) / 1000;
-            log.logBasic(
-                "Pipeline duration : "
-                    + seconds
-                    + " seconds [ "
-                    + Utils.getDurationHMS(seconds)
-                    + " ]");
-          }
-        });
+    pipeline.addExecutionFinishedListener(engine -> {
+      Date startDate = pipeline.getExecutionStartDate();
+      Date endDate = pipeline.getExecutionEndDate();
+      if (startDate != null && endDate != null) {
+        long startTime = startDate.getTime();
+        long endTime = endDate.getTime();
+        double seconds = ((double) endTime - (double) startTime) / 1000;
+        log.logBasic("Pipeline duration : " + seconds + " seconds [ " + Utils.getDurationHMS(seconds) + " ]");
+      }
+    });
   }
 }

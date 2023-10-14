@@ -39,12 +39,10 @@ import static org.apache.hop.git.HopDiff.REMOVED;
     id = "DrawDiffOnWorkflowHopExtensionPoint",
     description = "Draws a marker on top of a workflow hop if it has added or removed",
     extensionPointId = "WorkflowPainterArrow")
-public class DrawDiffOnWorkflowHopExtensionPoint
-    implements IExtensionPoint<WorkflowPainterExtension> {
+public class DrawDiffOnWorkflowHopExtensionPoint implements IExtensionPoint<WorkflowPainterExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, WorkflowPainterExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, WorkflowPainterExtension ext) throws HopException {
 
     IGc gc = ext.gc;
     ClassLoader classLoader = this.getClass().getClassLoader();
@@ -90,14 +88,7 @@ public class DrawDiffOnWorkflowHopExtensionPoint
                 // Exception when accessed from Hop Server
               }
 
-              gc.drawImage(
-                  svgFile,
-                  middle.x,
-                  middle.y,
-                  iconSize / 2,
-                  iconSize / 2,
-                  gc.getMagnification(),
-                  0);
+              gc.drawImage(svgFile, middle.x, middle.y, iconSize / 2, iconSize / 2, gc.getMagnification(), 0);
             }
           }
         }

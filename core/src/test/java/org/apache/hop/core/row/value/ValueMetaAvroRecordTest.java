@@ -115,7 +115,7 @@ public class ValueMetaAvroRecordTest {
 
     GenericRecord cloned = (GenericRecord) valueMeta.cloneValueData(genericRecord);
 
-    assertFalse(genericRecord==cloned);
+    assertFalse(genericRecord == cloned);
     verifyGenericRecords(genericRecord, cloned);
   }
 
@@ -129,12 +129,12 @@ public class ValueMetaAvroRecordTest {
     valueMeta.setSchema(schema);
 
     assertEquals(
-        "Avro Generic Record {\"type\":\"record\",\"name\":\"all_values\",\"namespace\":\"hop.apache.org\"" +
-                ",\"doc\":\"No documentation URL for now\",\"fields\":[{\"name\":\"id\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]}",
+        "Avro Generic Record {\"type\":\"record\",\"name\":\"all_values\",\"namespace\":\"hop.apache.org\""
+            + ",\"doc\":\"No documentation URL for now\",\"fields\":[{\"name\":\"id\",\"type\":"
+            + "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]},"
+            + "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":"
+            + "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]},"
+            + "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]}",
         valueMeta.toStringMeta());
   }
 
@@ -167,13 +167,13 @@ public class ValueMetaAvroRecordTest {
 
     String valueJson = jValue.toJSONString();
     assertEquals(
-        "{\"schema\":{\"name\":\"all_values\",\"namespace\":\"hop.apache.org\",\"doc\":" +
-                "\"No documentation URL for now\",\"type\":\"record\",\"fields\":[{\"name\":\"id\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":" +
-                "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]}," +
-                "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]},\"precision\":-1,\"name\":" +
-                "\"test\",\"length\":-1,\"conversionMask\":null,\"type\":20}",
+        "{\"schema\":{\"name\":\"all_values\",\"namespace\":\"hop.apache.org\",\"doc\":"
+            + "\"No documentation URL for now\",\"type\":\"record\",\"fields\":[{\"name\":\"id\",\"type\":"
+            + "[\"long\",\"null\"]},{\"name\":\"sysdate\",\"type\":[\"string\",\"null\"]},"
+            + "{\"name\":\"num\",\"type\":[\"double\",\"null\"]},{\"name\":\"int\",\"type\":"
+            + "[\"long\",\"null\"]},{\"name\":\"str\",\"type\":[\"string\",\"null\"]},"
+            + "{\"name\":\"uuid\",\"type\":[\"string\",\"null\"]}]},\"precision\":-1,\"name\":"
+            + "\"test\",\"length\":-1,\"conversionMask\":null,\"type\":20}",
         valueJson);
 
     // Read it back...

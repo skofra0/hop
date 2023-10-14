@@ -27,7 +27,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CacheSequenceAndReleaseSavePointTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   final String sequenceName = "sequence_name";
 
@@ -58,15 +59,13 @@ public class CacheSequenceAndReleaseSavePointTest {
       assertTrue(dbType, db.isSupportsSequences());
       assertFalse(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertFalse(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertFalse(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertFalse(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertFalse(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     } else {
       assertFalse(db.getClass().getSimpleName(), db.isSupportsSequences());
       assertTrue(dbType + ": List of Sequences", Utils.isEmpty(db.getSqlListOfSequences()));
       assertTrue(dbType + ": Sequence Exists", Utils.isEmpty(db.getSqlSequenceExists("testSeq")));
-      assertTrue(
-          dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
+      assertTrue(dbType + ": Current Value", Utils.isEmpty(db.getSqlCurrentSequenceValue("testSeq")));
       assertTrue(dbType + ": Next Value", Utils.isEmpty(db.getSqlNextSequenceValue("testSeq")));
     }
   }

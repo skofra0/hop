@@ -79,8 +79,7 @@ public class TestUtilities {
    * @param rows2 set 2 of rows to compare
    * @throws TestFailedException
    */
-  public static void checkRows(List<RowMetaAndData> rows1, List<RowMetaAndData> rows2)
-      throws TestFailedException {
+  public static void checkRows(List<RowMetaAndData> rows1, List<RowMetaAndData> rows2) throws TestFailedException {
 
     // we call this passing in -1 as the fileNameColumn
     checkRows(rows1, rows2, -1);
@@ -92,16 +91,13 @@ public class TestUtilities {
    * @param rows1 set 1 of rows to compare
    * @param rows2 set 2 of rows to compare
    * @param fileNameColumn Number of the column containing the filename. This is only checked for
-   *     being non-null (some systems maybe canonize names differently than we input).
+   *        being non-null (some systems maybe canonize names differently than we input).
    */
-  public static void checkRows(
-      List<RowMetaAndData> rows1, List<RowMetaAndData> rows2, int fileNameColumn)
-      throws TestFailedException {
+  public static void checkRows(List<RowMetaAndData> rows1, List<RowMetaAndData> rows2, int fileNameColumn) throws TestFailedException {
 
     int idx = 1;
     if (rows1.size() != rows2.size()) {
-      throw new TestFailedException(
-          "Number of rows is not the same: " + rows1.size() + " and " + rows2.size());
+      throw new TestFailedException("Number of rows is not the same: " + rows1.size() + " and " + rows2.size());
     }
     Iterator<RowMetaAndData> itrRows1 = rows1.iterator();
     Iterator<RowMetaAndData> itrRows2 = rows2.iterator();
@@ -129,10 +125,7 @@ public class TestUtilities {
           rowObject1[fileNameColumn] = rowObject2[fileNameColumn];
         }
         if (rowMetaAndData1.getRowMeta().compare(rowObject1, rowObject2, fields) != 0) {
-          throw new ComparisonFailure(
-              "row nr " + idx + " is not equal",
-              rowMetaInterface1.getString(rowObject1),
-              rowMetaInterface1.getString(rowObject2));
+          throw new ComparisonFailure("row nr " + idx + " is not equal", rowMetaInterface1.getString(rowObject1), rowMetaInterface1.getString(rowObject2));
         }
       } catch (HopValueException e) {
         throw new TestFailedException("row nr " + idx + " is not equal");
@@ -148,8 +141,7 @@ public class TestUtilities {
    * @param pluginRegistry
    * @return TransformMata
    */
-  public static synchronized TransformMeta createDummyTransform(
-      String name, PluginRegistry pluginRegistry) {
+  public static synchronized TransformMeta createDummyTransform(String name, PluginRegistry pluginRegistry) {
     DummyMeta dummyPipelineMeta = new DummyMeta();
     String dummyPid = pluginRegistry.getPluginId(TransformPluginType.class, dummyPipelineMeta);
     TransformMeta dummyTransform = new TransformMeta(dummyPid, name, dummyPipelineMeta);
@@ -164,8 +156,7 @@ public class TestUtilities {
    * @param pluginRegistry
    * @return TransformMeta
    */
-  public static synchronized TransformMeta createInjectorTransform(
-      String name, PluginRegistry pluginRegistry) {
+  public static synchronized TransformMeta createInjectorTransform(String name, PluginRegistry pluginRegistry) {
     // create an injector transform...
     InjectorMeta injectorMeta = new InjectorMeta();
 
@@ -195,8 +186,7 @@ public class TestUtilities {
    * @return
    * @throws IOException
    */
-  public static synchronized String createEmptyTempFile(String fileName, String suffix)
-      throws IOException {
+  public static synchronized String createEmptyTempFile(String fileName, String suffix) throws IOException {
     File tempFile = File.createTempFile(fileName, (Utils.isEmpty(suffix) ? "" : suffix));
     tempFile.deleteOnExit();
     return tempFile.getAbsolutePath();
@@ -210,8 +200,7 @@ public class TestUtilities {
    */
   public static synchronized String createTempFolder(String folderName) {
 
-    String absoluteFolderPath =
-        System.getProperty("java.io.tmpdir") + "/" + folderName + "_" + System.currentTimeMillis();
+    String absoluteFolderPath = System.getProperty("java.io.tmpdir") + "/" + folderName + "_" + System.currentTimeMillis();
 
     if (new File(absoluteFolderPath).mkdir()) {
       return absoluteFolderPath;
@@ -237,8 +226,7 @@ public class TestUtilities {
    * @return Absolute file name/path of the created file.
    * @throws IOException UPON
    */
-  public static String writeTextFile(String folderName, String fileName, String delimiter)
-      throws IOException {
+  public static String writeTextFile(String folderName, String fileName, String delimiter) throws IOException {
 
     String absolutePath = null;
     File file = new File(folderName + "/" + fileName + ".txt");
@@ -246,50 +234,10 @@ public class TestUtilities {
     String endOfLineCharacters = TestUtilities.getEndOfLineCharacters();
 
     FileWriter fout = new FileWriter(file);
-    fout.write(
-        "A"
-            + delimiter
-            + "B"
-            + delimiter
-            + "C"
-            + delimiter
-            + "D"
-            + delimiter
-            + "E"
-            + endOfLineCharacters);
-    fout.write(
-        "1"
-            + delimiter
-            + "b1"
-            + delimiter
-            + "c1"
-            + delimiter
-            + "d1"
-            + delimiter
-            + "e1"
-            + endOfLineCharacters);
-    fout.write(
-        "2"
-            + delimiter
-            + "b2"
-            + delimiter
-            + "c2"
-            + delimiter
-            + "d2"
-            + delimiter
-            + "e2"
-            + endOfLineCharacters);
-    fout.write(
-        "3"
-            + delimiter
-            + "b3"
-            + delimiter
-            + "c3"
-            + delimiter
-            + "d3"
-            + delimiter
-            + "e3"
-            + endOfLineCharacters);
+    fout.write("A" + delimiter + "B" + delimiter + "C" + delimiter + "D" + delimiter + "E" + endOfLineCharacters);
+    fout.write("1" + delimiter + "b1" + delimiter + "c1" + delimiter + "d1" + delimiter + "e1" + endOfLineCharacters);
+    fout.write("2" + delimiter + "b2" + delimiter + "c2" + delimiter + "d2" + delimiter + "e2" + endOfLineCharacters);
+    fout.write("3" + delimiter + "b3" + delimiter + "c3" + delimiter + "d3" + delimiter + "e3" + endOfLineCharacters);
 
     fout.close();
 
@@ -302,11 +250,11 @@ public class TestUtilities {
    * @param name
    * @param sortFields [] Fields to sort by
    * @param ascending [] Boolean indicating whether the corresponding field is to be sorted in
-   *     ascending or descending order.
+   *        ascending or descending order.
    * @param caseSensitive [] Boolean indicating whether the corresponding field is to have case as a
-   *     factor in the sort.
+   *        factor in the sort.
    * @param directory The directory in the file system where the sort is to take place if it can't
-   *     fit into memory?
+   *        fit into memory?
    * @param sortSize ???
    * @param pluginRegistry The environment's Hop plugin registry.
    * @return
@@ -327,8 +275,7 @@ public class TestUtilities {
     sortRowsMeta.setCaseSensitive(caseSensitive);
     sortRowsMeta.setDirectory(directory);
 
-    String sortRowsTransformPid =
-        pluginRegistry.getPluginId(TransformPluginType.class, sortRowsMeta);
+    String sortRowsTransformPid = pluginRegistry.getPluginId(TransformPluginType.class, sortRowsMeta);
     TransformMeta sortRowsTransform = new TransformMeta(sortRowsTransformPid, name, sortRowsMeta);
 
     return sortRowsTransform;
@@ -388,15 +335,12 @@ public class TestUtilities {
   }
 
   public static Pipeline loadAndRunPipeline(String path, Object... parameters) throws Exception {
-    PipelineMeta pipelineMeta =
-        new PipelineMeta(
-            path, new MemoryMetadataProvider(), Variables.getADefaultVariableSpace());
+    PipelineMeta pipelineMeta = new PipelineMeta(path, new MemoryMetadataProvider(), Variables.getADefaultVariableSpace());
 
     Pipeline trans = new LocalPipelineEngine(pipelineMeta);
     if (parameters != null) {
       if (parameters.length % 2 == 1) {
-        throw new IllegalArgumentException(
-            "Parameters should be an array of pairs 'parameter'-'value'-...");
+        throw new IllegalArgumentException("Parameters should be an array of pairs 'parameter'-'value'-...");
       }
 
       for (int i = 0; i < parameters.length; i += 2) {

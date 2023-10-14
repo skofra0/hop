@@ -26,11 +26,8 @@ import org.apache.hop.core.search.SearchableAnalyserPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-@SearchableAnalyserPlugin(
-    id = "NeoConnectionSearchableAnalyser",
-    name = "Search in Neo4j Connection metadata")
-public class NeoConnectionSearchableAnalyser extends BaseMetadataSearchableAnalyser<NeoConnection>
-    implements ISearchableAnalyser<NeoConnection> {
+@SearchableAnalyserPlugin(id = "NeoConnectionSearchableAnalyser", name = "Search in Neo4j Connection metadata")
+public class NeoConnectionSearchableAnalyser extends BaseMetadataSearchableAnalyser<NeoConnection> implements ISearchableAnalyser<NeoConnection> {
 
   @Override
   public Class<NeoConnection> getSearchableClass() {
@@ -38,25 +35,16 @@ public class NeoConnectionSearchableAnalyser extends BaseMetadataSearchableAnaly
   }
 
   @Override
-  public List<ISearchResult> search(
-      ISearchable<NeoConnection> searchable, ISearchQuery searchQuery) {
+  public List<ISearchResult> search(ISearchable<NeoConnection> searchable, ISearchQuery searchQuery) {
     NeoConnection neoConnection = searchable.getSearchableObject();
     String component = getMetadataComponent();
     List<ISearchResult> results = new ArrayList<>();
 
     matchProperty(searchable, results, searchQuery, "Name", neoConnection.getName(), component);
     matchProperty(searchable, results, searchQuery, "Server", neoConnection.getServer(), component);
-    matchProperty(
-        searchable, results, searchQuery, "Bolt port", neoConnection.getBoltPort(), component);
-    matchProperty(
-        searchable, results, searchQuery, "Username", neoConnection.getUsername(), component);
-    matchProperty(
-        searchable,
-        results,
-        searchQuery,
-        "Database name",
-        neoConnection.getDatabaseName(),
-        component);
+    matchProperty(searchable, results, searchQuery, "Bolt port", neoConnection.getBoltPort(), component);
+    matchProperty(searchable, results, searchQuery, "Username", neoConnection.getUsername(), component);
+    matchProperty(searchable, results, searchQuery, "Database name", neoConnection.getDatabaseName(), component);
     return results;
   }
 }

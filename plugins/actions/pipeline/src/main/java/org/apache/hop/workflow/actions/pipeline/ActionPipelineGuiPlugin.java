@@ -63,14 +63,12 @@ public class ActionPipelineGuiPlugin {
 
     ActionPipeline actionPipeline = new ActionPipeline(pipelineMeta.getName());
 
-    HopGuiFileOpenedExtension ext =
-        new HopGuiFileOpenedExtension(null, variables, pipelineMeta.getFilename());
+    HopGuiFileOpenedExtension ext = new HopGuiFileOpenedExtension(null, variables, pipelineMeta.getFilename());
 
     // See if there are any plugins interested in manipulating the filename...
     //
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
     } catch (Exception xe) {
       LogChannel.UI.logError("Error handling extension point 'HopGuiFileOpenDialog'", xe);
     }
@@ -81,8 +79,7 @@ public class ActionPipelineGuiPlugin {
     //
     try {
       IHopMetadataProvider metadataProvider = pipelineGraph.getHopGui().getMetadataProvider();
-      IHopMetadataSerializer<PipelineRunConfiguration> serializer =
-          metadataProvider.getSerializer(PipelineRunConfiguration.class);
+      IHopMetadataSerializer<PipelineRunConfiguration> serializer = metadataProvider.getSerializer(PipelineRunConfiguration.class);
       List<String> configNames = serializer.listObjectNames();
       if (!configNames.isEmpty()) {
         if (configNames.size() == 1) {
@@ -101,22 +98,17 @@ public class ActionPipelineGuiPlugin {
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          pipelineGraph.getShell(), "Error", "Error selecting pipeline run configurations", e);
+      new ErrorDialog(pipelineGraph.getShell(), "Error", "Error selecting pipeline run configurations", e);
     }
 
     ActionMeta actionMeta = new ActionMeta(actionPipeline);
 
     StringBuilder xml = new StringBuilder(5000).append(XmlHandler.getXmlHeader());
-    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS))
-        .append(Const.CR);
-    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS))
-        .append(Const.CR);
+    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS)).append(Const.CR);
+    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS)).append(Const.CR);
     xml.append(actionMeta.getXml());
-    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS))
-        .append(Const.CR);
-    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS))
-        .append(Const.CR);
+    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS)).append(Const.CR);
+    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS)).append(Const.CR);
 
     pipelineGraph.pipelineClipboardDelegate.toClipboard(xml.toString());
   }

@@ -36,20 +36,12 @@ public class TextFileLineUtil {
   public static final int FILE_TYPE_CSV = 0;
   public static final int FILE_TYPE_FIXED = 1;
 
-  public static final String getLine(
-      ILogChannel log, InputStreamReader reader, int formatNr, StringBuilder line)
-      throws HopFileException {
+  public static final String getLine(ILogChannel log, InputStreamReader reader, int formatNr, StringBuilder line) throws HopFileException {
     EncodingType type = EncodingType.guessEncodingType(reader.getEncoding());
     return getLine(log, reader, type, formatNr, line);
   }
 
-  public static final String getLine(
-      ILogChannel log,
-      InputStreamReader reader,
-      EncodingType encodingType,
-      int formatNr,
-      StringBuilder line)
-      throws HopFileException {
+  public static final String getLine(ILogChannel log, InputStreamReader reader, EncodingType encodingType, int formatNr, StringBuilder line) throws HopFileException {
     int c = 0;
     line.setLength(0);
     try {
@@ -64,8 +56,7 @@ public class TextFileLineUtil {
                 // Make sure it's really a linefeed or carriage return.
                 // Raise an error if this is not a DOS formatted file.
                 //
-                throw new HopFileException(
-                        BaseMessages.getString(PKG, "TextFileLineUtil.Log.SingleLineFound"));
+                throw new HopFileException(BaseMessages.getString(PKG, "TextFileLineUtil.Log.SingleLineFound"));
               }
               return line.toString();
             }
@@ -108,10 +99,7 @@ public class TextFileLineUtil {
       throw e;
     } catch (Exception e) {
       if (line.length() == 0) {
-        throw new HopFileException(
-            BaseMessages.getString(
-                PKG, "TextFileLineUtil.Log.Error.ExceptionReadingLine", e.toString()),
-            e);
+        throw new HopFileException(BaseMessages.getString(PKG, "TextFileLineUtil.Log.Error.ExceptionReadingLine", e.toString()), e);
       }
       return line.toString();
     }
@@ -133,9 +121,7 @@ public class TextFileLineUtil {
    * @return list of string detected
    * @throws HopException
    */
-  public static String[] guessStringsFromLine(
-      ILogChannel log, String line, String delimiter, String enclosure, String escapeCharacter)
-      throws HopException {
+  public static String[] guessStringsFromLine(ILogChannel log, String line, String delimiter, String enclosure, String escapeCharacter) throws HopException {
     List<String> strings = new ArrayList<>();
 
     String pol; // piece of line
@@ -168,22 +154,13 @@ public class TextFileLineUtil {
           if (log.isRowLevel()) {
             log.logRowlevel(
                 BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(
-                    PKG,
-                    "TextFileLineUtil.Log.ConvertLineToRow",
-                    line.substring(from, from + lenEncl)));
+                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRow", line.substring(from, from + lenEncl)));
           }
           enclFound = true;
           int p = from + lenEncl;
 
-          boolean isEnclosure =
-              lenEncl > 0
-                  && p + lenEncl < length
-                  && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
-          boolean isEscape =
-              lenEsc > 0
-                  && p + lenEsc < length
-                  && line.substring(p, p + lenEsc).equalsIgnoreCase(escapeCharacter);
+          boolean isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equalsIgnoreCase(enclosure);
+          boolean isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equalsIgnoreCase(escapeCharacter);
 
           boolean enclosureAfter = false;
 
@@ -206,14 +183,8 @@ public class TextFileLineUtil {
           while ((!isEnclosure || enclosureAfter) && p < line.length()) {
             p++;
             enclosureAfter = false;
-            isEnclosure =
-                lenEncl > 0
-                    && p + lenEncl < length
-                    && line.substring(p, p + lenEncl).equals(enclosure);
-            isEscape =
-                lenEsc > 0
-                    && p + lenEsc < length
-                    && line.substring(p, p + lenEsc).equals(escapeCharacter);
+            isEnclosure = lenEncl > 0 && p + lenEncl < length && line.substring(p, p + lenEncl).equals(enclosure);
+            isEscape = lenEsc > 0 && p + lenEsc < length && line.substring(p, p + lenEsc).equals(escapeCharacter);
 
             // Is it really an enclosure? See if it's not repeated twice or escaped!
             if ((isEnclosure || isEscape) && p < length - 1) {
@@ -238,9 +209,7 @@ public class TextFileLineUtil {
           }
 
           if (log.isRowLevel()) {
-            log.logRowlevel(
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.EndOfEnclosure", "" + p));
+            log.logRowlevel(BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileLineUtil.Log.EndOfEnclosure", "" + p));
           }
         } else {
           enclFound = false;
@@ -273,15 +242,13 @@ public class TextFileLineUtil {
           pol = line.substring(from + lenEncl, next - lenEncl);
           if (log.isRowLevel()) {
             log.logRowlevel(
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.EnclosureFieldFound", "" + pol));
+                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileLineUtil.Log.EnclosureFieldFound", "" + pol));
           }
         } else {
           pol = line.substring(from, next);
           if (log.isRowLevel()) {
             log.logRowlevel(
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"),
-                BaseMessages.getString(PKG, "TextFileLineUtil.Log.NormalFieldFound", "" + pol));
+                BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileLineUtil.Log.NormalFieldFound", "" + pol));
           }
         }
 
@@ -314,17 +281,12 @@ public class TextFileLineUtil {
       }
       if (pos == length) {
         if (log.isRowLevel()) {
-          log.logRowlevel(
-              BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"),
-              BaseMessages.getString(PKG, "TextFileLineUtil.Log.EndOfEmptyLineFound"));
+          log.logRowlevel(BaseMessages.getString(PKG, "TextFileLineUtil.Log.ConvertLineToRowTitle"), BaseMessages.getString(PKG, "TextFileLineUtil.Log.EndOfEmptyLineFound"));
         }
         strings.add("");
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "TextFileLineUtil.Log.Error.ErrorConvertingLine", e.toString()),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "TextFileLineUtil.Log.Error.ErrorConvertingLine", e.toString()), e);
     }
 
     return strings.toArray(new String[strings.size()]);

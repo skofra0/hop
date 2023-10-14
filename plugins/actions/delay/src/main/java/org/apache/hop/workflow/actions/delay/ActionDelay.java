@@ -109,13 +109,10 @@ public class ActionDelay extends ActionBase implements Cloneable, IAction {
       // starttime (in seconds ,Minutes or Hours)
       double timeStart = (double) System.currentTimeMillis() / (double) multiple;
 
-      double iMaximumTimeout =
-          Const.toInt(getRealMaximumTimeout(), Const.toInt(DEFAULT_MAXIMUM_TIMEOUT, 0));
+      double iMaximumTimeout = Const.toInt(getRealMaximumTimeout(), Const.toInt(DEFAULT_MAXIMUM_TIMEOUT, 0));
 
       if (isDetailed()) {
-        logDetailed(
-            BaseMessages.getString(
-                PKG, "ActionDelay.LetsWaitFor.Label", iMaximumTimeout, waitscale));
+        logDetailed(BaseMessages.getString(PKG, "ActionDelay.LetsWaitFor.Label", iMaximumTimeout, waitscale));
       }
 
       boolean continueLoop = true;
@@ -124,12 +121,7 @@ public class ActionDelay extends ActionBase implements Cloneable, IAction {
       //
       if (iMaximumTimeout < 0) {
         iMaximumTimeout = Const.toInt(DEFAULT_MAXIMUM_TIMEOUT, 0);
-        logBasic(
-            BaseMessages.getString(
-                PKG,
-                "ActionDelay.MaximumTimeReset.Label",
-                String.valueOf(iMaximumTimeout),
-                String.valueOf(waitscale)));
+        logBasic(BaseMessages.getString(PKG, "ActionDelay.MaximumTimeReset.Label", String.valueOf(iMaximumTimeout), String.valueOf(waitscale)));
       }
 
       // Loop until the delay time has expired.
@@ -193,23 +185,9 @@ public class ActionDelay extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "maximumTimeout",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.longValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "scaleTime",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "maximumTimeout", remarks, AndValidator.putValidators(ActionValidatorUtils.longValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "scaleTime", remarks, AndValidator.putValidators(ActionValidatorUtils.integerValidator()));
   }
 
   public int getScaleTime() {

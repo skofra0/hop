@@ -51,7 +51,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 public class TeradataValueMetaBaseTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   // Get PKG from class under test
   private Class<?> PKG = ValueMetaBase.PKG;
@@ -72,7 +73,8 @@ public class TeradataValueMetaBaseTest {
 
   private StoreLoggingEventListener listener;
 
-  @Spy private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
+  @Spy
+  private DatabaseMeta databaseMetaSpy = spy(new DatabaseMeta());
   private PreparedStatement preparedStatementMock = mock(PreparedStatement.class);
   private ResultSet resultSet;
   private DatabaseMeta dbMeta;
@@ -106,8 +108,7 @@ public class TeradataValueMetaBaseTest {
   }
 
   @Test
-  public void testMetdataPreviewSqlDateToHopDateUsingTeradata()
-      throws SQLException, HopDatabaseException {
+  public void testMetdataPreviewSqlDateToHopDateUsingTeradata() throws SQLException, HopDatabaseException {
     doReturn(Types.DATE).when(resultSet).getInt("DATA_TYPE");
     IValueMeta valueMeta = valueMetaBase.getMetadataPreview(variables, dbMeta, resultSet);
     assertTrue(valueMeta.isDate());

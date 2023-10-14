@@ -38,7 +38,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SftpClientTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private int port = 22;
   private String username = "admin";
@@ -77,8 +78,7 @@ public class SftpClientTest {
       }
     };
 
-    verify(session)
-        .setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+    verify(session).setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
   }
 
   /**
@@ -98,9 +98,7 @@ public class SftpClientTest {
       }
     };
 
-    verify(session)
-        .setConfig(
-            "PreferredAuthentications", "publickey,keyboard-interactive,password,gssapi-with-mic");
+    verify(session).setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password,gssapi-with-mic");
   }
 
   /**
@@ -110,8 +108,7 @@ public class SftpClientTest {
    * API Authentication.
    */
   @Test
-  public void shouldIncludeGssapiToPreferredAuthenticationsIfOnlySpecifiedCorrectly()
-      throws Exception {
+  public void shouldIncludeGssapiToPreferredAuthenticationsIfOnlySpecifiedCorrectly() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
 
     new SftpClient(server, port, username) {
@@ -121,21 +118,19 @@ public class SftpClientTest {
       }
     };
 
-    verify(session)
-        .setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+    verify(session).setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
   }
 
   /** Can't create root folder. An exception is expected. */
   @Test(expected = HopWorkflowException.class)
   public void folderCreationEmptyTest() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        new SftpClient(server, port, username) {
-          @Override
-          JSch createJSch() {
-            return jSch;
-          }
-        };
+    SftpClient client = new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    };
 
     client.login(password);
     client.createFolder("//");
@@ -145,14 +140,12 @@ public class SftpClientTest {
   @Test
   public void folderCreation_Relative_Simple() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        spy(
-            new SftpClient(server, port, username) {
-              @Override
-              JSch createJSch() {
-                return jSch;
-              }
-            });
+    SftpClient client = spy(new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    });
 
     doReturn("/home/admin").when(client).pwd();
 
@@ -167,14 +160,12 @@ public class SftpClientTest {
   @Test
   public void folderCreation_Relative_Nested() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        spy(
-            new SftpClient(server, port, username) {
-              @Override
-              JSch createJSch() {
-                return jSch;
-              }
-            });
+    SftpClient client = spy(new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    });
 
     doReturn("/home/admin").when(client).pwd();
 
@@ -191,14 +182,12 @@ public class SftpClientTest {
   @Test
   public void folderCreation_Absolute_Simple() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        spy(
-            new SftpClient(server, port, username) {
-              @Override
-              JSch createJSch() {
-                return jSch;
-              }
-            });
+    SftpClient client = spy(new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    });
 
     doReturn(true).when(client).folderExists("/var");
     doReturn(true).when(client).folderExists("/var/ftproot");
@@ -217,14 +206,12 @@ public class SftpClientTest {
   @Test
   public void folderCreation_Absolute_TrailingSlash() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        spy(
-            new SftpClient(server, port, username) {
-              @Override
-              JSch createJSch() {
-                return jSch;
-              }
-            });
+    SftpClient client = spy(new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    });
 
     doReturn(true).when(client).folderExists("/var");
     doReturn(true).when(client).folderExists("/var/ftproot");
@@ -240,14 +227,12 @@ public class SftpClientTest {
   @Test
   public void folderCreation_Absolute_Nested() throws Exception {
     System.setProperty(SftpClient.ENV_PARAM_USERAUTH_GSSAPI, "yes");
-    SftpClient client =
-        spy(
-            new SftpClient(server, port, username) {
-              @Override
-              JSch createJSch() {
-                return jSch;
-              }
-            });
+    SftpClient client = spy(new SftpClient(server, port, username) {
+      @Override
+      JSch createJSch() {
+        return jSch;
+      }
+    });
 
     doReturn(true).when(client).folderExists("/var");
     doReturn(true).when(client).folderExists("/var/ftproot");

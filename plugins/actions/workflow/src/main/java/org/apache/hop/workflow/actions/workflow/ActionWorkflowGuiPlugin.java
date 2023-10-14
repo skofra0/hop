@@ -65,14 +65,12 @@ public class ActionWorkflowGuiPlugin {
 
     ActionWorkflow actionWorkflow = new ActionWorkflow(workflowMeta.getName());
 
-    HopGuiFileOpenedExtension ext =
-        new HopGuiFileOpenedExtension(null, variables, workflowMeta.getFilename());
+    HopGuiFileOpenedExtension ext = new HopGuiFileOpenedExtension(null, variables, workflowMeta.getFilename());
 
     // See if there are any plugins interested in manipulating the filename...
     //
     try {
-      ExtensionPointHandler.callExtensionPoint(
-          LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
+      ExtensionPointHandler.callExtensionPoint(LogChannel.UI, variables, HopGuiExtensionPoint.HopGuiFileOpenedDialog.id, ext);
     } catch (Exception xe) {
       LogChannel.UI.logError("Error handling extension point 'HopGuiFileOpenDialog'", xe);
     }
@@ -83,8 +81,7 @@ public class ActionWorkflowGuiPlugin {
     //
     try {
       IHopMetadataProvider metadataProvider = workflowGraph.getHopGui().getMetadataProvider();
-      IHopMetadataSerializer<WorkflowRunConfiguration> serializer =
-          metadataProvider.getSerializer(WorkflowRunConfiguration.class);
+      IHopMetadataSerializer<WorkflowRunConfiguration> serializer = metadataProvider.getSerializer(WorkflowRunConfiguration.class);
       List<String> configNames = serializer.listObjectNames();
       if (!configNames.isEmpty()) {
         if (configNames.size() == 1) {
@@ -103,22 +100,17 @@ public class ActionWorkflowGuiPlugin {
         }
       }
     } catch (Exception e) {
-      new ErrorDialog(
-          workflowGraph.getShell(), "Error", "Error selecting workflow run configurations", e);
+      new ErrorDialog(workflowGraph.getShell(), "Error", "Error selecting workflow run configurations", e);
     }
 
     ActionMeta actionMeta = new ActionMeta(actionWorkflow);
 
     StringBuilder xml = new StringBuilder(5000).append(XmlHandler.getXmlHeader());
-    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS))
-        .append(Const.CR);
-    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS))
-        .append(Const.CR);
+    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS)).append(Const.CR);
+    xml.append(XmlHandler.openTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS)).append(Const.CR);
     xml.append(actionMeta.getXml());
-    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS))
-        .append(Const.CR);
-    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS))
-        .append(Const.CR);
+    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_ACTIONS)).append(Const.CR);
+    xml.append(XmlHandler.closeTag(HopGuiWorkflowClipboardDelegate.XML_TAG_WORKFLOW_ACTIONS)).append(Const.CR);
 
     workflowGraph.workflowClipboardDelegate.toClipboard(xml.toString());
   }

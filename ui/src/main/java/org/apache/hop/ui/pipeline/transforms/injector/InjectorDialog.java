@@ -49,8 +49,7 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
 
   private InjectorMeta input;
 
-  public InjectorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public InjectorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (InjectorMeta) in;
   }
@@ -107,33 +106,12 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
 
     ColumnInfo[] columns =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Fieldname"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getAllValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getAllValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "InjectorDialog.ColumnInfo.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            nrFieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, nrFieldsRows, lsMod, props);
 
     // Some buttons
     wOk = new Button(shell, SWT.PUSH);
@@ -193,11 +171,7 @@ public class InjectorDialog extends BaseTransformDialog implements ITransformDia
 
     input.getInjectorFields().clear();
     for (TableItem item : wFields.getNonEmptyItems()) {
-      input
-          .getInjectorFields()
-          .add(
-              new InjectorField(
-                  item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
+      input.getInjectorFields().add(new InjectorField(item.getText(1), item.getText(2), item.getText(3), item.getText(4)));
     }
     dispose();
   }

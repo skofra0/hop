@@ -72,8 +72,7 @@ public class LafMessageHandler extends GlobalMessages {
   }
 
   @Override
-  protected String calculateString(
-      String packageName, String key, Object[] parameters, Class<?> resourceClass) {
+  protected String calculateString(String packageName, String key, Object[] parameters, Class<?> resourceClass) {
     if (replaceWith != null) {
       final String[] pkgNames = new String[] {replacePackage(packageName), replaceSysBundle};
       final String string = super.calculateString(pkgNames, key, parameters, resourceClass);
@@ -83,7 +82,6 @@ public class LafMessageHandler extends GlobalMessages {
     }
 
     final String[] pkgNames = new String[] {packageName, SYSTEM_BUNDLE_PACKAGE};
-    return GlobalMessageUtil.calculateString(
-        pkgNames, key, parameters, resourceClass, BUNDLE_NAME, false);
+    return GlobalMessageUtil.calculateString(pkgNames, key, parameters, resourceClass, BUNDLE_NAME, false);
   }
 }

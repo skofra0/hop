@@ -40,9 +40,7 @@ import org.w3c.dom.Node;
 
 import java.util.List;
 
-@InjectionSupported(
-    localizationPrefix = "SortedMerge.Injection.",
-    groups = {"FIELDS"})
+@InjectionSupported(localizationPrefix = "SortedMerge.Injection.", groups = {"FIELDS"})
 @Transform(
     id = "SortedMerge",
     image = "sortedmerge.svg",
@@ -62,8 +60,7 @@ public class SortedMergeMeta extends BaseTransformMeta<SortedMerge, SortedMergeD
   private boolean[] ascending;
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -136,13 +133,7 @@ public class SortedMergeMeta extends BaseTransformMeta<SortedMerge, SortedMergeD
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Set the sorted properties: ascending/descending
     for (int i = 0; i < fieldName.length; i++) {
@@ -170,12 +161,7 @@ public class SortedMergeMeta extends BaseTransformMeta<SortedMerge, SortedMergeD
     CheckResult cr;
 
     if (prev != null && prev.size() > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "SortedMergeMeta.CheckResult.FieldsReceived", "" + prev.size()),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.FieldsReceived", "" + prev.size()), transformMeta);
       remarks.add(cr);
 
       String errorMessage = "";
@@ -190,52 +176,30 @@ public class SortedMergeMeta extends BaseTransformMeta<SortedMerge, SortedMergeD
         }
       }
       if (errorFound) {
-        errorMessage =
-            BaseMessages.getString(
-                PKG, "SortedMergeMeta.CheckResult.SortKeysNotFound", errorMessage);
+        errorMessage = BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.SortKeysNotFound", errorMessage);
 
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transformMeta);
         remarks.add(cr);
       } else {
         if (fieldName.length > 0) {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_OK,
-                  BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.AllSortKeysFound"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.AllSortKeysFound"), transformMeta);
           remarks.add(cr);
         } else {
-          cr =
-              new CheckResult(
-                  ICheckResult.TYPE_RESULT_ERROR,
-                  BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.NoSortKeysEntered"),
-                  transformMeta);
+          cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.NoSortKeysEntered"), transformMeta);
           remarks.add(cr);
         }
       }
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.NoFields"), transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.ExpectedInputOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.ExpectedInputOk"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.ExpectedInputError"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SortedMergeMeta.CheckResult.ExpectedInputError"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -262,9 +226,7 @@ public class SortedMergeMeta extends BaseTransformMeta<SortedMerge, SortedMergeD
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**

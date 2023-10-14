@@ -72,8 +72,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
 
   private boolean gotPreviousFields = false;
 
-  public ZipFileDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public ZipFileDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (ZipFileMeta) in;
   }
@@ -88,13 +87,12 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
 
     ModifyListener lsMod = e -> input.setChanged();
 
-    SelectionAdapter lsSel =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lsSel = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
 
     changed = input.hasChanged();
 
@@ -142,8 +140,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
 
     // Create target parent folder?
     Label wlCreateParentFolder = new Label(wSettingsGroup, SWT.RIGHT);
-    wlCreateParentFolder.setText(
-        BaseMessages.getString(PKG, "ZipFileDialog.CreateParentFolder.Label"));
+    wlCreateParentFolder.setText(BaseMessages.getString(PKG, "ZipFileDialog.CreateParentFolder.Label"));
     PropsUi.setLook(wlCreateParentFolder);
     FormData fdlCreateParentFolder = new FormData();
     fdlCreateParentFolder.left = new FormAttachment(0, 0);
@@ -152,8 +149,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     wlCreateParentFolder.setLayoutData(fdlCreateParentFolder);
     wCreateParentFolder = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wCreateParentFolder);
-    wCreateParentFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ZipFileDialog.CreateParentFolder.Tooltip"));
+    wCreateParentFolder.setToolTipText(BaseMessages.getString(PKG, "ZipFileDialog.CreateParentFolder.Tooltip"));
     FormData fdCreateParentFolder = new FormData();
     fdCreateParentFolder.left = new FormAttachment(middle, 0);
     fdCreateParentFolder.top = new FormAttachment(wlCreateParentFolder, 0, SWT.CENTER);
@@ -171,8 +167,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     wlOverwriteTarget.setLayoutData(fdlOverwriteTarget);
     wOverwriteZipEntry = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wOverwriteZipEntry);
-    wOverwriteZipEntry.setToolTipText(
-        BaseMessages.getString(PKG, "ZipFileDialog.OverwriteTarget.Tooltip"));
+    wOverwriteZipEntry.setToolTipText(BaseMessages.getString(PKG, "ZipFileDialog.OverwriteTarget.Tooltip"));
     FormData fdOverwriteTarget = new FormData();
     fdOverwriteTarget.left = new FormAttachment(middle, 0);
     fdOverwriteTarget.top = new FormAttachment(wlOverwriteTarget, 0, SWT.CENTER);
@@ -209,8 +204,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
 
     // SourceFileNameField field
     Label wlSourceFileNameField = new Label(shell, SWT.RIGHT);
-    wlSourceFileNameField.setText(
-        BaseMessages.getString(PKG, "ZipFileDialog.SourceFileNameField.Label"));
+    wlSourceFileNameField.setText(BaseMessages.getString(PKG, "ZipFileDialog.SourceFileNameField.Label"));
     PropsUi.setLook(wlSourceFileNameField);
     FormData fdlSourceFileNameField = new FormData();
     fdlSourceFileNameField.left = new FormAttachment(0, 0);
@@ -227,22 +221,20 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdSourceFileNameField.top = new FormAttachment(wSettingsGroup, 2 * margin);
     fdSourceFileNameField.right = new FormAttachment(100, -margin);
     wSourceFileNameField.setLayoutData(fdSourceFileNameField);
-    wSourceFileNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wSourceFileNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
     // TargetFileNameField field
     Label wlTargetFileNameField = new Label(shell, SWT.RIGHT);
-    wlTargetFileNameField.setText(
-        BaseMessages.getString(PKG, "ZipFileDialog.TargetFileNameField.Label"));
+    wlTargetFileNameField.setText(BaseMessages.getString(PKG, "ZipFileDialog.TargetFileNameField.Label"));
     PropsUi.setLook(wlTargetFileNameField);
     FormData fdlTargetFileNameField = new FormData();
     fdlTargetFileNameField.left = new FormAttachment(0, 0);
@@ -259,18 +251,17 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdTargetFileNameField.top = new FormAttachment(wSourceFileNameField, margin);
     fdTargetFileNameField.right = new FormAttachment(100, -margin);
     wTargetFileNameField.setLayoutData(fdTargetFileNameField);
-    wTargetFileNameField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wTargetFileNameField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
 
     Label wlKeepFolders = new Label(shell, SWT.RIGHT);
     wlKeepFolders.setText(BaseMessages.getString(PKG, "ZipFileDialog.KeepFolders.Label"));
@@ -288,14 +279,13 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdKeepFolders.top = new FormAttachment(wTargetFileNameField, margin);
     wKeepFolders.setLayoutData(fdKeepFolders);
     wKeepFolders.addSelectionListener(lsSel);
-    wKeepFolders.addSelectionListener(
-        new SelectionAdapter() {
+    wKeepFolders.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            keepFolder();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        keepFolder();
+      }
+    });
 
     // BaseFolderField field
     wlBaseFolderField = new Label(shell, SWT.RIGHT);
@@ -316,18 +306,17 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdBaseFolderField.top = new FormAttachment(wKeepFolders, margin);
     fdBaseFolderField.right = new FormAttachment(100, -margin);
     wBaseFolderField.setLayoutData(fdBaseFolderField);
-    wBaseFolderField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wBaseFolderField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
 
     // Operation
     Label wlOperation = new Label(shell, SWT.RIGHT);
@@ -348,18 +337,16 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdOperation.right = new FormAttachment(100, -margin);
     wOperation.setLayoutData(fdOperation);
     wOperation.setItems(ZipFileMeta.operationTypeDesc);
-    wOperation.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            updateOperation();
-          }
-        });
+    wOperation.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        updateOperation();
+      }
+    });
 
     // MoveToFolderField field
     wlMoveToFolderField = new Label(shell, SWT.RIGHT);
-    wlMoveToFolderField.setText(
-        BaseMessages.getString(PKG, "ZipFileDialog.MoveToFolderField.Label"));
+    wlMoveToFolderField.setText(BaseMessages.getString(PKG, "ZipFileDialog.MoveToFolderField.Label"));
     PropsUi.setLook(wlMoveToFolderField);
     FormData fdlMoveToFolderField = new FormData();
     fdlMoveToFolderField.left = new FormAttachment(0, 0);
@@ -376,18 +363,17 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
     fdMoveToFolderField.top = new FormAttachment(wOperation, margin);
     fdMoveToFolderField.right = new FormAttachment(100, -margin);
     wMoveToFolderField.setLayoutData(fdMoveToFolderField);
-    wMoveToFolderField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {
-            // Disable focuslost event
-          }
+    wMoveToFolderField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        // Disable focuslost event
+      }
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            get();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        get();
+      }
+    });
 
     // THE BUTTONS
     wOk = new Button(shell, SWT.PUSH);
@@ -512,11 +498,7 @@ public class ZipFileDialog extends BaseTransformDialog implements ITransformDial
   }
 
   private void updateOperation() {
-    wlMoveToFolderField.setEnabled(
-        ZipFileMeta.getOperationTypeByDesc(wOperation.getText())
-            == ZipFileMeta.OPERATION_TYPE_MOVE);
-    wMoveToFolderField.setEnabled(
-        ZipFileMeta.getOperationTypeByDesc(wOperation.getText())
-            == ZipFileMeta.OPERATION_TYPE_MOVE);
+    wlMoveToFolderField.setEnabled(ZipFileMeta.getOperationTypeByDesc(wOperation.getText()) == ZipFileMeta.OPERATION_TYPE_MOVE);
+    wMoveToFolderField.setEnabled(ZipFileMeta.getOperationTypeByDesc(wOperation.getText()) == ZipFileMeta.OPERATION_TYPE_MOVE);
   }
 }

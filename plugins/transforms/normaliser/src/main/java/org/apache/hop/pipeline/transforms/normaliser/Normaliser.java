@@ -33,13 +33,7 @@ import java.util.Set;
 public class Normaliser extends BaseTransform<NormaliserMeta, NormaliserData> {
   private static final Class<?> PKG = NormaliserMeta.class; // For Translator
 
-  public Normaliser(
-      TransformMeta transformMeta,
-      NormaliserMeta meta,
-      NormaliserData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Normaliser(TransformMeta transformMeta, NormaliserMeta meta, NormaliserData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -71,7 +65,7 @@ public class Normaliser extends BaseTransform<NormaliserMeta, NormaliserData> {
       data.type_occ = new ArrayList<>();
       data.maxlen = 0;
 
-      for (NormaliserField field : meta.getNormaliserFields()) {        
+      for (NormaliserField field : meta.getNormaliserFields()) {
         typeValue = field.getValue();
         if (!data.type_occ.contains(typeValue)) {
           data.type_occ.add(typeValue);
@@ -91,11 +85,7 @@ public class Normaliser extends BaseTransform<NormaliserMeta, NormaliserData> {
         // 12min to about 1min 35sec.
         dataFieldNr = data.inputRowMeta.indexOfValue(field.getName());
         if (dataFieldNr < 0) {
-          logError(
-              BaseMessages.getString(
-                  PKG,
-                  "Normaliser.Log.CouldNotFindFieldInRow",
-                  field.getName()));
+          logError(BaseMessages.getString(PKG, "Normaliser.Log.CouldNotFindFieldInRow", field.getName()));
           setErrors(1);
           stopAll();
           return false;

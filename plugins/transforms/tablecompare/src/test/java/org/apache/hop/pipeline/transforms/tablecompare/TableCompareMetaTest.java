@@ -34,7 +34,8 @@ import java.util.Map;
 public class TableCompareMetaTest {
   LoadSaveTester loadSaveTester;
   Class<TableCompareMeta> testMetaClass = TableCompareMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -42,23 +43,9 @@ public class TableCompareMetaTest {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "referenceConnection",
-            "referenceSchemaField",
-            "referenceTableField",
-            "compareConnection",
-            "compareSchemaField",
-            "compareTableField",
-            "keyFieldsField",
-            "excludeFieldsField",
-            "nrErrorsField",
-            "nrRecordsReferenceField",
-            "nrRecordsCompareField",
-            "nrErrorsLeftJoinField",
-            "nrErrorsInnerJoinField",
-            "nrErrorsRightJoinField",
-            "keyDescriptionField",
-            "valueReferenceField",
-            "valueCompareField");
+            "referenceConnection", "referenceSchemaField", "referenceTableField", "compareConnection", "compareSchemaField", "compareTableField", "keyFieldsField",
+            "excludeFieldsField", "nrErrorsField", "nrRecordsReferenceField", "nrRecordsCompareField", "nrErrorsLeftJoinField", "nrErrorsInnerJoinField", "nrErrorsRightJoinField",
+            "keyDescriptionField", "valueReferenceField", "valueCompareField");
 
     Map<String, String> getterMap = new HashMap<>();
     Map<String, String> setterMap = new HashMap<>();
@@ -66,9 +53,7 @@ public class TableCompareMetaTest {
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test

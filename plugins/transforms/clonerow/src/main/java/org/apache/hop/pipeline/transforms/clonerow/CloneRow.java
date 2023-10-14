@@ -31,13 +31,7 @@ public class CloneRow extends BaseTransform<CloneRowMeta, CloneRowData> {
 
   private static final Class<?> PKG = CloneRowMeta.class; // For Translator
 
-  public CloneRow(
-      TransformMeta transformMeta,
-      CloneRowMeta meta,
-      CloneRowData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CloneRow(TransformMeta transformMeta, CloneRowMeta meta, CloneRowData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -63,16 +57,14 @@ public class CloneRow extends BaseTransform<CloneRowMeta, CloneRowData> {
         String realflagfield = resolve(meta.getCloneFlagField());
         if (Utils.isEmpty(realflagfield)) {
           logError(BaseMessages.getString(PKG, "CloneRow.Error.CloneFlagFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "CloneRow.Error.CloneFlagFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "CloneRow.Error.CloneFlagFieldMissing"));
         }
       }
       if (meta.isAddCloneNum()) {
         String realnumfield = resolve(meta.getCloneNumField());
         if (Utils.isEmpty(realnumfield)) {
           logError(BaseMessages.getString(PKG, "CloneRow.Error.CloneNumFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "CloneRow.Error.CloneNumFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "CloneRow.Error.CloneNumFieldMissing"));
         }
       }
 
@@ -80,22 +72,15 @@ public class CloneRow extends BaseTransform<CloneRowMeta, CloneRowData> {
         String cloneinfieldname = meta.getNrCloneField();
         if (Utils.isEmpty(cloneinfieldname)) {
           logError(BaseMessages.getString(PKG, "CloneRow.Error.NrCloneInFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "CloneRow.Error.NrCloneInFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "CloneRow.Error.NrCloneInFieldMissing"));
         }
         // cache the position of the field
         if (data.indexOfNrCloneField < 0) {
           data.indexOfNrCloneField = getInputRowMeta().indexOfValue(cloneinfieldname);
           if (data.indexOfNrCloneField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "CloneRow.Log.ErrorFindingField")
-                    + "["
-                    + cloneinfieldname
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "CloneRow.Exception.CouldnotFindField", cloneinfieldname));
+            logError(BaseMessages.getString(PKG, "CloneRow.Log.ErrorFindingField") + "[" + cloneinfieldname + "]");
+            throw new HopException(BaseMessages.getString(PKG, "CloneRow.Exception.CouldnotFindField", cloneinfieldname));
           }
         }
       } else {

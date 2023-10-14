@@ -122,59 +122,37 @@ public class Const {
   public static final String CR = System.getProperty("line.separator");
 
   /*
-   The name of the history folder in which the Hop local audit manager saves data
-  */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description =
-          "The name of the history folder in which the Hop local audit manager saves data.")
-  public static final String HOP_AUDIT_FOLDER =
-      NVL(
-          System.getProperty("HOP_AUDIT_FOLDER"),
-          System.getProperty("user.dir") + File.separator + "audit");
+   * The name of the history folder in which the Hop local audit manager saves data
+   */
+  @Variable(scope = VariableScope.SYSTEM, description = "The name of the history folder in which the Hop local audit manager saves data.")
+  public static final String HOP_AUDIT_FOLDER = NVL(System.getProperty("HOP_AUDIT_FOLDER"), System.getProperty("user.dir") + File.separator + "audit");
 
   /*
-   The name of the history folder in which the Hop local audit manager saves data
-  */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description =
-          "The name of the history folder in which the Hop local audit manager saves data.")
-  public static final String HOP_CONFIG_FOLDER =
-      NVL(
-          System.getProperty("HOP_CONFIG_FOLDER"),
-          System.getProperty("user.dir") + File.separator + "config");
+   * The name of the history folder in which the Hop local audit manager saves data
+   */
+  @Variable(scope = VariableScope.SYSTEM, description = "The name of the history folder in which the Hop local audit manager saves data.")
+  public static final String HOP_CONFIG_FOLDER = NVL(System.getProperty("HOP_CONFIG_FOLDER"), System.getProperty("user.dir") + File.separator + "config");
 
   /**
    * The name of the variable which configures whether or not we should automatically create a
    * config file when it's missing
    */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      value = "N",
-      description =
-          "Set this variable to 'Y' to automatically create config file when it's missing.")
+  @Variable(scope = VariableScope.SYSTEM, value = "N", description = "Set this variable to 'Y' to automatically create config file when it's missing.")
   public static final String HOP_AUTO_CREATE_CONFIG = "HOP_AUTO_CREATE_CONFIG";
 
   /**
    * The system environment variable pointing to the alternative location for the Hop metadata
    * folder
    */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description = "The variable which points to the alternative location for the Hop metadata.")
+  @Variable(scope = VariableScope.SYSTEM, description = "The variable which points to the alternative location for the Hop metadata.")
   public static final String HOP_METADATA_FOLDER = "HOP_METADATA_FOLDER";
 
   /** The variable which points to a shared folder with JDBC drivers in them. */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description = "The variable which points to a shared folder with JDBC drivers in them.")
+  @Variable(scope = VariableScope.SYSTEM, description = "The variable which points to a shared folder with JDBC drivers in them.")
   public static final String HOP_SHARED_JDBC_FOLDER = "HOP_SHARED_JDBC_FOLDER";
 
   /** The operating system the hop platform runs on */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description = "The operating system the hop platform runs on.")
+  @Variable(scope = VariableScope.SYSTEM, description = "The operating system the hop platform runs on.")
   public static final String HOP_PLATFORM_OS = "HOP_PLATFORM_OS";
 
   /** The runtime that is being used */
@@ -209,38 +187,37 @@ public class Const {
    * The margin between the different dialog components & widgets. This method is deprecated. Please
    * use PropsUi.getMargin() instead.
    */
-  @Deprecated public static final int MARGIN = 4;
+  @Deprecated
+  public static final int MARGIN = 4;
 
   /**
    * The default percentage of the width of screen where we consider the middle of a dialog. This
    * method is deprecated. Please use PropsUi.getMiddlePct() instead.
    */
-  @Deprecated public static final int MIDDLE_PCT = 35;
+  @Deprecated
+  public static final int MIDDLE_PCT = 35;
 
   /**
    * The horizontal and vertical margin of a dialog box. This method is deprecated. Please use
    * PropsUi.getFormMargin() instead.
    */
-  @Deprecated public static final int FORM_MARGIN = 5;
+  @Deprecated
+  public static final int FORM_MARGIN = 5;
 
   /** The default locale for the hop environment (system defined) */
   public static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
   /** The default decimal separator . or , */
-  public static final char DEFAULT_DECIMAL_SEPARATOR =
-      (new DecimalFormatSymbols(DEFAULT_LOCALE)).getDecimalSeparator();
+  public static final char DEFAULT_DECIMAL_SEPARATOR = (new DecimalFormatSymbols(DEFAULT_LOCALE)).getDecimalSeparator();
 
   /** The default grouping separator , or . */
-  public static final char DEFAULT_GROUPING_SEPARATOR =
-      (new DecimalFormatSymbols(DEFAULT_LOCALE)).getGroupingSeparator();
+  public static final char DEFAULT_GROUPING_SEPARATOR = (new DecimalFormatSymbols(DEFAULT_LOCALE)).getGroupingSeparator();
 
   /** The default currency symbol */
-  public static final String DEFAULT_CURRENCY_SYMBOL =
-      (new DecimalFormatSymbols(DEFAULT_LOCALE)).getCurrencySymbol();
+  public static final String DEFAULT_CURRENCY_SYMBOL = (new DecimalFormatSymbols(DEFAULT_LOCALE)).getCurrencySymbol();
 
   /** The default number format */
-  public static final String DEFAULT_NUMBER_FORMAT =
-      ((DecimalFormat) (NumberFormat.getInstance())).toPattern();
+  public static final String DEFAULT_NUMBER_FORMAT = ((DecimalFormat) (NumberFormat.getInstance())).toPattern();
 
   /** Default string representing Null String values (empty) */
   public static final String NULL_STRING = "";
@@ -300,86 +277,65 @@ public class Const {
   public static final String INTERNAL_VARIABLE_PREFIX = "Internal";
 
   /** The workflow filename directory */
-  public static final String INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER =
-      INTERNAL_VARIABLE_PREFIX + ".Workflow.Filename.Folder";
+  public static final String INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER = INTERNAL_VARIABLE_PREFIX + ".Workflow.Filename.Folder";
 
   /** The workflow filename name */
-  public static final String INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME =
-      INTERNAL_VARIABLE_PREFIX + ".Workflow.Filename.Name";
+  public static final String INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME = INTERNAL_VARIABLE_PREFIX + ".Workflow.Filename.Name";
 
   /** The workflow name */
-  public static final String INTERNAL_VARIABLE_WORKFLOW_NAME =
-      INTERNAL_VARIABLE_PREFIX + ".Workflow.Name";
+  public static final String INTERNAL_VARIABLE_WORKFLOW_NAME = INTERNAL_VARIABLE_PREFIX + ".Workflow.Name";
 
   /** The workflow ID */
-  public static final String INTERNAL_VARIABLE_WORKFLOW_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Workflow.ID";
+  public static final String INTERNAL_VARIABLE_WORKFLOW_ID = INTERNAL_VARIABLE_PREFIX + ".Workflow.ID";
 
   /** The workflow parent ID */
-  public static final String INTERNAL_VARIABLE_WORKFLOW_PARENT_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Workflow.ParentID";
+  public static final String INTERNAL_VARIABLE_WORKFLOW_PARENT_ID = INTERNAL_VARIABLE_PREFIX + ".Workflow.ParentID";
 
   /** The current pipeline directory */
-  public static final String INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER =
-      INTERNAL_VARIABLE_PREFIX + ".Entry.Current.Folder";
+  public static final String INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER = INTERNAL_VARIABLE_PREFIX + ".Entry.Current.Folder";
 
   /** All the internal pipeline variables */
   public static final Set<String> INTERNAL_PIPELINE_VARIABLES =
       Set.of(
-          Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-          Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY,
-          Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME,
+          Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY, Const.INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME,
           Const.INTERNAL_VARIABLE_PIPELINE_NAME);
 
   /** All the internal workflow variables */
   public static final Set<String> INTERNAL_WORKFLOW_VARIABLES =
       Set.of(
-          Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER,
-          Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER,
-          Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME,
+          Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER, Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_FOLDER, Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME,
           Const.INTERNAL_VARIABLE_WORKFLOW_NAME);
 
   /** The pipeline filename directory */
-  public static final String INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY =
-      INTERNAL_VARIABLE_PREFIX + ".Pipeline.Filename.Directory";
+  public static final String INTERNAL_VARIABLE_PIPELINE_FILENAME_DIRECTORY = INTERNAL_VARIABLE_PREFIX + ".Pipeline.Filename.Directory";
 
   /** The pipeline filename name */
-  public static final String INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME =
-      INTERNAL_VARIABLE_PREFIX + ".Pipeline.Filename.Name";
+  public static final String INTERNAL_VARIABLE_PIPELINE_FILENAME_NAME = INTERNAL_VARIABLE_PREFIX + ".Pipeline.Filename.Name";
 
   /** The pipeline name */
-  public static final String INTERNAL_VARIABLE_PIPELINE_NAME =
-      INTERNAL_VARIABLE_PREFIX + ".Pipeline.Name";
+  public static final String INTERNAL_VARIABLE_PIPELINE_NAME = INTERNAL_VARIABLE_PREFIX + ".Pipeline.Name";
 
   /** The pipeline ID */
-  public static final String INTERNAL_VARIABLE_PIPELINE_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Pipeline.ID";
+  public static final String INTERNAL_VARIABLE_PIPELINE_ID = INTERNAL_VARIABLE_PREFIX + ".Pipeline.ID";
 
   /** The pipeline parent ID */
-  public static final String INTERNAL_VARIABLE_PIPELINE_PARENT_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Pipeline.ParentID";
+  public static final String INTERNAL_VARIABLE_PIPELINE_PARENT_ID = INTERNAL_VARIABLE_PREFIX + ".Pipeline.ParentID";
 
   /** The transform partition ID */
-  public static final String INTERNAL_VARIABLE_TRANSFORM_PARTITION_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.Partition.ID";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_PARTITION_ID = INTERNAL_VARIABLE_PREFIX + ".Transform.Partition.ID";
 
   /** The transform partition number */
-  public static final String INTERNAL_VARIABLE_TRANSFORM_PARTITION_NR =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.Partition.Number";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_PARTITION_NR = INTERNAL_VARIABLE_PREFIX + ".Transform.Partition.Number";
 
   /** The transform name */
-  public static final String INTERNAL_VARIABLE_TRANSFORM_NAME =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.Name";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_NAME = INTERNAL_VARIABLE_PREFIX + ".Transform.Name";
 
   /** The transform copy nr */
-  public static final String INTERNAL_VARIABLE_TRANSFORM_COPYNR =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.CopyNr";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_COPYNR = INTERNAL_VARIABLE_PREFIX + ".Transform.CopyNr";
 
-  public static final String INTERNAL_VARIABLE_TRANSFORM_ID =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.ID";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_ID = INTERNAL_VARIABLE_PREFIX + ".Transform.ID";
 
-  public static final String INTERNAL_VARIABLE_TRANSFORM_BUNDLE_NR =
-      INTERNAL_VARIABLE_PREFIX + ".Transform.BundleNr";
+  public static final String INTERNAL_VARIABLE_TRANSFORM_BUNDLE_NR = INTERNAL_VARIABLE_PREFIX + ".Transform.BundleNr";
 
   public static final String INTERNAL_VARIABLE_ACTION_ID = INTERNAL_VARIABLE_PREFIX + ".Action.ID";
 
@@ -418,28 +374,19 @@ public class Const {
    * If you set this environment variable you can limit the log size of all pipelines and workflows
    * that don't have the "log size limit" property set in their respective properties.
    */
-  @Variable(
-      value = "0",
-      description =
-          "The log size limit for all pipelines and workflows that don't have the \"log size limit\" property set in their respective properties.")
+  @Variable(value = "0", description = "The log size limit for all pipelines and workflows that don't have the \"log size limit\" property set in their respective properties.")
   public static final String HOP_LOG_SIZE_LIMIT = "HOP_LOG_SIZE_LIMIT";
 
   /** The name of the variable that defines the timer used for detecting server nodes. */
-  @Variable(
-      description =
-          "The name of the variable that defines the timer used for detecting server nodes")
+  @Variable(description = "The name of the variable that defines the timer used for detecting server nodes")
   public static final String HOP_SERVER_DETECTION_TIMER = "HOP_SERVER_DETECTION_TIMER";
 
   /**
    * System wide flag to drive the evaluation of null in ValueMeta. If this setting is set to "Y",
    * an empty string and null are different. Otherwise they are not.
    */
-  @Variable(
-      value = "N",
-      description =
-          "NULL vs Empty String. If this setting is set to 'Y', an empty string and null are different. Otherwise they are not")
-  public static final String HOP_EMPTY_STRING_DIFFERS_FROM_NULL =
-      "HOP_EMPTY_STRING_DIFFERS_FROM_NULL";
+  @Variable(value = "N", description = "NULL vs Empty String. If this setting is set to 'Y', an empty string and null are different. Otherwise they are not")
+  public static final String HOP_EMPTY_STRING_DIFFERS_FROM_NULL = "HOP_EMPTY_STRING_DIFFERS_FROM_NULL";
 
   /**
    * System wide flag to allow non-strict string to number conversion for backward compatibility. If
@@ -450,29 +397,22 @@ public class Const {
    */
   @Variable(
       value = "N",
-      description =
-          "System wide flag to allow lenient string to number conversion for backward compatibility. If this setting is set to 'Y', an string starting with digits will be converted successfully into a number. (example: 192.168.1.1 will be converted into 192 or 192.168 or 192168 depending on the decimal and grouping symbol). The default (N) will be to throw an error if non-numeric symbols are found in the string.")
-  public static final String HOP_LENIENT_STRING_TO_NUMBER_CONVERSION =
-      "HOP_LENIENT_STRING_TO_NUMBER_CONVERSION";
+      description = "System wide flag to allow lenient string to number conversion for backward compatibility. If this setting is set to 'Y', an string starting with digits will be converted successfully into a number. (example: 192.168.1.1 will be converted into 192 or 192.168 or 192168 depending on the decimal and grouping symbol). The default (N) will be to throw an error if non-numeric symbols are found in the string.")
+  public static final String HOP_LENIENT_STRING_TO_NUMBER_CONVERSION = "HOP_LENIENT_STRING_TO_NUMBER_CONVERSION";
 
   /**
    * You can use this variable to speed up hostname lookup. Hostname lookup is performed by Hop so
    * that it is capable of logging the server on which a workflow or pipeline is executed.
    */
   @Variable(
-      description =
-          "You can use this variable to speed up hostname lookup. Hostname lookup is performed by Hop so that it is capable of logging the server on which a workflow or pipeline is executed.")
+      description = "You can use this variable to speed up hostname lookup. Hostname lookup is performed by Hop so that it is capable of logging the server on which a workflow or pipeline is executed.")
   public static final String HOP_SYSTEM_HOSTNAME = "HOP_SYSTEM_HOSTNAME";
 
   /**
    * System wide flag to set the maximum number of log lines that are kept internally by Hop. Set to
    * 0 to keep all rows (default)
    */
-  @Variable(
-      scope = VariableScope.APPLICATION,
-      value = "0",
-      description =
-          "The maximum number of log lines that are kept internally by Hop. Set to 0 to keep all rows (default)")
+  @Variable(scope = VariableScope.APPLICATION, value = "0", description = "The maximum number of log lines that are kept internally by Hop. Set to 0 to keep all rows (default)")
   public static final String HOP_MAX_LOG_SIZE_IN_LINES = "HOP_MAX_LOG_SIZE_IN_LINES";
 
   /**
@@ -482,36 +422,25 @@ public class Const {
   @Variable(
       scope = VariableScope.APPLICATION,
       value = "1440",
-      description =
-          "The maximum age (in minutes) of a log line while being kept internally by Hop. Set to 0 to keep all rows indefinitely (default)")
+      description = "The maximum age (in minutes) of a log line while being kept internally by Hop. Set to 0 to keep all rows indefinitely (default)")
   public static final String HOP_MAX_LOG_TIMEOUT_IN_MINUTES = "HOP_MAX_LOG_TIMEOUT_IN_MINUTES";
 
   /**
    * System wide flag to determine whether standard error will be redirected to Hop logging
    * facilities. Will redirect if the value is equal ignoring case to the string "Y"
    */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      value = "N",
-      description = "Set this variable to 'Y' to redirect stderr to Hop logging.")
+  @Variable(scope = VariableScope.SYSTEM, value = "N", description = "Set this variable to 'Y' to redirect stderr to Hop logging.")
   public static final String HOP_REDIRECT_STDERR = "HOP_REDIRECT_STDERR";
 
   /**
    * System wide flag to determine whether standard out will be redirected to Hop logging
    * facilities. Will redirect if the value is equal ignoring case to the string "Y"
    */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      value = "N",
-      description = "Set this variable to 'Y' to redirect stdout to Hop logging.")
+  @Variable(scope = VariableScope.SYSTEM, value = "N", description = "Set this variable to 'Y' to redirect stdout to Hop logging.")
   public static final String HOP_REDIRECT_STDOUT = "HOP_REDIRECT_STDOUT";
 
   /** System wide flag to log stack traces in a simpler, more human readable format */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      value = "N",
-      description =
-          "Set this variable to 'Y' to log stack traces in a simpler, more human readable format.")
+  @Variable(scope = VariableScope.SYSTEM, value = "N", description = "Set this variable to 'Y' to log stack traces in a simpler, more human readable format.")
   public static final String HOP_SIMPLE_STACK_TRACES = "HOP_SIMPLE_STACK_TRACES";
 
   public static final boolean isUsingSimpleStackTraces() {
@@ -519,10 +448,7 @@ public class Const {
   }
 
   public static boolean toBoolean(String string) {
-    return "y".equalsIgnoreCase(string)
-        || "yes".equalsIgnoreCase(string)
-        || "true".equalsIgnoreCase(string)
-        || "t".equalsIgnoreCase(string);
+    return "y".equalsIgnoreCase(string) || "yes".equalsIgnoreCase(string) || "true".equalsIgnoreCase(string) || "t".equalsIgnoreCase(string);
   }
 
   /**
@@ -531,60 +457,40 @@ public class Const {
    */
   @Variable(
       value = "1440",
-      description =
-          "This project variable will set a time-out after which waiting, completed or stopped pipelines and workflows will be automatically cleaned up. The default value is 1440 (one day).")
-  public static final String HOP_SERVER_OBJECT_TIMEOUT_MINUTES =
-      "HOP_SERVER_OBJECT_TIMEOUT_MINUTES";
+      description = "This project variable will set a time-out after which waiting, completed or stopped pipelines and workflows will be automatically cleaned up. The default value is 1440 (one day).")
+  public static final String HOP_SERVER_OBJECT_TIMEOUT_MINUTES = "HOP_SERVER_OBJECT_TIMEOUT_MINUTES";
 
   /**
    * System wide parameter: the maximum number of transform performance snapshots to keep in memory.
    * Set to 0 to keep all snapshots indefinitely (default)
    */
-  @Variable(
-      value = "0",
-      description =
-          "The maximum number of transform performance snapshots to keep in memory. Set to 0 to keep all snapshots indefinitely (default)")
-  public static final String HOP_TRANSFORM_PERFORMANCE_SNAPSHOT_LIMIT =
-      "HOP_TRANSFORM_PERFORMANCE_SNAPSHOT_LIMIT";
+  @Variable(value = "0", description = "The maximum number of transform performance snapshots to keep in memory. Set to 0 to keep all snapshots indefinitely (default)")
+  public static final String HOP_TRANSFORM_PERFORMANCE_SNAPSHOT_LIMIT = "HOP_TRANSFORM_PERFORMANCE_SNAPSHOT_LIMIT";
 
   /** A variable to configure the maximum number of workflow trackers kept in memory. */
-  @Variable(
-      value = "5000",
-      description =
-          "The maximum age (in minutes) of a log line while being kept internally by Hop. Set to 0 to keep all rows indefinitely (default)")
+  @Variable(value = "5000", description = "The maximum age (in minutes) of a log line while being kept internally by Hop. Set to 0 to keep all rows indefinitely (default)")
   public static final String HOP_MAX_WORKFLOW_TRACKER_SIZE = "HOP_MAX_WORKFLOW_TRACKER_SIZE";
 
   /**
    * A variable to configure the maximum number of action results kept in memory for logging
    * purposes.
    */
-  @Variable(
-      value = "5000",
-      description = "The maximum number of action results kept in memory for logging purposes.")
+  @Variable(value = "5000", description = "The maximum number of action results kept in memory for logging purposes.")
   public static final String HOP_MAX_ACTIONS_LOGGED = "HOP_MAX_ACTIONS_LOGGED";
 
   /**
    * A variable to configure the maximum number of logging registry entries kept in memory for
    * logging purposes.
    */
-  @Variable(
-      value = "10000",
-      description =
-          "The maximum number of logging registry entries kept in memory for logging purposes")
+  @Variable(value = "10000", description = "The maximum number of logging registry entries kept in memory for logging purposes")
   public static final String HOP_MAX_LOGGING_REGISTRY_SIZE = "HOP_MAX_LOGGING_REGISTRY_SIZE";
 
   /** A variable to configure the hop log tab refresh delay. */
-  @Variable(
-      scope = VariableScope.APPLICATION,
-      value = "1000",
-      description = "The hop log tab refresh delay.")
+  @Variable(scope = VariableScope.APPLICATION, value = "1000", description = "The hop log tab refresh delay.")
   public static final String HOP_LOG_TAB_REFRESH_DELAY = "HOP_LOG_TAB_REFRESH_DELAY";
 
   /** A variable to configure the hop log tab refresh period. */
-  @Variable(
-      scope = VariableScope.APPLICATION,
-      value = "1000",
-      description = "The hop log tab refresh period.")
+  @Variable(scope = VariableScope.APPLICATION, value = "1000", description = "The hop log tab refresh period.")
   public static final String HOP_LOG_TAB_REFRESH_PERIOD = "HOP_LOG_TAB_REFRESH_PERIOD";
 
   /**
@@ -594,18 +500,14 @@ public class Const {
   public static final String HOP_PLUGIN_CLASSES = "HOP_PLUGIN_CLASSES";
 
   /** Name of the environment variable to specify alternative location for plugins. */
-  @Variable(
-      scope = VariableScope.SYSTEM,
-      description = "The variable which points to the alternative location for plugins.")
+  @Variable(scope = VariableScope.SYSTEM, description = "The variable which points to the alternative location for plugins.")
   public static final String HOP_PLUGIN_BASE_FOLDERS = "HOP_PLUGIN_BASE_FOLDERS";
 
   /**
    * Name of the environment variable that contains the size of the pipeline rowset size. This
    * overwrites values that you set pipeline settings.
    */
-  @Variable(
-      description =
-          "Name of the environment variable that contains the size of the pipeline rowset size. This overwrites values that you set pipeline settings")
+  @Variable(description = "Name of the environment variable that contains the size of the pipeline rowset size. This overwrites values that you set pipeline settings")
   public static final String HOP_PIPELINE_ROWSET_SIZE = "HOP_PIPELINE_ROWSET_SIZE";
 
   /** A general initial version comment */
@@ -615,16 +517,13 @@ public class Const {
   public static final String VERSION_COMMENT_EDIT_VERSION = "Modification by user";
 
   /** Specifies the password encoding plugin to use by ID (Hop is the default). */
-  @Variable(
-      value = "Hop",
-      description = "Specifies the password encoder plugin to use by ID (Hop is the default).")
+  @Variable(value = "Hop", description = "Specifies the password encoder plugin to use by ID (Hop is the default).")
   public static final String HOP_PASSWORD_ENCODER_PLUGIN = "HOP_PASSWORD_ENCODER_PLUGIN";
 
   /**
    * The name of the Hop encryption seed environment variable for the HopTwoWayPasswordEncoder class
    */
-  public static final String HOP_TWO_WAY_PASSWORD_ENCODER_SEED =
-      "HOP_TWO_WAY_PASSWORD_ENCODER_SEED";
+  public static final String HOP_TWO_WAY_PASSWORD_ENCODER_SEED = "HOP_TWO_WAY_PASSWORD_ENCODER_SEED";
 
   /**
    * The name of the variable that optionally contains an alternative rowset get timeout (in ms).
@@ -632,8 +531,7 @@ public class Const {
    */
   @Variable(
       value = "50",
-      description =
-          "The name of the variable that optionally contains an alternative rowset get timeout (in ms). This only makes a difference for extremely short lived pipelines.")
+      description = "The name of the variable that optionally contains an alternative rowset get timeout (in ms). This only makes a difference for extremely short lived pipelines.")
   public static final String HOP_ROWSET_GET_TIMEOUT = "HOP_ROWSET_GET_TIMEOUT";
 
   /**
@@ -642,15 +540,11 @@ public class Const {
    */
   @Variable(
       value = "50",
-      description =
-          "The name of the variable that optionally contains an alternative rowset put timeout (in ms). This only makes a difference for extremely short lived pipelines.")
+      description = "The name of the variable that optionally contains an alternative rowset put timeout (in ms). This only makes a difference for extremely short lived pipelines.")
   public static final String HOP_ROWSET_PUT_TIMEOUT = "HOP_ROWSET_PUT_TIMEOUT";
 
   /** Set this variable to Y if you want to test a more efficient batching row set. (default = N) */
-  @Variable(
-      value = "N",
-      description =
-          "Set this variable to 'Y' if you want to test a more efficient batching row set.")
+  @Variable(value = "N", description = "Set this variable to 'Y' if you want to test a more efficient batching row set.")
   public static final String HOP_BATCHING_ROWSET = "HOP_BATCHING_ROWSET";
 
   /**
@@ -659,8 +553,7 @@ public class Const {
    */
   @Variable(
       value = "1024",
-      description =
-          "This project variable is used by the Text File Output transform. It defines the max number of simultaneously open files within the transform. The transform will close/reopen files as necessary to insure the max is not exceeded")
+      description = "This project variable is used by the Text File Output transform. It defines the max number of simultaneously open files within the transform. The transform will close/reopen files as necessary to insure the max is not exceeded")
   public static final String HOP_FILE_OUTPUT_MAX_STREAM_COUNT = "HOP_FILE_OUTPUT_MAX_STREAM_COUNT";
 
   /**
@@ -669,30 +562,23 @@ public class Const {
    */
   @Variable(
       value = "0",
-      description =
-          "This project variable is used by the Text File Output transform. It defines the max number of milliseconds between flushes of files opened by the transform.")
+      description = "This project variable is used by the Text File Output transform. It defines the max number of milliseconds between flushes of files opened by the transform.")
   public static final String HOP_FILE_OUTPUT_MAX_STREAM_LIFE = "HOP_FILE_OUTPUT_MAX_STREAM_LIFE";
 
   /** Set this variable to Y to disable standard Hop logging to the console. (stdout) */
-  @Variable(
-      value = "N",
-      description =
-          "Set this variable to 'Y' to disable standard Hop logging to the console. (stdout)")
+  @Variable(value = "N", description = "Set this variable to 'Y' to disable standard Hop logging to the console. (stdout)")
   public static final String HOP_DISABLE_CONSOLE_LOGGING = "HOP_DISABLE_CONSOLE_LOGGING";
 
   /** The name of the variable containing an alternative default number format */
-  @Variable(
-      description = "The name of the variable containing an alternative default number format")
+  @Variable(description = "The name of the variable containing an alternative default number format")
   public static final String HOP_DEFAULT_NUMBER_FORMAT = "HOP_DEFAULT_NUMBER_FORMAT";
 
   /** The name of the variable containing an alternative default bignumber format */
-  @Variable(
-      description = "The name of the variable containing an alternative default bignumber format")
+  @Variable(description = "The name of the variable containing an alternative default bignumber format")
   public static final String HOP_DEFAULT_BIGNUMBER_FORMAT = "HOP_DEFAULT_BIGNUMBER_FORMAT";
 
   /** The name of the variable containing an alternative default integer format */
-  @Variable(
-      description = "The name of the variable containing an alternative default integer format")
+  @Variable(description = "The name of the variable containing an alternative default integer format")
   public static final String HOP_DEFAULT_INTEGER_FORMAT = "HOP_DEFAULT_INTEGER_FORMAT";
 
   /** The name of the variable containing an alternative default date format */
@@ -702,38 +588,27 @@ public class Const {
   // Null values tweaks
   @Variable(
       value = "N",
-      description =
-          "Set this variable to 'Y' to set the minimum to NULL if NULL is within an aggregate. Otherwise by default NULL is ignored by the MIN aggregate and MIN is set to the minimum value that is not NULL. See also the variable HOP_AGGREGATION_ALL_NULLS_ARE_ZERO.")
-  public static final String HOP_AGGREGATION_MIN_NULL_IS_VALUED =
-      "HOP_AGGREGATION_MIN_NULL_IS_VALUED";
+      description = "Set this variable to 'Y' to set the minimum to NULL if NULL is within an aggregate. Otherwise by default NULL is ignored by the MIN aggregate and MIN is set to the minimum value that is not NULL. See also the variable HOP_AGGREGATION_ALL_NULLS_ARE_ZERO.")
+  public static final String HOP_AGGREGATION_MIN_NULL_IS_VALUED = "HOP_AGGREGATION_MIN_NULL_IS_VALUED";
 
   @Variable(
       value = "N",
-      description =
-          "Set this variable to 'Y' to return 0 when all values within an aggregate are NULL. Otherwise by default a NULL is returned when all values are NULL.")
-  public static final String HOP_AGGREGATION_ALL_NULLS_ARE_ZERO =
-      "HOP_AGGREGATION_ALL_NULLS_ARE_ZERO";
+      description = "Set this variable to 'Y' to return 0 when all values within an aggregate are NULL. Otherwise by default a NULL is returned when all values are NULL.")
+  public static final String HOP_AGGREGATION_ALL_NULLS_ARE_ZERO = "HOP_AGGREGATION_ALL_NULLS_ARE_ZERO";
 
   /** The name of the variable containing an alternative default timestamp format */
-  @Variable(
-      description = "The name of the variable containing an alternative default timestamp format")
+  @Variable(description = "The name of the variable containing an alternative default timestamp format")
   public static final String HOP_DEFAULT_TIMESTAMP_FORMAT = "HOP_DEFAULT_TIMESTAMP_FORMAT";
 
   /** Variable that is responsible for removing enclosure symbol after splitting the string */
   @Variable(
       value = "N",
-      description =
-          "Set this variable to 'N' to preserve enclosure symbol after splitting the string in the Split fields transform. Changing it to true will remove first and last enclosure symbol from the resulting string chunks.")
-  public static final String HOP_SPLIT_FIELDS_REMOVE_ENCLOSURE =
-      "HOP_SPLIT_FIELDS_REMOVE_ENCLOSURE";
+      description = "Set this variable to 'N' to preserve enclosure symbol after splitting the string in the Split fields transform. Changing it to true will remove first and last enclosure symbol from the resulting string chunks.")
+  public static final String HOP_SPLIT_FIELDS_REMOVE_ENCLOSURE = "HOP_SPLIT_FIELDS_REMOVE_ENCLOSURE";
 
   /** Variable that is responsible for checking empty field names and types. */
-  @Variable(
-      value = "N",
-      description =
-          "Set this variable to 'Y' to allow your pipeline to pass 'null' fields and/or empty types.")
-  public static final String HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES =
-      "HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES";
+  @Variable(value = "N", description = "Set this variable to 'Y' to allow your pipeline to pass 'null' fields and/or empty types.")
+  public static final String HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES = "HOP_ALLOW_EMPTY_FIELD_NAMES_AND_TYPES";
 
   /**
    * Set this variable to false to preserve global log variables defined in pipeline / workflow
@@ -742,10 +617,8 @@ public class Const {
    */
   @Variable(
       value = "N",
-      description =
-          "Set this variable to 'N' to preserve global log variables defined in pipeline / workflow Properties -> Log panel. Changing it to 'Y' will clear it when export pipeline / workflow.")
-  public static final String HOP_GLOBAL_LOG_VARIABLES_CLEAR_ON_EXPORT =
-      "HOP_GLOBAL_LOG_VARIABLES_CLEAR_ON_EXPORT";
+      description = "Set this variable to 'N' to preserve global log variables defined in pipeline / workflow Properties -> Log panel. Changing it to 'Y' will clear it when export pipeline / workflow.")
+  public static final String HOP_GLOBAL_LOG_VARIABLES_CLEAR_ON_EXPORT = "HOP_GLOBAL_LOG_VARIABLES_CLEAR_ON_EXPORT";
 
   private static String[] emptyPaddedSpacesStrings;
 
@@ -755,8 +628,7 @@ public class Const {
   /** A variable to configure turning on/off detailed subjects in log. */
   @Variable(
       value = "N",
-      description =
-          "Set this variable to 'Y' to precede transform/action name in log lines with the complete path to the transform/action. Useful to perfectly identify where a problem happened in our process.")
+      description = "Set this variable to 'Y' to precede transform/action name in log lines with the complete path to the transform/action. Useful to perfectly identify where a problem happened in our process.")
   public static final String HOP_LOG_MARK_MAPPINGS = "HOP_LOG_MARK_MAPPINGS";
 
   /** A variable to configure jetty option: acceptors for Hop server */
@@ -765,28 +637,21 @@ public class Const {
 
   /** A variable to configure jetty option: acceptQueueSize for Hop server */
   @Variable(description = "A variable to configure jetty option: acceptQueueSize for Hop server")
-  public static final String HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE =
-      "HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE";
+  public static final String HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE = "HOP_SERVER_JETTY_ACCEPT_QUEUE_SIZE";
 
   /** A variable to configure jetty option: lowResourcesMaxIdleTime for Hop server */
-  @Variable(
-      description = "A variable to configure jetty option: lowResourcesMaxIdleTime for Hop server")
-  public static final String HOP_SERVER_JETTY_RES_MAX_IDLE_TIME =
-      "HOP_SERVER_JETTY_RES_MAX_IDLE_TIME";
+  @Variable(description = "A variable to configure jetty option: lowResourcesMaxIdleTime for Hop server")
+  public static final String HOP_SERVER_JETTY_RES_MAX_IDLE_TIME = "HOP_SERVER_JETTY_RES_MAX_IDLE_TIME";
 
-  @Variable(
-      description =
-          "Defines the default encoding for servlets, leave it empty to use Java default encoding")
+  @Variable(description = "Defines the default encoding for servlets, leave it empty to use Java default encoding")
   public static final String HOP_DEFAULT_SERVLET_ENCODING = "HOP_DEFAULT_SERVLET_ENCODING";
 
   /** A variable to configure refresh for Hop server workflow/pipeline status page */
-  @Variable(
-      description = "A variable to configure refresh for Hop server workflow/pipeline status page")
+  @Variable(description = "A variable to configure refresh for Hop server workflow/pipeline status page")
   public static final String HOP_SERVER_REFRESH_STATUS = "HOP_SERVER_REFRESH_STATUS";
 
   /** A variable to configure s3vfs to use a temporary file on upload data to S3 Amazon." */
-  public static final String S3VFS_USE_TEMPORARY_FILE_ON_UPLOAD_DATA =
-      "s3.vfs.useTempFileOnUploadData";
+  public static final String S3VFS_USE_TEMPORARY_FILE_ON_UPLOAD_DATA = "s3.vfs.useTempFileOnUploadData";
 
   /** A variable to configure Tab size" */
   @Variable(description = "A variable to configure Tab size")
@@ -802,15 +667,14 @@ public class Const {
    * A variable to configure the minimum allowed ratio between de- and inflated bytes to detect a
    * zipbomb.
    *
-   * <p>If not set or if the configured value is invalid, it defaults to {@value
+   * <p>
+   * If not set or if the configured value is invalid, it defaults to {@value
    * #HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT}
    *
    * @see #HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT
    * @see #HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT_STRING
    */
-  @Variable(
-      description =
-          "A variable to configure the minimum allowed ratio between de- and inflated bytes to detect a zipbomb")
+  @Variable(description = "A variable to configure the minimum allowed ratio between de- and inflated bytes to detect a zipbomb")
   public static final String HOP_ZIP_MIN_INFLATE_RATIO = "HOP_ZIP_MIN_INFLATE_RATIO";
 
   /**
@@ -828,13 +692,13 @@ public class Const {
    * @see #HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT
    */
   @Variable(description = "")
-  public static final String HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT_STRING =
-      String.valueOf(HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT);
+  public static final String HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT_STRING = String.valueOf(HOP_ZIP_MIN_INFLATE_RATIO_DEFAULT);
 
   /**
    * A variable to configure the maximum file size of a single zip entry.
    *
-   * <p>If not set or if the configured value is invalid, it defaults to {@value
+   * <p>
+   * If not set or if the configured value is invalid, it defaults to {@value
    * #HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT}
    *
    * @see #HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT
@@ -858,22 +722,20 @@ public class Const {
    * @see #HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT
    */
   @Variable(description = "")
-  public static final String HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT_STRING =
-      String.valueOf(HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT);
+  public static final String HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT_STRING = String.valueOf(HOP_ZIP_MAX_ENTRY_SIZE_DEFAULT);
 
   /**
    * A variable to configure the maximum number of characters of text that are extracted before an
    * exception is thrown during extracting text from documents.
    *
-   * <p>If not set or if the configured value is invalid, it defaults to {@value
+   * <p>
+   * If not set or if the configured value is invalid, it defaults to {@value
    * #HOP_ZIP_MAX_TEXT_SIZE_DEFAULT}
    *
    * @see #HOP_ZIP_MAX_TEXT_SIZE_DEFAULT
    * @see #HOP_ZIP_MAX_TEXT_SIZE_DEFAULT_STRING
    */
-  @Variable(
-      description =
-          "A variable to configure the maximum number of characters of text that are extracted before an exception is thrown during extracting text from documents")
+  @Variable(description = "A variable to configure the maximum number of characters of text that are extracted before an exception is thrown during extracting text from documents")
   public static final String HOP_ZIP_MAX_TEXT_SIZE = "HOP_ZIP_MAX_TEXT_SIZE";
 
   /**
@@ -891,34 +753,29 @@ public class Const {
    * @see #HOP_ZIP_MAX_TEXT_SIZE_DEFAULT
    */
   @Variable(description = "")
-  public static final String HOP_ZIP_MAX_TEXT_SIZE_DEFAULT_STRING =
-      String.valueOf(HOP_ZIP_MAX_TEXT_SIZE_DEFAULT);
+  public static final String HOP_ZIP_MAX_TEXT_SIZE_DEFAULT_STRING = String.valueOf(HOP_ZIP_MAX_TEXT_SIZE_DEFAULT);
 
   /**
    * This is the name of the variable which when set should contains the path to a file which will
    * be included in the serialization of pipelines and workflows.
    */
   @Variable(
-      description =
-          "This is the name of the variable which when set should contains the path to a file which will be included in the serialization of pipelines and workflows")
+      description = "This is the name of the variable which when set should contains the path to a file which will be included in the serialization of pipelines and workflows")
   public static final String HOP_LICENSE_HEADER_FILE = "HOP_LICENSE_HEADER_FILE";
 
   /** The variable says Hop to consider nulls when parsing JSON files */
   @Variable(
       value = "Y",
-      description =
-          "Name of the variable to set so that Nulls are considered while parsing JSON files. If HOP_JSON_INPUT_INCLUDE_NULLS is \"Y\" then nulls will be included (default behavior) otherwise they will not be included")
+      description = "Name of the variable to set so that Nulls are considered while parsing JSON files. If HOP_JSON_INPUT_INCLUDE_NULLS is \"Y\" then nulls will be included (default behavior) otherwise they will not be included")
   public static final String HOP_JSON_INPUT_INCLUDE_NULLS = "HOP_JSON_INPUT_INCLUDE_NULLS";
 
   /**
    * This variable is used to disable the strict searching of the context dialog
    */
   @Variable(
-          value = "N",
-          description =
-                  "This variable influences how the search is done in the context dialog, when set to Y it will do a strict search (Needed for automated UI testing)")
+      value = "N",
+      description = "This variable influences how the search is done in the context dialog, when set to Y it will do a strict search (Needed for automated UI testing)")
   public static final String HOP_CONTEXT_DIALOG_STRICT_SEARCH = "HOP_CONTEXT_DIALOG_STRICT_SEARCH";
-
 
   /** By default, HOP do consider NULLs while parsing input */
   public static final String JSON_INPUT_INCLUDE_NULLS = "Y";
@@ -935,12 +792,8 @@ public class Const {
    * This is the default wait time used for DynamicWaitTimes can be overwritten by a runtime
    * configuration
    */
-  @Variable(
-      scope = VariableScope.ENGINE,
-      value = "20",
-      description = "This is the default polling frequency for the transforms input buffer (in ms)")
-  public static final String HOP_DEFAULT_BUFFER_POLLING_WAITTIME =
-      "HOP_DEFAULT_BUFFER_POLLING_WAITTIME";
+  @Variable(scope = VariableScope.ENGINE, value = "20", description = "This is the default polling frequency for the transforms input buffer (in ms)")
+  public static final String HOP_DEFAULT_BUFFER_POLLING_WAITTIME = "HOP_DEFAULT_BUFFER_POLLING_WAITTIME";
 
   /**
    * rounds double f to any number of places after decimal point Does arithmetic using BigDecimal
@@ -1190,7 +1043,8 @@ public class Const {
    * Right pad a StringBuffer: adds spaces to a string until a certain length. If the length is
    * smaller then the limit specified, the String is truncated.
    *
-   * <p>MB - New version is nearly 25% faster
+   * <p>
+   * MB - New version is nearly 25% faster
    *
    * @param ret The StringBuffer to pad
    * @param limit The desired length of the padded string.
@@ -1212,7 +1066,8 @@ public class Const {
    * Right pad a StringBuilder: adds spaces to a string until a certain length. If the length is
    * smaller then the limit specified, the String is truncated.
    *
-   * <p>MB - New version is nearly 25% faster
+   * <p>
+   * MB - New version is nearly 25% faster
    *
    * @param ret The StringBuilder to pad
    * @param limit The desired length of the padded string.
@@ -1233,7 +1088,8 @@ public class Const {
   /**
    * Replace values in a String with another.
    *
-   * <p>33% Faster using replaceAll this way than original method
+   * <p>
+   * 33% Faster using replaceAll this way than original method
    *
    * @param string The original String.
    * @param repl The text to replace
@@ -1251,19 +1107,15 @@ public class Const {
   /**
    * Alternate faster version of string replace using a stringbuffer as input.
    *
-   * <p>33% Faster using replaceAll this way than original method
+   * <p>
+   * 33% Faster using replaceAll this way than original method
    *
    * @param str The string where we want to replace in
    * @param code The code to search for
    * @param repl The replacement string for code
    */
   public static void repl(StringBuffer str, String code, String repl) {
-    if ((code == null)
-        || (repl == null)
-        || (code.length() == 0)
-        || (repl.length() == 0)
-        || (str == null)
-        || (str.length() == 0)) {
+    if ((code == null) || (repl == null) || (code.length() == 0) || (repl.length() == 0) || (str == null) || (str.length() == 0)) {
       return; // do nothing
     }
     String aString = str.toString();
@@ -1274,7 +1126,8 @@ public class Const {
   /**
    * Alternate faster version of string replace using a stringbuilder as input (non-synchronized).
    *
-   * <p>33% Faster using replaceAll this way than original method
+   * <p>
+   * 33% Faster using replaceAll this way than original method
    *
    * @param str The string where we want to replace in
    * @param code The code to search for
@@ -1562,13 +1415,8 @@ public class Const {
     String s = "";
     @SuppressWarnings("unused")
     boolean errorOccured = false;
-    if (os.equalsIgnoreCase("Windows NT")
-        || os.equalsIgnoreCase("Windows 2000")
-        || os.equalsIgnoreCase("Windows XP")
-        || os.equalsIgnoreCase("Windows 95")
-        || os.equalsIgnoreCase("Windows 98")
-        || os.equalsIgnoreCase("Windows Me")
-        || os.startsWith("Windows")) {
+    if (os.equalsIgnoreCase("Windows NT") || os.equalsIgnoreCase("Windows 2000") || os.equalsIgnoreCase("Windows XP") || os.equalsIgnoreCase("Windows 95")
+        || os.equalsIgnoreCase("Windows 98") || os.equalsIgnoreCase("Windows Me") || os.startsWith("Windows")) {
       try {
         Process p = Runtime.getRuntime().exec("nbtstat -a " + ip);
 
@@ -1661,7 +1509,8 @@ public class Const {
   /**
    * Returns the path to the Hop local (current directory) Hop Server password file:
    *
-   * <p>./pwd/hop.pwd<br>
+   * <p>
+   * ./pwd/hop.pwd<br>
    *
    * @return The local hop server password file.
    */
@@ -1676,20 +1525,20 @@ public class Const {
    */
   public static String getBaseDocUrl() {
     String url = BaseMessages.getString(PKG, "Const.BaseDocUrl");
-        
-    // Get the implementation version:  
+
+    // Get the implementation version:
     // Temporary build: 2.4.0-SNAPSHOT (2023-02-13 08.50.52)
     // Release version: 2.4.0
     String version = Const.class.getPackage().getImplementationVersion();
-    
-    // Check if implementation version is a SNAPHOT build or if version is not known.    
+
+    // Check if implementation version is a SNAPHOT build or if version is not known.
     if (version == null || version.contains("SNAPSHOT")) {
       version = "next";
     } else {
-      //Only keep until first space to remove the build date
+      // Only keep until first space to remove the build date
       version = version.split(" ")[0];
     }
-    
+
     return url + version + "/";
   }
 
@@ -1721,7 +1570,7 @@ public class Const {
    * @param variable The name of the environment variable
    * @param deflt The default value in case no value was found
    * @return The value of the environment variable or the value of deflt in case no variable was
-   *     defined.
+   *         defined.
    */
   public static String getEnvironmentVariable(String variable, String deflt) {
     return System.getProperty(variable, deflt);
@@ -1799,7 +1648,7 @@ public class Const {
    * @param lookup The strings to search for
    * @param array The array of strings to look in
    * @return The indexes of strings in an array of strings. Only existing indexes are returned (no
-   *     -1)
+   *         -1)
    */
   public static int[] indexesOfFoundStrings(String[] lookup, String[] array) {
     List<Integer> indexesList = new ArrayList<>();
@@ -1874,11 +1723,13 @@ public class Const {
   /**
    * Convert strings separated by a string into an array of strings.
    *
-   * <p><code>
+   * <p>
+   * <code>
    * Example: a;b;c;d    ==>    new String[] { a, b, c, d }
    * </code>
    *
-   * <p><b>NOTE: this differs from String.split() in a way that the built-in method uses regular
+   * <p>
+   * <b>NOTE: this differs from String.split() in a way that the built-in method uses regular
    * expressions and this one does not.</b>
    *
    * @param string The string to split
@@ -1921,7 +1772,8 @@ public class Const {
   /**
    * Convert strings separated by a character into an array of strings.
    *
-   * <p><code>
+   * <p>
+   * <code>
    * Example: a;b;c;d    ==  new String[] { a, b, c, d }
    * </code>
    *
@@ -1936,7 +1788,8 @@ public class Const {
   /**
    * Convert strings separated by a character into an array of strings.
    *
-   * <p><code>
+   * <p>
+   * <code>
    * Example: a;b;c;d    ==  new String[] { a, b, c, d }
    * </code>
    *
@@ -1984,7 +1837,8 @@ public class Const {
   /**
    * Convert strings separated by a string into an array of strings.
    *
-   * <p><code>
+   * <p>
+   * <code>
    * Example /a/b/c --> new String[] { a, b, c }
    * </code>
    *
@@ -2050,17 +1904,19 @@ public class Const {
   /**
    * Split the given string using the given delimiter and enclosure strings.
    *
-   * <p>The delimiter and enclosures are not regular expressions (regexes); rather they are literal
+   * <p>
+   * The delimiter and enclosures are not regular expressions (regexes); rather they are literal
    * strings that will be quoted so as not to be treated like regexes.
    *
-   * <p>This method expects that the data contains an even number of enclosure strings in the input;
+   * <p>
+   * This method expects that the data contains an even number of enclosure strings in the input;
    * otherwise the results are undefined
    *
    * @param stringToSplit the String to split
    * @param delimiter the delimiter string
    * @param enclosure the enclosure string
    * @return an array of strings split on the delimiter (ignoring those in enclosures), or null if
-   *     the string to split is null.
+   *         the string to split is null.
    */
   public static String[] splitString(String stringToSplit, String delimiter, String enclosure) {
     return splitString(stringToSplit, delimiter, enclosure, false);
@@ -2069,10 +1925,12 @@ public class Const {
   /**
    * Split the given string using the given delimiter and enclosure strings.
    *
-   * <p>The delimiter and enclosures are not regular expressions (regexes); rather they are literal
+   * <p>
+   * The delimiter and enclosures are not regular expressions (regexes); rather they are literal
    * strings that will be quoted so as not to be treated like regexes.
    *
-   * <p>This method expects that the data contains an even number of enclosure strings in the input;
+   * <p>
+   * This method expects that the data contains an even number of enclosure strings in the input;
    * otherwise the results are undefined
    *
    * @param stringToSplit the String to split
@@ -2080,20 +1938,21 @@ public class Const {
    * @param enclosure the enclosure string
    * @param removeEnclosure removes enclosure from split result
    * @return an array of strings split on the delimiter (ignoring those in enclosures), or null if
-   *     the string to split is null.
+   *         the string to split is null.
    */
-  public static String[] splitString(
-      String stringToSplit, String delimiter, String enclosure, boolean removeEnclosure) {
+  public static String[] splitString(String stringToSplit, String delimiter, String enclosure, boolean removeEnclosure) {
     return splitString(stringToSplit, delimiter, enclosure, removeEnclosure, null);
   }
 
   /**
    * Split the given string using the given delimiter and enclosure strings.
    *
-   * <p>The delimiter and enclosures are not regular expressions (regexes); rather they are literal
+   * <p>
+   * The delimiter and enclosures are not regular expressions (regexes); rather they are literal
    * strings that will be quoted so as not to be treated like regexes.
    *
-   * <p>This method expects that the data contains an even number of enclosure strings in the input;
+   * <p>
+   * This method expects that the data contains an even number of enclosure strings in the input;
    * otherwise the results are undefined
    *
    * @param stringToSplit the String to split
@@ -2102,14 +1961,9 @@ public class Const {
    * @param removeEnclosure removes enclosure from split result
    * @param escape The escape string which will ignore a delimited if it precedes that.
    * @return an array of strings split on the delimiter (ignoring those in enclosures), or null if
-   *     the string to split is null.
+   *         the string to split is null.
    */
-  public static String[] splitString(
-      String stringToSplit,
-      String delimiter,
-      String enclosure,
-      boolean removeEnclosure,
-      String escape) {
+  public static String[] splitString(String stringToSplit, String delimiter, String enclosure, boolean removeEnclosure, String escape) {
 
     ArrayList<String> splitList = null;
     boolean withEnclosure = StringUtils.isNotEmpty(enclosure);
@@ -2161,21 +2015,20 @@ public class Const {
 
             if (currentSplit.equals(escape)) {
               // We split a string with an escaped delimiter at the front or back:
-              //   aaaaa:bbbb:\\:cccc ==> aaaa,bbbb,\\,cccc
-              //   aaaaa:bbbb:cccc\\: ==> aaaa,bbbb,cccc,\\
+              // aaaaa:bbbb:\\:cccc ==> aaaa,bbbb,\\,cccc
+              // aaaaa:bbbb:cccc\\: ==> aaaa,bbbb,cccc,\\
               //
               // So in this case we simply set the current split to the delimiter
               //
               currentSplit = delimiter;
               concatWithNext = true;
             } else if (currentSplit.endsWith(escape)) {
-              // We split a string like   aaaaa:bbbb:cc\\:cc
+              // We split a string like aaaaa:bbbb:cc\\:cc
               // This gave us aaaa,bbbb,cc\\,cc
               // This covers the first part of cccc : cc\\
               // So we need to remove the escape and replace it with the delimiter
               //
-              currentSplit =
-                  currentSplit.substring(0, currentSplit.length() - escape.length()) + delimiter;
+              currentSplit = currentSplit.substring(0, currentSplit.length() - escape.length()) + delimiter;
               concatWithNext = true;
             }
 
@@ -2328,9 +2181,7 @@ public class Const {
     }
 
     String pureFilename = filenameOnly(filename);
-    if (pureFilename.endsWith(".hpl")
-        || pureFilename.endsWith(".hwf")
-        || pureFilename.endsWith(".xml")) {
+    if (pureFilename.endsWith(".hpl") || pureFilename.endsWith(".hwf") || pureFilename.endsWith(".xml")) {
       pureFilename = pureFilename.substring(0, pureFilename.length() - 4);
     }
     StringBuilder sb = new StringBuilder();
@@ -2354,7 +2205,8 @@ public class Const {
    * linux/Unix it will check for the last occurrence of a frontslash, on windows for the last
    * occurrence of a backslash.
    *
-   * <p>To make this OS independent, the method could check for the last occurrence of a frontslash
+   * <p>
+   * To make this OS independent, the method could check for the last occurrence of a frontslash
    * and backslash and use the higher value of both. Should work, since these characters aren't
    * allowed in filenames on neither OS types (or said differently: Neither linux nor windows can
    * carry frontslashes OR backslashes in filenames). Just a suggestion of an improvement ...
@@ -2819,12 +2671,15 @@ public class Const {
    * @param filler the pad string to fill with
    * @param size the size to pad to
    * @return the new string, padded to the left
-   *     <p>Note - The original method was flawed in a few cases:
-   *     <p>1- The filler could be a string of any length - and the returned string was not
-   *     necessarily limited to size. So a 3 character pad of an 11 character string could end up
-   *     being 17 characters long. 2- For a pad of zero characters ("") the former method would
-   *     enter an infinite loop. 3- For a null pad, it would throw an NPE 4- For a null valueToPad,
-   *     it would throw an NPE
+   *         <p>
+   *         Note - The original method was flawed in a few cases:
+   *         <p>
+   *         1- The filler could be a string of any length - and the returned string was not
+   *         necessarily limited to size. So a 3 character pad of an 11 character string could end up
+   *         being 17 characters long. 2- For a pad of zero characters ("") the former method would
+   *         enter an infinite loop. 3- For a null pad, it would throw an NPE 4- For a null
+   *         valueToPad,
+   *         it would throw an NPE
    */
   public static String lpad(String valueToPad, String filler, int size) {
     if ((size == 0) || (valueToPad == null) || (filler == null)) {
@@ -2846,9 +2701,7 @@ public class Const {
       sb.append(sb);
     }
     sb.append(valueToPad);
-    return sb.substring(
-        Math.max(
-            0, sb.length() - size)); // this makes sure you have the right size string returned.
+    return sb.substring(Math.max(0, sb.length() - size)); // this makes sure you have the right size string returned.
   }
 
   /**
@@ -2860,11 +2713,14 @@ public class Const {
    * @param filler the pad string to fill with
    * @param size the size to pad to
    * @return The string, padded to the right
-   *     <p>1- The filler can still be a string of any length - and the returned string was not
-   *     necessarily limited to size. So a 3 character pad of an 11 character string with a size of
-   *     15 could end up being 17 characters long (instead of the "asked for 15"). 2- For a pad of
-   *     zero characters ("") the former method would enter an infinite loop. 3- For a null pad, it
-   *     would throw an NPE 4- For a null valueToPad, it would throw an NPE
+   *         <p>
+   *         1- The filler can still be a string of any length - and the returned string was not
+   *         necessarily limited to size. So a 3 character pad of an 11 character string with a size
+   *         of
+   *         15 could end up being 17 characters long (instead of the "asked for 15"). 2- For a pad of
+   *         zero characters ("") the former method would enter an infinite loop. 3- For a null pad,
+   *         it
+   *         would throw an NPE 4- For a null valueToPad, it would throw an NPE
    */
   public static String rpad(String valueToPad, String filler, int size) {
     if ((size == 0) || (valueToPad == null) || (filler == null)) {

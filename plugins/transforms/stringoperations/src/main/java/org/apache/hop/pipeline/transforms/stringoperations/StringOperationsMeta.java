@@ -104,12 +104,12 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
   public static final int TRIM_BOTH = 3;
 
   /** The trim description */
-  public static final String[] trimTypeDesc = {
-    BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.None"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Left"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Right"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Both")
-  };
+  public static final String[] trimTypeDesc =
+      {
+          BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Left"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Right"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.TrimType.Both")};
 
   /** The lower upper codes */
   public static final String[] lowerUpperCode = {"none", "lower", "upper"};
@@ -121,17 +121,13 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
   public static final int LOWER_UPPER_UPPER = 2;
 
   /** The lower upper description */
-  public static final String[] lowerUpperDesc = {
-    BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.None"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.Lower"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.Upper")
-  };
+  public static final String[] lowerUpperDesc =
+      {
+          BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.Lower"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.LowerUpper.Upper")};
 
-  public static final String[] initCapDesc =
-      new String[] {
-        BaseMessages.getString(PKG, "System.Combo.No"),
-        BaseMessages.getString(PKG, "System.Combo.Yes")
-      };
+  public static final String[] initCapDesc = new String[] {BaseMessages.getString(PKG, "System.Combo.No"), BaseMessages.getString(PKG, "System.Combo.Yes")};
 
   public static final String[] initCapCode = {"no", "yes"};
 
@@ -150,27 +146,23 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
 
   public static final String[] digitsDesc =
       new String[] {
-        BaseMessages.getString(PKG, "StringOperationsMeta.Digits.None"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.Digits.Only"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.Digits.Remove")
-      };
+          BaseMessages.getString(PKG, "StringOperationsMeta.Digits.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.Digits.Only"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.Digits.Remove")};
 
   // mask XML
 
   public static final String[] maskXMLDesc =
       new String[] {
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.None"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeXML"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.CDATA"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.UnEscapeXML"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeSQL"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeHTML"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.UnEscapeHTML"),
-      };
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeXML"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.CDATA"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.UnEscapeXML"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeSQL"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.EscapeHTML"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.MaskXML.UnEscapeHTML"),};
 
-  public static final String[] maskXMLCode = {
-    "none", "escapexml", "cdata", "unescapexml", "escapesql", "escapehtml", "unescapehtml"
-  };
+  public static final String[] maskXMLCode = {"none", "escapexml", "cdata", "unescapexml", "escapesql", "escapehtml", "unescapehtml"};
 
   public static final int MASK_NONE = 0;
   public static final int MASK_ESCAPE_XML = 1;
@@ -181,9 +173,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
   public static final int MASK_UNESCAPE_HTML = 6;
 
   // remove special characters
-  public static final String[] removeSpecialCharactersCode = {
-    "none", "cr", "lf", "crlf", "tab", "espace"
-  };
+  public static final String[] removeSpecialCharactersCode = {"none", "cr", "lf", "crlf", "tab", "espace"};
 
   public static final int REMOVE_SPECIAL_CHARACTERS_NONE = 0;
 
@@ -199,20 +189,19 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
 
   public static final String[] removeSpecialCharactersDesc =
       new String[] {
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.None"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.CR"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.LF"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.CRLF"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.TAB"),
-        BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.Space")
-      };
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.CR"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.LF"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.CRLF"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.TAB"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.RemoveSpecialCharacters.Space")};
 
   /** The padding description */
-  public static final String[] paddingDesc = {
-    BaseMessages.getString(PKG, "StringOperationsMeta.Padding.None"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.Padding.Left"),
-    BaseMessages.getString(PKG, "StringOperationsMeta.Padding.Right")
-  };
+  public static final String[] paddingDesc =
+      {
+          BaseMessages.getString(PKG, "StringOperationsMeta.Padding.None"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.Padding.Left"),
+          BaseMessages.getString(PKG, "StringOperationsMeta.Padding.Right")};
 
   public static final String[] paddingCode = {"none", "left", "right"};
 
@@ -319,8 +308,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode, metadataProvider);
   }
 
@@ -359,8 +347,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
     return retval;
   }
 
-  private void readData(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  private void readData(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       int nrkeys;
 
@@ -375,24 +362,17 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
         fieldOutStream[i] = Const.NVL(XmlHandler.getTagValue(fnode, "out_stream_name"), "");
 
         trimType[i] = getTrimTypeByCode(Const.NVL(XmlHandler.getTagValue(fnode, "trim_type"), ""));
-        lowerUpper[i] =
-            getLowerUpperByCode(Const.NVL(XmlHandler.getTagValue(fnode, "lower_upper"), ""));
-        paddingType[i] =
-            getPaddingByCode(Const.NVL(XmlHandler.getTagValue(fnode, "padding_type"), ""));
+        lowerUpper[i] = getLowerUpperByCode(Const.NVL(XmlHandler.getTagValue(fnode, "lower_upper"), ""));
+        paddingType[i] = getPaddingByCode(Const.NVL(XmlHandler.getTagValue(fnode, "padding_type"), ""));
         padChar[i] = Const.NVL(XmlHandler.getTagValue(fnode, "pad_char"), "");
         padLen[i] = Const.NVL(XmlHandler.getTagValue(fnode, "pad_len"), "");
         initCap[i] = getInitCapByCode(Const.NVL(XmlHandler.getTagValue(fnode, "init_cap"), ""));
         maskXML[i] = getMaskXMLByCode(Const.NVL(XmlHandler.getTagValue(fnode, "mask_xml"), ""));
         digits[i] = getDigitsByCode(Const.NVL(XmlHandler.getTagValue(fnode, "digits"), ""));
-        remove_special_characters[i] =
-            getRemoveSpecialCharactersByCode(
-                Const.NVL(XmlHandler.getTagValue(fnode, "remove_special_characters"), ""));
+        remove_special_characters[i] = getRemoveSpecialCharactersByCode(Const.NVL(XmlHandler.getTagValue(fnode, "remove_special_characters"), ""));
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "StringOperationsMeta.Exception.UnableToReadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "StringOperationsMeta.Exception.UnableToReadTransformMetaFromXML"), e);
     }
   }
 
@@ -416,34 +396,17 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
 
       retval.append("      <field>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("in_stream_name", fieldInStream[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("out_stream_name", fieldOutStream[i]));
+      retval.append("        ").append(XmlHandler.addTagValue("out_stream_name", fieldOutStream[i]));
 
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("trim_type", getTrimTypeCode(trimType[i])));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("lower_upper", getLowerUpperCode(lowerUpper[i])));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("padding_type", getPaddingCode(paddingType[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("trim_type", getTrimTypeCode(trimType[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("lower_upper", getLowerUpperCode(lowerUpper[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("padding_type", getPaddingCode(paddingType[i])));
       retval.append("        ").append(XmlHandler.addTagValue("pad_char", lPadChar));
       retval.append("        ").append(XmlHandler.addTagValue("pad_len", lPadLen));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("init_cap", getInitCapCode(initCap[i])));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("mask_xml", getMaskXMLCode(maskXML[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("init_cap", getInitCapCode(initCap[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("mask_xml", getMaskXMLCode(maskXML[i])));
       retval.append("        ").append(XmlHandler.addTagValue("digits", getDigitsCode(digits[i])));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue(
-                  "remove_special_characters",
-                  getRemoveSpecialCharactersCode(remove_special_characters[i])));
+      retval.append("        ").append(XmlHandler.addTagValue("remove_special_characters", getRemoveSpecialCharactersCode(remove_special_characters[i])));
 
       retval.append("      </field>").append(Const.CR);
     }
@@ -454,13 +417,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Add new field?
     for (int i = 0; i < fieldOutStream.length; i++) {
@@ -509,9 +466,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
 
     if (prev == null) {
 
-      errorMessage +=
-          BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.NoInputReceived")
-              + Const.CR;
+      errorMessage += BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.NoInputReceived") + Const.CR;
       cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       remarks.add(cr);
     } else {
@@ -523,10 +478,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
         if (v == null) {
           if (first) {
             first = false;
-            errorMessage +=
-                BaseMessages.getString(
-                        PKG, "StringOperationsMeta.CheckResult.MissingInStreamFields")
-                    + Const.CR;
+            errorMessage += BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.MissingInStreamFields") + Const.CR;
           }
           errorFound = true;
           errorMessage += "\t\t" + field + Const.CR;
@@ -535,11 +487,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
       if (errorFound) {
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.FoundInStreamFields"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.FoundInStreamFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -554,10 +502,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
           if (v.getType() != IValueMeta.TYPE_STRING) {
             if (first) {
               first = false;
-              errorMessage +=
-                  BaseMessages.getString(
-                          PKG, "StringOperationsMeta.CheckResult.OperationOnNonStringFields")
-                      + Const.CR;
+              errorMessage += BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.OperationOnNonStringFields") + Const.CR;
             }
             errorFound = true;
             errorMessage += "\t\t" + field + Const.CR;
@@ -567,12 +512,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
       if (errorFound) {
         cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "StringOperationsMeta.CheckResult.AllOperationsOnStringFields"),
-                transforminfo);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.AllOperationsOnStringFields"), transforminfo);
       }
       remarks.add(cr);
 
@@ -582,10 +522,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
             cr =
                 new CheckResult(
                     ICheckResult.TYPE_RESULT_ERROR,
-                    BaseMessages.getString(
-                        PKG,
-                        "StringOperationsMeta.CheckResult.InStreamFieldMissing",
-                        Integer.toString(idx + 1)),
+                    BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.InStreamFieldMissing", Integer.toString(idx + 1)),
                     transforminfo);
             remarks.add(cr);
           }
@@ -596,9 +533,7 @@ public class StringOperationsMeta extends BaseTransformMeta<StringOperations, St
       for (int idx = 0; idx < fieldInStream.length; idx++) {
         for (int jdx = 0; jdx < fieldInStream.length; jdx++) {
           if (fieldInStream[idx].equals(fieldInStream[jdx]) && idx != jdx && idx < jdx) {
-            errorMessage =
-                BaseMessages.getString(
-                    PKG, "StringOperationsMeta.CheckResult.FieldInputError", fieldInStream[idx]);
+            errorMessage = BaseMessages.getString(PKG, "StringOperationsMeta.CheckResult.FieldInputError", fieldInStream[idx]);
             cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, errorMessage, transforminfo);
             remarks.add(cr);
           }

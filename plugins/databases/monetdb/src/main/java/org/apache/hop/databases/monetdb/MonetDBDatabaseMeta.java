@@ -131,12 +131,8 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -151,101 +147,95 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "IS",
-      "ISNULL",
-      "NOTNULL",
-      "IN",
-      "BETWEEN",
-      "OVERLAPS",
-      "LIKE",
-      "ILIKE",
-      "NOT",
-      "AND",
-      "OR",
-      "CHAR",
-      "VARCHAR",
-      "CLOB",
-      "BLOB",
-      "DECIMAL",
-      "DEC",
-      "NUMERIC",
-      "TINYINT",
-      "SMALLINT",
-      "INT",
-      "BIGINT",
-      "REAL",
-      "DOUBLE",
-      "BOOLEAN",
-      "DATE",
-      "TIME",
-      "TIMESTAMP",
-      "INTERVAL",
-      "YEAR",
-      "MONTH",
-      "DAY",
-      "HOUR",
-      "MINUTE",
-      "SECOND",
-      "TIMEZONE",
-      "EXTRACT",
-      "CURRENT_DATE",
-      "CURRENT_TIME",
-      "CURRENT_TIMESTAMP",
-      "LOCALTIME",
-      "LOCALTIMESTAMP",
-      "CURRENT_TIME",
-      "SERIAL",
-      "START",
-      "WITH",
-      "INCREMENT",
-      "CACHE",
-      "CYCLE",
-      "SEQUENCE",
-      "GETANCHOR",
-      "GETBASENAME",
-      "GETCONTENT",
-      "GETCONTEXT",
-      "GETDOMAIN",
-      "GETEXTENSION",
-      "GETFILE",
-      "GETHOST",
-      "GETPORT",
-      "GETPROTOCOL",
-      "GETQUERY",
-      "GETUSER",
-      "GETROBOTURL",
-      "ISURL",
-      "NEWURL",
-      "BROADCAST",
-      "MASKLEN",
-      "SETMASKLEN",
-      "NETMASK",
-      "HOSTMASK",
-      "NETWORK",
-      "TEXT",
-      "ABBREV",
-      "CREATE",
-      "TYPE",
-      "NAME",
-      "DROP",
-      "USER"
-    };
+        "IS",
+        "ISNULL",
+        "NOTNULL",
+        "IN",
+        "BETWEEN",
+        "OVERLAPS",
+        "LIKE",
+        "ILIKE",
+        "NOT",
+        "AND",
+        "OR",
+        "CHAR",
+        "VARCHAR",
+        "CLOB",
+        "BLOB",
+        "DECIMAL",
+        "DEC",
+        "NUMERIC",
+        "TINYINT",
+        "SMALLINT",
+        "INT",
+        "BIGINT",
+        "REAL",
+        "DOUBLE",
+        "BOOLEAN",
+        "DATE",
+        "TIME",
+        "TIMESTAMP",
+        "INTERVAL",
+        "YEAR",
+        "MONTH",
+        "DAY",
+        "HOUR",
+        "MINUTE",
+        "SECOND",
+        "TIMEZONE",
+        "EXTRACT",
+        "CURRENT_DATE",
+        "CURRENT_TIME",
+        "CURRENT_TIMESTAMP",
+        "LOCALTIME",
+        "LOCALTIMESTAMP",
+        "CURRENT_TIME",
+        "SERIAL",
+        "START",
+        "WITH",
+        "INCREMENT",
+        "CACHE",
+        "CYCLE",
+        "SEQUENCE",
+        "GETANCHOR",
+        "GETBASENAME",
+        "GETCONTENT",
+        "GETCONTEXT",
+        "GETDOMAIN",
+        "GETEXTENSION",
+        "GETFILE",
+        "GETHOST",
+        "GETPORT",
+        "GETPROTOCOL",
+        "GETQUERY",
+        "GETUSER",
+        "GETROBOTURL",
+        "ISURL",
+        "NEWURL",
+        "BROADCAST",
+        "MASKLEN",
+        "SETMASKLEN",
+        "NETMASK",
+        "HOSTMASK",
+        "NETWORK",
+        "TEXT",
+        "ABBREV",
+        "CREATE",
+        "TYPE",
+        "NAME",
+        "DROP",
+        "USER"};
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCr) {
     StringBuilder retval = new StringBuilder();
 
     String fieldname = v.getName();
@@ -280,8 +270,7 @@ public class MonetDBDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_INTEGER:
       case IValueMeta.TYPE_BIGNUMBER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           if (useAutoinc) {

@@ -139,11 +139,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
     retval.append("      ").append(XmlHandler.addTagValue("insertScript", insertScript));
     retval.append("      ").append(XmlHandler.addTagValue("script", script));
 
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue(
-                "loglevel", (logFileLevel == null) ? null : logFileLevel.getCode()));
+    retval.append("      ").append(XmlHandler.addTagValue("loglevel", (logFileLevel == null) ? null : logFileLevel.getCode()));
 
     if (arguments != null) {
       for (int i = 0; i < arguments.length; i++) {
@@ -157,18 +153,15 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       setFilename(XmlHandler.getTagValue(entrynode, "filename"));
       setWorkDirectory(XmlHandler.getTagValue(entrynode, "work_directory"));
-      argFromPrevious =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
+      argFromPrevious = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "arg_from_previous"));
       execPerRow = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "exec_per_row"));
       setLogfile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "set_logfile"));
-      setAppendLogfile =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "set_append_logfile"));
+      setAppendLogfile = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "set_append_logfile"));
       addDate = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_date"));
       addTime = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "add_time"));
       logfile = XmlHandler.getTagValue(entrynode, "logfile");
@@ -281,13 +274,10 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
       }
 
       try {
-        loggingEventListener =
-            new FileLoggingEventListener(getLogChannelId(), realLogFilename, setAppendLogfile);
+        loggingEventListener = new FileLoggingEventListener(getLogChannelId(), realLogFilename, setAppendLogfile);
         HopLogStore.getAppender().addLoggingEventListener(loggingEventListener);
       } catch (HopException e) {
-        logError(
-            BaseMessages.getString(
-                PKG, "ActionShell.Error.UnableopenAppenderFile", getLogFilename(), e.toString()));
+        logError(BaseMessages.getString(PKG, "ActionShell.Error.UnableopenAppenderFile", getLogFilename(), e.toString()));
         logError(Const.getStackTracker(e));
         result.setNrErrors(1);
         result.setResult(false);
@@ -316,13 +306,10 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
     List<RowMetaAndData> rows = result.getRows();
 
     if (log.isDetailed()) {
-      logDetailed(
-          BaseMessages.getString(
-              PKG, "ActionShell.Log.FoundPreviousRows", "" + (rows != null ? rows.size() : 0)));
+      logDetailed(BaseMessages.getString(PKG, "ActionShell.Log.FoundPreviousRows", "" + (rows != null ? rows.size() : 0)));
     }
 
-    while ((first && !execPerRow)
-        || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0)) {
+    while ((first && !execPerRow) || (execPerRow && rows != null && iteration < rows.size() && result.getNrErrors() == 0)) {
       first = false;
       if (rows != null && execPerRow) {
         resultRow = rows.get(iteration);
@@ -378,12 +365,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
         HopLogStore.getAppender().removeLoggingEventListener(loggingEventListener);
         loggingEventListener.close();
 
-        ResultFile resultFile =
-            new ResultFile(
-                ResultFile.FILE_TYPE_LOG,
-                loggingEventListener.getFile(),
-                parentWorkflow.getWorkflowName(),
-                getName());
+        ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_LOG, loggingEventListener.getFile(), parentWorkflow.getWorkflowName(), getName());
         result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
       }
     }
@@ -415,15 +397,13 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
       if (Const.getSystemOs().equals("Windows 95")) {
         base = new String[] {"command.com", "/C"};
         if (insertScript) {
-          tempFile =
-              HopVfs.createTempFile("hop", "shell.bat", System.getProperty("java.io.tmpdir"));
+          tempFile = HopVfs.createTempFile("hop", "shell.bat", System.getProperty("java.io.tmpdir"));
           fileObject = createTemporaryShellFile(tempFile, realScript);
         }
       } else if (Const.getSystemOs().startsWith("Windows")) {
         base = new String[] {"cmd.exe", "/C"};
         if (insertScript) {
-          tempFile =
-              HopVfs.createTempFile("hop", "shell.bat", System.getProperty("java.io.tmpdir"));
+          tempFile = HopVfs.createTempFile("hop", "shell.bat", System.getProperty("java.io.tmpdir"));
           fileObject = createTemporaryShellFile(tempFile, realScript);
         }
       } else {
@@ -556,12 +536,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
       result.setExitStatus(proc.exitValue());
       if (result.getExitStatus() != 0) {
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "ActionShell.ExitStatus",
-                  resolve(getFilename()),
-                  "" + result.getExitStatus()));
+          logDetailed(BaseMessages.getString(PKG, "ActionShell.ExitStatus", resolve(getFilename()), "" + result.getExitStatus()));
         }
 
         result.setNrErrors(1);
@@ -577,22 +552,13 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
       proc.getOutputStream().close();
 
     } catch (IOException ioe) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionShell.ErrorRunningShell", resolve(getFilename()), ioe.toString()),
-          ioe);
+      logError(BaseMessages.getString(PKG, "ActionShell.ErrorRunningShell", resolve(getFilename()), ioe.toString()), ioe);
       result.setNrErrors(1);
     } catch (InterruptedException ie) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionShell.Shellinterupted", resolve(getFilename()), ie.toString()),
-          ie);
+      logError(BaseMessages.getString(PKG, "ActionShell.Shellinterupted", resolve(getFilename()), ie.toString()), ie);
       result.setNrErrors(1);
     } catch (Exception e) {
-      logError(
-          BaseMessages.getString(
-              PKG, "ActionShell.UnexpectedError", resolve(getFilename()), e.toString()),
-          e);
+      logError(BaseMessages.getString(PKG, "ActionShell.UnexpectedError", resolve(getFilename()), e.toString()), e);
       result.setNrErrors(1);
     } finally {
       // If we created a temporary file, remove it...
@@ -601,8 +567,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
         try {
           tempFile.delete();
         } catch (Exception e) {
-          BaseMessages.getString(
-              PKG, "ActionShell.UnexpectedError", tempFile.toString(), e.toString());
+          BaseMessages.getString(PKG, "ActionShell.UnexpectedError", tempFile.toString(), e.toString());
         }
       }
     }
@@ -614,8 +579,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
     }
   }
 
-  private FileObject createTemporaryShellFile(FileObject tempFile, String fileContent)
-      throws Exception {
+  private FileObject createTemporaryShellFile(FileObject tempFile, String fileContent) throws Exception {
     // Create a unique new temporary filename in the working directory, put the script in there
     // Set the permissions to execute and then run it...
     //
@@ -638,10 +602,8 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
           ProcessBuilder procBuilder = new ProcessBuilder("chmod", "+x", tempFilename);
           Process proc = procBuilder.start();
           // Eat/log stderr/stdout all messages in a different thread...
-          StreamLogger errorLogger =
-              new StreamLogger(log, proc.getErrorStream(), toString() + " (stderr)");
-          StreamLogger outputLogger =
-              new StreamLogger(log, proc.getInputStream(), toString() + " (stdout)");
+          StreamLogger errorLogger = new StreamLogger(log, proc.getErrorStream(), toString() + " (stderr)");
+          StreamLogger outputLogger = new StreamLogger(log, proc.getInputStream(), toString() + " (stdout)");
           new Thread(errorLogger).start();
           new Thread(outputLogger).start();
           proc.waitFor();
@@ -674,8 +636,7 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (!Utils.isEmpty(filename)) {
       String realFileName = resolve(filename);
@@ -687,31 +648,16 @@ public class ActionShell extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
 
     ActionValidatorUtils.andValidator().validate(this, "workDirectory", remarks, ctx);
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
 
     if (setLogfile) {
-      ActionValidatorUtils.andValidator()
-          .validate(
-              this,
-              "logfile",
-              remarks,
-              AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+      ActionValidatorUtils.andValidator().validate(this, "logfile", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
     }
   }
 

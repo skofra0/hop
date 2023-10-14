@@ -53,13 +53,7 @@ import java.util.stream.Collectors;
 
 public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputData> {
 
-  public Neo4JOutput(
-      TransformMeta s,
-      Neo4JOutputMeta meta,
-      Neo4JOutputData data,
-      int c,
-      PipelineMeta t,
-      Pipeline dis) {
+  public Neo4JOutput(TransformMeta s, Neo4JOutputMeta meta, Neo4JOutputData data, int c, PipelineMeta t, Pipeline dis) {
     super(s, meta, data, c, t, dis);
   }
 
@@ -84,22 +78,15 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       for (int i = 0; i < meta.getFromNodeProps().length; i++) {
         data.fromNodePropIndexes[i] = data.outputRowMeta.indexOfValue(meta.getFromNodeProps()[i]);
         if (data.fromNodePropIndexes[i] < 0) {
-          throw new HopException(
-              "From node: Unable to find field '"
-                  + meta.getFromNodeProps()[i]
-                  + "' for property name '"
-                  + meta.getFromNodePropNames()[i]
-                  + "'");
+          throw new HopException("From node: Unable to find field '" + meta.getFromNodeProps()[i] + "' for property name '" + meta.getFromNodePropNames()[i] + "'");
         }
         data.fromNodePropTypes[i] = GraphPropertyType.parseCode(meta.getFromNodePropTypes()[i]);
       }
       data.fromNodeLabelIndexes = new int[meta.getFromNodeLabels().length];
       for (int i = 0; i < meta.getFromNodeLabels().length; i++) {
         data.fromNodeLabelIndexes[i] = data.outputRowMeta.indexOfValue(meta.getFromNodeLabels()[i]);
-        if (data.fromNodeLabelIndexes[i] < 0
-            && StringUtils.isEmpty(meta.getFromNodeLabelValues()[i])) {
-          throw new HopException(
-              "From node : please provide either a static label value or a field name to determine the label");
+        if (data.fromNodeLabelIndexes[i] < 0 && StringUtils.isEmpty(meta.getFromNodeLabelValues()[i])) {
+          throw new HopException("From node : please provide either a static label value or a field name to determine the label");
         }
       }
       data.toNodePropIndexes = new int[meta.getToNodeProps().length];
@@ -112,8 +99,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       for (int i = 0; i < meta.getToNodeLabels().length; i++) {
         data.toNodeLabelIndexes[i] = data.outputRowMeta.indexOfValue(meta.getToNodeLabels()[i]);
         if (data.toNodeLabelIndexes[i] < 0 && StringUtils.isEmpty(meta.getToNodeLabelValues()[i])) {
-          throw new HopException(
-              "To node : please provide either a static label value or a field name to determine the label");
+          throw new HopException("To node : please provide either a static label value or a field name to determine the label");
         }
       }
       data.relPropIndexes = new int[meta.getRelProps().length];
@@ -177,8 +163,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       }
       // No relationship activity?
       //
-      if (StringUtils.isEmpty(meta.getRelationship())
-          && StringUtils.isEmpty(meta.getRelationshipValue())) {
+      if (StringUtils.isEmpty(meta.getRelationship()) && StringUtils.isEmpty(meta.getRelationshipValue())) {
         data.relOperationType = OperationType.NONE;
       }
 
@@ -219,7 +204,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
         emptyUnwindList();
       }
 
-      // Add rows to the UNWIND list.  Just put all the properties from the nodes and relationship
+      // Add rows to the UNWIND list. Just put all the properties from the nodes and relationship
       // in there
       // This could lead to property name collisions, so we prepend the properties in the list with
       // alias and underscore
@@ -227,16 +212,13 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       Map<String, Object> propsMap = new HashMap<>();
 
       if (data.fromOperationType != OperationType.NONE) {
-        addPropertiesToMap(
-            propsMap, data.fromNodePropIndexes, getInputRowMeta(), row, data.fromNodePropTypes);
+        addPropertiesToMap(propsMap, data.fromNodePropIndexes, getInputRowMeta(), row, data.fromNodePropTypes);
       }
       if (data.toOperationType != OperationType.NONE) {
-        addPropertiesToMap(
-            propsMap, data.toNodePropIndexes, getInputRowMeta(), row, data.toNodePropTypes);
+        addPropertiesToMap(propsMap, data.toNodePropIndexes, getInputRowMeta(), row, data.toNodePropTypes);
       }
       if (data.relOperationType != OperationType.NONE) {
-        addPropertiesToMap(
-            propsMap, data.relPropIndexes, getInputRowMeta(), row, data.relPropTypes);
+        addPropertiesToMap(propsMap, data.relPropIndexes, getInputRowMeta(), row, data.relPropTypes);
       }
       data.unwindList.add(propsMap);
 
@@ -258,9 +240,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     //
     boolean hasFromNode = meta.getFromNodeLabels().length > 0;
     boolean hasToNode = meta.getFromNodeLabels().length > 0;
-    boolean hasRelationship =
-        StringUtils.isNotEmpty(meta.getRelationship())
-            || StringUtils.isNotEmpty(meta.getRelationshipValue());
+    boolean hasRelationship = StringUtils.isNotEmpty(meta.getRelationship()) || StringUtils.isNotEmpty(meta.getRelationshipValue());
     if (hasRelationship) {
       // We need both nodes to be specified
       //
@@ -292,13 +272,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     }
   }
 
-  private void addPropertiesToMap(
-      Map<String, Object> rowMap,
-      int[] nodePropIndexes,
-      IRowMeta rowMeta,
-      Object[] row,
-      GraphPropertyType[] propertyTypes)
-      throws HopValueException {
+  private void addPropertiesToMap(Map<String, Object> rowMap, int[] nodePropIndexes, IRowMeta rowMeta, Object[] row, GraphPropertyType[] propertyTypes) throws HopValueException {
 
     // Add all the node properties for the current row to the rowMap
     //
@@ -326,163 +300,78 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       // The cypher for the 'from' node:
       //
       String fromLabelClause = data.previousFromLabelsClause;
-      String fromMatchClause =
-          getMatchClause(
-              meta.getFromNodePropNames(), meta.getFromNodePropPrimary(), data.fromNodePropIndexes);
+      String fromMatchClause = getMatchClause(meta.getFromNodePropNames(), meta.getFromNodePropPrimary(), data.fromNodePropIndexes);
       switch (data.fromOperationType) {
         case NONE:
           break;
         case CREATE:
-          cypher
-              .append("CREATE( ")
-              .append(fromLabelClause)
-              .append(" ")
-              .append(fromMatchClause)
-              .append(") ")
-              .append(Const.CR);
-          String setClause =
-              getSetClause(
-                  "f",
-                  meta.getFromNodePropNames(),
-                  meta.getFromNodePropPrimary(),
-                  data.fromNodePropIndexes);
+          cypher.append("CREATE( ").append(fromLabelClause).append(" ").append(fromMatchClause).append(") ").append(Const.CR);
+          String setClause = getSetClause("f", meta.getFromNodePropNames(), meta.getFromNodePropPrimary(), data.fromNodePropIndexes);
           if (StringUtils.isNotEmpty(setClause)) {
             cypher.append(setClause).append(Const.CR);
           }
           updateUsageMap(data.fromLabels, GraphUsage.NODE_CREATE);
           break;
         case MERGE:
-          cypher
-              .append("MERGE( ")
-              .append(fromLabelClause)
-              .append(" ")
-              .append(fromMatchClause)
-              .append(") ")
-              .append(Const.CR);
-          setClause =
-              getSetClause(
-                  "f",
-                  meta.getFromNodePropNames(),
-                  meta.getFromNodePropPrimary(),
-                  data.fromNodePropIndexes);
+          cypher.append("MERGE( ").append(fromLabelClause).append(" ").append(fromMatchClause).append(") ").append(Const.CR);
+          setClause = getSetClause("f", meta.getFromNodePropNames(), meta.getFromNodePropPrimary(), data.fromNodePropIndexes);
           if (StringUtils.isNotEmpty(setClause)) {
             cypher.append(setClause).append(Const.CR);
           }
           updateUsageMap(data.fromLabels, GraphUsage.NODE_UPDATE);
           break;
         case MATCH:
-          cypher
-              .append("MATCH( ")
-              .append(fromLabelClause)
-              .append(" ")
-              .append(fromMatchClause)
-              .append(") ")
-              .append(Const.CR);
+          cypher.append("MATCH( ").append(fromLabelClause).append(" ").append(fromMatchClause).append(") ").append(Const.CR);
           updateUsageMap(data.toLabels, GraphUsage.NODE_READ);
           break;
         default:
-          throw new HopException(
-              "Unsupported operation type for the 'from' node: " + data.fromOperationType);
+          throw new HopException("Unsupported operation type for the 'from' node: " + data.fromOperationType);
       }
 
       // The cypher for the 'to' node:
       //
       String toLabelsClause = data.previousToLabelsClause;
-      String toMatchClause =
-          getMatchClause(
-              meta.getToNodePropNames(), meta.getToNodePropPrimary(), data.toNodePropIndexes);
+      String toMatchClause = getMatchClause(meta.getToNodePropNames(), meta.getToNodePropPrimary(), data.toNodePropIndexes);
       switch (data.toOperationType) {
         case NONE:
           break;
         case CREATE:
-          cypher
-              .append("CREATE( ")
-              .append(toLabelsClause)
-              .append(" ")
-              .append(toMatchClause)
-              .append(") ")
-              .append(Const.CR);
-          String setClause =
-              getSetClause(
-                  "t",
-                  meta.getToNodePropNames(),
-                  meta.getToNodePropPrimary(),
-                  data.toNodePropIndexes);
+          cypher.append("CREATE( ").append(toLabelsClause).append(" ").append(toMatchClause).append(") ").append(Const.CR);
+          String setClause = getSetClause("t", meta.getToNodePropNames(), meta.getToNodePropPrimary(), data.toNodePropIndexes);
           if (StringUtils.isNotEmpty(setClause)) {
             cypher.append(setClause).append(Const.CR);
           }
           updateUsageMap(data.toLabels, GraphUsage.NODE_CREATE);
           break;
         case MERGE:
-          cypher
-              .append("MERGE( ")
-              .append(toLabelsClause)
-              .append(" ")
-              .append(toMatchClause)
-              .append(") ")
-              .append(Const.CR);
-          setClause =
-              getSetClause(
-                  "t",
-                  meta.getToNodePropNames(),
-                  meta.getToNodePropPrimary(),
-                  data.toNodePropIndexes);
+          cypher.append("MERGE( ").append(toLabelsClause).append(" ").append(toMatchClause).append(") ").append(Const.CR);
+          setClause = getSetClause("t", meta.getToNodePropNames(), meta.getToNodePropPrimary(), data.toNodePropIndexes);
           if (StringUtils.isNotEmpty(setClause)) {
             cypher.append(setClause).append(Const.CR);
           }
           updateUsageMap(data.toLabels, GraphUsage.NODE_UPDATE);
           break;
         case MATCH:
-          cypher
-              .append("MATCH( ")
-              .append(toLabelsClause)
-              .append(" ")
-              .append(toMatchClause)
-              .append(") ")
-              .append(Const.CR);
+          cypher.append("MATCH( ").append(toLabelsClause).append(" ").append(toMatchClause).append(") ").append(Const.CR);
           updateUsageMap(data.toLabels, GraphUsage.NODE_READ);
           break;
         default:
-          throw new HopException(
-              "Unsupported operation type for the 'to' node: " + data.toOperationType);
+          throw new HopException("Unsupported operation type for the 'to' node: " + data.toOperationType);
       }
 
       // The cypher for the relationship:
       //
-      String relationshipSetClause =
-          getSetClause(
-              "r",
-              meta.getRelPropNames(),
-              new boolean[meta.getRelPropNames().length],
-              data.relPropIndexes);
+      String relationshipSetClause = getSetClause("r", meta.getRelPropNames(), new boolean[meta.getRelPropNames().length], data.relPropIndexes);
       switch (data.relOperationType) {
         case NONE:
           break;
         case MERGE:
-          cypher
-              .append("MERGE (f)-[")
-              .append("r:")
-              .append(data.relationshipLabel)
-              .append("]->(t) ")
-              .append(Const.CR)
-              .append(relationshipSetClause)
-              .append(Const.CR);
+          cypher.append("MERGE (f)-[").append("r:").append(data.relationshipLabel).append("]->(t) ").append(Const.CR).append(relationshipSetClause).append(Const.CR);
           updateUsageMap(List.of(data.relationshipLabel), GraphUsage.RELATIONSHIP_UPDATE);
           break;
         case CREATE:
-          cypher
-              .append("CREATE (f)-[")
-              .append("r:")
-              .append(data.relationshipLabel)
-              .append("]->(t) ")
-              .append(Const.CR)
-              .append(
-                  getSetClause(
-                      "r",
-                      meta.getRelPropNames(),
-                      new boolean[meta.getRelPropNames().length],
-                      data.relPropIndexes))
-              .append(Const.CR);
+          cypher.append("CREATE (f)-[").append("r:").append(data.relationshipLabel).append("]->(t) ").append(Const.CR)
+              .append(getSetClause("r", meta.getRelPropNames(), new boolean[meta.getRelPropNames().length], data.relPropIndexes)).append(Const.CR);
           updateUsageMap(List.of(data.relationshipLabel), GraphUsage.RELATIONSHIP_CREATE);
           break;
       }
@@ -511,8 +400,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     }
   }
 
-  private String getMatchClause(
-      String[] propertyNames, boolean[] propertyPrimary, int[] nodePropIndexes) {
+  private String getMatchClause(String[] propertyNames, boolean[] propertyPrimary, int[] nodePropIndexes) {
     StringBuilder clause = new StringBuilder();
 
     for (int i = 0; i < propertyNames.length; i++) {
@@ -531,8 +419,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     }
   }
 
-  private String getSetClause(
-      String alias, String[] propertyNames, boolean[] propertyPrimary, int[] nodePropIndexes) {
+  private String getSetClause(String alias, String[] propertyNames, boolean[] propertyPrimary, int[] nodePropIndexes) {
     StringBuilder clause = new StringBuilder();
 
     for (int i = 0; i < propertyNames.length; i++) {
@@ -540,12 +427,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
         if (clause.length() > 0) {
           clause.append(", ");
         }
-        clause
-            .append(alias)
-            .append(".")
-            .append(propertyNames[i])
-            .append("= pr.p")
-            .append(nodePropIndexes[i]);
+        clause.append(alias).append(".").append(propertyNames[i]).append("= pr.p").append(nodePropIndexes[i]);
       }
     }
 
@@ -561,18 +443,10 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
 
     if (data.fromOperationType != OperationType.NONE) {
       if (data.fromLabelsClause == null || data.dynamicFromLabels) {
-        List<String> fLabels =
-            getNodeLabels(
-                meta.getFromNodeLabels(),
-                data.fromLabelValues,
-                getInputRowMeta(),
-                row,
-                data.fromNodeLabelIndexes);
+        List<String> fLabels = getNodeLabels(meta.getFromNodeLabels(), data.fromLabelValues, getInputRowMeta(), row, data.fromNodeLabelIndexes);
         data.fromLabelsClause = getLabels("f", fLabels);
       }
-      if (data.dynamicFromLabels
-          && data.previousFromLabelsClause != null
-          && data.fromLabelsClause != null) {
+      if (data.dynamicFromLabels && data.previousFromLabelsClause != null && data.fromLabelsClause != null) {
         if (!data.fromLabelsClause.equals(data.previousFromLabelsClause)) {
           changedLabel = true;
         }
@@ -581,18 +455,10 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
 
     if (data.toOperationType != OperationType.NONE) {
       if (data.toLabelsClause == null || data.dynamicToLabels) {
-        List<String> tLabels =
-            getNodeLabels(
-                meta.getToNodeLabels(),
-                data.toLabelValues,
-                getInputRowMeta(),
-                row,
-                data.toNodeLabelIndexes);
+        List<String> tLabels = getNodeLabels(meta.getToNodeLabels(), data.toLabelValues, getInputRowMeta(), row, data.toNodeLabelIndexes);
         data.toLabelsClause = getLabels("t", tLabels);
       }
-      if (data.dynamicToLabels
-          && data.previousToLabelsClause != null
-          && data.toLabelsClause != null) {
+      if (data.dynamicToLabels && data.previousToLabelsClause != null && data.toLabelsClause != null) {
         if (!data.toLabelsClause.equals(data.previousToLabelsClause)) {
           changedLabel = true;
         }
@@ -603,13 +469,10 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       if (data.dynamicRelLabel) {
         data.relationshipLabel = getInputRowMeta().getString(row, data.relationshipIndex);
       }
-      if (StringUtils.isEmpty(data.relationshipLabel)
-          && StringUtils.isNotEmpty(data.relationshipLabelValue)) {
+      if (StringUtils.isEmpty(data.relationshipLabel) && StringUtils.isNotEmpty(data.relationshipLabelValue)) {
         data.relationshipLabel = data.relationshipLabelValue;
       }
-      if (data.dynamicRelLabel
-          && data.previousRelationshipLabel != null
-          && data.relationshipLabel != null) {
+      if (data.dynamicRelLabel && data.previousRelationshipLabel != null && data.relationshipLabel != null) {
         if (!data.relationshipLabel.equals(data.previousRelationshipLabel)) {
           changedLabel = true;
         }
@@ -643,15 +506,8 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       if (meta.getFromNodeProps().length > 0) {
         sourceNodeData =
             createGraphNodeData(
-                rowMeta,
-                row,
-                meta.getFromNodeLabels(),
-                data.fromLabelValues,
-                data.fromNodeLabelIndexes,
-                data.fromNodePropIndexes,
-                meta.getFromNodePropNames(),
-                meta.getFromNodePropPrimary(),
-                "from");
+                rowMeta, row, meta.getFromNodeLabels(), data.fromLabelValues, data.fromNodeLabelIndexes, data.fromNodePropIndexes, meta.getFromNodePropNames(),
+                meta.getFromNodePropPrimary(), "from");
         if (!meta.isOnlyCreatingRelationships()) {
           graphData.getNodes().add(sourceNodeData);
         }
@@ -659,14 +515,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       if (meta.getToNodeProps().length > 0) {
         targetNodeData =
             createGraphNodeData(
-                rowMeta,
-                row,
-                meta.getToNodeLabels(),
-                data.toLabelValues,
-                data.toNodeLabelIndexes,
-                data.toNodePropIndexes,
-                meta.getToNodePropNames(),
-                meta.getToNodePropPrimary(),
+                rowMeta, row, meta.getToNodeLabels(), data.toLabelValues, data.toNodeLabelIndexes, data.toNodePropIndexes, meta.getToNodePropNames(), meta.getToNodePropPrimary(),
                 "to");
         if (!meta.isOnlyCreatingRelationships()) {
           graphData.getNodes().add(targetNodeData);
@@ -677,13 +526,10 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       if (data.relationshipIndex >= 0) {
         relationshipLabel = getInputRowMeta().getString(row, data.relationshipIndex);
       }
-      if (StringUtil.isEmpty(relationshipLabel)
-          && StringUtils.isNotEmpty(data.relationshipLabelValue)) {
+      if (StringUtil.isEmpty(relationshipLabel) && StringUtils.isNotEmpty(data.relationshipLabelValue)) {
         relationshipLabel = data.relationshipLabelValue;
       }
-      if (sourceNodeData != null
-          && targetNodeData != null
-          && StringUtils.isNotEmpty(relationshipLabel)) {
+      if (sourceNodeData != null && targetNodeData != null && StringUtils.isNotEmpty(relationshipLabel)) {
 
         relationshipData = new GraphRelationshipData();
         relationshipData.setSourceNodeId(sourceNodeData.getId());
@@ -706,11 +552,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
           Object propertyNeoValue = propertyType.convertFromHop(valueMeta, valueData);
           boolean propertyPrimary = false;
 
-          relationshipData
-              .getProperties()
-              .add(
-                  new GraphPropertyData(
-                      propertyName, propertyNeoValue, propertyType, propertyPrimary));
+          relationshipData.getProperties().add(new GraphPropertyData(propertyName, propertyNeoValue, propertyType, propertyPrimary));
         }
 
         graphData.getRelationships().add(relationshipData);
@@ -746,8 +588,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
 
     // Set the label(s)
     //
-    List<String> labels =
-        getNodeLabels(nodeLabels, nodeLabelValues, rowMeta, row, nodeLabelIndexes);
+    List<String> labels = getNodeLabels(nodeLabels, nodeLabelValues, rowMeta, row, nodeLabelIndexes);
     for (String label : labels) {
       nodeData.getLabels().add(label);
     }
@@ -766,10 +607,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       Object propertyNeoValue = propertyType.convertFromHop(valueMeta, valueData);
       boolean propertyPrimary = nodePropPrimary[i];
 
-      nodeData
-          .getProperties()
-          .add(
-              new GraphPropertyData(propertyName, propertyNeoValue, propertyType, propertyPrimary));
+      nodeData.getProperties().add(new GraphPropertyData(propertyName, propertyNeoValue, propertyType, propertyPrimary));
 
       // Part of the key...
       if (nodePropPrimary[i]) {
@@ -799,23 +637,14 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       }
 
       try {
-        data.neoConnection =
-            metadataProvider.getSerializer(NeoConnection.class).load(resolve(meta.getConnection()));
+        data.neoConnection = metadataProvider.getSerializer(NeoConnection.class).load(resolve(meta.getConnection()));
         if (data.neoConnection == null) {
-          log.logError(
-              "Connection '"
-                  + resolve(meta.getConnection())
-                  + "' could not be found in the metastore : "
-                  + metadataProvider.getDescription());
+          log.logError("Connection '" + resolve(meta.getConnection()) + "' could not be found in the metastore : " + metadataProvider.getDescription());
           return false;
         }
         data.version4 = data.neoConnection.isVersion4();
       } catch (HopException e) {
-        log.logError(
-            "Could not gencsv Neo4j connection '"
-                + resolve(meta.getConnection())
-                + "' from the metastore",
-            e);
+        log.logError("Could not gencsv Neo4j connection '" + resolve(meta.getConnection()) + "' from the metastore", e);
         return false;
       }
 
@@ -866,12 +695,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     ResultSummary summary = result.consume();
     for (Notification notification : summary.notifications()) {
       log.logError(notification.title() + " (" + notification.severity() + ")");
-      log.logError(
-          notification.code()
-              + " : "
-              + notification.description()
-              + ", position "
-              + notification.position());
+      log.logError(notification.code() + " : " + notification.description() + ", position " + notification.position());
       error = true;
     }
     if (error) {
@@ -879,13 +703,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     }
   }
 
-  public List<String> getNodeLabels(
-      String[] labelFields,
-      String[] labelValues,
-      IRowMeta rowMeta,
-      Object[] rowData,
-      int[] labelIndexes)
-      throws HopValueException {
+  public List<String> getNodeLabels(String[] labelFields, String[] labelValues, IRowMeta rowMeta, Object[] rowData, int[] labelIndexes) throws HopValueException {
     List<String> labels = new ArrayList<>();
 
     for (int a = 0; a < labelFields.length; a++) {
@@ -910,9 +728,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     return str;
   }
 
-  private void createNodePropertyIndexes(
-      Neo4JOutputMeta meta, Neo4JOutputData data, IRowMeta rowMeta, Object[] rowData)
-      throws HopException {
+  private void createNodePropertyIndexes(Neo4JOutputMeta meta, Neo4JOutputData data, IRowMeta rowMeta, Object[] rowData) throws HopException {
 
     // Only create indexes on the first copy
     //
@@ -921,23 +737,8 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
     }
 
     createIndexForNode(
-        data,
-        meta.getFromNodeLabels(),
-        meta.getFromNodeLabelValues(),
-        meta.getFromNodeProps(),
-        meta.getFromNodePropNames(),
-        meta.getFromNodePropPrimary(),
-        rowMeta,
-        rowData);
-    createIndexForNode(
-        data,
-        meta.getToNodeLabels(),
-        meta.getToNodeLabelValues(),
-        meta.getToNodeProps(),
-        meta.getToNodePropNames(),
-        meta.getToNodePropPrimary(),
-        rowMeta,
-        rowData);
+        data, meta.getFromNodeLabels(), meta.getFromNodeLabelValues(), meta.getFromNodeProps(), meta.getFromNodePropNames(), meta.getFromNodePropPrimary(), rowMeta, rowData);
+    createIndexForNode(data, meta.getToNodeLabels(), meta.getToNodeLabelValues(), meta.getToNodeProps(), meta.getToNodePropNames(), meta.getToNodePropPrimary(), rowMeta, rowData);
   }
 
   private void createIndexForNode(
@@ -953,8 +754,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
 
     // Which labels to index?
     //
-    Set<String> labels =
-        Arrays.stream(nodeLabelValues).filter(StringUtils::isNotEmpty).collect(Collectors.toSet());
+    Set<String> labels = Arrays.stream(nodeLabelValues).filter(StringUtils::isNotEmpty).collect(Collectors.toSet());
 
     for (String nodeLabelField : nodeLabelFields) {
       if (StringUtils.isNotEmpty(nodeLabelField)) {
@@ -980,8 +780,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       }
 
       if (label != null && primaryProperties.size() > 0) {
-        NeoConnectionUtils.createNodeIndex(
-            log, data.session, Collections.singletonList(label), primaryProperties);
+        NeoConnectionUtils.createNodeIndex(log, data.session, Collections.singletonList(label), primaryProperties);
       }
     }
   }
@@ -1016,8 +815,7 @@ public class Neo4JOutput extends BaseNeoTransform<Neo4JOutputMeta, Neo4JOutputDa
       return;
     }
 
-    Map<String, Set<String>> transformsMap =
-        data.usageMap.computeIfAbsent(usage.name(), k -> new HashMap<>());
+    Map<String, Set<String>> transformsMap = data.usageMap.computeIfAbsent(usage.name(), k -> new HashMap<>());
 
     Set<String> labelSet = transformsMap.computeIfAbsent(getTransformName(), k -> new HashSet<>());
 

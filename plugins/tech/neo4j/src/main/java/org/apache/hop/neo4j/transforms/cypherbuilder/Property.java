@@ -23,22 +23,22 @@ import java.util.Objects;
 
 public class Property implements Cloneable {
 
-  @HopMetadataProperty private String alias;
-  @HopMetadataProperty private String name;
-  @HopMetadataProperty private String expression;
-  @HopMetadataProperty private String parameter;
-  @HopMetadataProperty private String rename;
-  @HopMetadataProperty private boolean descending;
+  @HopMetadataProperty
+  private String alias;
+  @HopMetadataProperty
+  private String name;
+  @HopMetadataProperty
+  private String expression;
+  @HopMetadataProperty
+  private String parameter;
+  @HopMetadataProperty
+  private String rename;
+  @HopMetadataProperty
+  private boolean descending;
 
   public Property() {}
 
-  public Property(
-      String alias,
-      String name,
-      String expression,
-      String parameter,
-      String rename,
-      boolean descending) {
+  public Property(String alias, String name, String expression, String parameter, String rename, boolean descending) {
     this.alias = alias;
     this.name = name;
     this.expression = expression;
@@ -74,14 +74,13 @@ public class Property implements Cloneable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     Property property = (Property) o;
-    return Objects.equals(alias, property.alias)
-        && Objects.equals(name, property.name)
-        && Objects.equals(expression, property.expression)
-        && Objects.equals(parameter, property.parameter)
-        && Objects.equals(rename, property.rename);
+    return Objects.equals(alias, property.alias) && Objects.equals(name, property.name) && Objects.equals(expression, property.expression)
+        && Objects.equals(parameter, property.parameter) && Objects.equals(rename, property.rename);
   }
 
   @Override
@@ -120,12 +119,12 @@ public class Property implements Cloneable {
    * @return The Cypher set clause for this property
    */
   public String getSetCypherClause(String unwindAlias) {
-    String cypher = alias + "." + name+"=";
+    String cypher = alias + "." + name + "=";
     if (StringUtils.isEmpty(expression)) {
       if (StringUtils.isEmpty(unwindAlias)) {
         cypher += "{" + parameter + "}";
       } else {
-        cypher += unwindAlias+"."+parameter;
+        cypher += unwindAlias + "." + parameter;
       }
     } else {
       cypher += expression;

@@ -40,13 +40,7 @@ import java.util.Locale;
 /** Get information from the System or the supervising pipeline. */
 public class SystemData extends BaseTransform<SystemDataMeta, SystemDataData> {
 
-  public SystemData(
-      TransformMeta transformMeta,
-      SystemDataMeta meta,
-      SystemDataData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public SystemData(TransformMeta transformMeta, SystemDataMeta meta, SystemDataData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -68,20 +62,13 @@ public class SystemData extends BaseTransform<SystemDataMeta, SystemDataData> {
           break;
         case TYPE_SYSTEM_INFO_PIPELINE_DATE_FROM:
           row[index] =
-              calculateStartRange(
-                  getPipeline().getPipelineRunConfiguration().getExecutionInfoLocationName(),
-                  ExecutionType.Pipeline,
-                  getPipeline().getPipelineMeta().getName());
+              calculateStartRange(getPipeline().getPipelineRunConfiguration().getExecutionInfoLocationName(), ExecutionType.Pipeline, getPipeline().getPipelineMeta().getName());
           break;
         case TYPE_SYSTEM_INFO_WORKFLOW_DATE_FROM:
           if (getPipeline().getParentWorkflow() != null) {
             row[index] =
                 calculateStartRange(
-                    getPipeline()
-                        .getParentWorkflow()
-                        .getWorkflowRunConfiguration()
-                        .getExecutionInfoLocationName(),
-                    ExecutionType.Workflow,
+                    getPipeline().getParentWorkflow().getWorkflowRunConfiguration().getExecutionInfoLocationName(), ExecutionType.Workflow,
                     getPipeline().getParentWorkflow().getWorkflowMeta().getName());
           }
           break;
@@ -672,8 +659,7 @@ public class SystemData extends BaseTransform<SystemDataMeta, SystemDataData> {
   }
 
   /** Calculate the start of the data range for a pipeline. */
-  private Date calculateStartRange(String locationName, ExecutionType executionType, String name)
-      throws HopException {
+  private Date calculateStartRange(String locationName, ExecutionType executionType, String name) throws HopException {
     ExecutionInfoLocation location = loadLocation(metadataProvider, locationName);
     if (location == null) {
       // Nothing to look up!
@@ -700,8 +686,7 @@ public class SystemData extends BaseTransform<SystemDataMeta, SystemDataData> {
     }
   }
 
-  private ExecutionInfoLocation loadLocation(
-      IHopMetadataProvider metadataProvider, String locationName) throws HopException {
+  private ExecutionInfoLocation loadLocation(IHopMetadataProvider metadataProvider, String locationName) throws HopException {
     return metadataProvider.getSerializer(ExecutionInfoLocation.class).load(resolve(locationName));
   }
 

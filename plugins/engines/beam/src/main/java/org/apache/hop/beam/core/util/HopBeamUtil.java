@@ -59,11 +59,7 @@ public class HopBeamUtil {
 
   private static Object object = new Object();
 
-  public static void loadTransformMetadataFromXml(
-      String transformName,
-      ITransformMeta iTransformMeta,
-      String iTransformXml,
-      IHopMetadataProvider metadataProvider)
+  public static void loadTransformMetadataFromXml(String transformName, ITransformMeta iTransformMeta, String iTransformXml, IHopMetadataProvider metadataProvider)
       throws HopException {
     synchronized (object) {
       Document transformDocument = XmlHandler.loadXmlString(iTransformXml);
@@ -72,17 +68,12 @@ public class HopBeamUtil {
       }
       Node transformNode = XmlHandler.getSubNode(transformDocument, TransformMeta.XML_TAG);
       if (transformNode == null) {
-        throw new HopException(
-            "Unable to find XML tag " + TransformMeta.XML_TAG + " from : " + iTransformXml);
+        throw new HopException("Unable to find XML tag " + TransformMeta.XML_TAG + " from : " + iTransformXml);
       }
       try {
         iTransformMeta.loadXml(transformNode, metadataProvider);
       } catch (Exception e) {
-        throw new HopException(
-            "There was an error loading transform metadata information (loadXml) for transform '"
-                + transformName
-                + "'",
-            e);
+        throw new HopException("There was an error loading transform metadata information (loadXml) for transform '" + transformName + "'", e);
       } finally {
         XmlHandlerCache.getInstance().clear();
       }

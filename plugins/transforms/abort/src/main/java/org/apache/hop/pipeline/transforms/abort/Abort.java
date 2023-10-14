@@ -25,20 +25,13 @@ import org.apache.hop.pipeline.transform.BaseTransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 /** Transform that will abort after having seen 'x' number of rows on its input. */
-public class Abort extends BaseTransform<AbortMeta, AbortData>
-{
+public class Abort extends BaseTransform<AbortMeta, AbortData> {
   private static final Class<?> PKG = Abort.class; // For Translator
 
   private int nrInputRows;
   private int nrThresholdRows;
 
-  public Abort(
-      TransformMeta transformMeta,
-      AbortMeta meta,
-      AbortData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public Abort(TransformMeta transformMeta, AbortMeta meta, AbortData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -76,18 +69,11 @@ public class Abort extends BaseTransform<AbortMeta, AbortData>
         //
         String abortOptionMessage = BaseMessages.getString(PKG, "AbortDialog.Options.Abort.Label");
         if (meta.isAbortWithError()) {
-          abortOptionMessage =
-              BaseMessages.getString(PKG, "AbortDialog.Options.AbortWithError.Label");
+          abortOptionMessage = BaseMessages.getString(PKG, "AbortDialog.Options.AbortWithError.Label");
         } else if (meta.isSafeStop()) {
           abortOptionMessage = BaseMessages.getString(PKG, "AbortDialog.Options.SafeStop.Label");
         }
-        logError(
-            BaseMessages.getString(
-                PKG,
-                "Abort.Log.Wrote.AbortRow",
-                Long.toString(nrInputRows),
-                abortOptionMessage,
-                getInputRowMeta().getString(r)));
+        logError(BaseMessages.getString(PKG, "Abort.Log.Wrote.AbortRow", Long.toString(nrInputRows), abortOptionMessage, getInputRowMeta().getString(r)));
 
         String message = resolve(meta.getMessage());
         if (message == null || message.length() == 0) {
@@ -104,20 +90,10 @@ public class Abort extends BaseTransform<AbortMeta, AbortData>
       } else {
         // seen a row but not yet reached the threshold
         if (meta.isAlwaysLogRows()) {
-          logMinimal(
-              BaseMessages.getString(
-                  PKG,
-                  "Abort.Log.Wrote.Row",
-                  Long.toString(nrInputRows),
-                  getInputRowMeta().getString(r)));
+          logMinimal(BaseMessages.getString(PKG, "Abort.Log.Wrote.Row", Long.toString(nrInputRows), getInputRowMeta().getString(r)));
         } else {
           if (log.isRowLevel()) {
-            logRowlevel(
-                BaseMessages.getString(
-                    PKG,
-                    "Abort.Log.Wrote.Row",
-                    Long.toString(nrInputRows),
-                    getInputRowMeta().getString(r)));
+            logRowlevel(BaseMessages.getString(PKG, "Abort.Log.Wrote.Row", Long.toString(nrInputRows), getInputRowMeta().getString(r)));
           }
         }
       }

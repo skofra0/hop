@@ -64,13 +64,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
   private boolean allNullsAreZero = false;
   private boolean minNullIsValued = false;
 
-  public GroupBy(
-      TransformMeta transformMeta,
-      GroupByMeta meta,
-      GroupByData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GroupBy(TransformMeta transformMeta, GroupByMeta meta, GroupByData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -88,9 +82,9 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         return false;
       }
 
-      allNullsAreZero = getVariableBoolean(Const.HOP_AGGREGATION_ALL_NULLS_ARE_ZERO, false);      
+      allNullsAreZero = getVariableBoolean(Const.HOP_AGGREGATION_ALL_NULLS_ARE_ZERO, false);
       minNullIsValued = getVariableBoolean(Const.HOP_AGGREGATION_MIN_NULL_IS_VALUED, false);
-      
+
       // What is the output looking like?
       //
       data.inputRowMeta = getInputRowMeta();
@@ -128,9 +122,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           data.subjectnrs[i] = data.inputRowMeta.indexOfValue(aggregation.getSubject());
         }
         if ((r != null) && (data.subjectnrs[i] < 0)) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "GroupBy.Log.AggregateSubjectFieldCouldNotFound", aggregation.getSubject()));
+          logError(BaseMessages.getString(PKG, "GroupBy.Log.AggregateSubjectFieldCouldNotFound", aggregation.getSubject()));
           setErrors(1);
           stopAll();
           return false;
@@ -161,9 +153,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
       for (int i = 0; i < meta.getGroupingFields().size(); i++) {
         data.groupnrs[i] = data.inputRowMeta.indexOfValue(meta.getGroupingFields().get(i).getName());
         if ((r != null) && (data.groupnrs[i] < 0)) {
-          logError(
-              BaseMessages.getString(
-                  PKG, "GroupBy.Log.GroupFieldCouldNotFound", meta.getGroupingFields().get(i).getName()));
+          logError(BaseMessages.getString(PKG, "GroupBy.Log.GroupFieldCouldNotFound", meta.getGroupingFields().get(i).getName()));
           setErrors(1);
           stopAll();
           return false;
@@ -330,8 +320,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         if (sourceMeta.isNull(sourceValue)) {
           row[targetIndex] = previousTarget;
         } else {
-          row[targetIndex] =
-              ValueDataUtil.plus(targetMeta, data.previousSums[i], sourceMeta, row[sourceIndex]);
+          row[targetIndex] = ValueDataUtil.plus(targetMeta, data.previousSums[i], sourceMeta, row[sourceIndex]);
         }
       }
       data.previousSums[i] = row[targetIndex];
@@ -366,13 +355,9 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           sum = previousTarget;
         } else {
           if (sourceMeta.isInteger()) {
-            sum =
-                ValueDataUtil.plus(
-                    data.valueMetaInteger, data.previousAvgSum[i], sourceMeta, row[sourceIndex]);
+            sum = ValueDataUtil.plus(data.valueMetaInteger, data.previousAvgSum[i], sourceMeta, row[sourceIndex]);
           } else {
-            sum =
-                ValueDataUtil.plus(
-                    targetMeta, data.previousAvgSum[i], sourceMeta, row[sourceIndex]);
+            sum = ValueDataUtil.plus(targetMeta, data.previousAvgSum[i], sourceMeta, row[sourceIndex]);
           }
         }
       }
@@ -391,8 +376,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           row[targetIndex] = Double.valueOf(((Long) sum).doubleValue() / data.previousAvgCount[i]);
         }
       } else {
-        row[targetIndex] =
-            ValueDataUtil.divide(targetMeta, sum, data.valueMetaInteger, data.previousAvgCount[i]);
+        row[targetIndex] = ValueDataUtil.divide(targetMeta, sum, data.valueMetaInteger, data.previousAvgCount[i]);
       }
     }
   }
@@ -469,7 +453,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
               data.agg[i] = (Long) value + 1;
             }
           } else { // DEEM-MOD COUNT DISTINCT SHOULD NOT RETURN null
-            if (value == null && data.agg[i]==null) {
+            if (value == null && data.agg[i] == null) {
               data.agg[i] = 0L;
             }
           } // DEEM-MOD END
@@ -482,30 +466,29 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         case Aggregation.TYPE_GROUP_COUNT_ANY:
           data.counts[i]++;
           break;
-        case Aggregation.TYPE_GROUP_MIN:
-          {
-            if (subj == null && !minNullIsValued) {
-              // do not compare null
-              break;
-            }
-            // set the initial value for further comparing
-            if (value == null && subj != null && !minNullIsValued) {
-              data.agg[i] = subj;
-              break;
-            }
-
-            if (subjMeta.isSortedDescending()) {
-              // Account for negation in ValueMeta.compare()
-              if (subjMeta.compare(value, valueMeta, subj) < 0) {
-                data.agg[i] = subj;
-              }
-            } else {
-              if (subjMeta.compare(subj, valueMeta, value) < 0) {
-                data.agg[i] = subj;
-              }
-            }
+        case Aggregation.TYPE_GROUP_MIN: {
+          if (subj == null && !minNullIsValued) {
+            // do not compare null
             break;
           }
+          // set the initial value for further comparing
+          if (value == null && subj != null && !minNullIsValued) {
+            data.agg[i] = subj;
+            break;
+          }
+
+          if (subjMeta.isSortedDescending()) {
+            // Account for negation in ValueMeta.compare()
+            if (subjMeta.compare(value, valueMeta, subj) < 0) {
+              data.agg[i] = subj;
+            }
+          } else {
+            if (subjMeta.compare(subj, valueMeta, value) < 0) {
+              data.agg[i] = subj;
+            }
+          }
+          break;
+        }
         case Aggregation.TYPE_GROUP_MAX:
           if (subjMeta.isSortedDescending()) {
             // Account for negation in ValueMeta.compare()
@@ -573,7 +556,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           if (subj != null) {
             SortedSet<Object> set = (SortedSet<Object>) value;
             set.add(subj);
-          }          
+          }
         default:
           break;
       }
@@ -655,18 +638,14 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         case Aggregation.TYPE_GROUP_CONCAT_DISTINCT:
           vMeta = new ValueMetaString(fieldName);
           v = new TreeSet<>();
-          break;          
+          break;
         default:
           // TODO raise an error here because we cannot continue successfully maybe the UI should
           // validate this
-          throw new HopException(
-              "Please specify an aggregation type for field '" + fieldName + "'");
+          throw new HopException("Please specify an aggregation type for field '" + fieldName + "'");
       }
 
-      if ((subjMeta != null)
-          && (aggType != Aggregation.TYPE_GROUP_COUNT_ALL
-              && aggType != Aggregation.TYPE_GROUP_COUNT_DISTINCT
-              && aggType != Aggregation.TYPE_GROUP_COUNT_ANY)) {
+      if ((subjMeta != null) && (aggType != Aggregation.TYPE_GROUP_COUNT_ALL && aggType != Aggregation.TYPE_GROUP_COUNT_DISTINCT && aggType != Aggregation.TYPE_GROUP_COUNT_ANY)) {
         vMeta.setLength(subjMeta.getLength(), subjMeta.getPrecision());
       }
       data.agg[i] = v;
@@ -730,12 +709,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         case Aggregation.TYPE_GROUP_SUM:
           break;
         case Aggregation.TYPE_GROUP_AVERAGE:
-          ag =
-              ValueDataUtil.divide(
-                  data.aggMeta.getValueMeta(i),
-                  ag,
-                  new ValueMetaInteger("c"),
-                  Long.valueOf(data.counts[i]));
+          ag = ValueDataUtil.divide(data.aggMeta.getValueMeta(i), ag, new ValueMetaInteger("c"), Long.valueOf(data.counts[i]));
           break;
         case Aggregation.TYPE_GROUP_MEDIAN:
         case Aggregation.TYPE_GROUP_PERCENTILE:
@@ -774,28 +748,26 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           break;
         case Aggregation.TYPE_GROUP_MAX:
           break;
-        case Aggregation.TYPE_GROUP_STANDARD_DEVIATION:
-          {
-            if (ag == null) {
-              // PMD-1037 - when all input data is null ag is null, npe on access ag
-              break;
-            }
-            double sum = (Double) ag / data.counts[i];
-            ag = Math.sqrt(sum);
+        case Aggregation.TYPE_GROUP_STANDARD_DEVIATION: {
+          if (ag == null) {
+            // PMD-1037 - when all input data is null ag is null, npe on access ag
             break;
           }
-        case Aggregation.TYPE_GROUP_STANDARD_DEVIATION_SAMPLE:
-          {
-            if (ag == null) {
-              break;
-            }
-            double sum = (Double) ag / (data.counts[i] - 1);
-            ag = Math.sqrt(sum);
+          double sum = (Double) ag / data.counts[i];
+          ag = Math.sqrt(sum);
+          break;
+        }
+        case Aggregation.TYPE_GROUP_STANDARD_DEVIATION_SAMPLE: {
+          if (ag == null) {
             break;
           }
+          double sum = (Double) ag / (data.counts[i] - 1);
+          ag = Math.sqrt(sum);
+          break;
+        }
         case Aggregation.TYPE_GROUP_CONCAT_COMMA:
         case Aggregation.TYPE_GROUP_CONCAT_STRING:
-        case Aggregation.TYPE_GROUP_CONCAT_STRING_CRLF:          
+        case Aggregation.TYPE_GROUP_CONCAT_STRING_CRLF:
           ag = ((StringBuilder) ag).toString();
           break;
         case Aggregation.TYPE_GROUP_CONCAT_DISTINCT:
@@ -804,12 +776,12 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           if (!Utils.isEmpty(aggregation.getValue())) {
             separator = resolve(aggregation.getValue());
           }
-          StringJoiner joiner = new StringJoiner(separator);         
-          for (Object value: (SortedSet<Object>) ag) {
-              joiner.add(subjMeta.getString(value));
+          StringJoiner joiner = new StringJoiner(separator);
+          for (Object value : (SortedSet<Object>) ag) {
+            joiner.add(subjMeta.getString(value));
           }
           ag = joiner.toString();
-          break;           
+          break;
         default:
           break;
       }
@@ -841,8 +813,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         data.dosToTempFile = new DataOutputStream(data.fosToTempFile);
         data.firstRead = true;
       } catch (IOException e) {
-        throw new HopFileException(
-            BaseMessages.getString(PKG, "GroupBy.Exception.UnableToCreateTemporaryFile"), e);
+        throw new HopFileException(BaseMessages.getString(PKG, "GroupBy.Exception.UnableToCreateTemporaryFile"), e);
       }
       // OK, save the oldest rows to disk!
       Object[] oldest = data.bufferList.get(0);
@@ -868,9 +839,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
           data.disToTmpFile = new DataInputStream(data.fisToTmpFile);
           data.firstRead = false;
         } catch (IOException e) {
-          throw new HopFileException(
-              BaseMessages.getString(PKG, "GroupBy.Exception.UnableToReadBackRowFromTemporaryFile"),
-              e);
+          throw new HopFileException(BaseMessages.getString(PKG, "GroupBy.Exception.UnableToReadBackRowFromTemporaryFile"), e);
         }
       }
 
@@ -907,10 +876,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
       }
       data.firstRead = true;
     } catch (IOException e) {
-      throw new HopFileException(
-          BaseMessages.getString(
-              PKG, "GroupBy.Exception.UnableToCloseInputStream", data.tempFile.getPath()),
-          e);
+      throw new HopFileException(BaseMessages.getString(PKG, "GroupBy.Exception.UnableToCloseInputStream", data.tempFile.getPath()), e);
     }
   }
 
@@ -925,10 +891,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
         data.disToTmpFile = null;
       }
     } catch (IOException e) {
-      throw new HopFileException(
-          BaseMessages.getString(
-              PKG, "GroupBy.Exception.UnableToCloseInputStream", data.tempFile.getPath()),
-          e);
+      throw new HopFileException(BaseMessages.getString(PKG, "GroupBy.Exception.UnableToCloseInputStream", data.tempFile.getPath()), e);
     }
   }
 
@@ -959,9 +922,7 @@ public class GroupBy extends BaseTransform<GroupByMeta, GroupByData> {
       boolean tempFileDeleted = data.tempFile.delete();
 
       if (!tempFileDeleted && log.isDetailed()) {
-        log.logDetailed(
-            BaseMessages.getString(
-                PKG, "GroupBy.Exception.UnableToDeleteTemporaryFile", data.tempFile.getPath()));
+        log.logDetailed(BaseMessages.getString(PKG, "GroupBy.Exception.UnableToDeleteTemporaryFile", data.tempFile.getPath()));
       }
     }
 

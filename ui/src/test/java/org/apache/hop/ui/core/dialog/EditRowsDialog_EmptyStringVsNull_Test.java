@@ -36,7 +36,8 @@ import static org.mockito.Mockito.when;
 
 public class EditRowsDialog_EmptyStringVsNull_Test {
 
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {

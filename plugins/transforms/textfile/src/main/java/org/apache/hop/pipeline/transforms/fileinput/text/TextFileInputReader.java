@@ -53,25 +53,16 @@ public class TextFileInputReader implements IBaseFileInputReader {
 
   protected long lineNumberInFile;
 
-  public TextFileInputReader(
-      IBaseFileInputTransformControl transform,
-      TextFileInputMeta meta,
-      TextFileInputData data,
-      FileObject file,
-      ILogChannel log)
-      throws Exception {
+  public TextFileInputReader(IBaseFileInputTransformControl transform, TextFileInputMeta meta, TextFileInputData data, FileObject file, ILogChannel log) throws Exception {
     this.transform = transform;
     this.meta = meta;
     this.data = data;
     this.log = log;
 
-    ICompressionProvider provider =
-        CompressionProviderFactory.getInstance()
-            .getCompressionProviderByName(meta.content.fileCompression);
+    ICompressionProvider provider = CompressionProviderFactory.getInstance().getCompressionProviderByName(meta.content.fileCompression);
 
     if (log.isDetailed()) {
-      log.logDetailed(
-          "This is a compressed file being handled by the " + provider.getName() + " provider");
+      log.logDetailed("This is a compressed file being handled by the " + provider.getName() + " provider");
     }
 
     in = provider.createInputStream(HopVfs.getInputStream(file));
@@ -107,14 +98,13 @@ public class TextFileInputReader implements IBaseFileInputReader {
     data.doneReading = false;
 
     /*
-     * OK, read a number of lines in the buffer: The header rows The nr rows in the page : optional The footer rows
+     * OK, read a number of lines in the buffer: The header rows The nr rows in the page : optional The
+     * footer rows
      */
     int bufferSize = 1;
     bufferSize += meta.content.header ? meta.content.nrHeaderLines : 0;
-    bufferSize +=
-        meta.content.layoutPaged
-            ? meta.content.nrLinesPerPage * (Math.max(0, meta.content.nrWraps) + 1)
-            : Math.max(0, meta.content.nrWraps); // it helps when we have wrapped input w/o header
+    bufferSize += meta.content.layoutPaged ? meta.content.nrLinesPerPage * (Math.max(0, meta.content.nrWraps) + 1) : Math.max(0, meta.content.nrWraps); // it helps when we have
+                                                                                                                                                        // wrapped input w/o header
 
     bufferSize += meta.content.footer ? meta.content.nrFooterLines : 0;
 
@@ -122,8 +112,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
     if (meta.content.layoutPaged) {
       for (int i = 0; i < meta.content.nrLinesDocHeader; i++) {
         // Just skip these...
-        TextFileLineUtil.getLine(
-            log, isr, data.encodingType, data.fileFormatType, data.lineStringBuilder); // header
+        TextFileLineUtil.getLine(log, isr, data.encodingType, data.fileFormatType, data.lineStringBuilder); // header
         // and
         // footer: not
         // wrapped
@@ -132,8 +121,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
     }
 
     for (int i = 0; i < bufferSize && !data.doneReading; i++) {
-      boolean wasNotFiltered =
-          tryToReadLine(!meta.content.header || i >= meta.content.nrHeaderLines);
+      boolean wasNotFiltered = tryToReadLine(!meta.content.header || i >= meta.content.nrHeaderLines);
       if (!wasNotFiltered) {
         // grab another line, this one got filtered
         bufferSize++;
@@ -217,32 +205,12 @@ public class TextFileInputReader implements IBaseFileInputReader {
           // Read a normal line on a page of data.
           data.pageLinesRead++;
           lineInFile++;
-          long useNumber =
-              meta.content.rowNumberByFile ? lineInFile : transform.getLinesWritten() + 1;
+          long useNumber = meta.content.rowNumberByFile ? lineInFile : transform.getLinesWritten() + 1;
           r =
               TextFileInputUtils.convertLineToRow(
-                  log,
-                  textLine,
-                  meta,
-                  data.currentPassThruFieldsRow,
-                  data.nrPassThruFields,
-                  data.outputRowMeta,
-                  data.convertRowMeta,
-                  data.filename,
-                  useNumber,
-                  data.separator,
-                  data.enclosure,
-                  data.escapeCharacter,
-                  data.dataErrorLineHandler,
-                  meta.additionalOutputFields,
-                  data.shortFilename,
-                  data.path,
-                  data.hidden,
-                  data.lastModificationDateTime,
-                  data.uriName,
-                  data.rootUriName,
-                  data.extension,
-                  data.size);
+                  log, textLine, meta, data.currentPassThruFieldsRow, data.nrPassThruFields, data.outputRowMeta, data.convertRowMeta, data.filename, useNumber, data.separator,
+                  data.enclosure, data.escapeCharacter, data.dataErrorLineHandler, meta.additionalOutputFields, data.shortFilename, data.path, data.hidden,
+                  data.lastModificationDateTime, data.uriName, data.rootUriName, data.extension, data.size);
           if (r != null) {
             putrow = true;
           }
@@ -298,12 +266,11 @@ public class TextFileInputReader implements IBaseFileInputReader {
         }
       } else {
         /*
-         * IF we are done reading and we have a footer AND the number of lines in the buffer is smaller then the number
+         * IF we are done reading and we have a footer AND the number of lines in the buffer is smaller then
+         * the number
          * of footer lines THEN we can remove the remaining rows from the buffer: they are all footer rows.
          */
-        if (data.doneReading
-            && meta.content.footer
-            && data.lineBuffer.size() < meta.content.nrFooterLines) {
+        if (data.doneReading && meta.content.footer && data.lineBuffer.size() < meta.content.nrFooterLines) {
           data.lineBuffer.clear();
         } else {
           // Not yet a footer line: it's a normal data line.
@@ -324,35 +291,14 @@ public class TextFileInputReader implements IBaseFileInputReader {
               textLine.line += extra;
             }
           }
-          if (data.filePlayList.isProcessingNeeded(
-              textLine.file, textLine.lineNumber, AbstractFileErrorHandler.NO_PARTS)) {
+          if (data.filePlayList.isProcessingNeeded(textLine.file, textLine.lineNumber, AbstractFileErrorHandler.NO_PARTS)) {
             lineInFile++;
-            long useNumber =
-                meta.content.rowNumberByFile ? lineInFile : transform.getLinesWritten() + 1;
+            long useNumber = meta.content.rowNumberByFile ? lineInFile : transform.getLinesWritten() + 1;
             r =
                 TextFileInputUtils.convertLineToRow(
-                    log,
-                    textLine,
-                    meta,
-                    data.currentPassThruFieldsRow,
-                    data.nrPassThruFields,
-                    data.outputRowMeta,
-                    data.convertRowMeta,
-                    data.filename,
-                    useNumber,
-                    data.separator,
-                    data.enclosure,
-                    data.escapeCharacter,
-                    data.dataErrorLineHandler,
-                    meta.additionalOutputFields,
-                    data.shortFilename,
-                    data.path,
-                    data.hidden,
-                    data.lastModificationDateTime,
-                    data.uriName,
-                    data.rootUriName,
-                    data.extension,
-                    data.size);
+                    log, textLine, meta, data.currentPassThruFieldsRow, data.nrPassThruFields, data.outputRowMeta, data.convertRowMeta, data.filename, useNumber, data.separator,
+                    data.enclosure, data.escapeCharacter, data.dataErrorLineHandler, meta.additionalOutputFields, data.shortFilename, data.path, data.hidden,
+                    data.lastModificationDateTime, data.uriName, data.rootUriName, data.extension, data.size);
             if (r != null) {
               if (log.isRowLevel()) {
                 log.logRowlevel("Found data row: " + data.outputRowMeta.getString(r));
@@ -437,8 +383,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
       }
       data.dataErrorLineHandler.close();
     } catch (Exception e) {
-      String errorMsg =
-          "Couldn't close file : " + data.file.getName().getFriendlyURI() + " --> " + e.toString();
+      String errorMsg = "Couldn't close file : " + data.file.getName().getFriendlyURI() + " --> " + e.toString();
       log.logError(errorMsg);
       if (transform.failAfterBadFile(errorMsg)) {
         transform.stopAll();
@@ -449,9 +394,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
 
   protected boolean tryToReadLine(boolean applyFilter) throws HopFileException {
     String line;
-    line =
-        TextFileLineUtil.getLine(
-            log, isr, data.encodingType, data.fileFormatType, data.lineStringBuilder);
+    line = TextFileLineUtil.getLine(log, isr, data.encodingType, data.fileFormatType, data.lineStringBuilder);
     if (line != null) {
       // when there is no header, check the filter for the first line
       if (applyFilter) {
@@ -459,8 +402,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
         boolean isFilterLastLine = false;
         boolean filterOK = checkFilterRow(line, isFilterLastLine);
         if (filterOK) {
-          data.lineBuffer.add(
-              new TextFileLine(line, lineNumberInFile++, data.file)); // Store it in the
+          data.lineBuffer.add(new TextFileLine(line, lineNumberInFile++, data.file)); // Store it in the
           // line buffer...
         } else {
           return false;
@@ -468,8 +410,7 @@ public class TextFileInputReader implements IBaseFileInputReader {
       } else { // don't checkFilterRow
 
         if (!meta.content.noEmptyLines || line.length() != 0) {
-          data.lineBuffer.add(
-              new TextFileLine(line, lineNumberInFile++, data.file)); // Store it in the line
+          data.lineBuffer.add(new TextFileLine(line, lineNumberInFile++, data.file)); // Store it in the line
           // buffer...
         }
       }

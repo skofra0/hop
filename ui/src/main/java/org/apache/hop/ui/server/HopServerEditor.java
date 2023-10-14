@@ -171,8 +171,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlHostname.right = new FormAttachment(middle, -margin);
     wlHostname.setLayoutData(fdlHostname);
 
-    wHostname =
-        new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wHostname = new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
 
     PropsUi.setLook(wHostname);
     FormData fdHostname = new FormData();
@@ -210,8 +209,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlWebAppName.right = new FormAttachment(middle, -margin);
     wlWebAppName.setLayoutData(fdlWebAppName);
 
-    wWebAppName =
-        new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wWebAppName = new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
 
     PropsUi.setLook(wWebAppName);
     FormData fdWebAppName = new FormData();
@@ -230,8 +228,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlUsername.right = new FormAttachment(middle, -margin);
     wlUsername.setLayoutData(fdlUsername);
 
-    wUsername =
-        new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wUsername = new TextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
 
     PropsUi.setLook(wUsername);
     FormData fdUsername = new FormData();
@@ -250,9 +247,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlPassword.right = new FormAttachment(middle, -margin);
     wlPassword.setLayoutData(fdlPassword);
 
-    wPassword =
-        new PasswordTextVar(
-            manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wPassword = new PasswordTextVar(manager.getVariables(), wServiceComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
 
     PropsUi.setLook(wPassword);
     FormData fdPassword = new FormData();
@@ -326,8 +321,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlProxyHost.right = new FormAttachment(middle, -margin);
     wlProxyHost.setLayoutData(fdlProxyHost);
 
-    wProxyHost =
-        new TextVar(manager.getVariables(), wProxyComp, SWT.BORDER | SWT.LEFT | SWT.SINGLE);
+    wProxyHost = new TextVar(manager.getVariables(), wProxyComp, SWT.BORDER | SWT.LEFT | SWT.SINGLE);
 
     PropsUi.setLook(wProxyHost);
     FormData fdProxyHost = new FormData();
@@ -346,8 +340,7 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     fdlProxyPort.right = new FormAttachment(middle, -margin);
     wlProxyPort.setLayoutData(fdlProxyPort);
 
-    wProxyPort =
-        new TextVar(manager.getVariables(), wProxyComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wProxyPort = new TextVar(manager.getVariables(), wProxyComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wProxyPort);
     FormData fdProxyPort = new FormData();
     fdProxyPort.top = new FormAttachment(wProxyHost, margin);
@@ -358,16 +351,14 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
     // What's the maximum pool size
     Label wlNonProxyHosts = new Label(wProxyComp, SWT.RIGHT);
     PropsUi.setLook(wlNonProxyHosts);
-    wlNonProxyHosts.setText(
-        BaseMessages.getString(PKG, "HopServerDialog.IgnoreProxyForHosts.Label"));
+    wlNonProxyHosts.setText(BaseMessages.getString(PKG, "HopServerDialog.IgnoreProxyForHosts.Label"));
     FormData fdlNonProxyHosts = new FormData();
     fdlNonProxyHosts.top = new FormAttachment(wProxyPort, margin);
     fdlNonProxyHosts.left = new FormAttachment(0, 0); // First one in the left top corner
     fdlNonProxyHosts.right = new FormAttachment(middle, -margin);
     wlNonProxyHosts.setLayoutData(fdlNonProxyHosts);
 
-    wNonProxyHosts =
-        new TextVar(manager.getVariables(), wProxyComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wNonProxyHosts = new TextVar(manager.getVariables(), wProxyComp, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wNonProxyHosts);
     FormData fdNonProxyHosts = new FormData();
     fdNonProxyHosts.top = new FormAttachment(wProxyPort, margin);
@@ -431,34 +422,23 @@ public class HopServerEditor extends MetadataEditor<HopServer> {
 
     try {
       String xml = "<sample/>";
-      String reply =
-          server.sendXml(manager.getVariables(), xml, RegisterPipelineServlet.CONTEXT_PATH);
+      String reply = server.sendXml(manager.getVariables(), xml, RegisterPipelineServlet.CONTEXT_PATH);
 
       String message =
-          BaseMessages.getString(PKG, "HopServer.Replay.Info1")
-              + server.constructUrl(manager.getVariables(), RegisterPipelineServlet.CONTEXT_PATH)
-              + Const.CR
-              + BaseMessages.getString(PKG, "HopServer.Replay.Info2")
-              + Const.CR
-              + Const.CR;
+          BaseMessages.getString(PKG, "HopServer.Replay.Info1") + server.constructUrl(manager.getVariables(), RegisterPipelineServlet.CONTEXT_PATH) + Const.CR
+              + BaseMessages.getString(PKG, "HopServer.Replay.Info2") + Const.CR + Const.CR;
       message += xml;
       message += Const.CR + Const.CR;
       message += "Reply was:" + Const.CR + Const.CR;
       message += reply + Const.CR;
 
-      EnterTextDialog dialog =
-          new EnterTextDialog(
-              getShell(),
-              "XML",
-              BaseMessages.getString(PKG, "HopServer.RetournedXMLInfo"),
-              message);
+      EnterTextDialog dialog = new EnterTextDialog(getShell(), "XML", BaseMessages.getString(PKG, "HopServer.RetournedXMLInfo"), message);
       dialog.open();
     } catch (Exception e) {
       new ErrorDialog(
           getShell(),
           BaseMessages.getString(PKG, "HopServer.ExceptionError"),
-          BaseMessages.getString(PKG, "HopServer.ExceptionUnableGetReplay.Error1")
-              + server.getHostname()
+          BaseMessages.getString(PKG, "HopServer.ExceptionUnableGetReplay.Error1") + server.getHostname()
               + BaseMessages.getString(PKG, "HopServer.ExceptionUnableGetReplay.Error2"),
           e);
     }

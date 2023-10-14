@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ExecutionDataSamplerStoreBase<Store extends IExecutionDataSamplerStore>
-    implements IExecutionDataSamplerStore {
+public abstract class ExecutionDataSamplerStoreBase<Store extends IExecutionDataSamplerStore> implements IExecutionDataSamplerStore {
   protected ExecutionDataSamplerMeta samplerMeta;
   protected IRowMeta rowMeta;
   protected List<Object[]> rows;
@@ -36,8 +35,7 @@ public abstract class ExecutionDataSamplerStoreBase<Store extends IExecutionData
 
   public abstract Store getStore();
 
-  public ExecutionDataSamplerStoreBase(
-      ExecutionDataSamplerMeta samplerMeta, IRowMeta rowMeta, List<Object[]> rows, int maxRows) {
+  public ExecutionDataSamplerStoreBase(ExecutionDataSamplerMeta samplerMeta, IRowMeta rowMeta, List<Object[]> rows, int maxRows) {
     this.samplerMeta = samplerMeta;
     this.rowMeta = rowMeta;
     this.rows = rows;
@@ -71,8 +69,7 @@ public abstract class ExecutionDataSamplerStoreBase<Store extends IExecutionData
       }
 
       @Override
-      public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row)
-          throws HopTransformException {
+      public void errorRowWrittenEvent(IRowMeta rowMeta, Object[] row) throws HopTransformException {
         try {
           sampler.sampleRow(getStore(), IStream.StreamType.ERROR, rowMeta, row);
         } catch (HopException e) {

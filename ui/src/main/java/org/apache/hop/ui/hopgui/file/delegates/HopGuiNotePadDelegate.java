@@ -62,8 +62,7 @@ public class HopGuiNotePadDelegate {
     int idx = meta.indexOfNote(notePadMeta);
     if (idx >= 0) {
       meta.removeNote(idx);
-      hopGui.undoDelegate.addUndoDelete(
-          meta, new NotePadMeta[] {(NotePadMeta) notePadMeta.clone()}, new int[] {idx});
+      hopGui.undoDelegate.addUndoDelete(meta, new NotePadMeta[] {(NotePadMeta) notePadMeta.clone()}, new int[] {idx});
     }
     handler.updateGui();
   }
@@ -94,8 +93,7 @@ public class HopGuiNotePadDelegate {
               n.getBorderColorGreen(),
               n.getBorderColorBlue());
       meta.addNote(npi);
-      hopGui.undoDelegate.addUndoNew(
-          meta, new NotePadMeta[] {npi}, new int[] {meta.indexOfNote(npi)});
+      hopGui.undoDelegate.addUndoNew(meta, new NotePadMeta[] {npi}, new int[] {meta.indexOfNote(npi)});
       handler.updateGui();
     }
   }

@@ -25,23 +25,13 @@ import java.util.List;
 
 public abstract class BaseSearchableAnalyser<T> {
 
-  protected void matchProperty(
-      ISearchable<T> parent,
-      List<ISearchResult> searchResults,
-      ISearchQuery searchQuery,
-      String propertyName,
-      String propertyValue,
-      String component) {
+  protected void matchProperty(ISearchable<T> parent, List<ISearchResult> searchResults, ISearchQuery searchQuery, String propertyName, String propertyValue, String component) {
     if (searchQuery.matches(propertyName)) {
-      searchResults.add(
-          new SearchResult(
-              parent, propertyName, "matching property name: " + propertyName, component, propertyValue));
+      searchResults.add(new SearchResult(parent, propertyName, "matching property name: " + propertyName, component, propertyValue));
     }
     if (StringUtils.isNotEmpty(propertyValue)) {
       if (searchQuery.matches(propertyValue)) {
-        searchResults.add(
-            new SearchResult(
-                parent, propertyValue, "matching property value: " + propertyValue, component, propertyValue));
+        searchResults.add(new SearchResult(parent, propertyValue, "matching property value: " + propertyValue, component, propertyValue));
       }
     }
   }
@@ -54,8 +44,7 @@ public abstract class BaseSearchableAnalyser<T> {
       String descriptionPrefix,
       String component) {
     List<StringSearchResult> stringSearchResults = new ArrayList<>();
-    StringSearcher.findMetaData(
-        object, 1, stringSearchResults, searchable.getSearchableObject(), searchable);
+    StringSearcher.findMetaData(object, 1, stringSearchResults, searchable.getSearchableObject(), searchable);
     for (StringSearchResult stringSearchResult : stringSearchResults) {
       if (searchQuery.matches(stringSearchResult.getFieldName())) {
         searchResults.add(
@@ -64,16 +53,11 @@ public abstract class BaseSearchableAnalyser<T> {
                 stringSearchResult.getFieldName(),
                 descriptionPrefix + " : " + stringSearchResult.getFieldName(),
                 component,
-                    stringSearchResult.getString()));
+                stringSearchResult.getString()));
       }
       if (searchQuery.matches(stringSearchResult.getString())) {
         searchResults.add(
-            new SearchResult(
-                searchable,
-                stringSearchResult.getString(),
-                descriptionPrefix + " : " + stringSearchResult.getFieldName(),
-                component,
-                    stringSearchResult.getString()));
+            new SearchResult(searchable, stringSearchResult.getString(), descriptionPrefix + " : " + stringSearchResult.getFieldName(), component, stringSearchResult.getString()));
       }
     }
   }

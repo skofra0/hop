@@ -56,11 +56,7 @@ import org.eclipse.swt.widgets.Text;
 /** This dialog allows you to edit the FTP Put action settings. */
 public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionSftpPut.class; // For Translator
-  private static final String[] FILETYPES =
-      new String[] {
-        BaseMessages.getString(PKG, "ActionSftpPut.Filetype.Pem"),
-        BaseMessages.getString(PKG, "ActionSftpPut.Filetype.All")
-      };
+  private static final String[] FILETYPES = new String[] {BaseMessages.getString(PKG, "ActionSftpPut.Filetype.Pem"), BaseMessages.getString(PKG, "ActionSftpPut.Filetype.All")};
 
   private Text wName;
 
@@ -131,8 +127,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
   private SftpClient sftpclient = null;
 
-  public ActionSftpPutDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public ActionSftpPutDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (ActionSftpPut) action;
     if (this.action.getName() == null) {
@@ -148,11 +143,10 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     PropsUi.setLook(shell);
     WorkflowDialog.setShellImage(shell, action);
 
-    ModifyListener lsMod =
-        e -> {
-          sftpclient = null;
-          action.setChanged();
-        };
+    ModifyListener lsMod = e -> {
+      sftpclient = null;
+      action.setChanged();
+    };
     changed = action.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -219,8 +213,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     // /
     Group wServerSettings = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wServerSettings);
-    wServerSettings.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.ServerSettings.Group.Label"));
+    wServerSettings.setText(BaseMessages.getString(PKG, "ActionSftpPut.ServerSettings.Group.Label"));
     FormLayout serverSettingsgroupLayout = new FormLayout();
     serverSettingsgroupLayout.marginWidth = 10;
     serverSettingsgroupLayout.marginHeight = 10;
@@ -317,14 +310,13 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdUsePublicKey.top = new FormAttachment(wlUsePublicKey, 0, SWT.CENTER);
     fdUsePublicKey.right = new FormAttachment(100, 0);
     wUsePublicKey.setLayoutData(fdUsePublicKey);
-    wUsePublicKey.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeUseKey();
-            action.setChanged();
-          }
-        });
+    wUsePublicKey.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeUseKey();
+        action.setChanged();
+      }
+    });
 
     // Key File
     wlKeyFilename = new Label(wServerSettings, SWT.RIGHT);
@@ -354,11 +346,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdKeyFilename.right = new FormAttachment(wbKeyFilename, -margin);
     wKeyFilename.setLayoutData(fdKeyFilename);
 
-    wbKeyFilename.addListener(
-        SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell, wKeyFilename, variables, new String[] {"*.pem", "*"}, FILETYPES, true));
+    wbKeyFilename.addListener(SWT.Selection, e -> BaseDialog.presentFileDialog(shell, wKeyFilename, variables, new String[] {"*.pem", "*"}, FILETYPES, true));
 
     // keyfilePass line
     wKeyFilePass =
@@ -397,13 +385,12 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdProxyType.top = new FormAttachment(wKeyFilePass, 2 * margin);
     fdProxyType.right = new FormAttachment(100, 0);
     wProxyType.setLayoutData(fdProxyType);
-    wProxyType.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setDefaultProxyPort();
-          }
-        });
+    wProxyType.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setDefaultProxyPort();
+      }
+    });
 
     // Proxy host line
     wProxyHost =
@@ -577,17 +564,16 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdGetPrevious.top = new FormAttachment(wlGetPrevious, 0, SWT.CENTER);
     fdGetPrevious.right = new FormAttachment(100, 0);
     wGetPrevious.setLayoutData(fdGetPrevious);
-    wGetPrevious.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (wGetPrevious.getSelection()) {
-              wGetPreviousFiles.setSelection(false); // only one is allowed
-            }
-            activeCopyFromPrevious();
-            action.setChanged();
-          }
-        });
+    wGetPrevious.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (wGetPrevious.getSelection()) {
+          wGetPreviousFiles.setSelection(false); // only one is allowed
+        }
+        activeCopyFromPrevious();
+        action.setChanged();
+      }
+    });
 
     // Get arguments from previous files result...
     Label wlGetPreviousFiles = new Label(wgSourceFiles, SWT.RIGHT);
@@ -600,24 +586,22 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     wlGetPreviousFiles.setLayoutData(fdlGetPreviousFiles);
     wGetPreviousFiles = new Button(wgSourceFiles, SWT.CHECK);
     PropsUi.setLook(wGetPreviousFiles);
-    wGetPreviousFiles.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSftpPut.getPreviousFiles.Tooltip"));
+    wGetPreviousFiles.setToolTipText(BaseMessages.getString(PKG, "ActionSftpPut.getPreviousFiles.Tooltip"));
     FormData fdGetPreviousFiles = new FormData();
     fdGetPreviousFiles.left = new FormAttachment(middle, 0);
     fdGetPreviousFiles.top = new FormAttachment(wlGetPreviousFiles, 0, SWT.CENTER);
     fdGetPreviousFiles.right = new FormAttachment(100, 0);
     wGetPreviousFiles.setLayoutData(fdGetPreviousFiles);
-    wGetPreviousFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            if (wGetPreviousFiles.getSelection()) {
-              wGetPrevious.setSelection(false); // only one is allowed
-            }
-            activeCopyFromPrevious();
-            action.setChanged();
-          }
-        });
+    wGetPreviousFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        if (wGetPreviousFiles.getSelection()) {
+          wGetPrevious.setSelection(false); // only one is allowed
+        }
+        activeCopyFromPrevious();
+        action.setChanged();
+      }
+    });
 
     // Local Directory line
     wlLocalDirectory = new Label(wgSourceFiles, SWT.RIGHT);
@@ -637,8 +621,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdbLocalDirectory.right = new FormAttachment(100, 0);
     fdbLocalDirectory.top = new FormAttachment(wlLocalDirectory, 0, SWT.CENTER);
     wbLocalDirectory.setLayoutData(fdbLocalDirectory);
-    wbLocalDirectory.addListener(
-        SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wLocalDirectory, variables));
+    wbLocalDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wLocalDirectory, variables));
 
     wLocalDirectory = new TextVar(variables, wgSourceFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wLocalDirectory);
@@ -671,8 +654,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
     // Success when there is no file...
     Label wlSuccessWhenNoFile = new Label(wgSourceFiles, SWT.RIGHT);
-    wlSuccessWhenNoFile.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.SuccessWhenNoFile.Label"));
+    wlSuccessWhenNoFile.setText(BaseMessages.getString(PKG, "ActionSftpPut.SuccessWhenNoFile.Label"));
     PropsUi.setLook(wlSuccessWhenNoFile);
     FormData fdlSuccessWhenNoFile = new FormData();
     fdlSuccessWhenNoFile.left = new FormAttachment(0, 0);
@@ -681,20 +663,18 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     wlSuccessWhenNoFile.setLayoutData(fdlSuccessWhenNoFile);
     wSuccessWhenNoFile = new Button(wgSourceFiles, SWT.CHECK);
     PropsUi.setLook(wSuccessWhenNoFile);
-    wSuccessWhenNoFile.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSftpPut.SuccessWhenNoFile.Tooltip"));
+    wSuccessWhenNoFile.setToolTipText(BaseMessages.getString(PKG, "ActionSftpPut.SuccessWhenNoFile.Tooltip"));
     FormData fdSuccessWhenNoFile = new FormData();
     fdSuccessWhenNoFile.left = new FormAttachment(middle, 0);
     fdSuccessWhenNoFile.top = new FormAttachment(wlSuccessWhenNoFile, 0, SWT.CENTER);
     fdSuccessWhenNoFile.right = new FormAttachment(100, 0);
     wSuccessWhenNoFile.setLayoutData(fdSuccessWhenNoFile);
-    wSuccessWhenNoFile.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wSuccessWhenNoFile.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     // After FTP Put
     Label wlAfterFtpPut = new Label(wgSourceFiles, SWT.RIGHT);
@@ -716,18 +696,16 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdAfterFtpPut.top = new FormAttachment(wSuccessWhenNoFile, 2 * margin);
     fdAfterFtpPut.right = new FormAttachment(100, -margin);
     wAfterFtpPut.setLayoutData(fdAfterFtpPut);
-    wAfterFtpPut.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            afterFtpPutActivate();
-          }
-        });
+    wAfterFtpPut.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        afterFtpPutActivate();
+      }
+    });
 
     // moveTo Directory
     wlDestinationFolder = new Label(wgSourceFiles, SWT.RIGHT);
-    wlDestinationFolder.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.DestinationFolder.Label"));
+    wlDestinationFolder.setText(BaseMessages.getString(PKG, "ActionSftpPut.DestinationFolder.Label"));
     PropsUi.setLook(wlDestinationFolder);
     FormData fdlDestinationFolder = new FormData();
     fdlDestinationFolder.left = new FormAttachment(0, 0);
@@ -744,16 +722,9 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdbMovetoDirectory.top = new FormAttachment(wAfterFtpPut, margin);
     wbMovetoDirectory.setLayoutData(fdbMovetoDirectory);
 
-    wbMovetoDirectory.addListener(
-        SWT.Selection,
-        e -> BaseDialog.presentDirectoryDialog(shell, wDestinationFolder, variables));
+    wbMovetoDirectory.addListener(SWT.Selection, e -> BaseDialog.presentDirectoryDialog(shell, wDestinationFolder, variables));
 
-    wDestinationFolder =
-        new TextVar(
-            variables,
-            wgSourceFiles,
-            SWT.SINGLE | SWT.LEFT | SWT.BORDER,
-            BaseMessages.getString(PKG, "ActionSftpPut.DestinationFolder.Tooltip"));
+    wDestinationFolder = new TextVar(variables, wgSourceFiles, SWT.SINGLE | SWT.LEFT | SWT.BORDER, BaseMessages.getString(PKG, "ActionSftpPut.DestinationFolder.Tooltip"));
     PropsUi.setLook(wDestinationFolder);
     wDestinationFolder.addModifyListener(lsMod);
     FormData fdDestinationFolder = new FormData();
@@ -763,13 +734,11 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     wDestinationFolder.setLayoutData(fdDestinationFolder);
 
     // Whenever something changes, set the tooltip to the expanded version:
-    wDestinationFolder.addModifyListener(
-        e -> wDestinationFolder.setToolTipText(variables.resolve(wDestinationFolder.getText())));
+    wDestinationFolder.addModifyListener(e -> wDestinationFolder.setToolTipText(variables.resolve(wDestinationFolder.getText())));
 
     // Create destination folder if necessary ...
     wlCreateDestinationFolder = new Label(wgSourceFiles, SWT.RIGHT);
-    wlCreateDestinationFolder.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.CreateDestinationFolder.Label"));
+    wlCreateDestinationFolder.setText(BaseMessages.getString(PKG, "ActionSftpPut.CreateDestinationFolder.Label"));
     PropsUi.setLook(wlCreateDestinationFolder);
     FormData fdlCreateDestinationFolder = new FormData();
     fdlCreateDestinationFolder.left = new FormAttachment(0, 0);
@@ -777,8 +746,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdlCreateDestinationFolder.right = new FormAttachment(middle, -margin);
     wlCreateDestinationFolder.setLayoutData(fdlCreateDestinationFolder);
     wCreateDestinationFolder = new Button(wgSourceFiles, SWT.CHECK);
-    wCreateDestinationFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSftpPut.CreateDestinationFolder.Tooltip"));
+    wCreateDestinationFolder.setToolTipText(BaseMessages.getString(PKG, "ActionSftpPut.CreateDestinationFolder.Tooltip"));
     PropsUi.setLook(wCreateDestinationFolder);
     FormData fdCreateDestinationFolder = new FormData();
     fdCreateDestinationFolder.left = new FormAttachment(middle, 0);
@@ -788,8 +756,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
     // Add filenames to result filenames...
     wlAddFilenameToResult = new Label(wgSourceFiles, SWT.RIGHT);
-    wlAddFilenameToResult.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.AddfilenametoResult.Label"));
+    wlAddFilenameToResult.setText(BaseMessages.getString(PKG, "ActionSftpPut.AddfilenametoResult.Label"));
     PropsUi.setLook(wlAddFilenameToResult);
     FormData fdlAddFilenameToResult = new FormData();
     fdlAddFilenameToResult.left = new FormAttachment(0, 0);
@@ -797,8 +764,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     fdlAddFilenameToResult.right = new FormAttachment(middle, -margin);
     wlAddFilenameToResult.setLayoutData(fdlAddFilenameToResult);
     wAddFilenameToResult = new Button(wgSourceFiles, SWT.CHECK);
-    wAddFilenameToResult.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSftpPut.AddfilenametoResult.Tooltip"));
+    wAddFilenameToResult.setToolTipText(BaseMessages.getString(PKG, "ActionSftpPut.AddfilenametoResult.Tooltip"));
     PropsUi.setLook(wAddFilenameToResult);
     FormData fdAddFilenameToResult = new FormData();
     fdAddFilenameToResult.left = new FormAttachment(middle, 0);
@@ -839,8 +805,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     // Test remote folder button ...
     wbTestChangeFolderExists = new Button(wTargetFiles, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbTestChangeFolderExists);
-    wbTestChangeFolderExists.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.TestFolderExists.Label"));
+    wbTestChangeFolderExists.setText(BaseMessages.getString(PKG, "ActionSftpPut.TestFolderExists.Label"));
     FormData fdbTestChangeFolderExists = new FormData();
     fdbTestChangeFolderExists.right = new FormAttachment(100, 0);
     fdbTestChangeFolderExists.top = new FormAttachment(wgSourceFiles, margin);
@@ -860,8 +825,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
     // CreateRemoteFolder files after retrieval...
     Label wlCreateRemoteFolder = new Label(wTargetFiles, SWT.RIGHT);
-    wlCreateRemoteFolder.setText(
-        BaseMessages.getString(PKG, "ActionSftpPut.CreateRemoteFolderFiles.Label"));
+    wlCreateRemoteFolder.setText(BaseMessages.getString(PKG, "ActionSftpPut.CreateRemoteFolderFiles.Label"));
     PropsUi.setLook(wlCreateRemoteFolder);
     FormData fdlCreateRemoteFolder = new FormData();
     fdlCreateRemoteFolder.left = new FormAttachment(0, 0);
@@ -871,19 +835,17 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     wCreateRemoteFolder = new Button(wTargetFiles, SWT.CHECK);
     PropsUi.setLook(wCreateRemoteFolder);
     FormData fdCreateRemoteFolder = new FormData();
-    wCreateRemoteFolder.setToolTipText(
-        BaseMessages.getString(PKG, "ActionSftpPut.CreateRemoteFolderFiles.Tooltip"));
+    wCreateRemoteFolder.setToolTipText(BaseMessages.getString(PKG, "ActionSftpPut.CreateRemoteFolderFiles.Tooltip"));
     fdCreateRemoteFolder.left = new FormAttachment(middle, 0);
     fdCreateRemoteFolder.top = new FormAttachment(wlCreateRemoteFolder, 0, SWT.CENTER);
     fdCreateRemoteFolder.right = new FormAttachment(100, 0);
     wCreateRemoteFolder.setLayoutData(fdCreateRemoteFolder);
-    wCreateRemoteFolder.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            action.setChanged();
-          }
-        });
+    wCreateRemoteFolder.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        action.setChanged();
+      }
+    });
 
     FormData fdTargetFiles = new FormData();
     fdTargetFiles.left = new FormAttachment(0, margin);
@@ -942,9 +904,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
     if (connectToSftp(false, null)) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "ActionSftpPut.Connected.OK", wServerName.getText())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSftpPut.Connected.OK", wServerName.getText()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSftpPut.Connected.Title.Ok"));
       mb.open();
     }
@@ -991,10 +951,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
         if (!Utils.isEmpty(realProxyHost)) {
           // Set proxy
           sftpclient.setProxy(
-              realProxyHost,
-              variables.resolve(wProxyPort.getText()),
-              variables.resolve(wProxyUsername.getText()),
-              variables.resolve(wProxyPassword.getText()),
+              realProxyHost, variables.resolve(wProxyPort.getText()), variables.resolve(wProxyUsername.getText()), variables.resolve(wProxyPassword.getText()),
               wProxyType.getText());
         }
         // login to ftp host ...
@@ -1017,10 +974,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
         sftpclient = null;
       }
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-                  PKG, "ActionSftpPut.ErrorConnect.NOK", wServerName.getText(), e.getMessage())
-              + Const.CR);
+      mb.setMessage(BaseMessages.getString(PKG, "ActionSftpPut.ErrorConnect.NOK", wServerName.getText(), e.getMessage()) + Const.CR);
       mb.setText(BaseMessages.getString(PKG, "ActionSftpPut.ErrorConnect.Title.Bad"));
       mb.open();
     }
@@ -1032,9 +986,7 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
     if (!Utils.isEmpty(changeFtpFolder)) {
       if (connectToSftp(true, changeFtpFolder)) {
         MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_INFORMATION);
-        mb.setMessage(
-            BaseMessages.getString(PKG, "ActionSftpPut.FolderExists.OK", changeFtpFolder)
-                + Const.CR);
+        mb.setMessage(BaseMessages.getString(PKG, "ActionSftpPut.FolderExists.OK", changeFtpFolder) + Const.CR);
         mb.setText(BaseMessages.getString(PKG, "ActionSftpPut.FolderExists.Title.Ok"));
         mb.open();
       }
@@ -1134,27 +1086,19 @@ public class ActionSftpPutDialog extends ActionDialog implements IActionDialog {
 
   private void setDefaultProxyPort() {
     if (wProxyType.getText().equals(SftpClient.PROXY_TYPE_HTTP)) {
-      if (Utils.isEmpty(wProxyPort.getText())
-          || (!Utils.isEmpty(wProxyPort.getText())
-              && wProxyPort.getText().equals(SftpClient.SOCKS5_DEFAULT_PORT))) {
+      if (Utils.isEmpty(wProxyPort.getText()) || (!Utils.isEmpty(wProxyPort.getText()) && wProxyPort.getText().equals(SftpClient.SOCKS5_DEFAULT_PORT))) {
         wProxyPort.setText(SftpClient.HTTP_DEFAULT_PORT);
       }
     } else {
-      if (Utils.isEmpty(wProxyPort.getText())
-          || (!Utils.isEmpty(wProxyPort.getText())
-              && wProxyPort.getText().equals(SftpClient.HTTP_DEFAULT_PORT))) {
+      if (Utils.isEmpty(wProxyPort.getText()) || (!Utils.isEmpty(wProxyPort.getText()) && wProxyPort.getText().equals(SftpClient.HTTP_DEFAULT_PORT))) {
         wProxyPort.setText(SftpClient.SOCKS5_DEFAULT_PORT);
       }
     }
   }
 
   private void afterFtpPutActivate() {
-    boolean moveFile =
-        ActionSftpPut.getAfterSftpPutByDesc(wAfterFtpPut.getText())
-            == ActionSftpPut.AFTER_FTPSPUT_MOVE;
-    boolean doNothing =
-        ActionSftpPut.getAfterSftpPutByDesc(wAfterFtpPut.getText())
-            == ActionSftpPut.AFTER_FTPSPUT_NOTHING;
+    boolean moveFile = ActionSftpPut.getAfterSftpPutByDesc(wAfterFtpPut.getText()) == ActionSftpPut.AFTER_FTPSPUT_MOVE;
+    boolean doNothing = ActionSftpPut.getAfterSftpPutByDesc(wAfterFtpPut.getText()) == ActionSftpPut.AFTER_FTPSPUT_NOTHING;
 
     wlDestinationFolder.setEnabled(moveFile);
     wDestinationFolder.setEnabled(moveFile);

@@ -37,7 +37,8 @@ import org.mockito.Mockito;
 
 public class AuditManagerTest {
 
-  @Rule public TemporaryFolder testFolder = new TemporaryFolder();
+  @Rule
+  public TemporaryFolder testFolder = new TemporaryFolder();
 
   @Test
   public void testSingleton() {
@@ -92,8 +93,7 @@ public class AuditManagerTest {
   @Ignore // TODO Race condition with other test data, works fine when run stand-alone
   @Test
   public void testFindAllEventsWithDefaultAuditManager() throws HopException {
-    AuditManager.getInstance()
-        .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+    AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
     String group = "testFindAllEventsWithDefaultAuditManager";
     AuditManager.clearEvents();
     AuditManager.registerEvent(group, "type1", "name1", "operation1");
@@ -109,8 +109,7 @@ public class AuditManagerTest {
 
   @Test
   public void testFindUniqueEventsWithDefaultAuditManager() throws HopException {
-    AuditManager.getInstance()
-        .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+    AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
     String group = "testFindUniqueEventsWithDefaultAuditManager";
     AuditManager.clearEvents();
     AuditManager.registerEvent(group, "type1", "name1", "operation1");
@@ -142,8 +141,7 @@ public class AuditManagerTest {
   //
   @Ignore
   public void testClearEvents() throws HopException {
-    AuditManager.getInstance()
-        .setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
+    AuditManager.getInstance().setActiveAuditManager(new LocalAuditManager(testFolder.getRoot().getAbsolutePath()));
 
     // Repeat the test 100 times.
     //
@@ -153,15 +151,9 @@ public class AuditManagerTest {
       String group = "testClearEvents";
       AuditManager.registerEvent(group, "type1", "name1", "operation1");
       AuditManager.registerEvent(group, "type1", "name1", "operation1");
-      assertEquals(
-          "Problem in registering event",
-          2,
-          AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
+      assertEquals("Problem in registering event", 2, AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
       AuditManager.clearEvents();
-      assertEquals(
-          "Problem in clearning event",
-          0,
-          AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
+      assertEquals("Problem in clearning event", 0, AuditManager.findEvents(group, "type1", "operation1", 10, false).size());
     }
   }
 }

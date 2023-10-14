@@ -57,11 +57,7 @@ public class HopDescribedVariablesDialog extends Dialog {
    * @param parent The parent shell to link to
    * @param selectedVariable
    */
-  public HopDescribedVariablesDialog(
-      Shell parent,
-      String message,
-      List<DescribedVariable> describedVariables,
-      String selectedVariable) {
+  public HopDescribedVariablesDialog(Shell parent, String message, List<DescribedVariable> describedVariables, String selectedVariable) {
     super(parent, SWT.NONE);
     this.message = message;
     this.describedVariables = describedVariables;
@@ -74,9 +70,7 @@ public class HopDescribedVariablesDialog extends Dialog {
 
     shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX);
     shell.setText(BaseMessages.getString(PKG, "HopDescribedVariablesDialog.Title"));
-    shell.setImage(
-        GuiResource.getInstance()
-            .getImage("ui/images/variable.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
+    shell.setImage(GuiResource.getInstance().getImage("ui/images/variable.svg", ConstUi.SMALL_ICON_SIZE, ConstUi.SMALL_ICON_SIZE));
     PropsUi.setLook(shell);
 
     FormLayout formLayout = new FormLayout();
@@ -111,36 +105,16 @@ public class HopDescribedVariablesDialog extends Dialog {
 
     int fieldsRows = 0;
 
-    ColumnInfo[] columns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          false),
-    };
+    ColumnInfo[] columns =
+        {
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Name.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Value.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "HopPropertiesFileDialog.Description.Label"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columns[2].setDisabledListener(rowNr -> false);
 
     // Fields between the label and the buttons
     //
-    wFields =
-        new TableView(
-            Variables.getADefaultVariableSpace(),
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            columns,
-            fieldsRows,
-            null,
-            props);
+    wFields = new TableView(Variables.getADefaultVariableSpace(), shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, columns, fieldsRows, null, props);
 
     wFields.setReadonly(false);
 

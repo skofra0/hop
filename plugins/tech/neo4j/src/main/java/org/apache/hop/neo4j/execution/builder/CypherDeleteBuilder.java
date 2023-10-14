@@ -34,8 +34,7 @@ public class CypherDeleteBuilder extends CypherMatchBuilder {
   }
 
   @Override
-  public CypherDeleteBuilder withMatch(
-      String label, String alias, Map<String, Object> keyValueMap) {
+  public CypherDeleteBuilder withMatch(String label, String alias, Map<String, Object> keyValueMap) {
     return (CypherDeleteBuilder) super.withMatch(label, alias, keyValueMap);
   }
 
@@ -58,18 +57,8 @@ public class CypherDeleteBuilder extends CypherMatchBuilder {
     return withDelete(aliases);
   }
 
-  public CypherDeleteBuilder withRelationshipMatch(
-      String edgeLabel, String edgeAlias, String sourceNodeAlias, String targetNodeAlias) {
-    cypher
-        .append("MATCH(")
-        .append(sourceNodeAlias)
-        .append(")-[")
-        .append(edgeAlias)
-        .append(":")
-        .append(edgeLabel)
-        .append("]->(")
-        .append(targetNodeAlias)
-        .append(") ");
+  public CypherDeleteBuilder withRelationshipMatch(String edgeLabel, String edgeAlias, String sourceNodeAlias, String targetNodeAlias) {
+    cypher.append("MATCH(").append(sourceNodeAlias).append(")-[").append(edgeAlias).append(":").append(edgeLabel).append("]->(").append(targetNodeAlias).append(") ");
     return this;
   }
 }

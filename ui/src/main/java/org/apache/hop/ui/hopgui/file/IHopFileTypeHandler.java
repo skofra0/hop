@@ -118,7 +118,7 @@ public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
    * Perform any task needed to close a file, save it if needed
    *
    * @return true if the file is ready to close. Return false if there was a problem saving or any
-   *     other issue.
+   *         other issue.
    */
   boolean isCloseable();
 
@@ -157,12 +157,12 @@ public interface IHopFileTypeHandler extends IActionContextHandlersProvider {
   IVariables getVariables();
 
   /**
-   * Reload the file */
-  default public void reload(){
-  }
+   * Reload the file
+   */
+  default public void reload() {}
 
   /**
-   * mark the file as deleted*/
-  default public void markDeleted(){
-  }
+   * mark the file as deleted
+   */
+  default public void markDeleted() {}
 }

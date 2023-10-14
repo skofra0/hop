@@ -22,26 +22,22 @@ import org.junit.Test;
 
 public class DefaultAuthenticationConsumerFactoryTest {
   @Test(expected = AuthenticationFactoryException.class)
-  public void testDefaultAuthenticationConsumerFactoryFailsWithMultipleConstructors()
-      throws AuthenticationFactoryException {
+  public void testDefaultAuthenticationConsumerFactoryFailsWithMultipleConstructors() throws AuthenticationFactoryException {
     new DefaultAuthenticationConsumerFactory(TwoConstructorConsumer.class);
   }
 
   @Test(expected = AuthenticationFactoryException.class)
-  public void testDefaultAuthenticationConsumerFactoryFailsWithWrongConstructorArgCount()
-      throws AuthenticationFactoryException {
+  public void testDefaultAuthenticationConsumerFactoryFailsWithWrongConstructorArgCount() throws AuthenticationFactoryException {
     new DefaultAuthenticationConsumerFactory(TwoConstructorArgConsumer.class);
   }
 
   @Test(expected = AuthenticationFactoryException.class)
-  public void testDefaultAuthenticationConsumerFactoryFailsNoConsumeMethod()
-      throws AuthenticationFactoryException {
+  public void testDefaultAuthenticationConsumerFactoryFailsNoConsumeMethod() throws AuthenticationFactoryException {
     new DefaultAuthenticationConsumerFactory(NoConsumeConsumer.class);
   }
 
   @Test
-  public void testDefaultAuthenticationConsumerFactorySucceedsWithConsumer()
-      throws AuthenticationFactoryException {
+  public void testDefaultAuthenticationConsumerFactorySucceedsWithConsumer() throws AuthenticationFactoryException {
     new DefaultAuthenticationConsumerFactory(DelegatingKerberosConsumer.class);
   }
 }

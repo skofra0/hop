@@ -40,29 +40,26 @@ public class EntryCurrentDirectoryChangedListener implements ICurrentDirectoryCh
     references = refs;
   }
 
-  public EntryCurrentDirectoryChangedListener(
-      Supplier<String> pathGetter, Consumer<String> pathSetter) {
-    this(
-        new IPathReference() {
+  public EntryCurrentDirectoryChangedListener(Supplier<String> pathGetter, Consumer<String> pathSetter) {
+    this(new IPathReference() {
 
-          @Override
-          public String getPath() {
-            return pathGetter.get();
-          }
+      @Override
+      public String getPath() {
+        return pathGetter.get();
+      }
 
-          @Override
-          public void setPath(String path) {
-            pathSetter.accept(path);
-          }
-        });
+      @Override
+      public void setPath(String path) {
+        pathSetter.accept(path);
+      }
+    });
   }
 
   @Override
   public void directoryChanged(Object origin, String oldCurrentDir, String newCurrentDir) {
     for (IPathReference ref : references) {
       String path = ref.getPath();
-      if (StringUtils.contains(path, Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER)
-          && !Objects.equal(oldCurrentDir, newCurrentDir)) {
+      if (StringUtils.contains(path, Const.INTERNAL_VARIABLE_ENTRY_CURRENT_FOLDER) && !Objects.equal(oldCurrentDir, newCurrentDir)) {
         path = reapplyCurrentDir(oldCurrentDir, newCurrentDir, path);
         ref.setPath(path);
       }

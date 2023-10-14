@@ -16,4 +16,5 @@
  */
 package org.apache.test.util;
 
-public interface IObjectTester<T> extends IObjectProvider<T>, IObjectValidator<T> {}
+public interface IObjectTester<T> extends IObjectProvider<T>, IObjectValidator<T> {
+}

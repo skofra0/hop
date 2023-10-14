@@ -22,9 +22,9 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-public class StandardizePhoneNumberMetaInjectionTest
-    extends BaseMetadataInjectionTest<StandardizePhoneNumberMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class StandardizePhoneNumberMetaInjectionTest extends BaseMetadataInjectionTest<StandardizePhoneNumberMeta> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {

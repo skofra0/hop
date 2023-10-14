@@ -42,13 +42,7 @@ import java.util.List;
 public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
   private static final Class<?> PKG = JoinRowsMeta.class; // For Translator
 
-  public JoinRows(
-      TransformMeta transformMeta,
-      JoinRowsMeta meta,
-      JoinRowsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public JoinRows(TransformMeta transformMeta, JoinRowsMeta meta, JoinRowsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -109,8 +103,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
         data.restart[i] = false;
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "JoinRows.Log.ErrorCreatingTemporaryFiles"), e);
+      throw new HopException(BaseMessages.getString(PKG, "JoinRows.Log.ErrorCreatingTemporaryFiles"), e);
     }
   }
 
@@ -136,9 +129,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
       }
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(PKG, "JoinRows.Log.ReadRowFromStream")
-                + (rowData == null ? "<null>" : data.fileRowMeta[0].getString(rowData)));
+        logRowlevel(BaseMessages.getString(PKG, "JoinRows.Log.ReadRowFromStream") + (rowData == null ? "<null>" : data.fileRowMeta[0].getString(rowData)));
       }
     } else {
       if (data.cache[filenr] == null) {
@@ -148,11 +139,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
             data.fileInputStream[filenr] = new FileInputStream(data.file[filenr]);
             data.dataInputStream[filenr] = new DataInputStream(data.fileInputStream[filenr]);
           } catch (FileNotFoundException fnfe) {
-            logError(
-                BaseMessages.getString(PKG, "JoinRows.Log.UnableToFindOrOpenTemporaryFile")
-                    + data.file[filenr]
-                    + "] : "
-                    + fnfe.toString());
+            logError(BaseMessages.getString(PKG, "JoinRows.Log.UnableToFindOrOpenTemporaryFile") + data.file[filenr] + "] : " + fnfe.toString());
             setErrors(1);
             stopAll();
             return null;
@@ -163,10 +150,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
 
         if (data.size[filenr] == 0) {
           if (log.isBasic()) {
-            logBasic(
-                BaseMessages.getString(PKG, "JoinRows.Log.NoRowsComingFromTransform")
-                    + data.rs[filenr].getOriginTransformName()
-                    + "]");
+            logBasic(BaseMessages.getString(PKG, "JoinRows.Log.NoRowsComingFromTransform") + data.rs[filenr].getOriginTransformName() + "]");
           }
           return null;
         }
@@ -174,32 +158,18 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
         try {
           rowData = data.fileRowMeta[filenr].readData(data.dataInputStream[filenr]);
         } catch (HopFileException e) {
-          logError(
-              BaseMessages.getString(PKG, "JoinRows.Log.UnableToReadDataFromTempFile")
-                  + filenr
-                  + " ["
-                  + data.file[filenr]
-                  + "]");
+          logError(BaseMessages.getString(PKG, "JoinRows.Log.UnableToReadDataFromTempFile") + filenr + " [" + data.file[filenr] + "]");
           setErrors(1);
           stopAll();
           return null;
         } catch (SocketTimeoutException e) {
-          logError(
-              BaseMessages.getString(PKG, "JoinRows.Log.UnableToReadDataFromTempFile")
-                  + filenr
-                  + " ["
-                  + data.file[filenr]
-                  + "]");
+          logError(BaseMessages.getString(PKG, "JoinRows.Log.UnableToReadDataFromTempFile") + filenr + " [" + data.file[filenr] + "]");
           setErrors(1);
           stopAll();
           return null;
         }
         if (log.isRowLevel()) {
-          logRowlevel(
-              BaseMessages.getString(PKG, "JoinRows.Log.ReadRowFromFile")
-                  + filenr
-                  + " : "
-                  + data.fileRowMeta[filenr].getString(rowData));
+          logRowlevel(BaseMessages.getString(PKG, "JoinRows.Log.ReadRowFromFile") + filenr + " : " + data.fileRowMeta[filenr].getString(rowData));
         }
 
         data.position[filenr]++;
@@ -217,11 +187,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
             data.position[filenr] = 0;
             data.restart[filenr] = true; // indicate that we restarted.
           } catch (IOException ioe) {
-            logError(
-                BaseMessages.getString(PKG, "JoinRows.Log.UnableToCloseInputStream")
-                    + data.file[filenr]
-                    + "] : "
-                    + ioe.toString());
+            logError(BaseMessages.getString(PKG, "JoinRows.Log.UnableToCloseInputStream") + data.file[filenr] + "] : " + ioe.toString());
             setErrors(1);
             stopAll();
             return null;
@@ -230,10 +196,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
       } else {
         if (data.size[filenr] == 0) {
           if (log.isBasic()) {
-            logBasic(
-                BaseMessages.getString(PKG, "JoinRows.Log.NoRowsComingFromTransform")
-                    + data.rs[filenr].getOriginTransformName()
-                    + "]");
+            logBasic(BaseMessages.getString(PKG, "JoinRows.Log.NoRowsComingFromTransform") + data.rs[filenr].getOriginTransformName() + "]");
           }
           return null;
         }
@@ -367,14 +330,9 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
         data.fileOutputStream[data.filenr] = new FileOutputStream(data.file[data.filenr]);
 
         // Open the data output stream...
-        data.dataOutputStream[data.filenr] =
-            new DataOutputStream(data.fileOutputStream[data.filenr]);
+        data.dataOutputStream[data.filenr] = new DataOutputStream(data.fileOutputStream[data.filenr]);
       } catch (FileNotFoundException fnfe) {
-        logError(
-            BaseMessages.getString(PKG, "JoinRows.Log.UnableToOpenOutputstream")
-                + data.file[data.filenr].toString()
-                + "] : "
-                + fnfe.toString());
+        logError(BaseMessages.getString(PKG, "JoinRows.Log.UnableToOpenOutputstream") + data.file[data.filenr].toString() + "] : " + fnfe.toString());
         stopAll();
         setErrors(1);
         return false;
@@ -396,12 +354,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
       data.size[data.filenr]++;
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "JoinRows.Log.ReadRowFromStreamN",
-                data.filenr,
-                data.fileRowMeta[data.filenr].getString(rowData)));
+        logRowlevel(BaseMessages.getString(PKG, "JoinRows.Log.ReadRowFromStreamN", data.filenr, data.fileRowMeta[data.filenr].getString(rowData)));
       }
 
       //
@@ -417,12 +370,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
       } else {
         // we can't cope with this many rows: reset the cache...
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(
-                  PKG,
-                  "JoinRows.Log.RowsFound",
-                  meta.getCacheSize() + "",
-                  data.rs[data.filenr].getOriginTransformName()));
+          logDetailed(BaseMessages.getString(PKG, "JoinRows.Log.RowsFound", meta.getCacheSize() + "", data.rs[data.filenr].getOriginTransformName()));
         }
         data.cache[data.filenr] = null;
       }
@@ -437,13 +385,7 @@ public class JoinRows extends BaseTransform<JoinRowsMeta, JoinRowsData> {
         data.dataOutputStream[data.filenr] = null;
         data.fileOutputStream[data.filenr] = null;
       } catch (IOException ioe) {
-        logError(
-            BaseMessages.getString(PKG, "JoinRows.Log.ErrorInClosingOutputStream")
-                + data.filenr
-                + " : ["
-                + data.file[data.filenr].toString()
-                + "] : "
-                + ioe.toString());
+        logError(BaseMessages.getString(PKG, "JoinRows.Log.ErrorInClosingOutputStream") + data.filenr + " : [" + data.file[data.filenr].toString() + "] : " + ioe.toString());
       }
 
       // Advance to the next file/input-stream...

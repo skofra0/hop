@@ -64,8 +64,7 @@ public class XmlMetadataUtil {
     // Pick up all the fields with @HopMetadataProperty annotation, sorted by name.
     // Serialize them to XML.
     //
-    List<Field> fields =
-        ReflectionUtil.findAllFields(objectClass, new MetadataPropertyKeyFunction());
+    List<Field> fields = ReflectionUtil.findAllFields(objectClass, new MetadataPropertyKeyFunction());
     for (Field field : fields) {
       // Don't serialize fields flagged as transient or volatile
       //
@@ -103,15 +102,7 @@ public class XmlMetadataUtil {
           if (property.storeWithName()) {
             xml += XmlHandler.addTagValue(tag, ((IHopMetadata) value).getName());
           } else {
-            xml +=
-                serializeObjectToXml(
-                    property,
-                    value,
-                    groupKey,
-                    tag,
-                    isPassword,
-                    storeWithCode,
-                    property.intCodeConverter());
+            xml += serializeObjectToXml(property, value, groupKey, tag, isPassword, storeWithCode, property.intCodeConverter());
           }
         }
       }
@@ -143,8 +134,7 @@ public class XmlMetadataUtil {
         // Hang on, is this a password?
         //
         if (password) {
-          xml +=
-              XmlHandler.addTagValue(tag, Encr.encryptPasswordIfNotUsingVariables((String) value));
+          xml += XmlHandler.addTagValue(tag, Encr.encryptPasswordIfNotUsingVariables((String) value));
         } else {
           xml += XmlHandler.addTagValue(tag, (String) value);
         }
@@ -158,10 +148,7 @@ public class XmlMetadataUtil {
             IIntCodeConverter converter = intCodeConverterClass.getConstructor().newInstance();
             xml += XmlHandler.addTagValue(tag, converter.getCode((int) value));
           } catch (Exception e) {
-            throw new HopException(
-                "Error converting int to String code using converter class "
-                    + intCodeConverterClass,
-                e);
+            throw new HopException("Error converting int to String code using converter class " + intCodeConverterClass, e);
           }
         }
       } else if (value instanceof Long) {
@@ -188,15 +175,7 @@ public class XmlMetadataUtil {
         //
         List listItems = (List) value;
         for (Object listItem : listItems) {
-          xml +=
-              serializeObjectToXml(
-                  property,
-                  listItem,
-                  groupKey,
-                  tag,
-                  password,
-                  storeWithCode,
-                  property.intCodeConverter());
+          xml += serializeObjectToXml(property, listItem, groupKey, tag, password, storeWithCode, property.intCodeConverter());
         }
 
         if (StringUtils.isNotEmpty(groupKey)) {
@@ -230,9 +209,7 @@ public class XmlMetadataUtil {
    * @param metadataProvider to load name references from
    * @throws HopXmlException
    */
-  public static <T> T deSerializeFromXml(
-      Node node, Class<? extends T> clazz, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public static <T> T deSerializeFromXml(Node node, Class<? extends T> clazz, IHopMetadataProvider metadataProvider) throws HopXmlException {
     return deSerializeFromXml(null, node, clazz, null, metadataProvider);
   }
 
@@ -241,18 +218,13 @@ public class XmlMetadataUtil {
    * looking at the HopMetadataProperty annotations of the fields in the object's class.
    *
    * @param parentObject An optional parent object to allow a factory to load extra information
-   *     from.
+   *        from.
    * @param node The metadata to read
    * @param clazz the class to de-serialize
    * @param metadataProvider to load name references from
    * @throws HopXmlException
    */
-  public static <T> T deSerializeFromXml(
-      Object parentObject,
-      Node node,
-      Class<? extends T> clazz,
-      IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public static <T> T deSerializeFromXml(Object parentObject, Node node, Class<? extends T> clazz, IHopMetadataProvider metadataProvider) throws HopXmlException {
     return deSerializeFromXml(parentObject, node, clazz, null, metadataProvider);
   }
 
@@ -266,9 +238,7 @@ public class XmlMetadataUtil {
    * @param metadataProvider to load name references from
    * @throws HopXmlException
    */
-  public static <T> T deSerializeFromXml(
-      Node node, Class<? extends T> clazz, T object, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public static <T> T deSerializeFromXml(Node node, Class<? extends T> clazz, T object, IHopMetadataProvider metadataProvider) throws HopXmlException {
     return deSerializeFromXml(null, node, clazz, object, metadataProvider);
   }
 
@@ -283,13 +253,7 @@ public class XmlMetadataUtil {
    * @param metadataProvider to load name references from
    * @throws HopXmlException
    */
-  public static <T> T deSerializeFromXml(
-      Object parentObject,
-      Node node,
-      Class<? extends T> clazz,
-      T object,
-      IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public static <T> T deSerializeFromXml(Object parentObject, Node node, Class<? extends T> clazz, T object, IHopMetadataProvider metadataProvider) throws HopXmlException {
     if (object == null) {
       try {
         // Do not create a new object if the node is null
@@ -304,30 +268,20 @@ public class XmlMetadataUtil {
         if (metadataObject != null) {
           String xmlKey = metadataObject.xmlKey();
           if (StringUtils.isEmpty(xmlKey)) {
-            throw new HopXmlException(
-                "Please specify which XML attribute to consider the key.  Hop will use this key to create the appropriate class instance of type "
-                    + clazz);
+            throw new HopXmlException("Please specify which XML attribute to consider the key.  Hop will use this key to create the appropriate class instance of type " + clazz);
           }
           String objectId = XmlHandler.getNodeValue(XmlHandler.getSubNode(node, xmlKey));
           if (StringUtils.isEmpty(objectId)) {
-            throw new HopXmlException(
-                "XML attribute "
-                    + xmlKey
-                    + " is needed to instantiate type "
-                    + clazz
-                    + " but it wasn't provided");
+            throw new HopXmlException("XML attribute " + xmlKey + " is needed to instantiate type " + clazz + " but it wasn't provided");
           }
-          IHopMetadataObjectFactory factory =
-              metadataObject.objectFactory().getConstructor().newInstance();
+          IHopMetadataObjectFactory factory = metadataObject.objectFactory().getConstructor().newInstance();
           object = (T) factory.createObject(objectId, parentObject);
         } else {
           object = clazz.getDeclaredConstructor().newInstance();
         }
       } catch (Exception e) {
         throw new HopXmlException(
-            "Unable to create a new instance of class "
-                + clazz.getName()
-                + " while de-serializing XML: make sure you have a public empty constructor for this class.",
+            "Unable to create a new instance of class " + clazz.getName() + " while de-serializing XML: make sure you have a public empty constructor for this class.",
             e);
       }
     }
@@ -340,8 +294,7 @@ public class XmlMetadataUtil {
     // Pick up all the @HopMetadataProperty annotations.
     // The fields are sorted by name to get a stable XML output when serialized.
     //
-    List<Field> fields =
-        ReflectionUtil.findAllFields(object.getClass(), new MetadataPropertyKeyFunction());
+    List<Field> fields = ReflectionUtil.findAllFields(object.getClass(), new MetadataPropertyKeyFunction());
     for (Field field : fields) {
       // Don't serialize fields flagged as transient or volatile
       //
@@ -377,18 +330,7 @@ public class XmlMetadataUtil {
         }
         Object value =
             deSerializeFromXml(
-                object,
-                fieldType,
-                groupNode,
-                tagNode,
-                tag,
-                field,
-                defaultBoolean,
-                storeWithName,
-                metadataProvider,
-                password,
-                storeWithCode,
-                property.intCodeConverter(),
+                object, fieldType, groupNode, tagNode, tag, field, defaultBoolean, storeWithName, metadataProvider, password, storeWithCode, property.intCodeConverter(),
                 inlineListTags);
 
         try {
@@ -399,14 +341,7 @@ public class XmlMetadataUtil {
             ReflectionUtil.setFieldValue(object, field.getName(), fieldType, value);
           }
         } catch (HopException e) {
-          throw new HopXmlException(
-              "Unable to set value "
-                  + value
-                  + " on field "
-                  + field.getName()
-                  + " in class "
-                  + fieldType.getName(),
-              e);
+          throw new HopXmlException("Unable to set value " + value + " on field " + field.getName() + " in class " + fieldType.getName(), e);
         }
       }
     }
@@ -440,13 +375,7 @@ public class XmlMetadataUtil {
         // Load the specified field type from the metadata provider.
         return metadataProvider.getSerializer((Class<IHopMetadata>) fieldType).load(elementString);
       } catch (Exception e) {
-        throw new HopXmlException(
-            "Unable to load reference by name '"
-                + elementString
-                + "' for type "
-                + fieldType.getName()
-                + ". Does this class implement IHopMetadata?",
-            e);
+        throw new HopXmlException("Unable to load reference by name '" + elementString + "' for type " + fieldType.getName() + ". Does this class implement IHopMetadata?", e);
       }
     }
 
@@ -469,12 +398,7 @@ public class XmlMetadataUtil {
             IIntCodeConverter converter = intCodeConverterClass.getConstructor().newInstance();
             return converter.getType(elementString);
           } catch (Exception e) {
-            throw new HopXmlException(
-                "Error converting String code "
-                    + elementString
-                    + " to integer using converter class "
-                    + intCodeConverterClass,
-                e);
+            throw new HopXmlException("Error converting String code " + elementString + " to integer using converter class " + intCodeConverterClass, e);
           }
         }
       }
@@ -506,8 +430,7 @@ public class XmlMetadataUtil {
             // Retry with the description for compatibility with older versions
             //
             if (enumerationClass.isInstance(IEnumHasCodeAndDescription.class)) {
-              IEnumHasCodeAndDescription[] vals =
-                  (IEnumHasCodeAndDescription[]) enumerationClass.getEnumConstants();
+              IEnumHasCodeAndDescription[] vals = (IEnumHasCodeAndDescription[]) enumerationClass.getEnumConstants();
               for (IEnumHasCodeAndDescription value : vals) {
                 if (value.getDescription().equals(elementString)) {
                   return value;
@@ -515,15 +438,13 @@ public class XmlMetadataUtil {
               }
             }
           } catch (Exception e) {
-            throw new HopXmlException(
-                "Unable to get values() of enumeration to look up code value " + elementString, e);
+            throw new HopXmlException("Unable to get values() of enumeration to look up code value " + elementString, e);
           }
         } else {
           try {
             return Enum.valueOf(enumerationClass, elementString);
           } catch (IllegalArgumentException e) {
-            String nameNotFound =
-                field.getAnnotation(HopMetadataProperty.class).enumNameWhenNotFound();
+            String nameNotFound = field.getAnnotation(HopMetadataProperty.class).enumNameWhenNotFound();
             if (StringUtils.isEmpty(nameNotFound)) {
               throw e;
             } else {
@@ -567,28 +488,14 @@ public class XmlMetadataUtil {
         try {
           Object newItem =
               deSerializeFromXml(
-                  parentObject,
-                  listClass,
-                  null,
-                  itemNode,
-                  null,
-                  null,
-                  false,
-                  false,
-                  metadataProvider,
-                  password,
-                  storeWithCode,
-                  intCodeConverterClass,
-                  inlineListTags);
+                  parentObject, listClass, null, itemNode, null, null, false, false, metadataProvider, password, storeWithCode, intCodeConverterClass, inlineListTags);
 
           // Add it to the list
           //
           list.add(newItem);
         } catch (Exception e) {
           throw new HopXmlException(
-              "Unable to instantiate a new instance of class "
-                  + listClass.getName()
-                  + ": make sure there is an empty public constructor available to allow XML de-serialization",
+              "Unable to instantiate a new instance of class " + listClass.getName() + ": make sure there is an empty public constructor available to allow XML de-serialization",
               e);
         }
       }

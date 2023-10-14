@@ -108,11 +108,11 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
   private int searchScope;
 
   /** The search scopes description */
-  public static final String[] searchScopeDesc = {
-    BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.Object"),
-    BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.OneLevel"),
-    BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.Subtree")
-  };
+  public static final String[] searchScopeDesc =
+      {
+          BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.Object"),
+          BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.OneLevel"),
+          BaseMessages.getString(PKG, "LdapInputMeta.SearchScope.Subtree")};
 
   /** The search scope codes */
   public static final String[] searchScopeCode = {"object", "onelevel", "subtree"};
@@ -379,8 +379,7 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -412,10 +411,7 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
     retval.append("    ").append(XmlHandler.addTagValue("rownum_field", rowNumberField));
     retval.append("    ").append(XmlHandler.addTagValue("host", host));
     retval.append("    ").append(XmlHandler.addTagValue("username", userName));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
+    retval.append("    ").append(XmlHandler.addTagValue("password", Encr.encryptPasswordIfNotUsingVariables(password)));
 
     retval.append("    ").append(XmlHandler.addTagValue("port", port));
     retval.append("    ").append(XmlHandler.addTagValue("filterstring", filterString));
@@ -428,44 +424,18 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
     for (int i = 0; i < inputFields.length; i++) {
       retval.append("      <field>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("name", inputFields[i].getName()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("attribute", inputFields[i].getAttribute()));
-      retval
-          .append("        ")
-          .append(
-              XmlHandler.addTagValue(
-                  "attribute_fetch_as", inputFields[i].getFetchAttributeAsCode()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("sorted_key", inputFields[i].isSortedKey()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("type", inputFields[i].getTypeDesc()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("format", inputFields[i].getFormat()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("length", inputFields[i].getLength()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("precision", inputFields[i].getPrecision()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("currency", inputFields[i].getCurrencySymbol()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("decimal", inputFields[i].getDecimalSymbol()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("group", inputFields[i].getGroupSymbol()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("trim_type", inputFields[i].getTrimTypeCode()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("repeat", inputFields[i].isRepeated()));
+      retval.append("        ").append(XmlHandler.addTagValue("attribute", inputFields[i].getAttribute()));
+      retval.append("        ").append(XmlHandler.addTagValue("attribute_fetch_as", inputFields[i].getFetchAttributeAsCode()));
+      retval.append("        ").append(XmlHandler.addTagValue("sorted_key", inputFields[i].isSortedKey()));
+      retval.append("        ").append(XmlHandler.addTagValue("type", inputFields[i].getTypeDesc()));
+      retval.append("        ").append(XmlHandler.addTagValue("format", inputFields[i].getFormat()));
+      retval.append("        ").append(XmlHandler.addTagValue("length", inputFields[i].getLength()));
+      retval.append("        ").append(XmlHandler.addTagValue("precision", inputFields[i].getPrecision()));
+      retval.append("        ").append(XmlHandler.addTagValue("currency", inputFields[i].getCurrencySymbol()));
+      retval.append("        ").append(XmlHandler.addTagValue("decimal", inputFields[i].getDecimalSymbol()));
+      retval.append("        ").append(XmlHandler.addTagValue("group", inputFields[i].getGroupSymbol()));
+      retval.append("        ").append(XmlHandler.addTagValue("trim_type", inputFields[i].getTrimTypeCode()));
+      retval.append("        ").append(XmlHandler.addTagValue("repeat", inputFields[i].isRepeated()));
 
       retval.append("      </field>").append(Const.CR);
     }
@@ -473,31 +443,17 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
 
     retval.append("    ").append(XmlHandler.addTagValue("limit", rowLimit));
     retval.append("    ").append(XmlHandler.addTagValue("timelimit", timeLimit));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("multivaluedseparator", multiValuedSeparator));
+    retval.append("    ").append(XmlHandler.addTagValue("multivaluedseparator", multiValuedSeparator));
     retval.append("    ").append(XmlHandler.addTagValue("dynamicsearch", dynamicSearch));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("dynamicseachfieldname", dynamicSeachFieldName));
+    retval.append("    ").append(XmlHandler.addTagValue("dynamicseachfieldname", dynamicSeachFieldName));
     retval.append("    ").append(XmlHandler.addTagValue("dynamicfilter", dynamicFilter));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("dynamicfilterfieldname", dynamicFilterFieldName));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("searchScope", getSearchScopeCode(searchScope)));
+    retval.append("    ").append(XmlHandler.addTagValue("dynamicfilterfieldname", dynamicFilterFieldName));
+    retval.append("    ").append(XmlHandler.addTagValue("searchScope", getSearchScopeCode(searchScope)));
 
     retval.append("    ").append(XmlHandler.addTagValue("protocol", protocol));
     retval.append("    ").append(XmlHandler.addTagValue("trustStorePath", trustStorePath));
-    retval
-        .append("    ")
-        .append(
-            XmlHandler.addTagValue(
-                "trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue("trustAllCertificates", trustAllCertificates));
+    retval.append("    ").append(XmlHandler.addTagValue("trustStorePassword", Encr.encryptPasswordIfNotUsingVariables(trustStorePassword)));
+    retval.append("    ").append(XmlHandler.addTagValue("trustAllCertificates", trustAllCertificates));
     retval.append("    ").append(XmlHandler.addTagValue("useCertificate", useCertificate));
 
     return retval.toString();
@@ -515,15 +471,12 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
 
       usePaging = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "usepaging"));
       pagesize = XmlHandler.getTagValue(transformNode, "pagesize");
-      useAuthentication =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useauthentication"));
+      useAuthentication = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useauthentication"));
       includeRowNumber = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rownum"));
       rowNumberField = XmlHandler.getTagValue(transformNode, "rownum_field");
       host = XmlHandler.getTagValue(transformNode, "host");
       userName = XmlHandler.getTagValue(transformNode, "username");
-      setPassword(
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "password")));
+      setPassword(Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "password")));
 
       port = XmlHandler.getTagValue(transformNode, "port");
       filterString = XmlHandler.getTagValue(transformNode, "filterstring");
@@ -540,17 +493,14 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
 
         inputFields[i].setName(XmlHandler.getTagValue(fnode, "name"));
         inputFields[i].setAttribute(XmlHandler.getTagValue(fnode, "attribute"));
-        inputFields[i].setFetchAttributeAs(
-            LdapInputField.getFetchAttributeAsByCode(
-                XmlHandler.getTagValue(fnode, "attribute_fetch_as")));
+        inputFields[i].setFetchAttributeAs(LdapInputField.getFetchAttributeAsByCode(XmlHandler.getTagValue(fnode, "attribute_fetch_as")));
         String sortedkey = XmlHandler.getTagValue(fnode, "sorted_key");
         if (sortedkey != null) {
           inputFields[i].setSortedKey(YES.equalsIgnoreCase(sortedkey));
         } else {
           inputFields[i].setSortedKey(false);
         }
-        inputFields[i].setType(
-            ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fnode, "type")));
+        inputFields[i].setType(ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fnode, "type")));
         inputFields[i].setLength(Const.toInt(XmlHandler.getTagValue(fnode, "length"), -1));
         inputFields[i].setPrecision(Const.toInt(XmlHandler.getTagValue(fnode, "precision"), -1));
         String srepeat = XmlHandler.getTagValue(fnode, "repeat");
@@ -559,8 +509,7 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
         } else {
           inputFields[i].setRepeated(false);
         }
-        inputFields[i].setTrimType(
-            ValueMetaBase.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
+        inputFields[i].setTrimType(ValueMetaBase.getTrimTypeByCode(XmlHandler.getTagValue(fnode, "trim_type")));
 
         inputFields[i].setFormat(XmlHandler.getTagValue(fnode, "format"));
         inputFields[i].setCurrencySymbol(XmlHandler.getTagValue(fnode, "currency"));
@@ -576,25 +525,16 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
       dynamicSeachFieldName = XmlHandler.getTagValue(transformNode, "dynamicseachfieldname");
       dynamicFilter = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "dynamicfilter"));
       dynamicFilterFieldName = XmlHandler.getTagValue(transformNode, "dynamicfilterfieldname");
-      searchScope =
-          getSearchScopeByCode(
-              Const.NVL(
-                  XmlHandler.getTagValue(transformNode, "searchScope"),
-                  getSearchScopeCode(LdapConnection.SEARCH_SCOPE_SUBTREE_SCOPE)));
+      searchScope = getSearchScopeByCode(Const.NVL(XmlHandler.getTagValue(transformNode, "searchScope"), getSearchScopeCode(LdapConnection.SEARCH_SCOPE_SUBTREE_SCOPE)));
 
       protocol = XmlHandler.getTagValue(transformNode, "protocol");
       trustStorePath = XmlHandler.getTagValue(transformNode, "trustStorePath");
-      trustStorePassword =
-          Encr.decryptPasswordOptionallyEncrypted(
-              XmlHandler.getTagValue(transformNode, "trustStorePassword"));
-      trustAllCertificates =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "trustAllCertificates"));
-      useCertificate =
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useCertificate"));
+      trustStorePassword = Encr.decryptPasswordOptionallyEncrypted(XmlHandler.getTagValue(transformNode, "trustStorePassword"));
+      trustAllCertificates = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "trustAllCertificates"));
+      useCertificate = "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "useCertificate"));
 
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(PKG, "LdapInputMeta.UnableToLoadFromXML"), e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "LdapInputMeta.UnableToLoadFromXML"), e);
     }
   }
 
@@ -653,13 +593,7 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     int i;
@@ -733,116 +667,57 @@ public class LdapInputMeta extends BaseTransformMeta<LdapInput, LdapInputData> i
 
     // Check output fields
     if (inputFields.length == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoOutputFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoOutputFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.OutputFieldsOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.OutputFieldsOk"), transformMeta);
     }
     remarks.add(cr);
 
     // See if we get input...
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
 
     // Check hostname
     if (Utils.isEmpty(host)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.HostnameMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.HostnameMissing"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.HostnameOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.HostnameOk"), transformMeta);
     }
     remarks.add(cr);
 
     if (isDynamicSearch()) {
       if (Utils.isEmpty(dynamicSeachFieldName)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "LdapInputMeta.CheckResult.DynamicSearchBaseFieldNameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.DynamicSearchBaseFieldNameMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(
-                    PKG, "LdapInputMeta.CheckResult.DynamicSearchBaseFieldNameOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.DynamicSearchBaseFieldNameOk"), transformMeta);
       }
       remarks.add(cr);
     } else {
       // Check search base
       if (Utils.isEmpty(searchBase)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.SearchBaseMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.SearchBaseMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.SearchBaseOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.SearchBaseOk"), transformMeta);
       }
       remarks.add(cr);
     }
     if (isDynamicFilter()) {
       if (Utils.isEmpty(dynamicFilterFieldName)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_ERROR,
-                BaseMessages.getString(
-                    PKG, "LdapInputMeta.CheckResult.DynamicFilterFieldNameMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.DynamicFilterFieldNameMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.DynamicFilterFieldNameOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.DynamicFilterFieldNameOk"), transformMeta);
       }
       remarks.add(cr);
     } else {
       // Check filter String
       if (Utils.isEmpty(filterString)) {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_WARNING,
-                BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.FilterStringMissing"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.FilterStringMissing"), transformMeta);
       } else {
-        cr =
-            new CheckResult(
-                ICheckResult.TYPE_RESULT_OK,
-                BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.FilterStringOk"),
-                transformMeta);
+        cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "LdapInputMeta.CheckResult.FilterStringOk"), transformMeta);
       }
       remarks.add(cr);
     }

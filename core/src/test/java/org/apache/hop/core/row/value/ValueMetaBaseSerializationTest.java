@@ -33,7 +33,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ValueMetaBaseSerializationTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @Test
   public void restoresMetaData_storageTypeNormal() throws Exception {
@@ -89,8 +90,7 @@ public class ValueMetaBaseSerializationTest {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     initial.writeMeta(new DataOutputStream(os));
 
-    DataInputStream dataInputStream =
-        new DataInputStream(new ByteArrayInputStream(os.toByteArray()));
+    DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(os.toByteArray()));
     // an awkward hack, since readMetaData() expects object's type to have been read
     int restoredType = dataInputStream.readInt();
     assertEquals("type", initial.getType(), restoredType);
@@ -130,16 +130,11 @@ public class ValueMetaBaseSerializationTest {
     assertEquals("trimType", expected.getTrimType(), actual.getTrimType());
     assertEquals("caseInsensitive", expected.isCaseInsensitive(), actual.isCaseInsensitive());
     assertEquals("sortedDescending", expected.isSortedDescending(), actual.isSortedDescending());
-    assertEquals(
-        "outputPaddingEnabled", expected.isOutputPaddingEnabled(), actual.isOutputPaddingEnabled());
+    assertEquals("outputPaddingEnabled", expected.isOutputPaddingEnabled(), actual.isOutputPaddingEnabled());
     assertEquals("dateFormatLenient", expected.isDateFormatLenient(), actual.isDateFormatLenient());
     assertEquals("dateFormatLocale", expected.getDateFormatLocale(), actual.getDateFormatLocale());
-    assertEquals(
-        "dateFormatTimeZone", expected.getDateFormatTimeZone(), actual.getDateFormatTimeZone());
-    assertEquals(
-        "lenientStringToNumber",
-        expected.isLenientStringToNumber(),
-        actual.isLenientStringToNumber());
+    assertEquals("dateFormatTimeZone", expected.getDateFormatTimeZone(), actual.getDateFormatTimeZone());
+    assertEquals("lenientStringToNumber", expected.isLenientStringToNumber(), actual.isLenientStringToNumber());
     assertEquals("collatorDisabled", expected.isCollatorDisabled(), actual.isCollatorDisabled());
     assertEquals("collatorLocale", expected.getCollatorLocale(), actual.getCollatorLocale());
     assertEquals("collatorStrength", expected.getCollatorStrength(), actual.getCollatorStrength());

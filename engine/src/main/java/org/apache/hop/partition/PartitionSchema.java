@@ -38,11 +38,14 @@ import java.util.List;
     documentationUrl = "/metadata-types/partition-schema.html")
 public class PartitionSchema extends HopMetadataBase implements Cloneable, IHopMetadata {
 
-  @HopMetadataProperty private List<String> partitionIDs;
+  @HopMetadataProperty
+  private List<String> partitionIDs;
 
-  @HopMetadataProperty private boolean dynamicallyDefined;
+  @HopMetadataProperty
+  private boolean dynamicallyDefined;
 
-  @HopMetadataProperty private String numberOfPartitions;
+  @HopMetadataProperty
+  private String numberOfPartitions;
 
   public PartitionSchema() {
     this.dynamicallyDefined = true;

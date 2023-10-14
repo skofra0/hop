@@ -89,8 +89,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
   private boolean gotPreviousFields = false;
 
-  public GetTableNamesDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetTableNamesDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (GetTableNamesMeta) in, pipelineMeta, sname);
     input = (GetTableNamesMeta) in;
   }
@@ -156,8 +155,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdlschemaname.top = new FormAttachment(wConnection, 2 * margin);
     wlSchemaName.setLayoutData(fdlschemaname);
     wSchemaName = new TextVar(variables, shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wSchemaName.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.SchemaNameName.Tooltip"));
+    wSchemaName.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.SchemaNameName.Tooltip"));
     PropsUi.setLook(wSchemaName);
     FormData fdschemaname = new FormData();
     fdschemaname.left = new FormAttachment(middle, 0);
@@ -178,8 +176,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlDynamicSchema.setLayoutData(fdldynamicSchema);
     wDynamicSchema = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wDynamicSchema);
-    wDynamicSchema.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.DynamicSchema.Tooltip"));
+    wDynamicSchema.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.DynamicSchema.Tooltip"));
     FormData fddynamicSchema = new FormData();
     fddynamicSchema.left = new FormAttachment(middle, 0);
     fddynamicSchema.top = new FormAttachment(wlDynamicSchema, 0, SWT.CENTER);
@@ -204,12 +201,10 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdSchemaField.top = new FormAttachment(wDynamicSchema, margin);
     fdSchemaField.right = new FormAttachment(100, -margin);
     wSchemaField.setLayoutData(fdSchemaField);
-    wSchemaField.addListener(
-        SWT.FocusIn,
-        e -> {
-          setSchemaField();
-          shell.setCursor(null);
-        });
+    wSchemaField.addListener(SWT.FocusIn, e -> {
+      setSchemaField();
+      shell.setCursor(null);
+    });
 
     // ///////////////////////////////
     // START OF SETTINGS GROUP //
@@ -226,8 +221,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // Include Catalogs
     wlIncludeCatalog = new Label(wSettings, SWT.RIGHT);
-    wlIncludeCatalog.setText(
-        BaseMessages.getString(PKG, "GetCatalogNamesDialog.IncludeCatalog.Label"));
+    wlIncludeCatalog.setText(BaseMessages.getString(PKG, "GetCatalogNamesDialog.IncludeCatalog.Label"));
     PropsUi.setLook(wlIncludeCatalog);
     FormData fdlIncludeCatalog = new FormData();
     fdlIncludeCatalog.left = new FormAttachment(0, -margin);
@@ -236,8 +230,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeCatalog.setLayoutData(fdlIncludeCatalog);
     wIncludeCatalog = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeCatalog);
-    wIncludeCatalog.setToolTipText(
-        BaseMessages.getString(PKG, "GetCatalogNamesDialog.IncludeCatalog.Tooltip"));
+    wIncludeCatalog.setToolTipText(BaseMessages.getString(PKG, "GetCatalogNamesDialog.IncludeCatalog.Tooltip"));
     FormData fdIncludeCatalog = new FormData();
     fdIncludeCatalog.left = new FormAttachment(middle, -margin);
     fdIncludeCatalog.top = new FormAttachment(wlIncludeCatalog, 0, SWT.CENTER);
@@ -245,8 +238,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // Include Schemas
     Label wlIncludeSchema = new Label(wSettings, SWT.RIGHT);
-    wlIncludeSchema.setText(
-        BaseMessages.getString(PKG, "GetSchemaNamesDialog.IncludeSchema.Label"));
+    wlIncludeSchema.setText(BaseMessages.getString(PKG, "GetSchemaNamesDialog.IncludeSchema.Label"));
     PropsUi.setLook(wlIncludeSchema);
     FormData fdlincludeSchema = new FormData();
     fdlincludeSchema.left = new FormAttachment(0, -margin);
@@ -255,19 +247,17 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeSchema.setLayoutData(fdlincludeSchema);
     wIncludeSchema = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSchema);
-    wIncludeSchema.setToolTipText(
-        BaseMessages.getString(PKG, "GetSchemaNamesDialog.IncludeSchema.Tooltip"));
+    wIncludeSchema.setToolTipText(BaseMessages.getString(PKG, "GetSchemaNamesDialog.IncludeSchema.Tooltip"));
     FormData fdincludeSchema = new FormData();
     fdincludeSchema.left = new FormAttachment(middle, -margin);
     fdincludeSchema.top = new FormAttachment(wlIncludeSchema, 0, SWT.CENTER);
     wIncludeSchema.setLayoutData(fdincludeSchema);
-    SelectionAdapter lincludeSchema =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lincludeSchema = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wIncludeSchema.addSelectionListener(lincludeSchema);
 
     // Include tables
@@ -281,19 +271,17 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeTable.setLayoutData(fdlincludeTable);
     wIncludeTable = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeTable);
-    wIncludeTable.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeTable.Tooltip"));
+    wIncludeTable.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeTable.Tooltip"));
     FormData fdincludeTable = new FormData();
     fdincludeTable.left = new FormAttachment(middle, -margin);
     fdincludeTable.top = new FormAttachment(wlIncludeTable, 0, SWT.CENTER);
     wIncludeTable.setLayoutData(fdincludeTable);
-    SelectionAdapter lincludeTable =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lincludeTable = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wIncludeTable.addSelectionListener(lincludeTable);
 
     // Include views
@@ -307,25 +295,22 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeView.setLayoutData(fdlincludeView);
     wIncludeView = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeView);
-    wIncludeView.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeView.Tooltip"));
+    wIncludeView.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeView.Tooltip"));
     FormData fdincludeView = new FormData();
     fdincludeView.left = new FormAttachment(middle, -margin);
     fdincludeView.top = new FormAttachment(wlIncludeView, 0, SWT.CENTER);
     wIncludeView.setLayoutData(fdincludeView);
-    SelectionAdapter lincludeView =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lincludeView = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wIncludeView.addSelectionListener(lincludeView);
 
     // Include procedures
     Label wlIncludeProcedure = new Label(wSettings, SWT.RIGHT);
-    wlIncludeProcedure.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeProcedure.Label"));
+    wlIncludeProcedure.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeProcedure.Label"));
     PropsUi.setLook(wlIncludeProcedure);
     FormData fdlincludeProcedure = new FormData();
     fdlincludeProcedure.left = new FormAttachment(0, -margin);
@@ -334,25 +319,22 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeProcedure.setLayoutData(fdlincludeProcedure);
     wIncludeProcedure = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeProcedure);
-    wIncludeProcedure.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeProcedure.Tooltip"));
+    wIncludeProcedure.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeProcedure.Tooltip"));
     FormData fdincludeProcedure = new FormData();
     fdincludeProcedure.left = new FormAttachment(middle, -margin);
     fdincludeProcedure.top = new FormAttachment(wlIncludeProcedure, 0, SWT.CENTER);
     wIncludeProcedure.setLayoutData(fdincludeProcedure);
-    SelectionAdapter lincludeProcedure =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lincludeProcedure = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wIncludeProcedure.addSelectionListener(lincludeProcedure);
 
     // Include Synonyms
     Label wlIncludeSynonym = new Label(wSettings, SWT.RIGHT);
-    wlIncludeSynonym.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.includeSynonym.Label"));
+    wlIncludeSynonym.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.includeSynonym.Label"));
     PropsUi.setLook(wlIncludeSynonym);
     FormData fdlincludeSynonym = new FormData();
     fdlincludeSynonym.left = new FormAttachment(0, -margin);
@@ -361,25 +343,22 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlIncludeSynonym.setLayoutData(fdlincludeSynonym);
     wIncludeSynonym = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wIncludeSynonym);
-    wIncludeSynonym.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeSynonym.Tooltip"));
+    wIncludeSynonym.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.IncludeSynonym.Tooltip"));
     FormData fdincludeSynonym = new FormData();
     fdincludeSynonym.left = new FormAttachment(middle, -margin);
     fdincludeSynonym.top = new FormAttachment(wlIncludeSynonym, 0, SWT.CENTER);
     wIncludeSynonym.setLayoutData(fdincludeSynonym);
-    SelectionAdapter lincludeSynonym =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter lincludeSynonym = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wIncludeSynonym.addSelectionListener(lincludeSynonym);
 
     // Add schema in output
     Label wlAddSchemaInOutput = new Label(wSettings, SWT.RIGHT);
-    wlAddSchemaInOutput.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.AddSchemaInOutput.Label"));
+    wlAddSchemaInOutput.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.AddSchemaInOutput.Label"));
     PropsUi.setLook(wlAddSchemaInOutput);
     FormData fdladdSchemaInOutput = new FormData();
     fdladdSchemaInOutput.left = new FormAttachment(0, -margin);
@@ -388,19 +367,17 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     wlAddSchemaInOutput.setLayoutData(fdladdSchemaInOutput);
     wAddSchemaInOutput = new Button(wSettings, SWT.CHECK);
     PropsUi.setLook(wAddSchemaInOutput);
-    wAddSchemaInOutput.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.addSchemaInOutput.Tooltip"));
+    wAddSchemaInOutput.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.addSchemaInOutput.Tooltip"));
     FormData fdaddSchemaInOutput = new FormData();
     fdaddSchemaInOutput.left = new FormAttachment(middle, -margin);
     fdaddSchemaInOutput.top = new FormAttachment(wlAddSchemaInOutput, 0, SWT.CENTER);
     wAddSchemaInOutput.setLayoutData(fdaddSchemaInOutput);
-    SelectionAdapter laddSchemaInOutput =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            input.setChanged();
-          }
-        };
+    SelectionAdapter laddSchemaInOutput = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        input.setChanged();
+      }
+    };
     wAddSchemaInOutput.addSelectionListener(laddSchemaInOutput);
 
     FormData fdSettings = new FormData();
@@ -428,8 +405,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // TableNameField field name ...
     Label wlTableNameField = new Label(wOutputFields, SWT.RIGHT);
-    wlTableNameField.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.TableNameFieldName.Label"));
+    wlTableNameField.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.TableNameFieldName.Label"));
     PropsUi.setLook(wlTableNameField);
     FormData fdlTableNameField = new FormData();
     fdlTableNameField.left = new FormAttachment(0, 0);
@@ -437,8 +413,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdlTableNameField.top = new FormAttachment(wSettings, margin * 2);
     wlTableNameField.setLayoutData(fdlTableNameField);
     wTableNameField = new Text(wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wTableNameField.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.TableNameFieldName.Tooltip"));
+    wTableNameField.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.TableNameFieldName.Tooltip"));
     PropsUi.setLook(wTableNameField);
     FormData fdTableNameField = new FormData();
     fdTableNameField.left = new FormAttachment(middle, 0);
@@ -448,8 +423,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // ObjectTypeField field name ...
     Label wlObjectTypeField = new Label(wOutputFields, SWT.RIGHT);
-    wlObjectTypeField.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectTypeFieldName.Label"));
+    wlObjectTypeField.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectTypeFieldName.Label"));
     PropsUi.setLook(wlObjectTypeField);
     FormData fdlObjectTypeField = new FormData();
     fdlObjectTypeField.left = new FormAttachment(0, 0);
@@ -457,8 +431,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdlObjectTypeField.top = new FormAttachment(wTableNameField, margin);
     wlObjectTypeField.setLayoutData(fdlObjectTypeField);
     wObjectTypeField = new Text(wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wObjectTypeField.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectTypeFieldName.Tooltip"));
+    wObjectTypeField.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.ObjectTypeFieldName.Tooltip"));
     PropsUi.setLook(wObjectTypeField);
     FormData fdObjectTypeField = new FormData();
     fdObjectTypeField.left = new FormAttachment(middle, 0);
@@ -468,8 +441,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // isSystemObjectField field name ...
     Label wlisSystemObjectField = new Label(wOutputFields, SWT.RIGHT);
-    wlisSystemObjectField.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IsSystemObjectFieldName.Label"));
+    wlisSystemObjectField.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.IsSystemObjectFieldName.Label"));
     PropsUi.setLook(wlisSystemObjectField);
     FormData fdlisSystemObjectField = new FormData();
     fdlisSystemObjectField.left = new FormAttachment(0, 0);
@@ -477,8 +449,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdlisSystemObjectField.top = new FormAttachment(wObjectTypeField, margin);
     wlisSystemObjectField.setLayoutData(fdlisSystemObjectField);
     wIsSystemObjectField = new Text(wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wIsSystemObjectField.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.IsSystemObjectFieldName.Tooltip"));
+    wIsSystemObjectField.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.IsSystemObjectFieldName.Tooltip"));
     PropsUi.setLook(wIsSystemObjectField);
     FormData fdisSystemObjectField = new FormData();
     fdisSystemObjectField.left = new FormAttachment(middle, 0);
@@ -488,8 +459,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     // CreationSQL field name ...
     Label wlSqlCreationField = new Label(wOutputFields, SWT.RIGHT);
-    wlSqlCreationField.setText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.CreationSQLName.Label"));
+    wlSqlCreationField.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.CreationSQLName.Label"));
     PropsUi.setLook(wlSqlCreationField);
     FormData fdlSqlCreationField = new FormData();
     fdlSqlCreationField.left = new FormAttachment(0, 0);
@@ -497,8 +467,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     fdlSqlCreationField.top = new FormAttachment(wIsSystemObjectField, margin);
     wlSqlCreationField.setLayoutData(fdlSqlCreationField);
     wSqlCreationField = new Text(wOutputFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wSqlCreationField.setToolTipText(
-        BaseMessages.getString(PKG, "GetTableNamesDialog.CreationSQLName.Tooltip"));
+    wSqlCreationField.setToolTipText(BaseMessages.getString(PKG, "GetTableNamesDialog.CreationSQLName.Tooltip"));
     PropsUi.setLook(wSqlCreationField);
     FormData fdSqlCreationField = new FormData();
     fdSqlCreationField.left = new FormAttachment(middle, 0);
@@ -631,8 +600,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     getInfo(input);
     if (input.getDatabase() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogTitle"));
       mb.open();
       return;
@@ -670,11 +638,8 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
 
     if (Utils.isEmpty(meta.getTableNameFieldName())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(
-              PKG, "GetTableNamesDialog.Error.TableNameFieldNameMissingMessage"));
-      mb.setText(
-          BaseMessages.getString(PKG, "GetTableNamesDialog.Error.TableNameFieldNameMissingTitle"));
+      mb.setMessage(BaseMessages.getString(PKG, "GetTableNamesDialog.Error.TableNameFieldNameMissingMessage"));
+      mb.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.Error.TableNameFieldNameMissingTitle"));
       mb.open();
 
       return false;
@@ -689,8 +654,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     getInfo(oneMeta);
     if (oneMeta.getDatabase() == null) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "GetTableNamesDialog.InvalidConnection.DialogTitle"));
       mb.open();
       return;
@@ -699,9 +663,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
       return;
     }
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -712,12 +674,7 @@ public class GetTableNamesDialog extends BaseTransformDialog implements ITransfo
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

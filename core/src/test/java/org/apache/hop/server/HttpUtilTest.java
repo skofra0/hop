@@ -33,12 +33,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.zip.GZIPOutputStream;
 
 public class HttpUtilTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   public static final String DEFAULT_ENCODING = "UTF-8";
   public static final String STANDART =
-      "(\u256e\u00b0-\u00b0)\u256e\u2533\u2501\u2501\u2533\u30c6\u30fc\u30d6"
-          + "\u30eb(\u256f\u00b0\u25a1\u00b0)\u256f\u253b\u2501\u2501\u253b\u30aa\u30d5";
+      "(\u256e\u00b0-\u00b0)\u256e\u2533\u2501\u2501\u2533\u30c6\u30fc\u30d6" + "\u30eb(\u256f\u00b0\u25a1\u00b0)\u256f\u253b\u2501\u2501\u253b\u30aa\u30d5";
 
   /**
    * Test that we can decode/encode Strings without loss of data.
@@ -60,20 +60,11 @@ public class HttpUtilTest {
     Variables variables = new Variables();
     String expected = "hostname:1234/webAppName?param=value";
 
-    Assert.assertEquals(
-        "http://" + expected,
-        HttpUtil.constructUrl(
-            variables, "hostname", String.valueOf(1234), "webAppName", "?param=value"));
+    Assert.assertEquals("http://" + expected, HttpUtil.constructUrl(variables, "hostname", String.valueOf(1234), "webAppName", "?param=value"));
 
-    Assert.assertEquals(
-        "http://" + expected,
-        HttpUtil.constructUrl(
-            variables, "hostname", String.valueOf(1234), "webAppName", "?param=value", false));
+    Assert.assertEquals("http://" + expected, HttpUtil.constructUrl(variables, "hostname", String.valueOf(1234), "webAppName", "?param=value", false));
 
-    Assert.assertEquals(
-        "https://" + expected,
-        HttpUtil.constructUrl(
-            variables, "hostname", String.valueOf(1234), "webAppName", "?param=value", true));
+    Assert.assertEquals("https://" + expected, HttpUtil.constructUrl(variables, "hostname", String.valueOf(1234), "webAppName", "?param=value", true));
   }
 
   /**

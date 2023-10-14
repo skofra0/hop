@@ -33,7 +33,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class WorkflowActionMailLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionMail> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionMail> getActionClass() {
@@ -43,52 +44,19 @@ public class WorkflowActionMailLoadSaveTest extends WorkflowActionLoadSaveTestSu
   @Override
   protected List<String> listAttributes() {
     return Arrays.asList(
-            "server",
-            "port",
-            "destination",
-            "destinationCc",
-            "destinationBCc",
-            "replyAddress",
-            "replyName",
-            "subject",
-            "includeDate",
-            "contactPerson",
-            "contactPhone",
-            "comment",
-            "includingFiles",
-            "zipFiles",
-            "zipFilename",
-            "usingAuthentication",
-            "usingSecureAuthentication",
-            "authenticationUser",
-            "authenticationPassword",
-            "onlySendComment",
-            "useHTML",
-            "usePriority",
-            "encoding",
-            "priority",
-            "importance",
-            "sensitivity",
-            "secureConnectionType",
-            "replyToAddresses",
-            "fileType",
-            "embeddedimages",
-            "contentids");
+        "server", "port", "destination", "destinationCc", "destinationBCc", "replyAddress", "replyName", "subject", "includeDate", "contactPerson", "contactPhone", "comment",
+        "includingFiles", "zipFiles", "zipFilename", "usingAuthentication", "usingSecureAuthentication", "authenticationUser", "authenticationPassword", "onlySendComment",
+        "useHTML", "usePriority", "encoding", "priority", "importance", "sensitivity", "secureConnectionType", "replyToAddresses", "fileType", "embeddedimages", "contentids");
   }
 
   @Override
   protected Map<String, IFieldLoadSaveValidator<?>> createAttributeValidatorsMap() {
     Map<String, IFieldLoadSaveValidator<?>> validators = new HashMap<>();
-    validators.put(
-        "fileType",
-        new PrimitiveIntArrayLoadSaveValidator(
-            new IntLoadSaveValidator(ResultFile.fileTypeCode.length)));
+    validators.put("fileType", new PrimitiveIntArrayLoadSaveValidator(new IntLoadSaveValidator(ResultFile.fileTypeCode.length)));
 
     int entries = new Random().nextInt(20) + 1;
-    validators.put(
-        "embeddedimages", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
-    validators.put(
-        "contentids", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
+    validators.put("embeddedimages", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
+    validators.put("contentids", new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), entries));
     return validators;
   }
 }

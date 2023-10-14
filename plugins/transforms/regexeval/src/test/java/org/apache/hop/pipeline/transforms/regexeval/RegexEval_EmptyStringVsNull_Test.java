@@ -41,7 +41,8 @@ import static org.mockito.Mockito.when;
 
 public class RegexEval_EmptyStringVsNull_Test {
   private TransformMockHelper<RegexEvalMeta, ITransformData> helper;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @BeforeClass
   public static void initHop() throws Exception {
@@ -50,9 +51,7 @@ public class RegexEval_EmptyStringVsNull_Test {
 
   @Before
   public void setUp() {
-    helper =
-        TransformMockUtil.getTransformMockHelper(
-            RegexEvalMeta.class, "RegexEval_EmptyStringVsNull_Test");
+    helper = TransformMockUtil.getTransformMockHelper(RegexEvalMeta.class, "RegexEval_EmptyStringVsNull_Test");
   }
 
   @After
@@ -63,18 +62,14 @@ public class RegexEval_EmptyStringVsNull_Test {
   @Test
   public void emptyAndNullsAreNotDifferent() throws Exception {
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "N");
-    List<Object[]> expected =
-        Arrays.asList(
-            new Object[] {false, ""}, new Object[] {false, ""}, new Object[] {false, null});
+    List<Object[]> expected = Arrays.asList(new Object[] {false, ""}, new Object[] {false, ""}, new Object[] {false, null});
     executeAndAssertResults(expected);
   }
 
   @Test
   public void emptyAndNullsAreDifferent() throws Exception {
     System.setProperty(Const.HOP_EMPTY_STRING_DIFFERS_FROM_NULL, "Y");
-    List<Object[]> expected =
-        Arrays.asList(
-            new Object[] {false, ""}, new Object[] {false, ""}, new Object[] {false, null});
+    List<Object[]> expected = Arrays.asList(new Object[] {false, ""}, new Object[] {false, ""}, new Object[] {false, null});
     executeAndAssertResults(expected);
   }
 
@@ -98,11 +93,7 @@ public class RegexEval_EmptyStringVsNull_Test {
     transform.setInputRowMeta(input);
 
     transform = spy(transform);
-    doReturn(new String[] {" ", " "})
-        .doReturn(new String[] {"", ""})
-        .doReturn(new String[] {null, null})
-        .when(transform)
-        .getRow();
+    doReturn(new String[] {" ", " "}).doReturn(new String[] {"", ""}).doReturn(new String[] {null, null}).when(transform).getRow();
 
     // dummy pattern, just to contain two groups
     // needed to activate a branch with conversion from string
@@ -112,12 +103,10 @@ public class RegexEval_EmptyStringVsNull_Test {
     PipelineTestingUtil.assertResult(expected, actual);
   }
 
-  private RegexEval createAndInitTransform(RegexEvalMeta meta, RegexEvalData data)
-      throws Exception {
+  private RegexEval createAndInitTransform(RegexEvalMeta meta, RegexEvalData data) throws Exception {
     when(helper.transformMeta.getTransform()).thenReturn(meta);
 
-    RegexEval transform =
-        new RegexEval(helper.transformMeta, meta, data, 0, helper.pipelineMeta, helper.pipeline);
+    RegexEval transform = new RegexEval(helper.transformMeta, meta, data, 0, helper.pipelineMeta, helper.pipeline);
     transform.init();
     return transform;
   }

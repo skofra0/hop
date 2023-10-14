@@ -24,17 +24,12 @@ import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.projects.config.ProjectsConfigSingleton;
 import org.apache.hop.projects.project.ProjectConfig;
 
-@ExtensionPoint(
-    id = "ProjectHomeExtensionPoint",
-    description = "Calculates the home folder for a given project name",
-    extensionPointId = "ProjectHome")
+@ExtensionPoint(id = "ProjectHomeExtensionPoint", description = "Calculates the home folder for a given project name", extensionPointId = "ProjectHome")
 public class ProjectHomeExtensionPoint implements IExtensionPoint<Object[]> {
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, Object[] objects)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, Object[] objects) throws HopException {
     String projectName = variables.resolve((String) objects[0]);
-    ProjectConfig projectConfig =
-        ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
+    ProjectConfig projectConfig = ProjectsConfigSingleton.getConfig().findProjectConfig(projectName);
     if (projectConfig == null) {
       throw new HopException("Unable to find the project configuration for '" + projectName + "'");
     }

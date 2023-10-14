@@ -49,8 +49,7 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
 
   public static final String CONTEXT_PATH = "/hop/workflowStatus";
 
-  private static final byte[] XML_HEADER =
-      XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
+  private static final byte[] XML_HEADER = XmlHandler.getXmlHeader(Const.XML_ENCODING).getBytes(Charset.forName(Const.XML_ENCODING));
 
   public GetWorkflowStatusServlet() {}
 
@@ -59,8 +58,7 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -71,12 +69,8 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
 
     String workflowName = request.getParameter("name");
     String id = request.getParameter("id");
-    String root =
-        request.getRequestURI() == null
-            ? StatusServletUtils.HOP_ROOT
-            : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
-    String prefix =
-        isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
+    String root = request.getRequestURI() == null ? StatusServletUtils.HOP_ROOT : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
+    String prefix = isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
     boolean useXml = "Y".equalsIgnoreCase(request.getParameter("xml"));
     boolean useJson = "Y".equalsIgnoreCase(request.getParameter("json"));
     int startLineNr = Const.toInt(request.getParameter("from"), 0);
@@ -132,8 +126,7 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
           int lastLineNr = HopLogStore.getLastBufferLineNr();
           String logText = getLogText(workflow, startLineNr, lastLineNr);
 
-          HopServerWorkflowStatus workflowStatus =
-              new HopServerWorkflowStatus(workflowName, id, workflow.getStatusDescription());
+          HopServerWorkflowStatus workflowStatus = new HopServerWorkflowStatus(workflowName, id, workflow.getStatusDescription());
           workflowStatus.setFirstLoggingLineNr(startLineNr);
           workflowStatus.setLastLoggingLineNr(lastLineNr);
           workflowStatus.setLogDate(workflow.getExecutionStartDate());
@@ -164,8 +157,7 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
             // JSON
             //
             ObjectMapper mapper = HopJson.newMapper();
-            String jsonString =
-                mapper.writerWithDefaultPrettyPrinter().writeValueAsString(workflowStatus);
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(workflowStatus);
             byte[] data = jsonString.getBytes(Charset.forName(Const.XML_ENCODING));
             response.setContentLength(data.length);
             out.write(data);
@@ -187,10 +179,7 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
 
         out.println("<HTML>");
         out.println("<HEAD>");
-        out.println(
-            "<TITLE>"
-                + BaseMessages.getString(PKG, "GetWorkflowStatusServlet.HopWorkflowStatus")
-                + "</TITLE>");
+        out.println("<TITLE>" + BaseMessages.getString(PKG, "GetWorkflowStatusServlet.HopWorkflowStatus") + "</TITLE>");
         if (EnvUtil.getSystemProperty(Const.HOP_SERVER_REFRESH_STATUS, "N").equalsIgnoreCase("Y")) {
           out.println(
               "<META http-equiv=\"Refresh\" content=\"10;url="
@@ -203,17 +192,14 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
         }
         out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
         if (isJettyMode()) {
-          out.println(
-              "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
+          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
         }
         out.println("</HEAD>");
         out.println("<BODY style=\"overflow: auto;\">");
         out.println("<div class=\"row\" id=\"pucHeader\">");
         out.println(
             "<div class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 10px;\">"
-                + Encode.forHtml(
-                    BaseMessages.getString(
-                        PKG, "GetWorkflowStatusServlet.WorkflowStatus", workflowName))
+                + Encode.forHtml(BaseMessages.getString(PKG, "GetWorkflowStatusServlet.WorkflowStatus", workflowName))
                 + "</div>");
         out.println("</div>");
 
@@ -221,25 +207,16 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
           out.println("<div class=\"row\" style=\"padding: 0px 0px 0px 30px\">");
           out.println("<div class=\"row\" style=\"padding-top: 30px;\">");
           out.print("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">");
-          out.print(
-              "<img src=\""
-                  + prefix
-                  + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
-          out.print(
-              BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
+          out.print("<img src=\"" + prefix + "/images/back.svg\" style=\"margin-right: 5px; width: 16px; height: 16px; vertical-align: middle;\">");
+          out.print(BaseMessages.getString(PKG, "HopServerStatusServlet.BackToHopServerStatus") + "</a>");
           out.println("</div>");
           out.println("<div class=\"row\" style=\"padding: 30px 0px 75px 0px; display: table;\">");
           out.println("<div style=\"display: table-row;\">");
-          out.println(
-              "<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
-          out.println(
-              "<img src=\""
-                  + prefix
-                  + "/images/workflow.svg\" style=\"width: 60px; height: 60px;\"></img>");
+          out.println("<div style=\"padding: 0px 30px 0px 0px; width: 60px; display: table-cell; vertical-align: top;\">");
+          out.println("<img src=\"" + prefix + "/images/workflow.svg\" style=\"width: 60px; height: 60px;\"></img>");
           out.println("</div>");
           out.println("<div style=\"vertical-align: top; display: table-cell;\">");
-          out.println(
-              "<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
+          out.println("<table style=\"border-collapse: collapse;\" border=\"" + tableBorder + "\">");
           out.print(
               "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-top: none; border-color: #E3E3E3; font-size: 12; text-align: left;\"> <th style=\"font-weight: normal; "
                   + "padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
@@ -249,16 +226,10 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
                   + "</th> <th style=\"font-weight: normal; padding: 8px 10px 10px 10px\" class=\"cellTableHeader\">"
                   + BaseMessages.getString(PKG, "PipelineStatusServlet.StartDate")
                   + "</th> </tr>");
+          out.print("<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align:left\">");
+          out.print("<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">" + Const.NVL(Encode.forHtml(id), "") + "</td>");
           out.print(
-              "<tr class=\"cellTableRow\" style=\"border: solid; border-width: 1px 0; border-bottom: none; font-size: 12; text-align:left\">");
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableFirstColumn\">"
-                  + Const.NVL(Encode.forHtml(id), "")
-                  + "</td>");
-          out.print(
-              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell\" id=\"statusColor\" style=\"font-weight: bold;\">"
-                  + workflow.getStatusDescription()
-                  + "</td>");
+              "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell\" id=\"statusColor\" style=\"font-weight: bold;\">" + workflow.getStatusDescription() + "</td>");
           String dateStr = XmlHandler.date2string(workflow.getExecutionStartDate());
           out.print(
               "<td style=\"padding: 8px 10px 10px 10px\" class=\"cellTableCell cellTableLastColumn\">"
@@ -270,13 +241,11 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
 
           // Download as XML section...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // XML Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
           out.print(
               "<a target=\"_blank\" href=\""
                   + convertContextPath(GetWorkflowStatusServlet.CONTEXT_PATH)
@@ -309,13 +278,11 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
 
           // Download as JSON block...
           //
-          out.println(
-              "<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
+          out.println("<div style=\"padding: 0px 0px 0px 20px; width: 90px; display: table-cell; vertical-align: top;\">");
 
           // JSON Download icon
           //
-          out.print(
-              "<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
+          out.print("<div style=\"display: block; margin-left: auto; margin-right: auto; padding: 5px 0px;\">");
           out.print(
               "<a target=\"_blank\" href=\""
                   + convertContextPath(GetWorkflowStatusServlet.CONTEXT_PATH)
@@ -408,22 +375,10 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
     } else {
       PrintWriter out = response.getWriter();
       if (useXml) {
-        out.println(
-            new WebResult(
-                WebResult.STRING_ERROR,
-                BaseMessages.getString(
-                    PKG, "StartWorkflowServlet.Log.SpecifiedWorkflowNotFound", workflowName, id)));
+        out.println(new WebResult(WebResult.STRING_ERROR, BaseMessages.getString(PKG, "StartWorkflowServlet.Log.SpecifiedWorkflowNotFound", workflowName, id)));
       } else {
-        out.println(
-            "<H1>Workflow "
-                + Encode.forHtml("\'" + workflowName + "\'")
-                + " could not be found.</H1>");
-        out.println(
-            "<a href=\""
-                + convertContextPath(GetStatusServlet.CONTEXT_PATH)
-                + "\">"
-                + BaseMessages.getString(PKG, "WorkflowStatusServlet.BackToStatusPage")
-                + "</a><p>");
+        out.println("<H1>Workflow " + Encode.forHtml("\'" + workflowName + "\'") + " could not be found.</H1>");
+        out.println("<a href=\"" + convertContextPath(GetStatusServlet.CONTEXT_PATH) + "\">" + BaseMessages.getString(PKG, "WorkflowStatusServlet.BackToStatusPage") + "</a><p>");
       }
     }
   }
@@ -442,12 +397,9 @@ public class GetWorkflowStatusServlet extends BaseHttpServlet implements IHopSer
     return CONTEXT_PATH;
   }
 
-  private String getLogText(IWorkflowEngine<WorkflowMeta> workflow, int startLineNr, int lastLineNr)
-      throws HopException {
+  private String getLogText(IWorkflowEngine<WorkflowMeta> workflow, int startLineNr, int lastLineNr) throws HopException {
     try {
-      return HopLogStore.getAppender()
-          .getBuffer(workflow.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr)
-          .toString();
+      return HopLogStore.getAppender().getBuffer(workflow.getLogChannel().getLogChannelId(), false, startLineNr, lastLineNr).toString();
     } catch (OutOfMemoryError error) {
       throw new HopException("Log string is too long");
     }

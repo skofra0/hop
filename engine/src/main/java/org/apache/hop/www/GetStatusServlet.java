@@ -56,8 +56,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getContextPath().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -66,12 +65,8 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       logDebug(BaseMessages.getString(PKG, "GetStatusServlet.StatusRequested"));
     }
     response.setStatus(HttpServletResponse.SC_OK);
-    String root =
-        request.getRequestURI() == null
-            ? StatusServletUtils.HOP_ROOT
-            : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
-    String prefix =
-        isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
+    String root = request.getRequestURI() == null ? StatusServletUtils.HOP_ROOT : request.getRequestURI().substring(0, request.getRequestURI().indexOf(CONTEXT_PATH));
+    String prefix = isJettyMode() ? StatusServletUtils.STATIC_PATH : root + StatusServletUtils.RESOURCES_PATH;
     boolean useXml = "Y".equalsIgnoreCase(request.getParameter("xml"));
     boolean useJson = "Y".equalsIgnoreCase(request.getParameter("json"));
     boolean useLightTheme = "Y".equalsIgnoreCase(request.getParameter("useLightTheme"));
@@ -102,8 +97,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         IPipelineEngine<PipelineMeta> pipeline = getPipelineMap().getPipeline(entry);
         String statusDescription = pipeline.getStatusDescription();
 
-        HopServerPipelineStatus pipelineStatus =
-            new HopServerPipelineStatus(entry.getName(), entry.getId(), statusDescription);
+        HopServerPipelineStatus pipelineStatus = new HopServerPipelineStatus(entry.getName(), entry.getId(), statusDescription);
         pipelineStatus.setLogDate(new Date());
         pipelineStatus.setExecutionStartDate(pipeline.getExecutionStartDate());
         pipelineStatus.setExecutionEndDate(pipeline.getExecutionEndDate());
@@ -114,8 +108,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       for (HopServerObjectEntry entry : actions) {
         IWorkflowEngine<WorkflowMeta> workflow = getWorkflowMap().getWorkflow(entry);
         String status = workflow.getStatusDescription();
-        HopServerWorkflowStatus workflowStatus =
-            new HopServerWorkflowStatus(entry.getName(), entry.getId(), status);
+        HopServerWorkflowStatus workflowStatus = new HopServerWorkflowStatus(entry.getName(), entry.getId(), status);
         workflowStatus.setLogDate(new Date());
         workflowStatus.setExecutionStartDate(workflow.getExecutionStartDate());
         workflowStatus.setExecutionEndDate(workflow.getExecutionEndDate());
@@ -134,27 +127,21 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         // JSON
         //
         ObjectMapper mapper = HopJson.newMapper();
-        String jsonString =
-            mapper.writerWithDefaultPrettyPrinter().writeValueAsString(serverStatus);
+        String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(serverStatus);
         out.println(jsonString);
       }
     } else {
       out.println("<HTML>");
-      out.println(
-          "<HEAD><TITLE>"
-              + BaseMessages.getString(PKG, "GetStatusServlet.HopHopServerStatus")
-              + "</TITLE>");
+      out.println("<HEAD><TITLE>" + BaseMessages.getString(PKG, "GetStatusServlet.HopHopServerStatus") + "</TITLE>");
       out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
 
       int tableBorder = 1;
       if (!useLightTheme) {
         if (isJettyMode()) {
-          out.println(
-              "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
+          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/css/hop-server.css\" />");
         } else {
           out.println("<style>");
-          out.println(
-              ".hop-table td, tr.cellTableRow, td.gwt-MenuItem, .toolbar-button:not(.toolbar-button-disabled) {");
+          out.println(".hop-table td, tr.cellTableRow, td.gwt-MenuItem, .toolbar-button:not(.toolbar-button-disabled) {");
           out.println("  cursor: pointer;");
           out.println("}");
           out.println(".toolbar-button-disabled {");
@@ -169,8 +156,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       }
 
       out.println("</HEAD>");
-      out.println(
-          "<BODY class=\"hop-page-background dragdrop-dropTarget dragdrop-boundary\" style=\"overflow: auto;\">");
+      out.println("<BODY class=\"hop-page-background dragdrop-dropTarget dragdrop-boundary\" style=\"overflow: auto;\">");
 
       // Empty div for containing currently selected item
       out.println("<div id=\"selectedTableItem\">");
@@ -200,19 +186,11 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         out.println("<div class=\"row\" style=\"padding: 0px 0px 0px 30px\">");
         htmlClass = useLightTheme ? "h2" : "div";
         out.println("<div class=\"row\" style=\"padding: 25px 30px 75px 0px;\">");
-        out.println(
-            "<"
-                + htmlClass
-                + " class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 0px;\">Pipelines</"
-                + htmlClass
-                + ">");
-        out.println(
-            "<table id=\"pipeline-table\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left\" width=\"100%\" style=\"vertical-align:middle;\">");
-        out.println(
-            "<table cellspacing=\"0\" cellpadding=\"0\" class=\"toolbar\" style=\"width: 100%; height: 26px; margin-bottom: 2px; border: 0;\">");
+        out.println("<" + htmlClass + " class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 0px;\">Pipelines</" + htmlClass + ">");
+        out.println("<table id=\"pipeline-table\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left\" width=\"100%\" style=\"vertical-align:middle;\">");
+        out.println("<table cellspacing=\"0\" cellpadding=\"0\" class=\"toolbar\" style=\"width: 100%; height: 26px; margin-bottom: 2px; border: 0;\">");
         out.println("<tbody><tr>");
-        out.println(
-            "<td align=\"left\" style=\"vertical-align: middle; width: 100%\" id=\"pipeline-align\"></td>");
+        out.println("<td align=\"left\" style=\"vertical-align: middle; width: 100%\" id=\"pipeline-align\"></td>");
         out.println(
             "<td "
                 + setupIconEnterLeaveJavascript("pause")
@@ -286,21 +264,20 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
                 + BaseMessages.getString(PKG, "GetStatusServlet.LastLogTime")
                 + "</th> </tr>");
 
-        Comparator<HopServerObjectEntry> pipelineComparator =
-            (o1, o2) -> {
-              IPipelineEngine<PipelineMeta> t1 = getPipelineMap().getPipeline(o1);
-              IPipelineEngine<PipelineMeta> t2 = getPipelineMap().getPipeline(o2);
-              Date d1 = t1.getExecutionStartDate();
-              Date d2 = t2.getExecutionStartDate();
-              // if both pipelines have last log date, desc sort by log date
-              if (d1 != null && d2 != null) {
-                int logDateCompare = d2.compareTo(d1);
-                if (logDateCompare != 0) {
-                  return logDateCompare;
-                }
-              }
-              return o1.compareTo(o2);
-            };
+        Comparator<HopServerObjectEntry> pipelineComparator = (o1, o2) -> {
+          IPipelineEngine<PipelineMeta> t1 = getPipelineMap().getPipeline(o1);
+          IPipelineEngine<PipelineMeta> t2 = getPipelineMap().getPipeline(o2);
+          Date d1 = t1.getExecutionStartDate();
+          Date d2 = t2.getExecutionStartDate();
+          // if both pipelines have last log date, desc sort by log date
+          if (d1 != null && d2 != null) {
+            int logDateCompare = d2.compareTo(d1);
+            if (logDateCompare != 0) {
+              return logDateCompare;
+            }
+          }
+          return o1.compareTo(o2);
+        };
 
         Collections.sort(pipelineEntries, pipelineComparator);
 
@@ -308,11 +285,9 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         for (int i = 0; i < pipelineEntries.size(); i++) {
           String name = pipelineEntries.get(i).getName();
           String id = pipelineEntries.get(i).getId();
-          IPipelineEngine<PipelineMeta> pipeline =
-              getPipelineMap().getPipeline(pipelineEntries.get(i));
+          IPipelineEngine<PipelineMeta> pipeline = getPipelineMap().getPipeline(pipelineEntries.get(i));
           String statusDescription = pipeline.getStatusDescription();
-          String trClass =
-              evenRow ? "cellTableEvenRow" : "cellTableOddRow"; // alternating row color
+          String trClass = evenRow ? "cellTableEvenRow" : "cellTableOddRow"; // alternating row color
           String tdClass = evenRow ? "cellTableEvenRowCell" : "cellTableOddRowCell";
           evenRow = !evenRow; // flip
           String firstColumn = i == 0 ? "cellTableFirstColumn" : "";
@@ -430,16 +405,9 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         String removeJ = BaseMessages.getString(PKG, "HopServerStatusServlet.RemoveWorkflow");
 
         out.println("<div class=\"row\" style=\"padding: 0px 30px 75px 0px;\">");
-        out.println(
-            "<"
-                + htmlClass
-                + " class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 0px;\">Workflows</"
-                + htmlClass
-                + ">");
-        out.println(
-            "<table cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left\" width=\"100%\" style=\"vertical-align:middle;\">");
-        out.println(
-            "<table cellspacing=\"0\" cellpadding=\"0\" class=\"toolbar\" style=\"width: 100%; height: 26px; margin-bottom: 2px; border: 0;\">");
+        out.println("<" + htmlClass + " class=\"workspaceHeading\" style=\"padding: 0px 0px 0px 0px;\">Workflows</" + htmlClass + ">");
+        out.println("<table cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td align=\"left\" width=\"100%\" style=\"vertical-align:middle;\">");
+        out.println("<table cellspacing=\"0\" cellpadding=\"0\" class=\"toolbar\" style=\"width: 100%; height: 26px; margin-bottom: 2px; border: 0;\">");
         out.println("<tbody><tr>");
         out.println("<td align=\"left\" style=\"vertical-align: middle; width: 100%\"></td>");
         out.println(
@@ -493,21 +461,20 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
                 + BaseMessages.getString(PKG, "GetStatusServlet.LastLogTime")
                 + "</th> </tr>");
 
-        Comparator<HopServerObjectEntry> jobComparator =
-            (o1, o2) -> {
-              IWorkflowEngine<WorkflowMeta> t1 = getWorkflowMap().getWorkflow(o1);
-              IWorkflowEngine<WorkflowMeta> t2 = getWorkflowMap().getWorkflow(o2);
-              Date d1 = t1.getExecutionStartDate();
-              Date d2 = t2.getExecutionStartDate();
-              // if both workflows have last log date, desc sort by log date
-              if (d1 != null && d2 != null) {
-                int logDateCompare = d2.compareTo(d1);
-                if (logDateCompare != 0) {
-                  return logDateCompare;
-                }
-              }
-              return o1.compareTo(o2);
-            };
+        Comparator<HopServerObjectEntry> jobComparator = (o1, o2) -> {
+          IWorkflowEngine<WorkflowMeta> t1 = getWorkflowMap().getWorkflow(o1);
+          IWorkflowEngine<WorkflowMeta> t2 = getWorkflowMap().getWorkflow(o2);
+          Date d1 = t1.getExecutionStartDate();
+          Date d2 = t2.getExecutionStartDate();
+          // if both workflows have last log date, desc sort by log date
+          if (d1 != null && d2 != null) {
+            int logDateCompare = d2.compareTo(d1);
+            if (logDateCompare != 0) {
+              return logDateCompare;
+            }
+          }
+          return o1.compareTo(o2);
+        };
 
         Collections.sort(actions, jobComparator);
 
@@ -517,8 +484,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
           String id = actions.get(i).getId();
           IWorkflowEngine<WorkflowMeta> workflow = getWorkflowMap().getWorkflow(actions.get(i));
           String status = workflow.getStatusDescription();
-          String trClass =
-              evenRow ? "cellTableEvenRow" : "cellTableOddRow"; // alternating row color
+          String trClass = evenRow ? "cellTableEvenRow" : "cellTableOddRow"; // alternating row color
           String tdClass = evenRow ? "cellTableEvenRowCell" : "cellTableOddRowCell";
           evenRow = !evenRow; // flip
           out.print(
@@ -636,13 +602,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("<div class=\"row\" style=\"padding: 0px 0px 30px 0px;\">");
       htmlClass = useLightTheme ? "h3" : "div";
       out.println(
-          "<div><"
-              + htmlClass
-              + " class=\"workspaceHeading\">"
-              + BaseMessages.getString(PKG, "GetStatusServlet.ConfigurationDetails.Title")
-              + "</"
-              + htmlClass
-              + "></div>");
+          "<div><" + htmlClass + " class=\"workspaceHeading\">" + BaseMessages.getString(PKG, "GetStatusServlet.ConfigurationDetails.Title") + "</" + htmlClass + "></div>");
       out.println("<table border=\"" + tableBorder + "\">");
 
       // The max number of log lines in the back-end
@@ -653,8 +613,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         if (serverConfig.getMaxLogLines() == 0) {
           maxLines = BaseMessages.getString(PKG, "GetStatusServlet.NoLimit");
         } else {
-          maxLines =
-              serverConfig.getMaxLogLines() + BaseMessages.getString(PKG, "GetStatusServlet.Lines");
+          maxLines = serverConfig.getMaxLogLines() + BaseMessages.getString(PKG, "GetStatusServlet.Lines");
         }
         out.print(
             "<tr style=\"font-size: 12;\"> <td style=\"padding: 2px 10px 2px 10px\" class=\"cellTableCell cellTableEvenRowCell cellTableFirstColumn\">"
@@ -669,9 +628,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         if (serverConfig.getMaxLogTimeoutMinutes() == 0) {
           maxAge = BaseMessages.getString(PKG, "GetStatusServlet.NoLimit");
         } else {
-          maxAge =
-              serverConfig.getMaxLogTimeoutMinutes()
-                  + BaseMessages.getString(PKG, "GetStatusServlet.Minutes");
+          maxAge = serverConfig.getMaxLogTimeoutMinutes() + BaseMessages.getString(PKG, "GetStatusServlet.Minutes");
         }
         out.print(
             "<tr style=\"font-size: 12;\"> <td style=\"padding: 2px 10px 2px 10px\" class=\"cellTableCell cellTableEvenRowCell cellTableFirstColumn\">"
@@ -686,9 +643,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
         if (serverConfig.getObjectTimeoutMinutes() == 0) {
           maxObjAge = BaseMessages.getString(PKG, "GetStatusServlet.NoLimit");
         } else {
-          maxObjAge =
-              serverConfig.getObjectTimeoutMinutes()
-                  + BaseMessages.getString(PKG, "GetStatusServlet.Minutes");
+          maxObjAge = serverConfig.getObjectTimeoutMinutes() + BaseMessages.getString(PKG, "GetStatusServlet.Minutes");
         }
         out.print(
             "<tr style=\"font-size: 12;\"> <td style=\"padding: 2px 10px 2px 10px\" class=\"cellTableCell cellTableEvenRowCell cellTableFirstColumn\">"
@@ -701,16 +656,11 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
 
         String filename = serverConfig.getFilename();
         if (filename == null) {
-          filename =
-              BaseMessages.getString(PKG, "GetStatusServlet.ConfigurationDetails.UsingDefaults");
+          filename = BaseMessages.getString(PKG, "GetStatusServlet.ConfigurationDetails.UsingDefaults");
         }
         out.println("</div>"); // end div
         out.print("<div class=\"row\">");
-        out.println(
-            "<i>"
-                + BaseMessages.getString(
-                    PKG, "GetStatusServlet.ConfigurationDetails.Advice", filename)
-                + "</i>");
+        out.println("<i>" + BaseMessages.getString(PKG, "GetStatusServlet.ConfigurationDetails.Advice", filename) + "</i>");
         out.print("</div>");
         out.print("</div>");
         out.print("</div>");
@@ -745,8 +695,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("if( element.id.startsWith( 'j-' ) && selectedWorkflowRowIndex != -1 ) {");
       out.println(
           setupAjaxCall(
-              setupJobURI(convertContextPath(StartWorkflowServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.StartWorkflow.Title"),
+              setupJobURI(convertContextPath(StartWorkflowServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.StartWorkflow.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.TheWorkflow.Label")
                   + " ' + selectedWorkflowName + ' "
@@ -761,8 +710,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
           "} else if ( !element.id.startsWith( 'j-' ) && selectedPipelineRowIndex != -1 && document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Running') {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(PausePipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.PausePipeline.Title"),
+              setupPipelineURI(convertContextPath(PausePipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.PausePipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.ThePipeline.Label")
                   + " ' + selectedPipelineName + ' "
@@ -777,8 +725,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
           "} else if( !element.id.startsWith( 'j-' ) && selectedPipelineRowIndex != -1 && document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Paused') {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(PausePipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.ResumePipeline.Title"),
+              setupPipelineURI(convertContextPath(PausePipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.ResumePipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.ThePipeline.Label")
                   + " ' + selectedPipelineName + ' "
@@ -802,8 +749,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("if( element.id.startsWith( 'j-' ) && selectedWorkflowRowIndex != -1 ) {");
       out.println(
           setupAjaxCall(
-              setupJobURI(convertContextPath(StopWorkflowServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.StopWorkflow.Title"),
+              setupJobURI(convertContextPath(StopWorkflowServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.StopWorkflow.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.StopWorkflow.Success.Body1")
                   + " "
@@ -816,8 +762,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
                   + " ' + selectedWorkflowName + ' "
                   + BaseMessages.getString(PKG, "GetStatusServlet.StopWorkflow.Failure.Body")
                   + "'"));
-      out.println(
-          "} else if ( !element.id.startsWith( 'j-' ) && selectedPipelineRowIndex != -1 ) {");
+      out.println("} else if ( !element.id.startsWith( 'j-' ) && selectedPipelineRowIndex != -1 ) {");
       out.println("repositionActions( document.getElementById( 'stopActions' ), element );");
       out.println("document.getElementById( 'stopActions' ).style.visibility = 'visible';");
       out.println("}");
@@ -828,8 +773,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("if( element.innerHTML == 'Prepare the execution' ){");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(PrepareExecutionPipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.PreparePipeline.Title"),
+              setupPipelineURI(convertContextPath(PrepareExecutionPipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.PreparePipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.ThePipeline.Label")
                   + " ' + selectedPipelineName + ' "
@@ -843,8 +787,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("} else {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(StartPipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.StartPipeline.Title"),
+              setupPipelineURI(convertContextPath(StartPipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.StartPipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.ThePipeline.Label")
                   + " ' + selectedPipelineName + ' "
@@ -863,8 +806,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("if( element.innerHTML == 'Stop pipeline' ) {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(StopPipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.StopPipeline.Title"),
+              setupPipelineURI(convertContextPath(StopPipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.StopPipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.PipelineStop.Success.Body1")
                   + " "
@@ -880,9 +822,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("} else if( element.innerHTML == 'Stop input processing' ) {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(StopPipelineServlet.CONTEXT_PATH))
-                  + " + '&inputOnly=Y'",
-              BaseMessages.getString(PKG, "GetStatusServlet.StopInputPipeline.Title"),
+              setupPipelineURI(convertContextPath(StopPipelineServlet.CONTEXT_PATH)) + " + '&inputOnly=Y'", BaseMessages.getString(PKG, "GetStatusServlet.StopInputPipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.StopInputPipeline.Success.Body1")
                   + " "
@@ -959,64 +899,38 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("if( tableClass.endsWith( 'Row' ) ) {");
       out.println("element.className='cellTableRow ' + tableClass + ' cellTableSelectedRow';");
       out.println("} else {");
-      out.println(
-          "document.getElementById( prefix + 'cellTableFirstCell_' + rowNum ).className='cellTableCell cellTableFirstColumn ' + tableClass + ' cellTableSelectedRowCell';");
+      out.println("document.getElementById( prefix + 'cellTableFirstCell_' + rowNum ).className='cellTableCell cellTableFirstColumn ' + tableClass + ' cellTableSelectedRowCell';");
       out.println("element.className='cellTableCell ' + tableClass + ' cellTableSelectedRowCell';");
       out.println("}");
       out.println("if( element.id.startsWith( 'j-' ) ) {");
-      out.println(
-          "document.getElementById( \"j-pause\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"j-stop\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"j-view\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"j-close\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"j-pause\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"j-stop\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"j-view\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"j-close\" ).classList.remove( \"toolbar-button-disabled\" )");
       out.println("if( selectedWorkflowRowIndex != -1 && rowNum != selectedWorkflowRowIndex ) {");
-      out.println(
-          "document.getElementById( prefix + 'cellTableRow_' + selectedWorkflowRowIndex ).className='cellTableRow ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableFirstCell_' + selectedWorkflowRowIndex ).className='cellTableCell cellTableFirstColumn ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableCell_' + selectedWorkflowRowIndex ).className='cellTableCell ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableLastCell_' + selectedWorkflowRowIndex ).className='cellTableCell cellTableLastColumn ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableRow_' + selectedWorkflowRowIndex ).className='cellTableRow ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableFirstCell_' + selectedWorkflowRowIndex ).className='cellTableCell cellTableFirstColumn ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableCell_' + selectedWorkflowRowIndex ).className='cellTableCell ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableLastCell_' + selectedWorkflowRowIndex ).className='cellTableCell cellTableLastColumn ' + tableClass;");
       out.println("}");
       out.println("selectedWorkflowRowIndex = rowNum;");
       out.println("} else {");
-      out.println(
-          "document.getElementById( \"pause\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"stop\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"cleanup\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"view\" ).classList.remove( \"toolbar-button-disabled\" )");
-      out.println(
-          "document.getElementById( \"close\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"pause\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"stop\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"cleanup\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"view\" ).classList.remove( \"toolbar-button-disabled\" )");
+      out.println("document.getElementById( \"close\" ).classList.remove( \"toolbar-button-disabled\" )");
       out.println("if( selectedPipelineRowIndex != -1 && rowNum != selectedPipelineRowIndex ) {");
-      out.println(
-          "document.getElementById( prefix + 'cellTableRow_' + selectedPipelineRowIndex ).className='cellTableRow ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableFirstCell_' + selectedPipelineRowIndex ).className='cellTableCell cellTableFirstColumn ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableCell_' + selectedPipelineRowIndex ).className='cellTableCell ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableLastCell_' + selectedPipelineRowIndex ).className='cellTableCell cellTableLastColumn ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableRow_' + selectedPipelineRowIndex ).className='cellTableRow ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableFirstCell_' + selectedPipelineRowIndex ).className='cellTableCell cellTableFirstColumn ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableCell_' + selectedPipelineRowIndex ).className='cellTableCell ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableLastCell_' + selectedPipelineRowIndex ).className='cellTableCell cellTableLastColumn ' + tableClass;");
       out.println("}");
       out.println("selectedPipelineRowIndex = rowNum;");
-      out.println(
-          "if( document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Running' ) {");
-      out.println(
-          "document.getElementById( 'pause' ).innerHTML = '<img style=\"width: 22px; height: 22px\" src=\""
-              + prefix
-              + "/images/pause.svg\"/ title=\"Pause pipeline\">';");
-      out.println(
-          "} else if( document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Paused' ) {");
-      out.println(
-          "document.getElementById( 'pause' ).innerHTML = '<img style=\"width: 22px; height: 22px\" src=\""
-              + prefix
-              + "/images/pause.svg\" title=\"Resume pipeline\"/>';");
+      out.println("if( document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Running' ) {");
+      out.println("document.getElementById( 'pause' ).innerHTML = '<img style=\"width: 22px; height: 22px\" src=\"" + prefix + "/images/pause.svg\"/ title=\"Pause pipeline\">';");
+      out.println("} else if( document.getElementById( 'cellTableCellStatus_' + selectedPipelineRowIndex ).innerHTML == 'Paused' ) {");
+      out.println("document.getElementById( 'pause' ).innerHTML = '<img style=\"width: 22px; height: 22px\" src=\"" + prefix + "/images/pause.svg\" title=\"Resume pipeline\"/>';");
       out.println("}");
       out.println("}");
       out.println("setSelectedNames();");
@@ -1025,8 +939,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       // Function to set the pipeline or workflow name of the selected pipeline or workflow
       out.println("function setSelectedNames() {");
       out.println("  selectedWorkflowName = selectedPipelineName = \"\";");
-      out.println(
-          "  var selectedElementNames = document.getElementsByClassName( \"cellTableFirstColumn cellTableSelectedRowCell\" );");
+      out.println("  var selectedElementNames = document.getElementsByClassName( \"cellTableFirstColumn cellTableSelectedRowCell\" );");
       out.println("  if( selectedElementNames ) {");
       out.println("    for(var i = 0; i < selectedElementNames.length; i++) {");
       out.println("      if(selectedElementNames[i].id.startsWith(\"j-\")) {");
@@ -1078,8 +991,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("} else {");
       out.println(
           "document.getElementById( prefix + 'cellTableFirstCell_' + element.id.charAt( element.id.length - 1 ) ).className='cellTableCell cellTableFirstColumn ' + tableClass;");
-      out.println(
-          "document.getElementById( prefix + 'cellTableCell_' + element.id.charAt( element.id.length - 1 ) ).className='cellTableCell ' + tableClass;");
+      out.println("document.getElementById( prefix + 'cellTableCell_' + element.id.charAt( element.id.length - 1 ) ).className='cellTableCell ' + tableClass;");
       out.println(
           "document.getElementById( prefix + 'cellTableLastCell_' + element.id.charAt( element.id.length - 1 ) ).className='cellTableCell cellTableLastColumn ' + tableClass;");
       out.println("}");
@@ -1088,8 +1000,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
 
       // Onclick function for closing message dialog-->make it hidden
       out.println("function closeMessageDialog( refresh ) {");
-      out.println(
-          "  document.getElementById( \"messageDialogBackdrop\" ).style.visibility = 'hidden';");
+      out.println("  document.getElementById( \"messageDialogBackdrop\" ).style.visibility = 'hidden';");
       out.println("  document.getElementById( \"messageDialog\" ).style.visibility = 'hidden';");
       out.println("  if( refresh ) {");
       out.println("    window.location.reload();");
@@ -1098,8 +1009,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
 
       // Function to open the message dialog--> make it visible
       out.println("function openMessageDialog( title, body, single ) {");
-      out.println(
-          "  document.getElementById( \"messageDialogBackdrop\" ).style.visibility = 'visible';");
+      out.println("  document.getElementById( \"messageDialogBackdrop\" ).style.visibility = 'visible';");
       out.println("  document.getElementById( \"messageDialog\" ).style.visibility = 'visible';");
       out.println("  document.getElementById( \"messageDialogTitle\" ).innerHTML = title;");
       out.println("  document.getElementById( \"messageDialogBody\" ).innerHTML = body;");
@@ -1115,12 +1025,10 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       // Function to remove selected pipeline/workflow after user confirms
       out.println("function removeSelection() {");
       out.println("  if( removeElement !== null ) {");
-      out.println(
-          "    if( removeElement.id.startsWith( 'j-' ) && selectedWorkflowRowIndex != -1 ) {");
+      out.println("    if( removeElement.id.startsWith( 'j-' ) && selectedWorkflowRowIndex != -1 ) {");
       out.println(
           setupAjaxCall(
-              setupJobURI(convertContextPath(RemoveWorkflowServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.RemoveWorkflow.Title"),
+              setupJobURI(convertContextPath(RemoveWorkflowServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.RemoveWorkflow.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.TheWorkflow.Label")
                   + " ' + selectedWorkflowName + ' "
@@ -1134,8 +1042,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
       out.println("} else if ( selectedPipelineRowIndex != -1 ) {");
       out.println(
           setupAjaxCall(
-              setupPipelineURI(convertContextPath(RemovePipelineServlet.CONTEXT_PATH)),
-              BaseMessages.getString(PKG, "GetStatusServlet.RemovePipeline.Title"),
+              setupPipelineURI(convertContextPath(RemovePipelineServlet.CONTEXT_PATH)), BaseMessages.getString(PKG, "GetStatusServlet.RemovePipeline.Title"),
               "'"
                   + BaseMessages.getString(PKG, "GetStatusServlet.ThePipeline.Label")
                   + " ' + selectedPipelineName + ' "
@@ -1162,8 +1069,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
   }
 
   private static void getSystemInfo(HopServerStatus serverStatus) {
-    OperatingSystemMXBean operatingSystemMXBean =
-        java.lang.management.ManagementFactory.getOperatingSystemMXBean();
+    OperatingSystemMXBean operatingSystemMXBean = java.lang.management.ManagementFactory.getOperatingSystemMXBean();
     ThreadMXBean threadMXBean = java.lang.management.ManagementFactory.getThreadMXBean();
     RuntimeMXBean runtimeMXBean = java.lang.management.ManagementFactory.getRuntimeMXBean();
 
@@ -1254,14 +1160,7 @@ public class GetStatusServlet extends BaseHttpServlet implements IHopServerPlugi
     retVal += "   if ( this.status === 200 ) {\n";
     retVal += "     openMessageDialog( '" + title + "', " + success + ", true );\n";
     retVal += "   } else {\n";
-    retVal +=
-        "     openMessageDialog( '"
-            + BaseMessages.getString(PKG, "GetStatusServlet.UnableTo.Label")
-            + " "
-            + title
-            + "', "
-            + failure
-            + ", true );\n";
+    retVal += "     openMessageDialog( '" + BaseMessages.getString(PKG, "GetStatusServlet.UnableTo.Label") + " " + title + "', " + failure + ", true );\n";
     retVal += "   }\n";
     retVal += " }\n";
     retVal += "};\n";

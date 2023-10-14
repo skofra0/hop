@@ -52,18 +52,11 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
   private static final Class<?> PKG = CoalesceMeta.class; // for i18n purposes
 
   /** The fields to coalesce */
-  @HopMetadataProperty(
-      key = "field",
-      groupKey = "fields",
-      injectionGroupDescription = "CoalesceMeta.Injection.Fields",
-      injectionKeyDescription = "CoalesceMeta.Injection.Field")
+  @HopMetadataProperty(key = "field", groupKey = "fields", injectionGroupDescription = "CoalesceMeta.Injection.Fields", injectionKeyDescription = "CoalesceMeta.Injection.Field")
   private List<CoalesceField> fields = new ArrayList<>();
 
   /** additional options */
-  @HopMetadataProperty(
-      key = "empty_is_null",
-      injectionKey = "EMPTY_STRING_AS_NULLS",
-      injectionKeyDescription = "CoalesceMeta.Injection.EmptyStringAsNulls")
+  @HopMetadataProperty(key = "empty_is_null", injectionKey = "EMPTY_STRING_AS_NULLS", injectionKeyDescription = "CoalesceMeta.Injection.EmptyStringAsNulls")
   private boolean treatEmptyStringsAsNulls;
 
   public CoalesceMeta() {
@@ -98,13 +91,7 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String transformName,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String transformName, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       // store the input stream meta
@@ -122,7 +109,8 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
 
             // If input field name is recycled for output, don't
             // remove
-            if (rowMeta.indexOfValue(name) != -1 && name.equals(fieldName)) continue;
+            if (rowMeta.indexOfValue(name) != -1 && name.equals(fieldName))
+              continue;
 
             if (rowMeta.indexOfValue(fieldName) != -1) {
               rowMeta.removeValueMeta(fieldName);
@@ -167,38 +155,18 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
       IHopMetadataProvider metadataProvider) {
     // See if we have fields from previous steps
     if (prev == null || prev.size() == 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(
-                  PKG, "CoalesceMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"),
-              transformMeta));
+      remarks
+          .add(new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.NotReceivingFieldsFromPreviousTransforms"), transformMeta));
     } else {
       remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG,
-                  "CoalesceMeta.CheckResult.ReceivingFieldsFromPreviousTransforms",
-                  prev.size()),
-              transformMeta));
+          new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.ReceivingFieldsFromPreviousTransforms", prev.size()), transformMeta));
     }
 
     // See if there are input streams leading to this transform!
     if (input.length > 0) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "CoalesceMeta.CheckResult.ReceivingInfoFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.ReceivingInfoFromOtherTransforms"), transformMeta));
     } else {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "CoalesceMeta.CheckResult.NotReceivingInfoFromOtherTransforms"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.NotReceivingInfoFromOtherTransforms"), transformMeta));
     }
 
     // See if there are missing, duplicate or not enough input streams
@@ -211,8 +179,10 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
 
       for (String fieldName : coalesce.getInputFieldNames()) {
 
-        if (fields.contains(fieldName)) duplicateFields.add(fieldName);
-        else fields.add(fieldName);
+        if (fields.contains(fieldName))
+          duplicateFields.add(fieldName);
+        else
+          fields.add(fieldName);
 
         IValueMeta vmi = prev.searchValueMeta(fieldName);
         if (vmi == null) {
@@ -221,50 +191,28 @@ public class CoalesceMeta extends BaseTransformMeta<CoalesceTransform, CoalesceD
       }
 
       if (!missingFields.isEmpty()) {
-        String message =
-            BaseMessages.getString(
-                PKG,
-                "CoalesceMeta.CheckResult.MissingInputFields",
-                coalesce.getName(),
-                StringUtils.join(missingFields, ','));
+        String message = BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.MissingInputFields", coalesce.getName(), StringUtils.join(missingFields, ','));
         remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, transformMeta));
         missing = true;
       } else if (!duplicateFields.isEmpty()) {
-        String message =
-            BaseMessages.getString(
-                PKG,
-                "CoalesceMeta.CheckResult.DuplicateInputFields",
-                coalesce.getName(),
-                StringUtils.join(duplicateFields, ','));
+        String message = BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.DuplicateInputFields", coalesce.getName(), StringUtils.join(duplicateFields, ','));
         remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, transformMeta));
         missing = true;
       } else if (fields.isEmpty()) {
-        String message =
-            BaseMessages.getString(
-                PKG, "CoalesceMeta.CheckResult.EmptyInputFields", coalesce.getName());
+        String message = BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.EmptyInputFields", coalesce.getName());
         remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_ERROR, message, transformMeta));
         missing = true;
       } else if (fields.size() < 2) {
-        String message =
-            BaseMessages.getString(
-                PKG, "CoalesceMeta.CheckResult.NotEnoughInputFields", coalesce.getName());
+        String message = BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.NotEnoughInputFields", coalesce.getName());
         remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_WARNING, message, transformMeta));
       }
     }
 
     // See if there something to coalesce
     if (this.getFields().isEmpty()) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.NothingToCoalesce"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.NothingToCoalesce"), transformMeta));
     } else if (!missing) {
-      remarks.add(
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.FoundAllInputFields"),
-              transformMeta));
+      remarks.add(new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "CoalesceMeta.CheckResult.FoundAllInputFields"), transformMeta));
     }
   }
 

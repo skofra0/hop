@@ -27,8 +27,7 @@ import org.junit.Ignore;
 
 /** Base class for all CSV input transform tests. */
 @Ignore("No tests in abstract base class")
-public class BasePropertyParsingTest
-    extends BaseParsingTest<PropertyInputMeta, PropertyInputData, PropertyInput> {
+public class BasePropertyParsingTest extends BaseParsingTest<PropertyInputMeta, PropertyInputData, PropertyInput> {
   /** Initialize transform info. */
   @Before
   public void before() {

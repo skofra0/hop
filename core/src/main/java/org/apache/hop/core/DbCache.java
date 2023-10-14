@@ -96,7 +96,7 @@ public class DbCache {
    * Clear out all entries of database with a certain name
    *
    * @param dbname The name of the database for which we want to clear the cache or null if we want
-   *     to clear it all.
+   *        to clear it all.
    */
   public void clear(String dbname) {
     if (dbname == null) {
@@ -131,8 +131,7 @@ public class DbCache {
       if (file.canRead()) {
         log.logDetailed("Loading database cache from file: [" + filename + "]");
 
-        try (FileInputStream fis = new FileInputStream(file);
-            DataInputStream dis = new DataInputStream(fis)) {
+        try (FileInputStream fis = new FileInputStream(file); DataInputStream dis = new DataInputStream(fis)) {
           int counter = 0;
           try {
             while (true) {
@@ -163,8 +162,7 @@ public class DbCache {
       File file = new File(filename);
       if (!file.exists() || file.canWrite()) {
 
-        try (FileOutputStream fos = new FileOutputStream(file);
-            DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(fos, 10000))) {
+        try (FileOutputStream fos = new FileOutputStream(file); DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(fos, 10000))) {
 
           int counter = 0;
 
@@ -180,8 +178,7 @@ public class DbCache {
               rowMeta.writeMeta(dos);
               counter++;
             } else {
-              throw new HopFileException(
-                  "The database cache contains an empty row. We can't save this!");
+              throw new HopFileException("The database cache contains an empty row. We can't save this!");
             }
           }
 

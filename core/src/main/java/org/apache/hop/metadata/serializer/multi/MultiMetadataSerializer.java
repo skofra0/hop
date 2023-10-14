@@ -36,11 +36,7 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
   protected IVariables variables;
   protected String description;
 
-  public MultiMetadataSerializer(
-      MultiMetadataProvider multiProvider,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public MultiMetadataSerializer(MultiMetadataProvider multiProvider, Class<T> managedClass, IVariables variables, String description) {
     this.multiProvider = multiProvider;
     this.managedClass = managedClass;
     this.variables = variables;
@@ -97,12 +93,7 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
       String sourceDescription = t.getMetadataProviderName();
       provider = multiProvider.findProvider(sourceDescription);
       if (provider == null) {
-        throw new HopException(
-            "Hop metadata provider '"
-                + sourceDescription
-                + " could not be found to save object '"
-                + t.getName()
-                + "'");
+        throw new HopException("Hop metadata provider '" + sourceDescription + " could not be found to save object '" + t.getName() + "'");
       }
     }
     IHopMetadataSerializer<T> serializer = provider.getSerializer(managedClass);
@@ -127,8 +118,7 @@ public class MultiMetadataSerializer<T extends IHopMetadata> implements IHopMeta
         return serializer.delete(name);
       }
     }
-    throw new HopException(
-        "Object '" + name + "' was not found nor deleted from any of the metadata providers");
+    throw new HopException("Object '" + name + "' was not found nor deleted from any of the metadata providers");
   }
 
   @Override

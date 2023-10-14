@@ -49,15 +49,11 @@ public class UniqueRowsMeta extends BaseTransformMeta<UniqueRows, UniqueRowsData
   private static final Class<?> PKG = UniqueRowsMeta.class; // For Translator
 
   /** Indicate that we want to count the number of doubles */
-  @HopMetadataProperty(
-      key = "count_rows",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.CountRows")
+  @HopMetadataProperty(key = "count_rows", injectionKeyDescription = "UniqueRowsMeta.Injection.CountRows")
   private boolean countRows;
 
   /** The fieldname that will contain the number of doubles */
-  @HopMetadataProperty(
-      key = "count_field",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.CountField")
+  @HopMetadataProperty(key = "count_field", injectionKeyDescription = "UniqueRowsMeta.Injection.CountField")
   private String countField;
 
   /** The fields to compare for double, null means all */
@@ -68,14 +64,10 @@ public class UniqueRowsMeta extends BaseTransformMeta<UniqueRows, UniqueRowsData
       injectionKeyDescription = "UniqueRowsMeta.Injection.Field")
   private List<UniqueField> compareFields;
 
-  @HopMetadataProperty(
-      key = "reject_duplicate_row",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.RejectDuplicateRow")
+  @HopMetadataProperty(key = "reject_duplicate_row", injectionKeyDescription = "UniqueRowsMeta.Injection.RejectDuplicateRow")
   private boolean rejectDuplicateRow;
 
-  @HopMetadataProperty(
-      key = "error_description",
-      injectionKeyDescription = "UniqueRowsMeta.Injection.ErrorDescription")
+  @HopMetadataProperty(key = "error_description", injectionKeyDescription = "UniqueRowsMeta.Injection.ErrorDescription")
   private String errorDescription;
 
   public UniqueRowsMeta() {
@@ -160,13 +152,7 @@ public class UniqueRowsMeta extends BaseTransformMeta<UniqueRows, UniqueRowsData
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // change the case insensitive flag too
     for (UniqueField field : compareFields) {
@@ -197,20 +183,10 @@ public class UniqueRowsMeta extends BaseTransformMeta<UniqueRows, UniqueRowsData
     CheckResult cr;
 
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "UniqueRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UniqueRowsMeta.CheckResult.TransformReceivingInfoFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(
-                  PKG, "UniqueRowsMeta.CheckResult.NoInputReceivedFromOtherTransforms"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "UniqueRowsMeta.CheckResult.NoInputReceivedFromOtherTransforms"), transformMeta);
       remarks.add(cr);
     }
   }

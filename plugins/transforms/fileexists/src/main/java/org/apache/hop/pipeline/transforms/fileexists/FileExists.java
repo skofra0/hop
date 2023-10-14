@@ -33,13 +33,7 @@ public class FileExists extends BaseTransform<FileExistsMeta, FileExistsData> {
 
   private static final Class<?> PKG = FileExistsMeta.class; // For Translator
 
-  public FileExists(
-      TransformMeta transformMeta,
-      FileExistsMeta meta,
-      FileExistsData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public FileExists(TransformMeta transformMeta, FileExistsMeta meta, FileExistsData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -71,8 +65,7 @@ public class FileExists extends BaseTransform<FileExistsMeta, FileExistsData> {
         // Check is tablename field is provided
         if (Utils.isEmpty(meta.getFilenamefield())) {
           logError(BaseMessages.getString(PKG, "FileExists.Error.FilenameFieldMissing"));
-          throw new HopException(
-              BaseMessages.getString(PKG, "FileExists.Error.FilenameFieldMissing"));
+          throw new HopException(BaseMessages.getString(PKG, "FileExists.Error.FilenameFieldMissing"));
         }
 
         // cache the position of the field
@@ -80,14 +73,8 @@ public class FileExists extends BaseTransform<FileExistsMeta, FileExistsData> {
           data.indexOfFileename = data.previousRowMeta.indexOfValue(meta.getFilenamefield());
           if (data.indexOfFileename < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "FileExists.Exception.CouldnotFindField")
-                    + "["
-                    + meta.getFilenamefield()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "FileExists.Exception.CouldnotFindField", meta.getFilenamefield()));
+            logError(BaseMessages.getString(PKG, "FileExists.Exception.CouldnotFindField") + "[" + meta.getFilenamefield() + "]");
+            throw new HopException(BaseMessages.getString(PKG, "FileExists.Exception.CouldnotFindField", meta.getFilenamefield()));
           }
         }
       } // End If first
@@ -112,19 +99,12 @@ public class FileExists extends BaseTransform<FileExistsMeta, FileExistsData> {
         // add filename to result filenames?
         if (meta.isAddresultfilenames() && fileexists && data.file.getType() == FileType.FILE) {
           // Add this to the result file names...
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  data.file,
-                  getPipelineMeta().getName(),
-                  getTransformName());
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), getTransformName());
           resultFile.setComment(BaseMessages.getString(PKG, "FileExists.Log.FileAddedResult"));
           addResultFile(resultFile);
 
           if (log.isDetailed()) {
-            logDetailed(
-                BaseMessages.getString(
-                    PKG, "FileExists.Log.FilenameAddResult", data.file.toString()));
+            logDetailed(BaseMessages.getString(PKG, "FileExists.Log.FilenameAddResult", data.file.toString()));
           }
         }
       }
@@ -142,19 +122,14 @@ public class FileExists extends BaseTransform<FileExistsMeta, FileExistsData> {
       putRow(data.outputRowMeta, outputRow); // copy row to output rowset(s)
 
       if (log.isRowLevel()) {
-        logRowlevel(
-            BaseMessages.getString(
-                PKG,
-                "FileExists.LineNumber",
-                getLinesRead() + " : " + getInputRowMeta().getString(r)));
+        logRowlevel(BaseMessages.getString(PKG, "FileExists.LineNumber", getLinesRead() + " : " + getInputRowMeta().getString(r)));
       }
     } catch (Exception e) {
       if (getTransformMeta().isDoingErrorHandling()) {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError(
-            BaseMessages.getString(PKG, "FileExists.ErrorInTransformRunning") + e.getMessage());
+        logError(BaseMessages.getString(PKG, "FileExists.ErrorInTransformRunning") + e.getMessage());
         setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)

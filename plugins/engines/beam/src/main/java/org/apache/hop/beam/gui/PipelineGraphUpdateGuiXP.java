@@ -24,21 +24,14 @@ import org.apache.hop.core.logging.ILogChannel;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.ui.hopgui.file.pipeline.HopGuiPipelineGraph;
 
-@ExtensionPoint(
-    id = "PipelineGraphUpdateGuiXP",
-    extensionPointId = "HopGuiPipelineGraphUpdateGui",
-    description = "Update the toolbar icons we add in the Beam GUI plugin")
+@ExtensionPoint(id = "PipelineGraphUpdateGuiXP", extensionPointId = "HopGuiPipelineGraphUpdateGui", description = "Update the toolbar icons we add in the Beam GUI plugin")
 public final class PipelineGraphUpdateGuiXP implements IExtensionPoint<HopGuiPipelineGraph> {
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiPipelineGraph graph)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopGuiPipelineGraph graph) throws HopException {
     DataflowPipelineJob dataflowPipelineJob = HopBeamGuiPlugin.findDataflowPipelineJob();
 
     // Enable/Disable the toolbar icon.
     //
-    graph
-        .getToolBarWidgets()
-        .enableToolbarItem(
-            HopBeamGuiPlugin.TOOLBAR_ID_VISIT_GCP_DATAFLOW, dataflowPipelineJob != null);
+    graph.getToolBarWidgets().enableToolbarItem(HopBeamGuiPlugin.TOOLBAR_ID_VISIT_GCP_DATAFLOW, dataflowPipelineJob != null);
   }
 }

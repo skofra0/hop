@@ -45,13 +45,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
 
   private static final Class<?> PKG = GetFileNamesMeta.class; // For Translator
 
-  public GetFileNames(
-      TransformMeta transformMeta,
-      GetFileNamesMeta meta,
-      GetFileNamesData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public GetFileNames(TransformMeta transformMeta, GetFileNamesMeta meta, GetFileNamesData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -100,56 +94,30 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
 
         // cache the position of the field
         if (data.indexOfFilenameField < 0) {
-          data.indexOfFilenameField =
-              data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
+          data.indexOfFilenameField = data.inputRowMeta.indexOfValue(meta.getDynamicFilenameField());
           if (data.indexOfFilenameField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(
-                    PKG, "GetFileNames.Log.ErrorFindingField", meta.getDynamicFilenameField()));
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "GetFileNames.Exception.CouldnotFindField",
-                    meta.getDynamicFilenameField()));
+            logError(BaseMessages.getString(PKG, "GetFileNames.Log.ErrorFindingField", meta.getDynamicFilenameField()));
+            throw new HopException(BaseMessages.getString(PKG, "GetFileNames.Exception.CouldnotFindField", meta.getDynamicFilenameField()));
           }
         }
 
         // If wildcard field is specified, Check if field exists
         if (!Utils.isEmpty(meta.getDynamicWildcardField()) && data.indexOfWildcardField < 0) {
-          data.indexOfWildcardField =
-              data.inputRowMeta.indexOfValue(meta.getDynamicWildcardField());
+          data.indexOfWildcardField = data.inputRowMeta.indexOfValue(meta.getDynamicWildcardField());
           if (data.indexOfWildcardField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "GetFileNames.Log.ErrorFindingField")
-                    + "["
-                    + meta.getDynamicWildcardField()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "GetFileNames.Exception.CouldnotFindField",
-                    meta.getDynamicWildcardField()));
+            logError(BaseMessages.getString(PKG, "GetFileNames.Log.ErrorFindingField") + "[" + meta.getDynamicWildcardField() + "]");
+            throw new HopException(BaseMessages.getString(PKG, "GetFileNames.Exception.CouldnotFindField", meta.getDynamicWildcardField()));
           }
         }
         // If ExcludeWildcard field is specified, Check if field exists
-        if (!Utils.isEmpty(meta.getDynamicExcludeWildcardField())
-            && data.indexOfExcludeWildcardField < 0) {
-          data.indexOfExcludeWildcardField =
-              data.inputRowMeta.indexOfValue(meta.getDynamicExcludeWildcardField());
+        if (!Utils.isEmpty(meta.getDynamicExcludeWildcardField()) && data.indexOfExcludeWildcardField < 0) {
+          data.indexOfExcludeWildcardField = data.inputRowMeta.indexOfValue(meta.getDynamicExcludeWildcardField());
           if (data.indexOfExcludeWildcardField < 0) {
             // The field is unreachable !
-            logError(
-                BaseMessages.getString(PKG, "GetFileNames.Log.ErrorFindingField")
-                    + "["
-                    + meta.getDynamicExcludeWildcardField()
-                    + "]");
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG,
-                    "GetFileNames.Exception.CouldnotFindField",
-                    meta.getDynamicExcludeWildcardField()));
+            logError(BaseMessages.getString(PKG, "GetFileNames.Log.ErrorFindingField") + "[" + meta.getDynamicExcludeWildcardField() + "]");
+            throw new HopException(BaseMessages.getString(PKG, "GetFileNames.Exception.CouldnotFindField", meta.getDynamicExcludeWildcardField()));
           }
         }
       }
@@ -169,8 +137,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
           }
           String excludeWildcard = "";
           if (data.indexOfExcludeWildcardField >= 0) {
-            excludeWildcard =
-                getInputRowMeta().getString(data.readrow, data.indexOfExcludeWildcardField);
+            excludeWildcard = getInputRowMeta().getString(data.readrow, data.indexOfExcludeWildcardField);
           }
 
           String[] filesname = {filename};
@@ -179,9 +146,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
           String[] filesRequired = {"N"};
           boolean[] includeSubfolders = {meta.isDynamicIncludeSubFolders()};
           // Get files list
-          data.files =
-              meta.getDynamicFileList(
-                  this, filesname, filesMask, excludeFilesMask, filesRequired, includeSubfolders);
+          data.files = meta.getDynamicFileList(this, filesname, filesMask, excludeFilesMask, filesRequired, includeSubfolders);
           data.filessize = data.files.nrOfFiles();
           data.filenr = 0;
         }
@@ -204,14 +169,8 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
 
         if (meta.isAddResultFile()) {
           // Add this to the result file names...
-          ResultFile resultFile =
-              new ResultFile(
-                  ResultFile.FILE_TYPE_GENERAL,
-                  data.file,
-                  getPipelineMeta().getName(),
-                  getTransformName());
-          resultFile.setComment(
-              BaseMessages.getString(PKG, "GetFileNames.Log.FileReadByTransform"));
+          ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), getTransformName());
+          resultFile.setComment(BaseMessages.getString(PKG, "GetFileNames.Log.FileReadByTransform"));
           addResultFile(resultFile);
         }
 
@@ -266,7 +225,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
 
         // See if we need to add the row number to the row...
         if (meta.isIncludeRowNumber() && !Utils.isEmpty(meta.getRowNumberField())) {
-          extraData[outputIndex++] = Long.valueOf(data.rownr+1);
+          extraData[outputIndex++] = Long.valueOf(data.rownr + 1);
         }
 
         data.rownr++;
@@ -275,8 +234,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
         // Send row
         putRow(data.outputRowMeta, outputRow);
 
-        if (meta.getRowLimit() > 0
-            && data.rownr >= meta.getRowLimit()) { // limit has been reached: stop now.
+        if (meta.getRowLimit() > 0 && data.rownr >= meta.getRowLimit()) { // limit has been reached: stop now.
           setOutputDone();
           return false;
         }
@@ -313,7 +271,8 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
       if (meta.isRaiseAnExceptionIfNoFile()) {
         if (getTransformMeta().isDoingErrorHandling()) {
           sendErrorRow(BaseMessages.getString(PKG, "GetFileNames.Log.NoFile"));
-        } else throw new HopException(BaseMessages.getString(PKG, "GetFileNames.Log.NoFileStop"));
+        } else
+          throw new HopException(BaseMessages.getString(PKG, "GetFileNames.Log.NoFileStop"));
       }
       logError(BaseMessages.getString(PKG, "GetFileNames.Log.NoFile"));
       return;
@@ -343,8 +302,7 @@ public class GetFileNames extends BaseTransform<GetFileNamesMeta, GetFileNamesDa
       try {
         // Create the output row meta-data
         data.outputRowMeta = new RowMeta();
-        meta.getFields(
-            data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
+        meta.getFields(data.outputRowMeta, getTransformName(), null, null, this, metadataProvider); // get the
         // metadata
         // populated
         data.nrTransformFields = data.outputRowMeta.size();

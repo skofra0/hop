@@ -231,14 +231,12 @@ public class JavaScriptUtilsTest {
 
   @Test
   public void jsToBigNumber_NativeJavaObject_Int() throws Exception {
-    assertEquals(
-        1.0, JavaScriptUtils.jsToBigNumber(getIntValue(), JAVA_OBJECT).doubleValue(), 1e-6);
+    assertEquals(1.0, JavaScriptUtils.jsToBigNumber(getIntValue(), JAVA_OBJECT).doubleValue(), 1e-6);
   }
 
   @Test
   public void jsToBigNumber_NativeJavaObject_Double() throws Exception {
-    assertEquals(
-        1.0, JavaScriptUtils.jsToBigNumber(getDoubleValue(), JAVA_OBJECT).doubleValue(), 1e-6);
+    assertEquals(1.0, JavaScriptUtils.jsToBigNumber(getDoubleValue(), JAVA_OBJECT).doubleValue(), 1e-6);
   }
 
   @Test
@@ -252,23 +250,18 @@ public class JavaScriptUtilsTest {
     Number[] naturalNumbers = new Number[] {(byte) 1, (short) 1, 1, (long) 1};
 
     for (Number number : naturalNumbers) {
-      assertEquals(
-          1.0,
-          JavaScriptUtils.jsToBigNumber(number, number.getClass().getName()).doubleValue(),
-          1e-6);
+      assertEquals(1.0, JavaScriptUtils.jsToBigNumber(number, number.getClass().getName()).doubleValue(), 1e-6);
     }
   }
 
   @Test
   public void jsToBigNumber_Double() throws Exception {
-    assertEquals(
-        1.0, JavaScriptUtils.jsToBigNumber(1.0, Double.class.getName()).doubleValue(), 1e-6);
+    assertEquals(1.0, JavaScriptUtils.jsToBigNumber(1.0, Double.class.getName()).doubleValue(), 1e-6);
   }
 
   @Test
   public void jsToBigNumber_String() throws Exception {
-    assertEquals(
-        1.0, JavaScriptUtils.jsToBigNumber("1", String.class.getName()).doubleValue(), 1e-6);
+    assertEquals(1.0, JavaScriptUtils.jsToBigNumber("1", String.class.getName()).doubleValue(), 1e-6);
   }
 
   @Test(expected = RuntimeException.class)

@@ -42,8 +42,7 @@ import java.util.Map;
  */
 public class StaxPoiWorkbook implements IKWorkbook {
 
-  private static final String RELATION_NS_URI =
-      "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+  private static final String RELATION_NS_URI = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
 
   private ILogChannel log;
 
@@ -87,8 +86,7 @@ public class StaxPoiWorkbook implements IKWorkbook {
     }
   }
 
-  private void openFile(OPCPackage pkg, String encoding)
-      throws HopException, IOException, XMLStreamException {
+  private void openFile(OPCPackage pkg, String encoding) throws HopException, IOException, XMLStreamException {
     InputStream workbookData = null;
     XMLStreamReader workbookReader = null;
     try {
@@ -99,8 +97,7 @@ public class StaxPoiWorkbook implements IKWorkbook {
       XMLInputFactory factory = StaxUtil.safeXMLInputFactory();
       workbookReader = factory.createXMLStreamReader(workbookData);
       while (workbookReader.hasNext()) {
-        if (workbookReader.next() == XMLStreamConstants.START_ELEMENT
-            && workbookReader.getLocalName().equals("sheet")) {
+        if (workbookReader.next() == XMLStreamConstants.START_ELEMENT && workbookReader.getLocalName().equals("sheet")) {
           String sheetName = workbookReader.getAttributeValue(null, "name");
           String sheetID = workbookReader.getAttributeValue(RELATION_NS_URI, "id");
           sheetNameIDMap.put(sheetName, sheetID);

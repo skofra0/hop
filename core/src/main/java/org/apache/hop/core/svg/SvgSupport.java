@@ -31,8 +31,7 @@ public class SvgSupport {
 
   private static final String PARSER = XMLResourceDescriptor.getXMLParserClassName();
 
-  private static final ThreadLocal<SAXSVGDocumentFactory> SVG_FACTORY_THREAD_LOCAL =
-      new ThreadLocal<>();
+  private static final ThreadLocal<SAXSVGDocumentFactory> SVG_FACTORY_THREAD_LOCAL = new ThreadLocal<>();
 
   private static SAXSVGDocumentFactory createFactory() {
     return new SAXSVGDocumentFactory(PARSER);

@@ -58,7 +58,8 @@ public class RedshiftDatabaseMeta extends PostgreSqlDatabaseMeta {
    * Redshift driver will enforce that the value for fetch size is less than or equal to the value
    * specified in the LIMIT clause.
    *
-   * <p>To avoid these problems, this method (and supportsSetMaxRows()) returns false
+   * <p>
+   * To avoid these problems, this method (and supportsSetMaxRows()) returns false
    *
    * @return false
    */

@@ -39,75 +39,45 @@ public class CassandraOutputMeta extends BaseTransformMeta<CassandraOutput, Cass
   public static final Class<?> PKG = CassandraOutputMeta.class;
 
   /** The host to contact */
-  @HopMetadataProperty(
-      key = "connection",
-      injectionKey = "CONNECTION",
-      injectionKeyDescription = "CassandraOutput.Injection.CONNECTION")
+  @HopMetadataProperty(key = "connection", injectionKey = "CONNECTION", injectionKeyDescription = "CassandraOutput.Injection.CONNECTION")
   protected String connectionName;
 
   /** The cassandra node to put schema updates through */
-  @HopMetadataProperty(
-      key = "schema_host",
-      injectionKey = "SCHEMA_HOST",
-      injectionKeyDescription = "CassandraOutput.Injection.SCHEMA_HOST")
+  @HopMetadataProperty(key = "schema_host", injectionKey = "SCHEMA_HOST", injectionKeyDescription = "CassandraOutput.Injection.SCHEMA_HOST")
   protected String schemaHost;
 
   /** The port of the cassandra node for schema updates */
-  @HopMetadataProperty(
-      key = "schema_port",
-      injectionKey = "SCHEMA_PORT",
-      injectionKeyDescription = "CassandraOutput.Injection.SCHEMA_PORT")
+  @HopMetadataProperty(key = "schema_port", injectionKey = "SCHEMA_PORT", injectionKeyDescription = "CassandraOutput.Injection.SCHEMA_PORT")
   protected String schemaPort;
 
   /** The table to write to */
-  @HopMetadataProperty(
-      key = "table",
-      injectionKey = "TABLE",
-      injectionKeyDescription = "CassandraOutput.Injection.TABLE")
+  @HopMetadataProperty(key = "table", injectionKey = "TABLE", injectionKeyDescription = "CassandraOutput.Injection.TABLE")
   protected String tableName = "";
 
   /** The consistency level to use - null or empty string result in the default */
-  @HopMetadataProperty(
-      key = "consistency",
-      injectionKey = "CONSISTENCY_LEVEL",
-      injectionKeyDescription = "CassandraOutput.Injection.CONSISTENCY_LEVEL")
+  @HopMetadataProperty(key = "consistency", injectionKey = "CONSISTENCY_LEVEL", injectionKeyDescription = "CassandraOutput.Injection.CONSISTENCY_LEVEL")
   protected String consistency = "";
 
   /**
    * The batch size - i.e. how many rows to collect before inserting them via a batch CQL statement
    */
-  @HopMetadataProperty(
-      key = "batch_size",
-      injectionKey = "BATCH_SIZE",
-      injectionKeyDescription = "CassandraOutput.Injection.BATCH_SIZE")
+  @HopMetadataProperty(key = "batch_size", injectionKey = "BATCH_SIZE", injectionKeyDescription = "CassandraOutput.Injection.BATCH_SIZE")
   protected String batchSize = "100";
 
   /** True if unlogged (i.e. non atomic) batch writes are to be used. CQL 3 only */
-  @HopMetadataProperty(
-      key = "unlogged_batch",
-      injectionKey = "USE_UNLOGGED_BATCH",
-      injectionKeyDescription = "CassandraOutput.Injection.USE_UNLOGGED_BATCH")
+  @HopMetadataProperty(key = "unlogged_batch", injectionKey = "USE_UNLOGGED_BATCH", injectionKeyDescription = "CassandraOutput.Injection.USE_UNLOGGED_BATCH")
   protected boolean useUnloggedBatch = false;
 
   /** Whether to create the specified table if it doesn't exist */
-  @HopMetadataProperty(
-      key = "create_table",
-      injectionKey = "CREATE_TABLE",
-      injectionKeyDescription = "CassandraOutput.Injection.CREATE_TABLE")
+  @HopMetadataProperty(key = "create_table", injectionKey = "CREATE_TABLE", injectionKeyDescription = "CassandraOutput.Injection.CREATE_TABLE")
   protected boolean createTable = true;
 
   /** Anything to include in the WITH clause at table creation time? */
-  @HopMetadataProperty(
-      key = "create_table_with_clause",
-      injectionKey = "CREATE_TABLE_WITH_CLAUSE",
-      injectionKeyDescription = "CassandraOutput.Injection.CREATE_TABLE_WITH_CLAUSE")
+  @HopMetadataProperty(key = "create_table_with_clause", injectionKey = "CREATE_TABLE_WITH_CLAUSE", injectionKeyDescription = "CassandraOutput.Injection.CREATE_TABLE_WITH_CLAUSE")
   protected String createTableWithClause;
 
   /** The field in the incoming data to use as the key for inserts */
-  @HopMetadataProperty(
-      key = "key_field",
-      injectionKey = "KEY_FIELD",
-      injectionKeyDescription = "CassandraOutput.Injection.KEY_FIELD")
+  @HopMetadataProperty(key = "key_field", injectionKey = "KEY_FIELD", injectionKeyDescription = "CassandraOutput.Injection.KEY_FIELD")
   protected String keyField = "";
 
   /**
@@ -115,20 +85,14 @@ public class CassandraOutputMeta extends BaseTransformMeta<CassandraOutput, Cass
    * whent the timeout occurs the transform will try to kill the insert and re-try after splitting
    * the batch according to the batch split factor
    */
-  @HopMetadataProperty(
-      key = "cql_batch_timeout",
-      injectionKey = "BATCH_TIMEOUT",
-      injectionKeyDescription = "CassandraOutput.Injection.BATCH_TIMEOUT")
+  @HopMetadataProperty(key = "cql_batch_timeout", injectionKey = "BATCH_TIMEOUT", injectionKeyDescription = "CassandraOutput.Injection.BATCH_TIMEOUT")
   protected String cqlBatchInsertTimeout = "";
 
   /**
    * Default batch split size - only comes into play if cql batch timeout has been specified.
    * Specifies the size of the sub-batches to split the batch into if a timeout occurs.
    */
-  @HopMetadataProperty(
-      key = "cql_sub_batch_size",
-      injectionKey = "SUB_BATCH_SIZE",
-      injectionKeyDescription = "CassandraOutput.Injection.SUB_BATCH_SIZE")
+  @HopMetadataProperty(key = "cql_sub_batch_size", injectionKey = "SUB_BATCH_SIZE", injectionKeyDescription = "CassandraOutput.Injection.SUB_BATCH_SIZE")
   protected String cqlSubBatchSize = "10";
 
   /**
@@ -142,31 +106,18 @@ public class CassandraOutputMeta extends BaseTransformMeta<CassandraOutput, Cass
   protected boolean insertFieldsNotInMeta = false;
 
   /** Whether or not to initially update the table meta data with any unknown incoming fields */
-  @HopMetadataProperty(
-      key = "update_cassandra_meta",
-      injectionKey = "UPDATE_CASSANDRA_META",
-      injectionKeyDescription = "CassandraOutput.Injection.UPDATE_CASSANDRA_META")
+  @HopMetadataProperty(key = "update_cassandra_meta", injectionKey = "UPDATE_CASSANDRA_META", injectionKeyDescription = "CassandraOutput.Injection.UPDATE_CASSANDRA_META")
   protected boolean updateCassandraMeta = false;
 
   /** Whether to truncate the table before inserting */
-  @HopMetadataProperty(
-      key = "truncate_table",
-      injectionKey = "TRUNCATE_TABLE",
-      injectionKeyDescription = "CassandraOutput.Injection.TRUNCATE_TABLE")
+  @HopMetadataProperty(key = "truncate_table", injectionKey = "TRUNCATE_TABLE", injectionKeyDescription = "CassandraOutput.Injection.TRUNCATE_TABLE")
   protected boolean truncateTable = false;
 
   /** Time to live (TTL) for inserts (affects all fields inserted) */
-  @HopMetadataProperty(
-      key = "ttl",
-      injectionKey = "TTL",
-      injectionKeyDescription = "CassandraOutput.Injection.TTL")
+  @HopMetadataProperty(key = "ttl", injectionKey = "TTL", injectionKeyDescription = "CassandraOutput.Injection.TTL")
   protected String ttl = "";
 
-  @HopMetadataProperty(
-      key = "ttl_unit",
-      injectionKey = "TTL_UNIT",
-      injectionKeyDescription = "CassandraOutput.Injection.TTL_UNIT",
-      storeWithCode = true)
+  @HopMetadataProperty(key = "ttl_unit", injectionKey = "TTL_UNIT", injectionKeyDescription = "CassandraOutput.Injection.TTL_UNIT", storeWithCode = true)
   protected TtlUnits ttlUnit = TtlUnits.NONE;
 
   @Override
@@ -236,7 +187,7 @@ public class CassandraOutputMeta extends BaseTransformMeta<CassandraOutput, Cass
 
     public static String[] getDescriptions() {
       String[] descriptions = new String[values().length];
-      for (int i=0;i<descriptions.length;i++) {
+      for (int i = 0; i < descriptions.length; i++) {
         descriptions[i] = values()[i].description;
       }
       return descriptions;

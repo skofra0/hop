@@ -36,8 +36,7 @@ public class DatabaseConnectionPoolParameter {
    * @param defaultValue
    * @param description
    */
-  public DatabaseConnectionPoolParameter(
-      String parameter, String defaultValue, String description) {
+  public DatabaseConnectionPoolParameter(String parameter, String defaultValue, String description) {
     this();
     this.parameter = parameter;
     this.defaultValue = defaultValue;
@@ -82,8 +81,7 @@ public class DatabaseConnectionPoolParameter {
     return names;
   }
 
-  public static final DatabaseConnectionPoolParameter findParameter(
-      String parameterName, DatabaseConnectionPoolParameter[] poolParameters) {
+  public static final DatabaseConnectionPoolParameter findParameter(String parameterName, DatabaseConnectionPoolParameter[] poolParameters) {
     for (int i = 0; i < poolParameters.length; i++) {
       if (poolParameters[i].getParameter().equalsIgnoreCase(parameterName)) {
         return poolParameters[i];
@@ -92,11 +90,7 @@ public class DatabaseConnectionPoolParameter {
     return null;
   }
 
-  public static final List<RowMetaAndData> getRowList(
-      DatabaseConnectionPoolParameter[] poolParameters,
-      String titleParameter,
-      String titleDefaultValue,
-      String titleDescription) {
+  public static final List<RowMetaAndData> getRowList(DatabaseConnectionPoolParameter[] poolParameters, String titleParameter, String titleDefaultValue, String titleDescription) {
     IRowMeta rowMeta = new RowMeta();
 
     rowMeta.addValueMeta(new ValueMetaString(titleParameter));

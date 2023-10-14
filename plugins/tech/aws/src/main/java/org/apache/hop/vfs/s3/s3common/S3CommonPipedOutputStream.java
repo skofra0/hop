@@ -58,13 +58,11 @@ public class S3CommonPipedOutputStream extends PipedOutputStream {
   /** AWS Multipart part size. */
   private final int partSize;
 
-  public S3CommonPipedOutputStream(S3CommonFileSystem fileSystem, String bucketId, String key)
-      throws IOException {
+  public S3CommonPipedOutputStream(S3CommonFileSystem fileSystem, String bucketId, String key) throws IOException {
     this(fileSystem, bucketId, key, DEFAULT_PART_SIZE);
   }
 
-  public S3CommonPipedOutputStream(
-      S3CommonFileSystem fileSystem, String bucketId, String key, int partSize) throws IOException {
+  public S3CommonPipedOutputStream(S3CommonFileSystem fileSystem, String bucketId, String key, int partSize) throws IOException {
     this.pipedInputStream = new PipedInputStream();
 
     try {
@@ -117,8 +115,7 @@ public class S3CommonPipedOutputStream extends PipedOutputStream {
         try {
           Thread.sleep(100);
         } catch (InterruptedException e) {
-          LogChannel.GENERAL.logError(
-              BaseMessages.getString(PKG, "ERROR.S3MultiPart.ExceptionCaught"), e);
+          LogChannel.GENERAL.logError(BaseMessages.getString(PKG, "ERROR.S3MultiPart.ExceptionCaught"), e);
           Thread.currentThread().interrupt();
         }
       }
@@ -140,8 +137,7 @@ public class S3CommonPipedOutputStream extends PipedOutputStream {
       InitiateMultipartUploadResult initResponse = null;
 
       // NOTE: byte[] max size is ~2GB < 5GB = aws api max part size
-      try (ByteArrayOutputStream baos = new ByteArrayOutputStream(partSize);
-          BufferedInputStream bis = new BufferedInputStream(pipedInputStream, partSize)) {
+      try (ByteArrayOutputStream baos = new ByteArrayOutputStream(partSize); BufferedInputStream bis = new BufferedInputStream(pipedInputStream, partSize)) {
         initResponse = fileSystem.getS3Client().initiateMultipartUpload(initRequest);
         // Transform 2: Upload parts.
         byte[] tmpBuffer = new byte[partSize];
@@ -164,19 +160,11 @@ public class S3CommonPipedOutputStream extends PipedOutputStream {
             s3is = new S3CommonWindowedSubstream(baos.toByteArray());
 
             UploadPartRequest uploadRequest =
-                new UploadPartRequest()
-                    .withBucketName(bucketId)
-                    .withKey(key)
-                    .withUploadId(initResponse.getUploadId())
-                    .withPartNumber(partNum++)
-                    .withFileOffset(offset)
-                    .withPartSize(totalRead)
-                    .withInputStream(s3is);
+                new UploadPartRequest().withBucketName(bucketId).withKey(key).withUploadId(initResponse.getUploadId()).withPartNumber(partNum++).withFileOffset(offset)
+                    .withPartSize(totalRead).withInputStream(s3is);
 
             // Upload part and add response to our list.
-            LogChannel.GENERAL.logDetailed(
-                BaseMessages.getString(
-                    PKG, "INFO.S3MultiPart.Upload", partNum - 1, offset, Long.toString(totalRead)));
+            LogChannel.GENERAL.logDetailed(BaseMessages.getString(PKG, "INFO.S3MultiPart.Upload", partNum - 1, offset, Long.toString(totalRead)));
             partETags.add(fileSystem.getS3Client().uploadPart(uploadRequest).getPartETag());
 
             offset += totalRead;
@@ -189,45 +177,26 @@ public class S3CommonPipedOutputStream extends PipedOutputStream {
         s3is = new S3CommonWindowedSubstream(baos.toByteArray());
 
         UploadPartRequest uploadRequest =
-            new UploadPartRequest()
-                .withBucketName(bucketId)
-                .withKey(key)
-                .withUploadId(initResponse.getUploadId())
-                .withPartNumber(partNum++)
-                .withFileOffset(offset)
-                .withPartSize(totalRead)
-                .withInputStream(s3is)
-                .withLastPart(true);
+            new UploadPartRequest().withBucketName(bucketId).withKey(key).withUploadId(initResponse.getUploadId()).withPartNumber(partNum++).withFileOffset(offset)
+                .withPartSize(totalRead).withInputStream(s3is).withLastPart(true);
 
-        LogChannel.GENERAL.logDetailed(
-            BaseMessages.getString(PKG, "INFO.S3MultiPart.Upload", partNum - 1, offset, totalRead));
+        LogChannel.GENERAL.logDetailed(BaseMessages.getString(PKG, "INFO.S3MultiPart.Upload", partNum - 1, offset, totalRead));
         partETags.add(fileSystem.getS3Client().uploadPart(uploadRequest).getPartETag());
 
         // Transform 3: Complete.
         LogChannel.GENERAL.logDetailed(BaseMessages.getString(PKG, "INFO.S3MultiPart.Complete"));
-        CompleteMultipartUploadRequest compRequest =
-            new CompleteMultipartUploadRequest(
-                bucketId, key, initResponse.getUploadId(), partETags);
+        CompleteMultipartUploadRequest compRequest = new CompleteMultipartUploadRequest(bucketId, key, initResponse.getUploadId(), partETags);
 
         fileSystem.getS3Client().completeMultipartUpload(compRequest);
       } catch (OutOfMemoryError oome) {
-        LogChannel.GENERAL.logError(
-            BaseMessages.getString(
-                PKG,
-                "ERROR.S3MultiPart.UploadOutOfMemory",
-                new StorageUnitConverter().byteCountToDisplaySize(partSize)),
-            oome);
+        LogChannel.GENERAL.logError(BaseMessages.getString(PKG, "ERROR.S3MultiPart.UploadOutOfMemory", new StorageUnitConverter().byteCountToDisplaySize(partSize)), oome);
         returnVal = false;
       } catch (Exception e) {
-        LogChannel.GENERAL.logError(
-            BaseMessages.getString(PKG, "ERROR.S3MultiPart.ExceptionCaught"), e);
+        LogChannel.GENERAL.logError(BaseMessages.getString(PKG, "ERROR.S3MultiPart.ExceptionCaught"), e);
         if (initResponse == null) {
           close();
         } else {
-          fileSystem
-              .getS3Client()
-              .abortMultipartUpload(
-                  new AbortMultipartUploadRequest(bucketId, key, initResponse.getUploadId()));
+          fileSystem.getS3Client().abortMultipartUpload(new AbortMultipartUploadRequest(bucketId, key, initResponse.getUploadId()));
           LogChannel.GENERAL.logError(BaseMessages.getString(PKG, "ERROR.S3MultiPart.Aborted"));
         }
         returnVal = false;

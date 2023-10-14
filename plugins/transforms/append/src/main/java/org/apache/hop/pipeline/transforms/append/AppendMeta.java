@@ -50,16 +50,10 @@ public class AppendMeta extends BaseTransformMeta<Append, AppendData> {
 
   private static final Class<?> PKG = Append.class; // For Translator
 
-  @HopMetadataProperty(
-      key = "head_name",
-      injectionKey = "HEAD_TRANSFORM",
-      injectionKeyDescription = "AppendMeta.Injection.HEAD_TRANSFORM")
+  @HopMetadataProperty(key = "head_name", injectionKey = "HEAD_TRANSFORM", injectionKeyDescription = "AppendMeta.Injection.HEAD_TRANSFORM")
   public String headTransformName;
 
-  @HopMetadataProperty(
-      key = "tail_name",
-      injectionKey = "TAIL_TRANSFORM",
-      injectionKeyDescription = "AppendMeta.Injection.TAIL_TRANSFORM")
+  @HopMetadataProperty(key = "tail_name", injectionKey = "TAIL_TRANSFORM", injectionKeyDescription = "AppendMeta.Injection.TAIL_TRANSFORM")
   public String tailTransformName;
 
   public AppendMeta() {
@@ -81,13 +75,7 @@ public class AppendMeta extends BaseTransformMeta<Append, AppendData> {
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // We don't have any input fields here in "r" as they are all info fields.
     // So we just take the info fields.
@@ -117,25 +105,13 @@ public class AppendMeta extends BaseTransformMeta<Append, AppendData> {
     IStream tailStream = infoStreams.get(1);
 
     if (headStream.getTransformName() != null && tailStream.getTransformName() != null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AppendMeta.CheckResult.SourceTransformsOK"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AppendMeta.CheckResult.SourceTransformsOK"), transformMeta);
       remarks.add(cr);
     } else if (headStream.getTransformName() == null && tailStream.getTransformName() == null) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "AppendMeta.CheckResult.SourceTransformsMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "AppendMeta.CheckResult.SourceTransformsMissing"), transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "AppendMeta.CheckResult.OneSourceTransformMissing"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "AppendMeta.CheckResult.OneSourceTransformMissing"), transformMeta);
       remarks.add(cr);
     }
   }
@@ -148,22 +124,10 @@ public class AppendMeta extends BaseTransformMeta<Append, AppendData> {
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      IStream headStream =
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "AppendMeta.InfoStream.FirstStream.Description"),
-              StreamIcon.INFO,
-              null);
+      IStream headStream = new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "AppendMeta.InfoStream.FirstStream.Description"), StreamIcon.INFO, null);
       ioMeta.addStream(headStream);
 
-      IStream tailStream =
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "AppendMeta.InfoStream.SecondStream.Description"),
-              StreamIcon.INFO,
-              null);
+      IStream tailStream = new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "AppendMeta.InfoStream.SecondStream.Description"), StreamIcon.INFO, null);
       ioMeta.addStream(tailStream);
 
       setTransformIOMeta(ioMeta);
@@ -177,9 +141,7 @@ public class AppendMeta extends BaseTransformMeta<Append, AppendData> {
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**

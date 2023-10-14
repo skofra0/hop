@@ -52,12 +52,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
   protected IVariables variables;
   protected String description;
 
-  public JsonMetadataSerializer(
-      IHopMetadataProvider metadataProvider,
-      String baseFolder,
-      Class<T> managedClass,
-      IVariables variables,
-      String description) {
+  public JsonMetadataSerializer(IHopMetadataProvider metadataProvider, String baseFolder, Class<T> managedClass, IVariables variables, String description) {
     this.metadataProvider = metadataProvider;
     this.baseFolder = baseFolder;
     this.managedClass = managedClass;
@@ -104,8 +99,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
       try {
         fileInputStream = HopVfs.getInputStream(filename);
         JsonFactory jsonFactory = new JsonFactory();
-        try (com.fasterxml.jackson.core.JsonParser jsonParser =
-            jsonFactory.createParser(fileInputStream)) {
+        try (com.fasterxml.jackson.core.JsonParser jsonParser = jsonFactory.createParser(fileInputStream)) {
 
           // skip opening '{'
           jsonParser.nextToken();
@@ -121,8 +115,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
         }
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Error loading metadata object '" + name + "' from file '" + filename + "'", e);
+      throw new HopException("Error loading metadata object '" + name + "' from file '" + filename + "'", e);
     }
   }
 
@@ -164,8 +157,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
         throw new HopException("Error serializing JSON to file '" + filename + "'", e);
       }
     } catch (Exception e) {
-      throw new HopException(
-          "Unable to save object '" + t.getName() + "' to JSON file '" + filename + "'", e);
+      throw new HopException("Unable to save object '" + t.getName() + "' to JSON file '" + filename + "'", e);
     }
   }
 
@@ -176,8 +168,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
   @Override
   public T delete(String name) throws HopException {
     if (name == null) {
-      throw new HopException(
-          "Error: you need to specify the name of the metadata object to delete");
+      throw new HopException("Error: you need to specify the name of the metadata object to delete");
     }
     if (!exists(name)) {
       throw new HopException("Error: Object '" + name + "' doesn't exist");
@@ -187,8 +178,7 @@ public class JsonMetadataSerializer<T extends IHopMetadata> implements IHopMetad
     try {
       boolean deleted = HopVfs.getFileObject(filename).delete();
       if (!deleted) {
-        throw new HopException(
-            "Error: Object '" + name + "' could not be deleted, filename : " + filename);
+        throw new HopException("Error: Object '" + name + "' could not be deleted, filename : " + filename);
       }
     } catch (FileSystemException e) {
       throw new HopException("Error deleting Object '" + name + "' with filename : " + filename);

@@ -31,15 +31,8 @@ import org.apache.parquet.hadoop.ParquetReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-public class ParquetInput extends BaseTransform<ParquetInputMeta, ParquetInputData>
-{
-  public ParquetInput(
-      TransformMeta transformMeta,
-      ParquetInputMeta meta,
-      ParquetInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+public class ParquetInput extends BaseTransform<ParquetInputMeta, ParquetInputData> {
+  public ParquetInput(TransformMeta transformMeta, ParquetInputMeta meta, ParquetInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -60,8 +53,7 @@ public class ParquetInput extends BaseTransform<ParquetInputMeta, ParquetInputDa
 
       data.filenameFieldIndex = getInputRowMeta().indexOfValue(resolve(meta.getFilenameField()));
       if (data.filenameFieldIndex < 0) {
-        throw new HopException(
-            "Unable to find filename field " + meta.getFilenameField() + " in the input");
+        throw new HopException("Unable to find filename field " + meta.getFilenameField() + " in the input");
       }
     }
 
@@ -85,8 +77,7 @@ public class ParquetInput extends BaseTransform<ParquetInputMeta, ParquetInputDa
       ParquetStream inputFile = new ParquetStream(outputStream.toByteArray(), filename);
 
       ParquetReadSupport readSupport = new ParquetReadSupport(meta.getFields());
-      ParquetReader<RowMetaAndData> reader =
-          new ParquetReaderBuilder<>(readSupport, inputFile).build();
+      ParquetReader<RowMetaAndData> reader = new ParquetReaderBuilder<>(readSupport, inputFile).build();
 
       RowMetaAndData r = reader.read();
       while (r != null && !isStopped()) {

@@ -88,8 +88,7 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
   private TextVar wLogFileUpdateInterval;
   private ComboVar wRunConfiguration;
 
-  public RepeatDialog(
-      Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
+  public RepeatDialog(Shell parent, IAction action, WorkflowMeta workflowMeta, IVariables variables) {
     super(parent, workflowMeta, variables);
     this.action = (Repeat) action;
 
@@ -149,8 +148,7 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
     Button wbbFilename = new Button(shell, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
     wbbFilename.setText(BaseMessages.getString(PKG, "System.Button.Browse"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.top = new FormAttachment(wlFilename, 0, SWT.CENTER);
     fdbFilename.right = new FormAttachment(100, 0);
@@ -390,8 +388,7 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
     fdlLogFileUpdateInterval.right = new FormAttachment(middle, -margin);
     fdlLogFileUpdateInterval.top = new FormAttachment(lastLogControl, margin);
     wlLogFileUpdateInterval.setLayoutData(fdlLogFileUpdateInterval);
-    wLogFileUpdateInterval =
-        new TextVar(variables, wLogFileGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wLogFileUpdateInterval = new TextVar(variables, wLogFileGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wLogFileUpdateInterval);
     FormData fdLogFileUpdateInterval = new FormData();
     fdLogFileUpdateInterval.left = new FormAttachment(middle, 0);
@@ -431,24 +428,15 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
 
     // Put these buttons at the bottom
     //
-    BaseTransformDialog.positionBottomButtons(
-        shell,
-        new Button[] {
-          wOK, wCancel,
-        },
-        margin,
-        null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wOK, wCancel,}, margin, null);
 
     ColumnInfo[] columnInfos =
         new ColumnInfo[] {
-          new ColumnInfo(BaseMessages.getString(PKG, "Repeat.ParmsVarGroup.Name.Column.Header"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
-          new ColumnInfo(BaseMessages.getString(PKG, "Repeat.ParmsVarGroup.Value.Column.Header"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "Repeat.ParmsVarGroup.Name.Column.Header"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "Repeat.ParmsVarGroup.Value.Column.Header"), ColumnInfo.COLUMN_TYPE_TEXT, false, false),};
     columnInfos[1].setUsingVariables(true);
 
-    wParameters =
-        new TableView(
-            variables, shell, SWT.BORDER, columnInfos, action.getParameters().size(), null, props);
+    wParameters = new TableView(variables, shell, SWT.BORDER, columnInfos, action.getParameters().size(), null, props);
     PropsUi.setLook(wParameters);
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -470,28 +458,18 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
     HopWorkflowFileType workflowFileType = new HopWorkflowFileType<>();
 
     List<String> filterExtensions = new ArrayList<>();
-    filterExtensions.add(
-        pipelineFileType.getFilterExtensions()[0]
-            + ";"
-            + workflowFileType.getFilterExtensions()[0]);
+    filterExtensions.add(pipelineFileType.getFilterExtensions()[0] + ";" + workflowFileType.getFilterExtensions()[0]);
     filterExtensions.addAll(Arrays.asList(pipelineFileType.getFilterExtensions()));
     filterExtensions.addAll(Arrays.asList(workflowFileType.getFilterExtensions()));
     filterExtensions.add("*.*");
 
     List<String> filterNames = new ArrayList<>();
-    filterNames.add(
-        pipelineFileType.getFilterNames()[0] + " and " + workflowFileType.getFilterNames()[0]);
+    filterNames.add(pipelineFileType.getFilterNames()[0] + " and " + workflowFileType.getFilterNames()[0]);
     filterNames.addAll(Arrays.asList(pipelineFileType.getFilterNames()));
     filterNames.addAll(Arrays.asList(workflowFileType.getFilterNames()));
     filterNames.add(BaseMessages.getString(PKG, "System.FileType.AllFiles"));
 
-    BaseDialog.presentFileDialog(
-        shell,
-        wFilename,
-        variables,
-        filterExtensions.toArray(new String[0]),
-        filterNames.toArray(new String[0]),
-        true);
+    BaseDialog.presentFileDialog(shell, wFilename, variables, filterExtensions.toArray(new String[0]), filterNames.toArray(new String[0]), true);
   }
 
   private void enableControls() {
@@ -546,10 +524,8 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
 
     // Get the run configurations for both pipelines and workflows
     //
-    MetadataManager<PipelineRunConfiguration> prcManager =
-        new MetadataManager<>(variables, getMetadataProvider(), PipelineRunConfiguration.class, shell);
-    MetadataManager<WorkflowRunConfiguration> wrcManager =
-        new MetadataManager<>(variables, getMetadataProvider(), WorkflowRunConfiguration.class, shell);
+    MetadataManager<PipelineRunConfiguration> prcManager = new MetadataManager<>(variables, getMetadataProvider(), PipelineRunConfiguration.class, shell);
+    MetadataManager<WorkflowRunConfiguration> wrcManager = new MetadataManager<>(variables, getMetadataProvider(), WorkflowRunConfiguration.class, shell);
     List<String> entries = new ArrayList<>();
     try {
       prcManager.getNames().forEach(name -> entries.add("Pipeline" + COLON_SEPARATOR + name));
@@ -566,11 +542,9 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
       String realFilename = variables.resolve(wFilename.getText());
       try {
         if (this.action.isPipeline(realFilename)) {
-          wRunConfiguration.setText(
-              "Pipeline" + COLON_SEPARATOR + action.getRunConfigurationName());
+          wRunConfiguration.setText("Pipeline" + COLON_SEPARATOR + action.getRunConfigurationName());
         } else if (this.action.isWorkflow(realFilename)) {
-          wRunConfiguration.setText(
-              "Workflow" + COLON_SEPARATOR + action.getRunConfigurationName());
+          wRunConfiguration.setText("Workflow" + COLON_SEPARATOR + action.getRunConfigurationName());
         }
       } catch (Exception e) {
         // Ignore
@@ -621,8 +595,7 @@ public class RepeatDialog extends ActionDialog implements IActionDialog {
     } else {
       int colonIndex = runConfigRaw.indexOf(COLON_SEPARATOR);
       if (colonIndex > 0 && colonIndex + COLON_SEPARATOR.length() < runConfigRaw.length()) {
-        action.setRunConfigurationName(
-            runConfigRaw.substring(colonIndex + COLON_SEPARATOR.length()));
+        action.setRunConfigurationName(runConfigRaw.substring(colonIndex + COLON_SEPARATOR.length()));
       } else {
         action.setRunConfigurationName(runConfigRaw);
       }

@@ -54,8 +54,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.BigData",
     keywords = "i18n::BeamBigtableOutputMeta.keyword",
     documentationUrl = "/pipeline/transforms/beambigtableoutput.html")
-public class BeamBigtableOutputMeta extends BaseTransformMeta<Dummy, DummyData>
-    implements IBeamPipelineTransformHandler {
+public class BeamBigtableOutputMeta extends BaseTransformMeta<Dummy, DummyData> implements IBeamPipelineTransformHandler {
 
   @HopMetadataProperty(key = "project_id")
   private String projectId;
@@ -131,22 +130,18 @@ public class BeamBigtableOutputMeta extends BaseTransformMeta<Dummy, DummyData>
     // Verify that each column has qualifier, a family value and a source:
     //
     for (BigtableColumn column : columns) {
-      if ( StringUtils.isEmpty(column.getName())) {
+      if (StringUtils.isEmpty(column.getName())) {
         throw new HopException("Every column needs to have a name");
       }
-      if ( StringUtils.isEmpty(column.getFamily())) {
-        throw new HopException("Every column needs to have a family value: "+column.getName());
+      if (StringUtils.isEmpty(column.getFamily())) {
+        throw new HopException("Every column needs to have a family value: " + column.getName());
       }
-      if ( StringUtils.isEmpty(column.getSourceField())) {
-        throw new HopException("Every column needs to have a source field: "+column.getName());
+      if (StringUtils.isEmpty(column.getSourceField())) {
+        throw new HopException("Every column needs to have a source field: " + column.getName());
       }
     }
 
-    BigtableIO.Write write =
-        BigtableIO.write()
-            .withProjectId(variables.resolve(projectId))
-            .withInstanceId(variables.resolve(instanceId))
-            .withTableId(variables.resolve(tableId));
+    BigtableIO.Write write = BigtableIO.write().withProjectId(variables.resolve(projectId)).withInstanceId(variables.resolve(instanceId)).withTableId(variables.resolve(tableId));
 
     String realKeyField = variables.resolve(keyField);
     int keyIndex = rowMeta.indexOfValue(realKeyField);
@@ -165,22 +160,12 @@ public class BeamBigtableOutputMeta extends BaseTransformMeta<Dummy, DummyData>
       j.add(jc);
     }
 
-    HopToBigtableFn function =
-        new HopToBigtableFn(
-            keyIndex,
-            j.toJSONString(),
-            transformMeta.getName(),
-            JsonRowMeta.toJson(rowMeta));
+    HopToBigtableFn function = new HopToBigtableFn(keyIndex, j.toJSONString(), transformMeta.getName(), JsonRowMeta.toJson(rowMeta));
 
-    PCollection<KV<ByteString, Iterable<Mutation>>> bigtableInput =
-        input.apply(transformMeta.getName(), ParDo.of(function));
+    PCollection<KV<ByteString, Iterable<Mutation>>> bigtableInput = input.apply(transformMeta.getName(), ParDo.of(function));
     write.expand(bigtableInput);
 
-    log.logBasic(
-        "Handled transform (Bigtable OUTPUT) : "
-            + transformMeta.getName()
-            + ", gets data from "
-            + previousTransform.getName());
+    log.logBasic("Handled transform (Bigtable OUTPUT) : " + transformMeta.getName() + ", gets data from " + previousTransform.getName());
   }
 
   /**

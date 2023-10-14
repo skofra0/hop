@@ -146,8 +146,7 @@ public class ActionSql extends ActionBase implements Cloneable, IAction {
 
         if (sqlFromFile) {
           if (sqlFilename == null) {
-            throw new HopDatabaseException(
-                BaseMessages.getString(PKG, "ActionSQL.NoSQLFileSpecified"));
+            throw new HopDatabaseException(BaseMessages.getString(PKG, "ActionSQL.NoSQLFileSpecified"));
           }
 
           try {
@@ -155,8 +154,7 @@ public class ActionSql extends ActionBase implements Cloneable, IAction {
             sqlFile = HopVfs.getFileObject(realfilename);
             if (!sqlFile.exists()) {
               logError(BaseMessages.getString(PKG, "ActionSQL.SQLFileNotExist", realfilename));
-              throw new HopDatabaseException(
-                  BaseMessages.getString(PKG, "ActionSQL.SQLFileNotExist", realfilename));
+              throw new HopDatabaseException(BaseMessages.getString(PKG, "ActionSQL.SQLFileNotExist", realfilename));
             }
             if (isDetailed()) {
               logDetailed(BaseMessages.getString(PKG, "ActionSQL.SQLFileExists", realfilename));
@@ -164,8 +162,7 @@ public class ActionSql extends ActionBase implements Cloneable, IAction {
 
             InputStream inputStream = HopVfs.getInputStream(sqlFile);
             try {
-              InputStreamReader inputStreamReader =
-                  new InputStreamReader(new BufferedInputStream(inputStream, 500));
+              InputStreamReader inputStreamReader = new InputStreamReader(new BufferedInputStream(inputStream, 500));
               StringBuilder lineSB = new StringBuilder(256);
               lineSB.setLength(0);
 
@@ -184,8 +181,7 @@ public class ActionSql extends ActionBase implements Cloneable, IAction {
               inputStream.close();
             }
           } catch (Exception e) {
-            throw new HopDatabaseException(
-                BaseMessages.getString(PKG, "ActionSQL.ErrorRunningSQLfromFile"), e);
+            throw new HopDatabaseException(BaseMessages.getString(PKG, "ActionSQL.ErrorRunningSQLfromFile"), e);
           }
 
         } else {
@@ -247,32 +243,20 @@ public class ActionSql extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     DatabaseMeta databaseMeta = parentWorkflowMeta.findDatabase(connection, getVariables());
     if (databaseMeta != null) {
       ResourceReference reference = new ResourceReference(this);
       reference.getEntries().add(new ResourceEntry(databaseMeta.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(databaseMeta.getDatabaseName(), ResourceType.DATABASENAME));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "SQL",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "SQL", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

@@ -39,7 +39,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class RowGeneratorMetaTest implements IInitializer<ITransformMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private final String launchVariable = "${ROW_LIMIT}";
 
@@ -54,46 +55,33 @@ public class RowGeneratorMetaTest implements IInitializer<ITransformMeta> {
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
     PluginRegistry.init();
-    List<String> attributes =
-        Arrays.asList(
-            "neverEnding", "intervalInMs", "rowTimeField", "lastTimeField", "rowLimit", "fields");
+    List<String> attributes = Arrays.asList("neverEnding", "intervalInMs", "rowTimeField", "lastTimeField", "rowLimit", "fields");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("neverEnding", "isNeverEnding");
-            put("intervalInMs", "getIntervalInMs");
-            put("rowTimeField", "getRowTimeField");
-            put("lastTimeField", "getLastTimeField");
-            put("rowLimit", "getRowLimit");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("neverEnding", "setNeverEnding");
-            put("intervalInMs", "setIntervalInMs");
-            put("rowTimeField", "setRowTimeField");
-            put("lastTimeField", "setLastTimeField");
-            put("rowLimit", "setRowLimit");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("neverEnding", "isNeverEnding");
+        put("intervalInMs", "getIntervalInMs");
+        put("rowTimeField", "getRowTimeField");
+        put("lastTimeField", "getLastTimeField");
+        put("rowLimit", "getRowLimit");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("neverEnding", "setNeverEnding");
+        put("intervalInMs", "setIntervalInMs");
+        put("rowTimeField", "setRowTimeField");
+        put("lastTimeField", "setLastTimeField");
+        put("rowLimit", "setRowLimit");
+      }
+    };
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "fields", new ListLoadSaveValidator<>(new GeneratorFieldInputFieldLoadSaveValidator(), 5));
+    attrValidatorMap.put("fields", new ListLoadSaveValidator<>(new GeneratorFieldInputFieldLoadSaveValidator(), 5));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -101,16 +89,11 @@ public class RowGeneratorMetaTest implements IInitializer<ITransformMeta> {
   public void modify(ITransformMeta someMeta) {
     if (someMeta instanceof RowGeneratorMeta) {
       ((RowGeneratorMeta) someMeta).getFields().clear();
-      ((RowGeneratorMeta) someMeta)
-          .getFields()
-          .addAll(
-              Arrays.asList(
-                  new GeneratorField("a", "String", null, 50, -1, null, null, null, "AAAA", false),
-                  new GeneratorField("b", "String", null, 50, -1, null, null, null, "BBBB", false),
-                  new GeneratorField("c", "String", null, 50, -1, null, null, null, "CCCC", false),
-                  new GeneratorField("d", "String", null, 50, -1, null, null, null, "DDDD", false),
-                  new GeneratorField(
-                      "e", "String", null, 50, -1, null, null, null, "EEEE", false)));
+      ((RowGeneratorMeta) someMeta).getFields().addAll(
+          Arrays.asList(
+              new GeneratorField("a", "String", null, 50, -1, null, null, null, "AAAA", false), new GeneratorField("b", "String", null, 50, -1, null, null, null, "BBBB", false),
+              new GeneratorField("c", "String", null, 50, -1, null, null, null, "CCCC", false), new GeneratorField("d", "String", null, 50, -1, null, null, null, "DDDD", false),
+              new GeneratorField("e", "String", null, 50, -1, null, null, null, "EEEE", false)));
     }
   }
 
@@ -119,8 +102,7 @@ public class RowGeneratorMetaTest implements IInitializer<ITransformMeta> {
     loadSaveTester.testSerialization();
   }
 
-  public class GeneratorFieldInputFieldLoadSaveValidator
-      implements IFieldLoadSaveValidator<GeneratorField> {
+  public class GeneratorFieldInputFieldLoadSaveValidator implements IFieldLoadSaveValidator<GeneratorField> {
     final Random rand = new Random();
 
     @Override
@@ -149,16 +131,9 @@ public class RowGeneratorMetaTest implements IInitializer<ITransformMeta> {
         return false;
       }
       GeneratorField another = (GeneratorField) actual;
-      return new EqualsBuilder()
-          .append(testObject.getName(), another.getName())
-          .append(testObject.getType(), another.getType())
-          .append(testObject.getFormat(), another.getFormat())
-          .append(testObject.getLength(), another.getLength())
-          .append(testObject.getPrecision(), another.getPrecision())
-          .append(testObject.getDecimal(), another.getDecimal())
-          .append(testObject.getGroup(), another.getGroup())
-          .append(testObject.getValue(), another.getValue())
-          .append(testObject.isSetEmptyString(), another.isSetEmptyString())
+      return new EqualsBuilder().append(testObject.getName(), another.getName()).append(testObject.getType(), another.getType()).append(testObject.getFormat(), another.getFormat())
+          .append(testObject.getLength(), another.getLength()).append(testObject.getPrecision(), another.getPrecision()).append(testObject.getDecimal(), another.getDecimal())
+          .append(testObject.getGroup(), another.getGroup()).append(testObject.getValue(), another.getValue()).append(testObject.isSetEmptyString(), another.isSetEmptyString())
           .isEquals();
     }
   }

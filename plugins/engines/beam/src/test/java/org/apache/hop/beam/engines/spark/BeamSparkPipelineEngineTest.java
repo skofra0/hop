@@ -38,24 +38,13 @@ public class BeamSparkPipelineEngineTest extends BeamBasePipelineEngineTest {
     configuration.setSparkMaster("local");
     configuration.setEnginePluginId("BeamSparkPipelineEngine");
     PipelineRunConfiguration pipelineRunConfiguration =
-        new PipelineRunConfiguration(
-            "spark",
-            "description",
-            "",
-            Arrays.asList(new DescribedVariable("VAR1", "spark1", "description1")),
-            configuration,
-            null,
-            false);
+        new PipelineRunConfiguration("spark", "description", "", Arrays.asList(new DescribedVariable("VAR1", "spark1", "description1")), configuration, null, false);
 
     metadataProvider.getSerializer(PipelineRunConfiguration.class).save(pipelineRunConfiguration);
 
-    PipelineMeta pipelineMeta =
-        BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta(
-            "input-process-output", "INPUT", "OUTPUT", metadataProvider);
+    PipelineMeta pipelineMeta = BeamPipelineMetaUtil.generateBeamInputOutputPipelineMeta("input-process-output", "INPUT", "OUTPUT", metadataProvider);
 
-    IPipelineEngine<PipelineMeta> engine =
-        createAndExecutePipeline(
-            pipelineRunConfiguration.getName(), metadataProvider, pipelineMeta);
+    IPipelineEngine<PipelineMeta> engine = createAndExecutePipeline(pipelineRunConfiguration.getName(), metadataProvider, pipelineMeta);
     validateInputOutputEngineMetrics(engine);
 
     assertEquals("spark1", engine.getVariable("VAR1"));

@@ -66,7 +66,7 @@ public abstract class NeoExecutionViewerTabBase {
   }
 
   protected String getPathToRootCypher() {
-    // Do we have a parent?  If not we can just return the cypher to the current execution node
+    // Do we have a parent? If not we can just return the cypher to the current execution node
     //
     if (StringUtils.isEmpty(viewer.getExecution().getParentId())) {
       return "MATCH(e:Execution {id: $executionId }) " + Const.CR + "RETURN e " + Const.CR;

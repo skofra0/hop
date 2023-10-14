@@ -59,11 +59,7 @@ public class HopToBigtableFn extends DoFn<HopRow, KV<ByteString, Iterable<Mutati
   // Log and count parse errors.
   private static final Logger LOG = LoggerFactory.getLogger(HopToBigtableFn.class);
 
-  public HopToBigtableFn(
-      int keyIndex,
-      String columnsJson,
-      String counterName,
-      String rowMetaJson) {
+  public HopToBigtableFn(int keyIndex, String columnsJson, String counterName, String rowMetaJson) {
     this.keyIndex = keyIndex;
     this.columnsJson = columnsJson;
     this.counterName = counterName;
@@ -123,12 +119,8 @@ public class HopToBigtableFn extends DoFn<HopRow, KV<ByteString, Iterable<Mutati
 
         if (valueData != null) {
           Mutation.SetCell setCell =
-              Mutation.SetCell.newBuilder()
-                  .setFamilyName(column.getFamily())
-                  .setColumnQualifier(toByteString(column.getName()))
-                  .setTimestampMicros(System.currentTimeMillis()*1000)
-                  .setValue(toByteString(valueMeta, valueData))
-                  .build();
+              Mutation.SetCell.newBuilder().setFamilyName(column.getFamily()).setColumnQualifier(toByteString(column.getName()))
+                  .setTimestampMicros(System.currentTimeMillis() * 1000).setValue(toByteString(valueMeta, valueData)).build();
           Mutation mutation = Mutation.newBuilder().setSetCell(setCell).build();
           mutations.add(mutation);
         }
@@ -152,39 +144,35 @@ public class HopToBigtableFn extends DoFn<HopRow, KV<ByteString, Iterable<Mutati
   static ByteString toByteString(IValueMeta valueMeta, Object value) {
     byte[] bytes = new byte[0];
     switch (valueMeta.getType()) {
-      case IValueMeta.TYPE_INTEGER:
-        {
-          ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-          buffer.putLong((Long) value);
-          bytes = buffer.array();
-        }
+      case IValueMeta.TYPE_INTEGER: {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong((Long) value);
+        bytes = buffer.array();
+      }
         break;
-      case IValueMeta.TYPE_DATE:
-        {
-          ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-          buffer.putLong(((Date) value).getTime());
-          bytes = buffer.array();
-        }
+      case IValueMeta.TYPE_DATE: {
+        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+        buffer.putLong(((Date) value).getTime());
+        bytes = buffer.array();
+      }
         break;
-      case IValueMeta.TYPE_BOOLEAN:
-        {
-          boolean b = (boolean) value;
-          if (b) {
-            bytes = new byte[] {1};
-          } else {
-            bytes = new byte[] {0};
-          }
+      case IValueMeta.TYPE_BOOLEAN: {
+        boolean b = (boolean) value;
+        if (b) {
+          bytes = new byte[] {1};
+        } else {
+          bytes = new byte[] {0};
         }
+      }
         break;
-      case IValueMeta.TYPE_NUMBER:
-        {
-          ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
-          buffer.putDouble((double) value);
-          bytes = buffer.array();
-        }
+      case IValueMeta.TYPE_NUMBER: {
+        ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES);
+        buffer.putDouble((double) value);
+        bytes = buffer.array();
+      }
         break;
-        // Everything else is a String for now...
-        //
+      // Everything else is a String for now...
+      //
       case IValueMeta.TYPE_STRING:
       default:
         // Already converted to a native value

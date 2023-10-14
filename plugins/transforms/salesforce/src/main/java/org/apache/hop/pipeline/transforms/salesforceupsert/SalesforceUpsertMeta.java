@@ -45,8 +45,7 @@ import java.util.List;
     image = "SFU.svg",
     keywords = "i18n::SalesforceUpsertMeta.keyword",
     documentationUrl = "/pipeline/transforms/salesforceupsert.html")
-public class SalesforceUpsertMeta
-    extends SalesforceTransformMeta<SalesforceUpsert, SalesforceUpsertData> {
+public class SalesforceUpsertMeta extends SalesforceTransformMeta<SalesforceUpsert, SalesforceUpsertData> {
   private static final Class<?> PKG = SalesforceUpsertMeta.class; // For Translator
 
   /** UpsertField */
@@ -145,8 +144,7 @@ public class SalesforceUpsertMeta
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     super.loadXml(transformNode, metadataProvider);
     readData(transformNode);
   }
@@ -173,8 +171,7 @@ public class SalesforceUpsertMeta
     StringBuilder retval = new StringBuilder(super.getXml());
     retval.append("    " + XmlHandler.addTagValue("upsertfield", getUpsertField()));
     retval.append("    " + XmlHandler.addTagValue("batchSize", getBatchSize()));
-    retval.append(
-        "    " + XmlHandler.addTagValue("salesforceIDFieldName", getSalesforceIDFieldName()));
+    retval.append("    " + XmlHandler.addTagValue("salesforceIDFieldName", getSalesforceIDFieldName()));
 
     retval.append("    <fields>" + Const.CR);
 
@@ -182,16 +179,12 @@ public class SalesforceUpsertMeta
       retval.append("      <field>").append(Const.CR);
       retval.append("        ").append(XmlHandler.addTagValue("name", getUpdateLookup()[i]));
       retval.append("        ").append(XmlHandler.addTagValue("field", getUpdateStream()[i]));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue("useExternalId", getUseExternalId()[i].booleanValue()));
+      retval.append("        ").append(XmlHandler.addTagValue("useExternalId", getUseExternalId()[i].booleanValue()));
       retval.append("      </field>").append(Const.CR);
     }
 
     retval.append("      </fields>" + Const.CR);
-    retval.append(
-        "    "
-            + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
+    retval.append("    " + XmlHandler.addTagValue("rollbackAllChangesOnError", isRollbackAllChangesOnError()));
     return retval.toString();
   }
 
@@ -227,8 +220,7 @@ public class SalesforceUpsertMeta
           }
         }
       }
-      setRollbackAllChangesOnError(
-          "Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
+      setRollbackAllChangesOnError("Y".equalsIgnoreCase(XmlHandler.getTagValue(transformNode, "rollbackAllChangesOnError")));
     } catch (Exception e) {
       throw new HopXmlException("Unable to load transform info from XML", e);
     }
@@ -254,13 +246,7 @@ public class SalesforceUpsertMeta
 
   /* This function adds meta data to the rows being pushed out */
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     String realfieldname = variables.resolve(getSalesforceIDFieldName());
     if (!Utils.isEmpty(realfieldname)) {
@@ -282,48 +268,23 @@ public class SalesforceUpsertMeta
       IRowMeta info,
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
-    super.check(
-        remarks,
-        pipelineMeta,
-        transformMeta,
-        prev,
-        input,
-        output,
-        info,
-        variables,
-        metadataProvider);
+    super.check(remarks, pipelineMeta, transformMeta, prev, input, output, info, variables, metadataProvider);
 
     CheckResult cr;
 
     // See if we get input...
     if (input != null && input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoInputExpected"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoInputExpected"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoInput"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoInput"), transformMeta);
     }
     remarks.add(cr);
 
     // check return fields
     if (getUpdateLookup().length == 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoFields"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.NoFields"), transformMeta);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.FieldsOk"),
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "SalesforceUpsertMeta.CheckResult.FieldsOk"), transformMeta);
     }
     remarks.add(cr);
   }

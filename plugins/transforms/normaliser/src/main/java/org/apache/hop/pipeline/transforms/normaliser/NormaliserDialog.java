@@ -65,8 +65,7 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
 
   private final List<String> inputFields = new ArrayList<>();
 
-  public NormaliserDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public NormaliserDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (NormaliserMeta) in;
   }
@@ -153,32 +152,11 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
     final int fieldsCols = 3;
     final int fieldsRows = input.getNormaliserFields().size();
     colinf = new ColumnInfo[fieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.Fieldname"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.Type"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.NewField"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.Fieldname"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.Type"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "NormaliserDialog.ColumnInfo.NewField"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -190,23 +168,22 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
     //
     // Search the fields in the background
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -235,7 +212,7 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
         item.setText(NAME_INDEX, field.getName());
       }
       if (field.getValue() != null) {
-        item.setText(VALUE_INDEX,field.getValue());
+        item.setText(VALUE_INDEX, field.getValue());
       }
       if (field.getNorm() != null) {
         item.setText(NORM_INDEX, field.getNorm());
@@ -266,7 +243,7 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
 
     int i;
 
-    int nrFields = wFields.nrNonEmpty();   
+    int nrFields = wFields.nrNonEmpty();
     input.getNormaliserFields().clear();
 
     // CHECKSTYLE:Indentation:OFF
@@ -286,8 +263,7 @@ public class NormaliserDialog extends BaseTransformDialog implements ITransformD
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

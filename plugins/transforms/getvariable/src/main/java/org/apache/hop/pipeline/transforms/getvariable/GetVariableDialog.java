@@ -54,8 +54,7 @@ public class GetVariableDialog extends BaseTransformDialog implements ITransform
 
   private final GetVariableMeta input;
 
-  public GetVariableDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetVariableDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (GetVariableMeta) in, pipelineMeta, sname);
     input = (GetVariableMeta) in;
   }
@@ -129,60 +128,21 @@ public class GetVariableDialog extends BaseTransformDialog implements ITransform
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetVariableDialog.NameColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetVariableDialog.VariableColumn.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              3),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "GetVariableDialog.TrimType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              IValueMeta.TrimType.getDescriptions()),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "GetVariableDialog.NameColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetVariableDialog.VariableColumn.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 3),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "GetVariableDialog.TrimType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, IValueMeta.TrimType.getDescriptions()),};
 
     colinf[1].setToolTip(BaseMessages.getString(PKG, "GetVariableDialog.VariableColumn.Tooltip"));
     colinf[1].setUsingVariables(true);
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -211,11 +171,8 @@ public class GetVariableDialog extends BaseTransformDialog implements ITransform
       item.setText(index++, Const.NVL(currentField.getVariableString(), ""));
       item.setText(index++, Const.NVL(currentField.getFieldType(), ""));
       item.setText(index++, Const.NVL(currentField.getFieldFormat(), ""));
-      item.setText(
-          index++, currentField.getFieldLength() < 0 ? "" : ("" + currentField.getFieldLength()));
-      item.setText(
-          index++,
-          currentField.getFieldPrecision() < 0 ? "" : ("" + currentField.getFieldPrecision()));
+      item.setText(index++, currentField.getFieldLength() < 0 ? "" : ("" + currentField.getFieldLength()));
+      item.setText(index++, currentField.getFieldPrecision() < 0 ? "" : ("" + currentField.getFieldPrecision()));
       item.setText(index++, Const.NVL(currentField.getCurrency(), ""));
       item.setText(index++, Const.NVL(currentField.getDecimal(), ""));
       item.setText(index++, Const.NVL(currentField.getGroup(), ""));
@@ -277,19 +234,11 @@ public class GetVariableDialog extends BaseTransformDialog implements ITransform
       GetVariableMeta oneMeta = new GetVariableMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
       // We always just want to preview a single output row
       //
-      PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {1});
+      PipelinePreviewProgressDialog progressDialog = new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {1});
       progressDialog.open();
 
       if (!progressDialog.isCancelled()) {

@@ -22,13 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HopLogLayout {
-  private static final ThreadLocal<SimpleDateFormat> LOCAL_SIMPLE_DATE_PARSER =
-      new ThreadLocal<SimpleDateFormat>() {
-        @Override
-        protected SimpleDateFormat initialValue() {
-          return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        }
-      };
+  private static final ThreadLocal<SimpleDateFormat> LOCAL_SIMPLE_DATE_PARSER = new ThreadLocal<SimpleDateFormat>() {
+    @Override
+    protected SimpleDateFormat initialValue() {
+      return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    }
+  };
 
   public static final String ERROR_STRING = "ERROR";
 
@@ -58,8 +57,7 @@ public class HopLogLayout {
     if (object instanceof LogMessage) {
       LogMessage message = (LogMessage) object;
 
-      String[] parts =
-          message.getMessage() == null ? new String[] {} : message.getMessage().split(Const.CR);
+      String[] parts = message.getMessage() == null ? new String[] {} : message.getMessage().split(Const.CR);
       for (int i = 0; i < parts.length; i++) {
         // Start every line of the output with a dateTimeString
         if (!message.isSimplified()) {

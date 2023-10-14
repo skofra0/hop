@@ -24,7 +24,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class MetaInjectMetaInjectionTest extends BaseMetadataInjectionTest<MetaInjectMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   private static final String TEST_ID = "TEST_ID";
 
@@ -44,18 +45,12 @@ public class MetaInjectMetaInjectionTest extends BaseMetadataInjectionTest<MetaI
     check("SOURCE_OUTPUT_NAME", () -> meta.getSourceOutputFields().get(0).getName());
     String[] typeNames = ValueMetaBase.getAllTypes();
 
-    checkStringToInt(
-        "SOURCE_OUTPUT_TYPE",
-        () -> meta.getSourceOutputFields().get(0).getType(),
-        typeNames,
-        getTypeCodes(typeNames));
+    checkStringToInt("SOURCE_OUTPUT_TYPE", () -> meta.getSourceOutputFields().get(0).getType(), typeNames, getTypeCodes(typeNames));
     check("SOURCE_OUTPUT_LENGTH", () -> meta.getSourceOutputFields().get(0).getLength());
     check("SOURCE_OUTPUT_PRECISION", () -> meta.getSourceOutputFields().get(0).getPrecision());
-    check(
-        "MAPPING_SOURCE_TRANSFORM", () -> meta.getMetaInjectMapping().get(0).getSourceTransform());
+    check("MAPPING_SOURCE_TRANSFORM", () -> meta.getMetaInjectMapping().get(0).getSourceTransform());
     check("MAPPING_SOURCE_FIELD", () -> meta.getMetaInjectMapping().get(0).getSourceField());
-    check(
-        "MAPPING_TARGET_TRANSFORM", () -> meta.getMetaInjectMapping().get(0).getTargetTransform());
+    check("MAPPING_TARGET_TRANSFORM", () -> meta.getMetaInjectMapping().get(0).getTargetTransform());
     check("MAPPING_TARGET_FIELD", () -> meta.getMetaInjectMapping().get(0).getTargetField());
   }
 }

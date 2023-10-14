@@ -81,8 +81,7 @@ public class DtdValidator extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
 
     try {
       super.loadXml(entrynode);
@@ -91,8 +90,7 @@ public class DtdValidator extends ActionBase implements Cloneable, IAction {
       dtdintern = "Y".equalsIgnoreCase(XmlHandler.getTagValue(entrynode, "dtdintern"));
 
     } catch (HopXmlException xe) {
-      throw new HopXmlException(
-          "Unable to load job entry of type 'DTDvalidator' from XML node", xe);
+      throw new HopXmlException("Unable to load job entry of type 'DTDvalidator' from XML node", xe);
     }
   }
 
@@ -167,34 +165,24 @@ public class DtdValidator extends ActionBase implements Cloneable, IAction {
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if ((!Utils.isEmpty(dtdfilename)) && (!Utils.isEmpty(xmlfilename))) {
       String realXmlFileName = variables.resolve(xmlfilename);
       String realXsdFileName = variables.resolve(dtdfilename);
       ResourceReference reference = new ResourceReference(this);
-      reference
-          .getEntries()
-          .add(new ResourceEntry(realXmlFileName, ResourceEntry.ResourceType.FILE));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(realXsdFileName, ResourceEntry.ResourceType.FILE));
+      reference.getEntries().add(new ResourceEntry(realXmlFileName, ResourceEntry.ResourceType.FILE));
+      reference.getEntries().add(new ResourceEntry(realXsdFileName, ResourceEntry.ResourceType.FILE));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta jobMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
+  public void check(List<ICheckResult> remarks, WorkflowMeta jobMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
     ValidatorContext ctx = new ValidatorContext();
     AbstractFileValidator.putVariableSpace(ctx, getVariables());
-    AndValidator.putValidators(
-        ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
+    AndValidator.putValidators(ctx, ActionValidatorUtils.notBlankValidator(), ActionValidatorUtils.fileExistsValidator());
     ActionValidatorUtils.andValidator().validate(this, "dtdfilename", remarks, ctx);
     ActionValidatorUtils.andValidator().validate(this, "xmlFilename", remarks, ctx);
   }

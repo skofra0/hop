@@ -131,8 +131,7 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
 
   private Button wMatrixGet;
 
-  public RestDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public RestDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (RestMeta) in;
   }
@@ -414,38 +413,34 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        new Runnable() {
-          @Override
-          public void run() {
-            TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-            if (transformMeta != null) {
-              try {
-                IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+        if (transformMeta != null) {
+          try {
+            IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-                // Remember these fields...
-                for (int i = 0; i < row.size(); i++) {
-                  inputFields.add(row.getValueMeta(i).getName());
-                }
-
-                setComboBoxes();
-              } catch (HopException e) {
-                log.logError(
-                    toString(),
-                    BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-              }
+            // Remember these fields...
+            for (int i = 0; i < row.size(); i++) {
+              inputFields.add(row.getValueMeta(i).getName());
             }
+
+            setComboBoxes();
+          } catch (HopException e) {
+            log.logError(toString(), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
           }
-        };
+        }
+      }
+    };
     new Thread(runnable).start();
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     wTabFolder.setSelection(0);
@@ -481,26 +476,10 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
 
     colinfoparams =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterName"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wMatrixParameters =
-        new TableView(
-            variables,
-            wMatrixParametersComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinfoparams,
-            matrixParametersRows,
-            lsMod,
-            props);
+    wMatrixParameters = new TableView(variables, wMatrixParametersComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinfoparams, matrixParametersRows, lsMod, props);
 
     FormData fdMatrixParameters = new FormData();
     fdMatrixParameters.left = new FormAttachment(0, 0);
@@ -545,26 +524,10 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
 
     colinfoparams =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterField"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterName"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.ParameterName"), ColumnInfo.COLUMN_TYPE_TEXT, false),};
 
-    wParameters =
-        new TableView(
-            variables,
-            wParametersComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinfoparams,
-            ParametersRows,
-            lsMod,
-            props);
+    wParameters = new TableView(variables, wParametersComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinfoparams, ParametersRows, lsMod, props);
 
     FormData fdParameters = new FormData();
     fdParameters.left = new FormAttachment(0, 0);
@@ -596,27 +559,11 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
 
     colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.Field"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {""},
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "RestDialog.ColumnInfo.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false)
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.Field"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "RestDialog.ColumnInfo.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false)};
 
     colinf[1].setUsingVariables(true);
-    wFields =
-        new TableView(
-            variables,
-            wAdditionalComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            lsMod,
-            props);
+    wFields = new TableView(variables, wAdditionalComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, lsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -647,17 +594,16 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdButton.top = new FormAttachment(wlIgnoreSsl, 0, SWT.CENTER);
     fdButton.right = new FormAttachment(100, 0);
     wIgnoreSsl.setLayoutData(fdButton);
-    wIgnoreSsl.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activateTrustoreFields();
-          }
-        });
+    wIgnoreSsl.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activateTrustoreFields();
+      }
+    });
   }
 
-  private void activateTrustoreFields(){
+  private void activateTrustoreFields() {
     wTrustStoreFile.setEnabled(!wIgnoreSsl.getSelection());
     wbTrustStoreFile.setEnabled(!wIgnoreSsl.getSelection());
     wTrustStorePassword.setEnabled(!wIgnoreSsl.getSelection());
@@ -666,16 +612,14 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
   private void setupTrustorePwdLine(ModifyListener lsMod, int middle, int margin, Group gSSLTrustStore, Button wbTrustStoreFile) {
     // TrustStorePassword line
     Label wlTrustStorePassword = new Label(gSSLTrustStore, SWT.RIGHT);
-    wlTrustStorePassword.setText(
-        BaseMessages.getString(PKG, "RestDialog.TrustStorePassword.Label"));
+    wlTrustStorePassword.setText(BaseMessages.getString(PKG, "RestDialog.TrustStorePassword.Label"));
     PropsUi.setLook(wlTrustStorePassword);
     FormData fdlTrustStorePassword = new FormData();
     fdlTrustStorePassword.left = new FormAttachment(0, 0);
     fdlTrustStorePassword.top = new FormAttachment(wbTrustStoreFile, margin);
     fdlTrustStorePassword.right = new FormAttachment(middle, -margin);
     wlTrustStorePassword.setLayoutData(fdlTrustStorePassword);
-    wTrustStorePassword =
-        new PasswordTextVar(variables, gSSLTrustStore, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wTrustStorePassword = new PasswordTextVar(variables, gSSLTrustStore, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTrustStorePassword);
     wTrustStorePassword.addModifyListener(lsMod);
     FormData fdTrustStorePassword = new FormData();
@@ -706,14 +650,7 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
 
     wbTrustStoreFile.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wTrustStoreFile,
-                variables,
-                new String[] {"*.)"},
-                new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")},
-                true));
+        e -> BaseDialog.presentFileDialog(shell, wTrustStoreFile, variables, new String[] {"*.)"}, new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true));
 
     wTrustStoreFile = new TextVar(variables, gSSLTrustStore, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wTrustStoreFile);
@@ -807,13 +744,12 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdPreemptive.top = new FormAttachment(wlPreemptive, 0, SWT.CENTER);
     fdPreemptive.right = new FormAttachment(100, 0);
     wPreemptive.setLayoutData(fdPreemptive);
-    wPreemptive.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+    wPreemptive.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
   }
 
   private void setupPasswordLine(ModifyListener lsMod, int middle, int margin, Group gHttpAuth) {
@@ -987,14 +923,13 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdApplicationType.right = new FormAttachment(100, -margin);
     wApplicationType.setLayoutData(fdApplicationType);
     wApplicationType.setItems(RestMeta.APPLICATION_TYPES);
-    wApplicationType.addSelectionListener(
-        new SelectionAdapter() {
+    wApplicationType.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+      }
+    });
   }
 
   private void setupBodyLine(ModifyListener lsMod, int middle, int margin, Group gSettings) {
@@ -1017,20 +952,19 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdBody.top = new FormAttachment(wMethodField, 2 * margin);
     fdBody.right = new FormAttachment(100, -margin);
     wBody.setLayoutData(fdBody);
-    wBody.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wBody.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setStreamFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setStreamFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupMethodNameLine(ModifyListener lsMod, int middle, int margin, Group gSettings) {
@@ -1053,20 +987,19 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdMethodField.top = new FormAttachment(wMethodInField, margin);
     fdMethodField.right = new FormAttachment(100, -margin);
     wMethodField.setLayoutData(fdMethodField);
-    wMethodField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wMethodField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setStreamFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setStreamFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupMethodInFieldLine(int middle, int margin, Group gSettings) {
@@ -1086,14 +1019,13 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdMethodInField.top = new FormAttachment(wlMethodInField, 0, SWT.CENTER);
     fdMethodInField.right = new FormAttachment(100, 0);
     wMethodInField.setLayoutData(fdMethodInField);
-    wMethodInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activateMethodInfield();
-          }
-        });
+    wMethodInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activateMethodInfield();
+      }
+    });
   }
 
   private void setupHttpMethodLine(ModifyListener lsMod, int middle, int margin, Group gSettings) {
@@ -1117,14 +1049,13 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdMethod.right = new FormAttachment(100, -margin);
     wMethod.setLayoutData(fdMethod);
     wMethod.setItems(RestMeta.HTTP_METHODS);
-    wMethod.addSelectionListener(
-        new SelectionAdapter() {
+    wMethod.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            setMethod();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        setMethod();
+      }
+    });
   }
 
   private void setupUrlFieldNameLine(ModifyListener lsMod, int middle, int margin, Group gSettings) {
@@ -1147,20 +1078,19 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdUrlField.top = new FormAttachment(wUrlInField, margin);
     fdUrlField.right = new FormAttachment(100, -margin);
     wUrlField.setLayoutData(fdUrlField);
-    wUrlField.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(FocusEvent e) {}
+    wUrlField.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(FocusEvent e) {}
 
-          @Override
-          public void focusGained(FocusEvent e) {
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            setStreamFields();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+      @Override
+      public void focusGained(FocusEvent e) {
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        setStreamFields();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
   }
 
   private void setupUrlInFieldLine(int middle, int margin, Group gSettings) {
@@ -1180,14 +1110,13 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     fdUrlInField.top = new FormAttachment(wlUrlInField, 0, SWT.CENTER);
     fdUrlInField.right = new FormAttachment(100, 0);
     wUrlInField.setLayoutData(fdUrlInField);
-    wUrlInField.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            activateUrlInfield();
-          }
-        });
+    wUrlInField.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        activateUrlInfield();
+      }
+    });
   }
 
   private void setupUrlLine(ModifyListener lsMod, int middle, int margin, Composite wGeneralComp, Group gSettings) {
@@ -1433,8 +1362,7 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     input.allocate(nrheaders, nrparams, nrmatrixparams);
 
     if (isDebug()) {
-      logDebug(
-          BaseMessages.getString(PKG, "RestDialog.Log.FoundArguments", String.valueOf(nrheaders)));
+      logDebug(BaseMessages.getString(PKG, "RestDialog.Log.FoundArguments", String.valueOf(nrheaders)));
     }
     for (int i = 0; i < nrheaders; i++) {
       TableItem item = wFields.getNonEmpty(i);
@@ -1484,8 +1412,7 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, tView, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, tView, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -1500,8 +1427,7 @@ public class RestDialog extends BaseTransformDialog implements ITransformDialog 
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null && !r.isEmpty()) {
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1, 2}, new int[] {3}, -1, -1, null);
       }
     } catch (HopException ke) {
       new ErrorDialog(

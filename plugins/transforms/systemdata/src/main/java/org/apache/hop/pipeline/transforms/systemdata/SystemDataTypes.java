@@ -54,11 +54,9 @@ public enum SystemDataTypes {
   TYPE_SYSTEM_INFO_JVM_AVAILABLE_MEMORY("jvm available memory", "JVMAvailableMemory"),
   TYPE_SYSTEM_INFO_AVAILABLE_PROCESSORS("available processors", "AvailableProcessors"),
   TYPE_SYSTEM_INFO_JVM_CPU_TIME("jvm cpu time", "JVMCPUTime"),
-  TYPE_SYSTEM_INFO_TOTAL_PHYSICAL_MEMORY_SIZE(
-      "total physical memory size", "TotalPhysicalMemorySize"),
+  TYPE_SYSTEM_INFO_TOTAL_PHYSICAL_MEMORY_SIZE("total physical memory size", "TotalPhysicalMemorySize"),
   TYPE_SYSTEM_INFO_TOTAL_SWAP_SPACE_SIZE("total swap space size", "TotalSwapSpaceSize"),
-  TYPE_SYSTEM_INFO_COMMITTED_VIRTUAL_MEMORY_SIZE(
-      "committed virtual memory size", "CommittedVirtualMemorySize"),
+  TYPE_SYSTEM_INFO_COMMITTED_VIRTUAL_MEMORY_SIZE("committed virtual memory size", "CommittedVirtualMemorySize"),
   TYPE_SYSTEM_INFO_FREE_PHYSICAL_MEMORY_SIZE("free physical memory size", "FreePhysicalMemorySize"),
   TYPE_SYSTEM_INFO_FREE_SWAP_SPACE_SIZE("free swap space size", "FreeSwapSpaceSize"),
 
@@ -101,31 +99,20 @@ public enum SystemDataTypes {
   TYPE_SYSTEM_INFO_NEXT_YEAR_END("next year end", "NextYearEnd"),
 
   TYPE_SYSTEM_INFO_PREVIOUS_RESULT_RESULT("previous result result", "PreviousResultResult"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_EXIT_STATUS(
-      "previous result exist status", "PreviousResultExitStatus"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_EXIT_STATUS("previous result exist status", "PreviousResultExitStatus"),
   TYPE_SYSTEM_INFO_PREVIOUS_RESULT_ENTRY_NR("previous result entry nr", "PreviousResultEntryNr"),
   TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_ERRORS("previous result nr errors", "PreviousResultNrErrors"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_INPUT(
-      "previous result nr lines input", "PreviousResultNrLinesInput"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_OUTPUT(
-      "previous result nr lines output", "PreviousResultNrLinesOutput"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_READ(
-      "previous result nr lines read", "PreviousResultNrLinesRead"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_UPDATED(
-      "previous result nr lines updated", "PreviousResultNrLinesUpdated"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_WRITTEN(
-      "previous result nr lines written", "PreviousResultNrLinesWritten"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_DELETED(
-      "previous result nr lines deleted", "PreviousResultNrLinesDeleted"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_REJECTED(
-      "previous result nr lines rejected", "PreviousResultNrLinesRejected"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_ROWS(
-      "previous result nr rows", "PreviousResultNrLinesNrRows"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_IS_STOPPED(
-      "previous result is stopped", "PreviousResultIsStopped"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_INPUT("previous result nr lines input", "PreviousResultNrLinesInput"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_OUTPUT("previous result nr lines output", "PreviousResultNrLinesOutput"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_READ("previous result nr lines read", "PreviousResultNrLinesRead"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_UPDATED("previous result nr lines updated", "PreviousResultNrLinesUpdated"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_WRITTEN("previous result nr lines written", "PreviousResultNrLinesWritten"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_DELETED("previous result nr lines deleted", "PreviousResultNrLinesDeleted"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_LINES_REJECTED("previous result nr lines rejected", "PreviousResultNrLinesRejected"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_ROWS("previous result nr rows", "PreviousResultNrLinesNrRows"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_IS_STOPPED("previous result is stopped", "PreviousResultIsStopped"),
   TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_FILES("previous result nr files", "PreviousResultNrFiles"),
-  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_FILES_RETRIEVED(
-      "previous result nr files retrieved", "PreviousResultNrFilesRetrieved"),
+  TYPE_SYSTEM_INFO_PREVIOUS_RESULT_NR_FILES_RETRIEVED("previous result nr files retrieved", "PreviousResultNrFilesRetrieved"),
   TYPE_SYSTEM_INFO_PREVIOUS_RESULT_LOG_TEXT("previous result log text", "PreviousResultLogText");
 
   private String code;
@@ -146,9 +133,7 @@ public enum SystemDataTypes {
         typeStr = "previous result nr lines rejected";
       }
 
-      if (type.toString().equals(typeStr)
-          || type.code.equalsIgnoreCase(typeStr)
-          || type.description.equalsIgnoreCase(typeStr)) {
+      if (type.toString().equals(typeStr) || type.code.equalsIgnoreCase(typeStr) || type.description.equalsIgnoreCase(typeStr)) {
         return type;
       }
     }
@@ -158,7 +143,6 @@ public enum SystemDataTypes {
 
   SystemDataTypes(String code, String descriptionName) {
     this.code = code;
-    this.description =
-        BaseMessages.getString(SystemDataTypes.class, "SystemDataMeta.TypeDesc." + descriptionName);
+    this.description = BaseMessages.getString(SystemDataTypes.class, "SystemDataMeta.TypeDesc." + descriptionName);
   }
 }

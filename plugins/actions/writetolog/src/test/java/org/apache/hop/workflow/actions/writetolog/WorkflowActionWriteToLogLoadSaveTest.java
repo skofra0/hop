@@ -29,9 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WorkflowActionWriteToLogLoadSaveTest
-    extends WorkflowActionLoadSaveTestSupport<ActionWriteToLog> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+public class WorkflowActionWriteToLogLoadSaveTest extends WorkflowActionLoadSaveTestSupport<ActionWriteToLog> {
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Override
   protected Class<ActionWriteToLog> getActionClass() {
@@ -45,18 +45,12 @@ public class WorkflowActionWriteToLogLoadSaveTest
 
   @Override
   protected Map<String, String> createGettersMap() {
-    return toMap(
-        "logmessage", "getLogMessage",
-        "loglevel", "getActionLogLevel",
-        "logsubject", "getLogSubject");
+    return toMap("logmessage", "getLogMessage", "loglevel", "getActionLogLevel", "logsubject", "getLogSubject");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
-    return toMap(
-        "logmessage", "setLogMessage",
-        "loglevel", "setActionLogLevel",
-        "logsubject", "setLogSubject");
+    return toMap("logmessage", "setLogMessage", "loglevel", "setActionLogLevel", "logsubject", "setLogSubject");
   }
 
   @Override

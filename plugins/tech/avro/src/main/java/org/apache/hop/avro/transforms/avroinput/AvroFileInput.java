@@ -39,18 +39,12 @@ public class AvroFileInput extends BaseTransform<AvroFileInputMeta, AvroFileInpu
    * @param transformMeta The TransformMeta object to run.
    * @param meta
    * @param data the data object to store temporary data, database connections, caches, result sets,
-   *     hashtables etc.
+   *        hashtables etc.
    * @param copyNr The copynumber for this transform.
    * @param pipelineMeta The PipelineMeta of which the transform transformMeta is part of.
    * @param pipeline The (running) pipeline to obtain information shared among the transforms.
    */
-  public AvroFileInput(
-      TransformMeta transformMeta,
-      AvroFileInputMeta meta,
-      AvroFileInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public AvroFileInput(TransformMeta transformMeta, AvroFileInputMeta meta, AvroFileInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -69,14 +63,10 @@ public class AvroFileInput extends BaseTransform<AvroFileInputMeta, AvroFileInpu
 
       data.dataFilenameField = resolve(meta.getDataFilenameField());
       if (StringUtils.isEmpty(data.dataFilenameField)) {
-        throw new HopException(
-            "Please specify a field to use as the source of data filenames to read");
+        throw new HopException("Please specify a field to use as the source of data filenames to read");
       }
       if (getInputRowMeta().indexOfValue(data.dataFilenameField) < 0) {
-        throw new HopException(
-            "Data filename field '"
-                + data.dataFilenameField
-                + "' doesn't exist in the input of this transform");
+        throw new HopException("Data filename field '" + data.dataFilenameField + "' doesn't exist in the input of this transform");
       }
 
       data.rowsLimit = Const.toInt(resolve(meta.getRowsLimit()), -1);

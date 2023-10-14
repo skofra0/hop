@@ -64,7 +64,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
    *
    * @param meta the {@link TransformMetaType}
    * @return an array of incoming field names, or an empty array, if fields cannot be fetched, for
-   *     some reason.
+   *         some reason.
    */
   String[] getFieldNames(final TransformMetaType meta);
 
@@ -93,8 +93,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       fieldNamesInTable.add(item.getText(fieldNameIndex));
     }
     final List<String> newFieldNames =
-        Arrays.asList(fieldNamesInTable.toArray(new String[fieldNamesInTable.size()])).stream()
-            .filter(fieldName -> !Arrays.asList(incomingFieldNames).contains(fieldName))
+        Arrays.asList(fieldNamesInTable.toArray(new String[fieldNamesInTable.size()])).stream().filter(fieldName -> !Arrays.asList(incomingFieldNames).contains(fieldName))
             .collect(Collectors.toList());
     return newFieldNames;
   }
@@ -117,14 +116,13 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
       final int nrNonEmptyFields = getFieldsTable().nrNonEmpty();
       // are any fields already populated in the fields table?
       if (nrNonEmptyFields > 0) {
-        final FieldSelectionDialog fieldSelectDialog =
-            new FieldSelectionDialog(this.getShell(), newFieldNames.size()) {
-              @Override
-              protected void ok() {
-                super.ok();
-                openGetFieldsSampleDataDialog(reloadAllFields);
-              }
-            };
+        final FieldSelectionDialog fieldSelectDialog = new FieldSelectionDialog(this.getShell(), newFieldNames.size()) {
+          @Override
+          protected void ok() {
+            super.ok();
+            openGetFieldsSampleDataDialog(reloadAllFields);
+          }
+        };
         fieldSelectDialog.open();
       } else {
         // no fields are populated yet, go straight to "sample data" dialog
@@ -139,8 +137,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
   }
 
   default void openGetFieldsSampleDataDialog(boolean reloadAllFields) {
-    final GetFieldsSampleDataDialog dlg =
-        new GetFieldsSampleDataDialog(getShell(), this, reloadAllFields);
+    final GetFieldsSampleDataDialog dlg = new GetFieldsSampleDataDialog(getShell(), this, reloadAllFields);
     dlg.open();
   }
 
@@ -165,10 +162,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     return rowValues;
   }
 
-  default List<String> repopulateFields(
-      final TransformMetaType meta,
-      final Map<String, List<String>> previousFieldValues,
-      final boolean reloadAllFields) {
+  default List<String> repopulateFields(final TransformMetaType meta, final Map<String, List<String>> previousFieldValues, final boolean reloadAllFields) {
     // incoming field names
     final String[] incomingFieldNames = getFieldNames(meta);
     final List<String> newFieldNames = new ArrayList();
@@ -217,8 +211,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     }
   }
 
-  default String loadFields(
-      final TransformMetaType meta, final int samples, final boolean reloadAllFields) {
+  default String loadFields(final TransformMetaType meta, final int samples, final boolean reloadAllFields) {
     // fields loading might rely on specific order, and since we allow users to enter fields
     // manually, order is not
     // guaranteed; we therefore need to ensure that fields are properly ordered within the fields
@@ -267,11 +260,7 @@ public interface IGetFieldsCapableTransformDialog<TransformMetaType extends Base
     return item;
   }
 
-  void getData(
-      final TransformMetaType inputMeta,
-      final boolean copyTransformName,
-      final boolean reloadAllFields,
-      final List<String> newFieldNames);
+  void getData(final TransformMetaType inputMeta, final boolean copyTransformName, final boolean reloadAllFields, final List<String> newFieldNames);
 
   default TransformMetaType getPopulatedMeta() {
     final TransformMetaType newMeta = getNewMetaInstance();

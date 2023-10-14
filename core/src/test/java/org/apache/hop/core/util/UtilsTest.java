@@ -35,7 +35,8 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class UtilsTest {
-  @ClassRule public static RestoreHopEnvironment env = new RestoreHopEnvironment();
+  @ClassRule
+  public static RestoreHopEnvironment env = new RestoreHopEnvironment();
 
   @BeforeClass
   public static void setUpBeforeClass() throws HopException {
@@ -88,8 +89,7 @@ public class UtilsTest {
   public void testResolvePassword() {
     String password = "password";
     // is supposed the password stays the same
-    assertSame(
-        password, Utils.resolvePassword(Variables.getADefaultVariableSpace(), password).intern());
+    assertSame(password, Utils.resolvePassword(Variables.getADefaultVariableSpace(), password).intern());
   }
 
   @Test
@@ -97,9 +97,7 @@ public class UtilsTest {
     String decPassword = "password";
     // is supposed encrypted with Encr.bat util
     String encPassword = "Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde";
-    assertSame(
-        decPassword,
-        Utils.resolvePassword(Variables.getADefaultVariableSpace(), encPassword).intern());
+    assertSame(decPassword, Utils.resolvePassword(Variables.getADefaultVariableSpace(), encPassword).intern());
   }
 
   @Test

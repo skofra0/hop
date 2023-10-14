@@ -32,8 +32,7 @@ import org.apache.hop.run.HopRun;
 public class HopRunCalculateFilenameExtensionPoint implements IExtensionPoint<HopRun> {
 
   @Override
-  public void callExtensionPoint(ILogChannel log, IVariables variables, HopRun hopRun)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, HopRun hopRun) throws HopException {
 
     try {
       FileObject fileObject = HopVfs.getFileObject(hopRun.getRealFilename());

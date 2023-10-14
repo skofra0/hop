@@ -34,8 +34,7 @@ public class StringSearchResult {
    * @param string
    * @param parentObject
    */
-  public StringSearchResult(
-      String string, Object parentObject, Object grandParentObject, String fieldName) {
+  public StringSearchResult(String string, Object parentObject, Object grandParentObject, String fieldName) {
     super();
 
     this.string = string;
@@ -62,20 +61,15 @@ public class StringSearchResult {
 
   public static final IRowMeta getResultRowMeta() {
     IRowMeta rowMeta = new RowMeta();
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.PipelineOrWorkflow")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.TransformDatabaseNotice")));
     rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.String")));
-    rowMeta.addValueMeta(
-        new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.FieldName")));
+    rowMeta.addValueMeta(new ValueMetaString(BaseMessages.getString(PKG, "SearchResult.FieldName")));
     return rowMeta;
   }
 
   public Object[] toRow() {
-    return new Object[] {
-      grandParentObject.toString(), parentObject.toString(), string, fieldName,
-    };
+    return new Object[] {grandParentObject.toString(), parentObject.toString(), string, fieldName,};
   }
 
   public String toString() {

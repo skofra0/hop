@@ -30,13 +30,7 @@ public class RowsFromResult extends BaseTransform<RowsFromResultMeta, RowsFromRe
 
   private static final Class<?> PKG = RowsFromResult.class; // For Translator
 
-  public RowsFromResult(
-      TransformMeta transformMeta,
-      RowsFromResultMeta meta,
-      RowsFromResultData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public RowsFromResult(TransformMeta transformMeta, RowsFromResultMeta meta, RowsFromResultData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 

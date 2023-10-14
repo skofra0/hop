@@ -121,17 +121,13 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
     retval.append("      ").append(XmlHandler.addTagValue("outdumpvalue", outDumpValue));
     retval.append("      ").append(XmlHandler.addTagValue("iffileexists", ifFileExists));
     retval.append("      ").append(XmlHandler.addTagValue("addfiletoresult", addFileToResult));
-    retval
-        .append("      ")
-        .append(
-            XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
+    retval.append("      ").append(XmlHandler.addTagValue("connection", connection == null ? null : connection.getName()));
 
     return retval.toString();
   }
 
   @Override
-  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopXmlException {
+  public void loadXml(Node entrynode, IHopMetadataProvider metadataProvider, IVariables variables) throws HopXmlException {
     try {
       super.loadXml(entrynode);
       schemaName = XmlHandler.getTagValue(entrynode, "schemaname");
@@ -212,19 +208,13 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
         // the file exists and user want to Fail
         result.setResult(false);
         result.setNrErrors(1);
-        logError(
-            BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label")
-                + realFilename
-                + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
+        logError(BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label") + realFilename + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
 
       } else if (file.exists() && ifFileExists == 1) {
         // the file exists and user want to do nothing
         result.setResult(true);
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label")
-                  + realFilename
-                  + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
+          logDetailed(BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label") + realFilename + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
         }
 
       } else {
@@ -235,32 +225,22 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
           // Format Date
 
           // Try to clean filename (without wildcard)
-          String wildcard =
-              realFilename.substring(realFilename.length() - 4, realFilename.length());
+          String wildcard = realFilename.substring(realFilename.length() - 4, realFilename.length());
           if (wildcard.substring(0, 1).equals(".")) {
             // Find wildcard
-            realFilename =
-                realFilename.substring(0, realFilename.length() - 4)
-                    + "_"
-                    + StringUtil.getFormattedDateTimeNow(true)
-                    + wildcard;
+            realFilename = realFilename.substring(0, realFilename.length() - 4) + "_" + StringUtil.getFormattedDateTimeNow(true) + wildcard;
           } else {
             // did not find wildcard
             realFilename = realFilename + "_" + StringUtil.getFormattedDateTimeNow(true);
           }
 
           logDebug(
-              BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileNameChange1.Label")
-                  + realFilename
-                  + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileNameChange1.Label"));
+              BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileNameChange1.Label") + realFilename + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileNameChange1.Label"));
         }
 
         // User has specified an existing file, We can continue ...
         if (log.isDetailed()) {
-          logDetailed(
-              BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label")
-                  + realFilename
-                  + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
+          logDetailed(BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists1.Label") + realFilename + BaseMessages.getString(PKG, "ActionMysqlBulkFile.FileExists2.Label"));
         }
 
         if (connection != null) {
@@ -276,9 +256,7 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
               // The table existe, We can continue ...
               if (log.isDetailed()) {
                 logDetailed(
-                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableExists1.Label")
-                        + realTablename
-                        + BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableExists2.Label"));
+                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableExists1.Label") + realTablename + BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableExists2.Label"));
               }
 
               // Add schemaname (Most the time Schemaname.Tablename)
@@ -298,16 +276,12 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
 
               // Fields separator
               if (getRealSeparator() != null && outDumpValue == 0) {
-                fieldSeparator =
-                    "FIELDS TERMINATED BY '" + Const.replace(getRealSeparator(), "'", "''") + "'";
+                fieldSeparator = "FIELDS TERMINATED BY '" + Const.replace(getRealSeparator(), "'", "''") + "'";
               }
 
               // Lines Terminated by
               if (getRealLineterminated() != null && outDumpValue == 0) {
-                linesTerminated =
-                    "LINES TERMINATED BY '"
-                        + Const.replace(getRealLineterminated(), "'", "''")
-                        + "'";
+                linesTerminated = "LINES TERMINATED BY '" + Const.replace(getRealLineterminated(), "'", "''") + "'";
               }
 
               // High Priority ?
@@ -319,11 +293,7 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
                 if (isOptionEnclosed()) {
                   optionEnclosed = "OPTIONALLY ";
                 }
-                optionEnclosed =
-                    optionEnclosed
-                        + "ENCLOSED BY '"
-                        + Const.replace(getRealEnclosed(), "'", "''")
-                        + "'";
+                optionEnclosed = optionEnclosed + "ENCLOSED BY '" + Const.replace(getRealEnclosed(), "'", "''") + "'";
               }
 
               // OutFile or Dumpfile
@@ -364,12 +334,7 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
 
                 if (isAddFileToResult()) {
                   // Add filename to output files
-                  ResultFile resultFile =
-                      new ResultFile(
-                          ResultFile.FILE_TYPE_GENERAL,
-                          HopVfs.getFileObject(realFilename),
-                          parentWorkflow.getWorkflowName(),
-                          toString());
+                  ResultFile resultFile = new ResultFile(ResultFile.FILE_TYPE_GENERAL, HopVfs.getFileObject(realFilename), parentWorkflow.getWorkflowName(), toString());
                   result.getResultFiles().put(resultFile.getFile().toString(), resultFile);
                 }
 
@@ -377,14 +342,9 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
 
               } catch (SQLException je) {
                 result.setNrErrors(1);
-                logError(
-                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label")
-                        + " "
-                        + je.getMessage());
+                logError(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label") + " " + je.getMessage());
               } catch (HopFileException e) {
-                logError(
-                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label")
-                        + e.getMessage());
+                logError(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label") + e.getMessage());
                 result.setNrErrors(1);
               }
 
@@ -394,18 +354,14 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
               result.setNrErrors(1);
               if (log.isDetailed()) {
                 logDetailed(
-                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableNotExists1.Label")
-                        + realTablename
+                    BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableNotExists1.Label") + realTablename
                         + BaseMessages.getString(PKG, "ActionMysqlBulkFile.TableNotExists2.Label"));
               }
             }
 
           } catch (HopDatabaseException dbe) {
             result.setNrErrors(1);
-            logError(
-                BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label")
-                    + " "
-                    + dbe.getMessage());
+            logError(BaseMessages.getString(PKG, "ActionMysqlBulkFile.Error.Label") + " " + dbe.getMessage());
           }
 
         } else {
@@ -426,9 +382,7 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
 
   @Override
   public DatabaseMeta[] getUsedDatabaseConnections() {
-    return new DatabaseMeta[] {
-      connection,
-    };
+    return new DatabaseMeta[] {connection,};
   }
 
   public void setHighPriority(boolean highpriority) {
@@ -549,37 +503,20 @@ public class ActionMysqlBulkFile extends ActionBase implements Cloneable, IActio
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, WorkflowMeta workflowMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, WorkflowMeta workflowMeta) {
     List<ResourceReference> references = super.getResourceDependencies(variables, workflowMeta);
     if (connection != null) {
       ResourceReference reference = new ResourceReference(this);
       reference.getEntries().add(new ResourceEntry(connection.getHostname(), ResourceType.SERVER));
-      reference
-          .getEntries()
-          .add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
+      reference.getEntries().add(new ResourceEntry(connection.getDatabaseName(), ResourceType.DATABASENAME));
       references.add(reference);
     }
     return references;
   }
 
   @Override
-  public void check(
-      List<ICheckResult> remarks,
-      WorkflowMeta workflowMeta,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider) {
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "filename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
-    ActionValidatorUtils.andValidator()
-        .validate(
-            this,
-            "tablename",
-            remarks,
-            AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+  public void check(List<ICheckResult> remarks, WorkflowMeta workflowMeta, IVariables variables, IHopMetadataProvider metadataProvider) {
+    ActionValidatorUtils.andValidator().validate(this, "filename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
+    ActionValidatorUtils.andValidator().validate(this, "tablename", remarks, AndValidator.putValidators(ActionValidatorUtils.notBlankValidator()));
   }
 }

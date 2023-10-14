@@ -114,8 +114,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
   private Button wConcatErrors;
   private TextVar wConcatSeparator;
 
-  public ValidatorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public ValidatorDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (ValidatorMeta) in, tr, sname);
     input = (ValidatorMeta) in;
 
@@ -196,12 +195,10 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     fdlFieldList.right = new FormAttachment(middle, -margin);
     fdlFieldList.top = new FormAttachment(wTransformName, margin);
     wlFieldList.setLayoutData(fdlFieldList);
-    wValidationsList =
-        new List(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wValidationsList = new List(shell, SWT.SINGLE | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 
     PropsUi.setLook(wValidationsList);
-    wValidationsList.addListener(
-        SWT.Selection, e -> showSelectedValidatorField(wValidationsList.getSelection()[0]));
+    wValidationsList.addListener(SWT.Selection, e -> showSelectedValidatorField(wValidationsList.getSelection()[0]));
 
     FormData fdFieldList = new FormData();
     fdFieldList.left = new FormAttachment(0, 0);
@@ -279,25 +276,21 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     fdDescription.right = new FormAttachment(100, 0);
     fdDescription.top = new FormAttachment(0, 0);
     wDescription.setLayoutData(fdDescription);
-    wDescription.addListener(
-        SWT.Modify,
-        event -> {
-          // See if there is a selected Validation
-          //
-          if (wValidationsList != null
-              && wValidationsList.getItemCount() > 0
-              && wValidationsList.getSelection().length == 1) {
-            int index = wValidationsList.getSelectionIndex();
-            String description = wValidationsList.getItem(index);
-            Validation validation = Validation.findValidation(selectionList, description);
-            if (validation != null) {
-              String newDescription = wDescription.getText();
-              validation.setName(newDescription);
-              wValidationsList.setItem(index, newDescription);
-              wValidationsList.select(index);
-            }
-          }
-        });
+    wDescription.addListener(SWT.Modify, event -> {
+      // See if there is a selected Validation
+      //
+      if (wValidationsList != null && wValidationsList.getItemCount() > 0 && wValidationsList.getSelection().length == 1) {
+        int index = wValidationsList.getSelectionIndex();
+        String description = wValidationsList.getItem(index);
+        Validation validation = Validation.findValidation(selectionList, description);
+        if (validation != null) {
+          String newDescription = wDescription.getText();
+          validation.setName(newDescription);
+          wValidationsList.setItem(index, newDescription);
+          wValidationsList.select(index);
+        }
+      }
+    });
 
     // The name of the field to validate
     //
@@ -325,10 +318,8 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     } catch (HopTransformException ex) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "ValidatorDialog.Exception.CantGetFieldsFromPreviousTransforms.Title"),
-          BaseMessages.getString(
-              PKG, "ValidatorDialog.Exception.CantGetFieldsFromPreviousTransforms.Message"),
+          BaseMessages.getString(PKG, "ValidatorDialog.Exception.CantGetFieldsFromPreviousTransforms.Title"),
+          BaseMessages.getString(PKG, "ValidatorDialog.Exception.CantGetFieldsFromPreviousTransforms.Message"),
           ex);
     }
 
@@ -354,8 +345,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // ErrorDescription
     //
     wlErrorDescription = new Label(wComp, SWT.RIGHT);
-    wlErrorDescription.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.ErrorDescription.Label"));
+    wlErrorDescription.setText(BaseMessages.getString(PKG, "ValidatorDialog.ErrorDescription.Label"));
     PropsUi.setLook(wlErrorDescription);
     FormData fdlErrorDescription = new FormData();
     fdlErrorDescription.left = new FormAttachment(0, 0);
@@ -389,8 +379,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Check for data type correctness?
     //
     Label wlDataTypeVerified = new Label(wgType, SWT.RIGHT);
-    wlDataTypeVerified.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.DataTypeVerified.Label"));
+    wlDataTypeVerified.setText(BaseMessages.getString(PKG, "ValidatorDialog.DataTypeVerified.Label"));
     PropsUi.setLook(wlDataTypeVerified);
     FormData fdlDataTypeVerified = new FormData();
     fdlDataTypeVerified.left = new FormAttachment(0, 0);
@@ -629,8 +618,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Expected start string
     //
     Label wlStartStringExpected = new Label(wgData, SWT.RIGHT);
-    wlStartStringExpected.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.StartStringExpected.Label"));
+    wlStartStringExpected.setText(BaseMessages.getString(PKG, "ValidatorDialog.StartStringExpected.Label"));
     PropsUi.setLook(wlStartStringExpected);
     FormData fdlStartStringExpected = new FormData();
     fdlStartStringExpected.left = new FormAttachment(0, 0);
@@ -649,8 +637,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Expected End string
     //
     Label wlEndStringExpected = new Label(wgData, SWT.RIGHT);
-    wlEndStringExpected.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.EndStringExpected.Label"));
+    wlEndStringExpected.setText(BaseMessages.getString(PKG, "ValidatorDialog.EndStringExpected.Label"));
     PropsUi.setLook(wlEndStringExpected);
     FormData fdlEndStringExpected = new FormData();
     fdlEndStringExpected.left = new FormAttachment(0, 0);
@@ -669,8 +656,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Disallowed start string
     //
     Label wlStartStringDisallowed = new Label(wgData, SWT.RIGHT);
-    wlStartStringDisallowed.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.StartStringDisallowed.Label"));
+    wlStartStringDisallowed.setText(BaseMessages.getString(PKG, "ValidatorDialog.StartStringDisallowed.Label"));
     PropsUi.setLook(wlStartStringDisallowed);
     FormData fdlStartStringDisallowed = new FormData();
     fdlStartStringDisallowed.left = new FormAttachment(0, 0);
@@ -689,8 +675,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Disallowed End string
     //
     Label wlEndStringDisallowed = new Label(wgData, SWT.RIGHT);
-    wlEndStringDisallowed.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.EndStringDisallowed.Label"));
+    wlEndStringDisallowed.setText(BaseMessages.getString(PKG, "ValidatorDialog.EndStringDisallowed.Label"));
     PropsUi.setLook(wlEndStringDisallowed);
     FormData fdlEndStringDisallowed = new FormData();
     fdlEndStringDisallowed.left = new FormAttachment(0, 0);
@@ -728,8 +713,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Disallowed regular expression
     //
     Label wlRegExpDisallowed = new Label(wgData, SWT.RIGHT);
-    wlRegExpDisallowed.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.RegExpDisallowed.Label"));
+    wlRegExpDisallowed.setText(BaseMessages.getString(PKG, "ValidatorDialog.RegExpDisallowed.Label"));
     PropsUi.setLook(wlRegExpDisallowed);
     FormData fdlRegExpDisallowed = new FormData();
     fdlRegExpDisallowed.left = new FormAttachment(0, 0);
@@ -760,8 +744,7 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     // Remove an entry
     //
     wbRemoveAllowed = new Button(wgData, SWT.PUSH);
-    wbRemoveAllowed.setText(
-        BaseMessages.getString(PKG, "ValidatorDialog.ButtonRemoveAllowed.Label"));
+    wbRemoveAllowed.setText(BaseMessages.getString(PKG, "ValidatorDialog.ButtonRemoveAllowed.Label"));
     FormData fdbRemoveAllowed = new FormData();
     fdbRemoveAllowed.right = new FormAttachment(100, 0);
     fdbRemoveAllowed.top = new FormAttachment(wbAddAllowed, margin);
@@ -776,15 +759,13 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     fdlAllowedValues.right = new FormAttachment(middle, -margin);
     fdlAllowedValues.top = new FormAttachment(wRegExpDisallowed, margin);
     wlAllowedValues.setLayoutData(fdlAllowedValues);
-    wAllowedValues =
-        new List(wgData, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+    wAllowedValues = new List(wgData, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
     PropsUi.setLook(wAllowedValues);
     FormData fdAllowedValues = new FormData();
     fdAllowedValues.left = new FormAttachment(middle, margin);
     fdAllowedValues.right = new FormAttachment(wbRemoveAllowed, -20);
     fdAllowedValues.top = new FormAttachment(wRegExpDisallowed, margin);
-    fdAllowedValues.bottom =
-        new FormAttachment(wRegExpDisallowed, (int) (props.getZoomFactor() * 150));
+    fdAllowedValues.bottom = new FormAttachment(wRegExpDisallowed, (int) (props.getZoomFactor() * 150));
     wAllowedValues.setLayoutData(fdAllowedValues);
 
     // Source allowed values from another transform?
@@ -939,34 +920,32 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
 
   private void addSpacesWarning(TextVar text) {
     Text widget = text.getTextWidget();
-    widget.addListener(
-        SWT.Modify,
-        e -> {
-          boolean showWarning = false;
-          String message = null;
+    widget.addListener(SWT.Modify, e -> {
+      boolean showWarning = false;
+      String message = null;
 
-          // Only spaces
-          //
-          if (spacesValidation(text.getText())) {
-            showWarning = true;
-            message = BaseMessages.getString(PKG, "System.Warning.OnlySpaces");
-          } else if (trailingSpacesValidation(text.getText())) {
-            showWarning = true;
-            message = BaseMessages.getString(PKG, "System.Warning.TrailingSpaces");
-          }
+      // Only spaces
+      //
+      if (spacesValidation(text.getText())) {
+        showWarning = true;
+        message = BaseMessages.getString(PKG, "System.Warning.OnlySpaces");
+      } else if (trailingSpacesValidation(text.getText())) {
+        showWarning = true;
+        message = BaseMessages.getString(PKG, "System.Warning.TrailingSpaces");
+      }
 
-          // Red/White color if there's an issue.
-          //
-          if (showWarning) {
-            widget.setBackground(GuiResource.getInstance().getColorRed());
-            widget.setForeground(GuiResource.getInstance().getColorWhite());
-            widget.setToolTipText(message);
-          } else {
-            // Reset to the defaults
-            PropsUi.setLook(widget);
-            widget.setToolTipText("");
-          }
-        });
+      // Red/White color if there's an issue.
+      //
+      if (showWarning) {
+        widget.setBackground(GuiResource.getInstance().getColorRed());
+        widget.setForeground(GuiResource.getInstance().getColorWhite());
+        widget.setToolTipText(message);
+      } else {
+        // Reset to the defaults
+        PropsUi.setLook(widget);
+        widget.setToolTipText("");
+      }
+    });
   }
 
   public boolean spacesValidation(String text) {
@@ -1182,10 +1161,8 @@ public class ValidatorDialog extends BaseTransformDialog implements ITransformDi
     if (description != null) {
       if (Validation.findValidation(selectionList, description) != null) {
         MessageBox messageBox = new MessageBox(shell, SWT.ICON_ERROR);
-        messageBox.setText(
-            BaseMessages.getString(PKG, "ValidatorDialog.ValidationRuleNameAlreadyExists.Title"));
-        messageBox.setMessage(
-            BaseMessages.getString(PKG, "ValidatorDialog.ValidationRuleNameAlreadyExists.Message"));
+        messageBox.setText(BaseMessages.getString(PKG, "ValidatorDialog.ValidationRuleNameAlreadyExists.Title"));
+        messageBox.setMessage(BaseMessages.getString(PKG, "ValidatorDialog.ValidationRuleNameAlreadyExists.Message"));
         messageBox.open();
         return;
       }

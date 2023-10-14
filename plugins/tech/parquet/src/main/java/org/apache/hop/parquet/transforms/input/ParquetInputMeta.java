@@ -51,13 +51,7 @@ public class ParquetInputMeta extends BaseTransformMeta<ParquetInput, ParquetInp
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // Add the fields to the input
     //
@@ -67,8 +61,7 @@ public class ParquetInputMeta extends BaseTransformMeta<ParquetInput, ParquetInp
         valueMeta.setOrigin(name);
         inputRowMeta.addValueMeta(valueMeta);
       } catch (HopException e) {
-        throw new HopTransformException(
-            "Unable to create value metadata of type '" + field.getTargetType() + "'", e);
+        throw new HopTransformException("Unable to create value metadata of type '" + field.getTargetType() + "'", e);
       }
     }
   }

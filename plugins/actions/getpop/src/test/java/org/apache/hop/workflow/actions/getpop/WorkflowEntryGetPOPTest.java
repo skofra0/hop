@@ -47,9 +47,12 @@ import static org.junit.Assert.fail;
 
 public class WorkflowEntryGetPOPTest {
 
-  @Mock MailConnection mailConn;
-  @Mock IWorkflowEngine<WorkflowMeta> parentWorkflow;
-  @Mock Message message;
+  @Mock
+  MailConnection mailConn;
+  @Mock
+  IWorkflowEngine<WorkflowMeta> parentWorkflow;
+  @Mock
+  Message message;
 
   ActionGetPOP entry = new ActionGetPOP();
 
@@ -90,7 +93,8 @@ public class WorkflowEntryGetPOPTest {
   /**
    * Workflow get emails Action does not mark emails as 'read' when load emails content.
    *
-   * <p>Test that we always open remote folder in rw mode, and after email attachment is loaded
+   * <p>
+   * Test that we always open remote folder in rw mode, and after email attachment is loaded
    * email is marked as read. Set for openFolder rw mode if this is pop3.
    *
    * @throws HopException
@@ -99,14 +103,7 @@ public class WorkflowEntryGetPOPTest {
   @Test
   public void testFetchOneFolderModePop3() throws HopException, MessagingException {
     entry.fetchOneFolder(
-        mailConn,
-        true,
-        "junitImapFolder",
-        "junitRealOutputFolder",
-        "junitTargetAttachmentFolder",
-        "junitRealMoveToIMAPFolder",
-        "junitRealFilenamePattern",
-        0,
+        mailConn, true, "junitImapFolder", "junitRealOutputFolder", "junitTargetAttachmentFolder", "junitRealMoveToIMAPFolder", "junitRealFilenamePattern", 0,
         Mockito.mock(SimpleDateFormat.class));
     Mockito.verify(mailConn).openFolder(true);
     Mockito.verify(message).setFlag(Flag.SEEN, true);
@@ -115,7 +112,8 @@ public class WorkflowEntryGetPOPTest {
   /**
    * Workflow get emails Action does not mark emails as 'read' when load emails content.
    *
-   * <p>Test that we always open remote folder in rw mode, and after email attachment is loaded
+   * <p>
+   * Test that we always open remote folder in rw mode, and after email attachment is loaded
    * email is marked as read. protocol IMAP and default remote folder is overridden
    *
    * @throws HopException
@@ -124,14 +122,7 @@ public class WorkflowEntryGetPOPTest {
   @Test
   public void testFetchOneFolderModeIMAPWithNonDefFolder() throws HopException, MessagingException {
     entry.fetchOneFolder(
-        mailConn,
-        false,
-        "junitImapFolder",
-        "junitRealOutputFolder",
-        "junitTargetAttachmentFolder",
-        "junitRealMoveToIMAPFolder",
-        "junitRealFilenamePattern",
-        0,
+        mailConn, false, "junitImapFolder", "junitRealOutputFolder", "junitTargetAttachmentFolder", "junitRealMoveToIMAPFolder", "junitRealFilenamePattern", 0,
         Mockito.mock(SimpleDateFormat.class));
     Mockito.verify(mailConn).openFolder("junitImapFolder", true);
     Mockito.verify(message).setFlag(Flag.SEEN, true);
@@ -140,7 +131,8 @@ public class WorkflowEntryGetPOPTest {
   /**
    * Workflow get emails Action does not mark emails as 'read' when load emails content.
    *
-   * <p>Test that we always open remote folder in rw mode, and after email attachment is loaded
+   * <p>
+   * Test that we always open remote folder in rw mode, and after email attachment is loaded
    * email is marked as read. protocol IMAP and default remote folder is NOT overridden
    *
    * @throws HopException
@@ -149,14 +141,7 @@ public class WorkflowEntryGetPOPTest {
   @Test
   public void testFetchOneFolderModeIMAPWithIsDefFolder() throws HopException, MessagingException {
     entry.fetchOneFolder(
-        mailConn,
-        false,
-        null,
-        "junitRealOutputFolder",
-        "junitTargetAttachmentFolder",
-        "junitRealMoveToIMAPFolder",
-        "junitRealFilenamePattern",
-        0,
+        mailConn, false, null, "junitRealOutputFolder", "junitTargetAttachmentFolder", "junitRealMoveToIMAPFolder", "junitRealFilenamePattern", 0,
         Mockito.mock(SimpleDateFormat.class));
     Mockito.verify(mailConn).openFolder(true);
     Mockito.verify(message).setFlag(Flag.SEEN, true);
@@ -165,7 +150,8 @@ public class WorkflowEntryGetPOPTest {
   /**
    * Get Mail Workflow Entry: Attachments folder not created
    *
-   * <p>Test that the Attachments folder is created when the entry is configured to save attachments
+   * <p>
+   * Test that the Attachments folder is created when the entry is configured to save attachments
    * and messages in the same folder
    *
    * @throws IOException
@@ -191,15 +177,14 @@ public class WorkflowEntryGetPOPTest {
 
     assertTrue("Output Folder should be a local path", !Utils.isEmpty(outputFolderName));
     assertTrue("Attachment Folder should be a local path", !Utils.isEmpty(attachmentsFolderName));
-    assertTrue(
-        "Output and Attachment Folder should match",
-        outputFolderName.equals(attachmentsFolderName));
+    assertTrue("Output and Attachment Folder should match", outputFolderName.equals(attachmentsFolderName));
   }
 
   /**
    * Get Mail Workflow Entry: Attachments folder not created
    *
-   * <p>Test that the Attachments folder is created when the entry is configured to save attachments
+   * <p>
+   * Test that the Attachments folder is created when the entry is configured to save attachments
    * and messages in different folders
    *
    * @throws IOException
@@ -226,15 +211,14 @@ public class WorkflowEntryGetPOPTest {
 
     assertTrue("Output Folder should be a local path", !Utils.isEmpty(outputFolderName));
     assertTrue("Attachment Folder should be a local path", !Utils.isEmpty(attachmentsFolderName));
-    assertFalse(
-        "Output and Attachment Folder should not match",
-        outputFolderName.equals(attachmentsFolderName));
+    assertFalse("Output and Attachment Folder should not match", outputFolderName.equals(attachmentsFolderName));
   }
 
   /**
    * Get Mail Workflow Entry: Attachments folder not created
    *
-   * <p>Test that the Attachments folder is not created when the entry is configured to not create
+   * <p>
+   * Test that the Attachments folder is not created when the entry is configured to not create
    * folders
    *
    * @throws IOException
@@ -243,7 +227,7 @@ public class WorkflowEntryGetPOPTest {
   public void testFolderIsNotCreatedWhenCreateFolderSettingIsDisabled() throws IOException {
     File outputDir = new File(TestUtils.createTempDir());
     File attachmentsDir = new File(TestUtils.createTempDir());
-    // The folders already exist from TestUtils.  Delete them so they don't exist during the test
+    // The folders already exist from TestUtils. Delete them so they don't exist during the test
     outputDir.delete();
     attachmentsDir.delete();
 
@@ -260,11 +244,7 @@ public class WorkflowEntryGetPOPTest {
       if (e instanceof HopException) {
         assertTrue(
             "Output Folder should not be created",
-            BaseMessages.getString(
-                    ActionGetPOP.class,
-                    "ActionGetMailsFromPOP.Error.OutputFolderNotExist",
-                    outputDir.getAbsolutePath())
-                .equals(Const.trim(e.getMessage())));
+            BaseMessages.getString(ActionGetPOP.class, "ActionGetMailsFromPOP.Error.OutputFolderNotExist", outputDir.getAbsolutePath()).equals(Const.trim(e.getMessage())));
       } else {
         fail("Output Folder should not have been created: " + e.getLocalizedMessage());
       }
@@ -275,12 +255,8 @@ public class WorkflowEntryGetPOPTest {
     } catch (Exception e) {
       if (e instanceof HopException) {
         assertTrue(
-            "Output Folder should not be created",
-            BaseMessages.getString(
-                    ActionGetPOP.class,
-                    "ActionGetMailsFromPOP.Error.AttachmentFolderNotExist",
-                    attachmentsDir.getAbsolutePath())
-                .equals(Const.trim(e.getMessage())));
+            "Output Folder should not be created", BaseMessages
+                .getString(ActionGetPOP.class, "ActionGetMailsFromPOP.Error.AttachmentFolderNotExist", attachmentsDir.getAbsolutePath()).equals(Const.trim(e.getMessage())));
       } else {
         fail("Attachments Folder should not have been created: " + e.getLocalizedMessage());
       }
@@ -290,7 +266,8 @@ public class WorkflowEntryGetPOPTest {
   /**
    * Get Mails (POP3/IMAP) Not substituting environment variables for target directories
    *
-   * <p>Test that environment variables are appropriately substituted when creating output and
+   * <p>
+   * Test that environment variables are appropriately substituted when creating output and
    * attachment folders
    */
   @Test
@@ -312,25 +289,18 @@ public class WorkflowEntryGetPOPTest {
 
     // set output and attachment folders to path with variable
     String outputDirWithVariable = tempDirBase + File.separator + "${" + outputVariableName + "}";
-    String attachmentDirWithVariable =
-        tempDirBase + File.separator + "${" + attachmentVariableName + "}";
+    String attachmentDirWithVariable = tempDirBase + File.separator + "${" + attachmentVariableName + "}";
     entry.setOutputDirectory(outputDirWithVariable);
     entry.setAttachmentFolder(attachmentDirWithVariable);
 
     // directly test environment substitute functions
-    assertTrue(
-        "Error in Direct substitute test for output directory",
-        outputDir.toString().equals(entry.getRealOutputDirectory()));
-    assertTrue(
-        "Error in Direct substitute test for  attachment directory",
-        attachmentDir.toString().equals(entry.getRealAttachmentFolder()));
+    assertTrue("Error in Direct substitute test for output directory", outputDir.toString().equals(entry.getRealOutputDirectory()));
+    assertTrue("Error in Direct substitute test for  attachment directory", attachmentDir.toString().equals(entry.getRealAttachmentFolder()));
 
     // test environment substitute for output dir via createOutputDirectory method
     try {
       String outputRes = entry.createOutputDirectory(ActionGetPOP.FOLDER_OUTPUT);
-      assertTrue(
-          "Variables not working in createOutputDirectory: output directory",
-          outputRes.equals(outputDir.toString()));
+      assertTrue("Variables not working in createOutputDirectory: output directory", outputRes.equals(outputDir.toString()));
     } catch (Exception e) {
       fail("Unexpected exception when calling createOutputDirectory for output directory");
     }
@@ -338,16 +308,12 @@ public class WorkflowEntryGetPOPTest {
     // test environment substitute for attachment dir via createOutputDirectory method
     try {
       String attachOutputRes = entry.createOutputDirectory(ActionGetPOP.FOLDER_ATTACHMENTS);
-      assertTrue(
-          "Variables not working in createOutputDirectory: attachment with options false",
-          attachOutputRes.equals(outputDir.toString()));
+      assertTrue("Variables not working in createOutputDirectory: attachment with options false", attachOutputRes.equals(outputDir.toString()));
       // set options that trigger alternate path for FOLDER_ATTACHMENTS option
       entry.setSaveAttachment(true);
       entry.setDifferentFolderForAttachment(true);
       String attachRes = entry.createOutputDirectory(ActionGetPOP.FOLDER_ATTACHMENTS);
-      assertTrue(
-          "Variables not working in createOutputDirectory: attachment with options true",
-          attachRes.equals(outputDir.toString()));
+      assertTrue("Variables not working in createOutputDirectory: attachment with options true", attachRes.equals(outputDir.toString()));
     } catch (Exception e) {
       fail("Unexpected exception when calling createOutputDirectory for attachment directory");
     }

@@ -24,34 +24,22 @@ import java.util.Objects;
 public class FormulaMetaFunction {
   public static final String XML_TAG = "formula";
 
-  @HopMetadataProperty(
-      key = "field_name",
-      injectionKeyDescription = "FormulaMeta.Injection.FieldName")
+  @HopMetadataProperty(key = "field_name", injectionKeyDescription = "FormulaMeta.Injection.FieldName")
   private String fieldName;
 
-  @HopMetadataProperty(
-      key = "formula",
-      injectionKeyDescription = "FormulaMeta.Injection.FormulaString")
+  @HopMetadataProperty(key = "formula", injectionKeyDescription = "FormulaMeta.Injection.FormulaString")
   private String formula;
 
-  @HopMetadataProperty(
-      key = "value_type",
-      injectionKeyDescription = "FormulaMeta.Injection.ValueType")
+  @HopMetadataProperty(key = "value_type", injectionKeyDescription = "FormulaMeta.Injection.ValueType")
   private int valueType;
 
-  @HopMetadataProperty(
-      key = "value_length",
-      injectionKeyDescription = "FormulaMeta.Injection.ValueLength")
+  @HopMetadataProperty(key = "value_length", injectionKeyDescription = "FormulaMeta.Injection.ValueLength")
   private int valueLength;
 
-  @HopMetadataProperty(
-      key = "value_precision",
-      injectionKeyDescription = "FormulaMeta.Injection.ValuePrecision")
+  @HopMetadataProperty(key = "value_precision", injectionKeyDescription = "FormulaMeta.Injection.ValuePrecision")
   private int valuePrecision;
 
-  @HopMetadataProperty(
-      key = "replace_field",
-      injectionKeyDescription = "FormulaMeta.Injection.ReplaceField")
+  @HopMetadataProperty(key = "replace_field", injectionKeyDescription = "FormulaMeta.Injection.ReplaceField")
   private String replaceField;
 
   /** This value will be discovered on runtime and need not to be persisted into xml or rep. */
@@ -66,13 +54,7 @@ public class FormulaMetaFunction {
    * @param valuePrecision
    * @param replaceField
    */
-  public FormulaMetaFunction(
-      String fieldName,
-      String formula,
-      int valueType,
-      int valueLength,
-      int valuePrecision,
-      String replaceField) {
+  public FormulaMetaFunction(String fieldName, String formula, int valueType, int valueLength, int valuePrecision, String replaceField) {
     this.fieldName = fieldName;
     this.formula = formula;
     this.valueType = valueType;

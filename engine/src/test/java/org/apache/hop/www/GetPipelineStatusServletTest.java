@@ -57,8 +57,7 @@ public class GetPipelineStatusServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testGetPipelineStatusServletEscapesHtmlWhenPipelineNotFound()
-      throws ServletException, IOException {
+  public void testGetPipelineStatusServletEscapesHtmlWhenPipelineNotFound() throws ServletException, IOException {
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
 
@@ -67,8 +66,7 @@ public class GetPipelineStatusServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(GetPipelineStatusServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
 
     getPipelineStatusServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
@@ -80,8 +78,7 @@ public class GetPipelineStatusServletTest {
 
   @Test
   @PrepareForTest({Encode.class})
-  public void testGetPipelineStatusServletEscapesHtmlWhenPipelineFound()
-      throws ServletException, IOException {
+  public void testGetPipelineStatusServletEscapesHtmlWhenPipelineFound() throws ServletException, IOException {
     HopLogStore.init();
     HttpServletRequest mockHttpServletRequest = mock(HttpServletRequest.class);
     HttpServletResponse mockHttpServletResponse = mock(HttpServletResponse.class);
@@ -93,8 +90,7 @@ public class GetPipelineStatusServletTest {
 
     PowerMockito.spy(Encode.class);
     when(mockHttpServletRequest.getContextPath()).thenReturn(GetPipelineStatusServlet.CONTEXT_PATH);
-    when(mockHttpServletRequest.getParameter(anyString()))
-        .thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
+    when(mockHttpServletRequest.getParameter(anyString())).thenReturn(ServletTestUtils.BAD_STRING_TO_TEST);
     when(mockHttpServletResponse.getWriter()).thenReturn(printWriter);
     when(mockPipelineMap.getPipeline(any(HopServerObjectEntry.class))).thenReturn(mockPipeline);
     when(mockPipeline.getLogChannel()).thenReturn(mockChannelInterface);
@@ -102,8 +98,7 @@ public class GetPipelineStatusServletTest {
     when(mockPipelineMeta.getMaximum()).thenReturn(new Point(10, 10));
 
     getPipelineStatusServlet.doGet(mockHttpServletRequest, mockHttpServletResponse);
-    assertFalse(
-        ServletTestUtils.hasBadText(ServletTestUtils.getInsideOfTag("TITLE", out.toString())));
+    assertFalse(ServletTestUtils.hasBadText(ServletTestUtils.getInsideOfTag("TITLE", out.toString())));
 
     PowerMockito.verifyStatic(Encode.class, atLeastOnce());
     Encode.forHtml(anyString());

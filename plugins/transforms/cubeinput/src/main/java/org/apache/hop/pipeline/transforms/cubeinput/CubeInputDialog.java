@@ -47,8 +47,7 @@ public class CubeInputDialog extends BaseTransformDialog implements ITransformDi
   private Button wAddResult;
   private final CubeInputMeta input;
 
-  public CubeInputDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public CubeInputDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (CubeInputMeta) in;
   }
@@ -168,17 +167,9 @@ public class CubeInputDialog extends BaseTransformDialog implements ITransformDi
 
     wbFilename.addListener(
         SWT.Selection,
-        e ->
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*.cube", "*"},
-                new String[] {
-                  BaseMessages.getString(PKG, "CubeInputDialog.FilterNames.CubeFiles"),
-                  BaseMessages.getString(PKG, "CubeInputDialog.FilterNames.AllFiles")
-                },
-                true));
+        e -> BaseDialog.presentFileDialog(
+            shell, wFilename, variables, new String[] {"*.cube", "*"},
+            new String[] {BaseMessages.getString(PKG, "CubeInputDialog.FilterNames.CubeFiles"), BaseMessages.getString(PKG, "CubeInputDialog.FilterNames.AllFiles")}, true));
 
     getData();
 

@@ -57,9 +57,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@InjectionSupported(
-    localizationPrefix = "UserDefinedJavaClass.Injection.",
-    groups = {"PARAMETERS", "TARGET_TRANSFORMS", "INFO_TRANSFORMS", "JAVA_CLASSES", "FIELD_INFO"})
+@InjectionSupported(localizationPrefix = "UserDefinedJavaClass.Injection.", groups = {"PARAMETERS", "TARGET_TRANSFORMS", "INFO_TRANSFORMS", "JAVA_CLASSES", "FIELD_INFO"})
 @Transform(
     id = "UserDefinedJavaClass",
     image = "userdefinedjavaclass.svg",
@@ -103,9 +101,11 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     parameter_description,
   }
 
-  @InjectionDeep private List<FieldInfo> fields = new ArrayList<>();
+  @InjectionDeep
+  private List<FieldInfo> fields = new ArrayList<>();
 
-  @InjectionDeep private List<UserDefinedJavaClassDef> definitions = new ArrayList<>();
+  @InjectionDeep
+  private List<UserDefinedJavaClassDef> definitions = new ArrayList<>();
 
   public Class<TransformClassBase> cookedTransformClass;
   public List<Exception> cookErrors = new ArrayList<>(0);
@@ -116,9 +116,12 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
 
   private boolean changed;
 
-  @InjectionDeep private List<InfoTransformDefinition> infoTransformDefinitions;
-  @InjectionDeep private List<TargetTransformDefinition> targetTransformDefinitions;
-  @InjectionDeep private List<UsageParameter> usageParameters;
+  @InjectionDeep
+  private List<InfoTransformDefinition> infoTransformDefinitions;
+  @InjectionDeep
+  private List<TargetTransformDefinition> targetTransformDefinitions;
+  @InjectionDeep
+  private List<UsageParameter> usageParameters;
 
   static {
     IVariables vs = new Variables();
@@ -138,25 +141,13 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     @Injection(name = "FIELD_NAME", group = "FIELD_INFO")
     public final String name;
 
-    @Injection(
-        name = "FIELD_TYPE",
-        group = "FIELD_INFO",
-        convertEmpty = true,
-        converter = DataTypeConverter.class)
+    @Injection(name = "FIELD_TYPE", group = "FIELD_INFO", convertEmpty = true, converter = DataTypeConverter.class)
     public final int type;
 
-    @Injection(
-        name = "FIELD_LENGTH",
-        group = "FIELD_INFO",
-        convertEmpty = true,
-        converter = NullNumberConverter.class)
+    @Injection(name = "FIELD_LENGTH", group = "FIELD_INFO", convertEmpty = true, converter = NullNumberConverter.class)
     public final int length;
 
-    @Injection(
-        name = "FIELD_PRECISION",
-        group = "FIELD_INFO",
-        convertEmpty = true,
-        converter = NullNumberConverter.class)
+    @Injection(name = "FIELD_PRECISION", group = "FIELD_INFO", convertEmpty = true, converter = NullNumberConverter.class)
     public final int precision;
 
     public FieldInfo() {
@@ -186,8 +177,7 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
   }
 
   @VisibleForTesting
-  Class<?> cookClass(UserDefinedJavaClassDef def, ClassLoader clsloader)
-      throws CompileException, IOException, RuntimeException, HopTransformException {
+  Class<?> cookClass(UserDefinedJavaClassDef def, ClassLoader clsloader) throws CompileException, IOException, RuntimeException, HopTransformException {
 
     String checksum = def.getChecksum();
     Class<?> rtn = UserDefinedJavaClassMeta.classCache.getIfPresent(checksum);
@@ -218,18 +208,17 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
 
     cbe.setDefaultImports(
         new String[] {
-          "org.apache.hop.pipeline.transforms.userdefinedjavaclass.*",
-          "org.apache.hop.pipeline.transform.*",
-          "org.apache.hop.core.row.*",
-          "org.apache.hop.core.*",
-          "org.apache.hop.core.exception.*",
-          "org.apache.hop.pipeline.*",
-          "org.apache.hop.workflow.*",
-          "org.apache.hop.workflow.action.*",
-          "org.apache.hop.core.plugins.*",
-          "org.apache.hop.core.variables.*",
-          "java.util.*",
-        });
+            "org.apache.hop.pipeline.transforms.userdefinedjavaclass.*",
+            "org.apache.hop.pipeline.transform.*",
+            "org.apache.hop.core.row.*",
+            "org.apache.hop.core.*",
+            "org.apache.hop.core.exception.*",
+            "org.apache.hop.pipeline.*",
+            "org.apache.hop.workflow.*",
+            "org.apache.hop.workflow.action.*",
+            "org.apache.hop.core.plugins.*",
+            "org.apache.hop.core.variables.*",
+            "java.util.*",});
 
     cbe.cook(new Scanner(null, sr));
     rtn = cbe.getClazz();
@@ -260,24 +249,16 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     changed = false;
   }
 
-  public TransformClassBase newChildInstance(
-      UserDefinedJavaClass parent, UserDefinedJavaClassMeta meta, UserDefinedJavaClassData data) {
+  public TransformClassBase newChildInstance(UserDefinedJavaClass parent, UserDefinedJavaClassMeta meta, UserDefinedJavaClassData data) {
     if (!checkClassCookings(getLog())) {
       return null;
     }
 
     try {
-      return cookedTransformClass
-          .getConstructor(
-              UserDefinedJavaClass.class,
-              UserDefinedJavaClassMeta.class,
-              UserDefinedJavaClassData.class)
-          .newInstance(parent, meta, data);
+      return cookedTransformClass.getConstructor(UserDefinedJavaClass.class, UserDefinedJavaClassMeta.class, UserDefinedJavaClassData.class).newInstance(parent, meta, data);
     } catch (Exception e) {
       if (log.isDebug()) {
-        log.logError(
-            "Full debugging stacktrace of UserDefinedJavaClass instanciation exception:",
-            e.getCause());
+        log.logError("Full debugging stacktrace of UserDefinedJavaClass instanciation exception:", e.getCause());
       }
       HopException hopException = new HopException(e.getMessage());
       hopException.setStackTrace(new StackTraceElement[] {});
@@ -312,20 +293,14 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
    * @return - Ordered list of user defined classes
    */
   @VisibleForTesting
-  protected List<UserDefinedJavaClassDef> orderDefinitions(
-      List<UserDefinedJavaClassDef> definitions) {
+  protected List<UserDefinedJavaClassDef> orderDefinitions(List<UserDefinedJavaClassDef> definitions) {
     List<UserDefinedJavaClassDef> orderedDefinitions = new ArrayList<>(definitions.size());
     List<UserDefinedJavaClassDef> transactions =
-        definitions.stream()
-            .filter(def -> def.isTransformClass() && def.isActive())
-            .sorted((p1, p2) -> p1.getClassName().compareTo(p2.getClassName()))
+        definitions.stream().filter(def -> def.isTransformClass() && def.isActive()).sorted((p1, p2) -> p1.getClassName().compareTo(p2.getClassName()))
             .collect(Collectors.toList());
 
     List<UserDefinedJavaClassDef> normalClasses =
-        definitions.stream()
-            .filter(def -> !def.isTransformClass())
-            .sorted((p1, p2) -> p1.getClassName().compareTo(p2.getClassName()))
-            .collect(Collectors.toList());
+        definitions.stream().filter(def -> !def.isTransformClass()).sorted((p1, p2) -> p1.getClassName().compareTo(p2.getClassName())).collect(Collectors.toList());
 
     orderedDefinitions.addAll(normalClasses);
     orderedDefinitions.addAll(transactions);
@@ -339,8 +314,7 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     readData(transformNode);
   }
 
@@ -408,15 +382,10 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
       for (int i = 0; i < nrDefinitions; i++) {
         Node fnode = XmlHandler.getSubNodeByNr(definitionsNode, ElementNames.definition.name(), i);
 
-        UserDefinedJavaClassDef.ClassType classType =
-            UserDefinedJavaClassDef.ClassType.valueOf(
-                XmlHandler.getTagValue(fnode, ElementNames.class_type.name()));
+        UserDefinedJavaClassDef.ClassType classType = UserDefinedJavaClassDef.ClassType.valueOf(XmlHandler.getTagValue(fnode, ElementNames.class_type.name()));
 
         definitions.add(
-            new UserDefinedJavaClassDef(
-                classType,
-                XmlHandler.getTagValue(fnode, ElementNames.class_name.name()),
-                XmlHandler.getTagValue(fnode, ElementNames.class_source.name())));
+            new UserDefinedJavaClassDef(classType, XmlHandler.getTagValue(fnode, ElementNames.class_name.name()), XmlHandler.getTagValue(fnode, ElementNames.class_source.name())));
       }
       definitions = orderDefinitions(definitions);
 
@@ -428,17 +397,12 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
         fields.add(
             new FieldInfo(
                 XmlHandler.getTagValue(fnode, ElementNames.field_name.name()),
-                ValueMetaFactory.getIdForValueMeta(
-                    XmlHandler.getTagValue(fnode, ElementNames.field_type.name())),
+                ValueMetaFactory.getIdForValueMeta(XmlHandler.getTagValue(fnode, ElementNames.field_type.name())),
                 Const.toInt(XmlHandler.getTagValue(fnode, ElementNames.field_length.name()), -1),
-                Const.toInt(
-                    XmlHandler.getTagValue(fnode, ElementNames.field_precision.name()), -1)));
+                Const.toInt(XmlHandler.getTagValue(fnode, ElementNames.field_precision.name()), -1)));
       }
 
-      setClearingResultFields(
-          !"N"
-              .equals(
-                  XmlHandler.getTagValue(transformNode, ElementNames.clear_result_fields.name())));
+      setClearingResultFields(!"N".equals(XmlHandler.getTagValue(transformNode, ElementNames.clear_result_fields.name())));
 
       infoTransformDefinitions.clear();
       Node infosNode = XmlHandler.getSubNode(transformNode, ElementNames.info_transforms.name());
@@ -446,53 +410,37 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
       for (int i = 0; i < nrInfos; i++) {
         Node infoNode = XmlHandler.getSubNodeByNr(infosNode, ElementNames.info_transform.name(), i);
         InfoTransformDefinition transformDefinition = new InfoTransformDefinition();
-        transformDefinition.tag =
-            XmlHandler.getTagValue(infoNode, ElementNames.transform_tag.name());
-        transformDefinition.transformName =
-            XmlHandler.getTagValue(infoNode, ElementNames.transform_name.name());
-        transformDefinition.description =
-            XmlHandler.getTagValue(infoNode, ElementNames.transform_description.name());
+        transformDefinition.tag = XmlHandler.getTagValue(infoNode, ElementNames.transform_tag.name());
+        transformDefinition.transformName = XmlHandler.getTagValue(infoNode, ElementNames.transform_name.name());
+        transformDefinition.description = XmlHandler.getTagValue(infoNode, ElementNames.transform_description.name());
         infoTransformDefinitions.add(transformDefinition);
       }
 
       targetTransformDefinitions.clear();
-      Node targetsNode =
-          XmlHandler.getSubNode(transformNode, ElementNames.target_transforms.name());
+      Node targetsNode = XmlHandler.getSubNode(transformNode, ElementNames.target_transforms.name());
       int nrTargets = XmlHandler.countNodes(targetsNode, ElementNames.target_transform.name());
       for (int i = 0; i < nrTargets; i++) {
-        Node targetNode =
-            XmlHandler.getSubNodeByNr(targetsNode, ElementNames.target_transform.name(), i);
+        Node targetNode = XmlHandler.getSubNodeByNr(targetsNode, ElementNames.target_transform.name(), i);
         TargetTransformDefinition transformDefinition = new TargetTransformDefinition();
-        transformDefinition.tag =
-            XmlHandler.getTagValue(targetNode, ElementNames.transform_tag.name());
-        transformDefinition.transformName =
-            XmlHandler.getTagValue(targetNode, ElementNames.transform_name.name());
-        transformDefinition.description =
-            XmlHandler.getTagValue(targetNode, ElementNames.transform_description.name());
+        transformDefinition.tag = XmlHandler.getTagValue(targetNode, ElementNames.transform_tag.name());
+        transformDefinition.transformName = XmlHandler.getTagValue(targetNode, ElementNames.transform_name.name());
+        transformDefinition.description = XmlHandler.getTagValue(targetNode, ElementNames.transform_description.name());
         targetTransformDefinitions.add(transformDefinition);
       }
 
       usageParameters.clear();
-      Node parametersNode =
-          XmlHandler.getSubNode(transformNode, ElementNames.usage_parameters.name());
+      Node parametersNode = XmlHandler.getSubNode(transformNode, ElementNames.usage_parameters.name());
       int nrParameters = XmlHandler.countNodes(parametersNode, ElementNames.usage_parameter.name());
       for (int i = 0; i < nrParameters; i++) {
-        Node parameterNode =
-            XmlHandler.getSubNodeByNr(parametersNode, ElementNames.usage_parameter.name(), i);
+        Node parameterNode = XmlHandler.getSubNodeByNr(parametersNode, ElementNames.usage_parameter.name(), i);
         UsageParameter usageParameter = new UsageParameter();
-        usageParameter.tag =
-            XmlHandler.getTagValue(parameterNode, ElementNames.parameter_tag.name());
-        usageParameter.value =
-            XmlHandler.getTagValue(parameterNode, ElementNames.parameter_value.name());
-        usageParameter.description =
-            XmlHandler.getTagValue(parameterNode, ElementNames.parameter_description.name());
+        usageParameter.tag = XmlHandler.getTagValue(parameterNode, ElementNames.parameter_tag.name());
+        usageParameter.value = XmlHandler.getTagValue(parameterNode, ElementNames.parameter_value.name());
+        usageParameter.description = XmlHandler.getTagValue(parameterNode, ElementNames.parameter_description.name());
         usageParameters.add(usageParameter);
       }
     } catch (Exception e) {
-      throw new HopXmlException(
-          BaseMessages.getString(
-              PKG, "UserDefinedJavaClassMeta.Exception.UnableToLoadTransformMetaFromXML"),
-          e);
+      throw new HopXmlException(BaseMessages.getString(PKG, "UserDefinedJavaClassMeta.Exception.UnableToLoadTransformMetaFromXML"), e);
     }
   }
 
@@ -509,9 +457,7 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
       cookClasses();
       if (cookedTransformClass == null) {
         if (cookErrors.size() > 0) {
-          logChannel.logDebug(
-              BaseMessages.getString(
-                  PKG, "UserDefinedJavaClass.Exception.CookingError", cookErrors.get(0)));
+          logChannel.logDebug(BaseMessages.getString(PKG, "UserDefinedJavaClass.Exception.CookingError", cookErrors.get(0)));
         }
         ok = false;
       } else {
@@ -528,8 +474,7 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     }
 
     try {
-      Method getTransformIOMeta =
-          cookedTransformClass.getMethod("getTransformIOMeta", UserDefinedJavaClassMeta.class);
+      Method getTransformIOMeta = cookedTransformClass.getMethod("getTransformIOMeta", UserDefinedJavaClassMeta.class);
       if (getTransformIOMeta != null) {
         ITransformIOMeta transformIoMeta = (ITransformIOMeta) getTransformIOMeta.invoke(null, this);
         if (transformIoMeta == null) {
@@ -549,28 +494,19 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
   @Override
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     for (InfoTransformDefinition transformDefinition : infoTransformDefinitions) {
-      transformDefinition.transformMeta =
-          TransformMeta.findTransform(transforms, transformDefinition.transformName);
+      transformDefinition.transformMeta = TransformMeta.findTransform(transforms, transformDefinition.transformName);
     }
     for (TargetTransformDefinition transformDefinition : targetTransformDefinitions) {
-      transformDefinition.transformMeta =
-          TransformMeta.findTransform(transforms, transformDefinition.transformName);
+      transformDefinition.transformMeta = TransformMeta.findTransform(transforms, transformDefinition.transformName);
     }
   }
 
   @Override
-  public void getFields(
-      IRowMeta row,
-      String originTransformName,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta row, String originTransformName, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     if (!checkClassCookings(getLog())) {
       if (cookErrors.size() > 0) {
-        throw new HopTransformException(
-            "Error initializing UserDefinedJavaClass to get fields: ", cookErrors.get(0));
+        throw new HopTransformException("Error initializing UserDefinedJavaClass to get fields: ", cookErrors.get(0));
       } else {
         return;
       }
@@ -578,24 +514,8 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
 
     try {
       Method getFieldsMethod =
-          cookedTransformClass.getMethod(
-              "getFields",
-              boolean.class,
-              IRowMeta.class,
-              String.class,
-              IRowMeta[].class,
-              TransformMeta.class,
-              IVariables.class,
-              List.class);
-      getFieldsMethod.invoke(
-          null,
-          isClearingResultFields(),
-          row,
-          originTransformName,
-          info,
-          nextTransform,
-          variables,
-          getFieldInfo());
+          cookedTransformClass.getMethod("getFields", boolean.class, IRowMeta.class, String.class, IRowMeta[].class, TransformMeta.class, IVariables.class, List.class);
+      getFieldsMethod.invoke(null, isClearingResultFields(), row, originTransformName, info, nextTransform, variables, getFieldInfo());
     } catch (Exception e) {
       throw new HopTransformException("Error executing UserDefinedJavaClass.getFields(): ", e);
     }
@@ -608,13 +528,8 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     retval.append(String.format("\n    <%s>", ElementNames.definitions.name()));
     for (UserDefinedJavaClassDef def : definitions) {
       retval.append(String.format("\n        <%s>", ElementNames.definition.name()));
-      retval
-          .append("\n        ")
-          .append(
-              XmlHandler.addTagValue(ElementNames.class_type.name(), def.getClassType().name()));
-      retval
-          .append("\n        ")
-          .append(XmlHandler.addTagValue(ElementNames.class_name.name(), def.getClassName()));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.class_type.name(), def.getClassType().name()));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.class_name.name(), def.getClassName()));
       retval.append("\n        ");
       retval.append(XmlHandler.addTagValue(ElementNames.class_source.name(), def.getSource()));
       retval.append(String.format("\n        </%s>", ElementNames.definition.name()));
@@ -624,42 +539,23 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     retval.append(String.format("\n    <%s>", ElementNames.fields.name()));
     for (FieldInfo fi : fields) {
       retval.append(String.format("\n        <%s>", ElementNames.field.name()));
-      retval
-          .append("\n        ")
-          .append(XmlHandler.addTagValue(ElementNames.field_name.name(), fi.name));
-      retval
-          .append("\n        ")
-          .append(
-              XmlHandler.addTagValue(
-                  ElementNames.field_type.name(), ValueMetaFactory.getValueMetaName(fi.type)));
-      retval
-          .append("\n        ")
-          .append(XmlHandler.addTagValue(ElementNames.field_length.name(), fi.length));
-      retval
-          .append("\n        ")
-          .append(XmlHandler.addTagValue(ElementNames.field_precision.name(), fi.precision));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.field_name.name(), fi.name));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.field_type.name(), ValueMetaFactory.getValueMetaName(fi.type)));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.field_length.name(), fi.length));
+      retval.append("\n        ").append(XmlHandler.addTagValue(ElementNames.field_precision.name(), fi.precision));
       retval.append(String.format("\n        </%s>", ElementNames.field.name()));
     }
     retval.append(String.format("\n    </%s>", ElementNames.fields.name()));
-    retval.append(
-        XmlHandler.addTagValue(ElementNames.clear_result_fields.name(), clearingResultFields));
+    retval.append(XmlHandler.addTagValue(ElementNames.clear_result_fields.name(), clearingResultFields));
 
     // Add the XML for the info transform definitions...
     //
     retval.append(XmlHandler.openTag(ElementNames.info_transforms.name()));
     for (InfoTransformDefinition transformDefinition : infoTransformDefinitions) {
       retval.append(XmlHandler.openTag(ElementNames.info_transform.name()));
-      retval.append(
-          XmlHandler.addTagValue(ElementNames.transform_tag.name(), transformDefinition.tag));
-      retval.append(
-          XmlHandler.addTagValue(
-              ElementNames.transform_name.name(),
-              transformDefinition.transformMeta != null
-                  ? transformDefinition.transformMeta.getName()
-                  : null));
-      retval.append(
-          XmlHandler.addTagValue(
-              ElementNames.transform_description.name(), transformDefinition.description));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_tag.name(), transformDefinition.tag));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_name.name(), transformDefinition.transformMeta != null ? transformDefinition.transformMeta.getName() : null));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_description.name(), transformDefinition.description));
       retval.append(XmlHandler.closeTag(ElementNames.info_transform.name()));
     }
     retval.append(XmlHandler.closeTag(ElementNames.info_transforms.name()));
@@ -669,17 +565,9 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     retval.append(XmlHandler.openTag(ElementNames.target_transforms.name()));
     for (TargetTransformDefinition transformDefinition : targetTransformDefinitions) {
       retval.append(XmlHandler.openTag(ElementNames.target_transform.name()));
-      retval.append(
-          XmlHandler.addTagValue(ElementNames.transform_tag.name(), transformDefinition.tag));
-      retval.append(
-          XmlHandler.addTagValue(
-              ElementNames.transform_name.name(),
-              transformDefinition.transformMeta != null
-                  ? transformDefinition.transformMeta.getName()
-                  : null));
-      retval.append(
-          XmlHandler.addTagValue(
-              ElementNames.transform_description.name(), transformDefinition.description));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_tag.name(), transformDefinition.tag));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_name.name(), transformDefinition.transformMeta != null ? transformDefinition.transformMeta.getName() : null));
+      retval.append(XmlHandler.addTagValue(ElementNames.transform_description.name(), transformDefinition.description));
       retval.append(XmlHandler.closeTag(ElementNames.target_transform.name()));
     }
     retval.append(XmlHandler.closeTag(ElementNames.target_transforms.name()));
@@ -688,11 +576,8 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
     for (UsageParameter usageParameter : usageParameters) {
       retval.append(XmlHandler.openTag(ElementNames.usage_parameter.name()));
       retval.append(XmlHandler.addTagValue(ElementNames.parameter_tag.name(), usageParameter.tag));
-      retval.append(
-          XmlHandler.addTagValue(ElementNames.parameter_value.name(), usageParameter.value));
-      retval.append(
-          XmlHandler.addTagValue(
-              ElementNames.parameter_description.name(), usageParameter.description));
+      retval.append(XmlHandler.addTagValue(ElementNames.parameter_value.name(), usageParameter.value));
+      retval.append(XmlHandler.addTagValue(ElementNames.parameter_description.name(), usageParameter.description));
       retval.append(XmlHandler.closeTag(ElementNames.usage_parameter.name()));
     }
     retval.append(XmlHandler.closeTag(ElementNames.usage_parameters.name()));
@@ -715,19 +600,10 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              BaseMessages.getString(
-                  PKG, "UserDefinedJavaClassMeta.CheckResult.ConnectedTransformOK2"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, BaseMessages.getString(PKG, "UserDefinedJavaClassMeta.CheckResult.ConnectedTransformOK2"), transforminfo);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              BaseMessages.getString(PKG, "UserDefinedJavaClassMeta.CheckResult.NoInputReceived"),
-              transforminfo);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, BaseMessages.getString(PKG, "UserDefinedJavaClassMeta.CheckResult.NoInputReceived"), transforminfo);
       remarks.add(cr);
     }
   }
@@ -763,8 +639,7 @@ public class UserDefinedJavaClassMeta extends BaseTransformMeta<UserDefinedJavaC
   }
 
   /** @param targetTransformDefinitions the targetTransformDefinitions to set */
-  public void setTargetTransformDefinitions(
-      List<TargetTransformDefinition> targetTransformDefinitions) {
+  public void setTargetTransformDefinitions(List<TargetTransformDefinition> targetTransformDefinitions) {
     this.targetTransformDefinitions = targetTransformDefinitions;
   }
 

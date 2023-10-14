@@ -133,24 +133,23 @@ public class TreeMemory {
    * @return The created/added TreeListener
    */
   public static final TreeListener addTreeListener(final Tree tree, final String treeName) {
-    TreeListener treeListener =
-        new TreeListener() {
-          @Override
-          public void treeExpanded(TreeEvent e) {
-            TreeItem treeItem = (TreeItem) e.item;
-            String[] path = ConstUi.getTreeStrings(treeItem);
-            TreeMemory treeMemory = TreeMemory.getInstance();
-            treeMemory.storeExpanded(treeName, path, true);
-          }
+    TreeListener treeListener = new TreeListener() {
+      @Override
+      public void treeExpanded(TreeEvent e) {
+        TreeItem treeItem = (TreeItem) e.item;
+        String[] path = ConstUi.getTreeStrings(treeItem);
+        TreeMemory treeMemory = TreeMemory.getInstance();
+        treeMemory.storeExpanded(treeName, path, true);
+      }
 
-          @Override
-          public void treeCollapsed(TreeEvent e) {
-            TreeItem treeItem = (TreeItem) e.item;
-            String[] path = ConstUi.getTreeStrings(treeItem);
-            TreeMemory treeMemory = TreeMemory.getInstance();
-            treeMemory.storeExpanded(treeName, path, false);
-          }
-        };
+      @Override
+      public void treeCollapsed(TreeEvent e) {
+        TreeItem treeItem = (TreeItem) e.item;
+        String[] path = ConstUi.getTreeStrings(treeItem);
+        TreeMemory treeMemory = TreeMemory.getInstance();
+        treeMemory.storeExpanded(treeName, path, false);
+      }
+    };
     tree.addTreeListener(treeListener);
     return treeListener;
   }

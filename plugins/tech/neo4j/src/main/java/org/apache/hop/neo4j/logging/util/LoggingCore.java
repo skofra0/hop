@@ -51,28 +51,20 @@ public class LoggingCore {
 
   public static final boolean isEnabled(IVariables space) {
     String connectionName = space.getVariable(Defaults.NEO4J_LOGGING_CONNECTION);
-    return StringUtils.isNotEmpty(connectionName)
-        && !Defaults.VARIABLE_NEO4J_LOGGING_CONNECTION_DISABLED.equals(connectionName);
+    return StringUtils.isNotEmpty(connectionName) && !Defaults.VARIABLE_NEO4J_LOGGING_CONNECTION_DISABLED.equals(connectionName);
   }
 
-  public static final NeoConnection getConnection(
-      IHopMetadataProvider metadataProvider, IVariables space) throws HopException {
+  public static final NeoConnection getConnection(IHopMetadataProvider metadataProvider, IVariables space) throws HopException {
     String connectionName = space.getVariable(Defaults.NEO4J_LOGGING_CONNECTION);
     if (StringUtils.isEmpty(connectionName)) {
       return null;
     }
-    IHopMetadataSerializer<NeoConnection> serializer =
-        metadataProvider.getSerializer(NeoConnection.class);
+    IHopMetadataSerializer<NeoConnection> serializer = metadataProvider.getSerializer(NeoConnection.class);
     NeoConnection connection = serializer.load(connectionName);
     return connection;
   }
 
-  public static final void writeHierarchies(
-      ILogChannel log,
-      NeoConnection connection,
-      Transaction transaction,
-      List<LoggingHierarchy> hierarchies,
-      String rootLogChannelId) {
+  public static final void writeHierarchies(ILogChannel log, NeoConnection connection, Transaction transaction, List<LoggingHierarchy> hierarchies, String rootLogChannelId) {
 
     try {
       // First create the Execution nodes
@@ -88,10 +80,7 @@ public class LoggingCore {
         execPars.put("containerId", loggingObject.getContainerId());
         execPars.put("logLevel", logLevel != null ? logLevel.getCode() : null);
         execPars.put("root", loggingObject.getLogChannelId().equals(rootLogChannelId));
-        execPars.put(
-            "registrationDate",
-            new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss")
-                .format(loggingObject.getRegistrationDate()));
+        execPars.put("registrationDate", new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss").format(loggingObject.getRegistrationDate()));
 
         StringBuilder execCypher = new StringBuilder();
         execCypher.append("MERGE (e:Execution { name : $name, type : $type, id : $id } ) ");
@@ -122,8 +111,7 @@ public class LoggingCore {
 
           StringBuilder execCypher = new StringBuilder();
           execCypher.append("MATCH (child:Execution { name : $name, type : $type, id : $id } ) ");
-          execCypher.append(
-              "MATCH (parent:Execution { name : $parentName, type : $parentType, id : $parentId } ) ");
+          execCypher.append("MATCH (parent:Execution { name : $parentName, type : $parentType, id : $parentId } ) ");
           execCypher.append("MERGE (parent)-[rel:EXECUTES]->(child) ");
           transaction.run(execCypher.toString(), execPars);
         }
@@ -135,22 +123,15 @@ public class LoggingCore {
     }
   }
 
-  public static <T> T executeCypher(
-      ILogChannel log,
-      IVariables variables,
-      NeoConnection connection,
-      String cypher,
-      Map<String, Object> parameters,
-      WorkLambda<T> lambda)
+  public static <T> T executeCypher(ILogChannel log, IVariables variables, NeoConnection connection, String cypher, Map<String, Object> parameters, WorkLambda<T> lambda)
       throws Exception {
 
     try (Driver driver = connection.getDriver(log, variables)) {
       try (Session session = connection.getSession(log, driver, variables)) {
-        return session.readTransaction(
-            tx -> {
-              Result result = tx.run(cypher, parameters);
-              return lambda.getResultValue(result);
-            });
+        return session.readTransaction(tx -> {
+          Result result = tx.run(cypher, parameters);
+          return lambda.getResultValue(result);
+        });
       }
     }
   }
@@ -248,8 +229,7 @@ public class LoggingCore {
   }
 
   public static double calculateRadius(Rectangle bounds) {
-    double radius =
-        (double) (Math.min(bounds.width, bounds.height)) * 0.8 / 2; // 20% margin around circle
+    double radius = (double) (Math.min(bounds.width, bounds.height)) * 0.8 / 2; // 20% margin around circle
     return radius;
   }
 
@@ -309,12 +289,8 @@ public class LoggingCore {
   public static final String getFancyDurationFromSeconds(double seconds) {
     int day = (int) TimeUnit.SECONDS.toDays((long) seconds);
     long hours = TimeUnit.SECONDS.toHours((long) seconds) - (day * 24);
-    long minute =
-        TimeUnit.SECONDS.toMinutes((long) seconds)
-            - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
-    long second =
-        TimeUnit.SECONDS.toSeconds((long) seconds)
-            - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
+    long minute = TimeUnit.SECONDS.toMinutes((long) seconds) - (TimeUnit.SECONDS.toHours((long) seconds) * 60);
+    long second = TimeUnit.SECONDS.toSeconds((long) seconds) - (TimeUnit.SECONDS.toMinutes((long) seconds) * 60);
     long ms = (long) ((seconds - ((long) seconds)) * 1000);
 
     StringBuilder hms = new StringBuilder();

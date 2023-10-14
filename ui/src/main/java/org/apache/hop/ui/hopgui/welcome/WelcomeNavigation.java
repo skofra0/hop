@@ -35,11 +35,7 @@ public class WelcomeNavigation {
 
   private static final String WELCOME_NAVIGATION_PARENT_ID = "WelcomeWelcome.Parent.ID";
 
-  @GuiWidgetElement(
-      type = GuiElementType.COMPOSITE,
-      id = "11000-navigation",
-      label = "Navigation",
-      parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
+  @GuiWidgetElement(type = GuiElementType.COMPOSITE, id = "11000-navigation", label = "Navigation", parentId = WelcomeDialog.PARENT_ID_WELCOME_WIDGETS)
   public void welcome(Composite parent) {
     PropsUi props = PropsUi.getInstance();
 
@@ -54,10 +50,8 @@ public class WelcomeNavigation {
     parentComposite.setLayoutData(fdParentComposite);
     PropsUi.setLook(parentComposite);
 
-    GuiCompositeWidgets compositeWidgets =
-        new GuiCompositeWidgets(HopGui.getInstance().getVariables());
-    compositeWidgets.createCompositeWidgets(
-        this, null, parentComposite, WELCOME_NAVIGATION_PARENT_ID, null);
+    GuiCompositeWidgets compositeWidgets = new GuiCompositeWidgets(HopGui.getInstance().getVariables());
+    compositeWidgets.createCompositeWidgets(this, null, parentComposite, WELCOME_NAVIGATION_PARENT_ID, null);
     // No data to set on these widgets
   }
 
@@ -65,13 +59,12 @@ public class WelcomeNavigation {
       id = "WelcomeNavigation.1000-how-to-navigate",
       parentId = WELCOME_NAVIGATION_PARENT_ID,
       type = GuiElementType.LINK,
-      label =
-          "Here are a few ways to navigate around large or zoomed pipelines and workflows:\n\n"
-                  + " - Use the arrow keys to move the view\n"
-                  + " - Use the HOME key to reset to top/left\n"
-                  + " - Drag with the middle mouse button on the background\n"
-                  + " - CTRL+drag with the left mouse button on the background\n"
-                  + " - Drag the darker rectangle on the bottom right of the screen\n")
+      label = "Here are a few ways to navigate around large or zoomed pipelines and workflows:\n\n"
+          + " - Use the arrow keys to move the view\n"
+          + " - Use the HOME key to reset to top/left\n"
+          + " - Drag with the middle mouse button on the background\n"
+          + " - CTRL+drag with the left mouse button on the background\n"
+          + " - Drag the darker rectangle on the bottom right of the screen\n")
   public void homepageLink(Event event) {
     // handleWebLinkEvent(event, WEB_NAME_HOP_APACHE_ORG, WEB_LINK_HOP_APACHE_ORG);
   }

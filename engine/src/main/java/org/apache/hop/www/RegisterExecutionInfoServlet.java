@@ -53,8 +53,7 @@ public class RegisterExecutionInfoServlet extends BaseHttpServlet implements IHo
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (isJettyMode() && !request.getRequestURI().startsWith(CONTEXT_PATH)) {
       return;
     }
@@ -87,8 +86,7 @@ public class RegisterExecutionInfoServlet extends BaseHttpServlet implements IHo
         throw new HopException("Please specify the type of execution information to register.");
       }
       if (StringUtils.isEmpty(locationName)) {
-        throw new HopException(
-            "Please specify the name of the execution information location to register at.");
+        throw new HopException("Please specify the name of the execution information location to register at.");
       }
 
       // Look up the location in the metadata.
@@ -96,8 +94,7 @@ public class RegisterExecutionInfoServlet extends BaseHttpServlet implements IHo
       // initialize() is always followed by a close().
       //
       MultiMetadataProvider provider = pipelineMap.getHopServerConfig().getMetadataProvider();
-      IHopMetadataSerializer<ExecutionInfoLocation> serializer =
-          provider.getSerializer(ExecutionInfoLocation.class);
+      IHopMetadataSerializer<ExecutionInfoLocation> serializer = provider.getSerializer(ExecutionInfoLocation.class);
       ExecutionInfoLocation location = serializer.load(locationName);
       if (location == null) {
         throw new HopException("Unable to find execution information location " + locationName);
@@ -121,32 +118,20 @@ public class RegisterExecutionInfoServlet extends BaseHttpServlet implements IHo
             location.getExecutionInfoLocation().registerExecution(execution);
             break;
           case TYPE_STATE:
-            ExecutionState state =
-                HopJson.newMapper().readValue(json.toString(), ExecutionState.class);
+            ExecutionState state = HopJson.newMapper().readValue(json.toString(), ExecutionState.class);
             location.getExecutionInfoLocation().updateExecutionState(state);
             break;
           case TYPE_DATA:
-            ExecutionData data =
-                HopJson.newMapper().readValue(json.toString(), ExecutionData.class);
+            ExecutionData data = HopJson.newMapper().readValue(json.toString(), ExecutionData.class);
             location.getExecutionInfoLocation().registerData(data);
             break;
           default:
-            throw new HopException(
-                "Unknown update type: "
-                    + type
-                    + " allowed are: "
-                    + TYPE_EXECUTION
-                    + ", "
-                    + TYPE_STATE
-                    + ", "
-                    + TYPE_DATA);
+            throw new HopException("Unknown update type: " + type + " allowed are: " + TYPE_EXECUTION + ", " + TYPE_STATE + ", " + TYPE_DATA);
         }
 
         // Log successful registration of execution, state or data
         //
-        out.println(
-            new WebResult(
-                WebResult.STRING_OK, "Registration successful at location " + locationName));
+        out.println(new WebResult(WebResult.STRING_OK, "Registration successful at location " + locationName));
 
       } finally {
         location.getExecutionInfoLocation().close();

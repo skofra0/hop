@@ -35,12 +35,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 public class FastJsonReaderTest {
-  private static final Option[] DEFAULT_OPTIONS = {
-    Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST, Option.DEFAULT_PATH_LEAF_TO_NULL
-  };
-  private static final Option[] OPTIONS_WO_DEFAULT_PATH_LEAF_TO_NULL = {
-    Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST
-  };
+  private static final Option[] DEFAULT_OPTIONS = {Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST, Option.DEFAULT_PATH_LEAF_TO_NULL};
+  private static final Option[] OPTIONS_WO_DEFAULT_PATH_LEAF_TO_NULL = {Option.SUPPRESS_EXCEPTIONS, Option.ALWAYS_RETURN_LIST};
   private EnumSet<Option> expectedOptions = EnumSet.noneOf(Option.class);
   private JsonInputField[] fields;
 
@@ -101,16 +97,16 @@ public class FastJsonReaderTest {
     List<Integer> l1 = new ArrayList<>();
     List<Integer> l2 = new ArrayList<>();
     List<Integer> l3 = new ArrayList<>();
-    l1.add( 1 );
-    l2.add( 1 );
-    l2.add( 2 );
-    l3.add( 1 );
-    l3.add( 2 );
-    l3.add( 3 );
-    mainList.add( l1 );
-    mainList.add( l2 );
-    mainList.add( l3 );
-    assertEquals( 3, FastJsonReader.getMaxRowSize( Collections.singletonList( mainList ) ) );
+    l1.add(1);
+    l2.add(1);
+    l2.add(2);
+    l3.add(1);
+    l3.add(2);
+    l3.add(3);
+    mainList.add(l1);
+    mainList.add(l2);
+    mainList.add(l3);
+    assertEquals(3, FastJsonReader.getMaxRowSize(Collections.singletonList(mainList)));
   }
 
 }

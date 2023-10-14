@@ -33,10 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Contains MySQL specific information through static final members */
-@DatabaseMetaPlugin(
-    type = "HIVE",
-    typeDescription = "Apache Hive",
-    documentationUrl = "/database/databases/apache-hive.html")
+@DatabaseMetaPlugin(type = "HIVE", typeDescription = "Apache Hive", documentationUrl = "/database/databases/apache-hive.html")
 @GuiPlugin(id = "GUI-HiveDatabaseMeta")
 public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   private static final Class<?> PKG = HiveDatabaseMeta.class; // For Translator
@@ -57,7 +54,7 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * In there we'll TABLE1(field1) which we'll turn into PARTITION(field1).
    *
    * @param schemaTable The schema-table name combination (Fully qualified table name) to generate
-   *     the clause for.
+   *        the clause for.
    * @return
    */
   @Override
@@ -72,7 +69,7 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       if (tablePart.startsWith(prefix)) {
         // This is the part we want: PARTITION(field)
         //
-        return "PARTITION"+tablePart.substring(prefix.length()-1);
+        return "PARTITION" + tablePart.substring(prefix.length() - 1);
       }
     }
     return null;
@@ -169,7 +166,7 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return The extra option separator in database URL for this platform (usually this is semicolon
-   *     ; )
+   *         ; )
    */
   @Override
   public String getExtraOptionSeparator() {
@@ -228,12 +225,8 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to add a column to the specified table
    */
   @Override
-  public String getAddColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " ADD "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getAddColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " ADD " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   /**
@@ -248,17 +241,12 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL statement to modify a column in the specified table
    */
   @Override
-  public String getModifyColumnStatement(
-      String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
-    return "ALTER TABLE "
-        + tableName
-        + " MODIFY "
-        + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
+  public String getModifyColumnStatement(String tableName, IValueMeta v, String tk, boolean useAutoinc, String pk, boolean semicolon) {
+    return "ALTER TABLE " + tableName + " MODIFY " + getFieldDefinition(v, tk, pk, useAutoinc, true, false);
   }
 
   @Override
-  public String getFieldDefinition(
-      IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
+  public String getFieldDefinition(IValueMeta v, String tk, String pk, boolean useAutoinc, boolean addFieldName, boolean addCR) {
     String retval = "";
 
     String fieldname = v.getName();
@@ -290,8 +278,7 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
       case IValueMeta.TYPE_NUMBER:
       case IValueMeta.TYPE_BIGNUMBER:
       case IValueMeta.TYPE_INTEGER:
-        if (fieldname.equalsIgnoreCase(tk)
-            || // Technical key
+        if (fieldname.equalsIgnoreCase(tk) || // Technical key
             fieldname.equalsIgnoreCase(pk) // Primary key
         ) {
           if (useAutoinc) {
@@ -356,142 +343,141 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
   @Override
   public String[] getReservedWords() {
     return new String[] {
-      "ALL",
-      "ALTER",
-      "AND",
-      "ARRAY",
-      "AS",
-      "AUTHORIZATION",
-      "BETWEEN",
-      "BIGINT",
-      "BINARY",
-      "BOOLEAN",
-      "BOTH",
-      "BY",
-      "CACHE",
-      "CASE",
-      "CAST",
-      "CHAR",
-      "COLUMN",
-      "COMMIT",
-      "CONF",
-      "CONSTRAINT",
-      "CREATE",
-      "CROSS",
-      "CUBE",
-      "CURRENT",
-      "CURRENT_DATE",
-      "CURRENT_TIMESTAMP",
-      "CURSOR",
-      "DATABASE",
-      "DATE",
-      "DAYOFWEEK",
-      "DECIMAL",
-      "DELETE",
-      "DESCRIBE",
-      "DISTINCT",
-      "DOUBLE",
-      "DROP",
-      "ELSE",
-      "END",
-      "EXCHANGE",
-      "EXISTS",
-      "EXTENDED",
-      "EXTERNAL",
-      "EXTRACT",
-      "FALSE",
-      "FETCH",
-      "FLOAT",
-      "FLOOR",
-      "FOLLOWING",
-      "FOR",
-      "FOREIGN",
-      "FROM",
-      "FULL",
-      "FUNCTION",
-      "GRANT",
-      "GROUP",
-      "GROUPING",
-      "HAVING",
-      "IF",
-      "IMPORT",
-      "IN",
-      "INNER",
-      "INSERT",
-      "INT",
-      "INTEGER",
-      "INTERSECT",
-      "INTERVAL",
-      "INTO",
-      "IS",
-      "JOIN",
-      "LATERAL",
-      "LEFT",
-      "LESS",
-      "LIKE",
-      "LOCAL",
-      "MACRO",
-      "MAP",
-      "MORE",
-      "NONE",
-      "NOT",
-      "NULL",
-      "OF",
-      "ON",
-      "ONLY",
-      "OR",
-      "ORDER",
-      "OUT",
-      "OUTER",
-      "OVER",
-      "PARTIALSCAN",
-      "PARTITION",
-      "PERCENT",
-      "PRECEDING",
-      "PRECISION",
-      "PRESERVE",
-      "PRIMARY",
-      "PROCEDURE",
-      "RANGE",
-      "READS",
-      "REDUCE",
-      "REFERENCES",
-      "REGEXP",
-      "REVOKE",
-      "RIGHT",
-      "RLIKE",
-      "ROLLBACK",
-      "ROLLUP",
-      "ROW",
-      "ROWS",
-      "SELECT",
-      "SET",
-      "SMALLINT",
-      "START",
-      "TABLE",
-      "TABLESAMPLE",
-      "THEN",
-      "TIMESTAMP",
-      "TO",
-      "TRANSFORM",
-      "TRIGGER",
-      "TRUE",
-      "TRUNCATE",
-      "UNBOUNDED",
-      "UNION",
-      "UNIQUEJOIN",
-      "UPDATE",
-      "USER",
-      "USING",
-      "UTC_TMESTAMP",
-      "VALUES",
-      "VARCHAR",
-      "VIEWS",
-      "WHEN",
-      "WHERE",
-      "WINDOW",
-      "WITH",
-    };
+        "ALL",
+        "ALTER",
+        "AND",
+        "ARRAY",
+        "AS",
+        "AUTHORIZATION",
+        "BETWEEN",
+        "BIGINT",
+        "BINARY",
+        "BOOLEAN",
+        "BOTH",
+        "BY",
+        "CACHE",
+        "CASE",
+        "CAST",
+        "CHAR",
+        "COLUMN",
+        "COMMIT",
+        "CONF",
+        "CONSTRAINT",
+        "CREATE",
+        "CROSS",
+        "CUBE",
+        "CURRENT",
+        "CURRENT_DATE",
+        "CURRENT_TIMESTAMP",
+        "CURSOR",
+        "DATABASE",
+        "DATE",
+        "DAYOFWEEK",
+        "DECIMAL",
+        "DELETE",
+        "DESCRIBE",
+        "DISTINCT",
+        "DOUBLE",
+        "DROP",
+        "ELSE",
+        "END",
+        "EXCHANGE",
+        "EXISTS",
+        "EXTENDED",
+        "EXTERNAL",
+        "EXTRACT",
+        "FALSE",
+        "FETCH",
+        "FLOAT",
+        "FLOOR",
+        "FOLLOWING",
+        "FOR",
+        "FOREIGN",
+        "FROM",
+        "FULL",
+        "FUNCTION",
+        "GRANT",
+        "GROUP",
+        "GROUPING",
+        "HAVING",
+        "IF",
+        "IMPORT",
+        "IN",
+        "INNER",
+        "INSERT",
+        "INT",
+        "INTEGER",
+        "INTERSECT",
+        "INTERVAL",
+        "INTO",
+        "IS",
+        "JOIN",
+        "LATERAL",
+        "LEFT",
+        "LESS",
+        "LIKE",
+        "LOCAL",
+        "MACRO",
+        "MAP",
+        "MORE",
+        "NONE",
+        "NOT",
+        "NULL",
+        "OF",
+        "ON",
+        "ONLY",
+        "OR",
+        "ORDER",
+        "OUT",
+        "OUTER",
+        "OVER",
+        "PARTIALSCAN",
+        "PARTITION",
+        "PERCENT",
+        "PRECEDING",
+        "PRECISION",
+        "PRESERVE",
+        "PRIMARY",
+        "PROCEDURE",
+        "RANGE",
+        "READS",
+        "REDUCE",
+        "REFERENCES",
+        "REGEXP",
+        "REVOKE",
+        "RIGHT",
+        "RLIKE",
+        "ROLLBACK",
+        "ROLLUP",
+        "ROW",
+        "ROWS",
+        "SELECT",
+        "SET",
+        "SMALLINT",
+        "START",
+        "TABLE",
+        "TABLESAMPLE",
+        "THEN",
+        "TIMESTAMP",
+        "TO",
+        "TRANSFORM",
+        "TRIGGER",
+        "TRUE",
+        "TRUNCATE",
+        "UNBOUNDED",
+        "UNION",
+        "UNIQUEJOIN",
+        "UPDATE",
+        "USER",
+        "USING",
+        "UTC_TMESTAMP",
+        "VALUES",
+        "VARCHAR",
+        "VIEWS",
+        "WHEN",
+        "WHERE",
+        "WINDOW",
+        "WITH",};
   }
 
   /*
@@ -567,15 +553,14 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
    * @return the SQL to insert the unknown record into the SCD.
    */
   @Override
-  public String getSqlInsertAutoIncUnknownDimensionRow(
-      String schemaTable, String keyField, String versionField) {
+  public String getSqlInsertAutoIncUnknownDimensionRow(String schemaTable, String keyField, String versionField) {
     return "insert into " + schemaTable + "(" + keyField + ", " + versionField + ") values (1, 1)";
   }
 
   /**
    * @param string
    * @return A string that is properly quoted for use in a SQL statement (insert, update, delete,
-   *     etc)
+   *         etc)
    */
   @Override
   public String quoteSqlString(String string) {
@@ -587,7 +572,7 @@ public class HiveDatabaseMeta extends BaseDatabaseMeta implements IDatabase {
 
   /**
    * @return true if the database is a MySQL variant, like MySQL 5.1, InfiniDB, InfoBright, and so
-   *     on.
+   *         on.
    */
   @Override
   public boolean isMySqlVariant() {

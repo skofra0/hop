@@ -73,8 +73,7 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
 
   private final RowGeneratorMeta input;
 
-  public RowGeneratorDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public RowGeneratorDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (BaseTransformMeta) in, pipelineMeta, sname);
     input = (RowGeneratorMeta) in;
   }
@@ -143,13 +142,12 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
     wlNeverEnding.setLayoutData(fdlNeverEnding);
     wNeverEnding = new Button(shell, SWT.CHECK);
     PropsUi.setLook(wNeverEnding);
-    wNeverEnding.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            updateWidgets();
-          }
-        });
+    wNeverEnding.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        updateWidgets();
+      }
+    });
     FormData fdNeverEnding = new FormData();
     fdNeverEnding.left = new FormAttachment(middle, 0);
     fdNeverEnding.top = new FormAttachment(wlNeverEnding, 0, SWT.CENTER);
@@ -233,58 +231,22 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
 
     ColumnInfo[] colinf =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Name"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Type"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              ValueMetaFactory.getValueMetaNames()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Format"),
-              ColumnInfo.COLUMN_TYPE_FORMAT,
-              2),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Length"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Precision"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Currency"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Decimal"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Group"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.Value"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "System.Column.SetEmptyString"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-                  BaseMessages.getString(PKG, "System.Combo.Yes"),
-                  BaseMessages.getString(PKG, "System.Combo.No"))
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Name"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Type"), ColumnInfo.COLUMN_TYPE_CCOMBO, ValueMetaFactory.getValueMetaNames()),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Format"), ColumnInfo.COLUMN_TYPE_FORMAT, 2),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Length"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Precision"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Currency"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Decimal"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Group"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "System.Column.Value"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "System.Column.SetEmptyString"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                BaseMessages.getString(PKG, "System.Combo.Yes"),
+                BaseMessages.getString(PKG, "System.Combo.No"))};
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            nrFields,
-            null,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, nrFields, null, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -293,13 +255,12 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
     fdFields.bottom = new FormAttachment(wOk, -2 * margin);
     wFields.setLayoutData(fdFields);
 
-    lsResize =
-        event -> {
-          Point size = shell.getSize();
-          wFields.setSize(size.x - 10, size.y - 50);
-          wFields.table.setSize(size.x - 10, size.y - 50);
-          wFields.redraw();
-        };
+    lsResize = event -> {
+      Point size = shell.getSize();
+      wFields.setSize(size.x - 10, size.y - 50);
+      wFields.table.setSize(size.x - 10, size.y - 50);
+      wFields.redraw();
+    };
     shell.addListener(SWT.Resize, lsResize);
 
     getData();
@@ -361,11 +322,7 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
       item.setText(col++, Const.NVL(decim, ""));
       item.setText(col++, Const.NVL(group, ""));
       item.setText(col++, Const.NVL(def, ""));
-      item.setText(
-          col++,
-          field.isSetEmptyString()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      item.setText(col++, field.isSetEmptyString() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wFields.setRowNums();
@@ -421,8 +378,7 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
       field.setDecimal(item.getText(7));
       field.setGroup(item.getText(8));
       field.setValue(field.isSetEmptyString() ? "" : item.getText(9));
-      field.setSetEmptyString(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(10)));
+      field.setSetEmptyString(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(item.getText(10)));
       field.setType(field.isSetEmptyString() ? "String" : item.getText(2));
 
       meta.getFields().add(field);
@@ -446,9 +402,7 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
       return;
     }
 
-    PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline(
-            pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+    PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
     EnterNumberDialog numberDialog =
         new EnterNumberDialog(
@@ -459,12 +413,7 @@ public class RowGeneratorDialog extends BaseTransformDialog implements ITransfor
     int previewSize = numberDialog.open();
     if (previewSize > 0) {
       PipelinePreviewProgressDialog progressDialog =
-          new PipelinePreviewProgressDialog(
-              shell,
-              variables,
-              previewMeta,
-              new String[] {wTransformName.getText()},
-              new int[] {previewSize});
+          new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
       progressDialog.open();
 
       Pipeline pipeline = progressDialog.getPipeline();

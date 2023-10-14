@@ -22,7 +22,8 @@ import org.junit.Before;
 import org.junit.ClassRule;
 
 public class UpdateMetaInjectionTest extends BaseMetadataInjectionTest<UpdateMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {

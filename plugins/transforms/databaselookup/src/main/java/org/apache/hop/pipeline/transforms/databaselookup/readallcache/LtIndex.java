@@ -32,8 +32,7 @@ class LtIndex extends Index {
     this(column, valueMeta, rowsAmount, false);
   }
 
-  private LtIndex(
-      int column, IValueMeta valueMeta, int rowsAmount, boolean isMatchingGreaterOrEqual) {
+  private LtIndex(int column, IValueMeta valueMeta, int rowsAmount, boolean isMatchingGreaterOrEqual) {
     super(column, valueMeta, rowsAmount);
     this.isMatchingGreaterOrEqual = isMatchingGreaterOrEqual;
   }

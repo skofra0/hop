@@ -39,13 +39,7 @@ import java.util.Map;
  */
 public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraInputData> {
 
-  public CassandraInput(
-      TransformMeta transformMeta,
-      CassandraInputMeta meta,
-      CassandraInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public CassandraInput(TransformMeta transformMeta, CassandraInputMeta meta, CassandraInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
 
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
@@ -89,8 +83,7 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
         first = false;
 
         String connectionName = resolve(meta.getConnectionName());
-        data.cassandraConnection =
-            metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
+        data.cassandraConnection = metadataProvider.getSerializer(CassandraConnection.class).load(connectionName);
 
         // Get the connection to Cassandra
         String hostname = resolve(data.cassandraConnection.getHostname());
@@ -102,13 +95,7 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
           throw new HopException("Please specify the keyspace to use.");
         }
 
-        logBasic(
-            BaseMessages.getString(
-                CassandraInputMeta.PKG,
-                "CassandraInput.Info.Connecting",
-                hostname,
-                port,
-                keyspace));
+        logBasic(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Info.Connecting", hostname, port, keyspace));
 
         Map<String, String> connectionOptions = data.cassandraConnection.getOptionsMap(variables);
 
@@ -117,16 +104,11 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
         }
 
         if (connectionOptions.size() > 0) {
-          logBasic(
-              BaseMessages.getString(
-                  CassandraInputMeta.PKG,
-                  "CassandraInput.Info.UsingConnectionOptions",
-                  CassandraUtils.optionsToString(connectionOptions)));
+          logBasic(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Info.UsingConnectionOptions", CassandraUtils.optionsToString(connectionOptions)));
         }
 
         try {
-          data.connection =
-              data.cassandraConnection.createConnection(this, connectionOptions, false);
+          data.connection = data.cassandraConnection.createConnection(this, connectionOptions, false);
           data.keyspace = data.connection.getKeyspace(keyspace);
         } catch (Exception ex) {
           closeConnection();
@@ -139,22 +121,12 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
         tableName = CassandraUtils.getTableNameFromCQLSelectQuery(cqlQuery);
 
         if (Utils.isEmpty(tableName)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  CassandraInputMeta.PKG,
-                  "CassandraInput.Error.NonExistentTable",
-                  tableName,
-                  keyspace));
+          throw new HopException(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Error.NonExistentTable", tableName, keyspace));
         }
 
         try {
           if (!data.keyspace.tableExists(tableName)) {
-            throw new HopException(
-                BaseMessages.getString(
-                    CassandraInputMeta.PKG,
-                    "CassandraInput.Error.NonExistentTable",
-                    CassandraUtils.removeQuotes(tableName),
-                    keyspace));
+            throw new HopException(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Error.NonExistentTable", CassandraUtils.removeQuotes(tableName), keyspace));
           }
         } catch (Exception ex) {
           closeConnection();
@@ -168,9 +140,7 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
 
         // check that there are some outgoing fields!
         if (data.outputRowMeta.size() == 0) {
-          throw new HopException(
-              BaseMessages.getString(
-                  CassandraInputMeta.PKG, "CassandraInput.Error.QueryWontProduceOutputFields"));
+          throw new HopException(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Error.QueryWontProduceOutputFields"));
         }
 
         // set up the lookup map
@@ -239,13 +209,8 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
     try {
       logBasic(
           BaseMessages.getString(
-              CassandraInputMeta.PKG,
-              "CassandraInput.Info.ExecutingQuery",
-              queryS,
-              (usingCompression
-                  ? BaseMessages.getString(
-                      CassandraInputMeta.PKG, "CassandraInput.Info.UsingGZIPCompression")
-                  : "")));
+              CassandraInputMeta.PKG, "CassandraInput.Info.ExecutingQuery", queryS,
+              (usingCompression ? BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Info.UsingGZIPCompression") : "")));
       if (cqlHandler == null) {
         cqlHandler = data.keyspace.getCQLRowHandler();
       }
@@ -276,8 +241,7 @@ public class CassandraInput extends BaseTransform<CassandraInputMeta, CassandraI
 
   protected void closeConnection() throws HopException {
     if (data.connection != null) {
-      logBasic(
-          BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Info.ClosingConnection"));
+      logBasic(BaseMessages.getString(CassandraInputMeta.PKG, "CassandraInput.Info.ClosingConnection"));
       try {
         data.connection.close();
         data.connection = null;

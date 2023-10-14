@@ -39,19 +39,14 @@ import java.util.List;
 @ExtensionPoint(
     extensionPointId = "PipelinePrepareExecution",
     id = "ChangePipelineMetaPriorToExecutionExtensionPoint",
-    description =
-        "Change the pipeline metadata in prior to execution preparation but only during execution in HopGui")
-public class ChangePipelineMetaPriorToExecutionExtensionPoint
-    implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
+    description = "Change the pipeline metadata in prior to execution preparation but only during execution in HopGui")
+public class ChangePipelineMetaPriorToExecutionExtensionPoint implements IExtensionPoint<IPipelineEngine<PipelineMeta>> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline)
-      throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, IPipelineEngine<PipelineMeta> pipeline) throws HopException {
     PipelineMeta pipelineMeta = pipeline.getPipelineMeta();
 
-    boolean runUnitTest =
-        "Y".equalsIgnoreCase(variables.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
+    boolean runUnitTest = "Y".equalsIgnoreCase(variables.getVariable(DataSetConst.VAR_RUN_UNIT_TEST));
 
     // Only try to run a unit test when running with the local engine
     //
@@ -67,7 +62,7 @@ public class ChangePipelineMetaPriorToExecutionExtensionPoint
     String unitTestName = pipeline.getVariable(DataSetConst.VAR_UNIT_TEST_NAME);
 
     // Do we have something to work with?
-    // Unit test disabled?  Github issue #5
+    // Unit test disabled? Github issue #5
     //
     if (StringUtils.isEmpty(unitTestName)) {
       if (log.isDetailed()) {
@@ -79,8 +74,7 @@ public class ChangePipelineMetaPriorToExecutionExtensionPoint
     PipelineUnitTest unitTest = null;
 
     try {
-      unitTest =
-          pipeline.getMetadataProvider().getSerializer(PipelineUnitTest.class).load(unitTestName);
+      unitTest = pipeline.getMetadataProvider().getSerializer(PipelineUnitTest.class).load(unitTestName);
     } catch (HopException e) {
       throw new HopException("Unable to load unit test '" + unitTestName + "'", e);
     }
@@ -92,8 +86,7 @@ public class ChangePipelineMetaPriorToExecutionExtensionPoint
     // Get a modified copy of the pipeline using the unit test information
     //
     PipelineMetaModifier modifier = new PipelineMetaModifier(pipeline, pipelineMeta, unitTest);
-    PipelineMeta copyPipelineMeta =
-        modifier.getTestPipeline(log, pipeline, pipeline.getMetadataProvider());
+    PipelineMeta copyPipelineMeta = modifier.getTestPipeline(log, pipeline, pipeline.getMetadataProvider());
 
     // Now replace the metadata in the IPipelineEngine<PipelineMeta> object...
     //

@@ -54,7 +54,8 @@ import java.util.Map;
     documentationUrl = "/pipeline/transforms/beamkafkaconsume.html")
 public class BeamConsumeMeta extends BaseTransformMeta<BeamConsume, DummyData> implements IBeamPipelineTransformHandler {
 
-  @HopMetadataProperty private String topics;
+  @HopMetadataProperty
+  private String topics;
 
   @HopMetadataProperty(key = "bootstrap_servers")
   private String bootstrapServers;
@@ -117,13 +118,7 @@ public class BeamConsumeMeta extends BaseTransformMeta<BeamConsume, DummyData> i
   }
 
   @Override
-  public void getFields(
-      IRowMeta inputRowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta inputRowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     try {
       IValueMeta keyValueMeta = new ValueMetaString(variables.resolve(keyField));
@@ -133,8 +128,7 @@ public class BeamConsumeMeta extends BaseTransformMeta<BeamConsume, DummyData> i
       // The default message type is String
       String typeString = Const.NVL(variables.resolve(messageType), "String");
       int type = ValueMetaFactory.getIdForValueMeta(typeString);
-      IValueMeta messageValueMeta =
-          ValueMetaFactory.createValueMeta(variables.resolve(messageField), type);
+      IValueMeta messageValueMeta = ValueMetaFactory.createValueMeta(variables.resolve(messageField), type);
       messageValueMeta.setOrigin(name);
       inputRowMeta.addValueMeta(messageValueMeta);
     } catch (Exception e) {
@@ -182,8 +176,7 @@ public class BeamConsumeMeta extends BaseTransformMeta<BeamConsume, DummyData> i
       ConfigOption option = getConfigOptions().get(i);
       parameters[i] = variables.resolve(option.getParameter());
       values[i] = variables.resolve(option.getValue());
-      types[i] =
-          option.getType() == null ? ConfigOption.Type.String.name() : option.getType().name();
+      types[i] = option.getType() == null ? ConfigOption.Type.String.name() : option.getType().name();
     }
 
     BeamKafkaInputTransform beamInputTransform =

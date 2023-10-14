@@ -39,7 +39,8 @@ import java.util.Map;
 public class SynchronizeAfterMergeMetaTest implements IInitializer<ITransform> {
   LoadSaveTester loadSaveTester;
   Class<SynchronizeAfterMergeMeta> testMetaClass = SynchronizeAfterMergeMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -47,43 +48,23 @@ public class SynchronizeAfterMergeMetaTest implements IInitializer<ITransform> {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "schemaName",
-            "tableName",
-            "databaseMeta",
-            "commitSize",
-            "tableNameInField",
-            "tablenameField",
-            "operationOrderField",
-            "useBatchUpdate",
-            "performLookup",
-            "OrderInsert",
-            "OrderUpdate",
-            "OrderDelete",
-            "keyStream",
-            "keyLookup",
-            "keyCondition",
-            "keyStream2",
-            "updateLookup",
-            "updateStream",
-            "update");
+            "schemaName", "tableName", "databaseMeta", "commitSize", "tableNameInField", "tablenameField", "operationOrderField", "useBatchUpdate", "performLookup", "OrderInsert",
+            "OrderUpdate", "OrderDelete", "keyStream", "keyLookup", "keyCondition", "keyStream2", "updateLookup", "updateStream", "update");
 
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("tableNameInField", "istablenameInField");
-            put("tablenameField", "gettablenameField");
-            put("useBatchUpdate", "useBatchUpdate");
-          }
-        };
-    Map<String, String> setterMap =
-        new HashMap<String, String>() {
-          {
-            put("tableNameInField", "settablenameInField");
-            put("tablenameField", "settablenameField");
-          }
-        };
-    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator =
-        new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("tableNameInField", "istablenameInField");
+        put("tablenameField", "gettablenameField");
+        put("useBatchUpdate", "useBatchUpdate");
+      }
+    };
+    Map<String, String> setterMap = new HashMap<String, String>() {
+      {
+        put("tableNameInField", "settablenameInField");
+        put("tablenameField", "settablenameField");
+      }
+    };
+    IFieldLoadSaveValidator<String[]> stringArrayLoadSaveValidator = new ArrayLoadSaveValidator<>(new StringLoadSaveValidator(), 5);
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     attrValidatorMap.put("keyStream", stringArrayLoadSaveValidator);
@@ -96,15 +77,7 @@ public class SynchronizeAfterMergeMetaTest implements IInitializer<ITransform> {
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass,
-            attributes,
-            getterMap,
-            setterMap,
-            attrValidatorMap,
-            typeValidatorMap,
-            this);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap, this);
   }
 
   // Call the allocate method on the LoadSaveTester meta class
@@ -119,15 +92,12 @@ public class SynchronizeAfterMergeMetaTest implements IInitializer<ITransform> {
   public void testPDI16559() throws Exception {
     SynchronizeAfterMergeMeta synchronizeAfterMerge = new SynchronizeAfterMergeMeta();
 
-    synchronizeAfterMerge.setKeyStream(
-        new String[] {"field1", "field2", "field3", "field4", "field5"});
+    synchronizeAfterMerge.setKeyStream(new String[] {"field1", "field2", "field3", "field4", "field5"});
     synchronizeAfterMerge.setKeyLookup(new String[] {"lookup1", "lookup2"});
     synchronizeAfterMerge.setKeyCondition(new String[] {"cond1", "cond2", "cond3"});
-    synchronizeAfterMerge.setKeyStream2(
-        new String[] {"stream2-a", "stream2-b", "stream2-x", "stream2-d"});
+    synchronizeAfterMerge.setKeyStream2(new String[] {"stream2-a", "stream2-b", "stream2-x", "stream2-d"});
 
-    synchronizeAfterMerge.setUpdateLookup(
-        new String[] {"updlook1", "updlook2", "updlook3", "updlook4", "updlook5"});
+    synchronizeAfterMerge.setUpdateLookup(new String[] {"updlook1", "updlook2", "updlook3", "updlook4", "updlook5"});
     synchronizeAfterMerge.setUpdateStream(new String[] {"updstr1", "updstr2", "updstr3"});
     synchronizeAfterMerge.setUpdate(new Boolean[] {false, true});
 

@@ -37,8 +37,7 @@ public interface IEnumHasCodeAndDescription extends IEnumHasCode {
     return descriptions;
   }
 
-  static <E extends IEnumHasCodeAndDescription> E lookupDescription(
-      Class<E> clazz, String description, E defaultValue) {
+  static <E extends IEnumHasCodeAndDescription> E lookupDescription(Class<E> clazz, String description, E defaultValue) {
     for (E e : clazz.getEnumConstants()) {
       if (e.getDescription().equalsIgnoreCase(description)) {
         return e;

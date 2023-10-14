@@ -77,31 +77,10 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
 
   public BeamKinesisConsumeTransform() {}
 
-  public BeamKinesisConsumeTransform(
-      String transformName,
-      String accessKey,
-      String secretKey,
-      Regions regions,
-      String rowMetaJson,
-      String streamName,
-      String uniqueIdField,
-      String dataField,
-      String dataType,
-      String partitionKeyField,
-      String sequenceNumberField,
-      String subSequenceNumberField,
-      String shardIdField,
-      String streamNameField,
-      String maxNumRecords,
-      String maxReadTimeMs,
-      String upToDateThresholdMs,
-      String requestRecordsLimit,
-      boolean arrivalTimeWatermarkPolicy,
-      String arrivalTimeWatermarkPolicyMs,
-      boolean processingTimeWatermarkPolicy,
-      boolean fixedDelayRatePolicy,
-      String fixedDelayRatePolicyMs,
-      String maxCapacityPerShard) {
+  public BeamKinesisConsumeTransform(String transformName, String accessKey, String secretKey, Regions regions, String rowMetaJson, String streamName, String uniqueIdField,
+      String dataField, String dataType, String partitionKeyField, String sequenceNumberField, String subSequenceNumberField, String shardIdField, String streamNameField,
+      String maxNumRecords, String maxReadTimeMs, String upToDateThresholdMs, String requestRecordsLimit, boolean arrivalTimeWatermarkPolicy, String arrivalTimeWatermarkPolicyMs,
+      boolean processingTimeWatermarkPolicy, boolean fixedDelayRatePolicy, String fixedDelayRatePolicyMs, String maxCapacityPerShard) {
     super(transformName);
     this.transformName = transformName;
     this.rowMetaJson = rowMetaJson;
@@ -148,38 +127,30 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
       PCollection<HopRow> output;
 
       KinesisIO.Read<KinesisRecord> kinesisRecordRead =
-          KinesisIO.read()
-              .withAWSClientsProvider(accessKey, secretKey, regions)
-              .withStreamName(streamName)
-              .withInitialPositionInStream(InitialPositionInStream.LATEST) // TODO make configurable
-          ;
+          KinesisIO.read().withAWSClientsProvider(accessKey, secretKey, regions).withStreamName(streamName).withInitialPositionInStream(InitialPositionInStream.LATEST) // TODO make
+                                                                                                                                                                        // configurable
+      ;
 
       if (StringUtils.isNotEmpty(maxNumRecords)) {
         kinesisRecordRead = kinesisRecordRead.withMaxNumRecords(Long.parseLong(maxNumRecords));
       }
 
       if (StringUtils.isNotEmpty(maxReadTimeMs)) {
-        kinesisRecordRead =
-            kinesisRecordRead.withMaxReadTime(Duration.millis(Long.parseLong(maxReadTimeMs)));
+        kinesisRecordRead = kinesisRecordRead.withMaxReadTime(Duration.millis(Long.parseLong(maxReadTimeMs)));
       }
 
       if (StringUtils.isNotEmpty(upToDateThresholdMs)) {
-        kinesisRecordRead =
-            kinesisRecordRead.withUpToDateThreshold(
-                Duration.millis(Long.parseLong(upToDateThresholdMs)));
+        kinesisRecordRead = kinesisRecordRead.withUpToDateThreshold(Duration.millis(Long.parseLong(upToDateThresholdMs)));
       }
 
       if (StringUtils.isNotEmpty(requestRecordsLimit)) {
-        kinesisRecordRead =
-            kinesisRecordRead.withRequestRecordsLimit(Integer.parseInt(requestRecordsLimit));
+        kinesisRecordRead = kinesisRecordRead.withRequestRecordsLimit(Integer.parseInt(requestRecordsLimit));
       }
 
       if (arrivalTimeWatermarkPolicy) {
         kinesisRecordRead = kinesisRecordRead.withArrivalTimeWatermarkPolicy();
         if (StringUtils.isNotEmpty(arrivalTimeWatermarkPolicyMs)) {
-          kinesisRecordRead =
-              kinesisRecordRead.withArrivalTimeWatermarkPolicy(
-                  Duration.millis(Long.parseLong(arrivalTimeWatermarkPolicyMs)));
+          kinesisRecordRead = kinesisRecordRead.withArrivalTimeWatermarkPolicy(Duration.millis(Long.parseLong(arrivalTimeWatermarkPolicyMs)));
         }
       }
 
@@ -190,29 +161,18 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
       if (fixedDelayRatePolicy) {
         kinesisRecordRead = kinesisRecordRead.withFixedDelayRateLimitPolicy();
         if (StringUtils.isNotEmpty(fixedDelayRatePolicyMs)) {
-          kinesisRecordRead =
-              kinesisRecordRead.withFixedDelayRateLimitPolicy(
-                  Duration.millis(Long.parseLong(fixedDelayRatePolicyMs)));
+          kinesisRecordRead = kinesisRecordRead.withFixedDelayRateLimitPolicy(Duration.millis(Long.parseLong(fixedDelayRatePolicyMs)));
         }
       }
 
       if (StringUtils.isNotEmpty(maxCapacityPerShard)) {
-        kinesisRecordRead =
-            kinesisRecordRead.withMaxCapacityPerShard(Integer.parseInt(maxCapacityPerShard));
+        kinesisRecordRead = kinesisRecordRead.withMaxCapacityPerShard(Integer.parseInt(maxCapacityPerShard));
       }
 
       PCollection<KinesisRecord> kinesisRecordPCollection = input.apply(kinesisRecordRead);
 
       KinesisRecordToHopRowFn recordToRowFn =
-          new KinesisRecordToHopRowFn(
-              transformName,
-              rowMetaJson,
-              uniqueIdField,
-              partitionKeyField,
-              sequenceNumberField,
-              subSequenceNumberField,
-              shardIdField,
-              streamNameField);
+          new KinesisRecordToHopRowFn(transformName, rowMetaJson, uniqueIdField, partitionKeyField, sequenceNumberField, subSequenceNumberField, shardIdField, streamNameField);
       output = kinesisRecordPCollection.apply(ParDo.of(recordToRowFn));
 
       return output;
@@ -236,9 +196,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
     private transient Counter inputCounter;
     private transient Counter writtenCounter;
 
-    public KVStringStringToHopRowFn(
-        String transformName,
-        String rowMetaJson) {
+    public KVStringStringToHopRowFn(String transformName, String rowMetaJson) {
       this.transformName = transformName;
       this.rowMetaJson = rowMetaJson;
     }
@@ -258,8 +216,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in setup of KV<String,String> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in setup of KV<String,String> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in setup of KV<String,String> to Hop Row conversion function", e);
       }
     }
 
@@ -283,8 +240,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
     }
   }
 
-  public static final class KVStringGenericRecordToHopRowFn
-      extends DoFn<KV<String, GenericRecord>, HopRow> {
+  public static final class KVStringGenericRecordToHopRowFn extends DoFn<KV<String, GenericRecord>, HopRow> {
 
     private final String rowMetaJson;
     private final String transformName;
@@ -296,9 +252,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
     private transient Counter inputCounter;
     private transient Counter writtenCounter;
 
-    public KVStringGenericRecordToHopRowFn(
-        String transformName,
-        String rowMetaJson) {
+    public KVStringGenericRecordToHopRowFn(String transformName, String rowMetaJson) {
       this.transformName = transformName;
       this.rowMetaJson = rowMetaJson;
     }
@@ -318,8 +272,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in setup of KV<String,GenericRecord> to Hop Row conversion function", e);
       }
     }
 
@@ -338,8 +291,7 @@ public class BeamKinesisConsumeTransform extends PTransform<PBegin, PCollection<
       } catch (Exception e) {
         numErrors.inc();
         LOG.error("Error in KV<String,GenericRecord> to Hop Row conversion function", e);
-        throw new RuntimeException(
-            "Error in KV<String,GenericRecord> to Hop Row conversion function", e);
+        throw new RuntimeException("Error in KV<String,GenericRecord> to Hop Row conversion function", e);
       }
     }
   }

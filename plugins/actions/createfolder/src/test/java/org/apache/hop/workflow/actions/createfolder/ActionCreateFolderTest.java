@@ -24,9 +24,7 @@ public class ActionCreateFolderTest {
 
   @Test
   public void testSerialization() throws Exception {
-    ActionCreateFolder action =
-        ActionSerializationTestUtil.testSerialization(
-            "/create-folder-action.xml", ActionCreateFolder.class);
+    ActionCreateFolder action = ActionSerializationTestUtil.testSerialization("/create-folder-action.xml", ActionCreateFolder.class);
 
     Assert.assertEquals("${TEST_FOLDER}/one", action.getFolderName());
     Assert.assertTrue(action.isFailIfFolderExists());

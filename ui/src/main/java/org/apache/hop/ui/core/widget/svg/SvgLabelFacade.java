@@ -37,7 +37,6 @@ public abstract class SvgLabelFacade {
 
   public abstract void setDataInternal(String id, Label label, String imageFile, int size);
 
-
   public synchronized static void enable(ToolItem toolItem, String id, Label label, boolean enable) {
     synchronized (object) {
       IMPL.enableInternal(toolItem, id, label, enable);

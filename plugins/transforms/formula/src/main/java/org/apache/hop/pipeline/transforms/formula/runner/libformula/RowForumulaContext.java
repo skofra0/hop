@@ -57,9 +57,11 @@ public class RowForumulaContext implements FormulaContext {
     return AnyType.TYPE;
   }
 
-  /** We return the content of a Value with the given name. We cache the position of the field indexes.
+  /**
+   * We return the content of a Value with the given name. We cache the position of the field indexes.
    *
-   * @see org.jfree.formula.FormulaContext#resolveReference(java.lang.Object) */
+   * @see org.jfree.formula.FormulaContext#resolveReference(java.lang.Object)
+   */
   public Object resolveReference(Object name) throws EvaluationException {
     if (name instanceof String) {
       IValueMeta valueMeta;
@@ -115,14 +117,18 @@ public class RowForumulaContext implements FormulaContext {
     return rowMeta;
   }
 
-  /** @param rowMeta
-   *        the row to set */
+  /**
+   * @param rowMeta
+   *        the row to set
+   */
   public void setRowMeta(IRowMeta rowMeta) {
     this.rowMeta = rowMeta;
   }
 
-  /** @param rowData
-   *        the new row of data to inject */
+  /**
+   * @param rowData
+   *        the new row of data to inject
+   */
   public void setRowData(Object[] rowData) {
     this.rowData = rowData;
   }

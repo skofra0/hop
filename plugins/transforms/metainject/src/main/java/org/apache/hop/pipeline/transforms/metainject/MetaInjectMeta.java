@@ -61,13 +61,8 @@ import java.util.Map.Entry;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Transform",
     keywords = "i18n::MetaInjectMeta.keyword",
     documentationUrl = "/pipeline/transforms/metainject.html")
-@InjectionSupported(
-    localizationPrefix = "MetaInject.Injection.",
-    groups = {"SOURCE_OUTPUT_FIELDS", "MAPPING_FIELDS"})
-public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData>
-    implements 
-        ITransformMetaChangeListener,
-        ISubPipelineAwareMeta {
+@InjectionSupported(localizationPrefix = "MetaInject.Injection.", groups = {"SOURCE_OUTPUT_FIELDS", "MAPPING_FIELDS"})
+public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData> implements ITransformMetaChangeListener, ISubPipelineAwareMeta {
 
   private static final Class<?> PKG = MetaInjectMeta.class; // For Translator
 
@@ -104,11 +99,13 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
   @Injection(name = "SOURCE_TRANSFORM_NAME")
   private String sourceTransformName;
 
-  @InjectionDeep private List<MetaInjectOutputField> sourceOutputFields;
+  @InjectionDeep
+  private List<MetaInjectOutputField> sourceOutputFields;
 
   private Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping;
 
-  @InjectionDeep private List<MetaInjectMapping> metaInjectMapping;
+  @InjectionDeep
+  private List<MetaInjectMapping> metaInjectMapping;
 
   @Injection(name = "TARGET_FILE")
   private String targetFile;
@@ -153,18 +150,10 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
     retval.append("    ").append(XmlHandler.openTag(SOURCE_OUTPUT_FIELDS));
     for (MetaInjectOutputField field : sourceOutputFields) {
       retval.append("      ").append(XmlHandler.openTag(SOURCE_OUTPUT_FIELD));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_NAME, field.getName()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_TYPE, field.getTypeDescription()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_LENGTH, field.getLength()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_PRECISION, field.getPrecision()));
+      retval.append("        ").append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_NAME, field.getName()));
+      retval.append("        ").append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_TYPE, field.getTypeDescription()));
+      retval.append("        ").append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_LENGTH, field.getLength()));
+      retval.append("        ").append(XmlHandler.addTagValue(SOURCE_OUTPUT_FIELD_PRECISION, field.getPrecision()));
       retval.append("      ").append(XmlHandler.closeTag(SOURCE_OUTPUT_FIELD));
     }
     retval.append("    ").append(XmlHandler.closeTag(SOURCE_OUTPUT_FIELDS));
@@ -176,27 +165,17 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
     if ((streamSourceTransformName == null) && (streamSourceTransform != null)) {
       streamSourceTransformName = streamSourceTransform.getName();
     }
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue(STREAM_SOURCE_TRANSFORM, streamSourceTransformName));
-    retval
-        .append("    ")
-        .append(XmlHandler.addTagValue(STREAM_TARGET_TRANSFORM, streamTargetTransformName));
+    retval.append("    ").append(XmlHandler.addTagValue(STREAM_SOURCE_TRANSFORM, streamSourceTransformName));
+    retval.append("    ").append(XmlHandler.addTagValue(STREAM_TARGET_TRANSFORM, streamTargetTransformName));
 
     retval.append("    ").append(XmlHandler.openTag(MAPPINGS));
     for (TargetTransformAttribute target : targetSourceMapping.keySet()) {
       retval.append("      ").append(XmlHandler.openTag(MAPPING));
       SourceTransformField source = targetSourceMapping.get(target);
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(TARGET_TRANSFORM_NAME, target.getTransformName()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(TARGET_ATTRIBUTE_KEY, target.getAttributeKey()));
+      retval.append("        ").append(XmlHandler.addTagValue(TARGET_TRANSFORM_NAME, target.getTransformName()));
+      retval.append("        ").append(XmlHandler.addTagValue(TARGET_ATTRIBUTE_KEY, target.getAttributeKey()));
       retval.append("        ").append(XmlHandler.addTagValue(TARGET_DETAIL, target.isDetail()));
-      retval
-          .append("        ")
-          .append(XmlHandler.addTagValue(SOURCE_TRANSFORM, source.getTransformName()));
+      retval.append("        ").append(XmlHandler.addTagValue(SOURCE_TRANSFORM, source.getTransformName()));
       retval.append("        ").append(XmlHandler.addTagValue(SOURCE_FIELD, source.getField()));
       retval.append("      ").append(XmlHandler.closeTag(MAPPING));
     }
@@ -206,8 +185,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
   }
 
   @Override
-  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
-      throws HopXmlException {
+  public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider) throws HopXmlException {
     try {
       fileName = XmlHandler.getTagValue(transformNode, FILENAME);
       runConfigurationName = XmlHandler.getTagValue(transformNode, RUN_CONFIG);
@@ -219,10 +197,8 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
       for (Node outputFieldNode : outputFieldNodes) {
         String name = XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_NAME);
         String typeName = XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_TYPE);
-        int length =
-            Const.toInt(XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_LENGTH), -1);
-        int precision =
-            Const.toInt(XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_PRECISION), -1);
+        int length = Const.toInt(XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_LENGTH), -1);
+        int precision = Const.toInt(XmlHandler.getTagValue(outputFieldNode, SOURCE_OUTPUT_FIELD_PRECISION), -1);
         int type = ValueMetaFactory.getIdForValueMeta(typeName);
         sourceOutputFields.add(new MetaInjectOutputField(name, type, length, precision));
       }
@@ -240,13 +216,11 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
         Node mappingNode = XmlHandler.getSubNodeByNr(mappingsNode, MAPPING, i);
         String targetTransformName = XmlHandler.getTagValue(mappingNode, TARGET_TRANSFORM_NAME);
         String targetAttributeKey = XmlHandler.getTagValue(mappingNode, TARGET_ATTRIBUTE_KEY);
-        boolean targetDetail =
-            "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, TARGET_DETAIL));
+        boolean targetDetail = "Y".equalsIgnoreCase(XmlHandler.getTagValue(mappingNode, TARGET_DETAIL));
         String sourceTransformName = XmlHandler.getTagValue(mappingNode, SOURCE_TRANSFORM);
         String sourceField = XmlHandler.getTagValue(mappingNode, SOURCE_FIELD);
 
-        TargetTransformAttribute target =
-            new TargetTransformAttribute(targetTransformName, targetAttributeKey, targetDetail);
+        TargetTransformAttribute target = new TargetTransformAttribute(targetTransformName, targetAttributeKey, targetDetail);
         SourceTransformField source = new SourceTransformField(sourceTransformName, sourceField);
         targetSourceMapping.put(target, source);
       }
@@ -258,13 +232,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String origin,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String origin, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     rowMeta.clear(); // No defined output is expected from this transform.
@@ -273,8 +241,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
         try {
           rowMeta.addValueMeta(field.createValueMeta());
         } catch (HopPluginException e) {
-          throw new HopTransformException(
-              "Error creating value meta for output field '" + field.getName() + "'", e);
+          throw new HopTransformException("Error creating value meta for output field '" + field.getName() + "'", e);
         }
       }
     }
@@ -284,8 +251,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
     return targetSourceMapping;
   }
 
-  public void setTargetSourceMapping(
-      Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping) {
+  public void setTargetSourceMapping(Map<TargetTransformAttribute, SourceTransformField> targetSourceMapping) {
     this.targetSourceMapping = targetSourceMapping;
   }
 
@@ -299,15 +265,11 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
     this.fileName = fileName;
   }
 
-  public static final synchronized PipelineMeta loadPipelineMeta(
-      MetaInjectMeta injectMeta, IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  public static final synchronized PipelineMeta loadPipelineMeta(MetaInjectMeta injectMeta, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     PipelineMeta mappingPipelineMeta = null;
 
     CurrentDirectoryResolver resolver = new CurrentDirectoryResolver();
-    IVariables tmpSpace =
-        resolver.resolveCurrentDirectory(
-            variables, injectMeta.getParentTransformMeta(), injectMeta.getFileName());
+    IVariables tmpSpace = resolver.resolveCurrentDirectory(variables, injectMeta.getParentTransformMeta(), injectMeta.getFileName());
 
     String realFilename = tmpSpace.resolve(injectMeta.getFileName());
     try {
@@ -317,15 +279,10 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
       //
       if (mappingPipelineMeta == null) {
         mappingPipelineMeta = new PipelineMeta(realFilename, metadataProvider, tmpSpace);
-        LogChannel.GENERAL.logDetailed(
-            "Loading Mapping from repository",
-            "Mapping transformation was loaded from XML file [" + realFilename + "]");
+        LogChannel.GENERAL.logDetailed("Loading Mapping from repository", "Mapping transformation was loaded from XML file [" + realFilename + "]");
       }
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "MetaInjectMeta.Exception.UnableToLoadPipelineFromFile", realFilename),
-          e);
+      throw new HopException(BaseMessages.getString(PKG, "MetaInjectMeta.Exception.UnableToLoadPipelineFromFile", realFilename), e);
     }
 
     // Pass some important information to the mapping transformation metadata:
@@ -336,14 +293,12 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
   }
 
   /** package-local visibility for testing purposes */
-  PipelineMeta loadPipelineMeta(IHopMetadataProvider metadataProvider, IVariables variables)
-      throws HopException {
+  PipelineMeta loadPipelineMeta(IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return MetaInjectMeta.loadPipelineMeta(this, metadataProvider, variables);
   }
 
   @Override
-  public List<ResourceReference> getResourceDependencies(
-      IVariables variables, TransformMeta transformMeta) {
+  public List<ResourceReference> getResourceDependencies(IVariables variables, TransformMeta transformMeta) {
 
     List<ResourceReference> references = new ArrayList<>(5);
     String realFilename = variables.resolve(fileName);
@@ -354,19 +309,13 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
       // Add the filename to the references, including a reference to this transform
       // meta data.
       //
-      reference
-          .getEntries()
-          .add(new ResourceEntry(realFilename, ResourceEntry.ResourceType.ACTIONFILE));
+      reference.getEntries().add(new ResourceEntry(realFilename, ResourceEntry.ResourceType.ACTIONFILE));
     }
     return references;
   }
 
   @Override
-  public String exportResources(
-      IVariables variables,
-      Map<String, ResourceDefinition> definitions,
-      IResourceNaming resourceNamingInterface,
-      IHopMetadataProvider metadataProvider)
+  public String exportResources(IVariables variables, Map<String, ResourceDefinition> definitions, IResourceNaming resourceNamingInterface, IHopMetadataProvider metadataProvider)
       throws HopException {
     try {
       // Try to load the transformation from repository or file.
@@ -382,9 +331,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
       // Also go down into the mapping transformation and export the files
       // there. (mapping recursively down)
       //
-      String proposedNewFilename =
-          executorPipelineMeta.exportResources(
-              variables, definitions, resourceNamingInterface, metadataProvider);
+      String proposedNewFilename = executorPipelineMeta.exportResources(variables, definitions, resourceNamingInterface, metadataProvider);
 
       // To get a relative path to it, we inject
       // ${Internal.Entry.Current.Directory}
@@ -401,8 +348,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
 
       return proposedNewFilename;
     } catch (Exception e) {
-      throw new HopException(
-          BaseMessages.getString(PKG, "MetaInjectMeta.Exception.UnableToLoadTrans", fileName));
+      throw new HopException(BaseMessages.getString(PKG, "MetaInjectMeta.Exception.UnableToLoadTrans", fileName));
     }
   }
 
@@ -467,9 +413,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      BaseMessages.getString(PKG, "MetaInjectMeta.ReferencedObject.Description"),
-    };
+    return new String[] {BaseMessages.getString(PKG, "MetaInjectMeta.ReferencedObject.Description"),};
   }
 
   private boolean isTransformationDefined() {
@@ -478,9 +422,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isTransformationDefined(),
-    };
+    return new boolean[] {isTransformationDefined(),};
   }
 
   @Override
@@ -498,8 +440,7 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return loadPipelineMeta(this, metadataProvider, variables);
   }
 
@@ -552,52 +493,42 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
     if (metaInjectMapping == null || metaInjectMapping.isEmpty()) {
       return;
     }
-    Map<TargetTransformAttribute, SourceTransformField> targetToSourceMap =
-        convertToMap(metaInjectMapping);
+    Map<TargetTransformAttribute, SourceTransformField> targetToSourceMap = convertToMap(metaInjectMapping);
     setTargetSourceMapping(targetToSourceMap);
   }
 
   /** package-local visibility for testing purposes */
-  static Map<TargetTransformAttribute, SourceTransformField> convertToMap(
-      List<MetaInjectMapping> metaInjectMapping) {
+  static Map<TargetTransformAttribute, SourceTransformField> convertToMap(List<MetaInjectMapping> metaInjectMapping) {
     Map<TargetTransformAttribute, SourceTransformField> targetToSourceMap = new HashMap<>();
     for (MetaInjectMapping mappingEntry : metaInjectMapping) {
       if (!isMappingEntryFilled(mappingEntry)) {
         continue;
       }
-      TargetTransformAttribute targetTransformAttribute =
-          createTargetTransformAttribute(mappingEntry);
+      TargetTransformAttribute targetTransformAttribute = createTargetTransformAttribute(mappingEntry);
       SourceTransformField sourceTransformField = createSourceTransformField(mappingEntry);
       targetToSourceMap.put(targetTransformAttribute, sourceTransformField);
     }
     return targetToSourceMap;
   }
 
-  private static TargetTransformAttribute createTargetTransformAttribute(
-      MetaInjectMapping mappingEntry) {
+  private static TargetTransformAttribute createTargetTransformAttribute(MetaInjectMapping mappingEntry) {
     String targetFieldName = mappingEntry.getTargetField();
     if (targetFieldName.contains(GROUP_AND_NAME_DELIMITER)) {
       String[] targetFieldGroupAndName = targetFieldName.split("\\" + GROUP_AND_NAME_DELIMITER);
-      return new TargetTransformAttribute(
-          mappingEntry.getTargetTransform(), targetFieldGroupAndName[1], true);
+      return new TargetTransformAttribute(mappingEntry.getTargetTransform(), targetFieldGroupAndName[1], true);
     }
-    return new TargetTransformAttribute(
-        mappingEntry.getTargetTransform(), mappingEntry.getTargetField(), false);
+    return new TargetTransformAttribute(mappingEntry.getTargetTransform(), mappingEntry.getTargetField(), false);
   }
 
   private static boolean isMappingEntryFilled(MetaInjectMapping mappingEntry) {
-    if (mappingEntry.getSourceTransform() == null
-        || mappingEntry.getSourceField() == null
-        || mappingEntry.getTargetTransform() == null
-        || mappingEntry.getTargetField() == null) {
+    if (mappingEntry.getSourceTransform() == null || mappingEntry.getSourceField() == null || mappingEntry.getTargetTransform() == null || mappingEntry.getTargetField() == null) {
       return false;
     }
     return true;
   }
 
   private static SourceTransformField createSourceTransformField(MetaInjectMapping mappingEntry) {
-    return new SourceTransformField(
-        mappingEntry.getSourceTransform(), mappingEntry.getSourceField());
+    return new SourceTransformField(mappingEntry.getSourceTransform(), mappingEntry.getSourceField());
   }
 
   @Override
@@ -607,22 +538,17 @@ public class MetaInjectMeta extends BaseTransformMeta<MetaInject, MetaInjectData
   }
 
   @Override
-  public void onTransformChange(
-      PipelineMeta pipelineMeta, TransformMeta oldMeta, TransformMeta newMeta) {
+  public void onTransformChange(PipelineMeta pipelineMeta, TransformMeta oldMeta, TransformMeta newMeta) {
     for (int i = 0; i < pipelineMeta.nrPipelineHops(); i++) {
       PipelineHopMeta hopMeta = pipelineMeta.getPipelineHop(i);
       if (hopMeta.getFromTransform().equals(oldMeta)) {
         TransformMeta toTransformMeta = hopMeta.getToTransform();
-        if ((toTransformMeta.getTransform() instanceof MetaInjectMeta)
-            && (toTransformMeta.equals(this.getParentTransformMeta()))) {
+        if ((toTransformMeta.getTransform() instanceof MetaInjectMeta) && (toTransformMeta.equals(this.getParentTransformMeta()))) {
           MetaInjectMeta toMeta = (MetaInjectMeta) toTransformMeta.getTransform();
-          Map<TargetTransformAttribute, SourceTransformField> sourceMapping =
-              toMeta.getTargetSourceMapping();
-          for (Entry<TargetTransformAttribute, SourceTransformField> entry :
-              sourceMapping.entrySet()) {
+          Map<TargetTransformAttribute, SourceTransformField> sourceMapping = toMeta.getTargetSourceMapping();
+          for (Entry<TargetTransformAttribute, SourceTransformField> entry : sourceMapping.entrySet()) {
             SourceTransformField value = entry.getValue();
-            if (value.getTransformName() != null
-                && value.getTransformName().equals(oldMeta.getName())) {
+            if (value.getTransformName() != null && value.getTransformName().equals(oldMeta.getName())) {
               value.setTransformName(newMeta.getName());
             }
           }

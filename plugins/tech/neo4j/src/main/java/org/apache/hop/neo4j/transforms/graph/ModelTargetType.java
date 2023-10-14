@@ -19,8 +19,7 @@ package org.apache.hop.neo4j.transforms.graph;
 public enum ModelTargetType {
   Unmapped,
   Node,
-  Relationship,
-  ;
+  Relationship,;
 
   /**
    * Get the code for a type, handles the null case

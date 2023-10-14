@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class XmlOutputMetaInjectionTest extends BaseMetadataInjectionTest<XmlOutputMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() {
@@ -62,10 +63,7 @@ public class XmlOutputMetaInjectionTest extends BaseMetadataInjectionTest<XmlOut
     check("OUTPUT_DECIMAL", () -> meta.getOutputFields()[0].getDecimalSymbol());
     check("OUTPUT_GROUP", () -> meta.getOutputFields()[0].getGroupingSymbol());
     check("OUTPUT_NULL", () -> meta.getOutputFields()[0].getNullString());
-    check(
-        "OUTPUT_CONTENT_TYPE",
-        () -> meta.getOutputFields()[0].getContentType(),
-        XmlField.ContentType.class);
+    check("OUTPUT_CONTENT_TYPE", () -> meta.getOutputFields()[0].getContentType(), XmlField.ContentType.class);
 
     // TODO check field type plugins
     skipPropertyTest("OUTPUT_TYPE");

@@ -47,13 +47,7 @@ import org.apache.hop.workflow.engine.WorkflowEngineFactory;
 public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, WorkflowExecutorData> {
   private static final Class<?> PKG = WorkflowExecutorMeta.class; // For Translator
 
-  public WorkflowExecutor(
-      TransformMeta transformMeta,
-      WorkflowExecutorMeta meta,
-      WorkflowExecutorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public WorkflowExecutor(TransformMeta transformMeta, WorkflowExecutorMeta meta, WorkflowExecutorData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -89,37 +83,16 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
         data.resultFilesOutputRowMeta = data.inputRowMeta.clone();
 
         if (meta.getExecutionResultTargetTransformMeta() != null) {
-          meta.getFields(
-              data.executionResultsOutputRowMeta,
-              getTransformName(),
-              null,
-              meta.getExecutionResultTargetTransformMeta(),
-              this,
-              metadataProvider);
-          data.executionResultRowSet =
-              findOutputRowSet(meta.getExecutionResultTargetTransformMeta().getName());
+          meta.getFields(data.executionResultsOutputRowMeta, getTransformName(), null, meta.getExecutionResultTargetTransformMeta(), this, metadataProvider);
+          data.executionResultRowSet = findOutputRowSet(meta.getExecutionResultTargetTransformMeta().getName());
         }
         if (meta.getResultRowsTargetTransformMeta() != null) {
-          meta.getFields(
-              data.resultRowsOutputRowMeta,
-              getTransformName(),
-              null,
-              meta.getResultRowsTargetTransformMeta(),
-              this,
-              metadataProvider);
-          data.resultRowsRowSet =
-              findOutputRowSet(meta.getResultRowsTargetTransformMeta().getName());
+          meta.getFields(data.resultRowsOutputRowMeta, getTransformName(), null, meta.getResultRowsTargetTransformMeta(), this, metadataProvider);
+          data.resultRowsRowSet = findOutputRowSet(meta.getResultRowsTargetTransformMeta().getName());
         }
         if (meta.getResultFilesTargetTransformMeta() != null) {
-          meta.getFields(
-              data.resultFilesOutputRowMeta,
-              getTransformName(),
-              null,
-              meta.getResultFilesTargetTransformMeta(),
-              this,
-              metadataProvider);
-          data.resultFilesRowSet =
-              findOutputRowSet(meta.getResultFilesTargetTransformMeta().getName());
+          meta.getFields(data.resultFilesOutputRowMeta, getTransformName(), null, meta.getResultFilesTargetTransformMeta(), this, metadataProvider);
+          data.resultFilesRowSet = findOutputRowSet(meta.getResultFilesTargetTransformMeta().getName());
         }
 
         // Remember which column to group on, if any...
@@ -128,9 +101,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
         if (!Utils.isEmpty(data.groupField)) {
           data.groupFieldIndex = getInputRowMeta().indexOfValue(data.groupField);
           if (data.groupFieldIndex < 0) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "WorkflowExecutor.Exception.GroupFieldNotFound", data.groupField));
+            throw new HopException(BaseMessages.getString(PKG, "WorkflowExecutor.Exception.GroupFieldNotFound", data.groupField));
           }
           data.groupFieldMeta = getInputRowMeta().getValueMeta(data.groupFieldIndex);
         }
@@ -166,8 +137,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
 
       // Add next value AFTER workflow execution, in case we are grouping by field,
       // and BEFORE checking size of a group, in case we are grouping by size.
-      data.groupBuffer.add(
-          new RowMetaAndData(getInputRowMeta(), row)); // should we clone for safety?
+      data.groupBuffer.add(new RowMetaAndData(getInputRowMeta(), row)); // should we clone for safety?
 
       // Grouping by size.
       // If group buffer size exceeds specified limit, then execute workflow and flush group buffer.
@@ -220,8 +190,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
     //
     getPipeline().addActiveSubWorkflow(getTransformName(), data.executorWorkflow);
 
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.WorkflowStart.id, data.executorWorkflow);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.WorkflowStart.id, data.executorWorkflow);
 
     Result result = data.executorWorkflow.startExecution();
 
@@ -293,40 +262,29 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
         // .. but before, perform all the consistency checks just one time just in the first result
         // row
         if (!rowConsistencyChecked) {
-            for (int i = 0; i < meta.getResultRowsField().length; i++) {
-              int idx = row.getRowMeta().indexOfValue(meta.getResultRowsField()[i]);
-              
-              if (idx == -1) {
-                missingFields +=
-                    (missingFields.length() > 0 ? "," : "")
-                        + meta.getResultRowsField()[i];
-              }
-              
-              IValueMeta valueMeta = row.getRowMeta().getValueMeta(i);
+          for (int i = 0; i < meta.getResultRowsField().length; i++) {
+            int idx = row.getRowMeta().indexOfValue(meta.getResultRowsField()[i]);
 
-              if (valueMeta != null && valueMeta.getType() != meta.getResultRowsType()[i]) {
-                expectedTypes +=
-                    (expectedTypes.length() > 0 ? "," : "")
-                        + ValueMetaFactory.getValueMetaName(meta.getResultRowsType()[i]);
-                currentTypes +=
-                    (currentTypes.length() > 0 ? "," : "") + valueMeta.getTypeDesc();
-              }
+            if (idx == -1) {
+              missingFields += (missingFields.length() > 0 ? "," : "") + meta.getResultRowsField()[i];
             }
-            rowConsistencyChecked = true;
+
+            IValueMeta valueMeta = row.getRowMeta().getValueMeta(i);
+
+            if (valueMeta != null && valueMeta.getType() != meta.getResultRowsType()[i]) {
+              expectedTypes += (expectedTypes.length() > 0 ? "," : "") + ValueMetaFactory.getValueMetaName(meta.getResultRowsType()[i]);
+              currentTypes += (currentTypes.length() > 0 ? "," : "") + valueMeta.getTypeDesc();
+            }
+          }
+          rowConsistencyChecked = true;
 
           if (missingFields.length() > 0) {
             logError("Unable to find required fields [" + missingFields + "] in result row!");
           }
 
           if (currentTypes.length() > 0) {
-            logError(
-                    BaseMessages.getString(
-                            PKG,
-                            "WorkflowExecutor.IncorrectDataTypePassed",
-                            currentTypes,
-                            expectedTypes));
-            throw new HopException(
-                    "We got into troubles while performing a consistency check on incoming result rows!");
+            logError(BaseMessages.getString(PKG, "WorkflowExecutor.IncorrectDataTypePassed", currentTypes, expectedTypes));
+            throw new HopException("We got into troubles while performing a consistency check on incoming result rows!");
           }
         }
 
@@ -356,15 +314,9 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
   }
 
   @VisibleForTesting
-  IWorkflowEngine<WorkflowMeta> createWorkflow(
-      WorkflowMeta workflowMeta, ILoggingObject parentLogging) throws HopException {
+  IWorkflowEngine<WorkflowMeta> createWorkflow(WorkflowMeta workflowMeta, ILoggingObject parentLogging) throws HopException {
 
-    return WorkflowEngineFactory.createWorkflowEngine(
-        this,
-        resolve(meta.getRunConfigurationName()),
-        metadataProvider,
-        workflowMeta,
-        parentLogging);
+    return WorkflowEngineFactory.createWorkflowEngine(this, resolve(meta.getRunConfigurationName()), metadataProvider, workflowMeta, parentLogging);
   }
 
   @VisibleForTesting
@@ -373,8 +325,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
     // TODO: make this optional/user-defined later
     if (data.executorWorkflow != null) {
       HopLogStore.discardLines(data.executorWorkflow.getLogChannelId(), false);
-      LoggingRegistry.getInstance()
-          .removeIncludingChildren(data.executorWorkflow.getLogChannelId());
+      LoggingRegistry.getInstance().removeIncludingChildren(data.executorWorkflow.getLogChannelId());
     }
   }
 
@@ -394,9 +345,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
         if (StringUtils.isNotEmpty(fieldName)) {
           int idx = getInputRowMeta().indexOfValue(fieldName);
           if (idx < 0) {
-            throw new HopException(
-                BaseMessages.getString(
-                    PKG, "WorkflowExecutor.Exception.UnableToFindField", fieldName));
+            throw new HopException(BaseMessages.getString(PKG, "WorkflowExecutor.Exception.UnableToFindField", fieldName));
           }
           variableValue = data.groupBuffer.get(0).getString(idx, "");
         } else {
@@ -424,8 +373,7 @@ public class WorkflowExecutor extends BaseTransform<WorkflowExecutorMeta, Workfl
       // First we need to load the mapping (pipeline)
       try {
 
-        data.executorWorkflowMeta =
-            WorkflowExecutorMeta.loadWorkflowMeta(meta, metadataProvider, this);
+        data.executorWorkflowMeta = WorkflowExecutorMeta.loadWorkflowMeta(meta, metadataProvider, this);
 
         // Do we have a workflow at all?
         //

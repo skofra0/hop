@@ -36,8 +36,7 @@ public class AzureFileNameParser extends HostFileNameParser {
   }
 
   @Override
-  public FileName parseUri(final VfsComponentContext context, FileName base, String filename)
-      throws FileSystemException {
+  public FileName parseUri(final VfsComponentContext context, FileName base, String filename) throws FileSystemException {
     final StringBuilder name = new StringBuilder();
     Authority auth = null;
     String path = null;
@@ -45,8 +44,7 @@ public class AzureFileNameParser extends HostFileNameParser {
 
     int eidx = filename.indexOf("@/");
     if (eidx != -1)
-      filename =
-          filename.substring(0, eidx + 1) + "windowsazure.com" + filename.substring(eidx + 1);
+      filename = filename.substring(0, eidx + 1) + "windowsazure.com" + filename.substring(eidx + 1);
 
     String scheme;
     try {

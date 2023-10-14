@@ -36,12 +36,12 @@ import static org.junit.Assert.fail;
  * implement tests for the following values:
  *
  * <ul>
- *   <li>-1
- *   <li>0
- *   <li>1
- *   <li>2
- *   <li>3
- *   <li>100
+ * <li>-1
+ * <li>0
+ * <li>1
+ * <li>2
+ * <li>3
+ * <li>100
  * </ul>
  */
 public abstract class IndexTestBase<T extends Index> {
@@ -56,10 +56,7 @@ public abstract class IndexTestBase<T extends Index> {
 
   static List<Object[]> createSampleData() {
     // sorted, reversely sorted, and shuffled data
-    return Arrays.asList(
-        new Object[] {toMatrix(0, 1, 2, 2, 3)},
-        new Object[] {toMatrix(3, 2, 2, 1, 0)},
-        new Object[] {toMatrix(1, 3, 2, 0, 2)});
+    return Arrays.asList(new Object[] {toMatrix(0, 1, 2, 2, 3)}, new Object[] {toMatrix(3, 2, 2, 1, 0)}, new Object[] {toMatrix(1, 3, 2, 0, 2)});
   }
 
   final Long[][] rows;
@@ -83,9 +80,7 @@ public abstract class IndexTestBase<T extends Index> {
   }
 
   T createIndexInstance(int column, IValueMeta meta, int rowsAmount) throws Exception {
-    return clazz
-        .getDeclaredConstructor(int.class, IValueMeta.class, int.class)
-        .newInstance(column, meta, rowsAmount);
+    return clazz.getDeclaredConstructor(int.class, IValueMeta.class, int.class).newInstance(column, meta, rowsAmount);
   }
 
   @After

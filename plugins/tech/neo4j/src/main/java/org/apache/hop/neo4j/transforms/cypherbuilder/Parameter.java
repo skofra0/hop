@@ -23,9 +23,12 @@ import java.util.Objects;
 /** A parameter is set using an input field */
 public class Parameter implements Cloneable {
 
-  @HopMetadataProperty private String name;
-  @HopMetadataProperty private String inputFieldName;
-  @HopMetadataProperty private String neoType;
+  @HopMetadataProperty
+  private String name;
+  @HopMetadataProperty
+  private String inputFieldName;
+  @HopMetadataProperty
+  private String neoType;
 
   public Parameter() {}
 
@@ -47,8 +50,10 @@ public class Parameter implements Cloneable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     Parameter parameter = (Parameter) o;
     return Objects.equals(name, parameter.name);
   }

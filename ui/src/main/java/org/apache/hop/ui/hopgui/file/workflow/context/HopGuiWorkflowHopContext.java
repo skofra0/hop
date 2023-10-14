@@ -34,18 +34,14 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
   public static final String CONTEXT_ID = "HopGuiWorkflowHopContext";
 
   private static String ROUTING_CATEGORY = TranslateUtil.translate("i18n::HopGuiWorkflowGraph.ContextualAction.Category.Routing.Text", HopGuiWorkflowGraph.class);
-  
+
   private WorkflowMeta workflowMeta;
   private WorkflowHopMeta hopMeta;
   private HopGuiWorkflowGraph workflowGraph;
   private Point click;
   private GuiActionLambdaBuilder<HopGuiWorkflowHopContext> lambdaBuilder;
 
-  public HopGuiWorkflowHopContext(
-      WorkflowMeta workflowMeta,
-      WorkflowHopMeta hopMeta,
-      HopGuiWorkflowGraph workflowGraph,
-      Point click) {
+  public HopGuiWorkflowHopContext(WorkflowMeta workflowMeta, WorkflowHopMeta hopMeta, HopGuiWorkflowGraph workflowGraph, Point click) {
     this.workflowMeta = workflowMeta;
     this.hopMeta = hopMeta;
     this.workflowGraph = workflowGraph;
@@ -72,8 +68,8 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
     //
     List<GuiAction> pluginActions = getPluginActions(true);
     if (pluginActions != null) {
-      for (GuiAction pluginAction : pluginActions) {              
-        if ( isGuiActionAvailable(pluginAction)  ) {
+      for (GuiAction pluginAction : pluginActions) {
+        if (isGuiActionAvailable(pluginAction)) {
           actions.add(lambdaBuilder.createLambda(pluginAction, this, workflowGraph));
         }
       }
@@ -83,20 +79,20 @@ public class HopGuiWorkflowHopContext extends BaseGuiContextHandler implements I
   }
 
   protected boolean isGuiActionAvailable(final GuiAction guiAction) {
-    if (hopMeta==null) {
+    if (hopMeta == null) {
       return false;
     }
-    
+
     // Filter routing action on the first hop after Start
     //
-    // TODO: Find a more robust way to detect routing actions 
-    if ( hopMeta.getFromAction().isStart() && guiAction.getCategory().equals(ROUTING_CATEGORY) ) {
+    // TODO: Find a more robust way to detect routing actions
+    if (hopMeta.getFromAction().isStart() && guiAction.getCategory().equals(ROUTING_CATEGORY)) {
       return false;
     }
-    
+
     return true;
   }
-  
+
   /**
    * Gets workflowMeta
    *

@@ -104,8 +104,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
   private Label wlFilenameField;
   private CCombo wFilenameField;
 
-  public GetFilesRowsCountDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public GetFilesRowsCountDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, (GetFilesRowsCountMeta) in, pipelineMeta, sname);
     input = (GetFilesRowsCountMeta) in;
   }
@@ -202,8 +201,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     wFileField = new Button(wOriginFiles, SWT.CHECK);
     PropsUi.setLook(wFileField);
-    wFileField.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FileField.Tooltip"));
+    wFileField.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FileField.Tooltip"));
     FormData fdFileField = new FormData();
     fdFileField.left = new FormAttachment(middle, -margin);
     fdFileField.top = new FormAttachment(wlFileField, 0, SWT.CENTER);
@@ -212,8 +210,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     // Filename field
     wlFilenameField = new Label(wOriginFiles, SWT.RIGHT);
-    wlFilenameField.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameField.Label"));
+    wlFilenameField.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameField.Label"));
     PropsUi.setLook(wlFilenameField);
     FormData fdlFilenameField = new FormData();
     fdlFilenameField.left = new FormAttachment(0, -margin);
@@ -229,15 +226,13 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     fdFilenameField.top = new FormAttachment(wFileField, margin);
     fdFilenameField.right = new FormAttachment(100, -margin);
     wFilenameField.setLayoutData(fdFilenameField);
-    wFilenameField.addListener(
-        SWT.FocusIn,
-        e -> {
-          Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-          shell.setCursor(busy);
-          setFileField();
-          shell.setCursor(null);
-          busy.dispose();
-        });
+    wFilenameField.addListener(SWT.FocusIn, e -> {
+      Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+      shell.setCursor(busy);
+      setFileField();
+      shell.setCursor(null);
+      busy.dispose();
+    });
 
     FormData fdOriginFiles = new FormData();
     fdOriginFiles.left = new FormAttachment(0, margin);
@@ -261,10 +256,8 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     wbbFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbbFilename);
-    wbbFilename.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameBrowse.Button"));
-    wbbFilename.setToolTipText(
-        BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
+    wbbFilename.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameBrowse.Button"));
+    wbbFilename.setToolTipText(BaseMessages.getString(PKG, "System.Tooltip.BrowseForFileOrDirAndAdd"));
     FormData fdbFilename = new FormData();
     fdbFilename.right = new FormAttachment(100, 0);
     fdbFilename.top = new FormAttachment(wOriginFiles, margin);
@@ -273,8 +266,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wbaFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbaFilename);
     wbaFilename.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameAdd.Button"));
-    wbaFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameAdd.Tooltip"));
+    wbaFilename.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameAdd.Tooltip"));
     FormData fdbaFilename = new FormData();
     fdbaFilename.right = new FormAttachment(wbbFilename, -margin);
     fdbaFilename.top = new FormAttachment(wOriginFiles, margin);
@@ -305,8 +297,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wFileMask.setLayoutData(fdFileMask);
 
     wlExcludeFileMask = new Label(wFileComp, SWT.RIGHT);
-    wlExcludeFileMask.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsDialog.ExcludeFileMask.Label"));
+    wlExcludeFileMask.setText(BaseMessages.getString(PKG, "GetFilesRowsDialog.ExcludeFileMask.Label"));
     PropsUi.setLook(wlExcludeFileMask);
     FormData fdlExcludeFileMask = new FormData();
     fdlExcludeFileMask.left = new FormAttachment(0, 0);
@@ -323,8 +314,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     // Filename list line
     wlFilenameList = new Label(wFileComp, SWT.RIGHT);
-    wlFilenameList.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameList.Label"));
+    wlFilenameList.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameList.Label"));
     PropsUi.setLook(wlFilenameList);
     FormData fdlFilenameList = new FormData();
     fdlFilenameList.left = new FormAttachment(0, 0);
@@ -335,10 +325,8 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     // Buttons to the right of the screen...
     wbdFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbdFilename);
-    wbdFilename.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameRemove.Button"));
-    wbdFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameRemove.Tooltip"));
+    wbdFilename.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameRemove.Button"));
+    wbdFilename.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameRemove.Tooltip"));
     FormData fdbdFilename = new FormData();
     fdbdFilename.right = new FormAttachment(100, 0);
     fdbdFilename.top = new FormAttachment(wlFilenameList, 0, SWT.TOP);
@@ -347,8 +335,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wbeFilename = new Button(wFileComp, SWT.PUSH | SWT.CENTER);
     PropsUi.setLook(wbeFilename);
     wbeFilename.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameEdit.Button"));
-    wbeFilename.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameEdit.Tooltip"));
+    wbeFilename.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilenameEdit.Tooltip"));
     FormData fdbeFilename = new FormData();
     fdbeFilename.right = new FormAttachment(100, 0);
     fdbeFilename.left = new FormAttachment(wbdFilename, 0, SWT.LEFT);
@@ -364,50 +351,21 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wbShowFiles.setLayoutData(fdbShowFiles);
 
     ColumnInfo[] colinfo = new ColumnInfo[5];
-    colinfo[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Filename.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinfo[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Wildcard.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinfo[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetFilesRowsDialog.Files.ExcludeWildcard.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
+    colinfo[0] = new ColumnInfo(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Filename.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinfo[1] = new ColumnInfo(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Wildcard.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinfo[2] = new ColumnInfo(BaseMessages.getString(PKG, "GetFilesRowsDialog.Files.ExcludeWildcard.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
 
-    colinfo[3] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Required.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            GetFilesRowsCountMeta.RequiredFilesDesc);
+    colinfo[3] = new ColumnInfo(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Required.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetFilesRowsCountMeta.RequiredFilesDesc);
     colinfo[4] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "GetFilesRowsCountDialog.IncludeSubDirs.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            GetFilesRowsCountMeta.RequiredFilesDesc);
+        new ColumnInfo(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.IncludeSubDirs.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, GetFilesRowsCountMeta.RequiredFilesDesc);
 
     colinfo[0].setUsingVariables(true);
     colinfo[1].setUsingVariables(true);
-    colinfo[1].setToolTip(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Wildcard.Tooltip"));
+    colinfo[1].setToolTip(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Files.Wildcard.Tooltip"));
     colinfo[2].setUsingVariables(true);
-    colinfo[2].setToolTip(
-        BaseMessages.getString(PKG, "GetFilesRowsDialog.Files.ExcludeWildcard.Tooltip"));
+    colinfo[2].setToolTip(BaseMessages.getString(PKG, "GetFilesRowsDialog.Files.ExcludeWildcard.Tooltip"));
 
-    wFilenameList =
-        new TableView(
-            variables,
-            wFileComp,
-            SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER,
-            colinfo,
-            2,
-            null,
-            props);
+    wFilenameList = new TableView(variables, wFileComp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER, colinfo, 2, null, props);
     PropsUi.setLook(wFilenameList);
 
     FormData fdFilenameList = new FormData();
@@ -452,8 +410,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     Group wFilesCountFieldGroup = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wFilesCountFieldGroup);
-    wFilesCountFieldGroup.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.CountFilesFieldGroup.Label"));
+    wFilesCountFieldGroup.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.CountFilesFieldGroup.Label"));
 
     FormLayout countfilesfieldgroupLayout = new FormLayout();
     countfilesfieldgroupLayout.marginWidth = 10;
@@ -461,19 +418,16 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wFilesCountFieldGroup.setLayout(countfilesfieldgroupLayout);
 
     Label wlRowsCountField = new Label(wFilesCountFieldGroup, SWT.RIGHT);
-    wlRowsCountField.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowsCountField.Label"));
+    wlRowsCountField.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowsCountField.Label"));
     PropsUi.setLook(wlRowsCountField);
     FormData fdlRowsCountField = new FormData();
     fdlRowsCountField.left = new FormAttachment(wInclFilesCount, margin);
     fdlRowsCountField.top = new FormAttachment(0, margin);
     fdlRowsCountField.right = new FormAttachment(middle, -margin);
     wlRowsCountField.setLayoutData(fdlRowsCountField);
-    wRowsCountField =
-        new TextVar(variables, wFilesCountFieldGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wRowsCountField = new TextVar(variables, wFilesCountFieldGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wRowsCountField);
-    wRowsCountField.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowsCountField.Tooltip"));
+    wRowsCountField.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowsCountField.Tooltip"));
     FormData fdRowsCountField = new FormData();
     fdRowsCountField.left = new FormAttachment(wlRowsCountField, margin);
     fdRowsCountField.top = new FormAttachment(0, margin);
@@ -496,8 +450,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     Group wRowSeparatorGroup = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wRowSeparatorGroup);
-    wRowSeparatorGroup.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.RowSeparator.Label"));
+    wRowSeparatorGroup.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.RowSeparator.Label"));
 
     FormLayout rowseparatorgroupLayout = new FormLayout();
     rowseparatorgroupLayout.marginWidth = 10;
@@ -505,8 +458,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wRowSeparatorGroup.setLayout(rowseparatorgroupLayout);
 
     Label wlRowSeparatorFormat = new Label(wRowSeparatorGroup, SWT.RIGHT);
-    wlRowSeparatorFormat.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.Label"));
+    wlRowSeparatorFormat.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.Label"));
     PropsUi.setLook(wlRowSeparatorFormat);
     FormData fdlRowSeparatorFormat = new FormData();
     fdlRowSeparatorFormat.left = new FormAttachment(0, 0);
@@ -515,16 +467,11 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wlRowSeparatorFormat.setLayoutData(fdlRowSeparatorFormat);
     wRowSeparatorFormat = new CCombo(wRowSeparatorGroup, SWT.BORDER | SWT.READ_ONLY);
     PropsUi.setLook(wRowSeparatorFormat);
-    wRowSeparatorFormat.add(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CR.Label"));
-    wRowSeparatorFormat.add(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.LF.Label"));
-    wRowSeparatorFormat.add(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CRLF.Label"));
-    wRowSeparatorFormat.add(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.TAB.Label"));
-    wRowSeparatorFormat.add(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CUSTOM.Label"));
+    wRowSeparatorFormat.add(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CR.Label"));
+    wRowSeparatorFormat.add(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.LF.Label"));
+    wRowSeparatorFormat.add(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CRLF.Label"));
+    wRowSeparatorFormat.add(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.TAB.Label"));
+    wRowSeparatorFormat.add(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparatorFormat.CUSTOM.Label"));
     wRowSeparatorFormat.select(0);
     FormData fdRowSeparatorFormat = new FormData();
     fdRowSeparatorFormat.left = new FormAttachment(middle, 0);
@@ -532,17 +479,15 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     fdRowSeparatorFormat.right = new FormAttachment(100, 0);
     wRowSeparatorFormat.setLayoutData(fdRowSeparatorFormat);
 
-    wRowSeparatorFormat.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            activeRowSeparator();
-          }
-        });
+    wRowSeparatorFormat.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        activeRowSeparator();
+      }
+    });
 
     wlRowSeparator = new Label(wRowSeparatorGroup, SWT.RIGHT);
-    wlRowSeparator.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparator.Label"));
+    wlRowSeparator.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparator.Label"));
     PropsUi.setLook(wlRowSeparator);
     FormData fdlRowSeparator = new FormData();
     fdlRowSeparator.left = new FormAttachment(wInclFilesCount, margin);
@@ -551,8 +496,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wlRowSeparator.setLayoutData(fdlRowSeparator);
     wRowSeparator = new TextVar(variables, wRowSeparatorGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wRowSeparator);
-    wRowSeparator.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparator.Tooltip"));
+    wRowSeparator.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.RowSeparator.Tooltip"));
     FormData fdRowSeparator = new FormData();
     fdRowSeparator.left = new FormAttachment(wlRowSeparator, margin);
     fdRowSeparator.top = new FormAttachment(wRowSeparatorFormat, margin);
@@ -569,8 +513,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wlSmartCount.setLayoutData(fdlSmartCount);
     wSmartCount = new Button(wRowSeparatorGroup, SWT.CHECK);
     PropsUi.setLook(wSmartCount);
-    wSmartCount.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.SmartCount.Tooltip"));
+    wSmartCount.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.SmartCount.Tooltip"));
     FormData fdSmartCount = new FormData();
     fdSmartCount.left = new FormAttachment(middle, 0);
     fdSmartCount.top = new FormAttachment(wlSmartCount, 0, SWT.CENTER);
@@ -592,8 +535,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     Group wAdditionalGroup = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAdditionalGroup);
-    wAdditionalGroup.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.AdditionalGroup.Label"));
+    wAdditionalGroup.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.Group.AdditionalGroup.Label"));
 
     FormLayout additionalgroupLayout = new FormLayout();
     additionalgroupLayout.marginWidth = 10;
@@ -601,8 +543,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wAdditionalGroup.setLayout(additionalgroupLayout);
 
     Label wlInclFilesCount = new Label(wAdditionalGroup, SWT.RIGHT);
-    wlInclFilesCount.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFiles.Label"));
+    wlInclFilesCount.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFiles.Label"));
     PropsUi.setLook(wlInclFilesCount);
     FormData fdlInclFilesCount = new FormData();
     fdlInclFilesCount.left = new FormAttachment(0, 0);
@@ -611,23 +552,20 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wlInclFilesCount.setLayoutData(fdlInclFilesCount);
     wInclFilesCount = new Button(wAdditionalGroup, SWT.CHECK);
     PropsUi.setLook(wInclFilesCount);
-    wInclFilesCount.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFiles.Tooltip"));
+    wInclFilesCount.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFiles.Tooltip"));
     FormData fdFilesCount = new FormData();
     fdFilesCount.left = new FormAttachment(middle, 0);
     fdFilesCount.top = new FormAttachment(wRowSeparatorGroup, margin);
     wInclFilesCount.setLayoutData(fdFilesCount);
 
     wlInclFilesCountField = new Label(wAdditionalGroup, SWT.RIGHT);
-    wlInclFilesCountField.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFilesField.Label"));
+    wlInclFilesCountField.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.InclCountFilesField.Label"));
     PropsUi.setLook(wlInclFilesCountField);
     FormData fdlInclFilesCountField = new FormData();
     fdlInclFilesCountField.left = new FormAttachment(wInclFilesCount, margin);
     fdlInclFilesCountField.top = new FormAttachment(wRowSeparatorGroup, margin);
     wlInclFilesCountField.setLayoutData(fdlInclFilesCountField);
-    wInclFilesCountField =
-        new TextVar(variables, wAdditionalGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wInclFilesCountField = new TextVar(variables, wAdditionalGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wInclFilesCountField);
     FormData fdInclFilesCountField = new FormData();
     fdInclFilesCountField.left = new FormAttachment(wlInclFilesCountField, margin);
@@ -651,8 +589,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
 
     Group wAddFileResult = new Group(wContentComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wAddFileResult);
-    wAddFileResult.setText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.wAddFileResult.Label"));
+    wAddFileResult.setText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.wAddFileResult.Label"));
 
     FormLayout addFileResultgroupLayout = new FormLayout();
     addFileResultgroupLayout.marginWidth = 10;
@@ -669,8 +606,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wlAddResult.setLayoutData(fdlAddResult);
     wAddResult = new Button(wAddFileResult, SWT.CHECK);
     PropsUi.setLook(wAddResult);
-    wAddResult.setToolTipText(
-        BaseMessages.getString(PKG, "GetFilesRowsCountDialog.AddResult.Tooltip"));
+    wAddResult.setToolTipText(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.AddResult.Tooltip"));
     FormData fdAddResult = new FormData();
     fdAddResult.left = new FormAttachment(middle, 0);
     fdAddResult.top = new FormAttachment(wlAddResult, 0, SWT.CENTER);
@@ -708,94 +644,78 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wTabFolder.setLayoutData(fdTabFolder);
 
     // Add the file to the list of files...
-    SelectionAdapter selA =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent arg0) {
-            wFilenameList.add(
-                wFilename.getText(),
-                wFileMask.getText(),
-                wExcludeFileMask.getText(),
-                GetFilesRowsCountMeta.RequiredFilesCode[0],
-                GetFilesRowsCountMeta.RequiredFilesCode[0]);
-            wFilename.setText("");
-            wFileMask.setText("");
-            wExcludeFileMask.setText("");
-            wFilenameList.removeEmptyRows();
-            wFilenameList.setRowNums();
-            wFilenameList.optWidth(true);
-          }
-        };
+    SelectionAdapter selA = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent arg0) {
+        wFilenameList
+            .add(wFilename.getText(), wFileMask.getText(), wExcludeFileMask.getText(), GetFilesRowsCountMeta.RequiredFilesCode[0], GetFilesRowsCountMeta.RequiredFilesCode[0]);
+        wFilename.setText("");
+        wFileMask.setText("");
+        wExcludeFileMask.setText("");
+        wFilenameList.removeEmptyRows();
+        wFilenameList.setRowNums();
+        wFilenameList.optWidth(true);
+      }
+    };
     wbaFilename.addSelectionListener(selA);
     wFilename.addSelectionListener(selA);
 
     // Delete files from the list of files...
-    wbdFilename.addListener(
-        SWT.Selection,
-        e -> {
-          int[] idx = wFilenameList.getSelectionIndices();
-          wFilenameList.remove(idx);
-          wFilenameList.removeEmptyRows();
-          wFilenameList.setRowNums();
-        });
+    wbdFilename.addListener(SWT.Selection, e -> {
+      int[] idx = wFilenameList.getSelectionIndices();
+      wFilenameList.remove(idx);
+      wFilenameList.removeEmptyRows();
+      wFilenameList.setRowNums();
+    });
 
     // Edit the selected file & remove from the list...
-    wbeFilename.addListener(
-        SWT.Selection,
-        e -> {
-          int idx = wFilenameList.getSelectionIndex();
-          if (idx >= 0) {
-            String[] string = wFilenameList.getItem(idx);
-            wFilename.setText(string[0]);
-            wFileMask.setText(string[1]);
-            wExcludeFileMask.setText(string[2]);
-            wFilenameList.remove(idx);
-          }
-          wFilenameList.removeEmptyRows();
-          wFilenameList.setRowNums();
-        });
+    wbeFilename.addListener(SWT.Selection, e -> {
+      int idx = wFilenameList.getSelectionIndex();
+      if (idx >= 0) {
+        String[] string = wFilenameList.getItem(idx);
+        wFilename.setText(string[0]);
+        wFileMask.setText(string[1]);
+        wExcludeFileMask.setText(string[2]);
+        wFilenameList.remove(idx);
+      }
+      wFilenameList.removeEmptyRows();
+      wFilenameList.setRowNums();
+    });
 
     // Show the files that are selected at this time...
-    wbShowFiles.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            try {
-              GetFilesRowsCountMeta tfii = new GetFilesRowsCountMeta();
-              getInfo(tfii);
-              FileInputList fileInputList = tfii.getFiles(variables);
-              String[] files = fileInputList.getFileStrings();
+    wbShowFiles.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        try {
+          GetFilesRowsCountMeta tfii = new GetFilesRowsCountMeta();
+          getInfo(tfii);
+          FileInputList fileInputList = tfii.getFiles(variables);
+          String[] files = fileInputList.getFileStrings();
 
-              if (files.length > 0) {
-                EnterSelectionDialog esd =
-                    new EnterSelectionDialog(
-                        shell,
-                        files,
-                        BaseMessages.getString(
-                            PKG, "GetFilesRowsCountDialog.FilesReadSelection.DialogTitle"),
-                        BaseMessages.getString(
-                            PKG, "GetFilesRowsCountDialog.FilesReadSelection.DialogMessage"));
-                esd.setViewOnly();
-                esd.open();
-              } else {
-                MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-                mb.setMessage(
-                    BaseMessages.getString(
-                        PKG, "GetFilesRowsCountDialog.NoFileFound.DialogMessage"));
-                mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
-                mb.open();
-              }
-            } catch (HopException ex) {
-              new ErrorDialog(
-                  shell,
-                  BaseMessages.getString(
-                      PKG, "GetFilesRowsCountDialog.ErrorParsingData.DialogTitle"),
-                  BaseMessages.getString(
-                      PKG, "GetFilesRowsCountDialog.ErrorParsingData.DialogMessage"),
-                  ex);
-            }
+          if (files.length > 0) {
+            EnterSelectionDialog esd =
+                new EnterSelectionDialog(
+                    shell,
+                    files,
+                    BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilesReadSelection.DialogTitle"),
+                    BaseMessages.getString(PKG, "GetFilesRowsCountDialog.FilesReadSelection.DialogMessage"));
+            esd.setViewOnly();
+            esd.open();
+          } else {
+            MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
+            mb.setMessage(BaseMessages.getString(PKG, "GetFilesRowsCountDialog.NoFileFound.DialogMessage"));
+            mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
+            mb.open();
           }
-        });
+        } catch (HopException ex) {
+          new ErrorDialog(
+              shell,
+              BaseMessages.getString(PKG, "GetFilesRowsCountDialog.ErrorParsingData.DialogTitle"),
+              BaseMessages.getString(PKG, "GetFilesRowsCountDialog.ErrorParsingData.DialogMessage"),
+              ex);
+        }
+      }
+    });
 
     // Enable/disable the right fields to allow a row number to be added to each row...
     wInclFilesCount.addListener(SWT.Selection, e -> setIncludeRownum());
@@ -804,22 +724,13 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     wFilename.addModifyListener(e -> wFilename.setToolTipText(""));
 
     // Listen to the Browse... button
-    wbbFilename.addListener(
-        SWT.Selection,
-        e -> {
-          if (!Utils.isEmpty(wFileMask.getText())
-              || !Utils.isEmpty(wExcludeFileMask.getText())) { // A mask: a directory!
-            BaseDialog.presentDirectoryDialog(shell, wFileMask, variables);
-          } else {
-            BaseDialog.presentFileDialog(
-                shell,
-                wFilename,
-                variables,
-                new String[] {"*"},
-                new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")},
-                true);
-          }
-        });
+    wbbFilename.addListener(SWT.Selection, e -> {
+      if (!Utils.isEmpty(wFileMask.getText()) || !Utils.isEmpty(wExcludeFileMask.getText())) { // A mask: a directory!
+        BaseDialog.presentDirectoryDialog(shell, wFileMask, variables);
+      } else {
+        BaseDialog.presentFileDialog(shell, wFilename, variables, new String[] {"*"}, new String[] {BaseMessages.getString(PKG, "System.FileType.AllFiles")}, true);
+      }
+    });
 
     wTabFolder.setSelection(0);
 
@@ -894,12 +805,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
   public void getData(GetFilesRowsCountMeta in) {
     for (int i = 0; i < in.getFiles().size(); i++) {
       GCFile file = in.getFiles().get(i);
-      wFilenameList.add(
-          file.getName(),
-          file.getMask(),
-          file.getExcludeMask(),
-          file.isRequired() ? "Y" : "N",
-          file.isIncludeSubFolder() ? "Y" : "N");
+      wFilenameList.add(file.getName(), file.getMask(), file.getExcludeMask(), file.isRequired() ? "Y" : "N", file.isIncludeSubFolder() ? "Y" : "N");
     }
     wFilenameList.removeEmptyRows();
     wFilenameList.setRowNums();
@@ -955,8 +861,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
     in.setFilesCountFieldName(wInclFilesCountField.getText());
     in.setRowsCountFieldName(wRowsCountField.getText());
 
-    in.setRowSeparatorFormat(
-        GetFilesRowsCountMeta.SeparatorFormat.lookupDescription(wRowSeparatorFormat.getText()));
+    in.setRowSeparatorFormat(GetFilesRowsCountMeta.SeparatorFormat.lookupDescription(wRowSeparatorFormat.getText()));
 
     in.getFiles().clear();
     for (TableItem item : wFilenameList.getNonEmptyItems()) {
@@ -991,9 +896,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
       GetFilesRowsCountMeta oneMeta = new GetFilesRowsCountMeta();
       getInfo(oneMeta);
 
-      PipelineMeta previewMeta =
-          PipelinePreviewFactory.generatePreviewPipeline(
-              pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
+      PipelineMeta previewMeta = PipelinePreviewFactory.generatePreviewPipeline(pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText());
 
       EnterNumberDialog numberDialog =
           new EnterNumberDialog(
@@ -1004,12 +907,7 @@ public class GetFilesRowsCountDialog extends BaseTransformDialog implements ITra
       int previewSize = numberDialog.open();
       if (previewSize > 0) {
         PipelinePreviewProgressDialog progressDialog =
-            new PipelinePreviewProgressDialog(
-                shell,
-                variables,
-                previewMeta,
-                new String[] {wTransformName.getText()},
-                new int[] {previewSize});
+            new PipelinePreviewProgressDialog(shell, variables, previewMeta, new String[] {wTransformName.getText()}, new int[] {previewSize});
         progressDialog.open();
 
         if (!progressDialog.isCancelled()) {

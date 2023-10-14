@@ -146,9 +146,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
     }
   }
 
-  public static DBObject getQueryObject(
-      List<MongoDbDeleteField> fieldDefs, IRowMeta inputMeta, Object[] row, IVariables vars)
-      throws HopException {
+  public static DBObject getQueryObject(List<MongoDbDeleteField> fieldDefs, IRowMeta inputMeta, Object[] row, IVariables vars) throws HopException {
 
     DBObject query = new BasicDBObject();
 
@@ -165,8 +163,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
       boolean hasPath = !StringUtil.isEmpty(path);
 
       if (!hasPath) {
-        throw new HopException(
-            BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.NoMongoPathsDefined"));
+        throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.NoMongoPathsDefined"));
       }
 
       // post process arrays to fit the dot notation (if not already done
@@ -250,8 +247,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
       } else if (Comparator.BETWEEN.getValue().equals(field.comparator)) {
 
         if (StringUtil.isEmpty(field.incomingField1) || StringUtil.isEmpty(field.incomingField2)) {
-          throw new HopException(
-              BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.BetweenTwoFieldsRequired"));
+          throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.BetweenTwoFieldsRequired"));
         }
 
         String field1 = vars.resolve(field.incomingField1);
@@ -281,18 +277,12 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
         exist.put("$exists", true);
         query.put(path, exist);
       } else {
-        throw new HopException(
-            BaseMessages.getString(
-                PKG,
-                "MongoDbDelete.ErrorMessage.ComparatorNotSupported",
-                new String[] {field.comparator}));
+        throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.ComparatorNotSupported", new String[] {field.comparator}));
       }
     }
 
     if (!haveMatchFields) {
-      throw new HopException(
-          BaseMessages.getString(
-              PKG, "MongoDbDelete.ErrorMessage.NoFieldsToDeleteSpecifiedForMatch"));
+      throw new HopException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.NoFieldsToDeleteSpecifiedForMatch"));
     }
 
     if (!hasNonNullMatchValues) {
@@ -302,9 +292,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
     return query;
   }
 
-  private static boolean setMongoValueFromValueMeta(
-      DBObject mongoObject, Object lookup, IValueMeta valueMeta, Object objectValue)
-      throws HopValueException {
+  private static boolean setMongoValueFromValueMeta(DBObject mongoObject, Object lookup, IValueMeta valueMeta, Object objectValue) throws HopValueException {
     if (valueMeta.isNull(objectValue)) {
       return false; // don't insert nulls!
     }
@@ -346,8 +334,7 @@ public class MongoDbDeleteData extends BaseTransformData implements ITransformDa
       return true;
     }
     if (valueMeta.isSerializableType()) {
-      throw new HopValueException(
-          BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.CantStoreHopSerializableVals"));
+      throw new HopValueException(BaseMessages.getString(PKG, "MongoDbDelete.ErrorMessage.CantStoreHopSerializableVals"));
     }
 
     return false;

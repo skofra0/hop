@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class SwitchCaseMetadataInjectionTest extends BaseMetadataInjectionTest<SwitchCaseMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -40,8 +41,6 @@ public class SwitchCaseMetadataInjectionTest extends BaseMetadataInjectionTest<S
     check("CONTAINS", () -> meta.isUsingContains());
     check("DEFAULT_TARGET_TRANSFORM_NAME", () -> meta.getDefaultTargetTransformName());
     check("SWITCH_CASE_TARGET.CASE_VALUE", () -> meta.getCaseTargets().get(0).getCaseValue());
-    check(
-        "SWITCH_CASE_TARGET.CASE_TARGET_TRANSFORM_NAME",
-        () -> meta.getCaseTargets().get(0).getCaseTargetTransformName());
+    check("SWITCH_CASE_TARGET.CASE_TARGET_TRANSFORM_NAME", () -> meta.getCaseTargets().get(0).getCaseTargetTransformName());
   }
 }

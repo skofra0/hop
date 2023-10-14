@@ -48,9 +48,7 @@ public class SelectedNode {
       return false;
     }
     SelectedNode that = (SelectedNode) o;
-    return Objects.equals(node, that.node)
-        && hint == that.hint
-        && Objects.equals(labels, that.labels);
+    return Objects.equals(node, that.node) && hint == that.hint && Objects.equals(labels, that.labels);
   }
 
   @Override

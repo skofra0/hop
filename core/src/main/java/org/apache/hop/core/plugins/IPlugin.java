@@ -29,10 +29,12 @@ public interface IPlugin {
 
   /**
    * @return All the possible IDs that this plugin corresponds with.<br>
-   *     Multiple IDs are typically used when you migrate 2 different plugins into a single one with
-   *     the same functionality.<br>
-   *     It can also happen if you deprecate an older plugin and you want to have a new one provide
-   *     compatibility for it.<br>
+   *         Multiple IDs are typically used when you migrate 2 different plugins into a single one
+   *         with
+   *         the same functionality.<br>
+   *         It can also happen if you deprecate an older plugin and you want to have a new one
+   *         provide
+   *         compatibility for it.<br>
    */
   String[] getIds();
 
@@ -77,8 +79,8 @@ public interface IPlugin {
 
   /**
    * @return An optional location to a help file that the plugin can refer to in case there is a
-   *     loading problem. This usually happens if a jar file is not installed correctly (class not
-   *     found exceptions) etc.
+   *         loading problem. This usually happens if a jar file is not installed correctly (class not
+   *         found exceptions) etc.
    */
   String getErrorHelpFile();
 
@@ -113,7 +115,7 @@ public interface IPlugin {
 
   /**
    * @return The group to which this class loader belongs. Returns null if the plugin does not
-   *     belong to a group (the default)
+   *         belong to a group (the default)
    */
   String getClassLoaderGroup();
 
@@ -123,7 +125,7 @@ public interface IPlugin {
 
   /**
    * @param group The group to which this class loader belongs. Set to null if the plugin does not
-   *     belong to a group (the default)
+   *        belong to a group (the default)
    */
   void setClassLoaderGroup(String group);
 

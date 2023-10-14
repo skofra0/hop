@@ -113,8 +113,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
   private boolean getModulesListError = false; /* True if error getting modules list */
 
-  public SalesforceInsertDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
+  public SalesforceInsertDialog(Shell parent, IVariables variables, Object in, PipelineMeta pipelineMeta, String sname) {
     super(parent, variables, in, pipelineMeta, sname);
     input = (SalesforceInsertMeta) in;
     inputFields = new HashMap<>();
@@ -129,19 +128,17 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     setShellImage(shell, input);
 
     ModifyListener lsMod = e -> input.setChanged();
-    ModifyListener lsTableMod =
-        arg0 -> {
-          input.setChanged();
-          setModuleFieldCombo();
-        };
-    SelectionAdapter lsSelection =
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            setModuleFieldCombo();
-          }
-        };
+    ModifyListener lsTableMod = arg0 -> {
+      input.setChanged();
+      setModuleFieldCombo();
+    };
+    SelectionAdapter lsSelection = new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        setModuleFieldCombo();
+      }
+    };
     changed = input.hasChanged();
 
     FormLayout formLayout = new FormLayout();
@@ -197,8 +194,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     Group wConnectionGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wConnectionGroup);
-    wConnectionGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.ConnectionGroup.Label"));
+    wConnectionGroup.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.ConnectionGroup.Label"));
 
     FormLayout connectionGroupLayout = new FormLayout();
     connectionGroupLayout.marginWidth = 10;
@@ -256,8 +252,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     wTest.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.TestConnection.Label"));
     PropsUi.setLook(wTest);
     FormData fdTest = new FormData();
-    wTest.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.TestConnection.Tooltip"));
+    wTest.setToolTipText(BaseMessages.getString(PKG, "SalesforceInsertDialog.TestConnection.Tooltip"));
     fdTest.top = new FormAttachment(wPassword, margin);
     fdTest.right = new FormAttachment(100, 0);
     wTest.setLayoutData(fdTest);
@@ -278,8 +273,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     Group wSettingsGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wSettingsGroup);
-    wSettingsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.SettingsGroup.Label"));
+    wSettingsGroup.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.SettingsGroup.Label"));
 
     FormLayout settingGroupLayout = new FormLayout();
     settingGroupLayout.marginWidth = 10;
@@ -306,8 +300,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     // Use compression?
     Label wlUseCompression = new Label(wSettingsGroup, SWT.RIGHT);
-    wlUseCompression.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.UseCompression.Label"));
+    wlUseCompression.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.UseCompression.Label"));
     PropsUi.setLook(wlUseCompression);
     FormData fdlUseCompression = new FormData();
     fdlUseCompression.left = new FormAttachment(0, 0);
@@ -316,8 +309,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     wlUseCompression.setLayoutData(fdlUseCompression);
     wUseCompression = new Button(wSettingsGroup, SWT.CHECK);
     PropsUi.setLook(wUseCompression);
-    wUseCompression.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.UseCompression.Tooltip"));
+    wUseCompression.setToolTipText(BaseMessages.getString(PKG, "SalesforceInsertDialog.UseCompression.Tooltip"));
     FormData fdUseCompression = new FormData();
     fdUseCompression.left = new FormAttachment(middle, 0);
     fdUseCompression.top = new FormAttachment(wlUseCompression, 0, SWT.CENTER);
@@ -326,8 +318,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     // Rollback all changes on error?
     Label wlRollbackAllChangesOnError = new Label(wSettingsGroup, SWT.RIGHT);
-    wlRollbackAllChangesOnError.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.RollbackAllChangesOnError.Label"));
+    wlRollbackAllChangesOnError.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.RollbackAllChangesOnError.Label"));
     PropsUi.setLook(wlRollbackAllChangesOnError);
     FormData fdlRollbackAllChangesOnError = new FormData();
     fdlRollbackAllChangesOnError.left = new FormAttachment(0, 0);
@@ -337,12 +328,10 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     wRollbackAllChangesOnError = new Button(wSettingsGroup, SWT.CHECK);
     wRollbackAllChangesOnError.addSelectionListener(new ComponentSelectionListener(input));
     PropsUi.setLook(wRollbackAllChangesOnError);
-    wRollbackAllChangesOnError.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.RollbackAllChangesOnError.Tooltip"));
+    wRollbackAllChangesOnError.setToolTipText(BaseMessages.getString(PKG, "SalesforceInsertDialog.RollbackAllChangesOnError.Tooltip"));
     FormData fdRollbackAllChangesOnError = new FormData();
     fdRollbackAllChangesOnError.left = new FormAttachment(middle, 0);
-    fdRollbackAllChangesOnError.top =
-        new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
+    fdRollbackAllChangesOnError.top = new FormAttachment(wlRollbackAllChangesOnError, 0, SWT.CENTER);
     wRollbackAllChangesOnError.setLayoutData(fdRollbackAllChangesOnError);
 
     // BatchSize value
@@ -382,30 +371,26 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     fdModule.top = new FormAttachment(wBatchSize, margin);
     fdModule.right = new FormAttachment(100, -margin);
     wModule.setLayoutData(fdModule);
-    wModule.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-            getModulesListError = false;
-          }
+    wModule.addFocusListener(new FocusListener() {
+      @Override
+      public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+        getModulesListError = false;
+      }
 
-          @Override
-          public void focusGained(org.eclipse.swt.events.FocusEvent e) {
-            // check if the URL and login credentials passed and not just had error
-            if (Utils.isEmpty(wURL.getText())
-                || Utils.isEmpty(wUserName.getText())
-                || Utils.isEmpty(wPassword.getText())
-                || (getModulesListError)) {
-              return;
-            }
+      @Override
+      public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+        // check if the URL and login credentials passed and not just had error
+        if (Utils.isEmpty(wURL.getText()) || Utils.isEmpty(wUserName.getText()) || Utils.isEmpty(wPassword.getText()) || (getModulesListError)) {
+          return;
+        }
 
-            Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
-            shell.setCursor(busy);
-            getModulesList();
-            shell.setCursor(null);
-            busy.dispose();
-          }
-        });
+        Cursor busy = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(busy);
+        getModulesList();
+        shell.setCursor(null);
+        busy.dispose();
+      }
+    });
 
     FormData fdSettingsGroup = new FormData();
     fdSettingsGroup.left = new FormAttachment(0, margin);
@@ -423,8 +408,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     Group wOutFieldsGroup = new Group(wGeneralComp, SWT.SHADOW_NONE);
     PropsUi.setLook(wOutFieldsGroup);
-    wOutFieldsGroup.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.OutFieldsGroup.Label"));
+    wOutFieldsGroup.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.OutFieldsGroup.Label"));
 
     FormLayout outFieldsGroupLayout = new FormLayout();
     outFieldsGroupLayout.marginWidth = 10;
@@ -433,19 +417,16 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     // SalesforceIDFieldName
     Label wlSalesforceIDFieldName = new Label(wOutFieldsGroup, SWT.RIGHT);
-    wlSalesforceIDFieldName.setText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.SalesforceIDFieldName.Label"));
+    wlSalesforceIDFieldName.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.SalesforceIDFieldName.Label"));
     PropsUi.setLook(wlSalesforceIDFieldName);
     FormData fdlSalesforceIDFieldName = new FormData();
     fdlSalesforceIDFieldName.left = new FormAttachment(0, 0);
     fdlSalesforceIDFieldName.top = new FormAttachment(wSettingsGroup, margin);
     fdlSalesforceIDFieldName.right = new FormAttachment(middle, -margin);
     wlSalesforceIDFieldName.setLayoutData(fdlSalesforceIDFieldName);
-    wSalesforceIDFieldName =
-        new TextVar(variables, wOutFieldsGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
+    wSalesforceIDFieldName = new TextVar(variables, wOutFieldsGroup, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
     PropsUi.setLook(wSalesforceIDFieldName);
-    wSalesforceIDFieldName.setToolTipText(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.SalesforceIDFieldName.Tooltip"));
+    wSalesforceIDFieldName.setToolTipText(BaseMessages.getString(PKG, "SalesforceInsertDialog.SalesforceIDFieldName.Tooltip"));
     wSalesforceIDFieldName.addModifyListener(lsMod);
     FormData fdSalesforceIDFieldName = new FormData();
     fdSalesforceIDFieldName.left = new FormAttachment(middle, 0);
@@ -476,35 +457,12 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     int upInsRows = (input.getUpdateLookup() != null ? input.getUpdateLookup().length : 1);
 
     ciReturn = new ColumnInfo[upInsCols];
-    ciReturn[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.TableField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.StreamField"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {""},
-            false);
-    ciReturn[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.UseExternalId"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {"Y", "N"});
-    ciReturn[2].setToolTip(
-        BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.UseExternalId.Tooltip"));
+    ciReturn[0] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.TableField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[1] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.StreamField"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {""}, false);
+    ciReturn[2] = new ColumnInfo(BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.UseExternalId"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {"Y", "N"});
+    ciReturn[2].setToolTip(BaseMessages.getString(PKG, "SalesforceInsertDialog.ColumnInfo.UseExternalId.Tooltip"));
     tableFieldColumns.add(ciReturn[0]);
-    wReturn =
-        new TableView(
-            variables,
-            wGeneralComp,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL,
-            ciReturn,
-            upInsRows,
-            lsMod,
-            props);
+    wReturn = new TableView(variables, wGeneralComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL, ciReturn, upInsRows, lsMod, props);
 
     Button wDoMapping = new Button(wGeneralComp, SWT.PUSH);
     wDoMapping.setText(BaseMessages.getString(PKG, "SalesforceInsertDialog.EditMapping.Label"));
@@ -533,39 +491,36 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
-              }
-
-              setComboBoxes();
-              // Dislay in red missing field names
-              HopGui.getInstance().getDisplay()
-                  .asyncExec(
-                      () -> {
-                        if (!wReturn.isDisposed()) {
-                          for (int i = 0; i < wReturn.table.getItemCount(); i++) {
-                            TableItem it = wReturn.table.getItem(i);
-                            if (!Utils.isEmpty(it.getText(2))) {
-                              if (!inputFields.containsKey(it.getText(2))) {
-                                it.setBackground(GuiResource.getInstance().getColorRed());
-                              }
-                            }
-                          }
-                        }
-                      });
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.put(row.getValueMeta(i).getName(), Integer.valueOf(i));
           }
-        };
+
+          setComboBoxes();
+          // Dislay in red missing field names
+          HopGui.getInstance().getDisplay().asyncExec(() -> {
+            if (!wReturn.isDisposed()) {
+              for (int i = 0; i < wReturn.table.getItemCount(); i++) {
+                TableItem it = wReturn.table.getItem(i);
+                if (!Utils.isEmpty(it.getText(2))) {
+                  if (!inputFields.containsKey(it.getText(2))) {
+                    it.setBackground(GuiResource.getInstance().getColorRed());
+                  }
+                }
+              }
+            }
+          });
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     FormData fdGeneralComp = new FormData();
@@ -612,13 +567,11 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     try {
       IRowMeta r = pipelineMeta.getPrevTransformFields(variables, transformName);
       if (r != null) {
-        ITableItemInsertListener listener =
-            (tableItem, v) -> {
-              tableItem.setText(3, "Y");
-              return true;
-            };
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
+        ITableItemInsertListener listener = (tableItem, v) -> {
+          tableItem.setText(3, "Y");
+          return true;
+        };
+        BaseTransformDialog.getFieldsFromPrevious(r, wReturn, 1, new int[] {1, 2}, new int[] {}, -1, -1, listener);
       }
     } catch (HopException ke) {
       new ErrorDialog(
@@ -728,8 +681,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
   private boolean checkInput() {
     if (Utils.isEmpty(wModule.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SalesforceInsertDialog.ModuleMissing.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SalesforceInsertDialog.ModuleMissing.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return false;
@@ -742,8 +694,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
     if (Utils.isEmpty(wUserName.getText())) {
       MessageBox mb = new MessageBox(shell, SWT.OK | SWT.ICON_ERROR);
-      mb.setMessage(
-          BaseMessages.getString(PKG, "SalesforceInsertDialog.UsernameMissing.DialogMessage"));
+      mb.setMessage(BaseMessages.getString(PKG, "SalesforceInsertDialog.UsernameMissing.DialogMessage"));
       mb.setText(BaseMessages.getString(PKG, "System.Dialog.Error.Title"));
       mb.open();
       return false;
@@ -755,12 +706,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
   private SalesforceConnection getConnection() throws HopException {
     String url = variables.resolve(wURL.getText());
     // Define a new Salesforce connection
-    SalesforceConnection connection =
-        new SalesforceConnection(
-            log,
-            url,
-            variables.resolve(wUserName.getText()),
-            Utils.resolvePassword(variables, wPassword.getText()));
+    SalesforceConnection connection = new SalesforceConnection(log, url, variables.resolve(wUserName.getText()), Utils.resolvePassword(variables, wPassword.getText()));
     int realTimeOut = Const.toInt(variables.resolve(wTimeOut.getText()), 0);
     connection.setTimeOut(realTimeOut);
     // connect to Salesforce
@@ -811,10 +757,8 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     } catch (HopException e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SalesforceInsertDialog.DoMapping.UnableToFindSourceFields.Title"),
-          BaseMessages.getString(
-              PKG, "SalesforceInsertDialog.DoMapping.UnableToFindSourceFields.Message"),
+          BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.UnableToFindSourceFields.Title"),
+          BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.UnableToFindSourceFields.Message"),
           e);
       return;
     }
@@ -828,8 +772,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
       for (int i = 0; i < fields.length; i++) {
         if (dateType.equals(fields[i].getType())) {
           // Mark date columns as TYPE_DATE to strip time part later
-          targetFields.addValueMeta(
-              ValueMetaFactory.createValueMeta(fieldNames[i], IValueMeta.TYPE_DATE));
+          targetFields.addValueMeta(ValueMetaFactory.createValueMeta(fieldNames[i], IValueMeta.TYPE_DATE));
         } else {
           targetFields.addValueMeta(new ValueMetaNone(fieldNames[i]));
         }
@@ -837,10 +780,8 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     } catch (Exception e) {
       new ErrorDialog(
           shell,
-          BaseMessages.getString(
-              PKG, "SalesforceInsertDialog.DoMapping.UnableToFindTargetFields.Title"),
-          BaseMessages.getString(
-              PKG, "SalesforceInsertDialog.DoMapping.UnableToFindTargetFields.Message"),
+          BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.UnableToFindTargetFields.Title"),
+          BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.UnableToFindTargetFields.Message"),
           e);
       return;
     }
@@ -885,44 +826,23 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
 
       String message = "";
       if (missingSourceFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SalesforceInsertDialog.DoMapping.SomeSourceFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.SomeSourceFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       if (missingTargetFields.length() > 0) {
-        message +=
-            BaseMessages.getString(
-                    PKG,
-                    "SalesforceInsertDialog.DoMapping.SomeTargetFieldsNotFound",
-                    missingSourceFields.toString())
-                + Const.CR;
+        message += BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.SomeTargetFieldsNotFound", missingSourceFields.toString()) + Const.CR;
       }
       message += Const.CR;
-      message +=
-          BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.SomeFieldsNotFoundContinue")
-              + Const.CR;
+      message += BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.SomeFieldsNotFoundContinue") + Const.CR;
 
       int answer =
-          BaseDialog.openMessageBox(
-              shell,
-              BaseMessages.getString(
-                  PKG, "SalesforceInsertDialog.DoMapping.SomeFieldsNotFoundTitle"),
-              message,
-              SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+          BaseDialog
+              .openMessageBox(shell, BaseMessages.getString(PKG, "SalesforceInsertDialog.DoMapping.SomeFieldsNotFoundTitle"), message, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
       boolean goOn = (answer & SWT.OK) != 0;
       if (!goOn) {
         return;
       }
     }
-    EnterMappingDialog d =
-        new EnterMappingDialog(
-            SalesforceInsertDialog.this.shell,
-            sourceFields.getFieldNames(),
-            targetFields.getFieldNames(),
-            mappings);
+    EnterMappingDialog d = new EnterMappingDialog(SalesforceInsertDialog.this.shell, sourceFields.getFieldNames(), targetFields.getFieldNames(), mappings);
     mappings = d.open();
 
     // mappings == null if the user pressed cancel
@@ -967,38 +887,37 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
     gotFields = true;
     Display display = shell.getDisplay();
     if (!(display == null || display.isDisposed())) {
-      display.asyncExec(
-          () -> {
-            // clear
+      display.asyncExec(() -> {
+        // clear
+        for (int i = 0; i < tableFieldColumns.size(); i++) {
+          ColumnInfo colInfo = tableFieldColumns.get(i);
+          colInfo.setComboValues(new String[] {});
+        }
+        if (wModule.isDisposed()) {
+          return;
+        }
+        String selectedModule = variables.resolve(wModule.getText());
+        if (!Utils.isEmpty(selectedModule)) {
+          try {
+            // loop through the objects and find build the list of fields
+            String[] fieldsName = getFieldNames();
+
+            if (fieldsName != null) {
+              for (int i = 0; i < tableFieldColumns.size(); i++) {
+                ColumnInfo colInfo = tableFieldColumns.get(i);
+                colInfo.setComboValues(fieldsName);
+              }
+            }
+          } catch (Exception e) {
             for (int i = 0; i < tableFieldColumns.size(); i++) {
               ColumnInfo colInfo = tableFieldColumns.get(i);
               colInfo.setComboValues(new String[] {});
             }
-            if (wModule.isDisposed()) {
-              return;
-            }
-            String selectedModule = variables.resolve(wModule.getText());
-            if (!Utils.isEmpty(selectedModule)) {
-              try {
-                // loop through the objects and find build the list of fields
-                String[] fieldsName = getFieldNames();
-
-                if (fieldsName != null) {
-                  for (int i = 0; i < tableFieldColumns.size(); i++) {
-                    ColumnInfo colInfo = tableFieldColumns.get(i);
-                    colInfo.setComboValues(fieldsName);
-                  }
-                }
-              } catch (Exception e) {
-                for (int i = 0; i < tableFieldColumns.size(); i++) {
-                  ColumnInfo colInfo = tableFieldColumns.get(i);
-                  colInfo.setComboValues(new String[] {});
-                }
-                // ignore any errors here. drop downs will not be
-                // filled, but no problem for the user
-              }
-            }
-          });
+            // ignore any errors here. drop downs will not be
+            // filled, but no problem for the user
+          }
+        }
+      });
     }
   }
 
@@ -1025,8 +944,7 @@ public class SalesforceInsertDialog extends SalesforceTransformDialog {
         new ErrorDialog(
             shell,
             BaseMessages.getString(PKG, "SalesforceInsertDialog.ErrorRetrieveModules.DialogTitle"),
-            BaseMessages.getString(
-                PKG, "SalesforceInsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
+            BaseMessages.getString(PKG, "SalesforceInsertDialog.ErrorRetrieveData.ErrorRetrieveModules"),
             e);
         getModulesListError = true;
       } finally {

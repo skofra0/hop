@@ -90,7 +90,8 @@ public abstract class BasePartitioner implements IPartitioner {
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.pipeline.IPartitioner#setMeta(org.apache.hop.pipeline.transform.TransformPartitioningMeta)
+   * @see org.apache.hop.pipeline.IPartitioner#setMeta(org.apache.hop.pipeline.transform.
+   * TransformPartitioningMeta)
    */
   @Override
   public void setMeta(TransformPartitioningMeta meta) {

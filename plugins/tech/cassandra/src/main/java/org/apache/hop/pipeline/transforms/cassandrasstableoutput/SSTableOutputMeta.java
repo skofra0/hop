@@ -43,70 +43,47 @@ public class SSTableOutputMeta extends BaseTransformMeta<SSTableOutput, SSTableO
   protected static final Class<?> PKG = SSTableOutputMeta.class;
 
   /** The path to the yaml file */
-  @HopMetadataProperty(key="yaml_path", injectionKey = "YAML_FILE_PATH", injectionKeyDescription = "SSTableOutput.Injection.YAML_FILE_PATH")
+  @HopMetadataProperty(key = "yaml_path", injectionKey = "YAML_FILE_PATH", injectionKeyDescription = "SSTableOutput.Injection.YAML_FILE_PATH")
   protected String yamlPath;
 
   /** The directory to output to */
-  @HopMetadataProperty(key="output_directory", injectionKey = "DIRECTORY", injectionKeyDescription = "SSTableOutput.Injection.DIRECTORY")
+  @HopMetadataProperty(key = "output_directory", injectionKey = "DIRECTORY", injectionKeyDescription = "SSTableOutput.Injection.DIRECTORY")
   protected String directory;
 
   /** The keyspace (database) to use */
-  @HopMetadataProperty(key="cassandra_keyspace", injectionKey = "CASSANDRA_KEYSPACE", injectionKeyDescription = "SSTableOutput.Injection.CASSANDRA_KEYSPACE")
+  @HopMetadataProperty(key = "cassandra_keyspace", injectionKey = "CASSANDRA_KEYSPACE", injectionKeyDescription = "SSTableOutput.Injection.CASSANDRA_KEYSPACE")
   protected String cassandraKeyspace;
 
   /** The table to write to */
-  @HopMetadataProperty(key="table", injectionKey = "TABLE", injectionKeyDescription = "SSTableOutput.Injection.TABLE")
+  @HopMetadataProperty(key = "table", injectionKey = "TABLE", injectionKeyDescription = "SSTableOutput.Injection.TABLE")
   protected String table = "";
 
   /** The field in the incoming data to use as the key for inserts */
-  @HopMetadataProperty(key="key_field", injectionKey = "KEY_FIELD", injectionKeyDescription = "SSTableOutput.Injection.KEY_FIELD")
+  @HopMetadataProperty(key = "key_field", injectionKey = "KEY_FIELD", injectionKeyDescription = "SSTableOutput.Injection.KEY_FIELD")
   protected String keyField = "";
 
   /** Size (MB) of write buffer */
-  @HopMetadataProperty(key="buffer_size_mb", injectionKey = "BUFFER_SIZE", injectionKeyDescription = "SSTableOutput.Injection.BUFFER_SIZE")
+  @HopMetadataProperty(key = "buffer_size_mb", injectionKey = "BUFFER_SIZE", injectionKeyDescription = "SSTableOutput.Injection.BUFFER_SIZE")
   protected String bufferSize = "16";
 
-  public void check(
-      List<ICheckResult> remarks,
-      PipelineMeta pipelineMeta,
-      TransformMeta transformMeta,
-      IRowMeta prev,
-      String[] input,
-      String[] output,
-      IRowMeta info) {
+  public void check(List<ICheckResult> remarks, PipelineMeta pipelineMeta, TransformMeta transformMeta, IRowMeta prev, String[] input, String[] output, IRowMeta info) {
 
     CheckResult cr;
 
     if ((prev == null) || (prev.size() == 0)) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_WARNING,
-              "Not receiving any fields from previous transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, "Not receiving any fields from previous transforms!", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is connected to previous one, receiving " + prev.size() + " fields",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is connected to previous one, receiving " + prev.size() + " fields", transformMeta);
       remarks.add(cr);
     }
 
     // See if we have input streams leading to this transform!
     if (input.length > 0) {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_OK,
-              "Transform is receiving info from other transforms.",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_OK, "Transform is receiving info from other transforms.", transformMeta);
       remarks.add(cr);
     } else {
-      cr =
-          new CheckResult(
-              ICheckResult.TYPE_RESULT_ERROR,
-              "No input received from other transforms!",
-              transformMeta);
+      cr = new CheckResult(ICheckResult.TYPE_RESULT_ERROR, "No input received from other transforms!", transformMeta);
       remarks.add(cr);
     }
   }

@@ -88,8 +88,7 @@ public class PipelineDebugDialog extends Dialog {
   private Map<TransformMeta, TransformDebugMeta> transformDebugMetaMap;
   private int previousIndex;
 
-  public PipelineDebugDialog(
-      Shell parent, IVariables variables, PipelineDebugMeta pipelineDebugMeta) {
+  public PipelineDebugDialog(Shell parent, IVariables variables, PipelineDebugMeta pipelineDebugMeta) {
     super(parent);
     this.variables = variables;
     this.parent = parent;
@@ -109,10 +108,7 @@ public class PipelineDebugDialog extends Dialog {
   public int open() {
 
     display = parent.getDisplay();
-    shell =
-        new Shell(
-            parent,
-            SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.SHEET | SWT.RESIZE | SWT.MAX | SWT.MIN);
+    shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL | SWT.SHEET | SWT.RESIZE | SWT.MAX | SWT.MIN);
     PropsUi.setLook(shell);
     shell.setImage(GuiResource.getInstance().getImagePipeline());
 
@@ -128,61 +124,43 @@ public class PipelineDebugDialog extends Dialog {
 
     Button wOk = new Button(shell, SWT.PUSH);
     wOk.setText(BaseMessages.getString(PKG, "PipelineDebugDialog.Configure.Label"));
-    wOk.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok(true);
-          }
-        });
+    wOk.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok(true);
+      }
+    });
     wLaunch = new Button(shell, SWT.PUSH);
     wLaunch.setText(BaseMessages.getString(PKG, "PipelineDebugDialog.Launch.Label"));
-    wLaunch.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            ok(false);
-          }
-        });
+    wLaunch.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ok(false);
+      }
+    });
     Button wCancel = new Button(shell, SWT.PUSH);
     wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel"));
-    wCancel.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            cancel();
-          }
-        });
+    wCancel.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        cancel();
+      }
+    });
 
-    BaseTransformDialog.positionBottomButtons(
-        shell, new Button[] {wLaunch, wOk, wCancel}, margin, null);
+    BaseTransformDialog.positionBottomButtons(shell, new Button[] {wLaunch, wOk, wCancel}, margin, null);
 
     wOk.setToolTipText(BaseMessages.getString(PKG, "PipelineDebugDialog.Configure.ToolTip"));
     wLaunch.setToolTipText(BaseMessages.getString(PKG, "PipelineDebugDialog.Launch.ToolTip"));
 
     // Add the list of transforms
     //
-    ColumnInfo[] transformColumns = {
-      new ColumnInfo(
-          BaseMessages.getString(PKG, "PipelineDebugDialog.Column.TransformName"),
-          ColumnInfo.COLUMN_TYPE_TEXT,
-          false,
-          true), // name,
-      // non-numeric,
-      // readonly
+    ColumnInfo[] transformColumns = {new ColumnInfo(BaseMessages.getString(PKG, "PipelineDebugDialog.Column.TransformName"), ColumnInfo.COLUMN_TYPE_TEXT, false, true), // name,
+        // non-numeric,
+        // readonly
     };
 
     int nrTransforms = pipelineDebugMeta.getPipelineMeta().nrTransforms();
-    wTransforms =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE,
-            transformColumns,
-            nrTransforms,
-            true,
-            null,
-            props);
+    wTransforms = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE, transformColumns, nrTransforms, true, null, props);
     FormData fdTransform = new FormData();
     fdTransform.left = new FormAttachment(0, 0);
     fdTransform.right = new FormAttachment(middle, -margin);
@@ -193,32 +171,30 @@ public class PipelineDebugDialog extends Dialog {
 
     // If someone clicks on a row, we want to refresh the right pane...
     //
-    wTransforms.table.addSelectionListener(
-        new SelectionAdapter() {
+    wTransforms.table.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            // Before we show anything, make sure to save the content of the screen...
-            //
-            getTransformDebugMeta();
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        // Before we show anything, make sure to save the content of the screen...
+        //
+        getTransformDebugMeta();
 
-            // Now show the information...
-            //
-            showTransformDebugInformation();
-          }
-        });
+        // Now show the information...
+        //
+        showTransformDebugInformation();
+      }
+    });
 
     // If someone presses enter, launch the pipeline (this allows for "quick-preview")
-    wTransforms.table.addKeyListener(
-        new KeyAdapter() {
+    wTransforms.table.addKeyListener(new KeyAdapter() {
 
-          @Override
-          public void keyPressed(KeyEvent e) {
-            if (e.character == SWT.CR) {
-              wLaunch.notifyListeners(SWT.Selection, new Event());
-            }
-          }
-        });
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.character == SWT.CR) {
+          wLaunch.notifyListeners(SWT.Selection, new Event());
+        }
+      }
+    });
 
     // Now add the composite on which we will dynamically place a number of widgets, based on the
     // selected transform...
@@ -271,11 +247,7 @@ public class PipelineDebugDialog extends Dialog {
     for (int i = 0; i < pipelineDebugMeta.getPipelineMeta().getTransforms().size(); i++) {
       TransformMeta transformMeta = pipelineDebugMeta.getPipelineMeta().getTransform(i);
       TableItem item = new TableItem(wTransforms.table, SWT.NONE);
-      Image image =
-          resource
-              .getImagesTransforms()
-              .get(transformMeta.getTransformPluginId())
-              .getAsBitmapForSize(display, ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
+      Image image = resource.getImagesTransforms().get(transformMeta.getTransformPluginId()).getAsBitmapForSize(display, ConstUi.ICON_SIZE, ConstUi.ICON_SIZE);
       item.setImage(0, image);
       item.setText(0, "");
       item.setText(1, transformMeta.getName());
@@ -375,8 +347,7 @@ public class PipelineDebugDialog extends Dialog {
 
     // What transform did we click on?
     //
-    final TransformMeta transformMeta =
-        pipelineDebugMeta.getPipelineMeta().getTransform(selectionIndices[0]);
+    final TransformMeta transformMeta = pipelineDebugMeta.getPipelineMeta().getTransform(selectionIndices[0]);
 
     // What is the transform debugging metadata?
     // --> This can be null (most likely scenario)
@@ -388,23 +359,18 @@ public class PipelineDebugDialog extends Dialog {
 
     // The row count (e.g. number of rows to keep)
     //
-    wRowCount =
-        new LabelText(
-            wComposite,
-            BaseMessages.getString(PKG, "PipelineDebugDialog.RowCount.Label"),
-            BaseMessages.getString(PKG, "PipelineDebugDialog.RowCount.ToolTip"));
+    wRowCount = new LabelText(wComposite, BaseMessages.getString(PKG, "PipelineDebugDialog.RowCount.Label"), BaseMessages.getString(PKG, "PipelineDebugDialog.RowCount.ToolTip"));
     FormData fdRowCount = new FormData();
     fdRowCount.left = new FormAttachment(0, 0);
     fdRowCount.right = new FormAttachment(100, 0);
     fdRowCount.top = new FormAttachment(0, 0);
     wRowCount.setLayoutData(fdRowCount);
-    wRowCount.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetDefaultSelected(SelectionEvent arg0) {
-            ok(false);
-          }
-        });
+    wRowCount.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetDefaultSelected(SelectionEvent arg0) {
+        ok(false);
+      }
+    });
 
     // Do we retrieve the first rows passing?
     //
@@ -422,10 +388,8 @@ public class PipelineDebugDialog extends Dialog {
     //
     wPauseBreakPoint = new Button(wComposite, SWT.CHECK);
     PropsUi.setLook(wPauseBreakPoint);
-    wPauseBreakPoint.setText(
-        BaseMessages.getString(PKG, "PipelineDebugDialog.PauseBreakPoint.Label"));
-    wPauseBreakPoint.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineDebugDialog.PauseBreakPoint.ToolTip"));
+    wPauseBreakPoint.setText(BaseMessages.getString(PKG, "PipelineDebugDialog.PauseBreakPoint.Label"));
+    wPauseBreakPoint.setToolTipText(BaseMessages.getString(PKG, "PipelineDebugDialog.PauseBreakPoint.ToolTip"));
     FormData fdPauseBreakPoint = new FormData();
     fdPauseBreakPoint.left = new FormAttachment(middle, 0);
     fdPauseBreakPoint.right = new FormAttachment(100, 0);
@@ -445,8 +409,7 @@ public class PipelineDebugDialog extends Dialog {
     // The input fields...
     IRowMeta transformInputFields;
     try {
-      transformInputFields =
-          pipelineDebugMeta.getPipelineMeta().getTransformFields(variables, transformMeta);
+      transformInputFields = pipelineDebugMeta.getPipelineMeta().getTransformFields(variables, transformMeta);
     } catch (HopTransformException e) {
       transformInputFields = new RowMeta();
     }
@@ -454,16 +417,14 @@ public class PipelineDebugDialog extends Dialog {
     Label wlCondition = new Label(wComposite, SWT.RIGHT);
     PropsUi.setLook(wlCondition);
     wlCondition.setText(BaseMessages.getString(PKG, "PipelineDebugDialog.Condition.Label"));
-    wlCondition.setToolTipText(
-        BaseMessages.getString(PKG, "PipelineDebugDialog.Condition.ToolTip"));
+    wlCondition.setToolTipText(BaseMessages.getString(PKG, "PipelineDebugDialog.Condition.ToolTip"));
     FormData fdlCondition = new FormData();
     fdlCondition.left = new FormAttachment(0, 0);
     fdlCondition.right = new FormAttachment(middle, -margin);
     fdlCondition.top = new FormAttachment(wPauseBreakPoint, margin);
     wlCondition.setLayoutData(fdlCondition);
 
-    ConditionEditor wCondition =
-        new ConditionEditor(wComposite, SWT.BORDER, condition, transformInputFields);
+    ConditionEditor wCondition = new ConditionEditor(wComposite, SWT.BORDER, condition, transformInputFields);
     FormData fdCondition = new FormData();
     fdCondition.left = new FormAttachment(middle, 0);
     fdCondition.right = new FormAttachment(100, 0);
@@ -484,23 +445,22 @@ public class PipelineDebugDialog extends Dialog {
     fdClear.bottom = new FormAttachment(100, 0);
     wClear.setLayoutData(fdClear);
 
-    wClear.addSelectionListener(
-        new SelectionAdapter() {
-          @Override
-          public void widgetSelected(SelectionEvent event) {
-            // Clear the preview transform information for this transform...
-            //
-            transformDebugMetaMap.remove(transformMeta);
-            wTransforms.table.setSelection(new int[] {});
-            previousIndex = -1;
+    wClear.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent event) {
+        // Clear the preview transform information for this transform...
+        //
+        transformDebugMetaMap.remove(transformMeta);
+        wTransforms.table.setSelection(new int[] {});
+        previousIndex = -1;
 
-            // refresh the transforms list...
-            //
-            refreshTransformList();
+        // refresh the transforms list...
+        //
+        refreshTransformList();
 
-            showTransformDebugInformation();
-          }
-        });
+        showTransformDebugInformation();
+      }
+    });
 
     wComposite.layout(true, true);
   }

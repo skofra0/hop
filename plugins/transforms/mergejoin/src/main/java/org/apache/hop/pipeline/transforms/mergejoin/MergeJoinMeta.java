@@ -58,22 +58,13 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
   public static final boolean[] one_optionals = {false, false, true, true};
   public static final boolean[] two_optionals = {false, true, false, true};
 
-  @HopMetadataProperty(
-      key = "join_type",
-      injectionKey = "JOIN_TYPE",
-      injectionKeyDescription = "MergeJoin.Injection.JOIN_TYPE")
+  @HopMetadataProperty(key = "join_type", injectionKey = "JOIN_TYPE", injectionKeyDescription = "MergeJoin.Injection.JOIN_TYPE")
   private String joinType;
 
-  @HopMetadataProperty(
-      key = "transform1",
-      injectionKey = "LEFT_TRANSFORM",
-      injectionKeyDescription = "MergeJoin.Injection.LEFT_TRANSFORM")
+  @HopMetadataProperty(key = "transform1", injectionKey = "LEFT_TRANSFORM", injectionKeyDescription = "MergeJoin.Injection.LEFT_TRANSFORM")
   private String leftTransformName;
 
-  @HopMetadataProperty(
-      key = "transform2",
-      injectionKey = "RIGHT_TRANSFORM",
-      injectionKeyDescription = "MergeJoin.Injection.RIGHT_TRANSFORM")
+  @HopMetadataProperty(key = "transform2", injectionKey = "RIGHT_TRANSFORM", injectionKeyDescription = "MergeJoin.Injection.RIGHT_TRANSFORM")
   private String rightTransformName;
 
   @HopMetadataProperty(
@@ -121,9 +112,7 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
   public void searchInfoAndTargetTransforms(List<TransformMeta> transforms) {
     List<IStream> infoStreams = getTransformIOMeta().getInfoStreams();
     infoStreams.get(0).setTransformMeta(TransformMeta.findTransform(transforms, leftTransformName));
-    infoStreams
-        .get(1)
-        .setTransformMeta(TransformMeta.findTransform(transforms, rightTransformName));
+    infoStreams.get(1).setTransformMeta(TransformMeta.findTransform(transforms, rightTransformName));
   }
 
   @Override
@@ -138,25 +127,17 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
       IVariables variables,
       IHopMetadataProvider metadataProvider) {
     /*
-     * @todo Need to check for the following: 1) Join type must be one of INNER / LEFT OUTER / RIGHT OUTER / FULL OUTER
-     * 2) Number of input streams must be two (for now at least) 3) The field names of input streams must be unique
+     * @todo Need to check for the following: 1) Join type must be one of INNER / LEFT OUTER / RIGHT
+     * OUTER / FULL OUTER
+     * 2) Number of input streams must be two (for now at least) 3) The field names of input streams
+     * must be unique
      */
-    CheckResult cr =
-        new CheckResult(
-            ICheckResult.TYPE_RESULT_WARNING,
-            BaseMessages.getString(PKG, "MergeJoinMeta.CheckResult.TransformNotVerified"),
-            transformMeta);
+    CheckResult cr = new CheckResult(ICheckResult.TYPE_RESULT_WARNING, BaseMessages.getString(PKG, "MergeJoinMeta.CheckResult.TransformNotVerified"), transformMeta);
     remarks.add(cr);
   }
 
   @Override
-  public void getFields(
-      IRowMeta r,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta r, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
     // We don't have any input fields here in "r" as they are all info fields.
     // So we just merge in the info fields.
@@ -177,12 +158,7 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
     }
   }
 
-  public ITransform getTransform(
-      TransformMeta transformMeta,
-      MergeJoinData data,
-      int cnr,
-      PipelineMeta tr,
-      Pipeline pipeline) {
+  public ITransform getTransform(TransformMeta transformMeta, MergeJoinData data, int cnr, PipelineMeta tr, Pipeline pipeline) {
     return new MergeJoin(transformMeta, this, data, cnr, tr, pipeline);
   }
 
@@ -197,20 +173,8 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
 
       ioMeta = new TransformIOMeta(true, true, false, false, false, false);
 
-      ioMeta.addStream(
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "MergeJoinMeta.InfoStream.FirstStream.Description"),
-              StreamIcon.INFO,
-              null));
-      ioMeta.addStream(
-          new Stream(
-              StreamType.INFO,
-              null,
-              BaseMessages.getString(PKG, "MergeJoinMeta.InfoStream.SecondStream.Description"),
-              StreamIcon.INFO,
-              null));
+      ioMeta.addStream(new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "MergeJoinMeta.InfoStream.FirstStream.Description"), StreamIcon.INFO, null));
+      ioMeta.addStream(new Stream(StreamType.INFO, null, BaseMessages.getString(PKG, "MergeJoinMeta.InfoStream.SecondStream.Description"), StreamIcon.INFO, null));
       setTransformIOMeta(ioMeta);
     }
 
@@ -224,9 +188,7 @@ public class MergeJoinMeta extends BaseTransformMeta<MergeJoin, MergeJoinData> {
 
   @Override
   public PipelineType[] getSupportedPipelineTypes() {
-    return new PipelineType[] {
-      PipelineType.Normal,
-    };
+    return new PipelineType[] {PipelineType.Normal,};
   }
 
   /**

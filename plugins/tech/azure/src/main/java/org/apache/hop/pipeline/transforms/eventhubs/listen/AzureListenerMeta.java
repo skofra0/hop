@@ -143,13 +143,7 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
   }
 
   @Override
-  public void getFields(
-      IRowMeta rowMeta,
-      String name,
-      IRowMeta[] info,
-      TransformMeta nextTransform,
-      IVariables variables,
-      IHopMetadataProvider metadataProvider)
+  public void getFields(IRowMeta rowMeta, String name, IRowMeta[] info, TransformMeta nextTransform, IVariables variables, IHopMetadataProvider metadataProvider)
       throws HopTransformException {
 
     if (StringUtils.isNotEmpty(batchPipeline) && StringUtils.isNotEmpty(batchInputTransform)) {
@@ -157,14 +151,12 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
       //
       try {
         PipelineMeta batchTransMeta = loadBatchPipelineMeta(this, metadataProvider, variables);
-        IRowMeta transformFields =
-            batchTransMeta.getTransformFields(variables, variables.resolve(batchOutputTransform));
+        IRowMeta transformFields = batchTransMeta.getTransformFields(variables, variables.resolve(batchOutputTransform));
         rowMeta.clear();
         rowMeta.addRowMeta(transformFields);
         return;
       } catch (Exception e) {
-        throw new HopTransformException(
-            "Unable to get fields from batch pipeline Transform " + batchOutputTransform, e);
+        throw new HopTransformException("Unable to get fields from batch pipeline Transform " + batchOutputTransform, e);
       }
     }
 
@@ -221,10 +213,7 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
     }
   }
 
-  public static final synchronized PipelineMeta loadBatchPipelineMeta(
-      AzureListenerMeta azureListenerMeta,
-      IHopMetadataProvider metadataProvider,
-      IVariables variables)
+  public static final synchronized PipelineMeta loadBatchPipelineMeta(AzureListenerMeta azureListenerMeta, IHopMetadataProvider metadataProvider, IVariables variables)
       throws HopException {
     PipelineMeta batchPipelineMeta;
 
@@ -247,9 +236,7 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
    */
   @Override
   public String[] getReferencedObjectDescriptions() {
-    return new String[] {
-      "Batch pipeline",
-    };
+    return new String[] {"Batch pipeline",};
   }
 
   private boolean isPipelineDefined() {
@@ -258,9 +245,7 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
 
   @Override
   public boolean[] isReferencedObjectEnabled() {
-    return new boolean[] {
-      isPipelineDefined(),
-    };
+    return new boolean[] {isPipelineDefined(),};
   }
 
   /**
@@ -272,8 +257,7 @@ public class AzureListenerMeta extends BaseTransformMeta<AzureListener, AzureLis
    * @throws HopException
    */
   @Override
-  public IHasFilename loadReferencedObject(
-      int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
+  public IHasFilename loadReferencedObject(int index, IHopMetadataProvider metadataProvider, IVariables variables) throws HopException {
     return loadBatchPipelineMeta(this, metadataProvider, variables);
   }
 

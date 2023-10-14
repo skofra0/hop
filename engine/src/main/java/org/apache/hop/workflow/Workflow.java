@@ -79,23 +79,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class executes a workflow as defined by a WorkflowMeta object.
  *
- * <p>The definition of a Hop workflow is represented by a WorkflowMeta object. It is typically
+ * <p>
+ * The definition of a Hop workflow is represented by a WorkflowMeta object. It is typically
  * loaded from a .hwf file, or it is generated dynamically. The declared parameters of the workflow
  * definition are then queried using listParameters() and assigned values using calls to
  * setParameterValue(..).
  */
-public abstract class Workflow extends Variables
-    implements IVariables,
-        INamedParameters,
-        IHasLogChannel,
-        ILoggingObject,
-        IExecutor,
-        IExtensionData,
-        IWorkflowEngine<WorkflowMeta> {
+public abstract class Workflow extends Variables implements IVariables, INamedParameters, IHasLogChannel, ILoggingObject, IExecutor, IExtensionData, IWorkflowEngine<WorkflowMeta> {
   protected static Class<?> PKG = Workflow.class; // For Translator
 
-  public static final String CONFIGURATION_IN_EXPORT_FILENAME =
-      "__workflow_execution_configuration__.xml";
+  public static final String CONFIGURATION_IN_EXPORT_FILENAME = "__workflow_execution_configuration__.xml";
 
   protected ILogChannel log;
 
@@ -145,8 +138,7 @@ public abstract class Workflow extends Variables
 
   protected boolean interactive;
 
-  protected List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>>
-      workflowFinishedListeners;
+  protected List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners;
   protected List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners;
 
   protected List<IActionListener> actionListeners;
@@ -298,8 +290,7 @@ public abstract class Workflow extends Variables
 
       result = executeFromStart();
     } catch (Throwable je) {
-      log.logError(
-          BaseMessages.getString(PKG, "Workflow.Log.ErrorExecWorkflow", je.getMessage()), je);
+      log.logError(BaseMessages.getString(PKG, "Workflow.Log.ErrorExecWorkflow", je.getMessage()), je);
 
       //
       // we don't have result object because execute() threw a curve-ball.
@@ -315,8 +306,7 @@ public abstract class Workflow extends Variables
       setStopped(false);
     } finally {
       try {
-        ExtensionPointHandler.callExtensionPoint(
-            log, this, HopExtensionPoint.WorkflowFinish.id, this);
+        ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.WorkflowFinish.id, this);
 
         executionEndDate = new Date();
 
@@ -328,8 +318,7 @@ public abstract class Workflow extends Variables
       } catch (HopException e) {
         result.setNrErrors(1);
         result.setResult(false);
-        log.logError(
-            BaseMessages.getString(PKG, "Workflow.Log.ErrorExecWorkflow", e.getMessage()), e);
+        log.logError(BaseMessages.getString(PKG, "Workflow.Log.ErrorExecWorkflow", e.getMessage()), e);
 
         emergencyWriteWorkflowTracker(result);
       }
@@ -339,14 +328,7 @@ public abstract class Workflow extends Variables
   }
 
   private void emergencyWriteWorkflowTracker(Result res) {
-    ActionResult jerFinalResult =
-        new ActionResult(
-            res,
-            this.getLogChannelId(),
-            BaseMessages.getString(PKG, "Workflow.Comment.WorkflowFinished"),
-            null,
-            null,
-            null);
+    ActionResult jerFinalResult = new ActionResult(res, this.getLogChannelId(), BaseMessages.getString(PKG, "Workflow.Comment.WorkflowFinished"), null, null, null);
     WorkflowTracker finalTrack = new WorkflowTracker(this.getWorkflowMeta(), jerFinalResult);
     // workflowTracker is up to date too.
     this.workflowTracker.addWorkflowTracker(finalTrack);
@@ -373,13 +355,7 @@ public abstract class Workflow extends Variables
 
       // Start the tracking...
       ActionResult jerStart =
-          new ActionResult(
-              null,
-              null,
-              BaseMessages.getString(PKG, "Workflow.Comment.WorkflowStarted"),
-              BaseMessages.getString(PKG, "Workflow.Reason.Started"),
-              null,
-              null);
+          new ActionResult(null, null, BaseMessages.getString(PKG, "Workflow.Comment.WorkflowStarted"), BaseMessages.getString(PKG, "Workflow.Reason.Started"), null, null);
       workflowTracker.addWorkflowTracker(new WorkflowTracker(workflowMeta, jerStart));
 
       setActive(true);
@@ -406,8 +382,7 @@ public abstract class Workflow extends Variables
         res = startActionResult;
       }
       if (startpoint == null) {
-        throw new HopWorkflowException(
-            BaseMessages.getString(PKG, "Workflow.Log.CounldNotFindStartingPoint"));
+        throw new HopWorkflowException(BaseMessages.getString(PKG, "Workflow.Log.CounldNotFindStartingPoint"));
       }
 
       ActionResult jerEnd = null;
@@ -434,13 +409,7 @@ public abstract class Workflow extends Variables
         ActionStart jes = (ActionStart) startpoint.getAction();
         while ((jes.isRepeat() || isFirst) && !isStopped()) {
           isFirst = false;
-          res =
-              executeFromStart(
-                  0,
-                  inputRes,
-                  startpoint,
-                  null,
-                  BaseMessages.getString(PKG, "Workflow.Reason.Started"));
+          res = executeFromStart(0, inputRes, startpoint, null, BaseMessages.getString(PKG, "Workflow.Reason.Started"));
         }
         jerEnd =
             new ActionResult(
@@ -451,9 +420,7 @@ public abstract class Workflow extends Variables
                 null,
                 null);
       } else {
-        res =
-            executeFromStart(
-                0, res, startpoint, null, BaseMessages.getString(PKG, "Workflow.Reason.Started"));
+        res = executeFromStart(0, res, startpoint, null, BaseMessages.getString(PKG, "Workflow.Reason.Started"));
         jerEnd =
             new ActionResult(
                 res,
@@ -503,28 +470,20 @@ public abstract class Workflow extends Variables
 
     startpoint = workflowMeta.findStart();
     if (startpoint == null) {
-      throw new HopWorkflowException(
-          BaseMessages.getString(PKG, "Workflow.Log.CounldNotFindStartingPoint"));
+      throw new HopWorkflowException(BaseMessages.getString(PKG, "Workflow.Log.CounldNotFindStartingPoint"));
     }
 
     ActionStart jes = (ActionStart) startpoint.getAction();
     Result res;
     do {
-      res =
-          executeFromStart(
-              nr,
-              result,
-              startpoint,
-              null,
-              BaseMessages.getString(PKG, "Workflow.Reason.StartOfAction"));
+      res = executeFromStart(nr, result, startpoint, null, BaseMessages.getString(PKG, "Workflow.Reason.StartOfAction"));
       setActive(false);
     } while (jes.isRepeat() && !isStopped());
     return res;
   }
 
   @Override
-  public void addWorkflowFinishedListener(
-      IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
+  public void addWorkflowFinishedListener(IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
     synchronized (workflowFinishedListeners) {
       workflowFinishedListeners.add(finishedListener);
     }
@@ -540,8 +499,7 @@ public abstract class Workflow extends Variables
   }
 
   @Override
-  public void addWorkflowStartedListener(
-      IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
+  public void addWorkflowStartedListener(IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>> finishedListener) {
     synchronized (workflowStartedListeners) {
       workflowStartedListeners.add(finishedListener);
     }
@@ -568,13 +526,7 @@ public abstract class Workflow extends Variables
    * @return
    * @throws HopException
    */
-  private Result executeFromStart(
-      final int nr,
-      Result previousResult,
-      final ActionMeta actionMeta,
-      ActionMeta previous,
-      String reason)
-      throws HopException {
+  private Result executeFromStart(final int nr, Result previousResult, final ActionMeta actionMeta, ActionMeta previous, String reason) throws HopException {
     Result res = null;
 
     if (isStopped()) {
@@ -594,10 +546,8 @@ public abstract class Workflow extends Variables
       prevResult = newResult();
     }
 
-    WorkflowExecutionExtension extension =
-        new WorkflowExecutionExtension(this, prevResult, actionMeta, true);
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.WorkflowBeforeActionExecution.id, extension);
+    WorkflowExecutionExtension extension = new WorkflowExecutionExtension(this, prevResult, actionMeta, true);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.WorkflowBeforeActionExecution.id, extension);
 
     if (extension.result != null) {
       prevResult = extension.result;
@@ -607,14 +557,7 @@ public abstract class Workflow extends Variables
       newResult = prevResult;
     } else {
       if (log.isDetailed()) {
-        log.logDetailed(
-            "exec("
-                + nr
-                + ", "
-                + (prevResult != null ? prevResult.getNrErrors() : 0)
-                + ", "
-                + (actionMeta != null ? actionMeta.toString() : "null")
-                + ")");
+        log.logDetailed("exec(" + nr + ", " + (prevResult != null ? prevResult.getNrErrors() : 0) + ", " + (actionMeta != null ? actionMeta.toString() : "null") + ")");
       }
 
       // Which entry is next?
@@ -668,8 +611,7 @@ public abstract class Workflow extends Variables
       // Also capture the logging text after the execution...
       //
       LoggingBuffer loggingBuffer = HopLogStore.getAppender();
-      StringBuffer logTextBuffer =
-          loggingBuffer.getBuffer(cloneJei.getLogChannel().getLogChannelId(), false);
+      StringBuffer logTextBuffer = loggingBuffer.getBuffer(cloneJei.getLogChannel().getLogChannelId(), false);
       newResult.setLogText(logTextBuffer.toString() + newResult.getLogText());
 
       // Save this result as well...
@@ -697,10 +639,8 @@ public abstract class Workflow extends Variables
       }
     }
 
-    extension =
-        new WorkflowExecutionExtension(this, prevResult, actionMeta, extension.executeAction);
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.WorkflowAfterActionExecution.id, extension);
+    extension = new WorkflowExecutionExtension(this, prevResult, actionMeta, extension.executeAction);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.WorkflowAfterActionExecution.id, extension);
 
     // Try all next actions.
     //
@@ -740,12 +680,10 @@ public abstract class Workflow extends Variables
       // If the start point was an evaluation and the link color is correct:
       // green or red, execute the next action...
       //
-      if (hi.isUnconditional()
-          || (actionMeta.isEvaluation() && (!(hi.getEvaluation() ^ newResult.getResult())))) {
+      if (hi.isUnconditional() || (actionMeta.isEvaluation() && (!(hi.getEvaluation() ^ newResult.getResult())))) {
         // Start this next transform!
         if (log.isBasic()) {
-          log.logBasic(
-              BaseMessages.getString(PKG, "Workflow.Log.StartingAction", nextAction.getName()));
+          log.logBasic(BaseMessages.getString(PKG, "Workflow.Log.StartingAction", nextAction.getName()));
         }
 
         // Pass along the previous result, perhaps the next workflow can use it...
@@ -762,30 +700,22 @@ public abstract class Workflow extends Variables
         if (actionMeta.isLaunchingInParallel()) {
           threadActions.add(nextAction);
 
-          Runnable runnable =
-              () -> {
-                try {
-                  Result threadResult =
-                      executeFromStart(nr + 1, newResult, nextAction, actionMeta, nextComment);
-                  threadResults.add(threadResult);
-                } catch (Throwable e) {
-                  log.logError(Const.getStackTracker(e));
-                  threadExceptions.add(
-                      new HopException(
-                          BaseMessages.getString(
-                              PKG, "Workflow.Log.UnexpectedError", nextAction.toString()),
-                          e));
-                  Result threadResult = newErrorResult();
-                  threadResults.add(threadResult);
-                }
-              };
+          Runnable runnable = () -> {
+            try {
+              Result threadResult = executeFromStart(nr + 1, newResult, nextAction, actionMeta, nextComment);
+              threadResults.add(threadResult);
+            } catch (Throwable e) {
+              log.logError(Const.getStackTracker(e));
+              threadExceptions.add(new HopException(BaseMessages.getString(PKG, "Workflow.Log.UnexpectedError", nextAction.toString()), e));
+              Result threadResult = newErrorResult();
+              threadResults.add(threadResult);
+            }
+          };
           Thread thread = new Thread(runnable);
           threads.add(thread);
           thread.start();
           if (log.isBasic()) {
-            log.logBasic(
-                BaseMessages.getString(
-                    PKG, "Workflow.Log.LaunchedActionInParallel", nextAction.getName()));
+            log.logBasic(BaseMessages.getString(PKG, "Workflow.Log.LaunchedActionInParallel", nextAction.getName()));
           }
         } else {
           try {
@@ -794,17 +724,10 @@ public abstract class Workflow extends Variables
             res = executeFromStart(nr + 1, newResult, nextAction, actionMeta, nextComment);
           } catch (Throwable e) {
             log.logError(Const.getStackTracker(e));
-            throw new HopException(
-                BaseMessages.getString(PKG, "Workflow.Log.UnexpectedError", nextAction.toString()),
-                e);
+            throw new HopException(BaseMessages.getString(PKG, "Workflow.Log.UnexpectedError", nextAction.toString()), e);
           }
           if (log.isBasic()) {
-            log.logBasic(
-                BaseMessages.getString(
-                    PKG,
-                    "Workflow.Log.FinishedAction",
-                    nextAction.getName(),
-                    res.getResult() + ""));
+            log.logBasic(BaseMessages.getString(PKG, "Workflow.Log.FinishedAction", nextAction.getName(), res.getResult() + ""));
           }
         }
       }
@@ -821,17 +744,8 @@ public abstract class Workflow extends Variables
         try {
           thread.join();
         } catch (InterruptedException e) {
-          log.logError(
-              workflowMeta.toString(),
-              BaseMessages.getString(
-                  PKG, "Workflow.Log.UnexpectedErrorWhileWaitingForAction", nextAction.getName()));
-          threadExceptions.add(
-              new HopException(
-                  BaseMessages.getString(
-                      PKG,
-                      "Workflow.Log.UnexpectedErrorWhileWaitingForAction",
-                      nextAction.getName()),
-                  e));
+          log.logError(workflowMeta.toString(), BaseMessages.getString(PKG, "Workflow.Log.UnexpectedErrorWhileWaitingForAction", nextAction.getName()));
+          threadExceptions.add(new HopException(BaseMessages.getString(PKG, "Workflow.Log.UnexpectedErrorWhileWaitingForAction", nextAction.getName()), e));
         }
       }
     }
@@ -878,7 +792,7 @@ public abstract class Workflow extends Variables
    * Get the number of errors that happened in the workflow.
    *
    * @return nr of error that have occurred during execution. During execution of a workflow the
-   *     number can change.
+   *         number can change.
    */
   public int getErrors() {
     return errors.get();
@@ -910,10 +824,8 @@ public abstract class Workflow extends Variables
 
     resetErrors();
 
-    WorkflowExecutionExtension extension =
-        new WorkflowExecutionExtension(this, result, null, false);
-    ExtensionPointHandler.callExtensionPoint(
-        log, this, HopExtensionPoint.WorkflowBeginProcessing.id, extension);
+    WorkflowExecutionExtension extension = new WorkflowExecutionExtension(this, result, null, false);
+    ExtensionPointHandler.callExtensionPoint(log, this, HopExtensionPoint.WorkflowBeginProcessing.id, extension);
 
     return true;
   }
@@ -925,11 +837,7 @@ public abstract class Workflow extends Variables
   }
 
   protected void setInitialized(boolean initialized) {
-    status.updateAndGet(
-        v ->
-            initialized
-                ? v | BitMaskStatus.INITIALIZED.mask
-                : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.INITIALIZED.mask) & v);
+    status.updateAndGet(v -> initialized ? v | BitMaskStatus.INITIALIZED.mask : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.INITIALIZED.mask) & v);
   }
 
   @Override
@@ -939,11 +847,7 @@ public abstract class Workflow extends Variables
   }
 
   protected void setActive(boolean active) {
-    status.updateAndGet(
-        v ->
-            active
-                ? v | BitMaskStatus.ACTIVE.mask
-                : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.ACTIVE.mask) & v);
+    status.updateAndGet(v -> active ? v | BitMaskStatus.ACTIVE.mask : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.ACTIVE.mask) & v);
   }
 
   @Override
@@ -971,11 +875,7 @@ public abstract class Workflow extends Variables
   /** Sets the stopped. */
   @Override
   public void setStopped(boolean stopped) {
-    status.updateAndGet(
-        v ->
-            stopped
-                ? v | BitMaskStatus.STOPPED.mask
-                : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.STOPPED.mask) & v);
+    status.updateAndGet(v -> stopped ? v | BitMaskStatus.STOPPED.mask : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.STOPPED.mask) & v);
   }
 
   @Override
@@ -986,11 +886,7 @@ public abstract class Workflow extends Variables
 
   @Override
   public void setFinished(boolean finished) {
-    status.updateAndGet(
-        v ->
-            finished
-                ? v | BitMaskStatus.FINISHED.mask
-                : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.FINISHED.mask) & v);
+    status.updateAndGet(v -> finished ? v | BitMaskStatus.FINISHED.mask : (BitMaskStatus.BIT_STATUS_SUM ^ BitMaskStatus.FINISHED.mask) & v);
   }
 
   @Override
@@ -1087,11 +983,9 @@ public abstract class Workflow extends Variables
     } else {
       workflowMeta.setInternalHopVariables(this);
     }
-    this.setVariable(
-        Const.INTERNAL_VARIABLE_WORKFLOW_ID, log != null ? log.getLogChannelId() : null);
+    this.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_ID, log != null ? log.getLogChannelId() : null);
     if (parentLoggingObject != null) {
-      this.setVariable(
-          Const.INTERNAL_VARIABLE_WORKFLOW_PARENT_ID, parentLoggingObject.getLogChannelId());
+      this.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_PARENT_ID, parentLoggingObject.getLogChannelId());
     } else {
       this.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_PARENT_ID, null);
     }
@@ -1104,8 +998,7 @@ public abstract class Workflow extends Variables
    * @param filename the filename if there is any
    * @param name the name of the workflow
    */
-  public static final void setInternalHopVariables(
-      IVariables variables, String filename, String name) {
+  public static final void setInternalHopVariables(IVariables variables, String filename, String name) {
     boolean hasFilename = !Utils.isEmpty(filename);
     if (hasFilename) { // we have a filename that's defined.
       try {
@@ -1113,8 +1006,7 @@ public abstract class Workflow extends Variables
         FileName fileName = fileObject.getName();
 
         // The filename of the pipeline
-        variables.setVariable(
-            Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
+        variables.setVariable(Const.INTERNAL_VARIABLE_WORKFLOW_FILENAME_NAME, fileName.getBaseName());
 
         // The directory of the pipeline
         FileName fileDir = fileName.getParent();
@@ -1176,12 +1068,12 @@ public abstract class Workflow extends Variables
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String, java.lang.String,
+   * @see org.apache.hop.core.parameters.INamedParameters#addParameterDefinition(java.lang.String,
+   * java.lang.String,
    * java.lang.String)
    */
   @Override
-  public void addParameterDefinition(String key, String defValue, String description)
-      throws DuplicateParamException {
+  public void addParameterDefinition(String key, String defValue, String description) throws DuplicateParamException {
     namedParams.addParameterDefinition(key, defValue, description);
   }
 
@@ -1228,7 +1120,8 @@ public abstract class Workflow extends Variables
   /*
    * (non-Javadoc)
    *
-   * @see org.apache.hop.core.parameters.INamedParameters#setParameterValue(java.lang.String, java.lang.String)
+   * @see org.apache.hop.core.parameters.INamedParameters#setParameterValue(java.lang.String,
+   * java.lang.String)
    */
   @Override
   public void setParameterValue(String key, String value) throws UnknownParamException {
@@ -1603,16 +1496,14 @@ public abstract class Workflow extends Variables
    * @return value of workflowFinishedListeners
    */
   @Override
-  public List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>>
-      getWorkflowFinishedListeners() {
+  public List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> getWorkflowFinishedListeners() {
     return workflowFinishedListeners;
   }
 
   /**
    * @param workflowFinishedListeners The workflowFinishedListeners to set
    */
-  public void setWorkflowFinishedListeners(
-      List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners) {
+  public void setWorkflowFinishedListeners(List<IExecutionFinishedListener<IWorkflowEngine<WorkflowMeta>>> workflowFinishedListeners) {
     this.workflowFinishedListeners = workflowFinishedListeners;
   }
 
@@ -1622,16 +1513,14 @@ public abstract class Workflow extends Variables
    * @return value of workflowStartedListeners
    */
   @Override
-  public List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>>
-      getWorkflowStartedListeners() {
+  public List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> getWorkflowStartedListeners() {
     return workflowStartedListeners;
   }
 
   /**
    * @param workflowStartedListeners The workflowStartedListeners to set
    */
-  public void setWorkflowStartedListeners(
-      List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners) {
+  public void setWorkflowStartedListeners(List<IExecutionStartedListener<IWorkflowEngine<WorkflowMeta>>> workflowStartedListeners) {
     this.workflowStartedListeners = workflowStartedListeners;
   }
 

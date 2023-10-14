@@ -28,8 +28,7 @@ import java.io.IOException;
 public class DownloadServiceHandler implements ServiceHandler {
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response)
-      throws IOException, ServletException {
+  public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     // Which file to download?
     String fileName = request.getParameter("filename");
     // Get the file content
@@ -45,8 +44,8 @@ public class DownloadServiceHandler implements ServiceHandler {
     }
     fin.close();
     /*
-     *  TODO : if the following line is not executed, the exported xml file remains in the server.
-     *  There might be a better way to ensure the file is deleted.
+     * TODO : if the following line is not executed, the exported xml file remains in the server.
+     * There might be a better way to ensure the file is deleted.
      */
     file.delete();
     // Send the file in the response

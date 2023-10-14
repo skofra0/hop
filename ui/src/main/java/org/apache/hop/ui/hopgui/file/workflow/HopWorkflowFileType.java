@@ -47,12 +47,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@HopFileTypePlugin(
-    id = "HopFile-Workflow-Plugin",
-    description = "The workflow file information for the Hop GUI",
-    image = "ui/images/workflow.svg")
-public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
-    implements IHopFileType {
+@HopFileTypePlugin(id = "HopFile-Workflow-Plugin", description = "The workflow file information for the Hop GUI", image = "ui/images/workflow.svg")
+public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase implements IHopFileType {
 
   public static final Class<?> PKG = HopWorkflowFileType.class; // i18n
 
@@ -114,8 +110,7 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
   }
 
   @Override
-  public IHopFileTypeHandler openFile(
-      HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
+  public IHopFileTypeHandler openFile(HopGui hopGui, String filename, IVariables parentVariableSpace) throws HopException {
     try {
       // This file is opened in the data orchestration perspective
       //
@@ -125,8 +120,7 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
       // See if the same workflow isn't already open.
       // Other file types we might allow to open more than once but not workflows for now.
       //
-      TabItemHandler tabItemHandlerWithFilename =
-          perspective.findTabItemHandlerWithFilename(filename);
+      TabItemHandler tabItemHandlerWithFilename = perspective.findTabItemHandlerWithFilename(filename);
       if (tabItemHandlerWithFilename != null) {
         // Same file so we can simply switch to it.
         // This will prevent confusion.
@@ -137,8 +131,7 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
 
       // Load the workflow from file
       //
-      WorkflowMeta workflowMeta =
-          new WorkflowMeta(parentVariableSpace, filename, hopGui.getMetadataProvider());
+      WorkflowMeta workflowMeta = new WorkflowMeta(parentVariableSpace, filename, hopGui.getMetadataProvider());
 
       // Pass the MetaStore for reference lookups
       //
@@ -150,8 +143,7 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
 
       // Inform those that want to know about it that we loaded a pipeline
       //
-      ExtensionPointHandler.callExtensionPoint(
-          hopGui.getLog(), parentVariableSpace, "WorkflowAfterOpen", workflowMeta);
+      ExtensionPointHandler.callExtensionPoint(hopGui.getLog(), parentVariableSpace, "WorkflowAfterOpen", workflowMeta);
 
       // Show it in the perspective
       //
@@ -162,8 +154,7 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
   }
 
   @Override
-  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace)
-      throws HopException {
+  public IHopFileTypeHandler newFile(HopGui hopGui, IVariables parentVariableSpace) throws HopException {
     try {
       // This file is created in the data orchestration perspective
       //
@@ -236,10 +227,8 @@ public class HopWorkflowFileType<T extends WorkflowMeta> extends HopFileTypeBase
               } catch (Exception e) {
                 new ErrorDialog(
                     hopGui.getShell(),
-                    BaseMessages.getString(
-                        PKG, "HopWorkflowFileType.ErrorDialog.NewWorkflowCreation.Header"),
-                    BaseMessages.getString(
-                        PKG, "HopWorkflowFileType.ErrorDialog.NewWorkflowCreation.Message"),
+                    BaseMessages.getString(PKG, "HopWorkflowFileType.ErrorDialog.NewWorkflowCreation.Header"),
+                    BaseMessages.getString(PKG, "HopWorkflowFileType.ErrorDialog.NewWorkflowCreation.Message"),
                     e);
               }
             });

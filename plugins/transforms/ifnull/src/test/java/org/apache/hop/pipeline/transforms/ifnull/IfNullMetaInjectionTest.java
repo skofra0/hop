@@ -23,7 +23,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 public class IfNullMetaInjectionTest extends BaseMetadataInjectionTest<IfNullMeta> {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setup() throws Exception {
@@ -36,12 +37,12 @@ public class IfNullMetaInjectionTest extends BaseMetadataInjectionTest<IfNullMet
     check("REPLACE_VALUE", () -> meta.getFields().get(0).getValue());
     check("REPLACE_MASK", () -> meta.getFields().get(0).getMask());
     check("SET_EMPTY_STRING", () -> meta.getFields().get(0).isSetEmptyString());
-    
+
     check("TYPE_NAME", () -> meta.getValueTypes().get(0).getName());
     check("TYPE_REPLACE_VALUE", () -> meta.getValueTypes().get(0).getValue());
-    check("TYPE_REPLACE_MASK", () -> meta.getValueTypes().get(0).getMask());    
+    check("TYPE_REPLACE_MASK", () -> meta.getValueTypes().get(0).getMask());
     check("SET_TYPE_EMPTY_STRING", () -> meta.getValueTypes().get(0).isSetEmptyString());
-    
+
     check("SELECT_FIELDS", () -> meta.isSelectFields());
     check("SELECT_VALUES_TYPE", () -> meta.isSelectValuesType());
     check("REPLACE_ALL_BY_VALUE", () -> meta.getReplaceAllByValue());

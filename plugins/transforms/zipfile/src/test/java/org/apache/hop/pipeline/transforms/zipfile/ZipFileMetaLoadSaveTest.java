@@ -33,7 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ZipFileMetaLoadSaveTest {
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
   LoadSaveTester loadSaveTester;
   Class<ZipFileMeta> testMetaClass = ZipFileMeta.class;
 
@@ -43,16 +44,8 @@ public class ZipFileMetaLoadSaveTest {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "sourceFilenameField",
-            "targetFilenameField",
-            "baseFolderField",
-            "moveToFolderField",
-            "addResultFilenames",
-            "overwriteZipEntry",
-            "createParentFolder",
-            "keepSourceFolder",
-            "operationType",
-            "operationTypeMeta");
+            "sourceFilenameField", "targetFilenameField", "baseFolderField", "moveToFolderField", "addResultFilenames", "overwriteZipEntry", "createParentFolder",
+            "keepSourceFolder", "operationType", "operationTypeMeta");
 
     Map<String, String> getterMap = new HashMap<>();
     getterMap.put("addResultFilenames", "isAddResultFilenames");
@@ -60,14 +53,11 @@ public class ZipFileMetaLoadSaveTest {
     setterMap.put("addResultFilenames", "setAddResultFilenames");
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
-    attrValidatorMap.put(
-        "operationType", new IntLoadSaveValidator(ZipFileMeta.operationTypeCode.length));
+    attrValidatorMap.put("operationType", new IntLoadSaveValidator(ZipFileMeta.operationTypeCode.length));
 
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test

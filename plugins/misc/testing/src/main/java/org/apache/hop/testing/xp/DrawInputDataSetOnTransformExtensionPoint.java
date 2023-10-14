@@ -40,12 +40,10 @@ import java.util.List;
     id = "DrawInputDataSetOnTransformExtensionPoint",
     description = "Draws a marker on top of a transform if it has an input data set defined for it",
     extensionPointId = "PipelinePainterTransform")
-public class DrawInputDataSetOnTransformExtensionPoint
-    implements IExtensionPoint<PipelinePainterExtension> {
+public class DrawInputDataSetOnTransformExtensionPoint implements IExtensionPoint<PipelinePainterExtension> {
 
   @Override
-  public void callExtensionPoint(
-      ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
+  public void callExtensionPoint(ILogChannel log, IVariables variables, PipelinePainterExtension ext) throws HopException {
     TransformMeta transformMeta = ext.transformMeta;
     PipelineMeta pipelineMeta = ext.pipelineMeta;
 
@@ -55,11 +53,7 @@ public class DrawInputDataSetOnTransformExtensionPoint
     }
   }
 
-  private void drawInputDataSetMarker(
-      PipelinePainterExtension ext,
-      TransformMeta transformMeta,
-      PipelineUnitTest unitTest,
-      List<AreaOwner> areaOwners) {
+  private void drawInputDataSetMarker(PipelinePainterExtension ext, TransformMeta transformMeta, PipelineUnitTest unitTest, List<AreaOwner> areaOwners) {
     // Now we're here, draw a marker and indicate the name of the data set name
     //
     PipelineUnitTestSetLocation location = unitTest.findInputLocation(transformMeta.getName());
@@ -88,17 +82,16 @@ public class DrawInputDataSetOnTransformExtensionPoint
 
     int[] arrow =
         new int[] {
-          point.x,
-          point.y,
-          point.x + textExtent.x,
-          point.y,
-          point.x + textExtent.x + arrowSize,
-          point.y + textExtent.y / 2,
-          point.x + textExtent.x,
-          point.y + textExtent.y,
-          point.x,
-          point.y + textExtent.y
-        };
+            point.x,
+            point.y,
+            point.x + textExtent.x,
+            point.y,
+            point.x + textExtent.x + arrowSize,
+            point.y + textExtent.y / 2,
+            point.x + textExtent.x,
+            point.y + textExtent.y,
+            point.x,
+            point.y + textExtent.y};
 
     gc.fillPolygon(arrow);
     gc.drawPolygon(arrow);
@@ -106,15 +99,7 @@ public class DrawInputDataSetOnTransformExtensionPoint
 
     // Leave a trace of what we drew, for memory reasons, just the name of the data set here.
     //
-    areaOwners.add(
-        new AreaOwner(
-            AreaOwner.AreaType.CUSTOM,
-            point.x,
-            point.y,
-            textExtent.x,
-            textExtent.y,
-            ext.offset,
-            DataSetConst.AREA_DRAWN_INPUT_DATA_SET,
-            transformMeta.getName()));
+    areaOwners
+        .add(new AreaOwner(AreaOwner.AreaType.CUSTOM, point.x, point.y, textExtent.x, textExtent.y, ext.offset, DataSetConst.AREA_DRAWN_INPUT_DATA_SET, transformMeta.getName()));
   }
 }

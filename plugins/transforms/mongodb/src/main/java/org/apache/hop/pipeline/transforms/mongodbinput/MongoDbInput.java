@@ -41,13 +41,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
   private boolean serverDetermined;
   private Object[] currentInputRowDrivingQuery = null;
 
-  public MongoDbInput(
-      TransformMeta transformMeta,
-      MongoDbInputMeta meta,
-      MongoDbInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
+  public MongoDbInput(TransformMeta transformMeta, MongoDbInputMeta meta, MongoDbInputData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline) {
     super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
@@ -70,13 +64,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
 
       if (first) {
         data.outputRowMeta = new RowMeta();
-        meta.getFields(
-            data.outputRowMeta,
-            getTransformName(),
-            null,
-            null,
-            MongoDbInput.this,
-            metadataProvider);
+        meta.getFields(data.outputRowMeta, getTransformName(), null, null, MongoDbInput.this, metadataProvider);
 
         initQuery();
         first = false;
@@ -84,9 +72,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
         data.init();
       }
 
-      boolean hasNext =
-          ((meta.isQueryIsPipeline() ? data.pipelineResult.hasNext() : data.cursor.hasNext())
-              && !isStopped());
+      boolean hasNext = ((meta.isQueryIsPipeline() ? data.pipelineResult.hasNext() : data.cursor.hasNext()) && !isStopped());
       if (hasNext) {
         DBObject nextDoc = null;
         Object[] row = null;
@@ -100,15 +86,11 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
           ServerAddress s = data.cursor.getServerAddress();
           if (s != null) {
             serverDetermined = true;
-            logBasic(
-                BaseMessages.getString(
-                    PKG, "MongoDbInput.Message.QueryPulledDataFrom", s.toString()));
+            logBasic(BaseMessages.getString(PKG, "MongoDbInput.Message.QueryPulledDataFrom", s.toString()));
           }
         }
 
-        if (meta.isOutputJson()
-            || meta.getMongoFields() == null
-            || meta.getMongoFields().size() == 0) {
+        if (meta.isOutputJson() || meta.getMongoFields() == null || meta.getMongoFields().size() == 0) {
           String json = JSON.serialize(nextDoc);
           row = RowDataUtil.allocateRowData(data.outputRowMeta.size());
           int index = 0;
@@ -161,9 +143,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
     String fields = resolve(meta.getFieldsName());
     if (StringUtils.isEmpty(query) && StringUtils.isEmpty(fields)) {
       if (meta.isQueryIsPipeline()) {
-        throw new HopException(
-            BaseMessages.getString(
-                MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.EmptyAggregationPipeline"));
+        throw new HopException(BaseMessages.getString(MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.EmptyAggregationPipeline"));
       }
 
       data.cursor = data.collection.find();
@@ -171,9 +151,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
 
       if (meta.isQueryIsPipeline()) {
         if (StringUtils.isEmpty(query)) {
-          throw new HopException(
-              BaseMessages.getString(
-                  MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.EmptyAggregationPipeline"));
+          throw new HopException(BaseMessages.getString(MongoDbInputMeta.PKG, "MongoDbInput.ErrorMessage.EmptyAggregationPipeline"));
         }
 
         if (meta.getExecuteForEachIncomingRow() && currentInputRowDrivingQuery != null) {
@@ -223,17 +201,12 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
       try {
 
         try {
-          data.connection =
-              metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
+          data.connection = metadataProvider.getSerializer(MongoDbConnection.class).load(connectionName);
         } catch (Exception e) {
-          throw new Exception(
-              BaseMessages.getString(
-                  PKG, "MongoInput.ErrorMessage.ErrorLoadingMongoDbConnection", connectionName));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.ErrorLoadingMongoDbConnection", connectionName));
         }
         if (data.connection == null) {
-          throw new Exception(
-              BaseMessages.getString(
-                  PKG, "MongoInput.ErrorMessage.MongoDbConnection.NotFound", connectionName));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.MongoDbConnection.NotFound", connectionName));
         }
 
         String databaseName = resolve(data.connection.getDbName());
@@ -243,21 +216,13 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
 
         String collection = resolve(meta.getCollection());
         if (StringUtils.isEmpty(collection)) {
-          throw new Exception(
-              BaseMessages.getString(PKG, "MongoInput.ErrorMessage.NoCollectionSpecified"));
+          throw new Exception(BaseMessages.getString(PKG, "MongoInput.ErrorMessage.NoCollectionSpecified"));
         }
 
         if (!StringUtils.isEmpty(data.connection.getAuthenticationUser())) {
           String authInfo =
-              (data.connection.isUsingKerberos()
-                  ? BaseMessages.getString(
-                      PKG,
-                      "MongoDbInput.Message.KerberosAuthentication",
-                      resolve(data.connection.getAuthenticationUser()))
-                  : BaseMessages.getString(
-                      PKG,
-                      "MongoDbInput.Message.NormalAuthentication",
-                      resolve(data.connection.getAuthenticationUser())));
+              (data.connection.isUsingKerberos() ? BaseMessages.getString(PKG, "MongoDbInput.Message.KerberosAuthentication", resolve(data.connection.getAuthenticationUser()))
+                  : BaseMessages.getString(PKG, "MongoDbInput.Message.NormalAuthentication", resolve(data.connection.getAuthenticationUser())));
           logBasic(authInfo);
         }
 
@@ -273,11 +238,7 @@ public class MongoDbInput extends BaseTransform<MongoDbInputMeta, MongoDbInputDa
       } catch (Exception e) {
         logError(
             BaseMessages.getString(
-                PKG,
-                "MongoDbInput.ErrorConnectingToMongoDb.Exception",
-                data.connection.getHostname(),
-                data.connection.getPort(),
-                data.connection.getDbName(),
+                PKG, "MongoDbInput.ErrorConnectingToMongoDb.Exception", data.connection.getHostname(), data.connection.getPort(), data.connection.getDbName(),
                 meta.getCollection()),
             e);
         return false;

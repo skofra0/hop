@@ -34,7 +34,8 @@ import java.util.Map;
 public class SQLFileOutputMetaTest {
   LoadSaveTester loadSaveTester;
   Class<SQLFileOutputMeta> testMetaClass = SQLFileOutputMeta.class;
-  @ClassRule public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
+  @ClassRule
+  public static RestoreHopEngineEnvironment env = new RestoreHopEngineEnvironment();
 
   @Before
   public void setUpLoadSave() throws Exception {
@@ -42,47 +43,28 @@ public class SQLFileOutputMetaTest {
     PluginRegistry.init();
     List<String> attributes =
         Arrays.asList(
-            "databaseMeta",
-            "schemaName",
-            "tablename",
-            "truncateTable",
-            "AddToResult",
-            "createTable",
-            "fileName",
-            "extension",
-            "splitEvery",
-            "fileAppended",
-            "transformNrInFilename",
-            "dateInFilename",
-            "timeInFilename",
-            "encoding",
-            "dateFormat",
-            "StartNewLine",
-            "createParentFolder",
-            "DoNotOpenNewFileInit");
+            "databaseMeta", "schemaName", "tablename", "truncateTable", "AddToResult", "createTable", "fileName", "extension", "splitEvery", "fileAppended",
+            "transformNrInFilename", "dateInFilename", "timeInFilename", "encoding", "dateFormat", "StartNewLine", "createParentFolder", "DoNotOpenNewFileInit");
 
     // Note - "partNrInFilename" is used in serialization/deserialization, but there is no
     // getter/setter for it and it's
     // not present in the dialog. Looks like a copy/paste thing, and the value itself will end up
     // serialized/deserialized
     // as false.
-    Map<String, String> getterMap =
-        new HashMap<String, String>() {
-          {
-            put("truncateTable", "truncateTable");
-            put("AddToResult", "AddToResult");
-            put("createTable", "createTable");
-            put("StartNewLine", "StartNewLine");
-          }
-        };
+    Map<String, String> getterMap = new HashMap<String, String>() {
+      {
+        put("truncateTable", "truncateTable");
+        put("AddToResult", "AddToResult");
+        put("createTable", "createTable");
+        put("StartNewLine", "StartNewLine");
+      }
+    };
     Map<String, String> setterMap = new HashMap<>();
 
     Map<String, IFieldLoadSaveValidator<?>> attrValidatorMap = new HashMap<>();
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
-    loadSaveTester =
-        new LoadSaveTester(
-            testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
+    loadSaveTester = new LoadSaveTester(testMetaClass, attributes, getterMap, setterMap, attrValidatorMap, typeValidatorMap);
   }
 
   @Test

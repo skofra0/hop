@@ -86,8 +86,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
   private Label wlSetEmptyStringAll;
   private Button wSetEmptyStringAll;
 
-  public IfNullDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public IfNullDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (IfNullMeta) in;
   }
@@ -171,8 +170,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     wlReplaceByValue.setLayoutData(fdlReplaceByValue);
 
     wReplaceByValue = new TextVar(variables, wAllFields, SWT.SINGLE | SWT.LEFT | SWT.BORDER);
-    wReplaceByValue.setToolTipText(
-        BaseMessages.getString(PKG, "IfNullDialog.ReplaceByValue.Tooltip"));
+    wReplaceByValue.setToolTipText(BaseMessages.getString(PKG, "IfNullDialog.ReplaceByValue.Tooltip"));
     PropsUi.setLook(wReplaceByValue);
     FormData fdReplaceByValue = new FormData();
     fdReplaceByValue.left = new FormAttachment(middle, 0);
@@ -182,8 +180,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
 
     // SetEmptyStringAll line
     wlSetEmptyStringAll = new Label(wAllFields, SWT.RIGHT);
-    wlSetEmptyStringAll.setText(
-        BaseMessages.getString(PKG, "IfNullDialog.SetEmptyStringAll.Label"));
+    wlSetEmptyStringAll.setText(BaseMessages.getString(PKG, "IfNullDialog.SetEmptyStringAll.Label"));
     PropsUi.setLook(wlSetEmptyStringAll);
     FormData fdlSetEmptyStringAll = new FormData();
     fdlSetEmptyStringAll.left = new FormAttachment(0, 0);
@@ -191,23 +188,21 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     fdlSetEmptyStringAll.right = new FormAttachment(middle, -margin);
     wlSetEmptyStringAll.setLayoutData(fdlSetEmptyStringAll);
     wSetEmptyStringAll = new Button(wAllFields, SWT.CHECK);
-    wSetEmptyStringAll.setToolTipText(
-        BaseMessages.getString(PKG, "IfNullDialog.SetEmptyStringAll.Tooltip"));
+    wSetEmptyStringAll.setToolTipText(BaseMessages.getString(PKG, "IfNullDialog.SetEmptyStringAll.Tooltip"));
     PropsUi.setLook(wSetEmptyStringAll);
     FormData fdSetEmptyStringAll = new FormData();
     fdSetEmptyStringAll.left = new FormAttachment(middle, 0);
     fdSetEmptyStringAll.top = new FormAttachment(wlSetEmptyStringAll, 0, SWT.CENTER);
     fdSetEmptyStringAll.right = new FormAttachment(100, 0);
     wSetEmptyStringAll.setLayoutData(fdSetEmptyStringAll);
-    wSetEmptyStringAll.addSelectionListener(
-        new SelectionAdapter() {
+    wSetEmptyStringAll.addSelectionListener(new SelectionAdapter() {
 
-          @Override
-          public void widgetSelected(SelectionEvent e) {
-            input.setChanged();
-            enableSetEmptyStringAll();
-          }
-        });
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        input.setChanged();
+        enableSetEmptyStringAll();
+      }
+    });
 
     wlMask = new Label(wAllFields, SWT.RIGHT);
     wlMask.setText(BaseMessages.getString(PKG, "IfNullDialog.Mask.Label"));
@@ -266,8 +261,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     fdlSelectValuesType.right = new FormAttachment(middle, -margin);
     wlSelectValuesType.setLayoutData(fdlSelectValuesType);
     wSelectValuesType = new Button(shell, SWT.CHECK);
-    wSelectValuesType.setToolTipText(
-        BaseMessages.getString(PKG, "IfNullDialog.SelectValuesType.Tooltip"));
+    wSelectValuesType.setToolTipText(BaseMessages.getString(PKG, "IfNullDialog.SelectValuesType.Tooltip"));
     PropsUi.setLook(wSelectValuesType);
     FormData fdSelectValuesType = new FormData();
     fdSelectValuesType.left = new FormAttachment(middle, 0);
@@ -287,37 +281,16 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
 
     ColumnInfo[] colval =
         new ColumnInfo[] {
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "IfNullDialog.ValueType.Column"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              IValueMeta.typeCodes),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "IfNullDialog.Value.Column"),
-              ColumnInfo.COLUMN_TYPE_TEXT,
-              false),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "IfNullDialog.Value.ConversionMask"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              Const.getDateFormats()),
-          new ColumnInfo(
-              BaseMessages.getString(PKG, "IfNullDialog.Value.SetEmptyString"),
-              ColumnInfo.COLUMN_TYPE_CCOMBO,
-              new String[] {
-                BaseMessages.getString(PKG, "System.Combo.Yes"),
-                BaseMessages.getString(PKG, "System.Combo.No")
-              })
-        };
+            new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.ValueType.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, IValueMeta.typeCodes),
+            new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.Value.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false),
+            new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.Value.ConversionMask"), ColumnInfo.COLUMN_TYPE_CCOMBO, Const.getDateFormats()),
+            new ColumnInfo(
+                BaseMessages.getString(PKG, "IfNullDialog.Value.SetEmptyString"),
+                ColumnInfo.COLUMN_TYPE_CCOMBO,
+                new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")})};
     colval[1].setUsingVariables(true);
 
-    wValueTypes =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colval,
-            valueTypesRows,
-            oldlsMod,
-            props);
+    wValueTypes = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colval, valueTypesRows, oldlsMod, props);
     FormData fdValueTypes = new FormData();
     fdValueTypes.left = new FormAttachment(0, 0);
     fdValueTypes.top = new FormAttachment(wlValueTypes, margin);
@@ -329,19 +302,15 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
 
     addFields();
 
-    wSelectValuesType.addListener(
-        SWT.Selection,
-        e -> {
-          activeSelectValuesType();
-          input.setChanged();
-        });
+    wSelectValuesType.addListener(SWT.Selection, e -> {
+      activeSelectValuesType();
+      input.setChanged();
+    });
 
-    wSelectFields.addListener(
-        SWT.Selection,
-        e -> {
-          activeSelectFields();
-          input.setChanged();
-        });
+    wSelectFields.addListener(SWT.Selection, e -> {
+      activeSelectFields();
+      input.setChanged();
+    });
 
     getData();
 
@@ -370,41 +339,17 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     fdlFields.top = new FormAttachment(wValueTypes, margin);
     wlFields.setLayoutData(fdlFields);
 
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "IfNullDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "IfNullDialog.Value.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "IfNullDialog.Value.ConversionMask"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            Const.getDateFormats());
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.Value.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "IfNullDialog.Value.ConversionMask"), ColumnInfo.COLUMN_TYPE_CCOMBO, Const.getDateFormats());
     colinf[1].setUsingVariables(true);
     colinf[3] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "IfNullDialog.Value.SetEmptyString"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              BaseMessages.getString(PKG, "System.Combo.Yes"),
-              BaseMessages.getString(PKG, "System.Combo.No")
-            });
+            new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")});
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            fieldsRows,
-            oldlsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, fieldsRows, oldlsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -446,10 +391,8 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     wReplaceByValue.setEnabled(!wSelectFields.getSelection() && !wSelectValuesType.getSelection());
     wlMask.setEnabled(!wSelectFields.getSelection() && !wSelectValuesType.getSelection());
     wMask.setEnabled(!wSelectFields.getSelection() && !wSelectValuesType.getSelection());
-    wlSetEmptyStringAll.setEnabled(
-        !wSelectFields.getSelection() && !wSelectValuesType.getSelection());
-    wSetEmptyStringAll.setEnabled(
-        !wSelectFields.getSelection() && !wSelectValuesType.getSelection());
+    wlSetEmptyStringAll.setEnabled(!wSelectFields.getSelection() && !wSelectValuesType.getSelection());
+    wSetEmptyStringAll.setEnabled(!wSelectFields.getSelection() && !wSelectValuesType.getSelection());
   }
 
   private void get() {
@@ -458,39 +401,33 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
       if (r != null) {
         ITableItemInsertListener insertListener = (tableItem, v) -> true;
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 
   private void setComboValues() {
-    Runnable fieldLoader =
-        () -> {
-          try {
-            prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
+    Runnable fieldLoader = () -> {
+      try {
+        prevFields = pipelineMeta.getPrevTransformFields(variables, transformName);
 
-          } catch (HopException e) {
-            String msg = BaseMessages.getString(PKG, "IfNullDialog.DoMapping.UnableToFindInput");
-            logError(msg);
-          }
-          String[] prevTransformFieldNames = prevFields.getFieldNames();
-          if (prevTransformFieldNames != null) {
-            Arrays.sort(prevTransformFieldNames);
+      } catch (HopException e) {
+        String msg = BaseMessages.getString(PKG, "IfNullDialog.DoMapping.UnableToFindInput");
+        logError(msg);
+      }
+      String[] prevTransformFieldNames = prevFields.getFieldNames();
+      if (prevTransformFieldNames != null) {
+        Arrays.sort(prevTransformFieldNames);
 
-            for (ColumnInfo colInfo : fieldColumns) {
-              if (colInfo != null) {
-                colInfo.setComboValues(prevTransformFieldNames);
-              }
-            }
+        for (ColumnInfo colInfo : fieldColumns) {
+          if (colInfo != null) {
+            colInfo.setComboValues(prevTransformFieldNames);
           }
-        };
+        }
+      }
+    };
     new Thread(fieldLoader).start();
   }
 
@@ -513,11 +450,11 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
     wSelectValuesType.setSelection(input.isSelectValuesType());
 
     Table table = wValueTypes.table;
-    if ( !input.getValueTypes().isEmpty() ) {
+    if (!input.getValueTypes().isEmpty()) {
       table.removeAll();
     }
     for (int i = 0; i < input.getValueTypes().size(); i++) {
-      ValueType valueType = input.getValueTypes().get(i);      
+      ValueType valueType = input.getValueTypes().get(i);
       TableItem ti = new TableItem(table, SWT.NONE);
       ti.setText(0, "" + (i + 1));
       if (valueType.getName() != null) {
@@ -529,11 +466,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
       if (valueType.getMask() != null) {
         ti.setText(3, valueType.getMask());
       }
-      ti.setText(
-          4,
-          valueType.isSetEmptyString()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(4, valueType.isSetEmptyString() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wValueTypes.setRowNums();
@@ -557,11 +490,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
       if (field.getMask() != null) {
         ti.setText(3, field.getMask());
       }
-      ti.setText(
-          4,
-          field.isSetEmptyString()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(4, field.isSetEmptyString() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wFields.setRowNums();
@@ -604,14 +533,13 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
 
     int nrtypes = wValueTypes.nrNonEmpty();
     int nrFields = wFields.nrNonEmpty();
-    
+
     input.getValueTypes().clear();
     for (int i = 0; i < nrtypes; i++) {
       TableItem ti = wValueTypes.getNonEmpty(i);
       ValueType valueType = new ValueType();
       valueType.setName(ti.getText(1));
-      valueType.setSetEmptyString(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
+      valueType.setSetEmptyString(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
       if (valueType.isSetEmptyString()) {
         valueType.setValue("");
         valueType.setMask("");
@@ -627,8 +555,7 @@ public class IfNullDialog extends BaseTransformDialog implements ITransformDialo
       TableItem ti = wFields.getNonEmpty(i);
       Field field = new Field();
       field.setName(ti.getText(1));
-      field.setSetEmptyString(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
+      field.setSetEmptyString(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
       if (field.isSetEmptyString()) {
         field.setValue("");
         field.setMask("");

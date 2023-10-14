@@ -63,8 +63,7 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
 
   private Button wUseVars;
 
-  public SetValueConstantDialog(
-      Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
+  public SetValueConstantDialog(Shell parent, IVariables variables, Object in, PipelineMeta tr, String sname) {
     super(parent, variables, (BaseTransformMeta) in, tr, sname);
     input = (SetValueConstantMeta) in;
   }
@@ -104,8 +103,7 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
 
     // TransformName line
     wlTransformName = new Label(shell, SWT.RIGHT);
-    wlTransformName.setText(
-        BaseMessages.getString(PKG, "SetValueConstantDialog.TransformName.Label"));
+    wlTransformName.setText(BaseMessages.getString(PKG, "SetValueConstantDialog.TransformName.Label"));
     PropsUi.setLook(wlTransformName);
     fdlTransformName = new FormData();
     fdlTransformName.left = new FormAttachment(0, 0);
@@ -152,40 +150,16 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
     int fieldsCols = 4;
     final int FieldsRows = input.getFields().size();
     colinf = new ColumnInfo[fieldsCols];
-    colinf[0] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SetValueConstantDialog.Fieldname.Column"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {},
-            false);
-    colinf[1] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SetValueConstantDialog.Value.Column"),
-            ColumnInfo.COLUMN_TYPE_TEXT,
-            false);
-    colinf[2] =
-        new ColumnInfo(
-            BaseMessages.getString(PKG, "SetValueConstantDialog.Value.ConversionMask"),
-            ColumnInfo.COLUMN_TYPE_CCOMBO,
-            Const.getDateFormats());
+    colinf[0] = new ColumnInfo(BaseMessages.getString(PKG, "SetValueConstantDialog.Fieldname.Column"), ColumnInfo.COLUMN_TYPE_CCOMBO, new String[] {}, false);
+    colinf[1] = new ColumnInfo(BaseMessages.getString(PKG, "SetValueConstantDialog.Value.Column"), ColumnInfo.COLUMN_TYPE_TEXT, false);
+    colinf[2] = new ColumnInfo(BaseMessages.getString(PKG, "SetValueConstantDialog.Value.ConversionMask"), ColumnInfo.COLUMN_TYPE_CCOMBO, Const.getDateFormats());
     colinf[3] =
         new ColumnInfo(
             BaseMessages.getString(PKG, "SetValueConstantDialog.Value.SetEmptyString"),
             ColumnInfo.COLUMN_TYPE_CCOMBO,
-            new String[] {
-              BaseMessages.getString(PKG, "System.Combo.Yes"),
-              BaseMessages.getString(PKG, "System.Combo.No")
-            });
+            new String[] {BaseMessages.getString(PKG, "System.Combo.Yes"), BaseMessages.getString(PKG, "System.Combo.No")});
 
-    wFields =
-        new TableView(
-            variables,
-            shell,
-            SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI,
-            colinf,
-            FieldsRows,
-            oldlsMod,
-            props);
+    wFields = new TableView(variables, shell, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI, colinf, FieldsRows, oldlsMod, props);
 
     FormData fdFields = new FormData();
     fdFields.left = new FormAttachment(0, 0);
@@ -198,23 +172,22 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
     // Search the fields in the background
     //
 
-    final Runnable runnable =
-        () -> {
-          TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
-          if (transformMeta != null) {
-            try {
-              IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
+    final Runnable runnable = () -> {
+      TransformMeta transformMeta = pipelineMeta.findTransform(transformName);
+      if (transformMeta != null) {
+        try {
+          IRowMeta row = pipelineMeta.getPrevTransformFields(variables, transformMeta);
 
-              // Remember these fields...
-              for (int i = 0; i < row.size(); i++) {
-                inputFields.add(row.getValueMeta(i).getName());
-              }
-              setComboBoxes();
-            } catch (HopException e) {
-              logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
-            }
+          // Remember these fields...
+          for (int i = 0; i < row.size(); i++) {
+            inputFields.add(row.getValueMeta(i).getName());
           }
-        };
+          setComboBoxes();
+        } catch (HopException e) {
+          logError(BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"));
+        }
+      }
+    };
     new Thread(runnable).start();
 
     getData();
@@ -238,15 +211,10 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
       if (r != null) {
         ITableItemInsertListener insertListener = (tableItem, v) -> true;
 
-        BaseTransformDialog.getFieldsFromPrevious(
-            r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
+        BaseTransformDialog.getFieldsFromPrevious(r, wFields, 1, new int[] {1}, new int[] {}, -1, -1, insertListener);
       }
     } catch (HopException ke) {
-      new ErrorDialog(
-          shell,
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"),
-          BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"),
-          ke);
+      new ErrorDialog(shell, BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Title"), BaseMessages.getString(PKG, "System.Dialog.GetFieldsFailed.Message"), ke);
     }
   }
 
@@ -270,11 +238,7 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
       if (field.getReplaceMask() != null) {
         ti.setText(3, field.getReplaceMask());
       }
-      ti.setText(
-          4,
-          field.isEmptyString()
-              ? BaseMessages.getString(PKG, "System.Combo.Yes")
-              : BaseMessages.getString(PKG, "System.Combo.No"));
+      ti.setText(4, field.isEmptyString() ? BaseMessages.getString(PKG, "System.Combo.Yes") : BaseMessages.getString(PKG, "System.Combo.No"));
     }
 
     wFields.setRowNums();
@@ -306,8 +270,7 @@ public class SetValueConstantDialog extends BaseTransformDialog implements ITran
       TableItem ti = wFields.getNonEmpty(i);
       SetValueConstantMeta.Field field = new SetValueConstantMeta.Field();
       field.setFieldName(ti.getText(1));
-      field.setEmptyString(
-          BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
+      field.setEmptyString(BaseMessages.getString(PKG, "System.Combo.Yes").equalsIgnoreCase(ti.getText(4)));
       field.setReplaceValue(field.isEmptyString() ? "" : ti.getText(2));
       field.setReplaceMask(field.isEmptyString() ? "" : ti.getText(3));
       fields.add(field);
